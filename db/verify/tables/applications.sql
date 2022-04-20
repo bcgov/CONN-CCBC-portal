@@ -1,7 +1,9 @@
 -- Verify ccbc:tables/applications on pg
 
-BEGIN;
+begin;
 
--- XXX Add verifications here.
+select id, reference_number, owner, form_data, status
+  from ccbc_public.applications
+  where false;
 
-ROLLBACK;
+rollback;

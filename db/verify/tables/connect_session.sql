@@ -1,7 +1,7 @@
 -- Verify ccbc:tables/connect_session on pg
 
-BEGIN;
+begin;
 
--- XXX Add verifications here.
+select sid, sess, expire from ccbc_private.connect_session where false;
 
-ROLLBACK;
+rollback;

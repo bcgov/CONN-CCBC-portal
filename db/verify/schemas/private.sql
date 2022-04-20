@@ -1,7 +1,7 @@
 -- Verify ccbc:schemas/private on pg
 
-BEGIN;
+begin;
 
--- XXX Add verifications here.
+select pg_catalog.has_schema_privilege('ccbc_private', 'usage');
 
-ROLLBACK;
+rollback;

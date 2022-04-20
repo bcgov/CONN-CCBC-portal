@@ -1,7 +1,7 @@
 -- Verify ccbc:schemas/public on pg
 
-BEGIN;
+begin;
 
--- XXX Add verifications here.
+select pg_catalog.has_schema_privilege('ccbc_public', 'usage');
 
-ROLLBACK;
+rollback;
