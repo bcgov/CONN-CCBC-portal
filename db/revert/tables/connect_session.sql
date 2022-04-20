@@ -1,7 +1,7 @@
 -- Revert ccbc:tables/connect_session from pg
 
-BEGIN;
+begin;
 
--- XXX Add DDLs here.
+drop table ccbc_private.connect_session;
 
-COMMIT;
+commit;

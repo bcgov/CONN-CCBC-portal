@@ -1,7 +1,7 @@
 -- Revert ccbc:schemas/private from pg
 
-BEGIN;
+begin;
 
--- XXX Add DDLs here.
+drop schema ccbc_private;
 
-COMMIT;
+commit;

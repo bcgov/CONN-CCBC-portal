@@ -1,7 +1,14 @@
 -- Revert ccbc:create_roles from pg
 
-BEGIN;
+begin;
 
--- XXX Add DDLs here.
+do
+$do$
+begin
+raise NOTICE 'Created roles may be used in other projects, and need to be manually deleted if needed';
+end;
+$do$;
 
-COMMIT;
+select true;
+
+commit;
