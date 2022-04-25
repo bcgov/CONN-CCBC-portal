@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' ts-node --project tsconfig.server.json server.ts",
-    "build": "yarn run relay && next build",
+    "build": "yarn run build:schema && yarn run relay && next build",
+    "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
     "start": "yarn run relay && next start",
     "lint": "next lint",
     "relay": "relay-compiler"
