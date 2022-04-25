@@ -24,7 +24,7 @@
     "express": "^4.17.3",
     "lightship": "6.7.2",
     "next": "12.1.4",
-    "next-session": "^4.0.4",
+    "next-session": "^3.4.0",
     "postgraphile": "^4.12.9",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
