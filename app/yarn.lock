@@ -141,7 +141,7 @@
   resolved "https://registry.yarnpkg.com/@bcgov/bc-sans/-/bc-sans-1.0.1.tgz#8b622032465463934319771ea92fa3df74e6c9d3"
   integrity sha512-4suRUBFeHcuFkwXXJu9pKJNB5Z2G3bpuLEHIq203KVCKC8KrsnqvsyUOf645TypgLwqOTOYCETiXYzfxF4gLAw==
 
-"@button-inc/bcgov-theme@1.0.1":
+"@button-inc/bcgov-theme@1.0.1", "@button-inc/bcgov-theme@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@button-inc/bcgov-theme/-/bcgov-theme-1.0.1.tgz#756f494c73f32ce3a2a65125fa27f96964166dac"
   integrity sha512-MAu3EtxdAdc3rNe11pYK8V7iJf1LEZpO4R2nCitgV1h+XdIVUQOGUCrWRj3leU9Q8xwfFNZFjH0r83L4Ly381A==
@@ -3226,7 +3226,7 @@ nanoid@^2.1.0:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.1.11.tgz#ec24b8a758d591561531b4176a01e3ab4f0f0280"
   integrity sha512-s/snB+WGm6uwi0WjsZdaVcuf3KJXlfGl2LcxgwkEwJF0D/BWzVWAZW/XY4bFaiR7s0Jk3FPvlnepg1H1b1UwlA==
 
-nanoid@^3.1.30:
+nanoid@^3.1.25, nanoid@^3.1.30:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.3.tgz#fd8e8b7aa761fe807dba2d1b98fb7241bb724a25"
   integrity sha512-p1sjXuopFs0xg+fPASzQ28agW1oHD7xDsd9Xkf3T15H3c/cifrFHVwrh74PdoklAPi+i7MdRsE47vm2r6JoB+w==
@@ -3240,6 +3240,14 @@ negotiator@0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.3.tgz#58e323a72fedc0d6f9cd4d31fe49f51479590ccd"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
+
+next-session@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/next-session/-/next-session-4.0.4.tgz#aa351ac745beb1f163e9ef9dab4f0bdf4f053474"
+  integrity sha512-wMj3rg9+RomQGGxNNKUvkIgVvz+IZiW2v4IsLLshtgFUGoMI+svDYOo9P6Gja/aFjfDzRGPoBIJ4UmJeaQD9Hw==
+  dependencies:
+    cookie "^0.4.1"
+    nanoid "^3.1.25"
 
 next@12.1.4:
   version "12.1.4"
@@ -4349,7 +4357,7 @@ style-to-object@0.3.0:
   dependencies:
     inline-style-parser "0.1.1"
 
-styled-components@^5.2.1:
+styled-components@^5.2.1, styled-components@^5.3.5:
   version "5.3.5"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-5.3.5.tgz#a750a398d01f1ca73af16a241dec3da6deae5ec4"
   integrity sha512-ndETJ9RKaaL6q41B69WudeqLzOpY1A/ET/glXkNZ2T7dPjPqpPCXXQjDFYZWwNnE5co0wX+gTCqx9mfxTmSIPg==
