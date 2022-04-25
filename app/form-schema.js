@@ -1,11 +1,11 @@
 import { govBuilder } from '@button-inc/form-schema';
-import schema from './formSchema/orgSchema';
+import schema from './formSchema/schema';
 import uiSchema from './formSchema/uiSchema';
 
 const options = {
-  getRoute: '/form/organization',
+  getRoute: '/form',
   postRoute: '/api',
-  useSession: false,
+  useSession: true,
   onFormEnd: () => {
     // (errors, formData, req) are possible parameters here
     // write function for what will happen on the form end

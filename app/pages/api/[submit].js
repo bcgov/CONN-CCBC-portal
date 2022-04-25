@@ -1,9 +1,9 @@
 import { postMiddleware } from '../../form-schema';
-import { Request, Response } from 'express';
+import { withSession } from 'next-session';
 
-const runMiddleware = (req: Request, res: Response, fn: any) => {
+function runMiddleware(req, res, fn) {
   return new Promise((resolve, reject) => {
-    fn(req, res, (result: any) => {
+    fn(req, res, (result) => {
       if (result instanceof Error) {
         return reject(result);
       }
@@ -11,8 +11,8 @@ const runMiddleware = (req: Request, res: Response, fn: any) => {
     });
   });
 };
-const handler = (req: Request, res: Response) => {
+function handler(req, res) {
   runMiddleware(req, res, postMiddleware);
 };
 
-export default handler;
+export default withSession(handler);
