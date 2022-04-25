@@ -6,9 +6,10 @@ const options = {
   getRoute: '/form',
   postRoute: '/api',
   useSession: true,
-  onFormEnd: () => {
+  onFormEnd: (errors, formData) => {
     // (errors, formData, req) are possible parameters here
     // write function for what will happen on the form end
+    console.log(`${JSON.parse(formData)} saved to database.`)
   },
   onPost: () => {
     // (formData, schemaIndex, cleanSchemaData, req) are possible parameters here

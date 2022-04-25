@@ -2,14 +2,15 @@ import { useRouter } from 'next/router';
 import StyledGovButton from '../../components/StyledGovButton';
 import { Forms, getHandler } from '../../form-schema';
 import schema from '../../formSchema/schema';
-import applySession from 'next-session';
+import { applySession } from 'next-session';
+import FormDiv from '../../components/FormDiv';
 
-export default function FormPage(
-  formIndex: number,
-  formData: any,
-  validPage: boolean,
-  prevPageUrl: number
-) {
+export default function FormPage({
+  formIndex,
+  formData,
+  validPage,
+  prevPageUrl,
+}: any) {
   const Form = Forms[formIndex];
   const router = useRouter();
   const onFirstPage = prevPageUrl === -1;
@@ -23,31 +24,34 @@ export default function FormPage(
     if (onFirstPage) return;
     router.push(`/form${prevPageUrl}`);
   };
-
+  console.log('validPage', validPage);
   return (
     <>
-      {validPage && (
-        <Form formData={formData} rerouteHandler={rerouteHandler}>
-          {!onFirstPage && (
-            <StyledGovButton
-              type="button"
-              variant="secondary"
-              onClick={handleBackClick}
-            >
-              Back
+      <FormDiv>
+        <h1>Form Page</h1>
+        {validPage && (
+          <Form formData={formData} rerouteHandler={rerouteHandler}>
+            {!onFirstPage && (
+              <StyledGovButton
+                type="button"
+                variant="secondary"
+                onClick={handleBackClick}
+              >
+                Back
+              </StyledGovButton>
+            )}
+            <StyledGovButton type="button" variant="primary">
+              Continue
             </StyledGovButton>
-          )}
-          <StyledGovButton type="button" variant="primary">
-            Continue
-          </StyledGovButton>
-        </Form>
-      )}
+          </Form>
+        )}
+      </FormDiv>
     </>
   );
 }
 
 export async function getServerSideProps({ req, res }: any) {
-  await applySession(req);
+  await applySession(req, res);
   const { formIndex, formData, validPage, prevPageUrl } = getHandler(req);
   return {
     props: { formIndex, formData, validPage, prevPageUrl },
