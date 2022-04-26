@@ -24,7 +24,7 @@ export default function FormPage({
     if (onFirstPage) return;
     router.push(`/form${prevPageUrl}`);
   };
-  console.log('validPage', validPage);
+
   return (
     <>
       <FormDiv>
@@ -40,9 +40,7 @@ export default function FormPage({
                 Back
               </StyledGovButton>
             )}
-            <StyledGovButton type="button" variant="primary">
-              Continue
-            </StyledGovButton>
+            <StyledGovButton variant="primary">Continue</StyledGovButton>
           </Form>
         )}
       </FormDiv>
