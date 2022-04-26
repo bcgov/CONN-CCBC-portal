@@ -91,6 +91,60 @@ const schema = {
           title: 'Unit number (optional)',
           type: 'string',
         },
+        streetNumber: {
+          title: 'Street number',
+          type: 'string',
+        },
+        streetName: {
+          title: 'Street name',
+          type: 'string',
+        },
+        POBox: {
+          title: 'PO box',
+          type: 'string',
+        },
+        city: {
+          title: 'City',
+          type: 'string',
+        },
+        province: {
+          title: 'Province',
+          type: 'string',
+        },
+        postalCode: {
+          title: 'Postal code (H0H 0H0)',
+          type: 'string',
+        },
+        isMailingAddress: {
+          title: 'Is the mailing address the same as above?',
+          type: 'boolean',
+          enum: [true, false],
+          enumNames: ['Yes', 'No'],
+        },
+        dependencies: {
+          isMailingAddress: {
+            oneOf: [
+              {
+                properties: {
+                  isMailingAddress: {
+                    enum: ['Yes'],
+                  },
+                },
+              },
+              {
+                properties: {
+                  isMailingAddress: {
+                    enum: ['No'],
+                  },
+                  mailingAddress: {
+                    title: 'Address',
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
       },
     },
   },

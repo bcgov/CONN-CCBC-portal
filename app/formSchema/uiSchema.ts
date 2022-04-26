@@ -14,6 +14,9 @@ const uiSchema = {
   organizationOverview: {
     'ui:widget': 'textarea',
   },
+  isMailingAddress: {
+    'ui:widget': 'radio',
+  },
 };
 
 export default uiSchema;
