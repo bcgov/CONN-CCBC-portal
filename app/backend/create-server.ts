@@ -1,13 +1,13 @@
 import Debug from 'debug';
 import { createServer as _createServer } from 'http';
 import dotenv from 'dotenv';
-import config from '../config';
+import config from '../config.js';
 
 dotenv.config({ path: __dirname + '/../.env' });
 
 const debug = Debug('seq:server');
-const hostname = config.get('ORIGIN') || '0.0.0.0';
-const port = normalizePort(`${config.get('PORT')}` || '3000');
+const hostname = config.get('ORIGIN');
+const port = config.get('PORT');
 
 const createServer = (expressServer: any) => {
   expressServer.set('port', port);
@@ -50,21 +50,5 @@ const createServer = (expressServer: any) => {
     debug('Listening on ' + bind);
   }
 };
-
-function normalizePort(val: string) {
-  const port = parseInt(val, 10);
-
-  if (Number.isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
 
 export default createServer;

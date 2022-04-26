@@ -1,4 +1,4 @@
-const { Environment, Network, RecordSource, Store } = require('relay-runtime');
+import { Environment, Network, RecordSource, Store } = require('relay-runtime');
 
 const API_ENDPOINT = 'http://localhost:3000/graphql';
 

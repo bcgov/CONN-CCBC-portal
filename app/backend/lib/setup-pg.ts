@@ -1,5 +1,5 @@
 import pg from 'pg';
-import config from '../../config';
+import config from '../../config.js';
 
 const getDatabaseUrl = () => {
   const PGUSER = config.get('PGUSER');

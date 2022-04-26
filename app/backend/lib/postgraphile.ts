@@ -1,6 +1,6 @@
 import { postgraphile } from 'postgraphile';
 import { pgPool } from './setup-pg';
-import config from '../../config';
+import config from '../../config.js';
 
 let postgraphileOptions = {
   classicIds: true,
@@ -27,7 +27,7 @@ if (config.get('NODE_ENV') === 'production') {
 }
 
 const postgraphileMiddleware = () => {
-  return postgraphile(pgPool, config.get('PGSCHEMA') || 'ccbc_public', {
+  return postgraphile(pgPool, config.get('PGSCHEMA'), {
     ...postgraphileOptions,
   });
 };

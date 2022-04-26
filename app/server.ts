@@ -2,7 +2,7 @@ import next from 'next';
 import express from 'express';
 import createServer from './backend/create-server';
 import postgraphileMiddleware from './backend/lib/postgraphile';
-import config from './config';
+import config from './config.js';
 
 const dev = config.get('NODE_ENV') != 'production';
 const app = next({ dev });
