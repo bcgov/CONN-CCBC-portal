@@ -8,7 +8,7 @@ const getDatabaseUrl = () => {
   const PGPORT = config.get('PGPORT');
   const PGDATABASE = config.get('PGDATABASE');
 
-  const databaseURL = `postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}`;
+  const databaseURL = `postgres://${PGUSER}${PGPASSWORD ? ':' : ''}${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}`;
 
   return databaseURL;
 };
