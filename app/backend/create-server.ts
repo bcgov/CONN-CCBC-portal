@@ -1,12 +1,13 @@
 import Debug from 'debug';
 import { createServer as _createServer } from 'http';
 import dotenv from 'dotenv';
+import config from '../config';
 
 dotenv.config({ path: __dirname + '/../.env' });
 
 const debug = Debug('seq:server');
-const hostname = process.env.ORIGIN || '0.0.0.0';
-const port = normalizePort(process.env.PORT || '3000');
+const hostname = config.get('ORIGIN') || '0.0.0.0';
+const port = normalizePort(`${config.get('PORT')}` || '3000');
 
 const createServer = (expressServer: any) => {
   expressServer.set('port', port);

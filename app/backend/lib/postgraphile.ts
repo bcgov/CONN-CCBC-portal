@@ -1,5 +1,6 @@
 import { postgraphile } from 'postgraphile';
 import { pgPool } from './setup-pg';
+import config from '../../config';
 
 let postgraphileOptions = {
   classicIds: true,
@@ -13,7 +14,7 @@ let postgraphileOptions = {
   allowExplain: false,
 };
 
-if (process.env.NODE_ENV === 'production') {
+if (config.get('NODE_ENV') === 'production') {
   postgraphileOptions = {
     ...postgraphileOptions,
     retryOnInitFail: true,
@@ -26,7 +27,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const postgraphileMiddleware = () => {
-  return postgraphile(pgPool, process.env.DATABASE_SCHEMA || 'ccbc_public', {
+  return postgraphile(pgPool, config.get('PGSCHEMA') || 'ccbc_public', {
     ...postgraphileOptions,
   });
 };
