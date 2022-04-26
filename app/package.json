@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' ts-node --project tsconfig.server.json server.ts",
     "build": "yarn run build:schema && yarn run relay && next build",
+    "build:next": "next build",
+    "build:relay": "relay-compiler",
     "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
     "start": "yarn run relay && next start",
     "lint": "next lint",
@@ -46,6 +48,6 @@
     "language": "typescript"
   },
   "graphql": {
-    "schema": "./src/schema/schema.graphql"
+    "schema": "./schema/schema.graphql"
   }
 }

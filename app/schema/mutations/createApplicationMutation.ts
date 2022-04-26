@@ -3,7 +3,14 @@ import { relayEnvironment } from '../../lib';
 import { commitMutation, graphql } from 'react-relay';
 const mutation = graphql`
   mutation createApplicationMutation($input: CreateApplicationInput!) {
-    createApplication(input: $input)
+    createApplication(input: $input) {
+      application {
+        formData
+        owner
+        referenceNumber
+        status
+      }
+    }
   }
 `;
 
