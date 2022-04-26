@@ -17,6 +17,9 @@ const uiSchema = {
   isMailingAddress: {
     'ui:widget': 'radio',
   },
+  authContactSigningOfficer: {
+    'ui:widget': 'radio',
+  },
 };
 
 export default uiSchema;

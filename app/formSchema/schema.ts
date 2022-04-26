@@ -121,29 +121,112 @@ const schema = {
           enum: [true, false],
           enumNames: ['Yes', 'No'],
         },
-        dependencies: {
-          isMailingAddress: {
-            oneOf: [
-              {
-                properties: {
-                  isMailingAddress: {
-                    enum: ['Yes'],
-                  },
-                },
-              },
-              {
-                properties: {
-                  isMailingAddress: {
-                    enum: ['No'],
-                  },
-                  mailingAddress: {
-                    title: 'Address',
-                    type: 'string',
-                  },
-                },
-              },
-            ],
-          },
+        // dependencies: {
+        //   isMailingAddress: {
+        //     oneOf: [
+        //       {
+        //         properties: {
+        //           type: 'object',
+        //           isMailingAddress: {
+        //             enum: ['Yes'],
+        //           },
+        //         },
+        //       },
+        //       {
+        //         properties: {
+        //           type: 'object',
+        //           isMailingAddress: {
+        //             enum: ['No'],
+        //           },
+        //           unitNumber: {
+        //             title: 'Unit number (optional)',
+        //             type: 'string',
+        //           },
+        //           streetNumber: {
+        //             title: 'Street number',
+        //             type: 'string',
+        //           },
+        //           streetName: {
+        //             title: 'Street name',
+        //             type: 'string',
+        //           },
+        //           POBox: {
+        //             title: 'PO box',
+        //             type: 'string',
+        //           },
+        //           city: {
+        //             title: 'City',
+        //             type: 'string',
+        //           },
+        //           province: {
+        //             title: 'Province',
+        //             type: 'string',
+        //           },
+        //         },
+        //       },
+        //     ],
+        //   },
+        // },
+      },
+    },
+    contactInformation: {
+      title: 'Organization contact information',
+      type: 'object',
+      properties: {
+        contactTelephoneNumber: {
+          title: 'Telephone number',
+          type: 'number',
+        },
+        contactExtension: {
+          title: 'Extension',
+          type: 'number',
+        },
+        contactEmail: {
+          title: 'Email',
+          type: 'string',
+        },
+        contactWebsite: {
+          title: 'Website',
+          type: 'string',
+        },
+      },
+    },
+    authorizedContact: {
+      title: 'Authorized contact',
+      description: 'Provide the contact information for the authorized contact',
+      type: 'object',
+      properties: {
+        authFamilyName: {
+          title: 'Family name of person who will be the authorized contact',
+          type: 'string',
+        },
+        authGivenName: {
+          title:
+            'Given name of person who will be the authorized contact (optional)',
+          type: 'string',
+        },
+        authPostionTitle: {
+          title: 'Position/title',
+          type: 'string',
+        },
+        authEmail: {
+          title: 'Email',
+          type: 'string',
+        },
+        authTelephone: {
+          title: 'Telephone',
+          type: 'number',
+        },
+        authExtension: {
+          title: 'Extension (optional)',
+          type: 'number',
+        },
+        authContactSigningOfficer: {
+          title:
+            'Is this person an authorized signing officer of the applicant?',
+          type: 'boolean',
+          enum: [true, false],
+          enumNames: ['Yes', 'No'],
         },
       },
     },
