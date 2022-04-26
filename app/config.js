@@ -64,4 +64,4 @@ config.loadFile('./' + env + '.json');
 
 config.validate({ allowed: 'warn' });
 
-export default config;
+module.exports = config;
