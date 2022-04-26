@@ -1,0 +1,4 @@
+nodejs 16.13.1
+yarn 1.22.17
+kubectl 1.21.6
+postgres 14.1
