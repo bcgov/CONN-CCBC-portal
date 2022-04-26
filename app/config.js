@@ -1,6 +1,4 @@
-'use strict';
-
-import convict from 'convict';
+const convict = require('convict');
 
 const config = convict({
   NODE_ENV: {
@@ -18,7 +16,7 @@ const config = convict({
   },
   PORT: {
     doc: 'Application port',
-    format: Number,
+    format: 'port',
     default: 3000,
     env: 'PORT',
   },
@@ -42,7 +40,7 @@ const config = convict({
   },
   PGPORT: {
     doc: 'Application port',
-    format: Number,
+    format: 'port',
     default: 5432,
     env: 'PGPORT',
   },
