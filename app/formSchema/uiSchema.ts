@@ -35,6 +35,15 @@ const uiSchema = {
   requiresThirdPartyInfrastructureAccess: {
     'ui:widget': 'radio',
   },
+  projectSpanMultipleLocations: {
+    'ui:widget': 'radio',
+  },
+  projectLocations: {
+    'ui:widget': 'checkboxes',
+  },
+  projectDescription: {
+    'ui:widget': 'textarea',
+  },
 };
 
 export default uiSchema;
