@@ -1,24 +1,14 @@
 import pg from 'pg';
+import config from '../../config.js';
 
 const getDatabaseUrl = () => {
-  const PGUSER = process.env.PGUSER || 'ccbc_app';
+  const PGUSER = config.get('PGUSER');
+  const PGPASSWORD = config.get('PGPASSWORD');
+  const PGHOST = config.get('PGHOST');
+  const PGPORT = config.get('PGPORT');
+  const PGDATABASE = config.get('PGDATABASE');
 
-  let databaseURL = 'postgres://';
-
-  databaseURL += PGUSER;
-  if (process.env.PGPASSWORD) {
-    databaseURL += `:${process.env.PGPASSWORD}`;
-  }
-
-  databaseURL += '@';
-
-  databaseURL += process.env.PGHOST || 'localhost';
-  if (process.env.PGPORT) {
-    databaseURL += `:${process.env.PGPORT}`;
-  }
-
-  databaseURL += '/';
-  databaseURL += process.env.PGDATABASE || 'ccbc';
+  const databaseURL = `postgres://${PGUSER}${PGPASSWORD ? ':' : ''}${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}`;
 
   return databaseURL;
 };
