@@ -17,7 +17,22 @@ const uiSchema = {
   isMailingAddress: {
     'ui:widget': 'radio',
   },
-  authContactSigningOfficer: {
+  isAuthContactSigningOfficer: {
+    'ui:widget': 'radio',
+  },
+  isAltContactSigningOfficer: {
+    'ui:widget': 'radio',
+  },
+  hasProvidedExitingNetworkCoverage: {
+    'ui:widget': 'checkboxes',
+  },
+  hasPassiveInfrastructure: {
+    'ui:widget': 'radio',
+  },
+  isInfrastuctureAvailable: {
+    'ui:widget': 'radio',
+  },
+  requiresThirdPartyInfrastructureAccess: {
     'ui:widget': 'radio',
   },
 };

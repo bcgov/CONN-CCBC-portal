@@ -28,7 +28,7 @@ export default function FormPage({
   return (
     <>
       <FormDiv>
-        <h1>Form Page</h1>
+        <h1>Connecting Communities BC</h1>
         {validPage && (
           <Form formData={formData} rerouteHandler={rerouteHandler}>
             {!onFirstPage && (
@@ -37,7 +37,7 @@ export default function FormPage({
                 variant="secondary"
                 onClick={handleBackClick}
               >
-                Back
+                Previous
               </StyledGovButton>
             )}
             <StyledGovButton variant="primary">Continue</StyledGovButton>

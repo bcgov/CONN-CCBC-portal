@@ -47,7 +47,7 @@ const schema = {
               'Public body owned by local/regional government',
               'Provincial crown corporation',
               'Municipal development corporation',
-              'Other',
+              'Other', // 'Other' should be an option to select and have a text input adjacent
             ],
           },
           uniqueItems: true,
@@ -221,9 +221,89 @@ const schema = {
           title: 'Extension (optional)',
           type: 'number',
         },
-        authContactSigningOfficer: {
+        isAuthContactSigningOfficer: {
           title:
             'Is this person an authorized signing officer of the applicant?',
+          type: 'boolean',
+          enum: [true, false],
+          enumNames: ['Yes', 'No'],
+        },
+      },
+    },
+    alternateContact: {
+      title: 'Alternate contact',
+      description: 'Provide the contact information for the alternate contact',
+      type: 'object',
+      properties: {
+        altFamilyName: {
+          title: 'Family name of person who will be the alternate contact',
+          type: 'string',
+        },
+        altGivenName: {
+          title: 'Given name of person who will be the alternate contact',
+          type: 'string',
+        },
+        altPostionTitle: {
+          title: 'Position/title',
+          type: 'string',
+        },
+        altEmail: {
+          title: 'Email',
+          type: 'string',
+        },
+        altTelephone: {
+          title: 'Telephone',
+          type: 'number',
+        },
+        altExtension: {
+          title: 'Extension (optional)',
+          type: 'number',
+        },
+        isAltContactSigningOfficer: {
+          title:
+            'Is this person an authorized signing officer of the applicant?',
+          type: 'boolean',
+          enum: [true, false],
+          enumNames: ['Yes', 'No'],
+        },
+      },
+    },
+    existingNetworkCoverage: {
+      title: 'Existing network coverage',
+      type: 'object',
+      properties: {
+        hasProvidedExitingNetworkCoverage: {
+          title:
+            'Please indicate if you have already provided your existing network and/or coverage information to ISED or the Canadian Radio-television and Telecommunications Commission (CRTC) in the past 12 months, or if you will submit such information to ISED before the close of applications. For more information on how to submit existing network and coverage information, refer to the Universal Broadband Fund (UBF) website.',
+          type: 'array',
+          maxItems: 1,
+          items: {
+            type: 'string',
+            enum: [
+              'I have provided existing network information and/or coverage to ISED or the CRTC in the past 12 months',
+              'I will provide existing network information and/or coverage to ISED by the application deadline',
+              'I do not currently have existing coverage',
+            ],
+          },
+          uniqueItems: true,
+        },
+        hasPassiveInfrastructure: {
+          title:
+            'Does the applicant own passive infrastructure (including, for example, towers, poles, rights of way or other similar assets and infrastructure)?',
+          type: 'boolean',
+          enum: [true, false],
+          enumNames: ['Yes', 'No'],
+        },
+        isInfrastuctureAvailable: {
+          title:
+            'The applicant intends to make reasonable efforts to make its passive infrastructure available for use by other broadband operators to expand and improve coverage in Canada?',
+          type: 'boolean',
+          enum: [true, false],
+          enumNames: ['Yes', 'No'],
+        },
+        requiresThirdPartyInfrastructureAccess: {
+          title:
+            'Does the applicant’s project require access to third party passive infrastructure (including for example, towers, poles, rights of way or other similar assets and infrastructure)?',
           type: 'boolean',
           enum: [true, false],
           enumNames: ['Yes', 'No'],
