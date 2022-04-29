@@ -16,10 +16,13 @@
   "dependencies": {
     "@button-inc/bcgov-theme": "^1.0.1",
     "@button-inc/form-schema": "file:.yalc/@button-inc/form-schema",
+    "@types/cookie-parser": "^1.4.3",
     "@types/debug": "^4.1.7",
     "@types/express": "^4.17.13",
+    "body-parser": "^1.20.0",
     "convict": "^6.2.2",
     "delay": "^5.0.0",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "lightship": "6.7.2",
