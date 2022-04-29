@@ -1,0 +1,53 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: hippo-ha
+  labels:
+{{ include "ccbc.labels" . | indent 4}}
+spec:
+  postgresVersion: 14
+  instances:
+    - name: pgha1
+      replicas: 2
+      resources:
+        requests:
+          cpu: 250m
+          memory: 250Mi
+        limits:
+          cpu: 500m
+          memory: 500Mi
+      dataVolumeClaimSpec:
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 500Mi
+        storageClassName: netapp-block-standard
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  postgres-operator.crunchydata.com/cluster: hippo-ha
+                  postgres-operator.crunchydata.com/instance-set: pgha
+  openshift: true
+  backups:
+    pgbackrest:
+      global:
+        repo1-retention-full: "1"
+      repos:
+      - name: repo1
+        schedules:
+          full: 0 1 * * *
+          incremental: 0 */4 * * *
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 500Mi
+            storageClassName: netapp-file-backup
