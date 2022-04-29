@@ -9,11 +9,12 @@ const options = {
   onFormEnd: (errors, formData) => {
     // (errors, formData, req) are possible parameters here
     // write function for what will happen on the form end
-    console.log(`${JSON.parse(formData)} saved to database.`)
+    console.log(`onFormEnd: ${JSON.parse(formData)} saved to database.`)
   },
   onPost: () => {
     // (formData, schemaIndex, cleanSchemaData, req) are possible parameters here
     // function that will fire on each page change
+    console.log(`onPost: ${JSON.parse(formData)} saved to database.`)
   },
   validateEachPage: true,
   validatedUrl: '/review',

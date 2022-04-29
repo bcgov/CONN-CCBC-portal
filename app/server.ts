@@ -6,6 +6,10 @@ import { createLightship } from 'lightship';
 import { pgPool } from './backend/lib/setup-pg';
 import postgraphileMiddleware from './backend/lib/postgraphile';
 import config from './config.js';
+import { createLightship } from 'lightship';
+import delay from 'delay';
+import { pgPool } from './backend/lib/setup-pg';
+import { postMiddleware } from './form-schema';
 
 const port = config.get('PORT');
 const dev = config.get('NODE_ENV') != 'production';
@@ -26,6 +30,8 @@ app.prepare().then(async () => {
   });
 
   server.use(postgraphileMiddleware());
+
+  server.post('/api/:submit', postMiddleware);
 
   server.all('*', async (req, res) => handle(req, res));
 

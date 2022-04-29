@@ -8,6 +8,7 @@ const schema = {
       properties: {
         organizationName: {
           title: 'Organization name (legal name)',
+          description: 'this is a description',
           type: 'string',
         },
         isLegalPrimaryName: {
@@ -60,7 +61,7 @@ const schema = {
           title: 'Is this applicant organization an Idigenous entity?',
           type: 'boolean',
           enum: [true, false],
-          enumName: ['Yes', 'No'],
+          enumNames: ['Yes', 'No'],
         },
         indigenousEntityDesc: {
           title: 'Please provide a short description of the Indigenous entity',
@@ -355,6 +356,26 @@ const schema = {
           title:
             'Using non-technical language, provide a description of the project, its key elements, objectives, and benefits',
           type: 'string',
+        },
+      },
+    },
+    budgetDetails: {
+      title: 'Budget details',
+      type: 'object',
+      properties: {
+        totalEligbleCosts: {
+          title: 'Total eligble costs',
+          type: 'number',
+        },
+        totalProjectCost: {
+          title: 'Total project cost',
+          type: 'number',
+        },
+        // desgin shows
+        requestedCCBCFunding: {
+          title:
+            'Amount requested under Connecting Communities British Columbia',
+          type: 'number',
         },
       },
     },
