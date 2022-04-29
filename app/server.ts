@@ -10,12 +10,16 @@ import { createLightship } from 'lightship';
 import delay from 'delay';
 import { pgPool } from './backend/lib/setup-pg';
 import { postMiddleware } from './form-schema';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 const port = config.get('PORT');
 const dev = config.get('NODE_ENV') != 'production';
 
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+const { json, urlencoded } = bodyParser;
 
 app.prepare().then(async () => {
   const server = express();
@@ -28,6 +32,13 @@ app.prepare().then(async () => {
     await app.close();
     await pgPool.end();
   });
+
+  server.use(json());
+  server.use(urlencoded({ extended: false }));
+  server.use(cookieParser());
+
+  server.disable('x-powered-by'); // at minimum, disable x-powered-by header
+  server.set('trust-proxy', 1); // trust first proxy
 
   server.use(postgraphileMiddleware());
 
