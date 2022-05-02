@@ -12,7 +12,9 @@ $ sqitch deploy
 
 ## Environment Variables
 
-This project uses `node-convict` to declare environment variables. Copy and rename `development-example.json` to `development.json`.
+This project uses `node-convict` to declare environment variables. Variables for each environment are declared in `development.json`, `test.json` or `production.json`.
+
+The defaults can be overridden directly or in an .env file.
 
 ## Running the Application
 

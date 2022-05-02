@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' ts-node --project tsconfig.server.json server.ts",
-    "build": "yarn run build:schema && yarn run relay && next build",
+    "build": "yarn run build:server && yarn run build:schema && yarn run build:relay && yarn run build:next",
+    "build:next": "next build",
+    "build:relay": "relay-compiler",
+    "build:server": "tsc --project tsconfig.server.json",
     "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
-    "start": "yarn run relay && next start",
+    "start": "node --unhandled-rejections=strict dist/server.js",
     "lint": "next lint",
     "relay": "relay-compiler"
   },
@@ -14,8 +17,10 @@
     "@types/debug": "^4.1.7",
     "@types/express": "^4.17.13",
     "convict": "^6.2.2",
+    "delay": "^5.0.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "lightship": "6.7.2",
     "next": "12.1.4",
     "postgraphile": "^4.12.9",
     "react": "^18.0.0",
@@ -46,6 +51,6 @@
     "language": "typescript"
   },
   "graphql": {
-    "schema": "./src/schema/schema.graphql"
+    "schema": "./schema/schema.graphql"
   }
 }

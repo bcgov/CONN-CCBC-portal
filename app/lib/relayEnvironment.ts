@@ -1,8 +1,17 @@
-import { Environment, Network, RecordSource, Store } from 'relay-runtime';
+import {
+  Environment,
+  Network,
+  RecordSource,
+  RequestParameters,
+  Store,
+} from 'relay-runtime';
 
-const API_ENDPOINT = 'http://localhost:3000/graphql';
+const API_ENDPOINT = 'http://localhost:5000/graphql';
 
-const fetchRelay = async (params: any, variables: any) => {
+const fetchRelay = async (
+  params: RequestParameters,
+  variables: Record<string, object[]>
+) => {
   return fetch(API_ENDPOINT, {
     method: 'POST',
     headers: {

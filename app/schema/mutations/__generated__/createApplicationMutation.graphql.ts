@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<75e71bf7290badc741fa4bce4c6e66e5>>
+ * @generated SignedSource<<088e22c1e138a3f74a2e616c735cf1af>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -26,9 +26,9 @@ export type createApplicationMutation$data = {
   readonly createApplication: {
     readonly application: {
       readonly formData: any;
-      readonly id: string;
       readonly owner: any | null;
       readonly referenceNumber: string | null;
+      readonly status: string | null;
     } | null;
   } | null;
 };
@@ -47,69 +47,73 @@ var v0 = [
 ],
 v1 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "input",
-        "variableName": "input"
-      }
-    ],
-    "concreteType": "CreateApplicationPayload",
-    "kind": "LinkedField",
-    "name": "createApplication",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Application",
-        "kind": "LinkedField",
-        "name": "application",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "formData",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "owner",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "referenceNumber",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Variable",
+    "name": "input",
+    "variableName": "input"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "formData",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "owner",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "referenceNumber",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "status",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "createApplicationMutation",
-    "selections": (v1/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "CreateApplicationPayload",
+        "kind": "LinkedField",
+        "name": "createApplication",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Application",
+            "kind": "LinkedField",
+            "name": "application",
+            "plural": false,
+            "selections": [
+              (v2/*: any*/),
+              (v3/*: any*/),
+              (v4/*: any*/),
+              (v5/*: any*/)
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "Mutation",
     "abstractKey": null
   },
@@ -118,19 +122,53 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "createApplicationMutation",
-    "selections": (v1/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "CreateApplicationPayload",
+        "kind": "LinkedField",
+        "name": "createApplication",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Application",
+            "kind": "LinkedField",
+            "name": "application",
+            "plural": false,
+            "selections": [
+              (v2/*: any*/),
+              (v3/*: any*/),
+              (v4/*: any*/),
+              (v5/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "3959eed2b630d220e257c918999fa4bc",
+    "cacheID": "c51182f8ef31a4bc70a32ff78715cd2a",
     "id": null,
     "metadata": {},
     "name": "createApplicationMutation",
     "operationKind": "mutation",
-    "text": "mutation createApplicationMutation(\n  $input: CreateApplicationInput!\n) {\n  createApplication(input: $input) {\n    application {\n      formData\n      id\n      owner\n      referenceNumber\n    }\n  }\n}\n"
+    "text": "mutation createApplicationMutation(\n  $input: CreateApplicationInput!\n) {\n  createApplication(input: $input) {\n    application {\n      formData\n      owner\n      referenceNumber\n      status\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "66de7c2edae663ff4aad418533e88614";
+(node as any).hash = "160f162e59b70c0d7e262abd8f424aa8";
 
 export default node;

@@ -1,0 +1,11 @@
+{
+  "NODE_ENV": "production",
+  "ORIGIN": "localhost",
+  "PORT": 3000,
+  "PGUSER": "ccbc_app",
+  "PGPASSWORD": "",
+  "PGHOST": "localhost",
+  "PGPORT": 5432,
+  "PGDATABASE": "ccbc",
+  "PGSCHEMA": "ccbc_public"
+}
