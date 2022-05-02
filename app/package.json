@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' ts-node --project tsconfig.server.json server.ts",
-    "build": "yarn run build:schema && yarn run relay && next build",
+    "build": "yarn run build:server && yarn run build:schema && yarn run build:relay && yarn run build:next",
     "build:next": "next build",
     "build:relay": "relay-compiler",
+    "build:server": "tsc --project tsconfig.server.json",
     "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
-    "start": "ts-node --project tsconfig.server.json server.ts",
+    "start": "node --unhandled-rejections=strict dist/server.js",
     "lint": "next lint",
     "relay": "relay-compiler"
   },
