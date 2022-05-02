@@ -1,5 +1,8 @@
 const convict = require('convict');
 
+// import dotenv to optionally overrride node-convict config
+require('dotenv').config();
+
 const config = convict({
   NODE_ENV: {
     doc: 'The application environment.',
@@ -59,7 +62,7 @@ const config = convict({
 });
 
 // Load environment dependent configuration
-const env = config.get('NODE_ENV');
+const env = config.get('NODE_ENV') || 'development';
 config.loadFile('./' + env + '.json');
 
 config.validate({ allowed: 'warn' });
