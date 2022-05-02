@@ -1,13 +1,13 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: hippo-ha
+  name: {{ template "ccbc.fullname" . }}
   labels:
 {{ include "ccbc.labels" . | indent 4}}
 spec:
   postgresVersion: 14
   instances:
-    - name: pgha1
+    - name: hippo-ha
       # set replicas to 1 until more resources provisioned
       replicas: 1
       resources:
