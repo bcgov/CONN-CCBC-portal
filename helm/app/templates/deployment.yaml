@@ -1,61 +1,208 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "app.fullname" . }}
+  name: {{ template "ccbc.fullname" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+{{ include "ccbc.labels" . | indent 4}}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
-      {{- include "app.selectorLabels" . | nindent 6 }}
+      app: {{ template "ccbc.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "app.selectorLabels" . | nindent 8 }}
+        app: {{ template "ccbc.fullname" . }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "app.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - env:
+          - name: PGDATABASE
+            value: hippo-ha
+          - name: PGUSER
+            value: hippo-ha
+          - name: PGPASSWORD
+            value: {{ .Values.db.password }}
+          - name: PGUSER_OWNER
+            valueFrom:
+              secretKeyRef:
+                key: database-owner-user
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGPASSWORD_OWNER
+            valueFrom:
+              secretKeyRef:
+                key: database-owner-password
+                name: {{ template "ccbc.fullname" . }}
+          - name: DATABASE_NAME
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGUSER_APP
+            valueFrom: 
+              secretKeyRef:
+                key: database-app-user
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGPASSWORD_APP
+            valueFrom: 
+              secretKeyRef:
+                key: database-app-password
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGUSER_READONLY
+            valueFrom:
+              secretKeyRef:
+                key: database-readonly-user
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGPASSWORD_READONLY
+            valueFrom:
+              secretKeyRef:
+                key: database-readonly-password
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGPORT
+            value: "5432"
+          - name: PGHOST
+            value: hippo-ha-primary.ff61fb-dev.svc
+          name: {{ template "ccbc.fullname" . }}-provision-pg-credentials
+          image: {{ .Values.image.psql.repository }}:{{ .Values.image.psql.tag }}
+          resources:
+            limits:
+              cpu: {{ .Values.resources.psql.limits.cpu }}
+              memory: {{ .Values.resources.psql.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.psql.requests.cpu }}
+              memory: {{ .Values.resources.psql.requests.memory }}
+          command:
+            - /usr/bin/env
+            - bash
+            - -c
+            - |
+            - exit
+              # set -euox pipefail;
+              # create-user-db -d $(DATABASE_NAME) -u $(PGUSER_OWNER) -p $(PGPASSWORD_OWNER) --owner;
+              # alter-role $(PGUSER_OWNER) createrole;
+              # create-user-db -d $(DATABASE_NAME) -u $(PGUSER_APP) -p $(PGPASSWORD_APP);
+              # create-user-db -d $(DATABASE_NAME) -u $(PGUSER_READONLY) -p $(PGPASSWORD_READONLY);
+              # psql -d $(DATABASE_NAME) <<EOF
+              #   grant pg_read_all_data to $(PGUSER_READONLY);
+              #   alter role $(PGUSER_READONLY) BYPASSRLS;
+              # EOF
+        # - env:
+        #   - name: SQITCH_TARGET
+        #     value: "db:pg:"
+        #   - name: PGUSER
+        #     valueFrom: 
+        #       secretKeyRef:
+        #         key: database-owner-user
+        #         name: {{ template "ccbc.fullname" . }}
+        #   - name: PGPASSWORD
+        #     valueFrom: 
+        #       secretKeyRef:
+        #         key: database-owner-password
+        #         name: {{ template "ccbc.fullname" . }}
+        #   - name: PGDATABASE
+        #     valueFrom: 
+        #       secretKeyRef:
+        #         key: database-name
+        #         name: {{ template "ccbc.fullname" . }}
+        #   - name: PGPORT
+        #     value: "5432"
+        #   - name: PGHOST
+        #     value: hippo-ha-primary.ff61fb-dev.svc
+        #   - name: NAMESPACE
+        #     valueFrom:
+        #       fieldRef:
+        #         apiVersion: v1
+        #         fieldPath: metadata.namespace
+        #   name: {{ template "ccbc.fullname" . }}-wait-for-migrations
+        #   image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
+        #   imagePullPolicy: {{ .Values.image.db.pullPolicy }}
+        #   resources:
+        #     limits:
+        #       cpu: {{ .Values.resources.psql.limits.cpu }}
+        #       memory: {{ .Values.resources.psql.limits.memory }}
+        #     requests:
+        #       cpu: {{ .Values.resources.psql.requests.cpu }}
+        #       memory: {{ .Values.resources.psql.requests.memory }}
+        #   command:
+        #     - /usr/bin/env
+        #     - bash
+        #     - -c
+        #     - |
+        #       set -euox pipefail;
+        #       while [ "$(sqitch status | tail -1)" != "Nothing to deploy (up-to-date)" ]; do
+        #         sqitch deploy;
+        #         echo "Waiting 10s for migrations to complete..."
+        #         sleep 10;
+        #       done;
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: {{ template "ccbc.fullname" . }}
+          image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}
+          imagePullPolicy: {{ .Values.image.app.pullPolicy }}
+          env:
+          - name: PGUSER
+            valueFrom: 
+              secretKeyRef:
+                key: database-app-user
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGPASSWORD
+            valueFrom: 
+              secretKeyRef:
+                key: database-app-password
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGDATABASE
+            valueFrom: 
+              secretKeyRef:
+                key: database-name
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGPORT
+            value: "5432"
+          - name: PGHOST
+            value: hippo-ha-primary.ff61fb-dev.svc
+          - name: SESSION_SECRET
+            valueFrom: 
+              secretKeyRef:
+                key: session-secret
+                name: {{ template "ccbc.fullname" . }}
+          - name: HOST
+            value: {{ .Values.route.host }}
+          - name: NAMESPACE
+            value: {{ .Values.app.namespace }}
+          - name: ENABLE_ANALYTICS
+            value: {{ .Values.app.enableAnalytics | quote }}
+          resources:
+            requests:
+              memory: {{ .Values.resources.app.requests.memory }}
+              cpu: {{ .Values.resources.app.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.app.limits.memory }}
+              cpu: {{ .Values.resources.app.limits.cpu }}
           ports:
-            - name: http
-              containerPort: 80
+            - containerPort: {{ .Values.app.port }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
           readinessProbe:
             httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+              path: /ready
+              port: {{ .Values.app.probesPort }}
+            # we want the readiness threshold to fail fast,
+            # to prevent any request from going to a pod that is not ready
+            failureThreshold: 1
+            successThreshold: 1
+            periodSeconds: 5
+            timeoutSeconds: 5
+            initialDelaySeconds: 5
+          livenessProbe:
+          # the liveness probe is here to ensure that a pod does not get
+          # stuck in a shutdown state. It needs to allow enough time for
+          # the registered shutdown handler to run to completion.
+            httpGet:
+              path: /live
+              port: {{ .Values.app.probesPort }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 5

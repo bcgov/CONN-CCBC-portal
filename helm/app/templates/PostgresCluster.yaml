@@ -8,20 +8,21 @@ spec:
   postgresVersion: 14
   instances:
     - name: pgha1
-      replicas: 2
+      # set replicas to 1 until more resources provisioned
+      replicas: 1
       resources:
         requests:
-          cpu: 250m
-          memory: 250Mi
+          cpu: 50m
+          memory: 64Mi
         limits:
-          cpu: 500m
-          memory: 500Mi
+          cpu: 250m
+          memory: 512Mi
       dataVolumeClaimSpec:
         accessModes:
         - "ReadWriteOnce"
         resources:
           requests:
-            storage: 500Mi
+            storage: 300Mi
         storageClassName: netapp-block-standard
       affinity:
         podAntiAffinity:
@@ -49,5 +50,5 @@ spec:
             - "ReadWriteOnce"
             resources:
               requests:
-                storage: 500Mi
+                storage: 300Mi
             storageClassName: netapp-file-backup

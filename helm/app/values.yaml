@@ -1,20 +1,21 @@
 fullnameOverride: ccbc
 
-replicaCount: 2
+replicaCount: 1
 
 image:
   app:
     repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app
     pullPolicy: IfNotPresent
-    tag: latest # The tag value must be passed in via the deploy script
+    tag: '0.5.5' # The tag value must be passed in via the deploy script
     clientSecret: '' # clientSecret must be passed in via deploy script
   psql:
     repository: gcr.io/ggl-cas-storage/cas-postgres
+    pullPolicy: IfNotPresent
     tag: '0.3.0'
   db:
     repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db
     pullPolicy: IfNotPresent
-    tag: latest # The tag value must be passed in via the deploy script
+    tag: '0.2.0' # The tag value must be passed in via the deploy script
 
 app:
   port: '3000'
@@ -54,6 +55,7 @@ db:
   ownerUser: ccbc
   readonlyUser: ccbc_readonly
   preInitCommand: ''
+  password: ''
 autoscaling:
   enabled: false
   minReplicas: 1
