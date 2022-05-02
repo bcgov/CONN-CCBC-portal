@@ -11,7 +11,7 @@ const options = {
     // write function for what will happen on the form end
     console.log(`onFormEnd: ${JSON.parse(formData)} saved to database.`)
   },
-  onPost: () => {
+  onPost: (formData) => {
     // (formData, schemaIndex, cleanSchemaData, req) are possible parameters here
     // function that will fire on each page change
     console.log(`onPost: ${JSON.parse(formData)} saved to database.`)
