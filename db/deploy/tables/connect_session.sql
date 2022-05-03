@@ -10,6 +10,8 @@ create table if not exists ccbc_private.connect_session (
 )
 with (oids=false);
 
+alter table ccbc_private.connect_session add constraint session_pkey primary key (sid) not deferrable initially immediate;
+create index idx_session_expire on ccbc_private.connect_session(expire);
 grant all on ccbc_private.connect_session to public;
 
 commit;
