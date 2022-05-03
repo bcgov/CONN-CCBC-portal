@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@button-inc/bcgov-theme": "^1.0.1",
-    "@button-inc/form-schema": "file:.yalc/@button-inc/form-schema",
+    "@button-inc/form-schema": "^1.0.0-alpha.8",
     "@types/connect-pg-simple": "^7.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/debug": "^4.1.7",

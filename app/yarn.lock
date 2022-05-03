@@ -223,8 +223,10 @@
     clsx "^1.1.1"
     styled-components "^5.2.1"
 
-"@button-inc/form-schema@file:.yalc/@button-inc/form-schema":
+"@button-inc/form-schema@^1.0.0-alpha.8":
   version "1.0.0-alpha.8"
+  resolved "https://registry.yarnpkg.com/@button-inc/form-schema/-/form-schema-1.0.0-alpha.8.tgz#62c522040da305578e679cc4b4aae3b775cb57d2"
+  integrity sha512-sJtEmwrPvL4E+vL81z9XkGcljxRU8ZS9tb52tWvfT2h3DpOLVhYXDwo7Iw2iG/Q0HFfs+SAk/X7FspqUUOLNew==
   dependencies:
     "@babel/runtime" "^7.4.2"
     "@button-inc/bcgov-theme" "1.0.1"
