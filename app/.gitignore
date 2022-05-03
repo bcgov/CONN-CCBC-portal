@@ -35,6 +35,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-# yalc
-.yalc
-yalc.lock
+# yarn
+
+.yarn
