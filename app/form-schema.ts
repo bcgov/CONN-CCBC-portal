@@ -5,16 +5,16 @@ import uiSchema from './formSchema/uiSchema';
 const options = {
   getRoute: '/form',
   postRoute: '/api',
-  useSession: true,
-  onFormEnd: (errors, formData) => {
+  useSession: false,
+  onFormEnd: (errors: Error[], formData: object) => {
     // (errors, formData, req) are possible parameters here
     // write function for what will happen on the form end
-    console.log(`onFormEnd: ${JSON.parse(formData)} saved to database.`)
+    console.log(`onFormEnd: ${formData} saved to database.`);
   },
-  onPost: (formData) => {
+  onPost: (formData: object) => {
     // (formData, schemaIndex, cleanSchemaData, req) are possible parameters here
     // function that will fire on each page change
-    console.log(`onPost: ${JSON.parse(formData)} saved to database.`)
+    console.log(`onPost: ${formData} saved to database.`);
   },
   validateEachPage: true,
   validatedUrl: '/review',
