@@ -1,0 +1,69 @@
+fullnameOverride: ccbc
+
+replicaCount: 1
+
+image:
+  app:
+    repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app
+    pullPolicy: IfNotPresent
+    tag: '0.6.0' # The tag value must be passed in via the deploy script
+    clientSecret: '' # clientSecret must be passed in via deploy script
+  psql:
+    repository: gcr.io/ggl-cas-storage/cas-postgres
+    pullPolicy: IfNotPresent
+    tag: '0.3.0'
+  db:
+    repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db
+    pullPolicy: IfNotPresent
+    tag: '0.2.0' # The tag value must be passed in via the deploy script
+
+app:
+  port: '3000'
+  probesPort: '9000'
+  namespace: ''
+  enableAnalytics: true
+route:
+  host: '' # The host value must be passed in via the deploy script
+
+resources:
+  app:
+    requests:
+      cpu: '40m'
+      memory: '128Mi'
+    limits:
+      cpu: '120m'
+      memory: '256Mi'
+  psql:
+    requests:
+      cpu: '40m'
+      memory: '128Mi'
+    limits:
+      cpu: '120m'
+      memory: '256Mi'
+
+deployer:
+  namespace: 'ff61fb-dev' # The namespace must be passed in via the deploy script
+  serviceAccount:
+    enabled: true
+
+networkPolicies:
+  enabled: true
+
+db:
+  name: ccbc
+  appUser: ccbc_app
+  ownerUser: ccbc
+  readonlyUser: ccbc_readonly
+  preInitCommand: ''
+  password: ''
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+metabase:
+  instanceName: ccbc-metabase
+  namespace: 'b40eb8-dev ' # The value must be passed in via the deploy script
+

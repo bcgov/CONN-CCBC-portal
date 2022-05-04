@@ -1,0 +1,140 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: {{ template "ccbc.fullname" . }}
+spec:
+  monitoring:
+    pgmonitor:
+      # this stuff is for the "exporter" container in the "hippo-ha-pgha1" set of pods
+      exporter:
+        # image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.4-0
+        resources:
+          requests:
+            cpu: 20m
+            memory: 64Mi
+          limits:
+            cpu: 60m
+            memory: 128Mi
+  # image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:centos8-13.5-0
+  postgresVersion: 14
+  instances:
+    - name: hippo-ha
+      replicas: 3
+      # these resources are for the "database" container in the "hippo-ha-pgha1" set of pods
+      resources:
+        requests:
+          cpu: 20m
+          memory: 64Mi
+        limits:
+          cpu: 60m
+          memory: 128Mi
+      sidecars:
+        # this stuff is for the "replication-cert-copy" container in the "hippo-ha-pgha1" set of pods
+        replicaCertCopy:
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 30m
+              memory: 64Mi
+      dataVolumeClaimSpec:
+        accessModes:
+          - 'ReadWriteOnce'
+        resources:
+          requests:
+            storage: 256Mi
+        storageClassName: netapp-block-standard
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    postgres-operator.crunchydata.com/cluster:  {{ template "ccbc.fullname" . }}
+                    postgres-operator.crunchydata.com/instance-set: hippo-ha
+  users:
+    - name: ccbc
+      databases:
+        - ccbc
+      options: "CREATEROLE"
+    - name: postgres
+      databases:
+        - ccbc
+  backups:
+    pgbackrest:
+      global:
+        repo1-retention-full: '2'
+      # image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.35-0
+      repos:
+        - name: repo1
+          schedules:
+            # Full backup every day at 8:00am UTC
+            full: '0 8 * * *'
+            # Incremental backup every 4 hours, except at 8am UTC (when the full backup is running)
+            incremental: '0 0,4,12,16,20 * * *'
+          volume:
+            volumeClaimSpec:
+              accessModes:
+                - 'ReadWriteOnce'
+              resources:
+                requests:
+                  storage: 64Mi
+              storageClassName: netapp-file-backup
+      # this stuff is for the "pgbackrest" container (the only non-init container) in the "hippo-ha-repo-host" pod
+      repoHost:
+        resources:
+          requests:
+            cpu: 20m
+            memory: 64Mi
+          limits:
+            cpu: 60m
+            memory: 128Mi
+      sidecars:
+        # this stuff is for the "pgbackrest" container in the "hippo-ha-pgha1" set of pods
+        pgbackrest:
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              cpu: 60m
+              memory: 128Mi
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        # these are the hilariously low params I stole from Alec on RC!
+        # these will probably allow your database to start up, but you'll definitely want to tune
+        parameters:
+          shared_buffers: '16MB' # default is 128MB; a good tuned default for shared_buffers is 25% of the memory allocated to the pod
+          wal_buffers: '-1' # automatically set as 1/32 of shared_buffers or 64kB, whichever is larger
+          min_wal_size: '32MB'
+          max_wal_size: '128MB' # default is 1GB
+  proxy:
+    pgBouncer:
+      config:
+        global:
+          client_tls_sslmode: disable
+      # image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:centos8-1.15-3
+      replicas: 2
+      # these resources are for the "pgbouncer" container in the "hippo-ha-pgbouncer" set of pods
+      # there is a sidecar in these pods which are not mentioned here, but the requests/limits are teeny weeny by default so no worries there.
+      resources:
+        requests:
+          cpu: 20m
+          memory: 64Mi
+        limits:
+          cpu: 60m
+          memory: 128Mi
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    postgres-operator.crunchydata.com/cluster: hippo-ha
+                    postgres-operator.crunchydata.com/role: pgbouncer
