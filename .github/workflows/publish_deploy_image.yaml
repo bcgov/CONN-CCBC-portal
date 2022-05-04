@@ -107,44 +107,46 @@ jobs:
           client_secret: ${{ secrets.CLIENT_SECRET }}
           route: ${{ secrets.OPENSHIFT_ROUTE }}
 
-  deploy-to-openshift-test:
-    if: github.event.ref == 'refs/heads/main'
-    # needs: [tests, build-and-push-image]
-    needs: [build-and-push-image]
-    runs-on: ubuntu-latest
-    environment:
-      name: test
-      url: 'https://ccbc-test.apps.silver.devops.gov.bc.ca'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Deploy
-        uses: ./.github/actions/app
-        with:
-          openshift_server_url: ${{ env.OPENSHIFT_SERVER }}
-          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
-          openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
-          openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
-          tag: ${{ env.TAG }}
-          client_secret: ${{ secrets.CLIENT_SECRET }}
-          route: ${{ secrets.OPENSHIFT_ROUTE }}
+  # Uncomment this when test and production namespaces are ready
 
-  deploy-to-openshift-production:
-    needs: [deploy-to-openshift-test]
-    runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: 'https://ccbc.apps.silver.devops.gov.bc.ca'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Deploy
-        uses: ./.github/actions/app
-        with:
-          openshift_server_url: ${{ env.OPENSHIFT_SERVER }}
-          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
-          openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
-          openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
-          tag: ${{ env.TAG }}
-          client_secret: ${{ secrets.CLIENT_SECRET }}
-          route: ${{ secrets.OPENSHIFT_ROUTE }}
+  # deploy-to-openshift-test:
+  #   if: github.event.ref == 'refs/heads/main'
+  #   # needs: [tests, build-and-push-image]
+  #   needs: [build-and-push-image]
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: test
+  #     url: 'https://ccbc-test.apps.silver.devops.gov.bc.ca'
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Deploy
+  #       uses: ./.github/actions/app
+  #       with:
+  #         openshift_server_url: ${{ env.OPENSHIFT_SERVER }}
+  #         openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+  #         openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+  #         openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
+  #         tag: ${{ env.TAG }}
+  #         client_secret: ${{ secrets.CLIENT_SECRET }}
+  #         route: ${{ secrets.OPENSHIFT_ROUTE }}
+
+  # deploy-to-openshift-production:
+  #   needs: [deploy-to-openshift-test]
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: production
+  #     url: 'https://ccbc.apps.silver.devops.gov.bc.ca'
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Deploy
+  #       uses: ./.github/actions/app
+  #       with:
+  #         openshift_server_url: ${{ env.OPENSHIFT_SERVER }}
+  #         openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+  #         openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+  #         openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
+  #         tag: ${{ env.TAG }}
+  #         client_secret: ${{ secrets.CLIENT_SECRET }}
+  #         route: ${{ secrets.OPENSHIFT_ROUTE }}
