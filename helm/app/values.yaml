@@ -6,7 +6,7 @@ image:
   app:
     repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app
     pullPolicy: IfNotPresent
-    tag: '0.5.5' # The tag value must be passed in via the deploy script
+    tag: '0.6.0' # The tag value must be passed in via the deploy script
     clientSecret: '' # clientSecret must be passed in via deploy script
   psql:
     repository: gcr.io/ggl-cas-storage/cas-postgres
@@ -28,18 +28,18 @@ route:
 resources:
   app:
     requests:
-      cpu: '50m'
+      cpu: '40m'
       memory: '128Mi'
     limits:
-      cpu: '150m'
+      cpu: '120m'
       memory: '256Mi'
   psql:
-    limits:
-      cpu: '150m'
-      memory: '64Mi'
     requests:
-      cpu: '50m'
-      memory: '32Mi'
+      cpu: '40m'
+      memory: '128Mi'
+    limits:
+      cpu: '120m'
+      memory: '256Mi'
 
 deployer:
   namespace: 'ff61fb-dev' # The namespace must be passed in via the deploy script

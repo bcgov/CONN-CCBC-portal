@@ -11,7 +11,7 @@ spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
     type: RollingUpdate
-    rollingUpdate: 
+    rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
   template:
@@ -22,11 +22,14 @@ spec:
       initContainers:
         - env:
           - name: PGDATABASE
-            value: hippo-ha
+            value: ccbc
           - name: PGUSER
-            value: hippo-ha
+            value: postgres
           - name: PGPASSWORD
-            value: {{ .Values.db.password }}
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: ccbc-pguser-postgres
           - name: PGUSER_OWNER
             valueFrom:
               secretKeyRef:
@@ -43,12 +46,12 @@ spec:
                 key: database-name
                 name: {{ template "ccbc.fullname" . }}
           - name: PGUSER_APP
-            valueFrom: 
+            valueFrom:
               secretKeyRef:
                 key: database-app-user
                 name: {{ template "ccbc.fullname" . }}
           - name: PGPASSWORD_APP
-            valueFrom: 
+            valueFrom:
               secretKeyRef:
                 key: database-app-password
                 name: {{ template "ccbc.fullname" . }}
@@ -65,7 +68,7 @@ spec:
           - name: PGPORT
             value: "5432"
           - name: PGHOST
-            value: {{ template "ccbc.fullname" . }}-hippo-ha
+            value: ccbc-primary.ff61fb-dev.svc
           name: {{ template "ccbc.fullname" . }}-provision-pg-credentials
           image: {{ .Values.image.psql.repository }}:{{ .Values.image.psql.tag }}
           resources:
@@ -80,38 +83,29 @@ spec:
             - bash
             - -c
             - |
-            - exit
-              # set -euox pipefail;
-              # create-user-db -d $(DATABASE_NAME) -u $(PGUSER_OWNER) -p $(PGPASSWORD_OWNER) --owner;
-              # alter-role $(PGUSER_OWNER) createrole;
-              # create-user-db -d $(DATABASE_NAME) -u $(PGUSER_APP) -p $(PGPASSWORD_APP);
-              # create-user-db -d $(DATABASE_NAME) -u $(PGUSER_READONLY) -p $(PGPASSWORD_READONLY);
-              # psql -d $(DATABASE_NAME) <<EOF
-              #   grant pg_read_all_data to $(PGUSER_READONLY);
-              #   alter role $(PGUSER_READONLY) BYPASSRLS;
-              # EOF
+              set -euox pipefail;
+              create-user-db -d $(DATABASE_NAME) -u $(PGUSER_APP) -p $(PGPASSWORD_APP);
+              create-user-db -d $(DATABASE_NAME) -u $(PGUSER_READONLY) -p $(PGPASSWORD_READONLY);
+              psql -d $(DATABASE_NAME) <<EOF
+                grant pg_read_all_data to $(PGUSER_READONLY);
+                alter role $(PGUSER_READONLY) BYPASSRLS;
+              EOF
         - env:
           - name: SQITCH_TARGET
             value: "db:pg:"
           - name: PGUSER
-            valueFrom: 
-              secretKeyRef:
-                key: database-owner-user
-                name: {{ template "ccbc.fullname" . }}
+            value: {{ template "ccbc.fullname" . }}
           - name: PGPASSWORD
-            valueFrom: 
+            valueFrom:
               secretKeyRef:
-                key: database-owner-password
-                name: {{ template "ccbc.fullname" . }}
+                key: password
+                name: ccbc-pguser-ccbc
           - name: PGDATABASE
-            valueFrom: 
-              secretKeyRef:
-                key: database-name
-                name: {{ template "ccbc.fullname" . }}
+            value: {{ template "ccbc.fullname" . }}
           - name: PGPORT
             value: "5432"
           - name: PGHOST
-            value: {{ template "ccbc.fullname" . }}-hippo-ha
+            value: ccbc-primary.ff61fb-dev.svc
           - name: NAMESPACE
             valueFrom:
               fieldRef:
@@ -133,37 +127,27 @@ spec:
             - -c
             - |
               set -euox pipefail;
-              while [ "$(sqitch status | tail -1)" != "Nothing to deploy (up-to-date)" ]; do
-                sqitch deploy;
-                echo "Waiting 10s for migrations to complete..."
-                sleep 10;
-              done;
+              sqitch deploy;
       containers:
         - name: {{ template "ccbc.fullname" . }}
           image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}
           imagePullPolicy: {{ .Values.image.app.pullPolicy }}
           env:
           - name: PGUSER
-            valueFrom: 
-              secretKeyRef:
-                key: database-app-user
-                name: {{ template "ccbc.fullname" . }}
+            value: {{ template "ccbc.fullname" . }}
           - name: PGPASSWORD
-            valueFrom: 
+            valueFrom:
               secretKeyRef:
-                key: database-app-password
-                name: {{ template "ccbc.fullname" . }}
+                key: password
+                name: ccbc-pguser-ccbc
           - name: PGDATABASE
-            valueFrom: 
-              secretKeyRef:
-                key: database-name
-                name: {{ template "ccbc.fullname" . }}
+            value: {{ template "ccbc.fullname" . }}
           - name: PGPORT
             value: "5432"
           - name: PGHOST
-            value: {{ template "ccbc.fullname" . }}-hippo-ha
+            value: ccbc-primary.ff61fb-dev.svc
           - name: SESSION_SECRET
-            valueFrom: 
+            valueFrom:
               secretKeyRef:
                 key: session-secret
                 name: {{ template "ccbc.fullname" . }}
