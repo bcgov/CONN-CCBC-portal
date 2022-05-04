@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: ghcr.io/bcgov/conn-ccbc-portal/cccbc-app
+          - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app
             context: .
             dockerfile: app/Dockerfile
             name: app
