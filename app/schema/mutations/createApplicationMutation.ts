@@ -1,4 +1,4 @@
-import { relayEnvironment } from '../../lib';
+import { relayEnvironment } from '../../lib/relay';
 
 import { commitMutation, graphql } from 'react-relay';
 const mutation = graphql`
