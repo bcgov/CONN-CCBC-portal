@@ -30,6 +30,10 @@ $ yarn dev
 
 ## Running PGTap database tests locally
 
+#### Install pg_prove:
+
+`sudo cpan TAP::Parser::SourceHandler::pgTAP`
+
 #### Install PGTap:
 
 ```
