@@ -27,3 +27,23 @@ $ cd app
 $ yarn
 $ yarn dev
 ```
+
+## Running PGTap database tests locally
+
+#### Install PGTap:
+
+```
+$ git clone https://github.com/theory/pgtap.git
+$ cd pgtap
+$ git checkout v1.2.0
+$ git branch
+$ make
+$ sudo make install
+$ psql -c 'CREATE EXTENSION pgtap;'
+```
+
+#### Run tests:
+
+In the project root run:
+
+`pg_prove --username postgres --dbname ccbc db/test/*_test.sql`
