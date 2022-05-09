@@ -25,3 +25,5 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
     </div>
   );
 };
+
+export default FieldTemplate;
