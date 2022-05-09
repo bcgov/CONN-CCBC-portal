@@ -8,7 +8,7 @@ env:
 on: push
 
 jobs:
-  jest-tests:
+  testing-jest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -37,7 +37,7 @@ jobs:
         working-directory: ./app
         run: yarn test
 
-  pg-tap-tests:
+  testing-pgtap:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
