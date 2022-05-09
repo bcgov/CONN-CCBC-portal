@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 import StyledGovButton from '../../components/StyledGovButton';
-import { Forms, getHandler } from '../../form-schema';
+// import { Forms, getHandler } from '../../form-schema';
 import schema from '../../formSchema/schema';
 import { applySession } from 'next-session';
 import FormDiv from '../../components/FormDiv';
+import ApplicationForm from '../../components/Form/ApplicationForm';
 
 export default function FormPage({
   formIndex,
@@ -11,7 +12,7 @@ export default function FormPage({
   validPage,
   prevPageUrl,
 }: any) {
-  const Form = Forms[formIndex];
+  // const Form = Forms[formIndex];
   const router = useRouter();
   const onFirstPage = prevPageUrl === -1;
   const currentPage = formIndex + 1;
@@ -29,7 +30,7 @@ export default function FormPage({
     <>
       <FormDiv>
         <h1>Connecting Communities BC</h1>
-        {validPage && (
+        {/* {validPage && (
           <Form formData={formData} rerouteHandler={rerouteHandler}>
             {!onFirstPage && (
               <StyledGovButton
@@ -42,16 +43,21 @@ export default function FormPage({
             )}
             <StyledGovButton variant="primary">Continue</StyledGovButton>
           </Form>
-        )}
+        )} */}
+        <ApplicationForm
+          onSubmit={() => {
+            console.log('Form Submitted');
+          }}
+        ></ApplicationForm>
       </FormDiv>
     </>
   );
 }
 
-export async function getServerSideProps({ req, res }: any) {
-  await applySession(req, res);
-  const { formIndex, formData, validPage, prevPageUrl } = getHandler(req);
-  return {
-    props: { formIndex, formData, validPage, prevPageUrl },
-  };
-}
+// export async function getServerSideProps({ req, res }: any) {
+//   await applySession(req, res);
+//   const { formIndex, formData, validPage, prevPageUrl } = getHandler(req);
+//   return {
+//     props: { formIndex, formData, validPage, prevPageUrl },
+//   };
+// }

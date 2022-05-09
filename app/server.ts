@@ -7,7 +7,7 @@ import express, { Request, Response } from 'express';
 import createServer from './backend/create-server';
 import postgraphileMiddleware from './backend/lib/postgraphile';
 import config from './config.js';
-import { postMiddleware } from './form-schema';
+// import { postMiddleware } from './form-schema';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from './backend/lib/session';
@@ -47,7 +47,7 @@ app.prepare().then(async () => {
 
   server.use(postgraphileMiddleware());
 
-  server.post('/api/:submit', postMiddleware);
+  // server.post('/api/:submit', postMiddleware);
 
   server.all('*', async (req, res) => handle(req, res));
 
