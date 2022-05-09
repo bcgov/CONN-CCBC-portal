@@ -1,11 +1,22 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { createGlobalStyle } from 'styled-components';
+import BCGovTypography from '../components/BCGovTypography';
+
 import { Navigation, Footer } from '@button-inc/bcgov-theme';
 import FooterLinks from '../components/FooterLinks';
 import NavbarLinks from '../components/NavBarLinks';
 import styled from 'styled-components';
 import App from 'next/app';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+`;
 
 const StyledFooter = styled(Footer)`
   position: fixed;
@@ -47,6 +58,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <Navigation header="main" title="Connected Communities BC">
         <NavbarLinks />
       </Navigation>
+      <GlobalStyle />
+      <BCGovTypography />
       <Component {...pageProps} />
       <StyledFooter>
         <FooterLinks />
