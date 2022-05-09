@@ -1,48 +1,48 @@
 const uiSchema = {
   isLegalPrimaryName: {
-    'ui:widget': 'radio',
+    'ui:widget': 'RadioWidget',
   },
   isOperatingNameSame: {
-    'ui:widget': 'radio',
+    'ui:widget': 'RadioWidget',
   },
   typeOfOrganization: {
     'ui:widget': 'checkboxes',
   },
   isIndigenousEntity: {
-    'ui:widget': 'radio',
+    'ui:widget': 'RadioWidget',
   },
   organizationOverview: {
-    'ui:widget': 'textarea',
+    'ui:widget': 'TextAreaWidget',
   },
   isMailingAddress: {
-    'ui:widget': 'radio',
+    'ui:widget': 'RadioWidget',
   },
   isAuthContactSigningOfficer: {
-    'ui:widget': 'radio',
+    'ui:widget': 'RadioWidget',
   },
   isAltContactSigningOfficer: {
-    'ui:widget': 'radio',
+    'ui:widget': 'RadioWidget',
   },
   hasProvidedExitingNetworkCoverage: {
     'ui:widget': 'checkboxes',
   },
   hasPassiveInfrastructure: {
-    'ui:widget': 'radio',
+    'ui:widget': 'RadioWidget',
   },
   isInfrastuctureAvailable: {
-    'ui:widget': 'radio',
+    'ui:widget': 'RadioWidget',
   },
   requiresThirdPartyInfrastructureAccess: {
-    'ui:widget': 'radio',
+    'ui:widget': 'RadioWidget',
   },
   projectSpanMultipleLocations: {
-    'ui:widget': 'radio',
+    'ui:widget': 'RadioWidget',
   },
   projectLocations: {
     'ui:widget': 'checkboxes',
   },
   projectDescription: {
-    'ui:widget': 'textarea',
+    'ui:widget': 'TextAreaWidget',
   },
 };
 

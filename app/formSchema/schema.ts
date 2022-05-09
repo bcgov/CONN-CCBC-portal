@@ -1,3 +1,5 @@
+import type { JSONSchema7 } from 'json-schema';
+
 const schema = {
   type: 'object',
   properties: {
@@ -192,194 +194,194 @@ const schema = {
         },
       },
     },
-    authorizedContact: {
-      title: 'Authorized contact',
-      description: 'Provide the contact information for the authorized contact',
-      type: 'object',
-      properties: {
-        authFamilyName: {
-          title: 'Family name of person who will be the authorized contact',
-          type: 'string',
-        },
-        authGivenName: {
-          title:
-            'Given name of person who will be the authorized contact (optional)',
-          type: 'string',
-        },
-        authPostionTitle: {
-          title: 'Position/title',
-          type: 'string',
-        },
-        authEmail: {
-          title: 'Email',
-          type: 'string',
-        },
-        authTelephone: {
-          title: 'Telephone',
-          type: 'number',
-        },
-        authExtension: {
-          title: 'Extension (optional)',
-          type: 'number',
-        },
-        isAuthContactSigningOfficer: {
-          title:
-            'Is this person an authorized signing officer of the applicant?',
-          type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
-        },
-      },
-    },
-    alternateContact: {
-      title: 'Alternate contact',
-      description: 'Provide the contact information for the alternate contact',
-      type: 'object',
-      properties: {
-        altFamilyName: {
-          title: 'Family name of person who will be the alternate contact',
-          type: 'string',
-        },
-        altGivenName: {
-          title: 'Given name of person who will be the alternate contact',
-          type: 'string',
-        },
-        altPostionTitle: {
-          title: 'Position/title',
-          type: 'string',
-        },
-        altEmail: {
-          title: 'Email',
-          type: 'string',
-        },
-        altTelephone: {
-          title: 'Telephone',
-          type: 'number',
-        },
-        altExtension: {
-          title: 'Extension (optional)',
-          type: 'number',
-        },
-        isAltContactSigningOfficer: {
-          title:
-            'Is this person an authorized signing officer of the applicant?',
-          type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
-        },
-      },
-    },
-    existingNetworkCoverage: {
-      title: 'Existing network coverage',
-      type: 'object',
-      properties: {
-        hasProvidedExitingNetworkCoverage: {
-          title:
-            'Please indicate if you have already provided your existing network and/or coverage information to ISED or the Canadian Radio-television and Telecommunications Commission (CRTC) in the past 12 months, or if you will submit such information to ISED before the close of applications. For more information on how to submit existing network and coverage information, refer to the Universal Broadband Fund (UBF) website.',
-          type: 'array',
-          maxItems: 1,
-          items: {
-            type: 'string',
-            enum: [
-              'I have provided existing network information and/or coverage to ISED or the CRTC in the past 12 months',
-              'I will provide existing network information and/or coverage to ISED by the application deadline',
-              'I do not currently have existing coverage',
-            ],
-          },
-          uniqueItems: true,
-        },
-        hasPassiveInfrastructure: {
-          title:
-            'Does the applicant own passive infrastructure (including, for example, towers, poles, rights of way or other similar assets and infrastructure)?',
-          type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
-        },
-        isInfrastuctureAvailable: {
-          title:
-            'The applicant intends to make reasonable efforts to make its passive infrastructure available for use by other broadband operators to expand and improve coverage in Canada?',
-          type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
-        },
-        requiresThirdPartyInfrastructureAccess: {
-          title:
-            'Does the applicant’s project require access to third party passive infrastructure (including for example, towers, poles, rights of way or other similar assets and infrastructure)?',
-          type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
-        },
-      },
-    },
-    projectInformation: {
-      title: 'Project information',
-      description:
-        'PLEASE NOTE: If the project is approved, the project information herein may be used, in whole or in part, in publicly accessible websites, media releases, or other similar material.',
-      type: 'object',
-      properties: {
-        projectSpanMultipleLocations: {
-          title: 'Does your project span multiple provinces/territories?',
-          type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
-        },
-        projectLocations: {
-          title:
-            'If yes, province or territory location (check all that apply)',
-          type: 'array',
-          items: {
-            type: 'string',
-            enum: [
-              'Alberta',
-              'British Columbia',
-              'Northwest Territories',
-              'Yukon',
-            ],
-          },
-          uniqueItems: true,
-        },
-      },
-    },
-    additionalProjectInformation: {
-      title: 'Project information',
-      type: 'object',
-      properties: {
-        projectTitle: {
-          title: 'Project title',
-          type: 'string',
-        },
-        geographicAreaDescription: {
-          title: 'Geographic project area description',
-          type: 'string',
-        },
-        projectDescription: {
-          title:
-            'Using non-technical language, provide a description of the project, its key elements, objectives, and benefits',
-          type: 'string',
-        },
-      },
-    },
-    budgetDetails: {
-      title: 'Budget details',
-      type: 'object',
-      properties: {
-        totalEligbleCosts: {
-          title: 'Total eligble costs',
-          type: 'number',
-        },
-        totalProjectCost: {
-          title: 'Total project cost',
-          type: 'number',
-        },
-        // desgin shows
-        requestedCCBCFunding: {
-          title:
-            'Amount requested under Connecting Communities British Columbia',
-          type: 'number',
-        },
-      },
-    },
+    // authorizedContact: {
+    //   title: 'Authorized contact',
+    //   description: 'Provide the contact information for the authorized contact',
+    //   type: 'object',
+    //   properties: {
+    //     authFamilyName: {
+    //       title: 'Family name of person who will be the authorized contact',
+    //       type: 'string',
+    //     },
+    //     authGivenName: {
+    //       title:
+    //         'Given name of person who will be the authorized contact (optional)',
+    //       type: 'string',
+    //     },
+    //     authPostionTitle: {
+    //       title: 'Position/title',
+    //       type: 'string',
+    //     },
+    //     authEmail: {
+    //       title: 'Email',
+    //       type: 'string',
+    //     },
+    //     authTelephone: {
+    //       title: 'Telephone',
+    //       type: 'number',
+    //     },
+    //     authExtension: {
+    //       title: 'Extension (optional)',
+    //       type: 'number',
+    //     },
+    //     isAuthContactSigningOfficer: {
+    //       title:
+    //         'Is this person an authorized signing officer of the applicant?',
+    //       type: 'boolean',
+    //       enum: [true, false],
+    //       enumNames: ['Yes', 'No'],
+    //     },
+    //   },
+    // },
+    // alternateContact: {
+    //   title: 'Alternate contact',
+    //   description: 'Provide the contact information for the alternate contact',
+    //   type: 'object',
+    //   properties: {
+    //     altFamilyName: {
+    //       title: 'Family name of person who will be the alternate contact',
+    //       type: 'string',
+    //     },
+    //     altGivenName: {
+    //       title: 'Given name of person who will be the alternate contact',
+    //       type: 'string',
+    //     },
+    //     altPostionTitle: {
+    //       title: 'Position/title',
+    //       type: 'string',
+    //     },
+    //     altEmail: {
+    //       title: 'Email',
+    //       type: 'string',
+    //     },
+    //     altTelephone: {
+    //       title: 'Telephone',
+    //       type: 'number',
+    //     },
+    //     altExtension: {
+    //       title: 'Extension (optional)',
+    //       type: 'number',
+    //     },
+    //     isAltContactSigningOfficer: {
+    //       title:
+    //         'Is this person an authorized signing officer of the applicant?',
+    //       type: 'boolean',
+    //       enum: [true, false],
+    //       enumNames: ['Yes', 'No'],
+    //     },
+    //   },
+    // },
+    // existingNetworkCoverage: {
+    //   title: 'Existing network coverage',
+    //   type: 'object',
+    //   properties: {
+    //     hasProvidedExitingNetworkCoverage: {
+    //       title:
+    //         'Please indicate if you have already provided your existing network and/or coverage information to ISED or the Canadian Radio-television and Telecommunications Commission (CRTC) in the past 12 months, or if you will submit such information to ISED before the close of applications. For more information on how to submit existing network and coverage information, refer to the Universal Broadband Fund (UBF) website.',
+    //       type: 'array',
+    //       maxItems: 1,
+    //       items: {
+    //         type: 'string',
+    //         enum: [
+    //           'I have provided existing network information and/or coverage to ISED or the CRTC in the past 12 months',
+    //           'I will provide existing network information and/or coverage to ISED by the application deadline',
+    //           'I do not currently have existing coverage',
+    //         ],
+    //       },
+    //       uniqueItems: true,
+    //     },
+    //     hasPassiveInfrastructure: {
+    //       title:
+    //         'Does the applicant own passive infrastructure (including, for example, towers, poles, rights of way or other similar assets and infrastructure)?',
+    //       type: 'boolean',
+    //       enum: [true, false],
+    //       enumNames: ['Yes', 'No'],
+    //     },
+    //     isInfrastuctureAvailable: {
+    //       title:
+    //         'The applicant intends to make reasonable efforts to make its passive infrastructure available for use by other broadband operators to expand and improve coverage in Canada?',
+    //       type: 'boolean',
+    //       enum: [true, false],
+    //       enumNames: ['Yes', 'No'],
+    //     },
+    //     requiresThirdPartyInfrastructureAccess: {
+    //       title:
+    //         'Does the applicant’s project require access to third party passive infrastructure (including for example, towers, poles, rights of way or other similar assets and infrastructure)?',
+    //       type: 'boolean',
+    //       enum: [true, false],
+    //       enumNames: ['Yes', 'No'],
+    //     },
+    //   },
+    // },
+    // projectInformation: {
+    //   title: 'Project information',
+    //   description:
+    //     'PLEASE NOTE: If the project is approved, the project information herein may be used, in whole or in part, in publicly accessible websites, media releases, or other similar material.',
+    //   type: 'object',
+    //   properties: {
+    //     projectSpanMultipleLocations: {
+    //       title: 'Does your project span multiple provinces/territories?',
+    //       type: 'boolean',
+    //       enum: [true, false],
+    //       enumNames: ['Yes', 'No'],
+    //     },
+    //     projectLocations: {
+    //       title:
+    //         'If yes, province or territory location (check all that apply)',
+    //       type: 'array',
+    //       items: {
+    //         type: 'string',
+    //         enum: [
+    //           'Alberta',
+    //           'British Columbia',
+    //           'Northwest Territories',
+    //           'Yukon',
+    //         ],
+    //       },
+    //       uniqueItems: true,
+    //     },
+    //   },
+    // },
+    // additionalProjectInformation: {
+    //   title: 'Project information',
+    //   type: 'object',
+    //   properties: {
+    //     projectTitle: {
+    //       title: 'Project title',
+    //       type: 'string',
+    //     },
+    //     geographicAreaDescription: {
+    //       title: 'Geographic project area description',
+    //       type: 'string',
+    //     },
+    //     projectDescription: {
+    //       title:
+    //         'Using non-technical language, provide a description of the project, its key elements, objectives, and benefits',
+    //       type: 'string',
+    //     },
+    //   },
+    // },
+    // budgetDetails: {
+    //   title: 'Budget details',
+    //   type: 'object',
+    //   properties: {
+    //     totalEligbleCosts: {
+    //       title: 'Total eligble costs',
+    //       type: 'number',
+    //     },
+    //     totalProjectCost: {
+    //       title: 'Total project cost',
+    //       type: 'number',
+    //     },
+    //     // desgin shows
+    //     requestedCCBCFunding: {
+    //       title:
+    //         'Amount requested under Connecting Communities British Columbia',
+    //       type: 'number',
+    //     },
+    // },
+    // },
   },
 };
 
-export default schema;
+export default schema as JSONSchema7;
