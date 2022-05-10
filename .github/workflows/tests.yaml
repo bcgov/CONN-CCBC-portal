@@ -5,7 +5,7 @@ env:
   PGUSER: postgres
   PGDATABASE: ccbc
 
-on: push
+on: [workflow_call]
 
 jobs:
   testing-jest:
