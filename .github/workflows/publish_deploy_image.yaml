@@ -82,7 +82,7 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
   tests:
-    uses: ./.github/workflows/pg_test.yaml
+    uses: ./.github/workflows/tests.yaml
 
   deploy-to-openshift-development:
     if: github.event_name == 'pull_request'
