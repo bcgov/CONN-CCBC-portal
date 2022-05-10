@@ -21,7 +21,8 @@
     "**/*.tsx",
     "pages/api/[submit].js",
     "form-schema.ts",
-    ".d.ts"
+    "types.d.ts",
+    "tests/jest.js"
   ],
   "exclude": ["node_modules"]
 }
