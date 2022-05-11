@@ -6,6 +6,7 @@ module.exports = {
     'next/core-web-vitals',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:cypress/recommended',
     'prettier',
   ],
   overrides: [
@@ -14,8 +15,6 @@ module.exports = {
       extends: [
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
-        'prettier/@typescript-eslint',
-        "plugin:react-hooks/recommended",
       ],
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
