@@ -26,38 +26,15 @@ export default function FormPage({
     router.push(`/form${prevPageUrl}`);
   };
 
+  const onSumbit = () => {
+    console.log('Form Submitted');
+  };
+
   return (
     <>
       <FormDiv>
-        <h1>Connecting Communities BC</h1>
-        {/* {validPage && (
-          <Form formData={formData} rerouteHandler={rerouteHandler}>
-            {!onFirstPage && (
-              <StyledGovButton
-                type="button"
-                variant="secondary"
-                onClick={handleBackClick}
-              >
-                Previous
-              </StyledGovButton>
-            )}
-            <StyledGovButton variant="primary">Continue</StyledGovButton>
-          </Form>
-        )} */}
-        <ApplicationForm
-          onSubmit={() => {
-            console.log('Form Submitted');
-          }}
-        ></ApplicationForm>
+        <ApplicationForm onSubmit={onSumbit}></ApplicationForm>
       </FormDiv>
     </>
   );
 }
-
-// export async function getServerSideProps({ req, res }: any) {
-//   await applySession(req, res);
-//   const { formIndex, formData, validPage, prevPageUrl } = getHandler(req);
-//   return {
-//     props: { formIndex, formData, validPage, prevPageUrl },
-//   };
-// }
