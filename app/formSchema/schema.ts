@@ -1,5 +1,3 @@
-import type { JSONSchema7 } from 'json-schema';
-
 const schema = {
   type: 'object',
   properties: {
@@ -31,28 +29,42 @@ const schema = {
         },
         typeOfOrganization: {
           title: 'Type of organization',
-          type: 'array',
+          type: 'boolean',
           maxItems: 1,
-          items: {
-            type: 'string',
-            enum: [
-              'Incorporated company - private of public',
-              'Partnership',
-              'Limited partnership',
-              'Venture/syndicate',
-              'Cooperative',
-              'Educational institution - college',
-              'Eductational institution - university',
-              'Non-profit organization',
-              'Municipality',
-              'Province',
-              'Band Council',
-              'Public body owned by local/regional government',
-              'Provincial crown corporation',
-              'Municipal development corporation',
-              'Other', // 'Other' should be an option to select and have a text input adjacent
-            ],
-          },
+          enum: [
+            'Incorporated company - private of public',
+            'Partnership',
+            'Limited partnership',
+            'Venture/syndicate',
+            'Cooperative',
+            'Educational institution - college',
+            'Eductational institution - university',
+            'Non-profit organization',
+            'Municipality',
+            'Province',
+            'Band Council',
+            'Public body owned by local/regional government',
+            'Provincial crown corporation',
+            'Municipal development corporation',
+            'Other',
+          ],
+          enumNames: [
+            'Incorporated company - private of public',
+            'Partnership',
+            'Limited partnership',
+            'Venture/syndicate',
+            'Cooperative',
+            'Educational institution - college',
+            'Eductational institution - university',
+            'Non-profit organization',
+            'Municipality',
+            'Province',
+            'Band Council',
+            'Public body owned by local/regional government',
+            'Provincial crown corporation',
+            'Municipal development corporation',
+            'Other',
+          ],
           uniqueItems: true,
         },
         bandCouncilNumber: {
@@ -85,115 +97,115 @@ const schema = {
         },
       },
     },
-    organizationLocation: {
-      title: 'Organization location',
-      description: 'Provide an address for your organization',
-      type: 'object',
-      properties: {
-        unitNumber: {
-          title: 'Unit number (optional)',
-          type: 'string',
-        },
-        streetNumber: {
-          title: 'Street number',
-          type: 'string',
-        },
-        streetName: {
-          title: 'Street name',
-          type: 'string',
-        },
-        POBox: {
-          title: 'PO box',
-          type: 'string',
-        },
-        city: {
-          title: 'City',
-          type: 'string',
-        },
-        province: {
-          title: 'Province',
-          type: 'string',
-        },
-        postalCode: {
-          title: 'Postal code (H0H 0H0)',
-          type: 'string',
-        },
-        isMailingAddress: {
-          title: 'Is the mailing address the same as above?',
-          type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
-        },
-        // dependencies: {
-        //   isMailingAddress: {
-        //     oneOf: [
-        //       {
-        //         properties: {
-        //           type: 'object',
-        //           isMailingAddress: {
-        //             enum: ['Yes'],
-        //           },
-        //         },
-        //       },
-        //       {
-        //         properties: {
-        //           type: 'object',
-        //           isMailingAddress: {
-        //             enum: ['No'],
-        //           },
-        //           unitNumber: {
-        //             title: 'Unit number (optional)',
-        //             type: 'string',
-        //           },
-        //           streetNumber: {
-        //             title: 'Street number',
-        //             type: 'string',
-        //           },
-        //           streetName: {
-        //             title: 'Street name',
-        //             type: 'string',
-        //           },
-        //           POBox: {
-        //             title: 'PO box',
-        //             type: 'string',
-        //           },
-        //           city: {
-        //             title: 'City',
-        //             type: 'string',
-        //           },
-        //           province: {
-        //             title: 'Province',
-        //             type: 'string',
-        //           },
-        //         },
-        //       },
-        //     ],
-        //   },
-        // },
-      },
-    },
-    contactInformation: {
-      title: 'Organization contact information',
-      type: 'object',
-      properties: {
-        contactTelephoneNumber: {
-          title: 'Telephone number',
-          type: 'number',
-        },
-        contactExtension: {
-          title: 'Extension',
-          type: 'number',
-        },
-        contactEmail: {
-          title: 'Email',
-          type: 'string',
-        },
-        contactWebsite: {
-          title: 'Website',
-          type: 'string',
-        },
-      },
-    },
+    // organizationLocation: {
+    //   title: 'Organization location',
+    //   description: 'Provide an address for your organization',
+    //   type: 'object',
+    //   properties: {
+    //     unitNumber: {
+    //       title: 'Unit number (optional)',
+    //       type: 'string',
+    //     },
+    //     streetNumber: {
+    //       title: 'Street number',
+    //       type: 'string',
+    //     },
+    //     streetName: {
+    //       title: 'Street name',
+    //       type: 'string',
+    //     },
+    //     POBox: {
+    //       title: 'PO box',
+    //       type: 'string',
+    //     },
+    //     city: {
+    //       title: 'City',
+    //       type: 'string',
+    //     },
+    //     province: {
+    //       title: 'Province',
+    //       type: 'string',
+    //     },
+    //     postalCode: {
+    //       title: 'Postal code (H0H 0H0)',
+    //       type: 'string',
+    //     },
+    //     isMailingAddress: {
+    //       title: 'Is the mailing address the same as above?',
+    //       type: 'boolean',
+    //       enum: [true, false],
+    //       enumNames: ['Yes', 'No'],
+    //     },
+    //     // dependencies: {
+    //     //   isMailingAddress: {
+    //     //     oneOf: [
+    //     //       {
+    //     //         properties: {
+    //     //           type: 'object',
+    //     //           isMailingAddress: {
+    //     //             enum: ['Yes'],
+    //     //           },
+    //     //         },
+    //     //       },
+    //     //       {
+    //     //         properties: {
+    //     //           type: 'object',
+    //     //           isMailingAddress: {
+    //     //             enum: ['No'],
+    //     //           },
+    //     //           unitNumber: {
+    //     //             title: 'Unit number (optional)',
+    //     //             type: 'string',
+    //     //           },
+    //     //           streetNumber: {
+    //     //             title: 'Street number',
+    //     //             type: 'string',
+    //     //           },
+    //     //           streetName: {
+    //     //             title: 'Street name',
+    //     //             type: 'string',
+    //     //           },
+    //     //           POBox: {
+    //     //             title: 'PO box',
+    //     //             type: 'string',
+    //     //           },
+    //     //           city: {
+    //     //             title: 'City',
+    //     //             type: 'string',
+    //     //           },
+    //     //           province: {
+    //     //             title: 'Province',
+    //     //             type: 'string',
+    //     //           },
+    //     //         },
+    //     //       },
+    //     //     ],
+    //     //   },
+    //     // },
+    //   },
+    // },
+    // contactInformation: {
+    //   title: 'Organization contact information',
+    //   type: 'object',
+    //   properties: {
+    //     contactTelephoneNumber: {
+    //       title: 'Telephone number',
+    //       type: 'number',
+    //     },
+    //     contactExtension: {
+    //       title: 'Extension',
+    //       type: 'number',
+    //     },
+    //     contactEmail: {
+    //       title: 'Email',
+    //       type: 'string',
+    //     },
+    //     contactWebsite: {
+    //       title: 'Website',
+    //       type: 'string',
+    //     },
+    //   },
+    // },
     // authorizedContact: {
     //   title: 'Authorized contact',
     //   description: 'Provide the contact information for the authorized contact',
@@ -384,4 +396,4 @@ const schema = {
   },
 };
 
-export default schema as JSONSchema7;
+export default schema;
