@@ -4,6 +4,8 @@ context('Homepage', () => {
   });
 
   it('should start and fill the first page of the form', () => {
+    cy.get('body').happoScreenshot();
+
     cy.get('button').contains('Start Form').click();
 
     // Specifying the type was unnecessary but possibly safer to be more specific
@@ -105,6 +107,8 @@ context('Homepage', () => {
     cy.get(
       'input[name="Applicant business number (9-digit business identifier provided by Canada Revenue Agency)"][type="input"]'
     ).type('test');
+
+    cy.get('body').happoScreenshot();
   });
 
   it('should render the header', () => {
