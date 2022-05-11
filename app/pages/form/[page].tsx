@@ -31,10 +31,8 @@ export default function FormPage({
   };
 
   return (
-    <>
-      <FormDiv>
-        <ApplicationForm onSubmit={onSumbit}></ApplicationForm>
-      </FormDiv>
-    </>
+    <FormDiv>
+      <ApplicationForm onSubmit={onSumbit}></ApplicationForm>
+    </FormDiv>
   );
 }

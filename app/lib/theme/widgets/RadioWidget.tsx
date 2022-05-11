@@ -1,6 +1,11 @@
 // @ts-nocheck
 import { WidgetProps } from '@rjsf/core';
 import RadioButton from '@button-inc/bcgov-theme/RadioButton';
+import styled from 'styled-components';
+
+const StyledRadioButton = styled(RadioButton)`
+  margin: 12px 0;
+`;
 
 const RadioWidget: React.FC<WidgetProps> = ({
   id,
@@ -11,7 +16,6 @@ const RadioWidget: React.FC<WidgetProps> = ({
   options,
 }) => {
   const { enumOptions = [] } = options;
-  console.log(enumOptions);
   const formProps = {
     onChange: (e) => {
       let value = e.target['value'];
@@ -26,7 +30,7 @@ const RadioWidget: React.FC<WidgetProps> = ({
       {enumOptions &&
         enumOptions.map((option) => {
           return (
-            <RadioButton
+            <StyledRadioButton
               key={option.value}
               {...formProps}
               label={option.label}
