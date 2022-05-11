@@ -13,7 +13,7 @@
     "lint": "next lint",
     "relay": "relay-compiler",
     "test": "jest",
-    "test:cypress": "wait-on http://localhost:3000 && cypress run"
+    "test:e2e": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run"
   },
   "dependencies": {
     "@button-inc/bcgov-theme": "^1.0.1",
@@ -62,6 +62,9 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "graphql": "^16.3.0",
+    "happo-cypress": "^3.0.1",
+    "happo-e2e": "^1.1.0",
+    "happo.io": "^7.2.1",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
     "prettier": "^2.6.2",

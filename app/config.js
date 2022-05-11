@@ -59,6 +59,18 @@ const config = convict({
     default: 'ccbc_public',
     env: 'PGSCHEMA',
   },
+  HAPPO_API_KEY: {
+    doc: 'Happo API key',
+    format: String,
+    default: '',
+    env: 'HAPPO_API_KEY',
+  },
+  HAPPO_API_SECRET: {
+    doc: 'Happo API secret',
+    format: String,
+    default: '',
+    env: 'HAPPO_API_SECRET',
+  },
 });
 
 // Load environment dependent configuration

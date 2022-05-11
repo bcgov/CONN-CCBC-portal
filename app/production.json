@@ -7,5 +7,7 @@
   "PGHOST": "localhost",
   "PGPORT": 5432,
   "PGDATABASE": "ccbc",
-  "PGSCHEMA": "ccbc_public"
+  "PGSCHEMA": "ccbc_public",
+  "HAPPO_API_KEY": "",
+  "HAPPO_API_SECRET": ""
 }
