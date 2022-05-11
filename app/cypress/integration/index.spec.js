@@ -106,4 +106,18 @@ context('Homepage', () => {
       'input[name="Applicant business number (9-digit business identifier provided by Canada Revenue Agency)"][type="input"]'
     ).type('test');
   });
+
+  it('should render the header', () => {
+    cy.get('header').contains('Help');
+    cy.get('header').get('.banner').find('svg');
+    cy.get('h1').contains('Connecting Communities BC');
+  });
+
+  it('should render the footer', () => {
+    cy.get('footer').contains('Home');
+    cy.get('footer').contains('Disclaimer');
+    cy.get('footer').contains('Privacy');
+    cy.get('footer').contains('Accessibility');
+    cy.get('footer').contains('Copyright');
+  });
 });
