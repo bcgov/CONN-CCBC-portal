@@ -8,7 +8,7 @@ env:
 on: [workflow_call]
 
 jobs:
-  testing-jest:
+  jest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -37,7 +37,7 @@ jobs:
         working-directory: ./app
         run: yarn test
 
-  testing-pgtap:
+  pgtap:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

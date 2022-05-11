@@ -60,6 +60,7 @@
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.4",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-react-hooks": "^4.5.0",
     "graphql": "^16.3.0",
     "happo-cypress": "^3.0.1",
