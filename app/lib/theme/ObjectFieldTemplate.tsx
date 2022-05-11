@@ -17,11 +17,13 @@ const ObjectFieldTemplate = (props: any) => {
             title={props.title ? props.title : props.uiSchema['ui:title']}
           >
             {props.description && (
-              <DescriptionField
-                id={`${props.idSchema.$id}__description`}
-                description={props.description}
-                formContext={props.formContext}
-              />
+              <h3>
+                <DescriptionField
+                  id={`${props.idSchema.$id}__description`}
+                  description={props.description}
+                  formContext={props.formContext}
+                />
+              </h3>
             )}
             {props.properties.map((prop: any) => prop.content)}
           </FormBorder>

@@ -9,7 +9,7 @@ const FormBorder: React.FC<Props> = ({ title, children }) => {
       <fieldset>
         {title && (
           <legend>
-            <h2>{title}</h2>
+            <h1>{title}</h1>
           </legend>
         )}
         {children}
