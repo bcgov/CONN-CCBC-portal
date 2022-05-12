@@ -38,3 +38,6 @@ development.json
 # yalc
 .yalc
 yalc.lock
+
+# Cypress
+/cypress/screenshots

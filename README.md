@@ -52,12 +52,20 @@ In the project root run:
 
 `pg_prove --username postgres --dbname ccbc db/test/*_test.sql`
 
-## Running Jest and Cypress tests locally
+## Running Jest and end to end tests locally
 
 ## Jest
 
 In `/app` directory run `yarn test`
 
-## Cypress:
+## End to end tests:
 
-todo
+Cypress and Happo is used for end to end testing. A Happo account and API secret + key is required for Happo testing though it is automatically disabled if no keys exist. Happo is free for open source projects.
+
+To run the end to end tests we need to run our development server in one terminal with the command:
+
+`yarn dev`
+
+Once that is running in a second terminal run:
+
+`yarn test:e2e`

@@ -11,6 +11,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   TAG: sha-${{ github.sha }}
   OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+  HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+  HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
 
 jobs:
   build-and-push-image:
@@ -84,9 +86,16 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yaml
 
+  end-to-end:
+    needs: [tests, build-and-push-image]
+    uses: ./.github/workflows/end_to_end.yaml
+    secrets:
+      HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+      HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+
   deploy-to-openshift-development:
     if: github.event_name == 'pull_request'
-    needs: [tests, build-and-push-image]
+    needs: [end-to-end]
     runs-on: ubuntu-latest
     environment:
       name: development

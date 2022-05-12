@@ -1,0 +1,6 @@
+{
+  "video": false,
+  "screenshot": false,
+  "baseUrl": "http://localhost:3000/",
+  "pageLoadTimeout": 100000
+}

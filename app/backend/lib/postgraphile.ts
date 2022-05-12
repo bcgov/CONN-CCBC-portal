@@ -10,7 +10,7 @@ let postgraphileOptions = {
   showErrorStack: true, // setting this to "json" results in a typescript error
   graphiql: true,
   enhanceGraphiql: true,
-  retryOnInitFail: false,
+  retryOnInitFail: true,
   allowExplain: false,
 };
 
