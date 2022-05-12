@@ -10,13 +10,11 @@ interface Props {
 
 const ApplicationForm: React.FC<Props> = (props) => {
   return (
-    <>
-      <FormBase {...props} schema={schema as JSONSchema7} uiSchema={uiSchema}>
-        <StyledGovButton variant="primary" type="submit">
-          Continue
-        </StyledGovButton>
-      </FormBase>
-    </>
+    <FormBase {...props} schema={schema as JSONSchema7} uiSchema={uiSchema}>
+      <StyledGovButton variant="primary" type="submit">
+        Continue
+      </StyledGovButton>
+    </FormBase>
   );
 };
 
