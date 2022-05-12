@@ -1,10 +1,5 @@
 name: Run CCBC end to end tests
 
-env:
-  PGPASSWORD: postgres
-  PGUSER: postgres
-  PGDATABASE: ccbc
-
 on: [workflow_call]
 
 jobs:
@@ -33,8 +28,13 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ./app
-        run: yarn
+        run: |
+          yarn
+          npx -y browserslist@latest --update-db
 
       - name: Run tests
+        env:
+          HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+          HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
         working-directory: ./app
         run: yarn test:e2e
