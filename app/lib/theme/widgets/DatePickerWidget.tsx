@@ -30,7 +30,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
 }) => {
   const [day, setDay] = useState(value ? new Date(value) : undefined);
 
-  const handleChange = (d: SetStateAction<Date | undefined>) => {
+  const handleChange = (d: any) => {
     setDay(d);
     onChange(getDateString(d));
   };
