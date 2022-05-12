@@ -1,8 +1,4 @@
 import { useRouter } from 'next/router';
-import StyledGovButton from '../../components/StyledGovButton';
-// import { Forms, getHandler } from '../../form-schema';
-import schema from '../../formSchema/schema';
-import { applySession } from 'next-session';
 import FormDiv from '../../components/FormDiv';
 import ApplicationForm from '../../components/Form/ApplicationForm';
 
@@ -12,7 +8,6 @@ export default function FormPage({
   validPage,
   prevPageUrl,
 }: any) {
-  // const Form = Forms[formIndex];
   const router = useRouter();
   const onFirstPage = prevPageUrl === -1;
   const currentPage = formIndex + 1;
