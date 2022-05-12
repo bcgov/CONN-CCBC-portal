@@ -1,5 +1,14 @@
 import { WidgetProps } from '@rjsf/core';
 import Textarea from '@button-inc/bcgov-theme/Textarea';
+import styled from 'styled-components';
+
+const StyledTextArea = styled(Textarea)`
+  & textarea {
+    margin: 12px 0;
+    width: 100%;
+    min-height: 10rem;
+  }
+`;
 
 const TextAreaWidget: React.FC<WidgetProps> = ({
   id,
@@ -11,7 +20,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
 }) => {
   return (
     <div>
-      <Textarea
+      <StyledTextArea
         id={id}
         onChange={(e: { target: { value: string } }) =>
           onChange(e.target.value || undefined)
@@ -23,14 +32,6 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         required={required}
         aria-label={label}
       />
-      <style jsx>
-        {`
-          div :global(textarea) {
-            width: 100%;
-            min-height: 10rem;
-          }
-        `}
-      </style>
     </div>
   );
 };

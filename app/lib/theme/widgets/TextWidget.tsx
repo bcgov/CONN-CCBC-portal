@@ -1,6 +1,13 @@
 import { WidgetProps } from '@rjsf/core';
 import Input from '@button-inc/bcgov-theme/Input';
+import styled from 'styled-components';
 
+const StyledInput = styled(Input)`
+  & input {
+    margin: 12px 0;
+    width: 75%;
+  }
+`;
 const TextWidget: React.FC<WidgetProps> = ({
   id,
   placeholder,
@@ -11,7 +18,7 @@ const TextWidget: React.FC<WidgetProps> = ({
 }) => {
   return (
     <div>
-      <Input
+      <StyledInput
         id={id}
         onChange={(e: { target: { value: string } }) =>
           onChange(e.target.value || undefined)
@@ -22,13 +29,6 @@ const TextWidget: React.FC<WidgetProps> = ({
         required={required}
         aria-label={label}
       />
-      <style jsx>
-        {`
-          div :global(.pg-input, .pg-input input) {
-            width: 100%;
-          }
-        `}
-      </style>
     </div>
   );
 };
