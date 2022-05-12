@@ -9,7 +9,7 @@ context('Homepage', () => {
     cy.get('body').happoScreenshot();
 
     cy.get('button').contains('Start Form').click();
-    cy.get('[id="root_organizationProfile_organizationName"]').type('test');
+    cy.get('[id="root_organizationProfile_organizationName').type('test');
 
     // cy.get('input[name="Is this the primary legal name?"][type="radio"]')
     //   .first()
