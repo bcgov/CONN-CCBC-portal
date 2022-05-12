@@ -1,4 +1,3 @@
-import { postMiddleware } from '../../form-schema';
 import { withSession } from 'next-session';
 
 function runMiddleware(req, res, fn) {
