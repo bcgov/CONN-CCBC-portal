@@ -1,5 +1,18 @@
 const schema = {
   type: 'object',
+  required: [
+    'organizationName',
+    'isLegalPrimaryName',
+    'isOperatingNameSame',
+    'operatingNameIfDifferent',
+    'typeOfOrganization',
+    'bandCouncilNumber',
+    'isIndigenousEntity',
+    'indigenousEntityDesc',
+    'organizationOverview',
+    'orgRegistrationDate',
+    'bussinessNumber',
+  ],
   properties: {
     organizationProfile: {
       title: 'Organization Profile',

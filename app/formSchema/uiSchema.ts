@@ -19,7 +19,9 @@ const uiSchema = {
     organizationOverview: {
       'ui:widget': 'TextAreaWidget',
     },
-    orgRegistrationDate: {},
+    orgRegistrationDate: {
+      'ui:widget': 'DatePickerWidget',
+    },
     bussinessNumber: {},
   },
 };
