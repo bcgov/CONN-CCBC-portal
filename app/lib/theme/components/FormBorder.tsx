@@ -6,7 +6,7 @@ interface Props {
 const FormBorder: React.FC<Props> = ({ title, children }) => {
   return (
     <>
-      <fieldset>
+      <fieldset className="formFieldset">
         {title && (
           <legend>
             <h1>{title}</h1>
@@ -14,17 +14,6 @@ const FormBorder: React.FC<Props> = ({ title, children }) => {
         )}
         {children}
       </fieldset>
-      <style jsx>
-        {`
-          fieldset > legend {
-            // margin: 0 1em;
-            // padding: 0 1em;
-          }
-          fieldset {
-            border: none;
-          }
-        `}
-      </style>
     </>
   );
 };

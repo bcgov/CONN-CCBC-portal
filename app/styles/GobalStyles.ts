@@ -13,6 +13,9 @@ const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
+  .formFieldset {
+    border: none;
+  }
 `;
 
 export default GlobalStyle;
