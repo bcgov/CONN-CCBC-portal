@@ -1,23 +1,23 @@
 const schema = {
   type: 'object',
-  required: [
-    'organizationName',
-    'isLegalPrimaryName',
-    'isOperatingNameSame',
-    'operatingNameIfDifferent',
-    'typeOfOrganization',
-    'bandCouncilNumber',
-    'isIndigenousEntity',
-    'indigenousEntityDesc',
-    'organizationOverview',
-    'orgRegistrationDate',
-    'bussinessNumber',
-  ],
   properties: {
     organizationProfile: {
       title: 'Organization Profile',
       description: 'Provide an overview of you organization',
       type: 'object',
+      required: [
+        'organizationName',
+        'isLegalPrimaryName',
+        'isOperatingNameSame',
+        'operatingNameIfDifferent',
+        'typeOfOrganization',
+        'bandCouncilNumber',
+        'isIndigenousEntity',
+        'indigenousEntityDesc',
+        'organizationOverview',
+        'orgRegistrationDate',
+        'bussinessNumber',
+      ],
       properties: {
         organizationName: {
           title: 'Organization name (legal name)',
