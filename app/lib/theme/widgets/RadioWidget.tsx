@@ -8,9 +8,7 @@ const StyledRadioButton = styled(RadioButton)`
 `;
 
 const RadioWidget: React.FC<WidgetProps> = ({
-  id,
   onChange,
-  label,
   value,
   required,
   options,
