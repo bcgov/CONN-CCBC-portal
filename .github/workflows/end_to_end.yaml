@@ -1,10 +1,21 @@
 name: Run CCBC end to end tests
 
-on: [workflow_call]
+on:
+  workflow_call:
+    secrets:
+      HAPPO_API_KEY:
+        required: true
+      HAPPO_API_SECRET:
+        required: true
+env:
+  HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+  HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
 
 jobs:
   run-tests:
     runs-on: ubuntu-latest
+    environment:
+      name: development
     steps:
       - uses: actions/checkout@v2
       - name: run docker image
@@ -25,16 +36,13 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-
       - name: Install Dependencies
         working-directory: ./app
-        run: |
-          yarn
-          npx -y browserslist@latest --update-db
-
+        run: yarn
       - name: Run tests
-        env:
-          HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
-          HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+        shell: bash
+        run: |
+          echo 'Happo api key: ${{ inputs.HAPPO_API_KEY }}'
+          echo 'Happo api secret:' ${{ inputs.HAPPO_API_SECRET }}
+          yarn test:e2e
         working-directory: ./app
-        run: yarn test:e2e
