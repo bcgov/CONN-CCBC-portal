@@ -22,6 +22,7 @@ const FormBase: React.ForwardRefRenderFunction<any, FormPropsWithTheme<any>> = (
   return (
     <Form
       {...props}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       ref={ref}
       customFormats={customFormats}
