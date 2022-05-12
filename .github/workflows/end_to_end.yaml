@@ -41,8 +41,5 @@ jobs:
         run: yarn
       - name: Run tests
         shell: bash
-        run: |
-          echo 'Happo api key: ${{ inputs.HAPPO_API_KEY }}'
-          echo 'Happo api secret:' ${{ inputs.HAPPO_API_SECRET }}
-          yarn test:e2e
+        run: yarn test:e2e
         working-directory: ./app
