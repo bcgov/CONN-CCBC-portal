@@ -1,5 +1,5 @@
 import TextAreaWidget from '../../../lib/theme/widgets/TextAreaWidget';
-
+// please provide feedback on this test setup
 describe.skip('TextareaWidget', () => {
   xit('simple with errors', () => {});
   xit('simple without errors', () => {});
