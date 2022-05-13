@@ -25,5 +25,5 @@
     "types.d.ts",
     "tests/jest.js"
   ],
-  "exclude": ["node_modules", "build", "dist", "src/**/*.js", "src/**/*.jsx"]
+  "exclude": ["node_modules", "build", "dist", "*.js", "*.jsx", "config.js"]
 }

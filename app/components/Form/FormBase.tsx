@@ -8,13 +8,13 @@ import {
 } from '../../data/jsonSchemaForm/customFormats';
 
 interface FormPropsWithTheme<T> extends FormProps<T> {
-  theme?: any;
+  theme?: object;
 }
 
-const FormBase: React.ForwardRefRenderFunction<any, FormPropsWithTheme<any>> = (
-  props,
-  ref
-) => {
+const FormBase: React.ForwardRefRenderFunction<
+  object,
+  FormPropsWithTheme<object>
+> = (props, ref) => {
   const Form = withTheme(formTheme);
   const transformErrors = (errors: AjvError[]) => {
     return customTransformErrors(errors, customFormatsErrorMessages);

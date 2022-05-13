@@ -3,11 +3,16 @@ import FormDiv from '../../components/FormDiv';
 import ApplicationForm from '../../components/Form/ApplicationForm';
 
 export default function FormPage({
+  // formData,
+  // validPage,
   formIndex,
-  formData,
-  validPage,
   prevPageUrl,
-}: any) {
+}: {
+  formData: string;
+  formIndex: number;
+  prevPageUrl: number;
+  validPage: boolean;
+}) {
   const router = useRouter();
   const onFirstPage = prevPageUrl === -1;
   const currentPage = formIndex + 1;
@@ -21,13 +26,13 @@ export default function FormPage({
     router.push(`/form${prevPageUrl}`);
   };
 
-  const onSumbit = () => {
+  const onSumbit = (e: React.FormEvent<HTMLInputElement>) => {
     console.log('Form Submitted');
   };
 
   return (
     <FormDiv>
-      <ApplicationForm onSubmit={onSumbit}></ApplicationForm>
+      <ApplicationForm onSubmit={() => onSumbit}></ApplicationForm>
     </FormDiv>
   );
 }
