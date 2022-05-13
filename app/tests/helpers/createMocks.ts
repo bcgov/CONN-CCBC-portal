@@ -1,1 +1,41 @@
-// create mocks to pass to components
+import { WidgetProps } from '@rjsf/core';
+import { JSONSchema7 } from 'json-schema';
+
+export const mockSchema: JSONSchema7 = {
+  type: 'object',
+  items: {
+    type: 'string',
+  },
+};
+
+export const mockEventHandlers = (): void => void 0;
+
+export function makeWidgetProps(props: Partial<WidgetProps> = {}): WidgetProps {
+  return {
+    uiSchema: {},
+    schema: mockSchema,
+    required: true,
+    disabled: true,
+    readonly: true,
+    autofocus: true,
+    label: 'Simple label',
+    onChange: mockEventHandlers,
+    onBlur: mockEventHandlers,
+    onFocus: mockEventHandlers,
+    multiple: false,
+    rawErrors: [''],
+    value: 'value',
+    options: {},
+    formContext: {},
+    id: '_id',
+    placeholder: '',
+    registry: {
+      fields: {},
+      widgets: {},
+      formContext: {},
+      definitions: {},
+      rootSchema: {},
+    },
+    ...props,
+  };
+}
