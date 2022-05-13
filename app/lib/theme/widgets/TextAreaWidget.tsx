@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const StyledTextArea = styled(Textarea)`
   & textarea {
     margin: 12px 0;
-    width: 100%;
+    width: ${(props) => props.theme.width.inputWidthFull};
     min-height: 10rem;
   }
 `;
@@ -27,7 +27,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         }
         placeholder={placeholder}
         value={value || ''}
-        size={'medium'}
+        size={'large'}
         resize="vertical"
         required={required}
         aria-label={label}
