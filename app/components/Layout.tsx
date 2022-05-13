@@ -10,6 +10,11 @@ const StyledFooter = styled(Footer)`
   width: 100%;
 `;
 
+const StyledMain = styled.main`
+  margin: 0 auto;
+  max-width: ${(props) => props.theme.width.pageMaxWidth};
+`;
+
 type Props = {
   title: string;
   children: JSX.Element | JSX.Element[] | string | string[];
@@ -49,7 +54,7 @@ const Layout: React.FC<Props> = ({ title, children }) => {
       <Navigation header="main" title={title}>
         <NavBarLinks />
       </Navigation>
-      {children}
+      <StyledMain>{children}</StyledMain>
       <StyledFooter>
         <FooterLinks />
       </StyledFooter>
