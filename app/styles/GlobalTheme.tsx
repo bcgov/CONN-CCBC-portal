@@ -9,6 +9,18 @@ const theme = {
     inputWidthFull: '100%',
     pageMaxWidth: '1280px',
   },
+  color: {
+    // https://developer.gov.bc.ca/Design-System/Colour-Palette
+    backgroundBlue: '#3F5986',
+    backgroundGrey: '#F2F2F2',
+    components: '#606060',
+    error: '#D8292F',
+    links: '#1A5A96',
+    primaryBlue: '#113362',
+    primaryYellow: '#FCBA19',
+    success: '#2E8540',
+    text: '#313132',
+  },
 };
 
 type Props = {
