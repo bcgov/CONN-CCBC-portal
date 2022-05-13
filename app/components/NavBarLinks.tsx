@@ -8,14 +8,12 @@ const StyledLi = styled.li`
 
 export default function NavbarLinks() {
   return (
-    <>
-      <ul>
-        <StyledLi>
-          <Link href="mailto:connectingcommunitiesbc@gov.bc.ca">
-            <a>Help</a>
-          </Link>
-        </StyledLi>
-      </ul>
-    </>
+    <ul>
+      <StyledLi>
+        <Link href="mailto:connectingcommunitiesbc@gov.bc.ca">
+          <a>Help</a>
+        </Link>
+      </StyledLi>
+    </ul>
   );
 }

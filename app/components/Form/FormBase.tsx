@@ -31,7 +31,7 @@ const FormBase: React.ForwardRefRenderFunction<any, FormPropsWithTheme<any>> = (
       omitExtraData
       showErrorList={false}
       tagName={props.tagName}
-    ></Form>
+    />
   );
 };
 
