@@ -10,6 +10,7 @@ import {
 interface FormPropsWithTheme<T> extends FormProps<T> {
   theme?: object;
   onSubmit: any;
+  formData: any;
 }
 
 const FormBase: React.ForwardRefRenderFunction<
@@ -27,6 +28,7 @@ const FormBase: React.ForwardRefRenderFunction<
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       ref={ref}
+      formData={JSON.parse(props.formData)}
       customFormats={customFormats}
       transformErrors={transformErrors}
       noHtml5Validate

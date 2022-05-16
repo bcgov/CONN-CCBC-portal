@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import FormDiv from '../../components/FormDiv';
 import ApplicationForm from '../../components/Form/ApplicationForm';
 import { updateApplicationMutation } from '../../schema/mutations';
+import { getApplicationByOwnerQuery } from '../../schema/queries';
+
+import { useLazyLoadQuery } from 'react-relay';
 
 export default function FormPage({
   // formData,
@@ -16,6 +18,11 @@ export default function FormPage({
   validPage: boolean;
 }) {
   const router = useRouter();
+
+  const application: any = useLazyLoadQuery(getApplicationByOwnerQuery, {
+    owner: '74d2515660e6444ca177a96e67ecfc5f',
+  });
+
   // const onFirstPage = prevPageUrl === -1;
   // const currentPage = formIndex + 1;
 
@@ -38,9 +45,12 @@ export default function FormPage({
       router.push('/form/success');
     });
   };
+
+  const formData = application?.applicationByOwner?.formData;
+
   return (
     <FormDiv>
-      <ApplicationForm onSubmit={onSubmit}></ApplicationForm>
+      <ApplicationForm formData={formData} onSubmit={onSubmit} />
     </FormDiv>
   );
 }

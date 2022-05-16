@@ -6,16 +6,12 @@ import type { JSONSchema7 } from 'json-schema';
 
 interface Props {
   onSubmit: any;
+  formData: any;
 }
 
 const ApplicationForm: React.FC<Props> = (props) => {
   return (
-    <FormBase
-      {...props}
-      // onSubmit={props.onSubmit}
-      schema={schema as JSONSchema7}
-      uiSchema={uiSchema}
-    >
+    <FormBase {...props} schema={schema as JSONSchema7} uiSchema={uiSchema}>
       <StyledGovButton variant="primary" type="submit">
         Continue
       </StyledGovButton>
