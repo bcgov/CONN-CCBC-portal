@@ -1,6 +1,6 @@
 ---
 name: Developer Help Request Template
-about: Default developer help request template template
+about: Default developer help request template
 title: ''
 labels: ''
 assignees: ''
