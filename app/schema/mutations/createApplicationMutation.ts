@@ -17,7 +17,6 @@ const createApplicationMutation = (owner: string) => {
       },
     },
   };
-
   commitMutation(relayEnvironment, {
     mutation,
     variables,
