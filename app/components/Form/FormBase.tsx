@@ -9,6 +9,7 @@ import {
 
 interface FormPropsWithTheme<T> extends FormProps<T> {
   theme?: object;
+  onSubmit: any;
 }
 
 const FormBase: React.ForwardRefRenderFunction<
@@ -19,6 +20,7 @@ const FormBase: React.ForwardRefRenderFunction<
   const transformErrors = (errors: AjvError[]) => {
     return customTransformErrors(errors, customFormatsErrorMessages);
   };
+
   return (
     <Form
       {...props}
