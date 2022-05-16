@@ -4,28 +4,16 @@ import { commitMutation, graphql } from 'react-relay';
 const mutation = graphql`
   mutation createApplicationMutation($input: CreateApplicationInput!) {
     createApplication(input: $input) {
-      application {
-        formData
-        owner
-        referenceNumber
-        status
-      }
+      clientMutationId
     }
   }
 `;
 
-const createApplicationMutation = (applicationData: {
-  formData: string;
-  referenceNumber: number;
-  status: string;
-}) => {
-  const { formData, referenceNumber, status } = applicationData;
+const createApplicationMutation = (owner: string) => {
   const variables = {
     input: {
       application: {
-        formData,
-        referenceNumber: `${referenceNumber}`,
-        status,
+        owner: owner,
       },
     },
   };
@@ -35,6 +23,9 @@ const createApplicationMutation = (applicationData: {
     variables,
     onError: () => {
       return console.log('CreateApplicationMutation failed');
+    },
+    onCompleted: (response) => {
+      console.log(response);
     },
   });
 };

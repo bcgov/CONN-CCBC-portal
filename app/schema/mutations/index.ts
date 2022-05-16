@@ -1,1 +1,1 @@
-export { default as CreateApplicationMutation } from './createApplicationMutation';
+export { default as createApplicationMutation } from './createApplicationMutation';
