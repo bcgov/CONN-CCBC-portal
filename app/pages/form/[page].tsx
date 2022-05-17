@@ -36,7 +36,6 @@ export default function FormPage({
   // };
 
   const onSubmit = async ({ formData = [] }) => {
-    console.log(formData);
     await updateApplicationMutation({
       owner: '74d2515660e6444ca177a96e67ecfc5f',
       formData: JSON.stringify(formData),
