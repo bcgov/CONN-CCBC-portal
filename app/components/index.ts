@@ -4,3 +4,4 @@ export { default as FormDiv } from './FormDiv';
 export { default as Layout } from './Layout';
 export { default as NavBarLinks } from './NavBarLinks';
 export { default as StyledGovButton } from './StyledGovButton';
+export { default as Navigation } from './Navigation';
