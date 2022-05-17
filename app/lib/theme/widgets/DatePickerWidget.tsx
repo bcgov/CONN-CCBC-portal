@@ -10,7 +10,7 @@ const StyledDatePicker = styled(DatePicker)`
   border: 2px solid #606060;
   border-radius: 0.25rem;
   padding: 0.5rem 0.6rem;
-  width: 75%;
+  width: ${(props) => props.theme.width.inputWidthMid};
 `;
 
 function getDateString(date: SetStateAction<Date | undefined>) {
@@ -30,7 +30,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
 }) => {
   const [day, setDay] = useState(value ? new Date(value) : undefined);
 
-  const handleChange = (d: any) => {
+  const handleChange = (d: Date) => {
     setDay(d);
     onChange(getDateString(d));
   };
@@ -44,21 +44,20 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   };
 
   return (
-    <div>
-      <StyledDatePicker
-        disabled={disabled}
-        readOnly={readonly}
-        className="form-control"
-        selected={day}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        dateFormat="yyyy-MM-dd"
-        placeholderText="YYYY-MM-DD"
-        showMonthDropdown
-        showYearDropdown
-      />
-    </div>
+    <StyledDatePicker
+      id={id}
+      disabled={disabled}
+      readOnly={readonly}
+      className="form-control"
+      selected={day}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
+      dateFormat="yyyy-MM-dd"
+      placeholderText="YYYY-MM-DD"
+      showMonthDropdown
+      showYearDropdown
+    />
   );
 };
 

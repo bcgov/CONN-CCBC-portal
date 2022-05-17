@@ -8,86 +8,112 @@ context('Homepage', () => {
   it('should start and fill the first page of the form', () => {
     cy.get('body').happoScreenshot();
 
-    cy.get('button').contains('Start Form').click();
-    cy.get('[id="root_organizationProfile_organizationName').type('test');
+    cy.get('button').contains('Start Form');
 
-    // cy.get('input[name="Is this the primary legal name?"][type="radio"]')
-    //   .first()
-    //   .parent()
-    //   .click();
+    // cy.visit('/form/1');
 
-    // cy.get('input[name="Is operating name same as legal name?"][type="radio"]')
-    //   .first()
-    //   .parent()
-    //   .click();
+    // cy.url().should('include', '/form/1');
 
-    cy.get('[id="root_organizationProfile_operatingNameIfDifferent"]').type(
-      'test'
-    );
+    // cy.get('[id="root_organizationProfile_organizationName').type('test');
 
-    // Type of organization checkbox group
-    // cy.get('input[name="root_typeOfOrganization_0-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_1-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_2-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_3-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_4-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_5-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_6-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_7-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_8-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_9-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_10-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_11-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_12-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_13-checkbox"][type="checkbox"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_typeOfOrganization_14-checkbox"][type="checkbox"]')
+    // cy.get('input[name="root_organizationProfile_isLegalPrimaryName-0-radio"]')
     //   .parent()
     //   .click();
 
-    cy.get('[id="root_organizationProfile_bandCouncilNumber"]').type('test');
-
-    // cy.get(
-    //   'input[name="Is this applicant organization an Idigenous entity?"][type="radio"]'
-    // )
-    //   .first()
+    // cy.get('input[name="root_organizationProfile_isLegalPrimaryName-1-radio"]')
     //   .parent()
     //   .click();
 
-    cy.get('[id="root_organizationProfile_indigenousEntityDesc"]').type('test');
+    // cy.get('input[name="root_organizationProfile_isOperatingNameSame-0-radio"]')
+    //   .parent()
+    //   .click();
 
-    cy.get('[id="root_organizationProfile_organizationOverview"]').type('test');
+    // cy.get('input[name="root_organizationProfile_isOperatingNameSame-1-radio"]')
+    //   .parent()
+    //   .click();
 
-    cy.get('[id="root_organizationProfile_bussinessNumber"]').type('test');
+    // cy.get('[id="root_organizationProfile_operatingNameIfDifferent"]').type(
+    //   'test'
+    // );
 
-    cy.get('body').happoScreenshot();
+    // // Type of organization radio group
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-0-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-1-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-2-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-3-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-4-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-5-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-6-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-7-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-8-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-9-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-10-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-11-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-12-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-13-radio"]')
+    //   .parent()
+    //   .click();
+    // cy.get('input[name="root_organizationProfile_typeOfOrganization-14-radio"]')
+    //   .parent()
+    //   .click();
+
+    // cy.get('[id="root_organizationProfile_bandCouncilNumber"]').type(
+    //   '0123456789'
+    // );
+
+    // cy.get('input[name="root_organizationProfile_isIndigenousEntity-0-radio"]')
+    //   .parent()
+    //   .click();
+
+    // cy.get('input[name="root_organizationProfile_isIndigenousEntity-1-radio"]')
+    //   .parent()
+    //   .click();
+
+    // cy.get('[id="root_organizationProfile_indigenousEntityDesc"]').type('test');
+
+    // cy.get('[id="root_organizationProfile_organizationOverview"]').type('test');
+
+    // cy.get('[id="root_organizationProfile_orgRegistrationDate"]').type(
+    //   '2022-05-22'
+    // );
+
+    // cy.get('[id="root_organizationProfile_bussinessNumber"]').type(
+    //   '0123456789'
+    // );
+
+    // cy.get('body').happoScreenshot();
+
+    // cy.get('button').contains('Complete application').click();
+
+    // cy.url().should('include', '/form/success');
+
+    // cy.get('body').happoScreenshot();
   });
 
   it('should render the header', () => {

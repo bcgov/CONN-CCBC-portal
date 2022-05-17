@@ -19,11 +19,7 @@ const FieldLabel: React.FC<Props> = ({
   if (tagName === 'label')
     return <label htmlFor={htmlFor}>{displayedLabel}</label>;
 
-  return (
-    <>
-      <dt>{displayedLabel}</dt>
-    </>
-  );
+  return <dt>{displayedLabel}</dt>;
 };
 
 export default FieldLabel;

@@ -42,7 +42,7 @@ const schema = {
         },
         typeOfOrganization: {
           title: 'Type of organization',
-          type: 'boolean',
+          type: 'string',
           maxItems: 1,
           enum: [
             'Incorporated company - private of public',
