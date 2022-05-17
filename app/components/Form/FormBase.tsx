@@ -22,13 +22,14 @@ const FormBase: React.ForwardRefRenderFunction<
     return customTransformErrors(errors, customFormatsErrorMessages);
   };
 
+  const isSavedForm = Object.keys(props.formData).length;
   return (
     <Form
       {...props}
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       ref={ref}
-      formData={JSON.parse(props.formData)}
+      formData={isSavedForm && JSON.parse(props.formData)}
       customFormats={customFormats}
       transformErrors={transformErrors}
       noHtml5Validate
