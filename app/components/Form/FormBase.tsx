@@ -22,7 +22,9 @@ const FormBase: React.ForwardRefRenderFunction<
     return customTransformErrors(errors, customFormatsErrorMessages);
   };
 
-  const isSavedForm = Object.keys(props.formData).length;
+  const isSavedForm = props.formData
+    ? Object.keys(props.formData).length
+    : false;
   return (
     <Form
       {...props}
