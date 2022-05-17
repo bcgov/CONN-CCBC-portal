@@ -107,11 +107,11 @@ context('Homepage', () => {
 
     cy.get('body').happoScreenshot();
 
-    cy.get('button').contains('Complete application').click();
+    // cy.get('button').contains('Complete application').click();
 
     // cy.url().should('include', '/form/success');
 
-    cy.get('body').happoScreenshot();
+    // cy.get('body').happoScreenshot();
   });
 
   it('should render the header', () => {
