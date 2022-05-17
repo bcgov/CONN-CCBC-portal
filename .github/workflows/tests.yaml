@@ -63,6 +63,7 @@ jobs:
           asdf reshim
           pg_ctl start
           createdb ${{ env.PGDATABASE }} || true
+          sqitch rebase -y
           sqitch deploy
         working-directory: ./db
       - name: Install pg_prove
