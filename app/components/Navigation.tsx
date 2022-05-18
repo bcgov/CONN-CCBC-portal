@@ -1,10 +1,9 @@
 import { BaseNavigation } from '@button-inc/bcgov-theme/Navigation';
 import { BaseHeader } from '@button-inc/bcgov-theme/Header';
-import { SubHeader } from '.';
+import { SubHeader, LoginForm } from '.';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
-import { LoginForm } from './LoginForm';
 
 const StyledMainTitle = styled(BaseHeader.Item)`
   font-weight: normal;

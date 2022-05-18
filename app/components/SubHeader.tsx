@@ -1,5 +1,5 @@
 import { BaseHeader } from '@button-inc/bcgov-theme/Header';
-import { SubHeaderNavbarLinks } from './NavbarLinks';
+import { SubHeaderNavbarLinks } from '.';
 
 const SubHeader: React.FC = () => {
   return (
