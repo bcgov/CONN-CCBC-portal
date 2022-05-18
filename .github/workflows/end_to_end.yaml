@@ -19,6 +19,31 @@ jobs:
       - name: run docker image
         run: docker run -d -p 3000:3000 ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
       - uses: actions/checkout@v2
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
+      - name: Cache asdf Postgres
+        uses: actions/cache@v2
+        env:
+          cache-name: asdf-postgres-cache
+        with:
+          path: |
+            /home/runner/.asdf
+          key: ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}
+      - name: Setup Postgres DB
+        run: |
+          sudo apt-get update
+          sudo apt-get install -yqq sqitch libdbd-pg-perl postgresql-client
+          asdf plugin-add postgres || true
+          asdf plugin-update --all
+          asdf install postgres 14.1
+          asdf reshim
+          pg_ctl start
+          createdb ${{ env.PGDATABASE }} || true
+          sqitch rebase -y
+          sqitch deploy
+        working-directory: ./db
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
