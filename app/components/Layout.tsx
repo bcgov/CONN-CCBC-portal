@@ -51,7 +51,7 @@ const Layout: React.FC<Props> = ({ title, children }) => {
         <link rel="mask-icon" href="/icons/bcid-apple-icon.svg" color="#036" />
         <link rel="icon" href="/icons/bcid-favicon-32x32.png" />
       </Head>
-      <Navigation title={title}/>
+      <Navigation />
       <StyledMain>{children}</StyledMain>
       <StyledFooter>
         <FooterLinks />
