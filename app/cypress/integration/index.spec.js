@@ -118,8 +118,9 @@ context('Homepage', () => {
 
   it('should render the header', () => {
     cy.get('header').contains('Help');
-    cy.get('header').get('.banner').find('svg');
-    cy.get('h1').contains('Connecting Communities BC');
+    cy.get('header').get('.banner').find('img');
+    cy.get('.pg-menu-group').find('a').contains('Dashboard');
+    cy.get('.pg-menu-group').find('form').get('button').contains('Login');
   });
 
   it('should render the footer', () => {
