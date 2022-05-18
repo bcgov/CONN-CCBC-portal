@@ -1,39 +1,66 @@
 import { BaseNavigation } from '@button-inc/bcgov-theme/Navigation';
 import { BaseHeader } from '@button-inc/bcgov-theme/Header';
+import { SubHeader } from '.';
+import Link from 'next/link';
 import Image from 'next/image';
+import styled from 'styled-components';
+import { LoginForm } from './LoginForm';
+
+const StyledMainTitle = styled(BaseHeader.Item)`
+  font-weight: normal;
+  margin-top: 10px;
+`;
+
+const StyledRightSideLinks = styled(BaseHeader.Group)`
+  margin-left: auto;
+  margin-bottom: auto;
+  margin-top: auto;
+`;
+
+const StyledAnchor = styled.a`
+  color: white;
+  margin: 0 10px 0 0;
+  font-size: 0.8em;
+  align-self: center;
+`;
 
 interface Props {
   isLoggedIn?: boolean;
   title?: string;
 }
 
-const Navigation: React.FC<Props> = ({
-  isLoggedIn = false,
-  title = 'Connected Communities BC',
-}) => {
-  const rightSide = isLoggedIn ? (
-    <div>Log out | Dashboard</div>
-  ) : (
-    <div>Log out | Dashboard</div>
-  );
-
+const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   return (
     <BaseNavigation>
       <BaseHeader>
         <BaseHeader.Group className="banner">
-          <a href="/">
-            <Image
-              priority
-              src="/icons/BCID_CC_RGB_rev.svg"
-              alt="Logo for Province of British Columbia Connected Communities"
-              height={100}
-              width={300}
-            />
-          </a>
+          <Link passHref href="/">
+            <a>
+              <Image
+                priority
+                src="/icons/BCID_CC_RGB_rev.svg"
+                alt="Logo for Province of British Columbia Connected Communities"
+                height={100}
+                width={300}
+              />
+            </a>
+          </Link>
         </BaseHeader.Group>
-        <BaseHeader.Item>{title}</BaseHeader.Item>
-        <BaseHeader.Group>{rightSide}</BaseHeader.Group>
+        <StyledMainTitle>
+          <h1>{title}</h1>
+        </StyledMainTitle>
+        <StyledRightSideLinks>
+          <Link passHref href="/dashboard">
+            <StyledAnchor>Dashboard</StyledAnchor>
+          </Link>{' '}
+          |
+          <LoginForm
+            action={isLoggedIn ? '/logout' : '/login'}
+            linkText={isLoggedIn ? 'Logout' : 'Login'}
+          />
+        </StyledRightSideLinks>
       </BaseHeader>
+      <SubHeader />
     </BaseNavigation>
   );
 };
