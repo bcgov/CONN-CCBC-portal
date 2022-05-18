@@ -13,6 +13,9 @@ const StyledButton = styled.button`
 
 const StyledForm = styled.form`
   margin: 0 0 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 type Props = {
@@ -20,10 +23,12 @@ type Props = {
   action: '/login' | '/logout';
 };
 
-export const LoginForm: React.FC<Props> = ({ linkText, action }) => {
+const LoginForm: React.FC<Props> = ({ linkText, action }) => {
   return (
     <StyledForm action={action} method="POST">
       <StyledButton type="submit">{linkText}</StyledButton>
     </StyledForm>
   );
 };
+
+export default LoginForm;
