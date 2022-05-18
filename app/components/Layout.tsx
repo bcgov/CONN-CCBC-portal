@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import { Navigation, Footer } from '@button-inc/bcgov-theme';
-import { FooterLinks, NavBarLinks } from '.';
+import { Footer } from '@button-inc/bcgov-theme';
+import { FooterLinks, Navigation } from '.';
 
 import styled from 'styled-components';
 
@@ -51,9 +51,7 @@ const Layout: React.FC<Props> = ({ title, children }) => {
         <link rel="mask-icon" href="/icons/bcid-apple-icon.svg" color="#036" />
         <link rel="icon" href="/icons/bcid-favicon-32x32.png" />
       </Head>
-      <Navigation header="main" title={title}>
-        <NavBarLinks />
-      </Navigation>
+      <Navigation />
       <StyledMain>{children}</StyledMain>
       <StyledFooter>
         <FooterLinks />

@@ -1,11 +1,11 @@
-import NavBarLinks from '../../components/NavBarLinks';
+import { SubHeaderNavbarLinks } from '../../components/NavbarLinks';
 import { render, screen } from '@testing-library/react';
 
 const renderStaticLayout = () => {
-  return render(<NavBarLinks />);
+  return render(<SubHeaderNavbarLinks />);
 };
 
-describe('The NavBarLinks component', () => {
+describe('The SubHeaderNavbarLinks component', () => {
   it('should render Help button', () => {
     renderStaticLayout();
     expect(screen.getByText('Help'));

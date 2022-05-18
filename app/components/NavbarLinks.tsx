@@ -6,14 +6,18 @@ const StyledLi = styled.li`
   align-self: center;
 `;
 
-export default function NavbarLinks() {
+const StlyedUl = styled.ul`
+  padding-left: 15px;
+`;
+
+export const SubHeaderNavbarLinks: React.FC = () => {
   return (
-    <ul>
+    <StlyedUl>
       <StyledLi>
         <Link href="mailto:connectingcommunitiesbc@gov.bc.ca">
           <a>Help</a>
         </Link>
       </StyledLi>
-    </ul>
+    </StlyedUl>
   );
-}
+};
