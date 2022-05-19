@@ -6,6 +6,7 @@ const VIEWPORT = '1366x768';
 module.exports = {
   apiKey: config.get('HAPPO_API_KEY'),
   apiSecret: config.get('HAPPO_API_SECRET'),
+  project: 'ccbc',
   targets: {
     chrome: new RemoteBrowserTarget('chrome', {
       viewport: VIEWPORT,
