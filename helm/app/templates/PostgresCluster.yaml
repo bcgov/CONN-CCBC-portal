@@ -105,8 +105,8 @@ spec:
   patroni:
     dynamicConfiguration:
       postgresql:
-        # these are the hilariously low params I stole from Alec on RC!
-        # these will probably allow your database to start up, but you'll definitely want to tune
+        pg_hba:
+          - 'host all all 0.0.0.0/0 trust' # this line enabled logical replication with programmatic access
         parameters:
           shared_buffers: '16MB' # default is 128MB; a good tuned default for shared_buffers is 25% of the memory allocated to the pod
           wal_buffers: '-1' # automatically set as 1/32 of shared_buffers or 64kB, whichever is larger
