@@ -7,8 +7,8 @@ const renderStaticLayout = () => {
 };
 
 describe('The index page', () => {
-  it('should render Start Form button', () => {
+  it('should render Login button', () => {
     renderStaticLayout();
-    expect(screen.getByText('Start Form'));
+    expect(screen.getByText('Login'));
   });
 });
