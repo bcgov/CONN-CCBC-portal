@@ -10,106 +10,104 @@ context('Homepage', () => {
 
     cy.get('button').contains('Login');
 
-    cy.get('h1').contains('Welcome');
+    cy.visit('/form/1');
 
-    // cy.visit('/form/1');
+    cy.url().should('include', '/form/1');
 
-    // cy.url().should('include', '/form/1');
+    cy.get('[id="root_organizationProfile_organizationName').type('test');
 
-    // cy.get('[id="root_organizationProfile_organizationName').type('test');
+    cy.get('input[name="root_organizationProfile_isLegalPrimaryName-0-radio"]')
+      .parent()
+      .click();
 
-    // cy.get('input[name="root_organizationProfile_isLegalPrimaryName-0-radio"]')
-    //   .parent()
-    //   .click();
+    cy.get('input[name="root_organizationProfile_isLegalPrimaryName-1-radio"]')
+      .parent()
+      .click();
 
-    // cy.get('input[name="root_organizationProfile_isLegalPrimaryName-1-radio"]')
-    //   .parent()
-    //   .click();
+    cy.get('input[name="root_organizationProfile_isOperatingNameSame-0-radio"]')
+      .parent()
+      .click();
 
-    // cy.get('input[name="root_organizationProfile_isOperatingNameSame-0-radio"]')
-    //   .parent()
-    //   .click();
+    cy.get('input[name="root_organizationProfile_isOperatingNameSame-1-radio"]')
+      .parent()
+      .click();
 
-    // cy.get('input[name="root_organizationProfile_isOperatingNameSame-1-radio"]')
-    //   .parent()
-    //   .click();
+    cy.get('[id="root_organizationProfile_operatingNameIfDifferent"]').type(
+      'test'
+    );
 
-    // cy.get('[id="root_organizationProfile_operatingNameIfDifferent"]').type(
-    //   'test'
-    // );
+    // Type of organization radio group
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-0-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-1-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-2-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-3-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-4-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-5-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-6-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-7-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-8-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-9-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-10-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-11-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-12-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-13-radio"]')
+      .parent()
+      .click();
+    cy.get('input[name="root_organizationProfile_typeOfOrganization-14-radio"]')
+      .parent()
+      .click();
 
-    // // Type of organization radio group
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-0-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-1-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-2-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-3-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-4-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-5-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-6-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-7-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-8-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-9-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-10-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-11-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-12-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-13-radio"]')
-    //   .parent()
-    //   .click();
-    // cy.get('input[name="root_organizationProfile_typeOfOrganization-14-radio"]')
-    //   .parent()
-    //   .click();
+    cy.get('[id="root_organizationProfile_bandCouncilNumber"]').type(
+      '0123456789'
+    );
 
-    // cy.get('[id="root_organizationProfile_bandCouncilNumber"]').type(
-    //   '0123456789'
-    // );
+    cy.get('input[name="root_organizationProfile_isIndigenousEntity-0-radio"]')
+      .parent()
+      .click();
 
-    // cy.get('input[name="root_organizationProfile_isIndigenousEntity-0-radio"]')
-    //   .parent()
-    //   .click();
+    cy.get('input[name="root_organizationProfile_isIndigenousEntity-1-radio"]')
+      .parent()
+      .click();
 
-    // cy.get('input[name="root_organizationProfile_isIndigenousEntity-1-radio"]')
-    //   .parent()
-    //   .click();
+    cy.get('[id="root_organizationProfile_indigenousEntityDesc"]').type('test');
 
-    // cy.get('[id="root_organizationProfile_indigenousEntityDesc"]').type('test');
+    cy.get('[id="root_organizationProfile_organizationOverview"]').type('test');
 
-    // cy.get('[id="root_organizationProfile_organizationOverview"]').type('test');
+    cy.get('[id="root_organizationProfile_orgRegistrationDate"]').type(
+      '2022-05-22'
+    );
 
-    // cy.get('[id="root_organizationProfile_orgRegistrationDate"]').type(
-    //   '2022-05-22'
-    // );
+    cy.get('[id="root_organizationProfile_bussinessNumber"]').type(
+      '0123456789'
+    );
 
-    // cy.get('[id="root_organizationProfile_bussinessNumber"]').type(
-    //   '0123456789'
-    // );
-
-    // cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot();
 
     // cy.get('button').contains('Complete application').click();
 
