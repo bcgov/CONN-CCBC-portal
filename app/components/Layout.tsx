@@ -11,8 +11,9 @@ const StyledFooter = styled(Footer)`
 `;
 
 const StyledMain = styled.main`
-  margin: 0 auto;
+  margin: 0 auto 50px;
   max-width: ${(props) => props.theme.width.pageMaxWidth};
+  padding: 5em 3.5em;
 `;
 
 type Props = {
