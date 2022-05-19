@@ -27,7 +27,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         }
         placeholder={placeholder}
         value={value || ''}
-        size={'large'}
+        size={'medium'}
         resize="vertical"
         required={required}
         aria-label={label}
