@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const convict = require('convict');
 
 // import dotenv to optionally overrride node-convict config
@@ -71,6 +72,18 @@ const config = convict({
     default: '',
     env: 'HAPPO_API_SECRET',
   },
+  SSO_CLIENT_SECRET: {
+    doc: 'SSO KeyCloak client secret',
+    format: String,
+    default: '',
+    env: 'SSO_CLIENT_SECRET',
+  },
+  HOST: {
+    doc: 'The address to where the app is hosted',
+    format: String,
+    default: 'localhost',
+    env: 'HOST',
+  }
 });
 
 // Load environment dependent configuration
