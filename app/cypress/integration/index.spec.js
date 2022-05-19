@@ -8,7 +8,9 @@ context('Homepage', () => {
   it('should start and fill the first page of the form', () => {
     cy.get('body').happoScreenshot();
 
-    cy.get('button').contains('Start Form');
+    cy.get('button').contains('Login');
+
+    cy.get('h1').contains('Welcome');
 
     // cy.visit('/form/1');
 
