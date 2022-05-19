@@ -134,16 +134,9 @@ spec:
           imagePullPolicy: {{ .Values.image.app.pullPolicy }}
           env:
           - name: PGUSER
-            value: {{ template "ccbc.fullname" . }}
-          - name: PGPASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: password
-                name: ccbc-pguser-ccbc
+            value: {{ template "ccbc.fullname" . }}_app
           - name: PGDATABASE
             value: {{ template "ccbc.fullname" . }}
-          - name: PGPORT
-            value: "5432"
           - name: PGHOST
             value: ccbc-primary.ff61fb-dev.svc
           - name: SESSION_SECRET
@@ -190,3 +183,4 @@ spec:
             failureThreshold: 3
             successThreshold: 1
             timeoutSeconds: 5
+            
