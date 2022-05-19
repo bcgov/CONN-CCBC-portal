@@ -139,6 +139,11 @@ spec:
             value: {{ template "ccbc.fullname" . }}
           - name: PGHOST
             value: ccbc-primary.ff61fb-dev.svc
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-app-password
+                name: ccbc
           - name: SESSION_SECRET
             valueFrom:
               secretKeyRef:

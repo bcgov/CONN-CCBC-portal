@@ -106,7 +106,7 @@ spec:
     dynamicConfiguration:
       postgresql:
         pg_hba:
-          - 'host all all 0.0.0.0/0 trust' # this line enabled logical replication with programmatic access
+          - 'host all all 0.0.0.0/0 md5'
         parameters:
           shared_buffers: '16MB' # default is 128MB; a good tuned default for shared_buffers is 25% of the memory allocated to the pod
           wal_buffers: '-1' # automatically set as 1/32 of shared_buffers or 64kB, whichever is larger
