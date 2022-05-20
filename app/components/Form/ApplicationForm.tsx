@@ -1,7 +1,7 @@
 import FormBase from './FormBase';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
-import StyledGovButton from '../../components/StyledGovButton';
+import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
 
 interface Props {
@@ -12,9 +12,9 @@ interface Props {
 const ApplicationForm: React.FC<Props> = (props) => {
   return (
     <FormBase {...props} schema={schema as JSONSchema7} uiSchema={uiSchema}>
-      <StyledGovButton variant="primary" type="submit">
-        Continue
-      </StyledGovButton>
+      <Button variant="primary" type="submit">
+        Complete application
+      </Button>
     </FormBase>
   );
 };
