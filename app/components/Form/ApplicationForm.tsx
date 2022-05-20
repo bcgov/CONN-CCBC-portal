@@ -42,8 +42,9 @@ const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
       // when the form actually getts finished.
       status: 'complete',
     }).then(() => {
+      //  TODO: update rerouting logic to handle when there are form errors etc.
       if (pageNumber < subschemaArray.length) router.push(`/form/${pageNumber + 1}`);
-      else router.push('/form/success')
+      else router.push('/form/success');
     })
   }
 
