@@ -31,7 +31,7 @@ const FormBase: React.ForwardRefRenderFunction<
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       ref={ref}
-      formData={isSavedForm && JSON.parse(props.formData)}
+      formData={isSavedForm && props.formData}
       customFormats={customFormats}
       transformErrors={transformErrors}
       noHtml5Validate
