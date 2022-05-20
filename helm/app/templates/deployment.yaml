@@ -22,7 +22,7 @@ spec:
       initContainers:
         - env:
           - name: PGDATABASE
-            value: ccbc
+            value: {{ template "ccbc.fullname" . }}
           - name: PGUSER
             value: postgres
           - name: PGPASSWORD
@@ -68,7 +68,10 @@ spec:
           - name: PGPORT
             value: "5432"
           - name: PGHOST
-            value: ccbc-primary.ff61fb-dev.svc
+            valueFrom:
+              secretKeyRef:
+                key: host
+                name: ccbc-pguser-ccbc
           name: {{ template "ccbc.fullname" . }}-provision-pg-credentials
           image: {{ .Values.image.psql.repository }}:{{ .Values.image.psql.tag }}
           resources:
@@ -105,7 +108,10 @@ spec:
           - name: PGPORT
             value: "5432"
           - name: PGHOST
-            value: ccbc-primary.ff61fb-dev.svc
+            valueFrom:
+              secretKeyRef:
+                key: host
+                name: ccbc-pguser-ccbc
           - name: NAMESPACE
             valueFrom:
               fieldRef:
@@ -138,7 +144,10 @@ spec:
           - name: PGDATABASE
             value: {{ template "ccbc.fullname" . }}
           - name: PGHOST
-            value: ccbc-primary.ff61fb-dev.svc
+            valueFrom:
+              secretKeyRef:
+                key: host
+                name: ccbc-pguser-ccbc          
           - name: PGPASSWORD
             valueFrom:
               secretKeyRef:
