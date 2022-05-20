@@ -46,10 +46,10 @@ export default function FormPage({
   };
 
   const formData = application?.applicationByOwner?.formData;
-
+  const pageIndex = router.query.page
   return (
     <FormDiv>
-      <ApplicationForm formData={formData} onSubmit={onSubmit} />
+      <ApplicationForm pageNumber={parseInt(pageIndex as string)} formData={formData} onSubmit={onSubmit} />
     </FormDiv>
   );
 }
