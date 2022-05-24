@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const StyledInput = styled(Input)`
   & input {
     margin: 12px 0;
-    width: ${(props) => props.theme.width.inputWidthMid};
+    width: ${(props) => props.theme.width.inputWidthSmall};
   }
 `;
 const TextWidget: React.FC<WidgetProps> = ({

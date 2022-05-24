@@ -1,9 +1,7 @@
 import { useRouter } from 'next/router';
 import FormDiv from '../../components/FormDiv';
 import ApplicationForm from '../../components/Form/ApplicationForm';
-import { updateApplicationMutation } from '../../schema/mutations';
 import { getApplicationByOwnerQuery } from '../../schema/queries';
-
 import { useLazyLoadQuery } from 'react-relay';
 
 export default function FormPage({
@@ -12,7 +10,7 @@ export default function FormPage({
   formIndex,
   prevPageUrl,
 }: {
-  formData: string;
+  formData: any;
   formIndex: number;
   prevPageUrl: number;
   validPage: boolean;
@@ -35,21 +33,11 @@ export default function FormPage({
   //   router.push(`/form${prevPageUrl}`);
   // };
 
-  const onSubmit = async ({ formData = [] }) => {
-    await updateApplicationMutation({
-      owner: '74d2515660e6444ca177a96e67ecfc5f',
-      formData: JSON.stringify(formData),
-      status: 'complete',
-    }).then(() => {
-      router.push('/form/success');
-    });
-  };
-
   const formData = application?.applicationByOwner?.formData;
-
+  const pageNumber = router.query.page
   return (
     <FormDiv>
-      <ApplicationForm formData={formData} onSubmit={onSubmit} />
+      <ApplicationForm pageNumber={parseInt(pageNumber as string)} formData={formData} />
     </FormDiv>
   );
 }

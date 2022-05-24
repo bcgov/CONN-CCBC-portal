@@ -10,7 +10,7 @@ const StyledDatePicker = styled(DatePicker)`
   border: 2px solid #606060;
   border-radius: 0.25rem;
   padding: 0.5rem 0.6rem;
-  width: ${(props) => props.theme.width.inputWidthMid};
+  width: ${(props) => props.theme.width.inputWidthSmall};
 `;
 
 function getDateString(date: SetStateAction<Date | undefined>) {
