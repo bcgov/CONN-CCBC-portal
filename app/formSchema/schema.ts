@@ -149,51 +149,49 @@ const schema = {
           enum: [true, false],
           enumNames: ['Yes', 'No'],
         },
-        dependencies: {
-          isMailingAddress: {
-            oneOf: [
-              {
-                properties: {
-                  type: 'object',
-                  isMailingAddress: {
-                    enum: ['Yes'],
-                  },
+      },
+      dependencies: {
+        isMailingAddress: {
+          oneOf: [
+            {
+              properties: {
+                isMailingAddress: {
+                  enum: ['Yes'],
                 },
               },
-              {
-                properties: {
-                  type: 'object',
-                  isMailingAddress: {
-                    enum: ['No'],
-                  },
-                  unitNumber: {
-                    title: 'Unit number (optional)',
-                    type: 'string',
-                  },
-                  streetNumber: {
-                    title: 'Street number',
-                    type: 'string',
-                  },
-                  streetName: {
-                    title: 'Street name',
-                    type: 'string',
-                  },
-                  POBox: {
-                    title: 'PO box',
-                    type: 'string',
-                  },
-                  city: {
-                    title: 'City',
-                    type: 'string',
-                  },
-                  province: {
-                    title: 'Province',
-                    type: 'string',
-                  },
+            },
+            {
+              properties: {
+                isMailingAddress: {
+                  enum: ['No'],
+                },
+                unitNumber: {
+                  title: 'Unit number (optional)',
+                  type: 'string',
+                },
+                streetNumber: {
+                  title: 'Street number',
+                  type: 'string',
+                },
+                streetName: {
+                  title: 'Street name',
+                  type: 'string',
+                },
+                POBox: {
+                  title: 'PO box',
+                  type: 'string',
+                },
+                city: {
+                  title: 'City',
+                  type: 'string',
+                },
+                province: {
+                  title: 'Province',
+                  type: 'string',
                 },
               },
-            ],
-          },
+            },
+          ],
         },
       },
     },
