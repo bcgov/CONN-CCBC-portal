@@ -1,4 +1,5 @@
-import FormBase from './FormBase';
+import { useState } from 'react';
+import { Back, FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { updateApplicationMutation } from '../../schema/mutations';
@@ -6,17 +7,31 @@ import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
 interface Props {
   formData: any;
   pageNumber: number;
 }
 
+const StyledDiv = styled.div`
+  margin: 24px 0;
+`;
+
 const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
+  const [button, setButton] = useState('continue');
   const router = useRouter();
 
   const subschemaArray = schemaToSubschemasArray(schema as JSONSchema7);
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
+
+  const getStatus = (button: string) => {
+    if (button === 'complete') {
+      return 'complete';
+    } else {
+      return 'draft';
+    }
+  };
 
   const saveForm = async (incomingFormData: any, existingFormData: any) => {
     const pageNumber = parseInt(router.query.page as string);
@@ -40,34 +55,58 @@ const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
       formData: newFormData,
       // change status? Consider having an "editing" status or something, and switching to complete
       // when the form actually getts finished.
-      status: 'complete',
+      status: getStatus(button) || 'draft',
     }).then(() => {
       //  TODO: update rerouting logic to handle when there are form errors etc.
-      if (pageNumber < subschemaArray.length)
+      if (pageNumber < subschemaArray.length && button === 'continue')
         router.push(`/form/${pageNumber + 1}`);
       else router.push('/form/success');
     });
   };
-  console.log(schema);
-  console.log(sectionSchema);
+
   return (
-    <FormBase
-      formData={formData[sectionName]}
-      onSubmit={() => console.log()}
-      // schema={sectionSchema as JSONSchema7}
-      schema={sectionSchema as JSONSchema7}
-      uiSchema={uiSchema}
-    >
-      <Button
-        variant="primary"
-        onClick={(incomingFormData: any) =>
+    <>
+      {pageNumber > 1 && (
+        <StyledDiv>
+          <Back currentIndex={pageNumber} />
+        </StyledDiv>
+      )}
+      <FormBase
+        formData={formData[sectionName]}
+        onSubmit={(incomingFormData: any) =>
           saveForm(incomingFormData, formData)
         }
+        schema={sectionSchema as JSONSchema7}
+        uiSchema={uiSchema}
+        // Todo: validate entire form on completion
+        noValidate={true}
       >
-        Continue
-      </Button>
-      <Button variant="secondary">Save</Button>
-    </FormBase>
+        {pageNumber < subschemaArray.length ? (
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={() => setButton('continue')}
+          >
+            Continue
+          </Button>
+        ) : (
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={() => setButton('continue')}
+          >
+            Complete form
+          </Button>
+        )}
+        <Button
+          variant="secondary"
+          style={{ marginLeft: '20px' }}
+          onClick={() => setButton('save')}
+        >
+          Save
+        </Button>
+      </FormBase>
+    </>
   );
 };
 export default ApplicationForm;
