@@ -146,8 +146,8 @@ const schema = {
         isMailingAddress: {
           title: 'Is the mailing address the same as above?',
           type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
+          enum: ['Yes', 'No'],
+          default: 'Yes',
         },
       },
       dependencies: {
@@ -165,28 +165,32 @@ const schema = {
                 isMailingAddress: {
                   enum: ['No'],
                 },
-                unitNumber: {
-                  title: 'Unit number (optional)',
+                unitNumberMailing: {
+                  title: 'Unit number',
                   type: 'string',
                 },
-                streetNumber: {
+                streetNumberMailing: {
                   title: 'Street number',
                   type: 'string',
                 },
-                streetName: {
+                streetNameMailing: {
                   title: 'Street name',
                   type: 'string',
                 },
-                POBox: {
+                POBoxMailing: {
                   title: 'PO box',
                   type: 'string',
                 },
-                city: {
+                cityMailing: {
                   title: 'City',
                   type: 'string',
                 },
-                province: {
+                provinceMailing: {
                   title: 'Province',
+                  type: 'string',
+                },
+                postalCodeMailing: {
+                  title: 'Postal code (H0H 0H0)',
                   type: 'string',
                 },
               },

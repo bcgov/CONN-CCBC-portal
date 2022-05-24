@@ -22,6 +22,9 @@ const uiSchema = {
     'ui:widget': 'DatePickerWidget',
   },
   bussinessNumber: {},
+  isMailingAddress: {
+    'ui:widget': 'RadioWidget',
+  },
 };
 
 export default uiSchema;
