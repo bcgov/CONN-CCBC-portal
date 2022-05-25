@@ -81,8 +81,14 @@ const config = convict({
   HOST: {
     doc: 'The address to where the app is hosted',
     format: String,
-    default: 'localhost',
+    default: 'ccbc-dev.apps.silver.devops.gov.bc.ca',
     env: 'HOST',
+  },
+  OPENSHIFT_APP_NAMESPACE: {
+    doc: 'Namespace on OpenShift to which the app is deployed',
+    format: ['ff61fb-dev', 'ff61fb-test', 'ff61fb-prod'],
+    default: 'ff61fb-dev',
+    env: 'OPENSHIFT_APP_NAMESPACE'
   }
 });
 
