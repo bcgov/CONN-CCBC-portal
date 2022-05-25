@@ -6,7 +6,7 @@ image:
   app:
     repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app
     pullPolicy: IfNotPresent
-    tag: '0.6.0' # The tag value must be passed in via the deploy script
+    tag: 'sha-edc6e3632d91c91b7916d75aa68925779fe77b54' # The tag value must be passed in via the deploy script
     clientSecret: '' # clientSecret must be passed in via deploy script
   psql:
     repository: gcr.io/ggl-cas-storage/cas-postgres
@@ -15,7 +15,7 @@ image:
   db:
     repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db
     pullPolicy: IfNotPresent
-    tag: '0.2.0' # The tag value must be passed in via the deploy script
+    tag: 'sha-edc6e3632d91c91b7916d75aa68925779fe77b54' # The tag value must be passed in via the deploy script
 
 app:
   port: '3000'
@@ -42,7 +42,7 @@ resources:
       memory: '256Mi'
 
 deployer:
-  namespace: 'ff61fb-dev' # The namespace must be passed in via the deploy script
+  namespace: '' # The namespace must be passed in via the deploy script
   serviceAccount:
     enabled: true
 
@@ -55,7 +55,6 @@ db:
   ownerUser: ccbc
   readonlyUser: ccbc_readonly
   preInitCommand: ''
-  password: ''
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -65,5 +64,60 @@ autoscaling:
 
 metabase:
   instanceName: ccbc-metabase
-  namespace: 'b40eb8-dev ' # The value must be passed in via the deploy script
+  namespace: '' # The value must be passed in via the deploy script
 
+# Postgres Cluster resource values:
+exporter:
+  requests:
+    cpu: 20m
+    memory: 64Mi
+  limits:
+    cpu: 60m
+    memory: 128Mi
+
+instances:
+  name: hippo-ha
+  replicas: 3
+  requests:
+    cpu: 20m
+    memory: 64Mi
+  limits:
+    cpu: 60m
+    memory: 128Mi
+
+replicaCertCopy:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    cpu: 30m
+    memory: 64Mi
+
+dataVolumeClaimSpec:
+  storage: 256Mi
+
+pgbackrest:
+  requests:
+    cpu: 20m
+    memory: 64Mi
+  limits:
+    cpu: 60m
+    memory: 128Mi
+  volume:
+    storage: 64Mi
+    storageClassName: netapp-file-backup
+  repoHost:
+    requests:
+      cpu: 20m
+      memory: 64Mi
+    limits:
+      cpu: 60m
+      memory: 128Mi
+
+pgBouncer:
+  requests:
+    cpu: 20m
+    memory: 64Mi
+  limits:
+    cpu: 60m
+    memory: 128Mi

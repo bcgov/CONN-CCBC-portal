@@ -10,40 +10,40 @@ spec:
         # image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.0.4-0
         resources:
           requests:
-            cpu: 20m
-            memory: 64Mi
+            cpu: {{ .Values.exporter.requests.cpu }}
+            memory: {{ .Values.exporter.requests.memory }}
           limits:
-            cpu: 60m
-            memory: 128Mi
+            cpu: {{ .Values.exporter.limits.memory }}
+            memory: {{ .Values.exporter.limits.memory }}
   # image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:centos8-13.5-0
   postgresVersion: 14
   instances:
-    - name: hippo-ha
+    - name: {{ .Values.instances.name}}
       replicas: 3
       # these resources are for the "database" container in the "hippo-ha-pgha1" set of pods
       resources:
         requests:
-          cpu: 20m
-          memory: 64Mi
+          cpu: {{ .Values.instances.requests.cpu }}
+          memory: {{ .Values.instances.requests.memory }}
         limits:
-          cpu: 60m
-          memory: 128Mi
+          cpu: {{ .Values.instances.limits.cpu }}
+          memory: {{ .Values.instances.limits.cpu }}
       sidecars:
         # this stuff is for the "replication-cert-copy" container in the "hippo-ha-pgha1" set of pods
         replicaCertCopy:
           resources:
             requests:
-              cpu: 10m
-              memory: 32Mi
+              cpu: {{ .Values.replicaCertCopy.requests.cpu }}
+              memory: {{ .Values.replicaCertCopy.requests.memory }}
             limits:
-              cpu: 30m
-              memory: 64Mi
+              cpu:  {{ .Values.replicaCertCopy.limits.cpu }}
+              memory:  {{ .Values.replicaCertCopy.limits.memory }}
       dataVolumeClaimSpec:
         accessModes:
           - 'ReadWriteOnce'
         resources:
           requests:
-            storage: 256Mi
+            storage:  {{ .Values.dataVolumeClaimSpec.storage }}
         storageClassName: netapp-block-standard
       affinity:
         podAntiAffinity:
@@ -56,13 +56,13 @@ spec:
                     postgres-operator.crunchydata.com/cluster:  {{ template "ccbc.fullname" . }}
                     postgres-operator.crunchydata.com/instance-set: hippo-ha
   users:
-    - name: ccbc
+    - name: {{ template "ccbc.fullname" . }}
       databases:
-        - ccbc
+        - {{ template "ccbc.fullname" . }}
       options: "CREATEROLE"
     - name: postgres
       databases:
-        - ccbc
+        - {{ template "ccbc.fullname" . }}
   backups:
     pgbackrest:
       global:
@@ -81,27 +81,27 @@ spec:
                 - 'ReadWriteOnce'
               resources:
                 requests:
-                  storage: 64Mi
-              storageClassName: netapp-file-backup
+                  storage: {{ .Values.pgbackrest.volume.storage }}
+              storageClassName: {{ .Values.pgbackrest.volume.storage }}
       # this stuff is for the "pgbackrest" container (the only non-init container) in the "hippo-ha-repo-host" pod
       repoHost:
         resources:
           requests:
-            cpu: 20m
-            memory: 64Mi
+            cpu: {{ .Values.pgbackrest.repoHost.requests.cpu }}
+            memory: {{ .Values.pgbackrest.repoHost.requests.memory }}
           limits:
-            cpu: 60m
-            memory: 128Mi
+            cpu: {{ .Values.pgbackrest.repoHost.limits.cpu }}
+            memory: {{ .Values.pgbackrest.repoHost.limits.cpu }}
       sidecars:
         # this stuff is for the "pgbackrest" container in the "hippo-ha-pgha1" set of pods
         pgbackrest:
           resources:
             requests:
-              cpu: 20m
-              memory: 64Mi
+              cpu: {{ .Values.pgbackrest.requests.cpu }}
+              memory: {{ .Values.pgbackrest.requests.memory }}
             limits:
-              cpu: 60m
-              memory: 128Mi
+              cpu: {{ .Values.pgbackrest.limits.cpu }}
+              memory: {{ .Values.pgbackrest.limits.memory }}
   patroni:
     dynamicConfiguration:
       postgresql:
@@ -123,11 +123,11 @@ spec:
       # there is a sidecar in these pods which are not mentioned here, but the requests/limits are teeny weeny by default so no worries there.
       resources:
         requests:
-          cpu: 20m
-          memory: 64Mi
+          cpu: {{ .Values.pgBouncer.requests.cpu }}
+          memory: {{ .Values.pgBouncer.requests.memory }}
         limits:
-          cpu: 60m
-          memory: 128Mi
+          cpu: {{ .Values.pgBouncer.limits.cpu }}
+          memory: {{ .Values.pgBouncer.limits.memory }}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -136,5 +136,5 @@ spec:
                 topologyKey: kubernetes.io/hostname
                 labelSelector:
                   matchLabels:
-                    postgres-operator.crunchydata.com/cluster: hippo-ha
+                    postgres-operator.crunchydata.com/cluster: {{ .Values.instances.name}}
                     postgres-operator.crunchydata.com/role: pgbouncer
