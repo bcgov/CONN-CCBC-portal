@@ -1,4 +1,4 @@
-import FormBase from './FormBase';
+import { FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { updateApplicationMutation } from '../../schema/mutations';
@@ -15,7 +15,7 @@ interface Props {
 const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
   const router = useRouter();
 
-  const subschemaArray = schemaToSubschemasArray(schema as JSONSchema7);
+  const subschemaArray = schemaToSubschemasArray(schema as object);
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
 
   const saveForm = async (incomingFormData: any, existingFormData: any) => {
@@ -35,38 +35,47 @@ const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
       newFormData = { ...existingFormData };
       newFormData[sectionName] = { ...incomingFormData.formData };
     }
-    await updateApplicationMutation({
+    return await updateApplicationMutation({
       owner: '74d2515660e6444ca177a96e67ecfc5f',
       formData: newFormData,
       // change status? Consider having an "editing" status or something, and switching to complete
       // when the form actually getts finished.
-      status: 'complete',
-    }).then(() => {
-      //  TODO: update rerouting logic to handle when there are form errors etc.
-      if (pageNumber < subschemaArray.length)
-        router.push(`/form/${pageNumber + 1}`);
-      else router.push('/form/success');
+      status: 'draft',
     });
   };
-  console.log(schema);
-  console.log(sectionSchema);
+
+  const handleSubmit = async (incomingFormData: any, formData: any) => {
+    saveForm(incomingFormData, formData).then(() => {
+      //  TODO: update rerouting logic to handle when there are form errors etc.
+      if (pageNumber < subschemaArray.length) {
+        router.push(`/form/${pageNumber + 1}`);
+      } else {
+        router.push('/form/success');
+      }
+    });
+  };
+
   return (
     <FormBase
+      onSubmit={(incomingFormData: any) => {
+        handleSubmit(incomingFormData, formData);
+      }}
       formData={formData[sectionName]}
-      onSubmit={() => console.log()}
-      // schema={sectionSchema as JSONSchema7}
       schema={sectionSchema as JSONSchema7}
       uiSchema={uiSchema}
+      // Todo: validate entire form on completion
+      noValidate={true}
     >
-      <Button
-        variant="primary"
-        onClick={(incomingFormData: any) =>
-          saveForm(incomingFormData, formData)
-        }
-      >
-        Continue
-      </Button>
-      <Button variant="secondary">Save</Button>
+      {pageNumber < subschemaArray.length ? (
+        <Button variant="primary">Continue</Button>
+      ) : (
+        <Button variant="primary">Complete form</Button>
+      )}
+      {/* // Return to this save button later, will likely require a hacky solution to work
+      // nice with RJSF
+      <Button variant="secondary" style={{ marginLeft: '20px' }}>
+        Save
+      </Button> */}
     </FormBase>
   );
 };

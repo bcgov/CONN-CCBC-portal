@@ -6,12 +6,16 @@ const schema = {
       description: 'Provide an overview of you organization',
       type: 'object',
       required: [
+        'projectTitle',
+        'typeOfOrganization',
+        'other',
+        'bandNumber',
         'organizationName',
         'isLegalPrimaryName',
-        'isOperatingNameSame',
-        'operatingNameIfDifferent',
-        'typeOfOrganization',
-        'bandCouncilNumber',
+        'isNameLegalName',
+        'operatingName',
+        'isSubsidiary',
+        'parentOrgName',
         'isIndigenousEntity',
         'indigenousEntityDesc',
         'organizationOverview',
@@ -19,25 +23,9 @@ const schema = {
         'bussinessNumber',
       ],
       properties: {
-        organizationName: {
-          title: 'Organization name (legal name)',
-          description: 'this is a description',
-          type: 'string',
-        },
-        isLegalPrimaryName: {
-          title: 'Is this the primary legal name?',
-          type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
-        },
-        isOperatingNameSame: {
-          title: 'Is operating name same as legal name?',
-          type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
-        },
-        operatingNameIfDifferent: {
-          title: 'Operating name (if different)',
+        projectTitle: {
+          title:
+            'Project title for proposed project. Be descriptive about the geographic region while choosing a project title. We advise not using years in the title.',
           type: 'string',
         },
         typeOfOrganization: {
@@ -80,19 +68,30 @@ const schema = {
           ],
           uniqueItems: true,
         },
-        bandCouncilNumber: {
-          title: 'If band council, please specify the band number',
-          type: 'number',
+        organizationName: {
+          title: 'Organization name (legal name)',
+          type: 'string',
+        },
+        isLegalPrimaryName: {
+          title: 'Is this the primary legal name?',
+          type: 'boolean',
+          enum: ['Yes', 'No'],
+        },
+        isNameLegalName: {
+          title: 'Is operating name same as legal name?',
+          type: 'boolean',
+          enum: ['Yes', 'No'],
+        },
+        isSubsidiary: {
+          title:
+            'Is this Applicant organization a subsidiary of a parent organization?',
+          type: 'boolean',
+          enum: ['Yes', 'No'],
         },
         isIndigenousEntity: {
           title: 'Is this applicant organization an Idigenous entity?',
           type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
-        },
-        indigenousEntityDesc: {
-          title: 'Please provide a short description of the Indigenous entity',
-          type: 'string',
+          enum: ['Yes', 'No'],
         },
         organizationOverview: {
           title:
@@ -107,6 +106,123 @@ const schema = {
           title:
             'Applicant business number (9-digit business identifier provided by Canada Revenue Agency)',
           type: 'string',
+        },
+      },
+      dependencies: {
+        typeOfOrganization: {
+          oneOf: [
+            {
+              properties: {
+                typeOfOrganization: {
+                  enum: [
+                    'Incorporated company - private of public',
+                    'Partnership',
+                    'Limited partnership',
+                    'Venture/syndicate',
+                    'Cooperative',
+                    'Educational institution - college',
+                    'Eductational institution - university',
+                    'Non-profit organization',
+                    'Municipality',
+                    'Province',
+                    'Public body owned by local/regional government',
+                    'Provincial crown corporation',
+                    'Municipal development corporation',
+                  ],
+                },
+              },
+            },
+            {
+              properties: {
+                typeOfOrganization: {
+                  enum: ['Band Council'],
+                },
+                bandNumber: {
+                  title: 'Please specify the band number',
+                  type: 'number',
+                },
+              },
+            },
+            {
+              properties: {
+                typeOfOrganization: {
+                  enum: ['Other'],
+                },
+                other: {
+                  title: 'In your own words describe your organization type',
+                  type: 'string',
+                },
+              },
+            },
+          ],
+        },
+        isNameLegalName: {
+          oneOf: [
+            {
+              properties: {
+                isNameLegalName: {
+                  enum: ['Yes'],
+                },
+              },
+            },
+            {
+              properties: {
+                isNameLegalName: {
+                  enum: ['No'],
+                },
+                operatingName: {
+                  title: 'Operating name',
+                  type: 'string',
+                },
+              },
+              required: ['operatingName'],
+            },
+          ],
+        },
+        isSubsidiary: {
+          oneOf: [
+            {
+              properties: {
+                isSubsidiary: {
+                  enum: ['No'],
+                },
+              },
+            },
+            {
+              properties: {
+                isSubsidiary: {
+                  enum: ['Yes'],
+                },
+                parentOrgName: {
+                  title: 'Please enter the name of the parent organization',
+                  type: 'string',
+                },
+              },
+            },
+          ],
+        },
+        isIndigenousEntity: {
+          oneOf: [
+            {
+              properties: {
+                isIndigenousEntity: {
+                  enum: ['No'],
+                },
+              },
+            },
+            {
+              properties: {
+                isIndigenousEntity: {
+                  enum: ['Yes'],
+                },
+                indigenousEntityDesc: {
+                  title:
+                    'Please provide a short description of the Indigenous entity (maximum 75 characters)',
+                  type: 'string',
+                },
+              },
+            },
+          ],
         },
       },
     },
@@ -146,8 +262,8 @@ const schema = {
         isMailingAddress: {
           title: 'Is the mailing address the same as above?',
           type: 'boolean',
-          enum: [true, false],
-          enumNames: ['Yes', 'No'],
+          enum: ['Yes', 'No'],
+          default: 'Yes',
         },
       },
       dependencies: {
@@ -165,28 +281,32 @@ const schema = {
                 isMailingAddress: {
                   enum: ['No'],
                 },
-                unitNumber: {
-                  title: 'Unit number (optional)',
+                unitNumberMailing: {
+                  title: 'Unit number',
                   type: 'string',
                 },
-                streetNumber: {
+                streetNumberMailing: {
                   title: 'Street number',
                   type: 'string',
                 },
-                streetName: {
+                streetNameMailing: {
                   title: 'Street name',
                   type: 'string',
                 },
-                POBox: {
+                POBoxMailing: {
                   title: 'PO box',
                   type: 'string',
                 },
-                city: {
+                cityMailing: {
                   title: 'City',
                   type: 'string',
                 },
-                province: {
+                provinceMailing: {
                   title: 'Province',
+                  type: 'string',
+                },
+                postalCodeMailing: {
+                  title: 'Postal code (H0H 0H0)',
                   type: 'string',
                 },
               },
