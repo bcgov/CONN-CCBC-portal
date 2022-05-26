@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Back, FormBase } from '.';
+import { FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { updateApplicationMutation } from '../../schema/mutations';
@@ -7,16 +7,11 @@ import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
 
 interface Props {
   formData: any;
   pageNumber: number;
 }
-
-const StyledDiv = styled.div`
-  margin: 24px 0;
-`;
 
 const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
   const [button, setButton] = useState('continue');
@@ -63,50 +58,40 @@ const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
       else router.push('/form/success');
     });
   };
-
   return (
-    <>
-      {pageNumber > 1 && (
-        <StyledDiv>
-          <Back currentIndex={pageNumber} />
-        </StyledDiv>
-      )}
-      <FormBase
-        formData={formData[sectionName]}
-        onSubmit={(incomingFormData: any) =>
-          saveForm(incomingFormData, formData)
-        }
-        schema={sectionSchema as JSONSchema7}
-        uiSchema={uiSchema}
-        // Todo: validate entire form on completion
-        noValidate={true}
-      >
-        {pageNumber < subschemaArray.length ? (
-          <Button
-            variant="primary"
-            type="submit"
-            onClick={() => setButton('continue')}
-          >
-            Continue
-          </Button>
-        ) : (
-          <Button
-            variant="primary"
-            type="submit"
-            onClick={() => setButton('continue')}
-          >
-            Complete form
-          </Button>
-        )}
+    <FormBase
+      formData={formData[sectionName]}
+      onSubmit={(incomingFormData: any) => saveForm(incomingFormData, formData)}
+      schema={sectionSchema as JSONSchema7}
+      uiSchema={uiSchema}
+      // Todo: validate entire form on completion
+      noValidate={true}
+    >
+      {pageNumber < subschemaArray.length ? (
         <Button
-          variant="secondary"
-          style={{ marginLeft: '20px' }}
-          onClick={() => setButton('save')}
+          variant="primary"
+          type="submit"
+          onClick={() => setButton('continue')}
         >
-          Save
+          Continue
         </Button>
-      </FormBase>
-    </>
+      ) : (
+        <Button
+          variant="primary"
+          type="submit"
+          onClick={() => setButton('continue')}
+        >
+          Complete form
+        </Button>
+      )}
+      <Button
+        variant="secondary"
+        style={{ marginLeft: '20px' }}
+        onClick={() => setButton('save')}
+      >
+        Save
+      </Button>
+    </FormBase>
   );
 };
 export default ApplicationForm;

@@ -1,10 +1,23 @@
 import Link from 'next/link';
+import styled from 'styled-components';
 
-const Back = (currentIndex: any) => {
+interface Props {
+  pageNumber: number;
+}
+
+const StyledDiv = styled.div`
+  margin: 24px 0;
+`;
+
+const Back = ({ pageNumber }: Props) => {
+  const url = pageNumber > 1 ? `/form/${pageNumber - 1}` : '/';
+
   return (
-    <Link href={`/form/${currentIndex > 1 ? currentIndex - 1 : 1}`} passHref>
-      <a>{`< Back`}</a>
-    </Link>
+    <StyledDiv>
+      <Link href={url} passHref>
+        <a>{`< Back`}</a>
+      </Link>
+    </StyledDiv>
   );
 };
 
