@@ -4,9 +4,17 @@ import config from '../../config';
 const baseUrl =
   config.get('NODE_ENV') === 'production'
     ? `https://${config.get('HOST')}`
-    : `https://localhost:${config.get('PORT') || 3000}`;
+    : `https://${config.get('HOST')}:${config.get('PORT') || 3000}`;
 
-// get oidcIssuer url to adjust based on environment
+let oidcIssuer: string;
+if (
+  config.get('OPENSHIFT_APP_NAMESPACE').endsWith('-dev') ||
+  config.get('OPENSHIFT_APP_NAMESPACE') === ''
+)
+  oidcIssuer = 'dev.oidc.gov.bc.ca';
+else if (config.get('OPENSHIFT_APP_NAMESPACE').endsWith('-test'))
+  oidcIssuer = 'test.oidc.gov.bc.ca';
+else oidcIssuer = 'oidc.gov.bc.ca';
 
 export default async function ssoMiddleware() {
   return ssoExpress({
@@ -17,8 +25,8 @@ export default async function ssoMiddleware() {
     oidcConfig: {
       baseUrl: baseUrl,
       clientId: 'conn-ccbc-portal-3700',
-      oidcIssuer: `https://dev.oidc.gov.bc.ca/auth`,
-      clientSecret: `${process.env.SSO_CLIENT_SECRET}`,
+      oidcIssuer: `https://${oidcIssuer}/auth`,
+      clientSecret: `${config.get('SSO_CLIENT_SECRET')}`,
     },
   });
 }
