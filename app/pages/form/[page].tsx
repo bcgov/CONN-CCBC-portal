@@ -13,6 +13,7 @@ export default function FormPage() {
 
   const formData = application?.applicationByOwner?.formData;
   const pageNumber = Number(router.query.page);
+
   return (
     <FormDiv>
       <Back pageNumber={pageNumber} />
