@@ -22,7 +22,7 @@ const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
   const [button, setButton] = useState('continue');
   const router = useRouter();
 
-  const subschemaArray = schemaToSubschemasArray(schema as JSONSchema7);
+  const subschemaArray = schemaToSubschemasArray(schema as object);
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
 
   const getStatus = (button: string) => {
