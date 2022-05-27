@@ -6,20 +6,18 @@ import { useRouter } from 'next/router';
 const Home: NextPage = () => {
   const router = useRouter();
 
-  // const handleClick = () => {
-  //   const owner = '74d2515660e6444ca177a96e67ecfc5f';
-  //   createApplicationMutation(owner);
-  // };
-
-  const [createApplication, isCreatingApplication] =
-    useCreateApplicationMutation();
+  const [createApplication] = useCreateApplicationMutation();
 
   const handleCreateApplication = () => {
     createApplication({
       variables: {
         input: { application: { owner: '74d2515660e6444ca177a96e67ecfc5f' } },
       },
-      onCompleted: (response) => {
+      onCompleted: () => {
+        router.push('/form/1');
+      },
+      onError: () => {
+        // This needs to be removed once application dashboard implemented
         router.push('/form/1');
       },
     });

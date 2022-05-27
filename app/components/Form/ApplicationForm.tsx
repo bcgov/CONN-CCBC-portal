@@ -1,7 +1,8 @@
 import { FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
-import { updateApplicationMutation } from '../../schema/mutations';
+import { useUpdateApplicationMutation } from '../../schema/mutations/application/updateApplication';
+
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
@@ -14,6 +15,7 @@ interface Props {
 
 const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
   const router = useRouter();
+  const [updateApplication] = useUpdateApplicationMutation();
 
   const subschemaArray = schemaToSubschemasArray(schema as object);
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
@@ -35,12 +37,17 @@ const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
       newFormData = { ...existingFormData };
       newFormData[sectionName] = { ...incomingFormData.formData };
     }
-    return await updateApplicationMutation({
-      owner: '74d2515660e6444ca177a96e67ecfc5f',
-      formData: newFormData,
-      // change status? Consider having an "editing" status or something, and switching to complete
-      // when the form actually getts finished.
-      status: 'draft',
+
+    return await updateApplication({
+      variables: {
+        input: {
+          applicationPatch: {
+            formData: newFormData,
+            status: 'draft',
+          },
+          owner: '74d2515660e6444ca177a96e67ecfc5f',
+        },
+      },
     });
   };
 

@@ -14,7 +14,7 @@ const mutation = graphql`
 const useCreateApplicationMutation = () =>
   useMutationWithErrorMessage<createApplicationMutation>(
     mutation,
-    () => 'An error occurred while attempting to create the project.'
+    () => 'An error occurred while attempting to create the application.'
   );
 
 export { mutation, useCreateApplicationMutation };
