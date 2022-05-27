@@ -80,7 +80,8 @@
   "relay": {
     "src": "./",
     "schema": "./schema/schema.graphql",
-    "language": "typescript"
+    "language": "typescript",
+    "artifactDirectory": "./__generated__"
   },
   "graphql": {
     "schema": "./schema/schema.graphql"
