@@ -1,0 +1,14 @@
+name: 'Local CCBC app run'
+description: 'Runs the CCBC app locally'
+runs:
+  using: composite
+  steps:
+    - name: start postgres and create database
+      shell: bash
+      run: make start_pg && make create_db
+    - name: deploy migrations
+      shell: bash
+      run: docker run --network=host -e "PGUSER=postgres" ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }} sqitch deploy
+    - name: start app
+      shell: bash
+      run: docker run -d --network=host -e "PGUSER=postgres" -p 3000:3000 ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
