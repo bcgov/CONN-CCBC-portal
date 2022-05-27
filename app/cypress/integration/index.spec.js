@@ -10,9 +10,13 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Welcome');
 
-    cy.get('button').contains('Login').click();
-
-    cy.visit('/form/1');
+    cy.get('button')
+      .contains('Login')
+      .click()
+      .then(() => {
+        cy.visit('/form/1');
+        cy.get('h1').contains('Organization Profile');
+      });
 
     cy.get('[id="root_projectTitle"]').type('test');
 
@@ -35,6 +39,13 @@ context('Homepage', () => {
     cy.get('[id="root_organizationName"]').type('test');
 
     cy.get('[id="root_isLegalPrimaryName-1"]');
+
+    cy.get('button')
+      .contains('Continue')
+      .click()
+      .then(() => {
+        cy.get('h1').contains('Organization location');
+      });
 
     cy.get('body').happoScreenshot();
   });

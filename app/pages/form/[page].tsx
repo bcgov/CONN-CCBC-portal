@@ -17,7 +17,7 @@ export default function FormPage() {
   return (
     <FormDiv>
       <Back pageNumber={pageNumber} />
-      <ApplicationForm pageNumber={pageNumber} formData={formData} />
+      <ApplicationForm pageNumber={pageNumber} formData={formData || {}} />
     </FormDiv>
   );
 }
