@@ -7175,6 +7175,16 @@ relay-runtime@13.2.0, relay-runtime@^13.2.0:
     fbjs "^3.0.2"
     invariant "^2.2.4"
 
+relay-test-utils@^13.2.0:
+  version "13.2.0"
+  resolved "https://registry.yarnpkg.com/relay-test-utils/-/relay-test-utils-13.2.0.tgz#8438c2097155d6c989c70dd3c86b7bff68f9db88"
+  integrity sha512-BBEdg4VGpJkLpZV4dv3lDHTn33QcL5l+Bb/nfT6e3Xccd1hlImAeKapdiX3ILNJioKEwhoMAc4t+2aTwWJQD7g==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    fbjs "^3.0.2"
+    invariant "^2.2.4"
+    relay-runtime "13.2.0"
+
 request-progress@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/request-progress/-/request-progress-3.0.0.tgz#4ca754081c7fec63f505e4faa825aa06cd669dbe"
