@@ -2,7 +2,7 @@
 
 begin;
 
-drop function ccbc_public.grant_permissions(text, text, text, text);
-drop function ccbc_public.grant_permissions(text, text, text, text[], text);
+drop function ccbc_private.grant_permissions(text, text, text, text);
+drop function ccbc_private.grant_permissions(text, text, text, text[], text);
 
 commit;
