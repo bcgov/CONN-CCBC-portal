@@ -186,53 +186,46 @@ db_unit_tests:
 db_style_tests: ## run the database style tests
 db_style_tests: | start_pg drop_test_db create_test_db
 db_style_tests:
-	@$(PG_PROVE) --failures -d $(DB_NAME)_test schema/test/style/*_test.sql --set schemas_to_test=cif,cif_private
+	@$(PG_PROVE) --failures -d $(DB_NAME)_test schema/test/style/*_test.sql --set schemas_to_test=ccbc,ccbc_private
 
 .PHONY: lint_chart
 lint_chart: ## Checks the configured helm chart template definitions against the remote schema
 lint_chart:
 	@set -euo pipefail; \
-	helm dep up ./chart/cas-cif; \
-	helm template --set ggircs.namespace=dummy-namespace --set ciip.prefix=ciip-prefix -f ./chart/cas-cif/values-dev.yaml cas-cif ./chart/cas-cif --validate;
+	helm dep up ./helm/app; \
+	helm template --set metabase.namespace=dummy-namespace -f ./helm/app/values.yaml ccbc ./helm/app --validate;
 
-
-.PHONY: install
-install: ## Installs the helm chart on the OpenShift cluster
-install: GIT_SHA1=$(shell git rev-parse HEAD)
-install: IMAGE_TAG=$(GIT_SHA1)
-install: NAMESPACE=$(CIF_NAMESPACE_PREFIX)-$(ENVIRONMENT)
-install: GGIRCS_NAMESPACE=$(GGIRCS_NAMESPACE_PREFIX)-$(ENVIRONMENT)
-install: CHART_DIR=./chart/cas-cif
-install: CHART_INSTANCE=cas-cif
-install: HELM_OPTS=--atomic --wait-for-jobs --timeout 2400s --namespace $(NAMESPACE) \
-										--set defaultImageTag=$(IMAGE_TAG) \
-	  								--set download-dags.dagConfiguration="$$dagConfig" \
-										--set ggircs.namespace=$(GGIRCS_NAMESPACE) \
-										--set ciip.prefix=$(CIIP_NAMESPACE_PREFIX) \
-										--values $(CHART_DIR)/values-$(ENVIRONMENT).yaml
-install:
-	@set -euo pipefail; \
-	if [ -z '$(CIF_NAMESPACE_PREFIX)' ]; then \
-		echo "CIF_NAMESPACE_PREFIX is not set"; \
-		exit 1; \
-	fi; \
-	if [ -z '$(GGIRCS_NAMESPACE_PREFIX)' ]; then \
-		echo "GGIRCS_NAMESPACE_PREFIX is not set"; \
-		exit 1; \
-	fi; \
-	if [ -z '$(CIIP_NAMESPACE_PREFIX)' ]; then \
-		echo "CIIP_NAMESPACE_PREFIX is not set"; \
-		exit 1; \
-	fi; \
-	if [ -z '$(ENVIRONMENT)' ]; then \
-		echo "ENVIRONMENT is not set"; \
-		exit 1; \
-	fi; \
-	dagConfig=$$(echo '{"org": "bcgov", "repo": "cas-cif", "ref": "$(GIT_SHA1)", "path": "dags/cas_cif_dags.py"}' | base64 -w0); \
-	helm dep up $(CHART_DIR); \
-	if ! helm status --namespace $(NAMESPACE) $(CHART_INSTANCE); then \
-		echo 'Installing the application and issuing SSL certificate'; \
-		helm install --set certbot.manualRun=true $(HELM_OPTS) $(CHART_INSTANCE) $(CHART_DIR); \
-	else \
-		helm upgrade $(HELM_OPTS) $(CHART_INSTANCE) $(CHART_DIR); \
-	fi;
+# Todo: use this in workflow to deploy helm chart
+# .PHONY: install
+# install: ## Installs the helm chart on the OpenShift cluster
+# install: GIT_SHA1=$(shell git rev-parse HEAD)
+# install: IMAGE_TAG=$(GIT_SHA1)
+# install: NAMESPACE=$(CCBC_NAMESPACE_PREFIX)-$(ENVIRONMENT)
+# install: METABASE_NAMESPACE=$(METABASE_NAMESPACE_PREFIX)-$(ENVIRONMENT)
+# install: CHART_DIR=./helm/app
+# install: HELM_OPTS=--atomic --wait-for-jobs --timeout 2400s --namespace $(NAMESPACE) \
+# 										--set defaultImageTag=$(IMAGE_TAG) \
+# 	  								--set download-dags.dagConfiguration="$$dagConfig" \
+# 										--set metabase.namespace=$(METABASE_NAMESPACE) \
+# 										--values $(CHART_DIR)/values-$(ENVIRONMENT).yaml
+# install:
+# 	@set -euo pipefail; \
+# 	if [ -z '$(CCBC_NAMESPACE_PREFIX)' ]; then \
+# 		echo "CCBC_NAMESPACE_PREFIX is not set"; \
+# 		exit 1; \
+# 	fi; \
+# 	if [ -z '$(METABASE_NAMESPACE_PREFIX)' ]; then \
+# 		echo "METABASE_NAMESPACE_PREFIX is not set"; \
+# 		exit 1; \
+# 	fi; \
+# 	if [ -z '$(ENVIRONMENT)' ]; then \
+# 		echo "ENVIRONMENT is not set"; \
+# 		exit 1; \
+# 	fi; \
+# 	helm dep up $(CHART_DIR); \
+# 	if ! helm status --namespace $(NAMESPACE) then \
+# 		echo 'Installing the application and issuing SSL certificate'; \
+# 		helm install --set certbot.manualRun=true $(HELM_OPTS)$(CHART_DIR); \
+# 	else \
+# 		helm upgrade $(HELM_OPTS) $(CHART_DIR); \
+# 	fi;
