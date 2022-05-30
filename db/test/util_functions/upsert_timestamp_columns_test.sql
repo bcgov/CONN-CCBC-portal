@@ -93,12 +93,12 @@ select hasnt_column('ccbc_public', 'test_table_false_columns', 'archived_by', 'a
 select hasnt_column('ccbc_public', 'test_table_false_columns', 'archived_at', 'archived_at column is not created when parameter is set to false');
 
 select hasnt_index(
-  'ccbc_public', 'test_table_false_columns', 'cif_test_table_false_columns_updated_by_foreign_key',
+  'ccbc_public', 'test_table_false_columns', 'ccbc_test_table_false_columns_updated_by_foreign_key',
   'test_table_false_columns does not create an index updated_by parameter is false'
 );
 
 select hasnt_index(
-  'ccbc_public', 'test_table_false_columns', 'cif_test_table_false_columns_archived_by_foreign_key',
+  'ccbc_public', 'test_table_false_columns', 'ccbc_test_table_false_columns_archived_by_foreign_key',
   'test_table_false_columns does not create an index when archived_by parameter is false'
 );
 
