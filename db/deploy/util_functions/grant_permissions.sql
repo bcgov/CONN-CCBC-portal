@@ -4,7 +4,7 @@
 begin;
 
 -- Grants permission for all columns in a table
-create or replace function ccbc_public.grant_permissions(
+create or replace function ccbc_private.grant_permissions(
   operation text,
   table_name text,
   role_name text,
@@ -29,11 +29,11 @@ $function$
 $function$
 language 'plpgsql' volatile;
 
-comment on function ccbc_public.grant_permissions(text, text, text, text) is
+comment on function ccbc_private.grant_permissions(text, text, text, text) is
   'A generic function for granting access-control permissions on all columns of a table';
 
 -- Grants permission on specific columns in a table
-create or replace function ccbc_public.grant_permissions(
+create or replace function ccbc_private.grant_permissions(
   operation text,
   table_name text,
   role_name text,
@@ -62,7 +62,7 @@ $function$
 $function$
 language 'plpgsql' volatile;
 
-comment on function ccbc_public.grant_permissions(text, text, text, text[], text) is
+comment on function ccbc_private.grant_permissions(text, text, text, text[], text) is
   'A generic function for granting access-control permissions on specific columns of a table';
 
 commit;

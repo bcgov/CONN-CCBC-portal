@@ -4,6 +4,15 @@
 create_roles 2022-04-11T23:46:54Z marcel <mlmueller@protonmail.com> # Add create_roles
 schemas/public 2022-04-11T22:30:24Z marcel <mlmueller@protonmail.com> # Add main ccbc schema
 schemas/private 2022-04-11T23:55:16Z marcel <mlmueller@protonmail.com> # Add private schema
-tables/connect_session 2022-04-11T23:59:30Z marcel <mlmueller@protonmail.com> # Add connect_session table
+types/keycloak_jwt [schemas/public] 2022-05-26T20:39:57Z Bryan Krauss <bryan@button.is> # keycloak jwt type
+util_functions/upsert_policy [create_roles] 2022-05-26T22:06:05Z Bryan Krauss <bryan@button.is> # util function for working with RLS
+trigger_functions/update_timestamps [schemas/private] 2022-05-27T17:34:46Z Bryan Krauss <bryan@button.is> # A trigger function to update timestamp in tables
+trigger_functions/archived_records_are_immutable 2022-05-27T20:19:58Z Bryan Krauss <bryan@button.is> # trigger function for making achived rec immutable
+util_functions/upsert_timestamp_columns [trigger_functions/update_timestamps] 2022-05-27T17:40:27Z Bryan Krauss <bryan@button.is> # A util function that add timestamps to table column
 util_functions/grant_permissions [create_roles] 2022-05-17T18:13:44Z Bryan Krauss <bryan@button.is> # Creates util function to grant permission to different ccbc users
+util_functions/verify_grants [schemas/public] 2022-05-27T20:39:15Z Bryan Krauss <bryan@button.is> # util function to verify grant permissions on tables
+functions/session [schemas/public types/keycloak_jwt] 2022-05-27T20:29:47Z Bryan Krauss <bryan@button.is> # user session
+tables/connect_session 2022-04-11T23:59:30Z marcel <mlmueller@protonmail.com> # Add connect_session table
+tables/ccbc_user 2022-05-26T17:58:53Z Bryan Krauss <bryan@button.is> # Users table for ccbc project
 tables/applications 2022-04-11T22:31:16Z marcel <mlmueller@protonmail.com> # Add application table to store application data
+mutations/create_user_from_session 2022-05-26T20:41:37Z Bryan Krauss <bryan@button.is> # A mutation to create a user from the seesion table

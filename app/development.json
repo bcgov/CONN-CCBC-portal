@@ -9,5 +9,8 @@
   "PGDATABASE": "ccbc",
   "PGSCHEMA": "ccbc_public",
   "HAPPO_API_KEY": "",
-  "HAPPO_API_SECRET": ""
+  "HAPPO_API_SECRET": "",
+  "SSO_CLIENT_SECRET": "",
+  "HOST": "localhost",
+  "OPENSHIFT_APP_NAMESPACE": "ff61fb-dev"
 }

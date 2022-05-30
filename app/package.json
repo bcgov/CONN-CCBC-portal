@@ -16,6 +16,7 @@
     "test:e2e": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run"
   },
   "dependencies": {
+    "@bcgov-cas/sso-express": "^3.1.0",
     "@button-inc/bcgov-theme": "^1.0.1",
     "@button-inc/form-schema": "^1.0.0-alpha.8",
     "@rjsf/core": "^4.2.0",
@@ -35,6 +36,7 @@
     "moment-timezone": "^0.5.34",
     "next": "^12.1.6",
     "next-session": "^3.4.0",
+    "openid-client": "^5.1.6",
     "postgraphile": "^4.12.9",
     "react": "^18.0.0",
     "react-datepicker": "^4.7.0",

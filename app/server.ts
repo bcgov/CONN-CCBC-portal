@@ -9,6 +9,7 @@ import config from './config.js';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from './backend/lib/session';
+import ssoMiddleware from './backend/lib/sso-middleware';
 
 const port = config.get('PORT');
 const dev = config.get('NODE_ENV') != 'production';
@@ -42,6 +43,8 @@ app.prepare().then(async () => {
   const { middleware: sessionMiddleware } = session();
 
   server.use(sessionMiddleware);
+
+  server.use(await ssoMiddleware());
 
   server.use(postgraphileMiddleware());
 
