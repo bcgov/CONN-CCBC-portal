@@ -755,6 +755,8 @@ type KeycloakJwt {
     match external broker backchannel logout requests to a UserSession
   """
   brokerSessionId: String
+  priorityGroup: String
+  userGroups: [String]
 }
 
 """
