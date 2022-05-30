@@ -8,4 +8,3 @@ grant usage on schema ccbc_private to ccbc_guest, ccbc_auth_user;
 comment on schema ccbc_private is 'The private schema for the ccbc.';
 
 commit;
-

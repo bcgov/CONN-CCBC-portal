@@ -12,7 +12,7 @@ declare
 
 begin
   user_sub := (select sub from ccbc_public.session());
-  user_id := (select id from ccbc_public.ccbc_auth_user where ccbc_auth_user.uuid = user_sub);
+  user_id := (select id from ccbc_public.ccbc_user where ccbc_user.uuid = user_sub);
   if tg_op = 'INSERT' then
     if to_jsonb(new) ? 'created_at' then
       new.created_at = now();
