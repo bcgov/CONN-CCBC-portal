@@ -1,7 +1,7 @@
 {
   "presets": ["next/babel"],
   "plugins": [
-    ["relay"],
+    ["relay", { "artifactDirectory": "./__generated__" }],
     [
       "module-resolver",
       { "root": [".", ".."], "extensions": [".js", ".jsx", ".ts", ".tsx"] }

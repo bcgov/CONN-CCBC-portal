@@ -6,12 +6,12 @@
     "dev": "NODE_OPTIONS='--inspect' ts-node --project tsconfig.server.json server.ts",
     "build": "yarn run build:server && yarn run build:schema && yarn run build:relay && yarn run build:next",
     "build:next": "next build",
-    "build:relay": "relay-compiler",
+    "build:relay": "mkdir -p __generated__ && relay-compiler",
     "build:server": "tsc --project tsconfig.server.json",
     "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
     "start": "node --unhandled-rejections=strict dist/server.js",
     "lint": "next lint",
-    "relay": "relay-compiler",
+    "relay": "mkdir -p __generated__ && relay-compiler",
     "test": "jest",
     "test:e2e": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run"
   },
@@ -40,6 +40,10 @@
     "react-datepicker": "^4.7.0",
     "react-dom": "^18.0.0",
     "react-relay": "^13.2.0",
+    "react-relay-network-modern": "^6.2.1",
+    "relay-nextjs": "^0.8.0",
+    "relay-runtime": "^13.2.0",
+    "relay-test-utils": "^13.2.0",
     "styled-components": "^5.3.5",
     "ts-node": "^10.7.0"
   },
@@ -53,6 +57,7 @@
     "@types/react-datepicker": "^4.4.1",
     "@types/react-dom": "18.0.0",
     "@types/react-relay": "^13.0.2",
+    "@types/relay-test-utils": "^6.0.5",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-relay": "^13.2.0",
@@ -77,7 +82,14 @@
   "relay": {
     "src": "./",
     "schema": "./schema/schema.graphql",
-    "language": "typescript"
+    "language": "typescript",
+    "artifactDirectory": "./__generated__",
+    "exclude": [
+      "**/.next/**",
+      "**/node_modules/**",
+      "**/__generated__/**",
+      "**/server/**"
+    ]
   },
   "graphql": {
     "schema": "./schema/schema.graphql"
