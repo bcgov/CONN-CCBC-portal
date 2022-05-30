@@ -22,7 +22,9 @@ create type ccbc_public.keycloak_jwt as (
   given_name text,
   family_name text,
   email text,
-  broker_session_id text
+  broker_session_id text,
+  priority_group text,
+  user_groups text[]
 );
 
 comment on column ccbc_public.keycloak_jwt.jti is

@@ -37,7 +37,7 @@ begin
       current_setting('jwt.claims.broker_session_id', true),
       current_setting('jwt.claims.priority_group', true),
       (select string_to_array(current_setting('jwt.claims.user_groups', true), ','))
-    )::cif.keycloak_jwt
+    )::ccbc_public.keycloak_jwt
   );
 end
 $function$ language 'plpgsql' stable;
