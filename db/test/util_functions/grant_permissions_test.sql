@@ -1,5 +1,5 @@
 begin;
-select no_plan();
+select plan(11);
 
 -- Test setup
 create table ccbc_public.test_table
@@ -15,13 +15,13 @@ create table ccbc_public.test_table_specific_column_grants
 );
 
 select has_function(
-  'ccbc_public', 'grant_permissions',
+  'ccbc_private', 'grant_permissions',
   'Function grant_permissions should exist'
 );
 
 select throws_ok(
   $$
-    select ccbc_public.grant_permissions('badoperation', 'test_table', 'ccbc_auth_user');
+    select ccbc_private.grant_permissions('badoperation', 'test_table', 'ccbc_auth_user');
   $$,
   'P0001',
   'Invalid operation variable. Must be one of [select, insert, update, delete]',
@@ -38,28 +38,28 @@ select table_privs_are (
 
 select lives_ok(
   $$
-    select ccbc_public.grant_permissions('select', 'test_table', 'ccbc_auth_user');
+    select ccbc_private.grant_permissions('select', 'test_table', 'ccbc_auth_user');
   $$,
   'Function grants select'
 );
 
 select lives_ok(
   $$
-    select ccbc_public.grant_permissions('insert', 'test_table', 'ccbc_auth_user');
+    select ccbc_private.grant_permissions('insert', 'test_table', 'ccbc_auth_user');
   $$,
   'Function grants insert'
 );
 
 select lives_ok(
   $$
-    select ccbc_public.grant_permissions('update', 'test_table', 'ccbc_auth_user');
+    select ccbc_private.grant_permissions('update', 'test_table', 'ccbc_auth_user');
   $$,
   'Function grants update'
 );
 
 select lives_ok(
   $$
-    select ccbc_public.grant_permissions('delete', 'test_table', 'ccbc_auth_user');
+    select ccbc_private.grant_permissions('delete', 'test_table', 'ccbc_auth_user');
   $$,
   'Function grants delete'
 );
@@ -82,7 +82,7 @@ select any_column_privs_are (
 
 select lives_ok(
   $$
-    select ccbc_public.grant_permissions('select', 'test_table_specific_column_grants', 'ccbc_auth_user', ARRAY['allowed']);
+    select ccbc_private.grant_permissions('select', 'test_table_specific_column_grants', 'ccbc_auth_user', ARRAY['allowed']);
   $$,
   'Function grants select when specific columns are specified'
 );
