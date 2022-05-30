@@ -10,7 +10,7 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Welcome');
 
-    cy.get('button')
+    cy.get('main')
       .contains('Login')
       .click()
       .then(() => {
