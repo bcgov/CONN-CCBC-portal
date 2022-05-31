@@ -57,6 +57,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
             action={isLoggedIn ? '/logout' : '/login'}
             linkText={isLoggedIn ? 'Logout' : 'Login'}
           />
+          <LoginForm action={'/logout'} linkText={'Logout'} />
         </StyledRightSideLinks>
       </BaseHeader>
       <SubHeader />

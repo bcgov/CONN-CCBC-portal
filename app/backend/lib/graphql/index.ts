@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import type { Request } from 'express';
 import {
   postgraphile,
@@ -15,7 +13,9 @@ import { graphql, GraphQLSchema } from 'graphql';
 import config from '../../../config';
 
 export const pgSettings: any = (req: Request) => {
-  const opts = {};
+  const opts = {
+    ...authenticationPgSettings(req),
+  };
   return opts;
 };
 
@@ -48,7 +48,7 @@ const postgraphileMiddleware = () => {
 
 export default postgraphileMiddleware;
 
-let postgraphileSchemaSingleton: any;
+let postgraphileSchemaSingleton: GraphQLSchema;
 
 const postgraphileSchema = async () => {
   if (!postgraphileSchemaSingleton) {
@@ -67,6 +67,7 @@ export async function performQuery(
   variables: any,
   request: Request
 ) {
+  console.log('\nperform query\n');
   const settings = pgSettings(request);
   return withPostGraphileContext(
     {

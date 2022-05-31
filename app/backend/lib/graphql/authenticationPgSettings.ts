@@ -11,8 +11,6 @@ import config from '../../../config';
 //     req.cookies?.[config.get('mockAuthCookie')] === roleName
 //   );
 // };
-
-const authenticationPgSettings = (req: Request) => {
   // if (
   //   config.get("cifRole") === "CIF_INTERNAL" ||
   //   allowCypressForRole("cif_internal", req)
@@ -67,9 +65,13 @@ const authenticationPgSettings = (req: Request) => {
   // const claimsSettings = {
   //   role: groupData[priorityGroup].pgRole,
   // };
+const authenticationPgSettings = (req: Request) => {
+  const claimsSettings: any = {
+    role: 'ccbc_guest',
+  };
   if (!isAuthenticated(req))
     return {
-      ...claimsSettings,
+      claimsSettings,
     };
 
   const claims = req.claims;
@@ -102,7 +104,7 @@ const authenticationPgSettings = (req: Request) => {
     'priority_group',
   ];
   properties.forEach((property) => {
-    claimsSettings[`jwt.claims.${property}`] = claims[property];
+    claimsSettings[`jwt.claims.${property}`] = claims![property];
   });
 
   return {

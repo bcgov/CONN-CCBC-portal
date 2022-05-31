@@ -29,6 +29,6 @@ export default async function ssoMiddleware() {
       oidcIssuer: `https://${oidcIssuer}/auth/realms/onestopauth-both`,
       clientSecret: `${config.get('SSO_CLIENT_SECRET')}`,
     },
-    // onAuthCallback: createUserMiddleware(),
+    onAuthCallback: createUserMiddleware(),
   });
 }
