@@ -1,70 +1,6 @@
-// import { getPriorityGroup } from '../../../lib/userGroups';
-// import { getUserGroups } from '../../helpers/userGroupAuthentication';
-// import groupData from '../../../data/groups.json';
 import { isAuthenticated } from '@bcgov-cas/sso-express';
 import type { Request } from 'express';
-import config from '../../../config';
 
-// const allowCypressForRole = (roleName: string, req: Request) => {
-//   return (
-//     config.get('enableMockAuth') &&
-//     req.cookies?.[config.get('mockAuthCookie')] === roleName
-//   );
-// };
-  // if (
-  //   config.get("cifRole") === "CIF_INTERNAL" ||
-  //   allowCypressForRole("cif_internal", req)
-  // ) {
-  //   return {
-  //     "jwt.claims.sub": "00000000-0000-0000-0000-000000000000",
-  //     "jwt.claims.user_groups": "cif_internal",
-  //     "jwt.claims.priority_group": "cif_internal",
-  //     role: "cif_internal",
-  //   };
-  // }
-
-  // if (
-  //   config.get("cifRole") === "CIF_EXTERNAL" ||
-  //   allowCypressForRole("cif_external", req)
-  // ) {
-  //   return {
-  //     "jwt.claims.sub": "00000000-0000-0000-0000-000000000001",
-  //     "jwt.claims.user_groups": "cif_external",
-  //     "jwt.claims.priority_group": "cif_external",
-  //     role: "cif_external",
-  //   };
-  // }
-
-  // if (
-  //   config.get("cifRole") === "CIF_ADMIN" ||
-  //   allowCypressForRole("cif_admin", req)
-  // ) {
-  //   return {
-  //     "jwt.claims.sub": "00000000-0000-0000-0000-000000000002",
-  //     "jwt.claims.user_groups": "cif_admin",
-  //     "jwt.claims.priority_group": "cif_admin",
-  //     role: "cif_admin",
-  //   };
-  // }
-
-  // if (
-  //   config.get("cifRole") === "UNAUTHORIZED_IDIR" ||
-  //   allowCypressForRole("unauthorized_idir", req)
-  // ) {
-  //   return {
-  //     "jwt.claims.sub": "00000000-0000-0000-0000-000000000000",
-  //     "jwt.claims.user_groups": "UNAUTHORIZED_IDIR",
-  //     "jwt.claims.priority_group": "UNAUTHORIZED_IDIR",
-  //     role: "ciip_guest",
-  //   };
-  // }
-
-  // const groups = getUserGroups(req);
-  // const priorityGroup = getPriorityGroup(groups);
-
-  // const claimsSettings = {
-  //   role: groupData[priorityGroup].pgRole,
-  // };
 const authenticationPgSettings = (req: Request) => {
   const claimsSettings: any = {
     role: 'ccbc_guest',
@@ -75,9 +11,6 @@ const authenticationPgSettings = (req: Request) => {
     };
 
   const claims = req.claims;
-
-  // claims.user_groups = groups.join(',');
-  // claims.priority_group = priorityGroup;
 
   const properties = [
     'jti',
@@ -106,6 +39,8 @@ const authenticationPgSettings = (req: Request) => {
   properties.forEach((property) => {
     claimsSettings[`jwt.claims.${property}`] = claims![property];
   });
+  // TODO - look at roles/ claims to determine the correct database role when that becomes a required feature
+  claimsSettings.role = 'ccbc_auth_user';
 
   return {
     ...claimsSettings,

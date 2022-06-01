@@ -5,7 +5,7 @@ import {
   withPostGraphileContext,
 } from 'postgraphile';
 import { pgPool, getDatabaseUrl } from '../setup-pg';
-import { makePluginHook, PostGraphileOptions } from 'postgraphile';
+import { PostGraphileOptions } from 'postgraphile';
 
 import authenticationPgSettings from './authenticationPgSettings';
 
@@ -67,7 +67,6 @@ export async function performQuery(
   variables: any,
   request: Request
 ) {
-  console.log('\nperform query\n');
   const settings = pgSettings(request);
   return withPostGraphileContext(
     {
@@ -80,7 +79,6 @@ export async function performQuery(
       // function.
       return graphql(
         await postgraphileSchema(),
-
         query,
         null,
         { ...context },

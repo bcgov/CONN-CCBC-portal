@@ -4,8 +4,8 @@ import createUserMiddleware from './createUser';
 
 const baseUrl =
   config.get('NODE_ENV') === 'production'
-    ? `https://${config.get('HOST')}`
-    : `http://${config.get('HOST')}:${config.get('PORT') || 3000}`;
+    ? `${config.get('HOST')}`
+    : `${config.get('HOST')}:${config.get('PORT') || 3000}`;
 
 let oidcIssuer: string;
 if (
