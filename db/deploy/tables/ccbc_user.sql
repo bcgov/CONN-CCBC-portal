@@ -48,7 +48,7 @@ perform ccbc_private.upsert_policy('ccbc_guest_select_ccbc_user', 'ccbc_user', '
 end
 $policy$;
 
-comment on table ccbc_public.ccbc_user is 'Table containing information about the application''s users ';
+comment on table ccbc_public.ccbc_user is 'Table containing information about the application''s users, this is business contact information not personally identifiable information';
 comment on column ccbc_public.ccbc_user.id is 'Unique ID for the user';
 comment on column ccbc_public.ccbc_user.uuid is 'Universally Unique ID for the user, defined by the single sign-on provider';
 comment on column ccbc_public.ccbc_user.given_name is 'User''s first name';
