@@ -6,4 +6,5 @@ export { default as StyledGovButton } from './StyledGovButton';
 export { default as Navigation } from './Navigation';
 export { default as SubHeader } from './SubHeader';
 export { SubHeaderNavbarLinks } from './NavbarLinks';
+export { default as NavLoginForm } from './NavLoginForm';
 export { default as LoginForm } from './LoginForm';

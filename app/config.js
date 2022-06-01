@@ -81,7 +81,7 @@ const config = convict({
   HOST: {
     doc: 'The address to where the app is hosted',
     format: String,
-    default: 'ccbc-dev.apps.silver.devops.gov.bc.ca',
+    default: 'https://ccbc-dev.apps.silver.devops.gov.bc.ca',
     env: 'HOST',
   },
   OPENSHIFT_APP_NAMESPACE: {
@@ -89,6 +89,12 @@ const config = convict({
     format: ['ff61fb-dev', 'ff61fb-test', 'ff61fb-prod'],
     default: 'ff61fb-dev',
     env: 'OPENSHIFT_APP_NAMESPACE'
+  },
+  SESSION_SECRET: {
+    doc: 'Random string for session secret. Set this in dev',
+    format: String,
+    default: '',
+    env: 'SESSION_SECRET'
   }
 });
 

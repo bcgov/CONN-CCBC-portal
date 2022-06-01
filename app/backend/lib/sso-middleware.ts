@@ -1,10 +1,11 @@
 import ssoExpress from '@bcgov-cas/sso-express';
 import config from '../../config';
+import createUserMiddleware from './createUser';
 
 const baseUrl =
   config.get('NODE_ENV') === 'production'
-    ? `https://${config.get('HOST')}`
-    : `http://${config.get('HOST')}:${config.get('PORT') || 3000}`;
+    ? `${config.get('HOST')}`
+    : `${config.get('HOST')}:${config.get('PORT') || 3000}`;
 
 let oidcIssuer: string;
 if (
@@ -28,5 +29,6 @@ export default async function ssoMiddleware() {
       oidcIssuer: `https://${oidcIssuer}/auth/realms/onestopauth-both`,
       clientSecret: `${config.get('SSO_CLIENT_SECRET')}`,
     },
+    onAuthCallback: createUserMiddleware(),
   });
 }

@@ -1,6 +1,6 @@
 import { BaseNavigation } from '@button-inc/bcgov-theme/Navigation';
 import { BaseHeader } from '@button-inc/bcgov-theme/Header';
-import { SubHeader, LoginForm } from '.';
+import { SubHeader, NavLoginForm } from '.';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -53,10 +53,11 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
             <StyledAnchor>Dashboard</StyledAnchor>
           </Link>{' '}
           |
-          <LoginForm
+          <NavLoginForm
             action={isLoggedIn ? '/logout' : '/login'}
             linkText={isLoggedIn ? 'Logout' : 'Login'}
           />
+          <NavLoginForm action={'/logout'} linkText={'Logout'} />
         </StyledRightSideLinks>
       </BaseHeader>
       <SubHeader />

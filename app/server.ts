@@ -4,12 +4,12 @@ import http from 'http';
 import { createLightship } from 'lightship';
 import { pgPool } from './backend/lib/setup-pg';
 import express from 'express';
-import postgraphileMiddleware from './backend/lib/postgraphile';
 import config from './config.js';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from './backend/lib/session';
 import ssoMiddleware from './backend/lib/sso-middleware';
+import graphQlMiddleware from './backend/lib/graphql';
 
 const port = config.get('PORT');
 const dev = config.get('NODE_ENV') != 'production';
@@ -46,7 +46,7 @@ app.prepare().then(async () => {
 
   server.use(await ssoMiddleware());
 
-  server.use(postgraphileMiddleware());
+  server.use(graphQlMiddleware());
 
   server.all('*', async (req, res) => handle(req, res));
 

@@ -69,7 +69,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-react-hooks": "^4.5.0",
-    "graphql": "^16.3.0",
+    "graphql": "^15.6.1",
     "happo-cypress": "^3.0.1",
     "happo-e2e": "^1.1.0",
     "happo.io": "^7.2.1",

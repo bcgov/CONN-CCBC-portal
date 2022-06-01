@@ -145,4 +145,6 @@ comment on column ccbc_public.keycloak_jwt.broker_session_id is
   'If created via a broker external login, this is an identifier that can be used to 
   match external broker backchannel logout requests to a UserSession';
 
+comment on type ccbc_public.keycloak_jwt is E'@primaryKey sub\n@foreignKey (sub) references ccbc_user (uuid)';
+
 commit;

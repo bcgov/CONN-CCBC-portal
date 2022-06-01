@@ -2,15 +2,15 @@ import crypto from 'crypto';
 import expressSession from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import { pgPool } from './setup-pg';
+import config from '../../config';
 
 const PgSession = connectPgSimple(expressSession);
 const sessionSecret =
-  process.env.SESSION_SECRET || crypto.randomBytes(32).toString();
-const isProd = process.env.NODE_ENV === 'production';
+  config.get('SESSION_SECRET') || crypto.randomBytes(32).toString();
+const secure = /^https/.test(config.get('HOST'));
 
 const HALF_DAY = 12 * (60 * 60 * 1000);
 const ONE_DAY = 2 * HALF_DAY;
-const TWO_WEEKS = 14 * ONE_DAY;
 const THIRTY_DAYS = 30 * ONE_DAY;
 
 const session = () => {
@@ -34,8 +34,8 @@ const session = () => {
       // secure cookie should be turned to true to provide additional
       // layer of security so that the cookie is set only when working
       // in HTTPS mode.
-      secure: isProd,
-      sameSite: true,
+      secure: secure,
+      sameSite: 'lax',
     },
   });
 
