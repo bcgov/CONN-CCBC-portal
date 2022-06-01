@@ -80,4 +80,4 @@ jobs:
           make install
           psql -c 'CREATE EXTENSION pgtap;' || true
       - name: Run Tests
-        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/*/*_test.sql
+        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/unit/**/*_test.sql

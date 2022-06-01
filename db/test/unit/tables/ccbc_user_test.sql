@@ -19,8 +19,7 @@ insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, uuid) values
   ('foo1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111112'),
   ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111113'),
-  ('foo3', 'bar', 'foo3@bar.com', '11111111-1111-1111-1111-111111111114'),
-  ('foo4', 'bar', 'foo4@bar.com', '11111111-1111-1111-1111-111111111115');
+  ('foo3', 'bar', 'foo3@bar.com', '11111111-1111-1111-1111-111111111114');
 
 -- Row level security tests --
 
