@@ -79,7 +79,7 @@ jobs:
           make
           make install
           psql -c 'CREATE EXTENSION pgtap;' || true
-      - name: Run Tests
-        run: |
-          pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/unit/**/*_test.sql
-          pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/style/*_test.sql --set schemas_to_test=ccbc_public,ccbc_private
+      - name: Run Database Unit Tests
+        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/unit/**/*_test.sql
+      - name: Run Database Style Tests
+        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/style/*_test.sql --set schemas_to_test=ccbc_public,ccbc_private
