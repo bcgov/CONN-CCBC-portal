@@ -11,6 +11,6 @@ describe('The StyledGovButton component', () => {
     const button = screen.getByRole('button', { name: 'Button' });
     const style = window.getComputedStyle(button);
 
-    expect(style.margin).toBe('20px 20px 0px 0px');
+    expect(style.margin).toBe('20px 20px 20px 0px');
   });
 });
