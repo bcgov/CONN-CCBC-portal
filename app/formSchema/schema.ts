@@ -232,8 +232,8 @@ const schema = {
       type: 'object',
       properties: {
         unitNumber: {
-          title: 'Unit number (optional)',
-          type: 'string',
+          title: 'Unit number',
+          type: 'number',
         },
         streetNumber: {
           title: 'Street number',
@@ -281,33 +281,40 @@ const schema = {
                 isMailingAddress: {
                   enum: ['No'],
                 },
-                unitNumberMailing: {
-                  title: 'Unit number',
-                  type: 'string',
-                },
-                streetNumberMailing: {
-                  title: 'Street number',
-                  type: 'string',
-                },
-                streetNameMailing: {
-                  title: 'Street name',
-                  type: 'string',
-                },
-                POBoxMailing: {
-                  title: 'PO box',
-                  type: 'string',
-                },
-                cityMailing: {
-                  title: 'City',
-                  type: 'string',
-                },
-                provinceMailing: {
-                  title: 'Province',
-                  type: 'string',
-                },
-                postalCodeMailing: {
-                  title: 'Postal code (H0H 0H0)',
-                  type: 'string',
+                mailingAddress: {
+                  title: 'Mailing address',
+                  description: 'Provide an address for your organization',
+                  type: 'object',
+                  properties: {
+                    unitNumberMailing: {
+                      title: 'Unit number',
+                      type: 'string',
+                    },
+                    streetNumberMailing: {
+                      title: 'Street number',
+                      type: 'string',
+                    },
+                    streetNameMailing: {
+                      title: 'Street name',
+                      type: 'string',
+                    },
+                    POBoxMailing: {
+                      title: 'PO box',
+                      type: 'string',
+                    },
+                    cityMailing: {
+                      title: 'City',
+                      type: 'string',
+                    },
+                    provinceMailing: {
+                      title: 'Province',
+                      type: 'string',
+                    },
+                    postalCodeMailing: {
+                      title: 'Postal code (H0H 0H0)',
+                      type: 'string',
+                    },
+                  },
                 },
               },
             },

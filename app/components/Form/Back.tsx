@@ -10,7 +10,7 @@ const StyledDiv = styled.div`
 `;
 
 const Back = ({ pageNumber }: Props) => {
-  const url = pageNumber > 1 ? `/form/${pageNumber - 1}` : '/';
+  const url = pageNumber > 1 ? `/form/${pageNumber - 1}` : '/dashboard';
 
   return (
     <StyledDiv>

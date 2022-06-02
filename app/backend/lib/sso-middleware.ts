@@ -4,8 +4,8 @@ import createUserMiddleware from './createUser';
 
 const baseUrl =
   config.get('NODE_ENV') === 'production'
-    ? `${config.get('HOST')}`
-    : `${config.get('HOST')}:${config.get('PORT') || 3000}`;
+    ? `https://${config.get('HOST')}`
+    : `http://${config.get('HOST')}:${config.get('PORT') || 3000}`;
 
 let oidcIssuer: string;
 if (
@@ -27,7 +27,7 @@ export default async function ssoMiddleware() {
       baseUrl: baseUrl,
       clientId: 'conn-ccbc-portal-3700',
       oidcIssuer: `https://${oidcIssuer}/auth/realms/onestopauth-both`,
-      clientSecret: `${config.get('SSO_CLIENT_SECRET')}`,
+      clientSecret: `${config.get('CLIENT_SECRET')}`,
     },
     onAuthCallback: createUserMiddleware(),
   });
