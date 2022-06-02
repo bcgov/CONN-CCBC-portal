@@ -23,6 +23,7 @@ const uiSchema = {
     'province',
     'postalCode',
     'isMailingAddress',
+    'mailingAddress',
     'unitNumberMailing',
     'streetNumberMailing',
     'streetNameMailing',
