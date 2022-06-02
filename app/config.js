@@ -79,7 +79,7 @@ const config = convict({
     env: 'SSO_CLIENT_SECRET',
   },
   HOST: {
-    doc: 'The address to where the app is hosted',
+    doc: 'The address to where the app is hosted, must include https:// or http://',
     format: String,
     default: 'https://ccbc-dev.apps.silver.devops.gov.bc.ca',
     env: 'HOST',
