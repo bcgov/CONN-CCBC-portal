@@ -79,9 +79,9 @@ const config = convict({
     env: 'SSO_CLIENT_SECRET',
   },
   HOST: {
-    doc: 'The address to where the app is hosted, must include https:// or http://',
+    doc: 'The address to where the app is hosted',
     format: String,
-    default: 'https://ccbc-dev.apps.silver.devops.gov.bc.ca',
+    default: 'localhost',
     env: 'HOST',
   },
   OPENSHIFT_APP_NAMESPACE: {
