@@ -170,6 +170,11 @@ spec:
             value: {{ .Values.app.namespace }}
           - name: ENABLE_ANALYTICS
             value: {{ .Values.app.enableAnalytics | quote }}
+          - name: CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: client-secret
+                name: {{ template "ccbc.fullname" . }}-sso-express
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}
@@ -203,6 +208,3 @@ spec:
             failureThreshold: 3
             successThreshold: 1
             timeoutSeconds: 5
-
-
-          
