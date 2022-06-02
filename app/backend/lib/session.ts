@@ -7,7 +7,7 @@ import config from '../../config';
 const PgSession = connectPgSimple(expressSession);
 const sessionSecret =
   config.get('SESSION_SECRET') || crypto.randomBytes(32).toString();
-const secure = /^https/.test(config.get('HOST'));
+const isProd = process.env.NODE_ENV === 'production';
 
 const HALF_DAY = 12 * (60 * 60 * 1000);
 const ONE_DAY = 2 * HALF_DAY;
@@ -34,7 +34,7 @@ const session = () => {
       // secure cookie should be turned to true to provide additional
       // layer of security so that the cookie is set only when working
       // in HTTPS mode.
-      secure: secure,
+      secure: isProd,
       sameSite: 'lax',
     },
   });
