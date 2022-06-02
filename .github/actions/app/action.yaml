@@ -41,6 +41,6 @@ runs:
           --set metabase.namespace=${{ inputs.openshift_metabase_namespace }} \
           --set image.app.tag=${{ inputs.tag }} \
           --set image.db.tag=${{ inputs.tag  }} \
-          --set image.app.clientSecret=${{ inputs.client_secret }} \
+          --set image.app.ssoClientSecret=${{ inputs.client_secret }} \
           --set route.host=${{ inputs.route }}
       shell: bash
