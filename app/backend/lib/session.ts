@@ -7,7 +7,7 @@ import config from '../../config';
 const PgSession = connectPgSimple(expressSession);
 const sessionSecret =
   config.get('SESSION_SECRET') || crypto.randomBytes(32).toString();
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = config.get('NODE_ENV') === 'production';
 
 const HALF_DAY = 12 * (60 * 60 * 1000);
 const ONE_DAY = 2 * HALF_DAY;
