@@ -23,9 +23,9 @@ let postgraphileOptions: PostGraphileOptions = {
   classicIds: true,
   enableQueryBatching: true,
   dynamicJson: true,
-  pgSettings,
   extendedErrors: ['hint', 'detail', 'errcode'],
   showErrorStack: 'json',
+  pgSettings,
 };
 
 if (config.get('NODE_ENV') === 'production') {

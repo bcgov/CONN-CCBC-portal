@@ -18,19 +18,24 @@ const initialPreloadedQuery = getInitialPreloadedQuery({
 export default function MyApp({ Component, pageProps }: AppProps) {
   const relayProps = getRelayProps(pageProps, initialPreloadedQuery);
   const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
+  3;
+  const component =
+    typeof window !== 'undefined' ? (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Component {...pageProps} {...relayProps} />
+      </Suspense>
+    ) : (
+      <Component {...pageProps} {...relayProps} />
+    );
 
   return (
-    <RelayEnvironmentProvider environment={env}>
-      <Suspense fallback={'Loading...'}>
-        <GlobalTheme>
-          <GlobalStyle />
-          <BCGovTypography />
-          <Layout title="Connecting Communities BC">
-            <Component {...pageProps} {...relayProps} />
-          </Layout>
-        </GlobalTheme>
-      </Suspense>
-    </RelayEnvironmentProvider>
+    <GlobalTheme>
+      <GlobalStyle />
+      <BCGovTypography />
+      <RelayEnvironmentProvider environment={env}>
+        <Layout title="Connecting Communities BC">{component}</Layout>
+      </RelayEnvironmentProvider>
+    </GlobalTheme>
   );
 }
 

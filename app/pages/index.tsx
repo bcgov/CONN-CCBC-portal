@@ -1,7 +1,23 @@
-import type { NextPage } from 'next';
 import { LoginForm } from '../components';
+import { graphql, usePreloadedQuery } from 'react-relay/hooks';
+import { withRelay, RelayProps } from 'relay-nextjs';
+import defaultRelayOptions from '../lib/relay/withRelayOptions';
+import { pagesQuery } from '../__generated__/pagesQuery.graphql';
+import { useLazyLoadQuery } from 'react-relay';
 
-const Home: NextPage = () => {
+const HomeQuery = graphql`
+  query pagesQuery {
+    session {
+      sub
+    }
+  }
+`;
+
+const Home = ({ preloadedQuery }: RelayProps<pagesQuery>) => {
+  const { query } = usePreloadedQuery(HomeQuery, preloadedQuery);
+  const session: any = useLazyLoadQuery(HomeQuery, {});
+  console.log(session);
+
   return (
     <div>
       <h1>Welcome</h1>
@@ -23,4 +39,19 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export const withRelayOptions = {
+  ...defaultRelayOptions,
+  serverSideProps: async (ctx) => {
+    const props = await defaultRelayOptions.serverSideProps(ctx);
+    return props;
+
+    return {
+      redirect: {
+        destination: `/`,
+      },
+    };
+  },
+};
+
+export default withRelay(Home, HomeQuery, withRelayOptions);
+// export default Home;
