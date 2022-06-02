@@ -10,6 +10,6 @@
   "PGSCHEMA": "ccbc_public",
   "HAPPO_API_KEY": "",
   "HAPPO_API_SECRET": "",
-  "SSO_CLIENT_SECRET": "",
+  "CLIENT_SECRET": "",
   "HOST": ""
 }

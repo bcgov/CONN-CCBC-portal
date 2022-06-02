@@ -72,11 +72,11 @@ const config = convict({
     default: '',
     env: 'HAPPO_API_SECRET',
   },
-  SSO_CLIENT_SECRET: {
+  CLIENT_SECRET: {
     doc: 'SSO KeyCloak client secret',
     format: String,
     default: '',
-    env: 'SSO_CLIENT_SECRET',
+    env: 'CLIENT_SECRET',
   },
   HOST: {
     doc: 'The address to where the app is hosted',

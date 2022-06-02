@@ -27,7 +27,7 @@ export default async function ssoMiddleware() {
       baseUrl: baseUrl,
       clientId: 'conn-ccbc-portal-3700',
       oidcIssuer: `https://${oidcIssuer}/auth/realms/onestopauth-both`,
-      clientSecret: `${config.get('SSO_CLIENT_SECRET')}`,
+      clientSecret: `${config.get('CLIENT_SECRET')}`,
     },
     onAuthCallback: createUserMiddleware(),
   });
