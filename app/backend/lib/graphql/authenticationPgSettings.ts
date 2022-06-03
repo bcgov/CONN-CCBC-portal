@@ -41,7 +41,7 @@ const authenticationPgSettings = (req: Request) => {
     claimsSettings[`jwt.claims.${property}`] = claims![property];
   });
   // TODO - look at roles/ claims to determine the correct database role when that becomes a required feature
-  claimsSettings.role = 'ccbc_guest';
+  claimsSettings.role = 'ccbc_auth_user';
 
   return {
     ...claimsSettings,
