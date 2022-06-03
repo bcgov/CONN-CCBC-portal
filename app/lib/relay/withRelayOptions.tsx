@@ -6,7 +6,6 @@ import { NextRouter } from 'next/router';
 const withRelayOptions: WiredOptions<any> = {
   fallback: <div>Loading...</div>,
   ErrorComponent: (props) => {
-    // error will be handled by sentry error boundary in _app.tsx
     throw props.error;
   },
   createClientEnvironment: () => getClientEnvironment()!,
