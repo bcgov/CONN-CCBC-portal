@@ -14,12 +14,12 @@ import { Layout } from '../../components';
 
 const FormPage = ({ preloadedQuery }: any) => {
   const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
-  const { sub } = session;
 
   const router = useRouter();
+  const trimmedSub = session?.sub.replace(/-/g, '');
 
   const application: any = useLazyLoadQuery(getApplicationByOwnerQuery, {
-    owner: sub,
+    owner: trimmedSub,
   });
 
   const formData = application?.applicationByOwner?.formData;
@@ -29,7 +29,11 @@ const FormPage = ({ preloadedQuery }: any) => {
     <Layout session={session} title="Connecting Communities BC">
       <FormDiv>
         <Back pageNumber={pageNumber} />
-        <ApplicationForm pageNumber={pageNumber} formData={formData || {}} />
+        <ApplicationForm
+          formData={formData || {}}
+          pageNumber={pageNumber}
+          trimmedSub={trimmedSub}
+        />
       </FormDiv>
     </Layout>
   );

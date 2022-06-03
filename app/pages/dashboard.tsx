@@ -15,16 +15,17 @@ import { Layout } from '../components';
 
 const Dashboard = ({ preloadedQuery }: any) => {
   const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
-  const { sub } = session;
 
   const router = useRouter();
 
   const [createApplication] = useCreateApplicationMutation();
 
   const handleCreateApplication = () => {
+    const trimmedSub = session?.sub.replace(/-/g, '');
     createApplication({
       variables: {
-        input: { application: { owner: sub } },
+        // input: { application: { owner: session?.sub } },
+        input: { application: { owner: trimmedSub } },
       },
       onCompleted: () => {
         router.push('/form/1');
