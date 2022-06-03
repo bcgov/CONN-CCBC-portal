@@ -3,6 +3,7 @@ import { ApplicationForm, Back } from '../../components/Form';
 import FormDiv from '../../components/FormDiv';
 import { getApplicationByOwnerQuery } from '../../schema/queries';
 import { useLazyLoadQuery } from 'react-relay';
+import { Layout } from '../../components';
 
 export default function FormPage() {
   const router = useRouter();
@@ -15,9 +16,11 @@ export default function FormPage() {
   const pageNumber = Number(router.query.page);
 
   return (
-    <FormDiv>
-      <Back pageNumber={pageNumber} />
-      <ApplicationForm pageNumber={pageNumber} formData={formData || {}} />
-    </FormDiv>
+    <Layout session={{}} title="Connecting Communities BC">
+      <FormDiv>
+        <Back pageNumber={pageNumber} />
+        <ApplicationForm pageNumber={pageNumber} formData={formData || {}} />
+      </FormDiv>
+    </Layout>
   );
 }

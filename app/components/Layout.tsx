@@ -19,9 +19,10 @@ const StyledMain = styled.main`
 type Props = {
   title: string;
   children: JSX.Element | JSX.Element[] | string | string[];
+  session: object;
 };
 
-const Layout: React.FC<Props> = ({ title, children }) => {
+const Layout: React.FC<Props> = ({ children, session, title }) => {
   return (
     <>
       <Head>
