@@ -4,7 +4,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
-import { Layout } from '../components';
+import { ButtonLink, Layout } from '../components';
 import { NextPageContext } from 'next/types';
 import { getSessionQuery } from '../schema/queries';
 
@@ -28,7 +28,12 @@ const Home = ({ preloadedQuery }: RelayProps) => {
           To begin the application, please log in with BCeID Business. If you do
           not have BCeID Business, please use your BCeID Basic.
         </p>
-        <LoginForm />
+
+        {session?.sub ? (
+          <ButtonLink href="/dashboard">Go to dashboard</ButtonLink>
+        ) : (
+          <LoginForm />
+        )}
       </div>
     </Layout>
   );
