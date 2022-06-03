@@ -3,7 +3,8 @@ import { graphql, usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
-import { useLazyLoadQuery } from 'react-relay';
+import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
+import type { Request } from 'express';
 
 const HomeQuery = graphql`
   query pagesQuery {
@@ -14,9 +15,7 @@ const HomeQuery = graphql`
 `;
 
 const Home = ({ preloadedQuery }: RelayProps<pagesQuery>) => {
-  const { query } = usePreloadedQuery(HomeQuery, preloadedQuery);
-  const session: any = useLazyLoadQuery(HomeQuery, {});
-  console.log(session);
+  const { session } = usePreloadedQuery(HomeQuery, preloadedQuery);
 
   return (
     <div>
@@ -41,15 +40,19 @@ const Home = ({ preloadedQuery }: RelayProps<pagesQuery>) => {
 
 export const withRelayOptions = {
   ...defaultRelayOptions,
-  serverSideProps: async (ctx) => {
-    const props = await defaultRelayOptions.serverSideProps(ctx);
-    return props;
-
-    return {
-      redirect: {
-        destination: `/`,
-      },
-    };
+  serverSideProps: async (ctx: NextPageContext) => {
+    // Server-side redirection of the user to their landing route, if they are logged in
+    const request = ctx.req as Request;
+    const authenticated = isAuthenticated(request);
+    // They're logged in.
+    if (authenticated)
+      return {
+        redirect: {
+          destination: '/dashboard',
+        },
+      };
+    // Handle not logged in
+    return {};
   },
 };
 
