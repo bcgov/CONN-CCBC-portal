@@ -1,4 +1,11 @@
 import Link from 'next/link';
+import { withRelay, RelayProps } from 'relay-nextjs';
+import { NextPageContext } from 'next/types';
+import { getSessionQuery } from '../../schema/queries';
+import defaultRelayOptions from '../../lib/relay/withRelayOptions';
+import { usePreloadedQuery } from 'react-relay/hooks';
+import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
+import type { Request } from 'express';
 import Button from '@button-inc/bcgov-theme/Button';
 import SuccessBanner from '../../components/Form/SuccessBanner';
 import styled from 'styled-components';
@@ -12,9 +19,11 @@ const StyledDiv = styled.div`
   margin: 24px;
 `;
 
-const Success = () => {
+const Success = ({ preloadedQuery }: any) => {
+  const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
+
   return (
-    <Layout session={{}} title="Connecting Communities BC">
+    <Layout session={session} title="Connecting Communities BC">
       <StyledDiv>
         <StyledSection>
           <SuccessBanner />
@@ -32,4 +41,29 @@ const Success = () => {
   );
 };
 
-export default Success;
+const QueryHandler = ({ preloadedQuery }: RelayProps) => {
+  return (
+    preloadedQuery && <Success preloadedQuery={preloadedQuery} CSN={false} />
+  );
+};
+
+export const withRelayOptions = {
+  ...defaultRelayOptions,
+  serverSideProps: async (ctx: NextPageContext) => {
+    // Server-side redirection of the user to their landing route, if they are logged in
+    const request = ctx.req as Request;
+    const authenticated = isAuthenticated(request);
+    // They're logged in.
+    if (authenticated) {
+      return {};
+    }
+    // Handle not logged in
+    return {
+      redirect: {
+        destination: '/',
+      },
+    };
+  },
+};
+
+export default withRelay(QueryHandler, getSessionQuery, withRelayOptions);

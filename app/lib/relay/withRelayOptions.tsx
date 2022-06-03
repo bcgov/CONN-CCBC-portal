@@ -14,10 +14,8 @@ const withRelayOptions: WiredOptions<any> = {
     return createServerEnvironment({ cookieHeader: ctx?.req?.headers.cookie });
   },
   serverSideProps: async (ctx: NextPageContext) => {
+    // Take care of this logic in page routes
     return {};
-    return {
-      redirect: { destination: `/`, permanent: false },
-    };
   },
   variablesFromContext: (ctx: NextPageContext | NextRouter) => {
     return {

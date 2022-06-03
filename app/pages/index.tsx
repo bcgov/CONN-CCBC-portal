@@ -1,23 +1,15 @@
 import { LoginForm } from '../components';
-import { graphql, usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import { pagesQuery } from '../__generated__/pagesQuery.graphql';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
 import { Layout } from '../components';
 import { NextPageContext } from 'next/types';
+import { getSessionQuery } from '../schema/queries';
 
-const HomeQuery = graphql`
-  query pagesQuery {
-    session {
-      sub
-    }
-  }
-`;
-
-const Home = ({ preloadedQuery }: RelayProps<pagesQuery>) => {
-  const { session } = usePreloadedQuery(HomeQuery, preloadedQuery);
+const Home = ({ preloadedQuery }: RelayProps) => {
+  const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -42,6 +34,12 @@ const Home = ({ preloadedQuery }: RelayProps<pagesQuery>) => {
   );
 };
 
+// Todo: look for a better way to handle preloadedQuery error. Using this to wait until
+// preloadedQuery exists to load page to fix crash if no session
+const QueryHandler = ({ preloadedQuery }: RelayProps) => {
+  return preloadedQuery && <Home preloadedQuery={preloadedQuery} CSN={false} />;
+};
+
 export const withRelayOptions = {
   ...defaultRelayOptions,
   serverSideProps: async (ctx: NextPageContext) => {
@@ -49,17 +47,17 @@ export const withRelayOptions = {
     const request = ctx.req as Request;
     const authenticated = isAuthenticated(request);
     // They're logged in.
-    if (authenticated)
-      return {
-        redirect: {
-          destination: '/dashboard',
-        },
-      };
+    // Disable for index
+    if (authenticated) {
+      //   return {
+      //     redirect: {
+      //       destination: '/dashboard',
+      //     },
+      return {};
+    }
     // Handle not logged in
-    return {
-      session: false,
-    };
+    return {};
   },
 };
 
-export default withRelay(Home, HomeQuery, withRelayOptions);
+export default withRelay(QueryHandler, getSessionQuery, withRelayOptions);
