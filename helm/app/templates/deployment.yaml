@@ -166,7 +166,7 @@ spec:
                 name: {{ template "ccbc.fullname" . }}
           - name: HOST
             value: {{ .Values.route.host }}
-          - name: NAMESPACE
+          - name: OPENSHIFT_APP_NAMESPACE
             value: {{ .Values.app.namespace }}
           - name: ENABLE_ANALYTICS
             value: {{ .Values.app.enableAnalytics | quote }}
