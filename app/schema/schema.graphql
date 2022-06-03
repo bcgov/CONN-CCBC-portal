@@ -119,28 +119,15 @@ type ApplicationsConnection {
   totalCount: Int!
 }
 
-"""
-Table containing the data associated with the CCBC respondents application
-"""
 type Application implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
-
-  """Primary key ID for the application"""
   rowId: Int!
-
-  """Reference number assigned to the application"""
   referenceNumber: String
-
-  """The owner of the application"""
   owner: UUID
-
-  """The data entered into the form by the respondent"""
   formData: JSON!
-
-  """The status of the application, draft or complete"""
   status: String
 
   """created by user id"""
@@ -932,16 +919,9 @@ input CreateApplicationInput {
 
 """An input for mutations affecting `Application`"""
 input ApplicationInput {
-  """Reference number assigned to the application"""
   referenceNumber: String
-
-  """The owner of the application"""
   owner: UUID
-
-  """The data entered into the form by the respondent"""
   formData: JSON
-
-  """The status of the application, draft or complete"""
   status: String
 
   """created by user id"""
@@ -1097,16 +1077,9 @@ input UpdateApplicationInput {
 Represents an update to a `Application`. Fields that are set will be updated.
 """
 input ApplicationPatch {
-  """Reference number assigned to the application"""
   referenceNumber: String
-
-  """The owner of the application"""
   owner: UUID
-
-  """The data entered into the form by the respondent"""
   formData: JSON
-
-  """The status of the application, draft or complete"""
   status: String
 
   """created by user id"""
@@ -1140,8 +1113,6 @@ input UpdateApplicationByRowIdInput {
   An object where the defined keys will be set on the `Application` being updated.
   """
   applicationPatch: ApplicationPatch!
-
-  """Primary key ID for the application"""
   rowId: Int!
 }
 
@@ -1157,8 +1128,6 @@ input UpdateApplicationByOwnerInput {
   An object where the defined keys will be set on the `Application` being updated.
   """
   applicationPatch: ApplicationPatch!
-
-  """The owner of the application"""
   owner: UUID!
 }
 
@@ -1321,8 +1290,6 @@ input DeleteApplicationByRowIdInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-
-  """Primary key ID for the application"""
   rowId: Int!
 }
 
@@ -1333,8 +1300,6 @@ input DeleteApplicationByOwnerInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-
-  """The owner of the application"""
   owner: UUID!
 }
 
