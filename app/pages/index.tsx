@@ -41,7 +41,7 @@ const Home = ({ preloadedQuery }: RelayProps) => {
 
 // Todo: look for a better way to handle preloadedQuery error. Using this to wait until
 // preloadedQuery exists to load page to fix crash if no session
-const QueryHandler = ({ preloadedQuery }: RelayProps) => {
+const QueryRenderer = ({ preloadedQuery }: RelayProps) => {
   return preloadedQuery && <Home preloadedQuery={preloadedQuery} CSN={false} />;
 };
 
@@ -65,4 +65,4 @@ export const withRelayOptions = {
   },
 };
 
-export default withRelay(QueryHandler, getSessionQuery, withRelayOptions);
+export default withRelay(QueryRenderer, getSessionQuery, withRelayOptions);

@@ -52,7 +52,7 @@ const Dashboard = ({ preloadedQuery }: any) => {
   );
 };
 
-const QueryHandler = ({ preloadedQuery }: RelayProps) => {
+const QueryRenderer = ({ preloadedQuery }: RelayProps) => {
   return (
     preloadedQuery && <Dashboard preloadedQuery={preloadedQuery} CSN={false} />
   );
@@ -77,4 +77,4 @@ export const withRelayOptions = {
   },
 };
 
-export default withRelay(QueryHandler, getSessionQuery, withRelayOptions);
+export default withRelay(QueryRenderer, getSessionQuery, withRelayOptions);
