@@ -2,6 +2,7 @@ import { FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { useUpdateApplicationMutation } from '../../schema/mutations/application/updateApplication';
+import { useFeature } from '@growthbook/growthbook-react';
 
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
@@ -22,14 +23,18 @@ const ApplicationForm: React.FC<Props> = ({
   const router = useRouter();
   const [updateApplication] = useUpdateApplicationMutation();
 
-  const subschemaArray = schemaToSubschemasArray(schema as object);
+  // Check if development form is enabled in growthbook and pass to schema
+  const formDevelopment = useFeature('form-development').value;
+
+  const subschemaArray = schemaToSubschemasArray(
+    schema(formDevelopment) as object
+  );
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
 
   const saveForm = async (incomingFormData: any, existingFormData: any) => {
     const pageNumber = parseInt(router.query.page as string);
     const sectionName = subschemaArray[pageNumber - 1][0];
     let newFormData: any = {};
-
     if (Object.keys(existingFormData).length === 0) {
       newFormData['contactInformation'] = incomingFormData.formData;
     } else if (existingFormData[sectionName]) {
