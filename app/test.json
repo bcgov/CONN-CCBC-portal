@@ -8,6 +8,7 @@
   "PGPORT": 5432,
   "PGDATABASE": "ccbc",
   "PGSCHEMA": "ccbc_public",
+  "CLIENT_SECRET": "",
   "HAPPO_API_KEY": "",
   "HAPPO_API_SECRET": ""
 }
