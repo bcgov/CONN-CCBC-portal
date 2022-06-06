@@ -24,11 +24,35 @@ const ApplicationForm: React.FC<Props> = ({
   const [updateApplication] = useUpdateApplicationMutation();
 
   // Check if development form is enabled in growthbook and pass to schema
-  const formDevelopment = useFeature('form-development').value;
+  const formAdditionalProjectInformation = useFeature('form-development').value;
+  const formAlternateContact = useFeature('form-alternate-contact').value;
+  const formAuthorizedContact = useFeature('form-authorized-contact').value;
+  const formBudgetDetails = useFeature('form-budget-details').value;
+  const formContactInformation = useFeature('form-contact-information').value;
+  const formExistingNetworkCoverage = useFeature(
+    'form-existing-network-coverage'
+  ).value;
+  const formProjectInformation = useFeature('form-project-information').value;
+
+  const featureFlagsForm = {
+    formAdditionalProjectInformation,
+    formAlternateContact,
+    formAuthorizedContact,
+    formBudgetDetails,
+    formContactInformation,
+    formExistingNetworkCoverage,
+    formProjectInformation,
+  };
 
   const subschemaArray = schemaToSubschemasArray(
-    schema(formDevelopment) as object
+    schema(featureFlagsForm) as object
   );
+
+  if (subschemaArray.length < pageNumber) {
+    // Todo: proper 404
+    return <h2>404 not found</h2>;
+  }
+
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
 
   const saveForm = async (incomingFormData: any, existingFormData: any) => {

@@ -1,5 +1,15 @@
-const useSchema = (devSchema: boolean) => {
-  // devSchema is passed in from formbook and enables development pages if set
+const useSchema = (featureFlagsForm: object) => {
+  // featureFlagsForm is passed and enables development pages if set
+  const {
+    formAdditionalProjectInformation,
+    formAlternateContact,
+    formAuthorizedContact,
+    formBudgetDetails,
+    formContactInformation,
+    formExistingNetworkCoverage,
+    formProjectInformation,
+  } = featureFlagsForm;
+
   const schema = {
     type: 'object',
     properties: {
@@ -228,7 +238,6 @@ const useSchema = (devSchema: boolean) => {
           },
         },
       },
-
       organizationLocation: {
         title: 'Organization location',
         description: 'Provide an address for your organization',
@@ -325,7 +334,7 @@ const useSchema = (devSchema: boolean) => {
           },
         },
       },
-      ...(devSchema && {
+      ...(formContactInformation && {
         contactInformation: {
           title: 'Organization contact information',
           type: 'object',
@@ -349,7 +358,7 @@ const useSchema = (devSchema: boolean) => {
           },
         },
       }),
-      ...(devSchema && {
+      ...(formAuthorizedContact && {
         authorizedContact: {
           title: 'Authorized contact',
           description:
@@ -391,7 +400,7 @@ const useSchema = (devSchema: boolean) => {
           },
         },
       }),
-      ...(devSchema && {
+      ...(formAlternateContact && {
         alternateContact: {
           title: 'Alternate contact',
           description:
@@ -432,7 +441,7 @@ const useSchema = (devSchema: boolean) => {
           },
         },
       }),
-      ...(devSchema && {
+      ...(formExistingNetworkCoverage && {
         existingNetworkCoverage: {
           title: 'Existing network coverage',
           type: 'object',
@@ -476,7 +485,7 @@ const useSchema = (devSchema: boolean) => {
           },
         },
       }),
-      ...(devSchema && {
+      ...(formProjectInformation && {
         projectInformation: {
           title: 'Project information',
           description:
@@ -507,7 +516,7 @@ const useSchema = (devSchema: boolean) => {
           },
         },
       }),
-      ...(devSchema && {
+      ...(formAdditionalProjectInformation && {
         additionalProjectInformation: {
           title: 'Project information',
           type: 'object',
@@ -528,7 +537,7 @@ const useSchema = (devSchema: boolean) => {
           },
         },
       }),
-      ...(devSchema && {
+      ...(formBudgetDetails && {
         budgetDetails: {
           title: 'Budget details',
           type: 'object',
