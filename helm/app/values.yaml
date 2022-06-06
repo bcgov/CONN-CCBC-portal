@@ -24,7 +24,8 @@ app:
   enableAnalytics: true
 route:
   host: '' # The host value must be passed in via the deploy script
-
+growthbook:
+  key: '' # The host value must be passed in via the deploy script
 resources:
   app:
     requests:

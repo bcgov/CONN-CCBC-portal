@@ -168,6 +168,8 @@ spec:
             value: {{ .Values.route.host }}
           - name: OPENSHIFT_APP_NAMESPACE
             value: {{ .Values.app.namespace }}
+          - name: NEXT_PUBLIC_GROWTHBOOK_API_KEY
+            value: {{ .Values.growthbook.key }}
           - name: ENABLE_ANALYTICS
             value: {{ .Values.app.enableAnalytics | quote }}
           - name: CLIENT_SECRET

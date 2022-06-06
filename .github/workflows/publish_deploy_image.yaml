@@ -13,6 +13,7 @@ env:
   OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
   HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
   HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+  NEXT_PUBLIC_GROWTHBOOK_API_KEY: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY  }}
 
 jobs:
   build-and-push-image:
@@ -110,6 +111,7 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
           openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
+          next_public_growthbook_api_key: ${{ NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           route: ${{ secrets.OPENSHIFT_ROUTE }}
@@ -130,6 +132,7 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
           openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
+          next_public_growthbook_api_key: ${{ NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           route: ${{ secrets.OPENSHIFT_ROUTE }}
@@ -152,6 +155,7 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
           openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
+          next_public_growthbook_api_key: ${{ NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           route: ${{ secrets.OPENSHIFT_ROUTE }}
