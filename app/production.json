@@ -11,5 +11,6 @@
   "HAPPO_API_KEY": "",
   "HAPPO_API_SECRET": "",
   "CLIENT_SECRET": "",
-  "HOST": ""
+  "HOST": "",
+  "NEXT_PUBLIC_GROWTHBOOK_API_KEY": ""
 }
