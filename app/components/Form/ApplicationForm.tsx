@@ -11,9 +11,14 @@ import { useRouter } from 'next/router';
 interface Props {
   formData: any;
   pageNumber: number;
+  trimmedSub: any;
 }
 
-const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
+const ApplicationForm: React.FC<Props> = ({
+  formData,
+  pageNumber,
+  trimmedSub,
+}) => {
   const router = useRouter();
   const [updateApplication] = useUpdateApplicationMutation();
 
@@ -45,7 +50,7 @@ const ApplicationForm: React.FC<Props> = ({ formData, pageNumber }) => {
             formData: newFormData,
             status: 'draft',
           },
-          owner: '74d2515660e6444ca177a96e67ecfc5f',
+          owner: trimmedSub,
         },
       },
     });

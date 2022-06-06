@@ -7,7 +7,7 @@ const authenticationPgSettings = (req: Request) => {
   };
   if (!isAuthenticated(req))
     return {
-      claimsSettings,
+      ...claimsSettings,
     };
 
   const claims = req.claims;
@@ -36,6 +36,7 @@ const authenticationPgSettings = (req: Request) => {
     'user_groups',
     'priority_group',
   ];
+
   properties.forEach((property) => {
     claimsSettings[`jwt.claims.${property}`] = claims![property];
   });

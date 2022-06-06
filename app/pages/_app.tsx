@@ -7,7 +7,6 @@ import type { AppProps } from 'next/app';
 import GlobalStyle from '../styles/GobalStyles';
 import GlobalTheme from '../styles/GlobalTheme';
 import BCGovTypography from '../components/BCGovTypography';
-import { Layout } from '../components';
 import App from 'next/app';
 
 const clientEnv = getClientEnvironment();
@@ -20,17 +19,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
 
   return (
-    <RelayEnvironmentProvider environment={env}>
-      <Suspense fallback={'Loading...'}>
-        <GlobalTheme>
-          <GlobalStyle />
-          <BCGovTypography />
-          <Layout title="Connecting Communities BC">
-            <Component {...pageProps} {...relayProps} />
-          </Layout>
-        </GlobalTheme>
-      </Suspense>
-    </RelayEnvironmentProvider>
+    <GlobalTheme>
+      <GlobalStyle />
+      <BCGovTypography />
+      <RelayEnvironmentProvider environment={env}>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Component {...pageProps} {...relayProps} />
+        </Suspense>
+      </RelayEnvironmentProvider>
+    </GlobalTheme>
   );
 }
 

@@ -19,9 +19,11 @@ const StyledMain = styled.main`
 type Props = {
   title: string;
   children: JSX.Element | JSX.Element[] | string | string[];
+  session: any;
 };
 
-const Layout: React.FC<Props> = ({ title, children }) => {
+const Layout: React.FC<Props> = ({ children, session, title }) => {
+  const isLoggedIn = session?.sub;
   return (
     <>
       <Head>
@@ -52,7 +54,7 @@ const Layout: React.FC<Props> = ({ title, children }) => {
         <link rel="mask-icon" href="/icons/bcid-apple-icon.svg" color="#036" />
         <link rel="icon" href="/icons/bcid-favicon-32x32.png" />
       </Head>
-      <Navigation />
+      <Navigation isLoggedIn={isLoggedIn} />
       <StyledMain>{children}</StyledMain>
       <StyledFooter>
         <FooterLinks />
