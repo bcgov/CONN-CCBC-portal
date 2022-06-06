@@ -35,7 +35,8 @@ const session = () => {
       // layer of security so that the cookie is set only when working
       // in HTTPS mode.
       secure: isProd,
-      sameSite: 'lax',
+      // commenting out sameSite to see if that's causing our cookie issues
+      // sameSite: 'lax',
     },
   });
 

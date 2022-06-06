@@ -38,7 +38,7 @@ app.prepare().then(async () => {
   server.use(cookieParser());
 
   server.disable('x-powered-by'); // at minimum, disable x-powered-by header
-  server.set('trust-proxy', 1); // trust first proxy
+  server.set('trust proxy', 1); // trust first proxy
 
   const { middleware: sessionMiddleware } = session();
 
