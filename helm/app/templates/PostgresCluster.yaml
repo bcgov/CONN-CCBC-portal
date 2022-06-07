@@ -13,12 +13,12 @@ spec:
             cpu: {{ .Values.exporter.requests.cpu }}
             memory: {{ .Values.exporter.requests.memory }}
           limits:
-            cpu: {{ .Values.exporter.limits.memory }}
+            cpu: {{ .Values.exporter.limits.cpu }}
             memory: {{ .Values.exporter.limits.memory }}
   # image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:centos8-13.5-0
   postgresVersion: 14
   instances:
-    - name: {{ .Values.instances.name}}
+    - name: {{ .Values.instances.name }}
       replicas: 3
       # these resources are for the "database" container in the "hippo-ha-pgha1" set of pods
       resources:
@@ -27,7 +27,7 @@ spec:
           memory: {{ .Values.instances.requests.memory }}
         limits:
           cpu: {{ .Values.instances.limits.cpu }}
-          memory: {{ .Values.instances.limits.cpu }}
+          memory: {{ .Values.instances.limits.memory }}
       sidecars:
         # this stuff is for the "replication-cert-copy" container in the "hippo-ha-pgha1" set of pods
         replicaCertCopy:
@@ -82,7 +82,7 @@ spec:
               resources:
                 requests:
                   storage: {{ .Values.pgbackrest.volume.storage }}
-              storageClassName: {{ .Values.pgbackrest.volume.storage }}
+              storageClassName: {{ .Values.pgbackrest.volume.storageClassName }}
       # this stuff is for the "pgbackrest" container (the only non-init container) in the "hippo-ha-repo-host" pod
       repoHost:
         resources:
@@ -91,7 +91,7 @@ spec:
             memory: {{ .Values.pgbackrest.repoHost.requests.memory }}
           limits:
             cpu: {{ .Values.pgbackrest.repoHost.limits.cpu }}
-            memory: {{ .Values.pgbackrest.repoHost.limits.cpu }}
+            memory: {{ .Values.pgbackrest.repoHost.limits.memory }}
       sidecars:
         # this stuff is for the "pgbackrest" container in the "hippo-ha-pgha1" set of pods
         pgbackrest:
