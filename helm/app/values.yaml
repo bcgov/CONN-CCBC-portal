@@ -1,12 +1,12 @@
 fullnameOverride: ccbc
 
-replicaCount: 1
+replicaCount: 3
 
 image:
   app:
     repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app
     pullPolicy: IfNotPresent
-    tag: 'sha-edc6e3632d91c91b7916d75aa68925779fe77b54' # The tag value must be passed in via the deploy script
+    tag: 'sha-066136c2844785ba7314802cc9b0bad39c44562f' # The tag value must be passed in via the deploy script
     clientSecret: '' # clientSecret must be passed in via deploy script
   psql:
     repository: gcr.io/ggl-cas-storage/cas-postgres
@@ -15,7 +15,7 @@ image:
   db:
     repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db
     pullPolicy: IfNotPresent
-    tag: 'sha-edc6e3632d91c91b7916d75aa68925779fe77b54' # The tag value must be passed in via the deploy script
+    tag: 'sha-066136c2844785ba7314802cc9b0bad39c44562f' # The tag value must be passed in via the deploy script
 
 app:
   port: '3000'

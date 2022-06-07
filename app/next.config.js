@@ -19,4 +19,7 @@ module.exports = {
     // ssr and displayName are configured by default
     styledComponents: true,
   },
+  publicRuntimeConfig: {
+    NEXT_PUBLIC_GROWTHBOOK_API_KEY: process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY,
+  },
 };
