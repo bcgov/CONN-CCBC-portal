@@ -32,6 +32,10 @@ const ApplicationForm: React.FC<Props> = ({
   const formExistingNetworkCoverage = useFeature(
     'form-existing-network-coverage'
   ).value;
+  const formOrganizationLocation = useFeature(
+    'form-organization-location'
+  ).value;
+  const formOrganizationProfile = useFeature('form-organization-profile').value;
   const formProjectInformation = useFeature('form-project-information').value;
 
   const featureFlagsForm = {
@@ -41,6 +45,8 @@ const ApplicationForm: React.FC<Props> = ({
     formBudgetDetails,
     formContactInformation,
     formExistingNetworkCoverage,
+    formOrganizationLocation,
+    formOrganizationProfile,
     formProjectInformation,
   };
 
