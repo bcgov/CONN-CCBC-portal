@@ -88,14 +88,20 @@ const config = convict({
     doc: 'Namespace on OpenShift to which the app is deployed',
     format: ['ff61fb-dev', 'ff61fb-test', 'ff61fb-prod'],
     default: 'ff61fb-dev',
-    env: 'OPENSHIFT_APP_NAMESPACE'
+    env: 'OPENSHIFT_APP_NAMESPACE',
   },
   SESSION_SECRET: {
     doc: 'Random string for session secret. Set this in dev',
     format: String,
     default: '',
-    env: 'SESSION_SECRET'
-  }
+    env: 'SESSION_SECRET',
+  },
+  NEXT_PUBLIC_GROWTHBOOK_API_KEY: {
+    doc: 'Growthbook API key',
+    format: String,
+    default: '',
+    env: 'NEXT_PUBLIC_GROWTHBOOK_API_KEY',
+  },
 });
 
 // Load environment dependent configuration

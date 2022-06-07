@@ -23,6 +23,9 @@ inputs:
   route:
     description: 'URL where the application can be accessed'
     required: true
+  next_public_growthbook_api_key:
+    description: 'Growthbook API key'
+    required: true
 runs:
   using: composite
   steps:
@@ -33,6 +36,7 @@ runs:
         openshift_token: ${{ inputs.openshift_token }}
         openshift_app_namespace: ${{ inputs.openshift_app_namespace }}
         openshift_metabase_namespace: ${{ inputs.openshift_metabase_namespace }}
+        next_public_growthbook_api_key: ${{ inputs.next_public_growthbook_api_key }}
         insecure_skip_tls_verify: true
     - run: |
         chmod +x ./lib/app_deploy.sh
@@ -43,4 +47,5 @@ runs:
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
           --set route.host=${{ inputs.route }}
+          --set growthbook.key=$${{ inputs.next_public_growthbook_api_key }}
       shell: bash
