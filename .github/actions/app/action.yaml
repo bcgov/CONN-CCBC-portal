@@ -46,6 +46,6 @@ runs:
           --set image.app.tag=${{ inputs.tag }} \
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
-          --set route.host=${{ inputs.route }}
-          --set growthbook.key=$${{ inputs.next_public_growthbook_api_key }}
+          --set route.host=${{ inputs.route }} \
+          --set growthbook.key=${{ inputs.next_public_growthbook_api_key }}
       shell: bash
