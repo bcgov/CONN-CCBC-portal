@@ -120,7 +120,7 @@ const useSchema = (featureFlagsForm: any) => {
             bussinessNumber: {
               title:
                 'Applicant business number (9-digit business identifier provided by Canada Revenue Agency)',
-              type: 'string',
+              type: 'number',
             },
           },
           dependencies: {
@@ -248,14 +248,15 @@ const useSchema = (featureFlagsForm: any) => {
           title: 'Organization location',
           description: 'Provide an address for your organization',
           type: 'object',
+          required: ['streetNumber', ''],
           properties: {
             unitNumber: {
               title: 'Unit number',
-              type: 'number',
+              type: 'string',
             },
             streetNumber: {
               title: 'Street number',
-              type: 'string',
+              type: 'number',
             },
             streetName: {
               title: 'Street name',
