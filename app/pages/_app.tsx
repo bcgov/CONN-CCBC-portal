@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import getConfig from 'next/config';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
 import { getClientEnvironment } from '../lib/relay/client';
@@ -16,9 +17,10 @@ const initialPreloadedQuery = getInitialPreloadedQuery({
 
 const growthbook = new GrowthBook();
 
+const { publicRuntimeConfig } = getConfig();
 // Using convict to declare it but using nextjs public env due to convict fs import
 await fetch(
-  `https://cdn.growthbook.io/api/features/${process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY}`
+  `https://cdn.growthbook.io/api/features/${publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY}`
 )
   .then((res) => res.json())
   .then((res) => {
