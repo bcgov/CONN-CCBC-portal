@@ -15,7 +15,10 @@ const TextWidget: React.FC<WidgetProps> = ({
   label,
   value,
   required,
+  uiSchema,
 }) => {
+  const maxLength = uiSchema['ui:options']?.maxLength;
+  const minLength = uiSchema['ui:options']?.minLength;
   return (
     <StyledInput
       id={id}
@@ -27,6 +30,8 @@ const TextWidget: React.FC<WidgetProps> = ({
       size={'medium'}
       required={required}
       aria-label={label}
+      maxLength={maxLength}
+      minLength={minLength}
     />
   );
 };
