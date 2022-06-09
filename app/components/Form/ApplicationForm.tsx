@@ -24,7 +24,9 @@ const ApplicationForm: React.FC<Props> = ({
   const [updateApplication] = useUpdateApplicationMutation();
 
   // Check if development form is enabled in growthbook and pass to schema
-  const formAdditionalProjectInformation = useFeature('form-development').value;
+  const formAdditionalProjectInformation = useFeature(
+    'form-additional-project-information'
+  ).value;
   const formAlternateContact = useFeature('form-alternate-contact').value;
   const formAuthorizedContact = useFeature('form-authorized-contact').value;
   const formBudgetDetails = useFeature('form-budget-details').value;
