@@ -6,7 +6,7 @@ const StyledDiv = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 12px 0;
+  margin-bottom: 16px;
 
   & span {
     border-radius: 2px;
@@ -19,6 +19,10 @@ const StyledDiv = styled('div')`
   & div {
     padding-right: 8px;
   }
+`;
+
+const StyledContainer = styled('div')`
+  margin: 16px 0;
 `;
 
 const CheckboxWidget: React.FC<WidgetProps> = ({
@@ -43,13 +47,12 @@ const CheckboxWidget: React.FC<WidgetProps> = ({
 
   const { enumOptions }: any = options;
   return (
-    <>
+    <StyledContainer>
       {enumOptions &&
         enumOptions.map(
           (option: { value: string; label: string }, i: number) => {
             const checked = value.indexOf(option.value) !== -1;
 
-            console.log(option);
             return (
               <StyledDiv key={i}>
                 <Checkbox
@@ -73,7 +76,7 @@ const CheckboxWidget: React.FC<WidgetProps> = ({
             );
           }
         )}
-    </>
+    </StyledContainer>
   );
 };
 
