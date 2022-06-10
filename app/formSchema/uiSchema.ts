@@ -98,6 +98,10 @@ const uiSchema = {
   },
   geographicArea: {
     'ui:widget': 'CheckboxesWidget',
+    'ui:options': {
+      // Todo: set another constant or change to 200
+      maxLength: 150,
+    },
   },
   projectSpanMultipleLocations: {
     'ui:widget': 'RadioWidget',
