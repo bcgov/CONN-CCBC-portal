@@ -27,6 +27,18 @@ const useSchema = (featureFlagsForm: any) => {
   const schema = {
     type: 'object',
     properties: {
+      ...(formProjectInformation && {
+        ...projectInformation,
+      }),
+      ...(formAdditionalProjectInformation && {
+        ...additionalProjectInformation,
+      }),
+      ...(formExistingNetworkCoverage && {
+        ...existingNetworkCoverage,
+      }),
+      ...(formBudgetDetails && {
+        ...budgetDetails,
+      }),
       ...(formOrganizationProfile && {
         ...organizationProfile,
       }),
@@ -41,18 +53,6 @@ const useSchema = (featureFlagsForm: any) => {
       }),
       ...(formAlternateContact && {
         ...alternateContact,
-      }),
-      ...(formExistingNetworkCoverage && {
-        ...existingNetworkCoverage,
-      }),
-      ...(formProjectInformation && {
-        ...projectInformation,
-      }),
-      ...(formAdditionalProjectInformation && {
-        ...additionalProjectInformation,
-      }),
-      ...(formBudgetDetails && {
-        ...budgetDetails,
       }),
     },
   };
