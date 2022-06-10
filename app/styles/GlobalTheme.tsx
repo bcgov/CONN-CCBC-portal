@@ -22,6 +22,9 @@ const theme = {
     text: '#313132',
     descriptionGrey: 'rgba(49, 49, 50, 0.7)',
   },
+  padding: {
+    page: '20px',
+  },
 };
 
 type Props = {

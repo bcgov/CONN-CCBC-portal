@@ -1,23 +1,26 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import GlobalTheme from '../styles/GlobalTheme';
 
 const StyledLi = styled.li`
   display: flex;
   align-self: center;
 `;
 
-const StlyedUl = styled.ul`
-  padding-left: 15px;
+const StyledUl = styled.ul`
+  padding-left: ${(props) => props.theme.padding.page};
 `;
 
 export const SubHeaderNavbarLinks: React.FC = () => {
   return (
-    <StlyedUl>
-      <StyledLi>
-        <Link href="mailto:connectingcommunitiesbc@gov.bc.ca">
-          <a>Help</a>
-        </Link>
-      </StyledLi>
-    </StlyedUl>
+    <GlobalTheme>
+      <StyledUl>
+        <StyledLi>
+          <Link href="mailto:connectingcommunitiesbc@gov.bc.ca">
+            <a style={{ paddingLeft: 0 }}>Help</a>
+          </Link>
+        </StyledLi>
+      </StyledUl>
+    </GlobalTheme>
   );
 };
