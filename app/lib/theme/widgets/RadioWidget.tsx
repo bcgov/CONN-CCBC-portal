@@ -3,8 +3,15 @@ import RadioButton from '@button-inc/bcgov-theme/RadioButton';
 import styled from 'styled-components';
 import React from 'react';
 
-const StyledRadioButton = styled(RadioButton)`
-  margin: 12px 0;
+const StyledContainer = styled('div')`
+  margin: 32px 0;
+`;
+
+const StyledDiv = styled('div')`
+  margin: 16px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const RadioWidget: React.FC<WidgetProps> = ({
@@ -25,24 +32,25 @@ const RadioWidget: React.FC<WidgetProps> = ({
     },
   };
   return (
-    <>
+    <StyledContainer>
       {enumOptions &&
         enumOptions.map(
           (option: { value: string; label: string }, i: number) => {
             return (
-              <StyledRadioButton
-                key={option.value}
-                {...formProps}
-                label={option.label}
-                value={option.value}
-                id={`${id}-${i}`}
-                checked={option.value === value}
-                required={required}
-              />
+              <StyledDiv key={option.value}>
+                <RadioButton
+                  {...formProps}
+                  value={option.value}
+                  id={`${id}-${i}`}
+                  checked={option.value === value}
+                  required={required}
+                />
+                <label>{option.label}</label>
+              </StyledDiv>
             );
           }
         )}
-    </>
+    </StyledContainer>
   );
 };
 
