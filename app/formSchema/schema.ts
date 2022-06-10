@@ -8,6 +8,7 @@ import {
   organizationProfile,
   projectArea,
   projectInformation,
+  projectFunding,
 } from './pages';
 
 const useSchema = (featureFlagsForm: any) => {
@@ -39,6 +40,7 @@ const useSchema = (featureFlagsForm: any) => {
       ...(formBudgetDetails && {
         ...budgetDetails,
       }),
+      ...projectFunding,
       ...(formOrganizationProfile && {
         ...organizationProfile,
       }),

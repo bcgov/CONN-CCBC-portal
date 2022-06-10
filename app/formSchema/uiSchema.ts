@@ -12,6 +12,7 @@ const uiSchema = {
     'bandNumber',
     'organizationName',
     'isLegalPrimaryName',
+    'amountFundingRequested',
     'isNameLegalName',
     'operatingName',
     'isSubsidiary',
@@ -71,6 +72,8 @@ const uiSchema = {
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
+    'ui:col-md': 1,
+
     'ui:title':
       'Project title. Be descriptive about the geographic region. We advise not using years in the title.',
     'ui:options': {
@@ -79,6 +82,8 @@ const uiSchema = {
   },
   geographicAreaDescription: {
     'ui:description': 'maximum 200 characters',
+    'ui:col-md': 1,
+
     'ui:title':
       'Geographic project area description. Describe the geographic location of the project area (i.e., include the closest communities and the general area which the project will target).',
 
@@ -121,6 +126,7 @@ const uiSchema = {
   requiresThirdPartyInfrastructureAccess: {
     'ui:widget': 'RadioWidget',
   },
+  amountFundingRequested: {},
   organizationName: {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,

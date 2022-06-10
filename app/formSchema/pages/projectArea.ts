@@ -1,6 +1,6 @@
 const projectArea = {
   projectArea: {
-    title: 'project area',
+    title: 'Project area',
     description: 'Please describe the geographic area of the proposed project',
     type: 'object',
     required: ['geographicArea', 'projectSpanMultipleLocations'],
@@ -27,14 +27,14 @@ const projectArea = {
           {
             properties: {
               projectSpanMultipleLocations: {
-                enum: ['Yes'],
+                enum: ['No'],
               },
             },
           },
           {
             properties: {
               projectSpanMultipleLocations: {
-                enum: ['No'],
+                enum: ['Yes'],
               },
               provincesTerritories: {
                 title:
