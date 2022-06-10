@@ -59,7 +59,9 @@ const uiSchema = {
     'hasPassiveInfrastructure',
     'isInfrastuctureAvailable',
     'requiresThirdPartyInfrastructureAccess',
+    'geographicArea',
     'projectSpanMultipleLocations',
+    'provincesTerritories',
     'projectLocations',
     'geographicAreaDescription',
     'projectDescription',
@@ -94,7 +96,13 @@ const uiSchema = {
       maxLength: MAX_TEXTAREA_LENGTH,
     },
   },
+  geographicArea: {
+    'ui:widget': 'CheckboxesWidget',
+  },
   projectSpanMultipleLocations: {
+    'ui:widget': 'RadioWidget',
+  },
+  provincesTerritories: {
     'ui:widget': 'CheckboxesWidget',
   },
   organizationName: {
