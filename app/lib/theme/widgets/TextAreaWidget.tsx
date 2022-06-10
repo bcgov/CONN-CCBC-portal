@@ -17,7 +17,9 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
   label,
   value,
   required,
+  uiSchema,
 }) => {
+  const maxLength = uiSchema['ui:options']?.maxLength;
   return (
     <div>
       <StyledTextArea
@@ -31,6 +33,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         resize="vertical"
         required={required}
         aria-label={label}
+        maxLength={maxLength}
       />
     </div>
   );

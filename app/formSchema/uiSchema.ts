@@ -1,3 +1,9 @@
+const MAX_TEXTAREA_LENGTH = 3500;
+const MAX_LONG_INPUT_LENGTH = 200;
+const MAX_MED_INPUT_LENGTH = 75;
+const MAX_SHORT_INPUT_LENGTH = 9;
+const MIN_INPUT_LENGTH = 1;
+
 const uiSchema = {
   'ui:order': [
     'projectTitle',
@@ -61,7 +67,11 @@ const uiSchema = {
     'totalProjectCost',
     'requestedCCBCFunding',
   ],
-  organizationName: {},
+  organizationName: {
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+    },
+  },
   isLegalPrimaryName: {
     'ui:widget': 'RadioWidget',
   },
@@ -79,19 +89,38 @@ const uiSchema = {
   isIndigenousEntity: {
     'ui:widget': 'RadioWidget',
   },
-  indigenousEntityDesc: {},
+  indigenousEntityDesc: {
+    'ui:options': {
+      maxLength: MAX_MED_INPUT_LENGTH,
+    },
+  },
   organizationOverview: {
     'ui:widget': 'TextAreaWidget',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
   },
   orgRegistrationDate: {
     'ui:widget': 'DatePickerWidget',
   },
-  bussinessNumber: {},
+  bussinessNumber: {
+    'ui:options': {
+      maxLength: MAX_SHORT_INPUT_LENGTH,
+    },
+  },
   isMailingAddress: {
     'ui:widget': 'RadioWidget',
   },
   unitNumber: {
-    'ui:widget': 'RadioWidget',
+    'ui:options': {
+      maxLength: MAX_SHORT_INPUT_LENGTH,
+    },
+  },
+  streetNumber: {
+    'ui:options': {
+      maxLength: MAX_SHORT_INPUT_LENGTH,
+      minLength: MIN_INPUT_LENGTH,
+    },
   },
 };
 

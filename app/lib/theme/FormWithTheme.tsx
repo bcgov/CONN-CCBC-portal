@@ -7,6 +7,7 @@ import {
   RadioWidget,
   TextAreaWidget,
   TextWidget,
+  SelectWidget,
 } from './widgets';
 
 const { fields, widgets } = utils.getDefaultRegistry();
@@ -20,6 +21,7 @@ const formTheme: ThemeProps = {
     TextAreaWidget: TextAreaWidget,
     RadioWidget: RadioWidget,
     DatePickerWidget: DatePickerWidget,
+    SelectWidget: SelectWidget,
   },
   ObjectFieldTemplate: ObjectFieldTemplate,
   FieldTemplate: FieldTemplate,

@@ -57,6 +57,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
       placeholderText="YYYY-MM-DD"
       showMonthDropdown
       showYearDropdown
+      dropdownMode="select"
     />
   );
 };
