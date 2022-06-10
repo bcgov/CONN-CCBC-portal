@@ -4,7 +4,6 @@ const projectArea = {
     description: 'Please describe the geographic area of the proposed project',
     type: 'object',
     required: ['geographicArea', 'projectSpanMultipleLocations'],
-
     properties: {
       geographicArea: {
         title:

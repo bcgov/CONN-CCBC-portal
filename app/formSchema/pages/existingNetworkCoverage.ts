@@ -4,6 +4,12 @@ const existingNetworkCoverage = {
     description:
       'This information is used by ISED to continually update broadband coverage data. ',
     type: 'object',
+    required: [
+      'hasProvidedExitingNetworkCoverage',
+      'hasPassiveInfrastructure',
+      'isInfrastuctureAvailable',
+      'requiresThirdPartyInfrastructureAccess',
+    ],
     properties: {
       hasProvidedExitingNetworkCoverage: {
         title: `Please indicate if you have already provided your existing network and/or coverage information to ISED or the Canadian Radio-television and
