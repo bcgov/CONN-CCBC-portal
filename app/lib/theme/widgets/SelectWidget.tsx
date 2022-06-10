@@ -24,7 +24,9 @@ const SelectWidget: React.FC<WidgetProps> = ({
   placeholder,
   schema,
 }) => {
-  const options = schema.enum as Array<string>;
+  // @ts-ignore
+  const options = schema.items?.enum as Array<string>;
+
   return (
     <StyledSelect
       id={id}
@@ -40,13 +42,14 @@ const SelectWidget: React.FC<WidgetProps> = ({
       <option key={`option-placeholder-${id}`} value={undefined}>
         {placeholder}
       </option>
-      {options.map((opt) => {
-        return (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
-        );
-      })}
+      {options &&
+        options.map((opt) => {
+          return (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          );
+        })}
     </StyledSelect>
   );
 };
