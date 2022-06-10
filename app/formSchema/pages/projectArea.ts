@@ -3,6 +3,8 @@ const projectArea = {
     title: 'project area',
     description: 'Please describe the geographic area of the proposed project',
     type: 'object',
+    required: ['geographicArea', 'projectSpanMultipleLocations'],
+
     properties: {
       geographicArea: {
         title:
@@ -15,7 +17,7 @@ const projectArea = {
         uniqueItems: true,
       },
       projectSpanMultipleLocations: {
-        title: 'If yes, province or territory location (check all that apply)',
+        title: 'Does your project span multiple provinces/territories?',
         type: 'boolean',
         enum: ['Yes', 'No'],
       },

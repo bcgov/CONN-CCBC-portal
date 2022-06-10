@@ -5,7 +5,8 @@ import styled from 'styled-components';
 
 const StyledInput = styled(Input)`
   & input {
-    margin: 12px 0;
+    margin-top: 12px;
+    margin-bottom: 4px;
     width: ${(props) => props.theme.width.inputWidthSmall};
   }
 `;

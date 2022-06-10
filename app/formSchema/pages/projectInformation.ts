@@ -16,6 +16,7 @@ const projectInformation = {
       geographicAreaDescription: {
         type: 'string',
       },
+
       projectDescription: {
         type: 'string',
       },
