@@ -94,6 +94,9 @@ const uiSchema = {
       maxLength: MAX_TEXTAREA_LENGTH,
     },
   },
+  projectSpanMultipleLocations: {
+    'ui:widget': 'CheckboxesWidget',
+  },
   organizationName: {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
