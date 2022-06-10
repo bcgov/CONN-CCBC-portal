@@ -12,6 +12,7 @@ const uiSchema = {
     'bandNumber',
     'organizationName',
     'isLegalPrimaryName',
+    'amountFundingRequested',
     'isNameLegalName',
     'operatingName',
     'isSubsidiary',
@@ -59,7 +60,9 @@ const uiSchema = {
     'hasPassiveInfrastructure',
     'isInfrastuctureAvailable',
     'requiresThirdPartyInfrastructureAccess',
+    'geographicArea',
     'projectSpanMultipleLocations',
+    'provincesTerritories',
     'projectLocations',
     'geographicAreaDescription',
     'projectDescription',
@@ -67,6 +70,63 @@ const uiSchema = {
     'totalProjectCost',
     'requestedCCBCFunding',
   ],
+  projectTitle: {
+    'ui:description': 'maximum 200 characters',
+    'ui:col-md': 1,
+
+    'ui:title':
+      'Project title. Be descriptive about the geographic region. We advise not using years in the title.',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+    },
+  },
+  geographicAreaDescription: {
+    'ui:description': 'maximum 200 characters',
+    'ui:col-md': 1,
+
+    'ui:title':
+      'Geographic project area description. Describe the geographic location of the project area (i.e., include the closest communities and the general area which the project will target).',
+
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+    },
+  },
+  projectDescription: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:description': 'maximum 3,500 characters',
+    'ui:title':
+      'Using non-technical language, provide a description of the project, including its key elements, purpose, objectives, and benefits. Identify the ‘who’, ‘what’, ‘where’, ‘when’, and ‘why’. Please avoid including confidential or proprietary information.',
+
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  geographicArea: {
+    'ui:widget': 'CheckboxesWidget',
+    'ui:options': {
+      // Todo: set another constant or change to 200
+      maxLength: 150,
+    },
+  },
+  projectSpanMultipleLocations: {
+    'ui:widget': 'RadioWidget',
+  },
+  provincesTerritories: {
+    'ui:widget': 'CheckboxesWidget',
+  },
+  hasProvidedExitingNetworkCoverage: {
+    'ui:widget': 'RadioWidget',
+  },
+  hasPassiveInfrastructure: {
+    'ui:widget': 'RadioWidget',
+  },
+  isInfrastuctureAvailable: {
+    'ui:widget': 'RadioWidget',
+  },
+  requiresThirdPartyInfrastructureAccess: {
+    'ui:widget': 'RadioWidget',
+  },
+  amountFundingRequested: {},
   organizationName: {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,

@@ -89,7 +89,7 @@ const organizationProfile = {
       bussinessNumber: {
         title:
           'Applicant business number (9-digit business identifier provided by Canada Revenue Agency)',
-        type: 'string',
+        type: 'number',
       },
     },
     dependencies: {

@@ -20,6 +20,7 @@ const theme = {
     primaryYellow: '#FCBA19',
     success: '#2E8540',
     text: '#313132',
+    descriptionGrey: 'rgba(49, 49, 50, 0.7)',
   },
 };
 

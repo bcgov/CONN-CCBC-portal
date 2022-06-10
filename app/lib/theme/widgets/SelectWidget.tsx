@@ -1,5 +1,6 @@
 import { WidgetProps } from '@rjsf/core';
 import { Dropdown } from '@button-inc/bcgov-theme';
+import { Label } from '../../../components/Form';
 import styled from 'styled-components';
 
 const StyledSelect = styled(Dropdown)`
@@ -23,8 +24,13 @@ const SelectWidget: React.FC<WidgetProps> = ({
   required,
   placeholder,
   schema,
+  uiSchema,
 }) => {
-  const options = schema.enum as Array<string>;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const options = schema.items?.enum as Array<string>;
+  const description = uiSchema ? uiSchema['ui:description'] : null;
+
   return (
     <StyledSelect
       id={id}
@@ -40,13 +46,15 @@ const SelectWidget: React.FC<WidgetProps> = ({
       <option key={`option-placeholder-${id}`} value={undefined}>
         {placeholder}
       </option>
-      {options.map((opt) => {
-        return (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
-        );
-      })}
+      {options &&
+        options.map((opt) => {
+          return (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          );
+        })}
+      {description && <Label>{description}</Label>}
     </StyledSelect>
   );
 };
