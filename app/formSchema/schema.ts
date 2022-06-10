@@ -1,5 +1,4 @@
 import {
-  additionalProjectInformation,
   alternateContact,
   authorizedContact,
   budgetDetails,
@@ -7,13 +6,13 @@ import {
   existingNetworkCoverage,
   organizationLocation,
   organizationProfile,
+  projectArea,
   projectInformation,
 } from './pages';
 
 const useSchema = (featureFlagsForm: any) => {
   // featureFlagsForm is passed and enables development pages if set
   const {
-    formAdditionalProjectInformation,
     formAlternateContact,
     formAuthorizedContact,
     formBudgetDetails,
@@ -21,6 +20,7 @@ const useSchema = (featureFlagsForm: any) => {
     formExistingNetworkCoverage,
     formOrganizationLocation,
     formOrganizationProfile,
+    formProjectArea,
     formProjectInformation,
   } = featureFlagsForm;
 
@@ -30,8 +30,8 @@ const useSchema = (featureFlagsForm: any) => {
       ...(formProjectInformation && {
         ...projectInformation,
       }),
-      ...(formAdditionalProjectInformation && {
-        ...additionalProjectInformation,
+      ...(formProjectArea && {
+        ...projectArea,
       }),
       ...(formExistingNetworkCoverage && {
         ...existingNetworkCoverage,

@@ -1,6 +1,6 @@
-const projectInformation = {
-  projectInformation: {
-    title: 'Project information',
+const projectArea = {
+  projectArea: {
+    title: 'project area',
     description:
       'PLEASE NOTE: If the project is approved, the project information herein may be used, in whole or in part, in publicly accessible websites, media releases, or other similar material.',
     type: 'object',
@@ -29,4 +29,4 @@ const projectInformation = {
   },
 };
 
-export default projectInformation;
+export default projectArea;
