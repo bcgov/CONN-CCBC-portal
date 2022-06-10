@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import React from 'react';
 
 const StyledContainer = styled('div')`
-  margin: 32px 0;
+  margin-top: 16px;
+  margin-bottom: 32px;
 `;
 
 const StyledDiv = styled('div')`

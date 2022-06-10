@@ -105,6 +105,18 @@ const uiSchema = {
   provincesTerritories: {
     'ui:widget': 'CheckboxesWidget',
   },
+  hasProvidedExitingNetworkCoverage: {
+    'ui:widget': 'RadioWidget',
+  },
+  hasPassiveInfrastructure: {
+    'ui:widget': 'RadioWidget',
+  },
+  isInfrastuctureAvailable: {
+    'ui:widget': 'RadioWidget',
+  },
+  requiresThirdPartyInfrastructureAccess: {
+    'ui:widget': 'RadioWidget',
+  },
   organizationName: {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
