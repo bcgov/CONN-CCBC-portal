@@ -1,4 +1,5 @@
 import { WidgetProps } from '@rjsf/core';
+import { Label } from '../../../components/Form';
 import Textarea from '@button-inc/bcgov-theme/Textarea';
 import styled from 'styled-components';
 
@@ -20,6 +21,8 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
   uiSchema,
 }) => {
   const maxLength = uiSchema['ui:options']?.maxLength;
+  const description = uiSchema['ui:description'];
+
   return (
     <div>
       <StyledTextArea
@@ -35,6 +38,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         aria-label={label}
         maxLength={maxLength}
       />
+      {description && <Label>{description}</Label>}
     </div>
   );
 };

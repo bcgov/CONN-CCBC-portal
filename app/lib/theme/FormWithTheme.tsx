@@ -1,6 +1,7 @@
 import { ThemeProps, utils } from '@rjsf/core';
 import FieldTemplate from './FieldTemplate';
 import ObjectFieldTemplate from './ObjectFieldTemplate';
+import { DescriptionField } from './fields';
 import {
   CheckboxesWidget,
   DatePickerWidget,
@@ -13,7 +14,10 @@ import {
 const { fields, widgets } = utils.getDefaultRegistry();
 
 const formTheme: ThemeProps = {
-  fields: { ...fields },
+  fields: {
+    ...fields,
+    DescriptionField: DescriptionField,
+  },
   widgets: {
     ...widgets,
     CheckboxesWidget: CheckboxesWidget,
