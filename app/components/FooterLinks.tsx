@@ -1,11 +1,16 @@
 import Link from 'next/link';
+import styled from 'styled-components';
+
+const StyledUl = styled.ul`
+  padding-left: 20px;
+`;
 
 export default function FooterLinks() {
   return (
-    <ul>
+    <StyledUl>
       <li key="0">
         <Link href="https://www2.gov.bc.ca/gov/content/governments/connectivity-in-bc">
-          <a>Home</a>
+          <a style={{ paddingLeft: 0 }}>Home</a>
         </Link>
       </li>
       <li key="1">
@@ -28,6 +33,6 @@ export default function FooterLinks() {
           <a>Copyright</a>
         </Link>
       </li>
-    </ul>
+    </StyledUl>
   );
 }

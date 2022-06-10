@@ -21,6 +21,9 @@ const theme = {
     success: '#2E8540',
     text: '#313132',
   },
+  padding: {
+    page: '20px',
+  },
 };
 
 type Props = {

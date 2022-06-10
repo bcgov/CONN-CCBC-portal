@@ -23,6 +23,19 @@ const StyledAnchor = styled.a`
   align-self: center;
 `;
 
+const StyledDiv = styled('div')`
+  width: 100%;
+  max-width: ${(props) => props.theme.width.pageMaxWidth};
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-apart;
+  margin: auto;
+`;
+
+const StyledBaseHeader = styled(BaseHeader)`
+  padding-right: ${(props) => props.theme.padding.page};
+`;
 interface Props {
   isLoggedIn?: boolean;
   title?: string;
@@ -31,34 +44,36 @@ interface Props {
 const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   return (
     <BaseNavigation>
-      <BaseHeader>
-        <BaseHeader.Group className="banner">
-          <Link passHref href="/">
-            <a>
-              <Image
-                priority
-                src="/icons/BCID_CC_RGB_rev.svg"
-                alt="Logo for Province of British Columbia Connected Communities"
-                height={100}
-                width={300}
-              />
-            </a>
-          </Link>
-        </BaseHeader.Group>
-        <StyledMainTitle>
-          <h1>{title}</h1>
-        </StyledMainTitle>
-        <StyledRightSideLinks>
-          <Link passHref href="/dashboard">
-            <StyledAnchor>Dashboard</StyledAnchor>
-          </Link>
-          |
-          <NavLoginForm
-            action={isLoggedIn ? '/logout' : '/login'}
-            linkText={isLoggedIn ? 'Logout' : 'Login'}
-          />
-        </StyledRightSideLinks>
-      </BaseHeader>
+      <StyledBaseHeader>
+        <StyledDiv>
+          <BaseHeader.Group className="banner">
+            <Link passHref href="/">
+              <a>
+                <Image
+                  priority
+                  src="/icons/BCID_CC_RGB_rev.svg"
+                  alt="Logo for Province of British Columbia Connected Communities"
+                  height={100}
+                  width={300}
+                />
+              </a>
+            </Link>
+          </BaseHeader.Group>
+          <StyledMainTitle>
+            <h1>{title}</h1>
+          </StyledMainTitle>
+          <StyledRightSideLinks>
+            <Link passHref href="/dashboard">
+              <StyledAnchor>Dashboard</StyledAnchor>
+            </Link>
+            |
+            <NavLoginForm
+              action={isLoggedIn ? '/logout' : '/login'}
+              linkText={isLoggedIn ? 'Logout' : 'Login'}
+            />
+          </StyledRightSideLinks>
+        </StyledDiv>
+      </StyledBaseHeader>
       <SubHeader />
     </BaseNavigation>
   );

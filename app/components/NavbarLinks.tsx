@@ -6,18 +6,18 @@ const StyledLi = styled.li`
   align-self: center;
 `;
 
-const StlyedUl = styled.ul`
-  padding-left: 15px;
+const StyledUl = styled.ul`
+  padding-left: ${(props) => props.theme.padding.page};
 `;
 
 export const SubHeaderNavbarLinks: React.FC = () => {
   return (
-    <StlyedUl>
+    <StyledUl>
       <StyledLi>
         <Link href="mailto:connectingcommunitiesbc@gov.bc.ca">
-          <a>Help</a>
+          <a style={{ paddingLeft: 0 }}>Help</a>
         </Link>
       </StyledLi>
-    </StlyedUl>
+    </StyledUl>
   );
 };

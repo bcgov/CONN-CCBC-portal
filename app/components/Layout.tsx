@@ -16,6 +16,12 @@ const StyledMain = styled.main`
   padding: 5em 3.5em;
 `;
 
+const StyledDiv = styled('div')`
+  width: 100%;
+  max-width: ${(props) => props.theme.width.pageMaxWidth};
+  margin: auto;
+`;
+
 type Props = {
   title: string;
   children: JSX.Element | JSX.Element[] | string | string[];
@@ -57,7 +63,9 @@ const Layout: React.FC<Props> = ({ children, session, title }) => {
       <Navigation isLoggedIn={isLoggedIn} />
       <StyledMain>{children}</StyledMain>
       <StyledFooter>
-        <FooterLinks />
+        <StyledDiv>
+          <FooterLinks />
+        </StyledDiv>
       </StyledFooter>
     </>
   );
