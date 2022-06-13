@@ -10,10 +10,14 @@ const StyledFooter = styled(Footer)`
   width: 100%;
 `;
 
-const StyledMain = styled.main`
+const StyledMain = styled('main')`
   margin: 0 auto 50px;
   max-width: ${(props) => props.theme.width.pageMaxWidth};
-  padding: 5em 3.5em;
+  padding: 2em 1.5em;
+
+  @media (min-width: 768px) {
+    padding: 5em 3.5em;
+  }
 `;
 
 const StyledDiv = styled('div')`
