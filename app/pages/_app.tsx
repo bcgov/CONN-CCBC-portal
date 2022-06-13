@@ -1,4 +1,5 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
@@ -30,6 +31,21 @@ await fetch(
 export default function MyApp({ Component, pageProps }: AppProps) {
   const relayProps = getRelayProps(pageProps, initialPreloadedQuery);
   const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchGrowthbook = async () => {
+      const data = await fetch(
+        `https://cdn.growthbook.io/api/features/${publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY}`
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          growthbook.setFeatures(res.features);
+        });
+      return data;
+    };
+    fetchGrowthbook();
+  }, [router.asPath]);
 
   return (
     <GrowthBookProvider growthbook={growthbook}>
