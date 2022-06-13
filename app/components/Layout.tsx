@@ -16,7 +16,7 @@ const StyledMain = styled('main')`
   padding: 2em 1.5em;
 
   @media (min-width: 768px) {
-    padding: 5em 3.5em;
+    padding: 40px 3.5em;
   }
 `;
 
