@@ -95,7 +95,7 @@ jobs:
       HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
 
   deploy-to-openshift-development:
-    if: github.event.ref == 'refs/heads/main'
+    # if: github.event.ref == 'refs/heads/main'
     needs: [end-to-end]
     runs-on: ubuntu-latest
     environment:
