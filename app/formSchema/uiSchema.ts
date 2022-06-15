@@ -3,6 +3,7 @@ const MAX_LONG_INPUT_LENGTH = 200;
 const MAX_MED_INPUT_LENGTH = 75;
 const MAX_SHORT_INPUT_LENGTH = 9;
 const MIN_INPUT_LENGTH = 1;
+const MAX_LENGTH_POSTAL_CODE = 6;
 
 const uiSchema = {
   'ui:order': [
@@ -180,6 +181,19 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_SHORT_INPUT_LENGTH,
       minLength: MIN_INPUT_LENGTH,
+    },
+  },
+  province: {
+    'ui:widget': 'SelectWidget',
+  },
+  postalCode: {
+    'ui:options': {
+      maxLength: MAX_LENGTH_POSTAL_CODE,
+    },
+  },
+  POBox: {
+    'ui:options': {
+      maxLength: MAX_SHORT_INPUT_LENGTH,
     },
   },
 };
