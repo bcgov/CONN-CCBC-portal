@@ -73,7 +73,7 @@ const organizationProfile = {
         enum: ['Yes', 'No'],
       },
       isIndigenousEntity: {
-        title: 'Is this applicant organization an Idigenous entity?',
+        title: 'Is this applicant organization an Indigenous entity?',
         type: 'boolean',
         enum: ['Yes', 'No'],
       },
@@ -83,7 +83,7 @@ const organizationProfile = {
         type: 'string',
       },
       orgRegistrationDate: {
-        title: 'Data of incorporation or registration',
+        title: 'Date of incorporation or registration',
         type: 'string',
       },
       bussinessNumber: {

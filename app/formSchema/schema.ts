@@ -23,6 +23,7 @@ const useSchema = (featureFlagsForm: any) => {
     formOrganizationProfile,
     formProjectArea,
     formProjectInformation,
+    formProjectFunding,
   } = featureFlagsForm;
 
   const schema = {
@@ -40,7 +41,9 @@ const useSchema = (featureFlagsForm: any) => {
       ...(formBudgetDetails && {
         ...budgetDetails,
       }),
-      ...projectFunding,
+      ...(formProjectFunding && {
+        ...projectFunding,
+      }),
       ...(formOrganizationProfile && {
         ...organizationProfile,
       }),
