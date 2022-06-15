@@ -36,6 +36,7 @@ export default class MyDocument extends Document {
   }
 
   render() {
+    /* NextJs will automatically include the styles array from the getInitialProps function and render it last */
     return (
       <Html lang="en">
         <Head />
