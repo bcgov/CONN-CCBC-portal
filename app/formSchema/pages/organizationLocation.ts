@@ -3,7 +3,7 @@ const organizationLocation = {
     title: 'Organization location',
     description: 'Provide an address for your organization',
     type: 'object',
-    required: ['streetNumber', ''],
+    required: ['streetNumber', 'streetName', 'city', 'province', 'postalCode'],
     properties: {
       unitNumber: {
         title: 'Unit number',
@@ -28,6 +28,21 @@ const organizationLocation = {
       province: {
         title: 'Province',
         type: 'string',
+        enum: [
+          'Alberta',
+          'British Columbia',
+          'Manitoba',
+          'New Brunswick',
+          'Newfoundland',
+          'Northwest Territories',
+          'Nova Scotia',
+          'Nunavut',
+          'Ontario',
+          'Prince Edward Island',
+          'Quebec',
+          'Saskatchewan',
+          'Yukon Territories',
+        ],
       },
       postalCode: {
         title: 'Postal code (H0H 0H0)',
@@ -59,6 +74,14 @@ const organizationLocation = {
                 title: 'Mailing address',
                 description: 'Provide an address for your organization',
                 type: 'object',
+                required: [
+                  'isMailingAddress',
+                  'streetNumberMailing',
+                  'streetNameMailing',
+                  'cityMailing',
+                  'provinceMailing',
+                  'postalCodeMailing',
+                ],
                 properties: {
                   unitNumberMailing: {
                     title: 'Unit number',
@@ -83,6 +106,21 @@ const organizationLocation = {
                   provinceMailing: {
                     title: 'Province',
                     type: 'string',
+                    enum: [
+                      'Alberta',
+                      'British Columbia',
+                      'Manitoba',
+                      'New Brunswick',
+                      'Newfoundland',
+                      'Northwest Territories',
+                      'Nova Scotia',
+                      'Nunavut',
+                      'Ontario',
+                      'Prince Edward Island',
+                      'Quebec',
+                      'Saskatchewan',
+                      'Yukon Territories',
+                    ],
                   },
                   postalCodeMailing: {
                     title: 'Postal code (H0H 0H0)',

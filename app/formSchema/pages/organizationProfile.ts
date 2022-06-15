@@ -98,7 +98,7 @@ const organizationProfile = {
           {
             properties: {
               typeOfOrganization: {
-                enumNames: [
+                enum: [
                   'Incorporated company - private of public',
                   'Partnership',
                   'Limited partnership',

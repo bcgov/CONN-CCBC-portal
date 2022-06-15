@@ -3,25 +3,10 @@ const MAX_LONG_INPUT_LENGTH = 200;
 const MAX_MED_INPUT_LENGTH = 75;
 const MAX_SHORT_INPUT_LENGTH = 9;
 const MIN_INPUT_LENGTH = 1;
+const MAX_LENGTH_POSTAL_CODE = 6;
 
 const uiSchema = {
   'ui:order': [
-    'projectTitle',
-    'typeOfOrganization',
-    'other',
-    'bandNumber',
-    'organizationName',
-    'isLegalPrimaryName',
-    'amountFundingRequested',
-    'isNameLegalName',
-    'operatingName',
-    'isSubsidiary',
-    'parentOrgName',
-    'isIndigenousEntity',
-    'indigenousEntityDesc',
-    'organizationOverview',
-    'orgRegistrationDate',
-    'bussinessNumber',
     'unitNumber',
     'streetNumber',
     'streetName',
@@ -69,6 +54,27 @@ const uiSchema = {
     'totalEligbleCosts',
     'totalProjectCost',
     'requestedCCBCFunding',
+    'fundingRequested2223',
+    'fundingRequested2324',
+    'fundingRequested2425',
+    'fundingRequested2526',
+    'fundingRequested2627',
+    'projectTitle',
+    'typeOfOrganization',
+    'other',
+    'bandNumber',
+    'organizationName',
+    'isLegalPrimaryName',
+    'amountFundingRequested',
+    'isNameLegalName',
+    'operatingName',
+    'isSubsidiary',
+    'parentOrgName',
+    'isIndigenousEntity',
+    'indigenousEntityDesc',
+    'organizationOverview',
+    'orgRegistrationDate',
+    'bussinessNumber',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -180,6 +186,19 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_SHORT_INPUT_LENGTH,
       minLength: MIN_INPUT_LENGTH,
+    },
+  },
+  province: {
+    'ui:widget': 'SelectWidget',
+  },
+  postalCode: {
+    'ui:options': {
+      maxLength: MAX_LENGTH_POSTAL_CODE,
+    },
+  },
+  POBox: {
+    'ui:options': {
+      maxLength: MAX_SHORT_INPUT_LENGTH,
     },
   },
 };
