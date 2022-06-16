@@ -6,25 +6,23 @@
 
 > The Definition of Done is the agreement that the Dev Team has with the Product Owner on **what needs to be completed** for each user story. **When a story is "Done," nothing else needs to be done** (can I deploy it in production after the sprint review?).
 
-
 ### What do we need to check for each PR? 
 - [ ] Code produced (all ‘to do’ items in code completed) 
-- [ ] Acceptance Criteria were executed without fail. 
-- [ ] Code commented, checked in and ran against current version in source control 
+- [ ] Acceptance Criteria were executed without fail
+- [ ] Code commented (to be expanded)
 - [ ] Obey “Conventional commits” (https://www.conventionalcommits.org/en/v1.0.0/)
 - [ ] Code review (https://google.github.io/eng-practices/review/)
 - [ ] Peer reviewed (or produced with pair programming) and meeting development standards ([Google](https://google.github.io/eng-practices/review/reviewer/)) 
-
-### What do we need to check to say "we finish the issue"?
-- [ ] Defects = 0% (?). (How to measure this?) 
 - [ ] Unit tests are written and passing 
 - [ ] Test coverage > 80%(?) 
-- [ ] Deployed to the system test(?) environment and passed system tests 
 - [ ] Any build / deployment / configuration changes are implemented / documented / communicated 
-- [ ] Relevant documentation / diagrams produced and / or updated 
 - [ ] Don’t introduce breaking changes. 
 - [ ] Don’t (avoid) introducing more tech debt. 
 - [ ] Automatic Tests implemented and running 
+
+### What do we need to check to move the card to "PO Review" column?
+- [ ] Deployed to the system test environment and passed system tests 
+- [ ] Relevant documentation / diagrams produced and / or updated 
 
 ### What do we need to check to deploy in Dev?
 - [ ] Exploratory Test executed if it applies 
