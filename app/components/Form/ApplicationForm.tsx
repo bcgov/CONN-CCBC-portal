@@ -2,7 +2,6 @@ import { FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { useUpdateApplicationMutation } from '../../schema/mutations/application/updateApplication';
-import { useFeature } from '@growthbook/growthbook-react';
 
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
