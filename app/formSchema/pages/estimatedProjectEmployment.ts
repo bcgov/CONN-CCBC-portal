@@ -16,7 +16,6 @@ const estimatedProjectEmployment = {
         type: 'string',
       },
       estimatedDirectEmployees: {
-        title: `Estimated direct employees`,
         type: 'object',
         properties: {
           numberOfEmployeesToWork: {
@@ -34,7 +33,6 @@ const estimatedProjectEmployment = {
         },
       },
       estimatedContractorLabour: {
-        title: `Estimated contracted labour`,
         type: 'object',
         properties: {
           numberOfContractorsToWork: {

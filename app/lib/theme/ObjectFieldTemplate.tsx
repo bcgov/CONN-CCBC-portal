@@ -14,7 +14,12 @@ const ObjectFieldTemplate = (props: any) => {
       <Grid.Row>
         <Grid.Col span={10}>
           <FormBorder
-            title={props.title ? props.title : props.uiSchema['ui:title']}
+            title={
+              props.uiSchema['ui:subtitle'] ||
+              props.uiSchema['ui:title'] ||
+              props.title
+            }
+            subtitle={props.uiSchema['ui:subtitle'] && true}
           >
             {props.description && (
               <h3>
