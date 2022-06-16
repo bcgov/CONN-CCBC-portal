@@ -4,6 +4,7 @@ import {
   authorizedContact,
   budgetDetails,
   contactInformation,
+  estimatedProjectEmployment,
   existingNetworkCoverage,
   organizationLocation,
   organizationProfile,
@@ -18,6 +19,9 @@ const useSchema = () => {
   const formAuthorizedContact = useFeature('form-authorized-contact').value;
   const formBudgetDetails = useFeature('form-budget-details').value;
   const formContactInformation = useFeature('form-contact-information').value;
+  const formEstimatedProjectEmployment = useFeature(
+    'form-estimated-project-employment'
+  ).value;
   const formExistingNetworkCoverage = useFeature(
     'form-existing-network-coverage'
   ).value;
@@ -46,6 +50,9 @@ const useSchema = () => {
       }),
       ...(formProjectFunding && {
         ...projectFunding,
+      }),
+      ...(formEstimatedProjectEmployment && {
+        ...estimatedProjectEmployment,
       }),
       ...(formOrganizationProfile && {
         ...organizationProfile,
