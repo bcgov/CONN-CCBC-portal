@@ -4,7 +4,6 @@ const organizationProfile = {
     description: 'Provide an overview of you organization',
     type: 'object',
     required: [
-      'projectTitle',
       'typeOfOrganization',
       'other',
       'bandNumber',
@@ -21,11 +20,6 @@ const organizationProfile = {
       'bussinessNumber',
     ],
     properties: {
-      projectTitle: {
-        title:
-          'Project title for proposed project. Be descriptive about the geographic region while choosing a project title. We advise not using years in the title.',
-        type: 'string',
-      },
       typeOfOrganization: {
         title: 'Type of organization',
         type: 'array',
