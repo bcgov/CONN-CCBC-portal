@@ -96,6 +96,11 @@ const uiSchema = {
     'lastMileTechnology',
     'projectBenefits',
     'numberOfHouseholds',
+    'projectStartDate',
+    'projectCompletionDate',
+    'relationshipManagerApplicant',
+    'overviewOfProjectParticipants',
+    'operationalPlan',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -274,6 +279,33 @@ const uiSchema = {
     },
   },
   projectBenefits: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:description': 'maximum 3,500 characters',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  projectStartDate: {
+    'ui:widget': 'DatePickerWidget',
+  },
+  projectCompletionDate: {
+    'ui:widget': 'DatePickerWidget',
+  },
+  relationshipManagerApplicant: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:description': 'maximum 3,500 characters',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  overviewOfProjectParticipants: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:description': 'maximum 3,500 characters',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  operationalPlan: {
     'ui:widget': 'TextAreaWidget',
     'ui:description': 'maximum 3,500 characters',
     'ui:options': {

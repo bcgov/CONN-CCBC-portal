@@ -8,7 +8,7 @@ const StyledTextArea = styled(Textarea)`
     margin-top: 12px;
     margin-bottom: 4px;
     width: ${(props) => props.theme.width.inputWidthFull};
-    min-height: 10rem;
+    min-height: 129px;
   }
 `;
 
