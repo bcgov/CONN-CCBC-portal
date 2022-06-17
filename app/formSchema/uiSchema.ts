@@ -86,6 +86,10 @@ const uiSchema = {
     'hoursOfContractorEmploymentPerWeek',
     'contractorPersonMonthsToBeCreated',
     'declarationsList',
+    'declarationsCompletedFor',
+    'declarationsDate',
+    'declarationsCompletedBy',
+    'declarationsTitle',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -233,6 +237,9 @@ const uiSchema = {
   declarationsList: {
     'ui:title': ` `,
     'ui:widget': 'CheckboxesWidget',
+  },
+  declarationsDate: {
+    'ui:widget': 'DatePickerWidget',
   },
 };
 

@@ -6,7 +6,8 @@ import { dateTimeFormat } from '../functions/formatDates';
 import styled from 'styled-components';
 
 const StyledDatePicker = styled(DatePicker)`
-  margin: 12px 0;
+  margin-top: 12px;
+  margin-bottom: 32px;
   border: 2px solid #606060;
   border-radius: 0.25rem;
   padding: 0.5rem 0.6rem;

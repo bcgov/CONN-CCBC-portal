@@ -1,22 +1,30 @@
 const declarationsSign = {
   declarationsSign: {
-    title: 'Organization contact information',
+    title: 'Declarations',
+    description:
+      'You certify that you have the authority to submit this information on behalf of the Applicant.',
     type: 'object',
+    required: [
+      'declarationsCompletedFor',
+      'declarationsDate',
+      'declarationsCompletedBy',
+      'declarationsTitle',
+    ],
     properties: {
-      contactTelephoneNumber: {
-        title: 'Telephone number',
-        type: 'number',
-      },
-      contactExtension: {
-        title: 'Extension',
-        type: 'number',
-      },
-      contactEmail: {
-        title: 'Email',
+      declarationsCompletedFor: {
+        title: 'Completed for (Applicant Name)',
         type: 'string',
       },
-      contactWebsite: {
-        title: 'Website',
+      declarationsDate: {
+        title: 'On this date (YYYY-MM-DD)',
+        type: 'string',
+      },
+      declarationsCompletedBy: {
+        title: 'Completed by',
+        type: 'string',
+      },
+      declarationsTitle: {
+        title: 'Title',
         type: 'string',
       },
     },
