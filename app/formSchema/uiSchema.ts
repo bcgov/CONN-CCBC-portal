@@ -94,6 +94,8 @@ const uiSchema = {
     'scalability',
     'backboneTechnology',
     'lastMileTechnology',
+    'projectBenefits',
+    'numberOfHouseholds',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -265,6 +267,13 @@ const uiSchema = {
     },
   },
   scalability: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:description': 'maximum 3,500 characters',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  projectBenefits: {
     'ui:widget': 'TextAreaWidget',
     'ui:description': 'maximum 3,500 characters',
     'ui:options': {
