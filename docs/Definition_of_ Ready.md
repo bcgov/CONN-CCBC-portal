@@ -19,8 +19,7 @@ What we need for each sprint.
 - “S” mall (so as to fit within an iteration) 
 - “T” estable (in principle, even if there isn’t a test for it yet) 
 - [ ]  **It has Acceptance Criteria.**
-- [ ]  **It has a Prototype (low or high fidelity) (optional).**
-- [ ]  **It has the Stakeholders’ agreement.**
+- [ ]  **If it has a Prototype, a screenshot should be added to the story.**
 - [ ]  **The Acceptance Criteria was evaluated by the Dev Team (Feasible or not, or there is a better way to do this).**
 - [ ]  **Another person can execute it without further questions (clarity).**
 
