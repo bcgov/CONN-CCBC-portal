@@ -5,9 +5,12 @@ import { WidgetProps } from '@rjsf/core';
 import { dateTimeFormat } from '../functions/formatDates';
 import styled from 'styled-components';
 
-const StyledDatePicker = styled(DatePicker)`
+const StyledContainer = styled('div')`
   margin-top: 12px;
   margin-bottom: 32px;
+`;
+
+const StyledDatePicker = styled(DatePicker)`
   border: 2px solid #606060;
   border-radius: 0.25rem;
   padding: 0.5rem 0.6rem;
@@ -52,29 +55,37 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   const CustomInput = ({ value, onClick, ...rest }: any) => {
     return (
       <StyledDiv>
-        <StyledDatePicker value={value} onClick={onClick} {...rest} />
+        <StyledDatePicker
+          showPopperArrow={false}
+          value={value}
+          onClick={onClick}
+          {...rest}
+        />
         <CalendarIcon onClick={onClick} />
       </StyledDiv>
     );
   };
 
   return (
-    <StyledDatePicker
-      id={id}
-      disabled={disabled}
-      readOnly={readonly}
-      className="form-control"
-      selected={day}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
-      dateFormat="yyyy-MM-dd"
-      placeholderText="YYYY-MM-DD"
-      showMonthDropdown
-      showYearDropdown
-      dropdownMode="select"
-      customInput={<CustomInput />}
-    />
+    <StyledContainer>
+      <DatePicker
+        id={id}
+        disabled={disabled}
+        readOnly={readonly}
+        className="form-control"
+        selected={day}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        onFocus={handleFocus}
+        dateFormat="yyyy-MM-dd"
+        placeholderText="YYYY-MM-DD"
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
+        showPopperArrow={false}
+        customInput={<CustomInput />}
+      />
+    </StyledContainer>
   );
 };
 
@@ -83,7 +94,7 @@ export default DatePickerWidget;
 const CalendarIcon = ({ onClick }: any) => {
   const StyledSpan = styled('span')`
     position: absolute;
-    top: 21px;
+    top: 10px;
     right: 10px;
     cursor: pointer;
   `;
