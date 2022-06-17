@@ -90,6 +90,10 @@ const uiSchema = {
     'declarationsDate',
     'declarationsCompletedBy',
     'declarationsTitle',
+    'systemDesign',
+    'scalability',
+    'backboneTechnology',
+    'lastMileTechnology',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -240,6 +244,32 @@ const uiSchema = {
   },
   declarationsDate: {
     'ui:widget': 'DatePickerWidget',
+  },
+  backboneTechnology: {
+    'ui:widget': 'CheckboxesWidget',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  lastMileTechnology: {
+    'ui:widget': 'CheckboxesWidget',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  systemDesign: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:description': 'maximum 3,500 characters',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  scalability: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:description': 'maximum 3,500 characters',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
   },
 };
 

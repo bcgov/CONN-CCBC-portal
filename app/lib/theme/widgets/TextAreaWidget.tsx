@@ -12,6 +12,10 @@ const StyledTextArea = styled(Textarea)`
   }
 `;
 
+const StyledDiv = styled('div')`
+  margin-bottom: 32px;
+`;
+
 const TextAreaWidget: React.FC<WidgetProps> = ({
   id,
   placeholder,
@@ -25,7 +29,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
   const description = uiSchema['ui:description'];
 
   return (
-    <div>
+    <StyledDiv>
       <StyledTextArea
         id={id}
         onChange={(e: { target: { value: string } }) =>
@@ -40,7 +44,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         maxLength={maxLength}
       />
       {description && <Label>{description}</Label>}
-    </div>
+    </StyledDiv>
   );
 };
 
