@@ -2,6 +2,7 @@ export { default as alternateContact } from './alternateContact';
 export { default as authorizedContact } from './authorizedContact';
 export { default as budgetDetails } from './budgetDetails';
 export { default as contactInformation } from './contactInformation';
+export { default as estimatedProjectEmployment } from './estimatedProjectEmployment';
 export { default as existingNetworkCoverage } from './existingNetworkCoverage';
 export { default as organizationLocation } from './organizationLocation';
 export { default as organizationProfile } from './organizationProfile';
