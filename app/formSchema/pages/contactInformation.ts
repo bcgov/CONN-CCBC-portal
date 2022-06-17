@@ -1,7 +1,9 @@
 const contactInformation = {
   contactInformation: {
     title: 'Organization contact information',
+    description: 'Provide the contact information for your organization',
     type: 'object',
+    required: ['contactTelephoneNumber'],
     properties: {
       contactTelephoneNumber: {
         title: 'Telephone number',

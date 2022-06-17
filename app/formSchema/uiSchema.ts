@@ -37,6 +37,7 @@ const uiSchema = {
     'authTelephone',
     'authExtension',
     'isAuthContactSigningOfficer',
+    'isFirstContact',
     'altFamilyName',
     'altGivenName',
     'altPostionTitle',
@@ -44,6 +45,7 @@ const uiSchema = {
     'altTelephone',
     'altExtension',
     'isAltContactSigningOfficer',
+    'isAltFirstContact',
     'hasProvidedExitingNetworkCoverage',
     'hasPassiveInfrastructure',
     'isInfrastuctureAvailable',
@@ -206,6 +208,20 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_SHORT_INPUT_LENGTH,
     },
+  },
+  isAuthContactSigningOfficer: {
+    'ui:widget': 'RadioWidget',
+  },
+  isFirstContact: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:title': ' ',
+  },
+  isAltContactSigningOfficer: {
+    'ui:widget': 'RadioWidget',
+  },
+  isAltFirstContact: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:title': ' ',
   },
   estimatedDirectEmployees: {
     'ui:subtitle': 'Estimated direct employees',

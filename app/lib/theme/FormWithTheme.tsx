@@ -4,6 +4,7 @@ import ObjectFieldTemplate from './ObjectFieldTemplate';
 import { DescriptionField } from './fields';
 import {
   CheckboxesWidget,
+  CheckboxWidget,
   DatePickerWidget,
   RadioWidget,
   TextAreaWidget,
@@ -21,6 +22,7 @@ const formTheme: ThemeProps = {
   widgets: {
     ...widgets,
     CheckboxesWidget: CheckboxesWidget,
+    CheckboxWidget: CheckboxWidget,
     TextWidget: TextWidget,
     TextAreaWidget: TextAreaWidget,
     RadioWidget: RadioWidget,

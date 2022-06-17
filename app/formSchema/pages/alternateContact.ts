@@ -3,6 +3,14 @@ const alternateContact = {
     title: 'Alternate contact',
     description: 'Provide the contact information for the alternate contact',
     type: 'object',
+    required: [
+      'altFamilyName',
+      'altPostionTitle',
+      'altEmail',
+      'altTelephone',
+      'isAltContactSigningOfficer',
+      'isAltFirstContact',
+    ],
     properties: {
       altFamilyName: {
         title: 'Family name of person who will be the alternate contact',
@@ -25,7 +33,7 @@ const alternateContact = {
         type: 'number',
       },
       altExtension: {
-        title: 'Extension (optional)',
+        title: 'Extension',
         type: 'number',
       },
       isAltContactSigningOfficer: {
@@ -33,6 +41,11 @@ const alternateContact = {
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],
+      },
+      isAltFirstContact: {
+        title:
+          'Contact this person for communication regarding the application',
+        type: 'boolean',
       },
     },
   },
