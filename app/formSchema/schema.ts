@@ -5,6 +5,8 @@ import {
   budgetDetails,
   contactInformation,
   estimatedProjectEmployment,
+  declarations,
+  declarationsSign,
   existingNetworkCoverage,
   organizationLocation,
   organizationProfile,
@@ -22,6 +24,8 @@ const useSchema = () => {
   const formEstimatedProjectEmployment = useFeature(
     'form-estimated-project-employment'
   ).value;
+  const formDeclarations = useFeature('form-declarations').value;
+  const formDeclarationsSign = useFeature('form-declarations-sign').value;
   const formExistingNetworkCoverage = useFeature(
     'form-existing-network-coverage'
   ).value;
@@ -68,6 +72,12 @@ const useSchema = () => {
       }),
       ...(formAlternateContact && {
         ...alternateContact,
+      }),
+      ...(formDeclarations && {
+        ...declarations,
+      }),
+      ...(formDeclarationsSign && {
+        ...declarationsSign,
       }),
     },
   };

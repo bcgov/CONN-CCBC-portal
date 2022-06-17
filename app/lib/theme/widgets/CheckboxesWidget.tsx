@@ -52,7 +52,6 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
         enumOptions.map(
           (option: { value: string; label: string }, i: number) => {
             const checked = value.indexOf(option.value) !== -1;
-
             return (
               <StyledDiv key={i}>
                 <Checkbox
