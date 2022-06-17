@@ -15,7 +15,7 @@ const SuccessBanner = () => {
     <StyledSection>
       <h2>Application complete</h2>
       <p>Application number</p>
-      <h3>CCBC-99999</h3>
+      <h3>CCBC-010001</h3>
     </StyledSection>
   );
 };
