@@ -85,6 +85,7 @@ const uiSchema = {
     'estimatedContractorLabour',
     'hoursOfContractorEmploymentPerWeek',
     'contractorPersonMonthsToBeCreated',
+    'declarationsList',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -228,6 +229,10 @@ const uiSchema = {
   },
   estimatedContractorLabour: {
     'ui:subtitle': 'Estimated contracted labour',
+  },
+  declarationsList: {
+    'ui:title': ` `,
+    'ui:widget': 'CheckboxesWidget',
   },
 };
 
