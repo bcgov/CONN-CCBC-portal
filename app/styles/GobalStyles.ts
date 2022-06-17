@@ -16,6 +16,10 @@ const GlobalStyle = createGlobalStyle`
   .formFieldset {
     border: none;
   }
+  // Respect line breaks in strings
+  label {
+    white-space: pre-line;
+  }
 `;
 
 export default GlobalStyle;
