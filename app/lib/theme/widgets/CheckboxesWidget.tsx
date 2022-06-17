@@ -25,7 +25,7 @@ const StyledContainer = styled('div')`
   margin: 16px 0;
 `;
 
-const CheckboxWidget: React.FC<WidgetProps> = ({
+const CheckboxesWidget: React.FC<WidgetProps> = ({
   disabled,
   id,
   onChange,
@@ -80,4 +80,4 @@ const CheckboxWidget: React.FC<WidgetProps> = ({
   );
 };
 
-export default CheckboxWidget;
+export default CheckboxesWidget;
