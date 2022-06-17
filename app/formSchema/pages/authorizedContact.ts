@@ -3,14 +3,20 @@ const authorizedContact = {
     title: 'Authorized contact',
     description: 'Provide the contact information for the authorized contact',
     type: 'object',
+    required: [
+      'authFamilyName',
+      'authPostionTitle',
+      'authEmail',
+      'authTelephone',
+      'isFirstContact',
+    ],
     properties: {
       authFamilyName: {
         title: 'Family name of person who will be the authorized contact',
         type: 'string',
       },
       authGivenName: {
-        title:
-          'Given name of person who will be the authorized contact (optional)',
+        title: 'Given name of person who will be the authorized contact',
         type: 'string',
       },
       authPostionTitle: {
@@ -26,7 +32,7 @@ const authorizedContact = {
         type: 'number',
       },
       authExtension: {
-        title: 'Extension (optional)',
+        title: 'Extension',
         type: 'number',
       },
       isAuthContactSigningOfficer: {
@@ -34,6 +40,11 @@ const authorizedContact = {
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],
+      },
+      isFirstContact: {
+        title:
+          'Contact this person for communication regarding the application',
+        type: 'boolean',
       },
     },
   },
