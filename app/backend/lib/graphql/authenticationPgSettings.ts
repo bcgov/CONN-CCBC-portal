@@ -1,7 +1,15 @@
 import { isAuthenticated } from '@bcgov-cas/sso-express';
 import type { Request } from 'express';
+import config from '../../../config';
 
 const authenticationPgSettings = (req: Request) => {
+  if (config.get('ENABLE_MOCK_AUTH')) {
+    return {
+      'jwt.claims.sub': '00000000-0000-0000-0000-000000000000',
+      role: 'ccbc_auth_user',
+    };
+  }
+
   const claimsSettings: any = {
     role: 'ccbc_guest',
   };

@@ -8,6 +8,9 @@ const baseUrl =
     : `http://${config.get('HOST')}:${config.get('PORT') || 3000}`;
 
 let oidcIssuer: string;
+
+const mockAuth = config.get('ENABLE_MOCK_AUTH');
+
 if (
   config.get('OPENSHIFT_APP_NAMESPACE').endsWith('-dev') ||
   config.get('OPENSHIFT_APP_NAMESPACE') === ''
@@ -22,6 +25,10 @@ export default async function ssoMiddleware() {
     applicationDomain: '.gov.bc.ca',
     getLandingRoute: () => {
       return '/dashboard';
+    },
+    bypassAuthentication: {
+      login: mockAuth,
+      sessionIdleRemainingTime: mockAuth,
     },
     oidcConfig: {
       baseUrl: baseUrl,

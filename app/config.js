@@ -102,6 +102,12 @@ const config = convict({
     default: '',
     env: 'NEXT_PUBLIC_GROWTHBOOK_API_KEY',
   },
+  ENABLE_MOCK_AUTH: {
+    doc: 'Enable mock auth',
+    format: Boolean,
+    default: false,
+    env: 'ENABLE_MOCK_AUTH',
+  },
 });
 
 // Load environment dependent configuration
