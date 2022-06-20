@@ -101,6 +101,8 @@ const uiSchema = {
     'relationshipManagerApplicant',
     'overviewOfProjectParticipants',
     'operationalPlan',
+    'copiesOfRegistration',
+    'preparedFinancialStatements',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -308,6 +310,18 @@ const uiSchema = {
   operationalPlan: {
     'ui:widget': 'TextAreaWidget',
     'ui:description': 'maximum 3,500 characters',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  copiesOfRegistration: {
+    'ui:widget': 'FileWidget',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  preparedFinancialStatements: {
+    'ui:widget': 'FileWidget',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
     },

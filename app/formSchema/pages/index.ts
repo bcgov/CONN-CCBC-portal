@@ -13,4 +13,5 @@ export { default as projectArea } from './projectArea';
 export { default as projectFunding } from './projectFunding';
 export { default as projectInformation } from './projectInformation';
 export { default as projectPlan } from './projectPlan';
+export { default as supportingDocuments } from './supportingDocuments';
 export { default as techSolution } from './techSolution';

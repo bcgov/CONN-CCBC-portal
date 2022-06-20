@@ -15,6 +15,7 @@ import {
   projectInformation,
   projectFunding,
   projectPlan,
+  supportingDocuments,
   techSolution,
 } from './pages';
 
@@ -28,11 +29,11 @@ const useSchema = () => {
   const formEstimatedProjectEmployment = useFeature(
     'form-estimated-project-employment'
   ).value;
-  const formDeclarations = useFeature('form-declarations').value;
-  const formDeclarationsSign = useFeature('form-declarations-sign').value;
   const formExistingNetworkCoverage = useFeature(
     'form-existing-network-coverage'
   ).value;
+  const formDeclarations = useFeature('form-declarations').value;
+  const formDeclarationsSign = useFeature('form-declarations-sign').value;
   const formOrganizationLocation = useFeature(
     'form-organization-location'
   ).value;
@@ -42,6 +43,7 @@ const useSchema = () => {
   const formProjectFunding = useFeature('form-project-funding').value;
   const formProjectPlan = useFeature('form-project-plan').value;
   const formTechSolution = useFeature('form-tech-solution').value;
+  const formSupportingDocuments = useFeature('form-supporting-documents').value;
 
   const schema = {
     type: 'object',
@@ -69,6 +71,9 @@ const useSchema = () => {
       }),
       ...(formProjectPlan && {
         ...projectPlan,
+      }),
+      ...(formSupportingDocuments && {
+        ...supportingDocuments,
       }),
       ...(formEstimatedProjectEmployment && {
         ...estimatedProjectEmployment,
