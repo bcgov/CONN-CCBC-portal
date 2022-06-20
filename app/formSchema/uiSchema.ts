@@ -106,6 +106,9 @@ const uiSchema = {
     'logicalNetworkDiagram',
     'projectSchedule',
     'communityRuralDevelopmentBenefits',
+    'geographicCoverageMap',
+    'currentNetworkInfastructure',
+    'upgradedNetworkInfrastructure',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -356,6 +359,28 @@ const uiSchema = {
     'ui:widget': 'FileWidget',
     'ui:description':
       'Community and Rural Development Benefits supporting documents',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+    },
+  },
+  geographicCoverageMap: {
+    'ui:widget': 'FileWidget',
+    'ui:description': `Geographic coverage map from ISED's Eligibility Mapping Tool`,
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+    },
+  },
+  currentNetworkInfastructure: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Current Network Infrastructure',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+    },
+  },
+  upgradedNetworkInfrastructure: {
+    'ui:widget': 'FileWidget',
+    'ui:description':
+      'Proposed or Upgraded Network Infrastructure (project specific)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
     },
