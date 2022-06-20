@@ -16,3 +16,4 @@ export { default as projectInformation } from './projectInformation';
 export { default as projectPlan } from './projectPlan';
 export { default as supportingDocuments } from './supportingDocuments';
 export { default as techSolution } from './techSolution';
+export { default as templateUploads } from './templateUploads';

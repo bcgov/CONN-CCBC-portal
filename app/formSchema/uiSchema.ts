@@ -109,6 +109,16 @@ const uiSchema = {
     'geographicCoverageMap',
     'currentNetworkInfastructure',
     'upgradedNetworkInfrastructure',
+    'eligibilityAndImpactsCalculator',
+    'detailedBudget',
+    'financialForecast',
+    'lastMileIspOffering',
+    'popWholesalePricing',
+    'communityRuralDevelopmentBenefitsTemplate',
+    'wirelessAddendum',
+    'supportingConnectivityEvidence',
+    'geographicNames',
+    'equipmentDetails',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -383,6 +393,88 @@ const uiSchema = {
       'Proposed or Upgraded Network Infrastructure (project specific)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
+    },
+  },
+  eligibilityAndImpactsCalculator: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Template 1 - Eligibility and Impacts Calculator',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+    },
+  },
+  detailedBudget: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Template 2 - Detailed Budget',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+    },
+  },
+  financialForecast: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Template 3 - Financial Forecast',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+    },
+  },
+  lastMileIspOffering: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Template 4 - Last Mile Internet Service Offering',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+    },
+  },
+  popWholesalePricing: {
+    'ui:widget': 'FileWidget',
+    'ui:description':
+      'Template 5 - List of Points of Presence and Wholesale Pricing',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+    },
+  },
+  communityRuralDevelopmentBenefitsTemplate: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Template 6 - Community and Rural Development Benefits',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+    },
+  },
+  wirelessAddendum: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Template 7 - Wireless Addendum (optional)',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+    },
+  },
+  supportingConnectivityEvidence: {
+    'ui:widget': 'FileWidget',
+    'ui:description':
+      'Template 8 - Supporting Connectivity Evidence (optional)',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+    },
+  },
+  geographicNames: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Template 9 - Geographic Names',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+    },
+  },
+  equipmentDetails: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Template 10 - Equipment Details',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
     },
   },
 };

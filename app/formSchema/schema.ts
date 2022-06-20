@@ -18,6 +18,7 @@ import {
   projectPlan,
   supportingDocuments,
   techSolution,
+  templateUploads,
 } from './pages';
 
 const useSchema = () => {
@@ -44,8 +45,9 @@ const useSchema = () => {
   const formProjectInformation = useFeature('form-project-information').value;
   const formProjectFunding = useFeature('form-project-funding').value;
   const formProjectPlan = useFeature('form-project-plan').value;
-  const formTechSolution = useFeature('form-tech-solution').value;
   const formSupportingDocuments = useFeature('form-supporting-documents').value;
+  const formTechSolution = useFeature('form-tech-solution').value;
+  const formTemplateUploads = useFeature('form-template-uploads').value;
 
   const schema = {
     type: 'object',
@@ -73,6 +75,9 @@ const useSchema = () => {
       }),
       ...(formProjectPlan && {
         ...projectPlan,
+      }),
+      ...(formTemplateUploads && {
+        ...templateUploads,
       }),
       ...(formSupportingDocuments && {
         ...supportingDocuments,
