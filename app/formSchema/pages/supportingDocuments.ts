@@ -4,20 +4,26 @@ const supportingDocuments = {
     type: 'object',
     description:
       'Please upload additional attachments. Please avoid using special characters in the file name. The maximum size per file is 100MB',
-    required: [
-      'projectTitle',
-      'geographicAreaDescription',
-      'projectDescription',
-    ],
     properties: {
       copiesOfRegistration: {
-        title:
-          'Copies of registration and other relevant documents related to incorporation, limited partnership, joint venture, not-for-profit status, etc. ',
         type: 'string',
       },
       preparedFinancialStatements: {
+        type: 'string',
+      },
+      logicalNetworkDiagram: {
         title:
-          'Independently prepared financial statements for the last three (3) years',
+          'Please refer to Annex 3 of the application guide for the logical network diagram requirements',
+        type: 'string',
+      },
+      projectSchedule: {
+        title:
+          'Please refer to Annex 3 of the application guide for the project schedule and supporting documents requirements',
+        type: 'string',
+      },
+      communityRuralDevelopmentBenefits: {
+        title:
+          'Please refer to Annex 3 of the application guide for the community letters of support requirements',
         type: 'string',
       },
     },

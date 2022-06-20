@@ -103,6 +103,9 @@ const uiSchema = {
     'operationalPlan',
     'copiesOfRegistration',
     'preparedFinancialStatements',
+    'logicalNetworkDiagram',
+    'projectSchedule',
+    'communityRuralDevelopmentBenefits',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -239,8 +242,11 @@ const uiSchema = {
   },
   isAltFirstContact: {
     'ui:widget': 'CheckboxWidget',
-    'ui:title': ' ',
+    'ui:options': {
+      label: false,
+    },
   },
+
   estimatedDirectEmployees: {
     'ui:subtitle': 'Estimated direct employees',
   },
@@ -316,14 +322,42 @@ const uiSchema = {
   },
   copiesOfRegistration: {
     'ui:widget': 'FileWidget',
+    'ui:description':
+      'Copies of registration and other relevant documents related to incorporation, limited partnership, joint venture, not-for-profit status, etc.',
     'ui:options': {
-      maxLength: MAX_TEXTAREA_LENGTH,
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
     },
   },
   preparedFinancialStatements: {
     'ui:widget': 'FileWidget',
+    'ui:description':
+      'Independently prepared financial statements for the last three (3) years',
     'ui:options': {
-      maxLength: MAX_TEXTAREA_LENGTH,
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+    },
+  },
+  logicalNetworkDiagram: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Logical network diagram',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+    },
+  },
+  projectSchedule: {
+    'ui:widget': 'FileWidget',
+    'ui:description': 'Project schedule (preferably a Gantt chart)',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+    },
+  },
+  communityRuralDevelopmentBenefits: {
+    'ui:widget': 'FileWidget',
+    'ui:description':
+      'Community and Rural Development Benefits supporting documents',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
     },
   },
 };
