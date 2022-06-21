@@ -1,7 +1,11 @@
 import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
+import schema from '../../formSchema/schema';
+
+import { Table } from '.';
 type Props = {
   formData: any;
+  sectionSchema: any;
 };
 
 const StyledAccordion = styled(Accordion)`
@@ -23,7 +27,8 @@ const StyledAccordion = styled(Accordion)`
   }
 `;
 
-const Review = ({ formData }: Props) => {
+const Review = ({ formData, sectionSchema }: Props) => {
+  const formSchema = schema();
   const {
     additionalProjectInformation,
     alternateContact,
@@ -36,20 +41,31 @@ const Review = ({ formData }: Props) => {
     existingNetworkCoverage,
     projectArea,
     contactInformation,
+    organizationProfile,
     projectFunding,
     projectInformation,
     projectPlan,
-    organizationProfile,
     supportingDocuments,
     organizationLocation,
     techSolution,
     templateUploads,
   } = formData;
 
+  const existingNetworkCoverageSchema =
+    formSchema.properties['existingNetworkCoverage'];
+  const organizationProfileSchema =
+    formSchema.properties['organizationProfile'];
+
+  const projectInformationSchema = formSchema.properties['projectInformation'];
+  const supportingDocumentsSchema =
+    formSchema.properties['supportingDocuments'];
   return (
     <div>
-      <StyledAccordion title="Project information" defaultToggled>
-        Content to display when toggled open.
+      <StyledAccordion title={projectInformationSchema.title} defaultToggled>
+        <Table
+          formData={projectInformation}
+          subschema={projectInformationSchema}
+        />
       </StyledAccordion>
       <StyledAccordion title="Project area" defaultToggled>
         Content to display when toggled open.
@@ -57,8 +73,14 @@ const Review = ({ formData }: Props) => {
       <StyledAccordion title="Geographic names" defaultToggled>
         Content to display when toggled open.
       </StyledAccordion>
-      <StyledAccordion title="Existing network coverage">
-        Content to display when toggled open.
+      <StyledAccordion
+        title={existingNetworkCoverageSchema.title}
+        defaultToggled
+      >
+        <Table
+          formData={existingNetworkCoverage}
+          subschema={existingNetworkCoverageSchema}
+        />
       </StyledAccordion>
       <StyledAccordion title="Budget details">
         Content to display when toggled open.
@@ -84,14 +106,20 @@ const Review = ({ formData }: Props) => {
       <StyledAccordion title="Template uploads">
         Content to display when toggled open.
       </StyledAccordion>
-      <StyledAccordion title="Supporting documents">
-        Content to display when toggled open.
+      <StyledAccordion title="Supporting documents" defaultToggled>
+        {/* <Table
+          formData={supportingDocuments}
+          subschema={supportingDocumentsSchema}
+        /> */}
       </StyledAccordion>
       <StyledAccordion title="Mapping">
         Content to display when toggled open.
       </StyledAccordion>
-      <StyledAccordion title="Organization profile">
-        Content to display when toggled open.
+      <StyledAccordion title="Organization profile" defaultToggled>
+        <Table
+          formData={organizationProfile}
+          subschema={organizationProfileSchema}
+        />
       </StyledAccordion>
       <StyledAccordion title="Organization location">
         Content to display when toggled open.

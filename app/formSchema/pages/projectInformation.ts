@@ -11,13 +11,16 @@ const projectInformation = {
     ],
     properties: {
       projectTitle: {
+        title: 'Project title',
         type: 'string',
       },
       geographicAreaDescription: {
+        title: 'Geographic area description',
         type: 'string',
       },
 
       projectDescription: {
+        title: 'Project description',
         type: 'string',
       },
     },
