@@ -155,15 +155,12 @@ const Review = ({ formData, sectionSchema }: Props) => {
       </StyledAccordion>
       <StyledAccordion title={authorizedContactSchema.title}>
         <Table
-          formData={authorizedContact}
-          subschema={authorizedContactSchema}
+          formData={contactInformation}
+          subschema={contactInformationSchema}
         />
       </StyledAccordion>
-      <StyledAccordion title={authorizedContactSchema.title}>
-        <Table
-          formData={authorizedContact}
-          subschema={authorizedContactSchema}
-        />
+      <StyledAccordion title={alternateContactSchema.title}>
+        <Table formData={alternateContact} subschema={alternateContactSchema} />
       </StyledAccordion>
     </div>
   );
