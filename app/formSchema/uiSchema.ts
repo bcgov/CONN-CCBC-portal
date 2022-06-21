@@ -54,7 +54,7 @@ const uiSchema = {
     'projectSpanMultipleLocations',
     'provincesTerritories',
     'projectLocations',
-    'totalEligbleCosts',
+    'totalEligibleCosts',
     'totalProjectCost',
     'requestedCCBCFunding',
     'fundingRequested2223',
@@ -477,6 +477,10 @@ const uiSchema = {
       label: false,
     },
   },
+  totalEligibleCosts: {
+    'ui:subtitle': 'Estimated direct employees',
+  },
+  totalProjectCost: {},
 };
 
 export default uiSchema;

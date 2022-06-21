@@ -12,9 +12,7 @@ const existingNetworkCoverage = {
     ],
     properties: {
       hasProvidedExitingNetworkCoverage: {
-        title: `Please indicate if you have already provided your existing network and/or coverage information to ISED or the Canadian Radio-television and
-          Telecommunications Commission (CRTC) in the past 12 months, or if you will submit such information to ISED before the close of applications. For
-          more information on how to submit existing network and coverage information, refer to the Universal Broadband Fund (UBF) website.`,
+        title: `Please indicate if you have already provided your existing network and/or coverage information to ISED or the Canadian Radio-television and Telecommunications Commission (CRTC) in the past 12 months, or if you will submit such information to ISED before the close of applications. For more information on how to submit existing network and coverage information, refer to the Universal Broadband Fund (UBF) website.`,
         type: 'string',
         enum: [
           'I have provided existing network information and/or coverage to ISED or the CRTC in the past 12 months',
