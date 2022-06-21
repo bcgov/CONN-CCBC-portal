@@ -14,6 +14,7 @@ const StyledColLeft = styled('th')`
   border: 1px solid rgba(0, 0, 0, 0.16);
   border-left: 0;
   font-weight: 400;
+  white-space: pre-line;
 `;
 
 const StyledColRight = styled('th')`
@@ -22,6 +23,7 @@ const StyledColRight = styled('th')`
   border: 1px solid rgba(0, 0, 0, 0.16);
   border-right: 0;
   font-weight: 400;
+  white-space: pre-line;
 `;
 
 const Table = ({ formData, subschema }: any) => {

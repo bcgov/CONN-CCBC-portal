@@ -39,6 +39,7 @@ const Review = ({ formData, sectionSchema }: Props) => {
     declarationsSign,
     estimatedProjectEmployment,
     existingNetworkCoverage,
+    geographicNames,
     projectArea,
     contactInformation,
     organizationProfile,
@@ -51,14 +52,30 @@ const Review = ({ formData, sectionSchema }: Props) => {
     templateUploads,
   } = formData;
 
+  const alternateContactSchema = formSchema.properties['alternateContact'];
+  const authorizedContactSchema = formSchema.properties['authorizedContact'];
+  const budgetDetailsSchema = formSchema.properties['budgetDetails'];
+  const benefitsSchema = formSchema.properties['benefits'];
+  const contactInformationSchema = formSchema.properties['contactInformation'];
   const existingNetworkCoverageSchema =
     formSchema.properties['existingNetworkCoverage'];
+  const estimatedProjectEmploymentSchema =
+    formSchema.properties['estimatedProjectEmployment'];
+  const geographicNamesSchema = formSchema.properties['geographicNames'];
   const organizationProfileSchema =
     formSchema.properties['organizationProfile'];
 
+  const organizationLocationSchema =
+    formSchema.properties['organizationLocation'];
+  const projectAreaSchema = formSchema.properties['projectArea'];
   const projectInformationSchema = formSchema.properties['projectInformation'];
+  const projectFundingSchema = formSchema.properties['projectFunding'];
+  const projectPlanSchema = formSchema.properties['projectPlan'];
   const supportingDocumentsSchema =
     formSchema.properties['supportingDocuments'];
+  const techSolutionSchema = formSchema.properties['techSolution'];
+  const templateUploadsSchema = formSchema.properties['templateUploads'];
+
   return (
     <div>
       <StyledAccordion title={projectInformationSchema.title} defaultToggled>
@@ -67,12 +84,12 @@ const Review = ({ formData, sectionSchema }: Props) => {
           subschema={projectInformationSchema}
         />
       </StyledAccordion>
-      <StyledAccordion title="Project area" defaultToggled>
-        Content to display when toggled open.
+      <StyledAccordion title={projectAreaSchema.title} defaultToggled>
+        <Table formData={projectArea} subschema={projectAreaSchema} />
       </StyledAccordion>
-      <StyledAccordion title="Geographic names" defaultToggled>
-        Content to display when toggled open.
-      </StyledAccordion>
+      {/* <StyledAccordion title="Geographic names" defaultToggled>
+        <Table formData={geographicNames} subschema={geographicNamesSchema} />
+      </StyledAccordion> */}
       <StyledAccordion
         title={existingNetworkCoverageSchema.title}
         defaultToggled
@@ -82,26 +99,29 @@ const Review = ({ formData, sectionSchema }: Props) => {
           subschema={existingNetworkCoverageSchema}
         />
       </StyledAccordion>
-      <StyledAccordion title="Budget details">
-        Content to display when toggled open.
+      <StyledAccordion title={budgetDetailsSchema.title}>
+        <Table formData={budgetDetails} subschema={budgetDetailsSchema} />
       </StyledAccordion>
-      <StyledAccordion title="Project funding">
-        Content to display when toggled open.
+      <StyledAccordion title={projectFundingSchema.title}>
+        <Table formData={projectFunding} subschema={projectFundingSchema} />
       </StyledAccordion>
       <StyledAccordion title="Other funding sources">
         Content to display when toggled open.
       </StyledAccordion>
-      <StyledAccordion title="Technological solution">
-        Content to display when toggled open.
+      <StyledAccordion title={techSolutionSchema.title}>
+        <Table formData={techSolution} subschema={techSolutionSchema} />
       </StyledAccordion>
-      <StyledAccordion title="Benefits">
-        Content to display when toggled open.
+      <StyledAccordion title={benefitsSchema.title}>
+        <Table formData={benefits} subschema={benefitsSchema} />
       </StyledAccordion>
-      <StyledAccordion title="Project planning and management">
-        Content to display when toggled open.
+      <StyledAccordion title={projectPlanSchema.title}>
+        <Table formData={projectPlan} subschema={projectPlanSchema} />
       </StyledAccordion>
-      <StyledAccordion title="Estimated project employment">
-        Content to display when toggled open.
+      <StyledAccordion title={estimatedProjectEmploymentSchema.title}>
+        <Table
+          formData={estimatedProjectEmployment}
+          subschema={estimatedProjectEmploymentSchema}
+        />
       </StyledAccordion>
       <StyledAccordion title="Template uploads">
         Content to display when toggled open.
@@ -121,17 +141,29 @@ const Review = ({ formData, sectionSchema }: Props) => {
           subschema={organizationProfileSchema}
         />
       </StyledAccordion>
-      <StyledAccordion title="Organization location">
-        Content to display when toggled open.
+      <StyledAccordion title={organizationLocationSchema.title}>
+        <Table
+          formData={organizationLocation}
+          subschema={organizationLocationSchema}
+        />
       </StyledAccordion>
-      <StyledAccordion title="Organization contact information">
-        Content to display when toggled open.
+      <StyledAccordion title={contactInformationSchema.title}>
+        <Table
+          formData={contactInformation}
+          subschema={contactInformationSchema}
+        />
       </StyledAccordion>
-      <StyledAccordion title="Authorized contact">
-        Content to display when toggled open.
+      <StyledAccordion title={authorizedContactSchema.title}>
+        <Table
+          formData={authorizedContact}
+          subschema={authorizedContactSchema}
+        />
       </StyledAccordion>
-      <StyledAccordion title="Alternate contact">
-        Content to display when toggled open.
+      <StyledAccordion title={authorizedContactSchema.title}>
+        <Table
+          formData={authorizedContact}
+          subschema={authorizedContactSchema}
+        />
       </StyledAccordion>
     </div>
   );
