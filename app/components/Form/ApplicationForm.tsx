@@ -1,12 +1,13 @@
+import { useRouter } from 'next/router';
+import Button from '@button-inc/bcgov-theme/Button';
+import type { JSONSchema7 } from 'json-schema';
+
 import { FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { useUpdateApplicationMutation } from '../../schema/mutations/application/updateApplication';
-
-import Button from '@button-inc/bcgov-theme/Button';
-import type { JSONSchema7 } from 'json-schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
-import { useRouter } from 'next/router';
+import { Review } from '../Review';
 
 interface Props {
   formData: any;
@@ -30,6 +31,8 @@ const ApplicationForm: React.FC<Props> = ({
   }
 
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
+
+  const review = sectionName === 'review';
 
   const saveForm = async (incomingFormData: any, existingFormData: any) => {
     const pageNumber = parseInt(router.query.page as string);
@@ -83,6 +86,7 @@ const ApplicationForm: React.FC<Props> = ({
       // Todo: validate entire form on completion
       noValidate={true}
     >
+      {review && <Review formData={formData} />}
       {pageNumber < subschemaArray.length ? (
         <Button variant="primary">Continue</Button>
       ) : (

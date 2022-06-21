@@ -18,6 +18,7 @@ import {
   projectFunding,
   projectPlan,
   supportingDocuments,
+  review,
   techSolution,
   templateUploads,
 } from './pages';
@@ -116,6 +117,7 @@ const useSchema = () => {
       ...(formDeclarationsSign && {
         ...declarationsSign,
       }),
+      ...review,
     },
   };
 

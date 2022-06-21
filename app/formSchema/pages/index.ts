@@ -16,5 +16,6 @@ export { default as projectFunding } from './projectFunding';
 export { default as projectInformation } from './projectInformation';
 export { default as projectPlan } from './projectPlan';
 export { default as supportingDocuments } from './supportingDocuments';
+export { default as review } from './review';
 export { default as techSolution } from './techSolution';
 export { default as templateUploads } from './templateUploads';
