@@ -143,6 +143,7 @@ const uiSchema = {
     'requestedFundingPartner2526',
     'requestedFundingPartner2627',
     'totalRequestedFundingPartner',
+    'testArray',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',

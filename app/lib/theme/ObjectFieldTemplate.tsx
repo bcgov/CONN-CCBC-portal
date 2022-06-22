@@ -9,7 +9,8 @@ const DefaultDescriptionField = (props: {
 
 const StyledInline = styled('div')`
   display: flex;
-  input {
+  input,
+  select {
     min-width: 90%;
   }
 `;
