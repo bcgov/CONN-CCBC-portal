@@ -29,7 +29,7 @@ const ObjectFieldTemplate = (props: any) => {
 
   const getInlineKeys = () => {
     // Get array of inline keys so we can see if field exists in grid so we don't render it twice.
-    const inlineKeys: any[] = [];
+    const inlineKeys: string[] = [];
 
     props.uiSchema['ui:inline'].map((row: any) => {
       const rowKeys = Object.keys(row);
@@ -64,10 +64,19 @@ const ObjectFieldTemplate = (props: any) => {
 
           {props.properties.map((prop: any) => {
             const isInlineItem = inlineKeys.find((key) => key === prop.name);
-            if (!isInlineItem) return prop.content;
+            if (!isInlineItem) {
+              return prop.content;
+            }
           })}
 
           {props.uiSchema['ui:inline'].map((row: any, i: number) => {
+            // check if row is in current page (props.properties) schema
+            const title =
+              props.properties.filter((prop: any) =>
+                Object.keys(row).includes(prop.name)
+              ).length > 1;
+
+            // Check if row contains a single or 'full' element
             const isFull = row[Object.keys(row)[0]] === 'full';
 
             const mapRow = Object.keys(row).map((fieldName) => {
@@ -81,10 +90,9 @@ const ObjectFieldTemplate = (props: any) => {
                 </div>
               );
             });
-
             return (
               <div key={i}>
-                {row.title && <StyledLabel>{row.title}</StyledLabel>}
+                {title && row.title && <StyledLabel>{row.title}</StyledLabel>}
 
                 {isFull && <StyledFull>{mapRow}</StyledFull>}
                 {!isFull && <StyledInline>{mapRow}</StyledInline>}
