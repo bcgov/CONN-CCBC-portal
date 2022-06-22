@@ -495,8 +495,11 @@ const uiSchema = {
   },
   totalEligibleCosts: {},
   totalProjectCost: {},
-  'ui:grid': [
+  'ui:inline': [
+    // Each object is a row for inline grid elements. Single elements with 'full' value
+    // will properly format the input width for a single input.
     {
+      title: 'Amount requested under CCBC',
       fundingRequestedCCBC2223: 'inline',
       fundingRequestedCCBC2324: 'inline',
       fundingRequestedCCBC2425: 'inline',
@@ -507,6 +510,7 @@ const uiSchema = {
       totalFundingRequestedCCBC: 'full',
     },
     {
+      title: 'Amount the applicant will contribute',
       applicationContribution2223: 'inline',
       applicationContribution2324: 'inline',
       applicationContribution2425: 'inline',
@@ -517,6 +521,7 @@ const uiSchema = {
       totalApplicantContribution: 'full',
     },
     {
+      title: 'Amount requested under Canadian Infrastructure Bank',
       infrastructureBankFunding2223: 'inline',
       infrastructureBankFunding2324: 'inline',
       infrastructureBankFunding2425: 'inline',
@@ -525,32 +530,6 @@ const uiSchema = {
     },
     {
       totalInfrastructureBankFunding: 'full',
-    },
-  ],
-  'ui:grid-title': [
-    {
-      // fundingRequestedCCBC
-      title: 'Amount requested under CCBC',
-    },
-    {
-      // totalFundingRequestedCCBC
-      title: null,
-    },
-    {
-      // applicationContribution
-      title: 'Amount the applicant will contribute',
-    },
-    {
-      // totalApplicantContribution
-      title: null,
-    },
-    {
-      // infrastructureBankFunding2223
-      title: 'Amount requested under Canadian Infrastructure Bank',
-    },
-    {
-      // totalInfrastructureBankFunding
-      title: null,
     },
   ],
 };
