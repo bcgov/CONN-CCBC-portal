@@ -1,6 +1,7 @@
 import Grid from '@button-inc/bcgov-theme/Grid';
 import FormBorder from './components/FormBorder';
 import styled from 'styled-components';
+import { ObjectFieldTemplateProps } from '@rjsf/core';
 
 const DefaultDescriptionField = (props: {
   id: string;
@@ -24,14 +25,14 @@ const StyledLabel = styled('div')`
   margin-bottom: 4px;
 `;
 
-const ObjectFieldTemplate = (props: any) => {
+const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
   const DescriptionField = props.DescriptionField || DefaultDescriptionField;
 
   const getInlineKeys = () => {
     // Get array of inline keys so we can see if field exists in grid so we don't render it twice.
     const inlineKeys: string[] = [];
 
-    props.uiSchema['ui:inline'].map((row: any) => {
+    props.uiSchema['ui:inline'].map((row: Record<string, string>) => {
       const rowKeys = Object.keys(row);
       inlineKeys.push(...rowKeys);
     });
@@ -57,7 +58,6 @@ const ObjectFieldTemplate = (props: any) => {
               <DescriptionField
                 id={`${props.idSchema.$id}__description`}
                 description={props.description}
-                formContext={props.formContext}
               />
             </h3>
           )}
@@ -69,36 +69,38 @@ const ObjectFieldTemplate = (props: any) => {
             }
           })}
 
-          {props.uiSchema['ui:inline'].map((row: any, i: number) => {
-            // check if row is in current page (props.properties) schema
-            const title =
-              props.properties.filter((prop: any) =>
-                Object.keys(row).includes(prop.name)
-              ).length > 1;
+          {props.uiSchema['ui:inline'].map(
+            (row: Record<string, string>, i: number) => {
+              // check if row is in current page (props.properties) schema
+              const title =
+                props.properties.filter((prop: any) =>
+                  Object.keys(row).includes(prop.name)
+                ).length > 1;
 
-            // Check if row contains a single or 'full' element
-            const isFull = row[Object.keys(row)[0]] === 'full';
+              // Check if row contains a single or 'full' element
+              const isFull = row[Object.keys(row)[0]] === 'full';
 
-            const mapRow = Object.keys(row).map((fieldName) => {
+              const mapRow = Object.keys(row).map((fieldName) => {
+                return (
+                  <div key={fieldName}>
+                    {
+                      props.properties.find(
+                        (prop: any) => prop.name === fieldName
+                      )?.content
+                    }
+                  </div>
+                );
+              });
               return (
-                <div key={fieldName}>
-                  {
-                    props.properties.find(
-                      (prop: any) => prop.name === fieldName
-                    )?.content
-                  }
+                <div key={i}>
+                  {title && row.title && <StyledLabel>{row.title}</StyledLabel>}
+
+                  {isFull && <StyledFull>{mapRow}</StyledFull>}
+                  {!isFull && <StyledInline>{mapRow}</StyledInline>}
                 </div>
               );
-            });
-            return (
-              <div key={i}>
-                {title && row.title && <StyledLabel>{row.title}</StyledLabel>}
-
-                {isFull && <StyledFull>{mapRow}</StyledFull>}
-                {!isFull && <StyledInline>{mapRow}</StyledInline>}
-              </div>
-            );
-          })}
+            }
+          )}
         </FormBorder>
       </Grid.Row>
     </Grid>
