@@ -26,15 +26,17 @@ const StyledLabel = styled('div')`
 
 const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
   const DescriptionField = props.DescriptionField || DefaultDescriptionField;
+  const uiInline = props.uiSchema['ui:inline'];
 
   const getInlineKeys = () => {
     // Get array of inline keys so we can see if field exists in grid so we don't render it twice.
     const inlineKeys: string[] = [];
 
-    props.uiSchema['ui:inline'].map((row: Record<string, string>) => {
-      const rowKeys = Object.keys(row);
-      inlineKeys.push(...rowKeys);
-    });
+    uiInline &&
+      uiInline.map((row: Record<string, string>) => {
+        const rowKeys = Object.keys(row);
+        inlineKeys.push(...rowKeys);
+      });
 
     return inlineKeys;
   };
@@ -66,8 +68,8 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
         }
       })}
 
-      {props.uiSchema['ui:inline'].map(
-        (row: Record<string, string>, i: number) => {
+      {uiInline &&
+        uiInline.map((row: Record<string, string>, i: number) => {
           // check if row is in current page (props.properties) schema
           const title =
             props.properties.filter((prop: any) =>
@@ -95,8 +97,7 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
               {!isFull && <StyledInline>{mapRow}</StyledInline>}
             </div>
           );
-        }
-      )}
+        })}
     </FormBorder>
   );
 };
