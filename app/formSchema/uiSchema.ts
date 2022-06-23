@@ -506,7 +506,9 @@ const uiSchema = {
     'ui:subtitle': 'Estimated direct employees',
   },
   totalProjectCost: {},
-
+  otherFundingSources: {
+    'ui:widget': 'RadioWidget',
+  },
   otherFundingSourcesArray: {
     items: {
       fundingSourceContactInfo: {
@@ -516,9 +518,7 @@ const uiSchema = {
         },
         'ui:widget': 'TextAreaWidget',
       },
-      otherFundingSources: {
-        'ui:widget': 'RadioWidget',
-      },
+
       fundingPartnersName: {
         'ui:description': 'maximum 150 characters',
         'ui:options': {

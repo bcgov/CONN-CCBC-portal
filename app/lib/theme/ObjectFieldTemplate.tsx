@@ -62,13 +62,6 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
         </h3>
       )}
 
-      {props.properties.map((prop: any) => {
-        const isInlineItem = inlineKeys.find((key) => key === prop.name);
-        if (!isInlineItem) {
-          return prop.content;
-        }
-      })}
-
       {uiInline &&
         uiInline.map((row: any, i: number) => {
           const rowKeys = Object.keys(row);
@@ -101,6 +94,13 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
             </div>
           );
         })}
+
+      {props.properties.map((prop: any) => {
+        const isInlineItem = inlineKeys.find((key) => key === prop.name);
+        if (!isInlineItem) {
+          return prop.content;
+        }
+      })}
     </FormBorder>
   );
 };
