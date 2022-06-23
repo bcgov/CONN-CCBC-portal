@@ -493,7 +493,6 @@ const uiSchema = {
   totalEligibleCosts: {
     'ui:subtitle': 'Estimated direct employees',
   },
-  totalEligibleCosts: {},
   totalProjectCost: {},
   'ui:inline': [
     // Each object is a row for inline grid elements. Single elements with 'full' value
