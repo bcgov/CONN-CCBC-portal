@@ -39,6 +39,8 @@ const FileWidget: React.FC<WidgetProps> = ({
   required,
   uiSchema,
 }) => {
+  // Todo: make FileWidget upload files, have validations and support multiple file uploads
+  //       and custom file types per field
   const description = uiSchema['ui:description'];
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
 
