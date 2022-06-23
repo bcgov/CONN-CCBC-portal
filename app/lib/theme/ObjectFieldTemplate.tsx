@@ -69,7 +69,9 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
       })}
 
       {uiInline &&
-        uiInline.map((row: Record<string, string>, i: number) => {
+        uiInline.map((row: any, i: number) => {
+          const rowKeys = Object.keys(row);
+
           // check if row is in current page (props.properties) schema
           const title =
             props.properties.filter((prop: any) =>
@@ -77,9 +79,8 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
             ).length > 1;
 
           // Check if row contains a single or 'full' element
-          const isFull = row[Object.keys(row)[0]] === 'full';
-
-          const mapRow = Object.keys(row).map((fieldName) => {
+          const isFull = row[rowKeys[0]] === 'full';
+          const mapRow = rowKeys.map((fieldName) => {
             return (
               <div key={fieldName}>
                 {
@@ -89,8 +90,9 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
               </div>
             );
           });
+
           return (
-            <div key={i}>
+            <div key={rowKeys[i]}>
               {title && row.title && <StyledLabel>{row.title}</StyledLabel>}
 
               {isFull && <StyledFull>{mapRow}</StyledFull>}
