@@ -54,14 +54,9 @@ const uiSchema = {
     'projectSpanMultipleLocations',
     'provincesTerritories',
     'projectLocations',
-    'totalEligbleCosts',
+    'totalEligibleCosts',
     'totalProjectCost',
-    'requestedCCBCFunding',
-    'fundingRequested2223',
-    'fundingRequested2324',
-    'fundingRequested2425',
-    'fundingRequested2526',
-    'fundingRequested2627',
+
     'typeOfOrganization',
     'other',
     'bandNumber',
@@ -119,6 +114,24 @@ const uiSchema = {
     'supportingConnectivityEvidence',
     'geographicNames',
     'equipmentDetails',
+    'totalFundingRequestedCCBC',
+    'fundingRequestedCCBC2223',
+    'fundingRequestedCCBC2324',
+    'fundingRequestedCCBC2425',
+    'fundingRequestedCCBC2526',
+    'fundingRequestedCCBC2627',
+    'applicationContribution2223',
+    'applicationContribution2324',
+    'applicationContribution2425',
+    'applicationContribution2526',
+    'applicationContribution2627',
+    'totalApplicantContribution',
+    'infrastructureBankFunding2223',
+    'infrastructureBankFunding2324',
+    'infrastructureBankFunding2425',
+    'infrastructureBankFunding2526',
+    'infrastructureBankFunding2627',
+    'totalInfrastructureBankFunding',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -477,6 +490,47 @@ const uiSchema = {
       label: false,
     },
   },
+  totalEligibleCosts: {
+    'ui:subtitle': 'Estimated direct employees',
+  },
+  totalProjectCost: {},
+  'ui:inline': [
+    // Each object is a row for inline grid elements. Single elements with 'full' value
+    // will properly format the input width for a single input.
+    {
+      title: 'Amount requested under CCBC',
+      fundingRequestedCCBC2223: 'inline',
+      fundingRequestedCCBC2324: 'inline',
+      fundingRequestedCCBC2425: 'inline',
+      fundingRequestedCCBC2526: 'inline',
+      fundingRequestedCCBC2627: 'inline',
+    },
+    {
+      totalFundingRequestedCCBC: 'full',
+    },
+    {
+      title: 'Amount the applicant will contribute',
+      applicationContribution2223: 'inline',
+      applicationContribution2324: 'inline',
+      applicationContribution2425: 'inline',
+      applicationContribution2526: 'inline',
+      applicationContribution2627: 'inline',
+    },
+    {
+      totalApplicantContribution: 'full',
+    },
+    {
+      title: 'Amount requested under Canadian Infrastructure Bank',
+      infrastructureBankFunding2223: 'inline',
+      infrastructureBankFunding2324: 'inline',
+      infrastructureBankFunding2425: 'inline',
+      infrastructureBankFunding2526: 'inline',
+      infrastructureBankFunding2627: 'inline',
+    },
+    {
+      totalInfrastructureBankFunding: 'full',
+    },
+  ],
 };
 
 export default uiSchema;
