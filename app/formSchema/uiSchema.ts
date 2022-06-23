@@ -143,7 +143,7 @@ const uiSchema = {
     'requestedFundingPartner2526',
     'requestedFundingPartner2627',
     'totalRequestedFundingPartner',
-    'testArray',
+    'otherFundingSourcesArray',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -506,32 +506,69 @@ const uiSchema = {
     'ui:subtitle': 'Estimated direct employees',
   },
   totalProjectCost: {},
-  otherFundingSources: {
-    'ui:widget': 'RadioWidget',
-  },
-  fundingPartnersName: {
-    'ui:description': 'maximum 150 characters',
-    'ui:options': {
-      maxLength: 150,
-    },
-  },
-  fundingSourceContactInfo: {
-    'ui:description': 'maximum 250 characters',
-    'ui:options': {
-      maxLength: 250,
-    },
-    'ui:widget': 'TextAreaWidget',
-  },
-  statusOfFunding: {
-    'ui:widget': 'SelectWidget',
-  },
-  funderType: {
-    'ui:widget': 'SelectWidget',
-  },
-  nameOfFundingProgram: {
-    'ui:description': 'maximum 150 characters',
-    'ui:options': {
-      maxLength: 150,
+
+  otherFundingSourcesArray: {
+    items: {
+      fundingSourceContactInfo: {
+        'ui:description': 'maximum 250 characters',
+        'ui:options': {
+          maxLength: 250,
+        },
+        'ui:widget': 'TextAreaWidget',
+      },
+      otherFundingSources: {
+        'ui:widget': 'RadioWidget',
+      },
+      fundingPartnersName: {
+        'ui:description': 'maximum 150 characters',
+        'ui:options': {
+          maxLength: 150,
+        },
+      },
+      statusOfFunding: {
+        'ui:widget': 'SelectWidget',
+      },
+      funderType: {
+        'ui:widget': 'SelectWidget',
+      },
+      nameOfFundingProgram: {
+        'ui:description': 'maximum 150 characters',
+        'ui:options': {
+          maxLength: 150,
+        },
+      },
+      'ui:inline': [
+        // This is nested so it works in this array object
+
+        // Other funding sources page grid schema:
+        {
+          otherFundingSources: 'full',
+        },
+        {
+          fundingPartnersName: 'full',
+        },
+        {
+          fundingSourceContactInfo: 'full',
+        },
+        {
+          statusOfFunding: 'full',
+        },
+        {
+          funderType: 'full',
+        },
+        {
+          nameOfFundingProgram: 'full',
+        },
+        {
+          title: 'Amount requested from funding partner',
+          requestedFundingPartner2223: 'inline',
+          requestedFundingPartner2324: 'inline',
+          requestedFundingPartner2425: 'inline',
+          requestedFundingPartner2526: 'inline',
+          requestedFundingPartner2627: 'inline',
+        },
+        { totalRequestedFundingPartner: 'full' },
+      ],
     },
   },
   'ui:inline': [

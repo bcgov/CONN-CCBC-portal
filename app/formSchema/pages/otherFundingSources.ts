@@ -6,7 +6,7 @@ const otherFundingSources = {
       'Identify sources of funding that you expect to secure to cover all project costs, not including the Province of British Columbia or the Universal Broadband Fund. Please only include loans that you anticipate receiving from a program or granting agency. Any other loans must be included in the applicant funding.',
 
     properties: {
-      testArray: {
+      otherFundingSourcesArray: {
         type: 'array',
         items: {
           type: 'object',
