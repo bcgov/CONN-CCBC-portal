@@ -7,10 +7,13 @@ export { default as estimatedProjectEmployment } from './estimatedProjectEmploym
 export { default as declarations } from './declarations';
 export { default as declarationsSign } from './declarationsSign';
 export { default as existingNetworkCoverage } from './existingNetworkCoverage';
+export { default as mapping } from './mapping';
 export { default as organizationLocation } from './organizationLocation';
 export { default as organizationProfile } from './organizationProfile';
 export { default as projectArea } from './projectArea';
 export { default as projectFunding } from './projectFunding';
 export { default as projectInformation } from './projectInformation';
 export { default as projectPlan } from './projectPlan';
+export { default as supportingDocuments } from './supportingDocuments';
 export { default as techSolution } from './techSolution';
+export { default as templateUploads } from './templateUploads';
