@@ -19,7 +19,7 @@ const StyledButton = styled('button')`
 const ArrayFieldTemplate = (props: any) => {
   return (
     <div>
-      {props.items.map((element: any, i) => {
+      {props.items.map((element: any, i: number) => {
         return (
           <div key={i}>
             {i != 0 && (
