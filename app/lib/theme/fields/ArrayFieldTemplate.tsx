@@ -23,7 +23,7 @@ const ArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
   const uiArrayButtons = props.uiSchema?.items?.['ui:array-buttons'];
   return (
     <div>
-      {props.items.map((item: any, i: number) => {
+      {props.items.map((item, i: number) => {
         return (
           <div key={item.key}>
             {i != 0 && (
