@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {
+  formatRow,
   StyledTable,
   StyledColLeft,
   StyledColRight,
@@ -14,20 +15,13 @@ const StyledSubtitle = styled('h6')`
   margin: 0;
 `;
 
-const formatRow = (row: any) => {
-  if (typeof row === 'string' || row instanceof String) {
-    return row;
-  } else if (row === true) {
-    return 'true';
-  } else if (row === false) {
-    return 'false';
-  } else {
-    return '';
-  }
-};
-
 const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
-  const rows = Object.keys(subschema.properties);
+  const schema =
+    subschema.dependencies.otherFundingSources.oneOf[1].properties
+      .otherFundingSourcesArray.items;
+
+  const rows = Object.keys(schema.properties);
+
   return (
     <StyledTable>
       {formData.map((item: any, i: number) => {
@@ -39,7 +33,8 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
               </StyledTitleRow>
             </tr>
             {rows.map((row, y) => {
-              const title = subschema.properties[row].title;
+              const title = schema.properties[row].title;
+
               const value = formatRow(item[row]);
               return (
                 <>

@@ -2,7 +2,7 @@ import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
 import schema from '../../formSchema/schema';
 
-import { OtherFundingSourcesTable, Table } from '.';
+import { OtherFundingSourcesTable, ProjectFundingTable, Table } from '.';
 
 type Props = {
   formData: any;
@@ -29,27 +29,6 @@ const StyledAccordion = styled(Accordion)`
 
 const Review = ({ formData }: Props) => {
   const formSchema = schema();
-  const {
-    additionalProjectInformation,
-    alternateContact,
-    authorizedContact,
-    benefits,
-    budgetDetails,
-    estimatedProjectEmployment,
-    existingNetworkCoverage,
-    mapping,
-    projectArea,
-    contactInformation,
-    organizationProfile,
-    otherFundingSources,
-    projectFunding,
-    projectInformation,
-    projectPlan,
-    supportingDocuments,
-    organizationLocation,
-    techSolution,
-    templateUploads,
-  } = formData;
 
   const reviewSchema = [
     'projectInformation',
@@ -76,13 +55,31 @@ const Review = ({ formData }: Props) => {
     <div>
       {reviewSchema.map((section) => {
         const subschema = formSchema.properties[section];
+        const customTable =
+          section === 'otherFundingSources' || section === 'projectFunding';
         return (
           <StyledAccordion
             key={subschema.title}
             title={subschema.title}
             defaultToggled
           >
-            <Table formData={formData[section]} subschema={subschema} />
+            {!customTable && (
+              <Table formData={formData[section]} subschema={subschema} />
+            )}
+
+            {section === 'otherFundingSources' && (
+              <OtherFundingSourcesTable
+                formData={formData[section].otherFundingSourcesArray}
+                subschema={subschema}
+              />
+            )}
+
+            {section === 'projectFunding' && (
+              <ProjectFundingTable
+                formData={formData[section]}
+                subschema={subschema}
+              />
+            )}
           </StyledAccordion>
         );
       })}
