@@ -25,7 +25,7 @@ const ArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
     <div>
       {props.items.map((item: any, i: number) => {
         return (
-          <div key={`array-field-template-${i}`}>
+          <div key={item.key}>
             {i != 0 && (
               <StyledDiv>
                 <StyledButton onClick={item.onDropIndexClick(item.index)}>
