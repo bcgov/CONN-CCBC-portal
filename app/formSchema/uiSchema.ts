@@ -518,7 +518,6 @@ const uiSchema = {
         },
         'ui:widget': 'TextAreaWidget',
       },
-
       fundingPartnersName: {
         'ui:description': 'maximum 150 characters',
         'ui:options': {
@@ -536,6 +535,11 @@ const uiSchema = {
         'ui:options': {
           maxLength: 150,
         },
+      },
+      // Custom array button prop that is used in ArrayFieldTemplate
+      'ui:array-buttons': {
+        addBtnLabel: 'Add another funding source',
+        removeBtnLabel: 'Remove',
       },
       'ui:inline': [
         // This is nested so it works in this array object
