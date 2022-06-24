@@ -28,7 +28,7 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
         return (
           <>
             <tr>
-              <StyledTitleRow>
+              <StyledTitleRow colSpan={2}>
                 <StyledH4>{i + 1}. Funding source</StyledH4>
               </StyledTitleRow>
             </tr>

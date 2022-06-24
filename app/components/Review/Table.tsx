@@ -15,6 +15,7 @@ const StyledColLeft = styled('td')`
   border-left: 0;
   font-weight: 400;
   white-space: pre-line;
+  vertical-align: top;
 `;
 
 const StyledColRight = styled('td')`
@@ -28,6 +29,7 @@ const StyledColRight = styled('td')`
 
 const StyledTitleRow = styled('td')`
   padding: 16px !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.16);
 `;
 
 const StyledH4 = styled('h4')`
@@ -62,7 +64,7 @@ const Table = ({ formData, subschema }: any) => {
           <>
             {isObject ? (
               <tr key={i}>
-                <StyledTitleRow>
+                <StyledTitleRow colSpan={2}>
                   <StyledH4>{title}</StyledH4>
                 </StyledTitleRow>
               </tr>
