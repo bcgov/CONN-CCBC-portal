@@ -1,7 +1,7 @@
 import { ThemeProps, utils } from '@rjsf/core';
 import FieldTemplate from './FieldTemplate';
 import ObjectFieldTemplate from './ObjectFieldTemplate';
-import { DescriptionField } from './fields';
+import { ArrayFieldTemplate, DescriptionField } from './fields';
 import {
   CheckboxesWidget,
   CheckboxWidget,
@@ -32,6 +32,7 @@ const formTheme: ThemeProps = {
     TextAreaWidget: TextAreaWidget,
   },
   ObjectFieldTemplate: ObjectFieldTemplate,
+  ArrayFieldTemplate: ArrayFieldTemplate,
   FieldTemplate: FieldTemplate,
 };
 

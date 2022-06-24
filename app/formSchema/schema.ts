@@ -12,6 +12,7 @@ import {
   mapping,
   organizationLocation,
   organizationProfile,
+  otherFundingSources,
   projectArea,
   projectInformation,
   projectFunding,
@@ -40,6 +41,9 @@ const useSchema = () => {
   const formOrganizationLocation = useFeature(
     'form-organization-location'
   ).value;
+  const formOtherFundingSources = useFeature(
+    'form-other-funding-sources'
+  ).value;
   const formOrganizationProfile = useFeature('form-organization-profile').value;
   const formProjectArea = useFeature('form-project-area').value;
   const formProjectInformation = useFeature('form-project-information').value;
@@ -66,6 +70,9 @@ const useSchema = () => {
       }),
       ...(formProjectFunding && {
         ...projectFunding,
+      }),
+      ...(formOtherFundingSources && {
+        ...otherFundingSources,
       }),
       ...(formTechSolution && {
         ...techSolution,

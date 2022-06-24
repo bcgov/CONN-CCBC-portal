@@ -56,7 +56,6 @@ const uiSchema = {
     'projectLocations',
     'totalEligibleCosts',
     'totalProjectCost',
-
     'typeOfOrganization',
     'other',
     'bandNumber',
@@ -132,6 +131,19 @@ const uiSchema = {
     'infrastructureBankFunding2526',
     'infrastructureBankFunding2627',
     'totalInfrastructureBankFunding',
+    'otherFundingSources',
+    'fundingPartnersName',
+    'fundingSourceContactInfo',
+    'statusOfFunding',
+    'funderType',
+    'nameOfFundingProgram',
+    'requestedFundingPartner2223',
+    'requestedFundingPartner2324',
+    'requestedFundingPartner2425',
+    'requestedFundingPartner2526',
+    'requestedFundingPartner2627',
+    'totalRequestedFundingPartner',
+    'otherFundingSourcesArray',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -494,9 +506,80 @@ const uiSchema = {
     'ui:subtitle': 'Estimated direct employees',
   },
   totalProjectCost: {},
+  otherFundingSources: {
+    'ui:widget': 'RadioWidget',
+  },
+  otherFundingSourcesArray: {
+    items: {
+      fundingSourceContactInfo: {
+        'ui:description': 'maximum 250 characters',
+        'ui:options': {
+          maxLength: 250,
+        },
+        'ui:widget': 'TextAreaWidget',
+      },
+      fundingPartnersName: {
+        'ui:description': 'maximum 150 characters',
+        'ui:options': {
+          maxLength: 150,
+        },
+      },
+      statusOfFunding: {
+        'ui:widget': 'SelectWidget',
+      },
+      funderType: {
+        'ui:widget': 'SelectWidget',
+      },
+      nameOfFundingProgram: {
+        'ui:description': 'maximum 150 characters',
+        'ui:options': {
+          maxLength: 150,
+        },
+      },
+      // Custom array button prop that is used in ArrayFieldTemplate
+      'ui:array-buttons': {
+        addBtnLabel: 'Add another funding source',
+        removeBtnLabel: 'Remove',
+      },
+      'ui:inline': [
+        // This is nested so it works in this array object
+
+        // Other funding sources page grid schema:
+        {
+          otherFundingSources: 'full',
+        },
+        {
+          fundingPartnersName: 'full',
+        },
+        {
+          fundingSourceContactInfo: 'full',
+        },
+        {
+          statusOfFunding: 'full',
+        },
+        {
+          funderType: 'full',
+        },
+        {
+          nameOfFundingProgram: 'full',
+        },
+        {
+          title: 'Amount requested from funding partner',
+          requestedFundingPartner2223: 'inline',
+          requestedFundingPartner2324: 'inline',
+          requestedFundingPartner2425: 'inline',
+          requestedFundingPartner2526: 'inline',
+          requestedFundingPartner2627: 'inline',
+        },
+        { totalRequestedFundingPartner: 'full' },
+      ],
+    },
+  },
   'ui:inline': [
     // Each object is a row for inline grid elements. Single elements with 'full' value
     // will properly format the input width for a single input.
+
+    // Project funding page grid schema:
     {
       title: 'Amount requested under CCBC',
       fundingRequestedCCBC2223: 'inline',
@@ -530,6 +613,34 @@ const uiSchema = {
     {
       totalInfrastructureBankFunding: 'full',
     },
+    // Other funding sources page grid schema:
+    {
+      otherFundingSources: 'full',
+    },
+    {
+      fundingPartnersName: 'full',
+    },
+    {
+      fundingSourceContactInfo: 'full',
+    },
+    {
+      statusOfFunding: 'full',
+    },
+    {
+      funderType: 'full',
+    },
+    {
+      nameOfFundingProgram: 'full',
+    },
+    {
+      title: 'Amount requested from funding partner',
+      requestedFundingPartner2223: 'inline',
+      requestedFundingPartner2324: 'inline',
+      requestedFundingPartner2425: 'inline',
+      requestedFundingPartner2526: 'inline',
+      requestedFundingPartner2627: 'inline',
+    },
+    { totalRequestedFundingPartner: 'full' },
   ],
 };
 
