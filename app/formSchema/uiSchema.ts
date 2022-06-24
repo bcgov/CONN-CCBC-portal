@@ -472,7 +472,7 @@ const uiSchema = {
   },
   wirelessAddendum: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Template 7 - Wireless Addendum (optional)',
+    'ui:description': 'Template 7 - Wireless Addendum',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
@@ -480,8 +480,7 @@ const uiSchema = {
   },
   supportingConnectivityEvidence: {
     'ui:widget': 'FileWidget',
-    'ui:description':
-      'Template 8 - Supporting Connectivity Evidence (optional)',
+    'ui:description': 'Template 8 - Supporting Connectivity Evidence',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
