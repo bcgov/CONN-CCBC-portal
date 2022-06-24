@@ -4,7 +4,15 @@ const estimatedProjectEmployment = {
     description:
       'Please note: Full-time equivalent (FTE) job creation is aggregated from information provided below. 1.0 FTE is equal to 1 new position working 35 hours/week for 12 months/year.',
     type: 'object',
-    required: ['currentEmployment'],
+    required: [
+      'currentEmployment',
+      'numberOfEmployeesToWork',
+      'hoursOfEmploymentPerWeek',
+      'personMonthsToBeCreated',
+      'numberOfContractorsToWork',
+      'hoursOfContractorEmploymentPerWeek',
+      'contractorPersonMonthsToBeCreated',
+    ],
     properties: {
       currentEmployment: {
         title: `Current employment: Total number of people employed by the organization`,
@@ -12,48 +20,38 @@ const estimatedProjectEmployment = {
       },
 
       estimatedDirectEmployees: {
+        title: 'Estimated direct employees',
+
         type: 'object',
-        required: [
-          'numberOfEmployeesToWork',
-          'hoursOfEmploymentPerWeek',
-          'personMonthsToBeCreated',
-        ],
-        properties: {
-          numberOfEmployeesToWork: {
-            title: `Number of people to work on the project`,
-            type: 'string',
-          },
-          hoursOfEmploymentPerWeek: {
-            title: `Hours of employment per week (average hours/week)`,
-            type: 'string',
-          },
-          personMonthsToBeCreated: {
-            title: `Total person months of employment to be created (average months/year)`,
-            type: 'string',
-          },
-        },
       },
+      numberOfEmployeesToWork: {
+        title: `Number of people to work on the project`,
+        type: 'string',
+      },
+      hoursOfEmploymentPerWeek: {
+        title: `Hours of employment per week (average hours/week)`,
+        type: 'string',
+      },
+      personMonthsToBeCreated: {
+        title: `Total person months of employment to be created (average months/year)`,
+        type: 'string',
+      },
+
       estimatedContractorLabour: {
+        title: 'Estimated contracted labour',
         type: 'object',
-        required: [
-          'numberOfContractorsToWork',
-          'hoursOfContractorEmploymentPerWeek',
-          'contractorPersonMonthsToBeCreated',
-        ],
-        properties: {
-          numberOfContractorsToWork: {
-            title: `Number of people to work on the project`,
-            type: 'string',
-          },
-          hoursOfContractorEmploymentPerWeek: {
-            title: `Hours of employment per week (average hours/week)`,
-            type: 'string',
-          },
-          contractorPersonMonthsToBeCreated: {
-            title: `Total person months of employment to be created (average months/year)`,
-            type: 'string',
-          },
-        },
+      },
+      numberOfContractorsToWork: {
+        title: `Number of people to work on the project`,
+        type: 'string',
+      },
+      hoursOfContractorEmploymentPerWeek: {
+        title: `Hours of employment per week (average hours/week)`,
+        type: 'string',
+      },
+      contractorPersonMonthsToBeCreated: {
+        title: `Total person months of employment to be created (average months/year)`,
+        type: 'string',
       },
     },
   },

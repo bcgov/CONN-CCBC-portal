@@ -77,6 +77,7 @@ const uiSchema = {
     'hoursOfEmploymentPerWeek',
     'personMonthsToBeCreated',
     'estimatedContractorLabour',
+    'numberOfContractorsToWork',
     'hoursOfContractorEmploymentPerWeek',
     'contractorPersonMonthsToBeCreated',
     'declarationsList',
