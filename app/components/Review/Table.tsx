@@ -42,9 +42,9 @@ const formatRow = (row: any) => {
   } else if (Array.isArray(row)) {
     return (row = row.join('\r,\n'));
   } else if (row === true) {
-    return 'true';
+    return 'Yes';
   } else if (row === false) {
-    return 'false';
+    return 'No';
   } else {
     return row;
   }

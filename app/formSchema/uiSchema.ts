@@ -145,6 +145,7 @@ const uiSchema = {
     'requestedFundingPartner2627',
     'totalRequestedFundingPartner',
     'otherFundingSourcesArray',
+    'acknowledgeReviewEmptyFields',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',

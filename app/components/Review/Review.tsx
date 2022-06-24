@@ -2,7 +2,12 @@ import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
 import schema from '../../formSchema/schema';
 
-import { OtherFundingSourcesTable, ProjectFundingTable, Table } from '.';
+import {
+  OtherFundingSourcesTable,
+  ProjectAreaTable,
+  ProjectFundingTable,
+  Table,
+} from '.';
 
 type Props = {
   formData: any;
@@ -56,7 +61,10 @@ const Review = ({ formData }: Props) => {
       {reviewSchema.map((section) => {
         const subschema = formSchema.properties[section];
         const customTable =
-          section === 'otherFundingSources' || section === 'projectFunding';
+          section === 'otherFundingSources' ||
+          section === 'projectFunding' ||
+          section === 'projectArea';
+
         return (
           <StyledAccordion
             key={subschema.title}
@@ -76,6 +84,13 @@ const Review = ({ formData }: Props) => {
 
             {section === 'projectFunding' && (
               <ProjectFundingTable
+                formData={formData[section]}
+                subschema={subschema}
+              />
+            )}
+
+            {section === 'projectArea' && (
+              <ProjectAreaTable
                 formData={formData[section]}
                 subschema={subschema}
               />
