@@ -2,10 +2,10 @@ import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
 import schema from '../../formSchema/schema';
 
-import { Table } from '.';
+import { OtherFundingSourcesTable, Table } from '.';
+
 type Props = {
   formData: any;
-  sectionSchema: any;
 };
 
 const StyledAccordion = styled(Accordion)`
@@ -27,7 +27,7 @@ const StyledAccordion = styled(Accordion)`
   }
 `;
 
-const Review = ({ formData, sectionSchema }: Props) => {
+const Review = ({ formData }: Props) => {
   const formSchema = schema();
   const {
     additionalProjectInformation,
@@ -35,14 +35,13 @@ const Review = ({ formData, sectionSchema }: Props) => {
     authorizedContact,
     benefits,
     budgetDetails,
-    declarations,
-    declarationsSign,
     estimatedProjectEmployment,
     existingNetworkCoverage,
-    geographicNames,
+    mapping,
     projectArea,
     contactInformation,
     organizationProfile,
+    otherFundingSources,
     projectFunding,
     projectInformation,
     projectPlan,
@@ -52,116 +51,41 @@ const Review = ({ formData, sectionSchema }: Props) => {
     templateUploads,
   } = formData;
 
-  const alternateContactSchema = formSchema.properties['alternateContact'];
-  const authorizedContactSchema = formSchema.properties['authorizedContact'];
-  const budgetDetailsSchema = formSchema.properties['budgetDetails'];
-  const benefitsSchema = formSchema.properties['benefits'];
-  const contactInformationSchema = formSchema.properties['contactInformation'];
-  const existingNetworkCoverageSchema =
-    formSchema.properties['existingNetworkCoverage'];
-  const estimatedProjectEmploymentSchema =
-    formSchema.properties['estimatedProjectEmployment'];
-  const geographicNamesSchema = formSchema.properties['geographicNames'];
-  const organizationProfileSchema =
-    formSchema.properties['organizationProfile'];
-
-  const organizationLocationSchema =
-    formSchema.properties['organizationLocation'];
-  const projectAreaSchema = formSchema.properties['projectArea'];
-  const projectInformationSchema = formSchema.properties['projectInformation'];
-  const projectFundingSchema = formSchema.properties['projectFunding'];
-  const projectPlanSchema = formSchema.properties['projectPlan'];
-  const supportingDocumentsSchema =
-    formSchema.properties['supportingDocuments'];
-  const techSolutionSchema = formSchema.properties['techSolution'];
-  const templateUploadsSchema = formSchema.properties['templateUploads'];
+  const reviewSchema = [
+    'projectInformation',
+    'projectArea',
+    'existingNetworkCoverage',
+    'budgetDetails',
+    'projectFunding',
+    'otherFundingSources',
+    'techSolution',
+    'benefits',
+    'projectPlan',
+    'estimatedProjectEmployment',
+    'templateUploads',
+    'supportingDocuments',
+    'mapping',
+    'organizationProfile',
+    'organizationLocation',
+    'contactInformation',
+    'alternateContact',
+    'authorizedContact',
+  ];
 
   return (
     <div>
-      <StyledAccordion title={projectInformationSchema.title} defaultToggled>
-        <Table
-          formData={projectInformation}
-          subschema={projectInformationSchema}
-        />
-      </StyledAccordion>
-      <StyledAccordion title={projectAreaSchema.title} defaultToggled>
-        <Table formData={projectArea} subschema={projectAreaSchema} />
-      </StyledAccordion>
-      {/* <StyledAccordion title="Geographic names" defaultToggled>
-        <Table formData={geographicNames} subschema={geographicNamesSchema} />
-      </StyledAccordion> */}
-      <StyledAccordion
-        title={existingNetworkCoverageSchema.title}
-        defaultToggled
-      >
-        <Table
-          formData={existingNetworkCoverage}
-          subschema={existingNetworkCoverageSchema}
-        />
-      </StyledAccordion>
-      <StyledAccordion title={budgetDetailsSchema.title}>
-        <Table formData={budgetDetails} subschema={budgetDetailsSchema} />
-      </StyledAccordion>
-      <StyledAccordion title={projectFundingSchema.title}>
-        <Table formData={projectFunding} subschema={projectFundingSchema} />
-      </StyledAccordion>
-      <StyledAccordion title="Other funding sources">
-        Content to display when toggled open.
-      </StyledAccordion>
-      <StyledAccordion title={techSolutionSchema.title}>
-        <Table formData={techSolution} subschema={techSolutionSchema} />
-      </StyledAccordion>
-      <StyledAccordion title={benefitsSchema.title}>
-        <Table formData={benefits} subschema={benefitsSchema} />
-      </StyledAccordion>
-      <StyledAccordion title={projectPlanSchema.title}>
-        <Table formData={projectPlan} subschema={projectPlanSchema} />
-      </StyledAccordion>
-      <StyledAccordion title={estimatedProjectEmploymentSchema.title}>
-        <Table
-          formData={estimatedProjectEmployment}
-          subschema={estimatedProjectEmploymentSchema}
-        />
-      </StyledAccordion>
-      <StyledAccordion title="Template uploads">
-        Content to display when toggled open.
-      </StyledAccordion>
-      <StyledAccordion title="Supporting documents" defaultToggled>
-        {/* <Table
-          formData={supportingDocuments}
-          subschema={supportingDocumentsSchema}
-        /> */}
-      </StyledAccordion>
-      <StyledAccordion title="Mapping">
-        Content to display when toggled open.
-      </StyledAccordion>
-      <StyledAccordion title="Organization profile" defaultToggled>
-        <Table
-          formData={organizationProfile}
-          subschema={organizationProfileSchema}
-        />
-      </StyledAccordion>
-      <StyledAccordion title={organizationLocationSchema.title}>
-        <Table
-          formData={organizationLocation}
-          subschema={organizationLocationSchema}
-        />
-      </StyledAccordion>
-      <StyledAccordion title={contactInformationSchema.title}>
-        <Table
-          formData={contactInformation}
-          subschema={contactInformationSchema}
-        />
-      </StyledAccordion>
-      <StyledAccordion title={authorizedContactSchema.title}>
-        <Table
-          formData={contactInformation}
-          subschema={contactInformationSchema}
-        />
-      </StyledAccordion>
-      <StyledAccordion title={alternateContactSchema.title}>
-        <Table formData={alternateContact} subschema={alternateContactSchema} />
-      </StyledAccordion>
+      {reviewSchema.map((section) => {
+        const subschema = formSchema.properties[section];
+        return (
+          <StyledAccordion
+            key={subschema.title}
+            title={subschema.title}
+            defaultToggled
+          >
+            <Table formData={formData[section]} subschema={subschema} />
+          </StyledAccordion>
+        );
+      })}
     </div>
   );
 };
