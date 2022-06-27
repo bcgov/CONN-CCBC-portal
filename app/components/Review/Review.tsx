@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
 import schema from '../../formSchema/schema';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 
 import {
+  BudgetDetailsTable,
   OtherFundingSourcesTable,
   ProjectAreaTable,
   ProjectFundingTable,
@@ -54,7 +56,23 @@ const StyledCheckboxDiv = styled('div')`
   }
 `;
 
+// Todo: expand/collapse all functionality
+// const StyledExpandDiv = styled('div')`
+//   display: flex;
+//   justify-content: flex-end;
+//   min-width: 100%;
+//   margin: 16px 0;
+// `;
+
+// const StyledExpandButton = styled('button')`
+//   border: none;
+//   background: none;
+//   cursor: pointer;
+//   color: ${(props) => props.theme.color.links};
+// `;
+
 const Review = ({ formData }: Props) => {
+  const [expand, setExpand] = useState(false);
   const formSchema = schema();
 
   const reviewSchema = [
@@ -80,20 +98,33 @@ const Review = ({ formData }: Props) => {
 
   return (
     <div>
+      {/* <StyledExpandDiv>
+        <StyledExpandButton
+          onClick={(e) => {
+            e.preventDefault();
+            setExpand(!expand);
+          }}
+        >
+          {!expand ? 'Expand all' : 'Collapse all'}
+        </StyledExpandButton>
+      </StyledExpandDiv> */}
       {reviewSchema.map((section) => {
         const subschema = formSchema.properties[section];
-        const customTable =
-          section === 'otherFundingSources' ||
-          section === 'projectFunding' ||
-          section === 'projectArea';
+
+        const customTable = [
+          'budgetDetails',
+          'otherFundingSources',
+          'projectArea',
+          'projectFunding',
+        ];
 
         return (
           <StyledAccordion
             key={subschema.title}
             title={subschema.title}
-            defaultToggled
+            defaultToggled={true}
           >
-            {!customTable && (
+            {!customTable.includes(section) && (
               <Table formData={formData[section]} subschema={subschema} />
             )}
 
@@ -113,6 +144,13 @@ const Review = ({ formData }: Props) => {
 
             {section === 'projectArea' && (
               <ProjectAreaTable
+                formData={formData[section]}
+                subschema={subschema}
+              />
+            )}
+
+            {section === 'budgetDetails' && (
+              <BudgetDetailsTable
                 formData={formData[section]}
                 subschema={subschema}
               />
