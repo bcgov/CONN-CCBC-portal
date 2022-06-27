@@ -15,12 +15,24 @@ const StyledSubtitle = styled('h6')`
   margin: 0;
 `;
 
+import formatMoney from '../../utils/formatMoney';
+
 const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
   const schema =
     subschema.dependencies.otherFundingSources.oneOf[1].properties
       .otherFundingSourcesArray.items;
 
   const rows = Object.keys(schema.properties);
+  console.log(rows);
+
+  const moneyFields = [
+    'requestedFundingPartner2223',
+    'requestedFundingPartner2324',
+    'requestedFundingPartner2425',
+    'requestedFundingPartner2526',
+    'requestedFundingPartner2627',
+    'totalRequestedFundingPartner',
+  ];
 
   return (
     <StyledTable>
@@ -36,6 +48,7 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
               const title = schema.properties[row].title;
 
               const value = formatRow(item[row]);
+              const isMoneyField = moneyFields.includes(row);
               return (
                 <>
                   {y === 5 && (
@@ -47,7 +60,9 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
                   )}
                   <tr key={y}>
                     <StyledColLeft>{title}</StyledColLeft>
-                    <StyledColRight>{value}</StyledColRight>
+                    <StyledColRight>
+                      {isMoneyField ? formatMoney(value) : value}
+                    </StyledColRight>
                   </tr>
                 </>
               );
