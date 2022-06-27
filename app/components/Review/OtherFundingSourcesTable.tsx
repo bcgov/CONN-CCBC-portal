@@ -18,11 +18,16 @@ const StyledSubtitle = styled('h6')`
 import formatMoney from '../../utils/formatMoney';
 
 const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
-  const schema =
+  const arraySchema =
     subschema.dependencies.otherFundingSources.oneOf[1].properties
       .otherFundingSourcesArray.items;
+  const arrayFormData = formData?.otherFundingSourcesArray;
 
-  const rows = Object.keys(schema.properties);
+  const otherFundingSourcesTitle =
+    subschema.properties.otherFundingSources.title;
+  const otherFundingSourcesValue = formData?.otherFundingSources;
+
+  const rows = Object.keys(arraySchema.properties);
 
   const moneyFields = [
     'requestedFundingPartner2223',
@@ -34,20 +39,25 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
   ];
 
   return (
-    <>
-      {formData &&
-        formData.map((item: any, i: number) => {
+    <StyledTable>
+      {!arrayFormData ? (
+        <tr>
+          <StyledColLeft>{otherFundingSourcesTitle}</StyledColLeft>
+          <StyledColRight>{otherFundingSourcesValue}</StyledColRight>
+        </tr>
+      ) : (
+        arrayFormData &&
+        arrayFormData.map((item: any, i: number) => {
           return (
-            <StyledTable key={i}>
-              <thead>
-                <tr>
-                  <StyledTitleRow colSpan={2}>
-                    <StyledH4>{i + 1}. Funding source</StyledH4>
-                  </StyledTitleRow>
-                </tr>
-              </thead>
+            <>
+              <tr>
+                <StyledTitleRow colSpan={2}>
+                  <StyledH4>{i + 1}. Funding source</StyledH4>
+                </StyledTitleRow>
+              </tr>
+
               {rows.map((row, y) => {
-                const title = schema.properties[row]?.title;
+                const title = arraySchema.properties[row]?.title;
                 const value = formatRow(item[row]);
                 const isMoneyField = moneyFields.includes(row);
 
@@ -71,10 +81,11 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
                   </tbody>
                 );
               })}
-            </StyledTable>
+            </>
           );
-        })}
-    </>
+        })
+      )}
+    </StyledTable>
   );
 };
 
