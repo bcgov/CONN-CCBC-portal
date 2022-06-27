@@ -92,6 +92,7 @@ const ApplicationForm: React.FC<Props> = ({
       {review && (
         <Review
           formData={formData}
+          formSchema={schema()}
           reviewConfirm={reviewConfirm}
           onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
         />

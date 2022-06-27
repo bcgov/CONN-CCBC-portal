@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
-import schema from '../../formSchema/schema';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 
 import {
@@ -16,6 +14,7 @@ type Props = {
   formData: any;
   onReviewConfirm: any;
   reviewConfirm: boolean;
+  formSchema: any;
 };
 
 const StyledAccordion = styled(Accordion)`
@@ -73,9 +72,13 @@ const StyledCheckboxDiv = styled('div')`
 //   color: ${(props) => props.theme.color.links};
 // `;
 
-const Review = ({ formData, onReviewConfirm, reviewConfirm }: Props) => {
-  const [expand, setExpand] = useState(false);
-  const formSchema = schema();
+const Review = ({
+  formData,
+  formSchema,
+  onReviewConfirm,
+  reviewConfirm,
+}: Props) => {
+  // const [expand, setExpand] = useState(false);
 
   const reviewSchema = [
     'projectInformation',
@@ -120,6 +123,8 @@ const Review = ({ formData, onReviewConfirm, reviewConfirm }: Props) => {
           'projectFunding',
         ];
 
+        if (!subschema) return;
+
         return (
           <StyledAccordion
             key={subschema.title}
@@ -132,7 +137,7 @@ const Review = ({ formData, onReviewConfirm, reviewConfirm }: Props) => {
 
             {section === 'otherFundingSources' && (
               <OtherFundingSourcesTable
-                formData={formData[section].otherFundingSourcesArray}
+                formData={formData[section]}
                 subschema={subschema}
               />
             )}
