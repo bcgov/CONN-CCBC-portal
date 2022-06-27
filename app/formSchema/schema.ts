@@ -111,13 +111,13 @@ const useSchema = () => {
       ...(formAlternateContact && {
         ...alternateContact,
       }),
+      ...review,
       ...(formDeclarations && {
         ...declarations,
       }),
       ...(formDeclarationsSign && {
         ...declarationsSign,
       }),
-      ...review,
     },
   };
 

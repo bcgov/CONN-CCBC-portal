@@ -14,6 +14,8 @@ import {
 
 type Props = {
   formData: any;
+  onReviewConfirm: any;
+  reviewConfirm: boolean;
 };
 
 const StyledAccordion = styled(Accordion)`
@@ -71,7 +73,7 @@ const StyledCheckboxDiv = styled('div')`
 //   color: ${(props) => props.theme.color.links};
 // `;
 
-const Review = ({ formData }: Props) => {
+const Review = ({ formData, onReviewConfirm, reviewConfirm }: Props) => {
   const [expand, setExpand] = useState(false);
   const formSchema = schema();
 
@@ -159,7 +161,13 @@ const Review = ({ formData }: Props) => {
         );
       })}
       <StyledCheckboxDiv>
-        <Checkbox id="review-confirmation-checkbox" />
+        <Checkbox
+          id="review-confirmation-checkbox"
+          checked={reviewConfirm}
+          onChange={(event: {
+            target: { checked: React.ChangeEvent<HTMLInputElement> };
+          }) => onReviewConfirm(event.target.checked)}
+        />
         <StyledCheckboxLabel htmlFor="review-confirmation-checkbox">
           The Applicant acknowledges that there are unanswered fields and
           incomplete applications may not be assessed.

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
@@ -20,6 +21,8 @@ const ApplicationForm: React.FC<Props> = ({
   pageNumber,
   trimmedSub,
 }) => {
+  const [reviewConfirm, setReviewConfirm] = useState(false);
+
   const router = useRouter();
   const [updateApplication] = useUpdateApplicationMutation();
 
@@ -86,11 +89,19 @@ const ApplicationForm: React.FC<Props> = ({
       // Todo: validate entire form on completion
       noValidate={true}
     >
-      {review && <Review formData={formData} />}
+      {review && (
+        <Review
+          formData={formData}
+          reviewConfirm={reviewConfirm}
+          onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
+        />
+      )}
       {pageNumber < subschemaArray.length ? (
-        <Button variant="primary">Continue</Button>
+        <Button variant="primary" disabled={review ? !reviewConfirm : false}>
+          Continue
+        </Button>
       ) : (
-        <Button variant="primary">Complete form</Button>
+        <Button variant="primary">Ready for assessment</Button>
       )}
       {/* // Return to this save button later, will likely require a hacky solution to work
       // nice with RJSF
