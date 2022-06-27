@@ -7,6 +7,8 @@ import {
   StyledTitleRow,
 } from './Table';
 
+import formatMoney from '../../utils/formatMoney';
+
 const ProjectFundingTable = ({ formData, subschema }: any) => {
   const rows = Object.keys(subschema.properties);
 
@@ -42,7 +44,7 @@ const ProjectFundingTable = ({ formData, subschema }: any) => {
             )}
             <tr key={i}>
               <StyledColLeft>{title}</StyledColLeft>
-              <StyledColRight>{value}</StyledColRight>
+              <StyledColRight>{formatMoney(value)}</StyledColRight>
             </tr>
           </>
         );
