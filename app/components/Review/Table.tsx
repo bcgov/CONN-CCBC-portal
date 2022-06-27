@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 const StyledTable = styled('table')`
@@ -8,7 +9,9 @@ const StyledTable = styled('table')`
 `;
 
 const StyledColLeft = styled('td')`
-  background-color: ${(props) => props.theme.color.backgroundGrey};
+  // Todo: workaround for Jest styled component theme prop error
+  // background-color: ${(props) => props.theme.color.backgroundGrey};
+  background-color: '#F2F2F2';
   width: 50%;
   padding: 16px !important;
   border: 1px solid rgba(0, 0, 0, 0.16);
@@ -55,28 +58,30 @@ const Table = ({ formData, subschema }: any) => {
 
   return (
     <StyledTable>
-      {rows.map((row, i) => {
-        const title = subschema.properties[row].title;
-        const isObject = subschema.properties[row].type === 'object';
-        const value = formData ? formatRow(formData[row]) : ' ';
+      <tbody>
+        {rows.map((row) => {
+          const title = subschema.properties[row].title;
+          const isObject = subschema.properties[row].type === 'object';
+          const value = formData ? formatRow(formData[row]) : ' ';
 
-        return (
-          <>
-            {isObject ? (
-              <tr key={i}>
-                <StyledTitleRow colSpan={2}>
-                  <StyledH4>{title}</StyledH4>
-                </StyledTitleRow>
-              </tr>
-            ) : (
-              <tr key={i}>
-                <StyledColLeft>{title}</StyledColLeft>
-                <StyledColRight>{value}</StyledColRight>
-              </tr>
-            )}
-          </>
-        );
-      })}
+          return (
+            <React.Fragment key={row}>
+              {isObject ? (
+                <tr>
+                  <StyledTitleRow colSpan={2}>
+                    <StyledH4>{title}</StyledH4>
+                  </StyledTitleRow>
+                </tr>
+              ) : (
+                <tr>
+                  <StyledColLeft>{title}</StyledColLeft>
+                  <StyledColRight>{value}</StyledColRight>
+                </tr>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </tbody>
     </StyledTable>
   );
 };

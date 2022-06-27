@@ -19,7 +19,7 @@ const ProjectFundingTable = ({ formData, subschema }: any) => {
         const value = formData ? formatRow(formData[row]) : ' ';
 
         return (
-          <>
+          <tbody key={row}>
             {i === 0 && (
               <tr>
                 <StyledTitleRow colSpan={2}>
@@ -47,7 +47,7 @@ const ProjectFundingTable = ({ formData, subschema }: any) => {
               <StyledColLeft>{title}</StyledColLeft>
               <StyledColRight>{formatMoney(value)}</StyledColRight>
             </tr>
-          </>
+          </tbody>
         );
       })}
     </StyledTable>

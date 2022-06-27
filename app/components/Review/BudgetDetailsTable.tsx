@@ -6,19 +6,19 @@ const BudgetDetailsTable = ({ formData, subschema }: any) => {
 
   return (
     <StyledTable>
-      {rows.map((row, i) => {
-        const title = subschema.properties[row].title;
-        const value = formData ? formatRow(formData[row]) : ' ';
+      <tbody>
+        {rows.map((row) => {
+          const title = subschema.properties[row].title;
+          const value = formData ? formatRow(formData[row]) : ' ';
 
-        return (
-          <>
-            <tr key={i}>
+          return (
+            <tr key={title}>
               <StyledColLeft>{title}</StyledColLeft>
               <StyledColRight>{formatMoney(value)}</StyledColRight>
             </tr>
-          </>
-        );
-      })}
+          );
+        })}
+      </tbody>
     </StyledTable>
   );
 };

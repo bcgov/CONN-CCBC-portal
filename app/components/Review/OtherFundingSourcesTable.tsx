@@ -34,43 +34,47 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
   ];
 
   return (
-    <StyledTable>
+    <>
       {formData &&
         formData.map((item: any, i: number) => {
           return (
-            <>
-              <tr>
-                <StyledTitleRow colSpan={2}>
-                  <StyledH4>{i + 1}. Funding source</StyledH4>
-                </StyledTitleRow>
-              </tr>
+            <StyledTable key={i}>
+              <thead>
+                <tr>
+                  <StyledTitleRow colSpan={2}>
+                    <StyledH4>{i + 1}. Funding source</StyledH4>
+                  </StyledTitleRow>
+                </tr>
+              </thead>
               {rows.map((row, y) => {
                 const title = schema.properties[row]?.title;
-
                 const value = formatRow(item[row]);
                 const isMoneyField = moneyFields.includes(row);
+
                 return (
-                  <>
+                  <tbody key={row}>
                     {y === 5 && (
                       <tr>
-                        <StyledSubtitle>
-                          Amount requested under source:
-                        </StyledSubtitle>
+                        <td>
+                          <StyledSubtitle>
+                            Amount requested under source:
+                          </StyledSubtitle>
+                        </td>
                       </tr>
                     )}
-                    <tr key={y}>
+                    <tr>
                       <StyledColLeft>{title}</StyledColLeft>
                       <StyledColRight>
                         {isMoneyField ? formatMoney(value) : value}
                       </StyledColRight>
                     </tr>
-                  </>
+                  </tbody>
                 );
               })}
-            </>
+            </StyledTable>
           );
         })}
-    </StyledTable>
+    </>
   );
 };
 

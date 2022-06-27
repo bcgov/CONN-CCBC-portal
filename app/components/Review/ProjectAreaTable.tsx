@@ -8,25 +8,27 @@ const ProjectAreaTable = ({ formData, subschema }: any) => {
       .provincesTerritories;
   return (
     <StyledTable>
-      {rows.map((row) => {
-        const title = subschema.properties[row].title;
-        const value = formData ? formatRow(formData[row]) : ' ';
+      <tbody>
+        {rows.map((row) => {
+          const title = subschema.properties[row].title;
+          const value = formData ? formatRow(formData[row]) : ' ';
 
-        return (
-          <tr key={title}>
-            <StyledColLeft>{title}</StyledColLeft>
-            <StyledColRight>{value}</StyledColRight>
+          return (
+            <tr key={title}>
+              <StyledColLeft>{title}</StyledColLeft>
+              <StyledColRight>{value}</StyledColRight>
+            </tr>
+          );
+        })}
+        {multipleAreas && (
+          <tr>
+            <StyledColLeft>{multipleAreasSchema.title}</StyledColLeft>
+            <StyledColRight>
+              {formatRow(formData?.provincesTerritories || '')}
+            </StyledColRight>
           </tr>
-        );
-      })}
-      {multipleAreas && (
-        <tr>
-          <StyledColLeft>{multipleAreasSchema.title}</StyledColLeft>
-          <StyledColRight>
-            {formatRow(formData?.provincesTerritories || '')}
-          </StyledColRight>
-        </tr>
-      )}
+        )}
+      </tbody>
     </StyledTable>
   );
 };
