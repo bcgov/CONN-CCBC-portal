@@ -8,9 +8,9 @@ const ProjectAreaTable = ({ formData, subschema }: any) => {
       .provincesTerritories;
   return (
     <StyledTable>
-      {rows.map((row, i) => {
+      {rows.map((row) => {
         const title = subschema.properties[row].title;
-        const value = formatRow(formData[row]);
+        const value = formData ? formatRow(formData[row]) : ' ';
 
         return (
           <tr key={title}>

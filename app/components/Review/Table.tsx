@@ -58,7 +58,7 @@ const Table = ({ formData, subschema }: any) => {
       {rows.map((row, i) => {
         const title = subschema.properties[row].title;
         const isObject = subschema.properties[row].type === 'object';
-        const value = formatRow(formData[row]);
+        const value = formData ? formatRow(formData[row]) : ' ';
 
         return (
           <>

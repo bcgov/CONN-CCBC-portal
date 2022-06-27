@@ -36,40 +36,41 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
 
   return (
     <StyledTable>
-      {formData.map((item: any, i: number) => {
-        return (
-          <>
-            <tr>
-              <StyledTitleRow colSpan={2}>
-                <StyledH4>{i + 1}. Funding source</StyledH4>
-              </StyledTitleRow>
-            </tr>
-            {rows.map((row, y) => {
-              const title = schema.properties[row].title;
+      {formData &&
+        formData.map((item: any, i: number) => {
+          return (
+            <>
+              <tr>
+                <StyledTitleRow colSpan={2}>
+                  <StyledH4>{i + 1}. Funding source</StyledH4>
+                </StyledTitleRow>
+              </tr>
+              {rows.map((row, y) => {
+                const title = schema.properties[row]?.title;
 
-              const value = formatRow(item[row]);
-              const isMoneyField = moneyFields.includes(row);
-              return (
-                <>
-                  {y === 5 && (
-                    <tr>
-                      <StyledSubtitle>
-                        Amount requested under source:
-                      </StyledSubtitle>
+                const value = formatRow(item[row]);
+                const isMoneyField = moneyFields.includes(row);
+                return (
+                  <>
+                    {y === 5 && (
+                      <tr>
+                        <StyledSubtitle>
+                          Amount requested under source:
+                        </StyledSubtitle>
+                      </tr>
+                    )}
+                    <tr key={y}>
+                      <StyledColLeft>{title}</StyledColLeft>
+                      <StyledColRight>
+                        {isMoneyField ? formatMoney(value) : value}
+                      </StyledColRight>
                     </tr>
-                  )}
-                  <tr key={y}>
-                    <StyledColLeft>{title}</StyledColLeft>
-                    <StyledColRight>
-                      {isMoneyField ? formatMoney(value) : value}
-                    </StyledColRight>
-                  </tr>
-                </>
-              );
-            })}
-          </>
-        );
-      })}
+                  </>
+                );
+              })}
+            </>
+          );
+        })}
     </StyledTable>
   );
 };
