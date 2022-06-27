@@ -23,7 +23,6 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
       .otherFundingSourcesArray.items;
 
   const rows = Object.keys(schema.properties);
-  console.log(rows);
 
   const moneyFields = [
     'requestedFundingPartner2223',
