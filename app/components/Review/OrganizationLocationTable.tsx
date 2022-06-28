@@ -42,7 +42,7 @@ const OrganizationLocationTable = ({ formData, subschema }: any) => {
         {mailingAddressRows &&
           mailingAddressRows.map((row) => {
             const title = arraySchema[row]?.title;
-            const value = arrayFormData[row];
+            const value = arrayFormData ? arrayFormData[row] : '';
             return (
               <tr key={row}>
                 <StyledColLeft>{title}</StyledColLeft>
