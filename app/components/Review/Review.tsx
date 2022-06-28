@@ -129,6 +129,7 @@ const Review = ({
 
         return (
           <StyledAccordion
+            id={section}
             key={subschema.title}
             title={subschema.title}
             defaultToggled={true}

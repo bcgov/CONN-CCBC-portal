@@ -56,9 +56,9 @@ const schema = {
 
 const mockFormData = {
   mapping: {
-    geographicCoverageMap: 'FileWidget.js',
-    currentNetworkInfastructure: 'TextareaWidget.js',
-    upgradedNetworkInfrastructure: 'TextWidget.js',
+    geographicCoverageMap: 'File.pdf',
+    currentNetworkInfastructure: 'File.pdf',
+    upgradedNetworkInfrastructure: 'File.pdf',
   },
   benefits: {
     projectBenefits: '213123123',
@@ -116,23 +116,23 @@ const mockFormData = {
     totalInfrastructureBankFunding: '31213',
   },
   templateUploads: {
-    detailedBudget: 'AltDateWidget.js',
-    geographicNames: 'TextareaWidget.js',
-    equipmentDetails: 'UpDownWidget.js',
-    wirelessAddendum: 'SelectWidget.js',
-    financialForecast: 'AltDateWidget.js',
-    lastMileIspOffering: 'FileWidget.js',
-    popWholesalePricing: 'RangeWidget.js',
-    supportingConnectivityEvidence: 'SubmitButton.js',
-    eligibilityAndImpactsCalculator: 'AltDateWidget.js',
-    communityRuralDevelopmentBenefitsTemplate: 'RangeWidget.js',
+    detailedBudget: 'File.pdf',
+    geographicNames: 'File.pdf',
+    equipmentDetails: 'File.pdf',
+    wirelessAddendum: 'File.pdf',
+    financialForecast: 'File.pdf',
+    lastMileIspOffering: 'File.pdf',
+    popWholesalePricing: 'File.pdf',
+    supportingConnectivityEvidence: 'File.pdf',
+    eligibilityAndImpactsCalculator: 'File.pdf',
+    communityRuralDevelopmentBenefitsTemplate: 'File.pdf',
   },
   alternateContact: {
-    altEmail: '78798',
-    altExtension: 78798,
-    altGivenName: '798798',
+    altEmail: 'test@test.com',
+    altExtension: 123,
+    altGivenName: 'test',
     altTelephone: 7899798,
-    altFamilyName: '89798',
+    altFamilyName: 'test',
     altPostionTitle: '798798',
     isAltFirstContact: true,
     isAltContactSigningOfficer: true,
@@ -204,11 +204,11 @@ const mockFormData = {
     ],
   },
   supportingDocuments: {
-    projectSchedule: 'SubmitButton.js',
-    copiesOfRegistration: 'CheckboxesWidget.js',
-    logicalNetworkDiagram: 'PasswordWidget.js',
-    preparedFinancialStatements: 'EmailWidget.js',
-    communityRuralDevelopmentBenefits: 'RadioWidget.js',
+    projectSchedule: 'File.pdf',
+    copiesOfRegistration: 'File.pdf',
+    logicalNetworkDiagram: 'File.pdf',
+    preparedFinancialStatements: 'File.pdf',
+    communityRuralDevelopmentBenefits: 'File.pdf',
   },
   organizationLocation: {
     city: '123123',
@@ -218,8 +218,16 @@ const mockFormData = {
     streetName: '123123',
     unitNumber: '1231231',
     streetNumber: 123123,
-    mailingAddress: {},
     isMailingAddress: 'No',
+    mailingAddress: {
+      cityMailing: 'Victoria',
+      POBoxMailing: '123',
+      provinceMailing: 'British Columbia',
+      postalCodeMailing: '123',
+      streetNameMailing: '123',
+      unitNumberMailing: '123',
+      streetNumberMailing: '1232',
+    },
   },
   existingNetworkCoverage: {
     hasPassiveInfrastructure: true,
@@ -271,5 +279,87 @@ describe('The Review component', () => {
     screen.getByRole('heading', { name: 'Organization Profile' });
     screen.getByRole('heading', { name: 'Organization location' });
     screen.getByRole('heading', { name: 'Organization contact information' });
+  });
+});
+
+describe('The Review component sections', () => {
+  it('should have correct heading styles', () => {
+    renderStaticLayout();
+    const heading = screen.getByRole('heading', {
+      name: 'Project information',
+    });
+
+    const style = window.getComputedStyle(heading);
+
+    expect(style.fontSize).toBe('24px');
+    expect(style.marginBottom).toBe('0px');
+  });
+
+  it('should have correct subheading styles', () => {
+    renderStaticLayout();
+    const subheading = screen.getAllByText('Amount requested under source:')[0];
+
+    const style = window.getComputedStyle(subheading);
+
+    expect(style.fontSize).toBe('14px');
+    expect(style.fontWeight).toBe('600');
+    expect(style.padding).toBe('16px');
+    expect(style.margin).toBe('0px');
+  });
+});
+
+describe('The Project area section', () => {
+  it('should have correct province/territories section', () => {
+    renderStaticLayout();
+
+    expect(document.getElementById('projectArea')).toHaveTextContent(
+      'Does your project span multiple provinces/territories?'
+    );
+
+    expect(document.getElementById('projectArea')).toHaveTextContent('Yes');
+
+    expect(document.getElementById('projectArea')).toHaveTextContent(
+      'If yes, select the provinces or territorities (check all that apply):'
+    );
+
+    expect(document.getElementById('projectArea')).toHaveTextContent(`Alberta`);
+  });
+});
+
+describe('The Budget details section', () => {
+  it('should have correct money formatting', () => {
+    renderStaticLayout();
+
+    expect(document.getElementById('budgetDetails')).toHaveTextContent(
+      'Total project cost'
+    );
+
+    expect(document.getElementById('budgetDetails')).toHaveTextContent(
+      '$213 123 123'
+    );
+  });
+});
+
+describe('The Other funding sources section', () => {
+  it('should have dynamically render array items', () => {
+    renderStaticLayout();
+
+    expect(document.getElementById('otherFundingSources')).toHaveTextContent(
+      '2. Funding source'
+    );
+  });
+});
+
+describe('The Organization location section', () => {
+  it('should have dynamically render mailing address', () => {
+    renderStaticLayout();
+
+    expect(document.getElementById('organizationLocation')).toHaveTextContent(
+      'No'
+    );
+
+    expect(document.getElementById('organizationLocation')).toHaveTextContent(
+      'Mailing address:'
+    );
   });
 });

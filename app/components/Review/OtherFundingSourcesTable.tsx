@@ -13,6 +13,7 @@ const StyledSubtitle = styled('h6')`
   border-left: 0;
   font-weight: 600;
   margin: 0;
+  font-size: 14px;
 `;
 
 const StyledTd = styled('td')`
@@ -20,6 +21,7 @@ const StyledTd = styled('td')`
 `;
 
 import formatMoney from '../../utils/formatMoney';
+import React from 'react';
 
 const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
   const arraySchema =
@@ -44,51 +46,53 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
 
   return (
     <StyledTable>
-      {!arrayFormData ? (
-        <tr>
-          <StyledColLeft>{otherFundingSourcesTitle}</StyledColLeft>
-          <StyledColRight>{otherFundingSourcesValue}</StyledColRight>
-        </tr>
-      ) : (
-        arrayFormData &&
-        arrayFormData.map((item: any, i: number) => {
-          return (
-            <>
-              <tr>
-                <StyledTitleRow colSpan={2}>
-                  <StyledH4>{i + 1}. Funding source</StyledH4>
-                </StyledTitleRow>
-              </tr>
+      <tbody>
+        {!arrayFormData ? (
+          <tr>
+            <StyledColLeft>{otherFundingSourcesTitle}</StyledColLeft>
+            <StyledColRight>{otherFundingSourcesValue}</StyledColRight>
+          </tr>
+        ) : (
+          arrayFormData &&
+          arrayFormData.map((item: any, i: number) => {
+            return (
+              <React.Fragment key={i}>
+                <tr>
+                  <StyledTitleRow colSpan={2}>
+                    <StyledH4>{i + 1}. Funding source</StyledH4>
+                  </StyledTitleRow>
+                </tr>
 
-              {rows.map((row, y) => {
-                const title = arraySchema.properties[row]?.title;
-                const value = formatRow(item[row]);
-                const isMoneyField = moneyFields.includes(row);
+                {rows.map((row, y) => {
+                  const title = arraySchema.properties[row]?.title;
+                  const value = formatRow(item[row]);
+                  const isMoneyField = moneyFields.includes(row);
 
-                return (
-                  <tbody key={row}>
-                    {y === 5 && (
+                  return (
+                    <React.Fragment key={row}>
+                      {y === 5 && (
+                        <tr>
+                          <StyledTd>
+                            <StyledSubtitle>
+                              Amount requested under source:
+                            </StyledSubtitle>
+                          </StyledTd>
+                        </tr>
+                      )}
                       <tr>
-                        <StyledTd>
-                          <StyledSubtitle>
-                            Amount requested under source:
-                          </StyledSubtitle>
-                        </StyledTd>
+                        <StyledColLeft>{title}</StyledColLeft>
+                        <StyledColRight>
+                          {isMoneyField ? formatMoney(value) : value}
+                        </StyledColRight>
                       </tr>
-                    )}
-                    <tr>
-                      <StyledColLeft>{title}</StyledColLeft>
-                      <StyledColRight>
-                        {isMoneyField ? formatMoney(value) : value}
-                      </StyledColRight>
-                    </tr>
-                  </tbody>
-                );
-              })}
-            </>
-          );
-        })
-      )}
+                    </React.Fragment>
+                  );
+                })}
+              </React.Fragment>
+            );
+          })
+        )}
+      </tbody>
     </StyledTable>
   );
 };
