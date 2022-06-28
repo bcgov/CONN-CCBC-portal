@@ -1,12 +1,5 @@
 import styled from 'styled-components';
-import {
-  formatRow,
-  StyledTable,
-  StyledColLeft,
-  StyledColRight,
-  StyledTitleRow,
-  StyledH4,
-} from './Table';
+import { formatRow, StyledTable, StyledColLeft, StyledColRight } from './Table';
 
 const StyledSubtitle = styled('h6')`
   padding: 16px !important;
