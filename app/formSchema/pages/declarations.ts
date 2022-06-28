@@ -17,9 +17,9 @@ const declarations = {
           agencies/departments and non-profit organizations, to collect and share with them, as the Program deems necessary in order to reach a decision
           on this proposed project.`,
             `The applicant confirms that any person, who is required to be registered pursuant to the Lobbying Act including consultant and in-house lobbyists,
-            is registered pursuant to that Act, and is in compliance with the provisions of the Act.`,
+            is registered pursuant to that Act and is in compliance with the provisions of the Act.`,
             `The applicant confirms that any person, who is required to be registered pursuant to the Lobbying Act including consultant and in-house lobbyists,
-            is registered pursuant to that Act, and is in compliance with the provisions of the Act.`,
+            is registered pursuant to that Act and is in compliance with the provisions of the Act.`,
             `The applicant recognizes that the project may require an impact assessment under the Impact Assessment Act 2019.`,
             `The applicant recognizes that there is a duty to consult Indigenous groups if a federally funded project will undertake infrastructure in, or affecting,
             an Indigenous community.`,
@@ -27,7 +27,7 @@ const declarations = {
             Values and Ethics Code for the Public Service, the Policy on Conflict of Interest and Post-Employment and the Conflict of Interest Act.`,
             `The applicant understands that all costs incurred in the preparation and submission of the proposal shall be wholly absorbed by the applicant.`,
             `The applicant understands that the Program reserves the right to make partial awards and to negotiate project scope changes with applicants.`,
-            `The applicant understands that the Program is a discretionary program subject to available funding, and that submission of a complete application,
+            `The applicant understands that the Program is a discretionary program subject to available funding and that submission of a complete application,
             meeting any or all of the assessment criteria, does not mean that funding will be granted. All applicants whose projects are approved for funding
             will be notified in writing.`,
             `The applicant confirms that it is and will remain in compliance with any applicable Canadian national security requirements as defined and/or

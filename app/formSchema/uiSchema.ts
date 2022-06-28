@@ -168,7 +168,7 @@ const uiSchema = {
     'ui:widget': 'TextAreaWidget',
     'ui:description': 'maximum 3,500 characters',
     'ui:title':
-      'Using non-technical language, provide a description of the project, including its key elements, purpose, objectives, and benefits. Identify the ‘who’, ‘what’, ‘where’, ‘when’, and ‘why’. Please avoid including confidential or proprietary information.',
+      'Using non-technical language, provide a description of the project, including its key elements, purpose, objectives and benefits. Identify the ‘who’, ‘what’, ‘where’, ‘when’ and ‘why’. Please avoid including confidential or proprietary information.',
 
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,

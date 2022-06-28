@@ -1,5 +1,5 @@
 name: 'Set up CCBC dev environment'
-description: 'Sets up asdf, perl, and configures the cache'
+description: 'Sets up asdf, perl and configures the cache'
 runs:
   using: composite
   steps:
