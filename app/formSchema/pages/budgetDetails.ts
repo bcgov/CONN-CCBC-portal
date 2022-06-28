@@ -7,7 +7,7 @@ const budgetDetails = {
     required: ['totalEligibleCosts', 'totalProjectCost'],
     properties: {
       totalEligibleCosts: {
-        title: `The applicant must complete and upload the appropriate templates related to the project budget details in Section 3. Template Uploads of the application submission. Values here must match Template 2 - Detailed Budget in Section 2. Template Uploads.
+        title: `The applicant must complete and upload the appropriate templates related to the project budget details in the Template Uploads section. Values here must match values in Template 2 - Detailed Budget.
 
           Total eligible costs`,
         type: 'number',
