@@ -4,6 +4,7 @@ import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 
 import {
   BudgetDetailsTable,
+  OrganizationLocationTable,
   OtherFundingSourcesTable,
   ProjectAreaTable,
   ProjectFundingTable,
@@ -118,6 +119,7 @@ const Review = ({
 
         const customTable = [
           'budgetDetails',
+          'organizationLocation',
           'otherFundingSources',
           'projectArea',
           'projectFunding',
@@ -158,6 +160,13 @@ const Review = ({
 
             {section === 'budgetDetails' && (
               <BudgetDetailsTable
+                formData={formData[section]}
+                subschema={subschema}
+              />
+            )}
+
+            {section === 'organizationLocation' && (
+              <OrganizationLocationTable
                 formData={formData[section]}
                 subschema={subschema}
               />

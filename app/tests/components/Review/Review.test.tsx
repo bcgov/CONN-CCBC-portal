@@ -106,7 +106,7 @@ const mockFormData = {
     applicationContribution2223: '1231231',
     applicationContribution2324: '123123123',
     applicationContribution2425: '123123123',
-    applicationContribution2526: 'supportingDocumentsSchema123123',
+    applicationContribution2526: '123123',
     applicationContribution2627: '1223123123',
     infrastructureBankFunding2223: '123123123',
     infrastructureBankFunding2324: '123123132',
@@ -137,7 +137,6 @@ const mockFormData = {
     isAltFirstContact: true,
     isAltContactSigningOfficer: true,
   },
-  declarationsSign: {},
   authorizedContact: {
     authEmail: '79879',
     authExtension: 789,

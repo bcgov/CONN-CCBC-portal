@@ -15,6 +15,10 @@ const StyledSubtitle = styled('h6')`
   margin: 0;
 `;
 
+const StyledTd = styled('td')`
+  padding: 0;
+`;
+
 import formatMoney from '../../utils/formatMoney';
 
 const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
@@ -65,11 +69,11 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
                   <tbody key={row}>
                     {y === 5 && (
                       <tr>
-                        <td>
+                        <StyledTd>
                           <StyledSubtitle>
                             Amount requested under source:
                           </StyledSubtitle>
-                        </td>
+                        </StyledTd>
                       </tr>
                     )}
                     <tr>
