@@ -23,7 +23,7 @@ context('Homepage', () => {
 
     cy.get('button').contains('New application').should('be.visible').click();
 
-    cy.wait(2000);
+    cy.wait(10000);
 
     // Project information page
     cy.get('h1').contains('Project information').should('be.visible');
@@ -101,11 +101,9 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Budget details').should('be.visible');
 
-    cy.get('[id="root_totalEligbleCosts"]').type('test');
+    cy.get('[id="root_totalEligibleCosts"]').type('test');
 
     cy.get('[id="root_totalProjectCost"]').type('test');
-
-    cy.get('[id="root_requestedCCBCFunding"]').type('test');
 
     cy.get('button').contains('Continue').should('be.visible').click();
 
@@ -115,7 +113,75 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Project funding').should('be.visible');
 
-    // TODO: PROJECT FUNDING DETAILS
+    cy.get('[id="root_fundingRequestedCCBC2223"]').type(123);
+    cy.get('[id="root_fundingRequestedCCBC2324"]').type(123);
+    cy.get('[id="root_fundingRequestedCCBC2425"]').type(123);
+    cy.get('[id="root_fundingRequestedCCBC2526"]').type(123);
+    cy.get('[id="root_fundingRequestedCCBC2627"]').type(123);
+
+    cy.get('[id="root_totalFundingRequestedCCBC"]').type(12345);
+
+    cy.get('[id="root_applicationContribution2223"]').type(123);
+    cy.get('[id="root_applicationContribution2324"]').type(123);
+    cy.get('[id="root_applicationContribution2425"]').type(123);
+    cy.get('[id="root_applicationContribution2526"]').type(123);
+    cy.get('[id="root_applicationContribution2627"]').type(123);
+
+    cy.get('[id="root_totalApplicantContribution"]').type(12345);
+
+    cy.get('button').contains('Continue').should('be.visible').click();
+
+    cy.wait(2000);
+
+    // Other funding sources page
+
+    cy.get('h1').contains('Other funding sources').should('be.visible');
+
+    cy.get('input[id="root_otherFundingSources-0"]').parent().click();
+
+    cy.get('[id="root_otherFundingSourcesArray_0_fundingPartnersName"]').type(
+      'test'
+    );
+
+    cy.get(
+      '[id="root_otherFundingSourcesArray_0_fundingSourceContactInfo"]'
+    ).type('test');
+
+    cy.get(
+      'select[id="root_otherFundingSourcesArray_0_statusOfFunding"]'
+    ).select('Submitted');
+
+    cy.get('select[id="root_otherFundingSourcesArray_0_funderType"]').select(
+      'Federal'
+    );
+
+    cy.get('[id="root_otherFundingSourcesArray_0_nameOfFundingProgram"]').type(
+      'test'
+    );
+
+    cy.get(
+      '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2223"]'
+    ).type(123);
+
+    cy.get(
+      '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2324"]'
+    ).type(123);
+
+    cy.get(
+      '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2425"]'
+    ).type(123);
+
+    cy.get(
+      '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2526"]'
+    ).type(123);
+
+    cy.get(
+      '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2627"]'
+    ).type(123);
+
+    cy.get(
+      '[id="root_otherFundingSourcesArray_0_totalRequestedFundingPartner"]'
+    ).type(12345);
 
     cy.get('button').contains('Continue').should('be.visible').click();
 
@@ -171,6 +237,36 @@ context('Homepage', () => {
     cy.get('[id="root_overviewOfProjectParticipants"]').type('test');
 
     cy.get('[id="root_operationalPlan"]').type('test');
+
+    cy.get('button').contains('Continue').should('be.visible').click();
+
+    cy.wait(2000);
+
+    // Template uploads page
+
+    cy.get('h1').contains('Template uploads').should('be.visible');
+
+    // Todo: file uploads
+
+    cy.get('button').contains('Continue').should('be.visible').click();
+
+    cy.wait(2000);
+
+    // Supporting documents page
+
+    cy.get('h1').contains('Supporting documents').should('be.visible');
+
+    // Todo: file uploads
+
+    cy.get('button').contains('Continue').should('be.visible').click();
+
+    cy.wait(2000);
+
+    // Mapping page
+
+    cy.get('h1').contains('Mapping').should('be.visible');
+
+    // Todo: file uploads
 
     cy.get('button').contains('Continue').should('be.visible').click();
 
