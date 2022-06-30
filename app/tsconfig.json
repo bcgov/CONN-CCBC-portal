@@ -14,7 +14,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": ["cypress"]
+    "types": ["cypress", "cypress-wait-until"]
   },
   "include": [
     "next-env.d.ts",
