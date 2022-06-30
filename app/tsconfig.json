@@ -18,6 +18,7 @@
     "paths": {
       "*": ["*", "../*", "__generated__/*"]
     }
+    "types": ["cypress", "cypress-wait-until"]
   },
   "exclude": [".next", "node_modules", "public", "cypress"],
   "include": ["./**/*", "./.eslintrc.js"]

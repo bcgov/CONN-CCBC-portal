@@ -76,6 +76,7 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-relay": "^13.2.0",
     "cypress": "^9.6.1",
+    "cypress-wait-until": "^1.7.2",
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.4",
     "eslint-config-prettier": "^8.5.0",
