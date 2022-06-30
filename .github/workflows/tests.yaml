@@ -81,7 +81,59 @@ jobs:
           make
           make install
           psql -c 'CREATE EXTENSION pgtap;' || true
-      - name: Run Database Unit Tests
-        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/unit/**/*_test.sql
-      - name: Run Database Style Tests
-        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/style/*_test.sql --set schemas_to_test=ccbc_public,ccbc_private
+      - name: Run Tests
+        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/*/*_test.sql
+
+  schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
+      - name: Cache asdf Postgres
+        uses: actions/cache@v2
+        env:
+          cache-name: asdf-postgres-cache
+        with:
+          path: |
+            /home/runner/.asdf
+          key: ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}
+      - name: Setup Postgres DB
+        run: |
+          sudo apt-get update
+          sudo apt-get install -yqq sqitch libdbd-pg-perl postgresql-client
+          asdf plugin-add postgres || true
+          asdf plugin-update --all
+          asdf install postgres 14.1
+          asdf reshim
+          pg_ctl start
+          createdb ${{ env.PGDATABASE }} || true
+          sqitch rebase -y
+          sqitch deploy
+        working-directory: ./db
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install Dependencies
+        working-directory: ./app
+        run: yarn
+      - name: Build graphql schema
+        working-directory: ./app
+        run: yarn build:schema
+      - name: Check for inconsistency between graphql schema and commit schema
+        run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/server/schema.graphql`. Did you forget to \"yarn build:relay\"?' && false)
+        working-directory: ./app
