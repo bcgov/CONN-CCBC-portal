@@ -8,7 +8,7 @@ SELECT * FROM no_plan();
 -- Table exists
 select has_table(
   'ccbc_private', 'connect_session',
-  'ccbc_private.connect_session should exist, and be a table'
+  'ccbc_private.connect_session should exist and be a table'
 );
 
 

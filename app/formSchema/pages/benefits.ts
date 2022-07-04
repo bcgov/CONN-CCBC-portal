@@ -12,7 +12,7 @@ const benefits = {
         
         Sustainability. Description of the social and economic benefits as a result of the proposed project, such as improvements to community connectivity, facilitation of commercial or industrial development, improvement of public services or social programs delivery, improvement of small businesses, enhancement of entrepreneurship capacity, applicant’s corporate social responsibility policy and its philanthropic practices, etc. 
         
-        In the case of internal corporate policies, social responsibility, and philanthropic practices, describe how your organization promotes gender equality and diversity or how your organization gives back to the community.`,
+        In the case of internal corporate policies, social responsibility and philanthropic practices, describe how your organization promotes gender equality and diversity or how your organization gives back to the community.`,
         type: 'string',
       },
       numberOfHouseholds: {

@@ -29,7 +29,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Authenticate, set context, and run deploy script
+    - name: Authenticate, set context and run deploy script
       uses: redhat-actions/oc-login@v1
       with:
         openshift_server_url: ${{ inputs.openshift_server_url }}

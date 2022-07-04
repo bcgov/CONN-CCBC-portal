@@ -28,15 +28,13 @@ const existingNetworkCoverage = {
         enumNames: ['Yes', 'No'],
       },
       isInfrastuctureAvailable: {
-        title: `The applicant intends to make reasonable efforts to make its passive infrastructure available for use by other broadband operators to expand and
-          improve coverage in Canada?`,
+        title: `The applicant intends to make reasonable efforts to make its passive infrastructure available for use by other broadband operators to expand and improve coverage in Canada?`,
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],
       },
       requiresThirdPartyInfrastructureAccess: {
-        title: `Does the applicant’s project require access to third party passive infrastructure (including for example, towers, poles, rights of way or other similar
-            assets and infrastructure)?`,
+        title: `Does the applicant’s project require access to third party passive infrastructure (including for example, towers, poles, rights of way or other similar assets and infrastructure)?`,
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],

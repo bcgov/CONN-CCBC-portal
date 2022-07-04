@@ -62,7 +62,7 @@ const organizationProfile = {
       },
       isSubsidiary: {
         title:
-          'Is this Applicant organization a subsidiary of a parent organization?',
+          'Is this applicant organization a subsidiary of a parent organization?',
         type: 'boolean',
         enum: ['Yes', 'No'],
       },
