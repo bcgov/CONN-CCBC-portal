@@ -50,11 +50,6 @@ const organizationProfile = {
         title: 'Organization name (legal name)',
         type: 'string',
       },
-      isLegalPrimaryName: {
-        title: 'Is this the primary legal name?',
-        type: 'boolean',
-        enum: ['Yes', 'No'],
-      },
       isNameLegalName: {
         title: 'Is operating name same as legal name?',
         type: 'boolean',

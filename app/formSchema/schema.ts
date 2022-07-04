@@ -18,6 +18,7 @@ import {
   projectFunding,
   projectPlan,
   supportingDocuments,
+  review,
   techSolution,
   templateUploads,
 } from './pages';
@@ -110,6 +111,7 @@ const useSchema = () => {
       ...(formAlternateContact && {
         ...alternateContact,
       }),
+      ...review,
       ...(formDeclarations && {
         ...declarations,
       }),

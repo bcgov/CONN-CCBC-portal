@@ -1,12 +1,14 @@
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Button from '@button-inc/bcgov-theme/Button';
+import type { JSONSchema7 } from 'json-schema';
+
 import { FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { useUpdateApplicationMutation } from '../../schema/mutations/application/updateApplication';
-
-import Button from '@button-inc/bcgov-theme/Button';
-import type { JSONSchema7 } from 'json-schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
-import { useRouter } from 'next/router';
+import { Review } from '../Review';
 
 interface Props {
   formData: any;
@@ -19,6 +21,8 @@ const ApplicationForm: React.FC<Props> = ({
   pageNumber,
   trimmedSub,
 }) => {
+  const [reviewConfirm, setReviewConfirm] = useState(false);
+
   const router = useRouter();
   const [updateApplication] = useUpdateApplicationMutation();
 
@@ -30,6 +34,8 @@ const ApplicationForm: React.FC<Props> = ({
   }
 
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
+
+  const review = sectionName === 'review';
 
   const saveForm = async (incomingFormData: any, existingFormData: any) => {
     const pageNumber = parseInt(router.query.page as string);
@@ -83,10 +89,20 @@ const ApplicationForm: React.FC<Props> = ({
       // Todo: validate entire form on completion
       noValidate={true}
     >
+      {review && (
+        <Review
+          formData={formData}
+          formSchema={schema()}
+          reviewConfirm={reviewConfirm}
+          onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
+        />
+      )}
       {pageNumber < subschemaArray.length ? (
-        <Button variant="primary">Continue</Button>
+        <Button variant="primary" disabled={review ? !reviewConfirm : false}>
+          Continue
+        </Button>
       ) : (
-        <Button variant="primary">Complete form</Button>
+        <Button variant="primary">Ready for assessment</Button>
       )}
       {/* // Return to this save button later, will likely require a hacky solution to work
       // nice with RJSF

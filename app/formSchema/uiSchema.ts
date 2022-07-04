@@ -77,6 +77,7 @@ const uiSchema = {
     'hoursOfEmploymentPerWeek',
     'personMonthsToBeCreated',
     'estimatedContractorLabour',
+    'numberOfContractorsToWork',
     'hoursOfContractorEmploymentPerWeek',
     'contractorPersonMonthsToBeCreated',
     'declarationsList',
@@ -144,6 +145,7 @@ const uiSchema = {
     'requestedFundingPartner2627',
     'totalRequestedFundingPartner',
     'otherFundingSourcesArray',
+    'acknowledgeReviewEmptyFields',
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
@@ -471,7 +473,7 @@ const uiSchema = {
   },
   wirelessAddendum: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Template 7 - Wireless Addendum (optional)',
+    'ui:description': 'Template 7 - Wireless Addendum',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
@@ -479,8 +481,7 @@ const uiSchema = {
   },
   supportingConnectivityEvidence: {
     'ui:widget': 'FileWidget',
-    'ui:description':
-      'Template 8 - Supporting Connectivity Evidence (optional)',
+    'ui:description': 'Template 8 - Supporting Connectivity Evidence',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,

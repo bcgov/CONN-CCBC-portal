@@ -47,7 +47,7 @@ const CheckboxWidget: React.FC<WidgetProps> = ({
             onChange(event.target.checked)
           }
         />
-        <div>{label}</div>
+        <p>{label}</p>
       </StyledDiv>
     </StyledContainer>
   );
