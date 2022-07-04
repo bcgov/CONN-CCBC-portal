@@ -1,5 +1,6 @@
 import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
+import Alert from '@button-inc/bcgov-theme/Alert';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import type { JSONSchema7 } from 'json-schema';
@@ -60,6 +61,10 @@ const StyledCheckboxDiv = styled('div')`
   }
 `;
 
+const StyledAlert = styled(Alert)`
+  margin-bottom: 32px;
+`;
+
 // Todo: expand/collapse all functionality
 // const StyledExpandDiv = styled('div')`
 //   display: flex;
@@ -83,6 +88,7 @@ const Review = ({
 }: Props) => {
   // const [expand, setExpand] = useState(false);
   const formErrorSchema = validateFormData(formData, formSchema)?.errorSchema;
+  const noErrors = Object.keys(formErrorSchema).length === 0;
 
   const reviewSchema = [
     'projectInformation',
@@ -116,6 +122,11 @@ const Review = ({
           {!expand ? 'Expand all' : 'Collapse all'}
         </StyledExpandButton>
       </StyledExpandDiv> */}
+      <StyledAlert size="small" variant={noErrors ? 'success' : 'danger'}>
+        {noErrors
+          ? 'All fields are complete'
+          : 'There are empty fields in your application. Applications with unanswered fields may not be assessed.'}
+      </StyledAlert>
       {reviewSchema.map((section) => {
         const subschema = formSchema.properties[section];
 
