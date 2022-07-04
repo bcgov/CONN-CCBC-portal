@@ -1,6 +1,8 @@
 import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
+import validateFormData from '@rjsf/core/dist/cjs/validate';
+import type { JSONSchema7 } from 'json-schema';
 
 import {
   BudgetDetailsTable,
@@ -80,6 +82,7 @@ const Review = ({
   reviewConfirm,
 }: Props) => {
   // const [expand, setExpand] = useState(false);
+  const formErrorSchema = validateFormData(formData, formSchema)?.errorSchema;
 
   const reviewSchema = [
     'projectInformation',
@@ -101,7 +104,6 @@ const Review = ({
     'alternateContact',
     'authorizedContact',
   ];
-
   return (
     <div>
       {/* <StyledExpandDiv>
@@ -127,6 +129,14 @@ const Review = ({
 
         if (!subschema) return;
 
+        const errorFieldKeys = (formErrorSchema: JSONSchema7) => {
+          const errorFields = formErrorSchema
+            ? Object.keys(formErrorSchema)
+            : [];
+
+          return errorFields;
+        };
+
         return (
           <StyledAccordion
             id={section}
@@ -135,11 +145,16 @@ const Review = ({
             defaultToggled={true}
           >
             {!customTable.includes(section) && (
-              <Table formData={formData[section]} subschema={subschema} />
+              <Table
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
+                formData={formData[section]}
+                subschema={subschema}
+              />
             )}
 
             {section === 'otherFundingSources' && (
               <OtherFundingSourcesTable
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
                 formData={formData[section]}
                 subschema={subschema}
               />
@@ -147,6 +162,7 @@ const Review = ({
 
             {section === 'projectFunding' && (
               <ProjectFundingTable
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
                 formData={formData[section]}
                 subschema={subschema}
               />
@@ -154,6 +170,7 @@ const Review = ({
 
             {section === 'projectArea' && (
               <ProjectAreaTable
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
                 formData={formData[section]}
                 subschema={subschema}
               />
@@ -161,6 +178,7 @@ const Review = ({
 
             {section === 'budgetDetails' && (
               <BudgetDetailsTable
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
                 formData={formData[section]}
                 subschema={subschema}
               />
@@ -168,6 +186,7 @@ const Review = ({
 
             {section === 'organizationLocation' && (
               <OrganizationLocationTable
+                errorSchema={formErrorSchema[section]}
                 formData={formData[section]}
                 subschema={subschema}
               />
