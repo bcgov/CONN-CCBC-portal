@@ -1,0 +1,3 @@
+[submodule "db/test/style"]
+	path = db/test/style
+	url = https://github.com/bcgov/cas-postgres-style-tests.git

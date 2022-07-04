@@ -49,9 +49,12 @@ $ psql -c 'CREATE EXTENSION pgtap;'
 #### Run tests:
 
 In the project root run:
-
-`pg_prove --username postgres --dbname ccbc db/test/*/*_test.sql`
-
+```bash
+# Run database unit tests
+$ pg_prove --username postgres --dbname ccbc db/test/unit/**/*_test.sql
+# Run database style tests
+$ pg_prove --username postgres --dbname ccbc db/test/style/*_test.sql --set schemas_to_test=ccbc_public,ccbc_private
+```
 ## Running Jest and end to end tests locally
 
 ## Jest

@@ -32,4 +32,11 @@ perform ccbc_private.grant_permissions('select', 'applications', 'ccbc_guest');
 end
 $grant$;
 
+comment on table ccbc_public.applications is 'Table containing the data associated with the CCBC respondents application';
+comment on column ccbc_public.applications.id is 'Primary key ID for the application';
+comment on column ccbc_public.applications.reference_number is 'Reference number assigned to the application';
+comment on column ccbc_public.applications.owner is 'The owner of the application';
+comment on column ccbc_public.applications.form_data is 'The data entered into the form by the respondent';
+comment on column ccbc_public.applications.status is 'The status of the application, draft or complete';
+
 commit;

@@ -41,6 +41,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: Install asdf
         uses: asdf-vm/actions/setup@v1
       - name: Cache asdf Postgres
@@ -79,5 +81,7 @@ jobs:
           make
           make install
           psql -c 'CREATE EXTENSION pgtap;' || true
-      - name: Run Tests
-        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/*/*_test.sql
+      - name: Run Database Unit Tests
+        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/unit/**/*_test.sql
+      - name: Run Database Style Tests
+        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/style/*_test.sql --set schemas_to_test=ccbc_public,ccbc_private
