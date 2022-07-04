@@ -8,40 +8,32 @@ env:
 on: [workflow_call]
 
 jobs:
-  jest:
+  install-test-env:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '16'
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: Install Dependencies
+      - name: dev env setup
+        uses: ./.github/actions/test-env-setup
+      - run: yarn install --frozen-lockfile
         working-directory: ./app
-        run: yarn
 
+  jest:
+    needs: install-test-env
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/test-env-setup
       - name: Run Jest tests
         working-directory: ./app
         run: yarn test
 
   pgtap:
+    needs: install-test-env
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: test env setup
+      - name: dev env setup
         uses: ./.github/actions/test-env-setup
       - name: Install pg_prove
         run: sudo cpan TAP::Parser::SourceHandler::pgTAP
@@ -60,32 +52,13 @@ jobs:
         run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/*/*_test.sql
 
   schema:
+    needs: install-test-env
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: test env setup
+      - name: dev env setup
         uses: ./.github/actions/test-env-setup
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '16'
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install Dependencies
+      - run: yarn build:schema
         working-directory: ./app
-        run: yarn
-      - name: Build graphql schema
-        working-directory: ./app
-        run: yarn build:schema
       - name: Check for inconsistency between graphql schema and commit schema
         run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/server/schema.graphql`. Did you forget to \"yarn build:relay\"?' && false)
-        working-directory: ./app

@@ -1,5 +1,5 @@
-name: 'Set up CCBC test environment'
-description: 'Install asdf and set up database'
+name: 'Set up CCBC dev environment'
+description: 'Sets up asdf, perl, and configures the cache'
 runs:
   using: composite
   steps:
@@ -29,3 +29,18 @@ runs:
         sqitch rebase -y
         sqitch deploy
       working-directory: ./db
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16'
+    - name: Cache node modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
