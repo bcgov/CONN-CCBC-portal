@@ -1,4 +1,6 @@
+import React from 'react';
 import styled from 'styled-components';
+import formatMoney from '../../utils/formatMoney';
 import {
   formatRow,
   StyledTable,
@@ -19,9 +21,6 @@ const StyledSubtitle = styled('h6')`
 const StyledTd = styled('td')`
   padding: 0;
 `;
-
-import formatMoney from '../../utils/formatMoney';
-import React from 'react';
 
 const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
   const arraySchema =
@@ -53,7 +52,6 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
             <StyledColRight>{otherFundingSourcesValue}</StyledColRight>
           </tr>
         ) : (
-          arrayFormData &&
           arrayFormData.map((item: any, i: number) => {
             return (
               <React.Fragment key={i}>
@@ -63,14 +61,14 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
                   </StyledTitleRow>
                 </tr>
 
-                {rows.map((row, y) => {
+                {rows.map((row) => {
                   const title = arraySchema.properties[row]?.title;
                   const value = formatRow(item[row]);
                   const isMoneyField = moneyFields.includes(row);
 
                   return (
                     <React.Fragment key={row}>
-                      {y === 5 && (
+                      {row === 'requestedFundingPartner2223' && (
                         <tr>
                           <StyledTd>
                             <StyledSubtitle>

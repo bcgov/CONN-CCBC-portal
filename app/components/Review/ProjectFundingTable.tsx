@@ -14,27 +14,27 @@ const ProjectFundingTable = ({ formData, subschema }: any) => {
 
   return (
     <StyledTable>
-      {rows.map((row, i) => {
+      {rows.map((row) => {
         const title = subschema.properties[row].title;
         const value = formData ? formatRow(formData[row]) : ' ';
 
         return (
           <tbody key={row}>
-            {i === 0 && (
+            {row === 'fundingRequestedCCBC2223' && (
               <tr>
                 <StyledTitleRow colSpan={2}>
                   <StyledH4>Amount requested under CCBC</StyledH4>
                 </StyledTitleRow>
               </tr>
             )}
-            {i === 6 && (
+            {row === 'applicationContribution2223' && (
               <tr>
                 <StyledTitleRow colSpan={2}>
                   <StyledH4>Amount applicant will contribute</StyledH4>
                 </StyledTitleRow>
               </tr>
             )}
-            {i === 12 && (
+            {row === 'infrastructureBankFunding2223' && (
               <tr>
                 <StyledTitleRow colSpan={2}>
                   <StyledH4>
@@ -43,7 +43,7 @@ const ProjectFundingTable = ({ formData, subschema }: any) => {
                 </StyledTitleRow>
               </tr>
             )}
-            <tr key={i}>
+            <tr key={row}>
               <StyledColLeft>{title}</StyledColLeft>
               <StyledColRight>{formatMoney(value)}</StyledColRight>
             </tr>

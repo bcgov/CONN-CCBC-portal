@@ -179,9 +179,9 @@ const Review = ({
         <Checkbox
           id="review-confirmation-checkbox"
           checked={reviewConfirm}
-          onChange={(event: {
-            target: { checked: React.ChangeEvent<HTMLInputElement> };
-          }) => onReviewConfirm(event.target.checked)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            onReviewConfirm(event.target.checked)
+          }
         />
         <StyledCheckboxLabel htmlFor="review-confirmation-checkbox">
           The Applicant acknowledges that there are unanswered fields and
