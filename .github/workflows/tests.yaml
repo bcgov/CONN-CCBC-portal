@@ -41,33 +41,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - name: Install asdf
-        uses: asdf-vm/actions/setup@v1
-      - name: Cache asdf Postgres
-        uses: actions/cache@v2
-        env:
-          cache-name: asdf-postgres-cache
-        with:
-          path: |
-            /home/runner/.asdf
-          key: ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}
-          restore-keys: |
-            ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}
-      - name: Setup Postgres DB
-        run: |
-          sudo apt-get update
-          sudo apt-get install -yqq sqitch libdbd-pg-perl postgresql-client
-          asdf plugin-add postgres || true
-          asdf plugin-update --all
-          asdf install postgres 14.1
-          asdf reshim
-          pg_ctl start
-          createdb ${{ env.PGDATABASE }} || true
-          sqitch rebase -y
-          sqitch deploy
-        working-directory: ./db
+      - name: test env setup
+        uses: ./.github/actions/test-env-setup
       - name: Install pg_prove
         run: sudo cpan TAP::Parser::SourceHandler::pgTAP
         env:
@@ -88,31 +63,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install asdf
-        uses: asdf-vm/actions/setup@v1
-      - name: Cache asdf Postgres
-        uses: actions/cache@v2
-        env:
-          cache-name: asdf-postgres-cache
-        with:
-          path: |
-            /home/runner/.asdf
-          key: ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}
-          restore-keys: |
-            ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}
-      - name: Setup Postgres DB
-        run: |
-          sudo apt-get update
-          sudo apt-get install -yqq sqitch libdbd-pg-perl postgresql-client
-          asdf plugin-add postgres || true
-          asdf plugin-update --all
-          asdf install postgres 14.1
-          asdf reshim
-          pg_ctl start
-          createdb ${{ env.PGDATABASE }} || true
-          sqitch rebase -y
-          sqitch deploy
-        working-directory: ./db
+      - name: test env setup
+        uses: ./.github/actions/test-env-setup
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
