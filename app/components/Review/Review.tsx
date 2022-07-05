@@ -1,10 +1,10 @@
-import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
 import Alert from '@button-inc/bcgov-theme/Alert';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 import type { JSONSchema7 } from 'json-schema';
 
 import {
+  Accordion,
   BudgetDetailsTable,
   OrganizationLocationTable,
   OtherFundingSourcesTable,
@@ -21,27 +21,6 @@ type Props = {
   formErrorSchema: any;
   noErrors: boolean;
 };
-
-const StyledAccordion = styled(Accordion)`
-  h2 {
-    margin-bottom: 0;
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-  }
-
-  svg {
-    width: 20px;
-    height: 20px;
-    vertical-align: 0;
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
 
 const StyledCheckboxLabel = styled('label')`
   padding-left: 1em;
@@ -149,11 +128,12 @@ const Review = ({
           return errorFields;
         };
         return (
-          <StyledAccordion
+          <Accordion
             id={section}
+            defaultToggled={formErrorSchema[section]}
+            error={formErrorSchema[section]}
             key={subschema.title}
             title={subschema.title}
-            defaultToggled={formErrorSchema[section]}
           >
             {!customTable.includes(section) && (
               <Table
@@ -202,7 +182,7 @@ const Review = ({
                 subschema={subschema}
               />
             )}
-          </StyledAccordion>
+          </Accordion>
         );
       })}
       <StyledCheckboxDiv>
