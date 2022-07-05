@@ -10,6 +10,11 @@ import { useUpdateApplicationMutation } from '../../schema/mutations/application
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
 
+// https://github.com/rjsf-team/react-jsonschema-form/issues/2131
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import validateFormData from '@rjsf/core/dist/cjs/validate';
+
 interface Props {
   formData: any;
   pageNumber: number;
@@ -21,7 +26,10 @@ const ApplicationForm: React.FC<Props> = ({
   pageNumber,
   trimmedSub,
 }) => {
-  const [reviewConfirm, setReviewConfirm] = useState(false);
+  const formErrorSchema = validateFormData(formData, schema())?.errorSchema;
+  const noErrors = Object.keys(formErrorSchema).length === 0;
+
+  const [reviewConfirm, setReviewConfirm] = useState(noErrors);
 
   const router = useRouter();
   const [updateApplication] = useUpdateApplicationMutation();
@@ -95,10 +103,15 @@ const ApplicationForm: React.FC<Props> = ({
           formSchema={schema()}
           reviewConfirm={reviewConfirm}
           onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
+          formErrorSchema={formErrorSchema}
+          noErrors={noErrors}
         />
       )}
       {pageNumber < subschemaArray.length ? (
-        <Button variant="primary" disabled={review ? !reviewConfirm : false}>
+        <Button
+          variant="primary"
+          disabled={!noErrors || (review ? !reviewConfirm : false)}
+        >
           Continue
         </Button>
       ) : (

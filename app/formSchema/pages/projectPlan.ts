@@ -4,11 +4,7 @@ const projectPlan = {
     type: 'object',
     description:
       'An applicant must demonstrate capacity including administrative and technical capabilities to manage the proposed project and bring it to successful completion.',
-    required: [
-      'projectTitle',
-      'geographicAreaDescription',
-      'projectDescription',
-    ],
+    required: ['projectStartDate', 'projectCompletionDate', 'operationalPlan'],
     properties: {
       projectStartDate: {
         title: 'Project Start Date (YYYY/MM/DD)',

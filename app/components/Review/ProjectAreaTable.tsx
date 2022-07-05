@@ -18,11 +18,16 @@ const ProjectAreaTable = ({ errorSchema, formData, subschema }: any) => {
         {rows.map((row) => {
           const title = subschema.properties[row].title;
           const value = formData ? formatRow(formData[row]) : ' ';
+          const isRequired = errorSchema.includes(row);
 
           return (
             <tr key={title}>
               <StyledColLeft>{title}</StyledColLeft>
-              <StyledColRight>{value}</StyledColRight>
+              {isRequired ? (
+                <StyledColError />
+              ) : (
+                <StyledColRight>{value}</StyledColRight>
+              )}
             </tr>
           );
         })}

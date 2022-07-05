@@ -5,7 +5,6 @@ import {
   StyledColLeft,
   StyledColRight,
   StyledTable,
-  StyledTitleRow,
 } from './Table';
 
 const StyledSubtitle = styled('h6')`
@@ -31,6 +30,7 @@ const OrganizationLocationTable = ({
       .properties;
   const arrayFormData = formData?.mailingAddress;
   const mailingAddressRows = Object.keys(arraySchema);
+
   return (
     <StyledTable>
       <tbody>

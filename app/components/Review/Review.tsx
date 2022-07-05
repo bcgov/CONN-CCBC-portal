@@ -4,11 +4,6 @@ import Alert from '@button-inc/bcgov-theme/Alert';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 import type { JSONSchema7 } from 'json-schema';
 
-// https://github.com/rjsf-team/react-jsonschema-form/issues/2131
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import validateFormData from '@rjsf/core/dist/cjs/validate';
-
 import {
   BudgetDetailsTable,
   OrganizationLocationTable,
@@ -23,6 +18,8 @@ type Props = {
   onReviewConfirm: any;
   reviewConfirm: boolean;
   formSchema: any;
+  formErrorSchema: any;
+  noErrors: boolean;
 };
 
 const StyledAccordion = styled(Accordion)`
@@ -86,13 +83,13 @@ const StyledAlert = styled(Alert)`
 
 const Review = ({
   formData,
+  formErrorSchema,
   formSchema,
+  noErrors,
   onReviewConfirm,
   reviewConfirm,
 }: Props) => {
   // const [expand, setExpand] = useState(false);
-  const formErrorSchema = validateFormData(formData, formSchema)?.errorSchema;
-  const noErrors = Object.keys(formErrorSchema).length === 0;
 
   const reviewSchema = [
     'projectInformation',
@@ -151,13 +148,12 @@ const Review = ({
 
           return errorFields;
         };
-
         return (
           <StyledAccordion
             id={section}
             key={subschema.title}
             title={subschema.title}
-            defaultToggled={true}
+            defaultToggled={formErrorSchema[section]}
           >
             {!customTable.includes(section) && (
               <Table
@@ -210,17 +206,21 @@ const Review = ({
         );
       })}
       <StyledCheckboxDiv>
-        <Checkbox
-          id="review-confirmation-checkbox"
-          checked={reviewConfirm}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            onReviewConfirm(event.target.checked)
-          }
-        />
-        <StyledCheckboxLabel htmlFor="review-confirmation-checkbox">
-          The Applicant acknowledges that there are unanswered fields and
-          incomplete applications may not be assessed.
-        </StyledCheckboxLabel>
+        {!noErrors && (
+          <>
+            <Checkbox
+              id="review-confirmation-checkbox"
+              checked={reviewConfirm}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                onReviewConfirm(event.target.checked)
+              }
+            />
+            <StyledCheckboxLabel htmlFor="review-confirmation-checkbox">
+              The Applicant acknowledges that there are unanswered fields and
+              incomplete applications may not be assessed.
+            </StyledCheckboxLabel>
+          </>
+        )}
       </StyledCheckboxDiv>
     </div>
   );
