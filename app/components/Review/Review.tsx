@@ -201,7 +201,7 @@ const Review = ({
 
             {section === 'organizationLocation' && (
               <OrganizationLocationTable
-                errorSchema={formErrorSchema[section]}
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
                 formData={formData[section]}
                 subschema={subschema}
               />
