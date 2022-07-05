@@ -2,8 +2,12 @@ import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
 import Alert from '@button-inc/bcgov-theme/Alert';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
-import validateFormData from '@rjsf/core/dist/cjs/validate';
 import type { JSONSchema7 } from 'json-schema';
+
+// https://github.com/rjsf-team/react-jsonschema-form/issues/2131
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import validateFormData from '@rjsf/core/dist/cjs/validate';
 
 import {
   BudgetDetailsTable,
