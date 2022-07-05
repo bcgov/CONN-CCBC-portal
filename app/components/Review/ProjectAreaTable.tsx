@@ -1,6 +1,12 @@
-import { formatRow, StyledTable, StyledColLeft, StyledColRight } from './Table';
+import {
+  formatRow,
+  StyledColError,
+  StyledColLeft,
+  StyledColRight,
+  StyledTable,
+} from './Table';
 
-const ProjectAreaTable = ({ formData, subschema }: any) => {
+const ProjectAreaTable = ({ errorSchema, formData, subschema }: any) => {
   const rows = Object.keys(subschema.properties);
   const multipleAreas = formData?.projectSpanMultipleLocations === 'Yes';
   const multipleAreasSchema =

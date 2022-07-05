@@ -16,7 +16,7 @@ const ProjectFundingTable = ({ formData, subschema }: any) => {
     <StyledTable>
       {rows.map((row) => {
         const title = subschema.properties[row].title;
-        const value = formData ? formatRow(formData[row]) : ' ';
+        const value = formData ? formatRow(formData[row]) : '';
 
         return (
           <tbody key={row}>

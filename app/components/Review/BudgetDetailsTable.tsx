@@ -1,9 +1,9 @@
 import {
   formatRow,
-  StyledTable,
   StyledColError,
   StyledColLeft,
   StyledColRight,
+  StyledTable,
 } from './Table';
 import formatMoney from '../../utils/formatMoney';
 
