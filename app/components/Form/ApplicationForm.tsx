@@ -29,7 +29,7 @@ const ApplicationForm: React.FC<Props> = ({
   const formErrorSchema = validateFormData(formData, schema())?.errorSchema;
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
-  const [reviewConfirm, setReviewConfirm] = useState(noErrors);
+  const [reviewConfirm, setReviewConfirm] = useState(false);
 
   const router = useRouter();
   const [updateApplication] = useUpdateApplicationMutation();
@@ -86,6 +86,19 @@ const ApplicationForm: React.FC<Props> = ({
     });
   };
 
+  const handleDisabled = (page: string, noErrors: boolean) => {
+    let disabled = false;
+    switch (true) {
+      case page === 'review' && noErrors:
+        disabled = false;
+        break;
+      case page === 'review':
+        disabled = !reviewConfirm;
+        break;
+    }
+    return disabled;
+  };
+
   return (
     <FormBase
       onSubmit={(incomingFormData: any) => {
@@ -110,7 +123,7 @@ const ApplicationForm: React.FC<Props> = ({
       {pageNumber < subschemaArray.length ? (
         <Button
           variant="primary"
-          disabled={!noErrors || (review ? !reviewConfirm : false)}
+          disabled={handleDisabled(sectionName, noErrors)}
         >
           Continue
         </Button>
