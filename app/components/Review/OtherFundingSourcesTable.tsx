@@ -84,11 +84,11 @@ const OtherFundingSourcesTable = ({
                         </tr>
                       )}
                       <tr>
-                        <StyledColLeft>{title}</StyledColLeft>
+                        <StyledColLeft id={row}>{title}</StyledColLeft>
                         {isRequired ? (
-                          <StyledColError />
+                          <StyledColError id={`${row}-error`} />
                         ) : (
-                          <StyledColRight>
+                          <StyledColRight id={`${row}-value`}>
                             {isMoneyField ? formatMoney(value) : value}
                           </StyledColRight>
                         )}

@@ -31,7 +31,8 @@ const StyledColRight = styled('td')`
 `;
 
 const StyledColError = styled(StyledColRight)`
-  background-color: ${(props) => props.theme.color.errorBackground};
+  background-color: rgba(248, 214, 203, 0.4);
+  // background-color: ${(props) => props.theme.color.errorBackground};
 `;
 
 const StyledTitleRow = styled('td')`
@@ -78,11 +79,11 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
                 </tr>
               ) : (
                 <tr>
-                  <StyledColLeft>{title}</StyledColLeft>
+                  <StyledColLeft id={row}>{title}</StyledColLeft>
                   {isRequired ? (
-                    <StyledColError />
+                    <StyledColError id={`${row}-error`} />
                   ) : (
-                    <StyledColRight>{value}</StyledColRight>
+                    <StyledColRight id={`${row}-value`}>{value}</StyledColRight>
                   )}
                 </tr>
               )}

@@ -46,11 +46,13 @@ const ProjectFundingTable = ({ errorSchema, formData, subschema }: any) => {
               </tr>
             )}
             <tr key={row}>
-              <StyledColLeft>{title}</StyledColLeft>
+              <StyledColLeft id={row}>{title}</StyledColLeft>
               {isRequired ? (
-                <StyledColError />
+                <StyledColError id={`${row}-error`} />
               ) : (
-                <StyledColRight>{formatMoney(value)}</StyledColRight>
+                <StyledColRight id={`${row}-value`}>
+                  {formatMoney(value)}
+                </StyledColRight>
               )}
             </tr>
           </tbody>

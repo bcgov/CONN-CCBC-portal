@@ -1,3 +1,4 @@
+import { errors } from 'openid-client';
 import {
   formatRow,
   StyledColError,
@@ -12,29 +13,33 @@ const ProjectAreaTable = ({ errorSchema, formData, subschema }: any) => {
   const multipleAreasSchema =
     subschema.dependencies.projectSpanMultipleLocations.oneOf[1].properties
       .provincesTerritories;
+
   return (
     <StyledTable>
       <tbody>
         {rows.map((row) => {
+          console.log(row);
           const title = subschema.properties[row].title;
           const value = formData ? formatRow(formData[row]) : ' ';
           const isRequired = errorSchema.includes(row);
 
           return (
             <tr key={title}>
-              <StyledColLeft>{title}</StyledColLeft>
-              {isRequired ? (
-                <StyledColError />
+              <StyledColLeft id={row}>{title}</StyledColLeft>
+              {isRequired && row === 'geographicArea' ? (
+                <StyledColError id={`${row}-error`} />
               ) : (
-                <StyledColRight>{value}</StyledColRight>
+                <StyledColRight id={`${row}-value`}>{value}</StyledColRight>
               )}
             </tr>
           );
         })}
         {multipleAreas && (
           <tr>
-            <StyledColLeft>{multipleAreasSchema.title}</StyledColLeft>
-            <StyledColRight>
+            <StyledColLeft id="provincesTerritories">
+              {multipleAreasSchema.title}
+            </StyledColLeft>
+            <StyledColRight id="provincesTerritories-value">
               {formatRow(formData?.provincesTerritories || '')}
             </StyledColRight>
           </tr>

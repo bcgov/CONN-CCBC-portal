@@ -20,13 +20,14 @@ const BudgetDetailsTable = ({ errorSchema, formData, subschema }: any) => {
 
           return (
             <tr key={title}>
-              <StyledColLeft>{title}</StyledColLeft>
+              <StyledColLeft id={row}>{title}</StyledColLeft>
               {isRequired ? (
-                <StyledColError />
+                <StyledColError id={`${row}-error`} />
               ) : (
-                <StyledColRight>{formatMoney(value)}</StyledColRight>
+                <StyledColRight id={`${row}-value`}>
+                  {formatMoney(value)}
+                </StyledColRight>
               )}
-              <StyledColRight></StyledColRight>
             </tr>
           );
         })}

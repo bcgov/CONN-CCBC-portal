@@ -42,11 +42,11 @@ const OrganizationLocationTable = ({
 
           return (
             <tr key={row}>
-              <StyledColLeft>{title}</StyledColLeft>
+              <StyledColLeft id={row}>{title}</StyledColLeft>
               {isRequired ? (
-                <StyledColError />
+                <StyledColError id={`${row}-error`} />
               ) : (
-                <StyledColRight>{value}</StyledColRight>
+                <StyledColRight id={`${row}-value`}>{value}</StyledColRight>
               )}
             </tr>
           );
@@ -64,8 +64,8 @@ const OrganizationLocationTable = ({
             const value = arrayFormData ? arrayFormData[row] : '';
             return (
               <tr key={row}>
-                <StyledColLeft>{title}</StyledColLeft>
-                <StyledColRight>{value}</StyledColRight>
+                <StyledColLeft id={row}>{title}</StyledColLeft>
+                <StyledColRight id={`${row}-value`}>{value}</StyledColRight>
               </tr>
             );
           })}
