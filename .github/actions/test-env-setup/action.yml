@@ -12,9 +12,9 @@ runs:
       with:
         path: |
           /home/runner/.asdf
-        key: ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}
+        key: ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}-0.3
         restore-keys: |
-          ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}
+          ${{ runner.os }}-postgres-14.1-${{ env.cache-name }}-0.3
     - name: Setup Postgres DB
       shell: bash
       run: |
@@ -26,7 +26,6 @@ runs:
         asdf reshim
         pg_ctl start
         createdb ${{ env.PGDATABASE }} || true
-        sqitch rebase -y
         sqitch deploy
       working-directory: ./db
     - name: Setup Node.js

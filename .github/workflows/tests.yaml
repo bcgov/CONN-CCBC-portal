@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/test-env-setup
 
   jest:
-    needs: install-test-env
+    needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,11 +28,27 @@ jobs:
         working-directory: ./app
         run: yarn test
 
-  pgtap:
-    needs: install-test-env
+  schema:
+    needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/test-env-setup
+      - run: yarn install --frozen-lockfile
+        working-directory: ./app
+      - run: yarn build:schema
+        working-directory: ./app
+      - name: Check for inconsistency between graphql schema and commit schema
+        run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/server/schema.graphql`. Did you forget to \"yarn build:relay\"?' && false)
+
+  pgtap:
+    needs: [install-test-env]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: dev env setup
         uses: ./.github/actions/test-env-setup
       - name: Install pg_prove
@@ -48,19 +64,7 @@ jobs:
           make
           make install
           psql -c 'CREATE EXTENSION pgtap;' || true
-      - name: Run Tests
-        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/*/*_test.sql
-
-  schema:
-    needs: install-test-env
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: dev env setup
-        uses: ./.github/actions/test-env-setup
-      - run: yarn install --frozen-lockfile
-        working-directory: ./app
-      - run: yarn build:schema
-        working-directory: ./app
-      - name: Check for inconsistency between graphql schema and commit schema
-        run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/server/schema.graphql`. Did you forget to \"yarn build:relay\"?' && false)
+      - name: Run Database Unit Tests
+        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/unit/**/*_test.sql
+      - name: Run Database Style Tests
+        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/style/*_test.sql --set schemas_to_test=ccbc_public,ccbc_private
