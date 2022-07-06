@@ -90,6 +90,7 @@ const Review = ({
     'alternateContact',
     'authorizedContact',
   ];
+
   return (
     <div>
       {/* <StyledExpandDiv>
@@ -102,7 +103,11 @@ const Review = ({
           {!expand ? 'Expand all' : 'Collapse all'}
         </StyledExpandButton>
       </StyledExpandDiv> */}
-      <StyledAlert size="small" variant={noErrors ? 'success' : 'danger'}>
+      <StyledAlert
+        id="review-alert"
+        size="small"
+        variant={noErrors ? 'success' : 'danger'}
+      >
         {noErrors
           ? 'All fields are complete'
           : 'There are empty fields in your application. Applications with unanswered fields may not be assessed.'}
@@ -127,11 +132,14 @@ const Review = ({
 
           return errorFields;
         };
+
+        const isError = formErrorSchema[section] != undefined;
+
         return (
           <Accordion
             id={section}
-            defaultToggled={formErrorSchema[section]}
-            error={formErrorSchema[section]}
+            defaultToggled={isError}
+            error={isError}
             key={subschema.title}
             title={subschema.title}
           >

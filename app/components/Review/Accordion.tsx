@@ -11,6 +11,35 @@ const ToggleRight = styled.div`
   font-size: 2em;
 `;
 
+const StyledBaseAccordion = styled(BaseAccordion)`
+  h2 {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    vertical-align: 0;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+const StyledToggleRight = styled(ToggleRight)`
+  display: flex;
+`;
+
+const StyledAlert = styled('label')`
+  margin-right: 16px;
+`;
+
 const Accordion = ({
   children,
   defaultToggled,
@@ -19,35 +48,6 @@ const Accordion = ({
   title,
   ...rest
 }: any) => {
-  const StyledBaseAccordion = styled(BaseAccordion)`
-    h2 {
-      margin-bottom: 0;
-      display: flex;
-      align-items: center;
-      font-size: 24px;
-    }
-
-    svg {
-      width: 20px;
-      height: 20px;
-      vertical-align: 0;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  `;
-
-  const StyledToggleRight = styled(ToggleRight)`
-    display: flex;
-  `;
-
-  const StyledAlert = styled('label')`
-    margin-right: 16px;
-  `;
-
   return (
     <StyledBaseAccordion
       {...rest}
