@@ -18,7 +18,6 @@ const ProjectAreaTable = ({ errorSchema, formData, subschema }: any) => {
     <StyledTable>
       <tbody>
         {rows.map((row) => {
-          console.log(row);
           const title = subschema.properties[row].title;
           const value = formData ? formatRow(formData[row]) : ' ';
           const isRequired = errorSchema.includes(row);

@@ -43,7 +43,7 @@ const OrganizationLocationTable = ({
           return (
             <tr key={row}>
               <StyledColLeft id={row}>{title}</StyledColLeft>
-              {isRequired ? (
+              {isRequired && row != 'isMailingAddress' ? (
                 <StyledColError id={`${row}-error`} />
               ) : (
                 <StyledColRight id={`${row}-value`}>{value}</StyledColRight>
