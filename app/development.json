@@ -14,5 +14,9 @@
   "HOST": "localhost",
   "OPENSHIFT_APP_NAMESPACE": "ff61fb-dev",
   "SESSION_SECRET": "superSecretSession",
-  "NEXT_PUBLIC_GROWTHBOOK_API_KEY": ""
+  "NEXT_PUBLIC_GROWTHBOOK_API_KEY": "",
+  "S3_BUCKET": "",
+  "S3_REGION": "us-west-2",
+  "S3_CONFIG_KEY": "",
+  "S3_CONFIG_SECRET_KEY": ""
 }

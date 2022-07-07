@@ -16,6 +16,7 @@
     "test:e2e": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.121.0",
     "@bcgov-cas/sso-express": "^3.1.0",
     "@button-inc/bcgov-theme": "^1.0.1",
     "@button-inc/form-schema": "^1.0.0-alpha.8",
@@ -62,6 +63,7 @@
     "@types/react-dom": "18.0.0",
     "@types/react-relay": "^13.0.2",
     "@types/relay-test-utils": "^6.0.5",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-relay": "^13.2.0",

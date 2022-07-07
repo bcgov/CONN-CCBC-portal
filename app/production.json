@@ -12,5 +12,9 @@
   "HAPPO_API_SECRET": "",
   "CLIENT_SECRET": "",
   "HOST": "",
-  "NEXT_PUBLIC_GROWTHBOOK_API_KEY": ""
+  "NEXT_PUBLIC_GROWTHBOOK_API_KEY": "",
+  "S3_BUCKET": "",
+  "S3_REGION": "us-west-2",
+  "S3_CONFIG_KEY": "",
+  "S3_CONFIG_SECRET_KEY": ""
 }
