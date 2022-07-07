@@ -16,3 +16,4 @@ tables/connect_session 2022-04-11T23:59:30Z marcel <mlmueller@protonmail.com> # 
 tables/ccbc_user 2022-05-26T17:58:53Z Bryan Krauss <bryan@button.is> # Users table for ccbc project
 tables/applications 2022-04-11T22:31:16Z marcel <mlmueller@protonmail.com> # Add application table to store application data
 mutations/create_user_from_session 2022-05-26T20:41:37Z Bryan Krauss <bryan@button.is> # A mutation to create a user from the seesion table
+tables/attachment 2022-07-07T23:19:04Z Marcel Mueller,,, <marcel@Thinkpad> # add table attachment
