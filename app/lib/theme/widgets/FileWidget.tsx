@@ -3,9 +3,9 @@ import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
 import React from 'react';
-import { uploadFile } from '../../file';
 import { useCreateAttachment } from '../../../schema/mutations/attachment/createAttachment';
 import bytesToSize from '../../../utils/bytesToText';
+import { LoadingSpinner } from '../../../components';
 
 const StyledContainer = styled('div')`
   margin-top: 16px;
@@ -32,6 +32,14 @@ const StyledLink = styled('a')`
   color: ${(props) => props.theme.color.links};
   margin: 8px 0;
   text-decoration-line: underline;
+`;
+
+const StyledButton = styled(Button)`
+  min-width: 160px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 type File = {
@@ -66,10 +74,6 @@ const FileWidget: React.FC<WidgetProps> = ({
     onChange(JSON.stringify(fileList) || undefined);
   }, [fileList, onChange]);
 
-  // const saveAttachment = async (e) => {
-  //   var file = e.target.files[0];
-
-  // };
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
@@ -91,9 +95,9 @@ const FileWidget: React.FC<WidgetProps> = ({
         variables,
         onError: (err) => console.error('error', err),
         onCompleted: (res) => {
-          console.log(res);
+          const uuid = res?.createAttachment?.attachment?.file;
           const fileDetails = {
-            uuid: 'aasd',
+            uuid: uuid,
             name: name,
             size: size,
             type: type,
@@ -113,6 +117,19 @@ const FileWidget: React.FC<WidgetProps> = ({
     hiddenFileInput.current.click();
   };
 
+  const buttonLabel = () => {
+    const isFiles = fileList.length > 0;
+    if (isFiles && !allowMultipleFiles) {
+      return 'Replace';
+    } else if (isFiles && allowMultipleFiles) {
+      return 'Add file';
+    } else if (allowMultipleFiles) {
+      return 'Upload(s)';
+    } else {
+      return 'Upload';
+    }
+  };
+
   return (
     <StyledContainer>
       <StyledDetails>
@@ -123,15 +140,15 @@ const FileWidget: React.FC<WidgetProps> = ({
           })}
       </StyledDetails>
       <div>
-        <Button
+        <StyledButton
           id={`${id}-btn`}
           onClick={(e: React.MouseEvent<HTMLInputElement>) => {
             e.preventDefault();
             handleClick();
           }}
         >
-          {!allowMultipleFiles && fileList.length > 0 ? 'Replace' : 'Upload'}
-        </Button>
+          {isCreatingAttachment ? <LoadingSpinner /> : buttonLabel()}
+        </StyledButton>
       </div>
       <input
         ref={hiddenFileInput}
