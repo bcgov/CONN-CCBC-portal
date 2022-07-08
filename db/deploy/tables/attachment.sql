@@ -1,5 +1,7 @@
 -- Deploy ccbc:tables/attachment to pg
+-- requires: tables/application_status
 -- requires: tables/applications
+
 begin;
 
 create table ccbc_public.attachment
@@ -10,7 +12,8 @@ create table ccbc_public.attachment
   file_name varchar(1000),
   file_type varchar(100),
   file_size varchar(100),
-  project_id integer not null references ccbc_public.applications(id)
+  application_id integer not null references ccbc_public.applications(id),
+  application_status_id integer references ccbc_public.application_status(id)
 );
 
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'attachment');
@@ -38,6 +41,7 @@ comment on column ccbc_public.attachment.description is 'Description of the atta
 comment on column ccbc_public.attachment.file_name is 'Original uploaded file name';
 comment on column ccbc_public.attachment.file_type is 'Original uploaded file type';
 comment on column ccbc_public.attachment.file_size is 'Original uploaded file size';
-comment on column ccbc_public.attachment.project_id is 'The id of the project (ccbc_public.application.id) that the attachment was uploaded to';
+comment on column ccbc_public.attachment.application_id is 'The id of the project (ccbc_public.application.id) that the attachment was uploaded to';
+comment on column ccbc_public.attachment.application_status_id is 'The id of the application_status (ccbc_public.application_status.id) that the attachment references';
 
 commit;

@@ -2,6 +2,7 @@
 
 begin;
 
+
 drop table ccbc_public.applications;
 
 commit;
