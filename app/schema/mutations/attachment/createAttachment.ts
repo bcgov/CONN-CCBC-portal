@@ -5,7 +5,9 @@ import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 const mutation = graphql`
   mutation createAttachmentMutation($input: CreateAttachmentInput!) {
     createAttachment(input: $input) {
-      clientMutationId
+      attachment {
+        file
+      }
     }
   }
 `;

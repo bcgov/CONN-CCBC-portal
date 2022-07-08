@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<46de817a8a0ca8b3e943b82440d04df9>>
+ * @generated SignedSource<<b05a7e1b63de00c37e3424cc26328bb2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -33,7 +33,9 @@ export type createAttachmentMutation$variables = {
 };
 export type createAttachmentMutation$data = {
   readonly createAttachment: {
-    readonly clientMutationId: string | null;
+    readonly attachment: {
+      readonly file: any | null;
+    } | null;
   } | null;
 };
 export type createAttachmentMutation = {
@@ -51,37 +53,49 @@ var v0 = [
 ],
 v1 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "input",
-        "variableName": "input"
-      }
-    ],
-    "concreteType": "CreateAttachmentPayload",
-    "kind": "LinkedField",
-    "name": "createAttachment",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "clientMutationId",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Variable",
+    "name": "input",
+    "variableName": "input"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "file",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "createAttachmentMutation",
-    "selections": (v1/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "CreateAttachmentPayload",
+        "kind": "LinkedField",
+        "name": "createAttachment",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Attachment",
+            "kind": "LinkedField",
+            "name": "attachment",
+            "plural": false,
+            "selections": [
+              (v2/*: any*/)
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "Mutation",
     "abstractKey": null
   },
@@ -90,19 +104,50 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "createAttachmentMutation",
-    "selections": (v1/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "CreateAttachmentPayload",
+        "kind": "LinkedField",
+        "name": "createAttachment",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Attachment",
+            "kind": "LinkedField",
+            "name": "attachment",
+            "plural": false,
+            "selections": [
+              (v2/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "9bf929eb09b8147cf8cb4ffd05933d50",
+    "cacheID": "f3949c3ab56fea8d6febe27d9bd35150",
     "id": null,
     "metadata": {},
     "name": "createAttachmentMutation",
     "operationKind": "mutation",
-    "text": "mutation createAttachmentMutation(\n  $input: CreateAttachmentInput!\n) {\n  createAttachment(input: $input) {\n    clientMutationId\n  }\n}\n"
+    "text": "mutation createAttachmentMutation(\n  $input: CreateAttachmentInput!\n) {\n  createAttachment(input: $input) {\n    attachment {\n      file\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "780bb02be2d5c153a748ba794565dba7";
+(node as any).hash = "c97483662411ea4c90c5172911185f20";
 
 export default node;
