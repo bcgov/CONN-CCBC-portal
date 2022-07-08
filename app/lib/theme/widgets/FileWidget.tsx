@@ -3,6 +3,9 @@ import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
 import React from 'react';
+import { uploadFile } from '../../file';
+import { useCreateAttachment } from '../../../schema/mutations/attachment/createAttachment';
+import bytesToSize from '../../../utils/bytesToText';
 
 const StyledContainer = styled('div')`
   margin-top: 16px;
@@ -32,6 +35,7 @@ const StyledLink = styled('a')`
 `;
 
 type File = {
+  uuid: string;
   name: string;
   size: number;
   type: string;
@@ -44,11 +48,12 @@ const FileWidget: React.FC<WidgetProps> = ({
   required,
   uiSchema,
 }) => {
-  console.log(uiSchema);
   const [fileList, setFileList] = useState<File[]>([]);
   const description = uiSchema['ui:description'];
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const allowMultipleFiles = uiSchema['ui:options']?.allowMultipleFiles;
+
+  const [createAttachment, isCreatingAttachment] = useCreateAttachment();
 
   useEffect(() => {
     // Set state from value stored in RJSF if it exists
@@ -61,21 +66,46 @@ const FileWidget: React.FC<WidgetProps> = ({
     onChange(JSON.stringify(fileList) || undefined);
   }, [fileList, onChange]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // const saveAttachment = async (e) => {
+  //   var file = e.target.files[0];
+
+  // };
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
       const { name, size, type } = file;
-
-      const fileDetails = {
-        name: name,
-        size: size,
-        type: type,
+      const variables = {
+        input: {
+          attachment: {
+            file: file,
+            fileName: file.name,
+            fileSize: bytesToSize(file.size),
+            fileType: file.type,
+            applicationId: 1,
+          },
+        },
       };
-      if (allowMultipleFiles) {
-        setFileList((prev) => [...prev, fileDetails]);
-      } else {
-        setFileList([fileDetails]);
-      }
+
+      createAttachment({
+        variables,
+        onError: (err) => console.error('error', err),
+        onCompleted: (res) => {
+          console.log(res);
+          const fileDetails = {
+            uuid: 'aasd',
+            name: name,
+            size: size,
+            type: type,
+          };
+
+          if (allowMultipleFiles) {
+            setFileList((prev) => [...prev, fileDetails]);
+          } else {
+            setFileList([fileDetails]);
+          }
+        },
+      });
     }
   };
 
