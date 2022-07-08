@@ -22,8 +22,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: dev env setup
         uses: ./.github/actions/test-env-setup
-      - run: yarn install --frozen-lockfile
-        working-directory: ./app
       - name: Run Jest tests
         working-directory: ./app
         run: yarn test
@@ -35,8 +33,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: dev env setup
         uses: ./.github/actions/test-env-setup
-      - run: yarn install --frozen-lockfile
-        working-directory: ./app
       - run: yarn build:schema
         working-directory: ./app
       - name: Check for inconsistency between graphql schema and commit schema

@@ -1,4 +1,4 @@
-name: 'Set up CCBC dev environment'
+name: 'Set up CCBC test environment'
 description: 'Sets up asdf, perl, and configures the cache'
 runs:
   using: composite
@@ -29,7 +29,7 @@ runs:
         sqitch deploy
       working-directory: ./db
     - name: Setup Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
         node-version: '16'
     - name: Cache node modules
@@ -43,3 +43,6 @@ runs:
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
+    - run: yarn install --frozen-lockfile
+      shell: bash
+      working-directory: ./app
