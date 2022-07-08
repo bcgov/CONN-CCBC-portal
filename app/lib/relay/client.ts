@@ -5,6 +5,7 @@ import {
   urlMiddleware,
   batchMiddleware,
   cacheMiddleware,
+  uploadMiddleware,
 } from 'react-relay-network-modern/node8';
 
 const oneMinute = 60 * 1000;
@@ -25,6 +26,7 @@ export function createClientNetwork() {
       batchTimeout: 10,
       allowMutations: false,
     }),
+    uploadMiddleware(),
   ]);
 
   return network;
