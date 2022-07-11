@@ -127,14 +127,14 @@ deploy_db_migrations:
 deploy_dev_data: ## deploy the database migrations with sqitch and load the data for local development
 deploy_dev_data: deploy_db_migrations
 deploy_dev_data:
-	@for file in $(__DIRNAME)/schema/data/dev/*; do \
+	@for file in $(__DIRNAME)/db/data/dev/*; do \
 		$(PSQL) -d $(DB_NAME) -f "$${file}"; \
 	done;
 
 deploy_prod_data: ## deploy the database migrations with sqitch and load the production data
 deploy_prod_data: deploy_db_migrations
 deploy_prod_data:
-	@for file in $(__DIRNAME)/schema/data/prod/*; do \
+	@for file in $(__DIRNAME)/db/data/prod/*; do \
 		$(PSQL) -d $(DB_NAME) -f "$${file}"; \
 	done;
 
