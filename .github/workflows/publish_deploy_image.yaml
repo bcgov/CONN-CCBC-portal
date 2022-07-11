@@ -14,6 +14,10 @@ env:
   HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
   HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
   NEXT_PUBLIC_GROWTHBOOK_API_KEY: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY  }}
+  AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+  AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
+  AWS_S3_KEY: ${{ secrets.AWS_S3_KEY }}
+  AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
 
 jobs:
   build-and-push-image:
@@ -116,6 +120,10 @@ jobs:
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           route: ${{ secrets.OPENSHIFT_ROUTE }}
+          aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
+          aws_s3_region: ${{ secrets.AWS_S3_REGION }}
+          aws_s3_key: ${{ secrets.AWS_S3_KEY }}
+          aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
 
   deploy-to-openshift-test:
     needs: [deploy-to-openshift-development]
@@ -137,6 +145,10 @@ jobs:
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           route: ${{ secrets.OPENSHIFT_ROUTE }}
+          aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
+          aws_s3_region: ${{ secrets.AWS_S3_REGION }}
+          aws_s3_key: ${{ secrets.AWS_S3_KEY }}
+          aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
 
     # Uncomment this production namespace is ready
 
@@ -160,3 +172,7 @@ jobs:
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           route: ${{ secrets.OPENSHIFT_ROUTE }}
+          aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
+          aws_s3_region: ${{ secrets.AWS_S3_REGION }}
+          aws_s3_key: ${{ secrets.AWS_S3_KEY }}
+          aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}

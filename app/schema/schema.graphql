@@ -1819,7 +1819,7 @@ input AttachmentInput {
   """
   Universally Unique ID for the attachment, created by the fastapi storage micro-service
   """
-  file: UUID
+  file: Upload
 
   """Description of the attachment"""
   description: String
@@ -1861,6 +1861,9 @@ input AttachmentInput {
   """archived at timestamp"""
   archivedAt: Datetime
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 """The output of our create `CcbcUser` mutation."""
 type CreateCcbcUserPayload {
@@ -2224,7 +2227,7 @@ input AttachmentPatch {
   """
   Universally Unique ID for the attachment, created by the fastapi storage micro-service
   """
-  file: UUID
+  file: Upload
 
   """Description of the attachment"""
   description: String

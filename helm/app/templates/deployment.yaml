@@ -2,8 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "ccbc.fullname" . }}
-  labels:
-{{ include "ccbc.labels" . | indent 4}}
+  labels: {{ include "ccbc.labels" . | indent 4}}
 spec:
   selector:
     matchLabels:
@@ -177,6 +176,14 @@ spec:
               secretKeyRef:
                 key: client-secret
                 name: {{ template "ccbc.fullname" . }}-sso-express
+          - name: AWS_S3_BUCKET
+            value: {{ .Values.objectStorage.awsS3Bucket }}
+          - name: AWS_S3_REGION
+            value: {{ .Values.objectStorage.awsS3Region }}
+          - name: AWS_S3_KEY
+            value: {{ .Values.objectStorage.awsS3Key }}
+          - name: AWS_S3_SECRET_KEY
+            value: {{ .Values.objectStorage.awsS3SecretKey }}
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}
