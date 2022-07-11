@@ -12,7 +12,7 @@
   "HAPPO_API_SECRET": "",
   "CLIENT_SECRET": "",
   "HOST": "localhost",
-  "OPENSHIFT_APP_NAMESPACE": "ff61fb-dev",
+  "OPENSHIFT_APP_NAMESPACE": "",
   "SESSION_SECRET": "superSecretSession",
   "NEXT_PUBLIC_GROWTHBOOK_API_KEY": "",
   "AWS_S3_BUCKET": "",
