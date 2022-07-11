@@ -108,29 +108,29 @@ const config = convict({
     default: false,
     env: 'ENABLE_MOCK_AUTH',
   },
-  S3_BUCKET: {
+  AWS_S3_BUCKET: {
     doc: 'AWS S3 bucket name',
     format: String,
     default: '',
-    env: 'S3_BUCKET',
+    env: 'AWS_S3_BUCKET',
   },
-  S3_REGION: {
+  AWS_S3_REGION: {
     doc: 'AWS S3 region',
     format: String,
     default: 'us-west-2',
-    env: 'S3_REGION',
+    env: 'AWS_S3_REGION',
   },
-  S3_KEY: {
+  AWS_S3_KEY: {
     doc: 'AWS S3 key',
     format: String,
     default: '',
-    env: 'S3_KEY',
+    env: 'AWS_S3_KEY',
   },
-  S3_SECRET_KEY: {
+  AWS_S3_SECRET_KEY: {
     doc: 'AWS S3 secret key',
     format: String,
     default: '',
-    env: 'S3_SECRET_KEY',
+    env: 'AWS_S3_SECRET_KEY',
   },
 });
 

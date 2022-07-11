@@ -2,14 +2,14 @@ import crypto from 'crypto';
 import s3Client from '../s3client';
 import config from '../../../config';
 
-const S3_BUCKET = config.get('S3_BUCKET');
+const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 
 const saveRemoteFile = async (stream) => {
   const uuid = crypto.randomUUID();
 
   try {
     const uploadParams = {
-      Bucket: S3_BUCKET,
+      Bucket: AWS_S3_BUCKET,
       Key: uuid,
       Body: stream,
     };
