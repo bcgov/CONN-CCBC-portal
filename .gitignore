@@ -1,3 +1,7 @@
 node_modules
 .env
 .vscode
+Infrastructure/TF_CCBC/creds.tf
+Infrastructure/TF_CCBC/.terraform.lock.hcl
+Infrastructure/TF_CCBC/terraform.tfstate*
+Infrastructure/TF_CCBC/.terraform/
