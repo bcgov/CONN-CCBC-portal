@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: dev env setup
-        uses: ./.github/actions/test-env-setup
+        uses: ./.github/actions/dev-env-setup
 
   jest:
     needs: [install-test-env]
@@ -21,7 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: dev env setup
-        uses: ./.github/actions/test-env-setup
+        uses: ./.github/actions/dev-env-setup
+      - name: run app locally
+        uses: ./.github/actions/local-app-run
       - name: Run Jest tests
         working-directory: ./app
         run: yarn test
@@ -32,11 +34,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: dev env setup
-        uses: ./.github/actions/test-env-setup
+        uses: ./.github/actions/dev-env-setup
+      - name: run app locally
+        uses: ./.github/actions/local-app-run
       - run: yarn build:schema
         working-directory: ./app
       - name: Check for inconsistency between graphql schema and commit schema
-        run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/server/schema.graphql`. Did you forget to \"yarn build:relay\"?' && false)
+        run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/schema/schema.graphql`. Did you forget to \"yarn build:schema\"?' && false)
 
   pgtap:
     needs: [install-test-env]
@@ -46,7 +50,10 @@ jobs:
         with:
           submodules: recursive
       - name: dev env setup
-        uses: ./.github/actions/test-env-setup
+        uses: ./.github/actions/dev-env-setup
+      - run: make stop_pg # cleanly stop the database, otherwise it will complain in the subsequent jobs
+      - name: run app locally
+        uses: ./.github/actions/local-app-run
       - name: Install pg_prove
         run: sudo cpan TAP::Parser::SourceHandler::pgTAP
         env:

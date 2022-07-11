@@ -5,7 +5,7 @@ runs:
   steps:
     - name: start postgres and create database
       shell: bash
-      run: make start_pg && make create_db
+      run: make start_pg && make drop_db && make create_db
     - name: deploy migrations
       shell: bash
       run: docker run --network=host -e "PGUSER=postgres" ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }} sqitch deploy

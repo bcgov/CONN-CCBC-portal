@@ -85,6 +85,7 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
   tests:
+    needs: [build-and-push-image]
     uses: ./.github/workflows/tests.yaml
 
   end-to-end:
