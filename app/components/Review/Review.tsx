@@ -138,7 +138,9 @@ const Review = ({
         return (
           <Accordion
             id={section}
-            defaultToggled={isError}
+            defaultToggled={
+              isError || (!isError && section === 'projectInformation')
+            }
             error={isError}
             key={subschema.title}
             title={subschema.title}
