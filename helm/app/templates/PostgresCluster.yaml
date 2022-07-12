@@ -2,10 +2,10 @@ apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
   name: {{ template "ccbc.fullname" . }}
-  labels: {{ include "ccbc.labels" | nindent 4 }}
+  labels: {{ include "ccbc.labels" . | nindent 4 }}
 spec:
   metadata:
-    labels: {{ include "ccbc.labels" | nindent 6 }}
+    labels: {{ include "ccbc.labels" . | nindent 6 }}
   monitoring:
     pgmonitor:
       # this stuff is for the "exporter" container in the "hippo-ha-pgha1" set of pods
