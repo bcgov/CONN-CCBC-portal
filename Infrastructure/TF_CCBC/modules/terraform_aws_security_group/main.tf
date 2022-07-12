@@ -53,14 +53,14 @@ variable "display_name" {
 }
 
 locals {
-  default_tags   = map("project_path", "var.project_path")
+  default_tags   = tomap({"path" = var.project_path})
   name_tag_key   = compact(split(",", length(var.display_name) == 0 ? "" : "Name"))
-  name_tag_value = compact(split(",", length(var.display_name) == 0 ? "" : "var.display_name"))
+  name_tag_value = compact(split(",", length(var.display_name) == 0 ? "" : var.display_name))
 }
 
 resource "aws_security_group" "security_group" {
-  vpc_id      =  var.vpc_id
-  description = "var.description"
+  vpc_id      = var.vpc_id
+  description = var.description
 
   tags = merge(
     local.default_tags,

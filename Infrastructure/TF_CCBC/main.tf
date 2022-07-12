@@ -1,6 +1,24 @@
-//
+/* */
+terraform {
+    backend "remote" {
+        hostname     = "app.terraform.io"
+        organization = "bcgov"
+        workspaces {
+          name = "fapi7b-dev"
+        //"${{ env.TFC_WORKSPACE }}"
+        }
+    }
+}
+provider "aws" {
+    region = "ca-central-1"
+    assume_role {
+        role_arn = "arn:aws:iam::${var.target_aws_account_id}:role/BCGOV_${var.target_env}_Automation_Admin_Role"
+    }
+}
+
+
 module "vpc" {
-  source                  = "../terraform_aws_vpc"
+  source                  = "./modules/terraform_aws_vpc"
   vpc_name                = "ccbc"
   public_subnet_name_prefix = "ccbc"
   vpc_network_address     = "10.0.0.0/24"
@@ -8,7 +26,7 @@ module "vpc" {
   project_path            = ""
 }
 module "private_subnets" {
-  source                            = "../terraform_aws_private_subnet"
+  source                            = "./modules/terraform_aws_private_subnet"
   nat_gateway_count                 = 2
   private_subnet_addresses          = ["10.0.0.128/26", "10.0.0.192/26"]
   private_subnet_availability_zones = keys(module.vpc.public_subnet_availability_zones)
@@ -17,13 +35,13 @@ module "private_subnets" {
   vpc_id                            = module.vpc.vpc_id
 }
 module "security_group" {
-  source       = "../terraform_aws_security_group"
+  source       = "./modules/terraform_aws_security_group"
   vpc_id       = module.vpc.vpc_id
   project_path = ""
 }
 
 module "s3" {
-  source  = "../terraform_aws_s3"
+  source  = "./modules/terraform_aws_s3"
   vpc_id = module.vpc.vpc_id
   bucket_name = var.bucket_name
   route_table_ids = module.private_subnets.private_route_table_ids
@@ -78,31 +96,4 @@ resource "aws_security_group_rule" "egress_access" {
   protocol = "tcp"
   cidr_blocks = [ "0.0.0.0/0" ]
   security_group_id = aws_security_group.ccbc_security_group.id
-}
-resource "aws_db_subnet_group" "main" {
-  name       = "main"
-  subnet_ids = module.vpc.public_subnet_ids[0]
-  tags = {
-    Name = "ccbcDB subnet group"
-  }
-}
-
-resource "template_file" "client_cloud_config" {
-    template = "./shared/client_cloud_config.template"
-    vars = { 
-    }
-}
-
-resource "aws_instance" "ccbc1" {
-  instance_type = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.ccbc_security_group.id]
-  associate_public_ip_address = true
-  user_data = template_file.client_cloud_config.rendered
-  tags = {
-    Name = "ccbc1"
-  } 
-  # random AMI -other linux
-  ami = "ami-0b18956f" 
-  # availability_zone = "ca-central-1"
-  subnet_id = module.vpc.public_subnet_ids[0][0]
 }

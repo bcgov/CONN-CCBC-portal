@@ -1,0 +1,8 @@
+provider "aws" {
+    version = "~> 2.0"
+    access_key="AKIAQNQPPRLYHXRCP3SB"
+    secret_key="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"
+    region = "ca-central-1"
+}
+
+

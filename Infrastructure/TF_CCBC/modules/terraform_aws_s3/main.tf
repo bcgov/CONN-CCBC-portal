@@ -4,10 +4,7 @@ data "aws_region" "current" {}
 
 locals {
     # This generates a string formated for a json policy document resource list for the vpc endpoint
-    s3_buckets = "${join("\",\"", list(
-                     "arn:aws:s3:::${var.bucket_name}",
-                     "arn:aws:s3:::${var.bucket_name}/*")
-               )}"
+    s3_buckets = "arn:aws:s3:::${var.bucket_name}"
 }
 
 variable "vpc_id" {
