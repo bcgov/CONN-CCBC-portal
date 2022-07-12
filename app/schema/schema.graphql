@@ -197,36 +197,13 @@ type ApplicationStatusesConnection {
   totalCount: Int!
 }
 
-<<<<<<< HEAD
-"""
-Table containing the data associated with the CCBC respondents application
-"""
-type Application implements Node {
-=======
 """Table containing information about possible application statuses"""
 type ApplicationStatus implements Node {
->>>>>>> f06c784 (feat: setup graphql/relay file upload middleware)
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
 
-<<<<<<< HEAD
-  """Primary key ID for the application"""
-  rowId: Int!
-
-  """Reference number assigned to the application"""
-  referenceNumber: String
-
-  """The owner of the application"""
-  owner: UUID
-
-  """The data entered into the form by the respondent"""
-  formData: JSON!
-
-  """The status of the application, draft or complete"""
-  status: String
-=======
   """Unique ID for the application_status"""
   rowId: Int!
 
@@ -235,7 +212,6 @@ type ApplicationStatus implements Node {
 
   """Description of the application_status"""
   description: String
->>>>>>> f06c784 (feat: setup graphql/relay file upload middleware)
 
   """created by user id"""
   createdBy: Int

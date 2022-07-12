@@ -18,6 +18,7 @@ export function createClientNetwork() {
       // TODO: is one minute enough? How long should records stay valid?
       ttl: oneMinute,
     }),
+    uploadMiddleware(),
     urlMiddleware({
       url: async () => Promise.resolve('/graphql'),
     }),
@@ -26,7 +27,6 @@ export function createClientNetwork() {
       batchTimeout: 10,
       allowMutations: false,
     }),
-    uploadMiddleware(),
   ]);
 
   return network;
