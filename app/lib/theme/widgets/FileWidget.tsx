@@ -151,6 +151,7 @@ const FileWidget: React.FC<WidgetProps> = ({
         </StyledButton>
       </div>
       <input
+        data-testid="file-test"
         ref={hiddenFileInput}
         onChange={handleChange}
         style={{ display: 'none' }}
