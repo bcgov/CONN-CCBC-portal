@@ -15,6 +15,7 @@ const theme = {
     backgroundGrey: '#F2F2F2',
     components: '#606060',
     error: '#D8292F',
+    errorBackground: 'rgba(248, 214, 203, 0.4)',
     links: '#1A5A96',
     primaryBlue: '#113362',
     primaryYellow: '#FCBA19',

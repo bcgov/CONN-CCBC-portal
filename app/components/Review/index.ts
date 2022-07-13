@@ -1,4 +1,6 @@
 export { default as BudgetDetailsTable } from './BudgetDetailsTable';
+export { default as Accordion } from './Accordion';
+export { default as AlertIcon } from './AlertIcon';
 export { default as OrganizationLocationTable } from './OrganizationLocationTable';
 export { default as OtherFundingSourcesTable } from './OtherFundingSourcesTable';
 export { default as ProjectFundingTable } from './ProjectFundingTable';

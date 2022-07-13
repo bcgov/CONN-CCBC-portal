@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { formatRow, StyledTable, StyledColLeft, StyledColRight } from './Table';
+import {
+  formatRow,
+  StyledColError,
+  StyledColLeft,
+  StyledColRight,
+  StyledTable,
+} from './Table';
 
 const StyledSubtitle = styled('h6')`
   padding: 16px !important;
@@ -12,7 +18,11 @@ const StyledTd = styled('td')`
   padding: 0;
 `;
 
-const OrganizationLocationTable = ({ formData, subschema }: any) => {
+const OrganizationLocationTable = ({
+  errorSchema,
+  formData,
+  subschema,
+}: any) => {
   const rows = Object.keys(subschema.properties);
 
   const arraySchema =
@@ -20,33 +30,42 @@ const OrganizationLocationTable = ({ formData, subschema }: any) => {
       .properties;
   const arrayFormData = formData?.mailingAddress;
   const mailingAddressRows = Object.keys(arraySchema);
+
   return (
     <StyledTable>
       <tbody>
         {rows.map((row) => {
+          const isRequired = errorSchema.includes(row);
+
           const title = subschema.properties[row]?.title;
           const value = formData ? formatRow(formData[row]) : ' ';
 
           return (
             <tr key={row}>
-              <StyledColLeft>{title}</StyledColLeft>
-              <StyledColRight>{value}</StyledColRight>
+              <StyledColLeft id={row}>{title}</StyledColLeft>
+              {isRequired && row != 'isMailingAddress' ? (
+                <StyledColError id={`${row}-error`} />
+              ) : (
+                <StyledColRight id={`${row}-value`}>{value}</StyledColRight>
+              )}
             </tr>
           );
         })}
-        <tr>
-          <StyledTd>
-            <StyledSubtitle>Mailing address:</StyledSubtitle>
-          </StyledTd>
-        </tr>
-        {mailingAddressRows &&
+        {arrayFormData && (
+          <tr>
+            <StyledTd colSpan={2}>
+              <StyledSubtitle>Mailing address:</StyledSubtitle>
+            </StyledTd>
+          </tr>
+        )}
+        {arrayFormData &&
           mailingAddressRows.map((row) => {
             const title = arraySchema[row]?.title;
             const value = arrayFormData ? arrayFormData[row] : '';
             return (
               <tr key={row}>
-                <StyledColLeft>{title}</StyledColLeft>
-                <StyledColRight>{value}</StyledColRight>
+                <StyledColLeft id={row}>{title}</StyledColLeft>
+                <StyledColRight id={`${row}-value`}>{value}</StyledColRight>
               </tr>
             );
           })}

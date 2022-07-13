@@ -1,22 +1,24 @@
 import {
   formatRow,
-  StyledTable,
+  StyledColError,
   StyledColLeft,
   StyledColRight,
   StyledH4,
+  StyledTable,
   StyledTitleRow,
 } from './Table';
 
 import formatMoney from '../../utils/formatMoney';
 
-const ProjectFundingTable = ({ formData, subschema }: any) => {
+const ProjectFundingTable = ({ errorSchema, formData, subschema }: any) => {
   const rows = Object.keys(subschema.properties);
 
   return (
     <StyledTable>
       {rows.map((row) => {
         const title = subschema.properties[row].title;
-        const value = formData ? formatRow(formData[row]) : ' ';
+        const value = formData ? formatRow(formData[row]) : '';
+        const isRequired = errorSchema.includes(row);
 
         return (
           <tbody key={row}>
@@ -44,8 +46,14 @@ const ProjectFundingTable = ({ formData, subschema }: any) => {
               </tr>
             )}
             <tr key={row}>
-              <StyledColLeft>{title}</StyledColLeft>
-              <StyledColRight>{formatMoney(value)}</StyledColRight>
+              <StyledColLeft id={row}>{title}</StyledColLeft>
+              {isRequired ? (
+                <StyledColError id={`${row}-error`} />
+              ) : (
+                <StyledColRight id={`${row}-value`}>
+                  {formatMoney(value)}
+                </StyledColRight>
+              )}
             </tr>
           </tbody>
         );

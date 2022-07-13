@@ -1,8 +1,10 @@
-import Accordion from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
+import Alert from '@button-inc/bcgov-theme/Alert';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
+import type { JSONSchema7 } from 'json-schema';
 
 import {
+  Accordion,
   BudgetDetailsTable,
   OrganizationLocationTable,
   OtherFundingSourcesTable,
@@ -16,28 +18,9 @@ type Props = {
   onReviewConfirm: any;
   reviewConfirm: boolean;
   formSchema: any;
+  formErrorSchema: any;
+  noErrors: boolean;
 };
-
-const StyledAccordion = styled(Accordion)`
-  h2 {
-    margin-bottom: 0;
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-  }
-
-  svg {
-    width: 20px;
-    height: 20px;
-    vertical-align: 0;
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
 
 const StyledCheckboxLabel = styled('label')`
   padding-left: 1em;
@@ -58,6 +41,10 @@ const StyledCheckboxDiv = styled('div')`
   }
 `;
 
+const StyledAlert = styled(Alert)`
+  margin-bottom: 32px;
+`;
+
 // Todo: expand/collapse all functionality
 // const StyledExpandDiv = styled('div')`
 //   display: flex;
@@ -75,7 +62,9 @@ const StyledCheckboxDiv = styled('div')`
 
 const Review = ({
   formData,
+  formErrorSchema,
   formSchema,
+  noErrors,
   onReviewConfirm,
   reviewConfirm,
 }: Props) => {
@@ -114,6 +103,15 @@ const Review = ({
           {!expand ? 'Expand all' : 'Collapse all'}
         </StyledExpandButton>
       </StyledExpandDiv> */}
+      <StyledAlert
+        id="review-alert"
+        size="small"
+        variant={noErrors ? 'success' : 'danger'}
+      >
+        {noErrors
+          ? 'All fields are complete'
+          : 'There are empty fields in your application. Applications with unanswered fields may not be assessed.'}
+      </StyledAlert>
       {reviewSchema.map((section) => {
         const subschema = formSchema.properties[section];
 
@@ -127,19 +125,37 @@ const Review = ({
 
         if (!subschema) return;
 
+        const errorFieldKeys = (formErrorSchema: JSONSchema7) => {
+          const errorFields = formErrorSchema
+            ? Object.keys(formErrorSchema)
+            : [];
+
+          return errorFields;
+        };
+
+        const isError = formErrorSchema[section] != undefined;
+
         return (
-          <StyledAccordion
+          <Accordion
             id={section}
+            defaultToggled={
+              isError || (!isError && section === 'projectInformation')
+            }
+            error={isError}
             key={subschema.title}
             title={subschema.title}
-            defaultToggled={true}
           >
             {!customTable.includes(section) && (
-              <Table formData={formData[section]} subschema={subschema} />
+              <Table
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
+                formData={formData[section]}
+                subschema={subschema}
+              />
             )}
 
             {section === 'otherFundingSources' && (
               <OtherFundingSourcesTable
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
                 formData={formData[section]}
                 subschema={subschema}
               />
@@ -147,6 +163,7 @@ const Review = ({
 
             {section === 'projectFunding' && (
               <ProjectFundingTable
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
                 formData={formData[section]}
                 subschema={subschema}
               />
@@ -154,6 +171,7 @@ const Review = ({
 
             {section === 'projectArea' && (
               <ProjectAreaTable
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
                 formData={formData[section]}
                 subschema={subschema}
               />
@@ -161,6 +179,7 @@ const Review = ({
 
             {section === 'budgetDetails' && (
               <BudgetDetailsTable
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
                 formData={formData[section]}
                 subschema={subschema}
               />
@@ -168,25 +187,30 @@ const Review = ({
 
             {section === 'organizationLocation' && (
               <OrganizationLocationTable
+                errorSchema={errorFieldKeys(formErrorSchema[section])}
                 formData={formData[section]}
                 subschema={subschema}
               />
             )}
-          </StyledAccordion>
+          </Accordion>
         );
       })}
       <StyledCheckboxDiv>
-        <Checkbox
-          id="review-confirmation-checkbox"
-          checked={reviewConfirm}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            onReviewConfirm(event.target.checked)
-          }
-        />
-        <StyledCheckboxLabel htmlFor="review-confirmation-checkbox">
-          The Applicant acknowledges that there are unanswered fields and
-          incomplete applications may not be assessed.
-        </StyledCheckboxLabel>
+        {!noErrors && (
+          <>
+            <Checkbox
+              id="review-confirmation-checkbox"
+              checked={reviewConfirm}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                onReviewConfirm(event.target.checked)
+              }
+            />
+            <StyledCheckboxLabel htmlFor="review-confirmation-checkbox">
+              The Applicant acknowledges that there are unanswered fields and
+              incomplete applications may not be assessed.
+            </StyledCheckboxLabel>
+          </>
+        )}
       </StyledCheckboxDiv>
     </div>
   );

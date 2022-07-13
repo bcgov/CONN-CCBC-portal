@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import formatMoney from '../../utils/formatMoney';
 import {
   formatRow,
-  StyledTable,
+  StyledColError,
   StyledColLeft,
   StyledColRight,
-  StyledTitleRow,
   StyledH4,
+  StyledTable,
+  StyledTitleRow,
 } from './Table';
 
 const StyledSubtitle = styled('h6')`
@@ -22,7 +23,11 @@ const StyledTd = styled('td')`
   padding: 0;
 `;
 
-const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
+const OtherFundingSourcesTable = ({
+  errorSchema,
+  formData,
+  subschema,
+}: any) => {
   const arraySchema =
     subschema.dependencies.otherFundingSources.oneOf[1].properties
       .otherFundingSourcesArray.items;
@@ -65,6 +70,7 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
                   const title = arraySchema.properties[row]?.title;
                   const value = formatRow(item[row]);
                   const isMoneyField = moneyFields.includes(row);
+                  const isRequired = errorSchema.includes(row);
 
                   return (
                     <React.Fragment key={row}>
@@ -78,10 +84,14 @@ const OtherFundingSourcesTable = ({ formData, subschema }: any) => {
                         </tr>
                       )}
                       <tr>
-                        <StyledColLeft>{title}</StyledColLeft>
-                        <StyledColRight>
-                          {isMoneyField ? formatMoney(value) : value}
-                        </StyledColRight>
+                        <StyledColLeft id={row}>{title}</StyledColLeft>
+                        {isRequired ? (
+                          <StyledColError id={`${row}-error`} />
+                        ) : (
+                          <StyledColRight id={`${row}-value`}>
+                            {isMoneyField ? formatMoney(value) : value}
+                          </StyledColRight>
+                        )}
                       </tr>
                     </React.Fragment>
                   );

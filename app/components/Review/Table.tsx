@@ -30,6 +30,11 @@ const StyledColRight = styled('td')`
   white-space: pre-line;
 `;
 
+const StyledColError = styled(StyledColRight)`
+  background-color: rgba(248, 214, 203, 0.4);
+  // background-color: ${(props) => props.theme.color.errorBackground};
+`;
+
 const StyledTitleRow = styled('td')`
   padding: 16px !important;
   border-top: 1px solid rgba(0, 0, 0, 0.16);
@@ -53,9 +58,8 @@ const formatRow = (row: any) => {
   }
 };
 
-const Table = ({ formData, subschema }: any) => {
+const Table = ({ errorSchema, formData, subschema }: any) => {
   const rows = Object.keys(subschema.properties);
-
   return (
     <StyledTable>
       <tbody>
@@ -63,6 +67,7 @@ const Table = ({ formData, subschema }: any) => {
           const title = subschema.properties[row].title;
           const isObject = subschema.properties[row].type === 'object';
           const value = formData ? formatRow(formData[row]) : ' ';
+          const isRequired = errorSchema.includes(row);
 
           return (
             <React.Fragment key={row}>
@@ -74,8 +79,12 @@ const Table = ({ formData, subschema }: any) => {
                 </tr>
               ) : (
                 <tr>
-                  <StyledColLeft>{title}</StyledColLeft>
-                  <StyledColRight>{value}</StyledColRight>
+                  <StyledColLeft id={row}>{title}</StyledColLeft>
+                  {isRequired ? (
+                    <StyledColError id={`${row}-error`} />
+                  ) : (
+                    <StyledColRight id={`${row}-value`}>{value}</StyledColRight>
+                  )}
                 </tr>
               )}
             </React.Fragment>
@@ -91,6 +100,7 @@ export default Table;
 export {
   formatRow,
   StyledTable,
+  StyledColError,
   StyledColLeft,
   StyledColRight,
   StyledTitleRow,
