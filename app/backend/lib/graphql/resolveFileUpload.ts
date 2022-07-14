@@ -9,15 +9,29 @@ const AWS_S3_KEY = config.get('AWS_S3_KEY');
 const AWS_S3_SECRET_KEY = config.get('AWS_S3_SECRET_KEY');
 const OPENSHIFT_APP_NAMESPACE = config.get('OPENSHIFT_APP_NAMESPACE');
 
+const isDeployedToOpenShift =
+  OPENSHIFT_APP_NAMESPACE.endsWith('-dev') ||
+  OPENSHIFT_APP_NAMESPACE.endsWith('-test') ||
+  OPENSHIFT_APP_NAMESPACE.endsWith('-prod');
+
 const isLocalDevelopment =
-  !OPENSHIFT_APP_NAMESPACE ||
+  !isDeployedToOpenShift ||
   !AWS_S3_BUCKET ||
   !AWS_S3_REGION ||
   !AWS_S3_KEY ||
   !AWS_S3_SECRET_KEY;
 
+if (!isDeployedToOpenShift) {
+  console.log(
+    'No OpenShift namespace environment variable detected, running object storage in local development mode'
+  );
+} else if (isLocalDevelopment) {
+  console.log(
+    'Missing AWS S3 API keys, running object storage in local development mode'
+  );
+}
+
 const saveRemoteFile = async (stream) => {
-  console.log(stream);
   const uuid = crypto.randomUUID();
 
   try {
