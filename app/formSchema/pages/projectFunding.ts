@@ -74,10 +74,6 @@ const projectFunding = {
         title: '2025-26',
         type: 'string',
       },
-      infrastructureBankFunding2627: {
-        title: '2026-27',
-        type: 'string',
-      },
       totalInfrastructureBankFunding: {
         title: 'Total amount requested under Canadian Infrastructure Bank',
         type: 'string',
