@@ -75,7 +75,7 @@ const projectFunding = {
         type: 'string',
       },
       totalInfrastructureBankFunding: {
-        title: 'Total amount requested under Canadian Infrastructure Bank',
+        title: 'Total funding from Canadian Infrastructure Bank',
         type: 'string',
       },
     },

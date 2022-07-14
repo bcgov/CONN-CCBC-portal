@@ -16,7 +16,7 @@ const techSolution = {
       },
       backboneTechnology: {
         title:
-          'Please specify the backbone technology type (check all that apply):',
+          'Please specify the backbone technology type (check all that apply).',
         type: 'array',
         items: {
           type: 'boolean',
@@ -26,7 +26,7 @@ const techSolution = {
       },
       lastMileTechnology: {
         title:
-          'Please specify the last mile technology type (check all that apply):',
+          'Please specify the last mile technology type (check all that apply). If you select fixed wireless, you must complete Template 7.',
         type: 'array',
         items: {
           type: 'boolean',

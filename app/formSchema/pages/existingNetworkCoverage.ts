@@ -28,7 +28,7 @@ const existingNetworkCoverage = {
         enumNames: ['Yes', 'No'],
       },
       isInfrastuctureAvailable: {
-        title: `The applicant intends to make reasonable efforts to make its passive infrastructure available for use by other broadband operators to expand and improve coverage in Canada?`,
+        title: `Does the applicant intend to make reasonable efforts to make its passive infrastructure available for use by other broadband operators to expand and improve coverage in Canada?`,
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],

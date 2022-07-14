@@ -159,7 +159,8 @@ const uiSchema = {
   geographicAreaDescription: {
     'ui:description': 'maximum 150 characters',
     'ui:title':
-      'Geographic project area description. Describe the geographic location of the project area (i.e., include the closest communities and the general area which the project will target).',
+      'Describe the geographic location of the project area (i.e., include the closest communities and the general area which the project will target).',
+
     'ui:options': {
       maxLength: 150,
     },
