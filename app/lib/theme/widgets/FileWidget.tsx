@@ -59,7 +59,7 @@ const FileWidget: React.FC<WidgetProps> = ({
         {value && <StyledLink>{value}</StyledLink>}
       </StyledDetails>
       <Button
-        id={id}
+        id={`${id}-btn`}
         onClick={(e: React.MouseEvent<HTMLInputElement>) => {
           e.preventDefault();
           handleClick();
