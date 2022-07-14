@@ -7,17 +7,10 @@ const DefaultDescriptionField = (props: {
   description: string;
 }) => <span id={props.id}>{props.description}</span>;
 
-const StyledInline = styled('div')`
-  display: flex;
+const StyledColumn = styled('div')`
   input,
   select {
-    min-width: 90%;
-  }
-`;
-
-const StyledFull = styled('div')`
-  input {
-    min-width: 50%;
+    min-width: 100%;
   }
 `;
 
@@ -25,6 +18,10 @@ const StyledLabel = styled('div')`
   margin-bottom: 4px;
 `;
 
+const StyledGrid = styled('div')`
+  display: grid;
+  min-width: 100%;
+`;
 const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
   const DescriptionField = props.DescriptionField || DefaultDescriptionField;
   const uiInline = props.uiSchema['ui:inline'];
@@ -65,32 +62,43 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
       {uiInline &&
         uiInline.map((row: any, i: number) => {
           const rowKeys = Object.keys(row);
-
           // check if row is in current page (props.properties) schema
           const title =
             props.properties.filter((prop: any) =>
               Object.keys(row).includes(prop.name)
             ).length > 1;
 
-          // Check if row contains a single or 'full' element
-          const isFull = row[rowKeys[0]] === 'full';
-          const mapRow = rowKeys.map((fieldName) => {
-            return (
-              <div key={fieldName}>
-                {
-                  props.properties.find((prop: any) => prop.name === fieldName)
-                    ?.content
-                }
-              </div>
-            );
-          });
+          const columns = row?.columns;
+          const mapRow = (
+            <StyledGrid
+              style={{ gridTemplateColumns: `repeat(${columns || 1}, 1fr)` }}
+            >
+              {rowKeys.map((fieldName, i) => {
+                const content = props.properties.find(
+                  (prop: any) => prop.name === fieldName
+                )?.content;
+
+                if (content)
+                  return (
+                    <StyledColumn
+                      style={{
+                        gridColumn: row[fieldName],
+                        marginRight: Object.keys(row).length > 2 ? '1em' : 0,
+                      }}
+                      key={fieldName}
+                    >
+                      {content}
+                    </StyledColumn>
+                  );
+              })}
+            </StyledGrid>
+          );
 
           return (
             <div key={rowKeys[i]}>
               {title && row.title && <StyledLabel>{row.title}</StyledLabel>}
 
-              {isFull && <StyledFull>{mapRow}</StyledFull>}
-              {!isFull && <StyledInline>{mapRow}</StyledInline>}
+              {mapRow}
             </div>
           );
         })}
