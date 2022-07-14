@@ -20,6 +20,11 @@ const projectPlan = {
           'Please describe the relationship between the project manager and the applicant.',
         type: 'string',
       },
+      overviewProjectManagementTeam: {
+        title:
+          'Overview of project management team – Please identify the applicant’s project lead and team members including name, title, roles and responsibilities and relevant experience.',
+        type: 'string',
+      },
       overviewOfProjectParticipants: {
         title:
           'Overview of project participants – Please identify the applicant’s project participants including builder(s), owner(s) and operator(s) if different. Please indicate the names, titles, operating name (if applicable), legal type, contact information and relevant portion of the network. Applicant and collaborators must have strong project management, financial control and technical development skills.',

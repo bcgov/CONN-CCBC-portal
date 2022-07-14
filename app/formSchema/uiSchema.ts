@@ -94,6 +94,7 @@ const uiSchema = {
     'projectStartDate',
     'projectCompletionDate',
     'relationshipManagerApplicant',
+    'overviewProjectManagementTeam',
     'overviewOfProjectParticipants',
     'operationalPlan',
     'copiesOfRegistration',
@@ -340,6 +341,13 @@ const uiSchema = {
     'ui:widget': 'DatePickerWidget',
   },
   relationshipManagerApplicant: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:description': 'maximum 3,500 characters',
+    'ui:options': {
+      maxLength: MAX_TEXTAREA_LENGTH,
+    },
+  },
+  overviewProjectManagementTeam: {
     'ui:widget': 'TextAreaWidget',
     'ui:description': 'maximum 3,500 characters',
     'ui:options': {
