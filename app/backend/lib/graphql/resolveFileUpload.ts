@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import s3Client from '../s3client';
 import config from '../../../config';
+import fs from 'fs';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const AWS_S3_REGION = config.get('AWS_S3_REGION');
@@ -16,6 +17,7 @@ const isLocalDevelopment =
   !AWS_S3_SECRET_KEY;
 
 const saveRemoteFile = async (stream) => {
+  console.log(stream);
   const uuid = crypto.randomUUID();
 
   try {
@@ -44,10 +46,24 @@ const saveRemoteFile = async (stream) => {
 
 const saveLocalFile = async (upload) => {
   const uuid = crypto.randomUUID();
+  const { createReadStream } = upload;
+  const stream = createReadStream();
 
-  // Todo: save to local filesystem
+  const uploadDir = './uploads';
+  const path = `${uploadDir}/${uuid}`;
 
-  return uuid;
+  return new Promise((resolve, reject) => {
+    stream
+      .on('error', (error) => {
+        if (stream.truncated)
+          // delete the truncated file
+          fs.unlinkSync(path);
+        reject(error);
+      })
+      .pipe(fs.createWriteStream(path))
+      .on('error', (error) => reject(error))
+      .on('finish', () => resolve(uuid));
+  });
 };
 
 export default async function resolveFileUpload(upload) {
@@ -56,7 +72,6 @@ export default async function resolveFileUpload(upload) {
   } else {
     const { createReadStream } = upload;
     const stream = createReadStream();
-    // Save tile to remote storage system
     const uuid = await saveRemoteFile(stream);
 
     return uuid;
