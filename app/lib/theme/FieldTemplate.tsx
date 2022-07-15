@@ -3,7 +3,7 @@ import FieldLabel from './widgets/FieldLabel';
 import {
   IndigenousEntity,
   ProjectBenefits,
-} from '../../components/CustomTitles';
+} from '../../components/Form/CustomTitles';
 const FieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   errors,
