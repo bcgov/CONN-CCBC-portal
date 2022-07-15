@@ -102,6 +102,7 @@ const uiSchema = {
     'projectSchedule',
     'communityRuralDevelopmentBenefits',
     'geographicCoverageMap',
+    'coverageAssessmentStatistics',
     'currentNetworkInfastructure',
     'upgradedNetworkInfrastructure',
     'eligibilityAndImpactsCalculator',
@@ -399,6 +400,13 @@ const uiSchema = {
   geographicCoverageMap: {
     'ui:widget': 'FileWidget',
     'ui:description': `Geographic coverage map from ISED's Eligibility Mapping Tool`,
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+    },
+  },
+  coverageAssessmentStatistics: {
+    'ui:widget': 'FileWidget',
+    'ui:description': `ISED's Eligibility Mapping Tool - Coverage Assessment and Statistics`,
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
     },

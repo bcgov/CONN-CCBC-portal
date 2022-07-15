@@ -10,6 +10,11 @@ const mapping = {
           'Use ISED’s Eligibility Mapping Tool to generate the project coverage that is to be included in your application.',
         type: 'string',
       },
+      coverageAssessmentStatistics: {
+        title:
+          'Please upload the email you received upon completion of the project coverage.',
+        type: 'string',
+      },
       currentNetworkInfastructure: {
         title:
           'Please include layers for your organization’s (1) fibre lines, (2) PoPs, COs, towers and microwave links, (3) current coverage for the proposed project (with speeds), (4) location of project specific backhaul/backbone access points and (5) PTP microwave paths (if applicable).',
