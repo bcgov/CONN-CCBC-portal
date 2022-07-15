@@ -130,7 +130,6 @@ const uiSchema = {
     'infrastructureBankFunding2324',
     'infrastructureBankFunding2425',
     'infrastructureBankFunding2526',
-    'infrastructureBankFunding2627',
     'totalInfrastructureBankFunding',
     'otherFundingSources',
     'fundingPartnersName',
@@ -149,7 +148,6 @@ const uiSchema = {
   ],
   projectTitle: {
     'ui:description': 'maximum 200 characters',
-
     'ui:title':
       'Project title. Be descriptive about the geographic region. We advise not using years in the title.',
     'ui:options': {
@@ -158,10 +156,8 @@ const uiSchema = {
   },
   geographicAreaDescription: {
     'ui:description': 'maximum 150 characters',
-
     'ui:title':
       'Geographic project area description. Describe the geographic location of the project area (i.e., include the closest communities and the general area which the project will target).',
-
     'ui:options': {
       maxLength: 150,
     },
@@ -547,101 +543,85 @@ const uiSchema = {
 
         // Other funding sources page grid schema:
         {
-          otherFundingSources: 'full',
+          columns: 2,
+          otherFundingSources: '1 / 2',
         },
         {
-          fundingPartnersName: 'full',
+          columns: 2,
+          fundingPartnersName: '1 / 2',
         },
         {
-          fundingSourceContactInfo: 'full',
+          columns: 1,
+          fundingSourceContactInfo: '1 / 2',
         },
         {
-          statusOfFunding: 'full',
+          columns: 1,
+          statusOfFunding: '1 / 2',
         },
         {
-          funderType: 'full',
+          columns: 1,
+          funderType: '1 / 2',
         },
         {
-          nameOfFundingProgram: 'full',
+          columns: 2,
+          nameOfFundingProgram: '1 / 2',
         },
         {
           title: 'Amount requested from funding partner',
-          requestedFundingPartner2223: 'inline',
-          requestedFundingPartner2324: 'inline',
-          requestedFundingPartner2425: 'inline',
-          requestedFundingPartner2526: 'inline',
-          requestedFundingPartner2627: 'inline',
+          columns: 5,
+          requestedFundingPartner2223: 1,
+          requestedFundingPartner2324: 2,
+          requestedFundingPartner2425: 3,
+          requestedFundingPartner2526: 4,
+          requestedFundingPartner2627: 5,
         },
-        { totalRequestedFundingPartner: 'full' },
+        { columns: 2, totalRequestedFundingPartner: '1 / 2' },
       ],
     },
   },
   'ui:inline': [
-    // Each object is a row for inline grid elements. Single elements with 'full' value
-    // will properly format the input width for a single input.
+    // Each object is a row for inline grid elements. Set the number of columns with column key
+    // and the field key value is the gridColumn value
 
     // Project funding page grid schema:
     {
       title: 'Amount requested under CCBC',
-      fundingRequestedCCBC2223: 'inline',
-      fundingRequestedCCBC2324: 'inline',
-      fundingRequestedCCBC2425: 'inline',
-      fundingRequestedCCBC2526: 'inline',
-      fundingRequestedCCBC2627: 'inline',
+      columns: 5,
+      fundingRequestedCCBC2223: 1,
+      fundingRequestedCCBC2324: 2,
+      fundingRequestedCCBC2425: 3,
+      fundingRequestedCCBC2526: 4,
+      fundingRequestedCCBC2627: 5,
     },
     {
-      totalFundingRequestedCCBC: 'full',
+      columns: 2,
+      totalFundingRequestedCCBC: '1 / 2',
     },
     {
       title: 'Amount the applicant will contribute',
-      applicationContribution2223: 'inline',
-      applicationContribution2324: 'inline',
-      applicationContribution2425: 'inline',
-      applicationContribution2526: 'inline',
-      applicationContribution2627: 'inline',
+      columns: 5,
+      applicationContribution2223: 1,
+      applicationContribution2324: 2,
+      applicationContribution2425: 3,
+      applicationContribution2526: 4,
+      applicationContribution2627: 5,
     },
     {
-      totalApplicantContribution: 'full',
+      columns: 2,
+      totalApplicantContribution: '1 / 2',
     },
     {
       title: 'Amount requested under Canadian Infrastructure Bank',
-      infrastructureBankFunding2223: 'inline',
-      infrastructureBankFunding2324: 'inline',
-      infrastructureBankFunding2425: 'inline',
-      infrastructureBankFunding2526: 'inline',
-      infrastructureBankFunding2627: 'inline',
+      columns: 5,
+      infrastructureBankFunding2223: 1,
+      infrastructureBankFunding2324: 2,
+      infrastructureBankFunding2425: 3,
+      infrastructureBankFunding2526: 4,
     },
     {
-      totalInfrastructureBankFunding: 'full',
+      columns: 2,
+      totalInfrastructureBankFunding: '1 / 2',
     },
-    // Other funding sources page grid schema:
-    {
-      otherFundingSources: 'full',
-    },
-    {
-      fundingPartnersName: 'full',
-    },
-    {
-      fundingSourceContactInfo: 'full',
-    },
-    {
-      statusOfFunding: 'full',
-    },
-    {
-      funderType: 'full',
-    },
-    {
-      nameOfFundingProgram: 'full',
-    },
-    {
-      title: 'Amount requested from funding partner',
-      requestedFundingPartner2223: 'inline',
-      requestedFundingPartner2324: 'inline',
-      requestedFundingPartner2425: 'inline',
-      requestedFundingPartner2526: 'inline',
-      requestedFundingPartner2627: 'inline',
-    },
-    { totalRequestedFundingPartner: 'full' },
   ],
 };
 
