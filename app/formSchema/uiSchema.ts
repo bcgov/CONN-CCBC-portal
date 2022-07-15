@@ -220,6 +220,9 @@ const uiSchema = {
   bandCouncilNumber: {},
   isIndigenousEntity: {
     'ui:widget': 'RadioWidget',
+    'ui:options': {
+      label: false,
+    },
   },
   indigenousEntityDesc: {
     'ui:options': {
@@ -317,6 +320,7 @@ const uiSchema = {
     'ui:description': 'maximum 3,500 characters',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
+      label: false,
     },
   },
   projectStartDate: {

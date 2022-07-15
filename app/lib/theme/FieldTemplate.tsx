@@ -1,6 +1,9 @@
 import { FieldTemplateProps } from '@rjsf/core';
 import FieldLabel from './widgets/FieldLabel';
-
+import {
+  IndigenousEntity,
+  ProjectBenefits,
+} from '../../components/CustomTitles';
 const FieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   errors,
@@ -16,6 +19,8 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
       {displayLabel && (
         <FieldLabel label={label} required={required} htmlFor={id} />
       )}
+      {label === 'isIndigenousEntity' && <IndigenousEntity />}
+      {label === 'projectBenefits' && <ProjectBenefits />}
       {help}
       {children}
 

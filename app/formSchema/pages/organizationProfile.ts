@@ -62,7 +62,6 @@ const organizationProfile = {
         enum: ['Yes', 'No'],
       },
       isIndigenousEntity: {
-        title: 'Is this applicant organization an Indigenous identity?',
         type: 'boolean',
         enum: ['Yes', 'No'],
       },
