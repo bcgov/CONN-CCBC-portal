@@ -1,7 +1,7 @@
 const organizationProfile = {
   organizationProfile: {
     title: 'Organization Profile',
-    description: 'Provide an overview of you organization',
+    description: 'Provide an overview of you organization.',
     type: 'object',
     required: [
       'typeOfOrganization',
@@ -62,7 +62,7 @@ const organizationProfile = {
         enum: ['Yes', 'No'],
       },
       isIndigenousEntity: {
-        title: 'Is this applicant organization an Indigenous entity?',
+        title: 'Is this applicant organization an Indigenous identity?',
         type: 'boolean',
         enum: ['Yes', 'No'],
       },
@@ -122,7 +122,7 @@ const organizationProfile = {
                 enum: ['Other'],
               },
               other: {
-                title: 'In your own words describe your organization type',
+                title: 'Please specify your organization type',
                 type: 'string',
               },
             },

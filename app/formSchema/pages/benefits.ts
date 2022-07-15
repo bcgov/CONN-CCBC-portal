@@ -17,7 +17,7 @@ const benefits = {
       },
       numberOfHouseholds: {
         title:
-          'Total number of households targeted by this project. This value should match the value in Template 1.',
+          'Final number of Eligible Households targeted by this proposal. This value should match cell F141 in Template 1.',
         type: 'string',
       },
     },

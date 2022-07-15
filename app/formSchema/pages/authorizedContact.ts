@@ -1,7 +1,8 @@
 const authorizedContact = {
   authorizedContact: {
     title: 'Authorized contact',
-    description: 'Provide the contact information for the authorized contact',
+    description:
+      'The authorized contact should have full authority to bind said organization through funding agreements. One primary contact must be identified for applications submitted on behalf of multiple organizations.',
     type: 'object',
     required: [
       'authFamilyName',
@@ -12,11 +13,11 @@ const authorizedContact = {
     ],
     properties: {
       authFamilyName: {
-        title: 'Family name of person who will be the authorized contact',
+        title: 'Family name',
         type: 'string',
       },
       authGivenName: {
-        title: 'Given name of person who will be the authorized contact',
+        title: 'Given name',
         type: 'string',
       },
       authPostionTitle: {
@@ -40,11 +41,6 @@ const authorizedContact = {
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],
-      },
-      isFirstContact: {
-        title:
-          'Contact this person for communication regarding the application',
-        type: 'boolean',
       },
     },
   },
