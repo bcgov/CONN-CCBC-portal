@@ -84,6 +84,9 @@ const useSchema = () => {
       ...(formProjectPlan && {
         ...projectPlan,
       }),
+      ...(formEstimatedProjectEmployment && {
+        ...estimatedProjectEmployment,
+      }),
       ...(formTemplateUploads && {
         ...templateUploads,
       }),
@@ -92,9 +95,6 @@ const useSchema = () => {
       }),
       ...(formMapping && {
         ...mapping,
-      }),
-      ...(formEstimatedProjectEmployment && {
-        ...estimatedProjectEmployment,
       }),
       ...(formOrganizationProfile && {
         ...organizationProfile,
