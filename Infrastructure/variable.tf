@@ -3,8 +3,12 @@ variable "target_aws_account_id" {}
 
 variable "target_env" {}
 
+variable "license_plate" {
+    default = "fapi7b"
+}
+
 variable "bucket_name" {
-    default = "ccbc-data"
+    default = "fapi7b-ccbc-data"
 }
 
 variable "acl_value" {
