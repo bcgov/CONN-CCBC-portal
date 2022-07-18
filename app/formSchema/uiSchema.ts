@@ -410,6 +410,11 @@ const uiSchema = {
       inputType: 'wholeNumber',
     },
   },
+  numberOfHouseholds: {
+    'ui:options': {
+      inputType: 'wholeNumber',
+    },
+  },
   projectStartDate: {
     'ui:widget': 'DatePickerWidget',
   },
