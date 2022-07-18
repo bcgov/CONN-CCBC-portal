@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 const StyledLabel = styled('label')`
   color: ${(props) => props.theme.color.descriptionGrey};
 `;
