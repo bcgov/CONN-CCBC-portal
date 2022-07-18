@@ -86,8 +86,8 @@ const config = convict({
   },
   OPENSHIFT_APP_NAMESPACE: {
     doc: 'Namespace on OpenShift to which the app is deployed',
-    format: ['ff61fb-dev', 'ff61fb-test', 'ff61fb-prod'],
-    default: 'ff61fb-dev',
+    format: ['ff61fb-dev', 'ff61fb-test', 'ff61fb-prod', ''],
+    default: '',
     env: 'OPENSHIFT_APP_NAMESPACE',
   },
   SESSION_SECRET: {
@@ -107,6 +107,30 @@ const config = convict({
     format: Boolean,
     default: false,
     env: 'ENABLE_MOCK_AUTH',
+  },
+  AWS_S3_BUCKET: {
+    doc: 'AWS S3 bucket name',
+    format: String,
+    default: '',
+    env: 'AWS_S3_BUCKET',
+  },
+  AWS_S3_REGION: {
+    doc: 'AWS S3 region',
+    format: String,
+    default: 'us-west-2',
+    env: 'AWS_S3_REGION',
+  },
+  AWS_S3_KEY: {
+    doc: 'AWS S3 key',
+    format: String,
+    default: '',
+    env: 'AWS_S3_KEY',
+  },
+  AWS_S3_SECRET_KEY: {
+    doc: 'AWS S3 secret key',
+    format: String,
+    default: '',
+    env: 'AWS_S3_SECRET_KEY',
   },
 });
 

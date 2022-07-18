@@ -48,7 +48,7 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
         props.uiSchema['ui:title'] ||
         props.title
       }
-      subtitle={props.uiSchema['ui:subtitle'] && true}
+      subtitle={props.uiSchema['ui:subtitle']}
     >
       {props.description && (
         <h3>

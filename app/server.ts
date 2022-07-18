@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import session from './backend/lib/session';
 import ssoMiddleware from './backend/lib/sso-middleware';
 import graphQlMiddleware from './backend/lib/graphql';
+import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 
 const port = config.get('PORT');
 const dev = config.get('NODE_ENV') != 'production';
@@ -45,6 +46,8 @@ app.prepare().then(async () => {
   server.use(sessionMiddleware);
 
   server.use(await ssoMiddleware());
+
+  server.use(graphqlUploadExpress());
 
   server.use(graphQlMiddleware());
 

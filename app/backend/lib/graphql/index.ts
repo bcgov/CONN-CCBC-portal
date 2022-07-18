@@ -4,13 +4,16 @@ import {
   createPostGraphileSchema,
   withPostGraphileContext,
 } from 'postgraphile';
+import PostgraphileRc from '../../../.postgraphilerc';
+
 import { pgPool, getDatabaseUrl } from '../setup-pg';
 import { PostGraphileOptions } from 'postgraphile';
-
 import authenticationPgSettings from './authenticationPgSettings';
 
 import { graphql, GraphQLSchema } from 'graphql';
 import config from '../../../config';
+import resolveFileUpload from './resolveFileUpload';
+import PostGraphileUploadFieldPlugin from './uploadFieldPlugin';
 
 export const pgSettings: any = (req: Request) => {
   const opts = {
@@ -20,12 +23,31 @@ export const pgSettings: any = (req: Request) => {
 };
 
 let postgraphileOptions: PostGraphileOptions = {
+  appendPlugins: [
+    // PgManyToManyPlugin,
+    // ConnectionFilterPlugin,
+    // TagsFilePlugin,
+    PostGraphileUploadFieldPlugin,
+    // PgOmitArchived,
+    // PgOrderByRelatedPlugin,
+    // FormChangeValidationPlugin,
+  ],
   classicIds: true,
   enableQueryBatching: true,
   dynamicJson: true,
   extendedErrors: ['hint', 'detail', 'errcode'],
   showErrorStack: 'json',
   pgSettings,
+  graphileBuildOptions: {
+    ...PostgraphileRc.options.graphileBuildOptions,
+    uploadFieldDefinitions: [
+      {
+        match: ({ table, column }) =>
+          table === 'attachment' && column === 'file',
+        resolve: resolveFileUpload,
+      },
+    ],
+  },
 };
 
 if (config.get('NODE_ENV') === 'production') {

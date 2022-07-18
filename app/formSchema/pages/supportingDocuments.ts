@@ -30,6 +30,11 @@ const supportingDocuments = {
           'Please refer to Annex 3 of the application guide for the community letters of support requirements',
         type: 'string',
       },
+      evidenceOfConnectivitySpeeds: {
+        title:
+          'If you submitted Template 8: Supporting Connectivity Evidence, please upload evidence documents here.',
+        type: 'string',
+      },
     },
   },
 };

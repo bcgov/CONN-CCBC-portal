@@ -102,6 +102,7 @@ const uiSchema = {
     'logicalNetworkDiagram',
     'projectSchedule',
     'communityRuralDevelopmentBenefits',
+    'evidenceOfConnectivitySpeeds',
     'geographicCoverageMap',
     'coverageAssessmentStatistics',
     'currentNetworkInfastructure',
@@ -372,6 +373,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      allowMultipleFiles: true,
     },
   },
   preparedFinancialStatements: {
@@ -381,6 +383,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      allowMultipleFiles: true,
     },
   },
   logicalNetworkDiagram: {
@@ -403,6 +406,7 @@ const uiSchema = {
       'Community and Rural Development Benefits supporting documents',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
+      allowMultipleFiles: true,
     },
   },
   geographicCoverageMap: {
@@ -481,6 +485,16 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+    },
+  },
+  evidenceOfConnectivitySpeeds: {
+    'ui:widget': 'FileWidget',
+    'ui:description':
+      'Evidence of connectivity speeds (e.g, screen captures of speed test results)',
+    'ui:options': {
+      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
+      allowMultipleFiles: true,
     },
   },
   wirelessAddendum: {

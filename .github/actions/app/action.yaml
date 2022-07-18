@@ -26,6 +26,19 @@ inputs:
   next_public_growthbook_api_key:
     description: 'Growthbook API key'
     required: true
+  aws_s3_bucket:
+    description: 'AWS S3 bucket name'
+    required: true
+  aws_s3_region:
+    description: 'AWS S3 region'
+    required: true
+  aws_s3_key:
+    description: 'AWS S3 key'
+    required: true
+  aws_s3_secret_key:
+    description: 'AWS S3 secret key'
+    required: true
+
 runs:
   using: composite
   steps:
@@ -37,6 +50,11 @@ runs:
         openshift_app_namespace: ${{ inputs.openshift_app_namespace }}
         openshift_metabase_namespace: ${{ inputs.openshift_metabase_namespace }}
         next_public_growthbook_api_key: ${{ inputs.next_public_growthbook_api_key }}
+        aws_s3_bucket: ${{ inputs.aws_s3_bucket }}
+        aws_s3_region: ${{ inputs.aws_s3_region }}
+        aws_s3_key: ${{ inputs.aws_s3_key }}
+        aws_s3_secret_key: ${{ inputs.aws_s3_secret_key }}
+
         insecure_skip_tls_verify: true
     - run: |
         chmod +x ./lib/app_deploy.sh
@@ -48,4 +66,9 @@ runs:
           --set image.app.clientSecret=${{ inputs.client_secret }} \
           --set route.host=${{ inputs.route }} \
           --set growthbook.key=${{ inputs.next_public_growthbook_api_key }}
+          --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }}
+          --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }}
+          --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }}
+          --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }}
+
       shell: bash
