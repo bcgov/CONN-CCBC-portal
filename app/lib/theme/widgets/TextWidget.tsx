@@ -4,6 +4,7 @@ import { Label } from '../../../components/Form';
 import Input from '@button-inc/bcgov-theme/Input';
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input-field';
+import formatPhone from '../../../utils/formatPhone';
 
 const StyledInput = styled(Input)`
   & input {
@@ -16,7 +17,7 @@ const StyledInput = styled(Input)`
       props.error ? '4px solid #E71F1F' : '4px solid #3B99FC'}
 `;
 
-const StyledCurrencyInput = styled(CurrencyInput)`
+const StyledFormattedNumbersInput = styled(CurrencyInput)`
   margin-top: 12px;
   margin-bottom: 4px;
   width: ${(props) => props.theme.width.inputWidthSmall};
@@ -61,34 +62,59 @@ const TextWidget: React.FC<WidgetProps> = ({
 }) => {
   const [error, setError] = useState('');
   const description = uiSchema['ui:description'];
-  const maxLength = uiSchema['ui:options']?.maxLength;
-  const minLength = uiSchema['ui:options']?.minLength;
+
+  // Check types to make react-currency-input-field happy
+  const maxLength =
+    typeof uiSchema['ui:options']?.maxLength === 'number'
+      ? uiSchema['ui:options']?.maxLength
+      : false;
+  const minLength =
+    typeof uiSchema['ui:options']?.minLength === 'number'
+      ? uiSchema['ui:options']?.minLength
+      : false;
+
+  const decimals =
+    typeof uiSchema['ui:options']?.decimals === 'number'
+      ? uiSchema['ui:options']?.decimals
+      : false;
+
   const inputType = options?.inputType;
   const isNumber = schema?.type === 'number';
-  const isString = schema?.type === 'string';
+
+  const useFormattedNumbersInput =
+    inputType === 'money' || inputType === 'commaMask';
+
+  const usePhoneInput = inputType === 'phone';
 
   const wholeNumRegex = /^[\d]*$/;
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
   const checkValidations = (onChange: any, value: any) => {
     if (inputType === 'wholeNumber') {
-      if (wholeNumRegex.test(value) || value === '') {
+      if (wholeNumRegex.test(value) || !value) {
+        setError('');
         onChange(value || undefined);
+      } else {
+        setError('Please enter a valid number');
       }
-    }
-    if (inputType === 'email') {
+    } else if (inputType === 'email') {
       if (value && !emailRegex.test(value)) {
         setError('Please enter a valid email address');
       } else {
         setError('');
       }
       onChange(value || undefined);
+    } else if (inputType === 'phone') {
+      const format = formatPhone(value);
+      onChange(format);
+    } else {
+      onChange(value);
     }
   };
 
   return (
     <StyledDiv>
-      {inputType != 'money' ? (
+      {!useFormattedNumbersInput && (
         <StyledInput
           error={error}
           type={isNumber ? 'number' : 'text'}
@@ -98,24 +124,27 @@ const TextWidget: React.FC<WidgetProps> = ({
             checkValidations(onChange, value);
           }}
           placeholder={placeholder}
-          value={value || null}
+          value={value || undefined}
           min={0}
-          max={maxLength}
           size={'medium'}
           required={required}
           aria-label={label}
-          maxLength={maxLength}
+          maxLength={usePhoneInput ? 12 : maxLength}
           minLength={minLength}
         />
-      ) : (
-        <StyledCurrencyInput
+      )}
+      {useFormattedNumbersInput && (
+        // Using react-currency-input-field to format not only money but numbers with commas as well
+        // as specific decimal limit requirements
+        <StyledFormattedNumbersInput
+          allowDecimals={decimals === 0 ? false : true}
           id={id}
-          prefix="$"
+          prefix={inputType === 'money' ? '$' : ''}
           style={{ outline: error && '4px solid #E71F1F' }}
-          defaultValue={value || 0}
+          defaultValue={value || undefined}
           allowNegativeValue={false}
-          maxLength={14}
-          decimalsLimit={2}
+          maxLength={maxLength || 14}
+          decimalsLimit={decimals || 2}
           onValueChange={(value: any) => onChange(value || undefined)}
           required={required}
           aria-label={label}
