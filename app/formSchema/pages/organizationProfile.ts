@@ -17,7 +17,7 @@ const organizationProfile = {
       'indigenousEntityDesc',
       'organizationOverview',
       'orgRegistrationDate',
-      'bussinessNumber',
+      'businessNumber',
     ],
     properties: {
       typeOfOrganization: {
@@ -74,10 +74,10 @@ const organizationProfile = {
         title: 'Date of incorporation or registration',
         type: 'string',
       },
-      bussinessNumber: {
+      businessNumber: {
         title:
           'Applicant business number (9-digit business identifier provided by Canada Revenue Agency)',
-        type: 'number',
+        type: 'string',
       },
     },
     dependencies: {

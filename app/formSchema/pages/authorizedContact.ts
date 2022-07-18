@@ -30,11 +30,11 @@ const authorizedContact = {
       },
       authTelephone: {
         title: 'Telephone',
-        type: 'number',
+        type: 'string',
       },
       authExtension: {
         title: 'Extension',
-        type: 'number',
+        type: 'string',
       },
       isAuthContactSigningOfficer: {
         title: 'Is this person an authorized signing officer of the applicant?',

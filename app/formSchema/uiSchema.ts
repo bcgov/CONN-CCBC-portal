@@ -68,7 +68,7 @@ const uiSchema = {
     'indigenousEntityDesc',
     'organizationOverview',
     'orgRegistrationDate',
-    'bussinessNumber',
+    'businessNumber',
     'currentEmployment',
     'estimatedDirectEmployees',
     'numberOfEmployeesToWork',
@@ -275,14 +275,82 @@ const uiSchema = {
   isAuthContactSigningOfficer: {
     'ui:widget': 'RadioWidget',
   },
+  authTelephone: {
+    'ui:options': {
+      inputType: 'phone',
+    },
+  },
+  altTelephone: {
+    'ui:options': {
+      inputType: 'phone',
+    },
+  },
+  contactTelephoneNumber: {
+    'ui:options': {
+      inputType: 'phone',
+    },
+  },
+  isFirstContact: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:title': ' ',
+  },
   isAltContactSigningOfficer: {
     'ui:widget': 'RadioWidget',
+  },
+  isAltFirstContact: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:options': {
+      label: false,
+    },
+  },
+  currentEmployment: {
+    'ui:options': {
+      maxLength: 7,
+      inputType: 'commaMask',
+      decimals: 0,
+    },
   },
   estimatedDirectEmployees: {
     'ui:subtitle': 'Estimated direct employees',
   },
+  numberOfEmployeesToWork: {
+    'ui:options': {
+      inputType: 'commaMask',
+      decimals: 0,
+    },
+  },
+  hoursOfEmploymentPerWeek: {
+    'ui:options': {
+      inputType: 'commaMask',
+      decimals: 1,
+    },
+  },
+  personMonthsToBeCreated: {
+    'ui:options': {
+      inputType: 'commaMask',
+      decimals: 1,
+    },
+  },
   estimatedContractorLabour: {
     'ui:subtitle': 'Estimated contracted labour',
+  },
+  numberOfContractorsToWork: {
+    'ui:options': {
+      inputType: 'commaMask',
+      decimals: 0,
+    },
+  },
+  hoursOfContractorEmploymentPerWeek: {
+    'ui:options': {
+      inputType: 'commaMask',
+      decimals: 1,
+    },
+  },
+  contractorPersonMonthsToBeCreated: {
+    'ui:options': {
+      inputType: 'commaMask',
+      decimals: 1,
+    },
   },
   declarationsList: {
     'ui:title': ` `,
@@ -323,6 +391,11 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
       label: false,
+    },
+  },
+  numberOfHouseholds: {
+    'ui:options': {
+      inputType: 'wholeNumber',
     },
   },
   projectStartDate: {
@@ -539,6 +612,30 @@ const uiSchema = {
   contactEmail: {
     'ui:options': {
       inputType: 'email',
+    },
+  },
+  contactExtension: {
+    'ui:options': {
+      maxLength: 9,
+      inputType: 'wholeNumber',
+    },
+  },
+  authExtension: {
+    'ui:options': {
+      maxLength: 9,
+      inputType: 'wholeNumber',
+    },
+  },
+  altExtension: {
+    'ui:options': {
+      maxLength: 9,
+      inputType: 'wholeNumber',
+    },
+  },
+  businessNumber: {
+    'ui:options': {
+      maxLength: 9,
+      inputType: 'wholeNumber',
     },
   },
   otherFundingSourcesArray: {
