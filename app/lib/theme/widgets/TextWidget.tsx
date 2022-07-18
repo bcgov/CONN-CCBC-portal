@@ -98,8 +98,8 @@ const TextWidget: React.FC<WidgetProps> = ({
             checkValidations(onChange, value);
           }}
           placeholder={placeholder}
-          value={value || ''}
-          min="0"
+          value={value || null}
+          min={0}
           max={maxLength}
           size={'medium'}
           required={required}
@@ -111,10 +111,10 @@ const TextWidget: React.FC<WidgetProps> = ({
         <StyledCurrencyInput
           id={id}
           prefix="$"
-          style={{ outline: error ? '4px solid #E71F1F' : '4px solid #3B99FC' }}
+          style={{ outline: error && '4px solid #E71F1F' }}
           defaultValue={value || 0}
           allowNegativeValue={false}
-          maxLength={16}
+          maxLength={14}
           decimalsLimit={2}
           onValueChange={(value: any) => onChange(value || undefined)}
           required={required}

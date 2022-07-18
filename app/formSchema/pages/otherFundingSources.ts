@@ -4,7 +4,6 @@ const otherFundingSources = {
     type: 'object',
     description:
       'Identify sources of funding that you expect to secure to cover all project costs, not including the Province of British Columbia or the Universal Broadband Fund. Please only include loans that you anticipate receiving from a program or granting agency. Any other loans must be included in the applicant funding.',
-
     properties: {
       otherFundingSources: {
         title: 'Will you have other funding sources?',
@@ -68,27 +67,27 @@ const otherFundingSources = {
                     },
                     requestedFundingPartner2223: {
                       title: '2022-23',
-                      type: 'string',
+                      type: 'number',
                     },
                     requestedFundingPartner2324: {
                       title: '2023-24',
-                      type: 'string',
+                      type: 'number',
                     },
                     requestedFundingPartner2425: {
                       title: '2024-25',
-                      type: 'string',
+                      type: 'number',
                     },
                     requestedFundingPartner2526: {
                       title: '2025-26',
-                      type: 'string',
+                      type: 'number',
                     },
                     requestedFundingPartner2627: {
                       title: '2026-27',
-                      type: 'string',
+                      type: 'number',
                     },
                     totalRequestedFundingPartner: {
                       title: 'Total amount requested from funding partner',
-                      type: 'string',
+                      type: 'number',
                     },
                   },
                 },

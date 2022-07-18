@@ -242,6 +242,7 @@ const uiSchema = {
   bussinessNumber: {
     'ui:options': {
       maxLength: MAX_SHORT_INPUT_LENGTH,
+      inputType: 'wholeNumber',
     },
   },
   isMailingAddress: {
@@ -523,10 +524,22 @@ const uiSchema = {
   },
   totalEligibleCosts: {
     'ui:subtitle': 'Estimated direct employees',
+    'ui:options': {
+      inputType: 'money',
+    },
   },
-  totalProjectCost: {},
+  totalProjectCost: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
   otherFundingSources: {
     'ui:widget': 'RadioWidget',
+  },
+  contactEmail: {
+    'ui:options': {
+      inputType: 'email',
+    },
   },
   otherFundingSourcesArray: {
     items: {
@@ -553,6 +566,36 @@ const uiSchema = {
         'ui:description': 'maximum 150 characters',
         'ui:options': {
           maxLength: 150,
+        },
+      },
+      requestedFundingPartner2223: {
+        'ui:options': {
+          inputType: 'money',
+        },
+      },
+      requestedFundingPartner2324: {
+        'ui:options': {
+          inputType: 'money',
+        },
+      },
+      requestedFundingPartner2425: {
+        'ui:options': {
+          inputType: 'money',
+        },
+      },
+      requestedFundingPartner2526: {
+        'ui:options': {
+          inputType: 'money',
+        },
+      },
+      requestedFundingPartner2627: {
+        'ui:options': {
+          inputType: 'money',
+        },
+      },
+      totalRequestedFundingPartner: {
+        'ui:options': {
+          inputType: 'money',
         },
       },
       // Custom array button prop that is used in ArrayFieldTemplate
@@ -599,6 +642,91 @@ const uiSchema = {
         },
         { columns: 2, totalRequestedFundingPartner: '1 / 2' },
       ],
+    },
+  },
+  fundingRequestedCCBC2223: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  fundingRequestedCCBC2324: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  fundingRequestedCCBC2425: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  fundingRequestedCCBC2526: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  fundingRequestedCCBC2627: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  totalFundingRequestedCCBC: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  applicationContribution2223: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  applicationContribution2324: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  applicationContribution2425: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  applicationContribution2526: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  applicationContribution2627: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  totalApplicantContribution: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  infrastructureBankFunding2223: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  infrastructureBankFunding2324: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  infrastructureBankFunding2425: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  infrastructureBankFunding2526: {
+    'ui:options': {
+      inputType: 'money',
+    },
+  },
+  totalInfrastructureBankFunding: {
+    'ui:options': {
+      inputType: 'money',
     },
   },
   'ui:inline': [
