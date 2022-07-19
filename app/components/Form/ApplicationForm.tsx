@@ -27,6 +27,11 @@ const ApplicationForm: React.FC<Props> = ({
   trimmedSub,
 }) => {
   const formErrorSchema = validateFormData(formData, schema())?.errorSchema;
+
+  // Remove declarations errors from error schema since they aren't on review page
+  delete formErrorSchema['declarations'];
+  delete formErrorSchema['declarationsSign'];
+
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
   const [reviewConfirm, setReviewConfirm] = useState(false);

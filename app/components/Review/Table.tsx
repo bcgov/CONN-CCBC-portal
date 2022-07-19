@@ -60,6 +60,13 @@ const formatRow = (row: any) => {
 
 const Table = ({ errorSchema, formData, subschema }: any) => {
   const rows = Object.keys(subschema.properties);
+
+  const title = subschema['title'];
+  const isUpload =
+    title === 'Template uploads' ||
+    title === 'Supporting documents' ||
+    title === 'Mapping';
+
   return (
     <StyledTable>
       <tbody>
@@ -68,6 +75,17 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
           const isObject = subschema.properties[row].type === 'object';
           const value = formData ? formatRow(formData[row]) : ' ';
           const isRequired = errorSchema.includes(row);
+
+          const formatUploads = (value) => {
+            if (!value) return;
+            const uploadArray = value.length > 0 ? JSON.parse(value) : [];
+
+            const string =
+              uploadArray.length > 0 &&
+              uploadArray.map((file) => file.name).join(',\n');
+
+            return string;
+          };
 
           return (
             <React.Fragment key={row}>
@@ -83,7 +101,9 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
                   {isRequired ? (
                     <StyledColError id={`${row}-error`} />
                   ) : (
-                    <StyledColRight id={`${row}-value`}>{value}</StyledColRight>
+                    <StyledColRight id={`${row}-value`}>
+                      {isUpload ? formatUploads(value) : value}
+                    </StyledColRight>
                   )}
                 </tr>
               )}

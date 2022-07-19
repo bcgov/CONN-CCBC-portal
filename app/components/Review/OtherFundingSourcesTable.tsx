@@ -1,3 +1,4 @@
+import { errors } from 'openid-client';
 import React from 'react';
 import styled from 'styled-components';
 import formatMoney from '../../utils/formatMoney';
@@ -32,6 +33,7 @@ const OtherFundingSourcesTable = ({
     subschema.dependencies.otherFundingSources.oneOf[1].properties
       .otherFundingSourcesArray.items;
   const arrayFormData = formData?.otherFundingSourcesArray;
+  const arrayErrorSchema = errorSchema?.otherFundingSourcesArray?.[0];
 
   const otherFundingSourcesTitle =
     subschema.properties.otherFundingSources.title;
@@ -47,14 +49,15 @@ const OtherFundingSourcesTable = ({
     'requestedFundingPartner2627',
     'totalRequestedFundingPartner',
   ];
-
   return (
     <StyledTable>
       <tbody>
         {!arrayFormData ? (
           <tr>
             <StyledColLeft>{otherFundingSourcesTitle}</StyledColLeft>
-            <StyledColRight>{otherFundingSourcesValue}</StyledColRight>
+            <StyledColRight>
+              {formatRow(otherFundingSourcesValue)}
+            </StyledColRight>
           </tr>
         ) : (
           arrayFormData.map((item: any, i: number) => {
@@ -70,8 +73,7 @@ const OtherFundingSourcesTable = ({
                   const title = arraySchema.properties[row]?.title;
                   const value = formatRow(item[row]);
                   const isMoneyField = moneyFields.includes(row);
-                  const isRequired = errorSchema.includes(row);
-
+                  const isRequired = arrayErrorSchema?.row;
                   return (
                     <React.Fragment key={row}>
                       {row === 'requestedFundingPartner2223' && (

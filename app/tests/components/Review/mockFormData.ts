@@ -106,7 +106,7 @@ const mockFormData = {
     isSubsidiary: 'Yes',
     operatingName: '123123123',
     parentOrgName: '213123123',
-    bussinessNumber: 123123123,
+    businessNumber: 123123123,
     isNameLegalName: 'No',
     organizationName: '2143123123',
     isIndigenousEntity: 'Yes',
