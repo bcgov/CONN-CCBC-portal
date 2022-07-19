@@ -4,17 +4,24 @@ import Link from 'next/link';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { NextPageContext } from 'next/types';
 import { getSessionQuery } from '../schema/queries';
+import { getSessionQuery as getSessionQueryType } from '../__generated__/getSessionQuery.graphql'
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { PreloadedQuery, usePreloadedQuery } from 'react-relay/hooks';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
 
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
 import { Layout } from '../components';
+import  { DashboardTable } from '../components/Dashboard';
 
-const Dashboard = ({ preloadedQuery }: any) => {
-  const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
+
+type Props = {
+  preloadedQuery: PreloadedQuery<getSessionQueryType>
+}
+
+const Dashboard = ({ preloadedQuery }: Props) => {
+  const { session } = usePreloadedQuery(getSessionQuery, preloadedQuery);
 
   const router = useRouter();
 
@@ -48,11 +55,12 @@ const Dashboard = ({ preloadedQuery }: any) => {
         <h4>No applications yet</h4>
         <p>Start a new application; applications will appear here</p>
       </div>
+        <DashboardTable/>
     </Layout>
   );
 };
 
-const QueryRenderer = ({ preloadedQuery }: RelayProps) => {
+const QueryRenderer = ({ preloadedQuery }: RelayProps<{}, getSessionQueryType>) => {
   return (
     preloadedQuery && <Dashboard preloadedQuery={preloadedQuery} CSN={false} />
   );
