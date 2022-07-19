@@ -610,15 +610,9 @@ const uiSchema = {
   totalEligibleCosts: {
     'ui:widget': MoneyWidget,
     'ui:subtitle': 'Estimated direct employees',
-    'ui:options': {
-      inputType: 'money',
-    },
   },
   totalProjectCost: {
     'ui:widget': MoneyWidget,
-    'ui:options': {
-      inputType: 'money',
-    },
   },
   otherFundingSources: {
     'ui:widget': 'RadioWidget',

@@ -66,7 +66,7 @@ const NumberWidget: React.FC<WidgetProps> = ({
   const maxLength =
     typeof uiSchema['ui:options']?.maxLength === 'number'
       ? uiSchema['ui:options']?.maxLength
-      : undefined;
+      : 16;
   const minLength =
     typeof uiSchema['ui:options']?.minLength === 'number'
       ? uiSchema['ui:options']?.minLength
