@@ -134,7 +134,6 @@ type Query implements Node {
   ): CcbcUsersConnection
   applicationStatusByRowId(rowId: Int!): ApplicationStatus
   applicationByRowId(rowId: Int!): Application
-  applicationByOwner(owner: UUID!): Application
   attachmentByRowId(rowId: Int!): Attachment
   ccbcUserByRowId(rowId: Int!): CcbcUser
   session: KeycloakJwt
@@ -812,28 +811,15 @@ type ApplicationsConnection {
   totalCount: Int!
 }
 
-"""
-Table containing the data associated with the CCBC respondents application
-"""
 type Application implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
-
-  """Primary key ID for the application"""
   rowId: Int!
-
-  """Reference number assigned to the application"""
   referenceNumber: String
-
-  """The owner of the application"""
   owner: UUID
-
-  """The data entered into the form by the respondent"""
   formData: JSON!
-
-  """The status of the application, draft or complete"""
   status: String
 
   """created by user id"""
@@ -891,6 +877,7 @@ type Application implements Node {
     """
     condition: AttachmentCondition
   ): AttachmentsConnection!
+  projectName: String
 }
 
 """
@@ -1469,14 +1456,6 @@ type Mutation {
     input: UpdateApplicationByRowIdInput!
   ): UpdateApplicationPayload
 
-  """Updates a single `Application` using a unique key and a patch."""
-  updateApplicationByOwner(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateApplicationByOwnerInput!
-  ): UpdateApplicationPayload
-
   """
   Updates a single `Attachment` using its globally unique id and a patch.
   """
@@ -1541,14 +1520,6 @@ type Mutation {
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteApplicationByRowIdInput!
-  ): DeleteApplicationPayload
-
-  """Deletes a single `Application` using a unique key."""
-  deleteApplicationByOwner(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationByOwnerInput!
   ): DeleteApplicationPayload
 
   """Deletes a single `Attachment` using its globally unique id."""
@@ -1707,16 +1678,9 @@ input CreateApplicationInput {
 
 """An input for mutations affecting `Application`"""
 input ApplicationInput {
-  """Reference number assigned to the application"""
   referenceNumber: String
-
-  """The owner of the application"""
   owner: UUID
-
-  """The data entered into the form by the respondent"""
   formData: JSON
-
-  """The status of the application, draft or complete"""
   status: String
 
   """created by user id"""
@@ -2072,16 +2036,9 @@ input UpdateApplicationInput {
 Represents an update to a `Application`. Fields that are set will be updated.
 """
 input ApplicationPatch {
-  """Reference number assigned to the application"""
   referenceNumber: String
-
-  """The owner of the application"""
   owner: UUID
-
-  """The data entered into the form by the respondent"""
   formData: JSON
-
-  """The status of the application, draft or complete"""
   status: String
 
   """created by user id"""
@@ -2115,26 +2072,7 @@ input UpdateApplicationByRowIdInput {
   An object where the defined keys will be set on the `Application` being updated.
   """
   applicationPatch: ApplicationPatch!
-
-  """Primary key ID for the application"""
   rowId: Int!
-}
-
-"""All input for the `updateApplicationByOwner` mutation."""
-input UpdateApplicationByOwnerInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Application` being updated.
-  """
-  applicationPatch: ApplicationPatch!
-
-  """The owner of the application"""
-  owner: UUID!
 }
 
 """The output of our update `Attachment` mutation."""
@@ -2481,21 +2419,7 @@ input DeleteApplicationByRowIdInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-
-  """Primary key ID for the application"""
   rowId: Int!
-}
-
-"""All input for the `deleteApplicationByOwner` mutation."""
-input DeleteApplicationByOwnerInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The owner of the application"""
-  owner: UUID!
 }
 
 """The output of our delete `Attachment` mutation."""
