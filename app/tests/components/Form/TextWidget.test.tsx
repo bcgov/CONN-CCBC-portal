@@ -61,3 +61,31 @@ describe('The TextWidget string type input', () => {
     expect(screen.getByDisplayValue('test string'));
   });
 });
+
+describe('The TextWidget email type input', () => {
+  beforeEach(() => {
+    renderStaticLayout(
+      {
+        ...schema,
+        properties: { emailTestField: schema.properties.emailTestField },
+      } as JSONSchema7,
+      { emailTestField: uiSchema.emailTestField } as JSONSchema7
+    );
+  });
+
+  it('should render the text widget input field', () => {
+    expect(screen.getByTestId('root_emailTestField'));
+  });
+
+  it('should contain the correct input value', () => {
+    const input = screen.getByTestId('root_emailTestField');
+    fireEvent.change(input, { target: { value: 'test@test.ca' } });
+    expect(screen.getByDisplayValue('test@test.ca'));
+  });
+
+  it('should rcontain the correct input value', () => {
+    const input = screen.getByTestId('root_emailTestField');
+    fireEvent.change(input, { target: { value: 'test' } });
+    expect(screen.getByText('Please enter a valid email address'));
+  });
+});
