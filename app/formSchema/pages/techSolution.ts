@@ -3,6 +3,12 @@ const techSolution = {
     title: 'Technological solution',
     type: 'object',
     description: 'Describe your technological solution',
+    required: [
+      'systemDesign',
+      'scalability',
+      'backboneTechnology',
+      'lastMileTechnology',
+    ],
     properties: {
       systemDesign: {
         title:
@@ -19,7 +25,7 @@ const techSolution = {
           'Please specify the backbone technology type (check all that apply).',
         type: 'array',
         items: {
-          type: 'boolean',
+          type: 'string',
           enum: ['Fibre', 'Microwave', 'Satellite'],
         },
         uniqueItems: true,
@@ -29,7 +35,7 @@ const techSolution = {
           'Please specify the last mile technology type (check all that apply). If you select fixed wireless, you must complete Template 7.',
         type: 'array',
         items: {
-          type: 'boolean',
+          type: 'string',
           enum: ['Fibre', 'Cable', 'DSL', 'Fixed wireless'],
         },
         uniqueItems: true,

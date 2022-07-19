@@ -10,7 +10,7 @@ const projectArea = {
           'Referring to the Project Zones shown in the application guide, which zone(s) will this Project be conducted in?',
         type: 'array',
         items: {
-          type: 'boolean',
+          type: 'number',
           enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
         },
         uniqueItems: true,
@@ -18,7 +18,7 @@ const projectArea = {
       projectSpanMultipleLocations: {
         title: 'Does your Project span multiple provinces/territories?',
         type: 'boolean',
-        enum: ['Yes', 'No'],
+        enum: [true, false],
       },
     },
     dependencies: {
@@ -27,14 +27,14 @@ const projectArea = {
           {
             properties: {
               projectSpanMultipleLocations: {
-                enum: ['No'],
+                enum: [false],
               },
             },
           },
           {
             properties: {
               projectSpanMultipleLocations: {
-                enum: ['Yes'],
+                enum: [true],
               },
               provincesTerritories: {
                 title:

@@ -5,10 +5,8 @@ const organizationProfile = {
     type: 'object',
     required: [
       'typeOfOrganization',
-      'other',
       'bandNumber',
       'organizationName',
-      'isLegalPrimaryName',
       'isNameLegalName',
       'operatingName',
       'isSubsidiary',
@@ -23,7 +21,6 @@ const organizationProfile = {
       typeOfOrganization: {
         title: 'Type of organization',
         type: 'array',
-        maxItems: 1,
         items: {
           type: 'boolean',
           enum: [
@@ -53,17 +50,17 @@ const organizationProfile = {
       isNameLegalName: {
         title: 'Is operating name same as legal name?',
         type: 'boolean',
-        enum: ['Yes', 'No'],
+        enum: [true, false],
       },
       isSubsidiary: {
         title:
           'Is this Applicant organization a subsidiary of a parent organization?',
         type: 'boolean',
-        enum: ['Yes', 'No'],
+        enum: [true, false],
       },
       isIndigenousEntity: {
         type: 'boolean',
-        enum: ['Yes', 'No'],
+        enum: [true, false],
       },
       organizationOverview: {
         title:
@@ -133,14 +130,14 @@ const organizationProfile = {
           {
             properties: {
               isNameLegalName: {
-                enum: ['Yes'],
+                enum: [true],
               },
             },
           },
           {
             properties: {
               isNameLegalName: {
-                enum: ['No'],
+                enum: [false],
               },
               operatingName: {
                 title: 'Operating name',
@@ -156,14 +153,14 @@ const organizationProfile = {
           {
             properties: {
               isSubsidiary: {
-                enum: ['No'],
+                enum: [false],
               },
             },
           },
           {
             properties: {
               isSubsidiary: {
-                enum: ['Yes'],
+                enum: [true],
               },
               parentOrgName: {
                 title: 'Please enter the name of the parent organization',
@@ -178,14 +175,14 @@ const organizationProfile = {
           {
             properties: {
               isIndigenousEntity: {
-                enum: ['No'],
+                enum: [false],
               },
             },
           },
           {
             properties: {
               isIndigenousEntity: {
-                enum: ['Yes'],
+                enum: [true],
               },
               indigenousEntityDesc: {
                 title:

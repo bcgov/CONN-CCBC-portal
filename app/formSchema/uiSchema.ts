@@ -76,6 +76,7 @@ const uiSchema = {
     'hoursOfEmploymentPerWeek',
     'personMonthsToBeCreated',
     'estimatedContractorLabour',
+    'householdsImpactedIndigenous',
     'numberOfContractorsToWork',
     'hoursOfContractorEmploymentPerWeek',
     'contractorPersonMonthsToBeCreated',
@@ -241,7 +242,7 @@ const uiSchema = {
   orgRegistrationDate: {
     'ui:widget': 'DatePickerWidget',
   },
-  bussinessNumber: {
+  businessNumber: {
     'ui:options': {
       maxLength: MAX_SHORT_INPUT_LENGTH,
       inputType: 'wholeNumber',

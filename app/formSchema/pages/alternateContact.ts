@@ -5,7 +5,7 @@ const alternateContact = {
       'Provide the contact information for an alternate contact in the event that the primary contact becomes unreachable. If there is no alternate contact, leave this section blank.',
     type: 'object',
     required: [
-      'altFamilyName',
+      'altGivenName',
       'altPostionTitle',
       'altEmail',
       'altTelephone',

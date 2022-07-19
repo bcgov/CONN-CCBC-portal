@@ -51,8 +51,8 @@ const organizationLocation = {
       isMailingAddress: {
         title: 'Is the mailing address the same as above?',
         type: 'boolean',
-        enum: ['Yes', 'No'],
-        default: 'Yes',
+        enum: [true, false],
+        default: true,
       },
     },
     dependencies: {
@@ -61,14 +61,14 @@ const organizationLocation = {
           {
             properties: {
               isMailingAddress: {
-                enum: ['Yes'],
+                enum: [true],
               },
             },
           },
           {
             properties: {
               isMailingAddress: {
-                enum: ['No'],
+                enum: [false],
               },
               mailingAddress: {
                 title: 'Mailing address',
