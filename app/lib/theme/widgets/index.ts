@@ -3,6 +3,8 @@ export { default as CheckboxWidget } from './CheckboxWidget';
 export { default as DatePickerWidget } from './DatePickerWidget';
 export { default as FieldLabel } from './FieldLabel';
 export { default as FileWidget } from './FileWidget';
+export { default as MoneyWidget } from './MoneyWidget';
+export { default as NumberWidget } from './NumberWidget';
 export { default as RadioWidget } from './RadioWidget';
 export { default as TextAreaWidget } from './TextAreaWidget';
 export { default as TextWidget } from './TextWidget';
