@@ -68,6 +68,8 @@ const TextWidget: React.FC<WidgetProps> = ({
         setError('');
       }
       onChange(value || undefined);
+    } else {
+      onChange(value || undefined);
     }
   };
 

@@ -288,6 +288,16 @@ const uiSchema = {
       inputType: 'phone',
     },
   },
+  authEmail: {
+    'ui:options': {
+      inputType: 'email',
+    },
+  },
+  altEmail: {
+    'ui:options': {
+      inputType: 'email',
+    },
+  },
   contactTelephoneNumber: {
     'ui:widget': NumberWidget,
     'ui:options': {
@@ -420,7 +430,7 @@ const uiSchema = {
     'ui:widget': 'TextAreaWidget',
     'ui:description': 'maximum 3,500 characters',
     'ui:options': {
-      maxLength: MAX_TEXTAREA_LENGTH,
+      maxLength: 2500,
     },
   },
   overviewProjectManagementTeam: {
@@ -610,6 +620,9 @@ const uiSchema = {
   totalEligibleCosts: {
     'ui:widget': MoneyWidget,
     'ui:subtitle': 'Estimated direct employees',
+    'ui:options': {
+      inputType: 'money',
+    },
   },
   totalProjectCost: {
     'ui:widget': MoneyWidget,
