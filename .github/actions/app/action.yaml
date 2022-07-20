@@ -65,10 +65,10 @@ runs:
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
           --set route.host=${{ inputs.route }} \
-          --set growthbook.key=${{ inputs.next_public_growthbook_api_key }}
-          --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }}
-          --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }}
-          --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }}
+          --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
+          --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }} \
+          --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }} \
+          --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }} \
           --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }}
 
       shell: bash
