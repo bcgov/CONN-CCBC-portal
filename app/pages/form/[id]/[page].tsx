@@ -1,16 +1,18 @@
 import { useRouter } from 'next/router';
-import { ApplicationForm, Back } from '../../components/Form';
+import { ApplicationForm, Back } from '../../../components/Form';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { NextPageContext } from 'next/types';
-import { getSessionQuery } from '../../schema/queries';
-import defaultRelayOptions from '../../lib/relay/withRelayOptions';
+import { getSessionQuery } from '../../../schema/queries';
+import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
-import FormDiv from '../../components/FormDiv';
-import { getApplicationByOwnerQuery } from '../../schema/queries';
+import FormDiv from '../../../components/FormDiv';
+//TODO: Change to getApplicationById
+import { getApplicationByIdQuery } from '../../../schema/queries';
+import { getApplicationByIdQuery as getApplicationByIdQueryType } from '../../../__generated__/getApplicationByIdQuery.graphql';
 import { useLazyLoadQuery } from 'react-relay';
-import { Layout } from '../../components';
+import { Layout } from '../../../components';
 
 const FormPage = ({ preloadedQuery }: any) => {
   const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
@@ -18,8 +20,10 @@ const FormPage = ({ preloadedQuery }: any) => {
   const router = useRouter();
   const trimmedSub = session?.sub.replace(/-/g, '');
 
-  const application: any = useLazyLoadQuery(getApplicationByOwnerQuery, {
-    owner: trimmedSub,
+  const applicationId = Number(router.query.id)
+
+  const application: any = useLazyLoadQuery<getApplicationByIdQueryType>(getApplicationByIdQuery, {
+    applicationId: applicationId
   });
 
   const formData = application?.applicationByOwner?.formData;
@@ -33,6 +37,7 @@ const FormPage = ({ preloadedQuery }: any) => {
           formData={formData || {}}
           pageNumber={pageNumber}
           trimmedSub={trimmedSub}
+          applicationId={applicationId}
         />
       </FormDiv>
     </Layout>

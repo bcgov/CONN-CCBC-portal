@@ -19,12 +19,14 @@ interface Props {
   formData: any;
   pageNumber: number;
   trimmedSub: any;
+  applicationId: number
 }
 
 const ApplicationForm: React.FC<Props> = ({
   formData,
   pageNumber,
   trimmedSub,
+  applicationId
 }) => {
   const formErrorSchema = validateFormData(formData, schema())?.errorSchema;
   const noErrors = Object.keys(formErrorSchema).length === 0;
@@ -69,7 +71,7 @@ const ApplicationForm: React.FC<Props> = ({
             formData: newFormData,
             status: 'draft',
           },
-          owner: trimmedSub,
+          rowId: applicationId
         },
       },
     });
@@ -79,9 +81,9 @@ const ApplicationForm: React.FC<Props> = ({
     saveForm(incomingFormData, formData).then(() => {
       //  TODO: update rerouting logic to handle when there are form errors etc.
       if (pageNumber < subschemaArray.length) {
-        router.push(`/form/${pageNumber + 1}`);
+        router.push(`/form/${applicationId}/${pageNumber + 1}`);
       } else {
-        router.push('/form/success');
+        router.push(`/form/${applicationId}/success`);
       }
     });
   };

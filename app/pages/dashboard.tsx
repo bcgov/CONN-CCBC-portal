@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { NextPageContext } from 'next/types';
-import { getSessionQuery } from '../schema/queries';
+import { getAllApplicationsByOwnerQuery, getSessionQuery } from '../schema/queries';
 import { getSessionQuery as getSessionQueryType } from '../__generated__/getSessionQuery.graphql'
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import { PreloadedQuery, usePreloadedQuery } from 'react-relay/hooks';
+import { PreloadedQuery, useLazyLoadQuery, usePreloadedQuery } from 'react-relay/hooks';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
 
@@ -14,6 +14,7 @@ import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
 import { Layout } from '../components';
 import  { DashboardTable } from '../components/Dashboard';
+import { getAllApplicationsByOwnerQuery as getAllApplicationsByOwnerQueryType } from '../__generated__/getAllApplicationsByOwnerQuery.graphql';
 
 
 type Props = {
@@ -22,24 +23,25 @@ type Props = {
 
 const Dashboard = ({ preloadedQuery }: Props) => {
   const { session } = usePreloadedQuery(getSessionQuery, preloadedQuery);
+  const trimmedSub: string = session?.sub.replace(/-/g, '');
 
-  const router = useRouter();
+ const router = useRouter();
 
   const [createApplication] = useCreateApplicationMutation();
 
   const handleCreateApplication = () => {
-    const trimmedSub = session?.sub.replace(/-/g, '');
     createApplication({
       variables: {
         // input: { application: { owner: session?.sub } },
         input: { application: { owner: trimmedSub } },
       },
-      onCompleted: () => {
-        router.push('/form/1');
+      onCompleted: (response) => {
+        const applicationId = response.createApplication.application.rowId
+        router.push(`/form/${applicationId}/1`);
       },
       onError: () => {
         // This needs to be removed once application dashboard implemented
-        router.push('/form/1');
+        router.push('/dashboard');
       },
     });
   };
@@ -47,11 +49,9 @@ const Dashboard = ({ preloadedQuery }: Props) => {
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Dashboard</h1>
-        <Link href="/form/1" passHref>
           <StyledGovButton onClick={handleCreateApplication}>
             New application
           </StyledGovButton>
-        </Link>
         <h4>No applications yet</h4>
         <p>Start a new application; applications will appear here</p>
       </div>
