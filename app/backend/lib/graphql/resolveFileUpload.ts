@@ -7,6 +7,7 @@ const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const AWS_S3_REGION = config.get('AWS_S3_REGION');
 const AWS_S3_KEY = config.get('AWS_S3_KEY');
 const AWS_S3_SECRET_KEY = config.get('AWS_S3_SECRET_KEY');
+const AWS_ROLE_ARN = config.get('AWS_ROLE_ARN');
 const OPENSHIFT_APP_NAMESPACE = config.get('OPENSHIFT_APP_NAMESPACE');
 
 const isDeployedToOpenShift =
@@ -19,7 +20,8 @@ const isLocalDevelopment =
   !AWS_S3_BUCKET ||
   !AWS_S3_REGION ||
   !AWS_S3_KEY ||
-  !AWS_S3_SECRET_KEY;
+  !AWS_S3_SECRET_KEY ||
+  !AWS_ROLE_ARN;
 
 if (!isDeployedToOpenShift) {
   console.log(
