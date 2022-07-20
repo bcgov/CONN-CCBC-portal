@@ -818,7 +818,7 @@ type Application implements Node {
   id: ID!
   rowId: Int!
   referenceNumber: String
-  owner: UUID
+  owner: UUID!
   formData: JSON!
   status: String
 
@@ -1679,7 +1679,7 @@ input CreateApplicationInput {
 """An input for mutations affecting `Application`"""
 input ApplicationInput {
   referenceNumber: String
-  owner: UUID
+  owner: UUID!
   formData: JSON
   status: String
 
