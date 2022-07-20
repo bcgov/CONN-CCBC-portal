@@ -20,19 +20,22 @@ const FormPage = ({ preloadedQuery }: any) => {
   const router = useRouter();
   const trimmedSub = session?.sub.replace(/-/g, '');
 
-  const applicationId = Number(router.query.id)
+  const applicationId = Number(router.query.id);
 
-  const application: any = useLazyLoadQuery<getApplicationByIdQueryType>(getApplicationByIdQuery, {
-    applicationId: applicationId
-  });
+  const application = useLazyLoadQuery<getApplicationByIdQueryType>(
+    getApplicationByIdQuery,
+    {
+      applicationId: applicationId,
+    }
+  );
 
-  const formData = application?.applicationByOwner?.formData;
+  const formData = application.applicationByRowId?.formData
   const pageNumber = Number(router.query.page);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <FormDiv>
-        <Back pageNumber={pageNumber} />
+        <Back applicationId={applicationId} pageNumber={pageNumber} />
         <ApplicationForm
           formData={formData || {}}
           pageNumber={pageNumber}
