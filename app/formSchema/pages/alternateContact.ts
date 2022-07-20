@@ -1,7 +1,8 @@
 const alternateContact = {
   alternateContact: {
     title: 'Alternate contact',
-    description: 'Provide the contact information for the alternate contact',
+    description:
+      'Provide the contact information for an alternate contact in the event that the primary contact becomes unreachable. If there is no alternate contact, leave this section blank.',
     type: 'object',
     required: [
       'altFamilyName',
@@ -13,11 +14,11 @@ const alternateContact = {
     ],
     properties: {
       altFamilyName: {
-        title: 'Family name of person who will be the alternate contact',
+        title: 'Family name',
         type: 'string',
       },
       altGivenName: {
-        title: 'Given name of person who will be the alternate contact',
+        title: 'Given name',
         type: 'string',
       },
       altPostionTitle: {
@@ -41,11 +42,6 @@ const alternateContact = {
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],
-      },
-      isAltFirstContact: {
-        title:
-          'Contact this person for communication regarding the application',
-        type: 'boolean',
       },
     },
   },

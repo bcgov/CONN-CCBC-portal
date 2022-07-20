@@ -37,7 +37,6 @@ const uiSchema = {
     'authTelephone',
     'authExtension',
     'isAuthContactSigningOfficer',
-    'isFirstContact',
     'altFamilyName',
     'altGivenName',
     'altPostionTitle',
@@ -45,7 +44,6 @@ const uiSchema = {
     'altTelephone',
     'altExtension',
     'isAltContactSigningOfficer',
-    'isAltFirstContact',
     'hasProvidedExitingNetworkCoverage',
     'hasPassiveInfrastructure',
     'isInfrastuctureAvailable',
@@ -160,7 +158,8 @@ const uiSchema = {
   geographicAreaDescription: {
     'ui:description': 'maximum 150 characters',
     'ui:title':
-      'Geographic project area description. Describe the geographic location of the project area (i.e., include the closest communities and the general area which the project will target).',
+      'Describe the geographic location of the project area (i.e., include the closest communities and the general area which the project will target).',
+
     'ui:options': {
       maxLength: 150,
     },
@@ -222,6 +221,9 @@ const uiSchema = {
   bandCouncilNumber: {},
   isIndigenousEntity: {
     'ui:widget': 'RadioWidget',
+    'ui:options': {
+      label: false,
+    },
   },
   indigenousEntityDesc: {
     'ui:options': {
@@ -272,20 +274,9 @@ const uiSchema = {
   isAuthContactSigningOfficer: {
     'ui:widget': 'RadioWidget',
   },
-  isFirstContact: {
-    'ui:widget': 'CheckboxWidget',
-    'ui:title': ' ',
-  },
   isAltContactSigningOfficer: {
     'ui:widget': 'RadioWidget',
   },
-  isAltFirstContact: {
-    'ui:widget': 'CheckboxWidget',
-    'ui:options': {
-      label: false,
-    },
-  },
-
   estimatedDirectEmployees: {
     'ui:subtitle': 'Estimated direct employees',
   },
@@ -330,6 +321,7 @@ const uiSchema = {
     'ui:description': 'maximum 3,500 characters',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
+      label: false,
     },
   },
   projectStartDate: {

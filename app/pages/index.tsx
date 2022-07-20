@@ -7,6 +7,20 @@ import type { Request } from 'express';
 import { ButtonLink, Layout } from '../components';
 import { NextPageContext } from 'next/types';
 import { getSessionQuery } from '../schema/queries';
+import styled from 'styled-components';
+
+const StyledOl = styled('ol')`
+  max-width: 300px;
+`;
+
+const StyledLi = styled('li')`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledDetails = styled('div')`
+  color: rgba(45, 45, 45, 0.7);
+`;
 
 const Home = ({ preloadedQuery }: RelayProps) => {
   const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
@@ -15,20 +29,46 @@ const Home = ({ preloadedQuery }: RelayProps) => {
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Welcome</h1>
-        <p>General information:</p>
+        <h3>Before you begin</h3>
         <ul>
-          <li>Please read the Application Guide.</li>
-          <li>Please fill out all templates before completing application</li>
+          <li>Please review the Application Guide</li>
+          <li>Please review the non-fillable form</li>
           <li>
-            Applicants can apply for multiple projects and technology types but
-            must demonstrate the required qualifications for each.
+            Please review the templates and gather all supporting documents
           </li>
         </ul>
+        <h3>General information</h3>
+        <ul>
+          <li>
+            The form will autosave your responses, so you can exit and return to
+            the form later
+          </li>
+          <li>The intake closes on MM/DD/YYYY</li>
+          <li>
+            Applicants can apply for multiple projects and technology types but
+            must demonstrate the qualifications for each
+          </li>
+        </ul>
+        <h3>Form section overview</h3>
+        <StyledOl>
+          <StyledLi>
+            Project details <StyledDetails>10 pages</StyledDetails>
+          </StyledLi>
+          <StyledLi>
+            Attachment uploads <StyledDetails>3 pages</StyledDetails>
+          </StyledLi>
+          <StyledLi>
+            Organization details <StyledDetails>5 pages</StyledDetails>
+          </StyledLi>
+          <StyledLi>
+            Declarations <StyledDetails>2 pages</StyledDetails>
+          </StyledLi>
+        </StyledOl>
+        <h3>Get started</h3>
         <p>
-          To begin the application, please log in with BCeID Business. If you do
-          not have BCeID Business, please use your BCeID Basic.
+          Login with BCeID Business or Basic. You can register for an account if
+          you do not already have one.
         </p>
-
         {session?.sub ? (
           <ButtonLink href="/dashboard">Go to dashboard</ButtonLink>
         ) : (
