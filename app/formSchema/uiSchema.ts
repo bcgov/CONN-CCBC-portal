@@ -420,11 +420,6 @@ const uiSchema = {
       inputType: 'wholeNumber',
     },
   },
-  numberOfHouseholds: {
-    'ui:options': {
-      inputType: 'wholeNumber',
-    },
-  },
   projectStartDate: {
     'ui:widget': 'DatePickerWidget',
   },
@@ -625,11 +620,6 @@ const uiSchema = {
   totalEligibleCosts: {
     'ui:widget': MoneyWidget,
     'ui:subtitle': 'Estimated direct employees',
-    'ui:options': {
-      inputType: 'money',
-    },
-  },
-  totalProjectCost: {
     'ui:options': {
       inputType: 'money',
     },
