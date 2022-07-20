@@ -55,7 +55,7 @@ const projectFunding = {
         type: 'number',
       },
       totalApplicantContribution: {
-        title: 'Total amount applicant will contribute',
+        title: 'Total amount Applicant will contribute',
         type: 'number',
       },
       infrastructureBankFunding2223: {

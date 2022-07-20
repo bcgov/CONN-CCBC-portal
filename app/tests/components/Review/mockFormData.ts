@@ -177,7 +177,7 @@ const mockFormData = {
     hasPassiveInfrastructure: true,
     isInfrastuctureAvailable: true,
     hasProvidedExitingNetworkCoverage:
-      'I will provide existing network information and/or coverage to ISED by the application deadline',
+      'I will provide existing network information and/or Coverage to ISED by the application deadline',
     requiresThirdPartyInfrastructureAccess: true,
   },
   estimatedProjectEmployment: {

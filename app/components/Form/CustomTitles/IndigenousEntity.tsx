@@ -2,7 +2,7 @@ const IndigenousEntity = () => {
   return (
     <div>
       <p>
-        Is this applicant organization an Indigenous identity? An Indigenous
+        Is this Applicant organization an Indigenous identity? An Indigenous
         identity may include:
       </p>
       <ul>

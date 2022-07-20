@@ -38,7 +38,7 @@ const alternateContact = {
         type: 'string',
       },
       isAltContactSigningOfficer: {
-        title: 'Is this person an authorized signing officer of the applicant?',
+        title: 'Is this person an authorized signing officer of the Applicant?',
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],

@@ -159,7 +159,7 @@ const uiSchema = {
   geographicAreaDescription: {
     'ui:description': 'maximum 150 characters',
     'ui:title':
-      'Describe the geographic location of the project area (i.e., include the closest communities and the general area which the project will target).',
+      'Describe the geographic location of the Project area (i.e., include the closest communities and the general area which the Project will target).',
 
     'ui:options': {
       maxLength: 150,
@@ -169,7 +169,7 @@ const uiSchema = {
     'ui:widget': 'TextAreaWidget',
     'ui:description': 'maximum 3,500 characters',
     'ui:title':
-      'Using non-technical language, provide a description of the project, including its key elements, purpose, objectives and benefits. Identify the ‘who’, ‘what’, ‘where’, ‘when’ and ‘why’. Please avoid including confidential or proprietary information.',
+      'Using non-technical language, provide a description of the Project, including its key elements, purpose, objectives and benefits. Identify the ‘who’, ‘what’, ‘where’, ‘when’ and ‘why’. Please avoid including Confidential or Proprietary information.',
 
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
@@ -476,7 +476,7 @@ const uiSchema = {
   },
   logicalNetworkDiagram: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Logical network diagram',
+    'ui:description': 'Logical Network Diagram',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
     },
@@ -499,7 +499,7 @@ const uiSchema = {
   },
   geographicCoverageMap: {
     'ui:widget': 'FileWidget',
-    'ui:description': `Geographic coverage map from ISED's Eligibility Mapping Tool`,
+    'ui:description': `Geographic Coverage Map from ISED's Eligibility Mapping Tool`,
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
     },
@@ -521,7 +521,7 @@ const uiSchema = {
   upgradedNetworkInfrastructure: {
     'ui:widget': 'FileWidget',
     'ui:description':
-      'Proposed or Upgraded Network Infrastructure (project specific)',
+      'Proposed or Upgraded Network Infrastructure (Project specific)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
     },
@@ -578,7 +578,7 @@ const uiSchema = {
   evidenceOfConnectivitySpeeds: {
     'ui:widget': 'FileWidget',
     'ui:description':
-      'Evidence of connectivity speeds (e.g, screen captures of speed test results)',
+      'Evidence of connectivity speeds (e.g, screen captures of Speed Test results)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
@@ -824,7 +824,7 @@ const uiSchema = {
       totalFundingRequestedCCBC: '1 / 2',
     },
     {
-      title: 'Amount the applicant will contribute',
+      title: 'Amount the Applicant will contribute',
       columns: 5,
       applicationContribution2223: 1,
       applicationContribution2324: 2,

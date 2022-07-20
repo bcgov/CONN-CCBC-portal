@@ -2,7 +2,7 @@ const declarationsSign = {
   declarationsSign: {
     title: 'Declarations',
     description:
-      'You certify that you have the authority to submit this information on behalf of the applicant.',
+      'You certify that you have the authority to submit this information on behalf of the Applicant.',
     type: 'object',
     required: [
       'declarationsCompletedFor',
@@ -12,7 +12,7 @@ const declarationsSign = {
     ],
     properties: {
       declarationsCompletedFor: {
-        title: 'Completed for (applicant Name)',
+        title: 'Completed for (Applicant Name)',
         type: 'string',
       },
       declarationsDate: {

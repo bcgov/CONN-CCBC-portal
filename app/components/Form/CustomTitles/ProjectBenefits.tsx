@@ -2,9 +2,9 @@ const ProjectBenefits = () => {
   return (
     <div>
       <p>
-        Sustainability. Please summarize the benefits that the project will
+        Sustainability. Please summarize the benefits that the Project will
         bring to the targeted areas. Describe the benefits and sustainability of
-        the project in terms of:
+        the Project in terms of:
       </p>
       <ul>
         <li>Social and economic benefits</li>
@@ -20,7 +20,7 @@ const ProjectBenefits = () => {
         </li>
       </ul>
       <p>
-        To support claims of social and economic benefits, applicants should
+        To support claims of social and economic benefits, Applicants should
         provide letters of support and the accompanying Template 6: Community
         and Rural Development Benefits at the uploads section.
       </p>

@@ -127,7 +127,7 @@ describe('The Project area section', () => {
     renderStaticLayout(errors);
 
     expect(document.getElementById('geographicArea')).toHaveTextContent(
-      'Referring to the project zones shown in the application guide, which zone(s) will this project be conducted in?'
+      'Referring to the Project Zones shown in the application guide, which zone(s) will this project be conducted in?'
     );
 
     expect(
@@ -148,7 +148,7 @@ describe('The Budget details section without errors', () => {
     renderStaticLayout(errors);
 
     expect(document.getElementById('totalProjectCost')).toHaveTextContent(
-      'Total project cost'
+      'Total Project Cost'
     );
 
     expect(document.getElementById('totalProjectCost-value')).toHaveTextContent(
@@ -163,7 +163,7 @@ describe('The Budget details section with errors', () => {
     renderStaticLayout(errors);
 
     expect(document.getElementById('totalProjectCost')).toHaveTextContent(
-      'Total project cost'
+      'Total Project Cost'
     );
 
     expect(document.getElementById('totalProjectCost-error')).toBeNull();
