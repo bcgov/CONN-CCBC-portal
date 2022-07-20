@@ -31,11 +31,11 @@ const alternateContact = {
       },
       altTelephone: {
         title: 'Telephone',
-        type: 'number',
+        type: 'string',
       },
       altExtension: {
         title: 'Extension',
-        type: 'number',
+        type: 'string',
       },
       isAltContactSigningOfficer: {
         title: 'Is this person an authorized signing officer of the applicant?',

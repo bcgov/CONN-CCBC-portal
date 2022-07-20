@@ -1,3 +1,4 @@
+import { MoneyWidget, NumberWidget } from '../lib/theme/widgets';
 const MAX_TEXTAREA_LENGTH = 3500;
 const MAX_LONG_INPUT_LENGTH = 200;
 const MAX_MED_INPUT_LENGTH = 75;
@@ -68,7 +69,7 @@ const uiSchema = {
     'indigenousEntityDesc',
     'organizationOverview',
     'orgRegistrationDate',
-    'bussinessNumber',
+    'businessNumber',
     'currentEmployment',
     'estimatedDirectEmployees',
     'numberOfEmployeesToWork',
@@ -242,6 +243,7 @@ const uiSchema = {
   bussinessNumber: {
     'ui:options': {
       maxLength: MAX_SHORT_INPUT_LENGTH,
+      inputType: 'wholeNumber',
     },
   },
   isMailingAddress: {
@@ -274,14 +276,92 @@ const uiSchema = {
   isAuthContactSigningOfficer: {
     'ui:widget': 'RadioWidget',
   },
+  authTelephone: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      inputType: 'phone',
+    },
+  },
+  altTelephone: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      inputType: 'phone',
+    },
+  },
+  contactTelephoneNumber: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      inputType: 'phone',
+    },
+  },
+  isFirstContact: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:title': ' ',
+  },
   isAltContactSigningOfficer: {
     'ui:widget': 'RadioWidget',
+  },
+  isAltFirstContact: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:options': {
+      label: false,
+    },
+  },
+  currentEmployment: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      maxLength: 7,
+      commaSeparator: true,
+      decimals: 0,
+    },
   },
   estimatedDirectEmployees: {
     'ui:subtitle': 'Estimated direct employees',
   },
+  numberOfEmployeesToWork: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      commaSeparator: true,
+      decimals: 0,
+    },
+  },
+  hoursOfEmploymentPerWeek: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      commaSeparator: true,
+      decimals: 1,
+    },
+  },
+  personMonthsToBeCreated: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      commaSeparator: true,
+      decimals: 1,
+    },
+  },
   estimatedContractorLabour: {
     'ui:subtitle': 'Estimated contracted labour',
+  },
+  numberOfContractorsToWork: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      commaSeparator: true,
+      decimals: 0,
+    },
+  },
+  hoursOfContractorEmploymentPerWeek: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      commaSeparator: true,
+      decimals: 1,
+    },
+  },
+  contractorPersonMonthsToBeCreated: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      commaSeparator: true,
+      decimals: 1,
+    },
   },
   declarationsList: {
     'ui:title': ` `,
@@ -322,6 +402,12 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
       label: false,
+    },
+  },
+  numberOfHouseholds: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      inputType: 'wholeNumber',
     },
   },
   projectStartDate: {
@@ -522,11 +608,47 @@ const uiSchema = {
     },
   },
   totalEligibleCosts: {
+    'ui:widget': MoneyWidget,
     'ui:subtitle': 'Estimated direct employees',
   },
-  totalProjectCost: {},
+  totalProjectCost: {
+    'ui:widget': MoneyWidget,
+  },
   otherFundingSources: {
     'ui:widget': 'RadioWidget',
+  },
+  contactEmail: {
+    'ui:options': {
+      inputType: 'email',
+    },
+  },
+  contactExtension: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      maxLength: 9,
+      inputType: 'wholeNumber',
+    },
+  },
+  authExtension: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      maxLength: 9,
+      inputType: 'wholeNumber',
+    },
+  },
+  altExtension: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      maxLength: 9,
+      inputType: 'wholeNumber',
+    },
+  },
+  businessNumber: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      maxLength: 9,
+      inputType: 'wholeNumber',
+    },
   },
   otherFundingSourcesArray: {
     items: {
@@ -554,6 +676,24 @@ const uiSchema = {
         'ui:options': {
           maxLength: 150,
         },
+      },
+      requestedFundingPartner2223: {
+        'ui:widget': MoneyWidget,
+      },
+      requestedFundingPartner2324: {
+        'ui:widget': MoneyWidget,
+      },
+      requestedFundingPartner2425: {
+        'ui:widget': MoneyWidget,
+      },
+      requestedFundingPartner2526: {
+        'ui:widget': MoneyWidget,
+      },
+      requestedFundingPartner2627: {
+        'ui:widget': MoneyWidget,
+      },
+      totalRequestedFundingPartner: {
+        'ui:widget': MoneyWidget,
       },
       // Custom array button prop that is used in ArrayFieldTemplate
       'ui:array-buttons': {
@@ -600,6 +740,57 @@ const uiSchema = {
         { columns: 2, totalRequestedFundingPartner: '1 / 2' },
       ],
     },
+  },
+  fundingRequestedCCBC2223: {
+    'ui:widget': MoneyWidget,
+  },
+  fundingRequestedCCBC2324: {
+    'ui:widget': MoneyWidget,
+  },
+  fundingRequestedCCBC2425: {
+    'ui:widget': MoneyWidget,
+  },
+  fundingRequestedCCBC2526: {
+    'ui:widget': MoneyWidget,
+  },
+  fundingRequestedCCBC2627: {
+    'ui:widget': MoneyWidget,
+  },
+  totalFundingRequestedCCBC: {
+    'ui:widget': MoneyWidget,
+  },
+  applicationContribution2223: {
+    'ui:widget': MoneyWidget,
+  },
+  applicationContribution2324: {
+    'ui:widget': MoneyWidget,
+  },
+  applicationContribution2425: {
+    'ui:widget': MoneyWidget,
+  },
+  applicationContribution2526: {
+    'ui:widget': MoneyWidget,
+  },
+  applicationContribution2627: {
+    'ui:widget': MoneyWidget,
+  },
+  totalApplicantContribution: {
+    'ui:widget': MoneyWidget,
+  },
+  infrastructureBankFunding2223: {
+    'ui:widget': MoneyWidget,
+  },
+  infrastructureBankFunding2324: {
+    'ui:widget': MoneyWidget,
+  },
+  infrastructureBankFunding2425: {
+    'ui:widget': MoneyWidget,
+  },
+  infrastructureBankFunding2526: {
+    'ui:widget': MoneyWidget,
+  },
+  totalInfrastructureBankFunding: {
+    'ui:widget': MoneyWidget,
   },
   'ui:inline': [
     // Each object is a row for inline grid elements. Set the number of columns with column key

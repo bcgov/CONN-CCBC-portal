@@ -93,7 +93,7 @@ const FileWidget: React.FC<WidgetProps> = ({
 
       createAttachment({
         variables,
-        onError: (err) => console.error('error', err),
+        onError: (err) => console.log('error', err),
         onCompleted: (res) => {
           const uuid = res?.createAttachment?.attachment?.file;
           const fileDetails = {
