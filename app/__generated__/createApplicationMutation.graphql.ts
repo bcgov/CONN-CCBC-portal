@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<affdeae8070da136700c0479d60596b3>>
+ * @generated SignedSource<<e04750749c3aaa459260a0abb253c587>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type CreateApplicationInput = {
 };
 export type ApplicationInput = {
   referenceNumber?: string | null;
-  owner?: any | null;
+  owner: any;
   formData?: any | null;
   status?: string | null;
   createdBy?: number | null;
@@ -31,6 +31,9 @@ export type createApplicationMutation$variables = {
 export type createApplicationMutation$data = {
   readonly createApplication: {
     readonly clientMutationId: string | null;
+    readonly application: {
+      readonly rowId: number;
+    } | null;
   } | null;
 };
 export type createApplicationMutation = {
@@ -48,37 +51,57 @@ var v0 = [
 ],
 v1 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "input",
-        "variableName": "input"
-      }
-    ],
-    "concreteType": "CreateApplicationPayload",
-    "kind": "LinkedField",
-    "name": "createApplication",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "clientMutationId",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Variable",
+    "name": "input",
+    "variableName": "input"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "clientMutationId",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "rowId",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "createApplicationMutation",
-    "selections": (v1/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "CreateApplicationPayload",
+        "kind": "LinkedField",
+        "name": "createApplication",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Application",
+            "kind": "LinkedField",
+            "name": "application",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/)
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "Mutation",
     "abstractKey": null
   },
@@ -87,19 +110,51 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "createApplicationMutation",
-    "selections": (v1/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "CreateApplicationPayload",
+        "kind": "LinkedField",
+        "name": "createApplication",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Application",
+            "kind": "LinkedField",
+            "name": "application",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "id",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "9c913ee0a278b8e6da7a7a763419588b",
+    "cacheID": "e9d4fb4ef8b870b08582c85f4b3963af",
     "id": null,
     "metadata": {},
     "name": "createApplicationMutation",
     "operationKind": "mutation",
-    "text": "mutation createApplicationMutation(\n  $input: CreateApplicationInput!\n) {\n  createApplication(input: $input) {\n    clientMutationId\n  }\n}\n"
+    "text": "mutation createApplicationMutation(\n  $input: CreateApplicationInput!\n) {\n  createApplication(input: $input) {\n    clientMutationId\n    application {\n      rowId\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "e1ccf1dc120bf92eecdeca5f6f02dd44";
+(node as any).hash = "ee1e5476b24d34cae6953025a5cc1d0b";
 
 export default node;

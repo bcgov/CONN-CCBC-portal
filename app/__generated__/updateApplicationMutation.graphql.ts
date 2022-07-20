@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<713fc1a2bd2ce2677e0e3ef86018e470>>
+ * @generated SignedSource<<d81ea45375483f02dd63c36ebb059111>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,10 +9,10 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type UpdateApplicationByOwnerInput = {
+export type UpdateApplicationByRowIdInput = {
   clientMutationId?: string | null;
   applicationPatch: ApplicationPatch;
-  owner: any;
+  rowId: number;
 };
 export type ApplicationPatch = {
   referenceNumber?: string | null;
@@ -27,17 +27,18 @@ export type ApplicationPatch = {
   archivedAt?: any | null;
 };
 export type updateApplicationMutation$variables = {
-  input: UpdateApplicationByOwnerInput;
+  input: UpdateApplicationByRowIdInput;
 };
 export type updateApplicationMutation$data = {
-  readonly updateApplicationByOwner: {
+  readonly updateApplicationByRowId: {
     readonly clientMutationId: string | null;
     readonly application: {
       readonly formData: any;
       readonly id: string;
-      readonly owner: any | null;
+      readonly owner: any;
       readonly status: string | null;
       readonly referenceNumber: string | null;
+      readonly rowId: number;
     } | null;
   } | null;
 };
@@ -66,7 +67,7 @@ v1 = [
     ],
     "concreteType": "UpdateApplicationPayload",
     "kind": "LinkedField",
-    "name": "updateApplicationByOwner",
+    "name": "updateApplicationByRowId",
     "plural": false,
     "selections": [
       {
@@ -118,6 +119,13 @@ v1 = [
             "kind": "ScalarField",
             "name": "referenceNumber",
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "rowId",
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -144,16 +152,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "8b1f07d53dba2227d488baefc6861d8a",
+    "cacheID": "07df4f07385cbcc0a04cd2cfb9ba97d1",
     "id": null,
     "metadata": {},
     "name": "updateApplicationMutation",
     "operationKind": "mutation",
-    "text": "mutation updateApplicationMutation(\n  $input: UpdateApplicationByOwnerInput!\n) {\n  updateApplicationByOwner(input: $input) {\n    clientMutationId\n    application {\n      formData\n      id\n      owner\n      status\n      referenceNumber\n    }\n  }\n}\n"
+    "text": "mutation updateApplicationMutation(\n  $input: UpdateApplicationByRowIdInput!\n) {\n  updateApplicationByRowId(input: $input) {\n    clientMutationId\n    application {\n      formData\n      id\n      owner\n      status\n      referenceNumber\n      rowId\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "31f23c8f86b3a2c588d52ab439993cf8";
+(node as any).hash = "46685fe6c8963e572daa393f06e0c085";
 
 export default node;

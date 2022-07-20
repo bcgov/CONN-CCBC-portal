@@ -6,7 +6,10 @@ import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 const mutation = graphql`
   mutation createApplicationMutation($input: CreateApplicationInput!) {
     createApplication(input: $input) {
-      clientMutationId
+      clientMutationId,
+      application {
+        rowId,
+      }
     }
   }
 `;

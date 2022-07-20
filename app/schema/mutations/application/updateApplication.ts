@@ -4,8 +4,8 @@ import { graphql } from 'react-relay';
 import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`
-  mutation updateApplicationMutation($input: UpdateApplicationByOwnerInput!) {
-    updateApplicationByOwner(input: $input) {
+  mutation updateApplicationMutation($input: UpdateApplicationByRowIdInput!) {
+    updateApplicationByRowId(input: $input) {
       clientMutationId
       application {
         formData
@@ -13,6 +13,7 @@ const mutation = graphql`
         owner
         status
         referenceNumber
+        rowId
       }
     }
   }
