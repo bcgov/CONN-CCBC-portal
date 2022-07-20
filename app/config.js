@@ -132,6 +132,12 @@ const config = convict({
     default: '',
     env: 'AWS_S3_SECRET_KEY',
   },
+  AWS_ROLE_ARN: {
+    doc: 'AWS Role ARN',
+    format: String,
+    default: '',
+    env: 'AWS_ROLE_ARN',
+  },
 });
 
 // Load environment dependent configuration
