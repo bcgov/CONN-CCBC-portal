@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "ccbc.fullname" . }}
-  labels: {{ include "ccbc.labels" . | indent 4}}
+  labels:
+{{ include "ccbc.labels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
