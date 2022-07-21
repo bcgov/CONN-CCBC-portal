@@ -17,17 +17,24 @@ import { useCreateApplicationMutation } from '../schema/mutations/application/cr
 import { Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { getAllApplicationsByOwnerQuery as getAllApplicationsByOwnerQueryType } from '../__generated__/getAllApplicationsByOwnerQuery.graphql';
+import { useEffect } from 'react';
 
 const Dashboard = ({ preloadedQuery }: any) => {
   const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
   const trimmedSub: string = session?.sub.replace(/-/g, '');
 
+  // workaround until usePagination is to be called, prevent old data from being displayed
   const allApplications = useLazyLoadQuery<getAllApplicationsByOwnerQueryType>(
     getAllApplicationsByOwnerQuery,
     {
       formOwner: { owner: trimmedSub },
+    },
+    {
+      fetchPolicy: 'network-only'
     }
   );
+
+
 
   const hasApplications = allApplications.allApplications.nodes.length > 0;
 
@@ -62,7 +69,6 @@ const Dashboard = ({ preloadedQuery }: any) => {
         <StyledGovButton onClick={handleCreateApplication}>
           New application
         </StyledGovButton>
-        
       </div>
       {hasApplications ? (
         <DashboardTable applications={allApplications} />
