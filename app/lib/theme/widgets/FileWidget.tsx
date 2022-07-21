@@ -6,7 +6,7 @@ import { Button } from '@button-inc/bcgov-theme';
 import React from 'react';
 import { useCreateAttachment } from '../../../schema/mutations/attachment/createAttachment';
 import bytesToSize from '../../../utils/bytesToText';
-import { LoadingSpinner } from '../../../components';
+import { CancelIcon, LoadingSpinner } from '../../../components';
 
 const StyledContainer = styled('div')`
   margin-top: 16px;
@@ -46,6 +46,23 @@ const StyledButton = styled(Button)`
 const StyledError = styled('div')`
   color: #e71f1f;
   margin-top: 10px;
+`;
+
+const StyledFileDiv = styled('div')`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  margin: 4px 0;
+  & svg {
+    margin: 0 8px;
+  }
+`;
+
+const StyledDeleteBtn = styled('button')`
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 type File = {
@@ -127,6 +144,10 @@ const FileWidget: React.FC<WidgetProps> = ({
     e.target.value = '';
   };
 
+  const handleDelete = () => {
+    console.log('delete');
+  };
+
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
@@ -149,8 +170,20 @@ const FileWidget: React.FC<WidgetProps> = ({
       <StyledDetails>
         <StyledH4>{description}</StyledH4>
         {fileList.length > 0 &&
-          fileList.map((file: File, i) => {
-            return <StyledLink key={file.name + i}>{file.name}</StyledLink>;
+          fileList.map((file: File) => {
+            return (
+              <StyledFileDiv key={file.uuid}>
+                <StyledLink>{file.name}</StyledLink>
+                <StyledDeleteBtn
+                  onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+                    e.preventDefault();
+                    handleDelete();
+                  }}
+                >
+                  <CancelIcon />
+                </StyledDeleteBtn>
+              </StyledFileDiv>
+            );
           })}
         {error && <StyledError>{error}</StyledError>}
       </StyledDetails>
