@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8a6120906e89b9cfb44bba6070f2cf3b>>
+ * @generated SignedSource<<838296245d40b637022c9137a5188d72>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -35,9 +35,6 @@ export type getAllApplicationsByOwnerQuery$data = {
       readonly status: string | null;
       readonly projectName: string | null;
     } | null>;
-  } | null;
-  readonly session: {
-    readonly sub: any | null;
   } | null;
 };
 export type getAllApplicationsByOwnerQuery = {
@@ -123,24 +120,6 @@ v1 = [
       }
     ],
     "storageKey": null
-  },
-  {
-    "alias": null,
-    "args": null,
-    "concreteType": "KeycloakJwt",
-    "kind": "LinkedField",
-    "name": "session",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "sub",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
   }
 ];
 return {
@@ -161,16 +140,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "56f16813d95851bd34b36bc084c6164f",
+    "cacheID": "62ef7cd6518b85fe3c2d855faafb8e6f",
     "id": null,
     "metadata": {},
     "name": "getAllApplicationsByOwnerQuery",
     "operationKind": "query",
-    "text": "query getAllApplicationsByOwnerQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n    }\n  }\n  session {\n    sub\n  }\n}\n"
+    "text": "query getAllApplicationsByOwnerQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "2ec5111045df3b98fa5402438af515ac";
+(node as any).hash = "6292bd220f6c56d8a7accedf45820fca";
 
 export default node;
