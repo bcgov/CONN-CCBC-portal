@@ -242,12 +242,6 @@ const uiSchema = {
   orgRegistrationDate: {
     'ui:widget': 'DatePickerWidget',
   },
-  businessNumber: {
-    'ui:options': {
-      maxLength: MAX_SHORT_INPUT_LENGTH,
-      inputType: 'wholeNumber',
-    },
-  },
   isMailingAddress: {
     'ui:widget': 'RadioWidget',
   },
