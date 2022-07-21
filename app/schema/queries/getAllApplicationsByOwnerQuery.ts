@@ -4,6 +4,7 @@ const getAllApplicationsByOwnerQuery = graphql`
   query getAllApplicationsByOwnerQuery($formOwner: ApplicationCondition!) {
     allApplications(condition: $formOwner) {
       nodes {
+        id
         rowId
         owner
         referenceNumber

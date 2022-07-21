@@ -1,4 +1,3 @@
-import { off } from 'process'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -24,6 +23,7 @@ const PillSpan = styled.span<PillSpanProps>`
     }}
     border-radius: 4px;
     padding: 5px;
+    text-transform: capitalize;
 `
 
 

@@ -25,7 +25,11 @@ const Dashboard = ({ preloadedQuery }: Props) => {
   const { session } = usePreloadedQuery(getSessionQuery, preloadedQuery);
   const trimmedSub: string = session?.sub.replace(/-/g, '');
 
- const router = useRouter();
+  const allApplications = useLazyLoadQuery<getAllApplicationsByOwnerQueryType>(getAllApplicationsByOwnerQuery, {
+    formOwner: {owner: trimmedSub}
+  })
+
+  const router = useRouter();
 
   const [createApplication] = useCreateApplicationMutation();
 
@@ -55,7 +59,7 @@ const Dashboard = ({ preloadedQuery }: Props) => {
         <h4>No applications yet</h4>
         <p>Start a new application; applications will appear here</p>
       </div>
-        <DashboardTable/>
+        <DashboardTable  applications={allApplications} />
     </Layout>
   );
 };
