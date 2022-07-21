@@ -583,7 +583,6 @@ const uiSchema = {
       'Evidence of connectivity speeds (e.g, screen captures of Speed Test results)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
-      label: false,
       allowMultipleFiles: true,
     },
   },
