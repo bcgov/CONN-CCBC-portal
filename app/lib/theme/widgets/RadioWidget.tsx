@@ -29,6 +29,9 @@ const RadioWidget: React.FC<WidgetProps> = ({
       if (value === '') value = '';
       if (value === 'true') value = true;
       if (value === 'false') value = false;
+      if (value === 'Yes') value = true;
+      if (value === 'No') value = false;
+
       onChange(value);
     },
   };

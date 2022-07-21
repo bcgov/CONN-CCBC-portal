@@ -3,8 +3,15 @@ const projectPlan = {
     title: 'Project planning and management',
     type: 'object',
     description:
-      'An Applicant must demonstrate capacity including administrative and technical capabilities to manage the proposed Project and bring it to successful completion.',
-    required: ['projectStartDate', 'projectCompletionDate', 'operationalPlan'],
+      'An applicant must demonstrate capacity including administrative and technical capabilities to manage the proposed project and bring it to successful completion.',
+    required: [
+      'projectStartDate',
+      'projectCompletionDate',
+      'operationalPlan',
+      'relationshipManagerApplicant',
+      'overviewProjectManagementTeam',
+      'overviewOfProjectParticipants',
+    ],
     properties: {
       projectStartDate: {
         title: 'Project Start Date (YYYY/MM/DD)',

@@ -5,11 +5,10 @@ const authorizedContact = {
       'The authorized contact should have full authority to bind said organization through Funding Agreements. One primary contact must be identified for applications submitted on behalf of multiple organizations.',
     type: 'object',
     required: [
-      'authFamilyName',
+      'authGivenName',
       'authPostionTitle',
       'authEmail',
       'authTelephone',
-      'isFirstContact',
     ],
     properties: {
       authFamilyName: {

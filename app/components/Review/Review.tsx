@@ -69,7 +69,6 @@ const Review = ({
   reviewConfirm,
 }: Props) => {
   // const [expand, setExpand] = useState(false);
-
   const reviewSchema = [
     'projectInformation',
     'projectArea',
@@ -134,7 +133,6 @@ const Review = ({
         };
 
         const isError = formErrorSchema[section] != undefined;
-
         return (
           <Accordion
             id={section}
@@ -155,7 +153,7 @@ const Review = ({
 
             {section === 'otherFundingSources' && (
               <OtherFundingSourcesTable
-                errorSchema={errorFieldKeys(formErrorSchema[section])}
+                errorSchema={formErrorSchema[section]}
                 formData={formData[section]}
                 subschema={subschema}
               />

@@ -3,12 +3,13 @@ const otherFundingSources = {
     title: 'Other funding sources',
     type: 'object',
     description:
-      'Identify sources of funding that you expect to secure to cover all Project Costs, not including the Province of British Columbia or the Universal Broadband Fund. Please only include loans that you anticipate receiving from a program or granting agency. Any other loans must be included in the Applicant funding.',
+      'Identify sources of funding that you expect to secure to cover all project costs, not including the Province of British Columbia or the Universal Broadband Fund. Please only include loans that you anticipate receiving from a program or granting agency. Any other loans must be included in the applicant funding.',
+    required: ['otherFundingSources'],
     properties: {
       otherFundingSources: {
         title: 'Will you have other funding sources?',
         type: 'boolean',
-        enum: ['Yes', 'No'],
+        enum: [true, false],
       },
     },
     dependencies: {
@@ -17,20 +18,27 @@ const otherFundingSources = {
           {
             properties: {
               otherFundingSources: {
-                enum: ['No'],
+                enum: [false],
               },
             },
           },
           {
             properties: {
               otherFundingSources: {
-                enum: ['Yes'],
+                enum: [true],
               },
               otherFundingSourcesArray: {
                 type: 'array',
                 default: [{}],
                 items: {
                   type: 'object',
+                  required: [
+                    'fundingPartnersName',
+                    'fundingSourceContactInfo',
+                    'statusOfFunding',
+                    'funderType',
+                    'totalRequestedFundingPartner',
+                  ],
                   properties: {
                     fundingPartnersName: {
                       title: `Funding partner's name`,
