@@ -3,31 +3,36 @@ import Link from 'next/link';
 
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { NextPageContext } from 'next/types';
-import { getAllApplicationsByOwnerQuery, getSessionQuery } from '../schema/queries';
-import { getSessionQuery as getSessionQueryType } from '../__generated__/getSessionQuery.graphql'
+import {
+  getAllApplicationsByOwnerQuery,
+  getSessionQuery,
+} from '../schema/queries';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import { PreloadedQuery, useLazyLoadQuery, usePreloadedQuery } from 'react-relay/hooks';
+import {
+  PreloadedQuery,
+  useLazyLoadQuery,
+  usePreloadedQuery,
+} from 'react-relay/hooks';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
 
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
 import { Layout } from '../components';
-import  { DashboardTable } from '../components/Dashboard';
+import { DashboardTable } from '../components/Dashboard';
 import { getAllApplicationsByOwnerQuery as getAllApplicationsByOwnerQueryType } from '../__generated__/getAllApplicationsByOwnerQuery.graphql';
+import { getSessionQuery as getSessionQueryType} from '../__generated__/getSessionQuery.graphql';
 
-
-type Props = {
-  preloadedQuery: PreloadedQuery<getSessionQueryType>
-}
-
-const Dashboard = ({ preloadedQuery }: Props) => {
-  const { session } = usePreloadedQuery(getSessionQuery, preloadedQuery);
+const Dashboard = ({ preloadedQuery }: any) => {
+  const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
   const trimmedSub: string = session?.sub.replace(/-/g, '');
 
-  const allApplications = useLazyLoadQuery<getAllApplicationsByOwnerQueryType>(getAllApplicationsByOwnerQuery, {
-    formOwner: {owner: trimmedSub}
-  })
+  const allApplications = useLazyLoadQuery<getAllApplicationsByOwnerQueryType>(
+    getAllApplicationsByOwnerQuery,
+    {
+      formOwner: { owner: trimmedSub },
+    }
+  );
 
   const router = useRouter();
 
@@ -40,7 +45,7 @@ const Dashboard = ({ preloadedQuery }: Props) => {
         input: { application: { owner: trimmedSub } },
       },
       onCompleted: (response) => {
-        const applicationId = response.createApplication.application.rowId
+        const applicationId = response.createApplication.application.rowId;
         router.push(`/form/${applicationId}/1`);
       },
       onError: () => {
@@ -53,18 +58,18 @@ const Dashboard = ({ preloadedQuery }: Props) => {
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Dashboard</h1>
-          <StyledGovButton onClick={handleCreateApplication}>
-            New application
-          </StyledGovButton>
+        <StyledGovButton onClick={handleCreateApplication}>
+          New application
+        </StyledGovButton>
         <h4>No applications yet</h4>
         <p>Start a new application; applications will appear here</p>
       </div>
-        <DashboardTable  applications={allApplications} />
+      <DashboardTable applications={allApplications} />
     </Layout>
   );
 };
 
-const QueryRenderer = ({ preloadedQuery }: RelayProps<{}, getSessionQueryType>) => {
+const QueryRenderer = ({ preloadedQuery }: RelayProps) => {
   return (
     preloadedQuery && <Dashboard preloadedQuery={preloadedQuery} CSN={false} />
   );
