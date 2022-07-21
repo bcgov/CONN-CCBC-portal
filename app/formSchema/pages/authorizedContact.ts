@@ -2,7 +2,7 @@ const authorizedContact = {
   authorizedContact: {
     title: 'Authorized contact',
     description:
-      'The authorized contact should have full authority to bind said organization through funding agreements. One primary contact must be identified for applications submitted on behalf of multiple organizations.',
+      'The authorized contact should have full authority to bind said organization through Funding Agreements. One primary contact must be identified for applications submitted on behalf of multiple organizations.',
     type: 'object',
     required: [
       'authFamilyName',
@@ -37,7 +37,7 @@ const authorizedContact = {
         type: 'string',
       },
       isAuthContactSigningOfficer: {
-        title: 'Is this person an authorized signing officer of the applicant?',
+        title: 'Is this person an authorized signing officer of the Applicant?',
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],

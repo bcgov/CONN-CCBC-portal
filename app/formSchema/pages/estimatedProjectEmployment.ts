@@ -24,7 +24,7 @@ const estimatedProjectEmployment = {
         type: 'object',
       },
       numberOfEmployeesToWork: {
-        title: `Number of people to work on the project`,
+        title: `Number of people to work on the Project`,
         type: 'number',
       },
       hoursOfEmploymentPerWeek: {
@@ -40,7 +40,7 @@ const estimatedProjectEmployment = {
         type: 'object',
       },
       numberOfContractorsToWork: {
-        title: `Number of people to work on the project`,
+        title: `Number of people to work on the Project`,
         type: 'number',
       },
       hoursOfContractorEmploymentPerWeek: {

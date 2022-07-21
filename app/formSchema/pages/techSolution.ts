@@ -6,12 +6,12 @@ const techSolution = {
     properties: {
       systemDesign: {
         title:
-          'System design: Provide a description of the system design which covers all key network components that will enable improved connectivity. This description should provide sufficient detail, from the start to the end points.',
+          'System design: Provide a description of the system design which covers all key Network components that will enable improved connectivity. This description should provide sufficient detail, from the start to the end points.',
         type: 'string',
       },
       scalability: {
         title:
-          'Scalability: Describe the ability of the network to adapt to forecasted increased network capacity and demand over the next 5 years from the project completion date, accommodating additional subscribers and usage traffic, enhanced services and the network’s ability to support speeds identified in the application guide. ',
+          'Scalability: Describe the ability of the Network to adapt to forecasted increased Network capacity and demand over the next 5 years from the Project Completion Date, accommodating additional subscribers and usage traffic, enhanced services and the Network’s ability to support speeds identified in the application guide. ',
         type: 'string',
       },
       backboneTechnology: {
