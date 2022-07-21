@@ -1,4 +1,3 @@
-import { errors } from 'openid-client';
 import React from 'react';
 import styled from 'styled-components';
 import formatMoney from '../../utils/formatMoney';

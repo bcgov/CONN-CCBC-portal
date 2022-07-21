@@ -41,7 +41,7 @@ const projectArea = {
                   'If yes, select the provinces or territorities (check all that apply):',
                 type: 'array',
                 items: {
-                  type: 'boolean',
+                  type: 'string',
                   enum: ['Alberta', 'Northwest Territories', 'Yukon'],
                 },
                 uniqueItems: true,

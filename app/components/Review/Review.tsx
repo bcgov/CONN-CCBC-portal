@@ -69,9 +69,6 @@ const Review = ({
   reviewConfirm,
 }: Props) => {
   // const [expand, setExpand] = useState(false);
-  console.log(formErrorSchema.organizationProfile);
-  console.log(formErrorSchema);
-
   const reviewSchema = [
     'projectInformation',
     'projectArea',

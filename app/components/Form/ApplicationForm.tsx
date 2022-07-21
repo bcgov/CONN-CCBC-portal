@@ -26,11 +26,29 @@ const ApplicationForm: React.FC<Props> = ({
   pageNumber,
   trimmedSub,
 }) => {
-  const formErrorSchema = validateFormData(formData, schema())?.errorSchema;
+  const formatErrorSchema = (formData, schema) => {
+    const errorSchema = validateFormData(formData, schema)?.errorSchema;
 
-  // Remove declarations errors from error schema since they aren't on review page
-  delete formErrorSchema['declarations'];
-  delete formErrorSchema['declarationsSign'];
+    // Remove declarations errors from error schema since they aren't on review page
+    delete errorSchema['declarations'];
+    delete errorSchema['declarationsSign'];
+
+    // This is a workaround for 'should be array' error and the schema/radio widget
+    // should ideally be refactored so we don't need this.
+    const arrayError =
+      errorSchema?.organizationProfile?.typeOfOrganization?.__errors[0] ===
+      'should be array';
+    if (
+      arrayError &&
+      Object.keys(errorSchema.organizationProfile).length <= 1
+    ) {
+      delete errorSchema['organizationProfile'];
+    }
+
+    return errorSchema;
+  };
+
+  const formErrorSchema = formatErrorSchema(formData, schema());
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 

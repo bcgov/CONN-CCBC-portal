@@ -9,7 +9,6 @@ const authorizedContact = {
       'authPostionTitle',
       'authEmail',
       'authTelephone',
-      'isFirstContact',
     ],
     properties: {
       authFamilyName: {

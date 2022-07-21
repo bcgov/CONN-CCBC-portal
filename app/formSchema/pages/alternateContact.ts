@@ -10,7 +10,6 @@ const alternateContact = {
       'altEmail',
       'altTelephone',
       'isAltContactSigningOfficer',
-      'isAltFirstContact',
     ],
     properties: {
       altFamilyName: {

@@ -5,14 +5,9 @@ const organizationProfile = {
     type: 'object',
     required: [
       'typeOfOrganization',
-      'bandNumber',
       'organizationName',
       'isNameLegalName',
-      'operatingName',
       'isSubsidiary',
-      'parentOrgName',
-      'isIndigenousEntity',
-      'indigenousEntityDesc',
       'organizationOverview',
       'orgRegistrationDate',
       'businessNumber',
@@ -102,6 +97,7 @@ const organizationProfile = {
             },
           },
           {
+            required: ['bandNumber'],
             properties: {
               typeOfOrganization: {
                 enum: ['Band Council'],
@@ -135,6 +131,7 @@ const organizationProfile = {
             },
           },
           {
+            required: ['operatingName'],
             properties: {
               isNameLegalName: {
                 enum: [false],
@@ -144,7 +141,6 @@ const organizationProfile = {
                 type: 'string',
               },
             },
-            required: ['operatingName'],
           },
         ],
       },
@@ -158,6 +154,7 @@ const organizationProfile = {
             },
           },
           {
+            required: ['parentOrgName'],
             properties: {
               isSubsidiary: {
                 enum: [true],
@@ -180,6 +177,7 @@ const organizationProfile = {
             },
           },
           {
+            required: ['indigenousEntityDesc'],
             properties: {
               isIndigenousEntity: {
                 enum: [true],

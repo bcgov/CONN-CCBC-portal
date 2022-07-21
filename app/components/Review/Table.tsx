@@ -66,7 +66,6 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
     title === 'Template uploads' ||
     title === 'Supporting documents' ||
     title === 'Mapping';
-
   return (
     <StyledTable>
       <tbody>
@@ -77,8 +76,8 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
           const isRequired = errorSchema.includes(row);
 
           const formatUploads = (value) => {
-            if (!value) return;
-            const uploadArray = value.length > 0 ? JSON.parse(value) : [];
+            if (!value || value.length > 0) return;
+            const uploadArray = JSON.parse(value) || [];
 
             const string =
               uploadArray.length > 0 &&
