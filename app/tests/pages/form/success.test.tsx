@@ -1,4 +1,4 @@
-import { withRelayOptions } from '../../../pages/form/success';
+import { withRelayOptions } from '../../../pages/form/[id]/success';
 
 describe('The form/success page', () => {
   it('should redirect an unauthorized user', async () => {
