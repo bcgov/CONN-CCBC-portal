@@ -20,7 +20,7 @@ const benefits = {
       },
       householdsImpactedIndigenous: {
         title:
-          'Number of households impacted on Indigenous lands. This value should match cell G55 in Template 1.',
+          'Number of households on Indigenous lands targeted by this proposal. This value should match cell G55 in Template 1.',
         type: 'number',
       },
     },
