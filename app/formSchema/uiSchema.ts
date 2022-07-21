@@ -90,6 +90,7 @@ const uiSchema = {
     'lastMileTechnology',
     'projectBenefits',
     'numberOfHouseholds',
+    'householdsImpactedIndigenous',
     'projectStartDate',
     'projectCompletionDate',
     'relationshipManagerApplicant',
@@ -415,6 +416,12 @@ const uiSchema = {
     },
   },
   numberOfHouseholds: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      inputType: 'wholeNumber',
+    },
+  },
+  householdsImpactedIndigenous: {
     'ui:widget': NumberWidget,
     'ui:options': {
       inputType: 'wholeNumber',

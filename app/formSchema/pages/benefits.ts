@@ -3,8 +3,12 @@ const benefits = {
     title: 'Benefits',
     type: 'object',
     description:
-      'Quantify any estimation or claim about the effects of the proposed Project to the targeted areas',
-    required: ['projectBenefits', 'numberOfHouseholds'],
+      'Quantify any estimation or claim about the effects of the proposed project to the targeted areas',
+    required: [
+      'projectBenefits',
+      'numberOfHouseholds',
+      'householdsImpactedIndigenous',
+    ],
     properties: {
       projectBenefits: {
         type: 'string',
@@ -12,6 +16,11 @@ const benefits = {
       numberOfHouseholds: {
         title:
           'Total number of households targeted by this Project. This value should match the value in Template 1.',
+        type: 'number',
+      },
+      householdsImpactedIndigenous: {
+        title:
+          'Number of households impacted on Indigenous lands. This value should match cell G55 in Template 1.',
         type: 'number',
       },
     },
