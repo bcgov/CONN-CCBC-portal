@@ -8,11 +8,7 @@ import {
   getSessionQuery,
 } from '../schema/queries';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import {
-  PreloadedQuery,
-  useLazyLoadQuery,
-  usePreloadedQuery,
-} from 'react-relay/hooks';
+import { useLazyLoadQuery, usePreloadedQuery } from 'react-relay/hooks';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
 
@@ -21,7 +17,6 @@ import { useCreateApplicationMutation } from '../schema/mutations/application/cr
 import { Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { getAllApplicationsByOwnerQuery as getAllApplicationsByOwnerQueryType } from '../__generated__/getAllApplicationsByOwnerQuery.graphql';
-import { getSessionQuery as getSessionQueryType} from '../__generated__/getSessionQuery.graphql';
 
 const Dashboard = ({ preloadedQuery }: any) => {
   const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
@@ -33,6 +28,8 @@ const Dashboard = ({ preloadedQuery }: any) => {
       formOwner: { owner: trimmedSub },
     }
   );
+
+  const hasApplications = allApplications.allApplications.nodes.length > 0;
 
   const router = useRouter();
 
@@ -58,13 +55,20 @@ const Dashboard = ({ preloadedQuery }: any) => {
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Dashboard</h1>
+        <p>
+          Start a new application; applications can be saved and edited until
+          the intake closes on YYYY/MM/DD
+        </p>
         <StyledGovButton onClick={handleCreateApplication}>
           New application
         </StyledGovButton>
-        <h4>No applications yet</h4>
-        <p>Start a new application; applications will appear here</p>
+        
       </div>
-      <DashboardTable applications={allApplications} />
+      {hasApplications ? (
+        <DashboardTable applications={allApplications} />
+      ) : (
+        <p>Applications will appear here</p>
+      )}
     </Layout>
   );
 };
