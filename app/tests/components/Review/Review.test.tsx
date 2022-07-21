@@ -127,13 +127,13 @@ describe('The Project area section', () => {
     renderStaticLayout(errors);
 
     expect(document.getElementById('geographicArea')).toHaveTextContent(
-      'Referring to the Project Zones shown in the application guide, which zone(s) will this project be conducted in?'
+      'Referring to the Project Zones shown in the application guide, which zone(s) will this Project be conducted in?'
     );
 
     expect(
       document.getElementById('projectSpanMultipleLocations')
     ).toHaveTextContent(
-      'Does your project span multiple provinces/territories?'
+      'Does your Project span multiple provinces/territories?'
     );
 
     expect(
