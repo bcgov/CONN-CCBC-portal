@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { ApplicationForm, Back } from '../../../components/Form';
 import { withRelay, RelayProps } from 'relay-nextjs';
+import { graphql } from 'react-relay';
 import { NextPageContext } from 'next/types';
 import { getSessionQuery } from '../../../schema/queries';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
@@ -9,9 +10,6 @@ import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
 import FormDiv from '../../../components/FormDiv';
 //TODO: Change to getApplicationById
-import { getApplicationByIdQuery } from '../../../schema/queries';
-import { getApplicationByIdQuery as getApplicationByIdQueryType } from '../../../__generated__/getApplicationByIdQuery.graphql';
-import { useLazyLoadQuery } from 'react-relay';
 import { Layout } from '../../../components';
 import styled from 'styled-components';
 
@@ -21,29 +19,41 @@ const AppNamedDiv = styled('div')`
   white-space: nowrap;
   font-weight: bold;
 `;
+import { PageQuery } from '../../../__generated__/PageQuery.graphql';
 
-const FormPage = ({ preloadedQuery }: any) => {
-  const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
+const getPageQuery = graphql`
+  query PageQuery($applicationId: Int!) {
+    applicationByRowId(rowId: $applicationId) {
+      formData
+      id
+      owner
+      referenceNumber
+      status
+    }
+    session {
+      sub
+    }
+  }
+`;
+
+const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
+  const { applicationByRowId, session } = usePreloadedQuery(
+    getSessionQuery,
+    preloadedQuery
+  );
 
   const router = useRouter();
   const trimmedSub = session?.sub.replace(/-/g, '');
 
   const applicationId = Number(router.query.id);
 
-  const application = useLazyLoadQuery<getApplicationByIdQueryType>(
-    getApplicationByIdQuery,
-    {
-      applicationId: applicationId,
-    }
-  );
-
-  const trimApptitle = (title:string) => {
+  const trimApptitle = (title: string) => {
     if (!title) return;
-    if(title.length>33) return `${title.substring(0,30)}...`;
+    if (title.length > 33) return `${title.substring(0, 30)}...`;
     return title;
-  }
+  };
 
-  const formData = application.applicationByRowId?.formData
+  const formData = applicationByRowId?.formData;
   const pageNumber = Number(router.query.page);
   const appTitle = formData?.projectInformation?.projectTitle;
   const appTitleTrimmed = trimApptitle(appTitle);
@@ -54,19 +64,13 @@ const FormPage = ({ preloadedQuery }: any) => {
         <AppNamedDiv>{appTitleTrimmed}</AppNamedDiv>
         <Back applicationId={applicationId} pageNumber={pageNumber} />
         <ApplicationForm
-          formData={formData || {}}
+          formData={{}}
           pageNumber={pageNumber}
           trimmedSub={trimmedSub}
           applicationId={applicationId}
         />
       </FormDiv>
     </Layout>
-  );
-};
-
-const QueryRenderer = ({ preloadedQuery }: RelayProps) => {
-  return (
-    preloadedQuery && <FormPage preloadedQuery={preloadedQuery} CSN={false} />
   );
 };
 
@@ -89,4 +93,4 @@ export const withRelayOptions = {
   },
 };
 
-export default withRelay(QueryRenderer, getSessionQuery, withRelayOptions);
+export default withRelay(FormPage, getPageQuery, withRelayOptions);

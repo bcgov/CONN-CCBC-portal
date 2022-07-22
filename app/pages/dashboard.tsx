@@ -1,38 +1,45 @@
 import { useRouter } from 'next/router';
-import Link from 'next/link';
-
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { NextPageContext } from 'next/types';
-import {
-  getAllApplicationsByOwnerQuery,
-  getSessionQuery,
-} from '../schema/queries';
+import { getAllApplicationsByOwnerQuery } from '../schema/queries';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import { useLazyLoadQuery, usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery } from 'react-relay/hooks';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
-
+import { graphql } from 'react-relay';
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
 import { Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { getAllApplicationsByOwnerQuery as getAllApplicationsByOwnerQueryType } from '../__generated__/getAllApplicationsByOwnerQuery.graphql';
+import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
 
-const Dashboard = ({ preloadedQuery }: any) => {
-  const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
+const getDashboardQuery = graphql`
+  query dashboardQuery($formOwner: ApplicationCondition!) {
+    allApplications(condition: $formOwner) {
+      nodes {
+        id
+        rowId
+        owner
+        referenceNumber
+        status
+        projectName
+      }
+    }
+    session {
+      sub
+    }
+  }
+`;
+// eslint-disable-next-line @typescript-eslint/ban-types
+const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
+  const { allApplications, session } = usePreloadedQuery(
+    getDashboardQuery,
+    preloadedQuery
+  );
   const trimmedSub: string = session?.sub.replace(/-/g, '');
 
-  const allApplications = useLazyLoadQuery<getAllApplicationsByOwnerQueryType>(
-    getAllApplicationsByOwnerQuery,
-    {
-      formOwner: { owner: trimmedSub },
-    },
-    {
-      fetchPolicy: 'network-only'
-    }
-  );
-
-  const hasApplications = allApplications.allApplications.nodes.length > 0;
+  const hasApplications = allApplications.nodes.length > 0;
 
   const router = useRouter();
 
@@ -54,6 +61,7 @@ const Dashboard = ({ preloadedQuery }: any) => {
       },
     });
   };
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
@@ -65,20 +73,13 @@ const Dashboard = ({ preloadedQuery }: any) => {
         <StyledGovButton onClick={handleCreateApplication}>
           New application
         </StyledGovButton>
-        
       </div>
-      {hasApplications ? (
+      {/* {hasApplications ? (
         <DashboardTable applications={allApplications} />
       ) : (
         <p>Applications will appear here</p>
-      )}
+      )} */}
     </Layout>
-  );
-};
-
-const QueryRenderer = ({ preloadedQuery }: RelayProps) => {
-  return (
-    preloadedQuery && <Dashboard preloadedQuery={preloadedQuery} CSN={false} />
   );
 };
 
@@ -101,4 +102,4 @@ export const withRelayOptions = {
   },
 };
 
-export default withRelay(QueryRenderer, getSessionQuery, withRelayOptions);
+export default withRelay(Dashboard, getDashboardQuery, withRelayOptions);
