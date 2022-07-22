@@ -13,6 +13,14 @@ import { getApplicationByIdQuery } from '../../../schema/queries';
 import { getApplicationByIdQuery as getApplicationByIdQueryType } from '../../../__generated__/getApplicationByIdQuery.graphql';
 import { useLazyLoadQuery } from 'react-relay';
 import { Layout } from '../../../components';
+import styled from 'styled-components';
+
+const AppNamedDiv = styled('div')`
+  float: right;
+  max-width: 80px;
+  white-space: nowrap;
+  font-weight: bold;
+`;
 
 const FormPage = ({ preloadedQuery }: any) => {
   const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
@@ -29,12 +37,21 @@ const FormPage = ({ preloadedQuery }: any) => {
     }
   );
 
+  const trimApptitle = (title:string) => {
+    if (!title) return;
+    if(title.length>33) return `${title.substring(0,30)}...`;
+    return title;
+  }
+
   const formData = application.applicationByRowId?.formData
   const pageNumber = Number(router.query.page);
+  const appTitle = formData?.projectInformation?.projectTitle;
+  const appTitleTrimmed = trimApptitle(appTitle);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <FormDiv>
+        <AppNamedDiv>{appTitleTrimmed}</AppNamedDiv>
         <Back applicationId={applicationId} pageNumber={pageNumber} />
         <ApplicationForm
           formData={formData || {}}
