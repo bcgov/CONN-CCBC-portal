@@ -40,7 +40,6 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
   };
 
   const inlineKeys = getInlineKeys();
-
   return (
     <FormBorder
       title={

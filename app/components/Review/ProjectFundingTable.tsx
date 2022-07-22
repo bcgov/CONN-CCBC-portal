@@ -32,7 +32,7 @@ const ProjectFundingTable = ({ errorSchema, formData, subschema }: any) => {
             {row === 'applicationContribution2223' && (
               <tr>
                 <StyledTitleRow colSpan={2}>
-                  <StyledH4>Amount applicant will contribute</StyledH4>
+                  <StyledH4>Amount Applicant will contribute</StyledH4>
                 </StyledTitleRow>
               </tr>
             )}

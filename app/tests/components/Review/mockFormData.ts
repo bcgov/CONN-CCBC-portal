@@ -106,7 +106,7 @@ const mockFormData = {
     isSubsidiary: 'Yes',
     operatingName: '123123123',
     parentOrgName: '213123123',
-    bussinessNumber: 123123123,
+    businessNumber: 123123123,
     isNameLegalName: 'No',
     organizationName: '2143123123',
     isIndigenousEntity: 'Yes',
@@ -177,7 +177,7 @@ const mockFormData = {
     hasPassiveInfrastructure: true,
     isInfrastuctureAvailable: true,
     hasProvidedExitingNetworkCoverage:
-      'I will provide existing network information and/or coverage to ISED by the application deadline',
+      'I will provide existing network information and/or Coverage to ISED by the application deadline',
     requiresThirdPartyInfrastructureAccess: true,
   },
   estimatedProjectEmployment: {

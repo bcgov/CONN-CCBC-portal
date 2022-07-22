@@ -4,12 +4,12 @@ const otherFundingSources = {
     type: 'object',
     description:
       'Identify sources of funding that you expect to secure to cover all project costs, not including the Province of British Columbia or the Universal Broadband Fund. Please only include loans that you anticipate receiving from a program or granting agency. Any other loans must be included in the applicant funding.',
-
+    required: ['otherFundingSources'],
     properties: {
       otherFundingSources: {
         title: 'Will you have other funding sources?',
         type: 'boolean',
-        enum: ['Yes', 'No'],
+        enum: [true, false],
       },
     },
     dependencies: {
@@ -18,20 +18,27 @@ const otherFundingSources = {
           {
             properties: {
               otherFundingSources: {
-                enum: ['No'],
+                enum: [false],
               },
             },
           },
           {
             properties: {
               otherFundingSources: {
-                enum: ['Yes'],
+                enum: [true],
               },
               otherFundingSourcesArray: {
                 type: 'array',
                 default: [{}],
                 items: {
                   type: 'object',
+                  required: [
+                    'fundingPartnersName',
+                    'fundingSourceContactInfo',
+                    'statusOfFunding',
+                    'funderType',
+                    'totalRequestedFundingPartner',
+                  ],
                   properties: {
                     fundingPartnersName: {
                       title: `Funding partner's name`,
@@ -68,27 +75,27 @@ const otherFundingSources = {
                     },
                     requestedFundingPartner2223: {
                       title: '2022-23',
-                      type: 'string',
+                      type: 'number',
                     },
                     requestedFundingPartner2324: {
                       title: '2023-24',
-                      type: 'string',
+                      type: 'number',
                     },
                     requestedFundingPartner2425: {
                       title: '2024-25',
-                      type: 'string',
+                      type: 'number',
                     },
                     requestedFundingPartner2526: {
                       title: '2025-26',
-                      type: 'string',
+                      type: 'number',
                     },
                     requestedFundingPartner2627: {
                       title: '2026-27',
-                      type: 'string',
+                      type: 'number',
                     },
                     totalRequestedFundingPartner: {
                       title: 'Total amount requested from funding partner',
-                      type: 'string',
+                      type: 'number',
                     },
                   },
                 },

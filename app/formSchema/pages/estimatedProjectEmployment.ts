@@ -16,42 +16,40 @@ const estimatedProjectEmployment = {
     properties: {
       currentEmployment: {
         title: `Current employment: Total number of people employed by the organization`,
-        type: 'string',
+        type: 'number',
       },
-
       estimatedDirectEmployees: {
         title: 'Estimated direct employees',
 
         type: 'object',
       },
       numberOfEmployeesToWork: {
-        title: `Number of people to work on the project`,
-        type: 'string',
+        title: `Number of people to work on the Project`,
+        type: 'number',
       },
       hoursOfEmploymentPerWeek: {
         title: `Hours of employment per week (average hours/week)`,
-        type: 'string',
+        type: 'number',
       },
       personMonthsToBeCreated: {
         title: `Total person months of employment to be created (average months/year)`,
-        type: 'string',
+        type: 'number',
       },
-
       estimatedContractorLabour: {
         title: 'Estimated contracted labour',
         type: 'object',
       },
       numberOfContractorsToWork: {
-        title: `Number of people to work on the project`,
-        type: 'string',
+        title: `Number of people to work on the Project`,
+        type: 'number',
       },
       hoursOfContractorEmploymentPerWeek: {
         title: `Hours of employment per week (average hours/week)`,
-        type: 'string',
+        type: 'number',
       },
       contractorPersonMonthsToBeCreated: {
         title: `Total person months of employment to be created (average months/year)`,
-        type: 'string',
+        type: 'number',
       },
     },
   },

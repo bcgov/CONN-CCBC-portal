@@ -18,6 +18,7 @@ env:
   AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
   AWS_S3_KEY: ${{ secrets.AWS_S3_KEY }}
   AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
+  AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
 
 jobs:
   build-and-push-image:
@@ -124,6 +125,7 @@ jobs:
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
+          aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
 
   deploy-to-openshift-test:
     needs: [deploy-to-openshift-development]
@@ -149,6 +151,7 @@ jobs:
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
+          aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
 
     # Uncomment this production namespace is ready
 
@@ -176,3 +179,4 @@ jobs:
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
+          aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}

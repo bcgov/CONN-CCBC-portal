@@ -7,11 +7,11 @@ const contactInformation = {
     properties: {
       contactTelephoneNumber: {
         title: 'Telephone number',
-        type: 'number',
+        type: 'string',
       },
       contactExtension: {
         title: 'Extension',
-        type: 'number',
+        type: 'string',
       },
       contactEmail: {
         title: 'Email',

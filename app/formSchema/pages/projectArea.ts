@@ -1,24 +1,24 @@
 const projectArea = {
   projectArea: {
     title: 'Project area',
-    description: 'Please describe the geographic area of the proposed project',
+    description: 'Please describe the geographic area of the proposed Project',
     type: 'object',
     required: ['geographicArea', 'projectSpanMultipleLocations'],
     properties: {
       geographicArea: {
         title:
-          'Referring to the project zones shown in the application guide, which zone(s) will this project be conducted in?',
+          'Referring to the Project Zones shown in the application guide, which zone(s) will this Project be conducted in?',
         type: 'array',
         items: {
-          type: 'boolean',
+          type: 'number',
           enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
         },
         uniqueItems: true,
       },
       projectSpanMultipleLocations: {
-        title: 'Does your project span multiple provinces/territories?',
+        title: 'Does your Project span multiple provinces/territories?',
         type: 'boolean',
-        enum: ['Yes', 'No'],
+        enum: [true, false],
       },
     },
     dependencies: {
@@ -27,21 +27,21 @@ const projectArea = {
           {
             properties: {
               projectSpanMultipleLocations: {
-                enum: ['No'],
+                enum: [false],
               },
             },
           },
           {
             properties: {
               projectSpanMultipleLocations: {
-                enum: ['Yes'],
+                enum: [true],
               },
               provincesTerritories: {
                 title:
                   'If yes, select the provinces or territorities (check all that apply):',
                 type: 'array',
                 items: {
-                  type: 'boolean',
+                  type: 'string',
                   enum: ['Alberta', 'Northwest Territories', 'Yukon'],
                 },
                 uniqueItems: true,

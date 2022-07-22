@@ -69,7 +69,6 @@ const Review = ({
   reviewConfirm,
 }: Props) => {
   // const [expand, setExpand] = useState(false);
-
   const reviewSchema = [
     'projectInformation',
     'projectArea',
@@ -134,7 +133,6 @@ const Review = ({
         };
 
         const isError = formErrorSchema[section] != undefined;
-
         return (
           <Accordion
             id={section}
@@ -155,7 +153,7 @@ const Review = ({
 
             {section === 'otherFundingSources' && (
               <OtherFundingSourcesTable
-                errorSchema={errorFieldKeys(formErrorSchema[section])}
+                errorSchema={formErrorSchema[section]}
                 formData={formData[section]}
                 subschema={subschema}
               />
@@ -206,8 +204,10 @@ const Review = ({
               }
             />
             <StyledCheckboxLabel htmlFor="review-confirmation-checkbox">
-              The Applicant acknowledges that there are unanswered fields and
-              incomplete applications may not be assessed.
+              By checking this box, you acknowledge that there are incomplete
+              fields and incomplete applications may not be assessed. If the
+              incomplete fields are not applicable to you, please check the box
+              and continue to the Declarations page.
             </StyledCheckboxLabel>
           </>
         )}

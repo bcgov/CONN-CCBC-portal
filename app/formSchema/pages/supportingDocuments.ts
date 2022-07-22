@@ -4,6 +4,7 @@ const supportingDocuments = {
     type: 'object',
     description:
       'Please upload additional attachments. Please avoid using special characters in the file name. The maximum size per file is 100MB',
+    required: ['communityRuralDevelopmentBenefits'],
     properties: {
       copiesOfRegistration: {
         title:
@@ -17,12 +18,12 @@ const supportingDocuments = {
       },
       logicalNetworkDiagram: {
         title:
-          'Please refer to Annex 3 of the application guide for the logical network diagram requirements',
+          'Please refer to Annex 3 of the application guide for the Logical Network Diagram requirements',
         type: 'string',
       },
       projectSchedule: {
         title:
-          'Please refer to Annex 3 of the application guide for the project schedule and supporting documents requirements',
+          'Please refer to Annex 3 of the application guide for the Project schedule and supporting documents requirements',
         type: 'string',
       },
       communityRuralDevelopmentBenefits: {

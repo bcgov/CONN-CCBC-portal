@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "ccbc.fullname" . }}
-  labels: {{ include "ccbc.labels" . | indent 4}}
+  labels:
+{{ include "ccbc.labels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
@@ -184,6 +185,8 @@ spec:
             value: {{ .Values.objectStorage.awsS3Key }}
           - name: AWS_S3_SECRET_KEY
             value: {{ .Values.objectStorage.awsS3SecretKey }}
+          - name: AWS_ROLE_ARN
+            value: {{ .Values.objectStorage.awsRoleArn }}
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}

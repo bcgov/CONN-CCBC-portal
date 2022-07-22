@@ -12,71 +12,71 @@ const projectFunding = {
     properties: {
       fundingRequestedCCBC2223: {
         title: '2022-23',
-        type: 'string',
+        type: 'number',
       },
       fundingRequestedCCBC2324: {
         title: '2023-24',
-        type: 'string',
+        type: 'number',
       },
       fundingRequestedCCBC2425: {
         title: '2024-25',
-        type: 'string',
+        type: 'number',
       },
       fundingRequestedCCBC2526: {
         title: '2025-26',
-        type: 'string',
+        type: 'number',
       },
       fundingRequestedCCBC2627: {
         title: '2026-27',
-        type: 'string',
+        type: 'number',
       },
       totalFundingRequestedCCBC: {
         title: 'Total amount requested under CCBC',
-        type: 'string',
+        type: 'number',
       },
       applicationContribution2223: {
         title: '2022-23',
-        type: 'string',
+        type: 'number',
       },
       applicationContribution2324: {
         title: '2023-24',
-        type: 'string',
+        type: 'number',
       },
       applicationContribution2425: {
         title: '2024-25',
-        type: 'string',
+        type: 'number',
       },
       applicationContribution2526: {
         title: '2025-26',
-        type: 'string',
+        type: 'number',
       },
       applicationContribution2627: {
         title: '2026-27',
-        type: 'string',
+        type: 'number',
       },
       totalApplicantContribution: {
-        title: 'Total amount applicant will contribute',
-        type: 'string',
+        title: 'Total amount Applicant will contribute',
+        type: 'number',
       },
       infrastructureBankFunding2223: {
         title: '2022-23',
-        type: 'string',
+        type: 'number',
       },
       infrastructureBankFunding2324: {
         title: '2023-24',
-        type: 'string',
+        type: 'number',
       },
       infrastructureBankFunding2425: {
         title: '2024-25',
-        type: 'string',
+        type: 'number',
       },
       infrastructureBankFunding2526: {
         title: '2025-26',
-        type: 'string',
+        type: 'number',
       },
       totalInfrastructureBankFunding: {
         title: 'Total amount requested under Canadian Infrastructure Bank',
-        type: 'string',
+        type: 'number',
       },
     },
   },

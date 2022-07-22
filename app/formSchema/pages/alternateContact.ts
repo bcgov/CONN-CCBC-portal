@@ -1,23 +1,23 @@
 const alternateContact = {
   alternateContact: {
     title: 'Alternate contact',
-    description: 'Provide the contact information for the alternate contact',
+    description:
+      'Provide the contact information for an alternate contact in the event that the primary contact becomes unreachable. If there is no alternate contact, leave this section blank.',
     type: 'object',
     required: [
-      'altFamilyName',
+      'altGivenName',
       'altPostionTitle',
       'altEmail',
       'altTelephone',
       'isAltContactSigningOfficer',
-      'isAltFirstContact',
     ],
     properties: {
       altFamilyName: {
-        title: 'Family name of person who will be the alternate contact',
+        title: 'Family name',
         type: 'string',
       },
       altGivenName: {
-        title: 'Given name of person who will be the alternate contact',
+        title: 'Given name',
         type: 'string',
       },
       altPostionTitle: {
@@ -30,22 +30,17 @@ const alternateContact = {
       },
       altTelephone: {
         title: 'Telephone',
-        type: 'number',
+        type: 'string',
       },
       altExtension: {
         title: 'Extension',
-        type: 'number',
+        type: 'string',
       },
       isAltContactSigningOfficer: {
-        title: 'Is this person an authorized signing officer of the applicant?',
+        title: 'Is this person an authorized signing officer of the Applicant?',
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],
-      },
-      isAltFirstContact: {
-        title:
-          'Contact this person for communication regarding the application',
-        type: 'boolean',
       },
     },
   },

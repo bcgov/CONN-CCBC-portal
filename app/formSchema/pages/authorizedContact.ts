@@ -1,22 +1,22 @@
 const authorizedContact = {
   authorizedContact: {
     title: 'Authorized contact',
-    description: 'Provide the contact information for the authorized contact',
+    description:
+      'The authorized contact should have full authority to bind said organization through Funding Agreements. One primary contact must be identified for applications submitted on behalf of multiple organizations.',
     type: 'object',
     required: [
-      'authFamilyName',
+      'authGivenName',
       'authPostionTitle',
       'authEmail',
       'authTelephone',
-      'isFirstContact',
     ],
     properties: {
       authFamilyName: {
-        title: 'Family name of person who will be the authorized contact',
+        title: 'Family name',
         type: 'string',
       },
       authGivenName: {
-        title: 'Given name of person who will be the authorized contact',
+        title: 'Given name',
         type: 'string',
       },
       authPostionTitle: {
@@ -29,22 +29,17 @@ const authorizedContact = {
       },
       authTelephone: {
         title: 'Telephone',
-        type: 'number',
+        type: 'string',
       },
       authExtension: {
         title: 'Extension',
-        type: 'number',
+        type: 'string',
       },
       isAuthContactSigningOfficer: {
-        title: 'Is this person an authorized signing officer of the applicant?',
+        title: 'Is this person an authorized signing officer of the Applicant?',
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],
-      },
-      isFirstContact: {
-        title:
-          'Contact this person for communication regarding the application',
-        type: 'boolean',
       },
     },
   },

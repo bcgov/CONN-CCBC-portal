@@ -1,29 +1,21 @@
 const organizationProfile = {
   organizationProfile: {
     title: 'Organization Profile',
-    description: 'Provide an overview of you organization',
+    description: 'Provide an overview of you organization.',
     type: 'object',
     required: [
       'typeOfOrganization',
-      'other',
-      'bandNumber',
       'organizationName',
-      'isLegalPrimaryName',
       'isNameLegalName',
-      'operatingName',
       'isSubsidiary',
-      'parentOrgName',
-      'isIndigenousEntity',
-      'indigenousEntityDesc',
       'organizationOverview',
       'orgRegistrationDate',
-      'bussinessNumber',
+      'businessNumber',
     ],
     properties: {
       typeOfOrganization: {
         title: 'Type of organization',
         type: 'array',
-        maxItems: 1,
         items: {
           type: 'boolean',
           enum: [
@@ -53,32 +45,31 @@ const organizationProfile = {
       isNameLegalName: {
         title: 'Is operating name same as legal name?',
         type: 'boolean',
-        enum: ['Yes', 'No'],
+        enum: [true, false],
       },
       isSubsidiary: {
         title:
-          'Is this applicant organization a subsidiary of a parent organization?',
+          'Is this Applicant organization a subsidiary of a parent organization?',
         type: 'boolean',
-        enum: ['Yes', 'No'],
+        enum: [true, false],
       },
       isIndigenousEntity: {
-        title: 'Is this applicant organization an Indigenous entity?',
         type: 'boolean',
-        enum: ['Yes', 'No'],
+        enum: [true, false],
       },
       organizationOverview: {
         title:
-          'Provide an overview of the organization. Include an overview of its current business model, years in business, experience in operating broadband services, previous federal broadband funding (if applicable), mission/mandate/vision, size of operation (e.g. annual revenue, assets, number of staff), membership (if applicable), current coverage and subscription base (maximum 3,500 characters)',
+          'Provide an overview of the organization. Include an overview of its current business model, years in business, experience in operating Broadband Service(s), previous federal broadband funding (if applicable), mission/mandate/vision, size of operation (e.g. annual revenue, assets, number of staff), membership (if applicable), current Coverage and subscription base (maximum 3,500 characters)',
         type: 'string',
       },
       orgRegistrationDate: {
         title: 'Date of incorporation or registration',
         type: 'string',
       },
-      bussinessNumber: {
+      businessNumber: {
         title:
           'Applicant business number (9-digit business identifier provided by Canada Revenue Agency)',
-        type: 'number',
+        type: 'string',
       },
     },
     dependencies: {
@@ -106,6 +97,7 @@ const organizationProfile = {
             },
           },
           {
+            required: ['bandNumber'],
             properties: {
               typeOfOrganization: {
                 enum: ['Band Council'],
@@ -122,7 +114,7 @@ const organizationProfile = {
                 enum: ['Other'],
               },
               other: {
-                title: 'In your own words describe your organization type',
+                title: 'Please specify your organization type',
                 type: 'string',
               },
             },
@@ -134,21 +126,21 @@ const organizationProfile = {
           {
             properties: {
               isNameLegalName: {
-                enum: ['Yes'],
+                enum: [true],
               },
             },
           },
           {
+            required: ['operatingName'],
             properties: {
               isNameLegalName: {
-                enum: ['No'],
+                enum: [false],
               },
               operatingName: {
                 title: 'Operating name',
                 type: 'string',
               },
             },
-            required: ['operatingName'],
           },
         ],
       },
@@ -157,14 +149,15 @@ const organizationProfile = {
           {
             properties: {
               isSubsidiary: {
-                enum: ['No'],
+                enum: [false],
               },
             },
           },
           {
+            required: ['parentOrgName'],
             properties: {
               isSubsidiary: {
-                enum: ['Yes'],
+                enum: [true],
               },
               parentOrgName: {
                 title: 'Please enter the name of the parent organization',
@@ -179,14 +172,15 @@ const organizationProfile = {
           {
             properties: {
               isIndigenousEntity: {
-                enum: ['No'],
+                enum: [false],
               },
             },
           },
           {
+            required: ['indigenousEntityDesc'],
             properties: {
               isIndigenousEntity: {
-                enum: ['Yes'],
+                enum: [true],
               },
               indigenousEntityDesc: {
                 title:

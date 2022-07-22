@@ -38,6 +38,9 @@ inputs:
   aws_s3_secret_key:
     description: 'AWS S3 secret key'
     required: true
+  aws_role_arn:
+    description: 'AWS role ARN'
+    required: true
 
 runs:
   using: composite
@@ -54,6 +57,7 @@ runs:
         aws_s3_region: ${{ inputs.aws_s3_region }}
         aws_s3_key: ${{ inputs.aws_s3_key }}
         aws_s3_secret_key: ${{ inputs.aws_s3_secret_key }}
+        aws_role_arn: ${{ inputs.aws_role_arn }}
 
         insecure_skip_tls_verify: true
     - run: |
@@ -65,10 +69,11 @@ runs:
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
           --set route.host=${{ inputs.route }} \
-          --set growthbook.key=${{ inputs.next_public_growthbook_api_key }}
-          --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }}
-          --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }}
-          --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }}
-          --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }}
+          --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
+          --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }} \
+          --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }} \
+          --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }} \
+          --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }} \
+          --set objectStorage.awsRoleArn=${{ inputs.aws_role_arn }}
 
       shell: bash
