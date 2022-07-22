@@ -1,4 +1,5 @@
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
@@ -60,6 +61,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   const description = uiSchema['ui:description'];
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const allowMultipleFiles = uiSchema['ui:options']?.allowMultipleFiles;
+  const router = useRouter();
 
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
 
@@ -75,6 +77,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   }, [fileList, onChange]);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formId = parseInt(router?.query?.id as string);
     const file = e.target.files?.[0];
 
     if (file) {
@@ -86,7 +89,7 @@ const FileWidget: React.FC<WidgetProps> = ({
             fileName: file.name,
             fileSize: bytesToSize(file.size),
             fileType: file.type,
-            applicationId: 1,
+            applicationId: formId,
           },
         },
       };
