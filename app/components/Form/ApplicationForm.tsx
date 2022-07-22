@@ -19,14 +19,14 @@ interface Props {
   formData: any;
   pageNumber: number;
   trimmedSub: any;
-  applicationId: number
+  applicationId: number;
 }
 
 const ApplicationForm: React.FC<Props> = ({
   formData,
   pageNumber,
   trimmedSub,
-  applicationId
+  applicationId,
 }) => {
   const formatErrorSchema = (formData, schema) => {
     const errorSchema = validateFormData(formData, schema)?.errorSchema;
@@ -75,7 +75,7 @@ const ApplicationForm: React.FC<Props> = ({
     const sectionName = subschemaArray[pageNumber - 1][0];
     let newFormData: any = {};
     if (Object.keys(existingFormData).length === 0) {
-      newFormData['contactInformation'] = incomingFormData.formData;
+      newFormData[sectionName] = incomingFormData.formData;
     } else if (existingFormData[sectionName]) {
       newFormData = { ...existingFormData };
       newFormData[sectionName] = {
@@ -94,7 +94,7 @@ const ApplicationForm: React.FC<Props> = ({
             formData: newFormData,
             status: 'draft',
           },
-          rowId: applicationId
+          rowId: applicationId,
         },
       },
     });
