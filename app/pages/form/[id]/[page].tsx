@@ -38,7 +38,7 @@ const FormPage = ({ preloadedQuery }: any) => {
   );
 
   const trimApptitle = (title:string) => {
-    if (!Boolean(title)) return;
+    if (!title) return;
     if(title.length>33) return `${title.substring(0,30)}...`;
     return title;
   }
