@@ -26,6 +26,9 @@ const Dashboard = ({ preloadedQuery }: any) => {
     getAllApplicationsByOwnerQuery,
     {
       formOwner: { owner: trimmedSub },
+    },
+    {
+      fetchPolicy: 'network-only'
     }
   );
 
