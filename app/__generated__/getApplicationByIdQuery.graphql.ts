@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fa65be1e074084d52d097941ead4e612>>
+ * @generated SignedSource<<9db7594af44245fe1cd74993771d84df>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,21 +9,21 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type getApplicationByOwnerQuery$variables = {
-  owner: any;
+export type getApplicationByIdQuery$variables = {
+  applicationId: number;
 };
-export type getApplicationByOwnerQuery$data = {
-  readonly applicationByOwner: {
+export type getApplicationByIdQuery$data = {
+  readonly applicationByRowId: {
     readonly formData: any;
     readonly id: string;
-    readonly owner: any | null;
+    readonly owner: any;
     readonly referenceNumber: string | null;
     readonly status: string | null;
   } | null;
 };
-export type getApplicationByOwnerQuery = {
-  variables: getApplicationByOwnerQuery$variables;
-  response: getApplicationByOwnerQuery$data;
+export type getApplicationByIdQuery = {
+  variables: getApplicationByIdQuery$variables;
+  response: getApplicationByIdQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -31,7 +31,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "owner"
+    "name": "applicationId"
   }
 ],
 v1 = [
@@ -40,13 +40,13 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "owner",
-        "variableName": "owner"
+        "name": "rowId",
+        "variableName": "applicationId"
       }
     ],
     "concreteType": "Application",
     "kind": "LinkedField",
-    "name": "applicationByOwner",
+    "name": "applicationByRowId",
     "plural": false,
     "selections": [
       {
@@ -93,7 +93,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "getApplicationByOwnerQuery",
+    "name": "getApplicationByIdQuery",
     "selections": (v1/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -102,20 +102,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "getApplicationByOwnerQuery",
+    "name": "getApplicationByIdQuery",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "ca18dd280312226e35c6e8fcff5cb698",
+    "cacheID": "b6879c3770a67c136f9e75da6a1f6155",
     "id": null,
     "metadata": {},
-    "name": "getApplicationByOwnerQuery",
+    "name": "getApplicationByIdQuery",
     "operationKind": "query",
-    "text": "query getApplicationByOwnerQuery(\n  $owner: UUID!\n) {\n  applicationByOwner(owner: $owner) {\n    formData\n    id\n    owner\n    referenceNumber\n    status\n  }\n}\n"
+    "text": "query getApplicationByIdQuery(\n  $applicationId: Int!\n) {\n  applicationByRowId(rowId: $applicationId) {\n    formData\n    id\n    owner\n    referenceNumber\n    status\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "a7dc2ca75de8b443ec43d8876e067119";
+(node as any).hash = "7afbdceac3a83897f424571e3c62e2a2";
 
 export default node;

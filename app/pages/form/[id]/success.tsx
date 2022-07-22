@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { NextPageContext } from 'next/types';
-import { getSessionQuery } from '../../schema/queries';
-import defaultRelayOptions from '../../lib/relay/withRelayOptions';
+import { getSessionQuery } from '../../../schema/queries';
+import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
 import Button from '@button-inc/bcgov-theme/Button';
-import SuccessBanner from '../../components/Form/SuccessBanner';
+import SuccessBanner from '../../../components/Form/SuccessBanner';
 import styled from 'styled-components';
-import { Layout } from '../../components';
+import { Layout } from '../../../components';
 
 const StyledSection = styled.section`
   margin: 24px 0;

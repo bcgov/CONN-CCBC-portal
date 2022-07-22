@@ -18,3 +18,6 @@ tables/applications 2022-04-11T22:31:16Z marcel <mlmueller@protonmail.com> # Add
 mutations/create_user_from_session 2022-05-26T20:41:37Z Bryan Krauss <bryan@button.is> # A mutation to create a user from the seesion table
 tables/application_status 2022-07-08T13:27:08Z Marcel Mueller,,, <marcel@Thinkpad> # add table application_status
 tables/attachment 2022-07-07T23:19:04Z Marcel Mueller,,, <marcel@Thinkpad> # add table attachment
+functions/expose_application_name 2022-07-15T16:39:24Z Anthony Bushara <anthony@button.is> # Exposes Application Name as Computed Column
+tables/applications/remove_unique_owner 2022-07-19T14:44:25Z Anthony Bushara <anthony@button.is> # Removes unique constraint for owner
+tables/applications/owner_not_null 2022-07-20T15:51:46Z Anthony Bushara <anthony@button.is> # Owner of the application cannot be null

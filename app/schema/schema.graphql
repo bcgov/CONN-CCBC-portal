@@ -134,7 +134,6 @@ type Query implements Node {
   ): CcbcUsersConnection
   applicationStatusByRowId(rowId: Int!): ApplicationStatus
   applicationByRowId(rowId: Int!): Application
-  applicationByOwner(owner: UUID!): Application
   attachmentByRowId(rowId: Int!): Attachment
   ccbcUserByRowId(rowId: Int!): CcbcUser
   session: KeycloakJwt
@@ -828,7 +827,7 @@ type Application implements Node {
   referenceNumber: String
 
   """The owner of the application"""
-  owner: UUID
+  owner: UUID!
 
   """The data entered into the form by the respondent"""
   formData: JSON!
@@ -891,6 +890,7 @@ type Application implements Node {
     """
     condition: AttachmentCondition
   ): AttachmentsConnection!
+  projectName: String
 }
 
 """
@@ -1469,14 +1469,6 @@ type Mutation {
     input: UpdateApplicationByRowIdInput!
   ): UpdateApplicationPayload
 
-  """Updates a single `Application` using a unique key and a patch."""
-  updateApplicationByOwner(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateApplicationByOwnerInput!
-  ): UpdateApplicationPayload
-
   """
   Updates a single `Attachment` using its globally unique id and a patch.
   """
@@ -1541,14 +1533,6 @@ type Mutation {
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteApplicationByRowIdInput!
-  ): DeleteApplicationPayload
-
-  """Deletes a single `Application` using a unique key."""
-  deleteApplicationByOwner(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationByOwnerInput!
   ): DeleteApplicationPayload
 
   """Deletes a single `Attachment` using its globally unique id."""
@@ -1711,7 +1695,7 @@ input ApplicationInput {
   referenceNumber: String
 
   """The owner of the application"""
-  owner: UUID
+  owner: UUID!
 
   """The data entered into the form by the respondent"""
   formData: JSON
@@ -2120,23 +2104,6 @@ input UpdateApplicationByRowIdInput {
   rowId: Int!
 }
 
-"""All input for the `updateApplicationByOwner` mutation."""
-input UpdateApplicationByOwnerInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Application` being updated.
-  """
-  applicationPatch: ApplicationPatch!
-
-  """The owner of the application"""
-  owner: UUID!
-}
-
 """The output of our update `Attachment` mutation."""
 type UpdateAttachmentPayload {
   """
@@ -2484,18 +2451,6 @@ input DeleteApplicationByRowIdInput {
 
   """Primary key ID for the application"""
   rowId: Int!
-}
-
-"""All input for the `deleteApplicationByOwner` mutation."""
-input DeleteApplicationByOwnerInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The owner of the application"""
-  owner: UUID!
 }
 
 """The output of our delete `Attachment` mutation."""

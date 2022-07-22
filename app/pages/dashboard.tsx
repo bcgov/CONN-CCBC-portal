@@ -3,36 +3,51 @@ import Link from 'next/link';
 
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { NextPageContext } from 'next/types';
-import { getSessionQuery } from '../schema/queries';
+import {
+  getAllApplicationsByOwnerQuery,
+  getSessionQuery,
+} from '../schema/queries';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { useLazyLoadQuery, usePreloadedQuery } from 'react-relay/hooks';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import type { Request } from 'express';
 
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
 import { Layout } from '../components';
+import { DashboardTable } from '../components/Dashboard';
+import { getAllApplicationsByOwnerQuery as getAllApplicationsByOwnerQueryType } from '../__generated__/getAllApplicationsByOwnerQuery.graphql';
 
 const Dashboard = ({ preloadedQuery }: any) => {
   const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
+  const trimmedSub: string = session?.sub.replace(/-/g, '');
+
+  const allApplications = useLazyLoadQuery<getAllApplicationsByOwnerQueryType>(
+    getAllApplicationsByOwnerQuery,
+    {
+      formOwner: { owner: trimmedSub },
+    }
+  );
+
+  const hasApplications = allApplications.allApplications.nodes.length > 0;
 
   const router = useRouter();
 
   const [createApplication] = useCreateApplicationMutation();
 
   const handleCreateApplication = () => {
-    const trimmedSub = session?.sub.replace(/-/g, '');
     createApplication({
       variables: {
         // input: { application: { owner: session?.sub } },
         input: { application: { owner: trimmedSub } },
       },
-      onCompleted: () => {
-        router.push('/form/1');
+      onCompleted: (response) => {
+        const applicationId = response.createApplication.application.rowId;
+        router.push(`/form/${applicationId}/1`);
       },
       onError: () => {
         // This needs to be removed once application dashboard implemented
-        router.push('/form/1');
+        router.push('/dashboard');
       },
     });
   };
@@ -40,14 +55,20 @@ const Dashboard = ({ preloadedQuery }: any) => {
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Dashboard</h1>
-        <Link href="/form/1" passHref>
-          <StyledGovButton onClick={handleCreateApplication}>
-            New application
-          </StyledGovButton>
-        </Link>
-        <h4>No applications yet</h4>
-        <p>Start a new application; applications will appear here</p>
+        <p>
+          Start a new application; applications can be saved and edited until
+          the intake closes on YYYY/MM/DD
+        </p>
+        <StyledGovButton onClick={handleCreateApplication}>
+          New application
+        </StyledGovButton>
+        
       </div>
+      {hasApplications ? (
+        <DashboardTable applications={allApplications} />
+      ) : (
+        <p>Applications will appear here</p>
+      )}
     </Layout>
   );
 };
