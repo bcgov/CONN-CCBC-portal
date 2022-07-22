@@ -66,6 +66,7 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
     title === 'Template uploads' ||
     title === 'Supporting documents' ||
     title === 'Mapping';
+
   return (
     <StyledTable>
       <tbody>
@@ -77,7 +78,6 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
 
           const formatUploads = (value) => {
             if (!value || value.length <= 2) return;
-
             const uploadArray = JSON.parse(value);
             const string =
               uploadArray.length > 0 &&

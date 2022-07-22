@@ -1,8 +1,11 @@
 const mockFormData = {
   mapping: {
-    geographicCoverageMap: 'File.pdf',
-    currentNetworkInfastructure: 'File.pdf',
-    upgradedNetworkInfrastructure: 'File.pdf',
+    geographicCoverageMap:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    currentNetworkInfastructure:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    upgradedNetworkInfrastructure:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
   },
   benefits: {
     projectBenefits: '213123123',
@@ -60,16 +63,26 @@ const mockFormData = {
     totalInfrastructureBankFunding: '31213',
   },
   templateUploads: {
-    detailedBudget: 'File.pdf',
-    geographicNames: 'File.pdf',
-    equipmentDetails: 'File.pdf',
-    wirelessAddendum: 'File.pdf',
-    financialForecast: 'File.pdf',
-    lastMileIspOffering: 'File.pdf',
-    popWholesalePricing: 'File.pdf',
-    supportingConnectivityEvidence: 'File.pdf',
-    eligibilityAndImpactsCalculator: 'File.pdf',
-    communityRuralDevelopmentBenefitsTemplate: 'File.pdf',
+    detailedBudget:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    geographicNames:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    equipmentDetails:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    wirelessAddendum:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    financialForecast:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    lastMileIspOffering:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    popWholesalePricing:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    supportingConnectivityEvidence:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    eligibilityAndImpactsCalculator:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    communityRuralDevelopmentBenefitsTemplate:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
   },
   alternateContact: {
     altEmail: 'test@test.com',
@@ -148,11 +161,16 @@ const mockFormData = {
     ],
   },
   supportingDocuments: {
-    projectSchedule: 'File.pdf',
-    copiesOfRegistration: 'File.pdf',
-    logicalNetworkDiagram: 'File.pdf',
-    preparedFinancialStatements: 'File.pdf',
-    communityRuralDevelopmentBenefits: 'File.pdf',
+    projectSchedule:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    copiesOfRegistration:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    logicalNetworkDiagram:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    preparedFinancialStatements:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    communityRuralDevelopmentBenefits:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
   },
   organizationLocation: {
     city: 'Victoria',

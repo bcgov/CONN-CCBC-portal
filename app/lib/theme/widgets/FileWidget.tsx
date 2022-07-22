@@ -77,7 +77,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   }, [fileList, onChange]);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formId = parseInt(router.query.id as string);
+    const formId = parseInt(router?.query?.id as string);
     const file = e.target.files?.[0];
 
     if (file) {
