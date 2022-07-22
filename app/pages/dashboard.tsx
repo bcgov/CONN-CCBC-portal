@@ -30,7 +30,7 @@ const Dashboard = ({ preloadedQuery }: any) => {
     {
       fetchPolicy: 'network-only'
     }
-  );
+  ) || {allApplications:{nodes:[]}};
 
   const hasApplications = allApplications.allApplications.nodes.length > 0;
 
