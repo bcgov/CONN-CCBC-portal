@@ -19,6 +19,7 @@ const AppNamedDiv = styled('div')`
   float: right;
   max-width: 80px;
   white-space: nowrap;
+  font-weight: bold;
 `;
 
 const FormPage = ({ preloadedQuery }: any) => {
@@ -34,7 +35,7 @@ const FormPage = ({ preloadedQuery }: any) => {
     {
       applicationId: applicationId,
     }
-  )||{applicationByRowId:{formData:{}}};
+  );
 
   const trimApptitle = (title:string) => {
     if (!Boolean(title)) return;
