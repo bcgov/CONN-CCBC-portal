@@ -203,6 +203,7 @@ const FileWidget: React.FC<WidgetProps> = ({
               <StyledFileDiv key={file.uuid}>
                 <StyledLink>{file.name}</StyledLink>
                 <StyledDeleteBtn
+                  data-testid="file-delete-btn"
                   onClick={(e: React.MouseEvent<HTMLInputElement>) => {
                     e.preventDefault();
                     handleDelete(file.id);
