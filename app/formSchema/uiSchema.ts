@@ -76,7 +76,6 @@ const uiSchema = {
     'hoursOfEmploymentPerWeek',
     'personMonthsToBeCreated',
     'estimatedContractorLabour',
-    'householdsImpactedIndigenous',
     'numberOfContractorsToWork',
     'hoursOfContractorEmploymentPerWeek',
     'contractorPersonMonthsToBeCreated',
@@ -430,7 +429,7 @@ const uiSchema = {
   },
   relationshipManagerApplicant: {
     'ui:widget': 'TextAreaWidget',
-    'ui:description': 'maximum 3,500 characters',
+    'ui:description': 'maximum 2,500 characters',
     'ui:options': {
       maxLength: 2500,
     },
