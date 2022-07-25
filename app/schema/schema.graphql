@@ -952,6 +952,9 @@ type Attachment implements Node {
   """
   applicationStatusId: Int
 
+  """Boolean that is set to true if the file is to be soft deleted"""
+  isDeleted: Boolean!
+
   """created by user id"""
   createdBy: Int
 
@@ -1016,6 +1019,8 @@ enum AttachmentsOrderBy {
   APPLICATION_ID_DESC
   APPLICATION_STATUS_ID_ASC
   APPLICATION_STATUS_ID_DESC
+  IS_DELETED_ASC
+  IS_DELETED_DESC
   CREATED_BY_ASC
   CREATED_BY_DESC
   CREATED_AT_ASC
@@ -1060,6 +1065,9 @@ input AttachmentCondition {
 
   """Checks for equality with the object’s `applicationStatusId` field."""
   applicationStatusId: Int
+
+  """Checks for equality with the object’s `isDeleted` field."""
+  isDeleted: Boolean
 
   """Checks for equality with the object’s `createdBy` field."""
   createdBy: Int
@@ -1803,6 +1811,9 @@ input AttachmentInput {
   """
   applicationStatusId: Int
 
+  """Boolean that is set to true if the file is to be soft deleted"""
+  isDeleted: Boolean
+
   """created by user id"""
   createdBy: Int
 
@@ -2193,6 +2204,9 @@ input AttachmentPatch {
   The id of the application_status (ccbc_public.application_status.id) that the attachment references
   """
   applicationStatusId: Int
+
+  """Boolean that is set to true if the file is to be soft deleted"""
+  isDeleted: Boolean
 
   """created by user id"""
   createdBy: Int

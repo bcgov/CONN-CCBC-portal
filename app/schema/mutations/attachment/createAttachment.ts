@@ -6,6 +6,7 @@ const mutation = graphql`
   mutation createAttachmentMutation($input: CreateAttachmentInput!) {
     createAttachment(input: $input) {
       attachment {
+        rowId
         file
       }
     }
