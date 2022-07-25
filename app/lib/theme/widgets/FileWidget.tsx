@@ -43,6 +43,11 @@ const StyledButton = styled(Button)`
   justify-content: center;
 `;
 
+const StyledError = styled('div')`
+  color: #e71f1f;
+  margin-top: 10px;
+`;
+
 type File = {
   uuid: string;
   name: string;
@@ -58,6 +63,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   uiSchema,
 }) => {
   const [fileList, setFileList] = useState<File[]>([]);
+  const [error, setError] = useState('');
   const description = uiSchema['ui:description'];
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const allowMultipleFiles = uiSchema['ui:options']?.allowMultipleFiles;
@@ -77,6 +83,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   }, [fileList, onChange]);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError('');
     const formId = parseInt(router?.query?.id as string);
     const file = e.target.files?.[0];
 
@@ -96,7 +103,7 @@ const FileWidget: React.FC<WidgetProps> = ({
 
       createAttachment({
         variables,
-        onError: (err) => console.log('error', err),
+        onError: () => setError('File failed to upload, please try again'),
         onCompleted: (res) => {
           const uuid = res?.createAttachment?.attachment?.file;
           const fileDetails = {
@@ -134,13 +141,14 @@ const FileWidget: React.FC<WidgetProps> = ({
   };
 
   return (
-    <StyledContainer>
+    <StyledContainer style={{ border: error && '1px solid #E71F1F' }}>
       <StyledDetails>
         <StyledH4>{description}</StyledH4>
         {fileList.length > 0 &&
           fileList.map((file: File, i) => {
             return <StyledLink key={file.name + i}>{file.name}</StyledLink>;
           })}
+        {error && <StyledError>{error}</StyledError>}
       </StyledDetails>
       <div>
         <StyledButton
