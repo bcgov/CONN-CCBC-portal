@@ -44,7 +44,7 @@ const StyledTableCell = styled('td')`
 `;
 
 type Props = {
-  applications: Pick<getAllApplicationsByOwnerQuery$data,'allApplications'>;
+  applications: Pick<getAllApplicationsByOwnerQuery$data, 'allApplications'>;
 };
 
 const Table = ({ applications }: Props) => {

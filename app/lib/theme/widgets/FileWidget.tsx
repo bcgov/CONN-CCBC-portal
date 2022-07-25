@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
 import React from 'react';
 import { useCreateAttachment } from '../../../schema/mutations/attachment/createAttachment';
+import { useDeleteAttachment } from '../../../schema/mutations/attachment/deleteAttachment';
+
 import bytesToSize from '../../../utils/bytesToText';
 import { CancelIcon, LoadingSpinner } from '../../../components';
 
@@ -31,7 +33,6 @@ const StyledH4 = styled('h4')`
 
 const StyledLink = styled('a')`
   color: ${(props) => props.theme.color.links};
-  margin: 8px 0;
   text-decoration-line: underline;
 `;
 
@@ -53,7 +54,8 @@ const StyledFileDiv = styled('div')`
   flex-direction: row;
   align-items: center;
 
-  margin: 4px 0;
+  margin-left: 16px;
+  margin-top: 10px;
   & svg {
     margin: 0 8px;
   }
@@ -66,6 +68,7 @@ const StyledDeleteBtn = styled('button')`
 `;
 
 type File = {
+  id: string | number;
   uuid: string;
   name: string;
   size: number;
@@ -87,6 +90,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   const router = useRouter();
 
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
+  const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
 
   useEffect(() => {
     // Set state from value stored in RJSF if it exists
@@ -125,7 +129,10 @@ const FileWidget: React.FC<WidgetProps> = ({
         },
         onCompleted: (res) => {
           const uuid = res?.createAttachment?.attachment?.file;
+          const id = res?.createAttachment?.attachment?.rowId;
+
           const fileDetails = {
+            id: id,
             uuid: uuid,
             name: name,
             size: size,
@@ -144,8 +151,29 @@ const FileWidget: React.FC<WidgetProps> = ({
     e.target.value = '';
   };
 
-  const handleDelete = () => {
-    console.log('delete');
+  const handleDelete = (attachmentId) => {
+    const variables = {
+      input: {
+        attachmentPatch: {
+          isDeleted: true,
+        },
+        rowId: attachmentId,
+      },
+    };
+
+    deleteAttachment({
+      variables,
+      onError: (err) => console.log('error', err),
+      onCompleted: (res) => {
+        const id = res?.updateAttachmentByRowId?.attachment?.rowId;
+        const indexOfFile = fileList.findIndex((object) => {
+          return object.id === id;
+        });
+        const newFileList = [...fileList];
+        newFileList.splice(indexOfFile, 1);
+        setFileList(newFileList);
+      },
+    });
   };
 
   const handleClick = () => {
@@ -177,7 +205,7 @@ const FileWidget: React.FC<WidgetProps> = ({
                 <StyledDeleteBtn
                   onClick={(e: React.MouseEvent<HTMLInputElement>) => {
                     e.preventDefault();
-                    handleDelete();
+                    handleDelete(file.id);
                   }}
                 >
                   <CancelIcon />
