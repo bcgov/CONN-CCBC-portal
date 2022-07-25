@@ -11,7 +11,7 @@ import Button from '@button-inc/bcgov-theme/Button';
 import SuccessBanner from '../../../components/Form/SuccessBanner';
 import styled from 'styled-components';
 import { Layout } from '../../../components';
-import { successQuery } from '../../__generated__/successQuery.graphql';
+import { successQuery } from '../../../__generated__/successQuery.graphql';
 
 const StyledSection = styled.section`
   margin: 24px 0;

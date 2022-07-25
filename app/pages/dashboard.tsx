@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { NextPageContext } from 'next/types';
-import { getAllApplicationsByOwnerQuery } from '../schema/queries';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
@@ -11,7 +10,6 @@ import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
 import { Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
-import { getAllApplicationsByOwnerQuery as getAllApplicationsByOwnerQueryType } from '../__generated__/getAllApplicationsByOwnerQuery.graphql';
 import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
 
 const getDashboardQuery = graphql`
@@ -74,11 +72,11 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
           New application
         </StyledGovButton>
       </div>
-      {/* {hasApplications ? (
+      {hasApplications ? (
         <DashboardTable applications={allApplications} />
       ) : (
         <p>Applications will appear here</p>
-      )} */}
+      )}
     </Layout>
   );
 };
