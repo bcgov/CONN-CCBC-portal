@@ -11,6 +11,7 @@ const ProjectBenefits = () => {
         <li>Improvements to community connectivity</li>
         <li>Facilitation of commercial or industrial development</li>
         <li>Improvement of public services or social programs delivery</li>
+        <li>Improvement of small businesses</li>
         <li>Enhancement of entrepreneurship capacity</li>
         <li>
           The Applicant organization’s corporate social responsibility policy
