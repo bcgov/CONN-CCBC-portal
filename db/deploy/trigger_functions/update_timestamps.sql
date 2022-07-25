@@ -33,6 +33,12 @@ begin
       new.updated_at = greatest(now(), old.updated_at + interval '1 millisecond');
       new.updated_by = user_id;
     end if;
+     if to_jsonb(new) ? 'is_deleted' then
+      if new.is_deleted = true then
+        new.deleted_at = now();
+        new.deleted_by = user_id;
+      end if;
+    end if;
   end if;
   return new;
 end;
