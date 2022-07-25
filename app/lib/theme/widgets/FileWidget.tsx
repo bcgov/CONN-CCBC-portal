@@ -103,7 +103,9 @@ const FileWidget: React.FC<WidgetProps> = ({
 
       createAttachment({
         variables,
-        onError: () => setError('File failed to upload, please try again'),
+        onError: () => {
+          setError('File failed to upload, please try again');
+        },
         onCompleted: (res) => {
           const uuid = res?.createAttachment?.attachment?.file;
           const fileDetails = {
@@ -121,6 +123,8 @@ const FileWidget: React.FC<WidgetProps> = ({
         },
       });
     }
+
+    e.target.value = '';
   };
 
   const handleClick = () => {
