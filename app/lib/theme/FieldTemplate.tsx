@@ -4,6 +4,7 @@ import {
   IndigenousEntity,
   ProjectBenefits,
 } from '../../components/Form/CustomTitles';
+
 const FieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   errors,
@@ -12,12 +13,20 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   label,
   displayLabel,
   required,
+  uiSchema,
   id,
 }) => {
+  const ignoreOptional = uiSchema['ui:options']?.ignoreOptional;
+
   return (
     <div>
       {displayLabel && (
-        <FieldLabel label={label} required={required} htmlFor={id} />
+        <FieldLabel
+          label={label}
+          ignoreOptional={ignoreOptional && true}
+          required={required}
+          htmlFor={id}
+        />
       )}
       {label === 'isIndigenousEntity' && <IndigenousEntity />}
       {label === 'projectBenefits' && <ProjectBenefits />}

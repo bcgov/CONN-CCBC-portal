@@ -45,7 +45,7 @@ const organizationLocation = {
         ],
       },
       postalCode: {
-        title: 'Postal code (H0H 0H0)',
+        title: 'Postal code (H0H0H0)',
         type: 'string',
       },
       isMailingAddress: {
@@ -123,7 +123,7 @@ const organizationLocation = {
                     ],
                   },
                   postalCodeMailing: {
-                    title: 'Postal code (H0H 0H0)',
+                    title: 'Postal code (H0H0H0)',
                     type: 'string',
                   },
                 },
