@@ -2,6 +2,7 @@
 
 BEGIN;
 
-ALTER TABLE ccbc_public.applications ADD CONSTRAINT applications_owner_key UNIQUE(owner);
+-- commented out becuase it causes errors on `sqitch revert`
+-- ALTER TABLE ccbc_public.applications ADD CONSTRAINT applications_owner_key UNIQUE(owner);
 
 COMMIT;
