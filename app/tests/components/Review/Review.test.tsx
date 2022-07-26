@@ -148,7 +148,7 @@ describe('The Budget details section without errors', () => {
     renderStaticLayout(errors);
 
     expect(document.getElementById('totalProjectCost')).toHaveTextContent(
-      'Total Project Cost'
+      'Total project cost (Template 2 - cell H28)'
     );
 
     expect(document.getElementById('totalProjectCost-value')).toHaveTextContent(
@@ -163,7 +163,7 @@ describe('The Budget details section with errors', () => {
     renderStaticLayout(errors);
 
     expect(document.getElementById('totalProjectCost')).toHaveTextContent(
-      'Total Project Cost'
+      'Total project cost (Template 2 - cell H28)'
     );
 
     expect(document.getElementById('totalProjectCost-error')).toBeNull();
