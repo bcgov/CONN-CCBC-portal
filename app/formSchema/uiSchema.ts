@@ -688,6 +688,7 @@ const uiSchema = {
         'ui:description': 'maximum 150 characters',
         'ui:options': {
           maxLength: 150,
+          ignoreOptional: true,
         },
       },
       requestedFundingPartner2223: {

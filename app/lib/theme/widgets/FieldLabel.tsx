@@ -3,6 +3,7 @@ interface Props {
   required: boolean;
   htmlFor: string;
   tagName?: 'label' | 'dt';
+  ignoreOptional: boolean;
 }
 
 const FieldLabel: React.FC<Props> = ({
@@ -10,11 +11,13 @@ const FieldLabel: React.FC<Props> = ({
   required,
   htmlFor,
   tagName = 'label',
+  ignoreOptional,
 }) => {
   if (!label) {
     return null;
   }
-  const displayedLabel = label + (required ? '' : ' (optional)') + ' ';
+  const displayedLabel =
+    label + (required || ignoreOptional ? '' : ` (optional)`) + ' ';
 
   if (tagName === 'label')
     return <label htmlFor={htmlFor}>{displayedLabel}</label>;
