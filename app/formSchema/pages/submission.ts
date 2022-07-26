@@ -1,29 +1,29 @@
-const declarationsSign = {
-  declarationsSign: {
-    title: 'Declarations',
+const submission = {
+  submission: {
+    title: 'Submission',
     description:
       'You certify that you have the authority to submit this information on behalf of the Applicant.',
     type: 'object',
     required: [
-      'declarationsCompletedFor',
-      'declarationsDate',
-      'declarationsCompletedBy',
-      'declarationsTitle',
+      'submissionCompletedFor',
+      'submissionDate',
+      'submissionCompletedBy',
+      'submissionTitle',
     ],
     properties: {
-      declarationsCompletedFor: {
+      submissionCompletedFor: {
         title: 'Completed for (Applicant Name)',
         type: 'string',
       },
-      declarationsDate: {
+      submissionDate: {
         title: 'On this date (YYYY-MM-DD)',
         type: 'string',
       },
-      declarationsCompletedBy: {
+      submissionCompletedBy: {
         title: 'Completed by',
         type: 'string',
       },
-      declarationsTitle: {
+      submissionTitle: {
         title: 'Title',
         type: 'string',
       },
@@ -31,4 +31,4 @@ const declarationsSign = {
   },
 };
 
-export default declarationsSign;
+export default submission;

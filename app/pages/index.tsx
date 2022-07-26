@@ -61,7 +61,7 @@ const Home = ({ preloadedQuery }: RelayProps) => {
             Organization details <StyledDetails>5 pages</StyledDetails>
           </StyledLi>
           <StyledLi>
-            Declarations <StyledDetails>2 pages</StyledDetails>
+            Declarations <StyledDetails>1 page</StyledDetails>
           </StyledLi>
         </StyledOl>
         <h3>Get started</h3>

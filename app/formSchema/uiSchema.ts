@@ -80,10 +80,10 @@ const uiSchema = {
     'hoursOfContractorEmploymentPerWeek',
     'contractorPersonMonthsToBeCreated',
     'declarationsList',
-    'declarationsCompletedFor',
-    'declarationsDate',
-    'declarationsCompletedBy',
-    'declarationsTitle',
+    'submissionCompletedFor',
+    'submissionDate',
+    'submissionCompletedBy',
+    'submissionTitle',
     'systemDesign',
     'scalability',
     'backboneTechnology',
@@ -372,7 +372,7 @@ const uiSchema = {
     'ui:title': ` `,
     'ui:widget': 'CheckboxesWidget',
   },
-  declarationsDate: {
+  submissionDate: {
     'ui:widget': 'DatePickerWidget',
   },
   backboneTechnology: {
@@ -743,7 +743,8 @@ const uiSchema = {
           nameOfFundingProgram: '1 / 2',
         },
         {
-          title: 'Amount requested from funding partner',
+          title:
+            'Amount requested from funding partner per fiscal year (April 1 - March 31)',
           columns: 5,
           requestedFundingPartner2223: 1,
           requestedFundingPartner2324: 2,
@@ -812,7 +813,7 @@ const uiSchema = {
 
     // Project funding page grid schema:
     {
-      title: 'Amount requested under CCBC',
+      title: 'Amount requested under CCBC per fiscal year (April 1 - March 31)',
       columns: 5,
       fundingRequestedCCBC2223: 1,
       fundingRequestedCCBC2324: 2,
@@ -825,7 +826,8 @@ const uiSchema = {
       totalFundingRequestedCCBC: '1 / 2',
     },
     {
-      title: 'Amount the Applicant will contribute',
+      title:
+        'Amount the applicant will contribute per fiscal year (April 1 - March 31)',
       columns: 5,
       applicationContribution2223: 1,
       applicationContribution2324: 2,
@@ -838,7 +840,8 @@ const uiSchema = {
       totalApplicantContribution: '1 / 2',
     },
     {
-      title: 'Amount requested under Canadian Infrastructure Bank',
+      title:
+        'Funding from Canadian Infrastructure Bank per fiscal year (April 1 - March 31)',
       columns: 5,
       infrastructureBankFunding2223: 1,
       infrastructureBankFunding2324: 2,

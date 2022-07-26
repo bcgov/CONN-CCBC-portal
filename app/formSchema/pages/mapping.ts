@@ -3,7 +3,7 @@ const mapping = {
     title: 'Mapping',
     type: 'object',
     description:
-      'Please submit the following mapping data in a geo-coded format. KMZ is preferred.',
+      'Please submit the following mapping data in a geo-coded format. KMZ is required.',
     properties: {
       geographicCoverageMap: {
         title:
