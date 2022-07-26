@@ -22,3 +22,4 @@ functions/expose_application_name 2022-07-15T16:39:24Z Anthony Bushara <anthony@
 tables/applications/remove_unique_owner 2022-07-19T14:44:25Z Anthony Bushara <anthony@button.is> # Removes unique constraint for owner
 tables/applications/owner_not_null 2022-07-20T15:51:46Z Anthony Bushara <anthony@button.is> # Owner of the application cannot be null
 tables/attachment_001 2022-07-26T22:32:51Z Marcel Mueller,,, <marcel@Thinkpad> # add columns to attachment
+tables/add_intake_table 2022-07-22T15:27:16Z Anthony Bushara <anthony@button.is> # Creates the intake table
