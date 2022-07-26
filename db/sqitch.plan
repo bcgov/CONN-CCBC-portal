@@ -21,3 +21,4 @@ tables/attachment 2022-07-07T23:19:04Z Marcel Mueller,,, <marcel@Thinkpad> # add
 functions/expose_application_name 2022-07-15T16:39:24Z Anthony Bushara <anthony@button.is> # Exposes Application Name as Computed Column
 tables/applications/remove_unique_owner 2022-07-19T14:44:25Z Anthony Bushara <anthony@button.is> # Removes unique constraint for owner
 tables/applications/owner_not_null 2022-07-20T15:51:46Z Anthony Bushara <anthony@button.is> # Owner of the application cannot be null
+tables/attachment_001 2022-07-26T22:32:51Z Marcel Mueller,,, <marcel@Thinkpad> # add columns to attachment
