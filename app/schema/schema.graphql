@@ -590,6 +590,35 @@ type CcbcUser implements Node {
   ): ApplicationStatusesConnection!
 
   """Reads and enables pagination through a set of `Attachment`."""
+  attachmentsByDeletedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Attachment`."""
+    orderBy: [AttachmentsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AttachmentCondition
+  ): AttachmentsConnection!
+
+  """Reads and enables pagination through a set of `Attachment`."""
   attachmentsByCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -952,6 +981,15 @@ type Attachment implements Node {
   """
   applicationStatusId: Int
 
+  """Boolean declaring if the file has been soft deleted"""
+  isDeleted: Boolean!
+
+  """The id of the user that deleted the file"""
+  deletedBy: Int
+
+  """The time the file was deleted at"""
+  deletedAt: Datetime
+
   """created by user id"""
   createdBy: Int
 
@@ -977,6 +1015,9 @@ type Attachment implements Node {
   Reads a single `ApplicationStatus` that is related to this `Attachment`.
   """
   applicationStatusByApplicationStatusId: ApplicationStatus
+
+  """Reads a single `CcbcUser` that is related to this `Attachment`."""
+  ccbcUserByDeletedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByCreatedBy: CcbcUser
@@ -1016,6 +1057,12 @@ enum AttachmentsOrderBy {
   APPLICATION_ID_DESC
   APPLICATION_STATUS_ID_ASC
   APPLICATION_STATUS_ID_DESC
+  IS_DELETED_ASC
+  IS_DELETED_DESC
+  DELETED_BY_ASC
+  DELETED_BY_DESC
+  DELETED_AT_ASC
+  DELETED_AT_DESC
   CREATED_BY_ASC
   CREATED_BY_DESC
   CREATED_AT_ASC
@@ -1060,6 +1107,15 @@ input AttachmentCondition {
 
   """Checks for equality with the object’s `applicationStatusId` field."""
   applicationStatusId: Int
+
+  """Checks for equality with the object’s `isDeleted` field."""
+  isDeleted: Boolean
+
+  """Checks for equality with the object’s `deletedBy` field."""
+  deletedBy: Int
+
+  """Checks for equality with the object’s `deletedAt` field."""
+  deletedAt: Datetime
 
   """Checks for equality with the object’s `createdBy` field."""
   createdBy: Int
@@ -1747,6 +1803,9 @@ type CreateAttachmentPayload {
   applicationStatusByApplicationStatusId: ApplicationStatus
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
+  ccbcUserByDeletedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByCreatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
@@ -1802,6 +1861,15 @@ input AttachmentInput {
   The id of the application_status (ccbc_public.application_status.id) that the attachment references
   """
   applicationStatusId: Int
+
+  """Boolean declaring if the file has been soft deleted"""
+  isDeleted: Boolean
+
+  """The id of the user that deleted the file"""
+  deletedBy: Int
+
+  """The time the file was deleted at"""
+  deletedAt: Datetime
 
   """created by user id"""
   createdBy: Int
@@ -2129,6 +2197,9 @@ type UpdateAttachmentPayload {
   applicationStatusByApplicationStatusId: ApplicationStatus
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
+  ccbcUserByDeletedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByCreatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
@@ -2193,6 +2264,15 @@ input AttachmentPatch {
   The id of the application_status (ccbc_public.application_status.id) that the attachment references
   """
   applicationStatusId: Int
+
+  """Boolean declaring if the file has been soft deleted"""
+  isDeleted: Boolean
+
+  """The id of the user that deleted the file"""
+  deletedBy: Int
+
+  """The time the file was deleted at"""
+  deletedAt: Datetime
 
   """created by user id"""
   createdBy: Int
@@ -2477,6 +2557,9 @@ type DeleteAttachmentPayload {
   Reads a single `ApplicationStatus` that is related to this `Attachment`.
   """
   applicationStatusByApplicationStatusId: ApplicationStatus
+
+  """Reads a single `CcbcUser` that is related to this `Attachment`."""
+  ccbcUserByDeletedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByCreatedBy: CcbcUser

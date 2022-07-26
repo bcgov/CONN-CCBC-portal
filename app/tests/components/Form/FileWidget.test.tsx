@@ -1,5 +1,5 @@
 import FormTestRenderer from '../../utils/formTestRenderer';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import type { JSONSchema7 } from 'json-schema';
 import userEvent from '@testing-library/user-event';
 
@@ -121,6 +121,35 @@ describe('The FileWidget with multiple files enabled', () => {
       })
       .then(() => {
         waitFor(() => expect(screen.getByText('file-3.jpg')));
+      });
+  });
+});
+
+describe('The FileWidget delete functionality', () => {
+  beforeEach(() => {
+    renderStaticLayout(schema as JSONSchema7, uiSchema as JSONSchema7);
+  });
+
+  it('should render the correct label once file has been uploaded', async () => {
+    const file = new File([new ArrayBuffer(1)], 'file.jpg');
+
+    const inputFile = screen.getByTestId('file-test');
+
+    await userEvent
+      .upload(inputFile, file)
+      .then(() => {
+        waitFor(() => expect(screen.getByText('Replace')));
+      })
+      .then(() => {
+        waitFor(() => expect(screen.getByText('file.jpg')));
+      })
+      .then(() => {
+        waitFor(() => {
+          const deleteBtn = screen.getByTestId('file-delete-btn');
+          fireEvent.click(deleteBtn);
+
+          waitFor(() => expect(screen.getByText('file.jpg')).toBeNull());
+        });
       });
   });
 });

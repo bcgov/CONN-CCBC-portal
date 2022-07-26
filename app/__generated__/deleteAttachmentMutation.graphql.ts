@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6f3b5eeb232bea717c16c8cd48f90b6f>>
+ * @generated SignedSource<<4f11dfbdcfd63c007e1faa58a77faa99>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,17 +9,18 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type CreateAttachmentInput = {
+export type UpdateAttachmentByRowIdInput = {
   clientMutationId?: string | null;
-  attachment: AttachmentInput;
+  attachmentPatch: AttachmentPatch;
+  rowId: number;
 };
-export type AttachmentInput = {
+export type AttachmentPatch = {
   file?: any | null;
   description?: string | null;
   fileName?: string | null;
   fileType?: string | null;
   fileSize?: string | null;
-  applicationId: number;
+  applicationId?: number | null;
   applicationStatusId?: number | null;
   isDeleted?: boolean | null;
   createdBy?: number | null;
@@ -29,20 +30,20 @@ export type AttachmentInput = {
   archivedBy?: number | null;
   archivedAt?: any | null;
 };
-export type createAttachmentMutation$variables = {
-  input: CreateAttachmentInput;
+export type deleteAttachmentMutation$variables = {
+  input: UpdateAttachmentByRowIdInput;
 };
-export type createAttachmentMutation$data = {
-  readonly createAttachment: {
+export type deleteAttachmentMutation$data = {
+  readonly updateAttachmentByRowId: {
     readonly attachment: {
       readonly rowId: number;
-      readonly file: any | null;
+      readonly isDeleted: boolean;
     } | null;
   } | null;
 };
-export type createAttachmentMutation = {
-  variables: createAttachmentMutation$variables;
-  response: createAttachmentMutation$data;
+export type deleteAttachmentMutation = {
+  variables: deleteAttachmentMutation$variables;
+  response: deleteAttachmentMutation$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -71,7 +72,7 @@ v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "file",
+  "name": "isDeleted",
   "storageKey": null
 };
 return {
@@ -79,14 +80,14 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "createAttachmentMutation",
+    "name": "deleteAttachmentMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "CreateAttachmentPayload",
+        "concreteType": "UpdateAttachmentPayload",
         "kind": "LinkedField",
-        "name": "createAttachment",
+        "name": "updateAttachmentByRowId",
         "plural": false,
         "selections": [
           {
@@ -113,14 +114,14 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "createAttachmentMutation",
+    "name": "deleteAttachmentMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "CreateAttachmentPayload",
+        "concreteType": "UpdateAttachmentPayload",
         "kind": "LinkedField",
-        "name": "createAttachment",
+        "name": "updateAttachmentByRowId",
         "plural": false,
         "selections": [
           {
@@ -149,16 +150,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "952d8b3aa0c2b5d39021c0aa9d5768b4",
+    "cacheID": "c167e39821f5e8aac1d4f4aa097a0f6a",
     "id": null,
     "metadata": {},
-    "name": "createAttachmentMutation",
+    "name": "deleteAttachmentMutation",
     "operationKind": "mutation",
-    "text": "mutation createAttachmentMutation(\n  $input: CreateAttachmentInput!\n) {\n  createAttachment(input: $input) {\n    attachment {\n      rowId\n      file\n      id\n    }\n  }\n}\n"
+    "text": "mutation deleteAttachmentMutation(\n  $input: UpdateAttachmentByRowIdInput!\n) {\n  updateAttachmentByRowId(input: $input) {\n    attachment {\n      rowId\n      isDeleted\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "a9e872b22f049dbfaedc75f11569fce2";
+(node as any).hash = "a8735822f2106d65d78526bf47449d83";
 
 export default node;
