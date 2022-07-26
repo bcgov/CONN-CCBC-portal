@@ -52,7 +52,7 @@ const saveRemoteFile = async (stream) => {
         return console.log(data);
       }
     });
-    return;
+    return uuid;
   } catch (err) {
     if (!stream) {
       throw 'Choose a file to upload first.';
