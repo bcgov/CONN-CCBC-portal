@@ -4,7 +4,7 @@ BEGIN;
 
 do $$
     begin
-        assert (select pg_typeof(reference_number)::text from ccbc_public.applications) = 'integer', 'reference_number not integer' ;
+        assert (select data_type from information_schema.columns where table_name='applications' AND column_name='reference_number') = 'integer', 'reference_number not integer' ;
     end;
 $$;
 
