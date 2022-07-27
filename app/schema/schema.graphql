@@ -590,35 +590,6 @@ type CcbcUser implements Node {
   ): ApplicationStatusesConnection!
 
   """Reads and enables pagination through a set of `Attachment`."""
-  attachmentsByDeletedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Attachment`."""
-    orderBy: [AttachmentsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: AttachmentCondition
-  ): AttachmentsConnection!
-
-  """Reads and enables pagination through a set of `Attachment`."""
   attachmentsByCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -678,6 +649,35 @@ type CcbcUser implements Node {
 
   """Reads and enables pagination through a set of `Attachment`."""
   attachmentsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Attachment`."""
+    orderBy: [AttachmentsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AttachmentCondition
+  ): AttachmentsConnection!
+
+  """Reads and enables pagination through a set of `Attachment`."""
+  attachmentsByDeletedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -981,15 +981,6 @@ type Attachment implements Node {
   """
   applicationStatusId: Int
 
-  """Boolean declaring if the file has been soft deleted"""
-  isDeleted: Boolean!
-
-  """The id of the user that deleted the file"""
-  deletedBy: Int
-
-  """The time the file was deleted at"""
-  deletedAt: Datetime
-
   """created by user id"""
   createdBy: Int
 
@@ -1008,6 +999,15 @@ type Attachment implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
+  """Boolean declaring if the file has been soft deleted"""
+  isDeleted: Boolean!
+
+  """The id of the user that deleted the file"""
+  deletedBy: Int
+
+  """The time the file was deleted at"""
+  deletedAt: Datetime
+
   """Reads a single `Application` that is related to this `Attachment`."""
   applicationByApplicationId: Application
 
@@ -1017,9 +1017,6 @@ type Attachment implements Node {
   applicationStatusByApplicationStatusId: ApplicationStatus
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
-  ccbcUserByDeletedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByCreatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
@@ -1027,6 +1024,9 @@ type Attachment implements Node {
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByArchivedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Attachment`."""
+  ccbcUserByDeletedBy: CcbcUser
 }
 
 """A `Attachment` edge in the connection."""
@@ -1057,12 +1057,6 @@ enum AttachmentsOrderBy {
   APPLICATION_ID_DESC
   APPLICATION_STATUS_ID_ASC
   APPLICATION_STATUS_ID_DESC
-  IS_DELETED_ASC
-  IS_DELETED_DESC
-  DELETED_BY_ASC
-  DELETED_BY_DESC
-  DELETED_AT_ASC
-  DELETED_AT_DESC
   CREATED_BY_ASC
   CREATED_BY_DESC
   CREATED_AT_ASC
@@ -1075,6 +1069,12 @@ enum AttachmentsOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  IS_DELETED_ASC
+  IS_DELETED_DESC
+  DELETED_BY_ASC
+  DELETED_BY_DESC
+  DELETED_AT_ASC
+  DELETED_AT_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1108,15 +1108,6 @@ input AttachmentCondition {
   """Checks for equality with the object’s `applicationStatusId` field."""
   applicationStatusId: Int
 
-  """Checks for equality with the object’s `isDeleted` field."""
-  isDeleted: Boolean
-
-  """Checks for equality with the object’s `deletedBy` field."""
-  deletedBy: Int
-
-  """Checks for equality with the object’s `deletedAt` field."""
-  deletedAt: Datetime
-
   """Checks for equality with the object’s `createdBy` field."""
   createdBy: Int
 
@@ -1134,6 +1125,15 @@ input AttachmentCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `isDeleted` field."""
+  isDeleted: Boolean
+
+  """Checks for equality with the object’s `deletedBy` field."""
+  deletedBy: Int
+
+  """Checks for equality with the object’s `deletedAt` field."""
+  deletedAt: Datetime
 }
 
 """A `Application` edge in the connection."""
@@ -1803,9 +1803,6 @@ type CreateAttachmentPayload {
   applicationStatusByApplicationStatusId: ApplicationStatus
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
-  ccbcUserByDeletedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByCreatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
@@ -1813,6 +1810,9 @@ type CreateAttachmentPayload {
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByArchivedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Attachment`."""
+  ccbcUserByDeletedBy: CcbcUser
 
   """An edge for our `Attachment`. May be used by Relay 1."""
   attachmentEdge(
@@ -1862,15 +1862,6 @@ input AttachmentInput {
   """
   applicationStatusId: Int
 
-  """Boolean declaring if the file has been soft deleted"""
-  isDeleted: Boolean
-
-  """The id of the user that deleted the file"""
-  deletedBy: Int
-
-  """The time the file was deleted at"""
-  deletedAt: Datetime
-
   """created by user id"""
   createdBy: Int
 
@@ -1888,6 +1879,15 @@ input AttachmentInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """Boolean declaring if the file has been soft deleted"""
+  isDeleted: Boolean
+
+  """The id of the user that deleted the file"""
+  deletedBy: Int
+
+  """The time the file was deleted at"""
+  deletedAt: Datetime
 }
 
 """The `Upload` scalar type represents a file upload."""
@@ -2197,9 +2197,6 @@ type UpdateAttachmentPayload {
   applicationStatusByApplicationStatusId: ApplicationStatus
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
-  ccbcUserByDeletedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByCreatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
@@ -2207,6 +2204,9 @@ type UpdateAttachmentPayload {
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByArchivedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Attachment`."""
+  ccbcUserByDeletedBy: CcbcUser
 
   """An edge for our `Attachment`. May be used by Relay 1."""
   attachmentEdge(
@@ -2265,15 +2265,6 @@ input AttachmentPatch {
   """
   applicationStatusId: Int
 
-  """Boolean declaring if the file has been soft deleted"""
-  isDeleted: Boolean
-
-  """The id of the user that deleted the file"""
-  deletedBy: Int
-
-  """The time the file was deleted at"""
-  deletedAt: Datetime
-
   """created by user id"""
   createdBy: Int
 
@@ -2291,6 +2282,15 @@ input AttachmentPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """Boolean declaring if the file has been soft deleted"""
+  isDeleted: Boolean
+
+  """The id of the user that deleted the file"""
+  deletedBy: Int
+
+  """The time the file was deleted at"""
+  deletedAt: Datetime
 }
 
 """All input for the `updateAttachmentByRowId` mutation."""
@@ -2559,9 +2559,6 @@ type DeleteAttachmentPayload {
   applicationStatusByApplicationStatusId: ApplicationStatus
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
-  ccbcUserByDeletedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByCreatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
@@ -2569,6 +2566,9 @@ type DeleteAttachmentPayload {
 
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByArchivedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Attachment`."""
+  ccbcUserByDeletedBy: CcbcUser
 
   """An edge for our `Attachment`. May be used by Relay 1."""
   attachmentEdge(
