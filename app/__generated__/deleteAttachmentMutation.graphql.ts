@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4f11dfbdcfd63c007e1faa58a77faa99>>
+ * @generated SignedSource<<d196343972351daddd6f7eeadd90af8a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -23,6 +23,8 @@ export type AttachmentPatch = {
   applicationId?: number | null;
   applicationStatusId?: number | null;
   isDeleted?: boolean | null;
+  deletedBy?: number | null;
+  deletedAt?: any | null;
   createdBy?: number | null;
   createdAt?: any | null;
   updatedBy?: number | null;

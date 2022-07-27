@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<838296245d40b637022c9137a5188d72>>
+ * @generated SignedSource<<4e51190a3dfca3e6d7d8d9909de9dbd5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -58,6 +58,11 @@ v1 = [
         "kind": "Variable",
         "name": "condition",
         "variableName": "formOwner"
+      },
+      {
+        "kind": "Literal",
+        "name": "orderBy",
+        "value": "UPDATED_AT_DESC"
       }
     ],
     "concreteType": "ApplicationsConnection",
@@ -140,16 +145,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "62ef7cd6518b85fe3c2d855faafb8e6f",
+    "cacheID": "603791dcbda03c8757ba20c75080f23d",
     "id": null,
     "metadata": {},
     "name": "getAllApplicationsByOwnerQuery",
     "operationKind": "query",
-    "text": "query getAllApplicationsByOwnerQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n    }\n  }\n}\n"
+    "text": "query getAllApplicationsByOwnerQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner, orderBy: UPDATED_AT_DESC) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "6292bd220f6c56d8a7accedf45820fca";
+(node as any).hash = "a36f78fb7b43a83c166854d290d9369c";
 
 export default node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6f3b5eeb232bea717c16c8cd48f90b6f>>
+ * @generated SignedSource<<b7d28b871904cf669014e39f69c28f63>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -22,6 +22,8 @@ export type AttachmentInput = {
   applicationId: number;
   applicationStatusId?: number | null;
   isDeleted?: boolean | null;
+  deletedBy?: number | null;
+  deletedAt?: any | null;
   createdBy?: number | null;
   createdAt?: any | null;
   updatedBy?: number | null;
