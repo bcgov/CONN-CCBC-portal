@@ -24,6 +24,7 @@ create type ccbc_public.keycloak_jwt as (
   email text,
   broker_session_id text,
   priority_group text,
+  identity_provider text,
   user_groups text[]
 );
 
@@ -144,6 +145,8 @@ comment on column ccbc_public.keycloak_jwt.email is
 comment on column ccbc_public.keycloak_jwt.broker_session_id is
   'If created via a broker external login, this is an identifier that can be used to 
   match external broker backchannel logout requests to a UserSession';
+comment on column ccbc_public.keycloak_jwt.identity_provider is
+  'Name of the identity provider.';
 
 comment on type ccbc_public.keycloak_jwt is E'@primaryKey sub\n@foreignKey (sub) references ccbc_user (uuid)';
 

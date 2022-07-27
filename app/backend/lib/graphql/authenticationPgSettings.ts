@@ -43,6 +43,7 @@ const authenticationPgSettings = (req: Request) => {
     'broker_session_id',
     'user_groups',
     'priority_group',
+    'identity_provider',
   ];
 
   properties.forEach((property) => {
