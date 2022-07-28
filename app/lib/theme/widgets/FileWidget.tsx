@@ -87,6 +87,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   const description = uiSchema['ui:description'];
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const allowMultipleFiles = uiSchema['ui:options']?.allowMultipleFiles;
+  const isFiles = fileList.length > 0;
   const router = useRouter();
 
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
@@ -109,6 +110,12 @@ const FileWidget: React.FC<WidgetProps> = ({
     const file = e.target.files?.[0];
 
     if (file) {
+      // Soft delete file if 'Replace' button is used for single file uploads
+      if (isFiles && !allowMultipleFiles) {
+        const fileId = fileList[0].id;
+        handleDelete(fileId);
+      }
+
       const { name, size, type } = file;
       const variables = {
         input: {
@@ -181,7 +188,6 @@ const FileWidget: React.FC<WidgetProps> = ({
   };
 
   const buttonLabel = () => {
-    const isFiles = fileList.length > 0;
     if (isFiles && !allowMultipleFiles) {
       return 'Replace';
     } else if (isFiles && allowMultipleFiles) {
