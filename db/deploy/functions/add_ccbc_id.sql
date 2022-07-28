@@ -27,9 +27,10 @@ BEGIN
         RAISE 'There are no available intakes';
     END IF;
 
+    -- Commented it out because the ccbc_auth_user does not have LOCK permissiosn for the applications table. 
+    -- Is there some consideration around preventing this or should this be added?
     -- lock to ensure that no other references are added, does not prevent from reading in SHARE mode
-    LOCK ccbc_public.applications IN SHARE MODE;
-    --select reference_number from ccbc_public.applications where reference_number is not null ORDER BY reference_number DESC;
+    -- LOCK ccbc_public.applications IN SHARE MODE;
     select reference_number into latest_reference_number from ccbc_public.applications
          where reference_number is not null AND intake_id = current_intake_fk ORDER BY reference_number DESC;
 
@@ -50,7 +51,9 @@ BEGIN
     
 
 END
-$$ LANGUAGE 'plpgsql' VOLATILE;
+$$ LANGUAGE 'plpgsql' VOLATILE SECURITY INVOKER;
+
+grant execute on function ccbc_public.applications_add_ccbc_id to ccbc_auth_user;
 
 comment on function ccbc_public.applications_add_ccbc_id is 'Function to update an application with a CCBC-ID';
 
