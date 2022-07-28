@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9db7594af44245fe1cd74993771d84df>>
+ * @generated SignedSource<<6d82b3c272b1c89326cf83fa7f4f9489>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,7 @@ export type getApplicationByIdQuery$data = {
     readonly formData: any;
     readonly id: string;
     readonly owner: any;
-    readonly referenceNumber: string | null;
+    readonly referenceNumber: number | null;
     readonly status: string | null;
   } | null;
 };

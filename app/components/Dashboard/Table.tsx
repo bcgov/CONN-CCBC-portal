@@ -81,7 +81,7 @@ const Table = ({ applications }: Props) => {
         {applicationNodes.map((application) => (
           <StyledRow key={application.rowId}>
             <StyledTableCell>
-              {application.referenceNumber ?? 'Unassigned'}
+              {application.ccbcId ?? 'Unassigned'}
             </StyledTableCell>
             <StyledTableCell>{application.projectName}</StyledTableCell>
             <StyledTableCell>

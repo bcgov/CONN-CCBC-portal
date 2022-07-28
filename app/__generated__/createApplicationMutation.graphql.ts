@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e04750749c3aaa459260a0abb253c587>>
+ * @generated SignedSource<<9fee096d586f229ddbdd95c064780b2c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ export type CreateApplicationInput = {
   application: ApplicationInput;
 };
 export type ApplicationInput = {
-  referenceNumber?: string | null;
+  referenceNumber?: number | null;
   owner: any;
   formData?: any | null;
   status?: string | null;
@@ -24,6 +24,7 @@ export type ApplicationInput = {
   updatedAt?: any | null;
   archivedBy?: number | null;
   archivedAt?: any | null;
+  intakeId?: number | null;
 };
 export type createApplicationMutation$variables = {
   input: CreateApplicationInput;

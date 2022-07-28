@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b7d28b871904cf669014e39f69c28f63>>
+ * @generated SignedSource<<22f421ea00a80830fe851284597c2172>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,15 +21,15 @@ export type AttachmentInput = {
   fileSize?: string | null;
   applicationId: number;
   applicationStatusId?: number | null;
-  isDeleted?: boolean | null;
-  deletedBy?: number | null;
-  deletedAt?: any | null;
   createdBy?: number | null;
   createdAt?: any | null;
   updatedBy?: number | null;
   updatedAt?: any | null;
   archivedBy?: number | null;
   archivedAt?: any | null;
+  isDeleted?: boolean | null;
+  deletedBy?: number | null;
+  deletedAt?: any | null;
 };
 export type createAttachmentMutation$variables = {
   input: CreateAttachmentInput;

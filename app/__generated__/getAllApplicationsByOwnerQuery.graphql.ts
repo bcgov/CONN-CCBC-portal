@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4e51190a3dfca3e6d7d8d9909de9dbd5>>
+ * @generated SignedSource<<27a1967571780b943c8a8ad873362a83>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,7 @@
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type ApplicationCondition = {
   rowId?: number | null;
-  referenceNumber?: string | null;
+  referenceNumber?: number | null;
   owner?: any | null;
   formData?: any | null;
   status?: string | null;
@@ -21,6 +21,7 @@ export type ApplicationCondition = {
   updatedAt?: any | null;
   archivedBy?: number | null;
   archivedAt?: any | null;
+  intakeId?: number | null;
 };
 export type getAllApplicationsByOwnerQuery$variables = {
   formOwner: ApplicationCondition;
@@ -31,9 +32,10 @@ export type getAllApplicationsByOwnerQuery$data = {
       readonly id: string;
       readonly rowId: number;
       readonly owner: any;
-      readonly referenceNumber: string | null;
+      readonly referenceNumber: number | null;
       readonly status: string | null;
       readonly projectName: string | null;
+      readonly ccbcId: string | null;
     } | null>;
   } | null;
 };
@@ -119,6 +121,13 @@ v1 = [
             "kind": "ScalarField",
             "name": "projectName",
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "ccbcId",
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -145,16 +154,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "603791dcbda03c8757ba20c75080f23d",
+    "cacheID": "506e2dea592758fd7c45e27f767e7ec1",
     "id": null,
     "metadata": {},
     "name": "getAllApplicationsByOwnerQuery",
     "operationKind": "query",
-    "text": "query getAllApplicationsByOwnerQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner, orderBy: UPDATED_AT_DESC) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n    }\n  }\n}\n"
+    "text": "query getAllApplicationsByOwnerQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner, orderBy: UPDATED_AT_DESC) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n      ccbcId\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "a36f78fb7b43a83c166854d290d9369c";
+(node as any).hash = "4e8209bbef5d3b5032b2554889b4ee61";
 
 export default node;
