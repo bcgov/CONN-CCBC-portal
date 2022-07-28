@@ -41,7 +41,9 @@ BEGIN
 
     UPDATE ccbc_public.applications SET reference_number = latest_reference_number WHERE id=application_id;
     UPDATE ccbc_public.applications SET intake_id = current_intake_fk WHERE id=application_id;
+    UPDATE ccbc_public.applications SET status = 'submitted' WHERE id=application_id;
     -- update local variable for return
+    application.status := 'submitted';
     application.reference_number := latest_reference_number;
     application.intake_id := current_intake_fk;
     RETURN application;
