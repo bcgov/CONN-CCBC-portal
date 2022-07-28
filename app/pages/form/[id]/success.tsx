@@ -1,12 +1,8 @@
 import Link from 'next/link';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { NextPageContext } from 'next/types';
-import { getSessionQuery } from '../../../schema/queries';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
-import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
-import type { Request } from 'express';
 import Button from '@button-inc/bcgov-theme/Button';
 import SuccessBanner from '../../../components/Form/SuccessBanner';
 import styled from 'styled-components';
@@ -30,7 +26,7 @@ const getSuccessQuery = graphql`
 `;
 // eslint-disable-next-line @typescript-eslint/ban-types
 const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
-  const { session } = usePreloadedQuery(getSessionQuery, preloadedQuery);
+  const { session } = usePreloadedQuery(getSuccessQuery, preloadedQuery);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -53,21 +49,6 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
 
 export const withRelayOptions = {
   ...defaultRelayOptions,
-  serverSideProps: async (ctx: NextPageContext) => {
-    // Server-side redirection of the user to their landing route, if they are logged in
-    const request = ctx.req as Request;
-    const authenticated = isAuthenticated(request);
-    // They're logged in.
-    if (authenticated) {
-      return {};
-    }
-    // Handle not logged in
-    return {
-      redirect: {
-        destination: '/',
-      },
-    };
-  },
 };
 
 export default withRelay(Success, getSuccessQuery, withRelayOptions);

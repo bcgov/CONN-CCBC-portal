@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<922d1299b94c891b2ec816cc7b72b9f3>>
+ * @generated SignedSource<<f6ad45e4ce62ada14ab48cb43e137125>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,7 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type PageQuery$variables = {
-  applicationId: number;
+  rowId: number;
 };
 export type PageQuery$data = {
   readonly applicationByRowId: {
@@ -34,7 +34,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "applicationId"
+    "name": "rowId"
   }
 ],
 v1 = [
@@ -44,7 +44,7 @@ v1 = [
       {
         "kind": "Variable",
         "name": "rowId",
-        "variableName": "applicationId"
+        "variableName": "rowId"
       }
     ],
     "concreteType": "Application",
@@ -127,16 +127,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "655bc92b096f6e901a5179f4b268503d",
+    "cacheID": "13be99f247e85d54a5906d0f65d60b65",
     "id": null,
     "metadata": {},
     "name": "PageQuery",
     "operationKind": "query",
-    "text": "query PageQuery(\n  $applicationId: Int!\n) {\n  applicationByRowId(rowId: $applicationId) {\n    formData\n    id\n    owner\n    referenceNumber\n    status\n  }\n  session {\n    sub\n  }\n}\n"
+    "text": "query PageQuery(\n  $rowId: Int!\n) {\n  applicationByRowId(rowId: $rowId) {\n    formData\n    id\n    owner\n    referenceNumber\n    status\n  }\n  session {\n    sub\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "880a31887c1ed26306df6065c2858d80";
+(node as any).hash = "751892edbb04d0a900aedcfbbf1d352a";
 
 export default node;

@@ -1447,9 +1447,6 @@ type KeycloakJwt {
   """
   brokerSessionId: String
   priorityGroup: String
-
-  """Name of the identity provider."""
-  identityProvider: String
   userGroups: [String]
 
   """Reads a single `CcbcUser` that is related to this `KeycloakJwt`."""

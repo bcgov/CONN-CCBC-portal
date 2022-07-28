@@ -1,10 +1,7 @@
 import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { NextPageContext } from 'next/types';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
-import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
-import type { Request } from 'express';
 import { graphql } from 'react-relay';
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
@@ -31,10 +28,9 @@ const getDashboardQuery = graphql`
 `;
 // eslint-disable-next-line @typescript-eslint/ban-types
 const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
-  const { allApplications, session } = usePreloadedQuery(
-    getDashboardQuery,
-    preloadedQuery
-  );
+  const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
+  const { allApplications, session } = query;
+
   const trimmedSub: string = session?.sub.replace(/-/g, '');
 
   const hasApplications = allApplications.nodes.length > 0;
@@ -73,7 +69,7 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
         </StyledGovButton>
       </div>
       {hasApplications ? (
-        <DashboardTable applications={allApplications} />
+        <DashboardTable applications={query} />
       ) : (
         <p>Applications will appear here</p>
       )}
@@ -83,19 +79,12 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
 
 export const withRelayOptions = {
   ...defaultRelayOptions,
-  serverSideProps: async (ctx: NextPageContext) => {
-    // Server-side redirection of the user to their landing route, if they are logged in
-    const request = ctx.req as Request;
-    const authenticated = isAuthenticated(request);
-    // They're logged in.
-    if (authenticated) {
-      return {};
-    }
-    // Handle not logged in
+
+  variablesFromContext: (ctx) => {
+    const trimmedSub: string = ctx?.req?.claims?.sub.replace(/-/g, '');
+
     return {
-      redirect: {
-        destination: '/',
-      },
+      formOwner: { owner: trimmedSub },
     };
   },
 };
