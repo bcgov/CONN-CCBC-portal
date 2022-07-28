@@ -3337,12 +3337,30 @@ type ApplicationsAddCcbcIdPayload {
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
-  string: String
+  application: Application
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """Reads a single `Intake` that is related to this `Application`."""
+  intakeByIntakeId: Intake
+
+  """An edge for our `Application`. May be used by Relay 1."""
+  applicationEdge(
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationsEdge
 }
 
 """All input for the `applicationsAddCcbcId` mutation."""

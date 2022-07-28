@@ -2,7 +2,7 @@
 
 BEGIN;
 
-CREATE FUNCTION ccbc_public.applications_add_ccbc_id(application_id integer) RETURNS text as $$
+CREATE FUNCTION ccbc_public.applications_add_ccbc_id(application_id integer) RETURNS ccbc_public.applications as $$
 DECLARE 
     latest_reference_number integer;
     current_intake_fk integer;
@@ -17,7 +17,7 @@ BEGIN
     END IF;
 
     IF application.intake_id is not null THEN 
-        RETURN ccbc_public.applications_ccbc_id(application);
+        RETURN application;
     END IF;
     
     select id, ccbc_intake_number into current_intake_fk,  _ccbc_intake_number from ccbc_public.intake where current_timestamp >= open_timestamp  AND current_timestamp <= close_timestamp;
@@ -44,7 +44,7 @@ BEGIN
     -- update local variable for return
     application.reference_number := latest_reference_number;
     application.intake_id := current_intake_fk;
-    RETURN ccbc_public.applications_ccbc_id(application);
+    RETURN application;
     
 
 END
