@@ -25,3 +25,5 @@ tables/attachment_001 2022-07-26T22:32:51Z Marcel Mueller,,, <marcel@Thinkpad> #
 tables/add_intake_table 2022-07-22T15:27:16Z Anthony Bushara <anthony@button.is> # Creates the intake table
 tables/applications/connect_intake_table 2022-07-26T15:15:49Z Anthony Bushara <anthony@button.is> # Adds the intake table as a fk to applications
 tables/applications/change_reference_to_integer 2022-07-26T20:40:22Z Anthony Bushara <anthony@button.is> # Changes the reference_number to integer
+functions/ccbc_id_computed_column 2022-07-28T14:18:09Z Anthony Bushara <anthony@button.is> # Adds a computed column to get the CCBC ID
+functions/add_ccbc_id 2022-07-27T14:05:20Z Anthony Bushara <anthony@button.is> # Creates function to add a ccbc id to an application as well as expose it as a computed column

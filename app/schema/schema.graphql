@@ -163,7 +163,7 @@ type Query implements Node {
   ): IntakesConnection
   applicationStatusByRowId(rowId: Int!): ApplicationStatus
   applicationByRowId(rowId: Int!): Application
-  applicationByIntakeIdAndReferenceNumber(intakeId: Int!, referenceNumber: String!): Application
+  applicationByIntakeIdAndReferenceNumber(intakeId: Int!, referenceNumber: Int!): Application
   attachmentByRowId(rowId: Int!): Attachment
   ccbcUserByRowId(rowId: Int!): CcbcUser
   intakeByRowId(rowId: Int!): Intake
@@ -977,7 +977,7 @@ type Application implements Node {
   rowId: Int!
 
   """Reference number assigned to the application"""
-  referenceNumber: String
+  referenceNumber: Int
 
   """The owner of the application"""
   owner: UUID!
@@ -1051,6 +1051,9 @@ type Application implements Node {
     """
     condition: AttachmentCondition
   ): AttachmentsConnection!
+
+  """Computed Column of CCBC ID from intake table"""
+  ccbcId: String
   projectName: String
 }
 
@@ -1177,7 +1180,7 @@ input ApplicationCondition {
   rowId: Int
 
   """Checks for equality with the object’s `referenceNumber` field."""
-  referenceNumber: String
+  referenceNumber: Int
 
   """Checks for equality with the object’s `owner` field."""
   owner: UUID
@@ -1984,6 +1987,14 @@ type Mutation {
     """
     input: DeleteIntakeByRowIdInput!
   ): DeleteIntakePayload
+
+  """Function to update an application with a CCBC-ID"""
+  applicationsAddCcbcId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: ApplicationsAddCcbcIdInput!
+  ): ApplicationsAddCcbcIdPayload
   createUserFromSession(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2113,7 +2124,7 @@ input CreateApplicationInput {
 """An input for mutations affecting `Application`"""
 input ApplicationInput {
   """Reference number assigned to the application"""
-  referenceNumber: String
+  referenceNumber: Int
 
   """The owner of the application"""
   owner: UUID!
@@ -2572,7 +2583,7 @@ Represents an update to a `Application`. Fields that are set will be updated.
 """
 input ApplicationPatch {
   """Reference number assigned to the application"""
-  referenceNumber: String
+  referenceNumber: Int
 
   """The owner of the application"""
   owner: UUID
@@ -2645,7 +2656,7 @@ input UpdateApplicationByIntakeIdAndReferenceNumberInput {
   intakeId: Int!
 
   """Reference number assigned to the application"""
-  referenceNumber: String!
+  referenceNumber: Int!
 }
 
 """The output of our update `Attachment` mutation."""
@@ -3128,7 +3139,7 @@ input DeleteApplicationByIntakeIdAndReferenceNumberInput {
   intakeId: Int!
 
   """Reference number assigned to the application"""
-  referenceNumber: String!
+  referenceNumber: Int!
 }
 
 """The output of our delete `Attachment` mutation."""
@@ -3317,6 +3328,31 @@ input DeleteIntakeByRowIdInput {
 
   """Unique ID for each intake number"""
   rowId: Int!
+}
+
+"""The output of our `applicationsAddCcbcId` mutation."""
+type ApplicationsAddCcbcIdPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  string: String
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+"""All input for the `applicationsAddCcbcId` mutation."""
+input ApplicationsAddCcbcIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  applicationId: Int!
 }
 
 """The output of our `createUserFromSession` mutation."""
