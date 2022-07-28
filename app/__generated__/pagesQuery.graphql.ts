@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c02a8dd75aa3735faed7cf499d3aae6a>>
+ * @generated SignedSource<<6fc1edf8c5c334bba9deed07a71295b6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,15 +9,15 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type getSessionQuery$variables = {};
-export type getSessionQuery$data = {
+export type pagesQuery$variables = {};
+export type pagesQuery$data = {
   readonly session: {
     readonly sub: any | null;
   } | null;
 };
-export type getSessionQuery = {
-  variables: getSessionQuery$variables;
-  response: getSessionQuery$data;
+export type pagesQuery = {
+  variables: pagesQuery$variables;
+  response: pagesQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -46,7 +46,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "getSessionQuery",
+    "name": "pagesQuery",
     "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -55,20 +55,20 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "getSessionQuery",
+    "name": "pagesQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "62eb03bbee01eba7c7997d2e4c2b13ab",
+    "cacheID": "1b0904d8382357799cd96531bd55995e",
     "id": null,
     "metadata": {},
-    "name": "getSessionQuery",
+    "name": "pagesQuery",
     "operationKind": "query",
-    "text": "query getSessionQuery {\n  session {\n    sub\n  }\n}\n"
+    "text": "query pagesQuery {\n  session {\n    sub\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "17e9154b709ae94f9fb85840cca473e1";
+(node as any).hash = "5885755c22f18feebf914e463c551401";
 
 export default node;

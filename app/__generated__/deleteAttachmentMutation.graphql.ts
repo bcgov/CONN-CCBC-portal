@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d196343972351daddd6f7eeadd90af8a>>
+ * @generated SignedSource<<16ed741dde9aeb20750bc25f3eb1172f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -22,15 +22,15 @@ export type AttachmentPatch = {
   fileSize?: string | null;
   applicationId?: number | null;
   applicationStatusId?: number | null;
-  isDeleted?: boolean | null;
-  deletedBy?: number | null;
-  deletedAt?: any | null;
   createdBy?: number | null;
   createdAt?: any | null;
   updatedBy?: number | null;
   updatedAt?: any | null;
   archivedBy?: number | null;
   archivedAt?: any | null;
+  isDeleted?: boolean | null;
+  deletedBy?: number | null;
+  deletedAt?: any | null;
 };
 export type deleteAttachmentMutation$variables = {
   input: UpdateAttachmentByRowIdInput;

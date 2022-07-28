@@ -1,13 +1,11 @@
 import { LoginForm } from '../components';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
+import { graphql } from 'react-relay';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
-import type { Request } from 'express';
 import { ButtonLink, Layout } from '../components';
-import { NextPageContext } from 'next/types';
-import { getSessionQuery } from '../schema/queries';
 import styled from 'styled-components';
+import { pagesQuery } from '../__generated__/pagesQuery.graphql';
 
 const StyledOl = styled('ol')`
   max-width: 300px;
@@ -22,8 +20,17 @@ const StyledDetails = styled('div')`
   color: rgba(45, 45, 45, 0.7);
 `;
 
-const Home = ({ preloadedQuery }: RelayProps) => {
-  const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
+const getPagesQuery = graphql`
+  query pagesQuery {
+    session {
+      sub
+    }
+  }
+`;
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
+  const { session } = usePreloadedQuery(getPagesQuery, preloadedQuery);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -79,30 +86,11 @@ const Home = ({ preloadedQuery }: RelayProps) => {
   );
 };
 
-// Todo: look for a better way to handle preloadedQuery error. Using this to wait until
-// preloadedQuery exists to load page to fix crash if no session
-const QueryRenderer = ({ preloadedQuery }: RelayProps) => {
-  return preloadedQuery && <Home preloadedQuery={preloadedQuery} CSN={false} />;
-};
-
 export const withRelayOptions = {
   ...defaultRelayOptions,
-  serverSideProps: async (ctx: NextPageContext) => {
-    // Server-side redirection of the user to their landing route, if they are logged in
-    const request = ctx.req as Request;
-    const authenticated = isAuthenticated(request);
-    // They're logged in.
-    // Disable for index
-    if (authenticated) {
-      //   return {
-      //     redirect: {
-      //       destination: '/dashboard',
-      //     },
-      return {};
-    }
-    // Handle not logged in
+  serverSideProps: async () => {
     return {};
   },
 };
 
-export default withRelay(QueryRenderer, getSessionQuery, withRelayOptions);
+export default withRelay(Home, getPagesQuery, withRelayOptions);
