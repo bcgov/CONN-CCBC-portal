@@ -8,6 +8,7 @@ import SuccessBanner from '../../../components/Form/SuccessBanner';
 import styled from 'styled-components';
 import { Layout } from '../../../components';
 import { successQuery } from '../../../__generated__/successQuery.graphql';
+import { dateTimeFormat } from '../../../lib/theme/functions/formatDates';
 
 const StyledSection = styled.section`
   margin: 24px 0;
@@ -18,7 +19,20 @@ const StyledDiv = styled.div`
 `;
 
 const getSuccessQuery = graphql`
-  query successQuery {
+  query successQuery($rowId: Int!) {
+    applicationByRowId(rowId: $rowId) {
+      status
+      ccbcId
+      intakeId
+    }
+    allIntakes {
+      edges {
+        node {
+          rowId
+          closeTimestamp
+        }
+      }
+    }
     session {
       sub
     }
@@ -26,17 +40,32 @@ const getSuccessQuery = graphql`
 `;
 // eslint-disable-next-line @typescript-eslint/ban-types
 const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
-  const { session } = usePreloadedQuery(getSuccessQuery, preloadedQuery);
+  const { allIntakes, applicationByRowId, session } = usePreloadedQuery(
+    getSuccessQuery,
+    preloadedQuery
+  );
+
+  const getDateString = (date: Date) => {
+    if (date) {
+      return dateTimeFormat(date, 'date_year_first');
+    }
+  };
+  const unwrap = (edges) => edges.map(({ node }) => node);
+  const unwrapIntakes = unwrap(allIntakes.edges);
+  const currentIntake = unwrapIntakes.find(
+    (intake) => intake.rowId === applicationByRowId.intakeId
+  );
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledDiv>
         <StyledSection>
-          <SuccessBanner />
+          <SuccessBanner ccbcId={applicationByRowId.ccbcId} />
           <h3>Thank you for applying to CCBC Intake 1</h3>
           <div>We have received your application for Sudden Valley.</div>
           <div>
-            You can edit this application until the intake closes on YYYY/MM/DD.
+            You can edit this application until the intake closes on{' '}
+            {getDateString(currentIntake.closeTimestamp)}
           </div>
         </StyledSection>
         <Link href="/" passHref>
@@ -49,6 +78,11 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
 
 export const withRelayOptions = {
   ...defaultRelayOptions,
+  variablesFromContext: (ctx) => {
+    return {
+      rowId: parseInt(ctx.query.id.toString()),
+    };
+  },
 };
 
 export default withRelay(Success, getSuccessQuery, withRelayOptions);

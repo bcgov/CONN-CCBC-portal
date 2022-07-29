@@ -94,7 +94,6 @@ const ApplicationForm: React.FC<Props> = ({
         input: {
           applicationPatch: {
             formData: newFormData,
-            status: 'draft',
           },
           rowId: applicationId,
         },
@@ -112,10 +111,10 @@ const ApplicationForm: React.FC<Props> = ({
         assignCcbcId({
           variables: {
             input: {
-              applicationId: applicationId
-            }
-          }
-        })
+              applicationId: applicationId,
+            },
+          },
+        });
         router.push(`/form/${applicationId}/success`);
       }
     });
