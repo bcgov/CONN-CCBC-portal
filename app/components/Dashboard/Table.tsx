@@ -66,6 +66,17 @@ const Table = ({ applications }: Props) => {
     return 'Submitted';
   };
 
+  const pad = (num: number, size: number) => {
+    const s = "000000000" + num;
+    return s.substring(s.length-size);
+  }
+
+  const ccbcId = (application) =>{
+    return application.referenceNumber 
+      ? `CCBC-${pad(application.referenceNumber, 2)}${pad(application.rowId, 4)}`
+      : 'Unassigned';
+  }
+
   return (
     <StyledTable>
       <StyledTableHead>
@@ -81,7 +92,7 @@ const Table = ({ applications }: Props) => {
         {applicationNodes.map((application) => (
           <StyledRow key={application.rowId}>
             <StyledTableCell>
-              {application.ccbcId ?? 'Unassigned'}
+              {ccbcId(application)}
             </StyledTableCell>
             <StyledTableCell>{application.projectName}</StyledTableCell>
             <StyledTableCell>

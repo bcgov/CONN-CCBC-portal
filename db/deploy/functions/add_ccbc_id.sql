@@ -24,6 +24,15 @@ BEGIN
 
 
     IF current_intake_fk is null THEN
+        -- [VB] use hardcoded intake number for now and backfill intake table
+        INSERT INTO ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number) 
+        VALUES ('2022-09-07 00:00:00','2022-11-06 23:59:59', 1);
+
+        current_intake_fk := 1;
+        _ccbc_intake_number := 1;
+    END IF;
+
+    IF current_intake_fk is null THEN
         RAISE 'There are no available intakes';
     END IF;
 
