@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<87716236711c8347c4d98c35b06771c6>>
+ * @generated SignedSource<<4bcb1c149039344d6dbd3a4127c73047>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -33,14 +33,8 @@ export type updateApplicationMutation$variables = {
 };
 export type updateApplicationMutation$data = {
   readonly updateApplicationByRowId: {
-    readonly clientMutationId: string | null;
     readonly application: {
       readonly formData: any;
-      readonly id: string;
-      readonly owner: any;
-      readonly status: string | null;
-      readonly referenceNumber: number | null;
-      readonly rowId: number;
     } | null;
   } | null;
 };
@@ -49,121 +43,109 @@ export type updateApplicationMutation = {
   response: updateApplicationMutation$data;
 };
 
-const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "input"
-  }
-],
-v1 = [
-  {
-    "alias": null,
-    "args": [
+const node: ConcreteRequest = (function () {
+  var v0 = [
       {
-        "kind": "Variable",
-        "name": "input",
-        "variableName": "input"
-      }
-    ],
-    "concreteType": "UpdateApplicationPayload",
-    "kind": "LinkedField",
-    "name": "updateApplicationByRowId",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "clientMutationId",
-        "storageKey": null
+        defaultValue: null,
+        kind: 'LocalArgument',
+        name: 'input',
       },
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Application",
-        "kind": "LinkedField",
-        "name": "application",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "formData",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "owner",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "status",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "referenceNumber",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "rowId",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
     ],
-    "storageKey": null
-  }
-];
-return {
-  "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
-    "kind": "Fragment",
-    "metadata": null,
-    "name": "updateApplicationMutation",
-    "selections": (v1/*: any*/),
-    "type": "Mutation",
-    "abstractKey": null
-  },
-  "kind": "Request",
-  "operation": {
-    "argumentDefinitions": (v0/*: any*/),
-    "kind": "Operation",
-    "name": "updateApplicationMutation",
-    "selections": (v1/*: any*/)
-  },
-  "params": {
-    "cacheID": "07df4f07385cbcc0a04cd2cfb9ba97d1",
-    "id": null,
-    "metadata": {},
-    "name": "updateApplicationMutation",
-    "operationKind": "mutation",
-    "text": "mutation updateApplicationMutation(\n  $input: UpdateApplicationByRowIdInput!\n) {\n  updateApplicationByRowId(input: $input) {\n    clientMutationId\n    application {\n      formData\n      id\n      owner\n      status\n      referenceNumber\n      rowId\n    }\n  }\n}\n"
-  }
-};
+    v1 = [
+      {
+        kind: 'Variable',
+        name: 'input',
+        variableName: 'input',
+      },
+    ],
+    v2 = {
+      alias: null,
+      args: null,
+      kind: 'ScalarField',
+      name: 'formData',
+      storageKey: null,
+    };
+  return {
+    fragment: {
+      argumentDefinitions: v0 /*: any*/,
+      kind: 'Fragment',
+      metadata: null,
+      name: 'updateApplicationMutation',
+      selections: [
+        {
+          alias: null,
+          args: v1 /*: any*/,
+          concreteType: 'UpdateApplicationPayload',
+          kind: 'LinkedField',
+          name: 'updateApplicationByRowId',
+          plural: false,
+          selections: [
+            {
+              alias: null,
+              args: null,
+              concreteType: 'Application',
+              kind: 'LinkedField',
+              name: 'application',
+              plural: false,
+              selections: [v2 /*: any*/],
+              storageKey: null,
+            },
+          ],
+          storageKey: null,
+        },
+      ],
+      type: 'Mutation',
+      abstractKey: null,
+    },
+    kind: 'Request',
+    operation: {
+      argumentDefinitions: v0 /*: any*/,
+      kind: 'Operation',
+      name: 'updateApplicationMutation',
+      selections: [
+        {
+          alias: null,
+          args: v1 /*: any*/,
+          concreteType: 'UpdateApplicationPayload',
+          kind: 'LinkedField',
+          name: 'updateApplicationByRowId',
+          plural: false,
+          selections: [
+            {
+              alias: null,
+              args: null,
+              concreteType: 'Application',
+              kind: 'LinkedField',
+              name: 'application',
+              plural: false,
+              selections: [
+                v2 /*: any*/,
+                {
+                  alias: null,
+                  args: null,
+                  kind: 'ScalarField',
+                  name: 'id',
+                  storageKey: null,
+                },
+              ],
+              storageKey: null,
+            },
+          ],
+          storageKey: null,
+        },
+      ],
+    },
+    params: {
+      cacheID: '6886ef4cd2980006d78030d327b0ab7a',
+      id: null,
+      metadata: {},
+      name: 'updateApplicationMutation',
+      operationKind: 'mutation',
+      text: 'mutation updateApplicationMutation(\n  $input: UpdateApplicationByRowIdInput!\n) {\n  updateApplicationByRowId(input: $input) {\n    application {\n      formData\n      id\n    }\n  }\n}\n',
+    },
+  };
 })();
 
-(node as any).hash = "46685fe6c8963e572daa393f06e0c085";
+(node as any).hash = '67da55730d7534b97a7f5d77484368f2';
 
 export default node;

@@ -3,7 +3,7 @@
 // module.exports = nextConfig
 
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback.fs = false;

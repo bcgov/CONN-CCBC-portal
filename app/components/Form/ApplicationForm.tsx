@@ -119,6 +119,8 @@ const ApplicationForm: React.FC<Props> = ({
           rowId: applicationId,
         },
       },
+
+      debounceKey: applicationId.toString(),
     });
   };
 
@@ -139,6 +141,12 @@ const ApplicationForm: React.FC<Props> = ({
         router.push(`/form/${applicationId}/success`);
       }
     });
+  };
+
+  const handleChange = (change) => {
+    console.log(change.formData);
+    formData = change.formData;
+    saveForm(change.formData, formData);
   };
 
   const handleDisabled = (page: string, noErrors: boolean) => {
@@ -204,6 +212,7 @@ const ApplicationForm: React.FC<Props> = ({
           onSubmit={(incomingFormData: any) => {
             handleSubmit(incomingFormData, formData);
           }}
+          onChange={handleChange}
           formData={formData[sectionName]}
           schema={sectionSchema as JSONSchema7}
           uiSchema={uiSchema}
