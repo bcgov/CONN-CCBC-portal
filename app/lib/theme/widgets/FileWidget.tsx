@@ -92,6 +92,7 @@ const FileWidget: React.FC<WidgetProps> = ({
 
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
+  const loading = isCreatingAttachment || isDeletingAttachment;
 
   useEffect(() => {
     // Set state from value stored in RJSF if it exists
@@ -159,6 +160,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   };
 
   const handleDelete = (attachmentId) => {
+    setError('');
     const variables = {
       input: {
         attachmentPatch: {
@@ -170,7 +172,7 @@ const FileWidget: React.FC<WidgetProps> = ({
 
     deleteAttachment({
       variables,
-      onError: (err) => console.log('error', err),
+      onError: () => setError('Delete file failed, please try again'),
       onCompleted: (res) => {
         const id = res?.updateAttachmentByRowId?.attachment?.rowId;
         const indexOfFile = fileList.findIndex((object) => {
@@ -214,6 +216,7 @@ const FileWidget: React.FC<WidgetProps> = ({
                     e.preventDefault();
                     handleDelete(file.id);
                   }}
+                  disabled={isDeletingAttachment}
                 >
                   <CancelIcon />
                 </StyledDeleteBtn>
@@ -229,8 +232,9 @@ const FileWidget: React.FC<WidgetProps> = ({
             e.preventDefault();
             handleClick();
           }}
+          disabled={isCreatingAttachment}
         >
-          {isCreatingAttachment ? <LoadingSpinner /> : buttonLabel()}
+          {loading ? <LoadingSpinner /> : buttonLabel()}
         </StyledButton>
       </div>
       <input
