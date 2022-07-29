@@ -1,11 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
 
 // module.exports = nextConfig
 
 module.exports = {
+  reactStrictMode: true,
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback.fs = false;
@@ -14,7 +12,6 @@ module.exports = {
 
     return config;
   },
-  nextConfig,
   compiler: {
     // ssr and displayName are configured by default
     styledComponents: true,

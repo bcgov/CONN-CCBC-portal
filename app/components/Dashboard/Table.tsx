@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 import { StatusPill } from '.';
-import { getAllApplicationsByOwnerQuery$data } from '../../__generated__/getAllApplicationsByOwnerQuery.graphql';
+import { dashboardQuery$data } from '../../__generated__/dashboardQuery.graphql';
 
 const StyledTable = styled('table')`
   margin-bottom: 0px;
@@ -44,7 +44,7 @@ const StyledTableCell = styled('td')`
 `;
 
 type Props = {
-  applications: Pick<getAllApplicationsByOwnerQuery$data, 'allApplications'>;
+  applications: Pick<dashboardQuery$data, 'allApplications'>;
 };
 
 const Table = ({ applications }: Props) => {

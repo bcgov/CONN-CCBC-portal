@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6d82b3c272b1c89326cf83fa7f4f9489>>
+ * @generated SignedSource<<0319cddfad2a8bf7450f809a7ade5a37>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,10 +9,10 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type getApplicationByIdQuery$variables = {
-  applicationId: number;
+export type PageQuery$variables = {
+  rowId: number;
 };
-export type getApplicationByIdQuery$data = {
+export type PageQuery$data = {
   readonly applicationByRowId: {
     readonly formData: any;
     readonly id: string;
@@ -20,10 +20,13 @@ export type getApplicationByIdQuery$data = {
     readonly referenceNumber: number | null;
     readonly status: string | null;
   } | null;
+  readonly session: {
+    readonly sub: any | null;
+  } | null;
 };
-export type getApplicationByIdQuery = {
-  variables: getApplicationByIdQuery$variables;
-  response: getApplicationByIdQuery$data;
+export type PageQuery = {
+  variables: PageQuery$variables;
+  response: PageQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -31,7 +34,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "applicationId"
+    "name": "rowId"
   }
 ],
 v1 = [
@@ -41,7 +44,7 @@ v1 = [
       {
         "kind": "Variable",
         "name": "rowId",
-        "variableName": "applicationId"
+        "variableName": "rowId"
       }
     ],
     "concreteType": "Application",
@@ -86,6 +89,24 @@ v1 = [
       }
     ],
     "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "KeycloakJwt",
+    "kind": "LinkedField",
+    "name": "session",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "sub",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
   }
 ];
 return {
@@ -93,7 +114,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "getApplicationByIdQuery",
+    "name": "PageQuery",
     "selections": (v1/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -102,20 +123,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "getApplicationByIdQuery",
+    "name": "PageQuery",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "b6879c3770a67c136f9e75da6a1f6155",
+    "cacheID": "13be99f247e85d54a5906d0f65d60b65",
     "id": null,
     "metadata": {},
-    "name": "getApplicationByIdQuery",
+    "name": "PageQuery",
     "operationKind": "query",
-    "text": "query getApplicationByIdQuery(\n  $applicationId: Int!\n) {\n  applicationByRowId(rowId: $applicationId) {\n    formData\n    id\n    owner\n    referenceNumber\n    status\n  }\n}\n"
+    "text": "query PageQuery(\n  $rowId: Int!\n) {\n  applicationByRowId(rowId: $rowId) {\n    formData\n    id\n    owner\n    referenceNumber\n    status\n  }\n  session {\n    sub\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "7afbdceac3a83897f424571e3c62e2a2";
+(node as any).hash = "751892edbb04d0a900aedcfbbf1d352a";
 
 export default node;
