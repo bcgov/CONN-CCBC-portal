@@ -19,6 +19,7 @@ const getDashboardQuery = graphql`
         referenceNumber
         status
         projectName
+        ccbcId
       }
     }
     session {
