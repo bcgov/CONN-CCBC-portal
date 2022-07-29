@@ -87,10 +87,12 @@ const FileWidget: React.FC<WidgetProps> = ({
   const description = uiSchema['ui:description'];
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const allowMultipleFiles = uiSchema['ui:options']?.allowMultipleFiles;
+  const isFiles = fileList.length > 0;
   const router = useRouter();
 
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
+  const loading = isCreatingAttachment || isDeletingAttachment;
 
   useEffect(() => {
     // Set state from value stored in RJSF if it exists
@@ -109,6 +111,12 @@ const FileWidget: React.FC<WidgetProps> = ({
     const file = e.target.files?.[0];
 
     if (file) {
+      // Soft delete file if 'Replace' button is used for single file uploads
+      if (isFiles && !allowMultipleFiles) {
+        const fileId = fileList[0].id;
+        handleDelete(fileId);
+      }
+
       const { name, size, type } = file;
       const variables = {
         input: {
@@ -152,6 +160,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   };
 
   const handleDelete = (attachmentId) => {
+    setError('');
     const variables = {
       input: {
         attachmentPatch: {
@@ -163,7 +172,7 @@ const FileWidget: React.FC<WidgetProps> = ({
 
     deleteAttachment({
       variables,
-      onError: (err) => console.log('error', err),
+      onError: () => setError('Delete file failed, please try again'),
       onCompleted: (res) => {
         const id = res?.updateAttachmentByRowId?.attachment?.rowId;
         const indexOfFile = fileList.findIndex((object) => {
@@ -181,7 +190,6 @@ const FileWidget: React.FC<WidgetProps> = ({
   };
 
   const buttonLabel = () => {
-    const isFiles = fileList.length > 0;
     if (isFiles && !allowMultipleFiles) {
       return 'Replace';
     } else if (isFiles && allowMultipleFiles) {
@@ -208,6 +216,7 @@ const FileWidget: React.FC<WidgetProps> = ({
                     e.preventDefault();
                     handleDelete(file.id);
                   }}
+                  disabled={isDeletingAttachment}
                 >
                   <CancelIcon />
                 </StyledDeleteBtn>
@@ -223,8 +232,9 @@ const FileWidget: React.FC<WidgetProps> = ({
             e.preventDefault();
             handleClick();
           }}
+          disabled={isCreatingAttachment}
         >
-          {isCreatingAttachment ? <LoadingSpinner /> : buttonLabel()}
+          {loading ? <LoadingSpinner /> : buttonLabel()}
         </StyledButton>
       </div>
       <input
