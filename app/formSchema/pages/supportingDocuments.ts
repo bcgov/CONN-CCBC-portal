@@ -7,6 +7,8 @@ const supportingDocuments = {
     required: [
       'copiesOfRegistration',
       'preparedFinancialStatements',
+      'logicalNetworkDiagram',
+      'projectSchedule',
       'communityRuralDevelopmentBenefits',
     ],
     properties: {
