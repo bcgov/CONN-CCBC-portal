@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fdd80d837b51e7d30ea60243da493a76>>
+ * @generated SignedSource<<27a1967571780b943c8a8ad873362a83>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -23,10 +23,10 @@ export type ApplicationCondition = {
   archivedAt?: any | null;
   intakeId?: number | null;
 };
-export type dashboardQuery$variables = {
+export type getAllApplicationsByOwnerQuery$variables = {
   formOwner: ApplicationCondition;
 };
-export type dashboardQuery$data = {
+export type getAllApplicationsByOwnerQuery$data = {
   readonly allApplications: {
     readonly nodes: ReadonlyArray<{
       readonly id: string;
@@ -38,13 +38,10 @@ export type dashboardQuery$data = {
       readonly ccbcId: string | null;
     } | null>;
   } | null;
-  readonly session: {
-    readonly sub: any | null;
-  } | null;
 };
-export type dashboardQuery = {
-  variables: dashboardQuery$variables;
-  response: dashboardQuery$data;
+export type getAllApplicationsByOwnerQuery = {
+  variables: getAllApplicationsByOwnerQuery$variables;
+  response: getAllApplicationsByOwnerQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -63,6 +60,11 @@ v1 = [
         "kind": "Variable",
         "name": "condition",
         "variableName": "formOwner"
+      },
+      {
+        "kind": "Literal",
+        "name": "orderBy",
+        "value": "UPDATED_AT_DESC"
       }
     ],
     "concreteType": "ApplicationsConnection",
@@ -132,24 +134,6 @@ v1 = [
       }
     ],
     "storageKey": null
-  },
-  {
-    "alias": null,
-    "args": null,
-    "concreteType": "KeycloakJwt",
-    "kind": "LinkedField",
-    "name": "session",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "sub",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
   }
 ];
 return {
@@ -157,7 +141,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "dashboardQuery",
+    "name": "getAllApplicationsByOwnerQuery",
     "selections": (v1/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -166,20 +150,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "dashboardQuery",
+    "name": "getAllApplicationsByOwnerQuery",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "1641a1fb2b0fdcdd48b9ffb286e7e477",
+    "cacheID": "506e2dea592758fd7c45e27f767e7ec1",
     "id": null,
     "metadata": {},
-    "name": "dashboardQuery",
+    "name": "getAllApplicationsByOwnerQuery",
     "operationKind": "query",
-    "text": "query dashboardQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n      ccbcId\n    }\n  }\n  session {\n    sub\n  }\n}\n"
+    "text": "query getAllApplicationsByOwnerQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner, orderBy: UPDATED_AT_DESC) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n      ccbcId\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "97f26fe9c20bac9c2671dbfc2008d3e9";
+(node as any).hash = "4e8209bbef5d3b5032b2554889b4ee61";
 
 export default node;

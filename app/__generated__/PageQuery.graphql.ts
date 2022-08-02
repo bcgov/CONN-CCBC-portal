@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f6ad45e4ce62ada14ab48cb43e137125>>
+ * @generated SignedSource<<0319cddfad2a8bf7450f809a7ade5a37>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,7 @@ export type PageQuery$data = {
     readonly formData: any;
     readonly id: string;
     readonly owner: any;
-    readonly referenceNumber: string | null;
+    readonly referenceNumber: number | null;
     readonly status: string | null;
   } | null;
   readonly session: {

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9fee096d586f229ddbdd95c064780b2c>>
+ * @generated SignedSource<<6ec27213feb55e1416e7189d982cb0cb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,37 +9,24 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type CreateApplicationInput = {
+export type ApplicationsAddCcbcIdInput = {
   clientMutationId?: string | null;
-  application: ApplicationInput;
+  applicationId: number;
 };
-export type ApplicationInput = {
-  referenceNumber?: number | null;
-  owner: any;
-  formData?: any | null;
-  status?: string | null;
-  createdBy?: number | null;
-  createdAt?: any | null;
-  updatedBy?: number | null;
-  updatedAt?: any | null;
-  archivedBy?: number | null;
-  archivedAt?: any | null;
-  intakeId?: number | null;
+export type addCcbcIdToApplicationMutation$variables = {
+  input: ApplicationsAddCcbcIdInput;
 };
-export type createApplicationMutation$variables = {
-  input: CreateApplicationInput;
-};
-export type createApplicationMutation$data = {
-  readonly createApplication: {
-    readonly clientMutationId: string | null;
+export type addCcbcIdToApplicationMutation$data = {
+  readonly applicationsAddCcbcId: {
     readonly application: {
+      readonly ccbcId: string | null;
       readonly rowId: number;
     } | null;
   } | null;
 };
-export type createApplicationMutation = {
-  variables: createApplicationMutation$variables;
-  response: createApplicationMutation$data;
+export type addCcbcIdToApplicationMutation = {
+  variables: addCcbcIdToApplicationMutation$variables;
+  response: addCcbcIdToApplicationMutation$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -61,7 +48,7 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "clientMutationId",
+  "name": "ccbcId",
   "storageKey": null
 },
 v3 = {
@@ -76,17 +63,16 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "createApplicationMutation",
+    "name": "addCcbcIdToApplicationMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "CreateApplicationPayload",
+        "concreteType": "ApplicationsAddCcbcIdPayload",
         "kind": "LinkedField",
-        "name": "createApplication",
+        "name": "applicationsAddCcbcId",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -95,6 +81,7 @@ return {
             "name": "application",
             "plural": false,
             "selections": [
+              (v2/*: any*/),
               (v3/*: any*/)
             ],
             "storageKey": null
@@ -110,17 +97,16 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "createApplicationMutation",
+    "name": "addCcbcIdToApplicationMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "CreateApplicationPayload",
+        "concreteType": "ApplicationsAddCcbcIdPayload",
         "kind": "LinkedField",
-        "name": "createApplication",
+        "name": "applicationsAddCcbcId",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -129,6 +115,7 @@ return {
             "name": "application",
             "plural": false,
             "selections": [
+              (v2/*: any*/),
               (v3/*: any*/),
               {
                 "alias": null,
@@ -146,16 +133,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e9d4fb4ef8b870b08582c85f4b3963af",
+    "cacheID": "eed8bab79efa3d8cfb0669897096b8ef",
     "id": null,
     "metadata": {},
-    "name": "createApplicationMutation",
+    "name": "addCcbcIdToApplicationMutation",
     "operationKind": "mutation",
-    "text": "mutation createApplicationMutation(\n  $input: CreateApplicationInput!\n) {\n  createApplication(input: $input) {\n    clientMutationId\n    application {\n      rowId\n      id\n    }\n  }\n}\n"
+    "text": "mutation addCcbcIdToApplicationMutation(\n  $input: ApplicationsAddCcbcIdInput!\n) {\n  applicationsAddCcbcId(input: $input) {\n    application {\n      ccbcId\n      rowId\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "ee1e5476b24d34cae6953025a5cc1d0b";
+(node as any).hash = "c7b14209ccae858986959ac5f23e4f33";
 
 export default node;

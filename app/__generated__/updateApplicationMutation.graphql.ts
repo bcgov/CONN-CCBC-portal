@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d81ea45375483f02dd63c36ebb059111>>
+ * @generated SignedSource<<4bcb1c149039344d6dbd3a4127c73047>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type UpdateApplicationByRowIdInput = {
   rowId: number;
 };
 export type ApplicationPatch = {
-  referenceNumber?: string | null;
+  referenceNumber?: number | null;
   owner?: any | null;
   formData?: any | null;
   status?: string | null;
@@ -25,6 +25,7 @@ export type ApplicationPatch = {
   updatedAt?: any | null;
   archivedBy?: number | null;
   archivedAt?: any | null;
+  intakeId?: number | null;
 };
 export type updateApplicationMutation$variables = {
   input: UpdateApplicationByRowIdInput;
@@ -37,7 +38,7 @@ export type updateApplicationMutation$data = {
       readonly id: string;
       readonly owner: any;
       readonly status: string | null;
-      readonly referenceNumber: string | null;
+      readonly referenceNumber: number | null;
       readonly rowId: number;
     } | null;
   } | null;
