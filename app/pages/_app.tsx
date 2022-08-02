@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import { Suspense, useEffect } from 'react';
-import App from 'next/app';
-=======
 import { Suspense, useEffect, useState } from 'react';
->>>>>>> main
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
@@ -14,10 +9,7 @@ import { GrowthBook, GrowthBookProvider } from '@growthbook/growthbook-react';
 import GlobalStyle from '../styles/GobalStyles';
 import GlobalTheme from '../styles/GlobalTheme';
 import BCGovTypography from '../components/BCGovTypography';
-<<<<<<< HEAD
 import { SessionExpiryHandler } from '../components';
-=======
->>>>>>> main
 
 const clientEnv = getClientEnvironment();
 const initialPreloadedQuery = getInitialPreloadedQuery({
@@ -74,14 +66,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <GlobalStyle />
         <BCGovTypography />
         <RelayEnvironmentProvider environment={env}>
-<<<<<<< HEAD
           <Suspense fallback={<div>Loading...</div>}>
             {typeof window !== 'undefined' && <SessionExpiryHandler />}
             <Component {...pageProps} {...relayProps} />
           </Suspense>
-=======
-          {component}
->>>>>>> main
         </RelayEnvironmentProvider>
       </GlobalTheme>
     </GrowthBookProvider>
