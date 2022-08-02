@@ -4,6 +4,12 @@ const mapping = {
     type: 'object',
     description:
       'Please submit the following mapping data in a geo-coded format. KMZ is required.',
+    required: [
+      'geographicCoverageMap',
+      'coverageAssessmentStatistics',
+      'currentNetworkInfastructure',
+      'upgradedNetworkInfrastructure',
+    ],
     properties: {
       geographicCoverageMap: {
         title:

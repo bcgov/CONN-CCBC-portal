@@ -3,8 +3,17 @@ const supportingDocuments = {
     title: 'Supporting documents',
     type: 'object',
     description:
+<<<<<<< HEAD
       'Please upload additional attachments. Please do not include special characters in the file name. The maximum size per file is 100MB.',
     required: ['communityRuralDevelopmentBenefits'],
+=======
+      'Please upload additional attachments. Please avoid using special characters in the file name. The maximum size per file is 100MB',
+    required: [
+      'copiesOfRegistration',
+      'preparedFinancialStatements',
+      'communityRuralDevelopmentBenefits',
+    ],
+>>>>>>> 7aeb0bd (feat: add basic upload validations)
     properties: {
       copiesOfRegistration: {
         title:
