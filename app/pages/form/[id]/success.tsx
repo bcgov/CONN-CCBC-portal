@@ -1,15 +1,14 @@
 import Link from 'next/link';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { NextPageContext } from 'next/types';
-import { getSessionQuery } from '../../../schema/queries';
+import { graphql } from 'react-relay';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
-import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
-import type { Request } from 'express';
 import Button from '@button-inc/bcgov-theme/Button';
 import SuccessBanner from '../../../components/Form/SuccessBanner';
 import styled from 'styled-components';
 import { Layout } from '../../../components';
+import { successQuery } from '../../../__generated__/successQuery.graphql';
+import { dateTimeFormat } from '../../../lib/theme/functions/formatDates';
 
 const StyledSection = styled.section`
   margin: 24px 0;
@@ -19,18 +18,54 @@ const StyledDiv = styled.div`
   margin: 24px;
 `;
 
-const Success = ({ preloadedQuery }: any) => {
-  const { session }: any = usePreloadedQuery(getSessionQuery, preloadedQuery);
+const getSuccessQuery = graphql`
+  query successQuery($rowId: Int!) {
+    applicationByRowId(rowId: $rowId) {
+      status
+      ccbcId
+      intakeId
+    }
+    allIntakes {
+      edges {
+        node {
+          rowId
+          closeTimestamp
+        }
+      }
+    }
+    session {
+      sub
+    }
+  }
+`;
+// eslint-disable-next-line @typescript-eslint/ban-types
+const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
+  const { allIntakes, applicationByRowId, session } = usePreloadedQuery(
+    getSuccessQuery,
+    preloadedQuery
+  );
+
+  const getDateString = (date: Date) => {
+    if (date) {
+      return dateTimeFormat(date, 'date_year_first');
+    }
+  };
+  const unwrap = (edges) => edges.map(({ node }) => node);
+  const unwrapIntakes = unwrap(allIntakes.edges);
+  const currentIntake = unwrapIntakes.find(
+    (intake) => intake.rowId === applicationByRowId.intakeId
+  );
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledDiv>
         <StyledSection>
-          <SuccessBanner />
+          <SuccessBanner ccbcId={applicationByRowId.ccbcId} />
           <h3>Thank you for applying to CCBC Intake 1</h3>
           <div>We have received your application for Sudden Valley.</div>
           <div>
-            You can edit this application until the intake closes on YYYY/MM/DD.
+            You can edit this application until the intake closes on{' '}
+            {getDateString(currentIntake.closeTimestamp)}
           </div>
         </StyledSection>
         <Link href="/" passHref>
@@ -41,29 +76,13 @@ const Success = ({ preloadedQuery }: any) => {
   );
 };
 
-const QueryRenderer = ({ preloadedQuery }: RelayProps) => {
-  return (
-    preloadedQuery && <Success preloadedQuery={preloadedQuery} CSN={false} />
-  );
-};
-
 export const withRelayOptions = {
   ...defaultRelayOptions,
-  serverSideProps: async (ctx: NextPageContext) => {
-    // Server-side redirection of the user to their landing route, if they are logged in
-    const request = ctx.req as Request;
-    const authenticated = isAuthenticated(request);
-    // They're logged in.
-    if (authenticated) {
-      return {};
-    }
-    // Handle not logged in
+  variablesFromContext: (ctx) => {
     return {
-      redirect: {
-        destination: '/',
-      },
+      rowId: parseInt(ctx.query.id.toString()),
     };
   },
 };
 
-export default withRelay(QueryRenderer, getSessionQuery, withRelayOptions);
+export default withRelay(Success, getSuccessQuery, withRelayOptions);

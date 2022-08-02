@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4bcb1c149039344d6dbd3a4127c73047>>
+ * @generated SignedSource<<fdd80d837b51e7d30ea60243da493a76>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,13 +8,9 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type UpdateApplicationByRowIdInput = {
-  clientMutationId?: string | null;
-  applicationPatch: ApplicationPatch;
-  rowId: number;
-};
-export type ApplicationPatch = {
+import { ConcreteRequest, Query } from 'relay-runtime';
+export type ApplicationCondition = {
+  rowId?: number | null;
   referenceNumber?: number | null;
   owner?: any | null;
   formData?: any | null;
@@ -27,25 +23,28 @@ export type ApplicationPatch = {
   archivedAt?: any | null;
   intakeId?: number | null;
 };
-export type updateApplicationMutation$variables = {
-  input: UpdateApplicationByRowIdInput;
+export type dashboardQuery$variables = {
+  formOwner: ApplicationCondition;
 };
-export type updateApplicationMutation$data = {
-  readonly updateApplicationByRowId: {
-    readonly clientMutationId: string | null;
-    readonly application: {
-      readonly formData: any;
+export type dashboardQuery$data = {
+  readonly allApplications: {
+    readonly nodes: ReadonlyArray<{
       readonly id: string;
-      readonly owner: any;
-      readonly status: string | null;
-      readonly referenceNumber: number | null;
       readonly rowId: number;
-    } | null;
+      readonly owner: any;
+      readonly referenceNumber: number | null;
+      readonly status: string | null;
+      readonly projectName: string | null;
+      readonly ccbcId: string | null;
+    } | null>;
+  } | null;
+  readonly session: {
+    readonly sub: any | null;
   } | null;
 };
-export type updateApplicationMutation = {
-  variables: updateApplicationMutation$variables;
-  response: updateApplicationMutation$data;
+export type dashboardQuery = {
+  variables: dashboardQuery$variables;
+  response: dashboardQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -53,7 +52,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "input"
+    "name": "formOwner"
   }
 ],
 v1 = [
@@ -62,42 +61,35 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "input",
-        "variableName": "input"
+        "name": "condition",
+        "variableName": "formOwner"
       }
     ],
-    "concreteType": "UpdateApplicationPayload",
+    "concreteType": "ApplicationsConnection",
     "kind": "LinkedField",
-    "name": "updateApplicationByRowId",
+    "name": "allApplications",
     "plural": false,
     "selections": [
       {
         "alias": null,
         "args": null,
-        "kind": "ScalarField",
-        "name": "clientMutationId",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
         "concreteType": "Application",
         "kind": "LinkedField",
-        "name": "application",
-        "plural": false,
+        "name": "nodes",
+        "plural": true,
         "selections": [
           {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "formData",
+            "name": "id",
             "storageKey": null
           },
           {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "id",
+            "name": "rowId",
             "storageKey": null
           },
           {
@@ -111,13 +103,6 @@ v1 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "status",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
             "name": "referenceNumber",
             "storageKey": null
           },
@@ -125,10 +110,42 @@ v1 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "rowId",
+            "name": "status",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "projectName",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "ccbcId",
             "storageKey": null
           }
         ],
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "KeycloakJwt",
+    "kind": "LinkedField",
+    "name": "session",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "sub",
         "storageKey": null
       }
     ],
@@ -140,29 +157,29 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "updateApplicationMutation",
+    "name": "dashboardQuery",
     "selections": (v1/*: any*/),
-    "type": "Mutation",
+    "type": "Query",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "updateApplicationMutation",
+    "name": "dashboardQuery",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "07df4f07385cbcc0a04cd2cfb9ba97d1",
+    "cacheID": "1641a1fb2b0fdcdd48b9ffb286e7e477",
     "id": null,
     "metadata": {},
-    "name": "updateApplicationMutation",
-    "operationKind": "mutation",
-    "text": "mutation updateApplicationMutation(\n  $input: UpdateApplicationByRowIdInput!\n) {\n  updateApplicationByRowId(input: $input) {\n    clientMutationId\n    application {\n      formData\n      id\n      owner\n      status\n      referenceNumber\n      rowId\n    }\n  }\n}\n"
+    "name": "dashboardQuery",
+    "operationKind": "query",
+    "text": "query dashboardQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n      ccbcId\n    }\n  }\n  session {\n    sub\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "46685fe6c8963e572daa393f06e0c085";
+(node as any).hash = "97f26fe9c20bac9c2671dbfc2008d3e9";
 
 export default node;

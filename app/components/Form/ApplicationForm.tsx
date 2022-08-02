@@ -14,6 +14,7 @@ import { Review } from '../Review';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import validateFormData from '@rjsf/core/dist/cjs/validate';
+import { useAddCcbcIdToApplicationMutation } from '../../schema/mutations/application/addCcbcIdToApplication';
 
 interface Props {
   formData: any;
@@ -58,6 +59,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const router = useRouter();
   const [updateApplication] = useUpdateApplicationMutation();
+  const [assignCcbcId] = useAddCcbcIdToApplicationMutation();
 
   const subschemaArray = schemaToSubschemasArray(schema() as object);
 
@@ -92,7 +94,6 @@ const ApplicationForm: React.FC<Props> = ({
         input: {
           applicationPatch: {
             formData: newFormData,
-            status: 'draft',
           },
           rowId: applicationId,
         },
@@ -106,6 +107,14 @@ const ApplicationForm: React.FC<Props> = ({
       if (pageNumber < subschemaArray.length) {
         router.push(`/form/${applicationId}/${pageNumber + 1}`);
       } else {
+        //Does not return query from mutation
+        assignCcbcId({
+          variables: {
+            input: {
+              applicationId: applicationId,
+            },
+          },
+        });
         router.push(`/form/${applicationId}/success`);
       }
     });
@@ -153,7 +162,7 @@ const ApplicationForm: React.FC<Props> = ({
           Continue
         </Button>
       ) : (
-        <Button variant="primary">Ready for assessment</Button>
+        <Button variant="primary">Submit</Button>
       )}
       {/* // Return to this save button later, will likely require a hacky solution to work
       // nice with RJSF

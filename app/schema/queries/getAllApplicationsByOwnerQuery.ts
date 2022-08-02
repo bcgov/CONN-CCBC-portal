@@ -10,6 +10,7 @@ const getAllApplicationsByOwnerQuery = graphql`
         referenceNumber
         status
         projectName
+        ccbcId
       }
     }
   }

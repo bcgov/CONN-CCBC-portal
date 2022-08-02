@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<16ed741dde9aeb20750bc25f3eb1172f>>
+ * @generated SignedSource<<6ec27213feb55e1416e7189d982cb0cb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,43 +9,24 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type UpdateAttachmentByRowIdInput = {
+export type ApplicationsAddCcbcIdInput = {
   clientMutationId?: string | null;
-  attachmentPatch: AttachmentPatch;
-  rowId: number;
+  applicationId: number;
 };
-export type AttachmentPatch = {
-  file?: any | null;
-  description?: string | null;
-  fileName?: string | null;
-  fileType?: string | null;
-  fileSize?: string | null;
-  applicationId?: number | null;
-  applicationStatusId?: number | null;
-  createdBy?: number | null;
-  createdAt?: any | null;
-  updatedBy?: number | null;
-  updatedAt?: any | null;
-  archivedBy?: number | null;
-  archivedAt?: any | null;
-  isDeleted?: boolean | null;
-  deletedBy?: number | null;
-  deletedAt?: any | null;
+export type addCcbcIdToApplicationMutation$variables = {
+  input: ApplicationsAddCcbcIdInput;
 };
-export type deleteAttachmentMutation$variables = {
-  input: UpdateAttachmentByRowIdInput;
-};
-export type deleteAttachmentMutation$data = {
-  readonly updateAttachmentByRowId: {
-    readonly attachment: {
+export type addCcbcIdToApplicationMutation$data = {
+  readonly applicationsAddCcbcId: {
+    readonly application: {
+      readonly ccbcId: string | null;
       readonly rowId: number;
-      readonly isDeleted: boolean;
     } | null;
   } | null;
 };
-export type deleteAttachmentMutation = {
-  variables: deleteAttachmentMutation$variables;
-  response: deleteAttachmentMutation$data;
+export type addCcbcIdToApplicationMutation = {
+  variables: addCcbcIdToApplicationMutation$variables;
+  response: addCcbcIdToApplicationMutation$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -67,14 +48,14 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "rowId",
+  "name": "ccbcId",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "isDeleted",
+  "name": "rowId",
   "storageKey": null
 };
 return {
@@ -82,22 +63,22 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "deleteAttachmentMutation",
+    "name": "addCcbcIdToApplicationMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "UpdateAttachmentPayload",
+        "concreteType": "ApplicationsAddCcbcIdPayload",
         "kind": "LinkedField",
-        "name": "updateAttachmentByRowId",
+        "name": "applicationsAddCcbcId",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "concreteType": "Attachment",
+            "concreteType": "Application",
             "kind": "LinkedField",
-            "name": "attachment",
+            "name": "application",
             "plural": false,
             "selections": [
               (v2/*: any*/),
@@ -116,22 +97,22 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "deleteAttachmentMutation",
+    "name": "addCcbcIdToApplicationMutation",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "UpdateAttachmentPayload",
+        "concreteType": "ApplicationsAddCcbcIdPayload",
         "kind": "LinkedField",
-        "name": "updateAttachmentByRowId",
+        "name": "applicationsAddCcbcId",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "concreteType": "Attachment",
+            "concreteType": "Application",
             "kind": "LinkedField",
-            "name": "attachment",
+            "name": "application",
             "plural": false,
             "selections": [
               (v2/*: any*/),
@@ -152,16 +133,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c167e39821f5e8aac1d4f4aa097a0f6a",
+    "cacheID": "eed8bab79efa3d8cfb0669897096b8ef",
     "id": null,
     "metadata": {},
-    "name": "deleteAttachmentMutation",
+    "name": "addCcbcIdToApplicationMutation",
     "operationKind": "mutation",
-    "text": "mutation deleteAttachmentMutation(\n  $input: UpdateAttachmentByRowIdInput!\n) {\n  updateAttachmentByRowId(input: $input) {\n    attachment {\n      rowId\n      isDeleted\n      id\n    }\n  }\n}\n"
+    "text": "mutation addCcbcIdToApplicationMutation(\n  $input: ApplicationsAddCcbcIdInput!\n) {\n  applicationsAddCcbcId(input: $input) {\n    application {\n      ccbcId\n      rowId\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "a8735822f2106d65d78526bf47449d83";
+(node as any).hash = "c7b14209ccae858986959ac5f23e4f33";
 
 export default node;
