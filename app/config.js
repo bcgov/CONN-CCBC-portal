@@ -138,6 +138,12 @@ const config = convict({
     default: '',
     env: 'AWS_ROLE_ARN',
   },
+  SITEMINDER_LOGOUT_URL: {
+    doc: 'Logout URL',
+    format: String,
+    default: 'https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi',
+    env: 'SITEMINDER_LOGOUT_URL'
+  }
 });
 
 // Load environment dependent configuration

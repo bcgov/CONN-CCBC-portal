@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import type { SessionExpiryHandlerQuery } from '../__generated__/SessionExpiryHandlerQuery.graphql';
 import { graphql, fetchQuery, useRelayEnvironment } from 'react-relay';
 import { SessionTimeoutHandler } from '@bcgov-cas/sso-react';
+import config from '../config.js';
 
 const sessionQuery = graphql`
   query SessionExpiryHandlerQuery {
@@ -32,15 +33,28 @@ const SessionExpiryHandler: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const getLogOutUrl = () => {
+    const logoutUrl = config.get('SITEMINDER_LOGOUT_URL');
+    const localRedirectURL = `${window.location.origin}/${router.asPath}`;
+    return `${logoutUrl}?returl=${localRedirectURL}&retnow=1`;
+  };
+
   const handleSessionExpired = () => {
     setHasSession(false);
-    router.push({
-      pathname: '/login-redirect',
-      query: {
-        redirectTo: router.asPath,
-        sessionIdled: true,
-      },
-    });
+    const logOutURL = getLogOutUrl();
+
+    if (!logOutURL) {
+      router.push({
+        pathname: '/login-redirect',
+        query: {
+          redirectTo: router.asPath,
+          sessionIdled: true,
+        },
+      });
+    }
+
+    window.location.replace(logOutURL);
+
   };
 
   if (hasSession)
