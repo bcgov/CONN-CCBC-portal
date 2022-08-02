@@ -11,6 +11,8 @@ const supportingDocuments = {
     required: [
       'copiesOfRegistration',
       'preparedFinancialStatements',
+      'logicalNetworkDiagram',
+      'projectSchedule',
       'communityRuralDevelopmentBenefits',
     ],
 >>>>>>> 7aeb0bd (feat: add basic upload validations)

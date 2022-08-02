@@ -161,7 +161,6 @@ const uiSchema = {
     'ui:description': 'maximum 150 characters',
     'ui:title':
       'Describe the geographic location of the Project area (i.e., include the closest communities and the general area which the Project will target).',
-
     'ui:options': {
       maxLength: 150,
     },
@@ -482,14 +481,18 @@ const uiSchema = {
     'ui:description': 'Logical Network Diagram',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
-      fileTypes: '.pdf,.png,.jpg,.jpeg,.vsd,.vsdx,.doc,.docx,.ppt,.pptx',
+      allowMultipleFiles: true,
+      fileTypes:
+        '.pdf, .png, .jpg, .jpeg, .vsd, .vsdx, .doc, .docx, .ppt, .pptx',
     },
   },
   projectSchedule: {
     'ui:widget': 'FileWidget',
     'ui:description': 'Project schedule (preferably a Gantt chart)',
     'ui:options': {
+      allowMultipleFiles: true,
       maxLength: MAX_LONG_INPUT_LENGTH,
+      fileTypes: '.xlsx, .mpp',
     },
   },
   communityRuralDevelopmentBenefits: {
@@ -507,7 +510,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
-      fileTypes: '.kml,.kmz',
+      fileTypes: '.kml, .kmz',
     },
   },
   coverageAssessmentStatistics: {
@@ -523,7 +526,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
-      fileTypes: '.kml,.kmz',
+      fileTypes: '.kml, .kmz',
     },
   },
   upgradedNetworkInfrastructure: {
@@ -533,7 +536,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
-      fileTypes: '.kml,.kmz',
+      fileTypes: '.kml, .kmz',
     },
   },
   eligibilityAndImpactsCalculator: {

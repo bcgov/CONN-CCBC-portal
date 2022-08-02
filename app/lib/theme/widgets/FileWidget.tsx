@@ -9,6 +9,7 @@ import { useDeleteAttachment } from '../../../schema/mutations/attachment/delete
 
 import bytesToSize from '../../../utils/bytesToText';
 import { CancelIcon, LoadingSpinner } from '../../../components';
+import path from 'path';
 
 const StyledContainer = styled('div')`
   margin-top: 16px;
@@ -42,6 +43,7 @@ const StyledButton = styled(Button)`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-left: 8px;
 `;
 
 const StyledError = styled('div')`
@@ -113,11 +115,14 @@ const FileWidget: React.FC<WidgetProps> = ({
     setError('');
     const formId = parseInt(router?.query?.id as string);
     const file = e.target.files?.[0];
-
     if (file) {
       const { name, size, type } = file;
       if (size > maxFileSizeInBytes) {
         setError('fileSize');
+        return;
+      }
+      if (acceptedFileTypes && !checkFileType(file.name, acceptedFileTypes)) {
+        setError('fileType');
         return;
       }
       if (isFiles && !allowMultipleFiles) {
@@ -126,7 +131,6 @@ const FileWidget: React.FC<WidgetProps> = ({
         handleDelete(fileId);
       }
 
-      console.log(size);
       const variables = {
         input: {
           attachment: {
@@ -194,6 +198,13 @@ const FileWidget: React.FC<WidgetProps> = ({
     });
   };
 
+  const checkFileType = (file, fileTypes) => {
+    const extension = path.extname(file);
+    const typesArr = fileTypes && fileTypes.replace(/ /g, '').split(',');
+
+    return typesArr.includes(extension);
+  };
+
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
@@ -232,7 +243,7 @@ const FileWidget: React.FC<WidgetProps> = ({
               </StyledFileDiv>
             );
           })}
-        {error && <Error error={error} />}
+        {error && <Error error={error} fileTypes={acceptedFileTypes} />}
       </StyledDetails>
       <div>
         <StyledButton
@@ -253,19 +264,28 @@ const FileWidget: React.FC<WidgetProps> = ({
         style={{ display: 'none' }}
         type="file"
         required={required}
-        accept={acceptedFileTypes}
+        accept={acceptedFileTypes && acceptedFileTypes.toString()}
       />
     </StyledContainer>
   );
 };
 
-const Error = ({ error }) => {
+const Error = ({ error, fileTypes }) => {
   if (error === 'uploadFailed') {
     return <StyledError>File failed to upload, please try again</StyledError>;
   }
 
   if (error === 'deleteFailed') {
     return <StyledError>Delete file failed, please try again</StyledError>;
+  }
+
+  if (error === 'fileType') {
+    return (
+      <StyledError>
+        Please use an accepted file type. Accepted types for this field are:
+        <div>{fileTypes}</div>
+      </StyledError>
+    );
   }
 
   if (error === 'fileSize') {
