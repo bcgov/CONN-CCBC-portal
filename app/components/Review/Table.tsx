@@ -1,3 +1,4 @@
+import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
 import React from 'react';
 import styled from 'styled-components';
 

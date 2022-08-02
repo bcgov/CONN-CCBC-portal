@@ -4,7 +4,7 @@ const templateUploads = {
     type: 'object',
     description:
       'Please upload all templates. Do not include special characters in the file name. Files must be less than 100MB.',
-    reqquired: [
+    required: [
       'eligibilityAndImpactsCalculator',
       'detailedBudget',
       'financialForecast',
