@@ -289,15 +289,7 @@ const Error = ({ error, fileTypes }) => {
   }
 
   if (error === 'fileSize') {
-    return (
-      <StyledError>
-        Files must be less than 100mb. If you must submit a file larger than
-        this, please contact{' '}
-        <a href="mailto:connectingcommunitiesbc@gov.bc.ca">
-          connectingcommunitiesbc@gov.bc.ca
-        </a>
-      </StyledError>
-    );
+    return <StyledError>Files must be less than 100mb.</StyledError>;
   } else return null;
 };
 
