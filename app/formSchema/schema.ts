@@ -23,7 +23,7 @@ import {
   templateUploads,
 } from './pages';
 
-const useSchema = () => {
+const useSchema = (formData) => {
   // Check if development form is enabled in growthbook and pass to schema
   const formAlternateContact = useFeature('form-alternate-contact').value;
   const formAuthorizedContact = useFeature('form-authorized-contact').value;
@@ -51,6 +51,9 @@ const useSchema = () => {
   const formSupportingDocuments = useFeature('form-supporting-documents').value;
   const formTechSolution = useFeature('form-tech-solution').value;
   const formTemplateUploads = useFeature('form-template-uploads').value;
+
+  const isEvidenceOfConnectivityRequired =
+    formData?.templateUploads?.supportingConnectivityEvidence;
 
   const schema = {
     type: 'object',
@@ -89,7 +92,7 @@ const useSchema = () => {
         ...templateUploads,
       }),
       ...(formSupportingDocuments && {
-        ...supportingDocuments,
+        ...supportingDocuments(isEvidenceOfConnectivityRequired),
       }),
       ...(formMapping && {
         ...mapping,
