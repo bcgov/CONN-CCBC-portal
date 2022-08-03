@@ -10,7 +10,6 @@ import {
   contactInformation,
   estimatedProjectEmployment,
   declarations,
-  declarationsSign,
   existingNetworkCoverage,
   mapping,
   organizationLocation,
@@ -20,6 +19,7 @@ import {
   projectInformation,
   projectFunding,
   projectPlan,
+  submission,
   supportingDocuments,
   review,
   techSolution,
@@ -43,7 +43,7 @@ const schema = {
     ...benefits,
     ...projectPlan,
     ...templateUploads,
-    ...supportingDocuments,
+    ...supportingDocuments(true),
     ...mapping,
     ...estimatedProjectEmployment,
     ...organizationProfile,
@@ -53,7 +53,7 @@ const schema = {
     ...alternateContact,
     ...review,
     ...declarations,
-    ...declarationsSign,
+    ...submission,
   },
 };
 
