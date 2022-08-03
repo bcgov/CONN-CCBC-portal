@@ -94,6 +94,10 @@ const ApplicationForm: React.FC<Props> = ({
         input: {
           applicationPatch: {
             formData: newFormData,
+            // technically this is the last edited page but for now it makes more sense to
+            // bring users to the next page after clicking continue
+            // lastEditedPage: sectionName,
+            lastEditedPage: subschemaArray[pageNumber][0],
           },
           rowId: applicationId,
         },

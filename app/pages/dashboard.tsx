@@ -20,6 +20,7 @@ const getDashboardQuery = graphql`
         status
         projectName
         ccbcId
+        lastEditedPage
       }
     }
     session {
