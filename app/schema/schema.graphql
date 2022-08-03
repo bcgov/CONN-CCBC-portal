@@ -1011,6 +1011,9 @@ type Application implements Node {
   """
   intakeId: Int
 
+  """Column saving the key of the last edited form page"""
+  lastEditedPage: String
+
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -1167,6 +1170,8 @@ enum ApplicationsOrderBy {
   ARCHIVED_AT_DESC
   INTAKE_ID_ASC
   INTAKE_ID_DESC
+  LAST_EDITED_PAGE_ASC
+  LAST_EDITED_PAGE_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1211,6 +1216,9 @@ input ApplicationCondition {
 
   """Checks for equality with the object’s `intakeId` field."""
   intakeId: Int
+
+  """Checks for equality with the object’s `lastEditedPage` field."""
+  lastEditedPage: String
 }
 
 """A connection to a list of `Attachment` values."""
@@ -2157,6 +2165,9 @@ input ApplicationInput {
   Application Intake Number, used as the prefix for CCBC reference number
   """
   intakeId: Int
+
+  """Column saving the key of the last edited form page"""
+  lastEditedPage: String
 }
 
 """The output of our create `Attachment` mutation."""
@@ -2616,6 +2627,9 @@ input ApplicationPatch {
   Application Intake Number, used as the prefix for CCBC reference number
   """
   intakeId: Int
+
+  """Column saving the key of the last edited form page"""
+  lastEditedPage: String
 }
 
 """All input for the `updateApplicationByRowId` mutation."""

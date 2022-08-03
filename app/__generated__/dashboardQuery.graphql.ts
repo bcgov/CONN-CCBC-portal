@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fdd80d837b51e7d30ea60243da493a76>>
+ * @generated SignedSource<<bdf07cf2f6db69a7e8f74b5007ec3ee6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -22,6 +22,7 @@ export type ApplicationCondition = {
   archivedBy?: number | null;
   archivedAt?: any | null;
   intakeId?: number | null;
+  lastEditedPage?: string | null;
 };
 export type dashboardQuery$variables = {
   formOwner: ApplicationCondition;

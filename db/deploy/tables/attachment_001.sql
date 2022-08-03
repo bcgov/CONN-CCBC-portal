@@ -1,5 +1,5 @@
--- Deploy ggircs-portal:tables/application_002 to pg
--- requires: tables/application
+-- Deploy ccbc:tables/attachment_001 to pg
+-- requires: tables/attachment
 
 begin;
 
