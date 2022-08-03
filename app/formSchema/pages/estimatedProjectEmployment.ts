@@ -28,11 +28,11 @@ const estimatedProjectEmployment = {
         type: 'number',
       },
       hoursOfEmploymentPerWeek: {
-        title: `Hours of employment per week (average hours/week)`,
+        title: `Hours of employment per week (average)`,
         type: 'number',
       },
       personMonthsToBeCreated: {
-        title: `Total person months of employment to be created (average months/year)`,
+        title: `Total person months of employment to be created (average)`,
         type: 'number',
       },
       estimatedContractorLabour: {
@@ -44,11 +44,11 @@ const estimatedProjectEmployment = {
         type: 'number',
       },
       hoursOfContractorEmploymentPerWeek: {
-        title: `Hours of employment per week (average hours/week)`,
+        title: `Hours of employment per week (average)`,
         type: 'number',
       },
       contractorPersonMonthsToBeCreated: {
-        title: `Total person months of employment to be created (average months/year)`,
+        title: `Total person months of employment to be created (average)`,
         type: 'number',
       },
     },

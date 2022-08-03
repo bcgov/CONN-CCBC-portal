@@ -1,12 +1,12 @@
 import { useFeature } from '@growthbook/growthbook-react';
 import {
+  acknowledgements,
   alternateContact,
   authorizedContact,
   benefits,
   budgetDetails,
   contactInformation,
   estimatedProjectEmployment,
-  declarations,
   existingNetworkCoverage,
   mapping,
   organizationLocation,
@@ -33,7 +33,6 @@ const useSchema = () => {
   const formEstimatedProjectEmployment = useFeature(
     'form-estimated-project-employment'
   ).value;
-  const formDeclarations = useFeature('form-declarations').value;
   const formExistingNetworkCoverage = useFeature(
     'form-existing-network-coverage'
   ).value;
@@ -111,9 +110,7 @@ const useSchema = () => {
         ...alternateContact,
       }),
       ...review,
-      ...(formDeclarations && {
-        ...declarations,
-      }),
+      ...acknowledgements,
       ...submission,
     },
   };
