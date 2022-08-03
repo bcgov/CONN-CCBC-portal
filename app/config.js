@@ -84,6 +84,12 @@ const config = convict({
     default: 'localhost',
     env: 'HOST',
   },
+  SITEMINDER_LOGOUT_URL: {
+    doc: 'Logout URL',
+    format: '*',
+    default: '',
+    env: 'SITEMINDER_LOGOUT_URL',
+  },
   OPENSHIFT_APP_NAMESPACE: {
     doc: 'Namespace on OpenShift to which the app is deployed',
     format: ['ff61fb-dev', 'ff61fb-test', 'ff61fb-prod', ''],
@@ -138,12 +144,6 @@ const config = convict({
     default: '',
     env: 'AWS_ROLE_ARN',
   },
-  SITEMINDER_LOGOUT_URL: {
-    doc: 'Logout URL',
-    format: String,
-    default: 'https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi',
-    env: 'SITEMINDER_LOGOUT_URL'
-  }
 });
 
 // Load environment dependent configuration
