@@ -148,8 +148,14 @@ const config = convict({
 
 // Load environment dependent configuration
 const env = config.get('NODE_ENV') || 'development';
-config.loadFile('./' + env + '.json');
 
+try {
+  config.loadFile('./' + env + '.json');
+}
+catch(e){
+  console.log(e);
+  console.log(env);
+}
 config.validate({ allowed: 'warn' });
 
 module.exports = config;
