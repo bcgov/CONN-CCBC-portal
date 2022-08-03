@@ -22,7 +22,7 @@ const mapping = {
       },
       upgradedNetworkInfrastructure: {
         title:
-          'Please include layers for your organization’s (1) proposed Coverage for the communities proposed in the Project, (2) locations (colour differentiated) of new and upgraded towers, Point-of-Presence (PoPs), fibre, PTP microwave links, COs and (3) new PTP microwave paths (colour differentiated) between towers (required for fixed wireless Projects.',
+          'Please include layers for your organization’s (1) proposed Coverage for the communities proposed in the Project, (2) locations (colour differentiated) of new and upgraded towers, Point-of-Presence (PoPs), fibre, PTP microwave links, COs and (3) new PTP microwave paths (colour differentiated) between towers (required for fixed wireless Projects).',
         type: 'string',
       },
     },

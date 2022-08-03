@@ -34,7 +34,7 @@ const existingNetworkCoverage = {
         enumNames: ['Yes', 'No'],
       },
       requiresThirdPartyInfrastructureAccess: {
-        title: `Does the Applicant’s Project require access to Third Party Passive Infrastructure (including for example, towers, poles, rights of way or other similar assets and infrastructure)?`,
+        title: `Does the Applicant’s Project require access to Third Party Passive Infrastructure (i.e., towers, poles, rights of way or other similar assets and infrastructure)?`,
         type: 'boolean',
         enum: [true, false],
         enumNames: ['Yes', 'No'],

@@ -39,7 +39,7 @@ const projectPlan = {
       },
       operationalPlan: {
         title:
-          'Operational Plan – Describe key factors to indicate how the Applicant will be prepared to operate, manage and maintain the proposed broadband Network including any external managed services which will support Network management or operations functions. Address how the Applicant will ensure that the necessary sales, operational, technical and billing support systems are or will be in place to supply the proposed services.',
+          'Operational plan – Describe key factors to indicate how the project participants will be prepared to operate, manage and maintain the proposed broadband network including any external managed services which will support network management or operations functions. Identify how the project participants will ensure that the necessary sales, operational, technical and billing support systems are or will be in place to supply the proposed services.',
         type: 'string',
       },
     },

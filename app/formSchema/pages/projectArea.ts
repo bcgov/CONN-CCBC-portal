@@ -38,7 +38,7 @@ const projectArea = {
               },
               provincesTerritories: {
                 title:
-                  'If yes, select the provinces or territorities (check all that apply):',
+                  'If yes, select the provinces or territories (check all that apply):',
                 type: 'array',
                 items: {
                   type: 'string',

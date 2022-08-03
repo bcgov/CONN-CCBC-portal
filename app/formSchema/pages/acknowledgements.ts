@@ -1,12 +1,12 @@
-const declarations = {
-  declarations: {
-    title: 'Declarations',
+const acknowledgements = {
+  acknowledgements: {
+    title: 'Acknowledgements',
     description:
       'By checking the boxes below the Applicant certifies and acknowledges, that:',
     type: 'object',
     required: ['declarationsList'],
     properties: {
-      declarationsList: {
+      acknowledgementsList: {
         type: 'array',
         items: {
           type: 'boolean',
@@ -44,4 +44,4 @@ const declarations = {
   },
 };
 
-export default declarations;
+export default acknowledgements;

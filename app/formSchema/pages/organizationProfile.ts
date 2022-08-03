@@ -1,7 +1,7 @@
 const organizationProfile = {
   organizationProfile: {
-    title: 'Organization Profile',
-    description: 'Provide an overview of you organization.',
+    title: 'Organization profile',
+    description: 'Provide an overview of your organization.',
     type: 'object',
     required: [
       'typeOfOrganization',
@@ -184,7 +184,7 @@ const organizationProfile = {
               },
               indigenousEntityDesc: {
                 title:
-                  'Please provide a short description of the Indigenous entity (maximum 75 characters)',
+                  'Please provide a short description of the Indigenous identity (maximum 75 characters)',
                 type: 'string',
               },
             },

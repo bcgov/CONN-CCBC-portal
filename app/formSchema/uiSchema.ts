@@ -79,7 +79,7 @@ const uiSchema = {
     'numberOfContractorsToWork',
     'hoursOfContractorEmploymentPerWeek',
     'contractorPersonMonthsToBeCreated',
-    'declarationsList',
+    'acknowledgementsList',
     'submissionCompletedFor',
     'submissionDate',
     'submissionCompletedBy',
@@ -152,7 +152,7 @@ const uiSchema = {
   projectTitle: {
     'ui:description': 'maximum 200 characters',
     'ui:title':
-      'Project title. Be descriptive about the geographic region. We advise not using years in the title.',
+      'Project title. Be descriptive about the geographic region. Please refrain from using years in the title.',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
     },
@@ -368,7 +368,7 @@ const uiSchema = {
       decimals: 1,
     },
   },
-  declarationsList: {
+  acknowledgementsList: {
     'ui:title': ` `,
     'ui:widget': 'CheckboxesWidget',
   },
@@ -413,12 +413,14 @@ const uiSchema = {
     'ui:widget': NumberWidget,
     'ui:options': {
       inputType: 'wholeNumber',
+      label: false,
     },
   },
   householdsImpactedIndigenous: {
     'ui:widget': NumberWidget,
     'ui:options': {
       inputType: 'wholeNumber',
+      label: false,
     },
   },
   projectStartDate: {

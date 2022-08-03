@@ -1,7 +1,9 @@
 import { FieldTemplateProps } from '@rjsf/core';
 import FieldLabel from './widgets/FieldLabel';
 import {
+  HouseholdsImpactedIndigenous,
   IndigenousEntity,
+  NumberOfHouseholds,
   ProjectBenefits,
 } from '../../components/Form/CustomTitles';
 
@@ -30,6 +32,10 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
       )}
       {label === 'isIndigenousEntity' && <IndigenousEntity />}
       {label === 'projectBenefits' && <ProjectBenefits />}
+      {label === 'numberOfHouseholds' && <NumberOfHouseholds />}
+      {label === 'householdsImpactedIndigenous' && (
+        <HouseholdsImpactedIndigenous />
+      )}
       {help}
       {children}
 
