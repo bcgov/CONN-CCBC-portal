@@ -87,7 +87,7 @@ describe('The Review component', () => {
     screen.getByRole('heading', { name: 'Template uploads' });
     screen.getByRole('heading', { name: 'Supporting documents' });
     screen.getByRole('heading', { name: 'Mapping' });
-    screen.getByRole('heading', { name: 'Organization Profile' });
+    screen.getByRole('heading', { name: 'Organization profile' });
     screen.getByRole('heading', { name: 'Organization location' });
     screen.getByRole('heading', { name: 'Organization contact information' });
   });
