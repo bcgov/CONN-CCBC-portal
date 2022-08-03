@@ -4,6 +4,15 @@ const templateUploads = {
     type: 'object',
     description:
       'Please upload all templates. Do not include special characters in the file name. Files must be less than 100MB.',
+    required: [
+      'eligibilityAndImpactsCalculator',
+      'detailedBudget',
+      'financialForecast',
+      'lastMileIspOffering',
+      'communityRuralDevelopmentBenefitsTemplate',
+      'geographicNames',
+      'equipmentDetails',
+    ],
     properties: {
       eligibilityAndImpactsCalculator: {
         title: 'Template 1 - Eligibility and Impacts Calculator',

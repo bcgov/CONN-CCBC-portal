@@ -9,6 +9,7 @@ import { useDeleteAttachment } from '../../../schema/mutations/attachment/delete
 
 import bytesToSize from '../../../utils/bytesToText';
 import { CancelIcon, LoadingSpinner } from '../../../components';
+import path from 'path';
 
 const StyledContainer = styled('div')`
   margin-top: 16px;
@@ -42,6 +43,7 @@ const StyledButton = styled(Button)`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-left: 8px;
 `;
 
 const StyledError = styled('div')`
@@ -84,15 +86,19 @@ const FileWidget: React.FC<WidgetProps> = ({
 }) => {
   const [fileList, setFileList] = useState<File[]>([]);
   const [error, setError] = useState('');
+  const router = useRouter();
+  const [createAttachment, isCreatingAttachment] = useCreateAttachment();
+  const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
+
   const description = uiSchema['ui:description'];
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const allowMultipleFiles = uiSchema['ui:options']?.allowMultipleFiles;
+  const acceptedFileTypes = uiSchema['ui:options']?.fileTypes;
   const isFiles = fileList.length > 0;
-  const router = useRouter();
-
-  const [createAttachment, isCreatingAttachment] = useCreateAttachment();
-  const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
   const loading = isCreatingAttachment || isDeletingAttachment;
+
+  // 104857600 bytes = 100mb
+  const maxFileSizeInBytes = 104857600;
 
   useEffect(() => {
     // Set state from value stored in RJSF if it exists
@@ -109,15 +115,22 @@ const FileWidget: React.FC<WidgetProps> = ({
     setError('');
     const formId = parseInt(router?.query?.id as string);
     const file = e.target.files?.[0];
-
     if (file) {
-      // Soft delete file if 'Replace' button is used for single file uploads
+      const { name, size, type } = file;
+      if (size > maxFileSizeInBytes) {
+        setError('fileSize');
+        return;
+      }
+      if (acceptedFileTypes && !checkFileType(file.name, acceptedFileTypes)) {
+        setError('fileType');
+        return;
+      }
       if (isFiles && !allowMultipleFiles) {
+        // Soft delete file if 'Replace' button is used for single file uploads
         const fileId = fileList[0].id;
         handleDelete(fileId);
       }
 
-      const { name, size, type } = file;
       const variables = {
         input: {
           attachment: {
@@ -133,7 +146,7 @@ const FileWidget: React.FC<WidgetProps> = ({
       createAttachment({
         variables,
         onError: () => {
-          setError('File failed to upload, please try again');
+          setError('uploadFailed');
         },
         onCompleted: (res) => {
           const uuid = res?.createAttachment?.attachment?.file;
@@ -172,7 +185,7 @@ const FileWidget: React.FC<WidgetProps> = ({
 
     deleteAttachment({
       variables,
-      onError: () => setError('Delete file failed, please try again'),
+      onError: () => setError('deleteFailed'),
       onCompleted: (res) => {
         const id = res?.updateAttachmentByRowId?.attachment?.rowId;
         const indexOfFile = fileList.findIndex((object) => {
@@ -183,6 +196,13 @@ const FileWidget: React.FC<WidgetProps> = ({
         setFileList(newFileList);
       },
     });
+  };
+
+  const checkFileType = (file, fileTypes) => {
+    const extension = path.extname(file);
+    const typesArr = fileTypes && fileTypes.replace(/ /g, '').split(',');
+
+    return typesArr.includes(extension);
   };
 
   const handleClick = () => {
@@ -223,7 +243,7 @@ const FileWidget: React.FC<WidgetProps> = ({
               </StyledFileDiv>
             );
           })}
-        {error && <StyledError>{error}</StyledError>}
+        {error && <Error error={error} fileTypes={acceptedFileTypes} />}
       </StyledDetails>
       <div>
         <StyledButton
@@ -244,9 +264,33 @@ const FileWidget: React.FC<WidgetProps> = ({
         style={{ display: 'none' }}
         type="file"
         required={required}
+        accept={acceptedFileTypes && acceptedFileTypes.toString()}
       />
     </StyledContainer>
   );
+};
+
+const Error = ({ error, fileTypes }) => {
+  if (error === 'uploadFailed') {
+    return <StyledError>File failed to upload, please try again</StyledError>;
+  }
+
+  if (error === 'deleteFailed') {
+    return <StyledError>Delete file failed, please try again</StyledError>;
+  }
+
+  if (error === 'fileType') {
+    return (
+      <StyledError>
+        Please use an accepted file type. Accepted types for this field are:
+        <div>{fileTypes}</div>
+      </StyledError>
+    );
+  }
+
+  if (error === 'fileSize') {
+    return <StyledError>Files must be less than 100mb.</StyledError>;
+  } else return null;
 };
 
 export default FileWidget;
