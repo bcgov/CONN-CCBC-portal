@@ -1,10 +1,10 @@
+export { default as acknowledgements } from './acknowledgements';
 export { default as alternateContact } from './alternateContact';
 export { default as authorizedContact } from './authorizedContact';
 export { default as budgetDetails } from './budgetDetails';
 export { default as benefits } from './benefits';
 export { default as contactInformation } from './contactInformation';
 export { default as estimatedProjectEmployment } from './estimatedProjectEmployment';
-export { default as declarations } from './declarations';
 export { default as existingNetworkCoverage } from './existingNetworkCoverage';
 export { default as mapping } from './mapping';
 export { default as organizationLocation } from './organizationLocation';

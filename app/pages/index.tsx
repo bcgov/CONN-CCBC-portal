@@ -39,7 +39,7 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
         <h3>Before you begin</h3>
         <ul>
           <li>Please review the Application Guide</li>
-          <li>Please review the non-fillable form</li>
+          <li>Please review the non-fillable application questions</li>
           <li>
             Please review the templates and gather all supporting documents
           </li>
@@ -47,16 +47,31 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
         <h3>General information</h3>
         <ul>
           <li>
-            The form will autosave your responses, so you can exit and return to
-            the form later
-          </li>
-          <li>The intake closes on MM/DD/YYYY</li>
-          <li>
             Applicants can apply for multiple projects and technology types but
-            must demonstrate the qualifications for each
+            must demonstrate satisfaction of the required qualifications for
+            each project.
+          </li>
+          <li>
+            As outlined in the Application Guide, no information which is marked
+            Proprietary or Confidential that is submitted by an applicant during
+            the application process will be disclosed to a Third Party by the
+            Ministry, unless otherwise authorized by the applicant or if
+            required to be disclosed by law.
+          </li>
+          <li>
+            Any document or content submitted as part of the application process
+            shall be deemed and remain the property of the Province of B.C. and
+            is subject to the B.C. Freedom of Information and Protection of
+            Privacy Act.
+          </li>
+          <li>
+            CCBC is a program jointly funded by Canada and British Columbia.
+            Applications selected by CCBC may be funded by both the Province and
+            Innovation, Science and Economic Development Canada&rsquo;s (ISED)
+            UBF.
           </li>
         </ul>
-        <h3>Form section overview</h3>
+        <h3>Application form overview</h3>
         <StyledOl>
           <StyledLi>
             Project details <StyledDetails>10 pages</StyledDetails>
@@ -68,13 +83,26 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
             Organization details <StyledDetails>5 pages</StyledDetails>
           </StyledLi>
           <StyledLi>
-            Declarations <StyledDetails>1 page</StyledDetails>
+            Acknowledgements <StyledDetails>1 page</StyledDetails>
           </StyledLi>
         </StyledOl>
+        <h3>Please note</h3>
+        <ul>
+          <li>
+            Your responses will be autosaved; you may exit and return to the
+            Application Form at any time.
+          </li>
+          <li>
+            The application intake opens on MM/DD/YYYY at 12:00 AM Pacific Time
+            (PT) and closes on MM/DD/YYYY at midnight Pacific Time (PT). The
+            CCBC anticipates opening additional future intakes for receiving
+            applications and will update this date accordingly.
+          </li>
+        </ul>
         <h3>Get started</h3>
         <p>
-          Login with BCeID Business or Basic. You can register for an account if
-          you do not already have one.
+          Login with BCeID Business or BCeID Basic. If you do not have a BCeID,
+          please register for a Basic BCeID.
         </p>
         {session?.sub ? (
           <ButtonLink href="/dashboard">Go to dashboard</ButtonLink>
