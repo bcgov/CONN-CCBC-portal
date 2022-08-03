@@ -8,6 +8,7 @@ export { default as LoadingSpinner } from './LoadingSpinner';
 export { default as LoginForm } from './LoginForm';
 export { default as Navigation } from './Navigation';
 export { default as NavLoginForm } from './NavLoginForm';
+export { default as SessionExpiryHandler } from './SessionExpiryHandler';
 export { default as StyledGovButton } from './StyledGovButton';
 export { default as SubHeader } from './SubHeader';
 export { SubHeaderNavbarLinks } from './NavbarLinks';
