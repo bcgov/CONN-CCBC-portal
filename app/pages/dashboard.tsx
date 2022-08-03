@@ -21,6 +21,11 @@ const getDashboardQuery = graphql`
         projectName
         ccbcId
         lastEditedPage
+        intakeByIntakeId {
+          ccbcIntakeNumber
+          closeTimestamp
+          openTimestamp
+        }
       }
     }
     session {

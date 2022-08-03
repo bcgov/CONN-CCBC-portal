@@ -51,7 +51,6 @@ type Props = {
 
 const Table = ({ applications }: Props) => {
   const applicationNodes = applications.allApplications.nodes;
-  console.log(applications);
   const router = useRouter();
 
   const handleGoToReviewPage = (application) => {
@@ -81,12 +80,26 @@ const Table = ({ applications }: Props) => {
         </tr>
       </StyledTableHead>
       <tbody>
-        {/* map through actual rows */}
         {applicationNodes.map((application) => {
-          const { ccbcId, lastEditedPage, projectName, rowId, status } =
-            application;
+          const {
+            ccbcId,
+            intakeByIntakeId,
+            lastEditedPage,
+            projectName,
+            rowId,
+            status,
+          } = application;
 
           const lastEditedIndex = formPages.indexOf(lastEditedPage) + 1;
+          const editUrl = `/form/${rowId}/${
+            lastEditedPage ? lastEditedIndex : 1
+          }`;
+
+          const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
+          const editSubmittedUrl = `/form/${rowId}/1`;
+          const isIntakeClosed = intakeClosingDate
+            ? Date.parse(intakeClosingDate) < Date.now()
+            : false;
 
           return (
             <StyledRow key={rowId}>
@@ -98,13 +111,13 @@ const Table = ({ applications }: Props) => {
                 </StatusPill>
               </StyledTableCell>
               <StyledTableCell>
-                <Link
-                  href={`/form/${rowId}/${
-                    lastEditedPage ? lastEditedIndex : 1
-                  }`}
-                >
-                  Edit
-                </Link>
+                {!isIntakeClosed && (
+                  <Link
+                    href={status === 'submitted' ? editSubmittedUrl : editUrl}
+                  >
+                    Edit
+                  </Link>
+                )}
               </StyledTableCell>
             </StyledRow>
           );
