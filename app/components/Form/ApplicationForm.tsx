@@ -89,6 +89,9 @@ const ApplicationForm: React.FC<Props> = ({
       newFormData[sectionName] = { ...incomingFormData.formData };
     }
 
+    const lastEditedPage =
+      pageNumber < subschemaArray.length ? subschemaArray[pageNumber][0] : '';
+
     return await updateApplication({
       variables: {
         input: {
@@ -96,8 +99,8 @@ const ApplicationForm: React.FC<Props> = ({
             formData: newFormData,
             // technically this is the last edited page but for now it makes more sense to
             // bring
-            lastEditedPage: sectionName,
-            // lastEditedPage: subschemaArray[pageNumber][0],
+            // lastEditedPage: sectionName,
+            lastEditedPage: lastEditedPage,
           },
           rowId: applicationId,
         },
