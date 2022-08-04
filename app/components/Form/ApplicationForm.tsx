@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from '@button-inc/bcgov-theme/Button';
+import Alert from '@button-inc/bcgov-theme/Alert';
 import type { JSONSchema7 } from 'json-schema';
-
 import { FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
@@ -75,6 +75,9 @@ const ApplicationForm: React.FC<Props> = ({
   const review = sectionName === 'review';
 
   const saveForm = async (incomingFormData: any, existingFormData: any) => {
+    if (status === 'withdrawn') {
+      return;
+    }
     const pageNumber = parseInt(router.query.page as string);
     const sectionName = subschemaArray[pageNumber - 1][0];
     let newFormData: any = {};
