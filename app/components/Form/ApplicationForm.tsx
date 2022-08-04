@@ -21,6 +21,7 @@ interface Props {
   pageNumber: number;
   trimmedSub: any;
   applicationId: number;
+  status: string;
 }
 
 const ApplicationForm: React.FC<Props> = ({
@@ -28,6 +29,7 @@ const ApplicationForm: React.FC<Props> = ({
   pageNumber,
   trimmedSub,
   applicationId,
+  status,
 }) => {
   const formatErrorSchema = (formData, schema) => {
     const errorSchema = validateFormData(formData, schema)?.errorSchema;
@@ -150,6 +152,7 @@ const ApplicationForm: React.FC<Props> = ({
       uiSchema={uiSchema}
       // Todo: validate entire form on completion
       noValidate={true}
+      disabled={status === 'withdrawn'}
     >
       {review && (
         <Review

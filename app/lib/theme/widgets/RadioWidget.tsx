@@ -18,6 +18,7 @@ const StyledDiv = styled('div')`
 const RadioWidget: React.FC<WidgetProps> = ({
   onChange,
   id,
+  disabled,
   value,
   required,
   options,
@@ -41,13 +42,17 @@ const RadioWidget: React.FC<WidgetProps> = ({
         enumOptions.map(
           (option: { value: string; label: string }, i: number) => {
             return (
-              <StyledDiv key={option.value}>
+              <StyledDiv
+                key={option.value}
+                style={{ opacity: disabled && '0.6' }}
+              >
                 <RadioButton
                   {...formProps}
                   value={option.value}
                   id={`${id}-${i}`}
                   checked={option.value === value}
                   required={required}
+                  disabled={disabled}
                 />
                 <label>{option.label}</label>
               </StyledDiv>

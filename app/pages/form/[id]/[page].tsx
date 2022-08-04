@@ -63,6 +63,7 @@ const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
           pageNumber={pageNumber}
           trimmedSub={trimmedSub}
           applicationId={applicationId}
+          status={applicationByRowId.status}
         />
       </FormDiv>
     </Layout>

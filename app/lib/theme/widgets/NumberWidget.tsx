@@ -50,6 +50,7 @@ const StyledMessage = styled('div')`
 
 const NumberWidget: React.FC<WidgetProps> = ({
   id,
+  disabled,
   placeholder,
   onChange,
   label,
@@ -116,6 +117,7 @@ const NumberWidget: React.FC<WidgetProps> = ({
 
             checkValidations(onChange, value);
           }}
+          disabled={disabled}
           placeholder={placeholder}
           value={value || undefined}
           min={0}
@@ -134,6 +136,7 @@ const NumberWidget: React.FC<WidgetProps> = ({
           allowDecimals={decimals === 0 ? false : true}
           id={id}
           data-testid={id}
+          disabled={disabled}
           style={{ outline: error && '4px solid #E71F1F' }}
           defaultValue={value || undefined}
           allowNegativeValue={false}

@@ -14,6 +14,17 @@ const StyledSelect = styled(Dropdown)`
   & select {
     margin: 0.25em 0;
   }
+
+  select:disabled {
+    background: inherit;
+    border: 1px solid rgba(96, 96, 96, 0.3);
+    opacity: 0;
+  }
+
+  & div:first-child {
+    background: ${(props) => props.disabled && 'rgba(196, 196, 196, 0.3)'};
+    border: ${(props) => props.disabled && ' 1px solid rgba(96, 96, 96, 0.3)'};
+  }
 `;
 
 const StyledDiv = styled('div')`
@@ -22,6 +33,7 @@ const StyledDiv = styled('div')`
 
 const SelectWidget: React.FC<WidgetProps> = ({
   id,
+  disabled,
   onChange,
   label,
   value,
@@ -42,6 +54,7 @@ const SelectWidget: React.FC<WidgetProps> = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           onChange(e.target.value || undefined)
         }
+        disabled={disabled}
         placeholder={placeholder}
         size={'medium'}
         required={required}

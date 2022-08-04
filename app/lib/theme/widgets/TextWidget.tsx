@@ -10,9 +10,14 @@ const StyledInput = styled(Input)`
     margin-bottom: 4px;
     width: 50%;
   }
-  & input: focus {
+  &input: focus {
     outline: ${(props) =>
-      props.error ? '4px solid #E71F1F' : '4px solid #3B99FC'}
+      props.error ? '4px solid #E71F1F' : '4px solid #3B99FC'};
+  }
+  input:disabled {
+    background: rgba(196, 196, 196, 0.3);
+    border: 1px solid rgba(96, 96, 96, 0.3);
+  }
 `;
 
 const StyledDiv = styled('div')`
@@ -32,6 +37,7 @@ const StyledMessage = styled('div')`
 `;
 
 const TextWidget: React.FC<WidgetProps> = ({
+  disabled,
   id,
   placeholder,
   disabled,
@@ -80,6 +86,7 @@ const TextWidget: React.FC<WidgetProps> = ({
         error={error}
         type="text"
         id={id}
+        disabled={disabled}
         data-testid={id}
         onChange={(e: { target: { value: string } }) => {
           const value = e.target.value;

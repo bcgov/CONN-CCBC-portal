@@ -37,6 +37,10 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     outline: inherit;
   }
+  input:disabled {
+    background: rgba(196, 196, 196, 0.3);
+    border: 1px solid rgba(96, 96, 96, 0.3);
+  }
 `;
 
 export default GlobalStyle;
