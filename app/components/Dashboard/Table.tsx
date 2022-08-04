@@ -1,8 +1,8 @@
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
 import styled from 'styled-components';
-import { StatusPill } from '.';
+import { Modal, StatusPill, Withdraw, X } from '.';
 import { dashboardQuery$data } from '../../__generated__/dashboardQuery.graphql';
 import schema from '../../formSchema/schema';
 
@@ -44,11 +44,20 @@ const StyledTableCell = styled('td')`
   }
 `;
 
+const StyledBtns = styled('div')`
+  display: flex;
+  & a {
+    text-decoration: none;
+    color: #1a5a96;
+  }
+`;
+
 type Props = {
   applications: Pick<dashboardQuery$data, 'allApplications'>;
 };
 
 const Table = ({ applications }: Props) => {
+  const [withdrawRowId, setWithdrawRowId] = useState(0);
   const applicationNodes = applications.allApplications.nodes;
   const router = useRouter();
 
@@ -69,60 +78,69 @@ const Table = ({ applications }: Props) => {
   const formPages = Object.keys(schema({}).properties);
 
   return (
-    <StyledTable>
-      <StyledTableHead>
-        <tr>
-          <StyledTableHeadCell>CCBC Id</StyledTableHeadCell>
-          <StyledTableHeadCell>Project Name</StyledTableHeadCell>
-          <StyledTableHeadCell>Status</StyledTableHeadCell>
-          <StyledTableHeadCell>Actions</StyledTableHeadCell>
-        </tr>
-      </StyledTableHead>
-      <tbody>
-        {applicationNodes.map((application) => {
-          const {
-            ccbcId,
-            intakeByIntakeId,
-            lastEditedPage,
-            projectName,
-            rowId,
-            status,
-          } = application;
+    <>
+      <StyledTable>
+        <StyledTableHead>
+          <tr>
+            <StyledTableHeadCell>CCBC Id</StyledTableHeadCell>
+            <StyledTableHeadCell>Project Name</StyledTableHeadCell>
+            <StyledTableHeadCell>Status</StyledTableHeadCell>
+            <StyledTableHeadCell>Actions</StyledTableHeadCell>
+          </tr>
+        </StyledTableHead>
+        <tbody>
+          {applicationNodes.map((application) => {
+            const {
+              ccbcId,
+              intakeByIntakeId,
+              lastEditedPage,
+              projectName,
+              rowId,
+              status,
+            } = application;
 
-          const lastEditedIndex = formPages.indexOf(lastEditedPage) + 1;
-          const editUrl = `/form/${rowId}/${
-            lastEditedPage ? lastEditedIndex : 1
-          }`;
+            const lastEditedIndex = formPages.indexOf(lastEditedPage) + 1;
+            const editUrl = `/form/${rowId}/${
+              lastEditedPage ? lastEditedIndex : 1
+            }`;
 
-          const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
-          const editSubmittedUrl = `/form/${rowId}/1`;
-          const isIntakeClosed = intakeClosingDate
-            ? Date.parse(intakeClosingDate) < Date.now()
-            : false;
+            const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
+            const editSubmittedUrl = `/form/${rowId}/1`;
+            const isIntakeClosed = intakeClosingDate
+              ? Date.parse(intakeClosingDate) < Date.now()
+              : false;
 
-          return (
-            <StyledRow key={rowId}>
-              <StyledTableCell>{ccbcId || 'Unassigned'}</StyledTableCell>
-              <StyledTableCell>{projectName}</StyledTableCell>
-              <StyledTableCell>
-                <StatusPill StatusType={getStatusType(status)}>
-                  {status}
-                </StatusPill>
-              </StyledTableCell>
-              <StyledTableCell>
-                {!isIntakeClosed && (
-                  <Link
-                    href={status === 'submitted' ? editSubmittedUrl : editUrl}
-                  >
-                    Edit
-                  </Link>
-                )}
-              </StyledTableCell>
-            </StyledRow>
-          );
-        })}
-      </tbody>
-    </StyledTable>
+            return (
+              <StyledRow key={rowId}>
+                <StyledTableCell>{ccbcId || 'Unassigned'}</StyledTableCell>
+                <StyledTableCell>{projectName}</StyledTableCell>
+                <StyledTableCell>
+                  <StatusPill StatusType={getStatusType(status)}>
+                    {status}
+                  </StatusPill>
+                </StyledTableCell>
+                <StyledTableCell>
+                  {!isIntakeClosed && (
+                    <Link
+                      href={status === 'submitted' ? editSubmittedUrl : editUrl}
+                    >
+                      Edit
+                    </Link>
+                  )}
+                  {application.status === 'submitted' && (
+                    <div onClick={() => setWithdrawRowId(application.rowId)}>
+                      <Withdraw />
+                    </div>
+                  )}
+                </StyledTableCell>
+              </StyledRow>
+            );
+          })}
+        </tbody>
+      </StyledTable>
+
+      <Modal rowId={withdrawRowId} />
+    </>
   );
 };
 
