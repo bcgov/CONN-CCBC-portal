@@ -34,6 +34,7 @@ const StyledMessage = styled('div')`
 const TextWidget: React.FC<WidgetProps> = ({
   id,
   placeholder,
+  disabled,
   onChange,
   label,
   options,
@@ -87,6 +88,7 @@ const TextWidget: React.FC<WidgetProps> = ({
         placeholder={placeholder}
         value={value || undefined}
         min={0}
+        disabled={disabled}
         size={'medium'}
         required={required}
         aria-label={label}

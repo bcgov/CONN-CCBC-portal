@@ -68,7 +68,7 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
             {getDateString(currentIntake.closeTimestamp)}
           </div>
         </StyledSection>
-        <Link href="/" passHref>
+        <Link href="/dashboard" passHref>
           <Button>Return to dashboard</Button>
         </Link>
       </StyledDiv>

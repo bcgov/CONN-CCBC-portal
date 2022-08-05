@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<27a1967571780b943c8a8ad873362a83>>
+ * @generated SignedSource<<7ca9ebe9ce68c3bc56bfc09c49d885ae>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -22,6 +22,7 @@ export type ApplicationCondition = {
   archivedBy?: number | null;
   archivedAt?: any | null;
   intakeId?: number | null;
+  lastEditedPage?: string | null;
 };
 export type getAllApplicationsByOwnerQuery$variables = {
   formOwner: ApplicationCondition;

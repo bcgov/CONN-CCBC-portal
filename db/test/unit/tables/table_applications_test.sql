@@ -18,8 +18,7 @@ select has_column('ccbc_public', 'applications', 'reference_number','The table a
 select has_column('ccbc_public', 'applications', 'owner','The table applications has column owner');
 select has_column('ccbc_public', 'applications', 'form_data','The table applications has column form_data');
 select has_column('ccbc_public', 'applications', 'status','The table applications has column status');
-
-
+select has_column('ccbc_public', 'applications', 'last_edited_page','The table applications has column last_edited_page');
 
 select finish();
 rollback;

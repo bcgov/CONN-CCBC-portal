@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { StatusPill } from '.';
 import { dashboardQuery$data } from '../../__generated__/dashboardQuery.graphql';
+import schema from '../../formSchema/schema';
 
 const StyledTable = styled('table')`
   margin-bottom: 0px;
@@ -49,7 +50,6 @@ type Props = {
 
 const Table = ({ applications }: Props) => {
   const applicationNodes = applications.allApplications.nodes;
-
   const router = useRouter();
 
   const handleGoToReviewPage = (application) => {
@@ -66,6 +66,8 @@ const Table = ({ applications }: Props) => {
     return 'Submitted';
   };
 
+  const formPages = Object.keys(schema().properties);
+
   return (
     <StyledTable>
       <StyledTableHead>
@@ -77,23 +79,48 @@ const Table = ({ applications }: Props) => {
         </tr>
       </StyledTableHead>
       <tbody>
-        {/* map through actual rows */}
-        {applicationNodes.map((application) => (
-          <StyledRow key={application.rowId}>
-            <StyledTableCell>
-              {application?.ccbcId || 'Unassigned'}
-            </StyledTableCell>
-            <StyledTableCell>{application.projectName}</StyledTableCell>
-            <StyledTableCell>
-              <StatusPill StatusType={getStatusType(application.status)}>
-                {application.status}
-              </StatusPill>
-            </StyledTableCell>
-            <StyledTableCell>
-              <Link href={`/form/${application.rowId}/1`}>Edit</Link>
-            </StyledTableCell>
-          </StyledRow>
-        ))}
+        {applicationNodes.map((application) => {
+          const {
+            ccbcId,
+            intakeByIntakeId,
+            lastEditedPage,
+            projectName,
+            rowId,
+            status,
+          } = application;
+
+          const lastEditedIndex = formPages.indexOf(lastEditedPage) + 1;
+          const editUrl = `/form/${rowId}/${
+            lastEditedPage ? lastEditedIndex : 1
+          }`;
+
+          const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
+          const editSubmittedUrl = `/form/${rowId}/1`;
+          const isIntakeClosed = intakeClosingDate
+            ? Date.parse(intakeClosingDate) < Date.now()
+            : false;
+
+          return (
+            <StyledRow key={rowId}>
+              <StyledTableCell>{ccbcId || 'Unassigned'}</StyledTableCell>
+              <StyledTableCell>{projectName}</StyledTableCell>
+              <StyledTableCell>
+                <StatusPill StatusType={getStatusType(status)}>
+                  {status}
+                </StatusPill>
+              </StyledTableCell>
+              <StyledTableCell>
+                {!isIntakeClosed && (
+                  <Link
+                    href={status === 'submitted' ? editSubmittedUrl : editUrl}
+                  >
+                    Edit
+                  </Link>
+                )}
+              </StyledTableCell>
+            </StyledRow>
+          );
+        })}
       </tbody>
     </StyledTable>
   );

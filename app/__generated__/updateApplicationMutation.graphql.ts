@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4bcb1c149039344d6dbd3a4127c73047>>
+ * @generated SignedSource<<87716236711c8347c4d98c35b06771c6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -26,6 +26,7 @@ export type ApplicationPatch = {
   archivedBy?: number | null;
   archivedAt?: any | null;
   intakeId?: number | null;
+  lastEditedPage?: string | null;
 };
 export type updateApplicationMutation$variables = {
   input: UpdateApplicationByRowIdInput;
