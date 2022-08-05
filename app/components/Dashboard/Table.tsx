@@ -46,6 +46,7 @@ const StyledTableCell = styled('td')`
 
 const StyledBtns = styled('div')`
   display: flex;
+  align-items: center;
   & a {
     text-decoration: none;
     color: #1a5a96;
@@ -100,15 +101,23 @@ const Table = ({ applications }: Props) => {
             } = application;
 
             const lastEditedIndex = formPages.indexOf(lastEditedPage) + 1;
-            const editUrl = `/form/${rowId}/${
-              lastEditedPage ? lastEditedIndex : 1
-            }`;
 
             const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
-            const editSubmittedUrl = `/form/${rowId}/1`;
             const isIntakeClosed = intakeClosingDate
               ? Date.parse(intakeClosingDate) < Date.now()
               : false;
+
+            const isWithdrawn = application.status === 'withdrawn';
+
+            const getApplicationUrl = (status: string) => {
+              if (status === 'withdrawn') {
+                return `/form/${application.rowId}/19`;
+              } else if (status === 'submitted') {
+                return `/form/${rowId}/${lastEditedPage ? lastEditedIndex : 1}`;
+              } else {
+                return `/form/${rowId}/1`;
+              }
+            };
 
             return (
               <StyledRow key={rowId}>
@@ -120,18 +129,16 @@ const Table = ({ applications }: Props) => {
                   </StatusPill>
                 </StyledTableCell>
                 <StyledTableCell>
-                  {!isIntakeClosed && (
-                    <Link
-                      href={status === 'submitted' ? editSubmittedUrl : editUrl}
-                    >
-                      Edit
+                  <StyledBtns>
+                    <Link href={getApplicationUrl(application.status)}>
+                      {isWithdrawn && !isIntakeClosed ? 'View' : 'Edit'}
                     </Link>
-                  )}
-                  {application.status === 'submitted' && (
-                    <div onClick={() => setWithdrawRowId(application.rowId)}>
-                      <Withdraw />
-                    </div>
-                  )}
+                    {application.status === 'submitted' && !isIntakeClosed && (
+                      <div onClick={() => setWithdrawRowId(application.rowId)}>
+                        <Withdraw />
+                      </div>
+                    )}
+                  </StyledBtns>
                 </StyledTableCell>
               </StyledRow>
             );
