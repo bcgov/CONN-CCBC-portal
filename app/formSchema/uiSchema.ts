@@ -510,7 +510,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
-      fileTypes: '.kml, .kmz',
+      fileTypes: '.kmz',
     },
   },
   coverageAssessmentStatistics: {
@@ -518,6 +518,8 @@ const uiSchema = {
     'ui:description': `ISED's Eligibility Mapping Tool - Coverage Assessment and Statistics`,
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
+      fileTypes:
+        '.eml, .msg, .txt, .pdf, .doc, .docx, .xlsx, .xlsx, .xml, .jpg, .jpeg, .png',
     },
   },
   currentNetworkInfastructure: {
