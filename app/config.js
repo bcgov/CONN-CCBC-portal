@@ -84,6 +84,12 @@ const config = convict({
     default: 'localhost',
     env: 'HOST',
   },
+  SITEMINDER_LOGOUT_URL: {
+    doc: 'Logout URL',
+    format: '*',
+    default: '',
+    env: 'SITEMINDER_LOGOUT_URL',
+  },
   OPENSHIFT_APP_NAMESPACE: {
     doc: 'Namespace on OpenShift to which the app is deployed',
     format: ['ff61fb-dev', 'ff61fb-test', 'ff61fb-prod', ''],
@@ -142,8 +148,14 @@ const config = convict({
 
 // Load environment dependent configuration
 const env = config.get('NODE_ENV') || 'development';
-config.loadFile('./' + env + '.json');
 
+try {
+  config.loadFile('./' + env + '.json');
+}
+catch(e){
+  console.log(e);
+  console.log(env);
+}
 config.validate({ allowed: 'warn' });
 
 module.exports = config;

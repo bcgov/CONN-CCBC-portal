@@ -26,7 +26,7 @@ perform ccbc_private.grant_permissions('update', 'ccbc_user', 'ccbc_auth_user',
   ARRAY['given_name', 'family_name', 'email_address', 'created_by', 'created_at', 'updated_by', 'updated_at', 'archived_by', 'archived_at']);
 
 -- Grant ccbc_guest persmissions
-perform ccbc_private.grant_permissions('select', 'ccbc_user', 'ccbc_guest');
+-- perform ccbc_private.grant_permissions('select', 'ccbc_user', 'ccbc_guest');
 
 end
 $grant$;

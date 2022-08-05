@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
@@ -40,6 +41,11 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
 
   const [createApplication] = useCreateApplicationMutation();
 
+  useEffect(() => {
+    // check if session is still valid    
+    if(!trimmedSub) router.push('/');
+  }, []);
+
   const handleCreateApplication = () => {
     createApplication({
       variables: {
@@ -52,7 +58,7 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
       },
       onError: () => {
         // This needs to be removed once application dashboard implemented
-        router.push('/dashboard');
+        router.push('/');
       },
     });
   };

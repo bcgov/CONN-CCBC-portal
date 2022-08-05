@@ -9,6 +9,7 @@ import { GrowthBook, GrowthBookProvider } from '@growthbook/growthbook-react';
 import GlobalStyle from '../styles/GobalStyles';
 import GlobalTheme from '../styles/GlobalTheme';
 import BCGovTypography from '../components/BCGovTypography';
+import { SessionExpiryHandler } from '../components';
 
 const clientEnv = getClientEnvironment();
 const initialPreloadedQuery = getInitialPreloadedQuery({
@@ -65,7 +66,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <GlobalStyle />
         <BCGovTypography />
         <RelayEnvironmentProvider environment={env}>
-          {component}
+          <Suspense fallback={<div>Loading...</div>}>
+            {typeof window !== 'undefined' && <SessionExpiryHandler />}
+            <Component {...pageProps} {...relayProps} />
+          </Suspense>
         </RelayEnvironmentProvider>
       </GlobalTheme>
     </GrowthBookProvider>

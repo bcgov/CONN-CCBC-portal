@@ -11,6 +11,6 @@ select ccbc_private.verify_grant('update', 'ccbc_user', 'ccbc_auth_user',
   ARRAY['given_name', 'family_name', 'email_address', 'created_by', 'created_at', 'updated_by', 'updated_at', 'archived_by', 'archived_at']);
 
 -- ccbc_guest grants
-select ccbc_private.verify_grant('select', 'ccbc_user', 'ccbc_guest'); 
+-- select ccbc_private.verify_grant('select', 'ccbc_user', 'ccbc_guest'); 
 
 rollback;
