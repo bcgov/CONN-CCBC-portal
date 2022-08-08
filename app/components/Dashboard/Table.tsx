@@ -66,7 +66,7 @@ const Table = ({ applications }: Props) => {
     return 'Submitted';
   };
 
-  const formPages = Object.keys(schema().properties);
+  const formPages = Object.keys(schema({}).properties);
 
   return (
     <StyledTable>

@@ -51,7 +51,7 @@ const ApplicationForm: React.FC<Props> = ({
     return errorSchema;
   };
 
-  const formErrorSchema = formatErrorSchema(formData, schema());
+  const formErrorSchema = formatErrorSchema(formData, schema(formData));
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
@@ -61,7 +61,7 @@ const ApplicationForm: React.FC<Props> = ({
   const [updateApplication] = useUpdateApplicationMutation();
   const [assignCcbcId] = useAddCcbcIdToApplicationMutation();
 
-  const subschemaArray = schemaToSubschemasArray(schema() as object);
+  const subschemaArray = schemaToSubschemasArray(schema(formData) as object);
 
   if (subschemaArray.length < pageNumber) {
     // Todo: proper 404
@@ -154,7 +154,7 @@ const ApplicationForm: React.FC<Props> = ({
       {review && (
         <Review
           formData={formData}
-          formSchema={schema()}
+          formSchema={schema(formData)}
           reviewConfirm={reviewConfirm}
           onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
           formErrorSchema={formErrorSchema}

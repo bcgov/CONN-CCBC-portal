@@ -161,7 +161,6 @@ const uiSchema = {
     'ui:description': 'maximum 150 characters',
     'ui:title':
       'Describe the geographic location of the Project area (i.e., include the closest communities and the general area which the Project will target).',
-
     'ui:options': {
       maxLength: 150,
     },
@@ -482,13 +481,18 @@ const uiSchema = {
     'ui:description': 'Logical Network Diagram',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
+      allowMultipleFiles: true,
+      fileTypes:
+        '.pdf, .png, .jpg, .jpeg, .vsd, .vsdx, .doc, .docx, .ppt, .pptx',
     },
   },
   projectSchedule: {
     'ui:widget': 'FileWidget',
     'ui:description': 'Project schedule (preferably a Gantt chart)',
     'ui:options': {
+      allowMultipleFiles: true,
       maxLength: MAX_LONG_INPUT_LENGTH,
+      fileTypes: '.xlsx, .mpp',
     },
   },
   communityRuralDevelopmentBenefits: {
@@ -505,6 +509,8 @@ const uiSchema = {
     'ui:description': `Geographic Coverage Map from ISED's Eligibility Mapping Tool`,
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
+      allowMultipleFiles: true,
+      fileTypes: '.kmz',
     },
   },
   coverageAssessmentStatistics: {
@@ -512,6 +518,8 @@ const uiSchema = {
     'ui:description': `ISED's Eligibility Mapping Tool - Coverage Assessment and Statistics`,
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
+      fileTypes:
+        '.eml, .msg, .txt, .pdf, .doc, .docx, .xlsx, .xlsx, .xml, .jpg, .jpeg, .png',
     },
   },
   currentNetworkInfastructure: {
@@ -519,6 +527,8 @@ const uiSchema = {
     'ui:description': 'Current Network Infrastructure',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
+      allowMultipleFiles: true,
+      fileTypes: '.kml, .kmz',
     },
   },
   upgradedNetworkInfrastructure: {
@@ -527,6 +537,8 @@ const uiSchema = {
       'Proposed or Upgraded Network Infrastructure (Project specific)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
+      allowMultipleFiles: true,
+      fileTypes: '.kml, .kmz',
     },
   },
   eligibilityAndImpactsCalculator: {
@@ -535,6 +547,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      fileTypes: '.xlsx',
     },
   },
   detailedBudget: {
@@ -543,6 +556,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      fileTypes: '.xlsx',
     },
   },
   financialForecast: {
@@ -551,6 +565,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      fileTypes: '.xlsx',
     },
   },
   lastMileIspOffering: {
@@ -559,6 +574,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      fileTypes: '.xlsx',
     },
   },
   popWholesalePricing: {
@@ -568,6 +584,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      fileTypes: '.xlsx',
     },
   },
   communityRuralDevelopmentBenefitsTemplate: {
@@ -576,6 +593,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      fileTypes: '.xlsx',
     },
   },
   evidenceOfConnectivitySpeeds: {
@@ -593,6 +611,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      fileTypes: '.xlsx',
     },
   },
   supportingConnectivityEvidence: {
@@ -601,6 +620,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      fileTypes: '.xlsx',
     },
   },
   geographicNames: {
@@ -609,6 +629,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      fileTypes: '.xlsx',
     },
   },
   equipmentDetails: {
@@ -617,6 +638,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
+      fileTypes: '.xlsx',
     },
   },
   totalEligibleCosts: {

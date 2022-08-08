@@ -3,7 +3,16 @@ const templateUploads = {
     title: 'Template uploads',
     type: 'object',
     description:
-      'Please upload all templates. Please do not include special characters in the file name. The maximum size per file is 100MB.',
+      'Please upload all templates. Do not include special characters in the file name. Files must be less than 100MB.',
+    reqquired: [
+      'eligibilityAndImpactsCalculator',
+      'detailedBudget',
+      'financialForecast',
+      'lastMileIspOffering',
+      'communityRuralDevelopmentBenefitsTemplate',
+      'geographicNames',
+      'equipmentDetails',
+    ],
     properties: {
       eligibilityAndImpactsCalculator: {
         title: 'Template 1 - Eligibility and Impacts Calculator',
