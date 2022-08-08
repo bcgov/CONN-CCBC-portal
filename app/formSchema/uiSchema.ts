@@ -345,6 +345,9 @@ const uiSchema = {
       decimals: 1,
     },
   },
+  estimatedFTECreation: {
+    'ui:widget': ReadOnlyWidget,
+  },
   numberOfContractorsToWork: {
     'ui:widget': NumberWidget,
     'ui:options': {
@@ -365,6 +368,9 @@ const uiSchema = {
       commaSeparator: true,
       decimals: 1,
     },
+  },
+  estimatedFTEContractorCreation: {
+    'ui:widget': ReadOnlyWidget,
   },
   acknowledgementsList: {
     'ui:title': ` `,
@@ -829,12 +835,6 @@ const uiSchema = {
   },
   totalInfrastructureBankFunding: {
     'ui:widget': MoneyWidget,
-  },
-  estimatedFTECreation: {
-    'ui:widget': ReadOnlyWidget,
-  },
-  estimatedFTEContractorCreation: {
-    'ui:widget': ReadOnlyWidget,
   },
   'ui:inline': [
     // Each object is a row for inline grid elements. Set the number of columns with column key

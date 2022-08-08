@@ -12,6 +12,7 @@ const StyledValue = styled('div')`
   width: 50%;
   padding: 0.5em 0.6em;
   font-weight: 700;
+  white-space: nowrap;
 `;
 
 const StyledError = styled('div')`

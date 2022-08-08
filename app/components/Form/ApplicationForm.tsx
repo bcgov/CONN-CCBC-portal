@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from '@button-inc/bcgov-theme/Button';
-import Alert from '@button-inc/bcgov-theme/Alert';
 import type { JSONSchema7 } from 'json-schema';
 import { CalculationForm, FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
@@ -15,6 +14,10 @@ import { Review } from '../Review';
 // @ts-ignore
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import { useAddCcbcIdToApplicationMutation } from '../../schema/mutations/application/addCcbcIdToApplication';
+import {
+  calculateProjectEmployment,
+  calculateContractorEmployment,
+} from '../../lib/theme/customFieldCalculations';
 
 interface Props {
   formData: any;
@@ -151,28 +154,6 @@ const ApplicationForm: React.FC<Props> = ({
     return disabled;
   };
 
-  const calculateProjectEmployment = (formData) => {
-    const people = Number(formData.numberOfEmployeesToWork) || 0;
-    const hours = Number(formData.hoursOfEmploymentPerWeek) || 0;
-    const months = Number(formData.personMonthsToBeCreated) || 0;
-    const result = Number(people) + Number(hours) + Number(months);
-    // const result = ((people * hours) / 35) * (months / 12);
-
-    formData.estimatedFTECreation = Number(result.toFixed(2));
-    return formData;
-  };
-
-  const calculateContractorEmployment = (formData) => {
-    const people = Number(formData.numberOfContractorsToWork) || 0;
-    const hours = Number(formData.hoursOfContractorEmploymentPerWeek) || 0;
-    const months = Number(formData.contractorPersonMonthsToBeCreated) || 0;
-    // const result = ((people * hours) / 35) * (months / 12);
-    const result = Number(people) + Number(hours) + Number(months);
-
-    formData.estimatedFTEContractorCreation = Number(result.toFixed(2));
-    return formData;
-  };
-
   const calculate = (formData) => {
     formData = {
       ...formData,
@@ -183,8 +164,6 @@ const ApplicationForm: React.FC<Props> = ({
     };
     return formData;
   };
-
-  // []
 
   const isCalculatedPage = sectionName === 'estimatedProjectEmployment';
 
@@ -200,13 +179,9 @@ const ApplicationForm: React.FC<Props> = ({
       ) : (
         <Button variant="primary">Submit</Button>
       )}
-      {/* // Return to this save button later, will likely require a hacky solution to work
-  // nice with RJSF
-  <Button variant="secondary" style={{ marginLeft: '20px' }}>
-    Save
-  </Button> */}
     </>
   );
+
   return (
     <>
       {isCalculatedPage ? (
