@@ -62,8 +62,12 @@ const Table = ({ applications }: Props) => {
   const applicationNodes = applications.allApplications.nodes;
   const router = useRouter();
 
+  const formPages = Object.keys(schema({}).properties);
+
+  const reviewPage = formPages.indexOf('review') + 1;
+
   const handleGoToReviewPage = (application) => {
-    router.push(`/form/${application.rowId}/19`);
+    router.push(`/form/${application.rowId}/${reviewPage}`);
   };
 
   const getStatusType = (status: string) => {
@@ -75,8 +79,6 @@ const Table = ({ applications }: Props) => {
 
     return 'Submitted';
   };
-
-  const formPages = Object.keys(schema({}).properties);
 
   return (
     <>
@@ -111,7 +113,7 @@ const Table = ({ applications }: Props) => {
 
             const getApplicationUrl = (status: string) => {
               if (status === 'withdrawn') {
-                return `/form/${application.rowId}/19`;
+                return `/form/${application.rowId}/${reviewPage}`;
               } else if (status === 'submitted') {
                 return `/form/${rowId}/${lastEditedPage ? lastEditedIndex : 1}`;
               } else {
