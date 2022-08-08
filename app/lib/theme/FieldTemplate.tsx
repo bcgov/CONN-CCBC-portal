@@ -38,10 +38,11 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
       )}
       {help}
       {children}
-
-      <div className="error-div">
-        {rawErrors && rawErrors.length > 0 ? <>{errors}</> : null}
-      </div>
+      {rawErrors && rawErrors.length > 0 ? (
+        <div className="error-div">
+          <>{errors}</>
+        </div>
+      ) : null}
     </div>
   );
 };

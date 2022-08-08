@@ -12,6 +12,19 @@ const StyledColumn = styled('div')`
   select {
     min-width: 100%;
   }
+  padding: 0;
+
+  div:first-child {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  & label {
+    min-height: 100%;
+    display: flex;
+  }
 `;
 
 const StyledLabel = styled('div')`
@@ -22,6 +35,7 @@ const StyledGrid = styled('div')`
   display: grid;
   min-width: 100%;
 `;
+
 const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
   const DescriptionField = props.DescriptionField || DefaultDescriptionField;
   const uiInline = props.uiSchema['ui:inline'];
@@ -61,6 +75,7 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
       {uiInline &&
         uiInline.map((row: any, i: number) => {
           const rowKeys = Object.keys(row);
+
           // check if row is in current page (props.properties) schema
           const title =
             props.properties.filter((prop: any) =>
@@ -92,10 +107,17 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
               })}
             </StyledGrid>
           );
-
           return (
             <div key={rowKeys[i]}>
-              {title && row.title && <StyledLabel>{row.title}</StyledLabel>}
+              {title && row.title && (
+                <>
+                  {row.headline ? (
+                    <h3>{row.title}</h3>
+                  ) : (
+                    <StyledLabel>{row.title}</StyledLabel>
+                  )}
+                </>
+              )}
 
               {mapRow}
             </div>
