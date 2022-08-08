@@ -115,9 +115,9 @@ const Table = ({ applications }: Props) => {
               if (status === 'withdrawn') {
                 return `/form/${application.rowId}/${reviewPage}`;
               } else if (status === 'submitted') {
-                return `/form/${rowId}/${lastEditedPage ? lastEditedIndex : 1}`;
-              } else {
                 return `/form/${rowId}/1`;
+              } else {
+                return `/form/${rowId}/${lastEditedPage ? lastEditedIndex : 1}`;
               }
             };
 
