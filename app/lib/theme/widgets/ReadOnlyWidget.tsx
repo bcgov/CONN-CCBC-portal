@@ -1,0 +1,47 @@
+import { WidgetProps } from '@rjsf/core';
+import { Label } from '../../../components/Form';
+import styled from 'styled-components';
+
+const StyledContainer = styled('div')`
+  margin-bottom: 8px;
+`;
+
+const StyledValue = styled('div')`
+  margin-top: 12px;
+  margin-bottom: 4px;
+  width: 50%;
+  padding: 0.5em 0.6em;
+  font-weight: 700;
+`;
+
+const StyledError = styled('div')`
+  color: #e71f1f;
+`;
+
+const StyledMessage = styled('div')`
+  display: flex;
+  &::after {
+    content: '.';
+    visibility: hidden;
+  }
+`;
+
+const ReadOnlyWidget: React.FC<WidgetProps> = ({
+  error,
+  description,
+  value,
+  options,
+}) => {
+  return (
+    <StyledContainer>
+      <StyledValue>{value}</StyledValue>
+      <StyledMessage>
+        {error && <StyledError>{error}</StyledError>}
+
+        {description && <Label>{description}</Label>}
+      </StyledMessage>
+    </StyledContainer>
+  );
+};
+
+export default ReadOnlyWidget;

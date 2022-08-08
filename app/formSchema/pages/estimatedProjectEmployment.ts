@@ -33,6 +33,7 @@ const estimatedProjectEmployment = {
       estimatedFTECreation: {
         title: `Total estimated full-time equivalent (FTE) Job Creation`,
         type: 'number',
+        readOnly: true,
       },
       numberOfContractorsToWork: {
         title: 'Number of people to work on the project',
@@ -50,6 +51,7 @@ const estimatedProjectEmployment = {
       estimatedFTEContractorCreation: {
         title: `Total estimated full-time equivalent (FTE) Job Creation`,
         type: 'number',
+        readOnly: true,
       },
     },
   },

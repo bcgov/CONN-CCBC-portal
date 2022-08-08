@@ -1,4 +1,9 @@
-import { MoneyWidget, NumberWidget } from '../lib/theme/widgets';
+import {
+  MoneyWidget,
+  NumberWidget,
+  ReadOnlyWidget,
+} from '../lib/theme/widgets';
+
 const MAX_TEXTAREA_LENGTH = 3500;
 const MAX_LONG_INPUT_LENGTH = 200;
 const MAX_MED_INPUT_LENGTH = 75;
@@ -824,6 +829,12 @@ const uiSchema = {
   },
   totalInfrastructureBankFunding: {
     'ui:widget': MoneyWidget,
+  },
+  estimatedFTECreation: {
+    'ui:widget': ReadOnlyWidget,
+  },
+  estimatedFTEContractorCreation: {
+    'ui:widget': ReadOnlyWidget,
   },
   'ui:inline': [
     // Each object is a row for inline grid elements. Set the number of columns with column key
