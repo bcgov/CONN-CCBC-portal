@@ -53,7 +53,7 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
           (option: { value: string; label: string }, i: number) => {
             const checked = value.indexOf(option.value) !== -1;
             return (
-              <StyledDiv key={i}>
+              <StyledDiv key={i} style={{ opacity: disabled && '0.6' }}>
                 <Checkbox
                   id={`${id}-${i}`}
                   onChange={(event: any) => {

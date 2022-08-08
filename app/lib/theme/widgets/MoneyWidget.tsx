@@ -37,6 +37,7 @@ const StyledMessage = styled('div')`
 `;
 
 const MoneyWidget: React.FC<WidgetProps> = ({
+  disabled,
   id,
   placeholder,
   onChange,
@@ -53,6 +54,7 @@ const MoneyWidget: React.FC<WidgetProps> = ({
       <StyledCurrencyInput
         id={id}
         data-testid={id}
+        disabled={disabled}
         prefix="$"
         style={{ outline: error && '4px solid #E71F1F' }}
         defaultValue={value || undefined}

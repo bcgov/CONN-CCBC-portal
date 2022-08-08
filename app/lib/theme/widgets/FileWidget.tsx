@@ -79,6 +79,7 @@ type File = {
 
 const FileWidget: React.FC<WidgetProps> = ({
   id,
+  disabled,
   onChange,
   value,
   required,
@@ -252,7 +253,7 @@ const FileWidget: React.FC<WidgetProps> = ({
             e.preventDefault();
             handleClick();
           }}
-          disabled={isCreatingAttachment}
+          disabled={isCreatingAttachment || disabled}
         >
           {loading ? <LoadingSpinner /> : buttonLabel()}
         </StyledButton>

@@ -10,6 +10,10 @@ const StyledTextArea = styled(Textarea)`
     width: ${(props) => props.theme.width.inputWidthFull};
     min-height: 129px;
   }
+  textarea:disabled {
+    background: rgba(196, 196, 196, 0.3);
+    border: 1px solid rgba(96, 96, 96, 0.3);
+  }
 `;
 
 const StyledDiv = styled('div')`
@@ -17,6 +21,7 @@ const StyledDiv = styled('div')`
 `;
 
 const TextAreaWidget: React.FC<WidgetProps> = ({
+  disabled,
   id,
   placeholder,
   onChange,
@@ -32,6 +37,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
     <StyledDiv>
       <StyledTextArea
         id={id}
+        disabled={disabled}
         onChange={(e: { target: { value: string } }) =>
           onChange(e.target.value || undefined)
         }
