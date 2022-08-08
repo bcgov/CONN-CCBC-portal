@@ -71,14 +71,14 @@ const uiSchema = {
     'orgRegistrationDate',
     'businessNumber',
     'currentEmployment',
-    'estimatedDirectEmployees',
     'numberOfEmployeesToWork',
     'hoursOfEmploymentPerWeek',
     'personMonthsToBeCreated',
-    'estimatedContractorLabour',
+    'estimatedFTECreation',
     'numberOfContractorsToWork',
     'hoursOfContractorEmploymentPerWeek',
     'contractorPersonMonthsToBeCreated',
+    'estimatedFTEContractorCreation',
     'acknowledgementsList',
     'submissionCompletedFor',
     'submissionDate',
@@ -319,9 +319,6 @@ const uiSchema = {
       decimals: 0,
     },
   },
-  estimatedDirectEmployees: {
-    'ui:subtitle': 'Estimated direct employees',
-  },
   numberOfEmployeesToWork: {
     'ui:widget': NumberWidget,
     'ui:options': {
@@ -342,9 +339,6 @@ const uiSchema = {
       commaSeparator: true,
       decimals: 1,
     },
-  },
-  estimatedContractorLabour: {
-    'ui:subtitle': 'Estimated contracted labour',
   },
   numberOfContractorsToWork: {
     'ui:widget': NumberWidget,
@@ -875,6 +869,24 @@ const uiSchema = {
     {
       columns: 2,
       totalInfrastructureBankFunding: '1 / 2',
+    },
+    {
+      title: 'Estimated direct employees',
+      headline: true,
+      columns: 4,
+      numberOfEmployeesToWork: 1,
+      hoursOfEmploymentPerWeek: 2,
+      personMonthsToBeCreated: 3,
+      estimatedFTECreation: 4,
+    },
+    {
+      title: 'Estimated contracted labour',
+      headline: true,
+      columns: 4,
+      numberOfContractorsToWork: 1,
+      hoursOfContractorEmploymentPerWeek: 2,
+      contractorPersonMonthsToBeCreated: 3,
+      estimatedFTEContractorCreation: 4,
     },
   ],
 };

@@ -18,13 +18,8 @@ const estimatedProjectEmployment = {
         title: `Current employment: Total number of people employed by the organization`,
         type: 'number',
       },
-      estimatedDirectEmployees: {
-        title: 'Estimated direct employees',
-
-        type: 'object',
-      },
       numberOfEmployeesToWork: {
-        title: `Number of people to work on the Project`,
+        title: 'Number of people to work on the project',
         type: 'number',
       },
       hoursOfEmploymentPerWeek: {
@@ -35,12 +30,13 @@ const estimatedProjectEmployment = {
         title: `Total person months of employment to be created (average)`,
         type: 'number',
       },
-      estimatedContractorLabour: {
-        title: 'Estimated contracted labour',
-        type: 'object',
+      estimatedFTECreation: {
+        title: `Total estimated full-time equivalent (FTE) Job Creation`,
+        type: 'number',
       },
       numberOfContractorsToWork: {
-        title: `Number of people to work on the Project`,
+        title: 'Number of people to work on the project',
+
         type: 'number',
       },
       hoursOfContractorEmploymentPerWeek: {
@@ -49,6 +45,10 @@ const estimatedProjectEmployment = {
       },
       contractorPersonMonthsToBeCreated: {
         title: `Total person months of employment to be created (average)`,
+        type: 'number',
+      },
+      estimatedFTEContractorCreation: {
+        title: `Total estimated full-time equivalent (FTE) Job Creation`,
         type: 'number',
       },
     },
