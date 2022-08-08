@@ -1,5 +1,5 @@
 const calculateEmployment = (people, hours, months) => {
-  const result = ((people * hours) / 35) * (months / 12);
+  const result = people * (hours / 35) * (months / 12);
   return Number(result.toFixed(2)) || null;
 };
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import JSONSchemaForm from '@rjsf/core';
 import {
   FormProps,
   IChangeEvent,
@@ -8,7 +7,6 @@ import {
   withTheme,
 } from '@rjsf/core';
 import formTheme from '../../lib/theme/FormWithTheme';
-import { forwardRef } from 'react';
 import { customTransformErrors } from '../../lib/theme/customTransformErrors';
 import {
   customFormats,
@@ -47,7 +45,9 @@ export default class CalculationSchemaForm<T> extends React.Component<
     };
   }
 
-  isSavedForm = this.formData ? Object.keys(this.formData).length : false;
+  isSavedForm = this.state?.formData
+    ? Object.keys(this.state.formData).length
+    : false;
 
   onChange(e: IChangeEvent<T>, es?: ErrorSchema): void {
     // Exit if we're calculating

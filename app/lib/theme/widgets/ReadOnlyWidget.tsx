@@ -31,7 +31,6 @@ const ReadOnlyWidget: React.FC<WidgetProps> = ({
   error,
   description,
   value,
-  options,
 }) => {
   return (
     <StyledContainer>
