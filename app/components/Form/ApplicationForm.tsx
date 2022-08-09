@@ -5,7 +5,6 @@ import type { JSONSchema7 } from 'json-schema';
 import { CalculationForm, FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
-import { useUpdateApplicationMutation } from '../../schema/mutations/application/updateApplication';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
 
@@ -19,13 +18,36 @@ import {
   calculateContractorEmployment,
 } from '../../lib/theme/customFieldCalculations';
 import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
-import { graphql, useFragment } from 'react-relay';
+import { Disposable, graphql, useFragment } from 'react-relay';
 import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
+import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
+import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
+
+const formatErrorSchema = (formData, schema) => {
+  const errorSchema = validateFormData(formData, schema)?.errorSchema;
+
+  // Remove declarations errors from error schema since they aren't on review page
+  delete errorSchema['declarations'];
+  delete errorSchema['declarationsSign'];
+
+  // This is a workaround for 'should be array' error and the schema/radio widget
+  // should ideally be refactored so we don't need this.
+  const arrayError =
+    errorSchema?.organizationProfile?.typeOfOrganization?.__errors[0] ===
+    'should be array';
+  if (arrayError && Object.keys(errorSchema.organizationProfile).length <= 1) {
+    delete errorSchema['organizationProfile'];
+  }
+
+  return errorSchema;
+};
 
 interface Props {
   pageNumber: number;
-  trimmedSub: any;
   application: ApplicationForm_application$key;
+  onUpdateApplication: (
+    config: UseDebouncedMutationConfig<updateApplicationMutation>
+  ) => Disposable;
 }
 
 interface CalculatedFieldJSON {
@@ -36,8 +58,8 @@ interface CalculatedFieldJSON {
 
 const ApplicationForm: React.FC<Props> = ({
   pageNumber,
-  trimmedSub,
   application,
+  onUpdateApplication,
 }) => {
   const { id, rowId, formData, status } = useFragment(
     graphql`
@@ -51,28 +73,6 @@ const ApplicationForm: React.FC<Props> = ({
     application
   );
 
-  const formatErrorSchema = (formData, schema) => {
-    const errorSchema = validateFormData(formData, schema)?.errorSchema;
-
-    // Remove declarations errors from error schema since they aren't on review page
-    delete errorSchema['declarations'];
-    delete errorSchema['declarationsSign'];
-
-    // This is a workaround for 'should be array' error and the schema/radio widget
-    // should ideally be refactored so we don't need this.
-    const arrayError =
-      errorSchema?.organizationProfile?.typeOfOrganization?.__errors[0] ===
-      'should be array';
-    if (
-      arrayError &&
-      Object.keys(errorSchema.organizationProfile).length <= 1
-    ) {
-      delete errorSchema['organizationProfile'];
-    }
-
-    return errorSchema;
-  };
-
   const formErrorSchema = formatErrorSchema(formData, schema(formData));
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
@@ -80,7 +80,6 @@ const ApplicationForm: React.FC<Props> = ({
   const [reviewConfirm, setReviewConfirm] = useState(false);
 
   const router = useRouter();
-  const [updateApplication] = useUpdateApplicationMutation();
   const [assignCcbcId] = useAddCcbcIdToApplicationMutation();
 
   const subschemaArray = schemaToSubschemasArray(schema(formData) as object);
@@ -94,7 +93,6 @@ const ApplicationForm: React.FC<Props> = ({
   const review = sectionName === 'review';
 
   const saveForm = async (newFormSectionData: object) => {
-    console.log('saving');
     if (status === 'withdrawn') {
       return;
     }
@@ -116,7 +114,7 @@ const ApplicationForm: React.FC<Props> = ({
     const lastEditedPage =
       pageNumber < subschemaArray.length ? subschemaArray[pageNumber][0] : '';
 
-    await updateApplication({
+    await onUpdateApplication({
       variables: {
         input: {
           applicationPatch: {
@@ -139,7 +137,6 @@ const ApplicationForm: React.FC<Props> = ({
       },
       debounceKey: id,
     });
-    console.log('saved');
   };
 
   const handleSubmit = async (e: ISubmitEvent<any>) => {
@@ -193,6 +190,27 @@ const ApplicationForm: React.FC<Props> = ({
 
   const submitBtns = (
     <>
+  return (
+    <FormBase
+      onSubmit={handleSubmit}
+      formData={formData[sectionName]}
+      schema={sectionSchema as JSONSchema7}
+      uiSchema={uiSchema}
+      onChange={handleChange}
+      // Todo: validate entire form on completion
+      noValidate={true}
+      disabled={status === 'withdrawn'}
+    >
+      {review && (
+        <Review
+          formData={formData}
+          formSchema={schema(formData)}
+          reviewConfirm={reviewConfirm}
+          onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
+          formErrorSchema={formErrorSchema}
+          noErrors={noErrors}
+        />
+      )}
       {pageNumber < subschemaArray.length ? (
         <Button
           variant="primary"

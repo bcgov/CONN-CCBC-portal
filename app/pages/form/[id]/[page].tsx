@@ -9,11 +9,28 @@ import Alert from '@button-inc/bcgov-theme/Alert';
 import { Layout } from '../../../components';
 import styled from 'styled-components';
 
-const AppNamedDiv = styled('div')`
-  float: right;
-  max-width: 80px;
+const AppName = styled('div')`
+  max-width: 280px;
   white-space: nowrap;
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 1rem;
+`;
+
+const AppStatus = styled('div')`
+  text-transform: capitalize;
+  font-style: italic;
+`;
+
+const StatusNameFlex = styled('div')`
+  display: flex;
+`;
+
+const Flex = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 const StyledAlert = styled(Alert)`
@@ -21,6 +38,7 @@ const StyledAlert = styled(Alert)`
 `;
 
 import { PageQuery } from '../../../__generated__/PageQuery.graphql';
+import { useUpdateApplicationMutation } from 'schema/mutations/application/updateApplication';
 
 const getPageQuery = graphql`
   query PageQuery($rowId: Int!) {
@@ -45,20 +63,13 @@ const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
   const { applicationByRowId, session } = query;
   const { status } = applicationByRowId;
   const router = useRouter();
-  const trimmedSub = session?.sub.replace(/-/g, '');
 
   const applicationId = Number(router.query.id);
 
-  const trimApptitle = (title: string) => {
-    if (!title) return;
-    if (title.length > 33) return `${title.substring(0, 30)}...`;
-    return title;
-  };
-
   const formData = applicationByRowId?.formData;
   const pageNumber = Number(router.query.page);
-  const appTitle = formData?.projectInformation?.projectTitle;
-  const appTitleTrimmed = trimApptitle(appTitle);
+
+  const [updateApplication, isUpdating] = useUpdateApplicationMutation();
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -68,12 +79,20 @@ const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
             You can no longer edit this application because it is withdrawn.
           </StyledAlert>
         )}
-        <AppNamedDiv>{appTitleTrimmed}</AppNamedDiv>
-        <Back applicationId={applicationId} pageNumber={pageNumber} />
+        <Flex>
+          <Back applicationId={applicationId} pageNumber={pageNumber} />
+          <div>
+            <StatusNameFlex>
+              <AppStatus>{applicationByRowId.status}</AppStatus>
+              <AppName>{formData?.projectInformation?.projectTitle}</AppName>
+            </StatusNameFlex>
+            {isUpdating && 'saving...'}
+          </div>
+        </Flex>
         <ApplicationForm
           pageNumber={pageNumber}
-          trimmedSub={trimmedSub}
           application={applicationByRowId}
+          onUpdateApplication={updateApplication}
         />
       </FormDiv>
     </Layout>
