@@ -13,11 +13,11 @@ interface FormPropsWithTheme<T> extends FormProps<T> {
   formData: any;
 }
 
+const Form = withTheme(formTheme);
 const FormBase: React.ForwardRefRenderFunction<
   object,
   FormPropsWithTheme<object>
 > = (props, ref) => {
-  const Form = withTheme(formTheme);
   const transformErrors = (errors: AjvError[]) => {
     return customTransformErrors(errors, customFormatsErrorMessages);
   };

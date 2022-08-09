@@ -4,8 +4,8 @@ import { graphql } from 'react-relay';
 import useDebouncedMutation from '../useDebouncedMutation';
 
 const mutation = graphql`
-  mutation updateApplicationMutation($input: UpdateApplicationByRowIdInput!) {
-    updateApplicationByRowId(input: $input) {
+  mutation updateApplicationMutation($input: UpdateApplicationInput!) {
+    updateApplication(input: $input) {
       application {
         formData
       }

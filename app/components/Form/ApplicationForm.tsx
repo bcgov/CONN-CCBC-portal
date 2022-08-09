@@ -18,13 +18,14 @@ import {
   calculateProjectEmployment,
   calculateContractorEmployment,
 } from '../../lib/theme/customFieldCalculations';
+import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
+import { graphql, useFragment } from 'react-relay';
+import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
 
 interface Props {
-  formData: any;
   pageNumber: number;
   trimmedSub: any;
-  applicationId: number;
-  status: string;
+  application: ApplicationForm_application$key;
 }
 
 interface CalculatedFieldJSON {
@@ -34,12 +35,22 @@ interface CalculatedFieldJSON {
 }
 
 const ApplicationForm: React.FC<Props> = ({
-  formData,
   pageNumber,
   trimmedSub,
-  applicationId,
-  status,
+  application,
 }) => {
+  const { id, rowId, formData, status } = useFragment(
+    graphql`
+      fragment ApplicationForm_application on Application {
+        id
+        rowId
+        formData
+        status
+      }
+    `,
+    application
+  );
+
   const formatErrorSchema = (formData, schema) => {
     const errorSchema = validateFormData(formData, schema)?.errorSchema;
 
@@ -74,39 +85,38 @@ const ApplicationForm: React.FC<Props> = ({
 
   const subschemaArray = schemaToSubschemasArray(schema(formData) as object);
 
+  const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
+
   if (subschemaArray.length < pageNumber) {
     // Todo: proper 404
     return <h2>404 not found</h2>;
   }
-
-  const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
-
   const review = sectionName === 'review';
 
-  const saveForm = async (incomingFormData: any, existingFormData: any) => {
+  const saveForm = async (newFormSectionData: object) => {
+    console.log('saving');
     if (status === 'withdrawn') {
       return;
     }
-    const pageNumber = parseInt(router.query.page as string);
-    const sectionName = subschemaArray[pageNumber - 1][0];
-    let newFormData: any = {};
-    if (Object.keys(existingFormData).length === 0) {
-      newFormData[sectionName] = incomingFormData.formData;
-    } else if (existingFormData[sectionName]) {
-      newFormData = { ...existingFormData };
+
+    let newFormData: Record<string, object> = {};
+    if (Object.keys(formData).length === 0) {
+      newFormData[sectionName] = newFormSectionData;
+    } else if (formData[sectionName]) {
+      newFormData = { ...formData };
       newFormData[sectionName] = {
-        ...existingFormData[sectionName],
-        ...incomingFormData.formData,
+        ...formData[sectionName],
+        ...newFormSectionData,
       };
     } else {
-      newFormData = { ...existingFormData };
-      newFormData[sectionName] = { ...incomingFormData.formData };
+      newFormData = { ...formData };
+      newFormData[sectionName] = { ...newFormSectionData };
     }
 
     const lastEditedPage =
       pageNumber < subschemaArray.length ? subschemaArray[pageNumber][0] : '';
 
-    return await updateApplication({
+    await updateApplication({
       variables: {
         input: {
           applicationPatch: {
@@ -116,37 +126,43 @@ const ApplicationForm: React.FC<Props> = ({
             // lastEditedPage: sectionName,
             lastEditedPage: lastEditedPage,
           },
-          rowId: applicationId,
+          id,
         },
       },
-
-      debounceKey: applicationId.toString(),
-    });
-  };
-
-  const handleSubmit = async (incomingFormData: any, formData: any) => {
-    saveForm(incomingFormData, formData).then(() => {
-      //  TODO: update rerouting logic to handle when there are form errors etc.
-      if (pageNumber < subschemaArray.length) {
-        router.push(`/form/${applicationId}/${pageNumber + 1}`);
-      } else {
-        //Does not return query from mutation
-        assignCcbcId({
-          variables: {
-            input: {
-              applicationId: applicationId,
-            },
+      optimisticResponse: {
+        updateApplication: {
+          application: {
+            id,
+            formData: newFormData,
           },
-        });
-        router.push(`/form/${applicationId}/success`);
-      }
+        },
+      },
+      debounceKey: id,
     });
+    console.log('saved');
   };
 
-  const handleChange = (change) => {
-    console.log(change.formData);
-    formData = change.formData;
-    saveForm(change.formData, formData);
+  const handleSubmit = async (e: ISubmitEvent<any>) => {
+    await saveForm(e.formData);
+
+    //  TODO: update rerouting logic to handle when there are form errors etc.
+    if (pageNumber < subschemaArray.length) {
+      router.push(`/form/${rowId}/${pageNumber + 1}`);
+    } else {
+      //Does not return query from mutation
+      assignCcbcId({
+        variables: {
+          input: {
+            applicationId: rowId,
+          },
+        },
+      });
+      router.push(`/form/${rowId}/success`);
+    }
+  };
+
+  const handleChange = (e: IChangeEvent<any>) => {
+    saveForm(e.formData);
   };
 
   const handleDisabled = (page: string, noErrors: boolean) => {
@@ -194,9 +210,8 @@ const ApplicationForm: React.FC<Props> = ({
     <>
       {isCalculatedPage ? (
         <CalculationForm
-          onSubmit={(incomingFormData: any) => {
-            handleSubmit(incomingFormData, formData);
-          }}
+          onSubmit={handleSubmit}
+          onChange={handleChange}
           onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
           formData={formData[sectionName]}
           schema={sectionSchema as JSONSchema7}
@@ -209,9 +224,7 @@ const ApplicationForm: React.FC<Props> = ({
         </CalculationForm>
       ) : (
         <FormBase
-          onSubmit={(incomingFormData: any) => {
-            handleSubmit(incomingFormData, formData);
-          }}
+          onSubmit={handleSubmit}
           onChange={handleChange}
           formData={formData[sectionName]}
           schema={sectionSchema as JSONSchema7}
