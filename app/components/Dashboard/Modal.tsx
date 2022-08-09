@@ -8,6 +8,7 @@ import { useUpdateApplicationMutation } from '../../schema/mutations/application
 const StyledModal = styled(Modal)`
   display: flex;
   align-items: center;
+  z-index: 2;
 `;
 
 const ModalButtons = styled('div')`

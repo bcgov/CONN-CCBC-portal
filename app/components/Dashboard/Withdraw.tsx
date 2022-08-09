@@ -27,7 +27,7 @@ const StyledContent = styled('div')`
   border-radius: 2px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 12px 16px;
-  z-index: 0;
+  z-index: 1;
 
   & a {
     color: #d8292f;
@@ -39,7 +39,11 @@ const StyledIcon = styled('span')`
   align-items: center;
   justify-content: center;
   padding: 12px 8px;
-  background: #eaeaea;
+  position: relative;
+  z-index: 0;
+  &:hover {
+    background: #eaeaea;
+  }
 `;
 
 const Withdraw = () => {
