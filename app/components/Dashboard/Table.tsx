@@ -110,14 +110,27 @@ const Table = ({ applications }: Props) => {
               : false;
 
             const isWithdrawn = application.status === 'withdrawn';
+            const isSubmitted = application.status === 'submitted';
 
-            const getApplicationUrl = (status: string) => {
-              if (status === 'withdrawn') {
+            const getApplicationUrl = () => {
+              if (isWithdrawn) {
                 return `/form/${application.rowId}/${reviewPage}`;
-              } else if (status === 'submitted') {
+              } else if (isSubmitted && isIntakeClosed) {
+                return `/form/${application.rowId}/${reviewPage}`;
+              } else if (isSubmitted) {
                 return `/form/${rowId}/1`;
               } else {
                 return `/form/${rowId}/${lastEditedPage ? lastEditedIndex : 1}`;
+              }
+            };
+
+            const formatEditButton = () => {
+              if (isWithdrawn) {
+                return 'View';
+              } else if (isSubmitted && isIntakeClosed) {
+                return 'View';
+              } else {
+                return 'Edit';
               }
             };
 
@@ -132,9 +145,7 @@ const Table = ({ applications }: Props) => {
                 </StyledTableCell>
                 <StyledTableCell>
                   <StyledBtns>
-                    <Link href={getApplicationUrl(application.status)}>
-                      {isWithdrawn && !isIntakeClosed ? 'View' : 'Edit'}
-                    </Link>
+                    <Link href={getApplicationUrl()}>{formatEditButton()}</Link>
                     {application.status === 'submitted' && !isIntakeClosed && (
                       <div onClick={() => setWithdrawId(application.id)}>
                         <Withdraw />
