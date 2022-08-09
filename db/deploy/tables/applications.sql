@@ -26,9 +26,6 @@ perform ccbc_private.grant_permissions('insert', 'applications', 'ccbc_auth_user
 perform ccbc_private.grant_permissions('update', 'applications', 'ccbc_auth_user',
   ARRAY['id', 'owner', 'form_data', 'status', 'created_by', 'created_at', 'updated_by', 'updated_at', 'archived_by', 'archived_at']);
 
--- Grant  ccbc_guest persmissions
-perform ccbc_private.grant_permissions('select', 'applications', 'ccbc_guest');
-
 end
 $grant$;
 
