@@ -58,7 +58,8 @@ type Props = {
 };
 
 const Table = ({ applications }: Props) => {
-  const [withdrawId, setWithdrawId] = useState('');
+  const [withdrawRowId, setWithdrawRowId] = useState(0);
+
   const applicationNodes = applications.allApplications.nodes;
   const router = useRouter();
 
@@ -147,7 +148,10 @@ const Table = ({ applications }: Props) => {
                   <StyledBtns>
                     <Link href={getApplicationUrl()}>{formatEditButton()}</Link>
                     {application.status === 'submitted' && !isIntakeClosed && (
-                      <div onClick={() => setWithdrawId(application.id)}>
+                      <div
+                        onClick={() => setWithdrawRowId(application.rowId)}
+                        data-testid="withdraw-btn-test"
+                      >
                         <Withdraw />
                       </div>
                     )}
@@ -159,7 +163,7 @@ const Table = ({ applications }: Props) => {
         </tbody>
       </StyledTable>
 
-      <Modal id={withdrawId} />
+      <Modal id={withdrawRowId} />
     </>
   );
 };
