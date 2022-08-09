@@ -212,7 +212,7 @@ describe('The Dashboard', () => {
     expect(screen.queryByTestId('withdraw-btn-test')).toBeNull();
   });
 
-  it('Renders a submitted application with the intake still open', () => {
+  it('Renders a withdrawn application', () => {
     const payload = {
       Query() {
         return {
@@ -229,8 +229,8 @@ describe('The Dashboard', () => {
                 lastEditedPage: '',
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
-                  closeTimestamp: '2021-09-09T13:49:23.513427-07:00',
-                  openTimestamp: '2020-07-25T00:00:00-07:00',
+                  closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
+                  openTimestamp: '2022-07-25T00:00:00-07:00',
                 },
               },
             ],
