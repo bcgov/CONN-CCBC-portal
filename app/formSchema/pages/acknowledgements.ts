@@ -1,13 +1,15 @@
+const NUM_ACKNOLWEDGEMENTS = 15
 const acknowledgements = {
   acknowledgements: {
     title: 'Acknowledgements',
     description:
       'By checking the boxes below the Applicant certifies and acknowledges, that:',
     type: 'object',
-    required: ['declarationsList'],
+    required: ['acknowledgementsList'],
     properties: {
       acknowledgementsList: {
         type: 'array',
+        minItems: NUM_ACKNOLWEDGEMENTS,
         items: {
           type: 'boolean',
           enum: [

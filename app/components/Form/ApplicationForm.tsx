@@ -30,8 +30,8 @@ const formatErrorSchema = (formData, schema) => {
   const errorSchema = validateFormData(formData, schema)?.errorSchema;
 
   // Remove declarations errors from error schema since they aren't on review page
-  delete errorSchema['declarations'];
-  delete errorSchema['declarationsSign'];
+  delete errorSchema['acknowledgements'];
+  delete errorSchema['submission'];
 
   // This is a workaround for 'should be array' error and the schema/radio widget
   // should ideally be refactored so we don't need this.
