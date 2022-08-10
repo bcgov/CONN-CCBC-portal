@@ -1,5 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import {
+  HouseholdsImpactedIndigenous,
+  NumberOfHouseholds,
+  ProjectBenefits,
+} from '../../components/Form/CustomTitles';
 
 const StyledTable = styled('table')`
   font-family: 'Roboto';
@@ -86,6 +91,18 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
             return string;
           };
 
+          const customTitles = (row, title) => {
+            if (row === 'projectBenefits') {
+              return <ProjectBenefits />;
+            } else if (row === 'numberOfHouseholds') {
+              return <NumberOfHouseholds />;
+            } else if (row === 'householdsImpactedIndigenous') {
+              return <HouseholdsImpactedIndigenous />;
+            } else {
+              return title;
+            }
+          };
+
           return (
             <React.Fragment key={row}>
               {isObject ? (
@@ -96,7 +113,9 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
                 </tr>
               ) : (
                 <tr>
-                  <StyledColLeft id={row}>{title}</StyledColLeft>
+                  <StyledColLeft id={row}>
+                    {customTitles(row, title)}
+                  </StyledColLeft>
                   {isRequired ? (
                     <StyledColError id={`${row}-error`} />
                   ) : (
