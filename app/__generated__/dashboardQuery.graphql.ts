@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bffdbd02488882cb0cec3e3eab7fbb13>>
+ * @generated SignedSource<<570361a10c04d6bbb47517cbbb2d8e61>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -67,6 +67,11 @@ v1 = [
     "kind": "Variable",
     "name": "condition",
     "variableName": "formOwner"
+  },
+  {
+    "kind": "Literal",
+    "name": "orderBy",
+    "value": "CREATED_AT_DESC"
   }
 ],
 v2 = {
@@ -275,16 +280,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "8a55698d2b51443044cf2c73764259bf",
+    "cacheID": "f8ef28b4e627a576723839e775770149",
     "id": null,
     "metadata": {},
     "name": "dashboardQuery",
     "operationKind": "query",
-    "text": "query dashboardQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n      ccbcId\n      lastEditedPage\n      intakeByIntakeId {\n        ccbcIntakeNumber\n        closeTimestamp\n        openTimestamp\n        id\n      }\n    }\n  }\n  session {\n    sub\n  }\n}\n"
+    "text": "query dashboardQuery(\n  $formOwner: ApplicationCondition!\n) {\n  allApplications(condition: $formOwner, orderBy: CREATED_AT_DESC) {\n    nodes {\n      id\n      rowId\n      owner\n      referenceNumber\n      status\n      projectName\n      ccbcId\n      lastEditedPage\n      intakeByIntakeId {\n        ccbcIntakeNumber\n        closeTimestamp\n        openTimestamp\n        id\n      }\n    }\n  }\n  session {\n    sub\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "47a485efb36c5f78161a750911f6eb59";
+(node as any).hash = "b415f78ed0dfb05fe4e6d120121b1248";
 
 export default node;
