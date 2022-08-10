@@ -219,16 +219,6 @@ const ApplicationForm: React.FC<Props> = ({
 
   const submitBtns = (
     <>
-  return (
-    <>
-      <Flex>
-        <h1>{sectionSchema.title}</h1>
-        <ApplicationFormStatus
-          application={application}
-          isSaving={isUpdating}
-          error={savingError}
-        />
-      )}
       {pageNumber < subschemaArray.length ? (
         <Button
           variant="primary"
@@ -244,6 +234,14 @@ const ApplicationForm: React.FC<Props> = ({
 
   return (
     <>
+      <Flex>
+        <h1>{sectionSchema.title}</h1>
+        <ApplicationFormStatus
+          application={application}
+          isSaving={isUpdating}
+          error={savingError}
+        />
+      </Flex>
       {isCalculatedPage ? (
         <CalculationForm
           onSubmit={handleSubmit}
