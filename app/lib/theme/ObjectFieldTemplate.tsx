@@ -92,18 +92,24 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
                   (prop: any) => prop.name === fieldName
                 )?.content;
 
-                if (content)
+                if (content) {
+                  if (columns === 1) {
+                    return <div key={fieldName}>{content}</div>;
+                  }
                   return (
-                    <StyledColumn
-                      style={{
-                        gridColumn: row[fieldName],
-                        marginRight: Object.keys(row).length > 2 ? '1em' : 0,
-                      }}
-                      key={fieldName}
-                    >
-                      {content}
-                    </StyledColumn>
+                    <>
+                      <StyledColumn
+                        style={{
+                          gridColumn: row[fieldName],
+                          marginRight: Object.keys(row).length > 2 ? '1em' : 0,
+                        }}
+                        key={fieldName}
+                      >
+                        {content}
+                      </StyledColumn>
+                    </>
                   );
+                }
               })}
             </StyledGrid>
           );
