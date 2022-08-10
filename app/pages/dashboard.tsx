@@ -12,7 +12,7 @@ import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
 
 const getDashboardQuery = graphql`
   query dashboardQuery($formOwner: ApplicationCondition!) {
-    allApplications(condition: $formOwner) {
+    allApplications(condition: $formOwner, orderBy: CREATED_AT_DESC) {
       nodes {
         id
         rowId
@@ -48,8 +48,8 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
   const [createApplication] = useCreateApplicationMutation();
 
   useEffect(() => {
-    // check if session is still valid    
-    if(!trimmedSub) router.push('/');
+    // check if session is still valid
+    if (!trimmedSub) router.push('/');
   }, []);
 
   const handleCreateApplication = () => {
