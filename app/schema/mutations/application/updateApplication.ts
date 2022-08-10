@@ -8,6 +8,7 @@ const mutation = graphql`
     updateApplication(input: $input) {
       application {
         formData
+        updatedAt
       }
     }
   }

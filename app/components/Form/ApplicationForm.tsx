@@ -18,10 +18,13 @@ import {
   calculateContractorEmployment,
 } from '../../lib/theme/customFieldCalculations';
 import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
-import { Disposable, graphql, useFragment } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
+import { useUpdateApplicationMutation } from 'schema/mutations/application/updateApplication';
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
 import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
+import ApplicationFormStatus from './ApplicationFormStatus';
+import styled from 'styled-components';
 
 const formatErrorSchema = (formData, schema) => {
   const errorSchema = validateFormData(formData, schema)?.errorSchema;
@@ -42,12 +45,15 @@ const formatErrorSchema = (formData, schema) => {
   return errorSchema;
 };
 
+const Flex = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 interface Props {
   pageNumber: number;
   application: ApplicationForm_application$key;
-  onUpdateApplication: (
-    config: UseDebouncedMutationConfig<updateApplicationMutation>
-  ) => Disposable;
 }
 
 interface CalculatedFieldJSON {
@@ -58,31 +64,36 @@ interface CalculatedFieldJSON {
 
 const ApplicationForm: React.FC<Props> = ({
   pageNumber,
-  application,
-  onUpdateApplication,
+  application: applicationKey,
 }) => {
-  const { id, rowId, formData, status } = useFragment(
+  const application = useFragment(
     graphql`
       fragment ApplicationForm_application on Application {
         id
         rowId
         formData
         status
+        ...ApplicationFormStatus_application
       }
     `,
-    application
+    applicationKey
   );
+  const { id, rowId, formData, status } = application;
 
   const formErrorSchema = formatErrorSchema(formData, schema(formData));
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
   const [reviewConfirm, setReviewConfirm] = useState(false);
+  const [savingError, setSavingError] = useState(null);
 
   const router = useRouter();
   const [assignCcbcId] = useAddCcbcIdToApplicationMutation();
+  const [updateApplication, isUpdating] = useUpdateApplicationMutation();
 
-  const subschemaArray = schemaToSubschemasArray(schema(formData) as object);
+  const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
+    schema(formData) as object
+  );
 
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
 
@@ -92,7 +103,12 @@ const ApplicationForm: React.FC<Props> = ({
   }
   const review = sectionName === 'review';
 
-  const saveForm = async (newFormSectionData: object) => {
+  const saveForm = (
+    newFormSectionData: object,
+    mutationConfig?: Partial<
+      UseDebouncedMutationConfig<updateApplicationMutation>
+    >
+  ) => {
     if (status === 'withdrawn') {
       return;
     }
@@ -114,7 +130,8 @@ const ApplicationForm: React.FC<Props> = ({
     const lastEditedPage =
       pageNumber < subschemaArray.length ? subschemaArray[pageNumber][0] : '';
 
-    await onUpdateApplication({
+    setSavingError(null);
+    updateApplication({
       variables: {
         input: {
           applicationPatch: {
@@ -136,26 +153,38 @@ const ApplicationForm: React.FC<Props> = ({
         },
       },
       debounceKey: id,
+      onError: () => {
+        setSavingError(
+          <>
+            There was an error saving your response.
+            <br />
+            Please refresh the page.
+          </>
+        );
+      },
+      ...mutationConfig,
     });
   };
 
-  const handleSubmit = async (e: ISubmitEvent<any>) => {
-    await saveForm(e.formData);
-
-    //  TODO: update rerouting logic to handle when there are form errors etc.
-    if (pageNumber < subschemaArray.length) {
-      router.push(`/form/${rowId}/${pageNumber + 1}`);
-    } else {
-      //Does not return query from mutation
-      assignCcbcId({
-        variables: {
-          input: {
-            applicationId: rowId,
-          },
-        },
-      });
-      router.push(`/form/${rowId}/success`);
-    }
+  const handleSubmit = (e: ISubmitEvent<any>) => {
+    saveForm(e.formData, {
+      onCompleted: () => {
+        //  TODO: update rerouting logic to handle when there are form errors etc.
+        if (pageNumber < subschemaArray.length) {
+          router.push(`/form/${rowId}/${pageNumber + 1}`);
+        } else {
+          //Does not return query from mutation
+          assignCcbcId({
+            variables: {
+              input: {
+                applicationId: rowId,
+              },
+            },
+          });
+          router.push(`/form/${rowId}/success`);
+        }
+      },
+    });
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
@@ -191,24 +220,13 @@ const ApplicationForm: React.FC<Props> = ({
   const submitBtns = (
     <>
   return (
-    <FormBase
-      onSubmit={handleSubmit}
-      formData={formData[sectionName]}
-      schema={sectionSchema as JSONSchema7}
-      uiSchema={uiSchema}
-      onChange={handleChange}
-      // Todo: validate entire form on completion
-      noValidate={true}
-      disabled={status === 'withdrawn'}
-    >
-      {review && (
-        <Review
-          formData={formData}
-          formSchema={schema(formData)}
-          reviewConfirm={reviewConfirm}
-          onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
-          formErrorSchema={formErrorSchema}
-          noErrors={noErrors}
+    <>
+      <Flex>
+        <h1>{sectionSchema.title}</h1>
+        <ApplicationFormStatus
+          application={application}
+          isSaving={isUpdating}
+          error={savingError}
         />
       )}
       {pageNumber < subschemaArray.length ? (
@@ -267,4 +285,5 @@ const ApplicationForm: React.FC<Props> = ({
     </>
   );
 };
+
 export default ApplicationForm;

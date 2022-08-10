@@ -8,37 +8,11 @@ import FormDiv from '../../../components/FormDiv';
 import Alert from '@button-inc/bcgov-theme/Alert';
 import { Layout } from '../../../components';
 import styled from 'styled-components';
-
-const AppName = styled('div')`
-  max-width: 280px;
-  white-space: nowrap;
-  font-weight: bold;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-left: 1rem;
-`;
-
-const AppStatus = styled('div')`
-  text-transform: capitalize;
-  font-style: italic;
-`;
-
-const StatusNameFlex = styled('div')`
-  display: flex;
-`;
-
-const Flex = styled('div')`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
+import { PageQuery } from '../../../__generated__/PageQuery.graphql';
 
 const StyledAlert = styled(Alert)`
   margin-bottom: 32px;
 `;
-
-import { PageQuery } from '../../../__generated__/PageQuery.graphql';
-import { useUpdateApplicationMutation } from 'schema/mutations/application/updateApplication';
 
 const getPageQuery = graphql`
   query PageQuery($rowId: Int!) {
@@ -66,10 +40,7 @@ const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
 
   const applicationId = Number(router.query.id);
 
-  const formData = applicationByRowId?.formData;
   const pageNumber = Number(router.query.page);
-
-  const [updateApplication, isUpdating] = useUpdateApplicationMutation();
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -79,20 +50,10 @@ const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
             You can no longer edit this application because it is withdrawn.
           </StyledAlert>
         )}
-        <Flex>
-          <Back applicationId={applicationId} pageNumber={pageNumber} />
-          <div>
-            <StatusNameFlex>
-              <AppStatus>{applicationByRowId.status}</AppStatus>
-              <AppName>{formData?.projectInformation?.projectTitle}</AppName>
-            </StatusNameFlex>
-            {isUpdating && 'saving...'}
-          </div>
-        </Flex>
+        <Back applicationId={applicationId} pageNumber={pageNumber} />
         <ApplicationForm
           pageNumber={pageNumber}
           application={applicationByRowId}
-          onUpdateApplication={updateApplication}
         />
       </FormDiv>
     </Layout>

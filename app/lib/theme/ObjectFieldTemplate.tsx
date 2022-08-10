@@ -57,8 +57,8 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
   return (
     <FormBorder
       title={
-        props.uiSchema['ui:subtitle'] ||
-        props.uiSchema['ui:title'] ||
+        props.uiSchema['ui:subtitle'] ??
+        props.uiSchema['ui:title'] ??
         props.title
       }
       subtitle={props.uiSchema['ui:subtitle']}

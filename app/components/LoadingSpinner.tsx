@@ -1,4 +1,4 @@
-const LoadingSpinner = () => (
+const LoadingSpinner = ({ color = '#fff' }) => (
   <svg
     width="24"
     height="24"
@@ -13,9 +13,9 @@ const LoadingSpinner = () => (
         y2="23.865%"
         id="gradient"
       >
-        <stop stopColor="#fff" stopOpacity="0" offset="0%" />
-        <stop stopColor="#fff" stopOpacity=".631" offset="63.146%" />
-        <stop stopColor="#fff" offset="100%" />
+        <stop stopColor={color} stopOpacity="0" offset="0%" />
+        <stop stopColor={color} stopOpacity=".631" offset="63.146%" />
+        <stop stopColor={color} offset="100%" />
       </linearGradient>
     </defs>
     <g fill="none" fillRule="evenodd">
@@ -35,7 +35,7 @@ const LoadingSpinner = () => (
             repeatCount="indefinite"
           />
         </path>
-        <circle fill="#fff" cx="36" cy="18" r="1">
+        <circle fill={color} cx="36" cy="18" r="1">
           <animateTransform
             attributeName="transform"
             type="rotate"
