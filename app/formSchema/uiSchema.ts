@@ -882,6 +882,10 @@ const uiSchema = {
       totalInfrastructureBankFunding: '1 / 2',
     },
     {
+      columns: 1,
+      currentEmployment: '1 / 2',
+    },
+    {
       title: 'Estimated direct employees',
       headline: true,
       columns: 4,
