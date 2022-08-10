@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from '@button-inc/bcgov-theme/Button';
-import Alert from '@button-inc/bcgov-theme/Alert';
 import type { JSONSchema7 } from 'json-schema';
-import { FormBase } from '.';
+import { CalculationForm, FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { useUpdateApplicationMutation } from '../../schema/mutations/application/updateApplication';
@@ -15,6 +14,10 @@ import { Review } from '../Review';
 // @ts-ignore
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import { useAddCcbcIdToApplicationMutation } from '../../schema/mutations/application/addCcbcIdToApplication';
+import {
+  calculateProjectEmployment,
+  calculateContractorEmployment,
+} from '../../lib/theme/customFieldCalculations';
 
 interface Props {
   formData: any;
@@ -22,6 +25,12 @@ interface Props {
   trimmedSub: any;
   applicationId: number;
   status: string;
+}
+
+interface CalculatedFieldJSON {
+  number1: number;
+  number2: number;
+  sum: number;
 }
 
 const ApplicationForm: React.FC<Props> = ({
@@ -145,28 +154,21 @@ const ApplicationForm: React.FC<Props> = ({
     return disabled;
   };
 
-  return (
-    <FormBase
-      onSubmit={(incomingFormData: any) => {
-        handleSubmit(incomingFormData, formData);
-      }}
-      formData={formData[sectionName]}
-      schema={sectionSchema as JSONSchema7}
-      uiSchema={uiSchema}
-      // Todo: validate entire form on completion
-      noValidate={true}
-      disabled={status === 'withdrawn'}
-    >
-      {review && (
-        <Review
-          formData={formData}
-          formSchema={schema(formData)}
-          reviewConfirm={reviewConfirm}
-          onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
-          formErrorSchema={formErrorSchema}
-          noErrors={noErrors}
-        />
-      )}
+  const calculate = (formData) => {
+    formData = {
+      ...formData,
+      ...(sectionName === 'estimatedProjectEmployment' && {
+        ...calculateProjectEmployment(formData),
+        ...calculateContractorEmployment(formData),
+      }),
+    };
+    return formData;
+  };
+
+  const isCalculatedPage = sectionName === 'estimatedProjectEmployment';
+
+  const submitBtns = (
+    <>
       {pageNumber < subschemaArray.length ? (
         <Button
           variant="primary"
@@ -177,12 +179,52 @@ const ApplicationForm: React.FC<Props> = ({
       ) : (
         <Button variant="primary">Submit</Button>
       )}
-      {/* // Return to this save button later, will likely require a hacky solution to work
-      // nice with RJSF
-      <Button variant="secondary" style={{ marginLeft: '20px' }}>
-        Save
-      </Button> */}
-    </FormBase>
+    </>
+  );
+
+  return (
+    <>
+      {isCalculatedPage ? (
+        <CalculationForm
+          onSubmit={(incomingFormData: any) => {
+            handleSubmit(incomingFormData, formData);
+          }}
+          onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
+          formData={formData[sectionName]}
+          schema={sectionSchema as JSONSchema7}
+          uiSchema={uiSchema}
+          // Todo: validate entire form on completion
+          noValidate={true}
+          disabled={status === 'withdrawn'}
+        >
+          {submitBtns}
+        </CalculationForm>
+      ) : (
+        <FormBase
+          onSubmit={(incomingFormData: any) => {
+            handleSubmit(incomingFormData, formData);
+          }}
+          formData={formData[sectionName]}
+          schema={sectionSchema as JSONSchema7}
+          uiSchema={uiSchema}
+          // Todo: validate entire form on completion
+          noValidate={true}
+          disabled={status === 'withdrawn'}
+        >
+          {review && (
+            <Review
+              formData={formData}
+              formSchema={schema(formData)}
+              reviewConfirm={reviewConfirm}
+              onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
+              formErrorSchema={formErrorSchema}
+              noErrors={noErrors}
+            />
+          )}
+          {submitBtns}
+        </FormBase>
+      )}
+    </>
   );
 };
 export default ApplicationForm;
