@@ -178,7 +178,7 @@ const FileWidget: React.FC<WidgetProps> = ({
     const variables = {
       input: {
         attachmentPatch: {
-          isDeleted: true,
+          archivedAt: new Date().toISOString(),
         },
         rowId: attachmentId,
       },
