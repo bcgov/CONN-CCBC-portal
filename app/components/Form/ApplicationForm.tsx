@@ -26,8 +26,39 @@ import { updateApplicationMutation } from '__generated__/updateApplicationMutati
 import ApplicationFormStatus from './ApplicationFormStatus';
 import styled from 'styled-components';
 
-const formatErrorSchema = (formData, schema) => {
-  const errorSchema = validateFormData(formData, schema)?.errorSchema;
+const customPages = [
+  'estimatedProjectEmployment',
+  'acknowledgements',
+  'submission',
+];
+
+interface Props {
+  formData: any;
+  pageNumber: number;
+  trimmedSub: any;
+  applicationId: number;
+  status: string;
+}
+
+interface CalculatedFieldJSON {
+  number1: number;
+  number2: number;
+  sum: number;
+}
+
+interface AcknowledgementsFieldJSON {
+  acknowledgementsList: Array<string>;
+}
+
+interface SubmissionFieldsJSON {
+  submissionCompletedFor: string;
+  submissionDate: string;
+  submissionCompletedBy: string;
+  submissionTitle: string;
+}
+
+  const formatErrorSchema = (formData, schema) => {
+    const errorSchema = validateFormData(formData, schema)?.errorSchema;
 
   // Remove declarations errors from error schema since they aren't on review page
   delete errorSchema['acknowledgements'];
@@ -86,6 +117,8 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [reviewConfirm, setReviewConfirm] = useState(false);
   const [savingError, setSavingError] = useState(null);
+  const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
+    useState(false);
 
   const router = useRouter();
   const [assignCcbcId] = useAddCcbcIdToApplicationMutation();
@@ -209,6 +242,12 @@ const ApplicationForm: React.FC<Props> = ({
       case page === 'review':
         disabled = !reviewConfirm;
         break;
+      case page === 'acknowledgements':
+        disabled = !areAllAcknowledgementsChecked;
+        break;
+      case page === 'submission':
+        disabled = true;
+        break;
     }
     return disabled;
   };
@@ -224,47 +263,85 @@ const ApplicationForm: React.FC<Props> = ({
     return formData;
   };
 
-  const isCalculatedPage = sectionName === 'estimatedProjectEmployment';
+  const updateAreAllAcknowledgementsChecked = (
+    formData: AcknowledgementsFieldJSON
+  ) => {
+    setAreAllacknowledgementsChecked(
+      formData.acknowledgementsList.length === 15
+    );
+
+    return formData;
+  };
+
+  const isCustomPage = customPages.includes(sectionName);
+  console.log(sectionName);
 
   const submitBtns = (
     <>
-      {pageNumber < subschemaArray.length ? (
-        <Button
-          variant="primary"
-          disabled={handleDisabled(sectionName, noErrors)}
-        >
-          Continue
-        </Button>
-      ) : (
-        <Button variant="primary">Submit</Button>
-      )}
+      <Button
+        variant="primary"
+        disabled={handleDisabled(sectionName, noErrors)}
+      >
+        {pageNumber < subschemaArray.length ? 'Continue' : 'Submit'}
+      </Button>
     </>
   );
 
+  const customPagesDict = {
+    estimatedProjectEmployment: (
+      <CalculationForm
+        onSubmit={(incomingFormData: any) => {
+          handleSubmit(incomingFormData, formData);
+        }}
+        onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
+        formData={formData[sectionName]}
+        schema={sectionSchema as JSONSchema7}
+        uiSchema={uiSchema}
+        // Todo: validate entire form on completion
+        noValidate={true}
+        disabled={status === 'withdrawn'}
+      >
+        {submitBtns}
+      </CalculationForm>
+    ),
+    acknowledgements: (
+      <CalculationForm
+        onSubmit={(incomingFormData: any) => {
+          handleSubmit(incomingFormData, formData);
+        }}
+        onCalculate={updateAreAllAcknowledgementsChecked}
+        formData={formData[sectionName]}
+        schema={sectionSchema as JSONSchema7}
+        uiSchema={uiSchema}
+        // Todo: validate entire form on completion
+        noValidate={true}
+        disabled={status === 'withdrawn'}
+      >
+        {submitBtns}
+      </CalculationForm>
+    ),
+    submission: (
+      <CalculationForm
+        onSubmit={(incomingFormData: any) => {
+          handleSubmit(incomingFormData, formData);
+        }}
+        onCalculate={() => {}}
+        formData={formData[sectionName]}
+        schema={sectionSchema as JSONSchema7}
+        uiSchema={uiSchema}
+        // Todo: validate entire form on completion
+        noValidate={true}
+        disabled={status === 'withdrawn'}
+      >
+        {submitBtns}
+      </CalculationForm>
+    ),
+  };
+
   return (
     <>
-      <Flex>
-        <h1>{sectionSchema.title}</h1>
-        <ApplicationFormStatus
-          application={application}
-          isSaving={isUpdating}
-          error={savingError}
-        />
-      </Flex>
-      {isCalculatedPage ? (
-        <CalculationForm
-          onSubmit={handleSubmit}
-          onChange={handleChange}
-          onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
-          formData={formData[sectionName]}
-          schema={sectionSchema as JSONSchema7}
-          uiSchema={uiSchema}
-          // Todo: validate entire form on completion
-          noValidate={true}
-          disabled={status === 'withdrawn'}
-        >
-          {submitBtns}
-        </CalculationForm>
+      {isCustomPage ? (
+        customPagesDict[sectionName]
       ) : (
         <FormBase
           onSubmit={handleSubmit}
