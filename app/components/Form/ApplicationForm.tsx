@@ -7,6 +7,11 @@ import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
+import { acknowledgements } from '../../formSchema/pages';
+
+const NUM_ACKNOWLEDGEMENTS =
+  acknowledgements.acknowledgements.properties.acknowledgementsList.items.enum
+    .length;
 
 // https://github.com/rjsf-team/react-jsonschema-form/issues/2131
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -51,10 +56,10 @@ interface AcknowledgementsFieldJSON {
 }
 
 interface SubmissionFieldsJSON {
-  submissionCompletedFor: string;
-  submissionDate: string;
-  submissionCompletedBy: string;
-  submissionTitle: string;
+  submissionCompletedFor?: string;
+  submissionDate?: string;
+  submissionCompletedBy?: string;
+  submissionTitle?: string;
 }
 
   const formatErrorSchema = (formData, schema) => {
@@ -117,8 +122,6 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [reviewConfirm, setReviewConfirm] = useState(false);
   const [savingError, setSavingError] = useState(null);
-  const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
-    useState(false);
 
   const router = useRouter();
   const [assignCcbcId] = useAddCcbcIdToApplicationMutation();
@@ -233,6 +236,38 @@ const ApplicationForm: React.FC<Props> = ({
     saveForm(e.formData);
   };
 
+  const verifyAllAcknowledgementsChecked = (
+    formData: AcknowledgementsFieldJSON
+  ) => formData.acknowledgementsList.length === NUM_ACKNOWLEDGEMENTS;
+
+  const verifyAllSubmissionsFilled = (formData: SubmissionFieldsJSON) => {
+    const isSubmissionCompletedByFilled =
+      formData.submissionCompletedBy !== undefined &&
+      formData.submissionCompletedBy.length > 0;
+    const isSubmissionCompletedForFilled =
+      formData.submissionCompletedFor !== undefined &&
+      formData.submissionCompletedFor.length > 0;
+    const isSubmissionDateFilled =
+      formData.submissionDate !== undefined &&
+      formData.submissionDate.length > 0;
+    const isSubmissionTitleFilled =
+      formData.submissionTitle !== undefined &&
+      formData.submissionTitle.length > 0;
+
+    return (
+      isSubmissionCompletedByFilled &&
+      isSubmissionCompletedForFilled &&
+      isSubmissionDateFilled &&
+      isSubmissionTitleFilled
+    );
+  };
+
+  const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
+    useState(verifyAllAcknowledgementsChecked(formData['acknowledgements']));
+  const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
+    verifyAllSubmissionsFilled(formData['submission'])
+  );
+
   const handleDisabled = (page: string, noErrors: boolean) => {
     let disabled = false;
     switch (true) {
@@ -246,7 +281,7 @@ const ApplicationForm: React.FC<Props> = ({
         disabled = !areAllAcknowledgementsChecked;
         break;
       case page === 'submission':
-        disabled = true;
+        disabled = !areAllSubmissionFieldsSet;
         break;
     }
     return disabled;
@@ -263,18 +298,13 @@ const ApplicationForm: React.FC<Props> = ({
     return formData;
   };
 
-  const updateAreAllAcknowledgementsChecked = (
-    formData: AcknowledgementsFieldJSON
-  ) => {
-    setAreAllacknowledgementsChecked(
-      formData.acknowledgementsList.length === 15
-    );
+  const updateAreAllSubmissionFieldsSet = (formData: SubmissionFieldsJSON) => {
+    setAreAllSubmissionFieldsSet(verifyAllSubmissionsFilled(formData));
 
     return formData;
   };
 
   const isCustomPage = customPages.includes(sectionName);
-  console.log(sectionName);
 
   const submitBtns = (
     <>
@@ -309,7 +339,13 @@ const ApplicationForm: React.FC<Props> = ({
         onSubmit={(incomingFormData: any) => {
           handleSubmit(incomingFormData, formData);
         }}
-        onCalculate={updateAreAllAcknowledgementsChecked}
+        onCalculate={(formData: AcknowledgementsFieldJSON) => {
+          setAreAllacknowledgementsChecked(
+            formData.acknowledgementsList.length === NUM_ACKNOWLEDGEMENTS
+          );
+
+          return formData;
+        }}
         formData={formData[sectionName]}
         schema={sectionSchema as JSONSchema7}
         uiSchema={uiSchema}
@@ -325,7 +361,7 @@ const ApplicationForm: React.FC<Props> = ({
         onSubmit={(incomingFormData: any) => {
           handleSubmit(incomingFormData, formData);
         }}
-        onCalculate={() => {}}
+        onCalculate={updateAreAllSubmissionFieldsSet}
         formData={formData[sectionName]}
         schema={sectionSchema as JSONSchema7}
         uiSchema={uiSchema}
