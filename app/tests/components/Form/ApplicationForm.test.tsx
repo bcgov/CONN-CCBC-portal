@@ -5,6 +5,7 @@ import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
 import { fireEvent, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
@@ -57,6 +58,26 @@ describe('The application form', () => {
           applicationPatch: {
             formData: { projectInformation: { projectTitle: 'test title' } },
             lastEditedPage: 'projectInformation',
+          },
+        },
+      }
+    );
+  });
+
+  it('sets lastEditedPage to the next page when the user clicks on "continue"', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Continue' }));
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationMutation',
+      {
+        input: {
+          id: 'TestApplicationID',
+          applicationPatch: {
+            formData: { projectInformation: {} },
+            lastEditedPage: 'projectArea',
           },
         },
       }

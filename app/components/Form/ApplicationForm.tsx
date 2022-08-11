@@ -107,7 +107,8 @@ const ApplicationForm: React.FC<Props> = ({
     newFormSectionData: object,
     mutationConfig?: Partial<
       UseDebouncedMutationConfig<updateApplicationMutation>
-    >
+    >,
+    isRedirectingToNextPage = false
   ) => {
     if (status === 'withdrawn') {
       return;
@@ -127,9 +128,13 @@ const ApplicationForm: React.FC<Props> = ({
       newFormData[sectionName] = { ...newFormSectionData };
     }
 
+    // if we're redirecting after this, set lastEditedPage to the next page
+    const lastEditedPageNumber = isRedirectingToNextPage
+      ? pageNumber
+      : pageNumber - 1;
     const lastEditedPage =
       pageNumber < subschemaArray.length
-        ? subschemaArray[pageNumber - 1][0]
+        ? subschemaArray[lastEditedPageNumber][0]
         : '';
 
     setSavingError(null);
@@ -138,9 +143,6 @@ const ApplicationForm: React.FC<Props> = ({
         input: {
           applicationPatch: {
             formData: newFormData,
-            // technically this is the last edited page but for now it makes more sense to
-            // bring
-            // lastEditedPage: sectionName,
             lastEditedPage: lastEditedPage,
           },
           id,
@@ -151,6 +153,7 @@ const ApplicationForm: React.FC<Props> = ({
           application: {
             id,
             formData: newFormData,
+            updatedAt: undefined,
           },
         },
       },
@@ -169,24 +172,28 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const handleSubmit = (e: ISubmitEvent<any>) => {
-    saveForm(e.formData, {
-      onCompleted: () => {
-        //  TODO: update rerouting logic to handle when there are form errors etc.
-        if (pageNumber < subschemaArray.length) {
-          router.push(`/form/${rowId}/${pageNumber + 1}`);
-        } else {
-          //Does not return query from mutation
-          assignCcbcId({
-            variables: {
-              input: {
-                applicationId: rowId,
+    saveForm(
+      e.formData,
+      {
+        onCompleted: () => {
+          //  TODO: update rerouting logic to handle when there are form errors etc.
+          if (pageNumber < subschemaArray.length) {
+            router.push(`/form/${rowId}/${pageNumber + 1}`);
+          } else {
+            //Does not return query from mutation
+            assignCcbcId({
+              variables: {
+                input: {
+                  applicationId: rowId,
+                },
               },
-            },
-          });
-          router.push(`/form/${rowId}/success`);
-        }
+            });
+            router.push(`/form/${rowId}/success`);
+          }
+        },
       },
-    });
+      true
+    );
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
