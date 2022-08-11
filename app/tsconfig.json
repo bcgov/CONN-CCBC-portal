@@ -14,16 +14,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": ["cypress"]
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "../*", "__generated__/*"]
+    }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "pages/api/[submit].js",
-    "form-schema.ts",
-    "types.d.ts",
-    "tests/jest.js"
-  ],
-  "exclude": ["node_modules", "build", "dist", "*.js", "*.jsx", "config.js"]
+  "exclude": [".next", "node_modules", "public", "cypress"],
+  "include": ["./**/*", "./.eslintrc.js"]
 }

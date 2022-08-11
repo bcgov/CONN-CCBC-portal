@@ -8,19 +8,11 @@ import FormDiv from '../../../components/FormDiv';
 import Alert from '@button-inc/bcgov-theme/Alert';
 import { Layout } from '../../../components';
 import styled from 'styled-components';
-
-const AppNamedDiv = styled('div')`
-  float: right;
-  max-width: 80px;
-  white-space: nowrap;
-  font-weight: bold;
-`;
+import { PageQuery } from '../../../__generated__/PageQuery.graphql';
 
 const StyledAlert = styled(Alert)`
   margin-bottom: 32px;
 `;
-
-import { PageQuery } from '../../../__generated__/PageQuery.graphql';
 
 const getPageQuery = graphql`
   query PageQuery($rowId: Int!) {
@@ -30,6 +22,7 @@ const getPageQuery = graphql`
       owner
       referenceNumber
       status
+      ...ApplicationForm_application
     }
     session {
       sub
@@ -44,20 +37,10 @@ const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
   const { applicationByRowId, session } = query;
   const { status } = applicationByRowId;
   const router = useRouter();
-  const trimmedSub = session?.sub.replace(/-/g, '');
 
   const applicationId = Number(router.query.id);
 
-  const trimApptitle = (title: string) => {
-    if (!title) return;
-    if (title.length > 33) return `${title.substring(0, 30)}...`;
-    return title;
-  };
-
-  const formData = applicationByRowId?.formData;
   const pageNumber = Number(router.query.page);
-  const appTitle = formData?.projectInformation?.projectTitle;
-  const appTitleTrimmed = trimApptitle(appTitle);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -67,14 +50,10 @@ const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
             You can no longer edit this application because it is withdrawn.
           </StyledAlert>
         )}
-        <AppNamedDiv>{appTitleTrimmed}</AppNamedDiv>
         <Back applicationId={applicationId} pageNumber={pageNumber} />
         <ApplicationForm
-          formData={formData || {}}
           pageNumber={pageNumber}
-          trimmedSub={trimmedSub}
-          applicationId={applicationId}
-          status={status}
+          application={applicationByRowId}
         />
       </FormDiv>
     </Layout>

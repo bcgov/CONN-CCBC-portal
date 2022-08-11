@@ -5,7 +5,6 @@ import type { JSONSchema7 } from 'json-schema';
 import { CalculationForm, FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
-import { useUpdateApplicationMutation } from '../../schema/mutations/application/updateApplication';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
 
@@ -18,13 +17,43 @@ import {
   calculateProjectEmployment,
   calculateContractorEmployment,
 } from '../../lib/theme/customFieldCalculations';
+import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
+import { graphql, useFragment } from 'react-relay';
+import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
+import { useUpdateApplicationMutation } from 'schema/mutations/application/updateApplication';
+import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
+import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
+import ApplicationFormStatus from './ApplicationFormStatus';
+import styled from 'styled-components';
+
+const formatErrorSchema = (formData, schema) => {
+  const errorSchema = validateFormData(formData, schema)?.errorSchema;
+
+  // Remove declarations errors from error schema since they aren't on review page
+  delete errorSchema['declarations'];
+  delete errorSchema['declarationsSign'];
+
+  // This is a workaround for 'should be array' error and the schema/radio widget
+  // should ideally be refactored so we don't need this.
+  const arrayError =
+    errorSchema?.organizationProfile?.typeOfOrganization?.__errors[0] ===
+    'should be array';
+  if (arrayError && Object.keys(errorSchema.organizationProfile).length <= 1) {
+    delete errorSchema['organizationProfile'];
+  }
+
+  return errorSchema;
+};
+
+const Flex = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
 
 interface Props {
-  formData: any;
   pageNumber: number;
-  trimmedSub: any;
-  applicationId: number;
-  status: string;
+  application: ApplicationForm_application$key;
 }
 
 interface CalculatedFieldJSON {
@@ -34,111 +63,141 @@ interface CalculatedFieldJSON {
 }
 
 const ApplicationForm: React.FC<Props> = ({
-  formData,
   pageNumber,
-  trimmedSub,
-  applicationId,
-  status,
+  application: applicationKey,
 }) => {
-  const formatErrorSchema = (formData, schema) => {
-    const errorSchema = validateFormData(formData, schema)?.errorSchema;
-
-    // Remove declarations errors from error schema since they aren't on review page
-    delete errorSchema['declarations'];
-    delete errorSchema['declarationsSign'];
-
-    // This is a workaround for 'should be array' error and the schema/radio widget
-    // should ideally be refactored so we don't need this.
-    const arrayError =
-      errorSchema?.organizationProfile?.typeOfOrganization?.__errors[0] ===
-      'should be array';
-    if (
-      arrayError &&
-      Object.keys(errorSchema.organizationProfile).length <= 1
-    ) {
-      delete errorSchema['organizationProfile'];
-    }
-
-    return errorSchema;
-  };
+  const application = useFragment(
+    graphql`
+      fragment ApplicationForm_application on Application {
+        id
+        rowId
+        formData
+        status
+        ...ApplicationFormStatus_application
+      }
+    `,
+    applicationKey
+  );
+  const { id, rowId, formData, status } = application;
 
   const formErrorSchema = formatErrorSchema(formData, schema(formData));
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
   const [reviewConfirm, setReviewConfirm] = useState(false);
+  const [savingError, setSavingError] = useState(null);
 
   const router = useRouter();
-  const [updateApplication] = useUpdateApplicationMutation();
   const [assignCcbcId] = useAddCcbcIdToApplicationMutation();
+  const [updateApplication, isUpdating] = useUpdateApplicationMutation();
 
-  const subschemaArray = schemaToSubschemasArray(schema(formData) as object);
+  const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
+    schema(formData) as object
+  );
+
+  const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
 
   if (subschemaArray.length < pageNumber) {
     // Todo: proper 404
     return <h2>404 not found</h2>;
   }
-
-  const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
-
   const review = sectionName === 'review';
 
-  const saveForm = async (incomingFormData: any, existingFormData: any) => {
+  const saveForm = (
+    newFormSectionData: object,
+    mutationConfig?: Partial<
+      UseDebouncedMutationConfig<updateApplicationMutation>
+    >,
+    isRedirectingToNextPage = false
+  ) => {
     if (status === 'withdrawn') {
       return;
     }
-    const pageNumber = parseInt(router.query.page as string);
-    const sectionName = subschemaArray[pageNumber - 1][0];
-    let newFormData: any = {};
-    if (Object.keys(existingFormData).length === 0) {
-      newFormData[sectionName] = incomingFormData.formData;
-    } else if (existingFormData[sectionName]) {
-      newFormData = { ...existingFormData };
+
+    let newFormData: Record<string, object> = {};
+    if (Object.keys(formData).length === 0) {
+      newFormData[sectionName] = newFormSectionData;
+    } else if (formData[sectionName]) {
+      newFormData = { ...formData };
       newFormData[sectionName] = {
-        ...existingFormData[sectionName],
-        ...incomingFormData.formData,
+        ...formData[sectionName],
+        ...newFormSectionData,
       };
     } else {
-      newFormData = { ...existingFormData };
-      newFormData[sectionName] = { ...incomingFormData.formData };
+      newFormData = { ...formData };
+      newFormData[sectionName] = { ...newFormSectionData };
     }
 
+    // if we're redirecting after this, set lastEditedPage to the next page
+    const lastEditedPageNumber = isRedirectingToNextPage
+      ? pageNumber
+      : pageNumber - 1;
     const lastEditedPage =
-      pageNumber < subschemaArray.length ? subschemaArray[pageNumber][0] : '';
+      pageNumber < subschemaArray.length
+        ? subschemaArray[lastEditedPageNumber][0]
+        : '';
 
-    return await updateApplication({
+    setSavingError(null);
+    updateApplication({
       variables: {
         input: {
           applicationPatch: {
             formData: newFormData,
-            // technically this is the last edited page but for now it makes more sense to
-            // bring
-            // lastEditedPage: sectionName,
             lastEditedPage: lastEditedPage,
           },
-          rowId: applicationId,
+          id,
         },
       },
+      optimisticResponse: {
+        updateApplication: {
+          application: {
+            id,
+            formData: newFormData,
+            updatedAt: undefined,
+          },
+        },
+      },
+      debounceKey: id,
+      onError: () => {
+        setSavingError(
+          <>
+            There was an error saving your response.
+            <br />
+            Please refresh the page.
+          </>
+        );
+      },
+      ...mutationConfig,
     });
   };
 
-  const handleSubmit = async (incomingFormData: any, formData: any) => {
-    saveForm(incomingFormData, formData).then(() => {
-      //  TODO: update rerouting logic to handle when there are form errors etc.
-      if (pageNumber < subschemaArray.length) {
-        router.push(`/form/${applicationId}/${pageNumber + 1}`);
-      } else {
-        //Does not return query from mutation
-        assignCcbcId({
-          variables: {
-            input: {
-              applicationId: applicationId,
-            },
-          },
-        });
-        router.push(`/form/${applicationId}/success`);
-      }
-    });
+  const handleSubmit = (e: ISubmitEvent<any>) => {
+    saveForm(
+      e.formData,
+      {
+        onCompleted: () => {
+          //  TODO: update rerouting logic to handle when there are form errors etc.
+          if (pageNumber < subschemaArray.length) {
+            router.push(`/form/${rowId}/${pageNumber + 1}`);
+          } else {
+            //Does not return query from mutation
+            assignCcbcId({
+              variables: {
+                input: {
+                  applicationId: rowId,
+                },
+              },
+            });
+            router.push(`/form/${rowId}/success`);
+          }
+        },
+      },
+      true
+    );
+  };
+
+  const handleChange = (e: IChangeEvent<any>) => {
+    saveForm(e.formData);
   };
 
   const handleDisabled = (page: string, noErrors: boolean) => {
@@ -184,11 +243,18 @@ const ApplicationForm: React.FC<Props> = ({
 
   return (
     <>
+      <Flex>
+        <h1>{sectionSchema.title}</h1>
+        <ApplicationFormStatus
+          application={application}
+          isSaving={isUpdating}
+          error={savingError}
+        />
+      </Flex>
       {isCalculatedPage ? (
         <CalculationForm
-          onSubmit={(incomingFormData: any) => {
-            handleSubmit(incomingFormData, formData);
-          }}
+          onSubmit={handleSubmit}
+          onChange={handleChange}
           onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
           formData={formData[sectionName]}
           schema={sectionSchema as JSONSchema7}
@@ -201,9 +267,8 @@ const ApplicationForm: React.FC<Props> = ({
         </CalculationForm>
       ) : (
         <FormBase
-          onSubmit={(incomingFormData: any) => {
-            handleSubmit(incomingFormData, formData);
-          }}
+          onSubmit={handleSubmit}
+          onChange={handleChange}
           formData={formData[sectionName]}
           schema={sectionSchema as JSONSchema7}
           uiSchema={uiSchema}
@@ -227,4 +292,5 @@ const ApplicationForm: React.FC<Props> = ({
     </>
   );
 };
+
 export default ApplicationForm;

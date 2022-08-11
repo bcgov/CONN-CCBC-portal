@@ -59,7 +59,7 @@ install_perl_tools: install_cpanm install_cpandeps postinstall_check
 
 .PHONY: install_dev_tools
 install_dev_tools: ## install development tools
-install_dev_tools: stop_pg install_asdf_tools install_perl_tools 
+install_dev_tools: stop_pg install_asdf_tools install_perl_tools
 # install_dev_tools: stop_pg install_asdf_tools install_perl_tools install_pgtap
 
 .PHONY: start_pg
@@ -121,8 +121,7 @@ drop_test_db:
 deploy_db_migrations: ## deploy the database migrations with sqitch
 deploy_db_migrations: start_pg create_db
 deploy_db_migrations:
-	@$(SQITCH) --chdir schema deploy
-	@$(SQITCH) --chdir mocks_schema deploy
+	@$(SQITCH) --chdir db deploy
 
 deploy_dev_data: ## deploy the database migrations with sqitch and load the data for local development
 deploy_dev_data: deploy_db_migrations

@@ -154,6 +154,7 @@ const uiSchema = {
     'otherFundingSourcesArray',
     'acknowledgeReviewEmptyFields',
   ],
+  'ui:title': '',
   projectTitle: {
     'ui:description': 'maximum 200 characters',
     'ui:title':

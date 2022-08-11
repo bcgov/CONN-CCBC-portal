@@ -92,7 +92,7 @@ const TextWidget: React.FC<WidgetProps> = ({
           checkValidations(onChange, value);
         }}
         placeholder={placeholder}
-        value={value || undefined}
+        value={value ?? ''}
         min={0}
         size={'medium'}
         required={required}

@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
@@ -36,7 +35,7 @@ const StyledConfirmBox = styled('div')`
   }
 `;
 
-const WithdrawModal = ({ rowId }) => {
+const WithdrawModal = ({ id }) => {
   const [successModal, setSuccessModal] = useState(false);
 
   const [updateApplication] = useUpdateApplicationMutation();
@@ -48,11 +47,12 @@ const WithdrawModal = ({ rowId }) => {
           applicationPatch: {
             status: 'withdrawn',
           },
-          rowId: rowId,
+          id: id,
         },
       },
+      debounceKey: id,
+      onCompleted: () => setSuccessModal(true),
     });
-    setSuccessModal(true);
   };
 
   return (
