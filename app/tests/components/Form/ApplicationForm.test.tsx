@@ -49,11 +49,6 @@ describe('The application form', () => {
       target: { value: 'test title' },
     });
 
-    console.log(
-      componentTestingHelper.environment.mock.getMostRecentOperation().request
-        .variables.input.applicationPatch
-    );
-
     componentTestingHelper.expectMutationToBeCalled(
       'updateApplicationMutation',
       {
