@@ -112,6 +112,7 @@ const Table = ({ applications }: Props) => {
 
             const isWithdrawn = application.status === 'withdrawn';
             const isSubmitted = application.status === 'submitted';
+            const isEditable = !isWithdrawn && !(isSubmitted && isIntakeClosed);
 
             const getApplicationUrl = () => {
               if (isWithdrawn) {
@@ -122,16 +123,6 @@ const Table = ({ applications }: Props) => {
                 return `/form/${rowId}/1`;
               } else {
                 return `/form/${rowId}/${lastEditedPage ? lastEditedIndex : 1}`;
-              }
-            };
-
-            const formatEditButton = () => {
-              if (isWithdrawn) {
-                return 'View';
-              } else if (isSubmitted && isIntakeClosed) {
-                return 'View';
-              } else {
-                return 'Edit';
               }
             };
 
@@ -146,8 +137,10 @@ const Table = ({ applications }: Props) => {
                 </StyledTableCell>
                 <StyledTableCell>
                   <StyledBtns>
-                    <Link href={getApplicationUrl()}>{formatEditButton()}</Link>
-                    {application.status === 'submitted' && !isIntakeClosed && (
+                    <Link href={getApplicationUrl()}>
+                      {isEditable ? 'Edit' : 'View'}
+                    </Link>
+                    {isSubmitted && !isIntakeClosed && (
                       <div
                         onClick={() => setWithdrawRowId(application.rowId)}
                         data-testid="withdraw-btn-test"
