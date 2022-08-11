@@ -128,7 +128,9 @@ const ApplicationForm: React.FC<Props> = ({
     }
 
     const lastEditedPage =
-      pageNumber < subschemaArray.length ? subschemaArray[pageNumber][0] : '';
+      pageNumber < subschemaArray.length
+        ? subschemaArray[pageNumber - 1][0]
+        : '';
 
     setSavingError(null);
     updateApplication({
