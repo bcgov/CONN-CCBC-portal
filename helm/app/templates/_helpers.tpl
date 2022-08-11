@@ -25,29 +25,23 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{- define "ccbc.ccbcUserPgEnv" }}
-- name: PGUSER
-  valueFrom:
-    secretKeyRef:
-      key: user
-      name: ccbc-pguser-ccbc
-- name: PGPASSWORD
-  valueFrom:
-    secretKeyRef:
-      key: password
-      name: ccbc-pguser-ccbc
-- name: PGDATABASE
-  valueFrom:
-    secretKeyRef:
-      key: dbname
-      name: ccbc-pguser-ccbc
-- name: PGPORT
-  valueFrom:
-    secretKeyRef:
-      key: pgbouncer-port
-      name: ccbc-pguser-ccbc
-- name: PGHOST
-  valueFrom:
-    secretKeyRef:
-      key: pgbouncer-host
-      name: ccbc-pguser-ccbc
+  - name: PGUSER
+    value: {{ template "ccbc.fullname" . }}
+  - name: PGPASSWORD
+    valueFrom:
+      secretKeyRef:
+        key: password
+        name: ccbc-pguser-ccbc
+  - name: PGDATABASE
+    value: {{ template "ccbc.fullname" . }}
+  - name: PGPORT
+    valueFrom:
+      secretKeyRef:
+        key: port
+        name: ccbc-pguser-ccbc
+  - name: PGHOST
+    valueFrom:
+      secretKeyRef:
+        key: host
+        name: ccbc-pguser-ccbc
 {{- end }}

@@ -15,7 +15,6 @@ spec:
     spec:
       activeDeadlineSeconds: 600
       restartPolicy: Never
-      imagePullSecrets: {{ include "ccbc.imagePullSecrets" . | nindent 8 }}
       containers:
         - env: {{ include "ccbc.ccbcUserPgEnv" . | nindent 16 }}
           name: {{ template "ccbc.fullname" . }}-db-pre-upgrade

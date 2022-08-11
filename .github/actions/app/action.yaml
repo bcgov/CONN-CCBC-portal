@@ -77,7 +77,7 @@ runs:
           --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }} \
           --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }} \
           --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }} \
-          --set objectStorage.awsRoleArn=${{ inputs.aws_role_arn }}
-          --values ./helm/app/values-${{ inputs.environment }}.yaml
+          --set objectStorage.awsRoleArn=${{ inputs.aws_role_arn }} \
+          --values values-${{ inputs.environment }}.yaml
 
       shell: bash
