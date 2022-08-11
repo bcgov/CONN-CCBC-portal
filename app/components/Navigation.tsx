@@ -63,10 +63,14 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
             <h1>{title}</h1>
           </StyledMainTitle>
           <StyledRightSideLinks>
+            {isLoggedIn &&
+            <>
             <Link passHref href="/dashboard">
               <StyledAnchor>Dashboard</StyledAnchor>
             </Link>
             |
+            </>
+            }            
             <NavLoginForm
               action={isLoggedIn ? '/logout' : '/login'}
               linkText={isLoggedIn ? 'Logout' : 'Login'}
