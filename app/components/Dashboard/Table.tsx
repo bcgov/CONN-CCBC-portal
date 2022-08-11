@@ -58,7 +58,7 @@ type Props = {
 };
 
 const Table = ({ applications }: Props) => {
-  const [withdrawRowId, setWithdrawRowId] = useState(0);
+  const [withdrawId, setWithdrawId] = useState('');
   const applicationNodes = applications.allApplications.nodes;
   const router = useRouter();
 
@@ -136,7 +136,7 @@ const Table = ({ applications }: Props) => {
                       {isWithdrawn && !isIntakeClosed ? 'View' : 'Edit'}
                     </Link>
                     {application.status === 'submitted' && !isIntakeClosed && (
-                      <div onClick={() => setWithdrawRowId(application.rowId)}>
+                      <div onClick={() => setWithdrawId(application.id)}>
                         <Withdraw />
                       </div>
                     )}
@@ -148,7 +148,7 @@ const Table = ({ applications }: Props) => {
         </tbody>
       </StyledTable>
 
-      <Modal rowId={withdrawRowId} />
+      <Modal id={withdrawId} />
     </>
   );
 };

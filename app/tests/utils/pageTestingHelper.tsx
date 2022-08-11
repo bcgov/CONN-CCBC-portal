@@ -1,22 +1,21 @@
-import { render } from "@testing-library/react";
-import { MockPayloadGenerator } from "relay-test-utils";
-import { ErrorContext } from "contexts/ErrorContext";
+import { render } from '@testing-library/react';
+import { MockPayloadGenerator } from 'relay-test-utils';
 import {
   loadQuery,
   PreloadedQuery,
   RelayEnvironmentProvider,
-} from "react-relay";
-import { RelayProps } from "relay-nextjs";
-import { ConcreteRequest, OperationType } from "relay-runtime";
-import { MockResolvers } from "relay-test-utils/lib/RelayMockPayloadGenerator";
-import { RouterContext } from "next/dist/shared/lib/router-context";
-import TestingHelper from "./TestingHelper";
+} from 'react-relay';
+import { RelayProps } from 'relay-nextjs';
+import { ConcreteRequest, OperationType } from 'relay-runtime';
+import { MockResolvers } from 'relay-test-utils/lib/RelayMockPayloadGenerator';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
+import TestingHelper from './TestingHelper';
 
 interface PageTestingHelperOptions<TQuery extends OperationType> {
   pageComponent: (props: RelayProps<{}, TQuery>) => JSX.Element;
   compiledQuery: ConcreteRequest;
   defaultQueryResolver?: MockResolvers;
-  defaultQueryVariables?: TQuery["variables"];
+  defaultQueryVariables?: TQuery['variables'];
 }
 
 class PageTestingHelper<TQuery extends OperationType> extends TestingHelper {
@@ -63,16 +62,14 @@ class PageTestingHelper<TQuery extends OperationType> extends TestingHelper {
 
   public renderPage() {
     return render(
-      <ErrorContext.Provider value={this.errorContext}>
-        <RouterContext.Provider value={this.router}>
-          <RelayEnvironmentProvider environment={this.environment}>
-            <this.options.pageComponent
-              CSN
-              preloadedQuery={this.initialQueryRef}
-            />
-          </RelayEnvironmentProvider>
-        </RouterContext.Provider>
-      </ErrorContext.Provider>
+      <RouterContext.Provider value={this.router}>
+        <RelayEnvironmentProvider environment={this.environment}>
+          <this.options.pageComponent
+            CSN
+            preloadedQuery={this.initialQueryRef}
+          />
+        </RelayEnvironmentProvider>
+      </RouterContext.Provider>
     );
   }
 }
