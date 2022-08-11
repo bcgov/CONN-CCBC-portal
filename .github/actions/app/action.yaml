@@ -41,6 +41,9 @@ inputs:
   aws_role_arn:
     description: 'AWS role ARN'
     required: true
+  environment:
+    description: 'Environment to set specific helm values file'
+    required: true
 
 runs:
   using: composite
@@ -75,5 +78,6 @@ runs:
           --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }} \
           --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }} \
           --set objectStorage.awsRoleArn=${{ inputs.aws_role_arn }}
+          --values ./helm/app/values-${{ inputs.environment }}.yaml
 
       shell: bash
