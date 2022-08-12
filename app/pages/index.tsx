@@ -37,9 +37,10 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
       <div>
         <h1>Welcome</h1>
         <h3>Before you begin</h3>
+        <p>Full information about the Connecting Communities British Columbia (CCBC) program can be found at the program webpage.</p>
         <ul>
           <li>Please review the Application Guide</li>
-          <li>Please review the non-fillable application questions</li>
+          <li>Please review the pdf of application questions</li>
           <li>
             Please review the templates and gather all supporting documents
           </li>
@@ -92,6 +93,7 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
             Your responses will be autosaved; you may exit and return to the
             Application Form at any time.
           </li>
+          <li>All questions are mandatory unless indicated otherwise.</li>
           <li>
             The application intake opens on MM/DD/YYYY at 12:00 AM Pacific Time
             (PT) and closes on MM/DD/YYYY at midnight Pacific Time (PT). The
