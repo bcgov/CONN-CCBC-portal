@@ -207,7 +207,7 @@ spec:
             successThreshold: 1
             periodSeconds: 5
             timeoutSeconds: 5
-            initialDelaySeconds: 5
+            initialDelaySeconds: 30
           livenessProbe:
           # the liveness probe is here to ensure that a pod does not get
           # stuck in a shutdown state. It needs to allow enough time for
@@ -215,7 +215,7 @@ spec:
             httpGet:
               path: /live
               port: {{ .Values.app.probesPort }}
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 10
             failureThreshold: 3
             successThreshold: 1
