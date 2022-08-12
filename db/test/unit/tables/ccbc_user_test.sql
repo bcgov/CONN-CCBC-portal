@@ -1,5 +1,5 @@
 begin;
-select plan(20);
+select plan(21);
 
 select has_table('ccbc_public', 'ccbc_user', 'table ccbc_public.ccbc_user exists');
 select has_column('ccbc_public', 'ccbc_user', 'id', 'table ccbc_public.ccbc_user has id column');
@@ -114,6 +114,14 @@ select throws_like(
   $$,
   'permission denied%',
     'ccbc_guest cannot delete rows from table_ccbc_user'
+);
+
+select throws_like(
+  $$
+    select * from ccbc_public.applications
+  $$,
+  'permission denied%',
+    'ccbc_guest cannot select rows from table_applications'
 );
 
 select finish();
