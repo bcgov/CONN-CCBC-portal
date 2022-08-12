@@ -1,7 +1,7 @@
 import { withRelayOptions } from '../../pages/dashboard';
 import { screen } from '@testing-library/react';
 import Dashboard from '../../pages/dashboard';
-import PageTestingHelper from '../helpers/pageTestingHelper';
+import PageTestingHelper from '../utils/pageTestingHelper';
 import compileddashboardQuery, {
   dashboardQuery,
 } from '../../__generated__/dashboardQuery.graphql';

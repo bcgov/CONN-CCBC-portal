@@ -1,7 +1,7 @@
 import { screen, getByTestId } from '@testing-library/react';
 import { DashboardTable } from '../../../components/Dashboard';
 import { graphql } from 'react-relay';
-import ComponentTestingHelper from '../../helpers/componentTestingHelper';
+import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledDashboardTestQuery, {
   DashboardTestQuery,
 } from '../../../__generated__/DashboardTestQuery.graphql';
