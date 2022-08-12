@@ -237,22 +237,22 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const verifyAllAcknowledgementsChecked = (
-    formData: AcknowledgementsFieldJSON
-  ) => formData.acknowledgementsList.length === NUM_ACKNOWLEDGEMENTS;
+    formData?: AcknowledgementsFieldJSON
+  ) => formData?.acknowledgementsList?.length === NUM_ACKNOWLEDGEMENTS;
 
-  const verifyAllSubmissionsFilled = (formData: SubmissionFieldsJSON) => {
+  const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
     const isSubmissionCompletedByFilled =
-      formData.submissionCompletedBy !== undefined &&
-      formData.submissionCompletedBy.length > 0;
+      formData?.submissionCompletedBy !== undefined &&
+      formData?.submissionCompletedBy.length > 0;
     const isSubmissionCompletedForFilled =
-      formData.submissionCompletedFor !== undefined &&
-      formData.submissionCompletedFor.length > 0;
+      formData?.submissionCompletedFor !== undefined &&
+      formData?.submissionCompletedFor.length > 0;
     const isSubmissionDateFilled =
-      formData.submissionDate !== undefined &&
-      formData.submissionDate.length > 0;
+      formData?.submissionDate !== undefined &&
+      formData?.submissionDate.length > 0;
     const isSubmissionTitleFilled =
-      formData.submissionTitle !== undefined &&
-      formData.submissionTitle.length > 0;
+      formData?.submissionTitle !== undefined &&
+      formData?.submissionTitle.length > 0;
 
     return (
       isSubmissionCompletedByFilled &&
@@ -320,6 +320,8 @@ const ApplicationForm: React.FC<Props> = ({
   const customPagesDict = {
     estimatedProjectEmployment: (
       <CalculationForm
+      // Facing rendering issues, key here to allow react to identify a new component
+        key='estimatedProjectEmployment'
         onSubmit={(incomingFormData: any) => {
           handleSubmit(incomingFormData, formData);
         }}
@@ -336,6 +338,7 @@ const ApplicationForm: React.FC<Props> = ({
     ),
     acknowledgements: (
       <CalculationForm
+        key='acknowledgements'
         onSubmit={(incomingFormData: any) => {
           handleSubmit(incomingFormData, formData);
         }}
@@ -358,6 +361,7 @@ const ApplicationForm: React.FC<Props> = ({
     ),
     submission: (
       <CalculationForm
+        key='submission'
         onSubmit={(incomingFormData: any) => {
           handleSubmit(incomingFormData, formData);
         }}
