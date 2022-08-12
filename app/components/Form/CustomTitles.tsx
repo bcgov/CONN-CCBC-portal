@@ -57,7 +57,7 @@ const NumberOfHouseholds = () => {
   return (
     <div>
       Final number of Eligible Households targeted by this proposal. This value
-      should match cell F141 in Template 1 – <b>Eligibility Summary</b>.
+      should match cell G50 in Template 1 – <b>Eligibility Summary</b>.
     </div>
   );
 };
