@@ -304,6 +304,12 @@ const ApplicationForm: React.FC<Props> = ({
     return formData;
   };
 
+  const updateAreAllAcknowledgementFieldsSet = (formData: AcknowledgementsFieldJSON) => {
+    setAreAllacknowledgementsChecked(verifyAllAcknowledgementsChecked(formData));
+
+    return formData;
+  }
+
   const isCustomPage = customPages.includes(sectionName);
 
   const submitBtns = (
@@ -322,9 +328,7 @@ const ApplicationForm: React.FC<Props> = ({
       <CalculationForm
       // Facing rendering issues, key here to allow react to identify a new component
         key='estimatedProjectEmployment'
-        onSubmit={(incomingFormData: any) => {
-          handleSubmit(incomingFormData, formData);
-        }}
+        onSubmit={handleSubmit}
         onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
         formData={formData[sectionName]}
         schema={sectionSchema as JSONSchema7}
@@ -339,16 +343,8 @@ const ApplicationForm: React.FC<Props> = ({
     acknowledgements: (
       <CalculationForm
         key='acknowledgements'
-        onSubmit={(incomingFormData: any) => {
-          handleSubmit(incomingFormData, formData);
-        }}
-        onCalculate={(formData: AcknowledgementsFieldJSON) => {
-          setAreAllacknowledgementsChecked(
-            formData.acknowledgementsList.length === NUM_ACKNOWLEDGEMENTS
-          );
-
-          return formData;
-        }}
+        onSubmit={handleSubmit}
+        onCalculate={updateAreAllAcknowledgementFieldsSet}
         formData={formData[sectionName]}
         schema={sectionSchema as JSONSchema7}
         uiSchema={uiSchema}
@@ -362,9 +358,7 @@ const ApplicationForm: React.FC<Props> = ({
     submission: (
       <CalculationForm
         key='submission'
-        onSubmit={(incomingFormData: any) => {
-          handleSubmit(incomingFormData, formData);
-        }}
+        onSubmit={handleSubmit}
         onCalculate={updateAreAllSubmissionFieldsSet}
         formData={formData[sectionName]}
         schema={sectionSchema as JSONSchema7}
