@@ -512,7 +512,7 @@ const uiSchema = {
   },
   geographicCoverageMap: {
     'ui:widget': 'FileWidget',
-    'ui:description': `Geographic Coverage Map from ISED's Eligibility Mapping Tool`,
+    'ui:description': `Geographic coverage map from ISED's Eligibility Mapping Tool. KMZ is required.`,
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
@@ -530,7 +530,7 @@ const uiSchema = {
   },
   currentNetworkInfastructure: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Current Network Infrastructure',
+    'ui:description': 'Current network infrastructure in a geo-coded format',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
@@ -540,7 +540,7 @@ const uiSchema = {
   upgradedNetworkInfrastructure: {
     'ui:widget': 'FileWidget',
     'ui:description':
-      'Proposed or Upgraded Network Infrastructure (Project specific)',
+      'Proposed or Upgraded Network Infrastructure (project-specific) in a geo-coded format',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
@@ -586,7 +586,7 @@ const uiSchema = {
   popWholesalePricing: {
     'ui:widget': 'FileWidget',
     'ui:description':
-      'Template 5 - List of Points of Presence and Wholesale Pricing',
+      'Template 5 - List of Points of Presence and Wholesale Pricing (if applicable)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
@@ -613,7 +613,7 @@ const uiSchema = {
   },
   wirelessAddendum: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Template 7 - Wireless Addendum',
+    'ui:description': 'Template 7 - Wireless Addendum (if applicable)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
@@ -622,7 +622,7 @@ const uiSchema = {
   },
   supportingConnectivityEvidence: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Template 8 - Supporting Connectivity Evidence',
+    'ui:description': 'Template 8 - Supporting Connectivity Evidence (if applicable)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
@@ -871,7 +871,7 @@ const uiSchema = {
     },
     {
       title:
-        'Funding from Canadian Infrastructure Bank per fiscal year (April 1 - March 31)',
+        'Funding from Canadian Infrastructure Bank per fiscal year (April 1 - March 31) (if applicable)',
       columns: 5,
       infrastructureBankFunding2223: 1,
       infrastructureBankFunding2324: 2,

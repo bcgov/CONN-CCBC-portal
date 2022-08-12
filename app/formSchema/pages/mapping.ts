@@ -1,9 +1,9 @@
 const mapping = {
   mapping: {
-    title: 'Mapping',
+    title: 'Coverage',
     type: 'object',
     description:
-      'Please submit the following mapping data in a geo-coded format. KMZ is required.',
+      'Please submit the following coverage data.',
     required: [
       'geographicCoverageMap',
       'coverageAssessmentStatistics',
@@ -18,7 +18,7 @@ const mapping = {
       },
       coverageAssessmentStatistics: {
         title:
-          'Please upload the email you received upon completion of the Project Coverage.',
+          'Please upload the XML file that was attached to the email you received upon completion of the project coverage.',
         type: 'string',
       },
       currentNetworkInfastructure: {

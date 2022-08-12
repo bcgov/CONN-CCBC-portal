@@ -38,6 +38,11 @@ const otherFundingSources = {
                     'statusOfFunding',
                     'funderType',
                     'totalRequestedFundingPartner',
+                    'requestedFundingPartner2223',
+                    'requestedFundingPartner2324',
+                    'requestedFundingPartner2425',
+                    'requestedFundingPartner2526',
+                    'requestedFundingPartner2627',
                   ],
                   properties: {
                     fundingPartnersName: {

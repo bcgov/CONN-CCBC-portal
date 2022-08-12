@@ -7,7 +7,16 @@ const projectFunding = {
     required: [
       'totalFundingRequestedCCBC',
       'totalApplicantContribution',
-      'totalInfrastructureBankFunding',
+      'applicationContribution2223',
+      'applicationContribution2324',
+      'applicationContribution2425',
+      'applicationContribution2526',
+      'applicationContribution2627',
+      'fundingRequestedCCBC2223',
+      'fundingRequestedCCBC2324',
+      'fundingRequestedCCBC2425',
+      'fundingRequestedCCBC2526',
+      'fundingRequestedCCBC2627',
     ],
     properties: {
       fundingRequestedCCBC2223: {
