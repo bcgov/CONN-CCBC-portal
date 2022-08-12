@@ -42,10 +42,10 @@ const getSuccessQuery = graphql`
 `;
 // eslint-disable-next-line @typescript-eslint/ban-types
 const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
-  const { allIntakes, applicationByRowId, session } = usePreloadedQuery(
-    getSuccessQuery,
-    preloadedQuery
-  );
+  const query = usePreloadedQuery(getSuccessQuery, preloadedQuery);
+
+  const { allIntakes, applicationByRowId, session } = query;
+  console.log(query);
 
   const getDateString = (date: Date) => {
     if (date) {
@@ -87,7 +87,7 @@ export const withRelayOptions = {
   ...defaultRelayOptions,
   variablesFromContext: (ctx) => {
     return {
-      rowId: parseInt(ctx.query.id.toString()),
+      rowId: parseInt(ctx.query.id?.toString()),
     };
   },
 };
