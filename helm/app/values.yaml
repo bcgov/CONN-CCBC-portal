@@ -102,7 +102,7 @@ replicaCertCopy:
     memory: 64Mi
 
 dataVolumeClaimSpec:
-  storage: 256Mi
+  storage: 512Mi
 
 pgbackrest:
   requests:
