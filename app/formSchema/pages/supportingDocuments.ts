@@ -1,6 +1,7 @@
 const supportingDocuments = (isEvidenceOfConnectivityRequired) => {
   // This page is a function because evidenceOfConnectivitySpeeds is required depending on if an upload
   // field from another page was filled. So we check the form data in schema.ts and pass it here if it is filled.
+
   return {
     supportingDocuments: {
       title: 'Supporting documents',
@@ -13,7 +14,7 @@ const supportingDocuments = (isEvidenceOfConnectivityRequired) => {
         'logicalNetworkDiagram',
         'projectSchedule',
         'communityRuralDevelopmentBenefits',
-        isEvidenceOfConnectivityRequired && 'evidenceOfConnectivitySpeeds',
+        isEvidenceOfConnectivityRequired ? 'evidenceOfConnectivitySpeeds' : '',
       ],
       properties: {
         copiesOfRegistration: {

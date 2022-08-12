@@ -20,7 +20,7 @@ const StyledInput = styled(Input)`
 const StyledFormattedNumbersInput = styled(CurrencyInput)`
   margin-top: 12px;
   margin-bottom: 4px;
-  width: ${(props) => props.theme.width.inputWidthSmall};
+  width: 50%;
   border: 2px solid #606060;
   border-radius: 0;
   padding: 0.5em 0.6em;

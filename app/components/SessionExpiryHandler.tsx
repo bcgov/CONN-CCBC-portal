@@ -45,7 +45,7 @@ const SessionExpiryHandler: React.FC = () => {
 
     if (!logOutURL) {
       router.push({
-        pathname: '/login-redirect',
+        pathname: '/',
         query: {
           redirectTo: router.asPath,
           sessionIdled: true,
@@ -64,7 +64,7 @@ const SessionExpiryHandler: React.FC = () => {
           modalDisplaySecondsBeforeLogout={120}
           onSessionExpired={handleSessionExpired}
           extendSessionOnEvents={{
-            enabled: false,
+            enabled: true,
             throttleTime: 300000,
             events: ['keydown', 'scroll'],
           }}

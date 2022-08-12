@@ -1,4 +1,9 @@
-import { MoneyWidget, NumberWidget } from '../lib/theme/widgets';
+import {
+  MoneyWidget,
+  NumberWidget,
+  ReadOnlyWidget,
+} from '../lib/theme/widgets';
+
 const MAX_TEXTAREA_LENGTH = 3500;
 const MAX_LONG_INPUT_LENGTH = 200;
 const MAX_MED_INPUT_LENGTH = 75;
@@ -71,14 +76,14 @@ const uiSchema = {
     'orgRegistrationDate',
     'businessNumber',
     'currentEmployment',
-    'estimatedDirectEmployees',
     'numberOfEmployeesToWork',
     'hoursOfEmploymentPerWeek',
     'personMonthsToBeCreated',
-    'estimatedContractorLabour',
+    'estimatedFTECreation',
     'numberOfContractorsToWork',
     'hoursOfContractorEmploymentPerWeek',
     'contractorPersonMonthsToBeCreated',
+    'estimatedFTEContractorCreation',
     'acknowledgementsList',
     'submissionCompletedFor',
     'submissionDate',
@@ -149,6 +154,7 @@ const uiSchema = {
     'otherFundingSourcesArray',
     'acknowledgeReviewEmptyFields',
   ],
+  'ui:title': '',
   projectTitle: {
     'ui:description': 'maximum 200 characters',
     'ui:title':
@@ -319,9 +325,6 @@ const uiSchema = {
       decimals: 0,
     },
   },
-  estimatedDirectEmployees: {
-    'ui:subtitle': 'Estimated direct employees',
-  },
   numberOfEmployeesToWork: {
     'ui:widget': NumberWidget,
     'ui:options': {
@@ -343,8 +346,8 @@ const uiSchema = {
       decimals: 1,
     },
   },
-  estimatedContractorLabour: {
-    'ui:subtitle': 'Estimated contracted labour',
+  estimatedFTECreation: {
+    'ui:widget': ReadOnlyWidget,
   },
   numberOfContractorsToWork: {
     'ui:widget': NumberWidget,
@@ -366,6 +369,9 @@ const uiSchema = {
       commaSeparator: true,
       decimals: 1,
     },
+  },
+  estimatedFTEContractorCreation: {
+    'ui:widget': ReadOnlyWidget,
   },
   acknowledgementsList: {
     'ui:title': ` `,
@@ -875,6 +881,28 @@ const uiSchema = {
     {
       columns: 2,
       totalInfrastructureBankFunding: '1 / 2',
+    },
+    {
+      columns: 1,
+      currentEmployment: '1 / 2',
+    },
+    {
+      title: 'Estimated direct employees',
+      headline: true,
+      columns: 4,
+      numberOfEmployeesToWork: 1,
+      hoursOfEmploymentPerWeek: 2,
+      personMonthsToBeCreated: 3,
+      estimatedFTECreation: 4,
+    },
+    {
+      title: 'Estimated contracted labour',
+      headline: true,
+      columns: 4,
+      numberOfContractorsToWork: 1,
+      hoursOfContractorEmploymentPerWeek: 2,
+      contractorPersonMonthsToBeCreated: 3,
+      estimatedFTEContractorCreation: 4,
     },
   ],
 };

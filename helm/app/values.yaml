@@ -1,6 +1,6 @@
 fullnameOverride: ccbc
 
-replicaCount: 1
+replicaCount: 3
 
 image:
   app:
@@ -29,17 +29,17 @@ growthbook:
 resources:
   app:
     requests:
-      cpu: '40m'
+      cpu: 10m
       memory: '128Mi'
     limits:
-      cpu: '120m'
+      cpu: 100m
       memory: '256Mi'
   psql:
     requests:
-      cpu: '40m'
+      cpu: 10m
       memory: '128Mi'
     limits:
-      cpu: '120m'
+      cpu: 100m
       memory: '256Mi'
 
 deployer:
@@ -77,20 +77,20 @@ metabase:
 # Postgres Cluster resource values:
 exporter:
   requests:
-    cpu: 20m
+    cpu: 10m
     memory: 64Mi
   limits:
-    cpu: 60m
+    cpu: 100m
     memory: 128Mi
 
 instances:
   name: hippo-ha
   replicas: 3
   requests:
-    cpu: 20m
+    cpu: 10m
     memory: 64Mi
   limits:
-    cpu: 60m
+    cpu: 100m
     memory: 128Mi
 
 replicaCertCopy:
@@ -98,34 +98,34 @@ replicaCertCopy:
     cpu: 10m
     memory: 32Mi
   limits:
-    cpu: 30m
+    cpu: 100m
     memory: 64Mi
 
 dataVolumeClaimSpec:
-  storage: 256Mi
+  storage: 512Mi
 
 pgbackrest:
   requests:
-    cpu: 20m
+    cpu: 10m
     memory: 64Mi
   limits:
-    cpu: 60m
+    cpu: 100m
     memory: 128Mi
   volume:
     storage: 64Mi
     storageClassName: netapp-file-backup
   repoHost:
     requests:
-      cpu: 20m
+      cpu: 10m
       memory: 64Mi
     limits:
-      cpu: 60m
+      cpu: 100m
       memory: 128Mi
 
 pgBouncer:
   requests:
-    cpu: 20m
+    cpu: 10m
     memory: 64Mi
   limits:
-    cpu: 60m
+    cpu: 100m
     memory: 128Mi
