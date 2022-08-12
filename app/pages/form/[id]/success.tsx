@@ -24,10 +24,12 @@ const getSuccessQuery = graphql`
       status
       ccbcId
       intakeId
+      projectName
     }
     allIntakes {
       edges {
         node {
+          ccbcIntakeNumber
           rowId
           closeTimestamp
         }
@@ -55,14 +57,19 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
   const currentIntake = unwrapIntakes.find(
     (intake) => intake.rowId === applicationByRowId.intakeId
   );
+  const projectName = applicationByRowId?.projectName;
+  const ccbcIntakeNumber = currentIntake.ccbcIntakeNumber;
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledDiv>
         <StyledSection>
           <SuccessBanner ccbcId={applicationByRowId.ccbcId} />
-          <h3>Thank you for applying to CCBC Intake 1</h3>
-          <div>We have received your application for Sudden Valley.</div>
+          <h3>Thank you for applying to CCBC Intake {ccbcIntakeNumber}</h3>
+          <div>
+            We have received your application
+            {projectName && ` for ${projectName}`}.
+          </div>
           <div>
             You can edit this application until the intake closes on{' '}
             {getDateString(currentIntake.closeTimestamp)}
