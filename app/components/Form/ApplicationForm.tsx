@@ -62,8 +62,8 @@ interface SubmissionFieldsJSON {
   submissionTitle?: string;
 }
 
-  const formatErrorSchema = (formData, schema) => {
-    const errorSchema = validateFormData(formData, schema)?.errorSchema;
+const formatErrorSchema = (formData, schema) => {
+  const errorSchema = validateFormData(formData, schema)?.errorSchema;
 
   // Remove declarations errors from error schema since they aren't on review page
   delete errorSchema['acknowledgements'];
@@ -80,6 +80,32 @@ interface SubmissionFieldsJSON {
 
   return errorSchema;
 };
+
+const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
+  const isSubmissionCompletedByFilled =
+    formData?.submissionCompletedBy !== undefined &&
+    formData?.submissionCompletedBy.length > 0;
+  const isSubmissionCompletedForFilled =
+    formData?.submissionCompletedFor !== undefined &&
+    formData?.submissionCompletedFor.length > 0;
+  const isSubmissionDateFilled =
+    formData?.submissionDate !== undefined &&
+    formData?.submissionDate.length > 0;
+  const isSubmissionTitleFilled =
+    formData?.submissionTitle !== undefined &&
+    formData?.submissionTitle.length > 0;
+
+  return (
+    isSubmissionCompletedByFilled &&
+    isSubmissionCompletedForFilled &&
+    isSubmissionDateFilled &&
+    isSubmissionTitleFilled
+  );
+};
+
+const verifyAllAcknowledgementsChecked = (
+  formData?: AcknowledgementsFieldJSON
+) => formData?.acknowledgementsList?.length === NUM_ACKNOWLEDGEMENTS;
 
 const Flex = styled('div')`
   display: flex;
@@ -122,6 +148,11 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [reviewConfirm, setReviewConfirm] = useState(false);
   const [savingError, setSavingError] = useState(null);
+  const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
+    useState(verifyAllAcknowledgementsChecked(formData['acknowledgements']));
+  const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
+    verifyAllSubmissionsFilled(formData['submission'])
+  );
 
   const router = useRouter();
   const [assignCcbcId] = useAddCcbcIdToApplicationMutation();
@@ -236,38 +267,6 @@ const ApplicationForm: React.FC<Props> = ({
     saveForm(e.formData);
   };
 
-  const verifyAllAcknowledgementsChecked = (
-    formData?: AcknowledgementsFieldJSON
-  ) => formData?.acknowledgementsList?.length === NUM_ACKNOWLEDGEMENTS;
-
-  const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
-    const isSubmissionCompletedByFilled =
-      formData?.submissionCompletedBy !== undefined &&
-      formData?.submissionCompletedBy.length > 0;
-    const isSubmissionCompletedForFilled =
-      formData?.submissionCompletedFor !== undefined &&
-      formData?.submissionCompletedFor.length > 0;
-    const isSubmissionDateFilled =
-      formData?.submissionDate !== undefined &&
-      formData?.submissionDate.length > 0;
-    const isSubmissionTitleFilled =
-      formData?.submissionTitle !== undefined &&
-      formData?.submissionTitle.length > 0;
-
-    return (
-      isSubmissionCompletedByFilled &&
-      isSubmissionCompletedForFilled &&
-      isSubmissionDateFilled &&
-      isSubmissionTitleFilled
-    );
-  };
-
-  const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
-    useState(verifyAllAcknowledgementsChecked(formData['acknowledgements']));
-  const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
-    verifyAllSubmissionsFilled(formData['submission'])
-  );
-
   const handleDisabled = (page: string, noErrors: boolean) => {
     let disabled = false;
     switch (true) {
@@ -304,11 +303,15 @@ const ApplicationForm: React.FC<Props> = ({
     return formData;
   };
 
-  const updateAreAllAcknowledgementFieldsSet = (formData: AcknowledgementsFieldJSON) => {
-    setAreAllacknowledgementsChecked(verifyAllAcknowledgementsChecked(formData));
+  const updateAreAllAcknowledgementFieldsSet = (
+    formData: AcknowledgementsFieldJSON
+  ) => {
+    setAreAllacknowledgementsChecked(
+      verifyAllAcknowledgementsChecked(formData)
+    );
 
     return formData;
-  }
+  };
 
   const isCustomPage = customPages.includes(sectionName);
 
@@ -326,8 +329,8 @@ const ApplicationForm: React.FC<Props> = ({
   const customPagesDict = {
     estimatedProjectEmployment: (
       <CalculationForm
-      // Facing rendering issues, key here to allow react to identify a new component
-        key='estimatedProjectEmployment'
+        // Facing rendering issues, key here to allow react to identify a new component
+        key="estimatedProjectEmployment"
         onSubmit={handleSubmit}
         onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
         formData={formData[sectionName]}
@@ -342,7 +345,7 @@ const ApplicationForm: React.FC<Props> = ({
     ),
     acknowledgements: (
       <CalculationForm
-        key='acknowledgements'
+        key="acknowledgements"
         onSubmit={handleSubmit}
         onCalculate={updateAreAllAcknowledgementFieldsSet}
         formData={formData[sectionName]}
@@ -357,7 +360,7 @@ const ApplicationForm: React.FC<Props> = ({
     ),
     submission: (
       <CalculationForm
-        key='submission'
+        key="submission"
         onSubmit={handleSubmit}
         onCalculate={updateAreAllSubmissionFieldsSet}
         formData={formData[sectionName]}
@@ -374,6 +377,14 @@ const ApplicationForm: React.FC<Props> = ({
 
   return (
     <>
+      <Flex>
+        <h1>{sectionSchema.title}</h1>
+        <ApplicationFormStatus
+          application={application}
+          isSaving={isUpdating}
+          error={savingError}
+        />
+      </Flex>
       {isCustomPage ? (
         customPagesDict[sectionName]
       ) : (
