@@ -115,6 +115,7 @@ spec:
           wal_buffers: '-1' # automatically set as 1/32 of shared_buffers or 64kB, whichever is larger
           min_wal_size: '32MB'
           max_wal_size: '128MB' # default is 1GB
+          max_slot_wal_keep_size: '256MB' # default is -1, allowing unlimited wal growth when replicas fall behind
   proxy:
     pgBouncer:
       config:

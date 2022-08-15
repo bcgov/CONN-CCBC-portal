@@ -4,7 +4,7 @@ import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 const testQuery = graphql`
@@ -34,6 +34,30 @@ const componentTestingHelper =
     getPropsFromTestQuery: (data) => ({
       application: data.application,
       pageNumber: 1,
+    }),
+  });
+
+const acknowledgementsTestingHelper =
+  new ComponentTestingHelper<ApplicationFormTestQuery>({
+    component: ApplicationForm,
+    testQuery,
+    compiledQuery,
+    defaultQueryResolver: mockQueryPayload,
+    getPropsFromTestQuery: (data) => ({
+      application: data.application,
+      pageNumber: 20,
+    }),
+  });
+
+const submissionTestingHelper =
+  new ComponentTestingHelper<ApplicationFormTestQuery>({
+    component: ApplicationForm,
+    testQuery,
+    compiledQuery,
+    defaultQueryResolver: mockQueryPayload,
+    getPropsFromTestQuery: (data) => ({
+      application: data.application,
+      pageNumber: 21,
     }),
   });
 
@@ -82,5 +106,81 @@ describe('The application form', () => {
         },
       }
     );
+  });
+
+  it('acknowledgement page continue is disabled on initial load', async () => {
+    acknowledgementsTestingHelper.loadQuery();
+    acknowledgementsTestingHelper.renderComponent();
+
+    const continueButton = screen.getByRole('button', { name: 'Continue' });
+    //node here is using the jest expect, whereas TS can only find the cypress jest
+    expect(continueButton.hasAttribute('disabled')).toBeTrue();
+  });
+
+  it('acknowledgement page continue is enabled once all checkboxes have been clicked', async () => {
+    acknowledgementsTestingHelper.loadQuery();
+    acknowledgementsTestingHelper.renderComponent();
+
+    const checkBoxes = screen.getAllByRole('checkbox');
+
+    const lastCheckBox = checkBoxes.pop();
+
+    checkBoxes.forEach(async (acknowledgement) => {
+      await userEvent.click(acknowledgement);
+    });
+
+    userEvent.click(lastCheckBox).then(() => {
+      waitFor(() => {
+        expect(
+          screen
+            .getByRole('button', { name: 'Continue' })
+            .hasAttribute('disabled')
+        ).toBeFalse();
+      });
+    });
+  });
+
+  it('submission page submit button is enabled on when all inputs filled', async () => {
+    submissionTestingHelper.loadQuery();
+    submissionTestingHelper.renderComponent();
+
+    const completedFor = screen.getByLabelText(/Completed for/i);
+
+    const onThisDate = screen.getByLabelText(/On this date/i);
+
+    const completedBy = screen.getByLabelText(/Completed By/i);
+
+    const title = screen.getByLabelText(/Title/i);
+
+    fireEvent.change(completedFor, {
+      value: 'Applicant Name',
+    });
+
+    fireEvent.change(onThisDate, {
+      value: '2022-08-10',
+    });
+
+    fireEvent.change(completedBy, {
+      value: 'Person Completed By',
+    });
+
+    userEvent.type(title, 'Mock Title').then(() => {
+      waitFor(() =>
+        expect(
+          screen
+            .getByRole('button', { name: 'Submit' })
+            .hasAttribute('disabled')
+        ).toBeFalse()
+      );
+    });
+  });
+
+  it('submission page submit button is enabled on when all inputs filled', async () => {
+    submissionTestingHelper.loadQuery();
+    submissionTestingHelper.renderComponent();
+
+    expect(
+      screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
+    ).toBeTrue();
   });
 });
