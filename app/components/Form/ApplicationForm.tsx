@@ -37,30 +37,6 @@ const customPages = [
   'submission',
 ];
 
-interface Props {
-  formData: any;
-  pageNumber: number;
-  trimmedSub: any;
-  applicationId: number;
-  status: string;
-}
-
-interface CalculatedFieldJSON {
-  number1: number;
-  number2: number;
-  sum: number;
-}
-
-interface AcknowledgementsFieldJSON {
-  acknowledgementsList: Array<string>;
-}
-
-interface SubmissionFieldsJSON {
-  submissionCompletedFor?: string;
-  submissionDate?: string;
-  submissionCompletedBy?: string;
-  submissionTitle?: string;
-}
 
 const formatErrorSchema = (formData, schema) => {
   const errorSchema = validateFormData(formData, schema)?.errorSchema;
@@ -117,6 +93,18 @@ interface Props {
   pageNumber: number;
   application: ApplicationForm_application$key;
 }
+
+interface AcknowledgementsFieldJSON {
+  acknowledgementsList: Array<string>;
+}
+
+interface SubmissionFieldsJSON {
+  submissionCompletedFor?: string;
+  submissionDate?: string;
+  submissionCompletedBy?: string;
+  submissionTitle?: string;
+}
+
 
 interface CalculatedFieldJSON {
   number1: number;

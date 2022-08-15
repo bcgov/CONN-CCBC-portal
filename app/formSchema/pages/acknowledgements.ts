@@ -1,4 +1,3 @@
-const NUM_ACKNOLWEDGEMENTS = 15
 const acknowledgements = {
   acknowledgements: {
     title: 'Acknowledgements',
@@ -9,7 +8,6 @@ const acknowledgements = {
     properties: {
       acknowledgementsList: {
         type: 'array',
-        minItems: NUM_ACKNOLWEDGEMENTS,
         items: {
           type: 'boolean',
           enum: [
