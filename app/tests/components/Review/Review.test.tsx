@@ -87,7 +87,7 @@ describe('The Review component', () => {
     screen.getByRole('heading', { name: 'Estimated project employment' });
     screen.getByRole('heading', { name: 'Template uploads' });
     screen.getByRole('heading', { name: 'Supporting documents' });
-    screen.getByRole('heading', { name: 'Mapping' });
+    screen.getByRole('heading', { name: 'Coverage' });
     screen.getByRole('heading', { name: 'Organization profile' });
     screen.getByRole('heading', { name: 'Organization location' });
     screen.getByRole('heading', { name: 'Organization contact information' });
@@ -128,7 +128,7 @@ describe('The Project area section', () => {
     renderStaticLayout(errors);
 
     expect(document.getElementById('geographicArea')).toHaveTextContent(
-      'Referring to the Project Zones shown in the application guide, which zone(s) will this Project be conducted in?'
+      'Referring to the project zones (application guide Annex 6), which zone(s) will this project be conducted in?'
     );
 
     expect(
