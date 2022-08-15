@@ -4,7 +4,7 @@ const acknowledgements = {
     description:
       'By checking the boxes below the Applicant certifies and acknowledges, that:',
     type: 'object',
-    required: ['declarationsList'],
+    required: ['acknowledgementsList'],
     properties: {
       acknowledgementsList: {
         type: 'array',

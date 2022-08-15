@@ -7,6 +7,11 @@ import uiSchema from '../../formSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
+import { acknowledgements } from '../../formSchema/pages';
+
+const NUM_ACKNOWLEDGEMENTS =
+  acknowledgements.acknowledgements.properties.acknowledgementsList.items.enum
+    .length;
 
 // https://github.com/rjsf-team/react-jsonschema-form/issues/2131
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -26,12 +31,19 @@ import { updateApplicationMutation } from '__generated__/updateApplicationMutati
 import ApplicationFormStatus from './ApplicationFormStatus';
 import styled from 'styled-components';
 
+const customPages = [
+  'estimatedProjectEmployment',
+  'acknowledgements',
+  'submission',
+];
+
+
 const formatErrorSchema = (formData, schema) => {
   const errorSchema = validateFormData(formData, schema)?.errorSchema;
 
   // Remove declarations errors from error schema since they aren't on review page
-  delete errorSchema['declarations'];
-  delete errorSchema['declarationsSign'];
+  delete errorSchema['acknowledgements'];
+  delete errorSchema['submission'];
 
   // This is a workaround for 'should be array' error and the schema/radio widget
   // should ideally be refactored so we don't need this.
@@ -45,6 +57,32 @@ const formatErrorSchema = (formData, schema) => {
   return errorSchema;
 };
 
+const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
+  const isSubmissionCompletedByFilled =
+    formData?.submissionCompletedBy !== undefined &&
+    formData?.submissionCompletedBy.length > 0;
+  const isSubmissionCompletedForFilled =
+    formData?.submissionCompletedFor !== undefined &&
+    formData?.submissionCompletedFor.length > 0;
+  const isSubmissionDateFilled =
+    formData?.submissionDate !== undefined &&
+    formData?.submissionDate.length > 0;
+  const isSubmissionTitleFilled =
+    formData?.submissionTitle !== undefined &&
+    formData?.submissionTitle.length > 0;
+
+  return (
+    isSubmissionCompletedByFilled &&
+    isSubmissionCompletedForFilled &&
+    isSubmissionDateFilled &&
+    isSubmissionTitleFilled
+  );
+};
+
+const verifyAllAcknowledgementsChecked = (
+  formData?: AcknowledgementsFieldJSON
+) => formData?.acknowledgementsList?.length === NUM_ACKNOWLEDGEMENTS;
+
 const Flex = styled('div')`
   display: flex;
   justify-content: space-between;
@@ -55,6 +93,18 @@ interface Props {
   pageNumber: number;
   application: ApplicationForm_application$key;
 }
+
+interface AcknowledgementsFieldJSON {
+  acknowledgementsList: Array<string>;
+}
+
+interface SubmissionFieldsJSON {
+  submissionCompletedFor?: string;
+  submissionDate?: string;
+  submissionCompletedBy?: string;
+  submissionTitle?: string;
+}
+
 
 interface CalculatedFieldJSON {
   number1: number;
@@ -86,6 +136,11 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [reviewConfirm, setReviewConfirm] = useState(false);
   const [savingError, setSavingError] = useState(null);
+  const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
+    useState(verifyAllAcknowledgementsChecked(formData['acknowledgements']));
+  const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
+    verifyAllSubmissionsFilled(formData['submission'])
+  );
 
   const router = useRouter();
   const [assignCcbcId] = useAddCcbcIdToApplicationMutation();
@@ -209,6 +264,12 @@ const ApplicationForm: React.FC<Props> = ({
       case page === 'review':
         disabled = !reviewConfirm;
         break;
+      case page === 'acknowledgements':
+        disabled = !areAllAcknowledgementsChecked;
+        break;
+      case page === 'submission':
+        disabled = !areAllSubmissionFieldsSet;
+        break;
     }
     return disabled;
   };
@@ -224,22 +285,81 @@ const ApplicationForm: React.FC<Props> = ({
     return formData;
   };
 
-  const isCalculatedPage = sectionName === 'estimatedProjectEmployment';
+  const updateAreAllSubmissionFieldsSet = (formData: SubmissionFieldsJSON) => {
+    setAreAllSubmissionFieldsSet(verifyAllSubmissionsFilled(formData));
+
+    return formData;
+  };
+
+  const updateAreAllAcknowledgementFieldsSet = (
+    formData: AcknowledgementsFieldJSON
+  ) => {
+    setAreAllacknowledgementsChecked(
+      verifyAllAcknowledgementsChecked(formData)
+    );
+
+    return formData;
+  };
+
+  const isCustomPage = customPages.includes(sectionName);
 
   const submitBtns = (
     <>
-      {pageNumber < subschemaArray.length ? (
-        <Button
-          variant="primary"
-          disabled={handleDisabled(sectionName, noErrors)}
-        >
-          Continue
-        </Button>
-      ) : (
-        <Button variant="primary">Submit</Button>
-      )}
+      <Button
+        variant="primary"
+        disabled={handleDisabled(sectionName, noErrors)}
+      >
+        {pageNumber < subschemaArray.length ? 'Continue' : 'Submit'}
+      </Button>
     </>
   );
+
+  const customPagesDict = {
+    estimatedProjectEmployment: (
+      <CalculationForm
+        // Facing rendering issues, key here to allow react to identify a new component
+        key="estimatedProjectEmployment"
+        onSubmit={handleSubmit}
+        onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
+        formData={formData[sectionName]}
+        schema={sectionSchema}
+        uiSchema={uiSchema}
+        // Todo: validate entire form on completion
+        noValidate={true}
+        disabled={status === 'withdrawn'}
+      >
+        {submitBtns}
+      </CalculationForm>
+    ),
+    acknowledgements: (
+      <CalculationForm
+        key="acknowledgements"
+        onSubmit={handleSubmit}
+        onCalculate={updateAreAllAcknowledgementFieldsSet}
+        formData={formData[sectionName]}
+        schema={sectionSchema}
+        uiSchema={uiSchema}
+        noValidate={true}
+        disabled={status === 'withdrawn'}
+      >
+        {submitBtns}
+      </CalculationForm>
+    ),
+    submission: (
+      <CalculationForm
+        key="submission"
+        onSubmit={handleSubmit}
+        onCalculate={updateAreAllSubmissionFieldsSet}
+        formData={formData[sectionName]}
+        schema={sectionSchema}
+        uiSchema={uiSchema}
+        noValidate={true}
+        disabled={status === 'withdrawn'}
+      >
+        {submitBtns}
+      </CalculationForm>
+    ),
+  };
 
   return (
     <>
@@ -251,20 +371,8 @@ const ApplicationForm: React.FC<Props> = ({
           error={savingError}
         />
       </Flex>
-      {isCalculatedPage ? (
-        <CalculationForm
-          onSubmit={handleSubmit}
-          onChange={handleChange}
-          onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
-          formData={formData[sectionName]}
-          schema={sectionSchema as JSONSchema7}
-          uiSchema={uiSchema}
-          // Todo: validate entire form on completion
-          noValidate={true}
-          disabled={status === 'withdrawn'}
-        >
-          {submitBtns}
-        </CalculationForm>
+      {isCustomPage ? (
+        customPagesDict[sectionName]
       ) : (
         <FormBase
           onSubmit={handleSubmit}

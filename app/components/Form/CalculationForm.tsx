@@ -81,6 +81,12 @@ export default class CalculationSchemaForm<T> extends React.Component<
         case 'boolean':
         case 'number':
         case 'string':
+          //if the old formData has no key set for this form
+          //then this is the updated section
+          //Arrays are set as default null/undefined
+          if(oldFormData === undefined){
+            return true
+          }
           return newFormData[key] !== oldFormData[key];
         default:
           // If it's undefined or null, return the comparison
@@ -105,7 +111,6 @@ export default class CalculationSchemaForm<T> extends React.Component<
 
     // Update the form
     this.setState({ formData: updatedFormData });
-    console.log(formData);
     // Set calculating to false
     this.calculating = false;
   }
