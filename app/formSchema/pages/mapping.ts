@@ -18,7 +18,7 @@ const mapping = {
       },
       coverageAssessmentStatistics: {
         title:
-          'Please upload the XML file that was attached to the email you received upon completion of the project coverage.',
+          'Please upload the email you received upon completion of the Project Coverage.',
         type: 'string',
       },
       currentNetworkInfastructure: {
