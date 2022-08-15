@@ -7,7 +7,6 @@ const mutation = graphql`
     updateAttachmentByRowId(input: $input) {
       attachment {
         rowId
-        isDeleted
       }
     }
   }

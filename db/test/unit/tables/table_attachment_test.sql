@@ -21,7 +21,6 @@ select has_column('ccbc_public', 'attachment', 'file_type','The table applicatio
 select has_column('ccbc_public', 'attachment', 'file_size','The table applications has column file_size');
 select has_column('ccbc_public', 'attachment', 'application_id','The table applications has column application_id');
 select has_column('ccbc_public', 'attachment', 'application_status_id','The table applications has column application_status_id');
-select has_column('ccbc_public', 'attachment', 'is_deleted','The table applications has column is_deleted');
 
 
 select finish();
