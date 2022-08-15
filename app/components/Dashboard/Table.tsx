@@ -58,7 +58,8 @@ type Props = {
 };
 
 const Table = ({ applications }: Props) => {
-  const [withdrawId, setWithdrawId] = useState('');
+  const [withdrawRowId, setWithdrawRowId] = useState(0);
+
   const applicationNodes = applications.allApplications.nodes;
   const router = useRouter();
 
@@ -110,11 +111,15 @@ const Table = ({ applications }: Props) => {
               : false;
 
             const isWithdrawn = application.status === 'withdrawn';
+            const isSubmitted = application.status === 'submitted';
+            const isEditable = !isWithdrawn && !(isSubmitted && isIntakeClosed);
 
-            const getApplicationUrl = (status: string) => {
-              if (status === 'withdrawn') {
+            const getApplicationUrl = () => {
+              if (isWithdrawn) {
                 return `/form/${application.rowId}/${reviewPage}`;
-              } else if (status === 'submitted') {
+              } else if (isSubmitted && isIntakeClosed) {
+                return `/form/${application.rowId}/${reviewPage}`;
+              } else if (isSubmitted) {
                 return `/form/${rowId}/1`;
               } else {
                 return `/form/${rowId}/${lastEditedPage ? lastEditedIndex : 1}`;
@@ -132,11 +137,14 @@ const Table = ({ applications }: Props) => {
                 </StyledTableCell>
                 <StyledTableCell>
                   <StyledBtns>
-                    <Link href={getApplicationUrl(application.status)}>
-                      {isWithdrawn && !isIntakeClosed ? 'View' : 'Edit'}
+                    <Link href={getApplicationUrl()}>
+                      {isEditable ? 'Edit' : 'View'}
                     </Link>
-                    {application.status === 'submitted' && !isIntakeClosed && (
-                      <div onClick={() => setWithdrawId(application.id)}>
+                    {isSubmitted && !isIntakeClosed && (
+                      <div
+                        onClick={() => setWithdrawRowId(application.rowId)}
+                        data-testid="withdraw-btn-test"
+                      >
                         <Withdraw />
                       </div>
                     )}
@@ -148,7 +156,7 @@ const Table = ({ applications }: Props) => {
         </tbody>
       </StyledTable>
 
-      <Modal id={withdrawId} />
+      <Modal id={withdrawRowId} />
     </>
   );
 };
