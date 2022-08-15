@@ -70,7 +70,7 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
   const isUpload =
     title === 'Template uploads' ||
     title === 'Supporting documents' ||
-    title === 'Mapping';
+    title === 'Coverage';
 
   return (
     <StyledTable>
