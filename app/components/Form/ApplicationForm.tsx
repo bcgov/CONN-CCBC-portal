@@ -322,7 +322,7 @@ const ApplicationForm: React.FC<Props> = ({
         onSubmit={handleSubmit}
         onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
         formData={formData[sectionName]}
-        schema={sectionSchema as JSONSchema7}
+        schema={sectionSchema}
         uiSchema={uiSchema}
         // Todo: validate entire form on completion
         noValidate={true}
@@ -337,9 +337,8 @@ const ApplicationForm: React.FC<Props> = ({
         onSubmit={handleSubmit}
         onCalculate={updateAreAllAcknowledgementFieldsSet}
         formData={formData[sectionName]}
-        schema={sectionSchema as JSONSchema7}
+        schema={sectionSchema}
         uiSchema={uiSchema}
-        // Todo: validate entire form on completion
         noValidate={true}
         disabled={status === 'withdrawn'}
       >
@@ -352,9 +351,8 @@ const ApplicationForm: React.FC<Props> = ({
         onSubmit={handleSubmit}
         onCalculate={updateAreAllSubmissionFieldsSet}
         formData={formData[sectionName]}
-        schema={sectionSchema as JSONSchema7}
+        schema={sectionSchema}
         uiSchema={uiSchema}
-        // Todo: validate entire form on completion
         noValidate={true}
         disabled={status === 'withdrawn'}
       >
