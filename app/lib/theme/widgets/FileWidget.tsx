@@ -200,7 +200,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   };
 
   const checkFileType = (file, fileTypes) => {
-    const extension = path.extname(file);
+    const extension = path.extname(file)?.toLowerCase();
     const typesArr = fileTypes && fileTypes.replace(/ /g, '').split(',');
 
     return typesArr.includes(extension);
