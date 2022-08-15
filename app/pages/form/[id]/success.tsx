@@ -66,8 +66,8 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
           <SuccessBanner ccbcId={applicationByRowId.ccbcId} />
           <h3>Thank you for applying to CCBC Intake {ccbcIntakeNumber}</h3>
           <div>
-            We have received your application
-            {projectName && ` for ${projectName}`}.
+            We have received your application,
+            <i>{projectName && ` for ${projectName}`}</i>,
           </div>
           <div>
             You can edit this application until the intake closes on{' '}
