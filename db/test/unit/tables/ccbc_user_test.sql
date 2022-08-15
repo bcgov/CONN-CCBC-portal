@@ -1,5 +1,5 @@
 begin;
-select plan(20);
+select plan(17);
 
 select has_table('ccbc_public', 'ccbc_user', 'table ccbc_public.ccbc_user exists');
 select has_column('ccbc_public', 'ccbc_user', 'id', 'table ccbc_public.ccbc_user has id column');
@@ -78,42 +78,6 @@ select is_empty(
     select * from ccbc_public.ccbc_user where given_name='buddy'
   $$,
     'ccbc_auth_user cannot update data if their uuid does not match the uuid of the row'
-);
-
--- ccbc_guest
-set role ccbc_guest;
-select concat('current user is: ', (select current_user));
-
--- select results_eq(
---   $$
---     select uuid from ccbc_public.ccbc_user
---   $$,
---   ARRAY['11111111-1111-1111-1111-111111111111'::uuid],
---     'ccbc_guest can only select their own user'
--- );
-
-select throws_like(
-  $$
-    update ccbc_public.ccbc_user set uuid = 'ca716545-a8d3-4034-819c-5e45b0e775c9' where uuid!=(select sub from ccbc_public.session())
-  $$,
-  'permission denied%',
-    'ccbc_guest cannot update their uuid'
-);
-
-select throws_like(
-  $$
-    insert into ccbc_public.ccbc_user (uuid, given_name, family_name) values ('21111111-1111-1111-1111-111111111111'::uuid, 'test', 'testerson');
-  $$,
-  'permission denied%',
-  'ccbc_guest cannot insert'
-);
-
-select throws_like(
-  $$
-    delete from ccbc_public.ccbc_user where id=1
-  $$,
-  'permission denied%',
-    'ccbc_guest cannot delete rows from table_ccbc_user'
 );
 
 select finish();
