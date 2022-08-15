@@ -39,7 +39,7 @@ const supportingDocuments = (isEvidenceOfConnectivityRequired) => {
         },
         communityRuralDevelopmentBenefits: {
           title:
-            'Please refer to Annex 3 of the application guide for the community letters of support requirements',
+            'Please refer to Annex 3 of the application guide for the community letters of support requirements. If you do not currently have these, you will have a 30-day grace period after the intake closes to submit them.',
           type: 'string',
         },
         evidenceOfConnectivitySpeeds: {
