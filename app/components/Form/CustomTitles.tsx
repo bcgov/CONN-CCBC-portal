@@ -38,8 +38,8 @@ const IndigenousEntity = () => {
       </p>
       <ul>
         <li>
-          A profit or non-profit organization run by and for First Nations,
-          Metis, or Inuit peoples;
+          A for-profit or non-profit organization run by and for First Nations,
+          M&eacute;tis, or Inuit peoples;
         </li>
         <li>
           A band council within the meaning of section 2 of the Indian Act;
