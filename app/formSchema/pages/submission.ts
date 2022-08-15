@@ -2,7 +2,7 @@ const submission = {
   submission: {
     title: 'Submission',
     description:
-      'You certify that you have the authority to submit this information on behalf of the Applicant.',
+      'Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes on November 6, 2022 at 9:00AM Pacific Time (PT)',
     type: 'object',
     required: [
       'submissionCompletedFor',
@@ -12,7 +12,7 @@ const submission = {
     ],
     properties: {
       submissionCompletedFor: {
-        title: 'Completed for (Applicant Name)',
+        title: 'Completed for (Legal organization name)',
         type: 'string',
       },
       submissionDate: {
