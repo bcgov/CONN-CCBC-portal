@@ -10,6 +10,7 @@ import { ConcreteRequest, OperationType } from 'relay-runtime';
 import { MockResolvers } from 'relay-test-utils/lib/RelayMockPayloadGenerator';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import TestingHelper from './TestingHelper';
+import GlobalTheme from '../../styles/GlobalTheme';
 
 interface PageTestingHelperOptions<TQuery extends OperationType> {
   pageComponent: (props: RelayProps<{}, TQuery>) => JSX.Element;
@@ -62,14 +63,16 @@ class PageTestingHelper<TQuery extends OperationType> extends TestingHelper {
 
   public renderPage() {
     return render(
-      <RouterContext.Provider value={this.router}>
-        <RelayEnvironmentProvider environment={this.environment}>
-          <this.options.pageComponent
-            CSN
-            preloadedQuery={this.initialQueryRef}
-          />
-        </RelayEnvironmentProvider>
-      </RouterContext.Provider>
+      <GlobalTheme>
+        <RouterContext.Provider value={this.router}>
+          <RelayEnvironmentProvider environment={this.environment}>
+            <this.options.pageComponent
+              CSN
+              preloadedQuery={this.initialQueryRef}
+            />
+          </RelayEnvironmentProvider>
+        </RouterContext.Provider>
+      </GlobalTheme>
     );
   }
 }

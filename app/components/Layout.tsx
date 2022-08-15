@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { Footer } from '@button-inc/bcgov-theme';
 import { FooterLinks, Navigation } from '.';
-import GlobalTheme from '../styles/GlobalTheme';
 
 import styled from 'styled-components';
 
@@ -36,7 +35,7 @@ type Props = {
 const Layout: React.FC<Props> = ({ children, session, title }) => {
   const isLoggedIn = session?.sub;
   return (
-    <GlobalTheme>
+    <>
       <Head>
         <meta
           name="viewport"
@@ -72,7 +71,7 @@ const Layout: React.FC<Props> = ({ children, session, title }) => {
           <FooterLinks />
         </StyledDiv>
       </StyledFooter>
-    </GlobalTheme>
+    </>
   );
 };
 
