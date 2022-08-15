@@ -25,6 +25,7 @@ const getSuccessQuery = graphql`
       ccbcId
       intakeId
       projectName
+      updatedAt
     }
     allIntakes {
       edges {
@@ -51,6 +52,13 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
       return dateTimeFormat(date, 'date_year_first');
     }
   };
+
+  const getTimeString = (date: Date) => {
+    if (date) {
+      return dateTimeFormat(date, 'minutes_time_only');
+    }
+  };
+
   const unwrap = (edges) => edges.map(({ node }) => node);
   const unwrapIntakes = unwrap(allIntakes.edges);
   const currentIntake = unwrapIntakes.find(
@@ -67,7 +75,9 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
           <h3>Thank you for applying to CCBC Intake {ccbcIntakeNumber}</h3>
           <div>
             We have received your application,
-            <i>{projectName && ` for ${projectName}`}</i>,
+            <i>{projectName && ` ${projectName}`}</i>, on{' '}
+            {` ${getDateString(applicationByRowId.updatedAt)}`} at{' '}
+            {` ${getTimeString(applicationByRowId.updatedAt)}`}.
           </div>
           <div>
             You can edit this application until the intake closes on{' '}
