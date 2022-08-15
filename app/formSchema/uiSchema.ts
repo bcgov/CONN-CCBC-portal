@@ -824,18 +824,34 @@ const uiSchema = {
   },
   infrastructureBankFunding2223: {
     'ui:widget': MoneyWidget,
+    'ui:options': {
+      ignoreOptional: true,
+    },
   },
   infrastructureBankFunding2324: {
     'ui:widget': MoneyWidget,
+    'ui:options': {
+      ignoreOptional: true,
+    },
   },
   infrastructureBankFunding2425: {
     'ui:widget': MoneyWidget,
+    'ui:options': {
+      ignoreOptional: true,
+    },
   },
   infrastructureBankFunding2526: {
     'ui:widget': MoneyWidget,
+    'ui:options': {
+      ignoreOptional: true,
+    },
   },
   totalInfrastructureBankFunding: {
     'ui:widget': MoneyWidget,
+    'ui:options': {
+      ignoreOptional: true,
+    },
+    
   },
   'ui:inline': [
     // Each object is a row for inline grid elements. Set the number of columns with column key
