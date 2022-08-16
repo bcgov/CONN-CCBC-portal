@@ -9,6 +9,7 @@ const mutation = graphql`
       application {
         formData
         updatedAt
+        status
       }
     }
   }
