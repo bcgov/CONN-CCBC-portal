@@ -7,7 +7,7 @@ const projectArea = {
     properties: {
       geographicArea: {
         title:
-          'Referring to the Project Zones shown in the application guide, which zone(s) will this Project be conducted in?',
+          'Referring to the project zones (application guide Annex 6), which zone(s) will this project be conducted in?',
         type: 'array',
         items: {
           type: 'number',

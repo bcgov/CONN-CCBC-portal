@@ -309,7 +309,7 @@ const ApplicationForm: React.FC<Props> = ({
         variant="primary"
         disabled={handleDisabled(sectionName, noErrors)}
       >
-        {pageNumber < subschemaArray.length ? 'Continue' : 'Submit'}
+        {pageNumber < subschemaArray.length ? 'Save and continue' : 'Submit'}
       </Button>
     </>
   );

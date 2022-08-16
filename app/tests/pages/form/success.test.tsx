@@ -14,6 +14,7 @@ const mockQueryPayload = {
         ccbcId: 'CCBC-010001',
         intakeId: 1,
         projectName: 'Project testing title',
+        updatedAt: '2022-08-15T16:43:28.973734-04:00',
       },
       allIntakes: {
         edges: [
@@ -67,11 +68,7 @@ it('displays the correct project name', () => {
   pageTestingHelper.loadQuery();
   pageTestingHelper.renderPage();
 
-  expect(
-    screen.getByText(
-      'We have received your application for Project testing title.'
-    )
-  ).toBeInTheDocument();
+  expect(screen.getByText('Project testing title')).toBeInTheDocument();
 });
 
 it('displays the correct intake', () => {
@@ -81,6 +78,13 @@ it('displays the correct intake', () => {
   expect(
     screen.getByText('Thank you for applying to CCBC Intake 1')
   ).toBeInTheDocument();
+});
+
+it('displays the correct save time', () => {
+  pageTestingHelper.loadQuery();
+  pageTestingHelper.renderPage();
+  
+  expect(screen.getByText(/2022-08-15 at 01:43 PM \(PDT\)/i)).toBeInTheDocument();
 });
 
 it('displays the correct intake closing date', () => {

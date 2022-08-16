@@ -8,6 +8,7 @@ type FormatType = {
   minutes: string;
   days_numbered: string;
   days_string: string;
+  minutes_time_only: string;
 };
 
 type DTFormat = keyof FormatType;
@@ -20,6 +21,7 @@ const FORMAT_TYPE: FormatType = {
   minutes: 'MMM D, YYYY hh:mm A (z)',
   days_numbered: 'DD-MM-YYYY',
   days_string: 'MMMM Do, YYYY',
+  minutes_time_only: 'hh:mm A (z)'
 };
 
 // Adds a default timestamp to yyyy-MM-dd dates without overwriting pre-existing timestamps:

@@ -38,8 +38,8 @@ const IndigenousEntity = () => {
       </p>
       <ul>
         <li>
-          A profit or non-profit organization run by and for First Nations,
-          Metis, or Inuit peoples;
+          A for-profit or non-profit organization run by and for First Nations,
+          M&eacute;tis, or Inuit peoples;
         </li>
         <li>
           A band council within the meaning of section 2 of the Indian Act;
@@ -57,7 +57,7 @@ const NumberOfHouseholds = () => {
   return (
     <div>
       Final number of Eligible Households targeted by this proposal. This value
-      should match cell F141 in Template 1 – <b>Eligibility Summary</b>.
+      should match cell G50 in Template 1 – Eligibility Summary.
     </div>
   );
 };
@@ -66,7 +66,7 @@ const HouseholdsImpactedIndigenous = () => {
   return (
     <div>
       Number of households on Indigenous lands impacted by this proposal. This
-      value should match cell G55 in Template 1 – <b>Eligibility Summary</b>.
+      value should match cell G55 in Template 1 – Eligibility Summary.
     </div>
   );
 };

@@ -92,7 +92,7 @@ describe('The application form', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
-    await userEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Save and continue' }));
 
     componentTestingHelper.expectMutationToBeCalled(
       'updateApplicationMutation',
@@ -112,7 +112,7 @@ describe('The application form', () => {
     acknowledgementsTestingHelper.loadQuery();
     acknowledgementsTestingHelper.renderComponent();
 
-    const continueButton = screen.getByRole('button', { name: 'Continue' });
+    const continueButton = screen.getByRole('button', { name: 'Save and continue' });
     //node here is using the jest expect, whereas TS can only find the cypress jest
     expect(continueButton.hasAttribute('disabled')).toBeTrue();
   });
@@ -133,7 +133,7 @@ describe('The application form', () => {
       waitFor(() => {
         expect(
           screen
-            .getByRole('button', { name: 'Continue' })
+            .getByRole('button', { name: 'Save and continue' })
             .hasAttribute('disabled')
         ).toBeFalse();
       });
