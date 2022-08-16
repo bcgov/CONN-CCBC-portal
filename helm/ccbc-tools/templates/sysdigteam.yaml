@@ -2,6 +2,7 @@ apiVersion: ops.gov.bc.ca/v1alpha1
 kind: SysdigTeam
 metadata:
   name: {{ .Values.namespacePrefix }}-sysdigteam
+  labels: {{ include "ccbc-tools.labels" . | nindent 4}}
   namespace: {{ .Values.namespacePrefix }}-tools
 spec:
   team:

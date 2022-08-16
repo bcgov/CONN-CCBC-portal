@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-  build-and-push-image:
+  helm_deploy:
     runs-on: ubuntu-latest
     environment:
       name: tools
