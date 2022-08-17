@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
@@ -30,6 +30,7 @@ import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutatio
 import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
 import ApplicationFormStatus from './ApplicationFormStatus';
 import styled from 'styled-components';
+import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
 
 const customPages = [
   'estimatedProjectEmployment',
@@ -91,6 +92,7 @@ const Flex = styled('div')`
 interface Props {
   pageNumber: number;
   application: ApplicationForm_application$key;
+  query: ApplicationForm_query$key;
 }
 
 interface AcknowledgementsFieldJSON {
@@ -113,6 +115,7 @@ interface CalculatedFieldJSON {
 const ApplicationForm: React.FC<Props> = ({
   pageNumber,
   application: applicationKey,
+  query,
 }) => {
   const application = useFragment(
     graphql`
@@ -121,12 +124,40 @@ const ApplicationForm: React.FC<Props> = ({
         rowId
         formData
         status
+        intakeByIntakeId {
+          closeTimestamp
+        }
         ...ApplicationFormStatus_application
       }
     `,
     applicationKey
   );
+
+  const { openIntake } = useFragment(
+    graphql`
+      fragment ApplicationForm_query on Query {
+        openIntake {
+          closeTimestamp
+        }
+      }
+    `,
+    query
+  );
   const { id, rowId, formData, status } = application;
+
+  const formContext = useMemo(() => {
+    const intakeCloseTimestamp =
+      application.status === 'submitted'
+        ? application.intakeByIntakeId?.closeTimestamp
+        : openIntake?.closeTimestamp;
+    return {
+      intakeCloseTimestamp,
+    };
+  }, [
+    openIntake,
+    application.status,
+    application.intakeByIntakeId?.closeTimestamp,
+  ]);
 
   const formErrorSchema = formatErrorSchema(formData, schema(formData));
 
@@ -377,10 +408,11 @@ const ApplicationForm: React.FC<Props> = ({
           onChange={handleChange}
           formData={formData[sectionName]}
           schema={sectionSchema as JSONSchema7}
-          uiSchema={uiSchema}
+          uiSchema={review ? uiSchema[sectionName] : uiSchema}
           // Todo: validate entire form on completion
           noValidate={true}
           disabled={status === 'withdrawn'}
+          formContext={formContext}
         >
           {review && (
             <Review

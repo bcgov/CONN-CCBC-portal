@@ -12,6 +12,7 @@ import {
   TextWidget,
   SelectWidget,
 } from './widgets';
+import { ReviewField } from 'components/Review';
 
 const { fields, widgets } = utils.getDefaultRegistry();
 
@@ -19,6 +20,7 @@ const formTheme: ThemeProps = {
   fields: {
     ...fields,
     DescriptionField: DescriptionField,
+    ReviewField: ReviewField
   },
   widgets: {
     ...widgets,
