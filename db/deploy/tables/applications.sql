@@ -29,6 +29,20 @@ perform ccbc_private.grant_permissions('update', 'applications', 'ccbc_auth_user
 end
 $grant$;
 
+-- Enable row-level security
+alter table ccbc_public.applications enable row level security;
+
+do
+$policy$
+begin
+-- ccbc_auth_user RLS: can see and modify only its own records
+perform ccbc_private.upsert_policy('ccbc_auth_user_select_applications', 'applications', 'select', 'ccbc_auth_user', 'owner=(select sub from ccbc_public.session())');
+perform ccbc_private.upsert_policy('ccbc_auth_user_insert_applications', 'applications', 'insert', 'ccbc_auth_user', 'owner=(select sub from ccbc_public.session())');
+perform ccbc_private.upsert_policy('ccbc_auth_user_update_applications', 'applications', 'update', 'ccbc_auth_user', 'owner=(select sub from ccbc_public.session())');
+
+end
+$policy$;
+
 comment on table ccbc_public.applications is 'Table containing the data associated with the CCBC respondents application';
 comment on column ccbc_public.applications.id is 'Primary key ID for the application';
 comment on column ccbc_public.applications.reference_number is 'Reference number assigned to the application';
