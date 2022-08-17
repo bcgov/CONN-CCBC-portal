@@ -37,7 +37,6 @@ const customPages = [
   'submission',
 ];
 
-
 const formatErrorSchema = (formData, schema) => {
   const errorSchema = validateFormData(formData, schema)?.errorSchema;
 
@@ -104,7 +103,6 @@ interface SubmissionFieldsJSON {
   submissionCompletedBy?: string;
   submissionTitle?: string;
 }
-
 
 interface CalculatedFieldJSON {
   number1: number;
@@ -242,8 +240,8 @@ const ApplicationForm: React.FC<Props> = ({
                   applicationId: rowId,
                 },
               },
+              onCompleted: () => router.push(`/form/${rowId}/success`),
             });
-            router.push(`/form/${rowId}/success`);
           }
         },
       },
