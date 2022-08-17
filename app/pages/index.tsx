@@ -6,6 +6,7 @@ import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { ButtonLink, Layout } from '../components';
 import styled from 'styled-components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
+import { dateTimeFormat } from 'lib/theme/functions/formatDates';
 
 const StyledOl = styled('ol')`
   max-width: 300px;
@@ -25,12 +26,19 @@ const getPagesQuery = graphql`
     session {
       sub
     }
+    openIntake {
+      openTimestamp
+      closeTimestamp
+    }
   }
 `;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
-  const { session } = usePreloadedQuery(getPagesQuery, preloadedQuery);
+  const { session, openIntake } = usePreloadedQuery(
+    getPagesQuery,
+    preloadedQuery
+  );
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -102,9 +110,13 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
           </li>
           <li>All questions are mandatory unless indicated otherwise.</li>
           <li>
-            The application intake opens on MM/DD/YYYY at 12:00 AM Pacific Time
-            (PT) and closes on MM/DD/YYYY at midnight Pacific Time (PT). The
-            CCBC anticipates opening additional future intakes for receiving
+            The application intake opens on{' '}
+            {dateTimeFormat(openIntake.openTimestamp, 'date_year_first')} at{' '}
+            {dateTimeFormat(openIntake.openTimestamp, 'minutes_time_only')} and
+            closes on{' '}
+            {dateTimeFormat(openIntake.closeTimestamp, 'date_year_first')} at{' '}
+            {dateTimeFormat(openIntake.closeTimestamp, 'minutes_time_only')}.
+            The CCBC anticipates opening additional future intakes for receiving
             applications and will update this date accordingly.
           </li>
         </ul>
