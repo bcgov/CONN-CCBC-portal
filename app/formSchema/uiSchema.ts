@@ -38,14 +38,14 @@ const uiSchema = {
     'contactWebsite',
     'authFamilyName',
     'authGivenName',
-    'authPostionTitle',
+    'authPositionTitle',
     'authEmail',
     'authTelephone',
     'authExtension',
     'isAuthContactSigningOfficer',
     'altFamilyName',
     'altGivenName',
-    'altPostionTitle',
+    'altPositionTitle',
     'altEmail',
     'altTelephone',
     'altExtension',
@@ -282,15 +282,25 @@ const uiSchema = {
       inputType: 'phone',
     },
   },
+  authEmail: {
+    'ui:options': {
+      inputType: 'email',
+    },
+  },
+  authPositionTitle: {
+    'ui:options': {
+      maxLength: 128,
+    },
+  },
   altTelephone: {
     'ui:widget': NumberWidget,
     'ui:options': {
       inputType: 'phone',
     },
   },
-  authEmail: {
+  altPositionTitle: {
     'ui:options': {
-      inputType: 'email',
+      maxLength: 128,
     },
   },
   altEmail: {
@@ -622,7 +632,8 @@ const uiSchema = {
   },
   supportingConnectivityEvidence: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Template 8 - Supporting Connectivity Evidence (if applicable)',
+    'ui:description':
+      'Template 8 - Supporting Connectivity Evidence (if applicable)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
@@ -851,7 +862,6 @@ const uiSchema = {
     'ui:options': {
       ignoreOptional: true,
     },
-    
   },
   'ui:inline': [
     // Each object is a row for inline grid elements. Set the number of columns with column key
