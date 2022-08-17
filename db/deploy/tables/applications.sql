@@ -30,6 +30,7 @@ end
 $grant$;
 
 -- Enable row-level security
+alter table ccbc_public.applications force row level security;
 alter table ccbc_public.applications enable row level security;
 
 do
