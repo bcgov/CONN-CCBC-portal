@@ -15,10 +15,10 @@ if (
   config.get('OPENSHIFT_APP_NAMESPACE').endsWith('-dev') ||
   config.get('OPENSHIFT_APP_NAMESPACE') === ''
 )
-  oidcIssuer = 'dev.oidc.gov.bc.ca';
+  oidcIssuer = 'dev.loginproxy.gov.bc.ca';
 else if (config.get('OPENSHIFT_APP_NAMESPACE').endsWith('-test'))
-  oidcIssuer = 'test.oidc.gov.bc.ca';
-else oidcIssuer = 'oidc.gov.bc.ca';
+  oidcIssuer = 'test.loginproxy.gov.bc.ca';
+else oidcIssuer = 'loginproxy.gov.bc.ca';
 
 export default async function ssoMiddleware() {
   return ssoExpress({
@@ -33,7 +33,7 @@ export default async function ssoMiddleware() {
     oidcConfig: {
       baseUrl: baseUrl,
       clientId: 'conn-ccbc-portal-3700',
-      oidcIssuer: `https://${oidcIssuer}/auth/realms/onestopauth-both`,
+      oidcIssuer: `https://${oidcIssuer}/auth/realms/standard`,
       clientSecret: `${config.get('CLIENT_SECRET')}`,
     },
     onAuthCallback: createUserMiddleware(),
