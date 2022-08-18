@@ -75,6 +75,35 @@ type Query implements Node {
     condition: ApplicationCondition
   ): ApplicationsConnection
 
+  """Reads and enables pagination through a set of `ApplicationsView`."""
+  allApplicationsViews(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationsView`."""
+    orderBy: [ApplicationsViewsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationsViewCondition
+  ): ApplicationsViewsConnection
+
   """Reads and enables pagination through a set of `Attachment`."""
   allAttachments(
     """Only read the first `n` values of the set."""
@@ -1538,6 +1567,126 @@ type ApplicationStatusesEdge {
   node: ApplicationStatus
 }
 
+"""A connection to a list of `ApplicationsView` values."""
+type ApplicationsViewsConnection {
+  """A list of `ApplicationsView` objects."""
+  nodes: [ApplicationsView]!
+
+  """
+  A list of edges which contains the `ApplicationsView` and cursor to aid in pagination.
+  """
+  edges: [ApplicationsViewsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationsView` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type ApplicationsView {
+  rowId: Int
+  referenceNumber: Int
+  owner: UUID
+  formData: JSON
+  status: String
+  createdBy: Int
+  createdAt: Datetime
+  updatedBy: Int
+  updatedAt: Datetime
+  archivedBy: Int
+  archivedAt: Datetime
+  intakeId: Int
+  lastEditedPage: String
+}
+
+"""A `ApplicationsView` edge in the connection."""
+type ApplicationsViewsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationsView` at the end of the edge."""
+  node: ApplicationsView
+}
+
+"""Methods to use when ordering `ApplicationsView`."""
+enum ApplicationsViewsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  REFERENCE_NUMBER_ASC
+  REFERENCE_NUMBER_DESC
+  OWNER_ASC
+  OWNER_DESC
+  FORM_DATA_ASC
+  FORM_DATA_DESC
+  STATUS_ASC
+  STATUS_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  INTAKE_ID_ASC
+  INTAKE_ID_DESC
+  LAST_EDITED_PAGE_ASC
+  LAST_EDITED_PAGE_DESC
+}
+
+"""
+A condition to be used against `ApplicationsView` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input ApplicationsViewCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `referenceNumber` field."""
+  referenceNumber: Int
+
+  """Checks for equality with the object’s `owner` field."""
+  owner: UUID
+
+  """Checks for equality with the object’s `formData` field."""
+  formData: JSON
+
+  """Checks for equality with the object’s `status` field."""
+  status: String
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+
+  """Checks for equality with the object’s `intakeId` field."""
+  intakeId: Int
+
+  """Checks for equality with the object’s `lastEditedPage` field."""
+  lastEditedPage: String
+}
+
 type KeycloakJwt {
   """
   OPTIONAL - The "jti" (JWT ID) claim provides a unique identifier for the JWT.
@@ -1733,6 +1882,14 @@ type Mutation {
     """
     input: CreateApplicationInput!
   ): CreateApplicationPayload
+
+  """Creates a single `ApplicationsView`."""
+  createApplicationsView(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationsViewInput!
+  ): CreateApplicationsViewPayload
 
   """Creates a single `Attachment`."""
   createAttachment(
@@ -2111,6 +2268,58 @@ input ApplicationInput {
   intakeId: Int
 
   """Column saving the key of the last edited form page"""
+  lastEditedPage: String
+}
+
+"""The output of our create `ApplicationsView` mutation."""
+type CreateApplicationsViewPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationsView` that was created by this mutation."""
+  applicationsView: ApplicationsView
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ApplicationsView`. May be used by Relay 1."""
+  applicationsViewEdge(
+    """The method to use when ordering `ApplicationsView`."""
+    orderBy: [ApplicationsViewsOrderBy!] = [NATURAL]
+  ): ApplicationsViewsEdge
+}
+
+"""All input for the create `ApplicationsView` mutation."""
+input CreateApplicationsViewInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ApplicationsView` to be created by this mutation."""
+  applicationsView: ApplicationsViewInput!
+}
+
+"""An input for mutations affecting `ApplicationsView`"""
+input ApplicationsViewInput {
+  rowId: Int
+  referenceNumber: Int
+  owner: UUID
+  formData: JSON
+  status: String
+  createdBy: Int
+  createdAt: Datetime
+  updatedBy: Int
+  updatedAt: Datetime
+  archivedBy: Int
+  archivedAt: Datetime
+  intakeId: Int
   lastEditedPage: String
 }
 

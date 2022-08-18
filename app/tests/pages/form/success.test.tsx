@@ -12,27 +12,12 @@ const mockQueryPayload = {
       applicationByRowId: {
         status: 'submitted',
         ccbcId: 'CCBC-010001',
-        intakeId: 1,
+        intakeByIntakeId: {
+          ccbcIntakeNumber: 1,
+          closeTimestamp: '2022-09-06T23:59:59-07:00',
+        },
         projectName: 'Project testing title',
         updatedAt: '2022-08-15T16:43:28.973734-04:00',
-      },
-      allIntakes: {
-        edges: [
-          {
-            node: {
-              ccbcIntakeNumber: 1,
-              rowId: 1,
-              closeTimestamp: '2022-09-06T23:59:59-07:00',
-            },
-          },
-          {
-            node: {
-              ccbcIntakeNumber: 2,
-              rowId: 2,
-              closeTimestamp: '2022-11-06T23:59:59-08:00',
-            },
-          },
-        ],
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -83,8 +68,10 @@ it('displays the correct intake', () => {
 it('displays the correct save time', () => {
   pageTestingHelper.loadQuery();
   pageTestingHelper.renderPage();
-  
-  expect(screen.getByText(/2022-08-15 at 01:43 PM \(PDT\)/i)).toBeInTheDocument();
+
+  expect(
+    screen.getByText(/2022-08-15 at 01:43 PM \(PDT\)/i)
+  ).toBeInTheDocument();
 });
 
 it('displays the correct intake closing date', () => {

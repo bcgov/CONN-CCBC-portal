@@ -1,0 +1,22 @@
+apiVersion: ops.gov.bc.ca/v1alpha1
+kind: SysdigTeam
+metadata:
+  name: {{ .Values.namespacePrefix }}-sysdigteam
+  labels: {{ include "ccbc-tools.labels" . | nindent 4}}
+  namespace: {{ .Values.namespacePrefix }}-tools
+spec:
+  team:
+    description: The Sysdig Team for the OpenShift Project Set {{ .Values.namespacePrefix }}
+    users:
+    - name: matthieu@button.is
+      role: ROLE_TEAM_EDIT
+    - name: vladimir@button.is
+      role: ROLE_TEAM_EDIT
+    - name: alec@button.is
+      role: ROLE_TEAM_EDIT
+    - name: tonybushara@gmail.com
+      role: ROLE_TEAM_EDIT
+    - name: mlmueller@protonmail.com
+      role: ROLE_TEAM_EDIT
+    - name: meherzad.romer@gov.bc.ca
+      role: ROLE_TEAM_READ

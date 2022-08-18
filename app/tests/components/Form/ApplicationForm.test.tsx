@@ -6,6 +6,7 @@ import compiledQuery, {
 } from '__generated__/ApplicationFormTestQuery.graphql';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { DateTime } from 'luxon';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
@@ -34,30 +35,6 @@ const componentTestingHelper =
     getPropsFromTestQuery: (data) => ({
       application: data.application,
       pageNumber: 1,
-    }),
-  });
-
-const acknowledgementsTestingHelper =
-  new ComponentTestingHelper<ApplicationFormTestQuery>({
-    component: ApplicationForm,
-    testQuery,
-    compiledQuery,
-    defaultQueryResolver: mockQueryPayload,
-    getPropsFromTestQuery: (data) => ({
-      application: data.application,
-      pageNumber: 20,
-    }),
-  });
-
-const submissionTestingHelper =
-  new ComponentTestingHelper<ApplicationFormTestQuery>({
-    component: ApplicationForm,
-    testQuery,
-    compiledQuery,
-    defaultQueryResolver: mockQueryPayload,
-    getPropsFromTestQuery: (data) => ({
-      application: data.application,
-      pageNumber: 21,
     }),
   });
 
@@ -92,7 +69,9 @@ describe('The application form', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
-    await userEvent.click(screen.getByRole('button', { name: 'Save and continue' }));
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Save and continue' })
+    );
 
     componentTestingHelper.expectMutationToBeCalled(
       'updateApplicationMutation',
@@ -109,17 +88,25 @@ describe('The application form', () => {
   });
 
   it('acknowledgement page continue is disabled on initial load', async () => {
-    acknowledgementsTestingHelper.loadQuery();
-    acknowledgementsTestingHelper.renderComponent();
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 20,
+    }));
 
-    const continueButton = screen.getByRole('button', { name: 'Save and continue' });
+    const continueButton = screen.getByRole('button', {
+      name: 'Save and continue',
+    });
     //node here is using the jest expect, whereas TS can only find the cypress jest
     expect(continueButton.hasAttribute('disabled')).toBeTrue();
   });
 
   it('acknowledgement page continue is enabled once all checkboxes have been clicked', async () => {
-    acknowledgementsTestingHelper.loadQuery();
-    acknowledgementsTestingHelper.renderComponent();
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 20,
+    }));
 
     const checkBoxes = screen.getAllByRole('checkbox');
 
@@ -141,8 +128,11 @@ describe('The application form', () => {
   });
 
   it('submission page submit button is enabled on when all inputs filled', async () => {
-    submissionTestingHelper.loadQuery();
-    submissionTestingHelper.renderComponent();
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+    }));
 
     const completedFor = screen.getByLabelText(/Completed for/i);
 
@@ -176,11 +166,81 @@ describe('The application form', () => {
   });
 
   it('submission page submit button is enabled on when all inputs filled', async () => {
-    submissionTestingHelper.loadQuery();
-    submissionTestingHelper.renderComponent();
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+    }));
 
     expect(
       screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
     ).toBeTrue();
+  });
+
+  it('waits for the mutations to be completed before redirecting to the success page', async () => {
+    const formData = {
+      submission: {
+        submissionCompletedFor: 'Bob Loblaw',
+        submissionDate: '2022-08-10',
+        submissionCompletedBy: 'Bob Loblaw',
+        submissionTitle: 'some title',
+      },
+    };
+    componentTestingHelper.loadQuery({
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          rowId: 42,
+          formData,
+        };
+      },
+    });
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+    }));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Submit' }));
+
+    expect(componentTestingHelper.router.push).not.toHaveBeenCalled();
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationMutation',
+      expect.anything()
+    );
+
+    componentTestingHelper.environment.mock.resolveMostRecentOperation({
+      data: {
+        updateApplication: {
+          application: {
+            formData,
+            updatedAt: DateTime.now().toISO(),
+          },
+        },
+      },
+    });
+
+    // After the first mutation completes, we still don't redirect
+    expect(componentTestingHelper.router.push).not.toHaveBeenCalled();
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'addCcbcIdToApplicationMutation',
+      expect.anything()
+    );
+
+    componentTestingHelper.environment.mock.resolveMostRecentOperation({
+      data: {
+        applicationsAddCcbcId: {
+          application: {
+            ccbcId: 'CCBC-010042',
+            rowId: 42,
+          },
+        },
+      },
+    });
+
+    // We only redirect when the ccbc id is set
+    expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
+      '/form/42/success'
+    );
   });
 });

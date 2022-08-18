@@ -1,0 +1,5 @@
+namespacePrefix: ~
+
+deployer:
+  serviceAccount:
+    enabled: true

@@ -112,7 +112,7 @@ pgbackrest:
     cpu: 100m
     memory: 128Mi
   volume:
-    storage: 64Mi
+    storage: 2Gi
     storageClassName: netapp-file-backup
   repoHost:
     requests:

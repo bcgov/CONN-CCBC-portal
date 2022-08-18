@@ -4,6 +4,8 @@ import { Label } from '../../../components/Form';
 import Input from '@button-inc/bcgov-theme/Input';
 import styled from 'styled-components';
 
+const INPUT_MAX_LENGTH = 32000;
+
 const StyledInput = styled(Input)`
   & input {
     margin-top: 12px;
@@ -97,7 +99,7 @@ const TextWidget: React.FC<WidgetProps> = ({
         size={'medium'}
         required={required}
         aria-label={label}
-        maxLength={maxLength}
+        maxLength={maxLength || INPUT_MAX_LENGTH}
         minLength={minLength}
       />
       <StyledMessage>
