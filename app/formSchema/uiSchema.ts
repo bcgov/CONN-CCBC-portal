@@ -305,8 +305,10 @@ const uiSchema = {
     },
   },
   authExtension: {
+    'ui:widget': NumberWidget,
     'ui:options': {
-      maxLength: MAX_CONTACT_INPUT_LENGTH,
+      maxLength: 9,
+      inputType: 'wholeNumber',
     },
   },
   altFamilyName: {
@@ -337,8 +339,10 @@ const uiSchema = {
     },
   },
   altExtension: {
+    'ui:widget': NumberWidget,
     'ui:options': {
-      maxLength: MAX_CONTACT_INPUT_LENGTH,
+      maxLength: 9,
+      inputType: 'wholeNumber',
     },
   },
   contactTelephoneNumber: {
@@ -710,20 +714,6 @@ const uiSchema = {
     },
   },
   contactExtension: {
-    'ui:widget': NumberWidget,
-    'ui:options': {
-      maxLength: 9,
-      inputType: 'wholeNumber',
-    },
-  },
-  authExtension: {
-    'ui:widget': NumberWidget,
-    'ui:options': {
-      maxLength: 9,
-      inputType: 'wholeNumber',
-    },
-  },
-  altExtension: {
     'ui:widget': NumberWidget,
     'ui:options': {
       maxLength: 9,
