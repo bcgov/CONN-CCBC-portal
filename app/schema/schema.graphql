@@ -1586,19 +1586,47 @@ type ApplicationsViewsConnection {
   totalCount: Int!
 }
 
+"""View containing thelist of all respondents applications"""
 type ApplicationsView {
+  """Primary key ID for the application"""
   rowId: Int
+
+  """Reference number assigned to the application"""
   referenceNumber: Int
+
+  """The owner of the application"""
   owner: UUID
+
+  """The data entered into the form by the respondent"""
   formData: JSON
+
+  """The status of the application, draft or complete"""
   status: String
+
+  """created by user id"""
   createdBy: Int
+
+  """created at timestamp"""
   createdAt: Datetime
+
+  """updated by user id"""
   updatedBy: Int
+
+  """updated at timestamp"""
   updatedAt: Datetime
+
+  """archived by user id"""
   archivedBy: Int
+
+  """archived at timestamp"""
   archivedAt: Datetime
+
+  """
+  Application Intake Number, used as the prefix for CCBC reference number
+  """
   intakeId: Int
+
+  """Column saving the key of the last edited form page"""
   lastEditedPage: String
 }
 
@@ -2308,18 +2336,45 @@ input CreateApplicationsViewInput {
 
 """An input for mutations affecting `ApplicationsView`"""
 input ApplicationsViewInput {
+  """Primary key ID for the application"""
   rowId: Int
+
+  """Reference number assigned to the application"""
   referenceNumber: Int
+
+  """The owner of the application"""
   owner: UUID
+
+  """The data entered into the form by the respondent"""
   formData: JSON
+
+  """The status of the application, draft or complete"""
   status: String
+
+  """created by user id"""
   createdBy: Int
+
+  """created at timestamp"""
   createdAt: Datetime
+
+  """updated by user id"""
   updatedBy: Int
+
+  """updated at timestamp"""
   updatedAt: Datetime
+
+  """archived by user id"""
   archivedBy: Int
+
+  """archived at timestamp"""
   archivedAt: Datetime
+
+  """
+  Application Intake Number, used as the prefix for CCBC reference number
+  """
   intakeId: Int
+
+  """Column saving the key of the last edited form page"""
   lastEditedPage: String
 }
 
