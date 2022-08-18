@@ -23,19 +23,14 @@ const getSuccessQuery = graphql`
     applicationByRowId(rowId: $rowId) {
       status
       ccbcId
-      intakeId
       projectName
       updatedAt
-    }
-    allIntakes {
-      edges {
-        node {
-          ccbcIntakeNumber
-          rowId
-          closeTimestamp
-        }
+      intakeByIntakeId {
+        ccbcIntakeNumber
+        closeTimestamp
       }
     }
+
     session {
       sub
     }
@@ -45,7 +40,7 @@ const getSuccessQuery = graphql`
 const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
   const query = usePreloadedQuery(getSuccessQuery, preloadedQuery);
 
-  const { allIntakes, applicationByRowId, session } = query;
+  const { applicationByRowId, session } = query;
 
   const getDateString = (date: Date) => {
     if (date) {
@@ -59,13 +54,9 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
     }
   };
 
-  const unwrap = (edges) => edges.map(({ node }) => node);
-  const unwrapIntakes = unwrap(allIntakes.edges);
-  const currentIntake = unwrapIntakes.find(
-    (intake) => intake.rowId === applicationByRowId.intakeId
-  );
   const projectName = applicationByRowId?.projectName;
-  const ccbcIntakeNumber = currentIntake.ccbcIntakeNumber;
+  const { ccbcIntakeNumber, closeTimestamp } =
+    applicationByRowId?.intakeByIntakeId || {};
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -81,7 +72,7 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
           </div>
           <div>
             You can edit this application until the intake closes on{' '}
-            {getDateString(currentIntake.closeTimestamp)}
+            {getDateString(closeTimestamp)}
           </div>
         </StyledSection>
         <Link href="/dashboard" passHref>
