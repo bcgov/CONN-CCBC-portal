@@ -6,7 +6,7 @@ const alternateContact = {
     type: 'object',
     required: [
       'altGivenName',
-      'altPostionTitle',
+      'altPositionTitle',
       'altEmail',
       'altTelephone',
       'isAltContactSigningOfficer',
@@ -20,7 +20,7 @@ const alternateContact = {
         title: 'Given name',
         type: 'string',
       },
-      altPostionTitle: {
+      altPositionTitle: {
         title: 'Position/title',
         type: 'string',
       },

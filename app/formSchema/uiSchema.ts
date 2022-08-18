@@ -6,6 +6,7 @@ import {
 
 const MAX_TEXTAREA_LENGTH = 3500;
 const MAX_LONG_INPUT_LENGTH = 200;
+const MAX_CONTACT_INPUT_LENGTH = 128;
 const MAX_MED_INPUT_LENGTH = 75;
 const MAX_SHORT_INPUT_LENGTH = 9;
 const MIN_INPUT_LENGTH = 1;
@@ -38,14 +39,14 @@ const uiSchema = {
     'contactWebsite',
     'authFamilyName',
     'authGivenName',
-    'authPostionTitle',
+    'authPositionTitle',
     'authEmail',
     'authTelephone',
     'authExtension',
     'isAuthContactSigningOfficer',
     'altFamilyName',
     'altGivenName',
-    'altPostionTitle',
+    'altPositionTitle',
     'altEmail',
     'altTelephone',
     'altExtension',
@@ -276,10 +277,59 @@ const uiSchema = {
   isAuthContactSigningOfficer: {
     'ui:widget': 'RadioWidget',
   },
+  authFamilyName: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  authGivenName: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  authPositionTitle: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  authEmail: {
+    'ui:options': {
+      inputType: 'email',
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
   authTelephone: {
     'ui:widget': NumberWidget,
     'ui:options': {
       inputType: 'phone',
+    },
+  },
+  authExtension: {
+    'ui:widget': NumberWidget,
+    'ui:options': {
+      maxLength: 9,
+      inputType: 'wholeNumber',
+    },
+  },
+  altFamilyName: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  altGivenName: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  altPositionTitle: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  altEmail: {
+    'ui:options': {
+      inputType: 'email',
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
     },
   },
   altTelephone: {
@@ -288,14 +338,11 @@ const uiSchema = {
       inputType: 'phone',
     },
   },
-  authEmail: {
+  altExtension: {
+    'ui:widget': NumberWidget,
     'ui:options': {
-      inputType: 'email',
-    },
-  },
-  altEmail: {
-    'ui:options': {
-      inputType: 'email',
+      maxLength: 9,
+      inputType: 'wholeNumber',
     },
   },
   contactTelephoneNumber: {
@@ -622,7 +669,8 @@ const uiSchema = {
   },
   supportingConnectivityEvidence: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Template 8 - Supporting Connectivity Evidence (if applicable)',
+    'ui:description':
+      'Template 8 - Supporting Connectivity Evidence (if applicable)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
@@ -666,20 +714,6 @@ const uiSchema = {
     },
   },
   contactExtension: {
-    'ui:widget': NumberWidget,
-    'ui:options': {
-      maxLength: 9,
-      inputType: 'wholeNumber',
-    },
-  },
-  authExtension: {
-    'ui:widget': NumberWidget,
-    'ui:options': {
-      maxLength: 9,
-      inputType: 'wholeNumber',
-    },
-  },
-  altExtension: {
     'ui:widget': NumberWidget,
     'ui:options': {
       maxLength: 9,
@@ -851,7 +885,6 @@ const uiSchema = {
     'ui:options': {
       ignoreOptional: true,
     },
-    
   },
   'ui:inline': [
     // Each object is a row for inline grid elements. Set the number of columns with column key

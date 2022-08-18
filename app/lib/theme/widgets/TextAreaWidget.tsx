@@ -3,6 +3,8 @@ import { Label } from '../../../components/Form';
 import Textarea from '@button-inc/bcgov-theme/Textarea';
 import styled from 'styled-components';
 
+const INPUT_MAX_LENGTH = 32000;
+
 const StyledTextArea = styled(Textarea)`
   & textarea {
     margin-top: 12px;
@@ -47,7 +49,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         resize="vertical"
         required={required}
         aria-label={label}
-        maxLength={maxLength}
+        maxLength={maxLength || INPUT_MAX_LENGTH}
       />
       {description && <Label>{description}</Label>}
     </StyledDiv>

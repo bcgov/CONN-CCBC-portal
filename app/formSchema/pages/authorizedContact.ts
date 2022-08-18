@@ -6,7 +6,7 @@ const authorizedContact = {
     type: 'object',
     required: [
       'authGivenName',
-      'authPostionTitle',
+      'authPositionTitle',
       'authEmail',
       'authTelephone',
     ],
@@ -19,7 +19,7 @@ const authorizedContact = {
         title: 'Given name',
         type: 'string',
       },
-      authPostionTitle: {
+      authPositionTitle: {
         title: 'Position/title',
         type: 'string',
       },
