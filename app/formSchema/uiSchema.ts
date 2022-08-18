@@ -6,6 +6,7 @@ import {
 
 const MAX_TEXTAREA_LENGTH = 3500;
 const MAX_LONG_INPUT_LENGTH = 200;
+const MAX_CONTACT_INPUT_LENGTH = 128;
 const MAX_MED_INPUT_LENGTH = 75;
 const MAX_SHORT_INPUT_LENGTH = 9;
 const MIN_INPUT_LENGTH = 1;
@@ -276,20 +277,57 @@ const uiSchema = {
   isAuthContactSigningOfficer: {
     'ui:widget': 'RadioWidget',
   },
+  authFamilyName: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  authGivenName: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  authPositionTitle: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  authEmail: {
+    'ui:options': {
+      inputType: 'email',
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
   authTelephone: {
     'ui:widget': NumberWidget,
     'ui:options': {
       inputType: 'phone',
     },
   },
-  authEmail: {
+  authExtension: {
     'ui:options': {
-      inputType: 'email',
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
     },
   },
-  authPositionTitle: {
+  altFamilyName: {
     'ui:options': {
-      maxLength: 128,
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  altGivenName: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  altPositionTitle: {
+    'ui:options': {
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
+    },
+  },
+  altEmail: {
+    'ui:options': {
+      inputType: 'email',
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
     },
   },
   altTelephone: {
@@ -298,14 +336,9 @@ const uiSchema = {
       inputType: 'phone',
     },
   },
-  altPositionTitle: {
+  altExtension: {
     'ui:options': {
-      maxLength: 128,
-    },
-  },
-  altEmail: {
-    'ui:options': {
-      inputType: 'email',
+      maxLength: MAX_CONTACT_INPUT_LENGTH,
     },
   },
   contactTelephoneNumber: {
