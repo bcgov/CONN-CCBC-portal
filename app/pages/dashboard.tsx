@@ -9,6 +9,7 @@ import { useCreateApplicationMutation } from '../schema/mutations/application/cr
 import { Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
+import { DateTime } from 'luxon';
 
 const getDashboardQuery = graphql`
   query dashboardQuery($formOwner: ApplicationCondition!) {
@@ -32,12 +33,19 @@ const getDashboardQuery = graphql`
     session {
       sub
     }
+    openIntake {
+      closeTimestamp
+    }
   }
 `;
 // eslint-disable-next-line @typescript-eslint/ban-types
 const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
-  const { allApplications, session } = query;
+  const {
+    allApplications,
+    session,
+    openIntake: { closeTimestamp },
+  } = query;
 
   const trimmedSub: string = session?.sub.replace(/-/g, '');
 
@@ -75,7 +83,11 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
         <h1>Dashboard</h1>
         <p>
           Start a new application; applications can be saved and edited until
-          the intake closes on YYYY/MM/DD
+          the intake closes on{' '}
+          {DateTime.fromISO(closeTimestamp, {
+            locale: 'en-CA',
+            zone: 'America/Vancouver',
+          }).toLocaleString(DateTime.DATETIME_FULL)}
         </p>
         <StyledGovButton onClick={handleCreateApplication}>
           New application
