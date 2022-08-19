@@ -1586,7 +1586,7 @@ type ApplicationsViewsConnection {
   totalCount: Int!
 }
 
-"""View containing thelist of all respondents applications"""
+"""View containing the list of all respondents applications"""
 type ApplicationsView {
   """Primary key ID for the application"""
   rowId: Int
