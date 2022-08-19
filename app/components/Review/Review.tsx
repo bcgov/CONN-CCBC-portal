@@ -45,21 +45,6 @@ const StyledAlert = styled(Alert)`
   margin-bottom: 32px;
 `;
 
-// Todo: expand/collapse all functionality
-// const StyledExpandDiv = styled('div')`
-//   display: flex;
-//   justify-content: flex-end;
-//   min-width: 100%;
-//   margin: 16px 0;
-// `;
-
-// const StyledExpandButton = styled('button')`
-//   border: none;
-//   background: none;
-//   cursor: pointer;
-//   color: ${(props) => props.theme.color.links};
-// `;
-
 const Review = ({
   formData,
   formErrorSchema,
@@ -68,7 +53,6 @@ const Review = ({
   onReviewConfirm,
   reviewConfirm,
 }: Props) => {
-  // const [expand, setExpand] = useState(false);
   const reviewSchema = [
     'projectInformation',
     'projectArea',
@@ -92,16 +76,6 @@ const Review = ({
 
   return (
     <div>
-      {/* <StyledExpandDiv>
-        <StyledExpandButton
-          onClick={(e) => {
-            e.preventDefault();
-            setExpand(!expand);
-          }}
-        >
-          {!expand ? 'Expand all' : 'Collapse all'}
-        </StyledExpandButton>
-      </StyledExpandDiv> */}
       <StyledAlert
         id="review-alert"
         size="small"
