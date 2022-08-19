@@ -14,6 +14,10 @@ const testQuery = graphql`
     application(id: "TestApplicationID") {
       ...ApplicationForm_application
     }
+
+    query {
+      ...ApplicationForm_query
+    }
   }
 `;
 
@@ -22,6 +26,13 @@ const mockQueryPayload = {
     return {
       id: 'TestApplicationID',
       formData: {},
+    };
+  },
+  Query() {
+    return {
+      openIntake: {
+        closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+      },
     };
   },
 };
@@ -35,6 +46,7 @@ const componentTestingHelper =
     getPropsFromTestQuery: (data) => ({
       application: data.application,
       pageNumber: 1,
+      query: data.query,
     }),
   });
 
@@ -92,6 +104,7 @@ describe('The application form', () => {
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 20,
+      query: data.query,
     }));
 
     const continueButton = screen.getByRole('button', {
@@ -106,6 +119,7 @@ describe('The application form', () => {
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 20,
+      query: data.query,
     }));
 
     const checkBoxes = screen.getAllByRole('checkbox');
@@ -132,6 +146,7 @@ describe('The application form', () => {
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
+      query: data.query,
     }));
 
     const completedFor = screen.getByLabelText(/Completed for/i);
@@ -170,6 +185,7 @@ describe('The application form', () => {
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
+      query: data.query,
     }));
 
     expect(
@@ -198,6 +214,7 @@ describe('The application form', () => {
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
+      query: data.query,
     }));
 
     await userEvent.click(screen.getByRole('button', { name: 'Submit' }));
@@ -242,5 +259,32 @@ describe('The application form', () => {
     expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
       '/form/42/success'
     );
+  });
+
+  it('Review page contains submission date from DB', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 19,
+      query: data.query,
+    }));
+
+    expect(
+      screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)
+    ).toBeInTheDocument();
+  });
+
+  it('Submission page contains submission date from DB', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    // luxon renders this differently in test?
+    expect(
+      screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)
+    ).toBeInTheDocument();
   });
 });
