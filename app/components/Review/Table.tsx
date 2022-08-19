@@ -85,7 +85,7 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
             if (!value || value.length <= 2) return;
             const uploadArray = JSON.parse(value);
             const string =
-              uploadArray.length > 0 &&
+              uploadArray?.length > 0 &&
               uploadArray.map((file) => file.name).join(',\n');
 
             return string;

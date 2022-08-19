@@ -95,7 +95,7 @@ const FileWidget: React.FC<WidgetProps> = ({
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const allowMultipleFiles = uiSchema['ui:options']?.allowMultipleFiles;
   const acceptedFileTypes = uiSchema['ui:options']?.fileTypes;
-  const isFiles = fileList.length > 0;
+  const isFiles = fileList?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment;
 
   // 104857600 bytes = 100mb
@@ -109,8 +109,8 @@ const FileWidget: React.FC<WidgetProps> = ({
 
   useEffect(() => {
     // Update value in RJSF with useEffect instead of handleChange due to async setState delay
-    onChange(JSON.stringify(fileList) || undefined);
-  }, [fileList, onChange]);
+    onChange(isFiles ? JSON.stringify(fileList) : undefined);
+  }, [fileList, isFiles, onChange]);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setError('');
@@ -162,7 +162,9 @@ const FileWidget: React.FC<WidgetProps> = ({
           };
 
           if (allowMultipleFiles) {
-            setFileList((prev) => [...prev, fileDetails]);
+            setFileList((prev) =>
+              prev ? [...prev, fileDetails] : [fileDetails]
+            );
           } else {
             setFileList([fileDetails]);
           }
@@ -194,7 +196,8 @@ const FileWidget: React.FC<WidgetProps> = ({
         });
         const newFileList = [...fileList];
         newFileList.splice(indexOfFile, 1);
-        setFileList(newFileList);
+        const isFileListEmpty = newFileList.length <= 0;
+        setFileList(isFileListEmpty ? null : newFileList);
       },
     });
   };
@@ -226,7 +229,7 @@ const FileWidget: React.FC<WidgetProps> = ({
     <StyledContainer style={{ border: error && '1px solid #E71F1F' }}>
       <StyledDetails>
         <StyledH4>{description}</StyledH4>
-        {fileList.length > 0 &&
+        {isFiles &&
           fileList.map((file: File) => {
             return (
               <StyledFileDiv key={file.uuid}>
