@@ -5,7 +5,7 @@ begin;
 
 CREATE OR REPLACE VIEW ccbc_public.applications_view AS SELECT * FROM ccbc_public.applications;
 
-comment on view ccbc_public.applications_view is 'View containing thelist of all respondents applications';
+comment on view ccbc_public.applications_view is 'View containing the list of all respondents applications';
 comment on column ccbc_public.applications_view.id is 'Primary key ID for the application';
 comment on column ccbc_public.applications_view.reference_number is 'Reference number assigned to the application';
 comment on column ccbc_public.applications_view.owner is 'The owner of the application';
