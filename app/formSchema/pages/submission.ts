@@ -1,8 +1,7 @@
 const submission = {
   submission: {
     title: 'Submission',
-    description:
-      'Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes on November 6, 2022 at 9:00AM Pacific Time (PT)',
+    // description is rendered and stored in the SubmissionField.tsx
     type: 'object',
     required: [
       'submissionCompletedFor',

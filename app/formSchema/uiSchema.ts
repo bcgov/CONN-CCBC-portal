@@ -889,6 +889,9 @@ const uiSchema = {
   review: {
     'ui:field': 'ReviewField'
   },
+  submission: {
+    "ui:field": 'SubmissionField'
+  },
   'ui:inline': [
     // Each object is a row for inline grid elements. Set the number of columns with column key
     // and the field key value is the gridColumn value

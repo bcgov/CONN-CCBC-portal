@@ -9,10 +9,6 @@ import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
 import { acknowledgements } from '../../formSchema/pages';
 
-const NUM_ACKNOWLEDGEMENTS =
-  acknowledgements.acknowledgements.properties.acknowledgementsList.items.enum
-    .length;
-
 // https://github.com/rjsf-team/react-jsonschema-form/issues/2131
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -31,12 +27,21 @@ import { updateApplicationMutation } from '__generated__/updateApplicationMutati
 import ApplicationFormStatus from './ApplicationFormStatus';
 import styled from 'styled-components';
 import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
+import { SubmissionDescriptionField } from 'lib/theme/fields';
+
+const NUM_ACKNOWLEDGEMENTS =
+  acknowledgements.acknowledgements.properties.acknowledgementsList.items.enum
+    .length;
 
 const customPages = [
   'estimatedProjectEmployment',
   'acknowledgements',
   'submission',
 ];
+
+const CUSTOM_SUBMISSION_FIELD = {
+  SubmissionField: SubmissionDescriptionField
+}
 
 const formatErrorSchema = (formData, schema) => {
   const errorSchema = validateFormData(formData, schema)?.errorSchema;
@@ -381,7 +386,9 @@ const ApplicationForm: React.FC<Props> = ({
         onCalculate={updateAreAllSubmissionFieldsSet}
         formData={formData[sectionName]}
         schema={sectionSchema}
-        uiSchema={uiSchema}
+        uiSchema={uiSchema[sectionName]}
+        fields={CUSTOM_SUBMISSION_FIELD}
+        formContext={formContext}
         noValidate={true}
         disabled={status === 'withdrawn'}
       >
