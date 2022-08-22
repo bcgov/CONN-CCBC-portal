@@ -196,6 +196,9 @@ type Query implements Node {
   attachmentByRowId(rowId: Int!): Attachment
   ccbcUserByRowId(rowId: Int!): CcbcUser
   intakeByRowId(rowId: Int!): Intake
+
+  """Returns the current open intake"""
+  openIntake: Intake
   session: KeycloakJwt
 
   """Reads a single `ApplicationStatus` using its globally unique `ID`."""

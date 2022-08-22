@@ -6,6 +6,7 @@ import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { ButtonLink, Layout } from '../components';
 import styled from 'styled-components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
+import { DateTime } from 'luxon';
 
 const StyledOl = styled('ol')`
   max-width: 300px;
@@ -25,12 +26,19 @@ const getPagesQuery = graphql`
     session {
       sub
     }
+    openIntake {
+      openTimestamp
+      closeTimestamp
+    }
   }
 `;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
-  const { session } = usePreloadedQuery(getPagesQuery, preloadedQuery);
+  const { session, openIntake } = usePreloadedQuery(
+    getPagesQuery,
+    preloadedQuery
+  );
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -102,10 +110,22 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
           </li>
           <li>All questions are mandatory unless indicated otherwise.</li>
           <li>
-            The application intake opens on MM/DD/YYYY at 12:00 AM Pacific Time
-            (PT) and closes on MM/DD/YYYY at midnight Pacific Time (PT). The
-            CCBC anticipates opening additional future intakes for receiving
-            applications and will update this date accordingly.
+            The application intake opens on{' '}
+            {openIntake
+              ? DateTime.fromISO(openIntake.openTimestamp, {
+                  locale: 'en-CA',
+                  zone: 'America/Vancouver',
+                }).toLocaleString(DateTime.DATETIME_FULL)
+              : 'September 7 at 9:00 AM Pacific Time (PT)'}{' '}
+            and closes on{' '}
+            {openIntake
+              ? DateTime.fromISO(openIntake.closeTimestamp, {
+                  locale: 'en-CA',
+                  zone: 'America/Vancouver',
+                }).toLocaleString(DateTime.DATETIME_FULL)
+              : 'November 6 at 9:00 AM Pacific Time (PT)'}
+            . The CCBC anticipates opening additional future intakes for
+            receiving applications and will update this date accordingly.
           </li>
         </ul>
         <h3>Get started</h3>

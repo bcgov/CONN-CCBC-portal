@@ -430,9 +430,7 @@ const uiSchema = {
     'ui:title': ` `,
     'ui:widget': 'CheckboxesWidget',
   },
-  submissionDate: {
-    'ui:widget': 'DatePickerWidget',
-  },
+
   backboneTechnology: {
     'ui:widget': 'CheckboxesWidget',
     'ui:options': {
@@ -890,6 +888,15 @@ const uiSchema = {
     'ui:widget': MoneyWidget,
     'ui:options': {
       ignoreOptional: true,
+    },
+  },
+  review: {
+    'ui:field': 'ReviewField',
+  },
+  submission: {
+    'ui:field': 'SubmissionField',
+    submissionDate: {
+      'ui:widget': 'DatePickerWidget',
     },
   },
   'ui:inline': [

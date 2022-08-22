@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
@@ -8,10 +8,6 @@ import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
 import { acknowledgements } from '../../formSchema/pages';
-
-const NUM_ACKNOWLEDGEMENTS =
-  acknowledgements.acknowledgements.properties.acknowledgementsList.items.enum
-    .length;
 
 // https://github.com/rjsf-team/react-jsonschema-form/issues/2131
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -30,12 +26,22 @@ import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutatio
 import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
 import ApplicationFormStatus from './ApplicationFormStatus';
 import styled from 'styled-components';
+import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
+import { SubmissionDescriptionField } from 'lib/theme/fields';
+
+const NUM_ACKNOWLEDGEMENTS =
+  acknowledgements.acknowledgements.properties.acknowledgementsList.items.enum
+    .length;
 
 const customPages = [
   'estimatedProjectEmployment',
   'acknowledgements',
   'submission',
 ];
+
+const CUSTOM_SUBMISSION_FIELD = {
+  SubmissionField: SubmissionDescriptionField
+}
 
 const formatErrorSchema = (formData, schema) => {
   const errorSchema = validateFormData(formData, schema)?.errorSchema;
@@ -91,6 +97,7 @@ const Flex = styled('div')`
 interface Props {
   pageNumber: number;
   application: ApplicationForm_application$key;
+  query: ApplicationForm_query$key;
 }
 
 interface AcknowledgementsFieldJSON {
@@ -113,6 +120,7 @@ interface CalculatedFieldJSON {
 const ApplicationForm: React.FC<Props> = ({
   pageNumber,
   application: applicationKey,
+  query,
 }) => {
   const application = useFragment(
     graphql`
@@ -121,12 +129,40 @@ const ApplicationForm: React.FC<Props> = ({
         rowId
         formData
         status
+        intakeByIntakeId {
+          closeTimestamp
+        }
         ...ApplicationFormStatus_application
       }
     `,
     applicationKey
   );
+
+  const { openIntake } = useFragment(
+    graphql`
+      fragment ApplicationForm_query on Query {
+        openIntake {
+          closeTimestamp
+        }
+      }
+    `,
+    query
+  );
   const { id, rowId, formData, status } = application;
+
+  const formContext = useMemo(() => {
+    const intakeCloseTimestamp =
+      application.status === 'submitted'
+        ? application.intakeByIntakeId?.closeTimestamp
+        : openIntake?.closeTimestamp;
+    return {
+      intakeCloseTimestamp,
+    };
+  }, [
+    openIntake,
+    application.status,
+    application.intakeByIntakeId?.closeTimestamp,
+  ]);
 
   const formErrorSchema = formatErrorSchema(formData, schema(formData));
 
@@ -318,6 +354,7 @@ const ApplicationForm: React.FC<Props> = ({
         // Facing rendering issues, key here to allow react to identify a new component
         key="estimatedProjectEmployment"
         onSubmit={handleSubmit}
+        onChange={handleChange}
         onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
         formData={formData[sectionName]}
         schema={sectionSchema}
@@ -333,6 +370,7 @@ const ApplicationForm: React.FC<Props> = ({
       <CalculationForm
         key="acknowledgements"
         onSubmit={handleSubmit}
+        onChange={handleChange}
         onCalculate={updateAreAllAcknowledgementFieldsSet}
         formData={formData[sectionName]}
         schema={sectionSchema}
@@ -347,10 +385,13 @@ const ApplicationForm: React.FC<Props> = ({
       <CalculationForm
         key="submission"
         onSubmit={handleSubmit}
+        onChange={handleChange}
         onCalculate={updateAreAllSubmissionFieldsSet}
         formData={formData[sectionName]}
         schema={sectionSchema}
-        uiSchema={uiSchema}
+        uiSchema={uiSchema[sectionName]}
+        fields={CUSTOM_SUBMISSION_FIELD}
+        formContext={formContext}
         noValidate={true}
         disabled={status === 'withdrawn'}
       >
@@ -377,10 +418,11 @@ const ApplicationForm: React.FC<Props> = ({
           onChange={handleChange}
           formData={formData[sectionName]}
           schema={sectionSchema as JSONSchema7}
-          uiSchema={uiSchema}
+          uiSchema={review ? uiSchema[sectionName] : uiSchema}
           // Todo: validate entire form on completion
           noValidate={true}
           disabled={status === 'withdrawn'}
+          formContext={formContext}
         >
           {review && (
             <Review

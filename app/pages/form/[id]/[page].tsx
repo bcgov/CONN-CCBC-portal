@@ -27,6 +27,7 @@ const getPageQuery = graphql`
     session {
       sub
     }
+    ...ApplicationForm_query
   }
 `;
 
@@ -54,6 +55,7 @@ const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
         <ApplicationForm
           pageNumber={pageNumber}
           application={applicationByRowId}
+          query={query}
         />
       </FormDiv>
     </Layout>

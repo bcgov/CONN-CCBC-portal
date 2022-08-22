@@ -31,6 +31,9 @@ const mockQueryPayload = {
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
+      openIntake: {
+        closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+      },
     };
   },
 };
@@ -65,5 +68,13 @@ describe('The index page', () => {
         destination: '/',
       },
     });
+  });
+
+  
+  it('Renders the close date', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)).toBeInTheDocument();
   });
 });

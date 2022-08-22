@@ -9,6 +9,7 @@ import { useCreateApplicationMutation } from '../schema/mutations/application/cr
 import { Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
+import { DateTime } from 'luxon';
 
 const getDashboardQuery = graphql`
   query dashboardQuery($formOwner: ApplicationCondition!) {
@@ -32,12 +33,17 @@ const getDashboardQuery = graphql`
     session {
       sub
     }
+    openIntake {
+      closeTimestamp
+    }
   }
 `;
 // eslint-disable-next-line @typescript-eslint/ban-types
 const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
-  const { allApplications, session } = query;
+  const { allApplications, session, openIntake } = query;
+
+  const closeTimestamp = openIntake?.closeTimestamp;
 
   const trimmedSub: string = session?.sub.replace(/-/g, '');
 
@@ -73,10 +79,18 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Dashboard</h1>
-        <p>
-          Start a new application; applications can be saved and edited until
-          the intake closes on YYYY/MM/DD
-        </p>
+        {closeTimestamp ? (
+          <p>
+            Start a new application; applications can be saved and edited until
+            the intake closes on{' '}
+            {DateTime.fromISO(closeTimestamp, {
+              locale: 'en-CA',
+              zone: 'America/Vancouver',
+            }).toLocaleString(DateTime.DATETIME_FULL)}
+          </p>
+        ) : (
+          <p>There are no currently open intakes.</p>
+        )}
         <StyledGovButton onClick={handleCreateApplication}>
           New application
         </StyledGovButton>
