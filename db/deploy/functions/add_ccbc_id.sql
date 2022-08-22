@@ -23,18 +23,18 @@ BEGIN
     select id, ccbc_intake_number into current_intake_fk,  _ccbc_intake_number from ccbc_public.intake where current_timestamp >= open_timestamp  AND current_timestamp <= close_timestamp;
 
 
-    IF current_intake_fk is null THEN
-        -- [VB] use hardcoded intake number for now and backfill intake table
-        -- development intake - need it to unblock development
-        INSERT INTO ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number) 
-        VALUES ('2022-07-25 00:00:00','2022-09-06 23:59:59', 1);
+    -- IF current_intake_fk is null THEN
+    --     -- [VB] use hardcoded intake number for now and backfill intake table
+    --     -- development intake - need it to unblock development
+    --     -- INSERT INTO ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number) 
+    --     -- VALUES ('2022-07-25 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver', 1);
 
-        -- real intake
-        INSERT INTO ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number) 
-        VALUES ('2022-09-07 00:00:00','2022-11-06 23:59:59', 2);
-        current_intake_fk := 1;
-        _ccbc_intake_number := 1;
-    END IF;
+    --     -- real intake
+    --     -- INSERT INTO ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number) 
+    --     -- VALUES ('2022-09-07 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver', 2);
+    --     current_intake_fk := 1;
+    --     _ccbc_intake_number := 1;
+    -- END IF;
 
     IF current_intake_fk is null THEN
         RAISE 'There are no available intakes';

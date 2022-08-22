@@ -12,6 +12,9 @@ CREATE TABLE ccbc_public.intake(
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'intake');
 create unique index ccbc_intake_number on ccbc_public.intake(ccbc_intake_number);
 
+INSERT INTO ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number) 
+VALUES ('2022-08-19 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver', 1);
+
 do
 $grant$
 begin
