@@ -1,4 +1,5 @@
-import { screen, getByTestId } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { DashboardTable } from '../../../components/Dashboard';
 import { graphql } from 'react-relay';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
@@ -144,7 +145,7 @@ describe('The Dashboard', () => {
     expect(screen.queryByTestId('withdraw-btn-test')).toBeNull();
   });
 
-  it('Renders a submitted application with the intake still open', () => {
+  it('Renders a submitted application with the intake still open', async () => {
     const payload = {
       Query() {
         return {
@@ -172,10 +173,65 @@ describe('The Dashboard', () => {
     };
     componentTestingHelper.loadQuery(payload);
     componentTestingHelper.renderComponent();
+
     expect(screen.getByText('CCBC-010004')).toBeInTheDocument();
     expect(screen.getByText('submitted')).toBeInTheDocument();
     expect(screen.getByText('Edit')).toBeInTheDocument();
     expect(screen.getByTestId('withdraw-btn-test')).toBeInTheDocument();
+  });
+
+  it('Calls the correct mutation when the withdraw button is clicked', async () => {
+    const payload = {
+      Query() {
+        return {
+          allApplications: {
+            nodes: [
+              {
+                id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
+                rowId: 2,
+                owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+                referenceNumber: 1,
+                status: 'submitted',
+                projectName: null,
+                ccbcId: 'CCBC-010005',
+                lastEditedPage: '',
+                intakeByIntakeId: {
+                  ccbcIntakeNumber: 1,
+                  closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
+                  openTimestamp: '2022-07-25T00:00:00-07:00',
+                },
+              },
+            ],
+          },
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(payload);
+    const user = userEvent.setup();
+
+    componentTestingHelper.renderComponent();
+    expect(screen.getByText('CCBC-010005')).toBeInTheDocument();
+    expect(screen.getByText('submitted')).toBeInTheDocument();
+    expect(screen.getByText('Edit')).toBeInTheDocument();
+    expect(screen.getByTestId('withdraw-btn-test')).toBeInTheDocument();
+
+    const withdrawBtn = screen.getByTestId('withdraw-btn-test');
+    await user.click(withdrawBtn);
+
+    const withdrawModalBtn = screen.getByTestId('withdraw-yes-btn');
+    await user.click(withdrawModalBtn);
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationMutation',
+      {
+        input: {
+          applicationPatch: {
+            status: 'withdrawn',
+          },
+          id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
+        },
+      }
+    );
   });
 
   it('Renders a submitted application with the intake closed', () => {

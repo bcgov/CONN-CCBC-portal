@@ -79,7 +79,9 @@ const WithdrawModal = ({ id }) => {
           </p>
           <ModalButtons>
             <Modal.Close>
-              <Button onClick={handleWithdraw}>Yes, withdraw</Button>
+              <Button onClick={handleWithdraw} data-testid="withdraw-yes-btn">
+                Yes, withdraw
+              </Button>
             </Modal.Close>
 
             <Modal.Close>
