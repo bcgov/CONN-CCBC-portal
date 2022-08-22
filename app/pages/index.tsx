@@ -39,7 +39,6 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
     getPagesQuery,
     preloadedQuery
   );
-  console.log(openIntake)
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -124,9 +123,9 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
                   locale: 'en-CA',
                   zone: 'America/Vancouver',
                 }).toLocaleString(DateTime.DATETIME_FULL)
-              : 'November 6 at 9:00 AM Pacific Time (PT)'}.
-            The CCBC anticipates opening additional future intakes for receiving
-            applications and will update this date accordingly.
+              : 'November 6 at 9:00 AM Pacific Time (PT)'}
+            . The CCBC anticipates opening additional future intakes for
+            receiving applications and will update this date accordingly.
           </li>
         </ul>
         <h3>Get started</h3>
