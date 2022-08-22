@@ -395,6 +395,9 @@ const uiSchema = {
   },
   estimatedFTECreation: {
     'ui:widget': ReadOnlyWidget,
+    'ui:options': {
+      ignoreOptional: true,
+    },
   },
   numberOfContractorsToWork: {
     'ui:widget': NumberWidget,
@@ -419,6 +422,9 @@ const uiSchema = {
   },
   estimatedFTEContractorCreation: {
     'ui:widget': ReadOnlyWidget,
+    'ui:options': {
+      ignoreOptional: true,
+    },
   },
   acknowledgementsList: {
     'ui:title': ` `,
