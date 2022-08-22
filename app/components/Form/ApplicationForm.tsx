@@ -354,6 +354,7 @@ const ApplicationForm: React.FC<Props> = ({
         // Facing rendering issues, key here to allow react to identify a new component
         key="estimatedProjectEmployment"
         onSubmit={handleSubmit}
+        onChange={handleChange}
         onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
         formData={formData[sectionName]}
         schema={sectionSchema}
@@ -369,6 +370,7 @@ const ApplicationForm: React.FC<Props> = ({
       <CalculationForm
         key="acknowledgements"
         onSubmit={handleSubmit}
+        onChange={handleChange}
         onCalculate={updateAreAllAcknowledgementFieldsSet}
         formData={formData[sectionName]}
         schema={sectionSchema}
@@ -383,6 +385,7 @@ const ApplicationForm: React.FC<Props> = ({
       <CalculationForm
         key="submission"
         onSubmit={handleSubmit}
+        onChange={handleChange}
         onCalculate={updateAreAllSubmissionFieldsSet}
         formData={formData[sectionName]}
         schema={sectionSchema}
