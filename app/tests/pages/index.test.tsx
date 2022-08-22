@@ -38,8 +38,8 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
     
-    expect(screen.getByText(/2022-08-17 at 09:51 AM \(PDT\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/August 17, 2022, 9:51 a\.m\. PDT/i)).toBeInTheDocument();
 
-    expect(screen.getByText(/2022-08-27 at 09:51 AM \(PDT\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/August 27, 2022, 9:51 a\.m\. PDT/i)).toBeInTheDocument();
   })
 });
