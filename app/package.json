@@ -14,7 +14,8 @@
     "relay": "mkdir -p __generated__ && relay-compiler",
     "pretest": "yarn run build:relay",
     "test": "jest",
-    "test:e2e": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run"
+    "test:e2e": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@bcgov-cas/sso-express": "^3.1.0",
