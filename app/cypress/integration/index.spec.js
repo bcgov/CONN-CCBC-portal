@@ -370,7 +370,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_authGivenName"]').type('test');
 
-    cy.get('input[id="root_authPostionTitle"]').type('test');
+    cy.get('input[id="root_authPositionTitle"]').type('test');
 
     cy.get('input[id="root_authEmail"]').type('test@test.com');
 
@@ -392,7 +392,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_altGivenName"]').type('test');
 
-    cy.get('input[id="root_altPostionTitle"]').type('test');
+    cy.get('input[id="root_altPositionTitle"]').type('test');
 
     cy.get('input[id="root_altEmail"]').type('test@test.com');
 
