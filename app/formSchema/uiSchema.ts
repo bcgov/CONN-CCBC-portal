@@ -424,9 +424,7 @@ const uiSchema = {
     'ui:title': ` `,
     'ui:widget': 'CheckboxesWidget',
   },
-  submissionDate: {
-    'ui:widget': 'DatePickerWidget',
-  },
+
   backboneTechnology: {
     'ui:widget': 'CheckboxesWidget',
     'ui:options': {
@@ -887,10 +885,13 @@ const uiSchema = {
     },
   },
   review: {
-    'ui:field': 'ReviewField'
+    'ui:field': 'ReviewField',
   },
   submission: {
-    "ui:field": 'SubmissionField'
+    'ui:field': 'SubmissionField',
+    submissionDate: {
+      'ui:widget': 'DatePickerWidget',
+    },
   },
   'ui:inline': [
     // Each object is a row for inline grid elements. Set the number of columns with column key
