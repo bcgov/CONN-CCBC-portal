@@ -54,6 +54,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const component = appMounted ? (
     <Suspense fallback={<div>Loading...</div>}>
+      {typeof window !== 'undefined' && <SessionExpiryHandler />}
+
       <Component {...pageProps} {...relayProps} />
     </Suspense>
   ) : (
@@ -66,10 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <GlobalStyle />
         <BCGovTypography />
         <RelayEnvironmentProvider environment={env}>
-          <Suspense fallback={<div>Loading...</div>}>
-            {typeof window !== 'undefined' && <SessionExpiryHandler />}
-            <Component {...pageProps} {...relayProps} />
-          </Suspense>
+          {component}
         </RelayEnvironmentProvider>
       </GlobalTheme>
     </GrowthBookProvider>

@@ -58,7 +58,7 @@ type Props = {
 };
 
 const Table = ({ applications }: Props) => {
-  const [withdrawRowId, setWithdrawRowId] = useState(0);
+  const [withdrawId, setWithdrawId] = useState('');
 
   const applicationNodes = applications.allApplications.nodes;
   const router = useRouter();
@@ -142,7 +142,7 @@ const Table = ({ applications }: Props) => {
                     </Link>
                     {isSubmitted && !isIntakeClosed && (
                       <div
-                        onClick={() => setWithdrawRowId(application.rowId)}
+                        onClick={() => setWithdrawId(application.id)}
                         data-testid="withdraw-btn-test"
                       >
                         <Withdraw />
@@ -156,7 +156,7 @@ const Table = ({ applications }: Props) => {
         </tbody>
       </StyledTable>
 
-      <Modal id={withdrawRowId} />
+      <Modal id={withdrawId} />
     </>
   );
 };
