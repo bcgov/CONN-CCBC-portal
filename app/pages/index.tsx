@@ -6,7 +6,7 @@ import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { ButtonLink, Layout } from '../components';
 import styled from 'styled-components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
-import { dateTimeFormat } from 'lib/theme/functions/formatDates';
+import { DateTime } from 'luxon';
 
 const StyledOl = styled('ol')`
   max-width: 300px;
@@ -39,6 +39,7 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
     getPagesQuery,
     preloadedQuery
   );
+  console.log(openIntake)
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -111,11 +112,19 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
           <li>All questions are mandatory unless indicated otherwise.</li>
           <li>
             The application intake opens on{' '}
-            {dateTimeFormat(openIntake.openTimestamp, 'date_year_first')} at{' '}
-            {dateTimeFormat(openIntake.openTimestamp, 'minutes_time_only')} and
-            closes on{' '}
-            {dateTimeFormat(openIntake.closeTimestamp, 'date_year_first')} at{' '}
-            {dateTimeFormat(openIntake.closeTimestamp, 'minutes_time_only')}.
+            {openIntake
+              ? DateTime.fromISO(openIntake.openTimestamp, {
+                  locale: 'en-CA',
+                  zone: 'America/Vancouver',
+                }).toLocaleString(DateTime.DATETIME_FULL)
+              : 'September 7 at 9:00 AM Pacific Time (PT)'}{' '}
+            and closes on{' '}
+            {openIntake
+              ? DateTime.fromISO(openIntake.closeTimestamp, {
+                  locale: 'en-CA',
+                  zone: 'America/Vancouver',
+                }).toLocaleString(DateTime.DATETIME_FULL)
+              : 'November 6 at 9:00 AM Pacific Time (PT)'}.
             The CCBC anticipates opening additional future intakes for receiving
             applications and will update this date accordingly.
           </li>
