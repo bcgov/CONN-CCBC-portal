@@ -121,11 +121,14 @@ jobs:
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           route: ${{ secrets.OPENSHIFT_ROUTE }}
+          secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
           aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
+          certbot_email: ${{ secrets.CERTBOT_EMAIL }}
+          certbot_server: ${{ secrets.CERTBOT_SERVER }}
           environment: dev
 
   deploy-to-openshift-test:
@@ -148,11 +151,14 @@ jobs:
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           route: ${{ secrets.OPENSHIFT_ROUTE }}
+          secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
           aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
+          certbot_email: ${{ secrets.CERTBOT_EMAIL }}
+          certbot_server: ${{ secrets.CERTBOT_SERVER }}
           environment: test
 
     # Uncomment this production namespace is ready
@@ -177,9 +183,12 @@ jobs:
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           route: ${{ secrets.OPENSHIFT_ROUTE }}
+          secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
           aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
+          certbot_email: ${{ secrets.CERTBOT_EMAIL }}
+          certbot_server: ${{ secrets.CERTBOT_SERVER }}
           environment: prod

@@ -4,3 +4,4 @@ node_modules
 Infrastructure/.terraform/
 
 app/__generated__/
+helm/**/charts

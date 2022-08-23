@@ -1,0 +1,6 @@
+dependencies:
+- name: certbot
+  repository: https://bcdevops.github.io/certbot
+  version: 0.1.1
+digest: sha256:c533fc4f37e5e054149dfd7d522cf9385e303b1f53950083be0d7ec262f9bbfb
+generated: "2022-08-23T14:49:54.802626-07:00"

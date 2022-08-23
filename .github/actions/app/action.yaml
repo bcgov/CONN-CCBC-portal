@@ -23,6 +23,9 @@ inputs:
   route:
     description: 'URL where the application can be accessed'
     required: true
+  secure_route:
+    description: 'Domain where the application can be accessed securely'
+    required: true
   next_public_growthbook_api_key:
     description: 'Growthbook API key'
     required: true
@@ -40,6 +43,12 @@ inputs:
     required: true
   aws_role_arn:
     description: 'AWS role ARN'
+    required: true
+  certbot_email:
+    description: 'Certbot Email for Cert Registration'
+    required: true
+  certbot_server:
+    description: 'Certbot ACME Server URL'
     required: true
   environment:
     description: 'Environment to set specific helm values file'
@@ -72,12 +81,15 @@ runs:
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
           --set route.host=${{ inputs.route }} \
+          --set secureRoute.host=${{ inputs.secure_route }} \
           --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
           --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }} \
           --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }} \
           --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }} \
           --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }} \
           --set objectStorage.awsRoleArn=${{ inputs.aws_role_arn }} \
+          --set certbot.certbot.email=${{ inputs.certbot_email }} \
+          --set certbot.certbot.server=${{ inputs.certbot_server }} \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash

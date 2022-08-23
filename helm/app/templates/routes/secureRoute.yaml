@@ -1,0 +1,34 @@
+{{- $route := (lookup "route.openshift.io/v1" "Route" .Release.Namespace "your-route" ) }}
+{{- $certificate := "" }}
+{{- $key := "" }}
+{{- $caCertificate := "" }}
+{{- if $route }}
+{{- $certificate = $route.spec.tls.certificate }}
+{{- $key = $route.spec.tls.key }}
+{{- $caCertificate = $route.spec.tls.caCertificate }}
+{{- end -}}
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ template "ccbc.fullname" . }}-secure
+  labels: {{ include "ccbc.labels" . | nindent 4 }}
+    certbot-managed: "true"
+
+spec:
+  host: {{ .Values.secureRoute.host }}
+  port:
+    targetPort: {{ template "ccbc.fullname" . }}
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+    {{- if $route }}
+    certificate: {{ $certificate | quote }}
+    key: {{ $key | quote }}
+    caCertificate: {{ $caCertificate | quote }}
+    {{- end }}
+  to:
+    kind: Service
+    name: {{ template "ccbc.fullname" . }}
+    weight: 100
+  wildcardPolicy: None

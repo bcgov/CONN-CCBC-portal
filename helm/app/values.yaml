@@ -22,6 +22,8 @@ app:
   probesPort: '9000'
   namespace: ''
   enableAnalytics: true
+secureRoute:
+  host: '' # The host value must be passed in via the deploy script
 route:
   host: '' # The host value must be passed in via the deploy script
 growthbook:
@@ -129,3 +131,13 @@ pgBouncer:
   limits:
     cpu: 100m
     memory: 32Mi
+
+certbot:
+  image:
+    tag: 1.0.0
+    pullPolicy: IfNotPresent
+  certbot:
+    email: '' # The value must be passed in via the deploy script
+    server: '' # The value must be passed in via the deploy script
+  cron:
+    suspend: true # until certs are issued
