@@ -19,7 +19,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const { json, urlencoded } = bodyParser;
-const bodyParserLimit = '50mb';
+const bodyParserLimit = '5mb';
 app.prepare().then(async () => {
   const server = express();
 
