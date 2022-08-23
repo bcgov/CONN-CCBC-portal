@@ -104,24 +104,6 @@ create_test_db:
 		$(PSQL) -d postgres -c "CREATE DATABASE $(DB_NAME)_test"; \
 		$(PSQL) -d $(DB_NAME)_test -c "create extension if not exists pgtap";
 
-
-.PHONY: drop_foreign_test_db
-drop_foreign_test_db: ## Drop the $(DB_NAME) database if it exists
-drop_foreign_test_db:
-	@$(PSQL) -d postgres -tc "SELECT count(*) FROM pg_database WHERE datname = 'foreign_test_db'" | \
-		grep -q 0 || \
-		$(PSQL) -d postgres -c "DROP DATABASE foreign_test_db" && \
-		$(PSQL) -d postgres -c "DROP USER IF EXISTS foreign_user";
-
-.PHONY: create_foreign_test_db
-create_foreign_test_db: ## Ensure that the $(DB_NAME)_test database exists
-create_foreign_test_db:
-	@$(PSQL) -d postgres -tc "SELECT count(*) FROM pg_database WHERE datname = 'foreign_test_db'" | \
-		grep -q 1 || \
-		$(PSQL) -d postgres -c "CREATE DATABASE foreign_test_db" &&\
-		$(PSQL) -d foreign_test_db -f "./schema/data/test_setup/external_database_setup.sql" &&\
-		$(PSQL) -d $(DB_NAME)_test -c "create extension if not exists postgres_fdw";
-
 .PHONY: drop_test_db
 drop_test_db: ## Drop the $(DB_NAME)_test database if it exists
 drop_test_db:
@@ -154,7 +136,7 @@ deploy_prod_data:
 revert_db_migrations: ## revert the database migrations with sqitch
 revert_db_migrations: start_pg
 revert_db_migrations:
-	@$(SQITCH) --chdir schema revert
+	@$(SQITCH) --chdir db revert
 	@$(SQITCH) --chdir mocks_schema revert
 
 
@@ -162,15 +144,15 @@ revert_db_migrations:
 verify_db_migrations: ## verify the database migrations with sqitch
 verify_db_migrations: start_pg
 verify_db_migrations:
-	@$(SQITCH) --chdir schema verify
+	@$(SQITCH) --chdir db verify
 	@$(SQITCH) --chdir mocks_schema verify
 
 .PHONY: deploy_test_db_migrations
 deploy_test_db_migrations: ## deploy the test database migrations with sqitch
 deploy_test_db_migrations: start_pg create_test_db
 deploy_test_db_migrations:
-	@SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir schema deploy
-	@SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir mocks_schema deploy
+	@SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir db deploy
+	# @SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir mocks_schema deploy
 
 .PHONY: revert_test_db_migrations
 revert_test_db_migrations: ## revert the test database migrations with sqitch
@@ -188,10 +170,10 @@ verify_test_db_migrations:
 
 .PHONY: db_unit_tests
 db_unit_tests: ## run the database unit tests
-db_unit_tests: | start_pg drop_test_db create_test_db drop_foreign_test_db create_foreign_test_db deploy_test_db_migrations
+db_unit_tests: | start_pg drop_test_db create_test_db deploy_test_db_migrations
 db_unit_tests:
-	@$(PG_PROVE) --failures -d $(DB_NAME)_test schema/test/unit/**/*_test.sql
-	@$(PG_PROVE) --failures -d $(DB_NAME)_test mocks_schema/test/**/*_test.sql
+	@$(PG_PROVE) --failures -d $(DB_NAME)_test db/test/unit/**/*_test.sql
+	# @$(PG_PROVE) --failures -d $(DB_NAME)_test mocks_schema/test/**/*_test.sql
 
 .PHONY: db_style_tests
 db_style_tests: ## run the database style tests
