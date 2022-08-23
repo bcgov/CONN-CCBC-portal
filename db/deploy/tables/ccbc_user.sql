@@ -38,7 +38,7 @@ do
 $policy$
 begin
 -- ccbc_auth_user RLS: can see all users, but can only modify its own record
-perform ccbc_private.upsert_policy('ccbc_auth_user_select_ccbc_user', 'ccbc_user', 'select', 'ccbc_auth_user', 'true');
+perform ccbc_private.upsert_policy('ccbc_auth_user_select_ccbc_user', 'ccbc_user', 'select', 'ccbc_auth_user', 'session_sub=(select sub from ccbc_public.session())');
 perform ccbc_private.upsert_policy('ccbc_auth_user_insert_ccbc_user', 'ccbc_user', 'insert', 'ccbc_auth_user', 'session_sub=(select sub from ccbc_public.session())');
 perform ccbc_private.upsert_policy('ccbc_auth_user_update_ccbc_user', 'ccbc_user', 'update', 'ccbc_auth_user', 'session_sub=(select sub from ccbc_public.session())');
 
