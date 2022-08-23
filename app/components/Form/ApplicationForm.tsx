@@ -13,7 +13,6 @@ import { acknowledgements } from '../../formSchema/pages';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import validateFormData from '@rjsf/core/dist/cjs/validate';
-import { useAddCcbcIdToApplicationMutation } from '../../schema/mutations/application/addCcbcIdToApplication';
 import {
   calculateProjectEmployment,
   calculateContractorEmployment,
@@ -28,6 +27,7 @@ import ApplicationFormStatus from './ApplicationFormStatus';
 import styled from 'styled-components';
 import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
 import { SubmissionDescriptionField } from 'lib/theme/fields';
+import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
 
 const NUM_ACKNOWLEDGEMENTS =
   acknowledgements.acknowledgements.properties.acknowledgementsList.items.enum
@@ -40,8 +40,8 @@ const customPages = [
 ];
 
 const CUSTOM_SUBMISSION_FIELD = {
-  SubmissionField: SubmissionDescriptionField
-}
+  SubmissionField: SubmissionDescriptionField,
+};
 
 const formatErrorSchema = (formData, schema) => {
   const errorSchema = validateFormData(formData, schema)?.errorSchema;
@@ -177,7 +177,7 @@ const ApplicationForm: React.FC<Props> = ({
   );
 
   const router = useRouter();
-  const [assignCcbcId] = useAddCcbcIdToApplicationMutation();
+  const [submitApplication, isSubmitting] = useSubmitApplicationMutation();
   const [updateApplication, isUpdating] = useUpdateApplicationMutation();
 
   const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
@@ -261,28 +261,27 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const handleSubmit = (e: ISubmitEvent<any>) => {
-    saveForm(
-      e.formData,
-      {
-        onCompleted: () => {
-          //  TODO: update rerouting logic to handle when there are form errors etc.
-          if (pageNumber < subschemaArray.length) {
+    if (pageNumber < subschemaArray.length) {
+      saveForm(
+        e.formData,
+        {
+          onCompleted: () => {
+            //  TODO: update rerouting logic to handle when there are form errors etc.
             router.push(`/form/${rowId}/${pageNumber + 1}`);
-          } else {
-            //Does not return query from mutation
-            assignCcbcId({
-              variables: {
-                input: {
-                  applicationId: rowId,
-                },
-              },
-              onCompleted: () => router.push(`/form/${rowId}/success`),
-            });
-          }
+          },
         },
-      },
-      true
-    );
+        true
+      );
+    } else {
+      submitApplication({
+        variables: {
+          input: {
+            applicationRowId: rowId,
+          },
+        },
+        onCompleted: () => router.push(`/form/${rowId}/success`),
+      });
+    }
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
@@ -341,7 +340,7 @@ const ApplicationForm: React.FC<Props> = ({
     <>
       <Button
         variant="primary"
-        disabled={handleDisabled(sectionName, noErrors)}
+        disabled={handleDisabled(sectionName, noErrors) || isSubmitting}
       >
         {pageNumber < subschemaArray.length ? 'Save and continue' : 'Submit'}
       </Button>

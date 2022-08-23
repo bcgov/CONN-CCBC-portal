@@ -12,15 +12,15 @@ const StyledSection = styled.section`
 `;
 
 interface Props {
-  ccbcId?: string;
+  ccbcNumber?: string;
 }
 
-const SuccessBanner: React.FC<Props> = ({ ccbcId }) => {
+const SuccessBanner: React.FC<Props> = ({ ccbcNumber }) => {
   return (
     <StyledSection>
       <h2>Application complete</h2>
       <p>Application number</p>
-      <h3>{ccbcId}</h3>
+      <h3>{ccbcNumber}</h3>
     </StyledSection>
   );
 };

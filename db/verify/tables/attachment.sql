@@ -2,6 +2,6 @@
 
 BEGIN;
 
--- XXX Add verifications here.
+select pg_catalog.has_table_privilege('ccbc_public.attachment', 'select');
 
 ROLLBACK;

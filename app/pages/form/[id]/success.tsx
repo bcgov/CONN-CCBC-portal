@@ -22,7 +22,7 @@ const getSuccessQuery = graphql`
   query successQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
       status
-      ccbcId
+      ccbcNumber
       projectName
       updatedAt
       intakeByIntakeId {
@@ -62,7 +62,7 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
     <Layout session={session} title="Connecting Communities BC">
       <StyledDiv>
         <StyledSection>
-          <SuccessBanner ccbcId={applicationByRowId.ccbcId} />
+          <SuccessBanner ccbcNumber={applicationByRowId.ccbcNumber} />
           <h3>Thank you for applying to CCBC Intake {ccbcIntakeNumber}</h3>
           <div>
             We have received your application,

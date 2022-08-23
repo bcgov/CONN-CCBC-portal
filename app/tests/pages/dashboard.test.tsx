@@ -15,10 +15,9 @@ const mockQueryPayload = {
             id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
             rowId: 2,
             owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-            referenceNumber: 1,
             status: 'withdrawn',
             projectName: null,
-            ccbcId: 'CCBC-010001',
+            ccbcNumber: 'CCBC-010001',
             lastEditedPage: '',
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
@@ -70,11 +69,12 @@ describe('The index page', () => {
     });
   });
 
-  
   it('Renders the close date', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)
+    ).toBeInTheDocument();
   });
 });
