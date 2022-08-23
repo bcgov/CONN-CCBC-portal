@@ -32,7 +32,7 @@ export default async function ssoMiddleware() {
     },
     oidcConfig: {
       baseUrl: baseUrl,
-      clientId: 'conn-ccbc-portal-3700',
+      clientId: 'conn-ccbc-portal-3934',
       oidcIssuer: `https://${oidcIssuer}/auth/realms/standard`,
       clientSecret: `${config.get('CLIENT_SECRET')}`,
     },
