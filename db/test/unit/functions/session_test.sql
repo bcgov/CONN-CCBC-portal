@@ -1,6 +1,6 @@
 begin;
 
-select plan(4);
+select plan(3);
 
 select has_function('ccbc_public', 'session', 'function ccbc_public.session exists');
 
