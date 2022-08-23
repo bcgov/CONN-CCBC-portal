@@ -1,6 +1,6 @@
 begin;
 
-select plan(10);
+select plan(12);
 
 -- Table exists
 select has_table(
@@ -34,6 +34,16 @@ select is (
 
 select has_sequence('ccbc_public','intake_42_application_number_seq', 'A sequence was created for intake 42');
 select has_sequence('ccbc_public','intake_56_application_number_seq', 'A sequence was created for intake 56');
+
+select sequence_privs_are(
+  'ccbc_public', 'intake_42_application_number_seq', 'ccbc_auth_user', ARRAY['USAGE', 'SELECT'],
+  'ccbc_auth_user should be able to use and select intake_42_application_number_seq'
+);
+
+select sequence_privs_are(
+  'ccbc_public', 'intake_56_application_number_seq', 'ccbc_auth_user', ARRAY['USAGE', 'SELECT'],
+  'ccbc_auth_user should be able to use and select intake_56_application_number_seq'
+);
 
 select finish();
 
