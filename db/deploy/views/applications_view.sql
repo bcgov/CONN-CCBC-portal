@@ -7,8 +7,7 @@ CREATE OR REPLACE VIEW ccbc_public.applications_view AS SELECT * FROM ccbc_publi
 
 comment on view ccbc_public.applications_view is 'View containing the list of all respondents applications';
 comment on column ccbc_public.applications_view.id is 'Primary key ID for the application';
-comment on column ccbc_public.applications_view.reference_number is 'Reference number assigned to the application';
-comment on column ccbc_public.applications_view.owner is 'The owner of the application';
+comment on column ccbc_public.applications_view.reference_number is 'Reference number assigned to the application'; 
 comment on column ccbc_public.applications_view.form_data is 'The data entered into the form by the respondent';
 comment on column ccbc_public.applications_view.status is 'The status of the application, draft or complete';
 comment on column ccbc_public.applications_view.last_edited_page is 'Column saving the key of the last edited form page';

@@ -19,7 +19,7 @@ const getPageQuery = graphql`
     applicationByRowId(rowId: $rowId) {
       formData
       id
-      owner
+      createdBy
       referenceNumber
       status
       ...ApplicationForm_application

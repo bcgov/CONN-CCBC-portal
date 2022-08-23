@@ -6,7 +6,7 @@ const getAllApplicationsByOwnerQuery = graphql`
       nodes {
         id
         rowId
-        owner
+        createdBy
         referenceNumber
         status
         projectName

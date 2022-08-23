@@ -982,9 +982,6 @@ type Application implements Node {
   """Reference number assigned to the application"""
   referenceNumber: Int
 
-  """The owner of the application"""
-  owner: UUID!
-
   """The data entered into the form by the respondent"""
   formData: JSON!
 
@@ -1153,8 +1150,6 @@ enum ApplicationsOrderBy {
   ID_DESC
   REFERENCE_NUMBER_ASC
   REFERENCE_NUMBER_DESC
-  OWNER_ASC
-  OWNER_DESC
   FORM_DATA_ASC
   FORM_DATA_DESC
   STATUS_ASC
@@ -1189,9 +1184,6 @@ input ApplicationCondition {
 
   """Checks for equality with the object’s `referenceNumber` field."""
   referenceNumber: Int
-
-  """Checks for equality with the object’s `owner` field."""
-  owner: UUID
 
   """Checks for equality with the object’s `formData` field."""
   formData: JSON
@@ -1597,9 +1589,6 @@ type ApplicationsView {
   """Reference number assigned to the application"""
   referenceNumber: Int
 
-  """The owner of the application"""
-  owner: UUID
-
   """The data entered into the form by the respondent"""
   formData: JSON
 
@@ -1649,8 +1638,6 @@ enum ApplicationsViewsOrderBy {
   ID_DESC
   REFERENCE_NUMBER_ASC
   REFERENCE_NUMBER_DESC
-  OWNER_ASC
-  OWNER_DESC
   FORM_DATA_ASC
   FORM_DATA_DESC
   STATUS_ASC
@@ -1683,9 +1670,6 @@ input ApplicationsViewCondition {
 
   """Checks for equality with the object’s `referenceNumber` field."""
   referenceNumber: Int
-
-  """Checks for equality with the object’s `owner` field."""
-  owner: UUID
 
   """Checks for equality with the object’s `formData` field."""
   formData: JSON
@@ -2266,9 +2250,6 @@ input ApplicationInput {
   """Reference number assigned to the application"""
   referenceNumber: Int
 
-  """The owner of the application"""
-  owner: UUID!
-
   """The data entered into the form by the respondent"""
   formData: JSON
 
@@ -2344,9 +2325,6 @@ input ApplicationsViewInput {
 
   """Reference number assigned to the application"""
   referenceNumber: Int
-
-  """The owner of the application"""
-  owner: UUID
 
   """The data entered into the form by the respondent"""
   formData: JSON
@@ -2794,9 +2772,6 @@ Represents an update to a `Application`. Fields that are set will be updated.
 input ApplicationPatch {
   """Reference number assigned to the application"""
   referenceNumber: Int
-
-  """The owner of the application"""
-  owner: UUID
 
   """The data entered into the form by the respondent"""
   formData: JSON

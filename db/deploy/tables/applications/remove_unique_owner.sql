@@ -2,6 +2,6 @@
 
 BEGIN;
 
-ALTER TABLE ccbc_public.applications DROP CONSTRAINT applications_owner_key;
+ALTER TABLE ccbc_public.applications DROP CONSTRAINT IF EXISTS applications_owner_key;
 
 COMMIT;
