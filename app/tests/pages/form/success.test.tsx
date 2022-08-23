@@ -11,7 +11,7 @@ const mockQueryPayload = {
     return {
       applicationByRowId: {
         status: 'submitted',
-        ccbcId: 'CCBC-010001',
+        ccbcNumber: 'CCBC-010001',
         intakeByIntakeId: {
           ccbcIntakeNumber: 1,
           closeTimestamp: '2022-09-06T23:59:59-07:00',

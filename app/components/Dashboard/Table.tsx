@@ -95,7 +95,7 @@ const Table = ({ applications }: Props) => {
         <tbody>
           {applicationNodes.map((application) => {
             const {
-              ccbcId,
+              ccbcNumber,
               intakeByIntakeId,
               lastEditedPage,
               projectName,
@@ -128,7 +128,7 @@ const Table = ({ applications }: Props) => {
 
             return (
               <StyledRow key={rowId}>
-                <StyledTableCell>{ccbcId || 'Unassigned'}</StyledTableCell>
+                <StyledTableCell>{ccbcNumber || 'Unassigned'}</StyledTableCell>
                 <StyledTableCell>{projectName}</StyledTableCell>
                 <StyledTableCell>
                   <StatusPill StatusType={getStatusType(status)}>

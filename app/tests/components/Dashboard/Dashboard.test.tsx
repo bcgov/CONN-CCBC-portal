@@ -14,10 +14,9 @@ const testQuery = graphql`
         id
         rowId
         owner
-        referenceNumber
         status
         projectName
-        ccbcId
+        ccbcNumber
         lastEditedPage
         intakeByIntakeId {
           ccbcIntakeNumber
@@ -38,10 +37,9 @@ const mockQueryPayload = {
             id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
             rowId: 2,
             owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-            referenceNumber: 1,
             status: 'withdrawn',
             projectName: null,
-            ccbcId: 'CCBC-010001',
+            ccbcNumber: 'CCBC-010001',
             lastEditedPage: '',
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
@@ -53,10 +51,9 @@ const mockQueryPayload = {
             id: 'WyJhcHBsaWNhdGlvbnMiLDNd',
             rowId: 3,
             owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-            referenceNumber: 2,
             status: 'submitted',
             projectName: null,
-            ccbcId: 'CCBC-010002',
+            ccbcNumber: 'CCBC-010002',
             lastEditedPage: '',
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
@@ -68,10 +65,9 @@ const mockQueryPayload = {
             id: 'WyJhcHBsaWNhdGlvbnMiLDRd',
             rowId: 4,
             owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-            referenceNumber: 3,
             status: 'submitted',
             projectName: null,
-            ccbcId: 'CCBC-010003',
+            ccbcNumber: 'CCBC-010003',
             lastEditedPage: '',
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
@@ -125,10 +121,9 @@ describe('The Dashboard', () => {
                 id: 'WyJhcHBsaWNhdGlvbnMiLDFd',
                 rowId: 1,
                 owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-                referenceNumber: null,
                 status: 'draft',
                 projectName: null,
-                ccbcId: null,
+                ccbcNumber: null,
                 lastEditedPage: 'templateUploads',
                 intakeByIntakeId: null,
               },
@@ -155,10 +150,9 @@ describe('The Dashboard', () => {
                 id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
                 rowId: 2,
                 owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-                referenceNumber: 1,
                 status: 'submitted',
                 projectName: null,
-                ccbcId: 'CCBC-010004',
+                ccbcNumber: 'CCBC-010004',
                 lastEditedPage: '',
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
@@ -190,10 +184,9 @@ describe('The Dashboard', () => {
                 id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
                 rowId: 2,
                 owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-                referenceNumber: 1,
                 status: 'submitted',
                 projectName: null,
-                ccbcId: 'CCBC-010005',
+                ccbcNumber: 'CCBC-010005',
                 lastEditedPage: '',
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
@@ -244,10 +237,9 @@ describe('The Dashboard', () => {
                 id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
                 rowId: 2,
                 owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-                referenceNumber: 1,
                 status: 'submitted',
                 projectName: null,
-                ccbcId: 'CCBC-010005',
+                ccbcNumber: 'CCBC-010005',
                 lastEditedPage: '',
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
@@ -278,10 +270,9 @@ describe('The Dashboard', () => {
                 id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
                 rowId: 2,
                 owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-                referenceNumber: 1,
                 status: 'withdrawn',
                 projectName: null,
-                ccbcId: 'CCBC-010005',
+                ccbcNumber: 'CCBC-010005',
                 lastEditedPage: '',
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,

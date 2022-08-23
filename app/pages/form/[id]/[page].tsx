@@ -20,7 +20,6 @@ const getPageQuery = graphql`
       formData
       id
       owner
-      referenceNumber
       status
       ...ApplicationForm_application
     }
