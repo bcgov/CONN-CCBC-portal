@@ -21,7 +21,8 @@ tables/attachment 2022-07-07T23:19:04Z Marcel Mueller,,, <marcel@Thinkpad> # add
 functions/expose_application_name 2022-07-15T16:39:24Z Anthony Bushara <anthony@button.is> # Exposes Application Name as Computed Column
 tables/applications/remove_unique_owner 2022-07-19T14:44:25Z Anthony Bushara <anthony@button.is> # Removes unique constraint for owner
 tables/applications/owner_not_null 2022-07-20T15:51:46Z Anthony Bushara <anthony@button.is> # Owner of the application cannot be null
-tables/add_intake_table 2022-07-22T15:27:16Z Anthony Bushara <anthony@button.is> # Creates the intake table
+trigger_functions/create_intake_sequence 2022-08-23T16:32:25Z Matthieu Foucault <matthieu@button.is> # Add a trigger function to create the intake sequence
+tables/add_intake_table [trigger_functions/create_intake_sequence] 2022-07-22T15:27:16Z Anthony Bushara <anthony@button.is> # Creates the intake table
 tables/applications/connect_intake_table 2022-07-26T15:15:49Z Anthony Bushara <anthony@button.is> # Adds the intake table as a fk to applications
 tables/applications/change_reference_to_integer 2022-07-26T20:40:22Z Anthony Bushara <anthony@button.is> # Changes the reference_number to integer
 functions/ccbc_id_computed_column 2022-07-28T14:18:09Z Anthony Bushara <anthony@button.is> # Adds a computed column to get the CCBC ID
