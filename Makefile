@@ -31,7 +31,17 @@ install_asdf_tools:
 	@pip install -r requirements.txt
 	@asdf reshim
 
-
+.PHONY: install_pgtap
+install_pgtap: ## install pgTAP extension into postgres
+install_pgtap: start_pg
+install_pgtap:
+	@$(PSQL) -d postgres -tc "select count(*) from pg_available_extensions where name='pgtap' and default_version='$(PGTAP_VERSION)';" | \
+		grep -q 1 || \
+		(git clone https://github.com/theory/pgtap.git --depth 1 --branch v$(PGTAP_VERSION) && \
+		$(MAKE) -C pgtap && \
+		$(MAKE) -C pgtap install && \
+		$(MAKE) -C pgtap installcheck && \
+		rm -rf pgtap)
 
 .PHONY: install_cpanm
 install_cpanm: ## install the cpanm tool
@@ -91,7 +101,9 @@ create_test_db: ## Ensure that the $(DB_NAME)_test database exists
 create_test_db:
 	@$(PSQL) -d postgres -tc "SELECT count(*) FROM pg_database WHERE datname = '$(DB_NAME)_test'" | \
 		grep -q 1 || \
-		$(PSQL) -d postgres -c "CREATE DATABASE $(DB_NAME)_test";
+		$(PSQL) -d postgres -c "CREATE DATABASE $(DB_NAME)_test"; \
+		$(PSQL) -d $(DB_NAME)_test -c "create extension if not exists pgtap";
+
 
 .PHONY: drop_foreign_test_db
 drop_foreign_test_db: ## Drop the $(DB_NAME) database if it exists
