@@ -2,8 +2,7 @@
 
 begin;
 
-select id, reference_number, owner, form_data, status
-  from ccbc_public.applications
-  where false;
+select pg_catalog.has_table_privilege('ccbc_public.applications', 'select');
+
 
 rollback;

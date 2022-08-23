@@ -18,10 +18,9 @@ const getDashboardQuery = graphql`
         id
         rowId
         owner
-        referenceNumber
         status
         projectName
-        ccbcId
+        ccbcNumber
         lastEditedPage
         intakeByIntakeId {
           ccbcIntakeNumber

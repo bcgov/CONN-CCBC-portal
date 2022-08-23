@@ -219,37 +219,24 @@ describe('The application form', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Submit' }));
 
-    expect(componentTestingHelper.router.push).not.toHaveBeenCalled();
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      expect.anything()
-    );
-
-    componentTestingHelper.environment.mock.resolveMostRecentOperation({
-      data: {
-        updateApplication: {
-          application: {
-            formData,
-            updatedAt: DateTime.now().toISO(),
-          },
-        },
-      },
-    });
-
     // After the first mutation completes, we still don't redirect
     expect(componentTestingHelper.router.push).not.toHaveBeenCalled();
 
     componentTestingHelper.expectMutationToBeCalled(
-      'addCcbcIdToApplicationMutation',
-      expect.anything()
+      'submitApplicationMutation',
+      {
+        input: {
+          applicationRowId: 42,
+        },
+      }
     );
 
     componentTestingHelper.environment.mock.resolveMostRecentOperation({
       data: {
         applicationsAddCcbcId: {
           application: {
-            ccbcId: 'CCBC-010042',
-            rowId: 42,
+            ccbcNumber: 'CCBC-010042',
+            status: 'submitted',
           },
         },
       },

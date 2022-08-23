@@ -1,6 +1,6 @@
 begin;
 
-select * from no_plan();
+select plan(10);
 
 -- Table exists
 select has_table(

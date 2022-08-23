@@ -192,10 +192,12 @@ type Query implements Node {
   ): IntakesConnection
   applicationStatusByRowId(rowId: Int!): ApplicationStatus
   applicationByRowId(rowId: Int!): Application
-  applicationByIntakeIdAndReferenceNumber(intakeId: Int!, referenceNumber: Int!): Application
+  applicationByIntakeIdAndCcbcNumber(intakeId: Int!, ccbcNumber: String!): Application
   attachmentByRowId(rowId: Int!): Attachment
   ccbcUserByRowId(rowId: Int!): CcbcUser
   intakeByRowId(rowId: Int!): Intake
+  intakeByCcbcIntakeNumber(ccbcIntakeNumber: Int!): Intake
+  intakeByApplicationNumberSeqName(applicationNumberSeqName: String!): Intake
 
   """Returns the current open intake"""
   openIntake: Intake
@@ -980,7 +982,7 @@ type Application implements Node {
   rowId: Int!
 
   """Reference number assigned to the application"""
-  referenceNumber: Int
+  ccbcNumber: String
 
   """The owner of the application"""
   owner: UUID!
@@ -1057,9 +1059,6 @@ type Application implements Node {
     """
     condition: AttachmentCondition
   ): AttachmentsConnection!
-
-  """Computed Column of CCBC ID from intake table"""
-  ccbcId: String
   projectName: String
 }
 
@@ -1081,13 +1080,18 @@ type Intake implements Node {
   rowId: Int!
 
   """Open date and time for an intake number"""
-  openTimestamp: Datetime
+  openTimestamp: Datetime!
 
   """Close date and time for an intake number"""
-  closeTimestamp: Datetime
+  closeTimestamp: Datetime!
 
   """Unique intake number for a set of CCBC IDs"""
-  ccbcIntakeNumber: Int
+  ccbcIntakeNumber: Int!
+
+  """
+  The name of the sequence used to generate CCBC ids. It is added via a trigger
+  """
+  applicationNumberSeqName: String
 
   """created by user id"""
   createdBy: Int
@@ -1151,8 +1155,8 @@ enum ApplicationsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  REFERENCE_NUMBER_ASC
-  REFERENCE_NUMBER_DESC
+  CCBC_NUMBER_ASC
+  CCBC_NUMBER_DESC
   OWNER_ASC
   OWNER_DESC
   FORM_DATA_ASC
@@ -1187,8 +1191,8 @@ input ApplicationCondition {
   """Checks for equality with the object’s `rowId` field."""
   rowId: Int
 
-  """Checks for equality with the object’s `referenceNumber` field."""
-  referenceNumber: Int
+  """Checks for equality with the object’s `ccbcNumber` field."""
+  ccbcNumber: String
 
   """Checks for equality with the object’s `owner` field."""
   owner: UUID
@@ -1510,6 +1514,8 @@ enum IntakesOrderBy {
   CLOSE_TIMESTAMP_DESC
   CCBC_INTAKE_NUMBER_ASC
   CCBC_INTAKE_NUMBER_DESC
+  APPLICATION_NUMBER_SEQ_NAME_ASC
+  APPLICATION_NUMBER_SEQ_NAME_DESC
   CREATED_BY_ASC
   CREATED_BY_DESC
   CREATED_AT_ASC
@@ -1541,6 +1547,11 @@ input IntakeCondition {
 
   """Checks for equality with the object’s `ccbcIntakeNumber` field."""
   ccbcIntakeNumber: Int
+
+  """
+  Checks for equality with the object’s `applicationNumberSeqName` field.
+  """
+  applicationNumberSeqName: String
 
   """Checks for equality with the object’s `createdBy` field."""
   createdBy: Int
@@ -1595,7 +1606,7 @@ type ApplicationsView {
   rowId: Int
 
   """Reference number assigned to the application"""
-  referenceNumber: Int
+  ccbcNumber: String
 
   """The owner of the application"""
   owner: UUID
@@ -1647,8 +1658,8 @@ enum ApplicationsViewsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  REFERENCE_NUMBER_ASC
-  REFERENCE_NUMBER_DESC
+  CCBC_NUMBER_ASC
+  CCBC_NUMBER_DESC
   OWNER_ASC
   OWNER_DESC
   FORM_DATA_ASC
@@ -1681,8 +1692,8 @@ input ApplicationsViewCondition {
   """Checks for equality with the object’s `rowId` field."""
   rowId: Int
 
-  """Checks for equality with the object’s `referenceNumber` field."""
-  referenceNumber: Int
+  """Checks for equality with the object’s `ccbcNumber` field."""
+  ccbcNumber: String
 
   """Checks for equality with the object’s `owner` field."""
   owner: UUID
@@ -1983,11 +1994,11 @@ type Mutation {
   ): UpdateApplicationPayload
 
   """Updates a single `Application` using a unique key and a patch."""
-  updateApplicationByIntakeIdAndReferenceNumber(
+  updateApplicationByIntakeIdAndCcbcNumber(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateApplicationByIntakeIdAndReferenceNumberInput!
+    input: UpdateApplicationByIntakeIdAndCcbcNumberInput!
   ): UpdateApplicationPayload
 
   """
@@ -2040,6 +2051,22 @@ type Mutation {
     input: UpdateIntakeByRowIdInput!
   ): UpdateIntakePayload
 
+  """Updates a single `Intake` using a unique key and a patch."""
+  updateIntakeByCcbcIntakeNumber(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateIntakeByCcbcIntakeNumberInput!
+  ): UpdateIntakePayload
+
+  """Updates a single `Intake` using a unique key and a patch."""
+  updateIntakeByApplicationNumberSeqName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateIntakeByApplicationNumberSeqNameInput!
+  ): UpdateIntakePayload
+
   """Deletes a single `ApplicationStatus` using its globally unique id."""
   deleteApplicationStatus(
     """
@@ -2073,11 +2100,11 @@ type Mutation {
   ): DeleteApplicationPayload
 
   """Deletes a single `Application` using a unique key."""
-  deleteApplicationByIntakeIdAndReferenceNumber(
+  deleteApplicationByIntakeIdAndCcbcNumber(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: DeleteApplicationByIntakeIdAndReferenceNumberInput!
+    input: DeleteApplicationByIntakeIdAndCcbcNumberInput!
   ): DeleteApplicationPayload
 
   """Deletes a single `Attachment` using its globally unique id."""
@@ -2128,19 +2155,33 @@ type Mutation {
     input: DeleteIntakeByRowIdInput!
   ): DeleteIntakePayload
 
-  """Function to update an application with a CCBC-ID"""
-  applicationsAddCcbcId(
+  """Deletes a single `Intake` using a unique key."""
+  deleteIntakeByCcbcIntakeNumber(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: ApplicationsAddCcbcIdInput!
-  ): ApplicationsAddCcbcIdPayload
+    input: DeleteIntakeByCcbcIntakeNumberInput!
+  ): DeleteIntakePayload
+
+  """Deletes a single `Intake` using a unique key."""
+  deleteIntakeByApplicationNumberSeqName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteIntakeByApplicationNumberSeqNameInput!
+  ): DeleteIntakePayload
   createUserFromSession(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: CreateUserFromSessionInput!
   ): CreateUserFromSessionPayload
+  submitApplication(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: SubmitApplicationInput!
+  ): SubmitApplicationPayload
 }
 
 """The output of our create `ApplicationStatus` mutation."""
@@ -2264,7 +2305,7 @@ input CreateApplicationInput {
 """An input for mutations affecting `Application`"""
 input ApplicationInput {
   """Reference number assigned to the application"""
-  referenceNumber: Int
+  ccbcNumber: String
 
   """The owner of the application"""
   owner: UUID!
@@ -2343,7 +2384,7 @@ input ApplicationsViewInput {
   rowId: Int
 
   """Reference number assigned to the application"""
-  referenceNumber: Int
+  ccbcNumber: String
 
   """The owner of the application"""
   owner: UUID
@@ -2610,13 +2651,18 @@ input CreateIntakeInput {
 """An input for mutations affecting `Intake`"""
 input IntakeInput {
   """Open date and time for an intake number"""
-  openTimestamp: Datetime
+  openTimestamp: Datetime!
 
   """Close date and time for an intake number"""
-  closeTimestamp: Datetime
+  closeTimestamp: Datetime!
 
   """Unique intake number for a set of CCBC IDs"""
-  ccbcIntakeNumber: Int
+  ccbcIntakeNumber: Int!
+
+  """
+  The name of the sequence used to generate CCBC ids. It is added via a trigger
+  """
+  applicationNumberSeqName: String
 
   """created by user id"""
   createdBy: Int
@@ -2793,7 +2839,7 @@ Represents an update to a `Application`. Fields that are set will be updated.
 """
 input ApplicationPatch {
   """Reference number assigned to the application"""
-  referenceNumber: Int
+  ccbcNumber: String
 
   """The owner of the application"""
   owner: UUID
@@ -2848,10 +2894,8 @@ input UpdateApplicationByRowIdInput {
   rowId: Int!
 }
 
-"""
-All input for the `updateApplicationByIntakeIdAndReferenceNumber` mutation.
-"""
-input UpdateApplicationByIntakeIdAndReferenceNumberInput {
+"""All input for the `updateApplicationByIntakeIdAndCcbcNumber` mutation."""
+input UpdateApplicationByIntakeIdAndCcbcNumberInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -2869,7 +2913,7 @@ input UpdateApplicationByIntakeIdAndReferenceNumberInput {
   intakeId: Int!
 
   """Reference number assigned to the application"""
-  referenceNumber: Int!
+  ccbcNumber: String!
 }
 
 """The output of our update `Attachment` mutation."""
@@ -3167,6 +3211,11 @@ input IntakePatch {
   """Unique intake number for a set of CCBC IDs"""
   ccbcIntakeNumber: Int
 
+  """
+  The name of the sequence used to generate CCBC ids. It is added via a trigger
+  """
+  applicationNumberSeqName: String
+
   """created by user id"""
   createdBy: Int
 
@@ -3201,6 +3250,42 @@ input UpdateIntakeByRowIdInput {
 
   """Unique ID for each intake number"""
   rowId: Int!
+}
+
+"""All input for the `updateIntakeByCcbcIntakeNumber` mutation."""
+input UpdateIntakeByCcbcIntakeNumberInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Intake` being updated.
+  """
+  intakePatch: IntakePatch!
+
+  """Unique intake number for a set of CCBC IDs"""
+  ccbcIntakeNumber: Int!
+}
+
+"""All input for the `updateIntakeByApplicationNumberSeqName` mutation."""
+input UpdateIntakeByApplicationNumberSeqNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Intake` being updated.
+  """
+  intakePatch: IntakePatch!
+
+  """
+  The name of the sequence used to generate CCBC ids. It is added via a trigger
+  """
+  applicationNumberSeqName: String!
 }
 
 """The output of our delete `ApplicationStatus` mutation."""
@@ -3324,10 +3409,8 @@ input DeleteApplicationByRowIdInput {
   rowId: Int!
 }
 
-"""
-All input for the `deleteApplicationByIntakeIdAndReferenceNumber` mutation.
-"""
-input DeleteApplicationByIntakeIdAndReferenceNumberInput {
+"""All input for the `deleteApplicationByIntakeIdAndCcbcNumber` mutation."""
+input DeleteApplicationByIntakeIdAndCcbcNumberInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -3340,7 +3423,7 @@ input DeleteApplicationByIntakeIdAndReferenceNumberInput {
   intakeId: Int!
 
   """Reference number assigned to the application"""
-  referenceNumber: Int!
+  ccbcNumber: String!
 }
 
 """The output of our delete `Attachment` mutation."""
@@ -3528,47 +3611,30 @@ input DeleteIntakeByRowIdInput {
   rowId: Int!
 }
 
-"""The output of our `applicationsAddCcbcId` mutation."""
-type ApplicationsAddCcbcIdPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-  application: Application
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """Reads a single `Intake` that is related to this `Application`."""
-  intakeByIntakeId: Intake
-
-  """An edge for our `Application`. May be used by Relay 1."""
-  applicationEdge(
-    """The method to use when ordering `Application`."""
-    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationsEdge
-}
-
-"""All input for the `applicationsAddCcbcId` mutation."""
-input ApplicationsAddCcbcIdInput {
+"""All input for the `deleteIntakeByCcbcIntakeNumber` mutation."""
+input DeleteIntakeByCcbcIntakeNumberInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  applicationId: Int!
+
+  """Unique intake number for a set of CCBC IDs"""
+  ccbcIntakeNumber: Int!
+}
+
+"""All input for the `deleteIntakeByApplicationNumberSeqName` mutation."""
+input DeleteIntakeByApplicationNumberSeqNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The name of the sequence used to generate CCBC ids. It is added via a trigger
+  """
+  applicationNumberSeqName: String!
 }
 
 """The output of our `createUserFromSession` mutation."""
@@ -3608,4 +3674,47 @@ input CreateUserFromSessionInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+}
+
+"""The output of our `submitApplication` mutation."""
+type SubmitApplicationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  application: Application
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """Reads a single `Intake` that is related to this `Application`."""
+  intakeByIntakeId: Intake
+
+  """An edge for our `Application`. May be used by Relay 1."""
+  applicationEdge(
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationsEdge
+}
+
+"""All input for the `submitApplication` mutation."""
+input SubmitApplicationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  applicationRowId: Int!
 }
