@@ -185,6 +185,7 @@ const ApplicationForm: React.FC<Props> = ({
   );
 
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
+  const isWithdrawn = status === 'withdrawn';
 
   if (subschemaArray.length < pageNumber) {
     // Todo: proper 404
@@ -199,7 +200,12 @@ const ApplicationForm: React.FC<Props> = ({
     >,
     isRedirectingToNextPage = false
   ) => {
-    if (status === 'withdrawn') {
+    if (isWithdrawn) {
+      if (pageNumber < subschemaArray.length) {
+        router.push(`/form/${rowId}/${pageNumber + 1}`);
+      } else {
+        router.push(`/form/${rowId}/success`);
+      }
       return;
     }
 
@@ -291,6 +297,9 @@ const ApplicationForm: React.FC<Props> = ({
   const handleDisabled = (page: string, noErrors: boolean) => {
     let disabled = false;
     switch (true) {
+      case isWithdrawn:
+        disabled = false;
+        break;
       case page === 'review' && noErrors:
         disabled = false;
         break;
@@ -335,6 +344,17 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const isCustomPage = customPages.includes(sectionName);
+  const isSubmitPage = pageNumber >= subschemaArray.length;
+
+  const formatSubmitBtn = () => {
+    if (isWithdrawn) {
+      return 'Continue';
+    }
+    if (!isSubmitPage) {
+      return 'Save and continue';
+    }
+    return 'Submit';
+  };
 
   const submitBtns = (
     <>
@@ -342,7 +362,7 @@ const ApplicationForm: React.FC<Props> = ({
         variant="primary"
         disabled={handleDisabled(sectionName, noErrors) || isSubmitting}
       >
-        {pageNumber < subschemaArray.length ? 'Save and continue' : 'Submit'}
+        {formatSubmitBtn()}
       </Button>
     </>
   );
@@ -360,7 +380,7 @@ const ApplicationForm: React.FC<Props> = ({
         uiSchema={uiSchema}
         // Todo: validate entire form on completion
         noValidate={true}
-        disabled={status === 'withdrawn'}
+        disabled={isWithdrawn}
       >
         {submitBtns}
       </CalculationForm>
@@ -375,7 +395,7 @@ const ApplicationForm: React.FC<Props> = ({
         schema={sectionSchema}
         uiSchema={uiSchema}
         noValidate={true}
-        disabled={status === 'withdrawn'}
+        disabled={isWithdrawn}
       >
         {submitBtns}
       </CalculationForm>
@@ -392,7 +412,7 @@ const ApplicationForm: React.FC<Props> = ({
         fields={CUSTOM_SUBMISSION_FIELD}
         formContext={formContext}
         noValidate={true}
-        disabled={status === 'withdrawn'}
+        disabled={isWithdrawn}
       >
         {submitBtns}
       </CalculationForm>
@@ -420,7 +440,7 @@ const ApplicationForm: React.FC<Props> = ({
           uiSchema={review ? uiSchema[sectionName] : uiSchema}
           // Todo: validate entire form on completion
           noValidate={true}
-          disabled={status === 'withdrawn'}
+          disabled={isWithdrawn}
           formContext={formContext}
         >
           {review && (
