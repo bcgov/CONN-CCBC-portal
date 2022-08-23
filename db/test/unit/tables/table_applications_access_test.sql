@@ -4,7 +4,7 @@ select plan(4);
 select has_table('ccbc_public', 'ccbc_user', 'table ccbc_public.ccbc_user exists');
 
 insert into ccbc_public.ccbc_user
-  (given_name, family_name, email_address, uuid) values
+  (given_name, family_name, email_address, session_sub) values
   ('user1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111112'),
   ('user2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111113'),
   ('user3', 'bar', 'foo3@bar.com', '11111111-1111-1111-1111-111111111114');

@@ -7,12 +7,12 @@ create or replace function ccbc_private.update_timestamps()
   returns trigger as $$
 
 declare
-  user_sub uuid;
+  user_sub VARCHAR;
   user_id int;
 
 begin
   user_sub := (select sub from ccbc_public.session());
-  user_id := (select id from ccbc_public.ccbc_user where ccbc_user.uuid = user_sub);
+  user_id := (select id from ccbc_public.ccbc_user where ccbc_user.session_sub = user_sub);
   if tg_op = 'INSERT' then
     if to_jsonb(new) ? 'created_at' then
       new.created_at = now();
