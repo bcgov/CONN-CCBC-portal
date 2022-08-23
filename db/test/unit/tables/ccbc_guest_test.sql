@@ -10,7 +10,7 @@ select throws_like(
     update ccbc_public.ccbc_user set session_sub = 'ca716545-a8d3-4034-819c-5e45b0e775c9' where session_sub!=(select sub from ccbc_public.session())
   $$,
   'permission denied%',
-    'ccbc_guest cannot update their uuid'
+    'ccbc_guest cannot update their session_sub'
 );
 
 select throws_like(

@@ -10,7 +10,7 @@ create type ccbc_public.keycloak_jwt as (
   iat integer,
   iss text,
   aud text,
-  sub VARCHAR(1000),
+  sub varchar(1000),
   typ text,
   azp text,
   auth_time integer,

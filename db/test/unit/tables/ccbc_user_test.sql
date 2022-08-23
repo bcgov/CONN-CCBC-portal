@@ -35,7 +35,7 @@ select results_eq(
   $$
     select count(*) from ccbc_public.ccbc_user
   $$,
-  ARRAY['5'::bigint],
+  ARRAY['4'::bigint],
     'ccbc_auth_user can view all data from ccbc_user'
 );
 

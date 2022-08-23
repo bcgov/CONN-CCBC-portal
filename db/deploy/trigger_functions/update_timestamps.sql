@@ -7,7 +7,7 @@ create or replace function ccbc_private.update_timestamps()
   returns trigger as $$
 
 declare
-  user_sub VARCHAR;
+  user_sub varchar;
   user_id int;
 
 begin
