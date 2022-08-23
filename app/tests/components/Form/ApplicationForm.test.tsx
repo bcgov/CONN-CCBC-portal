@@ -141,6 +141,30 @@ describe('The application form', () => {
     });
   });
 
+  it.only('displays the correct button label for withdrawn applications', async () => {
+    const payload = {
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          status: 'withdrawn',
+          formData: {},
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(payload);
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByRole('button', { name: 'Continue' }));
+  });
+
   it('submission page submit button is enabled on when all inputs filled', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent((data) => ({
