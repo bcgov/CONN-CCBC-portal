@@ -7,6 +7,7 @@ returns ccbc_public.applications as $$
 declare
   current_intake_id int;
   current_intake_number int;
+  reference_number bigint;
   seq_name varchar;
   application_status varchar;
 begin
@@ -28,12 +29,14 @@ begin
     raise 'There is no open intake, the application cannot be submitted';
   end if;
 
+  select nextval(seq_name) into reference_number;
+
   update ccbc_public.applications set
     status = 'submitted',
     intake_id = current_intake_id,
     ccbc_number = format(
       'CCBC-%s%s', lpad(current_intake_number::text , 2, '0'),
-      lpad(nextval(seq_name)::text, 4, '0')
+      lpad(reference_number::text, 4, '0')
     )
   where id = application_row_id;
 
