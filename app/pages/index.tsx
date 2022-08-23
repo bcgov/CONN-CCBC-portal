@@ -84,7 +84,9 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
             CCBC is a program jointly funded by Canada and British Columbia.
             Applications selected by CCBC may be funded by both the Province and
             Innovation, Science and Economic Development Canada&rsquo;s (ISED)
-            UBF.
+            UBF. Despite the streamlined application process, ISED has its own
+            decision-making process and the Province does not represent ISED or
+            make determinations regarding the Universal Broadband Fund (UBF).
           </li>
         </ul>
         <h3>Application form overview</h3>
