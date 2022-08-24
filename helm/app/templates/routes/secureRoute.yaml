@@ -1,4 +1,4 @@
-{{- $route := (lookup "route.openshift.io/v1" "Route" .Release.Namespace "your-route" ) }}
+{{- $route := (lookup "route.openshift.io/v1" "Route" .Release.Namespace "{{ template 'ccbc.fullname' . }}-secure") }}
 {{- $certificate := "" }}
 {{- $key := "" }}
 {{- $caCertificate := "" }}
