@@ -140,4 +140,4 @@ certbot:
     email: '' # The value must be passed in via the deploy script
     server: '' # The value must be passed in via the deploy script
   cron:
-    suspend: true # until certs are issued
+    suspend: false # The certs have been issued in all environments
