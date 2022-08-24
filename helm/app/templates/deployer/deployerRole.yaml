@@ -94,6 +94,7 @@ rules:
     resources:
       - routes
     verbs:
+      - list
       - get
       - create
       - update
@@ -106,16 +107,6 @@ rules:
       - processedtemplates
     verbs:
       - create
-  - apiGroups:
-      - route.openshift.io
-    attributeRestrictions: null
-    resources:
-      - routes
-    verbs:
-      - get
-      - create
-      - update
-      - patch
   - apiGroups:
       - route.openshift.io
       - ""
