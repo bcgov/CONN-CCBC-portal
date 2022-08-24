@@ -566,7 +566,6 @@ const uiSchema = {
     'ui:description': `Geographic coverage map from ISED's Eligibility Mapping Tool. KMZ is required.`,
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
-      allowMultipleFiles: true,
       fileTypes: '.kmz',
     },
   },
