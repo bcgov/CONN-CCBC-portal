@@ -295,25 +295,19 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const handleDisabled = (page: string, noErrors: boolean) => {
-    let disabled = false;
     switch (true) {
       case isWithdrawn:
-        disabled = false;
-        break;
+        return false;
       case page === 'review' && noErrors:
-        disabled = false;
-        break;
+        return false;
       case page === 'review':
-        disabled = !reviewConfirm;
-        break;
+        return !reviewConfirm;
       case page === 'acknowledgements':
-        disabled = !areAllAcknowledgementsChecked;
-        break;
+        return !areAllAcknowledgementsChecked;
       case page === 'submission':
-        disabled = !areAllSubmissionFieldsSet;
-        break;
+        return !areAllSubmissionFieldsSet;
     }
-    return disabled;
+    return false;
   };
 
   const calculate = (formData) => {
