@@ -19,7 +19,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const { json, urlencoded } = bodyParser;
-
+const bodyParserLimit = '5mb';
 app.prepare().then(async () => {
   const server = express();
 
@@ -32,9 +32,9 @@ app.prepare().then(async () => {
     await pgPool.end();
   });
 
-  server.use(json());
+  server.use(json({ limit: bodyParserLimit }));
 
-  server.use(urlencoded({ extended: false }));
+  server.use(urlencoded({ extended: false, limit: bodyParserLimit }));
 
   server.use(cookieParser());
 
