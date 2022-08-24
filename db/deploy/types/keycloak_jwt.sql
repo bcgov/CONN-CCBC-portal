@@ -10,7 +10,7 @@ create type ccbc_public.keycloak_jwt as (
   iat integer,
   iss text,
   aud text,
-  sub uuid,
+  sub varchar(1000),
   typ text,
   azp text,
   auth_time integer,
@@ -148,6 +148,6 @@ comment on column ccbc_public.keycloak_jwt.broker_session_id is
 comment on column ccbc_public.keycloak_jwt.identity_provider is
   'Name of the identity provider.';
 
-comment on type ccbc_public.keycloak_jwt is E'@primaryKey sub\n@foreignKey (sub) references ccbc_user (uuid)';
+comment on type ccbc_public.keycloak_jwt is E'@primaryKey sub\n@foreignKey (sub) references ccbc_user (session_sub)';
 
 commit;

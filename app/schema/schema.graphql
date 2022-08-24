@@ -361,7 +361,7 @@ type CcbcUser implements Node {
   """
   Universally Unique ID for the user, defined by the single sign-on provider
   """
-  uuid: UUID!
+  sessionSub: String
 
   """User's first name"""
   givenName: String
@@ -835,11 +835,6 @@ type CcbcUser implements Node {
   ): IntakesConnection!
 }
 
-"""
-A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122).
-"""
-scalar UUID
-
 """A connection to a list of `CcbcUser` values."""
 type CcbcUsersConnection {
   """A list of `CcbcUser` objects."""
@@ -889,8 +884,8 @@ enum CcbcUsersOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  UUID_ASC
-  UUID_DESC
+  SESSION_SUB_ASC
+  SESSION_SUB_DESC
   GIVEN_NAME_ASC
   GIVEN_NAME_DESC
   FAMILY_NAME_ASC
@@ -921,8 +916,8 @@ input CcbcUserCondition {
   """Checks for equality with the object’s `rowId` field."""
   rowId: Int
 
-  """Checks for equality with the object’s `uuid` field."""
-  uuid: UUID
+  """Checks for equality with the object’s `sessionSub` field."""
+  sessionSub: String
 
   """Checks for equality with the object’s `givenName` field."""
   givenName: String
@@ -985,7 +980,7 @@ type Application implements Node {
   ccbcNumber: String
 
   """The owner of the application"""
-  owner: UUID!
+  owner: String!
 
   """The data entered into the form by the respondent"""
   formData: JSON!
@@ -1195,7 +1190,7 @@ input ApplicationCondition {
   ccbcNumber: String
 
   """Checks for equality with the object’s `owner` field."""
-  owner: UUID
+  owner: String
 
   """Checks for equality with the object’s `formData` field."""
   formData: JSON
@@ -1317,6 +1312,11 @@ type Attachment implements Node {
   """Reads a single `CcbcUser` that is related to this `Attachment`."""
   ccbcUserByArchivedBy: CcbcUser
 }
+
+"""
+A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122).
+"""
+scalar UUID
 
 """A `Attachment` edge in the connection."""
 type AttachmentsEdge {
@@ -1609,7 +1609,7 @@ type ApplicationsView {
   ccbcNumber: String
 
   """The owner of the application"""
-  owner: UUID
+  owner: String
 
   """The data entered into the form by the respondent"""
   formData: JSON
@@ -1696,7 +1696,7 @@ input ApplicationsViewCondition {
   ccbcNumber: String
 
   """Checks for equality with the object’s `owner` field."""
-  owner: UUID
+  owner: String
 
   """Checks for equality with the object’s `formData` field."""
   formData: JSON
@@ -1799,7 +1799,7 @@ type KeycloakJwt {
      "sub" value is a case-sensitive string containing a StringOrURI
      value.
   """
-  sub: UUID
+  sub: String
 
   """
   OPTIONAL - The "typ" (type) Header Parameter defined by [JWS] and [JWE] is used
@@ -2308,7 +2308,7 @@ input ApplicationInput {
   ccbcNumber: String
 
   """The owner of the application"""
-  owner: UUID!
+  owner: String!
 
   """The data entered into the form by the respondent"""
   formData: JSON
@@ -2387,7 +2387,7 @@ input ApplicationsViewInput {
   ccbcNumber: String
 
   """The owner of the application"""
-  owner: UUID
+  owner: String
 
   """The data entered into the form by the respondent"""
   formData: JSON
@@ -2574,7 +2574,7 @@ input CcbcUserInput {
   """
   Universally Unique ID for the user, defined by the single sign-on provider
   """
-  uuid: UUID!
+  sessionSub: String
 
   """User's first name"""
   givenName: String
@@ -2842,7 +2842,7 @@ input ApplicationPatch {
   ccbcNumber: String
 
   """The owner of the application"""
-  owner: UUID
+  owner: String
 
   """The data entered into the form by the respondent"""
   formData: JSON
@@ -3100,7 +3100,7 @@ input CcbcUserPatch {
   """
   Universally Unique ID for the user, defined by the single sign-on provider
   """
-  uuid: UUID
+  sessionSub: String
 
   """User's first name"""
   givenName: String
