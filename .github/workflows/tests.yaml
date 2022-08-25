@@ -26,7 +26,7 @@ jobs:
         uses: ./.github/actions/local-app-run
       - name: Run Jest tests
         working-directory: ./app
-        run: yarn test
+        run: yarn test --coverage
 
   schema:
     needs: [install-test-env]
