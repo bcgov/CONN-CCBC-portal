@@ -1,5 +1,5 @@
 begin;
-select plan(20);
+select plan(23);
 
 create table ccbc_public.test_table_all_columns
 (
@@ -50,20 +50,20 @@ select col_is_fk(
 );
 
 -- Indices exist
--- select has_index(
---   'ccbc_public', 'test_table_all_columns', 'ccbc_test_table_all_columns_created_by_foreign_key',
---   'test_table_all_columns has an index on created_by fk'
--- );
+select has_index(
+  'ccbc_public', 'test_table_all_columns', 'ccbc_public_test_table_all_columns_created_by_foreign_key',
+  'test_table_all_columns has an index on created_by fk'
+);
 
--- select has_index(
---   'ccbc_public', 'test_table_all_columns', 'ccbc_test_table_all_columns_updated_by_foreign_key',
---   'test_table_all_columns has an index on updated_by fk'
--- );
+select has_index(
+  'ccbc_public', 'test_table_all_columns', 'ccbc_public_test_table_all_columns_updated_by_foreign_key',
+  'test_table_all_columns has an index on updated_by fk'
+);
 
--- select has_index(
---   'ccbc_public', 'test_table_all_columns', 'ccbc_test_table_all_columns_archived_by_foreign_key',
---   'test_table_all_columns has an index on archived_by fk'
--- );
+select has_index(
+  'ccbc_public', 'test_table_all_columns', 'ccbc_public_test_table_all_columns_archived_by_foreign_key',
+  'test_table_all_columns has an index on archived_by fk'
+);
 
 set client_min_messages to warning;
 select lives_ok(
