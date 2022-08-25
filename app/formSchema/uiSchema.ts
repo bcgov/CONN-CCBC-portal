@@ -549,7 +549,7 @@ const uiSchema = {
     'ui:options': {
       allowMultipleFiles: true,
       maxLength: MAX_LONG_INPUT_LENGTH,
-      fileTypes: '.xlsx, .mpp',
+      fileTypes: '.xls, .xlsx, .mpp',
     },
   },
   communityRuralDevelopmentBenefits: {
@@ -575,7 +575,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       fileTypes:
-        '.eml, .msg, .txt, .pdf, .doc, .docx, .xlsx, .xlsx, .xml, .jpg, .jpeg, .png',
+        '.eml, .msg, .txt, .pdf, .doc, .docx, .xls, .xlsx, .xml, .jpg, .jpeg, .png',
     },
   },
   currentNetworkInfastructure: {
@@ -603,7 +603,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: 'xls, .xlsx',
     },
   },
   detailedBudget: {
@@ -612,7 +612,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: 'xls, .xlsx',
     },
   },
   financialForecast: {
@@ -621,7 +621,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: 'xls, .xlsx',
     },
   },
   lastMileIspOffering: {
@@ -630,7 +630,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: 'xls, .xlsx',
     },
   },
   popWholesalePricing: {
@@ -640,7 +640,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: 'xls, .xlsx',
     },
   },
   communityRuralDevelopmentBenefitsTemplate: {
@@ -649,7 +649,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: 'xls, .xlsx',
     },
   },
   evidenceOfConnectivitySpeeds: {
@@ -667,7 +667,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: 'xls, .xlsx',
     },
   },
   supportingConnectivityEvidence: {
@@ -677,7 +677,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: 'xls, .xlsx',
     },
   },
   geographicNames: {
@@ -686,7 +686,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: 'xls, .xlsx',
     },
   },
   equipmentDetails: {
@@ -695,7 +695,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: 'xls, .xlsx',
     },
   },
   totalEligibleCosts: {
