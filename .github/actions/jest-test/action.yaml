@@ -5,5 +5,5 @@ runs:
   steps:
     - name: run jest tests with coverage
       shell: bash
-      workingDirectory: ./app
+      working-directory: ./app
       run: yarn test --coverage
