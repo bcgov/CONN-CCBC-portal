@@ -92,6 +92,8 @@ jobs:
   tests:
     needs: [build-and-push-image]
     uses: ./.github/workflows/tests.yaml
+    secrets: 
+      SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
 
   end-to-end:
     needs: [tests, build-and-push-image]
