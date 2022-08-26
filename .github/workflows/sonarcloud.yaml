@@ -8,16 +8,17 @@ on:
     types: [opened, synchronize, reopened]
 name: Sonarcloud Workflow
 jobs:
-  run-tests:
-    uses: ./.github/workflows/tests.yaml
   sonarcloud:
-    needs: [run-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: run jest tests
+        uses: ./.github/actions/jest-test
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:

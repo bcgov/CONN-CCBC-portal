@@ -22,11 +22,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
-      - name: run app locally
-        uses: ./.github/actions/local-app-run
       - name: Run Jest tests
-        working-directory: ./app
-        run: yarn test --coverage
+        uses: ./.github/actions/jest-test
 
   schema:
     needs: [install-test-env]

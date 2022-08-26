@@ -1,0 +1,9 @@
+name: 'Run Jest tests'
+description: 'Runs the CCBC app locally'
+runs:
+  using: composite
+  steps:
+    - name: run jest tests with coverage
+      shell: bash
+      workingDirectory: ./app
+      run: yarn test --coverage
