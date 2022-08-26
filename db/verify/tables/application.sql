@@ -1,4 +1,4 @@
--- Verify ccbc:tables/applications on pg
+-- Verify ccbc:tables/application on pg
 
 begin;
 

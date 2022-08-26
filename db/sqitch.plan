@@ -1,9 +1,9 @@
 %syntax-version=1.0.0
 %project=ccbc
 
-create_roles 2022-04-11T23:46:54Z marcel <mlmueller@protonmail.com> # Add create_roles
-schemas/public 2022-04-11T22:30:24Z marcel <mlmueller@protonmail.com> # Add main ccbc schema
-schemas/private 2022-04-11T23:55:16Z marcel <mlmueller@protonmail.com> # Add private schema
+create_roles 2022-04-11T23:46:54Z Marcel Mueller <marcel@button.is> # Add create_roles
+schemas/public 2022-04-11T22:30:24Z Marcel Mueller <marcel@button.is> # Add main ccbc schema
+schemas/private 2022-04-11T23:55:16Z Marcel Mueller <marcel@button.is> # Add private schema
 types/keycloak_jwt [schemas/public] 2022-05-26T20:39:57Z Bryan Krauss <bryan@button.is> # keycloak jwt type
 util_functions/upsert_policy [create_roles] 2022-05-26T22:06:05Z Bryan Krauss <bryan@button.is> # util function for working with RLS
 trigger_functions/update_timestamps [schemas/private] 2022-05-27T17:34:46Z Bryan Krauss <bryan@button.is> # A trigger function to update timestamp in tables
@@ -12,19 +12,13 @@ util_functions/upsert_timestamp_columns [trigger_functions/update_timestamps] 20
 util_functions/grant_permissions [create_roles] 2022-05-17T18:13:44Z Bryan Krauss <bryan@button.is> # Creates util function to grant permission to different ccbc users
 util_functions/verify_grants [schemas/public] 2022-05-27T20:39:15Z Bryan Krauss <bryan@button.is> # util function to verify grant permissions on tables
 functions/session [schemas/public types/keycloak_jwt] 2022-05-27T20:29:47Z Bryan Krauss <bryan@button.is> # user session
-tables/connect_session 2022-04-11T23:59:30Z marcel <mlmueller@protonmail.com> # Add connect_session table
+tables/connect_session 2022-04-11T23:59:30Z Marcel Mueller <marcel@button.is> # Add connect_session table
 tables/ccbc_user 2022-05-26T17:58:53Z Bryan Krauss <bryan@button.is> # Users table for ccbc project
-tables/applications 2022-04-11T22:31:16Z marcel <mlmueller@protonmail.com> # Add application table to store application data
-mutations/create_user_from_session 2022-05-26T20:41:37Z Bryan Krauss <bryan@button.is> # A mutation to create a user from the seesion table
-tables/application_status 2022-07-08T13:27:08Z Marcel Mueller,,, <marcel@Thinkpad> # add table application_status
-tables/attachment 2022-07-07T23:19:04Z Marcel Mueller,,, <marcel@Thinkpad> # add table attachment
-functions/expose_application_name 2022-07-15T16:39:24Z Anthony Bushara <anthony@button.is> # Exposes Application Name as Computed Column
-tables/applications/remove_unique_owner 2022-07-19T14:44:25Z Anthony Bushara <anthony@button.is> # Removes unique constraint for owner
-tables/applications/owner_not_null 2022-07-20T15:51:46Z Anthony Bushara <anthony@button.is> # Owner of the application cannot be null
+mutations/create_user_from_session 2022-05-26T20:41:37Z Bryan Krauss <bryan@button.is> # A mutation to create a user from the session table
 trigger_functions/create_intake_sequence 2022-08-23T16:32:25Z Matthieu Foucault <matthieu@button.is> # Add a trigger function to create the intake sequence
-tables/add_intake_table [trigger_functions/create_intake_sequence] 2022-07-22T15:27:16Z Anthony Bushara <anthony@button.is> # Creates the intake table
-tables/applications/connect_intake_table 2022-07-26T15:15:49Z Anthony Bushara <anthony@button.is> # Adds the intake table as a fk to applications
-tables/applications_001 2022-08-03T19:33:26Z Marcel Mueller,,, <marcel@Thinkpad> # add column to applications
-views/applications_view 2022-08-17T20:50:30Z ,,, <vb@vbpro> # Adding view
+tables/intake [trigger_functions/create_intake_sequence] 2022-07-22T15:27:16Z Anthony Bushara <anthony@button.is> # Creates the intake table
+tables/application [tables/intake] 2022-04-11T22:31:16Z Marcel Mueller <marcel@button.is> # Add application table to store application data
+tables/application_status 2022-07-08T13:27:08Z Marcel Mueller <marcel@button.is> # add table application_status
+tables/attachment [tables/application] 2022-07-07T23:19:04Z Marcel Mueller <marcel@button.is> # add table attachment
 functions/open_intake 2022-08-16T13:48:54Z Anthony Bushara <anthony@button.is> # Function to display the current open intake
 mutations/submit_application 2022-08-23T17:18:10Z Matthieu Foucault <matthieu@button.is> # create a mutation to submit an application

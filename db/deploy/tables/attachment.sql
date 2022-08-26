@@ -1,6 +1,6 @@
 -- Deploy ccbc:tables/attachment to pg
 -- requires: tables/application_status
--- requires: tables/applications
+-- requires: tables/application
 
 begin;
 

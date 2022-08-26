@@ -1,7 +1,7 @@
 -- Revert ccbc:tables/add_intake_table from pg
 
-BEGIN;
+begin;
 
 drop table ccbc_public.intake;
 
-COMMIT;
+commit;
