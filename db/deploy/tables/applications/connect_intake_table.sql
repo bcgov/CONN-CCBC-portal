@@ -3,7 +3,7 @@
 BEGIN;
 
 ALTER TABLE ccbc_public.application ADD COLUMN intake_id integer;
-ALTER TABLE ccbc_public.application ADD CONSTRAINT applications_intake_fk
+ALTER TABLE ccbc_public.application ADD CONSTRAINT application_intake_fk
  FOREIGN KEY (intake_id) REFERENCES ccbc_public.intake(id);
 ALTER TABLE ccbc_public.application ADD CONSTRAINT unique_intake_and_id UNIQUE(intake_id, ccbc_number);
 

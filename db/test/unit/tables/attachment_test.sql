@@ -9,14 +9,14 @@ select has_table(
 );
 
 -- Columns
-select has_column('ccbc_public', 'attachment', 'id','The table applications has column id');
-select has_column('ccbc_public', 'attachment', 'file','The table applications has column file');
-select has_column('ccbc_public', 'attachment', 'description','The table applications has column description');
-select has_column('ccbc_public', 'attachment', 'file_name','The table applications has column file_name');
-select has_column('ccbc_public', 'attachment', 'file_type','The table applications has column file_type');
-select has_column('ccbc_public', 'attachment', 'file_size','The table applications has column file_size');
-select has_column('ccbc_public', 'attachment', 'application_id','The table applications has column application_id');
-select has_column('ccbc_public', 'attachment', 'application_status_id','The table applications has column application_status_id');
+select has_column('ccbc_public', 'attachment', 'id','The table attachment has column id');
+select has_column('ccbc_public', 'attachment', 'file','The table attachment has column file');
+select has_column('ccbc_public', 'attachment', 'description','The table attachment has column description');
+select has_column('ccbc_public', 'attachment', 'file_name','The table attachment has column file_name');
+select has_column('ccbc_public', 'attachment', 'file_type','The table attachment has column file_type');
+select has_column('ccbc_public', 'attachment', 'file_size','The table attachment has column file_size');
+select has_column('ccbc_public', 'attachment', 'application_id','The table attachment has column application_id');
+select has_column('ccbc_public', 'attachment', 'application_status_id','The table attachment has column application_status_id');
 
 -- Privileges
 select table_privs_are(
