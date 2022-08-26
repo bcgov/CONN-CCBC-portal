@@ -141,7 +141,7 @@ describe('The application form', () => {
     });
   });
 
-  it.only('displays the correct button label for withdrawn applications', async () => {
+  it('displays the correct button label for withdrawn applications', async () => {
     const payload = {
       Application() {
         return {
