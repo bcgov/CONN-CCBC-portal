@@ -8,7 +8,7 @@ SELECT * FROM no_plan();
 -- Table exists
 select has_table(
   'ccbc_public', 'applications',
-  'ccbc_public.applications should exist and be a table'
+  'ccbc_public.application should exist and be a table'
 );
 
 
