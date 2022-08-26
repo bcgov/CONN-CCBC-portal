@@ -6,6 +6,26 @@ const otherFundingSources = {
       'Identify sources of funding that you expect to secure to cover all project costs, not including the Province of British Columbia, the Universal Broadband Fund or the Canadian Infrastructure Bank. Please only include loans that you anticipate receiving from a program or granting agency. Any other loans must be included in the applicant funding.',
     required: ['otherFundingSources'],
     properties: {
+      infrastructureBankFunding2223: {
+        title: '2022-23',
+        type: 'number',
+      },
+      infrastructureBankFunding2324: {
+        title: '2023-24',
+        type: 'number',
+      },
+      infrastructureBankFunding2425: {
+        title: '2024-25',
+        type: 'number',
+      },
+      infrastructureBankFunding2526: {
+        title: '2025-26',
+        type: 'number',
+      },
+      totalInfrastructureBankFunding: {
+        title: 'Total amount requested under Canadian Infrastructure Bank',
+        type: 'number',
+      },
       otherFundingSources: {
         title: 'Will you have other funding sources?',
         type: 'boolean',

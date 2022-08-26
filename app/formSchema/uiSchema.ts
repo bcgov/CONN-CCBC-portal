@@ -932,6 +932,7 @@ const uiSchema = {
       columns: 2,
       totalApplicantContribution: '1 / 2',
     },
+    // Other funding sources non nested grid schema
     {
       title:
         'Funding from Canadian Infrastructure Bank per fiscal year (April 1 - March 31) (if applicable)',
@@ -942,9 +943,10 @@ const uiSchema = {
       infrastructureBankFunding2526: 4,
     },
     {
-      columns: 2,
+      columns: 1,
       totalInfrastructureBankFunding: '1 / 2',
     },
+    //Estimated project employment grid schema
     {
       columns: 1,
       currentEmployment: '1 / 2',

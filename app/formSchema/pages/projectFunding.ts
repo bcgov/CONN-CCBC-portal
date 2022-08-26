@@ -67,26 +67,6 @@ const projectFunding = {
         title: 'Total amount Applicant will contribute',
         type: 'number',
       },
-      infrastructureBankFunding2223: {
-        title: '2022-23',
-        type: 'number',
-      },
-      infrastructureBankFunding2324: {
-        title: '2023-24',
-        type: 'number',
-      },
-      infrastructureBankFunding2425: {
-        title: '2024-25',
-        type: 'number',
-      },
-      infrastructureBankFunding2526: {
-        title: '2025-26',
-        type: 'number',
-      },
-      totalInfrastructureBankFunding: {
-        title: 'Total amount requested under Canadian Infrastructure Bank',
-        type: 'number',
-      },
     },
   },
 };
