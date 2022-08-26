@@ -66,7 +66,7 @@ const Review = ({
     'estimatedProjectEmployment',
     'templateUploads',
     'supportingDocuments',
-    'mapping',
+    'coverage',
     'organizationProfile',
     'organizationLocation',
     'contactInformation',

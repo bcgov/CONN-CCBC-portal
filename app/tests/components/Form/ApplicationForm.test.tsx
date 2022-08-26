@@ -272,19 +272,6 @@ describe('The application form', () => {
     );
   });
 
-  it('Review page contains submission date from DB', async () => {
-    componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 19,
-      query: data.query,
-    }));
-
-    expect(
-      screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)
-    ).toBeInTheDocument();
-  });
-
   it('Submission page contains submission date from DB', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent((data) => ({
