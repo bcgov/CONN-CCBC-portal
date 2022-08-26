@@ -12,7 +12,7 @@ const coverage = {
     properties: {
       geographicCoverageMap: {
         title:
-          'Use ISED’s Eligibility Mapping Tool to generate the Project Coverage that is to be included in your application.',
+          'Use ISED’s Eligibility Mapping Tool to generate the Project Coverage that is to be included in your application." to "Use ISED’s Eligibility Mapping Tool to generate the project coverage for this application.',
         type: 'string',
       },
       coverageAssessmentStatistics: {
