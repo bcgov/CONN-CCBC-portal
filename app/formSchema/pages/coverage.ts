@@ -1,9 +1,8 @@
-const mapping = {
-  mapping: {
+const coverage = {
+  coverage: {
     title: 'Coverage',
     type: 'object',
-    description:
-      'Please submit the following coverage data.',
+    description: 'Please submit the following coverage data.',
     required: [
       'geographicCoverageMap',
       'coverageAssessmentStatistics',
@@ -35,4 +34,4 @@ const mapping = {
   },
 };
 
-export default mapping;
+export default coverage;
