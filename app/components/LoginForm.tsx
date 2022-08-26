@@ -1,9 +1,9 @@
-import StyledGovButton from './StyledGovButton';
+import Button from '@button-inc/bcgov-theme/Button';
 
 const LoginForm = () => {
   return (
     <form action="/login" method="POST">
-      <StyledGovButton type="submit">Login with BCeID</StyledGovButton>
+      <Button type="submit">Login with BCeID</Button>
     </form>
   );
 };

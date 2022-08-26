@@ -21,6 +21,10 @@ const StyledDetails = styled('div')`
   min-width: 80px;
 `;
 
+const StyledBtnContainer = styled('div')`
+  margin: 24px 0;
+`;
+
 const getPagesQuery = graphql`
   query pagesQuery {
     session {
@@ -54,9 +58,13 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
             BCeID, please register for a Basic BCeID.
           </p>
           {session?.sub ? (
-            <ButtonLink href="/dashboard">Go to dashboard</ButtonLink>
+            <StyledBtnContainer>
+              <ButtonLink href="/dashboard">Go to dashboard</ButtonLink>
+            </StyledBtnContainer>
           ) : (
-            <LoginForm />
+            <StyledBtnContainer>
+              <LoginForm />
+            </StyledBtnContainer>
           )}
         </section>
 
