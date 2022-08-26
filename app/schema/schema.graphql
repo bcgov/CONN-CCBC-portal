@@ -17,35 +17,6 @@ type Query implements Node {
     id: ID!
   ): Node
 
-  """Reads and enables pagination through a set of `ApplicationStatus`."""
-  allApplicationStatuses(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `ApplicationStatus`."""
-    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ApplicationStatusCondition
-  ): ApplicationStatusesConnection
-
   """Reads and enables pagination through a set of `Application`."""
   allApplications(
     """Only read the first `n` values of the set."""
@@ -75,8 +46,8 @@ type Query implements Node {
     condition: ApplicationCondition
   ): ApplicationsConnection
 
-  """Reads and enables pagination through a set of `ApplicationsView`."""
-  allApplicationsViews(
+  """Reads and enables pagination through a set of `ApplicationStatus`."""
+  allApplicationStatuses(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -95,14 +66,43 @@ type Query implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationsView`."""
-    orderBy: [ApplicationsViewsOrderBy!] = [NATURAL]
+    """The method to use when ordering `ApplicationStatus`."""
+    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationsViewCondition
-  ): ApplicationsViewsConnection
+    condition: ApplicationStatusCondition
+  ): ApplicationStatusesConnection
+
+  """Reads and enables pagination through a set of `ApplicationView`."""
+  allApplicationViews(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationView`."""
+    orderBy: [ApplicationViewsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationViewCondition
+  ): ApplicationViewsConnection
 
   """Reads and enables pagination through a set of `Attachment`."""
   allAttachments(
@@ -190,9 +190,9 @@ type Query implements Node {
     """
     condition: IntakeCondition
   ): IntakesConnection
-  applicationStatusByRowId(rowId: Int!): ApplicationStatus
   applicationByRowId(rowId: Int!): Application
   applicationByIntakeIdAndCcbcNumber(intakeId: Int!, ccbcNumber: String!): Application
+  applicationStatusByRowId(rowId: Int!): ApplicationStatus
   attachmentByRowId(rowId: Int!): Attachment
   ccbcUserByRowId(rowId: Int!): CcbcUser
   intakeByRowId(rowId: Int!): Intake
@@ -203,14 +203,6 @@ type Query implements Node {
   openIntake: Intake
   session: KeycloakJwt
 
-  """Reads a single `ApplicationStatus` using its globally unique `ID`."""
-  applicationStatus(
-    """
-    The globally unique `ID` to be used in selecting a single `ApplicationStatus`.
-    """
-    id: ID!
-  ): ApplicationStatus
-
   """Reads a single `Application` using its globally unique `ID`."""
   application(
     """
@@ -218,6 +210,14 @@ type Query implements Node {
     """
     id: ID!
   ): Application
+
+  """Reads a single `ApplicationStatus` using its globally unique `ID`."""
+  applicationStatus(
+    """
+    The globally unique `ID` to be used in selecting a single `ApplicationStatus`.
+    """
+    id: ID!
+  ): ApplicationStatus
 
   """Reads a single `Attachment` using its globally unique `ID`."""
   attachment(
@@ -248,40 +248,46 @@ interface Node {
   id: ID!
 }
 
-"""A connection to a list of `ApplicationStatus` values."""
-type ApplicationStatusesConnection {
-  """A list of `ApplicationStatus` objects."""
-  nodes: [ApplicationStatus]!
+"""A connection to a list of `Application` values."""
+type ApplicationsConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
 
   """
-  A list of edges which contains the `ApplicationStatus` and cursor to aid in pagination.
+  A list of edges which contains the `Application` and cursor to aid in pagination.
   """
-  edges: [ApplicationStatusesEdge!]!
+  edges: [ApplicationsEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  """
-  The count of *all* `ApplicationStatus` you could get from the connection.
-  """
+  """The count of *all* `Application` you could get from the connection."""
   totalCount: Int!
 }
 
-"""Table containing information about possible application statuses"""
-type ApplicationStatus implements Node {
+"""
+Table containing the data associated with the CCBC respondents application
+"""
+type Application implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
 
-  """Unique ID for the application_status"""
+  """Primary key ID for the application"""
   rowId: Int!
 
-  """Name of the application_status"""
-  name: String!
+  """Reference number assigned to the application"""
+  ccbcNumber: String
 
-  """Description of the application_status"""
-  description: String
+  """The owner of the application"""
+  owner: String!
+
+  """The data entered into the form by the respondent"""
+  formData: JSON!
+
+  """The status of the application, draft or complete"""
+  status: String
 
   """created by user id"""
   createdBy: Int
@@ -301,17 +307,28 @@ type ApplicationStatus implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  """
+  Application Intake Number, used as the prefix for CCBC reference number
+  """
+  intakeId: Int
+
+  """Column saving the key of the last edited form page"""
+  lastEditedPage: String
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByCreatedBy: CcbcUser
 
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByUpdatedBy: CcbcUser
 
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByArchivedBy: CcbcUser
 
+  """Reads a single `Intake` that is related to this `Application`."""
+  intakeByIntakeId: Intake
+
   """Reads and enables pagination through a set of `Attachment`."""
-  attachmentsByApplicationStatusId(
+  attachmentsByApplicationId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -338,7 +355,13 @@ type ApplicationStatus implements Node {
     """
     condition: AttachmentCondition
   ): AttachmentsConnection!
+  projectName: String
 }
+
+"""
+A JavaScript object encoded in the JSON format as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
 
 """
 A point in time as described by the [ISO
@@ -947,204 +970,6 @@ input CcbcUserCondition {
   archivedAt: Datetime
 }
 
-"""A connection to a list of `Application` values."""
-type ApplicationsConnection {
-  """A list of `Application` objects."""
-  nodes: [Application]!
-
-  """
-  A list of edges which contains the `Application` and cursor to aid in pagination.
-  """
-  edges: [ApplicationsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Application` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""
-Table containing the data associated with the CCBC respondents application
-"""
-type Application implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-
-  """Primary key ID for the application"""
-  rowId: Int!
-
-  """Reference number assigned to the application"""
-  ccbcNumber: String
-
-  """The owner of the application"""
-  owner: String!
-
-  """The data entered into the form by the respondent"""
-  formData: JSON!
-
-  """The status of the application, draft or complete"""
-  status: String
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime!
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime!
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
-
-  """
-  Application Intake Number, used as the prefix for CCBC reference number
-  """
-  intakeId: Int
-
-  """Column saving the key of the last edited form page"""
-  lastEditedPage: String
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """Reads a single `Intake` that is related to this `Application`."""
-  intakeByIntakeId: Intake
-
-  """Reads and enables pagination through a set of `Attachment`."""
-  attachmentsByApplicationId(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Attachment`."""
-    orderBy: [AttachmentsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: AttachmentCondition
-  ): AttachmentsConnection!
-  projectName: String
-}
-
-"""
-A JavaScript object encoded in the JSON format as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON
-
-"""
-Table contianing intake numbers and their respective open and closing dates
-"""
-type Intake implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-
-  """Unique ID for each intake number"""
-  rowId: Int!
-
-  """Open date and time for an intake number"""
-  openTimestamp: Datetime!
-
-  """Close date and time for an intake number"""
-  closeTimestamp: Datetime!
-
-  """Unique intake number for a set of CCBC IDs"""
-  ccbcIntakeNumber: Int!
-
-  """
-  The name of the sequence used to generate CCBC ids. It is added via a trigger
-  """
-  applicationNumberSeqName: String
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime!
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime!
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
-
-  """Reads a single `CcbcUser` that is related to this `Intake`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Intake`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Intake`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """Reads and enables pagination through a set of `Application`."""
-  applicationsByIntakeId(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Application`."""
-    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ApplicationCondition
-  ): ApplicationsConnection!
-}
-
 """Methods to use when ordering `Application`."""
 enum ApplicationsOrderBy {
   NATURAL
@@ -1221,6 +1046,98 @@ input ApplicationCondition {
 
   """Checks for equality with the object’s `lastEditedPage` field."""
   lastEditedPage: String
+}
+
+"""A connection to a list of `ApplicationStatus` values."""
+type ApplicationStatusesConnection {
+  """A list of `ApplicationStatus` objects."""
+  nodes: [ApplicationStatus]!
+
+  """
+  A list of edges which contains the `ApplicationStatus` and cursor to aid in pagination.
+  """
+  edges: [ApplicationStatusesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationStatus` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""Table containing information about possible application statuses"""
+type ApplicationStatus implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Unique ID for the application_status"""
+  rowId: Int!
+
+  """Name of the application_status"""
+  name: String!
+
+  """Description of the application_status"""
+  description: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """Reads and enables pagination through a set of `Attachment`."""
+  attachmentsByApplicationStatusId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Attachment`."""
+    orderBy: [AttachmentsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AttachmentCondition
+  ): AttachmentsConnection!
 }
 
 """A connection to a list of `Attachment` values."""
@@ -1410,13 +1327,13 @@ input AttachmentCondition {
   archivedAt: Datetime
 }
 
-"""A `Application` edge in the connection."""
-type ApplicationsEdge {
+"""A `ApplicationStatus` edge in the connection."""
+type ApplicationStatusesEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `Application` at the end of the edge."""
-  node: Application
+  """The `ApplicationStatus` at the end of the edge."""
+  node: ApplicationStatus
 }
 
 """Methods to use when ordering `ApplicationStatus`."""
@@ -1492,6 +1409,89 @@ type IntakesConnection {
 
   """The count of *all* `Intake` you could get from the connection."""
   totalCount: Int!
+}
+
+"""
+Table contianing intake numbers and their respective open and closing dates
+"""
+type Intake implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Unique ID for each intake number"""
+  rowId: Int!
+
+  """Open date and time for an intake number"""
+  openTimestamp: Datetime!
+
+  """Close date and time for an intake number"""
+  closeTimestamp: Datetime!
+
+  """Unique intake number for a set of CCBC IDs"""
+  ccbcIntakeNumber: Int!
+
+  """
+  The name of the sequence used to generate CCBC ids. It is added via a trigger
+  """
+  applicationNumberSeqName: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `CcbcUser` that is related to this `Intake`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Intake`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Intake`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByIntakeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+  ): ApplicationsConnection!
 }
 
 """A `Intake` edge in the connection."""
@@ -1572,36 +1572,36 @@ input IntakeCondition {
   archivedAt: Datetime
 }
 
-"""A `ApplicationStatus` edge in the connection."""
-type ApplicationStatusesEdge {
+"""A `Application` edge in the connection."""
+type ApplicationsEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `ApplicationStatus` at the end of the edge."""
-  node: ApplicationStatus
+  """The `Application` at the end of the edge."""
+  node: Application
 }
 
-"""A connection to a list of `ApplicationsView` values."""
-type ApplicationsViewsConnection {
-  """A list of `ApplicationsView` objects."""
-  nodes: [ApplicationsView]!
+"""A connection to a list of `ApplicationView` values."""
+type ApplicationViewsConnection {
+  """A list of `ApplicationView` objects."""
+  nodes: [ApplicationView]!
 
   """
-  A list of edges which contains the `ApplicationsView` and cursor to aid in pagination.
+  A list of edges which contains the `ApplicationView` and cursor to aid in pagination.
   """
-  edges: [ApplicationsViewsEdge!]!
+  edges: [ApplicationViewsEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """
-  The count of *all* `ApplicationsView` you could get from the connection.
+  The count of *all* `ApplicationView` you could get from the connection.
   """
   totalCount: Int!
 }
 
 """View containing the list of all respondents applications"""
-type ApplicationsView {
+type ApplicationView {
   """Primary key ID for the application"""
   rowId: Int
 
@@ -1644,17 +1644,17 @@ type ApplicationsView {
   lastEditedPage: String
 }
 
-"""A `ApplicationsView` edge in the connection."""
-type ApplicationsViewsEdge {
+"""A `ApplicationView` edge in the connection."""
+type ApplicationViewsEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `ApplicationsView` at the end of the edge."""
-  node: ApplicationsView
+  """The `ApplicationView` at the end of the edge."""
+  node: ApplicationView
 }
 
-"""Methods to use when ordering `ApplicationsView`."""
-enum ApplicationsViewsOrderBy {
+"""Methods to use when ordering `ApplicationView`."""
+enum ApplicationViewsOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
@@ -1685,10 +1685,10 @@ enum ApplicationsViewsOrderBy {
 }
 
 """
-A condition to be used against `ApplicationsView` object types. All fields are
+A condition to be used against `ApplicationView` object types. All fields are
 tested for equality and combined with a logical ‘and.’
 """
-input ApplicationsViewCondition {
+input ApplicationViewCondition {
   """Checks for equality with the object’s `rowId` field."""
   rowId: Int
 
@@ -1909,14 +1909,6 @@ type KeycloakJwt {
 The root mutation type which contains root level fields which mutate data.
 """
 type Mutation {
-  """Creates a single `ApplicationStatus`."""
-  createApplicationStatus(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateApplicationStatusInput!
-  ): CreateApplicationStatusPayload
-
   """Creates a single `Application`."""
   createApplication(
     """
@@ -1925,13 +1917,21 @@ type Mutation {
     input: CreateApplicationInput!
   ): CreateApplicationPayload
 
-  """Creates a single `ApplicationsView`."""
-  createApplicationsView(
+  """Creates a single `ApplicationStatus`."""
+  createApplicationStatus(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateApplicationsViewInput!
-  ): CreateApplicationsViewPayload
+    input: CreateApplicationStatusInput!
+  ): CreateApplicationStatusPayload
+
+  """Creates a single `ApplicationView`."""
+  createApplicationView(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationViewInput!
+  ): CreateApplicationViewPayload
 
   """Creates a single `Attachment`."""
   createAttachment(
@@ -1958,24 +1958,6 @@ type Mutation {
   ): CreateIntakePayload
 
   """
-  Updates a single `ApplicationStatus` using its globally unique id and a patch.
-  """
-  updateApplicationStatus(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateApplicationStatusInput!
-  ): UpdateApplicationStatusPayload
-
-  """Updates a single `ApplicationStatus` using a unique key and a patch."""
-  updateApplicationStatusByRowId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateApplicationStatusByRowIdInput!
-  ): UpdateApplicationStatusPayload
-
-  """
   Updates a single `Application` using its globally unique id and a patch.
   """
   updateApplication(
@@ -2000,6 +1982,24 @@ type Mutation {
     """
     input: UpdateApplicationByIntakeIdAndCcbcNumberInput!
   ): UpdateApplicationPayload
+
+  """
+  Updates a single `ApplicationStatus` using its globally unique id and a patch.
+  """
+  updateApplicationStatus(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationStatusInput!
+  ): UpdateApplicationStatusPayload
+
+  """Updates a single `ApplicationStatus` using a unique key and a patch."""
+  updateApplicationStatusByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationStatusByRowIdInput!
+  ): UpdateApplicationStatusPayload
 
   """
   Updates a single `Attachment` using its globally unique id and a patch.
@@ -2067,22 +2067,6 @@ type Mutation {
     input: UpdateIntakeByApplicationNumberSeqNameInput!
   ): UpdateIntakePayload
 
-  """Deletes a single `ApplicationStatus` using its globally unique id."""
-  deleteApplicationStatus(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationStatusInput!
-  ): DeleteApplicationStatusPayload
-
-  """Deletes a single `ApplicationStatus` using a unique key."""
-  deleteApplicationStatusByRowId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationStatusByRowIdInput!
-  ): DeleteApplicationStatusPayload
-
   """Deletes a single `Application` using its globally unique id."""
   deleteApplication(
     """
@@ -2106,6 +2090,22 @@ type Mutation {
     """
     input: DeleteApplicationByIntakeIdAndCcbcNumberInput!
   ): DeleteApplicationPayload
+
+  """Deletes a single `ApplicationStatus` using its globally unique id."""
+  deleteApplicationStatus(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationStatusInput!
+  ): DeleteApplicationStatusPayload
+
+  """Deletes a single `ApplicationStatus` using a unique key."""
+  deleteApplicationStatusByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationStatusByRowIdInput!
+  ): DeleteApplicationStatusPayload
 
   """Deletes a single `Attachment` using its globally unique id."""
   deleteAttachment(
@@ -2182,77 +2182,6 @@ type Mutation {
     """
     input: SubmitApplicationInput!
   ): SubmitApplicationPayload
-}
-
-"""The output of our create `ApplicationStatus` mutation."""
-type CreateApplicationStatusPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `ApplicationStatus` that was created by this mutation."""
-  applicationStatus: ApplicationStatus
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `ApplicationStatus`. May be used by Relay 1."""
-  applicationStatusEdge(
-    """The method to use when ordering `ApplicationStatus`."""
-    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationStatusesEdge
-}
-
-"""All input for the create `ApplicationStatus` mutation."""
-input CreateApplicationStatusInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `ApplicationStatus` to be created by this mutation."""
-  applicationStatus: ApplicationStatusInput!
-}
-
-"""An input for mutations affecting `ApplicationStatus`"""
-input ApplicationStatusInput {
-  """Name of the application_status"""
-  name: String!
-
-  """Description of the application_status"""
-  description: String
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
 }
 
 """The output of our create `Application` mutation."""
@@ -2343,43 +2272,114 @@ input ApplicationInput {
   lastEditedPage: String
 }
 
-"""The output of our create `ApplicationsView` mutation."""
-type CreateApplicationsViewPayload {
+"""The output of our create `ApplicationStatus` mutation."""
+type CreateApplicationStatusPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
 
-  """The `ApplicationsView` that was created by this mutation."""
-  applicationsView: ApplicationsView
+  """The `ApplicationStatus` that was created by this mutation."""
+  applicationStatus: ApplicationStatus
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """An edge for our `ApplicationsView`. May be used by Relay 1."""
-  applicationsViewEdge(
-    """The method to use when ordering `ApplicationsView`."""
-    orderBy: [ApplicationsViewsOrderBy!] = [NATURAL]
-  ): ApplicationsViewsEdge
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationStatus`. May be used by Relay 1."""
+  applicationStatusEdge(
+    """The method to use when ordering `ApplicationStatus`."""
+    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationStatusesEdge
 }
 
-"""All input for the create `ApplicationsView` mutation."""
-input CreateApplicationsViewInput {
+"""All input for the create `ApplicationStatus` mutation."""
+input CreateApplicationStatusInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
 
-  """The `ApplicationsView` to be created by this mutation."""
-  applicationsView: ApplicationsViewInput!
+  """The `ApplicationStatus` to be created by this mutation."""
+  applicationStatus: ApplicationStatusInput!
 }
 
-"""An input for mutations affecting `ApplicationsView`"""
-input ApplicationsViewInput {
+"""An input for mutations affecting `ApplicationStatus`"""
+input ApplicationStatusInput {
+  """Name of the application_status"""
+  name: String!
+
+  """Description of the application_status"""
+  description: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""The output of our create `ApplicationView` mutation."""
+type CreateApplicationViewPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationView` that was created by this mutation."""
+  applicationView: ApplicationView
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ApplicationView`. May be used by Relay 1."""
+  applicationViewEdge(
+    """The method to use when ordering `ApplicationView`."""
+    orderBy: [ApplicationViewsOrderBy!] = [NATURAL]
+  ): ApplicationViewsEdge
+}
+
+"""All input for the create `ApplicationView` mutation."""
+input CreateApplicationViewInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ApplicationView` to be created by this mutation."""
+  applicationView: ApplicationViewInput!
+}
+
+"""An input for mutations affecting `ApplicationView`"""
+input ApplicationViewInput {
   """Primary key ID for the application"""
   rowId: Int
 
@@ -2683,103 +2683,6 @@ input IntakeInput {
   archivedAt: Datetime
 }
 
-"""The output of our update `ApplicationStatus` mutation."""
-type UpdateApplicationStatusPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `ApplicationStatus` that was updated by this mutation."""
-  applicationStatus: ApplicationStatus
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `ApplicationStatus`. May be used by Relay 1."""
-  applicationStatusEdge(
-    """The method to use when ordering `ApplicationStatus`."""
-    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationStatusesEdge
-}
-
-"""All input for the `updateApplicationStatus` mutation."""
-input UpdateApplicationStatusInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `ApplicationStatus` to be updated.
-  """
-  id: ID!
-
-  """
-  An object where the defined keys will be set on the `ApplicationStatus` being updated.
-  """
-  applicationStatusPatch: ApplicationStatusPatch!
-}
-
-"""
-Represents an update to a `ApplicationStatus`. Fields that are set will be updated.
-"""
-input ApplicationStatusPatch {
-  """Name of the application_status"""
-  name: String
-
-  """Description of the application_status"""
-  description: String
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
-}
-
-"""All input for the `updateApplicationStatusByRowId` mutation."""
-input UpdateApplicationStatusByRowIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `ApplicationStatus` being updated.
-  """
-  applicationStatusPatch: ApplicationStatusPatch!
-
-  """Unique ID for the application_status"""
-  rowId: Int!
-}
-
 """The output of our update `Application` mutation."""
 type UpdateApplicationPayload {
   """
@@ -2914,6 +2817,103 @@ input UpdateApplicationByIntakeIdAndCcbcNumberInput {
 
   """Reference number assigned to the application"""
   ccbcNumber: String!
+}
+
+"""The output of our update `ApplicationStatus` mutation."""
+type UpdateApplicationStatusPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationStatus` that was updated by this mutation."""
+  applicationStatus: ApplicationStatus
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationStatus`. May be used by Relay 1."""
+  applicationStatusEdge(
+    """The method to use when ordering `ApplicationStatus`."""
+    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationStatusesEdge
+}
+
+"""All input for the `updateApplicationStatus` mutation."""
+input UpdateApplicationStatusInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationStatus` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `ApplicationStatus` being updated.
+  """
+  applicationStatusPatch: ApplicationStatusPatch!
+}
+
+"""
+Represents an update to a `ApplicationStatus`. Fields that are set will be updated.
+"""
+input ApplicationStatusPatch {
+  """Name of the application_status"""
+  name: String
+
+  """Description of the application_status"""
+  description: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""All input for the `updateApplicationStatusByRowId` mutation."""
+input UpdateApplicationStatusByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ApplicationStatus` being updated.
+  """
+  applicationStatusPatch: ApplicationStatusPatch!
+
+  """Unique ID for the application_status"""
+  rowId: Int!
 }
 
 """The output of our update `Attachment` mutation."""
@@ -3288,65 +3288,6 @@ input UpdateIntakeByApplicationNumberSeqNameInput {
   applicationNumberSeqName: String!
 }
 
-"""The output of our delete `ApplicationStatus` mutation."""
-type DeleteApplicationStatusPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `ApplicationStatus` that was deleted by this mutation."""
-  applicationStatus: ApplicationStatus
-  deletedApplicationStatusId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `ApplicationStatus`. May be used by Relay 1."""
-  applicationStatusEdge(
-    """The method to use when ordering `ApplicationStatus`."""
-    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationStatusesEdge
-}
-
-"""All input for the `deleteApplicationStatus` mutation."""
-input DeleteApplicationStatusInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `ApplicationStatus` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteApplicationStatusByRowId` mutation."""
-input DeleteApplicationStatusByRowIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """Unique ID for the application_status"""
-  rowId: Int!
-}
-
 """The output of our delete `Application` mutation."""
 type DeleteApplicationPayload {
   """
@@ -3424,6 +3365,65 @@ input DeleteApplicationByIntakeIdAndCcbcNumberInput {
 
   """Reference number assigned to the application"""
   ccbcNumber: String!
+}
+
+"""The output of our delete `ApplicationStatus` mutation."""
+type DeleteApplicationStatusPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationStatus` that was deleted by this mutation."""
+  applicationStatus: ApplicationStatus
+  deletedApplicationStatusId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationStatus`. May be used by Relay 1."""
+  applicationStatusEdge(
+    """The method to use when ordering `ApplicationStatus`."""
+    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationStatusesEdge
+}
+
+"""All input for the `deleteApplicationStatus` mutation."""
+input DeleteApplicationStatusInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationStatus` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteApplicationStatusByRowId` mutation."""
+input DeleteApplicationStatusByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """Unique ID for the application_status"""
+  rowId: Int!
 }
 
 """The output of our delete `Attachment` mutation."""

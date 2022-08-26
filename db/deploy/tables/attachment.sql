@@ -12,7 +12,7 @@ create table ccbc_public.attachment
   file_name varchar(1000),
   file_type varchar(100),
   file_size varchar(100),
-  application_id integer not null references ccbc_public.applications(id),
+  application_id integer not null references ccbc_public.application(id),
   application_status_id integer references ccbc_public.application_status(id)
 );
 
@@ -40,9 +40,9 @@ do
 $policy$
 begin
 -- ccbc_auth_user RLS: can see and modify only its own records
-perform ccbc_private.upsert_policy('ccbc_auth_user_select_attachment', 'attachment', 'select', 'ccbc_auth_user', 'application_id in (select id from ccbc_public.applications where owner=(select sub from ccbc_public.session()))');
-perform ccbc_private.upsert_policy('ccbc_auth_user_insert_attachment', 'attachment', 'insert', 'ccbc_auth_user', 'application_id in (select id from ccbc_public.applications where owner=(select sub from ccbc_public.session()))');
-perform ccbc_private.upsert_policy('ccbc_auth_user_update_attachment', 'attachment', 'update', 'ccbc_auth_user', 'application_id in (select id from ccbc_public.applications where owner=(select sub from ccbc_public.session()))');
+perform ccbc_private.upsert_policy('ccbc_auth_user_select_attachment', 'attachment', 'select', 'ccbc_auth_user', 'application_id in (select id from ccbc_public.application where owner=(select sub from ccbc_public.session()))');
+perform ccbc_private.upsert_policy('ccbc_auth_user_insert_attachment', 'attachment', 'insert', 'ccbc_auth_user', 'application_id in (select id from ccbc_public.application where owner=(select sub from ccbc_public.session()))');
+perform ccbc_private.upsert_policy('ccbc_auth_user_update_attachment', 'attachment', 'update', 'ccbc_auth_user', 'application_id in (select id from ccbc_public.application where owner=(select sub from ccbc_public.session()))');
 
 end
 $policy$;

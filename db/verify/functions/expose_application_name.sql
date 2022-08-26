@@ -2,6 +2,6 @@
 
 BEGIN;
 
-select pg_get_functiondef('ccbc_public.applications_project_name(ccbc_public.applications)'::regprocedure);
+select pg_get_functiondef('ccbc_public.application_project_name(ccbc_public.application)'::regprocedure);
 
 ROLLBACK;

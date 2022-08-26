@@ -9,9 +9,9 @@ select has_table(
 
 
 -- Columns
-select has_column('ccbc_private', 'connect_session', 'sid','The table applications has column sid');
-select has_column('ccbc_private', 'connect_session', 'sess','The table applications has column sess');
-select has_column('ccbc_private', 'connect_session', 'expire','The table applications has column expire');
+select has_column('ccbc_private', 'connect_session', 'sid','The table application has column sid');
+select has_column('ccbc_private', 'connect_session', 'sess','The table application has column sess');
+select has_column('ccbc_private', 'connect_session', 'expire','The table application has column expire');
 
 select table_privs_are(
   'ccbc_private', 'connect_session', 'ccbc_guest', ARRAY['DELETE', 'INSERT', 'REFERENCES', 'SELECT', 'TRIGGER', 'TRUNCATE', 'UPDATE'],

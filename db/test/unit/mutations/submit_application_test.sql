@@ -9,7 +9,7 @@ select has_function(
 
 delete from ccbc_public.intake;
 
-insert into ccbc_public.applications(id, form_data, status, owner) overriding system value
+insert into ccbc_public.application(id, form_data, status, owner) overriding system value
 values
   (1, '{}', 'draft', '00000000-0000-0000-0000-000000000000'),
   (2, '{}', 'submitted', '00000000-0000-0000-0000-000000000000'),

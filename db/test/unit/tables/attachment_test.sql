@@ -9,14 +9,14 @@ select has_table(
 );
 
 -- Columns
-select has_column('ccbc_public', 'attachment', 'id','The table applications has column id');
-select has_column('ccbc_public', 'attachment', 'file','The table applications has column file');
-select has_column('ccbc_public', 'attachment', 'description','The table applications has column description');
-select has_column('ccbc_public', 'attachment', 'file_name','The table applications has column file_name');
-select has_column('ccbc_public', 'attachment', 'file_type','The table applications has column file_type');
-select has_column('ccbc_public', 'attachment', 'file_size','The table applications has column file_size');
-select has_column('ccbc_public', 'attachment', 'application_id','The table applications has column application_id');
-select has_column('ccbc_public', 'attachment', 'application_status_id','The table applications has column application_status_id');
+select has_column('ccbc_public', 'attachment', 'id','The table attachment has column id');
+select has_column('ccbc_public', 'attachment', 'file','The table attachment has column file');
+select has_column('ccbc_public', 'attachment', 'description','The table attachment has column description');
+select has_column('ccbc_public', 'attachment', 'file_name','The table attachment has column file_name');
+select has_column('ccbc_public', 'attachment', 'file_type','The table attachment has column file_type');
+select has_column('ccbc_public', 'attachment', 'file_size','The table attachment has column file_size');
+select has_column('ccbc_public', 'attachment', 'application_id','The table attachment has column application_id');
+select has_column('ccbc_public', 'attachment', 'application_status_id','The table attachment has column application_status_id');
 
 -- Privileges
 select table_privs_are(
@@ -39,13 +39,13 @@ insert into ccbc_public.ccbc_user
 set role ccbc_auth_user;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
-insert into ccbc_public.applications
+insert into ccbc_public.application
   (ccbc_number, owner, form_data, status, last_edited_page) values
   ('CCBC-010001', '11111111-1111-1111-1111-111111111112','{}','draft','projectArea');
 
 -- Test setup - second user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
-insert into ccbc_public.applications
+insert into ccbc_public.application
   (ccbc_number, owner, form_data,status,last_edited_page) values
   ('CCBC-010002', '11111111-1111-1111-1111-111111111113','{}','draft','projectArea'),
   ('CCBC-010003', '11111111-1111-1111-1111-111111111113','{}','draft','projectArea');
@@ -53,7 +53,7 @@ insert into ccbc_public.applications
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 select lives_ok(
   $$
-    insert into ccbc_public.attachment(file_name, application_id) values ('foo', (select id from ccbc_public.applications where ccbc_number='CCBC-010001'))
+    insert into ccbc_public.attachment(file_name, application_id) values ('foo', (select id from ccbc_public.application where ccbc_number='CCBC-010001'))
   $$,
   'ccbc_auth_user can insert attachments for their own applications'
 );
@@ -75,7 +75,7 @@ set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 
 select throws_like(
   $$
-    insert into ccbc_public.attachment(file_name, application_id) values ('bar', (select id from ccbc_public.applications where ccbc_number='CCBC-010001'))
+    insert into ccbc_public.attachment(file_name, application_id) values ('bar', (select id from ccbc_public.application where ccbc_number='CCBC-010001'))
   $$,
   'new row violates row-level security policy for table "attachment"',
   'ccbc_auth_user cannot insert attachments for applications they do not own'
