@@ -2,6 +2,6 @@
 
 BEGIN;
 
-ALTER TABLE ccbc_public.applications ALTER COLUMN owner SET NOT NULL;
+ALTER TABLE ccbc_public.application ALTER COLUMN owner SET NOT NULL;
 
 COMMIT;

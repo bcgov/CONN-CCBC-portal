@@ -31,13 +31,13 @@ insert into ccbc_public.ccbc_user
 -- Test setup - first user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
-insert into ccbc_public.applications
+insert into ccbc_public.application
   (ccbc_number, owner, form_data,status,last_edited_page) values
   ('CCBC-010001', '11111111-1111-1111-1111-111111111112','{}','draft','projectArea');
 
 -- Test setup - second user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
-insert into ccbc_public.applications
+insert into ccbc_public.application
   (ccbc_number, owner, form_data,status,last_edited_page) values
   ('CCBC-010002', '11111111-1111-1111-1111-111111111113','{}','draft','projectArea'),
   ('CCBC-010003', '11111111-1111-1111-1111-111111111113','{}','draft','projectArea');
@@ -50,7 +50,7 @@ set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
 select results_eq(
   $$
-    select count(*) from ccbc_public.applications
+    select count(*) from ccbc_public.application
   $$,
   ARRAY['1'::bigint],
     'user1 can see only own applications'
@@ -60,7 +60,7 @@ select results_eq(
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 select results_eq(
   $$
-    select count(*) from ccbc_public.applications
+    select count(*) from ccbc_public.application
   $$,
   ARRAY['2'::bigint],
     'user2 can see only own applications'
@@ -70,7 +70,7 @@ select results_eq(
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111114';
 select is_empty(
   $$
-    select * from ccbc_public.applications
+    select * from ccbc_public.application
   $$,
     'user3 cannot see applications created by other users'
 );

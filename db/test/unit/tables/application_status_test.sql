@@ -12,9 +12,9 @@ select has_table(
 );
 
 -- Columns
-select has_column('ccbc_public', 'application_status', 'id','The table applications has column id');
-select has_column('ccbc_public', 'application_status', 'name','The table applications has column name');
-select has_column('ccbc_public', 'application_status', 'description','The table applications has column description');
+select has_column('ccbc_public', 'application_status', 'id','The table application has column id');
+select has_column('ccbc_public', 'application_status', 'name','The table application has column name');
+select has_column('ccbc_public', 'application_status', 'description','The table application has column description');
 
 select finish();
 rollback;
