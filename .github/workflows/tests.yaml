@@ -111,3 +111,23 @@ jobs:
         run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/unit/**/*_test.sql
       - name: Run Database Style Tests
         run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/style/*_test.sql --set schemas_to_test=ccbc_public,ccbc_private
+
+  zap-owasp-baseline:
+    needs: [install-test-env]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: run app locally
+        uses: ./.github/actions/local-app-run
+      - name: ZAP Base Scan
+        uses: zaproxy/action-baseline@v0.7.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: "owasp/zap2docker-stable"
+          target: "http://localhost:3000/"
+          rules_file_name: ".zap/rules.tsv"
+          cmd_options: "-a -d -T 5 -m 2"
+          issue_title: OWASP Baseline
+          fail_action: true
