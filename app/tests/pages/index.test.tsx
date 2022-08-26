@@ -1,18 +1,16 @@
 import { withRelayOptions } from '../../pages';
-import {screen} from '@testing-library/react'
+import { screen } from '@testing-library/react';
 import PageTestingHelper from '../utils/pageTestingHelper';
 import Home from '../../pages/index';
-import compiledPagesQuery,{ pagesQuery } from '__generated__/pagesQuery.graphql';
+import compiledPagesQuery, {
+  pagesQuery,
+} from '__generated__/pagesQuery.graphql';
 
 const mockQueryPayload = {
   Query() {
     return {
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-      },
-      openIntake: {
-        openTimestamp: '2022-08-17T12:51:26.69172-04:00',
-        closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
       },
     };
   },
@@ -21,8 +19,8 @@ const mockQueryPayload = {
 const pageTestingHelper = new PageTestingHelper<pagesQuery>({
   pageComponent: Home,
   compiledQuery: compiledPagesQuery,
-  defaultQueryResolver: mockQueryPayload
-})
+  defaultQueryResolver: mockQueryPayload,
+});
 
 describe('The index page', () => {
   it('does not redirect an unauthorized user', async () => {
@@ -31,15 +29,14 @@ describe('The index page', () => {
         url: '/',
       },
     } as any;
+
     expect(await withRelayOptions.serverSideProps(ctx)).toEqual({});
   });
 
-  it('Displays open and close intake days', async () => {
+  it('Displays the Go to dashboard button for a logged in user', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
-    
-    expect(screen.getByText(/August 17, 2022, 9:51 a\.m\. PDT/i)).toBeInTheDocument();
 
-    expect(screen.getByText(/August 27, 2022, 9:51 a\.m\. PDT/i)).toBeInTheDocument();
-  })
+    expect(screen.getByText('Go to dashboard')).toBeInTheDocument();
+  });
 });
