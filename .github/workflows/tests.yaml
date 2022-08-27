@@ -33,9 +33,9 @@ jobs:
         format: sarif
         output: trivy-results.sarif
         exit-code: '0'
-        ignore-unfixed: false
+        ignore-unfixed: true
         vuln-type: os,library
-        severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+        severity: CRITICAL
     - name: Upload Trivy scan results to GitHub Security tab
       uses: github/codeql-action/upload-sarif@v2
       with:
@@ -54,9 +54,9 @@ jobs:
         format: sarif
         output: trivy-results.sarif
         exit-code: '0'
-        ignore-unfixed: false
+        ignore-unfixed: true
         vuln-type: os,library
-        severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+        severity: CRITICAL
     - name: Upload Trivy scan results to GitHub Security tab
       uses: github/codeql-action/upload-sarif@v2
       with:
