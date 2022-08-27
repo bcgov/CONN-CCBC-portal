@@ -2,7 +2,7 @@
 
 begin;
 
-create function ccbc_public.application_project_name(application ccbc_public.application) returns text as $$
+create or replace function ccbc_public.application_project_name(application ccbc_public.application) returns text as $$
 select application.form_data -> 'projectInformation' ->> 'projectTitle'
 $$ language sql stable;
 
