@@ -551,7 +551,7 @@ const uiSchema = {
     'ui:options': {
       allowMultipleFiles: true,
       maxLength: MAX_LONG_INPUT_LENGTH,
-      fileTypes: '.xls, .xlsx, .mpp',
+      fileTypes: `${EXCEL_FILE_EXTENSIONS}, .mpp`,
     },
   },
   communityRuralDevelopmentBenefits: {
@@ -577,7 +577,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       fileTypes:
-        '.eml, .msg, .txt, .pdf, .doc, .docx, .xls, .xlsx, .xml, .jpg, .jpeg, .png',
+        `.eml, .msg, .txt, .pdf, .doc, .docx, .xml, .jpg, .jpeg, .png, ${EXCEL_FILE_EXTENSIONS}`,
     },
   },
   currentNetworkInfastructure: {
