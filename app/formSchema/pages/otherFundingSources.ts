@@ -3,7 +3,7 @@ const otherFundingSources = {
     title: 'Other funding sources',
     type: 'object',
     description:
-      'Identify sources of funding that you expect to secure to cover all project costs, not including the Province of British Columbia, the Universal Broadband Fund or the Canadian Infrastructure Bank. Please only include loans that you anticipate receiving from a program or granting agency. Any other loans must be included in the applicant funding.',
+      'Identify sources of funding that you expect to secure to cover all project costs, not including the Province of British Columbia or the Universal Broadband Fund. Please only include loans that you anticipate receiving from a program or granting agency. Any other loans must be included in the applicant funding.',
     required: ['otherFundingSources'],
     properties: {
       infrastructureBankFunding2223: {
