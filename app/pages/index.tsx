@@ -1,9 +1,10 @@
-import { LoginForm } from '../components';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
+import Link from '@button-inc/bcgov-theme/Link';
 import { ButtonLink, Layout } from '../components';
+import { LoginForm } from '../components';
 import styled from 'styled-components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
 
@@ -45,15 +46,25 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
           <h3>Before you begin</h3>
           <ul>
             <li>
-              Refer to program details for the application materials and full
-              information about the Connecting Communities British Columbia
-              (CCBC) program.
+              Refer to{' '}
+              <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
+                program details
+              </Link>{' '}
+              for the application materials and full information about the
+              Connecting Communities British Columbia (CCBC) program.
             </li>
           </ul>
         </section>
         <section>
           <h3>Get started</h3>
-
+          <p>
+            Login with a Business BCeID or Basic BCeID. If you do not have a
+            BCeID, please{' '}
+            <Link href="https://www.bceid.ca/os/?7770&SkipTo=Basic">
+              register for a Basic BCeID
+            </Link>
+            .
+          </p>
           {session?.sub ? (
             <StyledBtnContainer>
               <ButtonLink href="/dashboard">Go to dashboard</ButtonLink>
