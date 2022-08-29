@@ -18,6 +18,7 @@ mutations/create_user_from_session 2022-05-26T20:41:37Z Bryan Krauss <bryan@butt
 trigger_functions/create_intake_sequence 2022-08-23T16:32:25Z Matthieu Foucault <matthieu@button.is> # Add a trigger function to create the intake sequence
 tables/intake [trigger_functions/create_intake_sequence] 2022-07-22T15:27:16Z Anthony Bushara <anthony@button.is> # Creates the intake table
 tables/application [tables/intake] 2022-04-11T22:31:16Z Marcel Mueller <marcel@button.is> # Add application table to store application data
+computed_columns/application_project_name [tables/application] 2022-07-15T16:39:24Z Anthony Bushara <anthony@button.is> # Exposes Application Name as Computed Column
 tables/application_status 2022-07-08T13:27:08Z Marcel Mueller <marcel@button.is> # add table application_status
 tables/attachment [tables/application] 2022-07-07T23:19:04Z Marcel Mueller <marcel@button.is> # add table attachment
 functions/open_intake 2022-08-16T13:48:54Z Anthony Bushara <anthony@button.is> # Function to display the current open intake

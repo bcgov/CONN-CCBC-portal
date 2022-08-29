@@ -323,6 +323,7 @@ type Application implements Node {
     """
     condition: AttachmentCondition
   ): AttachmentsConnection!
+  projectName: String
 }
 
 """
