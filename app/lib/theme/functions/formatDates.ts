@@ -57,14 +57,12 @@ export const dateTimeFormat = (
   dateTime: SetStateAction<Date | undefined>,
   format: DTFormat
 ) => { 
-  console.log(dateTime);
+ 
   if(dateTime !== undefined) {
     try {
-    const fullDate = DateTime.fromFormat(dateTime.toString(), FORMAT_TYPE.timestamptz);
-    fullDate
-    .setLocale("en-CA")
-    .setZone(TIMEZONE);
-    return fullDate.toFormat(FORMAT_TYPE[format]); 
+      const dateValue = (dateTime.valueOf() as number)/1000;
+      const fullDate = DateTime.fromSeconds(dateValue);
+      return fullDate.toFormat(FORMAT_TYPE[format]); 
     } catch (e) {
       console.log(e);
 
@@ -72,7 +70,7 @@ export const dateTimeFormat = (
     }
   }
   else {
-    return '2020-01-01';
+    return dateTime.toString();
   }
 };
 
