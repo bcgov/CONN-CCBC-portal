@@ -1,2 +1,3 @@
-replicaCount: 0 # prod should be offline until approval to go live is given
-
+secureRoute:
+  wwwRoute:
+    enable: true

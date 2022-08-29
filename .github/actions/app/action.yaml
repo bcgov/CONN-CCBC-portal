@@ -20,9 +20,6 @@ inputs:
   client_secret:
     description: 'Client secret for sso keycloak login'
     required: true
-  route:
-    description: 'URL where the application can be accessed'
-    required: true
   secure_route:
     description: 'Domain where the application can be accessed securely'
     required: true
@@ -80,7 +77,6 @@ runs:
           --set image.app.tag=${{ inputs.tag }} \
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
-          --set route.host=${{ inputs.route }} \
           --set secureRoute.host=${{ inputs.secure_route }} \
           --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
           --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }} \
