@@ -23,7 +23,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
 }) => {
   const hideOptional = uiSchema['ui:options']?.hideOptional;
   const altOptionalText = uiSchema['ui:options']?.altOptionalText;
-  const showLabel = displayLabel && uiSchema['ui:options']?.label;
+  const showLabel = displayLabel && uiSchema['ui:options']?.label != false;
 
   return (
     <div>
