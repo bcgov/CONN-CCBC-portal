@@ -11,7 +11,7 @@ module.exports = {
         source: '/',
         destination: '/applicantportal',
         basePath: false,
-        permanent: false,
+        permanent: true,
       },
     ];
   },
