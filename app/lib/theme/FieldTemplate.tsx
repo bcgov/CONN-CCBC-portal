@@ -36,9 +36,9 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
           htmlFor={id}
         />
       )}
-      {label === 'geographicArea' && <GeographicArea />}
       {/* using id root_geographicCoverageMap for now since I wanted to keep the description in as it is
       being used for the review page though may be able to remove depending on how review rebuild works */}
+      {id === 'root_geographicArea' && <GeographicArea />}
       {id === 'root_geographicCoverageMap' && <GeographicCoverageMap />}
       {label === 'isIndigenousEntity' && <IndigenousEntity />}
       {label === 'projectBenefits' && <ProjectBenefits />}

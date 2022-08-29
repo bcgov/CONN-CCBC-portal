@@ -6,6 +6,8 @@ const projectArea = {
     required: ['geographicArea', 'projectSpanMultipleLocations'],
     properties: {
       geographicArea: {
+        title:
+          'Referring to the project zones (application guide Annex 6), which zone(s) will this project be conducted in?',
         type: 'array',
         items: {
           type: 'number',
