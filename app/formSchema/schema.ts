@@ -18,6 +18,7 @@ import {
   submission,
   supportingDocuments,
   review,
+  timeMashine,
   techSolution,
   templateUploads,
 } from './pages';
@@ -39,6 +40,7 @@ const useSchema = (formData) => {
       ...benefits,
       ...projectPlan,
       ...estimatedProjectEmployment,
+      ...timeMashine,
       ...templateUploads,
       ...supportingDocuments(isEvidenceOfConnectivityRequired),
       ...mapping,
