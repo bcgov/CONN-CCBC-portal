@@ -25,8 +25,6 @@ $grant$
 begin
 
 perform ccbc_private.grant_permissions('select', 'intake', 'ccbc_auth_user');
-perform ccbc_private.grant_permissions('insert', 'intake', 'ccbc_auth_user');
-perform ccbc_private.grant_permissions('update', 'intake', 'ccbc_auth_user');
 perform ccbc_private.grant_permissions('select', 'intake', 'ccbc_guest');
 
 end

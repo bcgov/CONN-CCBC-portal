@@ -1,6 +1,6 @@
 begin;
 
-select plan(12);
+select plan(14);
 
 -- Table exists
 select has_table(
@@ -43,6 +43,16 @@ select sequence_privs_are(
 select sequence_privs_are(
   'ccbc_public', 'intake_56_application_number_seq', 'ccbc_auth_user', ARRAY['USAGE', 'SELECT'],
   'ccbc_auth_user should be able to use and select intake_56_application_number_seq'
+);
+
+select table_privs_are(
+  'ccbc_public', 'intake', 'ccbc_guest', ARRAY['SELECT'],
+  'ccbc_guest can select from intake table'
+);
+
+select table_privs_are(
+  'ccbc_public', 'intake', 'ccbc_auth_user', ARRAY['SELECT'],
+  'ccbc_auth_user can select from intake table'
 );
 
 select finish();

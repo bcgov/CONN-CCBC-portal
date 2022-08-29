@@ -37,6 +37,7 @@ const getDashboardQuery = graphql`
     }
   }
 `;
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
@@ -44,7 +45,7 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
 
   const closeTimestamp = openIntake?.closeTimestamp;
 
-  const trimmedSub: string = session?.sub.replace(/-/g, '');
+  const sub: string = session?.sub;
 
   const hasApplications = allApplications.nodes.length > 0;
 
@@ -54,14 +55,14 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
 
   useEffect(() => {
     // check if session is still valid
-    if (!trimmedSub) router.push('/');
+    if (!sub) router.push('/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCreateApplication = () => {
     createApplication({
       variables: {
-        // input: { application: { owner: session?.sub } },
-        input: { application: { owner: trimmedSub } },
+        input: { application: { owner: session?.sub } },
       },
       onCompleted: (response) => {
         const applicationId = response.createApplication.application.rowId;
@@ -91,7 +92,7 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
           <p>There are no currently open intakes.</p>
         )}
         <StyledGovButton onClick={handleCreateApplication}>
-          New application
+          Create application
         </StyledGovButton>
       </div>
       {hasApplications ? (
@@ -107,10 +108,10 @@ export const withRelayOptions = {
   ...defaultRelayOptions,
 
   variablesFromContext: (ctx) => {
-    const trimmedSub: string = ctx?.req?.claims?.sub.replace(/-/g, '');
+    const sub: string = ctx?.req?.claims?.sub;
 
     return {
-      formOwner: { owner: trimmedSub },
+      formOwner: { owner: sub },
     };
   },
 };

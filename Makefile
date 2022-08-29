@@ -69,8 +69,7 @@ install_perl_tools: install_cpanm install_cpandeps postinstall_check
 
 .PHONY: install_dev_tools
 install_dev_tools: ## install development tools
-install_dev_tools: stop_pg install_asdf_tools install_perl_tools
-# install_dev_tools: stop_pg install_asdf_tools install_perl_tools install_pgtap
+install_dev_tools: stop_pg install_asdf_tools install_perl_tools install_pgtap
 
 .PHONY: start_pg
 start_pg: ## start the database server if it is not running
@@ -179,7 +178,7 @@ db_unit_tests:
 db_style_tests: ## run the database style tests
 db_style_tests: | start_pg drop_test_db create_test_db
 db_style_tests:
-	@$(PG_PROVE) --failures -d $(DB_NAME)_test schema/test/style/*_test.sql --set schemas_to_test=ccbc,ccbc_private
+	@$(PG_PROVE) --failures -d $(DB_NAME)_test db/test/style/*_test.sql --set schemas_to_test=ccbc,ccbc_private
 
 .PHONY: lint_chart
 lint_chart: ## Checks the configured helm chart template definitions against the remote schema

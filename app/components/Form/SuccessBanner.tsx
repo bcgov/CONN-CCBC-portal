@@ -18,7 +18,7 @@ interface Props {
 const SuccessBanner: React.FC<Props> = ({ ccbcNumber }) => {
   return (
     <StyledSection>
-      <h2>Application complete</h2>
+      <h2>Application submitted</h2>
       <p>Application number</p>
       <h3>{ccbcNumber}</h3>
     </StyledSection>

@@ -19,13 +19,13 @@ const organizationProfile = {
         items: {
           type: 'boolean',
           enum: [
-            'Incorporated company - private of public',
+            'Incorporated company - private or public',
             'Partnership',
             'Limited partnership',
             'Venture/syndicate',
             'Cooperative',
             'Educational institution - college',
-            'Eductational institution - university',
+            'Educational institution - university',
             'Non-profit organization',
             'Municipality',
             'Province',

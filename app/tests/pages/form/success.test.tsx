@@ -53,7 +53,7 @@ it('displays the correct project name', () => {
   pageTestingHelper.loadQuery();
   pageTestingHelper.renderPage();
 
-  expect(screen.getByText('Project testing title')).toBeInTheDocument();
+  expect(screen.getByText(', Project testing title,')).toBeInTheDocument();
 });
 
 it('displays the correct intake', () => {
