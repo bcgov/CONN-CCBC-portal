@@ -8,13 +8,8 @@ import { CalculationForm, FormBase, SubmitButtons } from '.';
 import uiSchema from '../../formSchema/uiSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
-import { Review } from '../Review';
 import { acknowledgements } from '../../formSchema/pages';
 import ApplicationFormStatus from './ApplicationFormStatus';
-
-// https://github.com/rjsf-team/react-jsonschema-form/issues/2131
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import {
   calculateApplicantFunding,
@@ -169,7 +164,6 @@ const ApplicationForm: React.FC<Props> = ({
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
-  const [reviewConfirm, setReviewConfirm] = useState(false);
   const [savingError, setSavingError] = useState(null);
   const [savedAsDraft, setSavedAsDraft] = useState(false);
 
@@ -323,18 +317,11 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const handleDisabled = (page: string, noErrors: boolean) => {
-    switch (true) {
-      case isWithdrawn:
-        return false;
-      case page === 'review' && noErrors:
-        return false;
-      case page === 'review':
-        return !reviewConfirm;
-      case page === 'acknowledgements':
-        return !areAllAcknowledgementsChecked && !isSubmitted;
-      case page === 'submission':
-        return !areAllSubmissionFieldsSet || isSubmitted;
-    }
+    if (isWithdrawn) return false;
+    if (page === 'review' && noErrors) return false;
+    if (page === 'acknowledgements') return !areAllAcknowledgementsChecked;
+    if (page === 'submission') return !areAllSubmissionFieldsSet;
+
     return false;
   };
 
@@ -503,16 +490,6 @@ const ApplicationForm: React.FC<Props> = ({
           disabled={isFormDisabled()}
           formContext={formContext}
         >
-          {review && (
-            <Review
-              formData={formData}
-              formSchema={schema}
-              reviewConfirm={reviewConfirm}
-              onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
-              formErrorSchema={formErrorSchema}
-              noErrors={noErrors}
-            />
-          )}
           {submitBtns}
         </FormBase>
       )}
