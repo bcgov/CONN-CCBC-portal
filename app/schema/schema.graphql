@@ -75,35 +75,6 @@ type Query implements Node {
     condition: ApplicationStatusCondition
   ): ApplicationStatusesConnection
 
-  """Reads and enables pagination through a set of `ApplicationView`."""
-  allApplicationViews(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `ApplicationView`."""
-    orderBy: [ApplicationViewsOrderBy!] = [NATURAL]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ApplicationViewCondition
-  ): ApplicationViewsConnection
-
   """Reads and enables pagination through a set of `Attachment`."""
   allAttachments(
     """Only read the first `n` values of the set."""
@@ -191,7 +162,6 @@ type Query implements Node {
     condition: IntakeCondition
   ): IntakesConnection
   applicationByRowId(rowId: Int!): Application
-  applicationByIntakeIdAndCcbcNumber(intakeId: Int!, ccbcNumber: String!): Application
   applicationStatusByRowId(rowId: Int!): ApplicationStatus
   attachmentByRowId(rowId: Int!): Attachment
   ccbcUserByRowId(rowId: Int!): CcbcUser
@@ -280,7 +250,7 @@ type Application implements Node {
   """Reference number assigned to the application"""
   ccbcNumber: String
 
-  """The owner of the application"""
+  """The owner of the application, identified by its JWT sub"""
   owner: String!
 
   """The data entered into the form by the respondent"""
@@ -288,6 +258,12 @@ type Application implements Node {
 
   """The status of the application, draft or complete"""
   status: String
+
+  """Column saving the key of the last edited form page"""
+  lastEditedPage: String
+
+  """The intake associated with the application, set when it is submitted"""
+  intakeId: Int
 
   """created by user id"""
   createdBy: Int
@@ -307,13 +283,8 @@ type Application implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
-  """
-  Application Intake Number, used as the prefix for CCBC reference number
-  """
-  intakeId: Int
-
-  """Column saving the key of the last edited form page"""
-  lastEditedPage: String
+  """Reads a single `Intake` that is related to this `Application`."""
+  intakeByIntakeId: Intake
 
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByCreatedBy: CcbcUser
@@ -323,9 +294,6 @@ type Application implements Node {
 
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByArchivedBy: CcbcUser
-
-  """Reads a single `Intake` that is related to this `Application`."""
-  intakeByIntakeId: Intake
 
   """Reads and enables pagination through a set of `Attachment`."""
   attachmentsByApplicationId(
@@ -355,7 +323,6 @@ type Application implements Node {
     """
     condition: AttachmentCondition
   ): AttachmentsConnection!
-  projectName: String
 }
 
 """
@@ -368,6 +335,89 @@ A point in time as described by the [ISO
 8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
 """
 scalar Datetime
+
+"""
+Table containing intake numbers and their respective open and closing dates
+"""
+type Intake implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Unique ID for each intake number"""
+  rowId: Int!
+
+  """Open date and time for an intake number"""
+  openTimestamp: Datetime!
+
+  """Close date and time for an intake number"""
+  closeTimestamp: Datetime!
+
+  """Unique intake number for a set of CCBC IDs"""
+  ccbcIntakeNumber: Int!
+
+  """
+  The name of the sequence used to generate CCBC ids. It is added via a trigger
+  """
+  applicationNumberSeqName: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `CcbcUser` that is related to this `Intake`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Intake`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Intake`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByIntakeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+  ): ApplicationsConnection!
+}
 
 """
 Table containing information about the application's users, this is business contact information not personally identifiable information
@@ -508,6 +558,93 @@ type CcbcUser implements Node {
     """
     condition: CcbcUserCondition
   ): CcbcUsersConnection!
+
+  """Reads and enables pagination through a set of `Intake`."""
+  intakesByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Intake`."""
+    orderBy: [IntakesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: IntakeCondition
+  ): IntakesConnection!
+
+  """Reads and enables pagination through a set of `Intake`."""
+  intakesByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Intake`."""
+    orderBy: [IntakesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: IntakeCondition
+  ): IntakesConnection!
+
+  """Reads and enables pagination through a set of `Intake`."""
+  intakesByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Intake`."""
+    orderBy: [IntakesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: IntakeCondition
+  ): IntakesConnection!
 
   """Reads and enables pagination through a set of `Application`."""
   applicationsByCreatedBy(
@@ -769,93 +906,6 @@ type CcbcUser implements Node {
     """
     condition: AttachmentCondition
   ): AttachmentsConnection!
-
-  """Reads and enables pagination through a set of `Intake`."""
-  intakesByCreatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Intake`."""
-    orderBy: [IntakesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: IntakeCondition
-  ): IntakesConnection!
-
-  """Reads and enables pagination through a set of `Intake`."""
-  intakesByUpdatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Intake`."""
-    orderBy: [IntakesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: IntakeCondition
-  ): IntakesConnection!
-
-  """Reads and enables pagination through a set of `Intake`."""
-  intakesByArchivedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Intake`."""
-    orderBy: [IntakesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: IntakeCondition
-  ): IntakesConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -970,6 +1020,101 @@ input CcbcUserCondition {
   archivedAt: Datetime
 }
 
+"""A connection to a list of `Intake` values."""
+type IntakesConnection {
+  """A list of `Intake` objects."""
+  nodes: [Intake]!
+
+  """
+  A list of edges which contains the `Intake` and cursor to aid in pagination.
+  """
+  edges: [IntakesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Intake` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Intake` edge in the connection."""
+type IntakesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Intake` at the end of the edge."""
+  node: Intake
+}
+
+"""Methods to use when ordering `Intake`."""
+enum IntakesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  OPEN_TIMESTAMP_ASC
+  OPEN_TIMESTAMP_DESC
+  CLOSE_TIMESTAMP_ASC
+  CLOSE_TIMESTAMP_DESC
+  CCBC_INTAKE_NUMBER_ASC
+  CCBC_INTAKE_NUMBER_DESC
+  APPLICATION_NUMBER_SEQ_NAME_ASC
+  APPLICATION_NUMBER_SEQ_NAME_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Intake` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input IntakeCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `openTimestamp` field."""
+  openTimestamp: Datetime
+
+  """Checks for equality with the object’s `closeTimestamp` field."""
+  closeTimestamp: Datetime
+
+  """Checks for equality with the object’s `ccbcIntakeNumber` field."""
+  ccbcIntakeNumber: Int
+
+  """
+  Checks for equality with the object’s `applicationNumberSeqName` field.
+  """
+  applicationNumberSeqName: String
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
 """Methods to use when ordering `Application`."""
 enum ApplicationsOrderBy {
   NATURAL
@@ -983,6 +1128,10 @@ enum ApplicationsOrderBy {
   FORM_DATA_DESC
   STATUS_ASC
   STATUS_DESC
+  LAST_EDITED_PAGE_ASC
+  LAST_EDITED_PAGE_DESC
+  INTAKE_ID_ASC
+  INTAKE_ID_DESC
   CREATED_BY_ASC
   CREATED_BY_DESC
   CREATED_AT_ASC
@@ -995,10 +1144,6 @@ enum ApplicationsOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
-  INTAKE_ID_ASC
-  INTAKE_ID_DESC
-  LAST_EDITED_PAGE_ASC
-  LAST_EDITED_PAGE_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -1023,6 +1168,12 @@ input ApplicationCondition {
   """Checks for equality with the object’s `status` field."""
   status: String
 
+  """Checks for equality with the object’s `lastEditedPage` field."""
+  lastEditedPage: String
+
+  """Checks for equality with the object’s `intakeId` field."""
+  intakeId: Int
+
   """Checks for equality with the object’s `createdBy` field."""
   createdBy: Int
 
@@ -1040,12 +1191,6 @@ input ApplicationCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
-
-  """Checks for equality with the object’s `intakeId` field."""
-  intakeId: Int
-
-  """Checks for equality with the object’s `lastEditedPage` field."""
-  lastEditedPage: String
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -1394,184 +1539,6 @@ input ApplicationStatusCondition {
   archivedAt: Datetime
 }
 
-"""A connection to a list of `Intake` values."""
-type IntakesConnection {
-  """A list of `Intake` objects."""
-  nodes: [Intake]!
-
-  """
-  A list of edges which contains the `Intake` and cursor to aid in pagination.
-  """
-  edges: [IntakesEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Intake` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""
-Table contianing intake numbers and their respective open and closing dates
-"""
-type Intake implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-
-  """Unique ID for each intake number"""
-  rowId: Int!
-
-  """Open date and time for an intake number"""
-  openTimestamp: Datetime!
-
-  """Close date and time for an intake number"""
-  closeTimestamp: Datetime!
-
-  """Unique intake number for a set of CCBC IDs"""
-  ccbcIntakeNumber: Int!
-
-  """
-  The name of the sequence used to generate CCBC ids. It is added via a trigger
-  """
-  applicationNumberSeqName: String
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime!
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime!
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
-
-  """Reads a single `CcbcUser` that is related to this `Intake`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Intake`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Intake`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """Reads and enables pagination through a set of `Application`."""
-  applicationsByIntakeId(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Application`."""
-    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ApplicationCondition
-  ): ApplicationsConnection!
-}
-
-"""A `Intake` edge in the connection."""
-type IntakesEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Intake` at the end of the edge."""
-  node: Intake
-}
-
-"""Methods to use when ordering `Intake`."""
-enum IntakesOrderBy {
-  NATURAL
-  ID_ASC
-  ID_DESC
-  OPEN_TIMESTAMP_ASC
-  OPEN_TIMESTAMP_DESC
-  CLOSE_TIMESTAMP_ASC
-  CLOSE_TIMESTAMP_DESC
-  CCBC_INTAKE_NUMBER_ASC
-  CCBC_INTAKE_NUMBER_DESC
-  APPLICATION_NUMBER_SEQ_NAME_ASC
-  APPLICATION_NUMBER_SEQ_NAME_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_BY_ASC
-  UPDATED_BY_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  ARCHIVED_BY_ASC
-  ARCHIVED_BY_DESC
-  ARCHIVED_AT_ASC
-  ARCHIVED_AT_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Intake` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input IntakeCondition {
-  """Checks for equality with the object’s `rowId` field."""
-  rowId: Int
-
-  """Checks for equality with the object’s `openTimestamp` field."""
-  openTimestamp: Datetime
-
-  """Checks for equality with the object’s `closeTimestamp` field."""
-  closeTimestamp: Datetime
-
-  """Checks for equality with the object’s `ccbcIntakeNumber` field."""
-  ccbcIntakeNumber: Int
-
-  """
-  Checks for equality with the object’s `applicationNumberSeqName` field.
-  """
-  applicationNumberSeqName: String
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: Int
-
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedBy` field."""
-  updatedBy: Int
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `archivedBy` field."""
-  archivedBy: Int
-
-  """Checks for equality with the object’s `archivedAt` field."""
-  archivedAt: Datetime
-}
-
 """A `Application` edge in the connection."""
 type ApplicationsEdge {
   """A cursor for use in pagination."""
@@ -1579,154 +1546,6 @@ type ApplicationsEdge {
 
   """The `Application` at the end of the edge."""
   node: Application
-}
-
-"""A connection to a list of `ApplicationView` values."""
-type ApplicationViewsConnection {
-  """A list of `ApplicationView` objects."""
-  nodes: [ApplicationView]!
-
-  """
-  A list of edges which contains the `ApplicationView` and cursor to aid in pagination.
-  """
-  edges: [ApplicationViewsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """
-  The count of *all* `ApplicationView` you could get from the connection.
-  """
-  totalCount: Int!
-}
-
-"""View containing the list of all respondents applications"""
-type ApplicationView {
-  """Primary key ID for the application"""
-  rowId: Int
-
-  """Reference number assigned to the application"""
-  ccbcNumber: String
-
-  """The owner of the application"""
-  owner: String
-
-  """The data entered into the form by the respondent"""
-  formData: JSON
-
-  """The status of the application, draft or complete"""
-  status: String
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
-
-  """
-  Application Intake Number, used as the prefix for CCBC reference number
-  """
-  intakeId: Int
-
-  """Column saving the key of the last edited form page"""
-  lastEditedPage: String
-}
-
-"""A `ApplicationView` edge in the connection."""
-type ApplicationViewsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `ApplicationView` at the end of the edge."""
-  node: ApplicationView
-}
-
-"""Methods to use when ordering `ApplicationView`."""
-enum ApplicationViewsOrderBy {
-  NATURAL
-  ID_ASC
-  ID_DESC
-  CCBC_NUMBER_ASC
-  CCBC_NUMBER_DESC
-  OWNER_ASC
-  OWNER_DESC
-  FORM_DATA_ASC
-  FORM_DATA_DESC
-  STATUS_ASC
-  STATUS_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_BY_ASC
-  UPDATED_BY_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  ARCHIVED_BY_ASC
-  ARCHIVED_BY_DESC
-  ARCHIVED_AT_ASC
-  ARCHIVED_AT_DESC
-  INTAKE_ID_ASC
-  INTAKE_ID_DESC
-  LAST_EDITED_PAGE_ASC
-  LAST_EDITED_PAGE_DESC
-}
-
-"""
-A condition to be used against `ApplicationView` object types. All fields are
-tested for equality and combined with a logical ‘and.’
-"""
-input ApplicationViewCondition {
-  """Checks for equality with the object’s `rowId` field."""
-  rowId: Int
-
-  """Checks for equality with the object’s `ccbcNumber` field."""
-  ccbcNumber: String
-
-  """Checks for equality with the object’s `owner` field."""
-  owner: String
-
-  """Checks for equality with the object’s `formData` field."""
-  formData: JSON
-
-  """Checks for equality with the object’s `status` field."""
-  status: String
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: Int
-
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedBy` field."""
-  updatedBy: Int
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `archivedBy` field."""
-  archivedBy: Int
-
-  """Checks for equality with the object’s `archivedAt` field."""
-  archivedAt: Datetime
-
-  """Checks for equality with the object’s `intakeId` field."""
-  intakeId: Int
-
-  """Checks for equality with the object’s `lastEditedPage` field."""
-  lastEditedPage: String
 }
 
 type KeycloakJwt {
@@ -1925,14 +1744,6 @@ type Mutation {
     input: CreateApplicationStatusInput!
   ): CreateApplicationStatusPayload
 
-  """Creates a single `ApplicationView`."""
-  createApplicationView(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateApplicationViewInput!
-  ): CreateApplicationViewPayload
-
   """Creates a single `Attachment`."""
   createAttachment(
     """
@@ -1973,14 +1784,6 @@ type Mutation {
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: UpdateApplicationByRowIdInput!
-  ): UpdateApplicationPayload
-
-  """Updates a single `Application` using a unique key and a patch."""
-  updateApplicationByIntakeIdAndCcbcNumber(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateApplicationByIntakeIdAndCcbcNumberInput!
   ): UpdateApplicationPayload
 
   """
@@ -2081,14 +1884,6 @@ type Mutation {
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteApplicationByRowIdInput!
-  ): DeleteApplicationPayload
-
-  """Deletes a single `Application` using a unique key."""
-  deleteApplicationByIntakeIdAndCcbcNumber(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationByIntakeIdAndCcbcNumberInput!
   ): DeleteApplicationPayload
 
   """Deletes a single `ApplicationStatus` using its globally unique id."""
@@ -2200,6 +1995,9 @@ type CreateApplicationPayload {
   """
   query: Query
 
+  """Reads a single `Intake` that is related to this `Application`."""
+  intakeByIntakeId: Intake
+
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -2208,9 +2006,6 @@ type CreateApplicationPayload {
 
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByArchivedBy: CcbcUser
-
-  """Reads a single `Intake` that is related to this `Application`."""
-  intakeByIntakeId: Intake
 
   """An edge for our `Application`. May be used by Relay 1."""
   applicationEdge(
@@ -2236,7 +2031,7 @@ input ApplicationInput {
   """Reference number assigned to the application"""
   ccbcNumber: String
 
-  """The owner of the application"""
+  """The owner of the application, identified by its JWT sub"""
   owner: String!
 
   """The data entered into the form by the respondent"""
@@ -2244,6 +2039,12 @@ input ApplicationInput {
 
   """The status of the application, draft or complete"""
   status: String
+
+  """Column saving the key of the last edited form page"""
+  lastEditedPage: String
+
+  """The intake associated with the application, set when it is submitted"""
+  intakeId: Int
 
   """created by user id"""
   createdBy: Int
@@ -2262,14 +2063,6 @@ input ApplicationInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
-
-  """
-  Application Intake Number, used as the prefix for CCBC reference number
-  """
-  intakeId: Int
-
-  """Column saving the key of the last edited form page"""
-  lastEditedPage: String
 }
 
 """The output of our create `ApplicationStatus` mutation."""
@@ -2341,85 +2134,6 @@ input ApplicationStatusInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
-}
-
-"""The output of our create `ApplicationView` mutation."""
-type CreateApplicationViewPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `ApplicationView` that was created by this mutation."""
-  applicationView: ApplicationView
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `ApplicationView`. May be used by Relay 1."""
-  applicationViewEdge(
-    """The method to use when ordering `ApplicationView`."""
-    orderBy: [ApplicationViewsOrderBy!] = [NATURAL]
-  ): ApplicationViewsEdge
-}
-
-"""All input for the create `ApplicationView` mutation."""
-input CreateApplicationViewInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `ApplicationView` to be created by this mutation."""
-  applicationView: ApplicationViewInput!
-}
-
-"""An input for mutations affecting `ApplicationView`"""
-input ApplicationViewInput {
-  """Primary key ID for the application"""
-  rowId: Int
-
-  """Reference number assigned to the application"""
-  ccbcNumber: String
-
-  """The owner of the application"""
-  owner: String
-
-  """The data entered into the form by the respondent"""
-  formData: JSON
-
-  """The status of the application, draft or complete"""
-  status: String
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
-
-  """
-  Application Intake Number, used as the prefix for CCBC reference number
-  """
-  intakeId: Int
-
-  """Column saving the key of the last edited form page"""
-  lastEditedPage: String
 }
 
 """The output of our create `Attachment` mutation."""
@@ -2699,6 +2413,9 @@ type UpdateApplicationPayload {
   """
   query: Query
 
+  """Reads a single `Intake` that is related to this `Application`."""
+  intakeByIntakeId: Intake
+
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -2707,9 +2424,6 @@ type UpdateApplicationPayload {
 
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByArchivedBy: CcbcUser
-
-  """Reads a single `Intake` that is related to this `Application`."""
-  intakeByIntakeId: Intake
 
   """An edge for our `Application`. May be used by Relay 1."""
   applicationEdge(
@@ -2744,7 +2458,7 @@ input ApplicationPatch {
   """Reference number assigned to the application"""
   ccbcNumber: String
 
-  """The owner of the application"""
+  """The owner of the application, identified by its JWT sub"""
   owner: String
 
   """The data entered into the form by the respondent"""
@@ -2752,6 +2466,12 @@ input ApplicationPatch {
 
   """The status of the application, draft or complete"""
   status: String
+
+  """Column saving the key of the last edited form page"""
+  lastEditedPage: String
+
+  """The intake associated with the application, set when it is submitted"""
+  intakeId: Int
 
   """created by user id"""
   createdBy: Int
@@ -2770,14 +2490,6 @@ input ApplicationPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
-
-  """
-  Application Intake Number, used as the prefix for CCBC reference number
-  """
-  intakeId: Int
-
-  """Column saving the key of the last edited form page"""
-  lastEditedPage: String
 }
 
 """All input for the `updateApplicationByRowId` mutation."""
@@ -2795,28 +2507,6 @@ input UpdateApplicationByRowIdInput {
 
   """Primary key ID for the application"""
   rowId: Int!
-}
-
-"""All input for the `updateApplicationByIntakeIdAndCcbcNumber` mutation."""
-input UpdateApplicationByIntakeIdAndCcbcNumberInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Application` being updated.
-  """
-  applicationPatch: ApplicationPatch!
-
-  """
-  Application Intake Number, used as the prefix for CCBC reference number
-  """
-  intakeId: Int!
-
-  """Reference number assigned to the application"""
-  ccbcNumber: String!
 }
 
 """The output of our update `ApplicationStatus` mutation."""
@@ -3305,6 +2995,9 @@ type DeleteApplicationPayload {
   """
   query: Query
 
+  """Reads a single `Intake` that is related to this `Application`."""
+  intakeByIntakeId: Intake
+
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -3313,9 +3006,6 @@ type DeleteApplicationPayload {
 
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByArchivedBy: CcbcUser
-
-  """Reads a single `Intake` that is related to this `Application`."""
-  intakeByIntakeId: Intake
 
   """An edge for our `Application`. May be used by Relay 1."""
   applicationEdge(
@@ -3348,23 +3038,6 @@ input DeleteApplicationByRowIdInput {
 
   """Primary key ID for the application"""
   rowId: Int!
-}
-
-"""All input for the `deleteApplicationByIntakeIdAndCcbcNumber` mutation."""
-input DeleteApplicationByIntakeIdAndCcbcNumberInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  Application Intake Number, used as the prefix for CCBC reference number
-  """
-  intakeId: Int!
-
-  """Reference number assigned to the application"""
-  ccbcNumber: String!
 }
 
 """The output of our delete `ApplicationStatus` mutation."""
@@ -3690,6 +3363,9 @@ type SubmitApplicationPayload {
   """
   query: Query
 
+  """Reads a single `Intake` that is related to this `Application`."""
+  intakeByIntakeId: Intake
+
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -3698,9 +3374,6 @@ type SubmitApplicationPayload {
 
   """Reads a single `CcbcUser` that is related to this `Application`."""
   ccbcUserByArchivedBy: CcbcUser
-
-  """Reads a single `Intake` that is related to this `Application`."""
-  intakeByIntakeId: Intake
 
   """An edge for our `Application`. May be used by Relay 1."""
   applicationEdge(
