@@ -57,14 +57,7 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
         </section>
         <section>
           <h3>Get started</h3>
-          <p>
-            Login with a Business BCeID or Basic BCeID. If you do not have a
-            BCeID, please{' '}
-            <Link href="https://www.bceid.ca/os/?7770&SkipTo=Basic">
-              register for a Basic BCeID
-            </Link>
-            .
-          </p>
+
           {session?.sub ? (
             <StyledBtnContainer>
               <ButtonLink href="/dashboard">Go to dashboard</ButtonLink>
@@ -73,7 +66,11 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
             <>
               <p>
                 Login with a Business BCeID or Basic BCeID. If you do not have a
-                BCeID, please register for a Basic BCeID.
+                BCeID, please{' '}
+                <Link href="https://www.bceid.ca/os/?7770&SkipTo=Basic">
+                  register for a Basic BCeID
+                </Link>
+                .
               </p>
               <StyledBtnContainer>
                 <LoginForm />
