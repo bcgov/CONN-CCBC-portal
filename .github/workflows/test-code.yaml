@@ -67,6 +67,19 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
 
+  depcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: Check for unused dependencies
+        shell: bash
+        working-directory: ./app
+        run: npx depcheck
+
   jest:
     needs: [install-test-env]
     runs-on: ubuntu-latest
