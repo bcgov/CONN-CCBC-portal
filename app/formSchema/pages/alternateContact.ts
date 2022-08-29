@@ -1,8 +1,8 @@
 const alternateContact = {
   alternateContact: {
-    title: 'Alternate contact',
+    title: 'Alternate business contact',
     description:
-      'Provide the contact information for an alternate contact in the event that the primary contact becomes unreachable. If there is no alternate contact, leave this section blank.',
+      'Provide the business contact information for an alternate contact in the event that the primary contact becomes unreachable. If there is no alternate contact, leave this section blank.',
     type: 'object',
     required: [
       'altGivenName',

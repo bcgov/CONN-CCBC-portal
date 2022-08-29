@@ -92,7 +92,7 @@ const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
           <p>There are no currently open intakes.</p>
         )}
         <StyledGovButton onClick={handleCreateApplication}>
-          New application
+          Create application
         </StyledGovButton>
       </div>
       {hasApplications ? (
