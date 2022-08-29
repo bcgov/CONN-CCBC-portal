@@ -179,7 +179,6 @@ const uiSchema = {
     'ui:description': 'maximum 3,500 characters',
     'ui:title':
       'Using non-technical language, provide a description of the Project, including its key elements, purpose, objectives and benefits. Identify the ‘who’, ‘what’, ‘where’, ‘when’ and ‘why’. Please avoid including Confidential or Proprietary information.',
-
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
     },
@@ -187,7 +186,7 @@ const uiSchema = {
   geographicArea: {
     'ui:widget': 'CheckboxesWidget',
     'ui:options': {
-      // Todo: set another constant or change to 200
+      label: false,
       maxLength: 150,
     },
   },
@@ -571,6 +570,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       fileTypes: '.kmz',
+      label: false,
     },
   },
   coverageAssessmentStatistics: {
