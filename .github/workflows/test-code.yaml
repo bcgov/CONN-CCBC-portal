@@ -1,4 +1,5 @@
-name: Run CCBC tests
+# Tests that rely on the committed code, without needing the docker images to be built
+name: test code
 
 env:
   PGPASSWORD: postgres
@@ -8,8 +9,7 @@ env:
 on:
   workflow_call:
     secrets:
-      SONAR_TOKEN:
-        required: true
+      SONAR_TOKEN: { required: true }
 
 jobs:
   install-test-env:
@@ -23,47 +23,49 @@ jobs:
       - run: yarn install --frozen-lockfile --check-files
         working-directory: ./app
 
-  trivy-scan-app:
+  trivy-scan-code:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Trivy Vulnerability Scan
+      - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
+          scan-type: fs
           format: sarif
           output: trivy-results.sarif
           exit-code: '0'
-          ignore-unfixed: true
-          vuln-type: os,library
-          severity: CRITICAL
+          ignore-unfixed: false
+          severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
 
-  trivy-scan-db:
+  codeql-scan:
+    name: codeql-scan
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript']
+        os: ['linux']
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Trivy Vulnerability Scan
-        uses: aquasecurity/trivy-action@master
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
         with:
-          image-ref: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }}
-          format: sarif
-          output: trivy-results.sarif
-          exit-code: '0'
-          ignore-unfixed: true
-          vuln-type: os,library
-          severity: CRITICAL
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
+          languages: ${{ matrix.language }}
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
 
   jest:
     needs: [install-test-env]
@@ -105,8 +107,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
-      - name: run app locally
-        uses: ./.github/actions/local-app-run
       - run: yarn build:schema
         working-directory: ./app
       - name: Check for inconsistency between graphql schema and commit schema
@@ -121,43 +121,7 @@ jobs:
           submodules: recursive
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
-      - run: make stop_pg # cleanly stop the database, otherwise it will complain in the subsequent jobs
-      - name: run app locally
-        uses: ./.github/actions/local-app-run
-      - name: Install pg_prove
-        run: sudo cpan TAP::Parser::SourceHandler::pgTAP
-        env:
-          SHELL: /bin/bash
-      - name: Install pgtap
-        run: |
-          git clone https://github.com/theory/pgtap.git
-          cd pgtap
-          git checkout v1.2.0
-          git branch
-          make
-          make install
-          psql -c 'CREATE EXTENSION pgtap;' || true
       - name: Run Database Unit Tests
-        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/unit/**/*_test.sql
+        run: make db_unit_tests
       - name: Run Database Style Tests
-        run: pg_prove --username ${{ env.PGUSER }} --dbname ${{ env.PGDATABASE }} db/test/style/*_test.sql --set schemas_to_test=ccbc_public,ccbc_private
-
-  zap-owasp-baseline:
-    needs: [install-test-env]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
-      - name: run app locally
-        uses: ./.github/actions/local-app-run
-      - name: ZAP Base Scan
-        uses: zaproxy/action-baseline@v0.7.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          docker_name: 'owasp/zap2docker-stable'
-          target: 'http://localhost:3000/'
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a -d -T 5 -m 2'
-          issue_title: OWASP Baseline
-          fail_action: true
+        run: make db_style_tests
