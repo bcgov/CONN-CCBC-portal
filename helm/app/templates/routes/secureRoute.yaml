@@ -32,3 +32,31 @@ spec:
     name: {{ template "ccbc.fullname" . }}
     weight: 100
   wildcardPolicy: None
+
+{{- if secureRoute.wwwRoute.enable }}
+---
+# The www route isn't managed by certbot to avoid duplicate certificate requests
+# It will need a redeploy to fetch the new cert from the route above
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ template "ccbc.fullname" . }}-secure-www
+  labels: {{ include "ccbc.labels" . | nindent 4 }}
+spec:
+  host: www.{{ .Values.secureRoute.host }}
+  port:
+    targetPort: {{ template "ccbc.fullname" . }}
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+    {{- if $route }}
+    certificate: {{ $certificate | quote }}
+    key: {{ $key | quote }}
+    caCertificate: {{ $caCertificate | quote }}
+    {{- end }}
+  to:
+    kind: Service
+    name: {{ template "ccbc.fullname" . }}
+    weight: 100
+  wildcardPolicy: None
+{{- end }}
