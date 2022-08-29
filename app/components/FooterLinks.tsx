@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import styled from 'styled-components';
 import GlobalTheme from '../styles/GlobalTheme';
+import Link from '@button-inc/bcgov-theme/Link';
 
 const StyledUl = styled.ul`
   padding-left: 20px;
@@ -11,28 +11,28 @@ export default function FooterLinks() {
     <GlobalTheme>
       <StyledUl>
         <li key="0">
-          <Link href="https://www2.gov.bc.ca/gov/content/governments/connectivity-in-bc">
-            <a style={{ paddingLeft: 0 }}>Home</a>
+          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
+            Project details
           </Link>
         </li>
         <li key="1">
           <Link href="https://www2.gov.bc.ca/gov/content/home/disclaimer">
-            <a>Disclaimer</a>
+            Disclaimer
           </Link>
         </li>
         <li key="2">
           <Link href="https://www2.gov.bc.ca/gov/content/home/privacy">
-            <a>Privacy</a>
+            Privacy
           </Link>
         </li>
         <li key="3">
           <Link href="https://www2.gov.bc.ca/gov/content/home/accessible-government">
-            <a>Accessibility</a>
+            Accessibility
           </Link>
         </li>
         <li key="4">
           <Link href="https://www2.gov.bc.ca/gov/content/home/copyright">
-            <a>Copyright</a>
+            Copyright
           </Link>
         </li>
       </StyledUl>
