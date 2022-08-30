@@ -41,7 +41,11 @@ RUN sed -i -nr '/node|yarn/p' ${APP_HOME}/.tool-versions && \
   cat ${APP_HOME}/.tool-versions | cut -f 1 -d ' ' | xargs -n 1 asdf plugin-add && \
   asdf plugin-update --all && \
   asdf install && \
-  asdf reshim
+  asdf reshim && \
+  pushd ${APP_HOME}/.asdf/installs/nodejs/$(awk '/^nodejs/ { print $2 }' .tool-versions)/lib && \
+  npm i npm corepack && \
+  rm -f package.json package-lock.json && \
+  popd
 
 ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 /usr/local/bin/dumb-init
 RUN chmod +x /usr/local/bin/dumb-init
