@@ -36,11 +36,11 @@ jobs:
       OPENSHIFT_METABASE_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
       NEXT_PUBLIC_GROWTHBOOK_API_KEY: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      OPENSHIFT_ROUTE: ${{ secrets.OPENSHIFT_ROUTE }}
       OPENSHIFT_SECURE_ROUTE: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
       AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
       AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
       AWS_S3_KEY: ${{ secrets.AWS_S3_KEY }}
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
       CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
       CERTBOT_SERVER: ${{ secrets.CERTBOT_SERVER }}

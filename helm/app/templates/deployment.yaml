@@ -153,7 +153,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 key: host
-                name: ccbc-pguser-ccbc          
+                name: ccbc-pguser-ccbc
           - name: PGPASSWORD
             valueFrom:
               secretKeyRef:
@@ -165,7 +165,7 @@ spec:
                 key: session-secret
                 name: {{ template "ccbc.fullname" . }}
           - name: HOST
-            value: {{ .Values.route.host }}
+            value: {{ .Values.secureRoute.host }}
           - name: OPENSHIFT_APP_NAMESPACE
             value: {{ .Values.app.namespace }}
           - name: NEXT_PUBLIC_GROWTHBOOK_API_KEY

@@ -24,8 +24,8 @@ app:
   enableAnalytics: true
 secureRoute:
   host: '' # The host value must be passed in via the deploy script
-route:
-  host: '' # The host value must be passed in via the deploy script
+  wwwRoute:
+    enable: false
 growthbook:
   key: '' # The host value must be passed in via the deploy script
 resources:
@@ -58,7 +58,7 @@ objectStorage:
   awsS3Key: '' # The value must be passed in via the deploy script
   awsS3SecretKey: '' # The value must be passed in via the deploy script
   awsRoleArn: '' # The value must be passed in via the deploy script
-  
+
 db:
   name: ccbc
   appUser: ccbc_app

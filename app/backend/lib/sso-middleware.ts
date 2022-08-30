@@ -24,7 +24,7 @@ export default async function ssoMiddleware() {
   return ssoExpress({
     applicationDomain: '.gov.bc.ca',
     getLandingRoute: () => {
-      return '/dashboard';
+      return '/applicantportal/dashboard';
     },
     bypassAuthentication: {
       login: mockAuth,

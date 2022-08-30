@@ -9,14 +9,17 @@ on:
       OPENSHIFT_METABASE_NAMESPACE: { required: true }
       NEXT_PUBLIC_GROWTHBOOK_API_KEY: { required: true }
       CLIENT_SECRET: { required: true }
-      OPENSHIFT_ROUTE: { required: true }
       OPENSHIFT_SECURE_ROUTE: { required: true }
       AWS_S3_BUCKET: { required: true }
       AWS_S3_REGION: { required: true }
       AWS_S3_KEY: { required: true }
+      AWS_S3_SECRET_KEY: { required: true }
       AWS_ROLE_ARN: { required: true }
       CERTBOT_EMAIL: { required: true }
       CERTBOT_SERVER: { required: true }
+
+env:
+  TAG: sha-${{ github.sha }}
 
 jobs:
   deploy-to-openshift-development:
@@ -37,7 +40,6 @@ jobs:
           next_public_growthbook_api_key: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
-          route: ${{ secrets.OPENSHIFT_ROUTE }}
           secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
           aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
@@ -67,7 +69,6 @@ jobs:
           next_public_growthbook_api_key: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
-          route: ${{ secrets.OPENSHIFT_ROUTE }}
           secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
           aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
@@ -99,7 +100,6 @@ jobs:
           next_public_growthbook_api_key: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
-          route: ${{ secrets.OPENSHIFT_ROUTE }}
           secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
           aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}

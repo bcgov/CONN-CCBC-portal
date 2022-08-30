@@ -18,14 +18,14 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   uiSchema,
   id,
 }) => {
-  const ignoreOptional = uiSchema['ui:options']?.ignoreOptional;
+  const hideOptional = uiSchema['ui:options']?.hideOptional;
 
   return (
     <div>
       {displayLabel && (
         <FieldLabel
           label={label}
-          ignoreOptional={ignoreOptional && true}
+          hideOptional={hideOptional && true}
           required={required}
           htmlFor={id}
         />

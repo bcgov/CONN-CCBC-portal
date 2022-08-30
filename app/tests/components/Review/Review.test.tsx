@@ -44,7 +44,7 @@ const schema = {
     ...benefits,
     ...projectPlan,
     ...templateUploads,
-    ...supportingDocuments(true),
+    ...supportingDocuments,
     ...coverage,
     ...estimatedProjectEmployment,
     ...organizationProfile,
