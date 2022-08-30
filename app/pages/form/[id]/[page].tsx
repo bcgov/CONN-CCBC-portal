@@ -52,7 +52,7 @@ const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
         )}
         {status === 'submitted' && (
           <StyledAlert id="review-alert" size="small" variant="info">
-            Edits to this application are automatically submitted.
+            Edits are automatically saved and submitted.
           </StyledAlert>
         )}
         <Back applicationId={applicationId} pageNumber={pageNumber} />
