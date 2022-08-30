@@ -398,7 +398,7 @@ const uiSchema = {
   estimatedFTECreation: {
     'ui:widget': ReadOnlyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   numberOfContractorsToWork: {
@@ -425,7 +425,7 @@ const uiSchema = {
   estimatedFTEContractorCreation: {
     'ui:widget': ReadOnlyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   acknowledgementsList: {
@@ -659,6 +659,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
+      hideOptional: true,
     },
   },
   wirelessAddendum: {
@@ -755,7 +756,7 @@ const uiSchema = {
         'ui:description': 'maximum 150 characters',
         'ui:options': {
           maxLength: 150,
-          ignoreOptional: true,
+          hideOptional: true,
         },
       },
       requestedFundingPartner2223: {
@@ -862,31 +863,31 @@ const uiSchema = {
   infrastructureBankFunding2223: {
     'ui:widget': MoneyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   infrastructureBankFunding2324: {
     'ui:widget': MoneyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   infrastructureBankFunding2425: {
     'ui:widget': MoneyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   infrastructureBankFunding2526: {
     'ui:widget': MoneyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   totalInfrastructureBankFunding: {
     'ui:widget': MoneyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   review: {
