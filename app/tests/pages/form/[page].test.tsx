@@ -11,7 +11,7 @@ const mockQueryPayload = {
   Query() {
     return {
       applicationByRowId: {
-        status: 'submitted',
+        status: 'draft',
         ccbcNumber: 'CCBC-010001',
         intakeByIntakeId: {
           ccbcIntakeNumber: 1,
@@ -51,12 +51,46 @@ describe('The form page', () => {
     expect(screen.getByText('Logout')).toBeInTheDocument();
   });
 
-  it('displays the info banner when editing a submitted application', () => {
+  it('does not display the alert or info banner when editing a draft application', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getByText('Edits to this application are automatically submitted.')
+      screen.queryByText(
+        'You can no longer edit this application because it is withdrawn.'
+      )
+    ).toBeNull();
+
+    expect(
+      screen.queryByText('Edits are automatically saved and submitted.')
+    ).toBeNull();
+  });
+
+  it('displays the info banner when editing a submitted application', () => {
+    const mockQueryPayload = {
+      Query() {
+        return {
+          applicationByRowId: {
+            status: 'submitted',
+            ccbcNumber: 'CCBC-010001',
+            intakeByIntakeId: {
+              ccbcIntakeNumber: 1,
+              closeTimestamp: '2022-09-06T23:59:59-07:00',
+            },
+            projectName: 'Project testing title',
+            updatedAt: '2022-08-15T16:43:28.973734-04:00',
+          },
+          session: {
+            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+          },
+        };
+      },
+    };
+    pageTestingHelper.loadQuery(mockQueryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText('Edits are automatically saved and submitted.')
     ).toBeInTheDocument();
   });
 
