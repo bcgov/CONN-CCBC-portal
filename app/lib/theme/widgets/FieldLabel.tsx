@@ -1,23 +1,26 @@
 interface Props {
+  altOptionalText: string;
+  htmlFor: string;
+  hideOptional: boolean;
   label: string;
   required: boolean;
-  htmlFor: string;
   tagName?: 'label' | 'dt';
-  hideOptional: boolean;
 }
 
 const FieldLabel: React.FC<Props> = ({
+  altOptionalText,
+  hideOptional,
+  htmlFor,
   label,
   required,
-  htmlFor,
   tagName = 'label',
-  hideOptional,
 }) => {
   if (!label) {
     return null;
   }
+  const optionalText = ` (${altOptionalText ? altOptionalText : 'optional'})`;
   const displayedLabel =
-    label + (required || hideOptional ? '' : ` (optional)`) + ' ';
+    label + (required || hideOptional ? '' : optionalText) + ' ';
 
   if (tagName === 'label')
     return <label htmlFor={htmlFor}>{displayedLabel}</label>;
