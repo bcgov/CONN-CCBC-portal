@@ -5,6 +5,7 @@ import PageTestingHelper from '../../utils/pageTestingHelper';
 import compiledPageQuery, {
   PageQuery,
 } from '../../../__generated__/PageQuery.graphql';
+import { NextPageContext } from 'next';
 
 const mockQueryPayload = {
   Query() {
@@ -94,7 +95,7 @@ describe('The form page', () => {
       req: {
         url: '/form/1/1',
       },
-    } as any;
+    } as NextPageContext;
 
     expect(await withRelayOptions.serverSideProps(ctx)).toEqual({
       redirect: {
