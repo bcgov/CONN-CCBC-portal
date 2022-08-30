@@ -1,5 +1,4 @@
-import moment from 'moment-timezone';
-import { SetStateAction } from 'react';
+import { DateTime } from "luxon";
 
 type FormatType = {
   date_year_first: string;
@@ -14,14 +13,15 @@ type FormatType = {
 type DTFormat = keyof FormatType;
 
 const TIMEZONE = 'America/Vancouver';
+
 const FORMAT_TYPE: FormatType = {
-  date_year_first: 'YYYY-MM-DD',
-  timestamptz: 'YYYY-MM-DD HH:mm:ss.SSSZ',
-  seconds: 'MMM D, YYYY hh:mm:ss A (z)',
-  minutes: 'MMM D, YYYY hh:mm A (z)',
-  days_numbered: 'DD-MM-YYYY',
-  days_string: 'MMMM Do, YYYY',
-  minutes_time_only: 'hh:mm A (z)'
+  date_year_first: 'yyyy-MM-dd',
+  timestamptz: 'yyyy-MM-dd HH:mm:ss.SSSZ',
+  seconds: 'MMM d, yyyy hh:mm:ss A (ZZZZ)',
+  minutes: 'MMM d, yyyy hh:mm A (ZZZZ)',
+  days_numbered: 'dd-MM-yyyy',
+  days_string: 'MMMM Do, yyyy',
+  minutes_time_only: 'hh:mm a (ZZZZ)'
 };
 
 // Adds a default timestamp to yyyy-MM-dd dates without overwriting pre-existing timestamps:
@@ -29,30 +29,47 @@ const FORMAT_TYPE: FormatType = {
 export const ensureFullTimestamp = (
   dateStr: string,
   time: { hour: number; minute: number; second: number; millisecond: number }
-) => {
-  const fullTimestamp =
-    dateStr.length > 10
-      ? dateStr
-      : moment(dateStr)
-          .hour(time.hour)
-          .minute(time.minute)
-          .second(time.second)
-          .millisecond(time.millisecond)
-          .format(FORMAT_TYPE.timestamptz);
-  return fullTimestamp;
-};
+  ) => {
+    if (dateStr.length > 10) return dateStr;
+    try { 
+      const fullDate = DateTime.fromFormat(dateStr, "yyyy-MM-dd"); 
+      const fullTimestamp = fullDate 
+      .setLocale("en-CA")
+      .setZone(TIMEZONE)
+      .set({
+        hour: time.hour,
+        minute: time.minute,
+        second: time.second,
+        millisecond: time.millisecond
+      }).toISO(); 
+      return fullTimestamp.replace('T',' ');
+    }
+    catch(e) {
+      console.log(e);
+      return dateStr;
+    }
+}
 
 export const dateTimeFormat = (
-  dateTime: SetStateAction<Date | undefined>,
+  dateTime: Date | undefined,
   format: DTFormat
-) => {
-  return moment.tz(dateTime, TIMEZONE).format(FORMAT_TYPE[format]);
+) => { 
+ 
+  if(dateTime !== undefined) {
+     
+    try {
+      const dateValue = (dateTime.valueOf() as number)/1000;
+      const fullDate = DateTime.fromSeconds(dateValue).setZone(TIMEZONE);
+      return fullDate.toFormat(FORMAT_TYPE[format]); 
+    } catch (e) {
+      console.log(e);
+
+      throw e;
+    }
+  }
+  else {
+    return dateTime.toString();
+  }
 };
 
-export const nowMoment = () => {
-  return moment.tz(TIMEZONE);
-};
 
-export const defaultMoment = (dateTime: string) => {
-  return moment.tz(dateTime, TIMEZONE);
-};

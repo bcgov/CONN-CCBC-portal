@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { WidgetProps } from '@rjsf/core';
@@ -22,7 +22,7 @@ const StyledDiv = styled('div')`
   position: relative;
 `;
 
-function getDateString(date: SetStateAction<Date | undefined>) {
+function getDateString(date: Date | undefined) {
   if (date) {
     return dateTimeFormat(date, 'date_year_first');
   }

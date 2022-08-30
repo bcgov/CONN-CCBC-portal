@@ -36,7 +36,6 @@
     "graphql-upload": "^15.0.2",
     "lightship": "6.7.2",
     "luxon": "^3.0.1",
-    "moment-timezone": "^0.5.34",
     "next": "^12.1.6",
     "openid-client": "^5.1.6",
     "postgraphile": "^4.12.9",
