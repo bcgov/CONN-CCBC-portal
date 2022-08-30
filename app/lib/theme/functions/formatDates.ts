@@ -14,16 +14,15 @@ type FormatType = {
 type DTFormat = keyof FormatType;
 
 const TIMEZONE = 'America/Vancouver';
-const TIMEZONE_SHORT = 'PDT';
 
 const FORMAT_TYPE: FormatType = {
   date_year_first: 'yyyy-MM-dd',
   timestamptz: 'yyyy-MM-dd HH:mm:ss.SSSZ',
-  seconds: 'MMM d, yyyy hh:mm:ss A (z)',
-  minutes: 'MMM d, yyyy hh:mm A (z)',
+  seconds: 'MMM d, yyyy hh:mm:ss A (ZZZZ)',
+  minutes: 'MMM d, yyyy hh:mm A (ZZZZ)',
   days_numbered: 'dd-MM-yyyy',
   days_string: 'MMMM Do, yyyy',
-  minutes_time_only: 'hh:mm a (z)'
+  minutes_time_only: 'hh:mm a (ZZZZ)'
 };
 
 // Adds a default timestamp to yyyy-MM-dd dates without overwriting pre-existing timestamps:
@@ -65,7 +64,7 @@ export const dateTimeFormat = (
     try {
       const dateValue = (dateTime.valueOf() as number)/1000;
       const fullDate = DateTime.fromSeconds(dateValue);
-      return fullDate.toFormat(FORMAT_TYPE[format]).replace(TIMEZONE,TIMEZONE_SHORT); 
+      return fullDate.toFormat(FORMAT_TYPE[format]); 
     } catch (e) {
       console.log(e);
 
