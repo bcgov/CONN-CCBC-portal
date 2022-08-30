@@ -1,0 +1,45 @@
+# Main workflow, orchestrating and triggering other workflows
+name: main
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+
+  test-code:
+    uses: ./.github/workflows/test-code.yaml
+    secrets:
+      SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+
+  test-containers:
+    needs: [build]
+    uses: ./.github/workflows/test-containers.yaml
+    secrets:
+      HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+      HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+
+  deploy:
+    if: github.event.ref == 'refs/heads/main'
+    needs: [test-code, test-containers]
+    uses: ./.github/workflows/deploy.yaml
+    secrets:
+      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+      OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
+      OPENSHIFT_APP_NAMESPACE: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+      OPENSHIFT_METABASE_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
+      NEXT_PUBLIC_GROWTHBOOK_API_KEY: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      OPENSHIFT_SECURE_ROUTE: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
+      AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+      AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
+      AWS_S3_KEY: ${{ secrets.AWS_S3_KEY }}
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
+      CERTBOT_SERVER: ${{ secrets.CERTBOT_SERVER }}

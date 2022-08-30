@@ -141,7 +141,7 @@ describe('The application form', () => {
     });
   });
 
-  it.only('displays the correct button label for withdrawn applications', async () => {
+  it('displays the correct button label for withdrawn applications', async () => {
     const payload = {
       Application() {
         return {
@@ -270,19 +270,6 @@ describe('The application form', () => {
     expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
       '/form/42/success'
     );
-  });
-
-  it('Review page contains submission date from DB', async () => {
-    componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 19,
-      query: data.query,
-    }));
-
-    expect(
-      screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)
-    ).toBeInTheDocument();
   });
 
   it('Submission page contains submission date from DB', async () => {

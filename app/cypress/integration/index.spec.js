@@ -23,7 +23,7 @@ context('Homepage', () => {
 
     cy.get('body').happoScreenshot();
 
-    cy.get('button').contains('New application').click();
+    cy.get('button').contains('Create application').click();
 
     cy.wait(4000);
 
@@ -364,7 +364,7 @@ context('Homepage', () => {
 
     // // Authorized contact page
 
-    cy.get('h1').contains('Authorized contact');
+    cy.get('h1').contains('Authorized business contact');
 
     cy.get('input[id="root_authFamilyName"]').type('test');
 
@@ -386,7 +386,7 @@ context('Homepage', () => {
 
     // // Alternate contact page
 
-    cy.get('h1').contains('Alternate contact');
+    cy.get('h1').contains('Alternate business contact');
 
     cy.get('input[id="root_altFamilyName"]').type('test');
 
@@ -476,7 +476,7 @@ context('Homepage', () => {
 
     // // Success page
 
-    cy.get('h2').contains('Application complete');
+    cy.get('h2').contains('Application submitted');
 
     cy.get('h3').contains('Thank you for applying to CCBC Intake 1');
 

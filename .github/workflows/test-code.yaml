@@ -1,0 +1,129 @@
+# Tests that rely on the committed code, without needing the docker images to be built
+name: test code
+
+env:
+  PGPASSWORD: postgres
+  PGUSER: postgres
+  PGDATABASE: ccbc
+
+on:
+  workflow_call:
+    secrets:
+      SONAR_TOKEN: { required: true }
+
+jobs:
+  install-test-env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - run: make install_dev_tools
+      - run: make stop_pg # cleanly stop the database, otherwise it will complain in the subsequent jobs
+      - run: yarn install --frozen-lockfile --check-files
+        working-directory: ./app
+
+  trivy-scan-code:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: '0'
+          ignore-unfixed: false
+          severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  codeql-scan:
+    name: codeql-scan
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript']
+        os: ['linux']
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  jest:
+    needs: [install-test-env]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: run jest tests with coverage
+        shell: bash
+        working-directory: ./app
+        run: yarn test --coverage
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  eslint:
+    needs: [install-test-env]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - run: yarn run eslint -f @microsoft/eslint-formatter-sarif -o results.sarif . || true
+        working-directory: ./app
+      - uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: app/results.sarif
+
+  schema:
+    needs: [install-test-env]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: deploy db migrations
+        run: make start_pg && make drop_db && make deploy_db_migrations
+      - run: yarn build:schema
+        working-directory: ./app
+      - name: Check for inconsistency between graphql schema and commit schema
+        run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/schema/schema.graphql`. Did you forget to \"yarn build:schema\"?' && false)
+
+  pgtap:
+    needs: [install-test-env]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: Run Database Unit Tests
+        run: make db_unit_tests
+      - name: Run Database Style Tests
+        run: make db_style_tests

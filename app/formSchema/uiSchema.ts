@@ -12,6 +12,8 @@ const MAX_SHORT_INPUT_LENGTH = 9;
 const MIN_INPUT_LENGTH = 1;
 const MAX_LENGTH_POSTAL_CODE = 6;
 
+const EXCEL_FILE_EXTENSIONS = '.xls, .xlsx';
+
 const uiSchema = {
   'ui:order': [
     'projectTitle',
@@ -549,7 +551,7 @@ const uiSchema = {
     'ui:options': {
       allowMultipleFiles: true,
       maxLength: MAX_LONG_INPUT_LENGTH,
-      fileTypes: '.xlsx, .mpp',
+      fileTypes: `${EXCEL_FILE_EXTENSIONS}, .mpp`,
     },
   },
   communityRuralDevelopmentBenefits: {
@@ -575,7 +577,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       fileTypes:
-        '.eml, .msg, .txt, .pdf, .doc, .docx, .xlsx, .xlsx, .xml, .jpg, .jpeg, .png',
+        `.eml, .msg, .txt, .pdf, .doc, .docx, .xml, .jpg, .jpeg, .png, ${EXCEL_FILE_EXTENSIONS}`,
     },
   },
   currentNetworkInfastructure: {
@@ -603,7 +605,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   detailedBudget: {
@@ -612,7 +614,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   financialForecast: {
@@ -621,7 +623,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   lastMileIspOffering: {
@@ -630,7 +632,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   popWholesalePricing: {
@@ -640,7 +642,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   communityRuralDevelopmentBenefitsTemplate: {
@@ -649,7 +651,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   evidenceOfConnectivitySpeeds: {
@@ -667,7 +669,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   supportingConnectivityEvidence: {
@@ -677,7 +679,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   geographicNames: {
@@ -686,7 +688,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   equipmentDetails: {
@@ -695,7 +697,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   totalEligibleCosts: {

@@ -2,6 +2,6 @@
 
 BEGIN;
 
-drop function ccbc_public.applications_project_name;
+drop function ccbc_public.application_project_name;
 
 COMMIT;

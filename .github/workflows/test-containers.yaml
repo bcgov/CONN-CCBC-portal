@@ -1,0 +1,90 @@
+# This workflow contains all tests and security scanning that rely on the built production containers
+name: test-containers
+
+on:
+  workflow_call:
+    secrets:
+      HAPPO_API_KEY: { required: true }
+      HAPPO_API_SECRET: { required: true }
+
+env:
+  PGUSER: postgres
+
+jobs:
+  yarn-test-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: run app locally
+        uses: ./.github/actions/local-app-run
+      - run: yarn install --frozen-lockfile
+        working-directory: ./app
+      - name: run e2e tests
+        env:
+          HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+          HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+        run: yarn test:e2e
+        working-directory: ./app
+
+  zap-owasp-full:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: run app locally
+        uses: ./.github/actions/local-app-run
+      - name: ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: 'owasp/zap2docker-stable'
+          target: 'http://localhost:3000/'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a -d -T 5 -m 2'
+          issue_title: OWASP Full Scan
+          fail_action: true
+
+  trivy-scan-app:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Trivy Vulnerability Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: os,library
+          severity: CRITICAL
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  trivy-scan-db:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Trivy Vulnerability Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }}
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: os,library
+          severity: CRITICAL
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'

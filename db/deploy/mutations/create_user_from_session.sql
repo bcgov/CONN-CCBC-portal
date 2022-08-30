@@ -11,13 +11,13 @@ declare
 begin
   select * from ccbc_public.session() into jwt;
 
-  if ((select count(*) from ccbc_public.ccbc_user where uuid = jwt.sub) = 0) then
-    insert into ccbc_public.ccbc_user(uuid, given_name, family_name, email_address)
+  if ((select count(*) from ccbc_public.ccbc_user where session_sub = jwt.sub) = 0) then
+    insert into ccbc_public.ccbc_user(session_sub, given_name, family_name, email_address)
     values (jwt.sub, jwt.given_name, jwt.family_name, jwt.email);
   end if;
 
 
-  select * from ccbc_public.ccbc_user where uuid = jwt.sub into result;
+  select * from ccbc_public.ccbc_user where session_sub = jwt.sub into result;
   return result;
 end;
 $function$ language plpgsql strict volatile;

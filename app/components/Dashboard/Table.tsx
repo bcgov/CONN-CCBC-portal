@@ -86,8 +86,8 @@ const Table = ({ applications }: Props) => {
       <StyledTable>
         <StyledTableHead>
           <tr>
-            <StyledTableHeadCell>CCBC Id</StyledTableHeadCell>
-            <StyledTableHeadCell>Project Name</StyledTableHeadCell>
+            <StyledTableHeadCell>CCBC ID</StyledTableHeadCell>
+            <StyledTableHeadCell>Project title</StyledTableHeadCell>
             <StyledTableHeadCell>Status</StyledTableHeadCell>
             <StyledTableHeadCell>Actions</StyledTableHeadCell>
           </tr>

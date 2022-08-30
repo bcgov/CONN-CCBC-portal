@@ -3,6 +3,6 @@
 begin;
 
 
-drop table ccbc_public.applications;
+drop table ccbc_public.application;
 
 commit;
