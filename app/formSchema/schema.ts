@@ -22,10 +22,7 @@ import {
   templateUploads,
 } from './pages';
 
-const useSchema = (formData) => {
-  const isEvidenceOfConnectivityRequired =
-    formData?.templateUploads?.supportingConnectivityEvidence;
-
+const useSchema = () => {
   const schema = {
     type: 'object',
     properties: {
@@ -40,7 +37,7 @@ const useSchema = (formData) => {
       ...projectPlan,
       ...estimatedProjectEmployment,
       ...templateUploads,
-      ...supportingDocuments(isEvidenceOfConnectivityRequired),
+      ...supportingDocuments,
       ...coverage,
       ...organizationProfile,
       ...organizationLocation,

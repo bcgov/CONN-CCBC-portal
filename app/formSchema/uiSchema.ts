@@ -110,7 +110,7 @@ const uiSchema = {
     'logicalNetworkDiagram',
     'projectSchedule',
     'communityRuralDevelopmentBenefits',
-    'evidenceOfConnectivitySpeeds',
+    'otherSupportingMaterials',
     'geographicCoverageMap',
     'coverageAssessmentStatistics',
     'currentNetworkInfastructure',
@@ -576,8 +576,7 @@ const uiSchema = {
     'ui:description': `ISED's Eligibility Mapping Tool - Coverage Assessment and Statistics`,
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
-      fileTypes:
-        `.eml, .msg, .txt, .pdf, .doc, .docx, .xml, .jpg, .jpeg, .png, ${EXCEL_FILE_EXTENSIONS}`,
+      fileTypes: `.eml, .msg, .txt, .pdf, .doc, .docx, .xml, .jpg, .jpeg, .png, ${EXCEL_FILE_EXTENSIONS}`,
     },
   },
   currentNetworkInfastructure: {
@@ -654,10 +653,9 @@ const uiSchema = {
       fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
-  evidenceOfConnectivitySpeeds: {
+  otherSupportingMaterials: {
     'ui:widget': 'FileWidget',
-    'ui:description':
-      'Evidence of connectivity speeds (e.g, screen captures of Speed Test results)',
+    'ui:description': 'Other supporting materials (if applicable)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
