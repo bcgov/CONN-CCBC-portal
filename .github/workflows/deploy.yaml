@@ -13,9 +13,13 @@ on:
       AWS_S3_BUCKET: { required: true }
       AWS_S3_REGION: { required: true }
       AWS_S3_KEY: { required: true }
+      AWS_S3_SECRET_KEY: { required: true }
       AWS_ROLE_ARN: { required: true }
       CERTBOT_EMAIL: { required: true }
       CERTBOT_SERVER: { required: true }
+
+env:
+  TAG: sha-${{ github.sha }}
 
 jobs:
   deploy-to-openshift-development:
