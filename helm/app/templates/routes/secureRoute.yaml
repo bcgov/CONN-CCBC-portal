@@ -33,7 +33,7 @@ spec:
     weight: 100
   wildcardPolicy: None
 
-{{- if secureRoute.wwwRoute.enable }}
+{{- if .Values.secureRoute.wwwRoute.enable }}
 ---
 # The www route isn't managed by certbot to avoid duplicate certificate requests
 # It will need a redeploy to fetch the new cert from the route above
