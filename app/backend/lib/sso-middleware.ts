@@ -37,5 +37,6 @@ export default async function ssoMiddleware() {
       clientSecret: `${config.get('CLIENT_SECRET')}`,
     },
     onAuthCallback: createUserMiddleware(),
+    authorizationUrlParams: { kc_idp_hint: 'bceid-basic-and-business' },
   });
 }
