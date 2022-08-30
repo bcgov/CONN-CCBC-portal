@@ -22,34 +22,31 @@ import {
   templateUploads,
 } from './pages';
 
-const useSchema = () => {
-  const schema = {
-    type: 'object',
-    properties: {
-      ...projectInformation,
-      ...projectArea,
-      ...existingNetworkCoverage,
-      ...budgetDetails,
-      ...projectFunding,
-      ...otherFundingSources,
-      ...techSolution,
-      ...benefits,
-      ...projectPlan,
-      ...estimatedProjectEmployment,
-      ...templateUploads,
-      ...supportingDocuments,
-      ...coverage,
-      ...organizationProfile,
-      ...organizationLocation,
-      ...contactInformation,
-      ...authorizedContact,
-      ...alternateContact,
-      ...review,
-      ...acknowledgements,
-      ...submission,
-    },
-  };
-
-  return schema;
+const schema = {
+  type: 'object',
+  properties: {
+    ...projectInformation,
+    ...projectArea,
+    ...existingNetworkCoverage,
+    ...budgetDetails,
+    ...projectFunding,
+    ...otherFundingSources,
+    ...techSolution,
+    ...benefits,
+    ...projectPlan,
+    ...estimatedProjectEmployment,
+    ...templateUploads,
+    ...supportingDocuments,
+    ...coverage,
+    ...organizationProfile,
+    ...organizationLocation,
+    ...contactInformation,
+    ...authorizedContact,
+    ...alternateContact,
+    ...review,
+    ...acknowledgements,
+    ...submission,
+  },
 };
-export default useSchema;
+
+export default schema;
