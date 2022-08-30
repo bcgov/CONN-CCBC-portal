@@ -14,6 +14,8 @@ type FormatType = {
 type DTFormat = keyof FormatType;
 
 const TIMEZONE = 'America/Vancouver';
+const TIMEZONE_SHORT = 'PDT';
+
 const FORMAT_TYPE: FormatType = {
   date_year_first: 'yyyy-MM-dd',
   timestamptz: 'yyyy-MM-dd HH:mm:ss.SSSZ',
@@ -21,7 +23,7 @@ const FORMAT_TYPE: FormatType = {
   minutes: 'MMM d, yyyy hh:mm A (z)',
   days_numbered: 'dd-MM-yyyy',
   days_string: 'MMMM Do, yyyy',
-  minutes_time_only: 'hh:mm A (z)'
+  minutes_time_only: 'hh:mm a (z)'
 };
 
 // Adds a default timestamp to yyyy-MM-dd dates without overwriting pre-existing timestamps:
@@ -54,15 +56,16 @@ export const ensureFullTimestamp = (
 }
 
 export const dateTimeFormat = (
-  dateTime: SetStateAction<Date | undefined>,
+  dateTime: Date | undefined,
   format: DTFormat
 ) => { 
  
   if(dateTime !== undefined) {
+     
     try {
       const dateValue = (dateTime.valueOf() as number)/1000;
       const fullDate = DateTime.fromSeconds(dateValue);
-      return fullDate.toFormat(FORMAT_TYPE[format]); 
+      return fullDate.toFormat(FORMAT_TYPE[format]).replace(TIMEZONE,TIMEZONE_SHORT); 
     } catch (e) {
       console.log(e);
 
@@ -73,4 +76,5 @@ export const dateTimeFormat = (
     return dateTime.toString();
   }
 };
+
 

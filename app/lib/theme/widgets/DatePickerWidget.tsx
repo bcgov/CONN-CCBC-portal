@@ -22,7 +22,7 @@ const StyledDiv = styled('div')`
   position: relative;
 `;
 
-function getDateString(date: SetStateAction<Date | undefined>) {
+function getDateString(date: Date | undefined) {
   if (date) {
     return dateTimeFormat(date, 'date_year_first');
   }
