@@ -3,12 +3,7 @@ const techSolution = {
     title: 'Technological solution',
     type: 'object',
     description: 'Describe your technological solution',
-    required: [
-      'systemDesign',
-      'scalability',
-      'backboneTechnology',
-      'lastMileTechnology',
-    ],
+    required: ['systemDesign', 'scalability', 'lastMileTechnology'],
     properties: {
       systemDesign: {
         title:
