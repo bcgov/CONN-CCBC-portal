@@ -1,4 +1,6 @@
-const acknowledgements = {
+import { JSONSchema7 } from 'json-schema';
+
+const acknowledgements: Record<string, JSONSchema7> = {
   acknowledgements: {
     title: 'Acknowledgements',
     description:

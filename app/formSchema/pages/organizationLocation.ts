@@ -1,4 +1,6 @@
-const organizationLocation = {
+import { JSONSchema7 } from 'json-schema';
+
+const organizationLocation: Record<string, JSONSchema7> = {
   organizationLocation: {
     title: 'Organization location',
     description: 'Provide an address for your organization',

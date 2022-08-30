@@ -1,3 +1,5 @@
+import { JSONSchema7 } from 'json-schema';
+
 const existingNetworkCoverage = {
   existingNetworkCoverage: {
     title: 'Existing network coverage',
@@ -41,6 +43,6 @@ const existingNetworkCoverage = {
       },
     },
   },
-};
+} as Record<string, JSONSchema7>;
 
 export default existingNetworkCoverage;

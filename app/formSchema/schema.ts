@@ -21,8 +21,9 @@ import {
   techSolution,
   templateUploads,
 } from './pages';
+import { JSONSchema7 } from 'json-schema';
 
-const schema = {
+const schema: JSONSchema7 = {
   type: 'object',
   properties: {
     ...projectInformation,

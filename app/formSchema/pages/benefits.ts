@@ -1,4 +1,6 @@
-const benefits = {
+import { JSONSchema7 } from 'json-schema';
+
+const benefits: Record<string, JSONSchema7> = {
   benefits: {
     title: 'Benefits',
     type: 'object',

@@ -1,4 +1,6 @@
-const templateUploads = {
+import { JSONSchema7 } from 'json-schema';
+
+const templateUploads: Record<string, JSONSchema7> = {
   templateUploads: {
     title: 'Template uploads',
     type: 'object',

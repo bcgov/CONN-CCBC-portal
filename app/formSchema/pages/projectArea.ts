@@ -1,4 +1,6 @@
-const projectArea = {
+import { JSONSchema7 } from 'json-schema';
+
+const projectArea: Record<string, JSONSchema7> = {
   projectArea: {
     title: 'Project area',
     description: 'Please describe the geographic area of the proposed Project',

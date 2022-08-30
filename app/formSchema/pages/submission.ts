@@ -1,4 +1,6 @@
-const submission = {
+import { JSONSchema7 } from 'json-schema';
+
+const submission: Record<string, JSONSchema7> = {
   submission: {
     title: 'Submission',
     // description is rendered and stored in the SubmissionField.tsx

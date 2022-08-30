@@ -1,4 +1,6 @@
-const contactInformation = {
+import { JSONSchema7 } from 'json-schema';
+
+const contactInformation: Record<string, JSONSchema7> = {
   contactInformation: {
     title: 'Organization contact information',
     description: 'Provide the contact information for your organization',
