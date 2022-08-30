@@ -6366,14 +6366,6 @@ negotiator@0.6.3:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.3.tgz#58e323a72fedc0d6f9cd4d31fe49f51479590ccd"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
-next-session@^3.4.0:
-  version "3.4.3"
-  resolved "https://registry.yarnpkg.com/next-session/-/next-session-3.4.3.tgz#4ad2f5c8b44b07bb586359a00cfabab8710a30f4"
-  integrity sha512-d7gwzHzTwkhoRCKuf1R8NL/+U5Bpc6N1Uot/A+nqLyxKfPskffU6wDIrAKcp74DGqzJpu/KRyHtXdjdMgN5TLA==
-  dependencies:
-    cookie "^0.4.1"
-    nanoid "^3.1.25"
-
 next@^12.1.6:
   version "12.1.6"
   resolved "https://registry.yarnpkg.com/next/-/next-12.1.6.tgz#eb205e64af1998651f96f9df44556d47d8bbc533"
