@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import { Layout } from '../../../components';
 import { successQuery } from '../../../__generated__/successQuery.graphql';
 import { dateTimeFormat } from '../../../lib/theme/functions/formatDates';
-import { DateTime } from 'luxon';
 
 const StyledSection = styled.section`
   margin: 24px 0;
