@@ -20,6 +20,17 @@ const mockQueryPayload = {
   },
 };
 
+const mockClosedIntakePayload = {
+  Query() {
+    return {
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+      openIntake: null,
+    };
+  },
+};
+
 const pageTestingHelper = new PageTestingHelper<pagesQuery>({
   pageComponent: Home,
   compiledQuery: compiledPagesQuery,
@@ -60,18 +71,7 @@ describe('The index page', () => {
   });
 
   it('Displays the alert message when there is no open intake', async () => {
-    const mockQueryPayload = {
-      Query() {
-        return {
-          session: {
-            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-          },
-          openIntake: null,
-        };
-      },
-    };
-
-    pageTestingHelper.loadQuery(mockQueryPayload);
+    pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
     expect(
