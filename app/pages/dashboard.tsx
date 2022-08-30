@@ -4,6 +4,8 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { graphql } from 'react-relay';
+import Alert from '@button-inc/bcgov-theme/Alert';
+import styled from 'styled-components';
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
 import { Layout } from '../components';
@@ -38,6 +40,13 @@ const getDashboardQuery = graphql`
   }
 `;
 
+const StyledAlert = styled(Alert)`
+  margin-bottom: 20px;
+  p {
+    margin: 0 0.5em;
+  }
+`;
+
 const Dashboard = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, dashboardQuery>) => {
@@ -63,7 +72,7 @@ const Dashboard = ({
   const handleCreateApplication = () => {
     createApplication({
       variables: {
-        input: {},
+        input: { application: { owner: session?.sub } },
       },
       onCompleted: (response) => {
         const applicationId = response.createApplication.application.rowId;
@@ -90,17 +99,25 @@ const Dashboard = ({
             }).toLocaleString(DateTime.DATETIME_FULL)}
           </p>
         ) : (
-          <p>There are no currently open intakes.</p>
+          <StyledAlert size="small" variant="warning">
+            <p>
+              New applications will be accepted after updates to ISED&lsquo;s
+              Eligibility Mapping tool are released.
+            </p>
+            <p>
+              Please check this page after <b>September 15</b> for an update.
+            </p>
+          </StyledAlert>
         )}
-        <StyledGovButton onClick={handleCreateApplication}>
+        <StyledGovButton
+          onClick={handleCreateApplication}
+          disabled={!openIntake}
+        >
           Create application
         </StyledGovButton>
       </div>
-      {hasApplications ? (
-        <DashboardTable applications={query} />
-      ) : (
-        <p>Applications will appear here</p>
-      )}
+      {hasApplications && <DashboardTable applications={query} />}
+      {!hasApplications && openIntake && <p>Applications will appear here</p>}
     </Layout>
   );
 };
