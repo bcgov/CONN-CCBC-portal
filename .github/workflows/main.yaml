@@ -41,5 +41,6 @@ jobs:
       AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
       AWS_S3_KEY: ${{ secrets.AWS_S3_KEY }}
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
       CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
       CERTBOT_SERVER: ${{ secrets.CERTBOT_SERVER }}
