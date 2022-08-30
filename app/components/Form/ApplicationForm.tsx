@@ -164,7 +164,7 @@ const ApplicationForm: React.FC<Props> = ({
     application.intakeByIntakeId?.closeTimestamp,
   ]);
 
-  const formErrorSchema = formatErrorSchema(formData, schema(formData));
+  const formErrorSchema = formatErrorSchema(formData, schema());
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
@@ -181,7 +181,7 @@ const ApplicationForm: React.FC<Props> = ({
   const [updateApplication, isUpdating] = useUpdateApplicationMutation();
 
   const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
-    schema(formData) as object
+    schema() as object
   );
 
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
@@ -440,7 +440,7 @@ const ApplicationForm: React.FC<Props> = ({
           {review && (
             <Review
               formData={formData}
-              formSchema={schema(formData)}
+              formSchema={schema()}
               reviewConfirm={reviewConfirm}
               onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
               formErrorSchema={formErrorSchema}

@@ -63,7 +63,7 @@ const Table = ({ applications }: Props) => {
   const applicationNodes = applications.allApplications.nodes;
   const router = useRouter();
 
-  const formPages = Object.keys(schema({}).properties);
+  const formPages = Object.keys(schema().properties);
 
   const reviewPage = formPages.indexOf('review') + 1;
 
