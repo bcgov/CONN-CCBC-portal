@@ -15,7 +15,7 @@ declare
   new_application_id int;
 begin
 
-  select open_timestamp from ccbc_public.open_intake into _open_timestamp;
+  select open_timestamp from ccbc_public.open_intake() into _open_timestamp;
   if _open_timestamp is null then
     raise exception 'There is no open intake';
   end if;

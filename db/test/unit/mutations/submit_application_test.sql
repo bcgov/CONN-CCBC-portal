@@ -19,8 +19,10 @@ values
 
 insert into ccbc_public.application_status(application_id, status) 
 VALUES
- (2, 'submitted'),
- (3, 'withdrawn');
+  (1, 'draft'),
+  (2, 'submitted'),
+  (3, 'withdrawn'),
+  (4, 'draft');
 
 select throws_like(
   $$
