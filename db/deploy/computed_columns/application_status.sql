@@ -6,6 +6,7 @@ BEGIN;
 create or replace function ccbc_public.application_status(application ccbc_public.application) returns text as 
 $$
 select status from ccbc_public.application_status 
+    where application_id= application.id
     order by id desc limit 1;
 $$ language sql stable;
 
