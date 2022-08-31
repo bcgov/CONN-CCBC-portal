@@ -3,7 +3,7 @@ create extension if not exists pgtap;
 reset client_min_messages;
 
 begin;
-SELECT * FROM no_plan();
+SELECT plan(4);
 
 -- Table exists
 select has_table(
@@ -13,8 +13,8 @@ select has_table(
 
 -- Columns
 select has_column('ccbc_public', 'application_status', 'id','The table application has column id');
-select has_column('ccbc_public', 'application_status', 'name','The table application has column name');
-select has_column('ccbc_public', 'application_status', 'description','The table application has column description');
+select has_column('ccbc_public', 'application_status', 'application_id','The table application has column application_id');
+select has_column('ccbc_public', 'application_status', 'status','The table application has column status');
 
 select finish();
 rollback;

@@ -26,3 +26,4 @@ tables/attachment [tables/application] 2022-07-07T23:19:04Z Marcel Mueller <marc
 functions/open_intake 2022-08-16T13:48:54Z Anthony Bushara <anthony@button.is> # Function to display the current open intake
 mutations/submit_application 2022-08-23T17:18:10Z Matthieu Foucault <matthieu@button.is> # create a mutation to submit an application
 computed_columns/application_status [tables/application_status] 2022-08-30T22:06:26Z Anthony Bushara <anthony@button.is> # Computed column to display the current status of an application
+mutations/withdraw_application [tables/application_status tables/application] 2022-08-30T22:38:37Z Anthony Bushara <anthony@button.is> # Mutation to withdraw an application
