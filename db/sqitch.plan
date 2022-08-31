@@ -17,8 +17,7 @@ tables/ccbc_user 2022-05-26T17:58:53Z Bryan Krauss <bryan@button.is> # Users tab
 mutations/create_user_from_session 2022-05-26T20:41:37Z Bryan Krauss <bryan@button.is> # A mutation to create a user from the session table
 trigger_functions/create_intake_sequence 2022-08-23T16:32:25Z Matthieu Foucault <matthieu@button.is> # Add a trigger function to create the intake sequence
 tables/intake [trigger_functions/create_intake_sequence] 2022-07-22T15:27:16Z Anthony Bushara <anthony@button.is> # Creates the intake table
-trigger_functions/create_draft_status 2022-08-29T21:22:12Z Anthony Bushara <anthony@button.is> # Trigger function to assign a draft status on new applications
-tables/application [tables/intake trigger_functions/create_draft_status] 2022-04-11T22:31:16Z Marcel Mueller <marcel@button.is> # Add application table to store application data
+tables/application [tables/intake] 2022-04-11T22:31:16Z Marcel Mueller <marcel@button.is> # Add application table to store application data
 computed_columns/application_project_name [tables/application] 2022-07-15T16:39:24Z Anthony Bushara <anthony@button.is> # Exposes Application Name as Computed Column
 tables/application_status_type 2022-08-29T18:35:18Z Anthony Bushara <anthony@button.is> # Types of Statuses assignable to an application
 tables/application_status 2022-07-08T13:27:08Z Marcel Mueller <marcel@button.is> # add table application_status
@@ -27,3 +26,4 @@ functions/open_intake 2022-08-16T13:48:54Z Anthony Bushara <anthony@button.is> #
 mutations/submit_application 2022-08-23T17:18:10Z Matthieu Foucault <matthieu@button.is> # create a mutation to submit an application
 computed_columns/application_status [tables/application_status] 2022-08-30T22:06:26Z Anthony Bushara <anthony@button.is> # Computed column to display the current status of an application
 mutations/withdraw_application [tables/application_status tables/application] 2022-08-30T22:38:37Z Anthony Bushara <anthony@button.is> # Mutation to withdraw an application
+mutations/create_application 2022-08-31T16:16:23Z Anthony Bushara <anthony@button.is> # Creates a new application

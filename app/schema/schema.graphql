@@ -1799,14 +1799,6 @@ type KeycloakJwt {
 The root mutation type which contains root level fields which mutate data.
 """
 type Mutation {
-  """Creates a single `Application`."""
-  createApplication(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateApplicationInput!
-  ): CreateApplicationPayload
-
   """Creates a single `ApplicationStatus`."""
   createApplicationStatus(
     """
@@ -1969,22 +1961,6 @@ type Mutation {
     input: UpdateIntakeByApplicationNumberSeqNameInput!
   ): UpdateIntakePayload
 
-  """Deletes a single `Application` using its globally unique id."""
-  deleteApplication(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationInput!
-  ): DeleteApplicationPayload
-
-  """Deletes a single `Application` using a unique key."""
-  deleteApplicationByRowId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationByRowIdInput!
-  ): DeleteApplicationPayload
-
   """Deletes a single `ApplicationStatus` using its globally unique id."""
   deleteApplicationStatus(
     """
@@ -2080,6 +2056,12 @@ type Mutation {
     """
     input: DeleteIntakeByApplicationNumberSeqNameInput!
   ): DeleteIntakePayload
+  createApplication(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationInput!
+  ): CreateApplicationPayload
   createUserFromSession(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -2100,89 +2082,6 @@ type Mutation {
     """
     input: WithdrawApplicationInput!
   ): WithdrawApplicationPayload
-}
-
-"""The output of our create `Application` mutation."""
-type CreateApplicationPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Application` that was created by this mutation."""
-  application: Application
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Intake` that is related to this `Application`."""
-  intakeByIntakeId: Intake
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `Application`. May be used by Relay 1."""
-  applicationEdge(
-    """The method to use when ordering `Application`."""
-    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationsEdge
-}
-
-"""All input for the create `Application` mutation."""
-input CreateApplicationInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Application` to be created by this mutation."""
-  application: ApplicationInput!
-}
-
-"""An input for mutations affecting `Application`"""
-input ApplicationInput {
-  """Reference number assigned to the application"""
-  ccbcNumber: String
-
-  """The owner of the application, identified by its JWT sub"""
-  owner: String!
-
-  """The data entered into the form by the respondent"""
-  formData: JSON
-
-  """Column saving the key of the last edited form page"""
-  lastEditedPage: String
-
-  """The intake associated with the application, set when it is submitted"""
-  intakeId: Int
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
 }
 
 """The output of our create `ApplicationStatus` mutation."""
@@ -3189,68 +3088,6 @@ input UpdateIntakeByApplicationNumberSeqNameInput {
   applicationNumberSeqName: String!
 }
 
-"""The output of our delete `Application` mutation."""
-type DeleteApplicationPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Application` that was deleted by this mutation."""
-  application: Application
-  deletedApplicationId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `Intake` that is related to this `Application`."""
-  intakeByIntakeId: Intake
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Application`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `Application`. May be used by Relay 1."""
-  applicationEdge(
-    """The method to use when ordering `Application`."""
-    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationsEdge
-}
-
-"""All input for the `deleteApplication` mutation."""
-input DeleteApplicationInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Application` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteApplicationByRowId` mutation."""
-input DeleteApplicationByRowIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """Primary key ID for the application"""
-  rowId: Int!
-}
-
 """The output of our delete `ApplicationStatus` mutation."""
 type DeleteApplicationStatusPayload {
   """
@@ -3573,6 +3410,48 @@ input DeleteIntakeByApplicationNumberSeqNameInput {
   The name of the sequence used to generate CCBC ids. It is added via a trigger
   """
   applicationNumberSeqName: String!
+}
+
+"""The output of our `createApplication` mutation."""
+type CreateApplicationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  application: Application
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Intake` that is related to this `Application`."""
+  intakeByIntakeId: Intake
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `Application`. May be used by Relay 1."""
+  applicationEdge(
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationsEdge
+}
+
+"""All input for the `createApplication` mutation."""
+input CreateApplicationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
 }
 
 """The output of our `createUserFromSession` mutation."""

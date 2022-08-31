@@ -8,6 +8,7 @@ const mutation = graphql`
     withdrawApplication(input: $input) {
       application {
         updatedAt
+        status
         ccbcNumber
         intakeId
       }
