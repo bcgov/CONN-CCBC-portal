@@ -3,7 +3,7 @@
 begin;
 
 create or replace function ccbc_public.submit_application(application_row_id int)
-returns ccbc_public.applications as $$
+returns ccbc_public.application as $$
 declare
   current_intake_id int;
   current_intake_number int;
@@ -12,10 +12,10 @@ declare
   application_status varchar;
 begin
 
-  select status from ccbc_public.applications where id = application_row_id into application_status;
+  select status from ccbc_public.application where id = application_row_id into application_status;
 
   if application_status = 'submitted' then
-    return (select row(applications.*)::ccbc_public.applications from ccbc_public.applications where id = application_row_id);
+    return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);
   end if;
 
   if application_status != 'draft' then
@@ -31,7 +31,7 @@ begin
 
   select nextval(seq_name) into reference_number;
 
-  update ccbc_public.applications set
+  update ccbc_public.application set
     status = 'submitted',
     intake_id = current_intake_id,
     ccbc_number = format(
@@ -40,7 +40,7 @@ begin
     )
   where id = application_row_id;
 
-  return (select row(applications.*)::ccbc_public.applications from ccbc_public.applications where id = application_row_id);
+  return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);
 end;
 
 $$ language plpgsql;

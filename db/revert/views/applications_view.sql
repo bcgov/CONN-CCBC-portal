@@ -1,5 +1,5 @@
 begin;
 
-DROP VIEW ccbc_public.applications_view;
+DROP VIEW ccbc_public.application_view;
 
 commit;

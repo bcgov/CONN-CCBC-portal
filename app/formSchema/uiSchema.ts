@@ -12,6 +12,8 @@ const MAX_SHORT_INPUT_LENGTH = 9;
 const MIN_INPUT_LENGTH = 1;
 const MAX_LENGTH_POSTAL_CODE = 6;
 
+const EXCEL_FILE_EXTENSIONS = '.xls, .xlsx';
+
 const uiSchema = {
   'ui:order': [
     'projectTitle',
@@ -108,7 +110,7 @@ const uiSchema = {
     'logicalNetworkDiagram',
     'projectSchedule',
     'communityRuralDevelopmentBenefits',
-    'evidenceOfConnectivitySpeeds',
+    'otherSupportingMaterials',
     'geographicCoverageMap',
     'coverageAssessmentStatistics',
     'currentNetworkInfastructure',
@@ -245,6 +247,9 @@ const uiSchema = {
     },
   },
   orgRegistrationDate: {
+    'ui:widget': 'DatePickerWidget',
+  },
+  timeMashine: {
     'ui:widget': 'DatePickerWidget',
   },
   isMailingAddress: {
@@ -396,7 +401,7 @@ const uiSchema = {
   estimatedFTECreation: {
     'ui:widget': ReadOnlyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   numberOfContractorsToWork: {
@@ -423,7 +428,7 @@ const uiSchema = {
   estimatedFTEContractorCreation: {
     'ui:widget': ReadOnlyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   acknowledgementsList: {
@@ -549,7 +554,7 @@ const uiSchema = {
     'ui:options': {
       allowMultipleFiles: true,
       maxLength: MAX_LONG_INPUT_LENGTH,
-      fileTypes: '.xlsx, .mpp',
+      fileTypes: `${EXCEL_FILE_EXTENSIONS}, .mpp`,
     },
   },
   communityRuralDevelopmentBenefits: {
@@ -574,8 +579,7 @@ const uiSchema = {
     'ui:description': `ISED's Eligibility Mapping Tool - Coverage Assessment and Statistics`,
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
-      fileTypes:
-        '.eml, .msg, .txt, .pdf, .doc, .docx, .xlsx, .xlsx, .xml, .jpg, .jpeg, .png',
+      fileTypes: `.eml, .msg, .txt, .pdf, .doc, .docx, .xml, .jpg, .jpeg, .png, ${EXCEL_FILE_EXTENSIONS}`,
     },
   },
   currentNetworkInfastructure: {
@@ -603,7 +607,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   detailedBudget: {
@@ -612,7 +616,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   financialForecast: {
@@ -621,7 +625,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   lastMileIspOffering: {
@@ -630,7 +634,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   popWholesalePricing: {
@@ -640,7 +644,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   communityRuralDevelopmentBenefitsTemplate: {
@@ -649,16 +653,16 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
-  evidenceOfConnectivitySpeeds: {
+  otherSupportingMaterials: {
     'ui:widget': 'FileWidget',
-    'ui:description':
-      'Evidence of connectivity speeds (e.g, screen captures of Speed Test results)',
+    'ui:description': 'Other supporting materials (if applicable)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
+      hideOptional: true,
     },
   },
   wirelessAddendum: {
@@ -667,7 +671,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   supportingConnectivityEvidence: {
@@ -677,7 +681,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   geographicNames: {
@@ -686,7 +690,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   equipmentDetails: {
@@ -695,7 +699,7 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,
-      fileTypes: '.xlsx',
+      fileTypes: EXCEL_FILE_EXTENSIONS,
     },
   },
   totalEligibleCosts: {
@@ -755,7 +759,7 @@ const uiSchema = {
         'ui:description': 'maximum 150 characters',
         'ui:options': {
           maxLength: 150,
-          ignoreOptional: true,
+          hideOptional: true,
         },
       },
       requestedFundingPartner2223: {
@@ -862,31 +866,31 @@ const uiSchema = {
   infrastructureBankFunding2223: {
     'ui:widget': MoneyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   infrastructureBankFunding2324: {
     'ui:widget': MoneyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   infrastructureBankFunding2425: {
     'ui:widget': MoneyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   infrastructureBankFunding2526: {
     'ui:widget': MoneyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   totalInfrastructureBankFunding: {
     'ui:widget': MoneyWidget,
     'ui:options': {
-      ignoreOptional: true,
+      hideOptional: true,
     },
   },
   review: {

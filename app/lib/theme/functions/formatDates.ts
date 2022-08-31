@@ -1,5 +1,4 @@
 import { DateTime } from "luxon";
-import { SetStateAction } from 'react';
 
 type FormatType = {
   date_year_first: string;
@@ -14,14 +13,15 @@ type FormatType = {
 type DTFormat = keyof FormatType;
 
 const TIMEZONE = 'America/Vancouver';
+
 const FORMAT_TYPE: FormatType = {
   date_year_first: 'yyyy-MM-dd',
   timestamptz: 'yyyy-MM-dd HH:mm:ss.SSSZ',
-  seconds: 'MMM d, yyyy hh:mm:ss A (z)',
-  minutes: 'MMM d, yyyy hh:mm A (z)',
+  seconds: 'MMM d, yyyy hh:mm:ss A (ZZZZ)',
+  minutes: 'MMM d, yyyy hh:mm A (ZZZZ)',
   days_numbered: 'dd-MM-yyyy',
   days_string: 'MMMM Do, yyyy',
-  minutes_time_only: 'hh:mm A (z)'
+  minutes_time_only: 'hh:mm a (ZZZZ)'
 };
 
 // Adds a default timestamp to yyyy-MM-dd dates without overwriting pre-existing timestamps:
@@ -31,10 +31,8 @@ export const ensureFullTimestamp = (
   time: { hour: number; minute: number; second: number; millisecond: number }
   ) => {
     if (dateStr.length > 10) return dateStr;
-    try {
-      console.log(`got value: ${dateStr}`);
-      const fullDate = DateTime.fromFormat(dateStr, "yyyy-MM-dd");
-      console.log(`after fromFormat ${fullDate}`); 
+    try { 
+      const fullDate = DateTime.fromFormat(dateStr, "yyyy-MM-dd"); 
       const fullTimestamp = fullDate 
       .setLocale("en-CA")
       .setZone(TIMEZONE)
@@ -43,8 +41,7 @@ export const ensureFullTimestamp = (
         minute: time.minute,
         second: time.second,
         millisecond: time.millisecond
-      }).toISO();
-      console.log(`after luxon: ${fullTimestamp}`); 
+      }).toISO(); 
       return fullTimestamp.replace('T',' ');
     }
     catch(e) {
@@ -54,17 +51,16 @@ export const ensureFullTimestamp = (
 }
 
 export const dateTimeFormat = (
-  dateTime: SetStateAction<Date | undefined>,
+  dateTime: Date | undefined,
   format: DTFormat
 ) => { 
-  console.log(dateTime);
+ 
   if(dateTime !== undefined) {
+     
     try {
-    const fullDate = DateTime.fromFormat(dateTime.toString(), FORMAT_TYPE.timestamptz);
-    fullDate
-    .setLocale("en-CA")
-    .setZone(TIMEZONE);
-    return fullDate.toFormat(FORMAT_TYPE[format]); 
+      const dateValue = (dateTime.valueOf() as number)/1000;
+      const fullDate = DateTime.fromSeconds(dateValue).setZone(TIMEZONE);
+      return fullDate.toFormat(FORMAT_TYPE[format]); 
     } catch (e) {
       console.log(e);
 
@@ -72,7 +68,8 @@ export const dateTimeFormat = (
     }
   }
   else {
-    return '2020-01-01';
+    return dateTime.toString();
   }
 };
+
 

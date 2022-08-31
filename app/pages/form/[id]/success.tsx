@@ -57,6 +57,14 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
   const projectName = applicationByRowId?.projectName;
   const { ccbcIntakeNumber, closeTimestamp } =
     applicationByRowId?.intakeByIntakeId || {};
+   
+    const dateUpdatedAt = typeof applicationByRowId.updatedAt === 'string'
+    ? new Date(applicationByRowId.updatedAt)
+    : applicationByRowId.updatedAt;
+
+    const dateCloseTimestamp = typeof closeTimestamp === 'string'
+    ? new Date(closeTimestamp)
+    : closeTimestamp;
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -65,14 +73,14 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
           <SuccessBanner ccbcNumber={applicationByRowId.ccbcNumber} />
           <h3>Thank you for applying to CCBC Intake {ccbcIntakeNumber}</h3>
           <div>
-            We have received your application,
-            <i>{projectName && ` ${projectName}`}</i>, on{' '}
-            {` ${getDateString(applicationByRowId.updatedAt)}`} at{' '}
-            {` ${getTimeString(applicationByRowId.updatedAt)}`}.
+            The application
+            <i>{projectName && `, ${projectName},`}</i> was submitted on
+            {` ${getDateString(dateUpdatedAt)}`} at{' '}
+            {` ${getTimeString(dateUpdatedAt)}`}.
           </div>
           <div>
             You can edit this application until the intake closes on{' '}
-            {getDateString(closeTimestamp)}
+            {getDateString(dateCloseTimestamp)}
           </div>
         </StyledSection>
         <Link href="/dashboard" passHref>

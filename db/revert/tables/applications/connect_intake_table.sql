@@ -2,6 +2,6 @@
 
 BEGIN;
 
-ALTER TABLE ccbc_public.applications DROP COLUMN intake_id;
+ALTER TABLE ccbc_public.application DROP COLUMN intake_id;
 
 COMMIT;

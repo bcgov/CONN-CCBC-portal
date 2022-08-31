@@ -5,9 +5,9 @@ import {
   benefits,
   budgetDetails,
   contactInformation,
+  coverage,
   estimatedProjectEmployment,
   existingNetworkCoverage,
-  mapping,
   organizationLocation,
   organizationProfile,
   otherFundingSources,
@@ -18,41 +18,37 @@ import {
   submission,
   supportingDocuments,
   review,
+  timeMashine,
   techSolution,
   templateUploads,
 } from './pages';
 
-const useSchema = (formData) => {
-  const isEvidenceOfConnectivityRequired =
-    formData?.templateUploads?.supportingConnectivityEvidence;
-
-  const schema = {
-    type: 'object',
-    properties: {
-      ...projectInformation,
-      ...projectArea,
-      ...existingNetworkCoverage,
-      ...budgetDetails,
-      ...projectFunding,
-      ...otherFundingSources,
-      ...techSolution,
-      ...benefits,
-      ...projectPlan,
-      ...estimatedProjectEmployment,
-      ...templateUploads,
-      ...supportingDocuments(isEvidenceOfConnectivityRequired),
-      ...mapping,
-      ...organizationProfile,
-      ...organizationLocation,
-      ...contactInformation,
-      ...authorizedContact,
-      ...alternateContact,
-      ...review,
-      ...acknowledgements,
-      ...submission,
-    },
-  };
-
-  return schema;
+const schema = {
+  type: 'object',
+  properties: {
+    ...projectInformation,
+    ...projectArea,
+    ...existingNetworkCoverage,
+    ...budgetDetails,
+    ...projectFunding,
+    ...otherFundingSources,
+    ...techSolution,
+    ...benefits,
+    ...projectPlan,
+    ...estimatedProjectEmployment,
+    ...templateUploads,
+    ...supportingDocuments,
+    ...coverage,
+    ...timeMashine,
+    ...organizationProfile,
+    ...organizationLocation,
+    ...contactInformation,
+    ...authorizedContact,
+    ...alternateContact,
+    ...review,
+    ...acknowledgements,
+    ...submission,
+  },
 };
-export default useSchema;
+
+export default schema;

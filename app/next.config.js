@@ -3,6 +3,18 @@
 // module.exports = nextConfig
 
 module.exports = {
+  basePath: '/applicantportal',
+
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/applicantportal',
+        basePath: false,
+        permanent: true,
+      },
+    ];
+  },
   reactStrictMode: true,
   webpack: (config, { isServer }) => {
     if (!isServer) {

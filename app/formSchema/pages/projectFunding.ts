@@ -3,7 +3,7 @@ const projectFunding = {
     title: 'Project funding',
     type: 'object',
     description:
-      'Please note: CCBC is funded by both British Columbia and the Government of Canada. With this one application, you are applying to funding from both partners. You are expected to enter into a separate agreement with both partners.',
+      'Please note: CCBC is funded by both British Columbia and ISED (UBF). With this one application, you are applying to funding from both partners. You are expected to enter into a separate agreement with both partners.',
     required: [
       'totalFundingRequestedCCBC',
       'totalApplicantContribution',

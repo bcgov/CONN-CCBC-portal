@@ -28,6 +28,7 @@ import styled from 'styled-components';
 import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
 import { SubmissionDescriptionField } from 'lib/theme/fields';
 import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
+import DatePickerWidget from 'lib/theme/widgets/DatePickerWidget';
 
 const NUM_ACKNOWLEDGEMENTS =
   acknowledgements.acknowledgements.properties.acknowledgementsList.items.enum
@@ -38,7 +39,25 @@ const customPages = [
   'acknowledgements',
   'submission',
 ];
-
+const StyledButton = styled.button`
+  color: white;
+  background: #003366;
+  border: none;
+  border-radius: 0.222em;
+  margin: 0;
+  padding: 0.66em 1.77em;
+  cursor: pointer; 
+  height: 2rem;
+`;
+const StyledForm = styled.form`
+  display: flex;
+  align-items: left;
+  font-size: 0.8em; 
+  justify-content: left;
+`;
+const StyledDiv = styled('div')`
+  margin-left: 1em;
+`;
 const CUSTOM_SUBMISSION_FIELD = {
   SubmissionField: SubmissionDescriptionField,
 };
@@ -164,7 +183,7 @@ const ApplicationForm: React.FC<Props> = ({
     application.intakeByIntakeId?.closeTimestamp,
   ]);
 
-  const formErrorSchema = formatErrorSchema(formData, schema(formData));
+  const formErrorSchema = formatErrorSchema(formData, schema);
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
@@ -181,7 +200,7 @@ const ApplicationForm: React.FC<Props> = ({
   const [updateApplication, isUpdating] = useUpdateApplicationMutation();
 
   const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
-    schema(formData) as object
+    schema as object
   );
 
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
@@ -440,7 +459,7 @@ const ApplicationForm: React.FC<Props> = ({
           {review && (
             <Review
               formData={formData}
-              formSchema={schema(formData)}
+              formSchema={schema}
               reviewConfirm={reviewConfirm}
               onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
               formErrorSchema={formErrorSchema}
@@ -450,6 +469,19 @@ const ApplicationForm: React.FC<Props> = ({
           {submitBtns}
         </FormBase>
       )}
+      <StyledForm action="/setDate" method="POST">
+        <StyledButton type="submit">Reset</StyledButton>
+        <StyledDiv>Current date: 2020-01-01</StyledDiv>
+        <DatePickerWidget id="targetDate" schema={schema['timeMashine']} uiSchema={uiSchema['timeMashine']} 
+        value={undefined} required={false} disabled={false} readonly={false} autofocus={false} 
+        placeholder={''} onChange={function (value: any): void {
+            throw new Error('Function not implemented.');
+          } } options={{}} formContext={undefined} onBlur={function (id: string, value: any): void {
+            throw new Error('Function not implemented.');
+          } } onFocus={function (id: string, value: any): void {
+            throw new Error('Function not implemented.');
+          } } label={''} multiple={false} rawErrors={[]} registry={undefined}></DatePickerWidget>
+      </StyledForm>
     </>
   );
 };
