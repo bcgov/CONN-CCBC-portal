@@ -68,6 +68,10 @@ spec:
         - {{ template "ccbc.fullname" . }}
   backups:
     pgbackrest:
+      manual:
+        repoName: repo2
+        options:
+         - --type=full
       configuration:
       - secret:
           name: {{ template "ccbc.fullname" . }}-pgbackrest-repo2
