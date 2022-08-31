@@ -1,14 +1,5 @@
 import { FieldTemplateProps } from '@rjsf/core';
 import FieldLabel from './widgets/FieldLabel';
-import {
-  GeographicArea,
-  GeographicCoverageMap,
-  HouseholdsImpactedIndigenous,
-  IndigenousEntity,
-  NumberOfHouseholds,
-  ProjectBenefits,
-  SupportingDocuments,
-} from '../../components/Form/CustomTitles';
 
 const FieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
@@ -23,11 +14,11 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
 }) => {
   const hideOptional = uiSchema['ui:options']?.hideOptional;
   const altOptionalText = uiSchema['ui:options']?.altOptionalText;
-  const showLabel = displayLabel && uiSchema['ui:options']?.label != false;
+  const customTitle = uiSchema['ui:options']?.customTitle;
 
   return (
     <div>
-      {showLabel && (
+      {displayLabel && (
         <FieldLabel
           label={label}
           altOptionalText={altOptionalText && String(altOptionalText)}
@@ -36,17 +27,10 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
           htmlFor={id}
         />
       )}
-      {/* using id root_geographicCoverageMap for now since I wanted to keep the description in as it is
-      being used for the review page though may be able to remove depending on how review rebuild works */}
-      {id === 'root_geographicArea' && <GeographicArea />}
-      {id === 'root_geographicCoverageMap' && <GeographicCoverageMap />}
-      {label === 'isIndigenousEntity' && <IndigenousEntity />}
-      {label === 'projectBenefits' && <ProjectBenefits />}
-      {label === 'numberOfHouseholds' && <NumberOfHouseholds />}
-      {label === 'householdsImpactedIndigenous' && (
-        <HouseholdsImpactedIndigenous />
-      )}
-      {label === 'Supporting documents' && <SupportingDocuments />}
+      <>
+        {/* check type of custom title to make typescript happy */}
+        {typeof customTitle === 'function' && customTitle()}
+      </>
       {help}
       {children}
       {rawErrors && rawErrors.length > 0 ? (

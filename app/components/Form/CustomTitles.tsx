@@ -55,24 +55,6 @@ const IndigenousEntity = () => {
   );
 };
 
-const NumberOfHouseholds = () => {
-  return (
-    <div>
-      Final number of Eligible Households targeted by this proposal. This value
-      should match cell G50 in Template 1 – Eligibility Summary.
-    </div>
-  );
-};
-
-const HouseholdsImpactedIndigenous = () => {
-  return (
-    <div>
-      Number of households on Indigenous lands impacted by this proposal. This
-      value should match cell G55 in Template 1 – Eligibility Summary.
-    </div>
-  );
-};
-
 const GeographicArea = () => {
   return (
     <div>
@@ -123,9 +105,7 @@ const GeographicCoverageMap = () => {
 export {
   GeographicArea,
   GeographicCoverageMap,
-  HouseholdsImpactedIndigenous,
   IndigenousEntity,
-  NumberOfHouseholds,
   ProjectBenefits,
   SupportingDocuments,
 };

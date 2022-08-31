@@ -3,8 +3,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import Link from '@button-inc/bcgov-theme/Link';
-import { ButtonLink, Layout } from '../components';
-import { LoginForm } from '../components';
+import { ButtonLink, LoginForm, Layout } from '../components';
 import styled from 'styled-components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
 
