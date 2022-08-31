@@ -10,7 +10,7 @@ returns ccbc_public.application
 as $function$
 declare
   _open_timestamp timestamp with time zone;
-  _sub uuid;
+  _sub varchar;
   result ccbc_public.application;
   new_application_id int;
 begin
