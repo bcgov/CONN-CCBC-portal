@@ -472,7 +472,7 @@ const ApplicationForm: React.FC<Props> = ({
       <StyledForm action="/setDate" method="POST">
         <StyledButton type="submit">Reset</StyledButton>
         <StyledDiv>Current date: 2020-01-01</StyledDiv>
-        <DatePickerWidget id="targetDate" schema={schema['timeMashine']} uiSchema={uiSchema['timeMashine']} 
+        <DatePickerWidget id="targetDate" schema={schema['timeMachine']} uiSchema={uiSchema['timeMachine']} 
         value={undefined} required={false} disabled={false} readonly={false} autofocus={false} 
         placeholder={''} onChange={function (value: any): void {
             throw new Error('Function not implemented.');

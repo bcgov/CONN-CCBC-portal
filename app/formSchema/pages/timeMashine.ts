@@ -1,5 +1,5 @@
-const timeMashine = {
-  timeMashine: {
+const timeMachine = {
+  timeMachine: {
     title: 'Time Mashine',
     type: 'object',
     description:
@@ -16,4 +16,4 @@ const timeMashine = {
   },
 };
 
-export default timeMashine;
+export default timeMachine;

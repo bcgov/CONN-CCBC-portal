@@ -18,7 +18,7 @@ import {
   submission,
   supportingDocuments,
   review,
-  timeMashine,
+  timeMachine,
   techSolution,
   templateUploads,
 } from './pages';
@@ -39,7 +39,7 @@ const schema = {
     ...templateUploads,
     ...supportingDocuments,
     ...coverage,
-    ...timeMashine,
+    ...timeMachine,
     ...organizationProfile,
     ...organizationLocation,
     ...contactInformation,

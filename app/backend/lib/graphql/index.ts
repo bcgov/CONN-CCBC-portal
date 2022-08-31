@@ -10,6 +10,7 @@ import { pgPool, getDatabaseUrl } from '../setup-pg';
 import { PostGraphileOptions } from 'postgraphile';
 import authenticationPgSettings from './authenticationPgSettings';
 
+import { generateDatabaseMockOptions } from "./helpers";
 import { graphql, GraphQLSchema } from 'graphql';
 import config from '../../../config';
 import resolveFileUpload from './resolveFileUpload';
@@ -18,6 +19,7 @@ import PostGraphileUploadFieldPlugin from './uploadFieldPlugin';
 export const pgSettings: any = (req: Request) => {
   const opts = {
     ...authenticationPgSettings(req),
+    ...generateDatabaseMockOptions(req.cookies, ["mocks.mocked_timestamp"]),
   };
   return opts;
 };

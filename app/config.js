@@ -144,6 +144,18 @@ const config = convict({
     default: '',
     env: 'AWS_ROLE_ARN',
   },
+  ENABLE_MOCK_TIME: {
+    doc: 'Enable Mock Time',
+    format: Boolean,
+    default: false,
+    env: 'ENABLE_MOCK_TIME',
+  },
+  ENABLE_MOCK_COOKIES: {
+    doc: 'Enable DB Mocks Cookies',
+    format: Boolean,
+    default: false,
+    env: 'ENABLE_MOCK_COOKIES',
+  },
 });
 
 // Load environment dependent configuration
