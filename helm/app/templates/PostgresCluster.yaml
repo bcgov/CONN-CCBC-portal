@@ -6,6 +6,8 @@ metadata:
 spec:
   metadata:
     labels: {{ include "ccbc.labels" . | nindent 6 }}
+    annotations:
+      eks.amazonaws.com/role-arn: {{ .Values.objectStorage.awsRoleArn }}
   monitoring:
     pgmonitor:
       # this stuff is for the "exporter" container in the "hippo-ha-pgha1" set of pods

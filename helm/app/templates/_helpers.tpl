@@ -52,4 +52,5 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 [global]
 repo2-s3-key={{ .Values.objectStorage.awsS3Key }}
 repo2-s3-key-secret={{ .Values.objectStorage.awsS3SecretKey }}
+repo2-s3-key-type=web-id
 {{- end }}
