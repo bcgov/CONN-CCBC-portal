@@ -12,7 +12,7 @@ declare
   application_status varchar;
 begin
 
-  select status from ccbc_public.application_status where application_id = application_row_id into application_status;
+  select status into application_status from ccbc_public.application_status where application_id = application_row_id ORDER BY id desc;
 
   if application_status = 'submitted' then
     return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);
