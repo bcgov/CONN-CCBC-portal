@@ -18,11 +18,6 @@ create index ccbc_owner on ccbc_public.application(owner);
 create index application_intake_id on ccbc_public.application(intake_id);
 
 
-create trigger set_draft_status 
-  after insert on ccbc_public.application 
-  for each row
-  execute procedure ccbc_private.create_draft_status();
-
 do
 $grant$
 begin
