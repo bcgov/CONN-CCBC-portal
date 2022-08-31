@@ -45,3 +45,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
         key: host
         name: ccbc-pguser-ccbc
 {{- end }}
+
+
+{{/* Allow for S3 secret information to be stored in a Secret */}}
+{{- define "ccbc.pgbackrestConf" }}
+[global]
+repo2-s3-key={{ .Values.objectStorage.awsS3Key }}
+repo2-s3-key-secret={{ .Values.objectStorage.awsS3SecretKey }}
+{{- end }}

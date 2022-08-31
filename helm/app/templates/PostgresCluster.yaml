@@ -68,9 +68,12 @@ spec:
         - {{ template "ccbc.fullname" . }}
   backups:
     pgbackrest:
+      configuration:
+      - secret:
+          name: {{ template "ccbc.fullname" . }}-pgbackrest-repo2
       global:
         repo1-retention-full: '2'
-      # image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.35-0
+        repo2-retention-full: '90'
       repos:
         - name: repo1
           schedules:
@@ -86,6 +89,16 @@ spec:
                 requests:
                   storage: {{ .Values.pgbackrest.volume.storage }}
               storageClassName: {{ .Values.pgbackrest.volume.storageClassName }}
+        - name: repo2
+          schedules:
+            # Full backup every day at 8:00am UTC
+            full: '0 8 * * *'
+            # Incremental backup every 4 hours, except at 8am UTC (when the full backup is running)
+            incremental: '0 0,4,12,16,20 * * *'
+          s3:
+            bucket: {{ .Values.objectStorage.awsS3BackupsBucket }}
+            endpoint: s3.{{ .Values.objectStorage.awsS3Region }}.amazonaws.com
+            region: {{ .Values.objectStorage.awsS3Region }}
       # this stuff is for the "pgbackrest" container (the only non-init container) in the "hippo-ha-repo-host" pod
       repoHost:
         resources:
@@ -142,3 +155,14 @@ spec:
                   matchLabels:
                     postgres-operator.crunchydata.com/cluster: {{ .Values.instances.name}}
                     postgres-operator.crunchydata.com/role: pgbouncer
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ template "ccbc.fullname" . }}-pgbackrest-repo2
+  labels: {{ include "ccbc.labels" . | nindent 4 }}
+data:
+  s3.conf: |-
+    {{ include "ccbc.pgbackrestConf" . | b64enc }}

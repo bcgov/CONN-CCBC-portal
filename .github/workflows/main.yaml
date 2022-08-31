@@ -38,6 +38,7 @@ jobs:
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       OPENSHIFT_SECURE_ROUTE: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
       AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+      AWS_S3_BACKUPS_BUCKET: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
       AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
       AWS_S3_KEY: ${{ secrets.AWS_S3_KEY }}
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}

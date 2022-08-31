@@ -29,6 +29,9 @@ inputs:
   aws_s3_bucket:
     description: 'AWS S3 bucket name'
     required: true
+  aws_s3_backups_bucket:
+    description: 'AWS S3 bucket name for db backups'
+    required: true
   aws_s3_region:
     description: 'AWS S3 region'
     required: true
@@ -80,6 +83,7 @@ runs:
           --set secureRoute.host=${{ inputs.secure_route }} \
           --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
           --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }} \
+          --set objectStorage.awsS3BackupsBucket=${{ inputs.aws_s3_backups_bucket }} \
           --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }} \
           --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }} \
           --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }} \

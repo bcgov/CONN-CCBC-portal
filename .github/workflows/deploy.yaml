@@ -11,6 +11,7 @@ on:
       CLIENT_SECRET: { required: true }
       OPENSHIFT_SECURE_ROUTE: { required: true }
       AWS_S3_BUCKET: { required: true }
+      AWS_S3_BACKUPS_BUCKET: { required: true }
       AWS_S3_REGION: { required: true }
       AWS_S3_KEY: { required: true }
       AWS_S3_SECRET_KEY: { required: true }
@@ -42,6 +43,7 @@ jobs:
           client_secret: ${{ secrets.CLIENT_SECRET }}
           secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
           aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
+          aws_s3_backups_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
@@ -71,6 +73,7 @@ jobs:
           client_secret: ${{ secrets.CLIENT_SECRET }}
           secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
           aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
+          aws_s3_backups_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
@@ -102,6 +105,7 @@ jobs:
           client_secret: ${{ secrets.CLIENT_SECRET }}
           secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
           aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
+          aws_s3_backups_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}

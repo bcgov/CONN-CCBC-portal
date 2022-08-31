@@ -54,6 +54,7 @@ networkPolicies:
 
 objectStorage:
   awsS3Bucket: '' # The value must be passed in via the deploy script
+  awsS3BackupsBucket: '' # The value must be passed in via the deploy script
   awsS3Region: '' # The value must be passed in via the deploy script
   awsS3Key: '' # The value must be passed in via the deploy script
   awsS3SecretKey: '' # The value must be passed in via the deploy script
