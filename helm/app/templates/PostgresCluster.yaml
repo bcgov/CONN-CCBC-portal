@@ -72,23 +72,8 @@ spec:
       - secret:
           name: {{ template "ccbc.fullname" . }}-pgbackrest-repo2
       global:
-        repo1-retention-full: '2'
         repo2-retention-full: '90'
       repos:
-        - name: repo1
-          schedules:
-            # Full backup every day at 8:00am UTC
-            full: '0 8 * * *'
-            # Incremental backup every 4 hours, except at 8am UTC (when the full backup is running)
-            incremental: '0 0,4,12,16,20 * * *'
-          volume:
-            volumeClaimSpec:
-              accessModes:
-                - 'ReadWriteOnce'
-              resources:
-                requests:
-                  storage: {{ .Values.pgbackrest.volume.storage }}
-              storageClassName: {{ .Values.pgbackrest.volume.storageClassName }}
         - name: repo2
           schedules:
             # Full backup every day at 8:00am UTC
@@ -99,15 +84,6 @@ spec:
             bucket: {{ .Values.objectStorage.awsS3BackupsBucket }}
             endpoint: s3.{{ .Values.objectStorage.awsS3Region }}.amazonaws.com
             region: {{ .Values.objectStorage.awsS3Region }}
-      # this stuff is for the "pgbackrest" container (the only non-init container) in the "hippo-ha-repo-host" pod
-      repoHost:
-        resources:
-          requests:
-            cpu: {{ .Values.pgbackrest.repoHost.requests.cpu }}
-            memory: {{ .Values.pgbackrest.repoHost.requests.memory }}
-          limits:
-            cpu: {{ .Values.pgbackrest.repoHost.limits.cpu }}
-            memory: {{ .Values.pgbackrest.repoHost.limits.memory }}
       sidecars:
         # this stuff is for the "pgbackrest" container in the "hippo-ha-pgha1" set of pods
         pgbackrest:
@@ -134,7 +110,6 @@ spec:
       config:
         global:
           client_tls_sslmode: disable
-      # image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:centos8-1.15-3
       replicas: 2
       # these resources are for the "pgbouncer" container in the "hippo-ha-pgbouncer" set of pods
       # there is a sidecar in these pods which are not mentioned here, but the requests/limits are teeny weeny by default so no worries there.

@@ -114,16 +114,6 @@ pgbackrest:
   limits:
     cpu: 100m
     memory: 128Mi
-  volume:
-    storage: 8Gi
-    storageClassName: netapp-file-backup
-  repoHost:
-    requests:
-      cpu: 2m
-      memory: 64Mi
-    limits:
-      cpu: 100m
-      memory: 128Mi
 
 pgBouncer:
   requests:
