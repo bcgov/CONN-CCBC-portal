@@ -8,6 +8,7 @@ import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
 import { acknowledgements } from '../../formSchema/pages';
+import { setCookie, deleteCookie } from '../../utils/cookieHelper';
 
 // https://github.com/rjsf-team/react-jsonschema-form/issues/2131
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -432,6 +433,18 @@ const ApplicationForm: React.FC<Props> = ({
     ),
   };
 
+  const setMockDate = (id: string, value: any) => {
+    const address = window.location.href;
+    console.log(value);
+    if (value && (new Date(value) instanceof Date && !isNaN(new Date(value).valueOf()))) {
+      console.log('setting mock date');
+      setCookie('mocks.mocked_timestamp',value.toString());
+    }
+    else {
+      deleteCookie('mocks.mocked_timestamp');
+    }
+    window.location.href = address;
+  }
   return (
     <>
       <Flex>
@@ -470,17 +483,15 @@ const ApplicationForm: React.FC<Props> = ({
         </FormBase>
       )}
       <StyledForm action="/setDate" method="POST">
-        <StyledButton type="submit">Reset</StyledButton>
+        <StyledButton type="button" onClick={()=> setMockDate('',null)} >Reset</StyledButton>
         <StyledDiv>Current date: 2020-01-01</StyledDiv>
         <DatePickerWidget id="targetDate" schema={schema['timeMachine']} uiSchema={uiSchema['timeMachine']} 
         value={undefined} required={false} disabled={false} readonly={false} autofocus={false} 
-        placeholder={''} onChange={function (value: any): void {
-            throw new Error('Function not implemented.');
-          } } options={{}} formContext={undefined} onBlur={function (id: string, value: any): void {
-            throw new Error('Function not implemented.');
-          } } onFocus={function (id: string, value: any): void {
-            throw new Error('Function not implemented.');
-          } } label={''} multiple={false} rawErrors={[]} registry={undefined}></DatePickerWidget>
+        placeholder={''} onChange={(value: any) => setMockDate('', value) } 
+        options={{}} formContext={undefined} 
+        onBlur={function (id: string, value: any): void { } }  
+        onFocus={function (id: string, value: any): void { } } 
+        label={''} multiple={false} rawErrors={[]} registry={undefined}></DatePickerWidget>
       </StyledForm>
     </>
   );
