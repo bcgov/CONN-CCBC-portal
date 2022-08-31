@@ -9,6 +9,7 @@ const authorizedContact = {
       'authPositionTitle',
       'authEmail',
       'authTelephone',
+      'isAuthContactSigningOfficer',
     ],
     properties: {
       authFamilyName: {

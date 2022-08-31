@@ -285,6 +285,7 @@ const uiSchema = {
   authFamilyName: {
     'ui:options': {
       maxLength: MAX_CONTACT_INPUT_LENGTH,
+      altOptionalText: 'if applicable',
     },
   },
   authGivenName: {
@@ -319,6 +320,7 @@ const uiSchema = {
   altFamilyName: {
     'ui:options': {
       maxLength: MAX_CONTACT_INPUT_LENGTH,
+      altOptionalText: 'if applicable',
     },
   },
   altGivenName: {
@@ -658,11 +660,11 @@ const uiSchema = {
   },
   otherSupportingMaterials: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Other supporting materials (if applicable)',
+    'ui:description': 'Other supporting materials',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
-      hideOptional: true,
+      altOptionalText: 'if applicable',
     },
   },
   wirelessAddendum: {
@@ -759,7 +761,7 @@ const uiSchema = {
         'ui:description': 'maximum 150 characters',
         'ui:options': {
           maxLength: 150,
-          hideOptional: true,
+          altOptionalText: 'if applicable',
         },
       },
       requestedFundingPartner2223: {

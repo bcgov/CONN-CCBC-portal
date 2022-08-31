@@ -24,3 +24,9 @@ module "s3" {
   vpc_id = data.aws_vpc.selected.id
   bucket_name = var.bucket_name 
 }
+
+module "db_backup" {
+  source  = "./modules/s3_bucket"
+  vpc_id = data.aws_vpc.selected.id
+  bucket_name = var.backup_bucket_name 
+}

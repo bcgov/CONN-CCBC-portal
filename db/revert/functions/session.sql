@@ -4,4 +4,4 @@ begin;
 
 drop function ccbc_public.session;
 
-COMMIT;
+commit;

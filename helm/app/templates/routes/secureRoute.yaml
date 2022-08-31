@@ -1,4 +1,4 @@
-{{- $route := (lookup "route.openshift.io/v1" "Route" .Release.Namespace "{{ template 'ccbc.fullname' . }}-secure") }}
+{{- $route := (lookup "route.openshift.io/v1" "Route" .Release.Namespace "ccbc-secure") }}
 {{- $certificate := "" }}
 {{- $key := "" }}
 {{- $caCertificate := "" }}
@@ -11,7 +11,7 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: {{ template "ccbc.fullname" . }}-secure
+  name: ccbc-secure
   labels: {{ include "ccbc.labels" . | nindent 4 }}
     certbot-managed: "true"
 
@@ -40,7 +40,7 @@ spec:
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: {{ template "ccbc.fullname" . }}-secure-www
+  name: ccbc-secure-www
   labels: {{ include "ccbc.labels" . | nindent 4 }}
 spec:
   host: www.{{ .Values.secureRoute.host }}

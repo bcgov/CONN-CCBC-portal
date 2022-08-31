@@ -75,7 +75,7 @@ const otherFundingSources = {
                       ],
                     },
                     nameOfFundingProgram: {
-                      title: 'Name of program (if applicable)',
+                      title: 'Name of program',
                       type: 'string',
                     },
                     requestedFundingPartner2223: {

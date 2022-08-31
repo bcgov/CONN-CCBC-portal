@@ -10,3 +10,7 @@ variable "license_plate" {
 variable "bucket_name" {
     default = "fapi7b-dev-ccbc-data"
 }
+
+variable "backup_bucket_name" {
+    default = "fapi7b-dev-ccbc-dbbackup"
+}

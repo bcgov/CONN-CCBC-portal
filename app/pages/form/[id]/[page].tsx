@@ -46,8 +46,13 @@ const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
     <Layout session={session} title="Connecting Communities BC">
       <FormDiv>
         {status === 'withdrawn' && (
-          <StyledAlert id="review-alert" size="small" variant={'warning'}>
+          <StyledAlert id="review-alert" size="small" variant="warning">
             You can no longer edit this application because it is withdrawn.
+          </StyledAlert>
+        )}
+        {status === 'submitted' && (
+          <StyledAlert id="review-alert" size="small" variant="info">
+            Edits are automatically saved and submitted.
           </StyledAlert>
         )}
         <Back applicationId={applicationId} pageNumber={pageNumber} />

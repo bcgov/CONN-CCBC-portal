@@ -3,7 +3,14 @@ const organizationLocation = {
     title: 'Organization location',
     description: 'Provide an address for your organization',
     type: 'object',
-    required: ['streetNumber', 'streetName', 'city', 'province', 'postalCode'],
+    required: [
+      'streetNumber',
+      'streetName',
+      'city',
+      'province',
+      'postalCode',
+      'isMailingAddress',
+    ],
     properties: {
       unitNumber: {
         title: 'Unit number',
