@@ -194,7 +194,6 @@ const uiSchema = {
   geographicArea: {
     'ui:widget': 'CheckboxesWidget',
     'ui:options': {
-      label: false,
       maxLength: 150,
       customTitle: GeographicArea,
     },
@@ -240,7 +239,6 @@ const uiSchema = {
   isIndigenousEntity: {
     'ui:widget': 'RadioWidget',
     'ui:options': {
-      label: false,
       customTitle: IndigenousEntity,
     },
   },
@@ -475,7 +473,6 @@ const uiSchema = {
     'ui:description': 'maximum 3,500 characters',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
-      label: false,
       customTitle: ProjectBenefits,
     },
   },
@@ -531,7 +528,6 @@ const uiSchema = {
       'Copies of registration and other relevant documents related to incorporation, limited partnership, joint venture, not-for-profit status, etc.',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
-      label: false,
       allowMultipleFiles: true,
       // Placing this custom title here as it is the top level field in
       // supporting documents page so it will sit on top.

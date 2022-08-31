@@ -11,6 +11,8 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Welcome');
 
+    cy.get('a').contains('program details');
+
     // Todo: find a way around using these wait
     cy.wait(2000);
 
@@ -43,6 +45,8 @@ context('Homepage', () => {
     // Project area page
 
     cy.get('h1').contains('Project area');
+
+    cy.get('a').contains('project zones');
 
     cy.get('input[id="root_geographicArea-0"]').parent().click({ force: true });
 
@@ -265,6 +269,8 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Supporting documents');
 
+    cy.get('a').contains('connectingcommunitiesbc@gov.bc.ca');
+
     // // Todo: file uploads
 
     cy.get('body').happoScreenshot();
@@ -274,6 +280,8 @@ context('Homepage', () => {
     // // Coverage page
 
     cy.get('h1').contains('Coverage');
+
+    cy.get('a').contains('Eligibility Mapping Tool');
 
     // // Todo: file uploads
 
@@ -473,6 +481,8 @@ context('Homepage', () => {
     cy.get('body').happoScreenshot();
 
     cy.get('button').contains('Submit').click();
+
+    cy.wait(1000);
 
     // // Success page
 

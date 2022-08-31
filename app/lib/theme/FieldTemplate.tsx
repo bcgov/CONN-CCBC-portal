@@ -15,10 +15,11 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   const hideOptional = uiSchema['ui:options']?.hideOptional;
   const altOptionalText = uiSchema['ui:options']?.altOptionalText;
   const customTitle = uiSchema['ui:options']?.customTitle;
+  const showLabel = displayLabel && !customTitle;
 
   return (
     <div>
-      {displayLabel && (
+      {showLabel && (
         <FieldLabel
           label={label}
           altOptionalText={altOptionalText && String(altOptionalText)}
