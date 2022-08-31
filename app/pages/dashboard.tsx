@@ -38,8 +38,9 @@ const getDashboardQuery = graphql`
   }
 `;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-const Dashboard = ({ preloadedQuery }: RelayProps<{}, dashboardQuery>) => {
+const Dashboard = ({
+  preloadedQuery,
+}: RelayProps<Record<string, unknown>, dashboardQuery>) => {
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
   const { allApplications, session, openIntake } = query;
 

@@ -30,8 +30,9 @@ const getPageQuery = graphql`
   }
 `;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-const FormPage = ({ preloadedQuery }: RelayProps<{}, PageQuery>) => {
+const FormPage = ({
+  preloadedQuery,
+}: RelayProps<Record<string, unknown>, PageQuery>) => {
   const query = usePreloadedQuery(getPageQuery, preloadedQuery);
 
   const { applicationByRowId, session } = query;

@@ -34,8 +34,9 @@ const getPagesQuery = graphql`
   }
 `;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
+const Home = ({
+  preloadedQuery,
+}: RelayProps<Record<string, unknown>, pagesQuery>) => {
   const { session } = usePreloadedQuery(getPagesQuery, preloadedQuery);
 
   return (
