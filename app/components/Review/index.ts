@@ -7,4 +7,4 @@ export { default as ProjectFundingTable } from './ProjectFundingTable';
 export { default as ProjectAreaTable } from './ProjectAreaTable';
 export { default as Review } from './Review';
 export { default as Table } from './Table';
-export { default as ReviewField } from './ReviewField'
+export { default as ReviewField } from './ReviewPageField';

@@ -153,11 +153,13 @@ const ApplicationForm: React.FC<Props> = ({
         : openIntake?.closeTimestamp;
     return {
       intakeCloseTimestamp,
+      fullFormData: formData,
     };
   }, [
     openIntake,
     application.status,
     application.intakeByIntakeId?.closeTimestamp,
+    formData,
   ]);
 
   const formErrorSchema = formatErrorSchema(formData, schema);

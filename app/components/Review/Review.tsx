@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Alert from '@button-inc/bcgov-theme/Alert';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 import type { JSONSchema7 } from 'json-schema';
 
@@ -41,10 +40,6 @@ const StyledCheckboxDiv = styled('div')`
   }
 `;
 
-const StyledAlert = styled(Alert)`
-  margin-bottom: 32px;
-`;
-
 const Review = ({
   formData,
   formErrorSchema,
@@ -76,15 +71,6 @@ const Review = ({
 
   return (
     <div>
-      <StyledAlert
-        id="review-alert"
-        size="small"
-        variant={noErrors ? 'success' : 'danger'}
-      >
-        {noErrors
-          ? 'All fields are complete'
-          : 'There are empty fields in your application. Applications with unanswered fields may not be assessed.'}
-      </StyledAlert>
       {reviewSchema.map((section) => {
         const subschema = formSchema.properties[section];
 
