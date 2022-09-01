@@ -1,6 +1,13 @@
 begin;
 
-select plan(3);
+select plan(5);
+
+truncate table
+  ccbc_public.application,
+  ccbc_public.application_status,
+  ccbc_public.attachment
+restart identity;
+
 set jwt.claims.sub to 'testCcbcAuthUser';
 
 set role ccbc_auth_user;
@@ -17,7 +24,7 @@ select results_eq(
 
 select results_eq(
   $$
-    select application_id, status from ccbc_public.application_status where application_id = 1; 
+    select application_id, status from ccbc_public.application_status where application_id = 1;
   $$,
   $$
     values (1, 'draft'::varchar)
@@ -37,6 +44,16 @@ select throws_ok(
   $$,
   'There is no open intake',
   'Throws an error if there are no open intakes'
+);
+
+select function_privs_are(
+  'ccbc_public', 'create_application', ARRAY[]::text[], 'ccbc_auth_user', ARRAY['EXECUTE'],
+  'ccbc_auth_user can execute ccbc_public.create_application()'
+);
+
+select function_privs_are(
+  'ccbc_public', 'create_application', ARRAY[]::text[], 'ccbc_guest', ARRAY[]::text[],
+  'ccbc_guest cannot execute ccbc_public.create_application()'
 );
 
 select finish();

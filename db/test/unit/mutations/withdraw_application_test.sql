@@ -1,6 +1,6 @@
 begin;
 
-select plan(5);
+select plan(7);
 
 select has_function(
   'ccbc_public', 'withdraw_application', ARRAY['int'],
@@ -15,7 +15,7 @@ values
   (4, '{}', '00000000-0000-0000-0000-000000000000');
 
 
-insert into ccbc_public.application_status(application_id, status) 
+insert into ccbc_public.application_status(application_id, status)
 VALUES
  (2, 'submitted'),
  (3, 'withdrawn');
@@ -52,6 +52,16 @@ select results_eq(
     values (2, 'withdrawn'::varchar)
   $$,
   'Withdrawn status should be inserted to the application_status table'
+);
+
+select function_privs_are(
+  'ccbc_public', 'withdraw_application', ARRAY['int']::text[], 'ccbc_auth_user', ARRAY['EXECUTE'],
+  'ccbc_auth_user can execute ccbc_public.withdraw_application(int)'
+);
+
+select function_privs_are(
+  'ccbc_public', 'withdraw_application', ARRAY['int'], 'ccbc_guest', ARRAY[]::text[],
+  'ccbc_guest cannot execute ccbc_public.withdraw_application(int)'
 );
 
 select finish();
