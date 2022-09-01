@@ -7,9 +7,7 @@
 Have a local instance of postges running, then do the following:
 
 ```bash
-$ cd db
-$ createdb ccbc
-$ sqitch deploy
+make drop_db && make deploy_dev_data
 ```
 
 ## Environment Variables
