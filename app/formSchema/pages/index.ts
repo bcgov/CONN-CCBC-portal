@@ -19,4 +19,3 @@ export { default as supportingDocuments } from './supportingDocuments';
 export { default as review } from './review';
 export { default as techSolution } from './techSolution';
 export { default as templateUploads } from './templateUploads';
-export { default as timeMachine } from './timeMachine';

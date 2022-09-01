@@ -249,9 +249,6 @@ const uiSchema = {
   orgRegistrationDate: {
     'ui:widget': 'DatePickerWidget',
   },
-  timeMachine: {
-    'ui:widget': 'DatePickerWidget',
-  },
   isMailingAddress: {
     'ui:widget': 'RadioWidget',
   },

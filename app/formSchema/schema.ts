@@ -18,7 +18,6 @@ import {
   submission,
   supportingDocuments,
   review,
-  timeMachine,
   techSolution,
   templateUploads,
 } from './pages';
@@ -39,7 +38,6 @@ const schema = {
     ...templateUploads,
     ...supportingDocuments,
     ...coverage,
-    ...timeMachine,
     ...organizationProfile,
     ...organizationLocation,
     ...contactInformation,
