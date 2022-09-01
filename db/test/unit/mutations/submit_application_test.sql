@@ -1,6 +1,6 @@
 begin;
 
-select plan(7);
+select plan(9);
 
 select has_function(
   'ccbc_public', 'submit_application', ARRAY['int'],
@@ -17,7 +17,7 @@ values
   (3, '{}', '00000000-0000-0000-0000-000000000000'),
   (4, '{}', '00000000-0000-0000-0000-000000000000');
 
-insert into ccbc_public.application_status(application_id, status) 
+insert into ccbc_public.application_status(application_id, status)
 values
   (1, 'draft'),
   (2, 'submitted'),
@@ -48,7 +48,7 @@ select results_eq(
   $$
     select application.id, application.ccbc_number, application_status.status , application.intake_id
     from ccbc_public.submit_application(2) as application,
-     ccbc_public.application_status as application_status 
+     ccbc_public.application_status as application_status
      where application.id = application_status.application_id
      and application_status.status='submitted'
   $$,
@@ -70,7 +70,7 @@ select results_eq(
 
 select results_eq(
   $$
-    select application_id, status from ccbc_public.application_status 
+    select application_id, status from ccbc_public.application_status
       where application_id=1 and status='submitted'
   $$,
   $$
@@ -87,6 +87,16 @@ select results_eq(
     values (4, 'CCBC-100002'::varchar, 42)
   $$,
   'Increases the ccbc number when submitting applications'
+);
+
+select function_privs_are(
+  'ccbc_public', 'submit_application', ARRAY['int']::text[], 'ccbc_auth_user', ARRAY['EXECUTE'],
+  'ccbc_auth_user can execute ccbc_public.submit_application(int)'
+);
+
+select function_privs_are(
+  'ccbc_public', 'submit_application', ARRAY['int'], 'ccbc_guest', ARRAY[]::text[],
+  'ccbc_guest cannot execute ccbc_public.submit_application(int)'
 );
 
 select finish();

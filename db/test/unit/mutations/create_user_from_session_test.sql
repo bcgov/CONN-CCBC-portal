@@ -1,5 +1,5 @@
 begin;
-select plan(2);
+select plan(4);
 
 select has_function(
   'ccbc_public', 'create_user_from_session',
@@ -29,6 +29,16 @@ select results_eq (
   )
   $$,
   'create_user_from_session() successfully creates a user'
+);
+
+select function_privs_are(
+  'ccbc_public', 'create_user_from_session', ARRAY[]::text[], 'ccbc_auth_user', ARRAY['EXECUTE'],
+  'ccbc_auth_user can execute ccbc_public.create_user_from_session()'
+);
+
+select function_privs_are(
+  'ccbc_public', 'create_user_from_session', ARRAY[]::text[], 'ccbc_guest', ARRAY[]::text[],
+  'ccbc_guest cannot execute ccbc_public.create_user_from_session()'
 );
 
 select finish();

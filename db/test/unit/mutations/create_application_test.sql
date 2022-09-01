@@ -1,6 +1,6 @@
 begin;
 
-select plan(3);
+select plan(5);
 
 truncate table
   ccbc_public.application,
@@ -44,6 +44,16 @@ select throws_ok(
   $$,
   'There is no open intake',
   'Throws an error if there are no open intakes'
+);
+
+select function_privs_are(
+  'ccbc_public', 'create_application', ARRAY[]::text[], 'ccbc_auth_user', ARRAY['EXECUTE'],
+  'ccbc_auth_user can execute ccbc_public.create_application()'
+);
+
+select function_privs_are(
+  'ccbc_public', 'create_application', ARRAY[]::text[], 'ccbc_guest', ARRAY[]::text[],
+  'ccbc_guest cannot execute ccbc_public.create_application()'
 );
 
 select finish();
