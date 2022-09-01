@@ -1,6 +1,7 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 context('Homepage', () => {
   beforeEach(function () {
+    cy.sqlFixture('dev/001_intake');
     cy.visit('/');
   });
 
