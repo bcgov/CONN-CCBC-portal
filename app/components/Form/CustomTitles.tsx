@@ -96,8 +96,7 @@ const GeographicCoverageMap = () => {
       >
         Eligibility Mapping Tool
       </Link>{' '}
-      to generate the Project Coverage that is to be included in your
-      application.
+      to generate the Project Coverage for this application.
     </div>
   );
 };
