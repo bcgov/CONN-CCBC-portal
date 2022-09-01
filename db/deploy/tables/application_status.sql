@@ -10,7 +10,7 @@ create table ccbc_public.application_status(
 
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_status', true, false, false);
 
-create index application_id_index on ccbc_public.application_status(application_id);
+create index application_status_application_id_index on ccbc_public.application_status(application_id);
 do
 $grant$
 begin
