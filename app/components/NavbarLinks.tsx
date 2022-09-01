@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import GlobalTheme from '../styles/GlobalTheme';
+import ExternalLink from '@button-inc/bcgov-theme/Link';
 
 const StyledLi = styled.li`
   display: flex;
@@ -16,9 +17,14 @@ export const SubHeaderNavbarLinks: React.FC = () => {
     <GlobalTheme>
       <StyledUl>
         <StyledLi>
-          <Link href="mailto:connectingcommunitiesbc@gov.bc.ca">
-            <a style={{ paddingLeft: 0 }}>Help</a>
+          <Link href="/">
+            <a>Home</a>
           </Link>
+        </StyledLi>
+        <StyledLi>
+          <ExternalLink href="mailto:connectingcommunitiesbc@gov.bc.ca">
+            Help
+          </ExternalLink>
         </StyledLi>
       </StyledUl>
     </GlobalTheme>

@@ -6,17 +6,17 @@ const renderStaticLayout = () => {
 };
 
 describe('The FooterLinks component', () => {
-  it('should render Home link title', () => {
+  it('should render Project details link title', () => {
     renderStaticLayout();
-    expect(screen.getByText('Home'));
+    expect(screen.getByText('Project details'));
   });
 
-  it('should render the Home link href', () => {
+  it('should render the Project details link href', () => {
     renderStaticLayout();
-    const link = screen.getByRole('link', { name: 'Home' });
+    const link = screen.getByRole('link', { name: 'Project details' });
     expect(link).toHaveAttribute(
       'href',
-      'https://www2.gov.bc.ca/gov/content/governments/connectivity-in-bc'
+      'https://www.gov.bc.ca/connectingcommunitiesbc'
     );
   });
 

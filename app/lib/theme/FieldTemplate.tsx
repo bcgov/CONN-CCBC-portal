@@ -1,11 +1,5 @@
 import { FieldTemplateProps } from '@rjsf/core';
 import FieldLabel from './widgets/FieldLabel';
-import {
-  HouseholdsImpactedIndigenous,
-  IndigenousEntity,
-  NumberOfHouseholds,
-  ProjectBenefits,
-} from '../../components/Form/CustomTitles';
 
 const FieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
@@ -20,10 +14,12 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
 }) => {
   const hideOptional = uiSchema['ui:options']?.hideOptional;
   const altOptionalText = uiSchema['ui:options']?.altOptionalText;
+  const customTitle = uiSchema['ui:options']?.customTitle;
+  const showLabel = displayLabel && !customTitle;
 
   return (
     <div>
-      {displayLabel && (
+      {showLabel && (
         <FieldLabel
           label={label}
           altOptionalText={altOptionalText && String(altOptionalText)}
@@ -32,12 +28,10 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
           htmlFor={id}
         />
       )}
-      {label === 'isIndigenousEntity' && <IndigenousEntity />}
-      {label === 'projectBenefits' && <ProjectBenefits />}
-      {label === 'numberOfHouseholds' && <NumberOfHouseholds />}
-      {label === 'householdsImpactedIndigenous' && (
-        <HouseholdsImpactedIndigenous />
-      )}
+      <>
+        {/* check type of custom title to make typescript happy */}
+        {typeof customTitle === 'function' && customTitle()}
+      </>
       {help}
       {children}
       {rawErrors && rawErrors.length > 0 ? (
