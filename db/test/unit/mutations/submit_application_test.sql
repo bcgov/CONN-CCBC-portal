@@ -18,7 +18,7 @@ values
   (4, '{}', '00000000-0000-0000-0000-000000000000');
 
 insert into ccbc_public.application_status(application_id, status) 
-VALUES
+values
   (1, 'draft'),
   (2, 'submitted'),
   (3, 'withdrawn'),
@@ -65,7 +65,7 @@ select results_eq(
   $$
     values (1, 'CCBC-100001'::varchar, 42)
   $$,
-  'Returns the application with a intake number if in draft'
+  'Returns the application with an intake number if in draft'
 );
 
 select results_eq(

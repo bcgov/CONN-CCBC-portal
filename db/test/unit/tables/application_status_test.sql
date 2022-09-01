@@ -56,7 +56,7 @@ select throws_ok(
   $$,
   '42501',
   'new row violates row-level security policy for table "application_status"',
-  'Will not allow user to update status of application it does not won'
+  'Will not allow user to update status of application it does not own'
 );
 
 select finish();

@@ -34,7 +34,7 @@ begin
   select nextval(seq_name) into reference_number;
 
   insert into ccbc_public.application_status 
-    (application_id, status) VALUES (application_row_id, 'submitted');
+    (application_id, status) values (application_row_id, 'submitted');
 
   update ccbc_public.application set
     intake_id = current_intake_id,

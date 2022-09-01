@@ -1,10 +1,10 @@
 -- Deploy ccbc:tables/application_status_type to pg
 
-BEGIN;
+begin;
 
 create table ccbc_public.application_status_type(
-    name varchar(1000) primary key,
-    description varchar(1000)
+  name varchar(1000) primary key,
+  description varchar(1000)
 );
 
 do
@@ -21,7 +21,6 @@ comment on column ccbc_public.application_status_type.name is 'Name of and prima
 
 comment on column ccbc_public.application_status_type.description is 'Description of the status type';
 
--- move this out once we have established a way to deploy prod data
 insert into ccbc_public.application_status_type (name, description) values
 ('draft', 'Draft'),
 ('withdrawn', 'Withdrawn'),

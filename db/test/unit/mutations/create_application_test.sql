@@ -1,7 +1,7 @@
 begin;
 
 select plan(3);
-set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
+set jwt.claims.sub to 'testCcbcAuthUser';
 
 set role ccbc_auth_user;
 
@@ -10,7 +10,7 @@ select results_eq(
     select id, owner, form_data, intake_id, ccbc_number from ccbc_public.create_application();
   $$,
   $$
-    values (1,'11111111-1111-1111-1111-111111111112'::varchar, '{}'::jsonb, null::int, null::varchar)
+    values (1,'testCcbcAuthUser'::varchar, '{}'::jsonb, null::int, null::varchar)
   $$,
   'Should return newly created application'
 );

@@ -1,8 +1,5 @@
 -- Deploy ccbc:mutations/create_application to pg
 
-
--- Deploy ccbc:mutations/create_application to pg
-
 begin;
 
 create or replace function ccbc_public.create_application()
