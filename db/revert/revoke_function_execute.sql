@@ -2,6 +2,6 @@
 
 begin;
 
-alter default privileges grant execute on functions from public;
+alter default privileges grant execute on functions to public;
 
 commit;
