@@ -1,6 +1,13 @@
 begin;
 
 select plan(3);
+
+truncate table
+  ccbc_public.application,
+  ccbc_public.application_status,
+  ccbc_public.attachment
+restart identity;
+
 set jwt.claims.sub to 'testCcbcAuthUser';
 
 set role ccbc_auth_user;
@@ -17,7 +24,7 @@ select results_eq(
 
 select results_eq(
   $$
-    select application_id, status from ccbc_public.application_status where application_id = 1; 
+    select application_id, status from ccbc_public.application_status where application_id = 1;
   $$,
   $$
     values (1, 'draft'::varchar)
