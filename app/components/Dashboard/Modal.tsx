@@ -3,7 +3,7 @@ import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
 import { X } from '.';
-import { useUpdateApplicationMutation } from '../../schema/mutations/application/updateApplication';
+import { useWithdrawApplicationMutation } from 'schema/mutations/application/withdrawApplication';
 
 const StyledModal = styled(Modal)`
   display: flex;
@@ -39,19 +39,15 @@ const StyledConfirmBox = styled('div')`
 const WithdrawModal = ({ id }) => {
   const [successModal, setSuccessModal] = useState(false);
 
-  const [updateApplication] = useUpdateApplicationMutation();
+  const [withdrawApplication] = useWithdrawApplicationMutation()
 
   const handleWithdraw = async () => {
-    updateApplication({
+    withdrawApplication({
       variables: {
         input: {
-          applicationPatch: {
-            status: 'withdrawn',
-          },
-          id: id,
+          applicationRowId: id,
         },
       },
-      debounceKey: id,
       onCompleted: () => setSuccessModal(true),
     });
   };

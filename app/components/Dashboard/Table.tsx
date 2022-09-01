@@ -58,7 +58,7 @@ type Props = {
 };
 
 const Table = ({ applications }: Props) => {
-  const [withdrawId, setWithdrawId] = useState('');
+  const [withdrawId, setWithdrawId] = useState<null | number>(null);
 
   const applicationNodes = applications.allApplications.nodes;
   const router = useRouter();
@@ -142,7 +142,7 @@ const Table = ({ applications }: Props) => {
                     </Link>
                     {isSubmitted && !isIntakeClosed && (
                       <div
-                        onClick={() => setWithdrawId(application.id)}
+                        onClick={() => setWithdrawId(rowId)}
                         data-testid="withdraw-btn-test"
                       >
                         <Withdraw />
