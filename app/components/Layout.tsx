@@ -1,11 +1,10 @@
 import Head from 'next/head';
-import { Footer } from '@button-inc/bcgov-theme';
-import { FooterLinks, Navigation } from '.';
+import Footer from '@button-inc/bcgov-theme/Footer';
+import { FooterLinks, Navigation, TimeTravel } from '.';
 
 import styled from 'styled-components';
 
 const StyledFooter = styled(Footer)`
-  position: fixed;
   bottom: 0;
   width: 100%;
 `;
@@ -66,6 +65,8 @@ const Layout: React.FC<Props> = ({ children, session, title }) => {
       </Head>
       <Navigation isLoggedIn={isLoggedIn} />
       <StyledMain>{children}</StyledMain>
+      <TimeTravel />
+
       <StyledFooter>
         <StyledDiv>
           <FooterLinks />

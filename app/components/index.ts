@@ -1,6 +1,7 @@
 export { default as BCGovTypography } from './BCGovTypography';
 export { default as ButtonLink } from './ButtonLink';
 export { default as CancelIcon } from './CancelIcon';
+export { default as CalendarIcon } from './CalendarIcon';
 export { default as FooterLinks } from './FooterLinks';
 export { default as FormDiv } from './FormDiv';
 export { default as Layout } from './Layout';
@@ -12,3 +13,4 @@ export { default as SessionExpiryHandler } from './SessionExpiryHandler';
 export { default as StyledGovButton } from './StyledGovButton';
 export { default as SubHeader } from './SubHeader';
 export { SubHeaderNavbarLinks } from './NavbarLinks';
+export { default as TimeTravel } from './TimeTravel';

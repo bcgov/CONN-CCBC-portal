@@ -8,7 +8,6 @@ import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
 import { acknowledgements } from '../../formSchema/pages';
-import { setCookie, deleteCookie } from '../../utils/cookieHelper';
 
 // https://github.com/rjsf-team/react-jsonschema-form/issues/2131
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -29,7 +28,6 @@ import styled from 'styled-components';
 import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
 import { SubmissionDescriptionField } from 'lib/theme/fields';
 import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
-import DatePickerWidget from 'lib/theme/widgets/DatePickerWidget';
 
 const NUM_ACKNOWLEDGEMENTS =
   acknowledgements.acknowledgements.properties.acknowledgementsList.items.enum
@@ -40,25 +38,7 @@ const customPages = [
   'acknowledgements',
   'submission',
 ];
-const StyledButton = styled.button`
-  color: white;
-  background: #003366;
-  border: none;
-  border-radius: 0.222em;
-  margin: 0;
-  padding: 0.66em 1.77em;
-  cursor: pointer; 
-  height: 2rem;
-`;
-const StyledForm = styled.form`
-  display: flex;
-  align-items: left;
-  font-size: 0.8em; 
-  justify-content: left;
-`;
-const StyledDiv = styled('div')`
-  margin-left: 1em;
-`;
+
 const CUSTOM_SUBMISSION_FIELD = {
   SubmissionField: SubmissionDescriptionField,
 };
@@ -433,18 +413,6 @@ const ApplicationForm: React.FC<Props> = ({
     ),
   };
 
-  const setMockDate = (id: string, value: any) => {
-    const address = window.location.href;
-    console.log(value);
-    if (value && (new Date(value) instanceof Date && !isNaN(new Date(value).valueOf()))) {
-      console.log('setting mock date');
-      setCookie('mocks.mocked_timestamp',value.toString());
-    }
-    else {
-      deleteCookie('mocks.mocked_timestamp');
-    }
-    window.location.href = address;
-  }
   return (
     <>
       <Flex>
@@ -482,17 +450,6 @@ const ApplicationForm: React.FC<Props> = ({
           {submitBtns}
         </FormBase>
       )}
-      <StyledForm action="/setDate" method="POST">
-        <StyledButton type="button" onClick={()=> setMockDate('',null)} >Reset</StyledButton>
-        <StyledDiv>Current date: 2020-01-01</StyledDiv>
-        <DatePickerWidget id="targetDate" schema={schema['timeMachine']} uiSchema={uiSchema['timeMachine']} 
-        value={undefined} required={false} disabled={false} readonly={false} autofocus={false} 
-        placeholder={''} onChange={(value: any) => setMockDate('', value) } 
-        options={{}} formContext={undefined} 
-        onBlur={function (id: string, value: any): void { } }  
-        onFocus={function (id: string, value: any): void { } } 
-        label={''} multiple={false} rawErrors={[]} registry={undefined}></DatePickerWidget>
-      </StyledForm>
     </>
   );
 };
