@@ -120,3 +120,11 @@ We developed some guardrails (i.e. GitHub actions) to:
 
 - ensure that changes that are part of a release are immutable: [immutable-sqitch-change.yml}(.github/workflows/immutable-sqitch-change.yml)
 - ensure that the sqitch plan ends with a tag on the `main` branch, preventing deployments if it is not the case. Our release command automatically sets this tag: [pre-release.yml](.github/workflows/pre-release.yml)
+
+### Pre-Commit Hooks
+
+_The following is to be done in the root directory_
+
+To install the pre-commit hooks, first install the asdf tools using `make install_asdf_tools` also install the python tools using `pip install -r requirements.txt` and `pre-commit install`.
+
+Finally, also run `make install_cocogitto_hook` for the cocogitto commit-msg hook.
