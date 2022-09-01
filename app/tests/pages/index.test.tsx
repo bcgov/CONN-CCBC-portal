@@ -31,6 +31,9 @@ const mockClosedIntakePayload = {
   },
 };
 
+const intakeAlertMessage =
+  'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
+
 const pageTestingHelper = new PageTestingHelper<pagesQuery>({
   pageComponent: Home,
   compiledQuery: compiledPagesQuery,
@@ -63,21 +66,13 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.queryByText(
-        `New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.`
-      )
-    ).toBeNull();
+    expect(screen.queryByText(intakeAlertMessage)).toBeNull();
   });
 
   it('Displays the alert message when there is no open intake', async () => {
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.getByText(
-        `New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.`
-      )
-    ).toBeInTheDocument();
+    expect(screen.getByText(intakeAlertMessage)).toBeInTheDocument();
   });
 });
