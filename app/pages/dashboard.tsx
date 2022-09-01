@@ -63,7 +63,7 @@ const Dashboard = ({
   const handleCreateApplication = () => {
     createApplication({
       variables: {
-        input: { application: { owner: session?.sub } },
+        input: {},
       },
       onCompleted: (response) => {
         const applicationId = response.createApplication.application.rowId;
