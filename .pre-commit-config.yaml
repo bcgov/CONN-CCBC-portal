@@ -13,13 +13,6 @@ repos:
         language: system
         files: \.(j|t)sx?$
         entry: ./.bin/pre-commit-lint.sh
-  - repo: local
-    hooks:
-      - id: pgformat
-        name: PGFormat
-        language: script
-        entry: ./.bin/pre-commit-pg-format.sh
-        stages: [commit]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.3.0
     hooks:
