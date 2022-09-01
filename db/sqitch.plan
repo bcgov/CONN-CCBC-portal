@@ -1,6 +1,7 @@
 %syntax-version=1.0.0
 %project=ccbc
 
+revoke_function_execute 2022-09-01T16:03:01Z Matthieu Foucault <matthieu@button.is> # revoke default function execution permission
 create_roles 2022-04-11T23:46:54Z Marcel Mueller <marcel@button.is> # Add create_roles
 schemas/public 2022-04-11T22:30:24Z Marcel Mueller <marcel@button.is> # Add main ccbc schema
 schemas/private 2022-04-11T23:55:16Z Marcel Mueller <marcel@button.is> # Add private schema
