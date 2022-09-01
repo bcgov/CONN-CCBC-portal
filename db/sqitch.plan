@@ -28,3 +28,4 @@ mutations/submit_application 2022-08-23T17:18:10Z Matthieu Foucault <matthieu@bu
 computed_columns/application_status [tables/application_status] 2022-08-30T22:06:26Z Anthony Bushara <anthony@button.is> # Computed column to display the current status of an application
 mutations/withdraw_application [tables/application_status tables/application] 2022-08-30T22:38:37Z Anthony Bushara <anthony@button.is> # Mutation to withdraw an application
 mutations/create_application 2022-08-31T16:16:23Z Anthony Bushara <anthony@button.is> # Creates a new application
+@1.0.0 2022-09-01T23:42:33Z Matthieu Foucault <matthieu@button.is> # release v1.0.0
