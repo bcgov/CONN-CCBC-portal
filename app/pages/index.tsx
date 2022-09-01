@@ -3,7 +3,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import Link from '@button-inc/bcgov-theme/Link';
-import { ButtonLink, LoginForm, Layout } from '../components';
+import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
 import styled from 'styled-components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
 
@@ -30,18 +30,25 @@ const getPagesQuery = graphql`
     session {
       sub
     }
+    openIntake {
+      openTimestamp
+    }
   }
 `;
 
 const Home = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, pagesQuery>) => {
-  const { session } = usePreloadedQuery(getPagesQuery, preloadedQuery);
+  const { openIntake, session } = usePreloadedQuery(
+    getPagesQuery,
+    preloadedQuery
+  );
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Welcome</h1>
+        {!openIntake && <IntakeAlert />}
         <section>
           <h3>Before you begin</h3>
           <ul>

@@ -6,7 +6,7 @@ import { usePreloadedQuery } from 'react-relay/hooks';
 import { graphql } from 'react-relay';
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
-import { Layout } from '../components';
+import { IntakeAlert, Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
 import { DateTime } from 'luxon';
@@ -90,17 +90,17 @@ const Dashboard = ({
             }).toLocaleString(DateTime.DATETIME_FULL)}
           </p>
         ) : (
-          <p>There are no currently open intakes.</p>
+          <IntakeAlert />
         )}
-        <StyledGovButton onClick={handleCreateApplication}>
+        <StyledGovButton
+          onClick={handleCreateApplication}
+          disabled={!openIntake}
+        >
           Create application
         </StyledGovButton>
       </div>
-      {hasApplications ? (
-        <DashboardTable applications={query} />
-      ) : (
-        <p>Applications will appear here</p>
-      )}
+      {hasApplications && openIntake && <DashboardTable applications={query} />}
+      {!hasApplications && openIntake && <p>Applications will appear here</p>}
     </Layout>
   );
 };
