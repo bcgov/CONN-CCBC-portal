@@ -3,8 +3,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import Link from '@button-inc/bcgov-theme/Link';
-import { ButtonLink, LoginForm, Layout } from '../components';
-import Alert from '@button-inc/bcgov-theme/Alert';
+import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
 import styled from 'styled-components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
 
@@ -24,13 +23,6 @@ const StyledDetails = styled('div')`
 
 const StyledBtnContainer = styled('div')`
   margin: 24px 0;
-`;
-
-const StyledAlert = styled(Alert)`
-  margin-bottom: 32px;
-  p {
-    margin: 0 0.5em;
-  }
 `;
 
 const getPagesQuery = graphql`
@@ -56,17 +48,7 @@ const Home = ({
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Welcome</h1>
-        {!openIntake && (
-          <StyledAlert size="small" variant="warning">
-            <p>
-              New applications will be accepted after updates to ISED&lsquo;s
-              Eligibility Mapping tool are released.
-            </p>
-            <p>
-              Please check this page after <b>September 15</b> for an update.
-            </p>
-          </StyledAlert>
-        )}
+        {!openIntake && <IntakeAlert />}
         <section>
           <h3>Before you begin</h3>
           <ul>

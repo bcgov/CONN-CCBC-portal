@@ -4,11 +4,9 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { graphql } from 'react-relay';
-import Alert from '@button-inc/bcgov-theme/Alert';
-import styled from 'styled-components';
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
-import { Layout } from '../components';
+import { IntakeAlert, Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
 import { DateTime } from 'luxon';
@@ -37,13 +35,6 @@ const getDashboardQuery = graphql`
     openIntake {
       closeTimestamp
     }
-  }
-`;
-
-const StyledAlert = styled(Alert)`
-  margin-bottom: 20px;
-  p {
-    margin: 0 0.5em;
   }
 `;
 
@@ -99,15 +90,7 @@ const Dashboard = ({
             }).toLocaleString(DateTime.DATETIME_FULL)}
           </p>
         ) : (
-          <StyledAlert size="small" variant="warning">
-            <p>
-              New applications will be accepted after updates to ISED&lsquo;s
-              Eligibility Mapping tool are released.
-            </p>
-            <p>
-              Please check this page after <b>September 15</b> for an update.
-            </p>
-          </StyledAlert>
+          <IntakeAlert />
         )}
         <StyledGovButton
           onClick={handleCreateApplication}
@@ -116,7 +99,7 @@ const Dashboard = ({
           Create application
         </StyledGovButton>
       </div>
-      {hasApplications && <DashboardTable applications={query} />}
+      {hasApplications && openIntake && <DashboardTable applications={query} />}
       {!hasApplications && openIntake && <p>Applications will appear here</p>}
     </Layout>
   );
