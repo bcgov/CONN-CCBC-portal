@@ -8,6 +8,12 @@ truncate table
   ccbc_public.attachment
 restart identity;
 
+insert into
+  ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number)
+overriding system value
+values
+  (1, '2022-08-19 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver', 1);
+
 set jwt.claims.sub to 'testCcbcAuthUser';
 
 set role ccbc_auth_user;

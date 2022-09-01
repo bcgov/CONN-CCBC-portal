@@ -116,10 +116,17 @@ deploy_db_migrations: start_pg create_db
 deploy_db_migrations:
 	@$(SQITCH) --chdir db deploy
 
-deploy_dev_data: ## deploy the database migrations with sqitch and load the data for local development
+deploy_dev_data: ## deploy the database migrations with sqitch and load the data for local development and dev namespace
 deploy_dev_data: deploy_db_migrations
 deploy_dev_data:
 	@for file in $(__DIRNAME)/db/data/dev/*; do \
+		$(PSQL) -d $(DB_NAME) -f "$${file}"; \
+	done;
+
+deploy_test_data: ## deploy the database migrations with sqitch and load the data for test namespace
+deploy_test_data: deploy_db_migrations
+deploy_test_data:
+	@for file in $(__DIRNAME)/db/data/test/*; do \
 		$(PSQL) -d $(DB_NAME) -f "$${file}"; \
 	done;
 
