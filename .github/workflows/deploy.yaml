@@ -50,9 +50,17 @@ jobs:
           certbot_server: ${{ secrets.CERTBOT_SERVER }}
           environment: dev
 
-  deploy-to-openshift-test:
-    needs: [deploy-to-openshift-development]
+  ensure-sqitch-plan-ends-with-tag:
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./.bin/sqitch-last-change-is-tag.sh db
+
+  deploy-to-openshift-test:
+    needs: [deploy-to-openshift-development, ensure-sqitch-plan-ends-with-tag]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: test
       url: 'https://ccbc-test.apps.silver.devops.gov.bc.ca'
@@ -82,8 +90,9 @@ jobs:
     # Uncomment this production namespace is ready
 
   deploy-to-openshift-production:
-    needs: [deploy-to-openshift-test]
+    needs: [deploy-to-openshift-test, ensure-sqitch-plan-ends-with-tag]
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: production
       url: 'https://ccbc.apps.silver.devops.gov.bc.ca'
