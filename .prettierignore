@@ -1,2 +1,3 @@
 /helm
 *.env
+.github/ISSUE_TEMPLATE/
