@@ -26,3 +26,11 @@ Once a change is released, updating the deploy script is not possible. To update
 
 - **If the change is idempotent**, you can use the [sqitch rework](https://sqitch.org/docs/manual/sqitch-rework/) command;
 - Otherwise, you must create a new change. The naming convention should be `<name_of_original_change>_00x_<short_description_of_change>`.
+
+## `data` folder
+
+The `data` folder contains the data that we want do deploy in our various environments. The sql files contained in the `data/dev`, `data/test` and `data/prod` will be executed in our dev, test and prod environments, respectively, in lexicographic order. The files will be executed after the sqitch changes are deployed, **on every deployment**. Therefore, the changes in those files should be idempotent and should rely on the `overriding system value` and `on conflict` clauses whenever possible.
+
+In local environments, the `make deploy_dev_data`, `make deploy_test_data` and `make deploy_prod_data` can be used to deploy the sqitch changes and the data in a single command.
+
+The `data` folder is also cypress' fixtures folder, meaning that any of the scripts in it can be run in our cypress tests using commands such as `cy.sqlFixture("dev/001_intake");`

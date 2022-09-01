@@ -17,9 +17,6 @@ create trigger set_application_number_seq_name
   for each row
   execute procedure ccbc_private.create_intake_sequence();
 
-insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
-values ('2022-08-19 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver', 1);
-
 do
 $grant$
 begin
