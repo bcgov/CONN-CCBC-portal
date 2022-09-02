@@ -3,7 +3,9 @@ import { useRouter } from 'next/router';
 import type { SessionExpiryHandlerQuery } from '../__generated__/SessionExpiryHandlerQuery.graphql';
 import { graphql, fetchQuery, useRelayEnvironment } from 'react-relay';
 import { SessionTimeoutHandler } from '@bcgov-cas/sso-react';
-import config from '../config.js';
+import getConfig from "next/config";
+
+const runtimeConfig = getConfig()?.publicRuntimeConfig ?? {};
 
 const sessionQuery = graphql`
   query SessionExpiryHandlerQuery {
@@ -34,7 +36,7 @@ const SessionExpiryHandler: React.FC = () => {
   }, []);
 
   const getLogOutUrl = () => {
-    const logoutUrl = config.get('SITEMINDER_LOGOUT_URL');
+    const logoutUrl = runtimeConfig.SITEMINDER_LOGOUT_URL;
     const localRedirectURL = `${window.location.origin}/${router.asPath}`;
     return `${logoutUrl}?returl=${localRedirectURL}&retnow=1`;
   };

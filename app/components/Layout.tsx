@@ -1,9 +1,11 @@
 import Head from 'next/head';
 import Footer from '@button-inc/bcgov-theme/Footer';
 import { FooterLinks, Navigation, TimeTravel } from '.';
-import config from '../config';
+import getConfig from "next/config";
 
 import styled from 'styled-components';
+
+const runtimeConfig = getConfig()?.publicRuntimeConfig ?? {};
 
 const StyledFooter = styled(Footer)`
   bottom: 0;
@@ -33,8 +35,8 @@ type Props = {
 };
 
 const Layout: React.FC<Props> = ({ children, session, title }) => {
-  const enableTimeMachine = config.get('ENABLE_MOCK_TIME');
-  const isTestEnv = !config.get('OPENSHIFT_APP_NAMESPACE').endsWith('-prod');
+  const enableTimeMachine = runtimeConfig.ENABLE_MOCK_TIME;
+  const isTestEnv = !runtimeConfig.OPENSHIFT_APP_NAMESPACE.endsWith('-prod');
   const isLoggedIn = session?.sub;
   return (
     <>
