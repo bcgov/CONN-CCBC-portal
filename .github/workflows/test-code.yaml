@@ -91,21 +91,10 @@ jobs:
   gitleaks:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Install gitleaks
-        shell: bash
-        run: |
-          set -e;
-          wget https://github.com/zricethezav/gitleaks/releases/download/v8.11.2/gitleaks_8.11.2_linux_x64.tar.gz;
-          echo '9e68a91906ce2b781b2bb785285cbfe5ad294e80ec3bb250fb019650a5248d15  gitleaks_8.11.2_linux_x64.tar.gz' > gitleaks_8.11.2_checksums.txt;
-          shasum -a 256 gitleaks_8.11.2_checksums.txt --check;
-          tar -xvf gitleaks_8.11.2_linux_x64.tar.gz;
-      - name: Scan with gitleaks
-        shell: bash
-        run: ./gitleaks detect --exit-code 0 --report-format sarif --report-path "gitleaks.sarif"
-      - name: Upload Gitleaks scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+      - uses: actions/checkout@v3
+      - run: ./.bin/install-gitleaks-linux-x64.sh
+      - run: ./gitleaks detect --exit-code 0 --report-format sarif --report-path "gitleaks.sarif"
+      - uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'gitleaks.sarif'
 
