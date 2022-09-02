@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
 import { CalculationForm, FormBase } from '.';
-import uiSchema from '../../formSchema/uiSchema';
+import uiSchema from '../../formSchema/uiSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
