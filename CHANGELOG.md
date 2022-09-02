@@ -1,5 +1,12 @@
 
 
+## [1.0.1](https://github.com/bcgov/CONN-CCBC-portal/compare/1.0.0...1.0.1) (2022-09-02)
+
+
+### Bug Fixes
+
+* don't try to iterate on empty glob, it returns the glob itself ([a2c7f55](https://github.com/bcgov/CONN-CCBC-portal/commit/a2c7f5508500de624acdeed4d93b01066df77c87))
+
 # [1.0.0](https://github.com/bcgov/CONN-CCBC-portal/compare/coccogito-start...1.0.0) (2022-09-01)
 
 
