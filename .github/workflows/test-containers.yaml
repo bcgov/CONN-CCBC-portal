@@ -8,7 +8,7 @@ on:
       HAPPO_API_SECRET: { required: true }
 
 concurrency:
-  group: test-containers-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
