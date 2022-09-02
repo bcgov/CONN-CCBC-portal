@@ -6,14 +6,14 @@ const renderStaticLayout = () => {
 };
 
 describe('The FooterLinks component', () => {
-  it('should render Project details link title', () => {
+  it('should render Program details link title', () => {
     renderStaticLayout();
-    expect(screen.getByText('Project details'));
+    expect(screen.getByText('Program details'));
   });
 
-  it('should render the Project details link href', () => {
+  it('should render the Program details link href', () => {
     renderStaticLayout();
-    const link = screen.getByRole('link', { name: 'Project details' });
+    const link = screen.getByRole('link', { name: 'Program details' });
     expect(link).toHaveAttribute(
       'href',
       'https://www.gov.bc.ca/connectingcommunitiesbc'
