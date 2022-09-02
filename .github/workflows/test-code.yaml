@@ -11,6 +11,10 @@ on:
     secrets:
       SONAR_TOKEN: { required: true }
 
+concurrency:
+  group: test-code-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   install-test-env:
     runs-on: ubuntu-latest
