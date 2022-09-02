@@ -44,7 +44,7 @@ const TimeMachine = () => {
     // const address = window.location.href;
     if (value) {
       const mockDate = dateTimeFormat(value, 'date_year_first');
-      cookie.set('mocks.mocked_timestamp', mockDate);
+      cookie.set('mocks.mocked_timestamp', value.valueOf());
       setDate(mockDate);
     } else {
       setDate(today);
