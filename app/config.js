@@ -169,5 +169,7 @@ catch(e){
   console.log(env);
 }
 config.validate({ allowed: 'warn' });
-
+if (config.get("namespace").endsWith("-prod") && config.get("ENABLE_MOCK_TIME")) {
+  throw new Error("ENABLE_MOCK_TIME cannot be true with a -prod namespace.");
+}
 module.exports = config;
