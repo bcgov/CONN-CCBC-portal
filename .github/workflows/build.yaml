@@ -3,6 +3,10 @@ name: build
 
 on: workflow_call
 
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   REGISTRY: ghcr.io
 

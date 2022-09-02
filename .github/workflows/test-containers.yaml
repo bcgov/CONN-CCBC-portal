@@ -7,6 +7,10 @@ on:
       HAPPO_API_KEY: { required: true }
       HAPPO_API_SECRET: { required: true }
 
+concurrency:
+  group: test-containers-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   PGUSER: postgres
 
