@@ -12,7 +12,7 @@ export default function FooterLinks() {
       <StyledUl>
         <li key="0">
           <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
-            Project details
+            Program details
           </Link>
         </li>
         <li key="1">

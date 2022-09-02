@@ -504,7 +504,7 @@ context('Homepage', () => {
   });
 
   it('should render the footer', () => {
-    cy.get('footer').contains('Project details');
+    cy.get('footer').contains('Program details');
     cy.get('footer').contains('Disclaimer');
     cy.get('footer').contains('Privacy');
     cy.get('footer').contains('Accessibility');
