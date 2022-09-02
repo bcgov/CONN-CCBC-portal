@@ -36,7 +36,10 @@ type Props = {
 
 const Layout: React.FC<Props> = ({ children, session, title }) => {
   const enableTimeMachine = runtimeConfig.ENABLE_MOCK_TIME;
-  const isTestEnv = !runtimeConfig.OPENSHIFT_APP_NAMESPACE.endsWith('-prod');
+  const environment = runtimeConfig.OPENSHIFT_APP_NAMESPACE;
+  const isTestEnv = environment 
+    ? !environment.endsWith('-prod')
+    : false;
   const isLoggedIn = session?.sub;
   return (
     <>
