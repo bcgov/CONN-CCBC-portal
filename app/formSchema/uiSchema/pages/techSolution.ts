@@ -1,6 +1,12 @@
 import { MAX_TEXTAREA_LENGTH } from '../constants';
 
 const techSolution = {
+  uiOrder: [
+    'systemDesign',
+    'scalability',
+    'backboneTechnology',
+    'lastMileTechnology',
+  ],
   systemDesign: {
     'ui:widget': 'TextAreaWidget',
     'ui:description': 'maximum 3,500 characters',

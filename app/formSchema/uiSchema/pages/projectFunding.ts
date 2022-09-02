@@ -1,6 +1,25 @@
 import { MoneyWidget } from '../../../lib/theme/widgets';
 
 const projectFunding = {
+  uiOrder: [
+    'totalFundingRequestedCCBC',
+    'fundingRequestedCCBC2223',
+    'fundingRequestedCCBC2324',
+    'fundingRequestedCCBC2425',
+    'fundingRequestedCCBC2526',
+    'fundingRequestedCCBC2627',
+    'applicationContribution2223',
+    'applicationContribution2324',
+    'applicationContribution2425',
+    'applicationContribution2526',
+    'applicationContribution2627',
+    'totalApplicantContribution',
+    'infrastructureBankFunding2223',
+    'infrastructureBankFunding2324',
+    'infrastructureBankFunding2425',
+    'infrastructureBankFunding2526',
+    'totalInfrastructureBankFunding',
+  ],
   fundingRequestedCCBC2223: {
     'ui:widget': MoneyWidget,
   },

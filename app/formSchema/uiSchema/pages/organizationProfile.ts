@@ -7,6 +7,19 @@ import { IndigenousEntity } from '../../../components/Form/CustomTitles';
 import { NumberWidget } from '../../../lib/theme/widgets';
 
 const organizationProfile = {
+  uiOrder: [
+    'typeOfOrganization',
+    'organizationName',
+    'isLegalPrimaryName',
+    'isNameLegalName',
+    'isSubsidiary',
+    'isIndigenousEntity',
+    'indigenousEntityDesc',
+    'organizationOverview',
+    'orgRegistrationDate',
+    'businessNumber',
+    'bandNumber',
+  ],
   typeOfOrganization: {
     'ui:widget': 'RadioWidget',
   },

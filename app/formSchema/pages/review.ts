@@ -1,7 +1,7 @@
 const review = {
   review: {
     type: 'object',
-    title: 'Review'
+    title: 'Review',
   },
 };
 

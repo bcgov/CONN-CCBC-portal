@@ -1,6 +1,18 @@
 import { MAX_LONG_INPUT_LENGTH, EXCEL_FILE_EXTENSIONS } from '../constants';
 
 const templateUploads = {
+  uiOrder: [
+    'eligibilityAndImpactsCalculator',
+    'detailedBudget',
+    'financialForecast',
+    'lastMileIspOffering',
+    'popWholesalePricing',
+    'communityRuralDevelopmentBenefitsTemplate',
+    'wirelessAddendum',
+    'supportingConnectivityEvidence',
+    'geographicNames',
+    'equipmentDetails',
+  ],
   eligibilityAndImpactsCalculator: {
     'ui:widget': 'FileWidget',
     'ui:description': 'Template 1 - Eligibility and Impacts Calculator',

@@ -3,6 +3,11 @@ import { NumberWidget } from '../../../lib/theme/widgets';
 import { ProjectBenefits } from '../../../components/Form/CustomTitles';
 
 const benefits = {
+  uiOrder: [
+    'projectBenefits',
+    'numberOfHouseholds',
+    'householdsImpactedIndigenous',
+  ],
   projectBenefits: {
     'ui:widget': 'TextAreaWidget',
     'ui:description': 'maximum 3,500 characters',

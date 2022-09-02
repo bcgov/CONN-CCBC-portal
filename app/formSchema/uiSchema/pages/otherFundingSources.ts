@@ -1,6 +1,21 @@
 import { MoneyWidget } from '../../../lib/theme/widgets';
 
 const otherFundingSources = {
+  uiOrder: [
+    'otherFundingSources',
+    'fundingPartnersName',
+    'fundingSourceContactInfo',
+    'statusOfFunding',
+    'funderType',
+    'nameOfFundingProgram',
+    'requestedFundingPartner2223',
+    'requestedFundingPartner2324',
+    'requestedFundingPartner2425',
+    'requestedFundingPartner2526',
+    'requestedFundingPartner2627',
+    'totalRequestedFundingPartner',
+    'otherFundingSourcesArray',
+  ],
   otherFundingSources: {
     'ui:widget': 'RadioWidget',
   },

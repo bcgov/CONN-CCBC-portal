@@ -5,6 +5,24 @@ import {
 } from '../constants';
 
 const organizationLocation = {
+  uiOrder: [
+    'unitNumber',
+    'streetNumber',
+    'streetName',
+    'POBox',
+    'city',
+    'province',
+    'postalCode',
+    'isMailingAddress',
+    'mailingAddress',
+    'unitNumberMailing',
+    'streetNumberMailing',
+    'streetNameMailing',
+    'POBoxMailing',
+    'cityMailing',
+    'provinceMailing',
+    'postalCodeMailing',
+  ],
   isMailingAddress: {
     'ui:widget': 'RadioWidget',
   },

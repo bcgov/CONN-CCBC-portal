@@ -2,6 +2,15 @@ import { MAX_CONTACT_INPUT_LENGTH } from '../constants';
 import { NumberWidget } from '../../../lib/theme/widgets';
 
 const alternateContact = {
+  uiOrder: [
+    'altFamilyName',
+    'altGivenName',
+    'altPositionTitle',
+    'altEmail',
+    'altTelephone',
+    'altExtension',
+    'isAltContactSigningOfficer',
+  ],
   altFamilyName: {
     'ui:options': {
       maxLength: MAX_CONTACT_INPUT_LENGTH,
