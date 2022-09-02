@@ -23,7 +23,8 @@
       }
     },
     "hooks": {
-      "before:bump": "sqitch --chdir db tag ${version} -m 'release v${version}'"
+      "before:bump": "sqitch --chdir db tag ${version} -m 'release v${version}'",
+      "before:git:beforeRelease": "./.bin/pre-commit-format.sh CHANGELOG.md"
     }
   }
 }
