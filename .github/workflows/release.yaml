@@ -1,0 +1,28 @@
+name: release
+
+on: 
+  push:
+    tags:
+      - v1.*
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+
+  test-code:
+    uses: ./.github/workflows/test-code.yaml
+    secrets:
+      SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+
+  test-containers:
+    needs: [build]
+    uses: ./.github/workflows/test-containers.yaml
+    secrets:
+      HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+      HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+  
+  
+  deploy:
+    needs: [test-code, test-containers]
+    uses: ./.github/workflows/deploy.yaml
+    secrets: inherit
