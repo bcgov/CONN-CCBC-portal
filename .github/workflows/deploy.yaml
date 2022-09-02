@@ -51,6 +51,7 @@ jobs:
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:
+    if: startsWith( github.ref_name , 'v')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -58,6 +59,7 @@ jobs:
 
   deploy-to-openshift-test:
     needs: [deploy-to-openshift-development, ensure-sqitch-plan-ends-with-tag]
+    if: startsWith( github.ref_name , 'v')
     runs-on: ubuntu-latest
     environment:
       name: test
@@ -87,6 +89,7 @@ jobs:
 
   deploy-to-openshift-production:
     needs: [deploy-to-openshift-test, ensure-sqitch-plan-ends-with-tag]
+    if: startsWith( github.ref_name , 'v')
     runs-on: ubuntu-latest
     environment:
       name: production
