@@ -4,6 +4,14 @@ import {
   ReadOnlyWidget,
 } from '../lib/theme/widgets';
 
+import {
+  GeographicArea,
+  GeographicCoverageMap,
+  IndigenousEntity,
+  ProjectBenefits,
+  SupportingDocuments,
+} from '../components/Form/CustomTitles';
+
 const MAX_TEXTAREA_LENGTH = 3500;
 const MAX_LONG_INPUT_LENGTH = 200;
 const MAX_CONTACT_INPUT_LENGTH = 128;
@@ -179,7 +187,6 @@ const uiSchema = {
     'ui:description': 'maximum 3,500 characters',
     'ui:title':
       'Using non-technical language, provide a description of the Project, including its key elements, purpose, objectives and benefits. Identify the ‘who’, ‘what’, ‘where’, ‘when’ and ‘why’. Please avoid including Confidential or Proprietary information.',
-
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
     },
@@ -187,8 +194,8 @@ const uiSchema = {
   geographicArea: {
     'ui:widget': 'CheckboxesWidget',
     'ui:options': {
-      // Todo: set another constant or change to 200
       maxLength: 150,
+      customTitle: GeographicArea,
     },
   },
   projectSpanMultipleLocations: {
@@ -232,7 +239,7 @@ const uiSchema = {
   isIndigenousEntity: {
     'ui:widget': 'RadioWidget',
     'ui:options': {
-      label: false,
+      customTitle: IndigenousEntity,
     },
   },
   indigenousEntityDesc: {
@@ -466,21 +473,19 @@ const uiSchema = {
     'ui:description': 'maximum 3,500 characters',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
-      label: false,
+      customTitle: ProjectBenefits,
     },
   },
   numberOfHouseholds: {
     'ui:widget': NumberWidget,
     'ui:options': {
       inputType: 'wholeNumber',
-      label: false,
     },
   },
   householdsImpactedIndigenous: {
     'ui:widget': NumberWidget,
     'ui:options': {
       inputType: 'wholeNumber',
-      label: false,
     },
   },
   projectStartDate: {
@@ -523,8 +528,10 @@ const uiSchema = {
       'Copies of registration and other relevant documents related to incorporation, limited partnership, joint venture, not-for-profit status, etc.',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
-      label: false,
       allowMultipleFiles: true,
+      // Placing this custom title here as it is the top level field in
+      // supporting documents page so it will sit on top.
+      customTitle: SupportingDocuments,
     },
   },
   preparedFinancialStatements: {
@@ -571,6 +578,8 @@ const uiSchema = {
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       fileTypes: '.kmz',
+      label: false,
+      customTitle: GeographicCoverageMap,
     },
   },
   coverageAssessmentStatistics: {

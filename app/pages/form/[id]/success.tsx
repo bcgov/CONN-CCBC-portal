@@ -36,8 +36,9 @@ const getSuccessQuery = graphql`
     }
   }
 `;
-// eslint-disable-next-line @typescript-eslint/ban-types
-const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
+const Success = ({
+  preloadedQuery,
+}: RelayProps<Record<string, unknown>, successQuery>) => {
   const query = usePreloadedQuery(getSuccessQuery, preloadedQuery);
 
   const { applicationByRowId, session } = query;
@@ -57,14 +58,16 @@ const Success = ({ preloadedQuery }: RelayProps<{}, successQuery>) => {
   const projectName = applicationByRowId?.projectName;
   const { ccbcIntakeNumber, closeTimestamp } =
     applicationByRowId?.intakeByIntakeId || {};
-   
-    const dateUpdatedAt = typeof applicationByRowId.updatedAt === 'string'
-    ? new Date(applicationByRowId.updatedAt)
-    : applicationByRowId.updatedAt;
 
-    const dateCloseTimestamp = typeof closeTimestamp === 'string'
-    ? new Date(closeTimestamp)
-    : closeTimestamp;
+  const dateUpdatedAt =
+    typeof applicationByRowId.updatedAt === 'string'
+      ? new Date(applicationByRowId.updatedAt)
+      : applicationByRowId.updatedAt;
+
+  const dateCloseTimestamp =
+    typeof closeTimestamp === 'string'
+      ? new Date(closeTimestamp)
+      : closeTimestamp;
 
   return (
     <Layout session={session} title="Connecting Communities BC">

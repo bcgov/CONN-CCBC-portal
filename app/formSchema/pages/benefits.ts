@@ -14,9 +14,13 @@ const benefits = {
         type: 'string',
       },
       numberOfHouseholds: {
+        title:
+          'Final number of Eligible Households targeted by this proposal. This value should match cell G50 in Template 1 – Eligibility Summary.',
         type: 'number',
       },
       householdsImpactedIndigenous: {
+        title:
+          'Number of households on Indigenous lands impacted by this proposal. This value should match cell G55 in Template 1 – Eligibility Summary.',
         type: 'number',
       },
     },

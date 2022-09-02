@@ -6,5 +6,4 @@ echo "Deploying application tools to openshift $*"
 
 cd helm/tools
 helm dep up
-helm upgrade --install --atomic -f ./values.yaml "$@" \
-  ccbc-tools . --debug
+helm upgrade --install --atomic -f ./values.yaml "$@" ccbc-tools .

@@ -2,5 +2,6 @@
   "video": false,
   "screenshot": false,
   "baseUrl": "http://localhost:3000/applicantportal",
-  "pageLoadTimeout": 100000
+  "pageLoadTimeout": 100000,
+  "fixturesFolder": "../db/data"
 }

@@ -1,9 +1,9 @@
-import { LoginForm } from '../components';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import { ButtonLink, Layout } from '../components';
+import Link from '@button-inc/bcgov-theme/Link';
+import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
 import styled from 'styled-components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
 
@@ -30,24 +30,35 @@ const getPagesQuery = graphql`
     session {
       sub
     }
+    openIntake {
+      openTimestamp
+    }
   }
 `;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
-  const { session } = usePreloadedQuery(getPagesQuery, preloadedQuery);
+const Home = ({
+  preloadedQuery,
+}: RelayProps<Record<string, unknown>, pagesQuery>) => {
+  const { openIntake, session } = usePreloadedQuery(
+    getPagesQuery,
+    preloadedQuery
+  );
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Welcome</h1>
+        {!openIntake && <IntakeAlert />}
         <section>
           <h3>Before you begin</h3>
           <ul>
             <li>
-              Refer to program details for the application materials and full
-              information about the Connecting Communities British Columbia
-              (CCBC) program.
+              Refer to{' '}
+              <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
+                program details
+              </Link>{' '}
+              for the application materials and full information about the
+              Connecting Communities British Columbia (CCBC) program.
             </li>
           </ul>
         </section>
@@ -62,7 +73,11 @@ const Home = ({ preloadedQuery }: RelayProps<{}, pagesQuery>) => {
             <>
               <p>
                 Login with a Business BCeID or Basic BCeID. If you do not have a
-                BCeID, please register for a Basic BCeID.
+                BCeID, please{' '}
+                <Link href="https://www.bceid.ca/os/?7770&SkipTo=Basic">
+                  register for a Basic BCeID
+                </Link>
+                .
               </p>
               <StyledBtnContainer>
                 <LoginForm />

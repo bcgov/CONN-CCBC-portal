@@ -140,6 +140,16 @@ spec:
             - |
               set -euox pipefail;
               sqitch deploy;
+              if [[ "$NAMESPACE" == *-dev ]]; then
+                for file in data/dev/*.sql; do
+                  psql -v "ON_ERROR_STOP=1" -f "${file}";
+                done;
+              fi;
+              if [[ "$NAMESPACE" == *-test ]]; then
+                for file in data/test/*.sql; do
+                  psql -v "ON_ERROR_STOP=1" -f "${file}";
+                done;
+              fi;
       containers:
         - name: {{ template "ccbc.fullname" . }}
           image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Footer from '@button-inc/bcgov-theme/Footer';
 import { FooterLinks, Navigation, TimeTravel } from '.';
+import config from '../config';
 
 import styled from 'styled-components';
 
@@ -32,6 +33,7 @@ type Props = {
 };
 
 const Layout: React.FC<Props> = ({ children, session, title }) => {
+  const isTestEnv = !config.get('OPENSHIFT_APP_NAMESPACE').endsWith('-prod');
   const isLoggedIn = session?.sub;
   return (
     <>
@@ -65,8 +67,9 @@ const Layout: React.FC<Props> = ({ children, session, title }) => {
       </Head>
       <Navigation isLoggedIn={isLoggedIn} />
       <StyledMain>{children}</StyledMain>
-      <TimeTravel />
-
+      {isTestEnv &&
+        <TimeTravel />
+      }
       <StyledFooter>
         <StyledDiv>
           <FooterLinks />

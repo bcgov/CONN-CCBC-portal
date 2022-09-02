@@ -9,6 +9,7 @@ import PostgraphileRc from '../../../.postgraphilerc';
 import { pgPool, getDatabaseUrl } from '../setup-pg';
 import { PostGraphileOptions } from 'postgraphile';
 import authenticationPgSettings from './authenticationPgSettings';
+import {TagsFilePlugin} from 'postgraphile/plugins'
 
 import { generateDatabaseMockOptions } from "./helpers";
 import { graphql, GraphQLSchema } from 'graphql';
@@ -28,7 +29,7 @@ let postgraphileOptions: PostGraphileOptions = {
   appendPlugins: [
     // PgManyToManyPlugin,
     // ConnectionFilterPlugin,
-    // TagsFilePlugin,
+    TagsFilePlugin,
     PostGraphileUploadFieldPlugin,
     // PgOmitArchived,
     // PgOrderByRelatedPlugin,

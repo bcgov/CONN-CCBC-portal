@@ -12,7 +12,9 @@ declare
   application_status varchar;
 begin
 
-  select status from ccbc_public.application where id = application_row_id into application_status;
+  select ccbc_public.application_status(
+    (select row(ccbc_public.application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id)
+    ) into application_status;
 
   if application_status = 'submitted' then
     return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);
@@ -31,8 +33,10 @@ begin
 
   select nextval(seq_name) into reference_number;
 
+  insert into ccbc_public.application_status 
+    (application_id, status) values (application_row_id, 'submitted');
+
   update ccbc_public.application set
-    status = 'submitted',
     intake_id = current_intake_id,
     ccbc_number = format(
       'CCBC-%s%s', lpad(current_intake_number::text , 2, '0'),

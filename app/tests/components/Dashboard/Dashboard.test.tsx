@@ -214,17 +214,11 @@ describe('The Dashboard', () => {
     const withdrawModalBtn = screen.getByTestId('withdraw-yes-btn');
     await user.click(withdrawModalBtn);
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          applicationPatch: {
-            status: 'withdrawn',
-          },
-          id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
-        },
-      }
-    );
+    componentTestingHelper.expectMutationToBeCalled('withdrawApplicationMutation', {
+      input: {
+        applicationRowId: 2,
+      },
+    });
   });
 
   it('Renders a submitted application with the intake closed', () => {

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import { dateTimeFormat } from '../lib/theme/functions/formatDates';
 import cookie from 'js-cookie';
+import { DateTime } from 'luxon';
 
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -36,16 +37,17 @@ const StyledDatePicker = styled(ReactDatePicker)`
 `;
 
 const TimeMachine = () => {
-  const [date, setDate] = useState(cookie.get('mocks.mocked_timestamp') || '');
+  const today = DateTime.now().toFormat('yyyy-MM-dd');
+  const [date, setDate] = useState(cookie.get('mocks.mocked_timestamp') || today);
 
   const setMockDate = (value: any) => {
     // const address = window.location.href;
     if (value) {
-      console.log('setting mock date');
-      cookie.set('mocks.mocked_timestamp', value);
-      setDate(dateTimeFormat(value, 'date_year_first'));
+      const mockDate = dateTimeFormat(value, 'date_year_first');
+      cookie.set('mocks.mocked_timestamp', mockDate);
+      setDate(mockDate);
     } else {
-      setDate('');
+      setDate(today);
       cookie.remove('mocks.mocked_timestamp');
     }
     // window.location.href = address;

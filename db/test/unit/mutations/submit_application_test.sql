@@ -1,6 +1,6 @@
 begin;
 
-select plan(6);
+select plan(9);
 
 select has_function(
   'ccbc_public', 'submit_application', ARRAY['int'],
@@ -9,13 +9,20 @@ select has_function(
 
 delete from ccbc_public.intake;
 
-insert into ccbc_public.application(id, form_data, status, owner) overriding system value
+set jwt.claims.sub to '00000000-0000-0000-0000-000000000000';
+insert into ccbc_public.application(id, form_data, owner) overriding system value
 values
-  (1, '{}', 'draft', '00000000-0000-0000-0000-000000000000'),
-  (2, '{}', 'submitted', '00000000-0000-0000-0000-000000000000'),
-  (3, '{}', 'withdrawn', '00000000-0000-0000-0000-000000000000'),
-  (4, '{}', 'draft', '00000000-0000-0000-0000-000000000000');
+  (1, '{}', '00000000-0000-0000-0000-000000000000'),
+  (2, '{}', '00000000-0000-0000-0000-000000000000'),
+  (3, '{}', '00000000-0000-0000-0000-000000000000'),
+  (4, '{}', '00000000-0000-0000-0000-000000000000');
 
+insert into ccbc_public.application_status(application_id, status)
+values
+  (1, 'draft'),
+  (2, 'submitted'),
+  (3, 'withdrawn'),
+  (4, 'draft');
 
 select throws_like(
   $$
@@ -39,7 +46,11 @@ select throws_like(
 
 select results_eq(
   $$
-    select id, ccbc_number, status, intake_id from ccbc_public.submit_application(2)
+    select application.id, application.ccbc_number, application_status.status , application.intake_id
+    from ccbc_public.submit_application(2) as application,
+     ccbc_public.application_status as application_status
+     where application.id = application_status.application_id
+     and application_status.status='submitted'
   $$,
   $$
     values (2, null::varchar, 'submitted'::varchar, null::int)
@@ -49,22 +60,43 @@ select results_eq(
 
 select results_eq(
   $$
-    select id, ccbc_number, status, intake_id from ccbc_public.submit_application(1)
+    select id, ccbc_number, intake_id from ccbc_public.submit_application(1)
   $$,
   $$
-    values (1, 'CCBC-100001'::varchar, 'submitted'::varchar, 42)
+    values (1, 'CCBC-100001'::varchar, 42)
   $$,
   'Returns the application with an intake number if in draft'
 );
 
 select results_eq(
   $$
-    select id, ccbc_number, status, intake_id from ccbc_public.submit_application(4)
+    select application_id, status from ccbc_public.application_status
+      where application_id=1 and status='submitted'
   $$,
   $$
-    values (4, 'CCBC-100002'::varchar, 'submitted'::varchar, 42)
+    values (1, 'submitted'::varchar)
+  $$,
+  'An application has been updated to submitted after'
+);
+
+select results_eq(
+  $$
+    select id, ccbc_number, intake_id from ccbc_public.submit_application(4)
+  $$,
+  $$
+    values (4, 'CCBC-100002'::varchar, 42)
   $$,
   'Increases the ccbc number when submitting applications'
+);
+
+select function_privs_are(
+  'ccbc_public', 'submit_application', ARRAY['int']::text[], 'ccbc_auth_user', ARRAY['EXECUTE'],
+  'ccbc_auth_user can execute ccbc_public.submit_application(int)'
+);
+
+select function_privs_are(
+  'ccbc_public', 'submit_application', ARRAY['int'], 'ccbc_guest', ARRAY[]::text[],
+  'ccbc_guest cannot execute ccbc_public.submit_application(int)'
 );
 
 select finish();

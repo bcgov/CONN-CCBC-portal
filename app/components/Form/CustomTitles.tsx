@@ -1,3 +1,5 @@
+import Link from '@button-inc/bcgov-theme/Link';
+
 const ProjectBenefits = () => {
   return (
     <div>
@@ -53,27 +55,56 @@ const IndigenousEntity = () => {
   );
 };
 
-const NumberOfHouseholds = () => {
+const GeographicArea = () => {
   return (
     <div>
-      Final number of Eligible Households targeted by this proposal. This value
-      should match cell G50 in Template 1 – Eligibility Summary.
+      Referring to the{' '}
+      <Link
+        href="https://catalogue.data.gov.bc.ca/dataset/8fbfc57f-4381-4a10-a4e8-0f335c6fe39a/resource/e12440ae-0b5d-40dc-af4f-2098f0b9374f"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        project zones
+      </Link>{' '}
+      (application guide Annex 6), which zone(s) will this project be conducted
+      in?
     </div>
   );
 };
 
-const HouseholdsImpactedIndigenous = () => {
+const SupportingDocuments = () => {
   return (
     <div>
-      Number of households on Indigenous lands impacted by this proposal. This
-      value should match cell G55 in Template 1 – Eligibility Summary.
+      Please upload additional attachments. Please avoid using special
+      characters in the file name. Files must be less than 100mb. If you must
+      submit a file larger than this, please contact{' '}
+      <Link href="mailto:connectingcommunitiesbc@gov.bc.ca">
+        connectingcommunitiesbc@gov.bc.ca
+      </Link>
+    </div>
+  );
+};
+
+const GeographicCoverageMap = () => {
+  return (
+    <div>
+      Use ISED&lsquo;s{' '}
+      <Link
+        href="https://www.ic.gc.ca/app/scr/sittibc/web"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Eligibility Mapping Tool
+      </Link>{' '}
+      to generate the Project Coverage for this application.
     </div>
   );
 };
 
 export {
-  HouseholdsImpactedIndigenous,
+  GeographicArea,
+  GeographicCoverageMap,
   IndigenousEntity,
-  NumberOfHouseholds,
   ProjectBenefits,
+  SupportingDocuments,
 };

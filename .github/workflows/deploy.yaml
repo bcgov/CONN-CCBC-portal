@@ -50,8 +50,14 @@ jobs:
           certbot_server: ${{ secrets.CERTBOT_SERVER }}
           environment: dev
 
+  ensure-sqitch-plan-ends-with-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./.bin/sqitch-last-change-is-tag.sh db
+
   deploy-to-openshift-test:
-    needs: [deploy-to-openshift-development]
+    needs: [deploy-to-openshift-development, ensure-sqitch-plan-ends-with-tag]
     runs-on: ubuntu-latest
     environment:
       name: test
@@ -79,10 +85,8 @@ jobs:
           certbot_server: ${{ secrets.CERTBOT_SERVER }}
           environment: test
 
-    # Uncomment this production namespace is ready
-
   deploy-to-openshift-production:
-    needs: [deploy-to-openshift-test]
+    needs: [deploy-to-openshift-test, ensure-sqitch-plan-ends-with-tag]
     runs-on: ubuntu-latest
     environment:
       name: production

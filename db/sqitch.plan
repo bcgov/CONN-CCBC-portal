@@ -1,9 +1,10 @@
 %syntax-version=1.0.0
 %project=ccbc
 
-create_roles 2022-04-11T23:46:54Z marcel <mlmueller@protonmail.com> # Add create_roles
-schemas/public 2022-04-11T22:30:24Z marcel <mlmueller@protonmail.com> # Add main ccbc schema
-schemas/private 2022-04-11T23:55:16Z marcel <mlmueller@protonmail.com> # Add private schema
+revoke_function_execute 2022-09-01T16:03:01Z Matthieu Foucault <matthieu@button.is> # revoke default function execution permission
+create_roles 2022-04-11T23:46:54Z Marcel Mueller <marcel@button.is> # Add create_roles
+schemas/public 2022-04-11T22:30:24Z Marcel Mueller <marcel@button.is> # Add main ccbc schema
+schemas/private 2022-04-11T23:55:16Z Marcel Mueller <marcel@button.is> # Add private schema
 schemas/mocks 2022-08-30T22:06:25Z ,,, <vb@vbpro> # Add mock schema
 types/keycloak_jwt [schemas/public] 2022-05-26T20:39:57Z Bryan Krauss <bryan@button.is> # keycloak jwt type
 util_functions/upsert_policy [create_roles] 2022-05-26T22:06:05Z Bryan Krauss <bryan@button.is> # util function for working with RLS
@@ -21,8 +22,13 @@ trigger_functions/create_intake_sequence 2022-08-23T16:32:25Z Matthieu Foucault 
 tables/intake [trigger_functions/create_intake_sequence] 2022-07-22T15:27:16Z Anthony Bushara <anthony@button.is> # Creates the intake table
 tables/application [tables/intake] 2022-04-11T22:31:16Z Marcel Mueller <marcel@button.is> # Add application table to store application data
 computed_columns/application_project_name [tables/application] 2022-07-15T16:39:24Z Anthony Bushara <anthony@button.is> # Exposes Application Name as Computed Column
+tables/application_status_type 2022-08-29T18:35:18Z Anthony Bushara <anthony@button.is> # Types of Statuses assignable to an application
 tables/application_status 2022-07-08T13:27:08Z Marcel Mueller <marcel@button.is> # add table application_status
 tables/attachment [tables/application] 2022-07-07T23:19:04Z Marcel Mueller <marcel@button.is> # add table attachment
 functions/open_intake 2022-08-16T13:48:54Z Anthony Bushara <anthony@button.is> # Function to display the current open intake
 mutations/submit_application 2022-08-23T17:18:10Z Matthieu Foucault <matthieu@button.is> # create a mutation to submit an application
-
+computed_columns/application_status [tables/application_status] 2022-08-30T22:06:26Z Anthony Bushara <anthony@button.is> # Computed column to display the current status of an application
+mutations/withdraw_application [tables/application_status tables/application] 2022-08-30T22:38:37Z Anthony Bushara <anthony@button.is> # Mutation to withdraw an application
+mutations/create_application 2022-08-31T16:16:23Z Anthony Bushara <anthony@button.is> # Creates a new application
+@1.0.0 2022-09-01T23:42:33Z Matthieu Foucault <matthieu@button.is> # release v1.0.0
+@1.0.1 2022-09-02T00:40:17Z Matthieu Foucault <matthieu@button.is> # release v1.0.1

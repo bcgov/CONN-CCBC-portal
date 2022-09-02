@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import cookie from 'js-cookie';
+import { DateTime } from 'luxon';
 import { Modal, StatusPill, Withdraw, X } from '.';
 import { dashboardQuery$data } from '../../__generated__/dashboardQuery.graphql';
 import schema from '../../formSchema/schema';
@@ -58,7 +60,7 @@ type Props = {
 };
 
 const Table = ({ applications }: Props) => {
-  const [withdrawId, setWithdrawId] = useState('');
+  const [withdrawId, setWithdrawId] = useState<null | number>(null);
 
   const applicationNodes = applications.allApplications.nodes;
   const router = useRouter();
@@ -105,9 +107,14 @@ const Table = ({ applications }: Props) => {
 
             const lastEditedIndex = formPages.indexOf(lastEditedPage) + 1;
 
+            const today = Date.now();
+            const mockDate = cookie.get('mocks.mocked_timestamp');
+            const currentDate = (mockDate && mockDate !== '') 
+              ? Date.parse(mockDate) 
+              : today;
             const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
             const isIntakeClosed = intakeClosingDate
-              ? Date.parse(intakeClosingDate) < Date.now()
+              ? Date.parse(intakeClosingDate) < currentDate
               : false;
 
             const isWithdrawn = application.status === 'withdrawn';
@@ -142,7 +149,7 @@ const Table = ({ applications }: Props) => {
                     </Link>
                     {isSubmitted && !isIntakeClosed && (
                       <div
-                        onClick={() => setWithdrawId(application.id)}
+                        onClick={() => setWithdrawId(rowId)}
                         data-testid="withdraw-btn-test"
                       >
                         <Withdraw />
