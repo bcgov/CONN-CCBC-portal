@@ -38,17 +38,19 @@ const StyledDatePicker = styled(ReactDatePicker)`
 
 const TimeMachine = () => {
   const today = DateTime.now().toFormat('yyyy-MM-dd');
-  const [date, setDate] = useState(cookie.get('mocks.mocked_timestamp') || today);
+  const [date, setDate] = useState(cookie.get('mocks.mocked_date') || today);
 
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   const setMockDate = (value: any) => { 
     if (value) {
       const mockDate = dateTimeFormat(value, 'date_year_first');
       cookie.set('mocks.mocked_timestamp', value.valueOf());
+      cookie.set('mocks.mocked_date', mockDate);
       setDate(mockDate);
     } else {
       setDate(today);
       cookie.remove('mocks.mocked_timestamp');
+      cookie.remove('mocks.mocked_date');
     }
   };
   return (
