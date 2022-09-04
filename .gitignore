@@ -5,3 +5,5 @@ Infrastructure/.terraform/
 
 app/__generated__/
 helm/**/charts
+.bin/gitleaks
+gitleaks
