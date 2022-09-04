@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import cookie from 'js-cookie';
-import { DateTime } from 'luxon';
 import { Modal, StatusPill, Withdraw, X } from '.';
 import { dashboardQuery$data } from '../../__generated__/dashboardQuery.graphql';
 import schema from '../../formSchema/schema';

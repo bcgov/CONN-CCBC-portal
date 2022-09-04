@@ -40,8 +40,8 @@ const TimeMachine = () => {
   const today = DateTime.now().toFormat('yyyy-MM-dd');
   const [date, setDate] = useState(cookie.get('mocks.mocked_timestamp') || today);
 
-  const setMockDate = (value: any) => {
-    // const address = window.location.href;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  const setMockDate = (value: any) => { 
     if (value) {
       const mockDate = dateTimeFormat(value, 'date_year_first');
       cookie.set('mocks.mocked_timestamp', value.valueOf());
@@ -50,7 +50,6 @@ const TimeMachine = () => {
       setDate(today);
       cookie.remove('mocks.mocked_timestamp');
     }
-    // window.location.href = address;
   };
   return (
     <StyledContainer>
