@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -xeuo pipefail;
 
-version="8.11.2";
+version="8.12.0";
 releases_api="https://api.github.com/repos/zricethezav/gitleaks/releases/latest";
 releases_json="$(curl -s ${releases_api})";
 
