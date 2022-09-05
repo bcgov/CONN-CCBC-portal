@@ -1,6 +1,6 @@
 const calculateEmployment = (people, hours, months) => {
   const result = people * (hours / 35) * (months / 12);
-  return Number(result.toFixed(1)) || null;
+  return Number(result.toFixed(1)) || Number(result.toFixed(2)) || null;
 };
 
 const calculateProjectEmployment = (formData) => {
@@ -8,7 +8,7 @@ const calculateProjectEmployment = (formData) => {
   const hours = Number(formData.hoursOfEmploymentPerWeek) || 0;
   const months = Number(formData.personMonthsToBeCreated) || 0;
 
-  formData.estimatedFTECreation = calculateEmployment(people, hours, months);
+  formData.estimatedFTECreation = calculateEmployment(people, hours, months) || 0;
   return formData;
 };
 
