@@ -30,16 +30,6 @@ spec:
               secretKeyRef:
                 key: password
                 name: ccbc-pguser-postgres
-          - name: PGUSER_OWNER
-            valueFrom:
-              secretKeyRef:
-                key: database-owner-user
-                name: {{ template "ccbc.fullname" . }}
-          - name: PGPASSWORD_OWNER
-            valueFrom:
-              secretKeyRef:
-                key: database-owner-password
-                name: {{ template "ccbc.fullname" . }}
           - name: DATABASE_NAME
             valueFrom:
               secretKeyRef:
