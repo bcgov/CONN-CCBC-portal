@@ -62,7 +62,6 @@ objectStorage:
 db:
   name: ccbc
   appUser: ccbc_app
-  ownerUser: ccbc
   readonlyUser: ccbc_readonly
   preInitCommand: ''
 autoscaling:
