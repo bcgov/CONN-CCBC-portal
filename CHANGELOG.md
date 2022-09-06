@@ -1,5 +1,22 @@
 
 
+# [1.1.0](https://github.com/bcgov/CONN-CCBC-portal/compare/1.0.1...1.1.0) (2022-09-06)
+
+
+### Bug Fixes
+
+* bump version of gitleaks ([eb4ecdd](https://github.com/bcgov/CONN-CCBC-portal/commit/eb4ecdd2d9691cf8cdd80175886ddb1372a3e4dd))
+* FTE field formatting ([afd19f1](https://github.com/bcgov/CONN-CCBC-portal/commit/afd19f11555ff65c4102a761d7f9468af48a5d7a))
+* pgbackrest retention should be quoted ([e4daa4b](https://github.com/bcgov/CONN-CCBC-portal/commit/e4daa4b37acf79939aaf21b79340a7592d053b9d))
+* secret should be installed before upgrade ([0abb31b](https://github.com/bcgov/CONN-CCBC-portal/commit/0abb31b603f3d605c8fbc829f7722d65d410251d))
+
+
+### Features
+
+* increase backup storage and retention policy ([9fe7402](https://github.com/bcgov/CONN-CCBC-portal/commit/9fe7402919dde4a21d30929fd33af3b55417be94))
+* increase data volume size to 2Gi ([65a4076](https://github.com/bcgov/CONN-CCBC-portal/commit/65a4076d64acadb0748165e819655747ebfa66b5))
+* increase trivy timeout ([45732a4](https://github.com/bcgov/CONN-CCBC-portal/commit/45732a410cfb3e4dabf08039315b9d714cd80791))
+
 ## [1.0.1](https://github.com/bcgov/CONN-CCBC-portal/compare/1.0.0...1.0.1) (2022-09-02)
 
 
