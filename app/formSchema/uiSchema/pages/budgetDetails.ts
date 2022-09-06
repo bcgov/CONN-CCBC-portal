@@ -1,7 +1,8 @@
 import { MoneyWidget } from '../../../lib/theme/widgets';
 
 const budgetDetails = {
-  uiOrder: ['totalEligibleCosts', 'totalProjectCost'],
+  'ui:order': ['totalEligibleCosts', 'totalProjectCost'],
+  'ui:title': '',
   totalEligibleCosts: {
     'ui:widget': MoneyWidget,
     'ui:subtitle': 'Estimated direct employees',

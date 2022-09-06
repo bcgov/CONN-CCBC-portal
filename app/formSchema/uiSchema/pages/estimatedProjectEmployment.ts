@@ -1,7 +1,7 @@
 import { NumberWidget, ReadOnlyWidget } from '../../../lib/theme/widgets';
 
 const estimatedProjectEmployment = {
-  uiOrder: [
+  'ui:order': [
     'currentEmployment',
     'numberOfEmployeesToWork',
     'hoursOfEmploymentPerWeek',
@@ -12,6 +12,7 @@ const estimatedProjectEmployment = {
     'contractorPersonMonthsToBeCreated',
     'estimatedFTEContractorCreation',
   ],
+  'ui:title': '',
   currentEmployment: {
     'ui:widget': NumberWidget,
     'ui:options': {

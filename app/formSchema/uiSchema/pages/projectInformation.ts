@@ -1,7 +1,12 @@
 import { MAX_LONG_INPUT_LENGTH, MAX_TEXTAREA_LENGTH } from '../constants';
 
 const projectInformation = {
-  uiOrder: ['projectTitle', 'geographicAreaDescription', 'projectDescription'],
+  'ui:order': [
+    'projectTitle',
+    'geographicAreaDescription',
+    'projectDescription',
+  ],
+  'ui:title': '',
   projectTitle: {
     'ui:description': 'maximum 200 characters',
     'ui:title':

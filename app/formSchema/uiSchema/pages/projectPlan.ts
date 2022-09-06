@@ -1,7 +1,7 @@
 import { MAX_TEXTAREA_LENGTH } from '../constants';
 
 const projectPlan = {
-  uiOrder: [
+  'ui:order': [
     'projectStartDate',
     'projectCompletionDate',
     'relationshipManagerApplicant',
@@ -9,6 +9,7 @@ const projectPlan = {
     'overviewOfProjectParticipants',
     'operationalPlan',
   ],
+  'ui:title': '',
   projectStartDate: {
     'ui:widget': 'DatePickerWidget',
   },

@@ -5,7 +5,7 @@ import {
 } from '../constants';
 
 const organizationLocation = {
-  uiOrder: [
+  'ui:order': [
     'unitNumber',
     'streetNumber',
     'streetName',
@@ -23,6 +23,7 @@ const organizationLocation = {
     'provinceMailing',
     'postalCodeMailing',
   ],
+  'ui:title': '',
   isMailingAddress: {
     'ui:widget': 'RadioWidget',
   },

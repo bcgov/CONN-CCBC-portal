@@ -1,12 +1,13 @@
 import { NumberWidget } from '../../../lib/theme/widgets';
 
 const contactInformation = {
-  uiOrder: [
+  'ui:order': [
     'contactTelephoneNumber',
     'contactExtension',
     'contactEmail',
     'contactWebsite',
   ],
+  'ui:title': '',
   contactEmail: {
     'ui:options': {
       inputType: 'email',

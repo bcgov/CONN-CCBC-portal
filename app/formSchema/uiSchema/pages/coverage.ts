@@ -2,12 +2,13 @@ import { EXCEL_FILE_EXTENSIONS, MAX_LONG_INPUT_LENGTH } from '../constants';
 import { GeographicCoverageMap } from '../../../components/Form/CustomTitles';
 
 const coverage = {
-  uiOrder: [
+  'ui:order': [
     'geographicCoverageMap',
     'coverageAssessmentStatistics',
     'currentNetworkInfastructure',
     'upgradedNetworkInfrastructure',
   ],
+  'ui:title': '',
   geographicCoverageMap: {
     'ui:widget': 'FileWidget',
     'ui:description': `Geographic coverage map from ISED's Eligibility Mapping Tool. KMZ is required.`,

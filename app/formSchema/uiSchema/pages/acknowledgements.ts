@@ -1,7 +1,7 @@
 const acknowledgements = {
-  uiOrder: ['acknowledgementsList'],
+  'ui:order': ['acknowledgementsList'],
   acknowledgementsList: {
-    'ui:title': ` `,
+    'ui:title': '',
     'ui:widget': 'CheckboxesWidget',
   },
 };

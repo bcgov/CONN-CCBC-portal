@@ -1,10 +1,11 @@
 const existingNetworkCoverage = {
-  uiOrder: [
+  'ui:order': [
     'hasProvidedExitingNetworkCoverage',
     'hasPassiveInfrastructure',
     'isInfrastuctureAvailable',
     'requiresThirdPartyInfrastructureAccess',
   ],
+  'ui:title': '',
   hasProvidedExitingNetworkCoverage: {
     'ui:widget': 'RadioWidget',
   },

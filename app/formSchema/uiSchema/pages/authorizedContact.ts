@@ -2,7 +2,7 @@ import { MAX_CONTACT_INPUT_LENGTH } from '../constants';
 import { NumberWidget } from '../../../lib/theme/widgets';
 
 const authorizedContact = {
-  uiOrder: [
+  'ui:order': [
     'authFamilyName',
     'authGivenName',
     'authPositionTitle',
@@ -11,6 +11,7 @@ const authorizedContact = {
     'authExtension',
     'isAuthContactSigningOfficer',
   ],
+  'ui:title': '',
   isAuthContactSigningOfficer: {
     'ui:widget': 'RadioWidget',
   },

@@ -2,7 +2,7 @@ import { MAX_LONG_INPUT_LENGTH, EXCEL_FILE_EXTENSIONS } from '../constants';
 import { SupportingDocuments } from '../../../components/Form/CustomTitles';
 
 const supportingDocuments = {
-  uiOrder: [
+  'ui:order': [
     'copiesOfRegistration',
     'preparedFinancialStatements',
     'logicalNetworkDiagram',
@@ -10,6 +10,7 @@ const supportingDocuments = {
     'communityRuralDevelopmentBenefits',
     'otherSupportingMaterials',
   ],
+  'ui:title': '',
   copiesOfRegistration: {
     'ui:widget': 'FileWidget',
     'ui:description':

@@ -1,7 +1,7 @@
 import { MoneyWidget } from '../../../lib/theme/widgets';
 
 const projectFunding = {
-  uiOrder: [
+  'ui:order': [
     'totalFundingRequestedCCBC',
     'fundingRequestedCCBC2223',
     'fundingRequestedCCBC2324',
@@ -20,6 +20,7 @@ const projectFunding = {
     'infrastructureBankFunding2526',
     'totalInfrastructureBankFunding',
   ],
+  'ui:title': '',
   fundingRequestedCCBC2223: {
     'ui:widget': MoneyWidget,
   },

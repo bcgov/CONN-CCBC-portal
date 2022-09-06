@@ -1,4 +1,5 @@
 const review = {
+  'ui:title': '',
   review: {
     'ui:field': 'ReviewField',
   },
