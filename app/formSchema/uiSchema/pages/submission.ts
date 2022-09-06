@@ -6,11 +6,9 @@ const submission = {
     'submissionTitle',
   ],
   'ui:title': '',
-  submission: {
-    'ui:field': 'SubmissionField',
-    submissionDate: {
-      'ui:widget': 'DatePickerWidget',
-    },
+  'ui:field': 'SubmissionField',
+  submissionDate: {
+    'ui:widget': 'DatePickerWidget',
   },
 };
 
