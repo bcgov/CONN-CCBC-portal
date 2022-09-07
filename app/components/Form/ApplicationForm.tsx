@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
 import { CalculationForm, FormBase } from '.';
-import uiSchema from '../../formSchema/uiSchema';
+import uiSchema from '../../formSchema/uiSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
@@ -371,7 +371,7 @@ const ApplicationForm: React.FC<Props> = ({
         onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
         formData={formData[sectionName]}
         schema={sectionSchema}
-        uiSchema={uiSchema}
+        uiSchema={uiSchema[sectionName]}
         // Todo: validate entire form on completion
         noValidate={true}
         disabled={isWithdrawn}
@@ -387,7 +387,7 @@ const ApplicationForm: React.FC<Props> = ({
         onCalculate={updateAreAllAcknowledgementFieldsSet}
         formData={formData[sectionName]}
         schema={sectionSchema}
-        uiSchema={uiSchema}
+        uiSchema={uiSchema[sectionName]}
         noValidate={true}
         disabled={isWithdrawn}
       >
@@ -431,7 +431,7 @@ const ApplicationForm: React.FC<Props> = ({
           onChange={handleChange}
           formData={formData[sectionName]}
           schema={sectionSchema as JSONSchema7}
-          uiSchema={review ? uiSchema[sectionName] : uiSchema}
+          uiSchema={uiSchema[sectionName]}
           // Todo: validate entire form on completion
           noValidate={true}
           disabled={isWithdrawn}
