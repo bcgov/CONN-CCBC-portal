@@ -11,6 +11,7 @@ import { DashboardTable } from '../components/Dashboard';
 import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
 import { DateTime } from 'luxon';
 import cookie from 'js-cookie';
+import checkIntakeValidity from '../utils/intakeHelper';
 
 const getDashboardQuery = graphql`
   query dashboardQuery($formOwner: ApplicationCondition!) {
@@ -34,6 +35,7 @@ const getDashboardQuery = graphql`
       sub
     }
     openIntake {
+      openTimestamp
       closeTimestamp
     }
   }
@@ -45,14 +47,8 @@ const Dashboard = ({
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
   const { allApplications, session, openIntake } = query;
 
-  const closeTimestamp = openIntake?.closeTimestamp;
-  const today = Date.now();
-  const mockDate = cookie.get('mocks.mocked_timestamp');
-  const currentDate = mockDate ?? today;
-    
-  const isIntakeClosed = closeTimestamp
-    ? Date.parse(closeTimestamp) < currentDate
-    : false;
+  const mockDate = cookie.get('mocks.mocked_timestamp');    
+  const isIntakeOpen = checkIntakeValidity(openIntake?.openTimestamp, openIntake?.closeTimestamp, mockDate);
 
   const sub: string = session?.sub;
 
@@ -88,11 +84,11 @@ const Dashboard = ({
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Dashboard</h1>
-        {closeTimestamp && !isIntakeClosed ? (
+        {openIntake?.closeTimestamp && isIntakeOpen ? (
           <p>
             Start a new application; applications can be saved and edited until
             the intake closes on{' '}
-            {DateTime.fromISO(closeTimestamp, {
+            {DateTime.fromISO(openIntake?.closeTimestamp, {
               locale: 'en-CA',
               zone: 'America/Vancouver',
             }).toLocaleString(DateTime.DATETIME_FULL)}
@@ -102,7 +98,7 @@ const Dashboard = ({
         )}
         <StyledGovButton
           onClick={handleCreateApplication}
-          disabled={isIntakeClosed}
+          disabled={!isIntakeOpen}
         >
           Create application
         </StyledGovButton>

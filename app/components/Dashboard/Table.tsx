@@ -6,6 +6,7 @@ import cookie from 'js-cookie';
 import { Modal, StatusPill, Withdraw, X } from '.';
 import { dashboardQuery$data } from '../../__generated__/dashboardQuery.graphql';
 import schema from '../../formSchema/schema';
+import checkIntakeValidity from '../../utils/intakeHelper';
 
 const StyledTable = styled('table')`
   margin-bottom: 0px;
@@ -106,23 +107,17 @@ const Table = ({ applications }: Props) => {
 
             const lastEditedIndex = formPages.indexOf(lastEditedPage) + 1;
 
-            const today = Date.now();
-            const mockDate = cookie.get('mocks.mocked_timestamp');
-            const currentDate = mockDate ?? today;
-            
-            const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
-            const isIntakeClosed = intakeClosingDate
-              ? Date.parse(intakeClosingDate) < currentDate
-              : false;
- 
+            const mockDate = cookie.get('mocks.mocked_timestamp');    
+            const isIntakeOpen = checkIntakeValidity(intakeByIntakeId?.openTimestamp, intakeByIntakeId?.closeTimestamp, mockDate);
+
             const isWithdrawn = application.status === 'withdrawn';
             const isSubmitted = application.status === 'submitted';
-            const isEditable = !isWithdrawn && !(isSubmitted && isIntakeClosed);
+            const isEditable = !isWithdrawn && !(isSubmitted && !isIntakeOpen);
 
             const getApplicationUrl = () => {
               if (isWithdrawn) {
                 return `/form/${application.rowId}/${reviewPage}`;
-              } else if (isSubmitted && isIntakeClosed) {
+              } else if (isSubmitted && !isIntakeOpen) {
                 return `/form/${application.rowId}/${reviewPage}`;
               } else if (isSubmitted) {
                 return `/form/${rowId}/1`;
@@ -145,7 +140,7 @@ const Table = ({ applications }: Props) => {
                     <Link href={getApplicationUrl()}>
                       {isEditable ? 'Edit' : 'View'}
                     </Link>
-                    {isSubmitted && !isIntakeClosed && (
+                    {isSubmitted && isIntakeOpen && (
                       <div
                         onClick={() => setWithdrawId(rowId)}
                         data-testid="withdraw-btn-test"

@@ -7,6 +7,7 @@ import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
 import styled from 'styled-components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
 import cookie from 'js-cookie';
+import checkIntakeValidity from '../utils/intakeHelper';
 
 const StyledOl = styled('ol')`
   max-width: 300px;
@@ -33,6 +34,7 @@ const getPagesQuery = graphql`
     }
     openIntake {
       openTimestamp
+      closeTimestamp
     }
   }
 `;
@@ -44,14 +46,9 @@ const Home = ({
     getPagesQuery,
     preloadedQuery
   );
-  const openTimestamp = openIntake?.openTimestamp;
-  const today = Date.now();
-  const mockDate = cookie.get('mocks.mocked_timestamp');
-  const currentDate = mockDate ?? today;
-    
-  const isIntakeOpen = openTimestamp
-    ? Date.parse(openTimestamp) < currentDate
-    : false;
+  const mockDate = cookie.get('mocks.mocked_timestamp');    
+  const isIntakeOpen = checkIntakeValidity(openIntake?.openTimestamp, openIntake?.closeTimestamp, mockDate);
+  
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
