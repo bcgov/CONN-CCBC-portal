@@ -14,11 +14,6 @@ const projectFunding = {
     'applicationContribution2526',
     'applicationContribution2627',
     'totalApplicantContribution',
-    'infrastructureBankFunding2223',
-    'infrastructureBankFunding2324',
-    'infrastructureBankFunding2425',
-    'infrastructureBankFunding2526',
-    'totalInfrastructureBankFunding',
   ],
   'ui:title': '',
   fundingRequestedCCBC2223: {
