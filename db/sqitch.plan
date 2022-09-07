@@ -30,3 +30,4 @@ mutations/withdraw_application [tables/application_status tables/application] 20
 mutations/create_application 2022-08-31T16:16:23Z Anthony Bushara <anthony@button.is> # Creates a new application
 @1.0.0 2022-09-01T23:42:33Z Matthieu Foucault <matthieu@button.is> # release v1.0.0
 @1.0.1 2022-09-02T00:40:17Z Matthieu Foucault <matthieu@button.is> # release v1.0.1
+@1.1.0 2022-09-06T23:59:22Z Matthieu Foucault <matthieu@button.is> # release v1.1.0
