@@ -48,12 +48,12 @@ const Home = ({
   );
   const mockDate = cookie.get('mocks.mocked_timestamp');    
   const isIntakeOpen = checkIntakeValidity(openIntake?.openTimestamp, openIntake?.closeTimestamp, mockDate);
-  
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Welcome</h1>
-        { isIntakeOpen && <IntakeAlert />}
+        { !isIntakeOpen && <IntakeAlert />}
         <section>
           <h3>Before you begin</h3>
           <ul>
