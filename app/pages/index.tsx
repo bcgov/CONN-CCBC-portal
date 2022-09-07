@@ -6,6 +6,7 @@ import Link from '@button-inc/bcgov-theme/Link';
 import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
 import styled from 'styled-components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
+import cookie from 'js-cookie';
 
 const StyledOl = styled('ol')`
   max-width: 300px;
@@ -43,12 +44,19 @@ const Home = ({
     getPagesQuery,
     preloadedQuery
   );
-
+  const openTimestamp = openIntake?.openTimestamp;
+  const today = Date.now();
+  const mockDate = cookie.get('mocks.mocked_timestamp');
+  const currentDate = mockDate ?? today;
+    
+  const isIntakeOpen = openTimestamp
+    ? Date.parse(openTimestamp) < currentDate
+    : false;
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Welcome</h1>
-        {!openIntake && <IntakeAlert />}
+        { isIntakeOpen && <IntakeAlert />}
         <section>
           <h3>Before you begin</h3>
           <ul>

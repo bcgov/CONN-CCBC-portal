@@ -108,14 +108,13 @@ const Table = ({ applications }: Props) => {
 
             const today = Date.now();
             const mockDate = cookie.get('mocks.mocked_timestamp');
-            const currentDate = (mockDate && mockDate !== '') 
-              ? Date.parse(mockDate) 
-              : today;
+            const currentDate = mockDate ?? today;
+            
             const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
             const isIntakeClosed = intakeClosingDate
               ? Date.parse(intakeClosingDate) < currentDate
               : false;
-
+ 
             const isWithdrawn = application.status === 'withdrawn';
             const isSubmitted = application.status === 'submitted';
             const isEditable = !isWithdrawn && !(isSubmitted && isIntakeClosed);

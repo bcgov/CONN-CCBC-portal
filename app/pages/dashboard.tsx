@@ -10,6 +10,7 @@ import { IntakeAlert, Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
 import { DateTime } from 'luxon';
+import cookie from 'js-cookie';
 
 const getDashboardQuery = graphql`
   query dashboardQuery($formOwner: ApplicationCondition!) {
@@ -45,6 +46,13 @@ const Dashboard = ({
   const { allApplications, session, openIntake } = query;
 
   const closeTimestamp = openIntake?.closeTimestamp;
+  const today = Date.now();
+  const mockDate = cookie.get('mocks.mocked_timestamp');
+  const currentDate = mockDate ?? today;
+    
+  const isIntakeClosed = closeTimestamp
+    ? Date.parse(closeTimestamp) < currentDate
+    : false;
 
   const sub: string = session?.sub;
 
@@ -80,7 +88,7 @@ const Dashboard = ({
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Dashboard</h1>
-        {closeTimestamp ? (
+        {closeTimestamp && !isIntakeClosed ? (
           <p>
             Start a new application; applications can be saved and edited until
             the intake closes on{' '}
@@ -94,7 +102,7 @@ const Dashboard = ({
         )}
         <StyledGovButton
           onClick={handleCreateApplication}
-          disabled={!openIntake}
+          disabled={isIntakeClosed}
         >
           Create application
         </StyledGovButton>
