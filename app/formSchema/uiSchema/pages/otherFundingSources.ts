@@ -22,6 +22,36 @@ const otherFundingSources = {
     'otherFundingSourcesArray',
   ],
   'ui:title': '',
+  infrastructureBankFunding2223: {
+    'ui:widget': MoneyWidget,
+    'ui:options': {
+      hideOptional: true,
+    },
+  },
+  infrastructureBankFunding2324: {
+    'ui:widget': MoneyWidget,
+    'ui:options': {
+      hideOptional: true,
+    },
+  },
+  infrastructureBankFunding2425: {
+    'ui:widget': MoneyWidget,
+    'ui:options': {
+      hideOptional: true,
+    },
+  },
+  infrastructureBankFunding2526: {
+    'ui:widget': MoneyWidget,
+    'ui:options': {
+      hideOptional: true,
+    },
+  },
+  totalInfrastructureBankFunding: {
+    'ui:widget': MoneyWidget,
+    'ui:options': {
+      hideOptional: true,
+    },
+  },
   otherFundingSources: {
     'ui:widget': 'RadioWidget',
   },
