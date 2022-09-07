@@ -18,5 +18,7 @@
   "AWS_S3_KEY": "",
   "AWS_S3_SECRET_KEY": "",
   "AWS_ROLE_ARN": "",
-  "SITEMINDER_LOGOUT_URL": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi"
+  "SITEMINDER_LOGOUT_URL": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi",
+  "ENABLE_MOCK_TIME" : true,
+  "ENABLE_MOCK_COOKIES" : true
 }
