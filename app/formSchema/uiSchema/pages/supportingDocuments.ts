@@ -63,11 +63,11 @@ const supportingDocuments = {
   },
   otherSupportingMaterials: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Other supporting materials',
+    'ui:description': 'Other supporting materials (if applicable)',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
-      altOptionalText: 'if applicable',
+      hideOptional: true,
     },
   },
 };
