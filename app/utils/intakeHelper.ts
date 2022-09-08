@@ -10,4 +10,4 @@ export default function checkIntakeValidity(intakeOpenDate, intakeClosingDate, m
     : false;
 
   return !isIntakeClosed && isIntakeOpen;
-};
+}
