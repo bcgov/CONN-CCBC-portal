@@ -50,12 +50,13 @@ describe('The form page', () => {
     const str = "nothing fancy";
     const blob = new Blob([str]);
     const file = new File([blob], 'documents.txt', {
-      type: 'application/text',
+      type: 'text/plain',
     });
     File.prototype.text = jest.fn().mockResolvedValueOnce(str);
     expect(screen.getAllByTestId('file-test')).toBeTruthy();
 
     const input = screen.getAllByTestId('file-test')[0];
+    expect(input).toBeTruthy;
     await user.upload(input, file);
     // expect(screen.getByRole('link', { name: 'documents.txt' })).toBeInTheDocument();
   });
