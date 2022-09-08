@@ -1,3 +1,30 @@
 secureRoute:
   wwwRoute:
     enable: true
+
+resources:
+  app:
+    requests:
+      cpu: 500m
+      memory: '256Mi'
+    limits:
+      cpu: 500m
+      memory: '512Mi'
+
+pgBouncer:
+  requests:
+    cpu: 250m
+    memory: 8Mi
+  limits:
+    cpu: 250m
+    memory: 32Mi
+
+instances:
+  name: hippo-ha
+  replicas: 3
+  requests:
+    cpu: 100m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
