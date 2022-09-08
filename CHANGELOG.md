@@ -1,5 +1,14 @@
 
 
+## [1.1.1](https://github.com/bcgov/CONN-CCBC-portal/compare/1.1.0...1.1.1) (2022-09-08)
+
+
+### Bug Fixes
+
+* add newline and fix broken helm value ([892d675](https://github.com/bcgov/CONN-CCBC-portal/commit/892d675cbe1475c40fc2a3fa186b1b53313bd8ac))
+* missing uischema review field ([1409f0a](https://github.com/bcgov/CONN-CCBC-portal/commit/1409f0a6c92e22a06185c9a0efbbe9eb40241b48))
+* uiSchema refactor bugs ([46d00c1](https://github.com/bcgov/CONN-CCBC-portal/commit/46d00c10c18c0f75e1fc46ed6f3565d747a22db9))
+
 # [1.1.0](https://github.com/bcgov/CONN-CCBC-portal/compare/1.0.1...1.1.0) (2022-09-06)
 
 
