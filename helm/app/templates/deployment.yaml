@@ -73,7 +73,7 @@ spec:
               memory: {{ .Values.resources.psql.limits.memory }}
             requests:
               cpu: {{ .Values.resources.psql.requests.cpu }}
-              memory: {{ .Values. resources.psql.requests.memory }}
+              memory: {{ .Values.resources.psql.requests.memory }}
           command:
             - /usr/bin/env
             - bash
