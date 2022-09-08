@@ -1,4 +1,4 @@
-import { MoneyWidget } from '../../../lib/theme/widgets';
+import { MoneyWidget, ReadOnlyMoneyWidget } from '../../../lib/theme/widgets';
 
 const projectFunding = {
   'ui:order': [
@@ -32,7 +32,7 @@ const projectFunding = {
     'ui:widget': MoneyWidget,
   },
   totalFundingRequestedCCBC: {
-    'ui:widget': MoneyWidget,
+    'ui:widget': ReadOnlyMoneyWidget,
   },
   applicationContribution2223: {
     'ui:widget': MoneyWidget,
@@ -50,7 +50,7 @@ const projectFunding = {
     'ui:widget': MoneyWidget,
   },
   totalApplicantContribution: {
-    'ui:widget': MoneyWidget,
+    'ui:widget': ReadOnlyMoneyWidget,
   },
   'ui:inline': [
     {
