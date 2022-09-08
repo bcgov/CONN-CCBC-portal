@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ template "ccbc.fullname" . }}
+spec:
+  minAvailable: {{ sub .Values.replicaCount 1 }}
+  selector:
+    matchLabels:
+      app: {{ template "ccbc.fullname" . }}
