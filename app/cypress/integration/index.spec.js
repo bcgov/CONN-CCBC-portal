@@ -131,6 +131,13 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Other funding sources');
 
+    cy.get('[id="root_infrastructureBankFunding2223"]').type(123);
+    cy.get('[id="root_infrastructureBankFunding2324"]').type(123);
+    cy.get('[id="root_infrastructureBankFunding2425"]').type(123);
+    cy.get('[id="root_infrastructureBankFunding2526"]').type(123);
+
+    cy.get('[id="root_totalInfrastructureBankFunding"]').type(12345);
+
     cy.get('input[id="root_otherFundingSources-0"]').parent().click();
 
     cy.get('[id="root_otherFundingSourcesArray_0_fundingPartnersName"]');

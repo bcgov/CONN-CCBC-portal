@@ -55,12 +55,6 @@ const mockFormData = {
     applicationContribution2425: '123123123',
     applicationContribution2526: '123123',
     applicationContribution2627: '1223123123',
-    infrastructureBankFunding2223: '123123123',
-    infrastructureBankFunding2324: '123123132',
-    infrastructureBankFunding2425: '123123',
-    infrastructureBankFunding2526: '123123',
-    infrastructureBankFunding2627: '1231231',
-    totalInfrastructureBankFunding: '31213',
   },
   templateUploads: {
     detailedBudget:
@@ -130,6 +124,12 @@ const mockFormData = {
     organizationOverview: '123123123',
   },
   otherFundingSources: {
+    infrastructureBankFunding2223: '123123123',
+    infrastructureBankFunding2324: '123123132',
+    infrastructureBankFunding2425: '123123',
+    infrastructureBankFunding2526: '123123',
+    infrastructureBankFunding2627: '1231231',
+    totalInfrastructureBankFunding: '31213',
     otherFundingSources: 'Yes',
     otherFundingSourcesArray: [
       {

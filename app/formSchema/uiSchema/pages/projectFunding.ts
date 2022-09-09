@@ -14,11 +14,6 @@ const projectFunding = {
     'applicationContribution2526',
     'applicationContribution2627',
     'totalApplicantContribution',
-    'infrastructureBankFunding2223',
-    'infrastructureBankFunding2324',
-    'infrastructureBankFunding2425',
-    'infrastructureBankFunding2526',
-    'totalInfrastructureBankFunding',
   ],
   'ui:title': '',
   fundingRequestedCCBC2223: {
@@ -57,36 +52,6 @@ const projectFunding = {
   totalApplicantContribution: {
     'ui:widget': MoneyWidget,
   },
-  infrastructureBankFunding2223: {
-    'ui:widget': MoneyWidget,
-    'ui:options': {
-      hideOptional: true,
-    },
-  },
-  infrastructureBankFunding2324: {
-    'ui:widget': MoneyWidget,
-    'ui:options': {
-      hideOptional: true,
-    },
-  },
-  infrastructureBankFunding2425: {
-    'ui:widget': MoneyWidget,
-    'ui:options': {
-      hideOptional: true,
-    },
-  },
-  infrastructureBankFunding2526: {
-    'ui:widget': MoneyWidget,
-    'ui:options': {
-      hideOptional: true,
-    },
-  },
-  totalInfrastructureBankFunding: {
-    'ui:widget': MoneyWidget,
-    'ui:options': {
-      hideOptional: true,
-    },
-  },
   'ui:inline': [
     {
       title: 'Amount requested under CCBC per fiscal year (April 1 - March 31)',
@@ -114,19 +79,6 @@ const projectFunding = {
     {
       columns: 2,
       totalApplicantContribution: '1 / 2',
-    },
-    {
-      title:
-        'Funding from Canadian Infrastructure Bank per fiscal year (April 1 - March 31) (if applicable)',
-      columns: 5,
-      infrastructureBankFunding2223: 1,
-      infrastructureBankFunding2324: 2,
-      infrastructureBankFunding2425: 3,
-      infrastructureBankFunding2526: 4,
-    },
-    {
-      columns: 2,
-      totalInfrastructureBankFunding: '1 / 2',
     },
   ],
 };

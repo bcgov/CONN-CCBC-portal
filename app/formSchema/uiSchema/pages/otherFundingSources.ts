@@ -2,6 +2,11 @@ import { MoneyWidget } from '../../../lib/theme/widgets';
 
 const otherFundingSources = {
   'ui:order': [
+    'infrastructureBankFunding2223',
+    'infrastructureBankFunding2324',
+    'infrastructureBankFunding2425',
+    'infrastructureBankFunding2526',
+    'totalInfrastructureBankFunding',
     'otherFundingSources',
     'fundingPartnersName',
     'fundingSourceContactInfo',
@@ -17,6 +22,36 @@ const otherFundingSources = {
     'otherFundingSourcesArray',
   ],
   'ui:title': '',
+  infrastructureBankFunding2223: {
+    'ui:widget': MoneyWidget,
+    'ui:options': {
+      hideOptional: true,
+    },
+  },
+  infrastructureBankFunding2324: {
+    'ui:widget': MoneyWidget,
+    'ui:options': {
+      hideOptional: true,
+    },
+  },
+  infrastructureBankFunding2425: {
+    'ui:widget': MoneyWidget,
+    'ui:options': {
+      hideOptional: true,
+    },
+  },
+  infrastructureBankFunding2526: {
+    'ui:widget': MoneyWidget,
+    'ui:options': {
+      hideOptional: true,
+    },
+  },
+  totalInfrastructureBankFunding: {
+    'ui:widget': MoneyWidget,
+    'ui:options': {
+      hideOptional: true,
+    },
+  },
   otherFundingSources: {
     'ui:widget': 'RadioWidget',
   },
@@ -111,6 +146,21 @@ const otherFundingSources = {
       ],
     },
   },
+  'ui:inline': [
+    {
+      title:
+        'Funding from Canadian Infrastructure Bank per fiscal year (April 1 - March 31) (if applicable)',
+      columns: 5,
+      infrastructureBankFunding2223: 1,
+      infrastructureBankFunding2324: 2,
+      infrastructureBankFunding2425: 3,
+      infrastructureBankFunding2526: 4,
+    },
+    {
+      columns: 2,
+      totalInfrastructureBankFunding: '1 / 2',
+    },
+  ],
 };
 
 export default otherFundingSources;

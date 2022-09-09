@@ -236,28 +236,6 @@ describe('The Project funding  section', () => {
     expect(
       document.getElementById('totalApplicantContribution')
     ).toHaveTextContent(`Total amount Applicant will contribute`);
-
-    expect(
-      document.getElementById('infrastructureBankFunding2223')
-    ).toHaveTextContent(`2022-23`);
-
-    expect(
-      document.getElementById('infrastructureBankFunding2324')
-    ).toHaveTextContent(`2023-24`);
-
-    expect(
-      document.getElementById('infrastructureBankFunding2425')
-    ).toHaveTextContent(`2024-25`);
-
-    expect(
-      document.getElementById('infrastructureBankFunding2526')
-    ).toHaveTextContent(`2025-26`);
-
-    expect(
-      document.getElementById('totalInfrastructureBankFunding')
-    ).toHaveTextContent(
-      `Total amount requested under Canadian Infrastructure Bank`
-    );
   });
 });
 
@@ -299,6 +277,29 @@ describe('The Other funding sources section', () => {
   it('should have correct fields', () => {
     const errors = false;
     renderStaticLayout(errors);
+
+    // Todo: this should be in other funding sources review page section
+    // expect(
+    //   document.getElementById('infrastructureBankFunding2223')
+    // ).toHaveTextContent(`2022-23`);
+
+    // expect(
+    //   document.getElementById('infrastructureBankFunding2324')
+    // ).toHaveTextContent(`2023-24`);
+
+    // expect(
+    //   document.getElementById('infrastructureBankFunding2425')
+    // ).toHaveTextContent(`2024-25`);
+
+    // expect(
+    //   document.getElementById('infrastructureBankFunding2526')
+    // ).toHaveTextContent(`2025-26`);
+
+    // expect(
+    //   document.getElementById('totalInfrastructureBankFunding')
+    // ).toHaveTextContent(
+    //   `Total amount requested under Canadian Infrastructure Bank`
+    // );
 
     expect(document.getElementById('fundingPartnersName')).toHaveTextContent(
       `Funding partner's name`
