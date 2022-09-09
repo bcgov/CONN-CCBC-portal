@@ -407,7 +407,7 @@ const ApplicationForm: React.FC<Props> = ({
     ),
     otherFundingSources: (
       <CalculationForm
-        key="acknowledgements"
+        key="otherFundingSources"
         onSubmit={handleSubmit}
         onChange={handleChange}
         onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}

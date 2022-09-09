@@ -95,7 +95,7 @@ const calculateInfrastructureFunding = (formData) => {
   const infrastructureBankFunding2526 =
     Number(formData.infrastructureBankFunding2526) || 0;
 
-  formData.totalApplicantContribution = calculateFunding(
+  formData.totalInfrastructureBankFunding = calculateFunding(
     infrastructureBankFunding2223,
     infrastructureBankFunding2324,
     infrastructureBankFunding2425,

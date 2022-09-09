@@ -25,6 +25,7 @@ const otherFundingSources = {
       totalInfrastructureBankFunding: {
         title: 'Total amount requested under Canadian Infrastructure Bank',
         type: 'number',
+        readOnly: true,
       },
       otherFundingSources: {
         title: 'Will you have other funding sources?',
