@@ -4,7 +4,7 @@ kind: PodDisruptionBudget
 metadata:
   name: hippo-ha-pdb
 spec:
-  minAvailable: {{ sub .Values.replicaCount 1 }}
+  minAvailable: {{ sub .Values.instances.replicas 1 }}
   selector:
     matchLabels:
       postgres-operator.crunchydata.com/instance-set: {{ .Values.instances.name }}
