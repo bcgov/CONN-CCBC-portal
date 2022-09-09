@@ -2,10 +2,12 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: hippo-ha-pdb
+  name: pg-bouncer-pdb
   labels: {{ include "ccbc.labels" . | nindent 4 }}
 spec:
-  minAvailable: {{ sub .Values.instances.replicas 1 }}
+  minAvailable: {{ sub .Values.pgBouncer.replicas 1 }}
   selector:
     matchLabels:
-      postgres-operator.crunchydata.com/instance-set: {{ .Values.instances.name }}
+      app.kubernetes.io/instance: {{ template "ccbc.fullname" . }}
+      postgres-operator.crunchydata.com/role: pgbouncer
+
