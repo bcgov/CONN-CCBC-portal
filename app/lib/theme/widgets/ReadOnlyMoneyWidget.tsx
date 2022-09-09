@@ -36,6 +36,7 @@ const StyledMessage = styled('div')`
 const ReadOnlyWidget: React.FC<WidgetProps> = ({
   error,
   description,
+  id,
   label,
   onChange,
   placeholder,
@@ -46,6 +47,8 @@ const ReadOnlyWidget: React.FC<WidgetProps> = ({
     <StyledContainer>
       <StyledValue
         prefix="$"
+        id={id}
+        data-testid={id}
         style={{ outline: error && '4px solid #E71F1F' }}
         defaultValue={value || undefined}
         allowNegativeValue={false}
