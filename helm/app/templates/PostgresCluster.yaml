@@ -22,8 +22,7 @@ spec:
   postgresVersion: 14
   instances:
     - name: {{ .Values.instances.name }}
-      replicas: 3
-      minAvailable: 2
+      replicas: {{ .Values.instances.replicas }}
 
       # these resources are for the "database" container in the "hippo-ha-pgha1" set of pods
       resources:
@@ -124,8 +123,7 @@ spec:
         global:
           client_tls_sslmode: disable
       # image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:centos8-1.15-3
-      replicas: 2
-      minAvailable: 1
+      replicas: {{ .Values.pgBouncer.replicas }}
       # these resources are for the "pgbouncer" container in the "hippo-ha-pgbouncer" set of pods
       # there is a sidecar in these pods which are not mentioned here, but the requests/limits are teeny weeny by default so no worries there.
       resources:

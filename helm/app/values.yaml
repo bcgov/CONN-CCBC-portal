@@ -125,6 +125,7 @@ pgbackrest:
   retention: '30'
 
 pgBouncer:
+  replicas: 2
   requests:
     cpu: 2m
     memory: 8Mi
