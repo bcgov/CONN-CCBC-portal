@@ -44,7 +44,7 @@ const TimeMachine = () => {
   const setMockDate = (value: any) => { 
     if (value) {
       const mockDate = dateTimeFormat(value, 'date_year_first');
-      cookie.set('mocks.mocked_timestamp', value.valueOf());
+      cookie.set('mocks.mocked_timestamp', value.valueOf()/1000);
       cookie.set('mocks.mocked_date', mockDate);
       setDate(mockDate);
     } else {
