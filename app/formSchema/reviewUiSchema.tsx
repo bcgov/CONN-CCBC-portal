@@ -1,3 +1,14 @@
+import {
+  formatRow,
+  StyledColError,
+  StyledColLeft,
+  StyledColRight,
+  StyledH4,
+  StyledTable,
+  StyledTitleRow,
+} from 'components/Review/Table';
+import { benefits } from './uiSchema/pages';
+
 const reviewUiSchema = {
   'ui:submitButtonOptions': {
     norender: true,
@@ -18,6 +29,7 @@ const reviewUiSchema = {
     'ui:field': 'ReviewSectionField',
   },
   benefits: {
+    ...benefits,
     'ui:field': 'ReviewSectionField',
   },
   budgetDetails: {
@@ -43,12 +55,41 @@ const reviewUiSchema = {
   },
   otherFundingSources: {
     'ui:field': 'ReviewSectionField',
+    infrastructureBankFunding2223: {
+      'ui:before': (
+        <tr>
+          <StyledTitleRow colSpan={2}>
+            <StyledH4>
+              Amount requested under Canadian Infrastructure Bank
+            </StyledH4>
+          </StyledTitleRow>
+        </tr>
+      ),
+    },
   },
   projectArea: {
     'ui:field': 'ReviewSectionField',
   },
   projectFunding: {
     'ui:field': 'ReviewSectionField',
+    fundingRequestedCCBC2223: {
+      'ui:before': (
+        <tr>
+          <StyledTitleRow colSpan={2}>
+            <StyledH4>Amount requested under CCBC</StyledH4>
+          </StyledTitleRow>
+        </tr>
+      ),
+    },
+    applicationContribution2223: {
+      'ui:before': (
+        <tr>
+          <StyledTitleRow colSpan={2}>
+            <StyledH4>Amount Applicant will contribute</StyledH4>
+          </StyledTitleRow>
+        </tr>
+      ),
+    },
   },
   projectPlan: {
     'ui:field': 'ReviewSectionField',

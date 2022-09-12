@@ -3,6 +3,7 @@ import ReviewArrayField from './fields/ReviewArrayField';
 import ReviewBooleanField from './fields/ReviewBooleanField';
 import ReviewObjectField from './fields/ReviewObjectField';
 import ReviewStringField from './fields/ReviewStringField';
+import SchemaField from './fields/ReviewSchemaField';
 import ReviewObjectFieldTemplate from './ReviewObjectFieldTemplate';
 import ReviewSectionField from './ReviewSectionField';
 
@@ -15,6 +16,7 @@ const ReadOnlyTheme: ThemeProps = {
     NumberField: ReviewStringField,
     BooleanField: ReviewBooleanField,
     ArrayField: ReviewArrayField,
+    SchemaField: SchemaField,
     // ObjectField: ReviewObjectField,
     // DefaultObjectField: fields.ObjectField,
     HiddenField: () => null,

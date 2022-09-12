@@ -28,8 +28,7 @@ const StyledColError = styled(StyledColRight)`
   // background-color: ${(props) => props.theme.color.errorBackground};
 `;
 
-
-const ReviewField: React.FC<FieldProps> = ({
+const ReviewStringField: React.FC<FieldProps> = ({
   id,
   formData,
   rawErrors,
@@ -47,4 +46,4 @@ const ReviewField: React.FC<FieldProps> = ({
   );
 };
 
-export default ReviewField;
+export default ReviewStringField;
