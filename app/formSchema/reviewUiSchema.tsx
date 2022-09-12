@@ -93,6 +93,7 @@ const reviewUiSchema = {
     ...otherFundingSources,
     'ui:field': 'SectionField',
     infrastructureBankFunding2223: {
+      ...otherFundingSources.infrastructureBankFunding2223,
       'ui:before': (
         <tr>
           <StyledTitleRow colSpan={2}>
@@ -106,7 +107,10 @@ const reviewUiSchema = {
     otherFundingSourcesArray: {
       'ui:itemTitle': 'Funding source',
       items: {
+        ...otherFundingSources.otherFundingSourcesArray.items,
         requestedFundingPartner2223: {
+          ...otherFundingSources.otherFundingSourcesArray.items
+            .requestedFundingPartner2223,
           'ui:before': (
             <tr>
               <StyledTd>
@@ -132,6 +136,7 @@ const reviewUiSchema = {
     ...projectFunding,
     'ui:field': 'SectionField',
     fundingRequestedCCBC2223: {
+      ...projectFunding.fundingRequestedCCBC2223,
       'ui:before': (
         <tr>
           <StyledTitleRow colSpan={2}>
@@ -141,6 +146,7 @@ const reviewUiSchema = {
       ),
     },
     applicationContribution2223: {
+      ...projectFunding.applicationContribution2223,
       'ui:before': (
         <tr>
           <StyledTitleRow colSpan={2}>
