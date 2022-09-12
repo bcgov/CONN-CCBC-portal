@@ -14,8 +14,12 @@ import { acknowledgements } from '../../formSchema/pages';
 // @ts-ignore
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import {
-  calculateProjectEmployment,
+  calculateApplicantFunding,
   calculateContractorEmployment,
+  calculateFundingPartner,
+  calculateFundingRequestedCCBC,
+  calculateInfrastructureFunding,
+  calculateProjectEmployment,
 } from '../../lib/theme/customFieldCalculations';
 import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
 import { graphql, useFragment } from 'react-relay';
@@ -34,8 +38,10 @@ const NUM_ACKNOWLEDGEMENTS =
     .length;
 
 const customPages = [
-  'estimatedProjectEmployment',
   'acknowledgements',
+  'estimatedProjectEmployment',
+  'projectFunding',
+  'otherFundingSources',
   'submission',
 ];
 
@@ -317,6 +323,14 @@ const ApplicationForm: React.FC<Props> = ({
         ...calculateProjectEmployment(formData),
         ...calculateContractorEmployment(formData),
       }),
+      ...(sectionName === 'projectFunding' && {
+        ...calculateFundingRequestedCCBC(formData),
+        ...calculateApplicantFunding(formData),
+      }),
+      ...(sectionName === 'otherFundingSources' && {
+        ...calculateInfrastructureFunding(formData),
+        ...calculateFundingPartner(formData),
+      }),
     };
     return formData;
   };
@@ -362,6 +376,21 @@ const ApplicationForm: React.FC<Props> = ({
   );
 
   const customPagesDict = {
+    acknowledgements: (
+      <CalculationForm
+        key="acknowledgements"
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        onCalculate={updateAreAllAcknowledgementFieldsSet}
+        formData={formData[sectionName]}
+        schema={sectionSchema}
+        uiSchema={uiSchema[sectionName]}
+        noValidate={true}
+        disabled={isWithdrawn}
+      >
+        {submitBtns}
+      </CalculationForm>
+    ),
     estimatedProjectEmployment: (
       <CalculationForm
         // Facing rendering issues, key here to allow react to identify a new component
@@ -372,22 +401,38 @@ const ApplicationForm: React.FC<Props> = ({
         formData={formData[sectionName]}
         schema={sectionSchema}
         uiSchema={uiSchema[sectionName]}
-        // Todo: validate entire form on completion
         noValidate={true}
         disabled={isWithdrawn}
       >
         {submitBtns}
       </CalculationForm>
     ),
-    acknowledgements: (
+    otherFundingSources: (
       <CalculationForm
-        key="acknowledgements"
+        key="otherFundingSources"
         onSubmit={handleSubmit}
         onChange={handleChange}
-        onCalculate={updateAreAllAcknowledgementFieldsSet}
+        onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
         formData={formData[sectionName]}
         schema={sectionSchema}
         uiSchema={uiSchema[sectionName]}
+        noValidate={true}
+        disabled={isWithdrawn}
+      >
+        {submitBtns}
+      </CalculationForm>
+    ),
+    projectFunding: (
+      <CalculationForm
+        key="projectFunding"
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
+        formData={formData[sectionName]}
+        schema={sectionSchema}
+        fields={CUSTOM_SUBMISSION_FIELD}
+        uiSchema={uiSchema[sectionName]}
+        formContext={formContext}
         noValidate={true}
         disabled={isWithdrawn}
       >

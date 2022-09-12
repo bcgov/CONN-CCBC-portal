@@ -42,6 +42,7 @@ const projectFunding = {
       totalFundingRequestedCCBC: {
         title: 'Total amount requested under CCBC',
         type: 'number',
+        readOnly: true,
       },
       applicationContribution2223: {
         title: '2022-23',
@@ -66,6 +67,7 @@ const projectFunding = {
       totalApplicantContribution: {
         title: 'Total amount Applicant will contribute',
         type: 'number',
+        readOnly: true,
       },
     },
   },

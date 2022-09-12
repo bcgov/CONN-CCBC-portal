@@ -1,4 +1,4 @@
-import { MoneyWidget } from '../../../lib/theme/widgets';
+import { MoneyWidget, ReadOnlyMoneyWidget } from '../../../lib/theme/widgets';
 
 const otherFundingSources = {
   'ui:order': [
@@ -47,7 +47,7 @@ const otherFundingSources = {
     },
   },
   totalInfrastructureBankFunding: {
-    'ui:widget': MoneyWidget,
+    'ui:widget': ReadOnlyMoneyWidget,
     'ui:options': {
       hideOptional: true,
     },
@@ -99,7 +99,7 @@ const otherFundingSources = {
         'ui:widget': MoneyWidget,
       },
       totalRequestedFundingPartner: {
-        'ui:widget': MoneyWidget,
+        'ui:widget': ReadOnlyMoneyWidget,
       },
       // Custom array button prop that is used in ArrayFieldTemplate
       'ui:array-buttons': {

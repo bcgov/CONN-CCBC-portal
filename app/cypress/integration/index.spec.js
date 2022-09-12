@@ -113,15 +113,11 @@ context('Homepage', () => {
     cy.get('[id="root_fundingRequestedCCBC2526"]').type(123);
     cy.get('[id="root_fundingRequestedCCBC2627"]').type(123);
 
-    cy.get('[id="root_totalFundingRequestedCCBC"]').type(12345);
-
     cy.get('[id="root_applicationContribution2223"]').type(123);
     cy.get('[id="root_applicationContribution2324"]').type(123);
     cy.get('[id="root_applicationContribution2425"]').type(123);
     cy.get('[id="root_applicationContribution2526"]').type(123);
     cy.get('[id="root_applicationContribution2627"]').type(123);
-
-    cy.get('[id="root_totalApplicantContribution"]').type(12345);
 
     cy.get('body').happoScreenshot();
 
@@ -135,8 +131,6 @@ context('Homepage', () => {
     cy.get('[id="root_infrastructureBankFunding2324"]').type(123);
     cy.get('[id="root_infrastructureBankFunding2425"]').type(123);
     cy.get('[id="root_infrastructureBankFunding2526"]').type(123);
-
-    cy.get('[id="root_totalInfrastructureBankFunding"]').type(12345);
 
     cy.get('input[id="root_otherFundingSources-0"]').parent().click();
 
@@ -181,10 +175,6 @@ context('Homepage', () => {
     cy.get(
       '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2627"]'
     ).type(123);
-
-    cy.get(
-      '[id="root_otherFundingSourcesArray_0_totalRequestedFundingPartner"]'
-    ).type(12345);
 
     cy.get('body').happoScreenshot();
 
