@@ -69,7 +69,7 @@ install_perl_tools: install_cpanm install_cpandeps postinstall_check
 
 .PHONY: install_dev_tools
 install_dev_tools: ## install development tools
-install_dev_tools: stop_pg install_asdf_tools install_perl_tools install_pgtap
+install_dev_tools: stop_pg install_asdf_tools install_perl_tools install_pgtap install_git_hooks
 
 .PHONY: start_pg
 start_pg: ## start the database server if it is not running
@@ -203,6 +203,11 @@ install_cocogitto:
 install_cocogitto_hook: install_cocogitto
 install_cocogitto_hook:
 	@cog install-hook commit-msg
+
+.PHONY: install_git_hooks
+install_git_hooks: install_cocogitto_hook
+install_git_hooks:
+	@pre-commit install
 
 # Todo: use this in workflow to deploy helm chart
 # .PHONY: install
