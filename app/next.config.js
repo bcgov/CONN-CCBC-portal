@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-// module.exports = nextConfig
+const config = require("./config");
 
 module.exports = {
   basePath: '/applicantportal',
@@ -30,5 +30,8 @@ module.exports = {
   },
   publicRuntimeConfig: {
     NEXT_PUBLIC_GROWTHBOOK_API_KEY: process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY,
+    ENABLE_MOCK_TIME: config.get("ENABLE_MOCK_TIME"),
+    OPENSHIFT_APP_NAMESPACE: config.get("OPENSHIFT_APP_NAMESPACE"),
+    SITEMINDER_LOGOUT_URL: config.get("SITEMINDER_LOGOUT_URL"),
   },
 };

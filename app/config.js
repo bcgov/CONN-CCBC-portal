@@ -144,6 +144,18 @@ const config = convict({
     default: '',
     env: 'AWS_ROLE_ARN',
   },
+  ENABLE_MOCK_TIME: {
+    doc: 'Enable Mock Time',
+    format: Boolean,
+    default: false,
+    env: 'ENABLE_MOCK_TIME',
+  },
+  ENABLE_MOCK_COOKIES: {
+    doc: 'Enable DB Mocks Cookies',
+    format: Boolean,
+    default: false,
+    env: 'ENABLE_MOCK_COOKIES',
+  },
 });
 
 // Load environment dependent configuration
@@ -157,5 +169,7 @@ catch(e){
   console.log(env);
 }
 config.validate({ allowed: 'warn' });
-
+if (config.get("OPENSHIFT_APP_NAMESPACE").endsWith("-prod") && config.get("ENABLE_MOCK_TIME")) {
+  throw new Error("ENABLE_MOCK_TIME cannot be true with a -prod namespace.");
+}
 module.exports = config;
