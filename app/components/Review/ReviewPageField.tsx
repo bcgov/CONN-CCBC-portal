@@ -74,7 +74,7 @@ const ReviewField: React.FC<FieldProps> = (props) => {
       <FormBase
         theme={ReviewTheme}
         schema={fullSchema}
-        uiSchema={reviewUiSchema}
+        uiSchema={reviewUiSchema as any}
         formData={fullFormData}
         liveValidate
         tagName="div"
