@@ -1,5 +1,6 @@
 import { FieldProps } from '@rjsf/core';
 import styled from 'styled-components';
+import formatMoney from 'utils/formatMoney';
 
 const StyledColLeft = styled('td')`
   // Todo: workaround for Jest styled component theme prop error
@@ -33,14 +34,18 @@ const ReviewStringField: React.FC<FieldProps> = ({
   formData,
   rawErrors,
   schema,
+  uiSchema,
 }) => {
+  let displayData = formData;
+  if (uiSchema?.['ui:widget'] === 'MoneyWidget')
+    displayData = formatMoney(formData);
   return (
     <tr>
       <StyledColLeft id={id}>{schema.title}</StyledColLeft>
       {rawErrors && rawErrors.length > 0 ? (
         <StyledColError id={`${id}-error`} />
       ) : (
-        <StyledColRight id={`${id}-value`}>{formData}</StyledColRight>
+        <StyledColRight id={`${id}-value`}>{displayData}</StyledColRight>
       )}
     </tr>
   );
