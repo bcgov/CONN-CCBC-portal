@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
+import { graphql, useFragment } from 'react-relay';
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
 import { CalculationForm, FormBase } from '.';
@@ -8,6 +10,8 @@ import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
 import { acknowledgements } from '../../formSchema/pages';
+import ApplicationFormStatus from './ApplicationFormStatus';
+import styled from 'styled-components';
 
 // https://github.com/rjsf-team/react-jsonschema-form/issues/2131
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -21,14 +25,11 @@ import {
   calculateInfrastructureFunding,
   calculateProjectEmployment,
 } from '../../lib/theme/customFieldCalculations';
-import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
-import { graphql, useFragment } from 'react-relay';
+import { dateTimeFormat } from '../../lib/theme/functions/formatDates';
 import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
 import { useUpdateApplicationMutation } from 'schema/mutations/application/updateApplication';
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
 import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
-import ApplicationFormStatus from './ApplicationFormStatus';
-import styled from 'styled-components';
 import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
 import { SubmissionDescriptionField } from 'lib/theme/fields';
 import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
@@ -192,6 +193,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
   const isWithdrawn = status === 'withdrawn';
+  const isDraft = status === 'draft';
 
   if (subschemaArray.length < pageNumber) {
     // Todo: proper 404
@@ -453,7 +455,18 @@ const ApplicationForm: React.FC<Props> = ({
         onSubmit={handleSubmit}
         onChange={handleChange}
         onCalculate={updateAreAllSubmissionFieldsSet}
-        formData={formData[sectionName]}
+        formData={{
+          ...formData.submission,
+          // Prefill organization name from organization profile page if it exists
+          submissionCompletedFor:
+            formData?.submission?.submissionCompletedFor ||
+            formData?.organizationProfile?.organizationName ||
+            '',
+          // If status is draft overwrite any submission date in this field with current date
+          submissionDate: isDraft
+            ? dateTimeFormat(new Date(), 'date_year_first')
+            : formData?.submission?.submissionDate,
+        }}
         schema={sectionSchema}
         uiSchema={uiSchema[sectionName]}
         fields={CUSTOM_SUBMISSION_FIELD}
