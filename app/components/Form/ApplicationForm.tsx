@@ -136,6 +136,7 @@ const ApplicationForm: React.FC<Props> = ({
         rowId
         formData
         status
+        updatedAt
         intakeByIntakeId {
           closeTimestamp
         }
@@ -155,7 +156,7 @@ const ApplicationForm: React.FC<Props> = ({
     `,
     query
   );
-  const { id, rowId, formData, status } = application;
+  const { id, rowId, formData, status, updatedAt } = application;
 
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
@@ -464,7 +465,7 @@ const ApplicationForm: React.FC<Props> = ({
             '',
           // If status is draft overwrite any submission date in this field with current date
           submissionDate: isDraft
-            ? dateTimeFormat(new Date(), 'date_year_first')
+            ? dateTimeFormat(new Date(updatedAt), 'date_year_first')
             : formData?.submission?.submissionDate,
         }}
         schema={sectionSchema}
@@ -478,7 +479,6 @@ const ApplicationForm: React.FC<Props> = ({
       </CalculationForm>
     ),
   };
-
   return (
     <>
       <Flex>

@@ -1,14 +1,19 @@
+import { ReadOnlySubmissionWidget } from '../../../lib/theme/widgets';
+
 const submission = {
   'ui:order': [
     'submissionCompletedFor',
-    'submissionDate',
     'submissionCompletedBy',
     'submissionTitle',
+    'submissionDate',
   ],
   'ui:title': '',
   'ui:field': 'SubmissionField',
+  submissionCompletedFor: {
+    'ui:widget': ReadOnlySubmissionWidget,
+  },
   submissionDate: {
-    'ui:widget': 'DatePickerWidget',
+    'ui:widget': ReadOnlySubmissionWidget,
   },
 };
 

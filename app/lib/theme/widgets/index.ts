@@ -8,6 +8,7 @@ export { default as NumberWidget } from './NumberWidget';
 export { default as RadioWidget } from './RadioWidget';
 export { default as ReadOnlyMoneyWidget } from './ReadOnlyMoneyWidget';
 export { default as ReadOnlyWidget } from './ReadOnlyWidget';
+export { default as ReadOnlySubmissionWidget } from './ReadOnlySubmissionWidget';
 export { default as TextAreaWidget } from './TextAreaWidget';
 export { default as TextWidget } from './TextWidget';
 export { default as SelectWidget } from './SelectWidget';
