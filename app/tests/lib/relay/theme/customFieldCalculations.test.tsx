@@ -1,5 +1,6 @@
 import {
   calculateApplicantFunding,
+  calculateFundingPartner,
   calculateFundingRequestedCCBC,
   calculateInfrastructureFunding,
 } from '../../../../lib/theme/customFieldCalculations';
@@ -101,6 +102,56 @@ describe('The customFieldCalculations', () => {
         infrastructureBankFunding2425: 1,
         infrastructureBankFunding2526: 1,
         totalInfrastructureBankFunding: 4,
+      })
+    );
+  });
+
+  it('should calculate correct value for calculateFundingPartner with empty fields', () => {
+    const formData = calculateFundingPartner({
+      otherFundingSourcesArray: [
+        {
+          requestedFundingPartner2223: 1,
+        },
+      ],
+    });
+
+    expect(formData).toEqual(
+      expect.objectContaining({
+        otherFundingSourcesArray: [
+          {
+            requestedFundingPartner2223: 1,
+            totalRequestedFundingPartner: 1,
+          },
+        ],
+      })
+    );
+  });
+
+  it('should calculate correct value for calculateInfrastructureFunding', () => {
+    const formData = calculateFundingPartner({
+      otherFundingSourcesArray: [
+        {
+          requestedFundingPartner2223: 1,
+          requestedFundingPartner2324: 2,
+          requestedFundingPartner2425: 3,
+          requestedFundingPartner2526: 4,
+          requestedFundingPartner2627: 5,
+        },
+      ],
+    });
+
+    expect(formData).toEqual(
+      expect.objectContaining({
+        otherFundingSourcesArray: [
+          {
+            requestedFundingPartner2223: 1,
+            requestedFundingPartner2324: 2,
+            requestedFundingPartner2425: 3,
+            requestedFundingPartner2526: 4,
+            requestedFundingPartner2627: 5,
+            totalRequestedFundingPartner: 15,
+          },
+        ],
       })
     );
   });

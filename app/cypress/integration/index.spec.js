@@ -176,10 +176,6 @@ context('Homepage', () => {
       '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2627"]'
     ).type(123);
 
-    cy.get(
-      '[id="root_otherFundingSourcesArray_0_totalRequestedFundingPartner"]'
-    ).type(12345);
-
     cy.get('body').happoScreenshot();
 
     cy.get('button').contains('Save and continue').click();
