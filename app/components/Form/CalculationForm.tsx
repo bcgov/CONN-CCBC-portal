@@ -84,11 +84,14 @@ export default class CalculationSchemaForm<T> extends React.Component<
           //if the old formData has no key set for this form
           //then this is the updated section
           //Arrays are set as default null/undefined
-          if(oldFormData === undefined){
-            return true
+          if (oldFormData === undefined) {
+            return true;
           }
           return newFormData[key] !== oldFormData[key];
         default:
+          if (!oldFormData) {
+            return;
+          }
           // If it's undefined or null, return the comparison
           if (newFormData[key] === undefined || newFormData[key] === null) {
             return newFormData[key] !== oldFormData[key];
