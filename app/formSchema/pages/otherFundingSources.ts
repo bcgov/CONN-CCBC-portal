@@ -122,6 +122,7 @@ const otherFundingSources = {
                     totalRequestedFundingPartner: {
                       title: 'Total amount requested from funding partner',
                       type: 'number',
+                      readOnly: true,
                     },
                   },
                 },

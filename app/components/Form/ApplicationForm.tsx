@@ -16,6 +16,7 @@ import validateFormData from '@rjsf/core/dist/cjs/validate';
 import {
   calculateApplicantFunding,
   calculateContractorEmployment,
+  calculateFundingPartner,
   calculateFundingRequestedCCBC,
   calculateInfrastructureFunding,
   calculateProjectEmployment,
@@ -328,6 +329,7 @@ const ApplicationForm: React.FC<Props> = ({
       }),
       ...(sectionName === 'otherFundingSources' && {
         ...calculateInfrastructureFunding(formData),
+        ...calculateFundingPartner(formData),
       }),
     };
     return formData;

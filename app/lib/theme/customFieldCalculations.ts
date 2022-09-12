@@ -106,9 +106,38 @@ const calculateInfrastructureFunding = (formData) => {
   return formData;
 };
 
+const calculateFundingPartner = (formData) => {
+  const newFormData = JSON.parse(JSON.stringify(formData));
+
+  newFormData.otherFundingSourcesArray &&
+    newFormData.otherFundingSourcesArray.forEach((item, i) => {
+      const requestedFundingPartner2223 =
+        Number(item.requestedFundingPartner2223) || 0;
+      const requestedFundingPartner2324 =
+        Number(item.requestedFundingPartner2324) || 0;
+      const requestedFundingPartner2425 =
+        Number(item.requestedFundingPartner2425) || 0;
+      const requestedFundingPartner2526 =
+        Number(item.requestedFundingPartner2526) || 0;
+      const requestedFundingPartner2627 =
+        Number(item.requestedFundingPartner2627) || 0;
+
+      item.totalRequestedFundingPartner = calculateFunding(
+        requestedFundingPartner2223,
+        requestedFundingPartner2324,
+        requestedFundingPartner2425,
+        requestedFundingPartner2526,
+        requestedFundingPartner2627
+      );
+    });
+
+  return newFormData;
+};
+
 export {
   calculateApplicantFunding,
   calculateContractorEmployment,
+  calculateFundingPartner,
   calculateFundingRequestedCCBC,
   calculateInfrastructureFunding,
   calculateProjectEmployment,

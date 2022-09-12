@@ -99,7 +99,7 @@ const otherFundingSources = {
         'ui:widget': MoneyWidget,
       },
       totalRequestedFundingPartner: {
-        'ui:widget': MoneyWidget,
+        'ui:widget': ReadOnlyMoneyWidget,
       },
       // Custom array button prop that is used in ArrayFieldTemplate
       'ui:array-buttons': {
