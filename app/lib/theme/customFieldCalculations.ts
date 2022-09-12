@@ -110,7 +110,7 @@ const calculateFundingPartner = (formData) => {
   const newFormData = JSON.parse(JSON.stringify(formData));
 
   newFormData.otherFundingSourcesArray &&
-    newFormData.otherFundingSourcesArray.forEach((item, i) => {
+    newFormData.otherFundingSourcesArray.forEach((item) => {
       const requestedFundingPartner2223 =
         Number(item.requestedFundingPartner2223) || 0;
       const requestedFundingPartner2324 =
