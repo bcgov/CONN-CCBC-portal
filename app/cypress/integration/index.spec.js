@@ -468,11 +468,6 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Submission');
 
-    cy.get('input[id="root_submissionCompletedFor"]').type('test');
-
-    cy.get('#root_submissionDate').click();
-    cy.get(`.react-datepicker__day--001`).eq(2).click({ force: true });
-
     cy.get('input[id="root_submissionCompletedBy"]').type('test');
     cy.get('input[id="root_submissionTitle"]').type('test');
 
