@@ -7,8 +7,6 @@ import styled from 'styled-components';
 
 const runtimeConfig = getConfig()?.publicRuntimeConfig ?? {};
 const StyledFooter = styled(Footer)`
-  position: fixed;
-  bottom: 0;
   width: 100%;
 `;
 
