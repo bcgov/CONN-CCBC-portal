@@ -37,6 +37,28 @@ const mockQueryPayload = {
   },
 };
 
+const submissionPayload = {
+  Application() {
+    return {
+      id: 'TestApplicationID',
+      status: 'draft',
+      updatedAt: '2022-09-12T14:04:10.790848-07:00',
+      formData: {
+        organizationProfile: {
+          organizationName: 'Testing organization name',
+        },
+      },
+    };
+  },
+  Query() {
+    return {
+      openIntake: {
+        closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+      },
+    };
+  },
+};
+
 const componentTestingHelper =
   new ComponentTestingHelper<ApplicationFormTestQuery>({
     component: ApplicationForm,
@@ -165,42 +187,48 @@ describe('The application form', () => {
     expect(screen.getByRole('button', { name: 'Continue' }));
   });
 
-  it('submission page submit button is enabled on when all inputs filled', async () => {
-    componentTestingHelper.loadQuery();
+  it('submission page automatically fills organization name', async () => {
+    componentTestingHelper.loadQuery(submissionPayload);
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
       query: data.query,
     }));
 
-    const completedFor = screen.getByLabelText(/Completed for/i);
+    expect(screen.getByText('Testing organization name')).toBeInTheDocument();
+  });
 
-    const onThisDate = screen.getByLabelText(/On this date/i);
+  it('submission page automatically fills the date', async () => {
+    componentTestingHelper.loadQuery(submissionPayload);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    expect(screen.getByText('2022-09-12')).toBeInTheDocument();
+  });
+
+  it('submission page submit button is enabled on when all inputs filled', async () => {
+    componentTestingHelper.loadQuery(submissionPayload);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
 
     const completedBy = screen.getByLabelText(/Completed By/i);
 
     const title = screen.getByLabelText(/Title/i);
-
-    fireEvent.change(completedFor, {
-      value: 'Applicant Name',
-    });
-
-    fireEvent.change(onThisDate, {
-      value: '2022-08-10',
-    });
 
     fireEvent.change(completedBy, {
       value: 'Person Completed By',
     });
 
     userEvent.type(title, 'Mock Title').then(() => {
-      waitFor(() =>
-        expect(
-          screen
-            .getByRole('button', { name: 'Submit' })
-            .hasAttribute('disabled')
-        ).toBeFalse()
-      );
+      expect(
+        screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
+      ).toBeFalse();
     });
   });
 
