@@ -1,51 +1,49 @@
 import { FieldProps } from '@rjsf/core';
+import { JSONSchema7 } from 'json-schema';
+import { useMemo } from 'react';
 import styled from 'styled-components';
+import { StyledH4, StyledTitleRow } from '../Table';
+import React from 'react';
 
-const StyledColLeft = styled('td')`
-  // Todo: workaround for Jest styled component theme prop error
-  // background-color: ${(props) => props.theme.color.backgroundGrey};
-  background-color: '#F2F2F2';
-  width: 50%;
-  padding: 16px !important;
-  border: 1px solid rgba(0, 0, 0, 0.16);
-  border-left: 0;
-  font-weight: 400;
-  white-space: pre-line;
-  vertical-align: top;
-`;
+const ReviewArrayField: React.FC<FieldProps> = (props) => {
+  const { id, formData, schema, registry, errorSchema, uiSchema, idSchema } =
+    props;
+  console.log(props);
 
-const StyledColRight = styled('td')`
-  width: 50%;
-  padding: 16px !important;
-  border: 1px solid rgba(0, 0, 0, 0.16);
-  border-right: 0;
-  font-weight: 400;
-  white-space: pre-line;
-`;
-
-const StyledColError = styled(StyledColRight)`
-  background-color: rgba(248, 214, 203, 0.4);
-  // background-color: ${(props) => props.theme.color.errorBackground};
-`;
-
-const ReviewArrayField: React.FC<FieldProps> = ({
-  id,
-  formData,
-  rawErrors,
-  schema,
-}) => {
-  return (
-    <tr>
-      <StyledColLeft id={id}>{schema.title}</StyledColLeft>
-      {rawErrors && rawErrors.length > 0 ? (
-        <StyledColError id={`${id}-error`} />
-      ) : (
-        <StyledColRight id={`${id}-value`}>
-          {formData?.join(<br />)}
-        </StyledColRight>
-      )}
-    </tr>
+  const idSchemas = useMemo(
+    () =>
+      formData?.map((_, index) => {
+        return {
+          ...idSchema,
+          $id: `${idSchema.$id}_${index}`,
+        };
+      }),
+    [idSchema, formData]
   );
+
+  const SchemaField = registry.fields.SchemaField;
+  return formData?.map((el, index) => {
+    return (
+      <React.Fragment key={`${id}_${index}`}>
+        <tr>
+          <StyledTitleRow colSpan={2}>
+            <StyledH4>
+              {index + 1}. {uiSchema?.['ui:itemTitle']}
+            </StyledH4>
+          </StyledTitleRow>
+        </tr>
+        <SchemaField
+          {...props}
+          key={`${id}_${index}`}
+          schema={schema.items as JSONSchema7}
+          formData={el}
+          errorSchema={errorSchema[index]}
+          uiSchema={uiSchema?.items}
+          idSchema={idSchemas[index]}
+        />
+      </React.Fragment>
+    );
+  });
 };
 
 export default ReviewArrayField;
