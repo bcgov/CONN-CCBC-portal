@@ -1,6 +1,7 @@
 //import React from 'react';
 import { default as TimeTravel } from '../../components/TimeTravel';
-import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { DateTime } from 'luxon';
 
 const renderStaticLayout = () => {
@@ -32,14 +33,21 @@ describe('The TimeTravel component', () => {
     renderStaticLayout();
     expect(screen.getByText('Current date is: 2020-01-01'));
   });
-  /**if (value) {
-      const mockDate = dateTimeFormat(value, 'date_year_first');
-      cookie.set('mocks.mocked_timestamp', value.valueOf());
-      cookie.set('mocks.mocked_date', mockDate);
-      setDate(mockDate);
-    } else {
-      setDate(today);
-      cookie.remove('mocks.mocked_timestamp');
-      cookie.remove('mocks.mocked_date');
-    } */
+
+  it('should reset mock date', async() => {
+    const today = DateTime.now().toFormat('yyyy-MM-dd');
+    renderStaticLayout(); 
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Reset' })
+    );
+    expect(screen.getByText(`Current date is: ${today}`));
+  });
+  
+  it('should set mock date', async() => {
+    renderStaticLayout(); 
+    const datePicker = screen.getByPlaceholderText('YYYY-MM-DD');
+    fireEvent.mouseDown(datePicker);
+    fireEvent.change(datePicker, { target: { value: "2020-01-01" } });
+    expect(screen.getByText(`Current date is: 2020-01-01`));
+  });
 });
