@@ -47,7 +47,7 @@ const reviewUiSchema = {
     },
   },
   acknowledgements: {
-    'ui:field': 'HiddenField',
+    'ui:hidden': true,
   },
   alternateContact: {
     ...alternateContact,
@@ -72,10 +72,6 @@ const reviewUiSchema = {
   coverage: {
     ...coverage,
     'ui:field': 'SectionField',
-    geographicCoverageMap: { 'ui:field': 'FilesField' },
-    coverageAssessmentStatistics: { 'ui:field': 'FilesField' },
-    currentNetworkInfastructure: { 'ui:field': 'FilesField' },
-    upgradedNetworkInfrastructure: { 'ui:field': 'FilesField' },
   },
   estimatedProjectEmployment: {
     ...estimatedProjectEmployment,
@@ -175,19 +171,13 @@ const reviewUiSchema = {
     ...projectPlan,
     'ui:field': 'SectionField',
   },
-  submission: { 'ui:field': 'HiddenField' },
+  submission: { 'ui:hidden': true },
   supportingDocuments: {
     ...supportingDocuments,
     'ui:field': 'SectionField',
-    copiesOfRegistration: { 'ui:field': 'FilesField' },
-    preparedFinancialStatements: { 'ui:field': 'FilesField' },
-    logicalNetworkDiagram: { 'ui:field': 'FilesField' },
-    projectSchedule: { 'ui:field': 'FilesField' },
-    communityRuralDevelopmentBenefits: { 'ui:field': 'FilesField' },
-    otherSupportingMaterials: { 'ui:field': 'FilesField' },
   },
   review: {
-    'ui:field': 'HiddenField',
+    'ui:hidden': true,
   },
   techSolution: {
     ...techSolution,
@@ -204,16 +194,6 @@ const reviewUiSchema = {
   templateUploads: {
     ...templateUploads,
     'ui:field': 'SectionField',
-    eligibilityAndImpactsCalculator: { 'ui:field': 'FilesField' },
-    detailedBudget: { 'ui:field': 'FilesField' },
-    financialForecast: { 'ui:field': 'FilesField' },
-    lastMileIspOffering: { 'ui:field': 'FilesField' },
-    popWholesalePricing: { 'ui:field': 'FilesField' },
-    communityRuralDevelopmentBenefitsTemplate: { 'ui:field': 'FilesField' },
-    wirelessAddendum: { 'ui:field': 'FilesField' },
-    supportingConnectivityEvidence: { 'ui:field': 'FilesField' },
-    geographicNames: { 'ui:field': 'FilesField' },
-    equipmentDetails: { 'ui:field': 'FilesField' },
   },
 };
 
