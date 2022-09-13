@@ -17,7 +17,7 @@ const StyledLayout = styled('div')`
   min-height: 100vh;
 `;
 const StyledMain = styled('main')`
-  margin: 0 auto 50px;
+  margin: auto 50px;
   max-width: ${(props) => props.theme.width.pageMaxWidth};
   flex: 1;
   padding: 2em 1.5em;
