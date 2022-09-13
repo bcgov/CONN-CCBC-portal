@@ -36,19 +36,19 @@ begin
    into submission_completed_for, submission_completed_by, submission_title, submission_date;
 
   if coalesce(submission_completed_for, '') = '' then
-    raise 'The field submission_completed_for is empty, cannot submit application';
+    raise 'The application cannot be submitted as the submission field submission_completed_for is null or empty';
 end if;
 
   if coalesce(submission_completed_by, '') = '' then
-    raise 'The field submission_completed_by is empty, cannot submit application';
+    raise 'The application cannot be submitted as the submission field submission_completed_by is null or empty';
   end if;
   
   if coalesce(submission_title, '') = '' then
-    raise 'The field submission_title is empty, cannot submit application';
+    raise 'The application cannot be submitted as the submission field submission_title is null or empty';
   end if;
 
   if coalesce(submission_date, '') = '' then
-    raise 'The field submission_date is empty, cannot submit application';
+    raise 'The application cannot be submitted as the submission field submission_date is null or empty';
   end if;
 
   select id, ccbc_intake_number, application_number_seq_name from ccbc_public.open_intake()
