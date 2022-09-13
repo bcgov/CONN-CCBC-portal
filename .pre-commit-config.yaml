@@ -1,0 +1,33 @@
+repos:
+  - repo: local
+    hooks:
+      - id: prettier
+        name: Prettier
+        language: script
+        entry: ./.bin/pre-commit-format.sh
+        stages: [commit]
+  - repo: local
+    hooks:
+      - id: eslint
+        name: ESLint
+        language: system
+        files: \.(j|t)sx?$
+        entry: ./.bin/pre-commit-lint.sh
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-vcs-permalinks
+      - id: check-yaml
+        exclude: ^chart/.*/templates/
+      - id: end-of-file-fixer
+        exclude: current_version\.txt
+      - id: trailing-whitespace
+        exclude: .*/__snapshots__/.*|app/schema/.*
+  - repo: https://github.com/zricethezav/gitleaks
+    rev: v8.2.5
+    hooks:
+      - id: gitleaks

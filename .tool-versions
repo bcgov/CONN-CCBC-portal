@@ -2,3 +2,5 @@ nodejs 16.13.1
 yarn 1.22.18
 kubectl 1.21.6
 postgres 14.1
+python 3.10.6
+rust 1.63.0
