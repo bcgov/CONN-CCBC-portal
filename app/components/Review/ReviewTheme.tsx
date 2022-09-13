@@ -1,14 +1,12 @@
-import { ThemeProps, utils } from '@rjsf/core';
+import { ThemeProps } from '@rjsf/core';
 import ReviewInlineArrayField from './fields/ReviewInlineArrayField';
 import ReviewBooleanField from './fields/ReviewBooleanField';
-import ReviewObjectField from './fields/ReviewObjectField';
 import ReviewStringField from './fields/ReviewStringField';
 import SchemaField from './fields/ReviewSchemaField';
 import ReviewObjectFieldTemplate from './ReviewObjectFieldTemplate';
 import ReviewSectionField from './ReviewSectionField';
 import ReviewArrayField from './fields/ReviewArrayField';
-
-const { widgets, fields } = utils.getDefaultRegistry();
+import ReviewFilesField from './fields/ReviewFilesField';
 
 const ReadOnlyTheme: ThemeProps = {
   fields: {
@@ -19,12 +17,8 @@ const ReadOnlyTheme: ThemeProps = {
     ArrayField: ReviewArrayField,
     InlineArrayField: ReviewInlineArrayField,
     SchemaField: SchemaField,
-    // ObjectField: ReviewObjectField,
-    // DefaultObjectField: fields.ObjectField,
+    FilesField: ReviewFilesField,
     HiddenField: () => null,
-  },
-  widgets: {
-    ...widgets,
   },
   ObjectFieldTemplate: ReviewObjectFieldTemplate,
   FieldTemplate: (props) => props.children,

@@ -72,6 +72,10 @@ const reviewUiSchema = {
   coverage: {
     ...coverage,
     'ui:field': 'SectionField',
+    geographicCoverageMap: { 'ui:field': 'FilesField' },
+    coverageAssessmentStatistics: { 'ui:field': 'FilesField' },
+    currentNetworkInfastructure: { 'ui:field': 'FilesField' },
+    upgradedNetworkInfrastructure: { 'ui:field': 'FilesField' },
   },
   estimatedProjectEmployment: {
     ...estimatedProjectEmployment,
@@ -84,6 +88,17 @@ const reviewUiSchema = {
   organizationLocation: {
     ...organizationLocation,
     'ui:field': 'SectionField',
+    mailingAddress: {
+      unitNumberMailing: {
+        'ui:before': (
+          <tr>
+            <StyledTd colSpan={2}>
+              <StyledSubtitle>Mailing address:</StyledSubtitle>
+            </StyledTd>
+          </tr>
+        ),
+      },
+    },
   },
   organizationProfile: {
     ...organizationProfile,
@@ -164,6 +179,12 @@ const reviewUiSchema = {
   supportingDocuments: {
     ...supportingDocuments,
     'ui:field': 'SectionField',
+    copiesOfRegistration: { 'ui:field': 'FilesField' },
+    preparedFinancialStatements: { 'ui:field': 'FilesField' },
+    logicalNetworkDiagram: { 'ui:field': 'FilesField' },
+    projectSchedule: { 'ui:field': 'FilesField' },
+    communityRuralDevelopmentBenefits: { 'ui:field': 'FilesField' },
+    otherSupportingMaterials: { 'ui:field': 'FilesField' },
   },
   review: {
     'ui:field': 'HiddenField',
@@ -171,10 +192,28 @@ const reviewUiSchema = {
   techSolution: {
     ...techSolution,
     'ui:field': 'SectionField',
+    backboneTechnology: {
+      ...techSolution.backboneTechnology,
+      'ui:field': 'InlineArrayField',
+    },
+    lastMileTechnology: {
+      ...techSolution.backboneTechnology,
+      'ui:field': 'InlineArrayField',
+    },
   },
   templateUploads: {
     ...templateUploads,
     'ui:field': 'SectionField',
+    eligibilityAndImpactsCalculator: { 'ui:field': 'FilesField' },
+    detailedBudget: { 'ui:field': 'FilesField' },
+    financialForecast: { 'ui:field': 'FilesField' },
+    lastMileIspOffering: { 'ui:field': 'FilesField' },
+    popWholesalePricing: { 'ui:field': 'FilesField' },
+    communityRuralDevelopmentBenefitsTemplate: { 'ui:field': 'FilesField' },
+    wirelessAddendum: { 'ui:field': 'FilesField' },
+    supportingConnectivityEvidence: { 'ui:field': 'FilesField' },
+    geographicNames: { 'ui:field': 'FilesField' },
+    equipmentDetails: { 'ui:field': 'FilesField' },
   },
 };
 

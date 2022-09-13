@@ -1,6 +1,6 @@
 import { FieldProps } from '@rjsf/core';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import React from 'react';
 
 const StyledColLeft = styled('td')`
   // Todo: workaround for Jest styled component theme prop error
@@ -29,12 +29,20 @@ const StyledColError = styled(StyledColRight)`
   // background-color: ${(props) => props.theme.color.errorBackground};
 `;
 
-const ReviewInlineArrayField: React.FC<FieldProps> = ({
+const ReviewFilesField: React.FC<FieldProps> = ({
   id,
   formData,
   rawErrors,
   schema,
 }) => {
+  const filesArray = useMemo(() => {
+    try {
+      return JSON.parse(formData);
+    } catch {
+      return [];
+    }
+  }, [formData]);
+
   return (
     <tr>
       <StyledColLeft id={id}>{schema.title}</StyledColLeft>
@@ -42,10 +50,10 @@ const ReviewInlineArrayField: React.FC<FieldProps> = ({
         <StyledColError id={`${id}-error`} />
       ) : (
         <StyledColRight id={`${id}-value`}>
-          {formData?.map((el, index) => (
+          {filesArray?.map((el, index) => (
             <React.Fragment key={`${id}_${index}`}>
-              {el.toString()}
-              {index < formData.length - 1 && (
+              {el.name ?? el.toString()}
+              {index < filesArray.length - 1 && (
                 <>
                   ,<br />
                 </>
@@ -58,4 +66,4 @@ const ReviewInlineArrayField: React.FC<FieldProps> = ({
   );
 };
 
-export default ReviewInlineArrayField;
+export default ReviewFilesField;
