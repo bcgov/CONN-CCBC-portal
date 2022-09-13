@@ -57,10 +57,11 @@ module.exports = function UploadFieldPlugin(
         return field;
       }
 
-      const foundUploadFieldDefinition =
-        uploadFieldDefinitions.filter((def) =>
+      const foundUploadFieldDefinition = uploadFieldDefinitions 
+        ? uploadFieldDefinitions.filter((def) =>
           findMatchingDefinitions(def, table, attr)
-        ).length === 1;
+        ).length === 1
+        : false;
 
       if (!foundUploadFieldDefinition) {
         return field;
@@ -95,9 +96,10 @@ module.exports = function UploadFieldPlugin(
     const uploadResolversByFieldName = introspectionResultsByKind.attribute
       .filter((attr) => attr.classId === table.id)
       .reduce((memo, attr) => {
-        const defs = uploadFieldDefinitions.filter((def) =>
+        const defs = uploadFieldDefinitions
+          ? uploadFieldDefinitions.filter((def) =>
           findMatchingDefinitions(def, table, attr)
-        );
+        ) : [];
         if (defs.length > 1) {
           throw new Error('Upload field definitions are ambiguous');
         }

@@ -11,12 +11,6 @@ module.exports = {
       pgArchivedColumnName: 'archived_at',
       pgArchivedColumnImpliesVisible: false,
       pgArchivedRelations: false,
-      uploadFieldDefinitions: [
-        {
-          match: ({ schema, table, column, tags }) =>
-            table === 'attachment' && column === 'file',
-        },
-      ],
     },
   },
 };
