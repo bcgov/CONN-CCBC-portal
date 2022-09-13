@@ -51,8 +51,8 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get current day
+      - name: Get current day for cache
+        # To avoid trivvy scans from pulling stale cached images
         uses: josStorer/get-current-time@v2.0.1
         id: current-day
         with:
@@ -62,9 +62,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ matrix.name }}-${{ github.sha }}-${{ steps.current-day.outputs.formattedTime }}
+          key: ${{ runner.os }}-buildx-${{ matrix.name }}-${{ steps.current-day.outputs.formattedTime }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-buildx-${{ matrix.name }}
+            ${{ runner.os }}-buildx-${{ matrix.name }}-${{ steps.current-day.outputs.formattedTime }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
