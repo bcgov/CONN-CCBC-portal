@@ -84,7 +84,6 @@ const organizationLocation: Record<string, JSONSchema7> = {
                 description: 'Provide an address for your organization',
                 type: 'object',
                 required: [
-                  'isMailingAddress',
                   'streetNumberMailing',
                   'streetNameMailing',
                   'cityMailing',
