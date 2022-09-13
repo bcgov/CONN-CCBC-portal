@@ -80,3 +80,4 @@ grant execute on function ccbc_public.submit_application to ccbc_auth_user;
 
 
 commit;
+

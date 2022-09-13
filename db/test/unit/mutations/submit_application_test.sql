@@ -10,19 +10,28 @@ select has_function(
 delete from ccbc_public.intake;
 
 set jwt.claims.sub to '00000000-0000-0000-0000-000000000000';
+
 insert into ccbc_public.application(id, form_data, owner) overriding system value
 values
-  (1, '{}', '00000000-0000-0000-0000-000000000000'),
+  (1, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}', '00000000-0000-0000-0000-000000000000'),
   (2, '{}', '00000000-0000-0000-0000-000000000000'),
   (3, '{}', '00000000-0000-0000-0000-000000000000'),
-  (4, '{}', '00000000-0000-0000-0000-000000000000');
+  (4, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}', '00000000-0000-0000-0000-000000000000'),
+  (5, '{"submission": {"submissionDate": "", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}', '00000000-0000-0000-0000-000000000000'),
+  (6, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}', '00000000-0000-0000-0000-000000000000'),
+  (7, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "", "submissionCompletedFor": "Testing Incorporated"}', '00000000-0000-0000-0000-000000000000'),
+  (8, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": ""}', '00000000-0000-0000-0000-000000000000');
 
 insert into ccbc_public.application_status(application_id, status)
 values
   (1, 'draft'),
   (2, 'submitted'),
   (3, 'withdrawn'),
-  (4, 'draft');
+  (4, 'draft'),
+  (5, 'draft'),
+  (6, 'draft'),
+  (7, 'draft'),
+  (8, 'draft');
 
 select throws_like(
   $$
@@ -87,6 +96,34 @@ select results_eq(
     values (4, 'CCBC-100002'::varchar, 42)
   $$,
   'Increases the ccbc number when submitting applications'
+);
+
+select throws_like(
+  $$
+    select ccbc_public.submit_application(5)
+  $$,
+  'The application cannot be submitted as the submission field submission_date is null or empty'
+);
+
+select throws_like(
+  $$
+    select ccbc_public.submit_application(6)
+  $$,
+  'The application cannot be submitted as the submission field submission_title is null or empty'
+);
+
+select throws_like(
+  $$
+    select ccbc_public.submit_application(7)
+  $$,
+  'The application cannot be submitted as the submission field submission_completed_for is null or empty'
+);
+
+select throws_like(
+  $$
+    select ccbc_public.submit_application(8)
+  $$,
+  'The application cannot be submitted as the submission field submission_completed_by is null or empty'
 );
 
 select function_privs_are(
