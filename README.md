@@ -125,4 +125,4 @@ We developed some guardrails (i.e. GitHub actions) to:
 
 _The following is to be done in the root directory_
 
-Hooks are installed when running `make install_dev_tools`, installing both the python pre-commit hooks as well as a commit-msg hook by cocogitto
+Hooks are installed with when running `make install_git_hooks`, installing both the python pre-commit hooks as well as a commit-msg hook by cocogitto
