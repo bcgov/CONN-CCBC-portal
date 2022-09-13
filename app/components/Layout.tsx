@@ -1,18 +1,25 @@
 import Head from 'next/head';
 import { Footer } from '@button-inc/bcgov-theme';
-import { FooterLinks, Navigation } from '.';
+import { FooterLinks, Navigation, TimeTravel } from '.';
+import getConfig from 'next/config';
 
 import styled from 'styled-components';
 
+const runtimeConfig = getConfig()?.publicRuntimeConfig ?? {};
 const StyledFooter = styled(Footer)`
-  position: fixed;
-  bottom: 0;
   width: 100%;
 `;
 
+const StyledLayout = styled('div')`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+`;
 const StyledMain = styled('main')`
   margin: 0 auto 50px;
   max-width: ${(props) => props.theme.width.pageMaxWidth};
+  flex: 1;
   padding: 2em 1.5em;
 
   @media (min-width: 768px) {
@@ -33,9 +40,10 @@ type Props = {
 };
 
 const Layout: React.FC<Props> = ({ children, session, title }) => {
+  const enableTimeMachine = runtimeConfig.ENABLE_MOCK_TIME;
   const isLoggedIn = session?.sub;
   return (
-    <>
+    <StyledLayout>
       <Head>
         <meta
           name="viewport"
@@ -66,12 +74,13 @@ const Layout: React.FC<Props> = ({ children, session, title }) => {
       </Head>
       <Navigation isLoggedIn={isLoggedIn} />
       <StyledMain>{children}</StyledMain>
+      {enableTimeMachine && <TimeTravel />}
       <StyledFooter>
         <StyledDiv>
           <FooterLinks />
         </StyledDiv>
       </StyledFooter>
-    </>
+    </StyledLayout>
   );
 };
 

@@ -1,0 +1,6 @@
+%syntax-version=1.0.0
+%project=mocks
+%uri=https://github.com/bcgov/ccbc/mock
+
+schemas/main 2021-10-21T16:10:32Z Matthieu Foucault <matthieu@button.is> # Creating schema for mocked functions
+functions/now [schemas/main] 2021-10-21T16:10:32Z Matthieu Foucault <matthieu@button.is> # Mock function to override the default now() behaviour
