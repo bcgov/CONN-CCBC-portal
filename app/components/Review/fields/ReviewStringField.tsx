@@ -37,7 +37,10 @@ const ReviewStringField: React.FC<FieldProps> = ({
   uiSchema,
 }) => {
   let displayData = formData;
-  if (uiSchema?.['ui:widget'] === 'MoneyWidget')
+  if (
+    uiSchema?.['ui:widget'] === 'MoneyWidget' ||
+    uiSchema?.['ui:widget'] === 'ReadOnlyMoneyWidget'
+  )
     displayData = formatMoney(formData);
   return (
     <tr>
