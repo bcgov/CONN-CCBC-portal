@@ -52,11 +52,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: current-day
+        uses: josStorer/get-current-time@v2.0.1
+        with:
+          format: YYYY-MM-DD
+          utcOffset: "-7:00"
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ matrix.name }}-${{ github.sha }}
+          key: ${{ runner.os }}-buildx-${{ matrix.name }}-${{ github.sha }}-${{ steps.current-time.outputs.formattedTime }}
           restore-keys: |
             ${{ runner.os }}-buildx-${{ matrix.name }}
 
