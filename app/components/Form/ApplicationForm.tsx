@@ -375,6 +375,14 @@ const ApplicationForm: React.FC<Props> = ({
     </>
   );
 
+  const isDisabled = () => {
+    const isSubmitted = status === 'submitted';
+    const isAcknowledgementOrSubmissionPage =
+      sectionName === 'acknowledgements' || sectionName === 'submission';
+
+    return isWithdrawn || (isSubmitted && isAcknowledgementOrSubmissionPage);
+  };
+
   const customPagesDict = {
     acknowledgements: (
       <CalculationForm
@@ -386,7 +394,7 @@ const ApplicationForm: React.FC<Props> = ({
         schema={sectionSchema}
         uiSchema={uiSchema[sectionName]}
         noValidate={true}
-        disabled={isWithdrawn}
+        disabled={isDisabled()}
       >
         {submitBtns}
       </CalculationForm>
@@ -402,7 +410,7 @@ const ApplicationForm: React.FC<Props> = ({
         schema={sectionSchema}
         uiSchema={uiSchema[sectionName]}
         noValidate={true}
-        disabled={isWithdrawn}
+        disabled={isDisabled()}
       >
         {submitBtns}
       </CalculationForm>
@@ -434,7 +442,7 @@ const ApplicationForm: React.FC<Props> = ({
         uiSchema={uiSchema[sectionName]}
         formContext={formContext}
         noValidate={true}
-        disabled={isWithdrawn}
+        disabled={isDisabled()}
       >
         {submitBtns}
       </CalculationForm>
@@ -451,7 +459,7 @@ const ApplicationForm: React.FC<Props> = ({
         fields={CUSTOM_SUBMISSION_FIELD}
         formContext={formContext}
         noValidate={true}
-        disabled={isWithdrawn}
+        disabled={isDisabled()}
       >
         {submitBtns}
       </CalculationForm>
@@ -479,7 +487,7 @@ const ApplicationForm: React.FC<Props> = ({
           uiSchema={uiSchema[sectionName]}
           // Todo: validate entire form on completion
           noValidate={true}
-          disabled={isWithdrawn}
+          disabled={isDisabled()}
           formContext={formContext}
         >
           {review && (

@@ -6,7 +6,6 @@ import compiledQuery, {
 } from '__generated__/ApplicationFormTestQuery.graphql';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DateTime } from 'luxon';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
@@ -26,6 +25,7 @@ const mockQueryPayload = {
     return {
       id: 'TestApplicationID',
       formData: {},
+      status: 'draft',
     };
   },
   Query() {
@@ -284,5 +284,69 @@ describe('The application form', () => {
     expect(
       screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)
     ).toBeInTheDocument();
+  });
+
+  it('Acknowledgement fields are disabled when visiting submitted application', async () => {
+    const payload = {
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          status: 'submitted',
+          formData: {},
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(payload);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 20,
+      query: data.query,
+    }));
+
+    const checkBoxes = screen.getAllByRole('checkbox');
+
+    checkBoxes.forEach((checkBox) => {
+      expect(checkBox.hasAttribute('disabled')).toBeTrue();
+    });
+  });
+
+  it('Submission fields are disabled when visiting submitted application', async () => {
+    const payload = {
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          status: 'submitted',
+          formData: {},
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(payload);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    const textBoxes = screen.getAllByRole('textbox');
+
+    textBoxes.forEach((textBox) => {
+      expect(textBox.hasAttribute('disabled')).toBeTrue();
+    });
   });
 });
