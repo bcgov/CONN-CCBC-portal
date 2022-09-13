@@ -394,7 +394,7 @@ const ApplicationForm: React.FC<Props> = ({
         schema={sectionSchema}
         uiSchema={uiSchema[sectionName]}
         noValidate={true}
-        disabled={isWithdrawn}
+        disabled={isDisabled()}
       >
         {submitBtns}
       </CalculationForm>
