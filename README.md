@@ -125,6 +125,4 @@ We developed some guardrails (i.e. GitHub actions) to:
 
 _The following is to be done in the root directory_
 
-To install the pre-commit hooks, first install the asdf tools using `make install_asdf_tools` also install the python tools using `pip install -r requirements.txt` and `pre-commit install`.
-
-Finally, also run `make install_cocogitto_hook` for the cocogitto commit-msg hook.
+Hooks are installed when running `make install_dev_tools`, installing both the python pre-commit hooks as well as a commit-msg hook by cocogitto
