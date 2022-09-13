@@ -21,7 +21,7 @@ describe("Config tests", () => {
         jest.mock('convict', () =>  mockConvict);
 
         expect(() => { 
-            /* eslint-disable @typescript-eslint/no-var-requires */
+            /* eslint-disable */
             const config = require('../../config'); 
             console.log(config.get("ENABLE_MOCK_TIME"));
         }).toThrow(new Error("ENABLE_MOCK_TIME cannot be true with a -prod namespace."));
