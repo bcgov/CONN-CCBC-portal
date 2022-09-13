@@ -41,8 +41,6 @@ type Props = {
 
 const Layout: React.FC<Props> = ({ children, session, title }) => {
   const enableTimeMachine = runtimeConfig.ENABLE_MOCK_TIME;
-  const environment = runtimeConfig.OPENSHIFT_APP_NAMESPACE;
-  const isTestEnv = environment ? !environment.endsWith('-prod') : false;
   const isLoggedIn = session?.sub;
   return (
     <StyledLayout>
@@ -76,7 +74,7 @@ const Layout: React.FC<Props> = ({ children, session, title }) => {
       </Head>
       <Navigation isLoggedIn={isLoggedIn} />
       <StyledMain>{children}</StyledMain>
-      {isTestEnv && enableTimeMachine && <TimeTravel />}
+      {enableTimeMachine && <TimeTravel />}
       <StyledFooter>
         <StyledDiv>
           <FooterLinks />

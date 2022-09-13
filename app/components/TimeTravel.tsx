@@ -36,7 +36,7 @@ const StyledDatePicker = styled(ReactDatePicker)`
   width: 100%;
 `;
 
-const TimeMachine = () => {
+const TimeTravel = () => {
   const today = DateTime.now().toFormat('yyyy-MM-dd');
   const [date, setDate] = useState(cookie.get('mocks.mocked_date') || today);
 
@@ -82,4 +82,4 @@ const TimeMachine = () => {
   );
 };
 
-export default TimeMachine;
+export default TimeTravel;
