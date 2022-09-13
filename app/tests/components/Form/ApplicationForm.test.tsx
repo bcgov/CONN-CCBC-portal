@@ -26,6 +26,7 @@ const mockQueryPayload = {
       id: 'TestApplicationID',
       formData: {},
       status: 'draft',
+      updatedAt: '2022-09-12T14:04:10.790848-07:00',
     };
   },
   Query() {
@@ -89,11 +90,18 @@ describe('The application form', () => {
       'updateApplicationMutation',
       {
         input: {
-          id: 'TestApplicationID',
           applicationPatch: {
-            formData: { projectInformation: { projectTitle: 'test title' } },
+            formData: {
+              projectInformation: {
+                projectTitle: 'test title',
+              },
+              submission: {
+                submissionDate: '2022-09-12',
+              },
+            },
             lastEditedPage: 'projectInformation',
           },
+          id: 'TestApplicationID',
         },
       }
     );
@@ -111,11 +119,69 @@ describe('The application form', () => {
       'updateApplicationMutation',
       {
         input: {
-          id: 'TestApplicationID',
           applicationPatch: {
-            formData: { projectInformation: {} },
+            formData: {
+              projectInformation: {},
+              submission: {
+                submissionDate: '2022-09-12',
+              },
+            },
             lastEditedPage: 'projectArea',
           },
+          id: 'TestApplicationID',
+        },
+      }
+    );
+  });
+
+  it('auto fills the submission fields', async () => {
+    const mockQueryAutofillPayload = {
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          formData: {
+            organizationProfile: {
+              organizationName: 'Test org',
+            },
+          },
+          status: 'draft',
+          updatedAt: '2022-09-12T14:04:10.790848-07:00',
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(mockQueryAutofillPayload);
+    componentTestingHelper.renderComponent();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Save and continue' })
+    );
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationMutation',
+      {
+        input: {
+          applicationPatch: {
+            formData: {
+              organizationProfile: {
+                organizationName: 'Test org',
+              },
+              projectInformation: {},
+              submission: {
+                submissionCompletedFor: 'Test org',
+                submissionDate: '2022-09-12',
+              },
+            },
+            lastEditedPage: 'projectArea',
+          },
+          id: 'TestApplicationID',
         },
       }
     );
@@ -185,28 +251,6 @@ describe('The application form', () => {
     componentTestingHelper.renderComponent();
 
     expect(screen.getByRole('button', { name: 'Continue' }));
-  });
-
-  it('submission page automatically fills organization name', async () => {
-    componentTestingHelper.loadQuery(submissionPayload);
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    expect(screen.getByText('Testing organization name')).toBeInTheDocument();
-  });
-
-  it('submission page automatically fills the date', async () => {
-    componentTestingHelper.loadQuery(submissionPayload);
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    expect(screen.getByText('2022-09-12')).toBeInTheDocument();
   });
 
   it('submission page submit button is enabled on when all inputs filled', async () => {
