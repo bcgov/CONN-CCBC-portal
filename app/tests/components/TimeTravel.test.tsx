@@ -1,7 +1,7 @@
 //import React from 'react';
 import { default as TimeTravel } from '../../components/TimeTravel';
 import userEvent from '@testing-library/user-event';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { DateTime } from 'luxon';
 
 const renderStaticLayout = () => {
@@ -48,6 +48,9 @@ describe('The TimeTravel component', () => {
     const datePicker = screen.getByPlaceholderText('YYYY-MM-DD');
     fireEvent.mouseDown(datePicker);
     fireEvent.change(datePicker, { target: { value: "2020-01-01" } });
-    expect(screen.getByText(`Current date is: 2020-01-01`));
+    await waitFor(() => {
+      expect(screen.getByText(`Current date is: 2020-01-01`)).toBeInTheDocument();
+    });
+    // expect(screen.getByText(`Current date is: 2020-01-01`));
   });
 });
