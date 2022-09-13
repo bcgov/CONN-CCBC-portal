@@ -416,7 +416,7 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Review');
 
-    cy.get('input[id="review-confirmation-checkbox"]').parent().click();
+    cy.get('input[id="root_acknowledgeIncomplete"]').parent().click();
 
     cy.get('body').happoScreenshot();
 
