@@ -241,6 +241,22 @@ const ApplicationForm: React.FC<Props> = ({
         ? subschemaArray[lastEditedPageNumber][0]
         : '';
 
+    if (isDraft) {
+      // Auto fill submission fields
+      newFormData = {
+        ...newFormData,
+        submission: {
+          ...newFormData.submission,
+          submissionCompletedFor:
+            formData?.organizationProfile?.organizationName,
+          submissionDate: dateTimeFormat(
+            new Date(updatedAt),
+            'date_year_first'
+          ),
+        },
+      };
+    }
+
     setSavingError(null);
     updateApplication({
       variables: {
@@ -456,18 +472,7 @@ const ApplicationForm: React.FC<Props> = ({
         onSubmit={handleSubmit}
         onChange={handleChange}
         onCalculate={updateAreAllSubmissionFieldsSet}
-        formData={{
-          ...formData.submission,
-          // Prefill organization name from organization profile page if it exists
-          submissionCompletedFor:
-            formData?.submission?.submissionCompletedFor ||
-            formData?.organizationProfile?.organizationName ||
-            '',
-          // If status is draft overwrite any submission date in this field with current date
-          submissionDate: isDraft
-            ? dateTimeFormat(new Date(updatedAt), 'date_year_first')
-            : formData?.submission?.submissionDate,
-        }}
+        formData={formData[sectionName]}
         schema={sectionSchema}
         uiSchema={uiSchema[sectionName]}
         fields={CUSTOM_SUBMISSION_FIELD}
