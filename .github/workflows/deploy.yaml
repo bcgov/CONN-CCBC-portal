@@ -41,6 +41,7 @@ jobs:
   deploy-to-openshift-development:
     # temporary
     needs: [is-tagged-release]
+    if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     runs-on: ubuntu-latest
     environment:
       name: development
