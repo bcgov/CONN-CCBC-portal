@@ -39,6 +39,14 @@ jobs:
         run: |
           echo ::set-output name=tagVersion::$( git tag --contains ${{ github.event.pull_request.head.sha  }} | grep v*)
 
+  output-of-itr:
+    runs-on: ubuntu-latest
+    needs: [is-tagged-release]
+    steps:
+      - name: What's it doing
+        run: |
+          echo ${{ needs.is-tagged-release.outputs.tagVersion }}
+
   deploy-to-openshift-development:
     # temporary
     needs: [is-tagged-release]
