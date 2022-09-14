@@ -2,7 +2,7 @@ import { FieldProps } from '@rjsf/core';
 import styled from 'styled-components';
 import React from 'react';
 
-const StyledColLeft = styled('td')`
+const StyledColLeft = styled('th')`
   // Todo: workaround for Jest styled component theme prop error
   // background-color: ${(props) => props.theme.color.backgroundGrey};
   background-color: '#F2F2F2';

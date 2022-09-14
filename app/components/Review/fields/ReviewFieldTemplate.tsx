@@ -2,7 +2,7 @@ import { FieldTemplateProps } from '@rjsf/core';
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledColLeft = styled('td')`
+const StyledColLeft = styled('th')`
   // Todo: workaround for Jest styled component theme prop error
   // background-color: ${(props) => props.theme.color.backgroundGrey};
   background-color: '#F2F2F2';
@@ -58,7 +58,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
       <tr>
         <StyledColLeft id={id}>{title}</StyledColLeft>
         {rawErrors && rawErrors.length > 0 ? (
-          <StyledColError id={`${id}-error`} />
+          <StyledColError test-id={`${id}-error`} />
         ) : (
           <StyledColRight id={`${id}-value`}>{children}</StyledColRight>
         )}

@@ -9,7 +9,7 @@ const StyledTable = styled('table')`
   line-height: 19px;
 `;
 
-const StyledColLeft = styled('td')`
+const StyledColLeft = styled('th')`
   // Todo: workaround for Jest styled component theme prop error
   // background-color: ${(props) => props.theme.color.backgroundGrey};
   background-color: '#F2F2F2';
@@ -36,7 +36,7 @@ const StyledColError = styled(StyledColRight)`
   // background-color: ${(props) => props.theme.color.errorBackground};
 `;
 
-const StyledTitleRow = styled('td')`
+const StyledTitleRow = styled('th')`
   padding: 16px !important;
   border-top: 1px solid rgba(0, 0, 0, 0.16);
 `;

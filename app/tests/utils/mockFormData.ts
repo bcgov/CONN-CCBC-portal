@@ -12,7 +12,7 @@ const mockFormData = {
     numberOfHouseholds: '123123123',
   },
   projectArea: {
-    geographicArea: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+    geographicArea: [1, 9, 10],
     provincesTerritories: ['Alberta', 'Northwest Territories'],
     projectSpanMultipleLocations: 'Yes',
   },
