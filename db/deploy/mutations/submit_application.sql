@@ -37,7 +37,7 @@ begin
 
   if coalesce(submission_completed_for, '') = '' then
     raise 'The application cannot be submitted as the submission field submission_completed_for is null or empty';
-end if;
+  end if;
 
   if coalesce(submission_completed_by, '') = '' then
     raise 'The application cannot be submitted as the submission field submission_completed_by is null or empty';

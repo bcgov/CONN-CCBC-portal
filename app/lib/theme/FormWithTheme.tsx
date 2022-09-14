@@ -7,11 +7,13 @@ import {
   CheckboxWidget,
   DatePickerWidget,
   FileWidget,
+  ReadOnlySubmissionWidget,
   RadioWidget,
   TextAreaWidget,
   TextWidget,
   SelectWidget,
 } from './widgets';
+
 import { ReviewField } from 'components/Review';
 
 const { fields, widgets } = utils.getDefaultRegistry();
@@ -20,7 +22,7 @@ const formTheme: ThemeProps = {
   fields: {
     ...fields,
     DescriptionField: DescriptionField,
-    ReviewField: ReviewField
+    ReviewField: ReviewField,
   },
   widgets: {
     ...widgets,
@@ -29,6 +31,7 @@ const formTheme: ThemeProps = {
     DatePickerWidget: DatePickerWidget,
     FileWidget: FileWidget,
     RadioWidget: RadioWidget,
+    ReadOnlySubmissionWidget: ReadOnlySubmissionWidget,
     SelectWidget: SelectWidget,
     TextWidget: TextWidget,
     TextAreaWidget: TextAreaWidget,
