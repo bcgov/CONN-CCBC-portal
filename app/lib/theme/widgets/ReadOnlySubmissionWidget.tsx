@@ -30,6 +30,7 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
 }) => {
   const router = useRouter();
   const { id } = router.query;
+
   const pageNumber =
     Object.keys(a.properties).indexOf('organizationProfile') + 1;
 
