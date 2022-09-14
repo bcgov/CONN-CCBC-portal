@@ -23,11 +23,10 @@ env:
 
 jobs:
   is-tagged-release:
-    # id: is-tagged-release
     runs-on: ubuntu-latest
     outputs:
       tagVersion: ${{steps.tagVersion.outputs.tagVersion}}
-    if: github.event.ref == 'refs/heads/main'
+    # if: github.event.ref == 'refs/heads/main'
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
