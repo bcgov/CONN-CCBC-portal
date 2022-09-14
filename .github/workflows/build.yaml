@@ -11,6 +11,10 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
+  clear-cache:
+    if: github.event_name == 'schedule'
+    uses: ./.github/workflows/cache.yaml
+
   build-and-push-image:
     runs-on: ubuntu-latest
     strategy:
