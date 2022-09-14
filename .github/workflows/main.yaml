@@ -2,7 +2,7 @@
 name: main
 
 on:
-  workflow_call:
+  workflow_call: # be sure to use 'secrets: inherit' in the caller
   push:
     branches: [main]
   pull_request:
