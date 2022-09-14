@@ -65,7 +65,7 @@ describe('The application form', () => {
     componentTestingHelper.renderComponent();
 
     expect(screen.queryByText('Saving')).toBeNull();
-    expect(screen.getByText('Last saved: Jan 1')).toBeInTheDocument();
+    expect(screen.getByText('Last saved: Jan. 1')).toBeInTheDocument();
   });
 
   it('displays the error message if provided', () => {
