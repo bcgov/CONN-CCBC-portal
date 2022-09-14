@@ -1,0 +1,11 @@
+# Schedule to trigger Main workflow with cleared cache
+name: nightly
+on:
+  schedule:
+    - cron: '0 2 * * *'
+jobs:
+  clear-cache:
+    uses: ./.github/workflows/cache.yaml
+  main:
+    needs: [clear-cache]
+    uses: ./.github/workflows/main.yaml

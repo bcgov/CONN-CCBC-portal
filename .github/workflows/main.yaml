@@ -2,8 +2,7 @@
 name: main
 
 on:
-  schedule:
-    - cron: '0 2 * * *'
+  workflow_call:
   push:
     branches: [main]
   pull_request:
