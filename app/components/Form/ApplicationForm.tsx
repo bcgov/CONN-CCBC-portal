@@ -2,16 +2,15 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
 import { graphql, useFragment } from 'react-relay';
-import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
-import { CalculationForm, FormBase } from '.';
+import styled from 'styled-components';
+import { CalculationForm, FormBase, SubmitBtns } from '.';
 import uiSchema from '../../formSchema/uiSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
 import { acknowledgements } from '../../formSchema/pages';
 import ApplicationFormStatus from './ApplicationFormStatus';
-import styled from 'styled-components';
 
 // https://github.com/rjsf-team/react-jsonschema-form/issues/2131
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -181,6 +180,8 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [reviewConfirm, setReviewConfirm] = useState(false);
   const [savingError, setSavingError] = useState(null);
+  const [saveAsDraft, setSaveAsDraft] = useState(true);
+
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
     useState(verifyAllAcknowledgementsChecked(formData['acknowledgements']));
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
@@ -319,6 +320,7 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
+    setSaveAsDraft(true);
     saveForm(e.formData);
   };
 
@@ -376,25 +378,16 @@ const ApplicationForm: React.FC<Props> = ({
   const isCustomPage = customPages.includes(sectionName);
   const isSubmitPage = pageNumber >= subschemaArray.length;
 
-  const formatSubmitBtn = () => {
-    if (isWithdrawn) {
-      return 'Continue';
-    }
-    if (!isSubmitPage) {
-      return 'Save and continue';
-    }
-    return 'Submit';
-  };
-
   const submitBtns = (
-    <>
-      <Button
-        variant="primary"
-        disabled={handleDisabled(sectionName, noErrors) || isSubmitting}
-      >
-        {formatSubmitBtn()}
-      </Button>
-    </>
+    <SubmitBtns
+      isWithdrawn={isWithdrawn}
+      isSubmitPage={isSubmitPage}
+      formData={formData}
+      saveAsDraft={saveAsDraft}
+      saveForm={saveForm}
+      setSaveAsDraft={() => setSaveAsDraft(false)}
+      disabled={handleDisabled(sectionName, noErrors) || isSubmitting}
+    />
   );
 
   const isDisabled = () => {
