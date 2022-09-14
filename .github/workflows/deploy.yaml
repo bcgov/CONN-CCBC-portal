@@ -36,9 +36,9 @@ jobs:
         fetch-depth: 0
     - name: Is Tagged Commit
       id: tagVersion
+      # Check if one of the commits is associated with a tag
       run: |
-      # Check if the sha is contained in the commit
-      echo ::set-output name=tagVersion::$( git tag --contains ${{ github.sha }} | grep v*)
+        echo ::set-output name=tagVersion::$( git tag --contains ${{ github.sha }} | grep v*)
       
   deploy-to-openshift-development:
     runs-on: ubuntu-latest
