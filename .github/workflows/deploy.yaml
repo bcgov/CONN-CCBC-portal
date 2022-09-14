@@ -40,6 +40,8 @@ jobs:
           echo ::set-output name=tagVersion::$( git tag --contains ${{ github.sha }} | grep v*)
 
   deploy-to-openshift-development:
+    # temporary
+    needs: [is-tagged-release]
     runs-on: ubuntu-latest
     environment:
       name: development
