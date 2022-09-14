@@ -6,7 +6,6 @@ import compiledQuery, {
 } from '__generated__/ApplicationFormTestQuery.graphql';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DateTime } from 'luxon';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
