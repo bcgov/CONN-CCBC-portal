@@ -16,7 +16,7 @@ const IntakeAlert = () => {
         Eligibility Mapping tool are released.
       </p>
       <p>
-        Please check this page after <b>September 21</b> for an update.
+        Please check this page after <b>September 29</b> for an update.
       </p>
     </StyledAlert>
   );
