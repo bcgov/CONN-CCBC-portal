@@ -35,8 +35,9 @@ jobs:
       - name: Is Tagged Commit
         id: tagVersion
         # Check if one of the commits is associated with a tag
+        # Change this back to github.sha for when this is part of the main branch check
         run: |
-          echo ::set-output name=tagVersion::$( git tag --contains ${{ github.sha }} | grep v*)
+          echo ::set-output name=tagVersion::$( git tag --contains ${{ github.event.pull_request.head.sha  }} | grep v*)
 
   deploy-to-openshift-development:
     # temporary
