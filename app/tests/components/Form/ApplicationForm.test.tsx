@@ -153,7 +153,7 @@ describe('The application form', () => {
       Query() {
         return {
           openIntake: {
-            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+            closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
           },
         };
       },
@@ -281,7 +281,7 @@ describe('The application form', () => {
     }));
 
     expect(
-      screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)
+      screen.getByText(/August 27, 2022, 9:52:00 a.m. PDT/)
     ).toBeInTheDocument();
   });
 
