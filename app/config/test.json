@@ -10,6 +10,7 @@
   "PGSCHEMA": "ccbc_public",
   "CLIENT_SECRET": "",
   "HOST": "",
+  "OPENSHIFT_APP_NAMESPACE": "ff61fb-test",
   "HAPPO_API_KEY": "",
   "HAPPO_API_SECRET": "",
   "NEXT_PUBLIC_GROWTHBOOK_API_KEY": "",

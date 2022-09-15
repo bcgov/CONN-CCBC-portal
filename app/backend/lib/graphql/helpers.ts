@@ -1,4 +1,4 @@
-import config from "./../../../config";
+import config from "../../../config";
 
 // Takes a 'cookies' object (key-value pairs in an object)
 export const generateForwardedCookieOptions = (cookies, fields) => {
