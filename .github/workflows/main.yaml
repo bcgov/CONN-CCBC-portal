@@ -6,8 +6,8 @@ on:
     - cron: '0 2 * * *'
   push:
     branches: [test-deploys]
-  pull_request:
-    branches: [main]
+  # pull_request:
+  #   branches: [main]
 
 jobs:
   build:
