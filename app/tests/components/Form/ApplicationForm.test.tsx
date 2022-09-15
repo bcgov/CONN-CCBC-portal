@@ -48,6 +48,12 @@ const submissionPayload = {
         organizationProfile: {
           organizationName: 'Testing organization name',
         },
+        submission: {
+          submissionCompletedFor: 'test',
+          submissionDate: '2022-09-27',
+          submissionCompletedBy: 'test',
+          submissionTitle: 'test',
+        },
       },
     };
   },
@@ -253,7 +259,7 @@ describe('The application form', () => {
     expect(screen.getByRole('button', { name: 'Continue' }));
   });
 
-  it('submission page submit button is enabled on when all inputs filled', async () => {
+  it('submission page submit button is enabled on when all inputs filled', () => {
     componentTestingHelper.loadQuery(submissionPayload);
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
@@ -261,22 +267,12 @@ describe('The application form', () => {
       query: data.query,
     }));
 
-    const completedBy = screen.getByLabelText(/Completed By/i);
-
-    const title = screen.getByLabelText(/Title/i);
-
-    fireEvent.change(completedBy, {
-      value: 'Person Completed By',
-    });
-
-    userEvent.type(title, 'Mock Title').then(() => {
-      expect(
-        screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
-      ).toBeFalse();
-    });
+    expect(
+      screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
+    ).toBeFalse();
   });
 
-  it('submission page submit button is enabled on when all inputs filled', async () => {
+  it('submission page submit button is disabled on when all fields are not filled', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
