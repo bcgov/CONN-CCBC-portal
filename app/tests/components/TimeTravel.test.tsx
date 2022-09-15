@@ -1,7 +1,7 @@
 import { default as TimeTravel } from '../../components/TimeTravel';
 import userEvent from '@testing-library/user-event';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { DateTime, Settings } from 'luxon';
+import { DateTime } from 'luxon';
 
 const renderStaticLayout = () => {
   return render(<TimeTravel />);
