@@ -60,7 +60,7 @@ describe('The application form', () => {
     const mockCurrentTime = DateTime.utc(2020, 1, 2, 0, 0);
     Settings.now = () => mockCurrentTime.toMillis();
     Settings.defaultZone = "UTC";
-    Settings.defaultLocale = "en_CA";
+    Settings.defaultLocale = "en-CA";
 
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent(false);

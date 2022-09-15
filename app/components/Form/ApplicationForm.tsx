@@ -158,7 +158,7 @@ const ApplicationForm: React.FC<Props> = ({
   const { id, rowId, formData, status } = application;
   
   Settings.defaultZone = "America/Vancouver";
-  Settings.defaultLocale = "en_CA";
+  Settings.defaultLocale = "en-CA";
 
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =

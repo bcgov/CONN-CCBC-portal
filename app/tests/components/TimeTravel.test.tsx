@@ -44,7 +44,7 @@ describe('The TimeTravel component', () => {
   
   it('should set mock date', async() => {
     Settings.defaultZone = "UTC";
-    Settings.defaultLocale = "en_CA";
+    Settings.defaultLocale = "en-CA";
     renderStaticLayout(); 
     const datePicker = screen.getByPlaceholderText('YYYY-MM-DD');
     fireEvent.mouseDown(datePicker);

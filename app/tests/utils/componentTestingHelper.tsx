@@ -85,7 +85,7 @@ class ComponentTestingHelper<
   ) {
     if (useDefaultDateSettings) {
       Settings.defaultZone = "America/Vancouver";
-      Settings.defaultLocale = "en_CA";
+      Settings.defaultLocale = "en-CA";
     }
     this.renderResult = render(
       <GlobalTheme>
