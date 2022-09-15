@@ -2,6 +2,8 @@ name: cache
 on:
   workflow_call:
   workflow_dispatch:
+  push:
+    branches: [test-cache]
 concurrency:
   group: cache-${{ github.ref }}
   cancel-in-progress: true
