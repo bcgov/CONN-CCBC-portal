@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
+import LoadingSpinner from 'components/LoadingSpinner';
 
 const StyledFlex = styled('div')`
   display: flex;
@@ -9,8 +10,7 @@ const StyledFlex = styled('div')`
 const StyledButton = styled(Button)`
   margin: 0 24px;
   white-space: nowrap;
-  max-width: 200px;
-  transition: all ease-in-out 0.7s;
+  min-width: 178px;
 `;
 
 const StyledToast = styled('div')`
@@ -19,7 +19,7 @@ const StyledToast = styled('div')`
   padding: 12px 24px;
   color: #ffffff;
   font-size: 16px;
-  transition: all ease-in-out 0.1s 0.4s;
+  transition: all ease-in-out 0.2s 0.3s;
 
   & a {
     color: #ffffff;
@@ -31,19 +31,19 @@ type Props = {
   formData: any;
   isWithdrawn: boolean;
   isSubmitPage: boolean;
+  isUpdating: boolean;
   saveAsDraft: boolean;
   saveForm: any;
-  setSaveAsDraft: any;
 };
 
 const SubmitBtns = ({
   disabled,
   formData,
   isSubmitPage,
+  isUpdating,
   isWithdrawn,
   saveAsDraft,
   saveForm,
-  setSaveAsDraft,
 }: Props) => {
   console;
   const formatSubmitBtn = () => {
@@ -67,12 +67,16 @@ const SubmitBtns = ({
             variant="secondary"
             onClick={(e: React.MouseEvent<HTMLInputElement>) => {
               e.preventDefault();
-              setSaveAsDraft && setSaveAsDraft();
-              saveForm(formData);
+              saveForm(formData, {}, false, true);
             }}
-            disabled={!saveAsDraft}
+            disabled={isUpdating || !saveAsDraft}
+            style={{ padding: isUpdating ? '4px 24px' : '12px 24px' }}
           >
-            {saveAsDraft ? 'Save as draft' : 'Saved'}
+            {isUpdating ? (
+              <LoadingSpinner />
+            ) : (
+              <>{saveAsDraft ? 'Save as draft' : 'Saved'}</>
+            )}
           </StyledButton>
           <StyledToast
             style={{

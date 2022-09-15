@@ -211,7 +211,8 @@ const ApplicationForm: React.FC<Props> = ({
     mutationConfig?: Partial<
       UseDebouncedMutationConfig<updateApplicationMutation>
     >,
-    isRedirectingToNextPage = false
+    isRedirectingToNextPage = false,
+    isSaveAsDraftBtn = false
   ) => {
     if (isWithdrawn) {
       if (pageNumber < subschemaArray.length) {
@@ -290,6 +291,11 @@ const ApplicationForm: React.FC<Props> = ({
             Please refresh the page.
           </>
         );
+      },
+      onCompleted: () => {
+        if (isSaveAsDraftBtn) {
+          setSaveAsDraft(false);
+        }
       },
       ...mutationConfig,
     });
@@ -381,11 +387,11 @@ const ApplicationForm: React.FC<Props> = ({
   const submitBtns = (
     <SubmitBtns
       isWithdrawn={isWithdrawn}
+      isUpdating={isUpdating}
       isSubmitPage={isSubmitPage}
       formData={formData}
       saveAsDraft={saveAsDraft}
       saveForm={saveForm}
-      setSaveAsDraft={() => setSaveAsDraft(false)}
       disabled={handleDisabled(sectionName, noErrors) || isSubmitting}
     />
   );
