@@ -8,9 +8,9 @@ const renderStaticLayout = ({
   formData = {},
   isSubmitPage = false,
   isUpdating = false,
-  isWithdrawn = false,
   saveAsDraft = true,
   saveForm,
+  status = 'draft',
 }) => {
   return render(
     <GlobalTheme>
@@ -19,9 +19,9 @@ const renderStaticLayout = ({
         formData={formData}
         isSubmitPage={isSubmitPage}
         isUpdating={isUpdating}
-        isWithdrawn={isWithdrawn}
         saveAsDraft={saveAsDraft}
         saveForm={saveForm}
+        status={status}
       />
     </GlobalTheme>
   );
@@ -32,9 +32,11 @@ const defaultProps = {
   formData: {},
   isSubmitPage: false,
   isUpdating: false,
-  isWithdrawn: false,
   saveAsDraft: true,
-  saveForm: () => {},
+  saveForm: () => {
+    return;
+  },
+  status: 'draft',
 };
 
 describe('The SubmitBtns component', () => {
@@ -49,7 +51,7 @@ describe('The SubmitBtns component', () => {
   it('should render the button label Continue if application is withdrawn on pages other than submission page', () => {
     renderStaticLayout({
       ...defaultProps,
-      isWithdrawn: true,
+      status: 'withdrawn',
     });
 
     expect(
@@ -81,6 +83,16 @@ describe('The SubmitBtns component', () => {
 
   it('should not render the Save as draft button when not on the submission page', () => {
     renderStaticLayout(defaultProps);
+
+    expect(screen.queryByRole('button', { name: 'Save as draft' })).toBeNull();
+  });
+
+  it('should not render the Save as draft button when application status is not draft', () => {
+    const props = {
+      ...defaultProps,
+      status: 'withdrawn',
+    };
+    renderStaticLayout(props);
 
     expect(screen.queryByRole('button', { name: 'Save as draft' })).toBeNull();
   });

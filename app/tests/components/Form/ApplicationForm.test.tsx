@@ -438,7 +438,7 @@ describe('The application form', () => {
             formData: {
               submission: {},
             },
-            lastEditedPage: '',
+            lastEditedPage: 'review',
           },
         },
       }

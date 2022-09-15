@@ -386,13 +386,13 @@ const ApplicationForm: React.FC<Props> = ({
 
   const submitBtns = (
     <SubmitBtns
-      isWithdrawn={isWithdrawn}
+      disabled={handleDisabled(sectionName, noErrors) || isSubmitting}
       isUpdating={isUpdating}
       isSubmitPage={isSubmitPage}
       formData={formData}
       saveAsDraft={saveAsDraft}
       saveForm={saveForm}
-      disabled={handleDisabled(sectionName, noErrors) || isSubmitting}
+      status={status}
     />
   );
 

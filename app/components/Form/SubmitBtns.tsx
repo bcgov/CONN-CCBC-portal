@@ -5,12 +5,21 @@ import LoadingSpinner from 'components/LoadingSpinner';
 
 const StyledFlex = styled('div')`
   display: flex;
+  flex-direction: column;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+  }
 `;
 
 const StyledButton = styled(Button)`
-  margin: 0 24px;
+  margin: 24px 0;
   white-space: nowrap;
   min-width: 178px;
+
+  @media (min-width: 600px) {
+    margin: 0 24px;
+  }
 `;
 
 const StyledToast = styled('div')`
@@ -20,6 +29,7 @@ const StyledToast = styled('div')`
   color: #ffffff;
   font-size: 16px;
   transition: all ease-in-out 0.2s 0.2s;
+  text-align: center;
 
   & a {
     color: #ffffff;
@@ -29,11 +39,11 @@ const StyledToast = styled('div')`
 type Props = {
   disabled: boolean;
   formData: any;
-  isWithdrawn: boolean;
   isSubmitPage: boolean;
   isUpdating: boolean;
   saveAsDraft: boolean;
   saveForm: any;
+  status: string;
 };
 
 const SubmitBtns = ({
@@ -41,10 +51,13 @@ const SubmitBtns = ({
   formData,
   isSubmitPage,
   isUpdating,
-  isWithdrawn,
   saveAsDraft,
   saveForm,
+  status,
 }: Props) => {
+  const isWithdrawn = status === 'withdrawn';
+  const isDraft = status === 'draft';
+
   const formatSubmitBtn = () => {
     if (isWithdrawn) {
       return 'Continue';
@@ -60,7 +73,7 @@ const SubmitBtns = ({
       <Button variant="primary" disabled={disabled}>
         {formatSubmitBtn()}
       </Button>
-      {isSubmitPage && (
+      {isSubmitPage && isDraft && (
         <>
           <StyledButton
             variant="secondary"
@@ -72,9 +85,7 @@ const SubmitBtns = ({
             style={{ padding: isUpdating ? '4px 24px' : '12px 24px' }}
           >
             {isUpdating ? (
-              <div data-testid="loading-spinner">
-                <LoadingSpinner />
-              </div>
+              <LoadingSpinner />
             ) : (
               <>{saveAsDraft ? 'Save as draft' : 'Saved'}</>
             )}
