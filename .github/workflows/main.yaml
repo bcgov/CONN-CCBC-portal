@@ -2,8 +2,7 @@
 name: main
 
 on:
-  schedule:
-    - cron: '0 2 * * *'
+  workflow_call: # be sure to use 'secrets: inherit' in the caller
   push:
     branches: [main]
   pull_request:
