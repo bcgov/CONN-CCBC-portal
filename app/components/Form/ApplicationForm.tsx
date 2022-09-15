@@ -268,7 +268,7 @@ const ApplicationForm: React.FC<Props> = ({
         input: {
           applicationPatch: {
             formData: newFormData,
-            lastEditedPage: lastEditedPage,
+            lastEditedPage: isSaveAsDraftBtn ? 'review' : lastEditedPage,
           },
           id,
         },
