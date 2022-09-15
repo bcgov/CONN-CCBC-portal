@@ -1,7 +1,7 @@
 import { default as TimeTravel } from '../../components/TimeTravel';
 import userEvent from '@testing-library/user-event';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { DateTime } from 'luxon';
+import { DateTime, Settings } from 'luxon';
 
 const renderStaticLayout = () => {
   return render(<TimeTravel />);
@@ -43,6 +43,8 @@ describe('The TimeTravel component', () => {
   });
   
   it('should set mock date', async() => {
+    Settings.defaultZone = "UTC";
+    Settings.defaultLocale = "en_CA";
     renderStaticLayout(); 
     const datePicker = screen.getByPlaceholderText('YYYY-MM-DD');
     fireEvent.mouseDown(datePicker);

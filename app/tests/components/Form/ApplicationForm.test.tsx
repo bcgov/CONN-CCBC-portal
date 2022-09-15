@@ -57,7 +57,7 @@ describe('The application form', () => {
 
   it('saves the data as the user types', () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent();
+    componentTestingHelper.renderComponent(true);
 
     fireEvent.change(screen.getByLabelText(/project title/i), {
       target: { value: 'test title' },
@@ -79,7 +79,7 @@ describe('The application form', () => {
 
   it('sets lastEditedPage to the next page when the user clicks on "continue"', async () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent();
+    componentTestingHelper.renderComponent(true);
 
     await userEvent.click(
       screen.getByRole('button', { name: 'Save and continue' })
@@ -160,7 +160,7 @@ describe('The application form', () => {
     };
 
     componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent();
+    componentTestingHelper.renderComponent(true);
 
     expect(screen.getByRole('button', { name: 'Continue' }));
   });
@@ -281,7 +281,7 @@ describe('The application form', () => {
     }));
 
     expect(
-      screen.getByText(/August 27, 2022, 9:52:00 a.m. PDT/)
+      screen.getByText(/August 27, 2022, 9:51:26 a.m. PDT/)
     ).toBeInTheDocument();
   });
 

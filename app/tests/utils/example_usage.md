@@ -124,7 +124,7 @@ describe("the test suite", () => {
   });
   it(...){
     componentTestingHelper.loadQuery()
-    componentTestingHelper.renderComponent() // or if you need extra props for a particular test: componentTestingHelper.renderComponent(undefined, {...defaultComponentProps, extraProps })
+    componentTestingHelper.renderComponent(true) // or if you need extra props for a particular test: componentTestingHelper.renderComponent(undefined, {...defaultComponentProps, extraProps })
 
     ... same testing as with the page helper ...
   }
