@@ -8,6 +8,7 @@ import {
 } from 'relay-runtime';
 import { MockResolvers } from 'relay-test-utils/lib/RelayMockPayloadGenerator';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
+import { Settings } from 'luxon';
 import TestingHelper from './TestingHelper';
 import GlobalTheme from 'styles/GlobalTheme';
 import GlobalStyle from 'styles/GobalStyles';
@@ -76,10 +77,16 @@ class ComponentTestingHelper<
   };
 
   public renderComponent(
+    useDefaultDateSettings: boolean = true,
     getPropsFromTestQuery: (data: TQuery['response']) => any = this.options
       .getPropsFromTestQuery,
     extraProps: any = this.options.defaultComponentProps
+    
   ) {
+    if (useDefaultDateSettings) {
+      Settings.defaultZone = "America/Vancouver";
+      Settings.defaultLocale = "en_CA";
+    }
     this.renderResult = render(
       <GlobalTheme>
         <GlobalStyle />

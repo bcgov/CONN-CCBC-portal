@@ -47,10 +47,10 @@ describe('The application form', () => {
   it('displays  the saved time when it was saved on the same day', () => {
     const mockCurrentTime = DateTime.utc(2020, 1, 1, 5, 0);
     Settings.now = () => mockCurrentTime.toMillis();
-    Settings.defaultZone = 'UTC';
+    Settings.defaultZone = "UTC";
 
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent();
+    componentTestingHelper.renderComponent(false);
 
     expect(screen.queryByText('Saving')).toBeNull();
     expect(screen.getByText('Last saved: 04:42')).toBeInTheDocument();
@@ -59,10 +59,11 @@ describe('The application form', () => {
   it('displays the saved date when it was saved on a different day', () => {
     const mockCurrentTime = DateTime.utc(2020, 1, 2, 0, 0);
     Settings.now = () => mockCurrentTime.toMillis();
-    Settings.defaultZone = 'UTC';
+    Settings.defaultZone = "UTC";
+    Settings.defaultLocale = "en_CA";
 
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent();
+    componentTestingHelper.renderComponent(false);
 
     expect(screen.queryByText('Saving')).toBeNull();
     expect(screen.getByText('Last saved: Jan 1')).toBeInTheDocument();
@@ -71,10 +72,10 @@ describe('The application form', () => {
   it('displays the error message if provided', () => {
     const mockCurrentTime = DateTime.utc(2020, 1, 2, 0, 0);
     Settings.now = () => mockCurrentTime.toMillis();
-    Settings.defaultZone = 'UTC';
+    Settings.defaultZone = "America/Vancouver";
 
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent((data) => ({
+    componentTestingHelper.renderComponent(true, (data) => ({
       application: data.application,
       error: 'uh-oh',
     }));
@@ -84,7 +85,7 @@ describe('The application form', () => {
 
   it('displays a "saving" message when isSaving is true', () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent((data) => ({
+    componentTestingHelper.renderComponent(true, (data) => ({
       application: data.application,
       isSaving: true,
     }));

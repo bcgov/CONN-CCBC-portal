@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
+import { Settings } from 'luxon';
 import { CalculationForm, FormBase } from '.';
 import uiSchema from '../../formSchema/uiSchema/uiSchema';
 import schema from '../../formSchema/schema';
@@ -155,6 +156,9 @@ const ApplicationForm: React.FC<Props> = ({
     query
   );
   const { id, rowId, formData, status } = application;
+  
+  Settings.defaultZone = "America/Vancouver";
+  Settings.defaultLocale = "en_CA";
 
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
