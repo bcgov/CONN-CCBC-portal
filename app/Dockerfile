@@ -53,6 +53,10 @@ ENTRYPOINT ["dumb-init", "--", "/usr/bin/env", "bash", "-c"]
 
 COPY app/ ${APP_HOME}/
 
+# FIX CVE-2022-29244
+RUN rm -rf /usr/local/bin/npm \
+  && rm -rf /root/.npm
+
 ENV NODE_ENV=production
 ENV ENABLE_ANALYTICS=true
 
