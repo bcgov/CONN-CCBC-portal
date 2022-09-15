@@ -87,7 +87,7 @@ const Dashboard = ({
             {DateTime.fromISO(closeTimestamp, {
               locale: 'en-CA',
               zone: 'America/Vancouver',
-            }).toLocaleString(DateTime.DATETIME_FULL)}
+            }).toFormat('FFF')}
           </p>
         ) : (
           <IntakeAlert />

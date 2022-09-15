@@ -77,7 +77,7 @@ class ComponentTestingHelper<
   };
 
   public renderComponent(
-    useDefaultDateSettings: boolean = true,
+    useDefaultDateSettings: true,
     getPropsFromTestQuery: (data: TQuery['response']) => any = this.options
       .getPropsFromTestQuery,
     extraProps: any = this.options.defaultComponentProps

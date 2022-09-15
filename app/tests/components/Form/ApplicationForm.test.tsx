@@ -280,7 +280,6 @@ describe('The application form', () => {
       query: data.query,
     }));
 
-    // luxon renders this differently in test?
     expect(
       screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)
     ).toBeInTheDocument();
