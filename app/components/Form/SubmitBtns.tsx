@@ -19,7 +19,7 @@ const StyledToast = styled('div')`
   padding: 12px 24px;
   color: #ffffff;
   font-size: 16px;
-  transition: all ease-in-out 0.2s 0.3s;
+  transition: all ease-in-out 0.2s 0.2s;
 
   & a {
     color: #ffffff;
@@ -45,7 +45,6 @@ const SubmitBtns = ({
   saveAsDraft,
   saveForm,
 }: Props) => {
-  console;
   const formatSubmitBtn = () => {
     if (isWithdrawn) {
       return 'Continue';
@@ -73,7 +72,9 @@ const SubmitBtns = ({
             style={{ padding: isUpdating ? '4px 24px' : '12px 24px' }}
           >
             {isUpdating ? (
-              <LoadingSpinner />
+              <div data-testid="loading-spinner">
+                <LoadingSpinner />
+              </div>
             ) : (
               <>{saveAsDraft ? 'Save as draft' : 'Saved'}</>
             )}
