@@ -69,7 +69,7 @@ describe('The SubmitBtns component', () => {
     expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
   });
 
-  it('should render the submit button when on the submission page', () => {
+  it('should render the Save as draft button when on the submission page with a draft application', () => {
     const props = {
       ...defaultProps,
       isSubmitPage: true,
@@ -90,21 +90,12 @@ describe('The SubmitBtns component', () => {
   it('should not render the Save as draft button when application status is not draft', () => {
     const props = {
       ...defaultProps,
+      isSubmitPage: true,
       status: 'withdrawn',
     };
     renderStaticLayout(props);
 
     expect(screen.queryByRole('button', { name: 'Save as draft' })).toBeNull();
-  });
-
-  it('should not initially display the success toast on the submission page', () => {
-    const props = {
-      ...defaultProps,
-      isSubmitPage: true,
-    };
-    renderStaticLayout(props);
-
-    expect(screen.queryByText('The draft was successfully saved. ')).toBeNull();
   });
 
   it('should change the Save as draft button text to Saved once clicked', async () => {
@@ -127,6 +118,16 @@ describe('The SubmitBtns component', () => {
     );
 
     expect(screen.getByRole('button', { name: 'Saved' })).toBeInTheDocument();
+  });
+
+  it('should not initially display the success toast on the submission page', () => {
+    const props = {
+      ...defaultProps,
+      isSubmitPage: true,
+    };
+    renderStaticLayout(props);
+
+    expect(screen.queryByText('The draft was successfully saved. ')).toBeNull();
   });
 
   it('should display the success toast once the Save as draft button is clicked', async () => {
