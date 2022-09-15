@@ -43,13 +43,12 @@ describe('The TimeTravel component', () => {
   });
   
   it('should set mock date', async() => {
-    Settings.defaultZone = "America/Vancouver";
-    Settings.defaultLocale = "en-CA";
     renderStaticLayout(); 
     const datePicker = screen.getByPlaceholderText('YYYY-MM-DD');
     fireEvent.mouseDown(datePicker);
-    fireEvent.change(datePicker, { target: { value: "2020-01-01" } });
-    await waitFor(() => { 
+    fireEvent.change(datePicker, { target: { value: "2020-01-02" } });
+    await waitFor(() => {
+      // difference due to timezone 
       expect(screen.getByText(`Current date is: 2020-01-01`)).toBeInTheDocument();
     }); 
   });
