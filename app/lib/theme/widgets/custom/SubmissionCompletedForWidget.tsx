@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
-import schema from '../../../../formSchema/schema';
+import getFormPage from 'utils/getFormPage';
 import { StyledContainer, StyledValue } from './ReadOnlySubmissionWidget';
 
 const StyledError = styled('div')`
@@ -18,8 +18,7 @@ const SubmissionCompletedForWidget: React.FC<WidgetProps> = ({ id, value }) => {
   const router = useRouter();
   const rowId = router.query.id;
 
-  const pageNumber =
-    Object.keys(schema.properties).indexOf('organizationProfile') + 1;
+  const pageNumber = getFormPage('organizationProfile');
 
   return (
     <StyledContainer>
