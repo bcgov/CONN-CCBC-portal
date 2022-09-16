@@ -1,4 +1,4 @@
-import { SubmitBtns } from 'components/Form';
+import { SubmitButtons } from 'components/Form';
 import { render, screen } from '@testing-library/react';
 import GlobalTheme from 'styles/GlobalTheme';
 import userEvent from '@testing-library/user-event';
@@ -14,7 +14,7 @@ const renderStaticLayout = ({
 }) => {
   return render(
     <GlobalTheme>
-      <SubmitBtns
+      <SubmitButtons
         disabled={disabled}
         formData={formData}
         isSubmitPage={isSubmitPage}
@@ -39,7 +39,7 @@ const defaultProps = {
   status: 'draft',
 };
 
-describe('The SubmitBtns component', () => {
+describe('The SubmitButtons component', () => {
   it('should render the save and continue button on pages other than submission page', () => {
     renderStaticLayout(defaultProps);
 
@@ -113,7 +113,7 @@ describe('The SubmitBtns component', () => {
     //rerender with expected prop change
     rerender(
       <GlobalTheme>
-        <SubmitBtns {...props} saveAsDraft={false} />
+        <SubmitButtons {...props} saveAsDraft={false} />
       </GlobalTheme>
     );
 
@@ -145,7 +145,7 @@ describe('The SubmitBtns component', () => {
     //rerender with expected prop change
     rerender(
       <GlobalTheme>
-        <SubmitBtns {...props} saveAsDraft={false} />
+        <SubmitButtons {...props} saveAsDraft={false} />
       </GlobalTheme>
     );
 
@@ -171,7 +171,7 @@ describe('The SubmitBtns component', () => {
     //rerender with expected prop change
     rerender(
       <GlobalTheme>
-        <SubmitBtns {...props} saveAsDraft={false} />
+        <SubmitButtons {...props} saveAsDraft={false} />
       </GlobalTheme>
     );
 

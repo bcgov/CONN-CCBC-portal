@@ -4,7 +4,7 @@ import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
 import { graphql, useFragment } from 'react-relay';
 import type { JSONSchema7 } from 'json-schema';
 import styled from 'styled-components';
-import { CalculationForm, FormBase, SubmitBtns } from '.';
+import { CalculationForm, FormBase, SubmitButtons } from '.';
 import uiSchema from '../../formSchema/uiSchema/uiSchema';
 import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
@@ -385,7 +385,7 @@ const ApplicationForm: React.FC<Props> = ({
   const isSubmitPage = pageNumber >= subschemaArray.length;
 
   const submitBtns = (
-    <SubmitBtns
+    <SubmitButtons
       disabled={handleDisabled(sectionName, noErrors) || isSubmitting}
       isUpdating={isUpdating}
       isSubmitPage={isSubmitPage}

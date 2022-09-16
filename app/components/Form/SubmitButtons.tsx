@@ -46,7 +46,7 @@ type Props = {
   status: string;
 };
 
-const SubmitBtns = ({
+const SubmitButtons = ({
   disabled,
   formData,
   isSubmitPage,
@@ -105,4 +105,4 @@ const SubmitBtns = ({
   );
 };
 
-export default SubmitBtns;
+export default SubmitButtons;
