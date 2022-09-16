@@ -8,10 +8,7 @@ const submission = {
   'ui:title': '',
   'ui:field': 'SubmissionField',
   submissionCompletedFor: {
-    'ui:widget': 'ReadOnlySubmissionWidget',
-    'ui:options': {
-      'field-name': 'submissionCompletedFor',
-    },
+    'ui:widget': 'SubmissionCompletedForWidget',
   },
   submissionDate: {
     'ui:widget': 'ReadOnlySubmissionWidget',

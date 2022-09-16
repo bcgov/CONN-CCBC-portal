@@ -1,0 +1,23 @@
+import { WidgetProps } from '@rjsf/core';
+import styled from 'styled-components';
+
+export const StyledContainer = styled('div')`
+  margin-bottom: 8px;
+`;
+
+export const StyledValue = styled('div')`
+  margin-top: 12px;
+  margin-bottom: 4px;
+  padding: 0.6em 0;
+  white-space: nowrap;
+`;
+
+const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({ value }) => {
+  return (
+    <StyledContainer>
+      <StyledValue>{value}</StyledValue>
+    </StyledContainer>
+  );
+};
+
+export default ReadOnlySubmissionWidget;

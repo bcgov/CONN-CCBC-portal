@@ -2,18 +2,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
-import a from '../../../formSchema/schema';
-
-const StyledContainer = styled('div')`
-  margin-bottom: 8px;
-`;
-
-const StyledValue = styled('div')`
-  margin-top: 12px;
-  margin-bottom: 4px;
-  padding: 0.6em 0;
-  white-space: nowrap;
-`;
+import schema from '../../../../formSchema/schema';
+import { StyledContainer, StyledValue } from './ReadOnlySubmissionWidget';
 
 const StyledError = styled('div')`
   color: #e71f1f;
@@ -24,24 +14,19 @@ const StyledLink = styled(Link)`
   color: #e71f1f;
 `;
 
-const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
-  options,
-  value,
-}) => {
+const SubmissionCompletedForWidget: React.FC<WidgetProps> = ({ value }) => {
   const router = useRouter();
   const { id } = router.query;
 
   const pageNumber =
-    Object.keys(a.properties).indexOf('organizationProfile') + 1;
-
-  const submissionCompletedFor =
-    options?.['field-name'] === 'submissionCompletedFor';
+    Object.keys(schema.properties).indexOf('organizationProfile') + 1;
 
   return (
     <StyledContainer>
       <StyledValue>
-        {value}
-        {submissionCompletedFor && !value && (
+        {value ? (
+          value
+        ) : (
           <StyledError>
             No legal organization name was provided. Please return to the{' '}
             <StyledLink href={`/form/${id}/${pageNumber}`}>
@@ -55,4 +40,4 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
   );
 };
 
-export default ReadOnlySubmissionWidget;
+export default SubmissionCompletedForWidget;
