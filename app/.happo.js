@@ -1,5 +1,5 @@
 const { RemoteBrowserTarget } = require('happo.io');
-const config = require('./config.js');
+const config = require('./config/index.js');
 
 const VIEWPORT = '1366x768';
 
