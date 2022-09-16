@@ -22,6 +22,21 @@ env:
   TAG: sha-${{ github.sha }}
 
 jobs:
+  is-tagged-release:
+    runs-on: ubuntu-latest
+    outputs:
+      tagVersion: ${{steps.tagVersion.outputs.tagVersion}}
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Is Tagged Commit
+        id: tagVersion
+        # Check if one of the commits is associated with a tag
+        run: |
+          echo ::set-output name=tagVersion::$( git tag --merged ${{ github.sha  }} --no-merged ${{ github.event.before }} | grep v*)
+
   deploy-to-openshift-development:
     runs-on: ubuntu-latest
     environment:
@@ -52,12 +67,20 @@ jobs:
 
   ensure-sqitch-plan-ends-with-tag:
     runs-on: ubuntu-latest
+    needs: [is-tagged-release]
+    if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     steps:
       - uses: actions/checkout@v2
       - run: ./.bin/sqitch-last-change-is-tag.sh db
 
   deploy-to-openshift-test:
-    needs: [deploy-to-openshift-development, ensure-sqitch-plan-ends-with-tag]
+    needs:
+      [
+        deploy-to-openshift-development,
+        ensure-sqitch-plan-ends-with-tag,
+        is-tagged-release,
+      ]
+    if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     runs-on: ubuntu-latest
     environment:
       name: test
@@ -86,7 +109,13 @@ jobs:
           environment: test
 
   deploy-to-openshift-production:
-    needs: [deploy-to-openshift-test, ensure-sqitch-plan-ends-with-tag]
+    needs:
+      [
+        deploy-to-openshift-test,
+        ensure-sqitch-plan-ends-with-tag,
+        is-tagged-release,
+      ]
+    if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     runs-on: ubuntu-latest
     environment:
       name: production
