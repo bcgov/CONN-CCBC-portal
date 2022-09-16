@@ -218,7 +218,7 @@ const ApplicationForm: React.FC<Props> = ({
       return;
     }
 
-    let newFormData: Record<string, object> = {};
+    let newFormData: Record<string, any> = {};
     if (Object.keys(formData).length === 0) {
       newFormData[sectionName] = newFormSectionData;
     } else if (formData[sectionName]) {
@@ -248,7 +248,7 @@ const ApplicationForm: React.FC<Props> = ({
         submission: {
           ...newFormData.submission,
           submissionCompletedFor:
-            formData?.organizationProfile?.organizationName,
+            newFormData?.organizationProfile?.organizationName,
           submissionDate: dateTimeFormat(
             new Date(updatedAt),
             'date_year_first'
