@@ -166,7 +166,7 @@ const env = config.get('NODE_ENV') !== 'development'
   : 'local';
 
 try {
-  config.loadFile('./' + env + '.json');
+  config.loadFile('./config/' + env + '.json');
 }
 catch(e){
   console.log(e);
