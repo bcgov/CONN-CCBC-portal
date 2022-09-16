@@ -12,10 +12,10 @@ export const StyledValue = styled('div')`
   white-space: nowrap;
 `;
 
-const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({ value }) => {
+const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({ id, value }) => {
   return (
     <StyledContainer>
-      <StyledValue>{value}</StyledValue>
+      <StyledValue id={id}>{value}</StyledValue>
     </StyledContainer>
   );
 };

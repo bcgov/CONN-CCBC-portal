@@ -1,4 +1,6 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
+import { dateTimeFormat } from '../../lib/theme/functions/formatDates';
+
 context('Homepage', () => {
   beforeEach(function () {
     cy.sqlFixture('dev/001_intake');
@@ -133,8 +135,6 @@ context('Homepage', () => {
     cy.get('[id="root_infrastructureBankFunding2526"]').type(123);
 
     cy.get('input[id="root_otherFundingSources-0"]').parent().click();
-
-    cy.get('[id="root_otherFundingSourcesArray_0_fundingPartnersName"]');
 
     cy.get('[id="root_otherFundingSourcesArray_0_fundingPartnersName"]').type(
       'test'
@@ -293,7 +293,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_typeOfOrganization-0"]').parent().click();
 
-    cy.get('input[id="root_organizationName"]').type('test');
+    cy.get('input[id="root_organizationName"]').type('Test org name');
 
     cy.get('input[id="root_isNameLegalName-0"]').parent().click();
 
@@ -468,8 +468,18 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Submission');
 
+    cy.get('[id="root_submissionCompletedFor"]').should(
+      'have.text',
+      'Test org name'
+    );
+
     cy.get('input[id="root_submissionCompletedBy"]').type('test');
     cy.get('input[id="root_submissionTitle"]').type('test');
+
+    cy.get('[id="root_submissionDate"]').should(
+      'have.text',
+      dateTimeFormat(new Date(), 'date_year_first')
+    );
 
     cy.get('body').happoScreenshot();
 
