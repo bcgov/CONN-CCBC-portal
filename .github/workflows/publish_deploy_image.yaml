@@ -1,0 +1,26 @@
+# copy workflow, orchestrating and triggering other workflows
+name: test_cve
+
+on:
+  workflow_call: # be sure to use 'secrets: inherit' in the caller
+  push:
+    branches: [feat/CVE-2022-31129]
+  pull_request:
+    branches: [feat/CVE-2022-31129]
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+
+  test-code:
+    uses: ./.github/workflows/test-code.yaml
+    secrets:
+      SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+
+  test-containers:
+    needs: [build]
+    uses: ./.github/workflows/test-containers.yaml
+    secrets:
+      HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+      HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+
