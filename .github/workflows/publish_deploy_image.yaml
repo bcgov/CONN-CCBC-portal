@@ -1,12 +1,12 @@
 # copy workflow, orchestrating and triggering other workflows
-name: test_cve
+name: cve_test
 
 on:
   workflow_call: # be sure to use 'secrets: inherit' in the caller
   push:
-    branches: [feat/CVE-2022-31129]
+    branches: [main]
   pull_request:
-    branches: [feat/CVE-2022-31129]
+    branches: [main]
 
 jobs:
   build:
