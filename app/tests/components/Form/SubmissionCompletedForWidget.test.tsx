@@ -40,11 +40,7 @@ jest.mock('next/router', () => ({
   },
 }));
 
-const renderStaticLayout = (
-  schema: JSONSchema7,
-  uiSchema: JSONSchema7,
-  formData
-) => {
+const renderStaticLayout = (schema: JSONSchema7, uiSchema: any, formData) => {
   return render(
     <FormTestRenderer
       formData={formData}
@@ -65,7 +61,7 @@ describe('The ReadOnlySubmissionWidget', () => {
   });
 
   it('should render the title', () => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema as JSONSchema7, {});
+    renderStaticLayout(schema as JSONSchema7, uiSchema, {});
 
     expect(
       screen.getByText('Completed for (Legal organization name)')
@@ -73,7 +69,7 @@ describe('The ReadOnlySubmissionWidget', () => {
   });
 
   it('should render the error message when submissionCompletedFor is empty', () => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema as JSONSchema7, {});
+    renderStaticLayout(schema as JSONSchema7, uiSchema, {});
 
     expect(
       screen.getByRole('link', { name: 'Organization Profile' })
@@ -81,7 +77,7 @@ describe('The ReadOnlySubmissionWidget', () => {
   });
 
   it('should not render the error message when submissionCompletedFor is filled', () => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema as JSONSchema7, {
+    renderStaticLayout(schema as JSONSchema7, uiSchema, {
       submissionCompletedFor: 'submissionCompletedFor test',
     });
 
@@ -91,7 +87,7 @@ describe('The ReadOnlySubmissionWidget', () => {
   });
 
   it('should render the value', () => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema as JSONSchema7, {
+    renderStaticLayout(schema as JSONSchema7, uiSchema, {
       submissionCompletedFor: 'submissionCompletedFor test',
     });
 

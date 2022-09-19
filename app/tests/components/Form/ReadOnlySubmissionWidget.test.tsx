@@ -20,11 +20,7 @@ const uiSchema = {
   },
 };
 
-const renderStaticLayout = (
-  schema: JSONSchema7,
-  uiSchema: JSONSchema7,
-  formData
-) => {
+const renderStaticLayout = (schema: JSONSchema7, uiSchema: any, formData) => {
   return render(
     <FormTestRenderer
       formData={formData}
@@ -37,13 +33,13 @@ const renderStaticLayout = (
 
 describe('The ReadOnlySubmissionWidget', () => {
   it('should render the title', () => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema as JSONSchema7, {});
+    renderStaticLayout(schema as JSONSchema7, uiSchema, {});
 
     expect(screen.getByText('On this date (YYYY-MM-DD)')).toBeInTheDocument();
   });
 
   it('should render the value', () => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema as JSONSchema7, {
+    renderStaticLayout(schema as JSONSchema7, uiSchema, {
       submissionDate: '2022-09-22',
     });
 
