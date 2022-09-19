@@ -46,9 +46,9 @@ describe('The TimeTravel component', () => {
     renderStaticLayout(); 
     const datePicker = screen.getByPlaceholderText('YYYY-MM-DD');
     fireEvent.mouseDown(datePicker);
-    fireEvent.change(datePicker, { target: { value: "2020-01-02" } });
+    fireEvent.change(datePicker, { target: { value: "2020-01-01" } });
     await waitFor(() => {
-      expect(screen.getByText(`Current date is: 2020-01-02`)).toBeInTheDocument();
+      expect(screen.getByText(`Current date is: 2020-01-01`)).toBeInTheDocument();
     }); 
   });
 });

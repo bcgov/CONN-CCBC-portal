@@ -57,9 +57,8 @@ describe('The application form', () => {
   });
 
   it('displays the saved date when it was saved on a different day', () => {
-    const mockCurrentTime = DateTime.utc(2020, 1, 2, 0, 0);
+    const mockCurrentTime = DateTime.local(2020, 1, 2, 0, { zone: "America/Vancouver" });
     Settings.now = () => mockCurrentTime.toMillis();
-    Settings.defaultZone = "UTC";
     Settings.defaultLocale = "en-CA";
 
     componentTestingHelper.loadQuery();
@@ -70,7 +69,7 @@ describe('The application form', () => {
   });
 
   it('displays the error message if provided', () => {
-    const mockCurrentTime = DateTime.utc(2020, 1, 2, 0, 0);
+    const mockCurrentTime = DateTime.local(2020, 1, 2, 0, { zone: "America/Vancouver" });
     Settings.now = () => mockCurrentTime.toMillis();
 
     componentTestingHelper.loadQuery();
