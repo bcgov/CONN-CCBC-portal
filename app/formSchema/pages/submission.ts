@@ -14,16 +14,16 @@ const submission = {
         title: 'Completed for (Legal organization name)',
         type: 'string',
       },
-      submissionDate: {
-        title: 'On this date (YYYY-MM-DD)',
-        type: 'string',
-      },
       submissionCompletedBy: {
         title: 'Completed by',
         type: 'string',
       },
       submissionTitle: {
         title: 'Title',
+        type: 'string',
+      },
+      submissionDate: {
+        title: 'On this date (YYYY-MM-DD)',
         type: 'string',
       },
     },

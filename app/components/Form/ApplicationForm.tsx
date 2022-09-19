@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
+import { graphql, useFragment } from 'react-relay';
 import Button from '@button-inc/bcgov-theme/Button';
 import type { JSONSchema7 } from 'json-schema';
 import { CalculationForm, FormBase } from '.';
@@ -8,6 +10,8 @@ import schema from '../../formSchema/schema';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import { Review } from '../Review';
 import { acknowledgements } from '../../formSchema/pages';
+import ApplicationFormStatus from './ApplicationFormStatus';
+import styled from 'styled-components';
 
 // https://github.com/rjsf-team/react-jsonschema-form/issues/2131
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -21,14 +25,11 @@ import {
   calculateInfrastructureFunding,
   calculateProjectEmployment,
 } from '../../lib/theme/customFieldCalculations';
-import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
-import { graphql, useFragment } from 'react-relay';
+import { dateTimeFormat } from '../../lib/theme/functions/formatDates';
 import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
 import { useUpdateApplicationMutation } from 'schema/mutations/application/updateApplication';
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
 import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
-import ApplicationFormStatus from './ApplicationFormStatus';
-import styled from 'styled-components';
 import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
 import { SubmissionDescriptionField } from 'lib/theme/fields';
 import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
@@ -135,6 +136,7 @@ const ApplicationForm: React.FC<Props> = ({
         rowId
         formData
         status
+        updatedAt
         intakeByIntakeId {
           closeTimestamp
         }
@@ -154,7 +156,7 @@ const ApplicationForm: React.FC<Props> = ({
     `,
     query
   );
-  const { id, rowId, formData, status } = application;
+  const { id, rowId, formData, status, updatedAt } = application;
 
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
@@ -192,6 +194,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
   const isWithdrawn = status === 'withdrawn';
+  const isDraft = status === 'draft';
 
   if (subschemaArray.length < pageNumber) {
     // Todo: proper 404
@@ -215,7 +218,7 @@ const ApplicationForm: React.FC<Props> = ({
       return;
     }
 
-    let newFormData: Record<string, object> = {};
+    let newFormData: Record<string, any> = {};
     if (Object.keys(formData).length === 0) {
       newFormData[sectionName] = newFormSectionData;
     } else if (formData[sectionName]) {
@@ -237,6 +240,22 @@ const ApplicationForm: React.FC<Props> = ({
       pageNumber < subschemaArray.length
         ? subschemaArray[lastEditedPageNumber][0]
         : '';
+
+    if (isDraft) {
+      // Auto fill submission fields
+      newFormData = {
+        ...newFormData,
+        submission: {
+          ...newFormData.submission,
+          submissionCompletedFor:
+            newFormData?.organizationProfile?.organizationName,
+          submissionDate: dateTimeFormat(
+            new Date(updatedAt),
+            'date_year_first'
+          ),
+        },
+      };
+    }
 
     setSavingError(null);
     updateApplication({
@@ -465,7 +484,6 @@ const ApplicationForm: React.FC<Props> = ({
       </CalculationForm>
     ),
   };
-
   return (
     <>
       <Flex>
