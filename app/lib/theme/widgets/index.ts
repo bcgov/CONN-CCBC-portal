@@ -1,7 +1,6 @@
 export { default as CheckboxesWidget } from './CheckboxesWidget';
 export { default as CheckboxWidget } from './CheckboxWidget';
 export { default as DatePickerWidget } from './DatePickerWidget';
-export { default as FieldLabel } from './FieldLabel';
 export { default as FileWidget } from './FileWidget';
 export { default as MoneyWidget } from './MoneyWidget';
 export { default as NumberWidget } from './NumberWidget';

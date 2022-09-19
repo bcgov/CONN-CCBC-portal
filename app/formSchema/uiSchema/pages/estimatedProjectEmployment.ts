@@ -1,5 +1,3 @@
-import { NumberWidget, ReadOnlyWidget } from '../../../lib/theme/widgets';
-
 const estimatedProjectEmployment = {
   'ui:order': [
     'currentEmployment',
@@ -14,7 +12,7 @@ const estimatedProjectEmployment = {
   ],
   'ui:title': '',
   currentEmployment: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       maxLength: 7,
       commaSeparator: true,
@@ -22,55 +20,55 @@ const estimatedProjectEmployment = {
     },
   },
   numberOfEmployeesToWork: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       commaSeparator: true,
       decimals: 0,
     },
   },
   hoursOfEmploymentPerWeek: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       commaSeparator: true,
       decimals: 1,
     },
   },
   personMonthsToBeCreated: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       commaSeparator: true,
       decimals: 1,
     },
   },
   estimatedFTECreation: {
-    'ui:widget': ReadOnlyWidget,
+    'ui:widget': 'ReadOnlyWidget',
     'ui:options': {
       hideOptional: true,
     },
   },
   numberOfContractorsToWork: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       commaSeparator: true,
       decimals: 0,
     },
   },
   hoursOfContractorEmploymentPerWeek: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       commaSeparator: true,
       decimals: 1,
     },
   },
   contractorPersonMonthsToBeCreated: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       commaSeparator: true,
       decimals: 1,
     },
   },
   estimatedFTEContractorCreation: {
-    'ui:widget': ReadOnlyWidget,
+    'ui:widget': 'ReadOnlyWidget',
     'ui:options': {
       hideOptional: true,
     },

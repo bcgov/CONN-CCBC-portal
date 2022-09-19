@@ -4,7 +4,6 @@ import {
   MAX_MED_INPUT_LENGTH,
 } from '../constants';
 import { IndigenousEntity } from '../../../components/Form/CustomTitles';
-import { NumberWidget } from '../../../lib/theme/widgets';
 
 const organizationProfile = {
   'ui:order': [
@@ -32,7 +31,7 @@ const organizationProfile = {
     },
   },
   businessNumber: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       maxLength: 9,
       inputType: 'wholeNumber',

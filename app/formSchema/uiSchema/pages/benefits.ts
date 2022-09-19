@@ -1,5 +1,4 @@
 import { MAX_TEXTAREA_LENGTH } from '../constants';
-import { NumberWidget } from '../../../lib/theme/widgets';
 import { ProjectBenefits } from '../../../components/Form/CustomTitles';
 
 const benefits = {
@@ -18,13 +17,13 @@ const benefits = {
     },
   },
   numberOfHouseholds: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       inputType: 'wholeNumber',
     },
   },
   householdsImpactedIndigenous: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       inputType: 'wholeNumber',
     },

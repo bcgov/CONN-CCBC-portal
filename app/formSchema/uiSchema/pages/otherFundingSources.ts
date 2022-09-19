@@ -1,5 +1,3 @@
-import { MoneyWidget, ReadOnlyMoneyWidget } from '../../../lib/theme/widgets';
-
 const otherFundingSources = {
   'ui:order': [
     'infrastructureBankFunding2223',
@@ -23,31 +21,31 @@ const otherFundingSources = {
   ],
   'ui:title': '',
   infrastructureBankFunding2223: {
-    'ui:widget': MoneyWidget,
+    'ui:widget': 'MoneyWidget',
     'ui:options': {
       hideOptional: true,
     },
   },
   infrastructureBankFunding2324: {
-    'ui:widget': MoneyWidget,
+    'ui:widget': 'MoneyWidget',
     'ui:options': {
       hideOptional: true,
     },
   },
   infrastructureBankFunding2425: {
-    'ui:widget': MoneyWidget,
+    'ui:widget': 'MoneyWidget',
     'ui:options': {
       hideOptional: true,
     },
   },
   infrastructureBankFunding2526: {
-    'ui:widget': MoneyWidget,
+    'ui:widget': 'MoneyWidget',
     'ui:options': {
       hideOptional: true,
     },
   },
   totalInfrastructureBankFunding: {
-    'ui:widget': ReadOnlyMoneyWidget,
+    'ui:widget': 'ReadOnlyMoneyWidget',
     'ui:options': {
       hideOptional: true,
     },
@@ -84,22 +82,22 @@ const otherFundingSources = {
         },
       },
       requestedFundingPartner2223: {
-        'ui:widget': MoneyWidget,
+        'ui:widget': 'MoneyWidget',
       },
       requestedFundingPartner2324: {
-        'ui:widget': MoneyWidget,
+        'ui:widget': 'MoneyWidget',
       },
       requestedFundingPartner2425: {
-        'ui:widget': MoneyWidget,
+        'ui:widget': 'MoneyWidget',
       },
       requestedFundingPartner2526: {
-        'ui:widget': MoneyWidget,
+        'ui:widget': 'MoneyWidget',
       },
       requestedFundingPartner2627: {
-        'ui:widget': MoneyWidget,
+        'ui:widget': 'MoneyWidget',
       },
       totalRequestedFundingPartner: {
-        'ui:widget': ReadOnlyMoneyWidget,
+        'ui:widget': 'ReadOnlyMoneyWidget',
       },
       // Custom array button prop that is used in ArrayFieldTemplate
       'ui:array-buttons': {

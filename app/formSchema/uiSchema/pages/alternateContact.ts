@@ -1,5 +1,4 @@
 import { MAX_CONTACT_INPUT_LENGTH } from '../constants';
-import { NumberWidget } from '../../../lib/theme/widgets';
 
 const alternateContact = {
   'ui:order': [
@@ -35,13 +34,13 @@ const alternateContact = {
     },
   },
   altTelephone: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       inputType: 'phone',
     },
   },
   altExtension: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       maxLength: 9,
       inputType: 'wholeNumber',

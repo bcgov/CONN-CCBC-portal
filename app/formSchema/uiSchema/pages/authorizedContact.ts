@@ -1,5 +1,4 @@
 import { MAX_CONTACT_INPUT_LENGTH } from '../constants';
-import { NumberWidget } from '../../../lib/theme/widgets';
 
 const authorizedContact = {
   'ui:order': [
@@ -38,14 +37,14 @@ const authorizedContact = {
     },
   },
   authTelephone: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       inputType: 'phone',
       'ui:title': '',
     },
   },
   authExtension: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       maxLength: 9,
       inputType: 'wholeNumber',

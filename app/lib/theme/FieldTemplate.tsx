@@ -1,5 +1,5 @@
 import { FieldTemplateProps } from '@rjsf/core';
-import FieldLabel from './widgets/FieldLabel';
+import FieldLabel from './components/FieldLabel';
 
 const FieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
