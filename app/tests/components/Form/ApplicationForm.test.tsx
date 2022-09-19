@@ -195,7 +195,7 @@ describe('The application form', () => {
 
   it('acknowledgement page continue is disabled on initial load', async () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent((data) => ({
+    componentTestingHelper.renderComponent(true, (data) => ({
       application: data.application,
       pageNumber: 20,
       query: data.query,
@@ -210,7 +210,7 @@ describe('The application form', () => {
 
   it('acknowledgement page continue is enabled once all checkboxes have been clicked', async () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent((data) => ({
+    componentTestingHelper.renderComponent(true, (data) => ({
       application: data.application,
       pageNumber: 20,
       query: data.query,
@@ -259,9 +259,15 @@ describe('The application form', () => {
     expect(screen.getByRole('button', { name: 'Continue' }));
   });
 
+<<<<<<< .merge_file_a03948
   it('submission page submit button is enabled on when all inputs filled', () => {
     componentTestingHelper.loadQuery(submissionPayload);
     componentTestingHelper.renderComponent((data) => ({
+=======
+  it('submission page submit button is enabled on when all inputs filled', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent(true, (data) => ({
+>>>>>>> .merge_file_a54036
       application: data.application,
       pageNumber: 21,
       query: data.query,
@@ -274,7 +280,7 @@ describe('The application form', () => {
 
   it('submission page submit button is disabled on when all fields are not filled', async () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent((data) => ({
+    componentTestingHelper.renderComponent(true, (data) => ({
       application: data.application,
       pageNumber: 21,
       query: data.query,
@@ -303,7 +309,7 @@ describe('The application form', () => {
         };
       },
     });
-    componentTestingHelper.renderComponent((data) => ({
+    componentTestingHelper.renderComponent(true, (data) => ({
       application: data.application,
       pageNumber: 21,
       query: data.query,
@@ -342,7 +348,7 @@ describe('The application form', () => {
 
   it('Submission page contains submission date from DB', async () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent((data) => ({
+    componentTestingHelper.renderComponent(true, (data) => ({
       application: data.application,
       pageNumber: 21,
       query: data.query,
@@ -350,7 +356,7 @@ describe('The application form', () => {
 
     // luxon renders this differently in test?
     expect(
-      screen.getByText(/August 27, 2022 at 9:51 a.m. PDT/)
+      screen.getByText(/August 27, 2022, 9:51 a.m. PDT/)
     ).toBeInTheDocument();
   });
 
@@ -373,7 +379,7 @@ describe('The application form', () => {
     };
 
     componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent((data) => ({
+    componentTestingHelper.renderComponent(true, (data) => ({
       application: data.application,
       pageNumber: 20,
       query: data.query,
@@ -405,7 +411,7 @@ describe('The application form', () => {
     };
 
     componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent((data) => ({
+    componentTestingHelper.renderComponent(true, (data) => ({
       application: data.application,
       pageNumber: 21,
       query: data.query,
