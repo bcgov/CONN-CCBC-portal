@@ -436,7 +436,9 @@ describe('The application form', () => {
           id: 'TestApplicationID',
           applicationPatch: {
             formData: {
-              submission: {},
+              submission: {
+                submissionDate: '2022-09-12',
+              },
             },
             lastEditedPage: 'review',
           },
