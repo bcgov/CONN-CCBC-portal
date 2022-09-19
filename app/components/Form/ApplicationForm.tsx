@@ -180,7 +180,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [reviewConfirm, setReviewConfirm] = useState(false);
   const [savingError, setSavingError] = useState(null);
-  const [saveAsDraft, setSaveAsDraft] = useState(true);
+  const [savedAsDraft, setSavedAsDraft] = useState(false);
 
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
     useState(verifyAllAcknowledgementsChecked(formData['acknowledgements']));
@@ -294,7 +294,7 @@ const ApplicationForm: React.FC<Props> = ({
       },
       onCompleted: () => {
         if (isSaveAsDraftBtn) {
-          setSaveAsDraft(false);
+          setSavedAsDraft(true);
         }
       },
       ...mutationConfig,
@@ -326,7 +326,7 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
-    setSaveAsDraft(true);
+    setSavedAsDraft(false);
     saveForm(e.formData);
   };
 
@@ -390,7 +390,7 @@ const ApplicationForm: React.FC<Props> = ({
       isUpdating={isUpdating}
       isSubmitPage={isSubmitPage}
       formData={formData}
-      saveAsDraft={saveAsDraft}
+      savedAsDraft={savedAsDraft}
       saveForm={saveForm}
       status={status}
     />

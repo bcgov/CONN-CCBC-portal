@@ -23,7 +23,7 @@ const StyledButton = styled(Button)`
 `;
 
 const StyledToast = styled('div')`
-  background-color: ${(props) => props.theme.color.successGreen};
+  background-color: ${(props) => props.theme.color.success};
   border-radius: 4px;
   padding: 12px 24px;
   color: #ffffff;
@@ -41,7 +41,7 @@ type Props = {
   formData: any;
   isSubmitPage: boolean;
   isUpdating: boolean;
-  saveAsDraft: boolean;
+  savedAsDraft: boolean;
   saveForm: any;
   status: string;
 };
@@ -51,7 +51,7 @@ const SubmitButtons = ({
   formData,
   isSubmitPage,
   isUpdating,
-  saveAsDraft,
+  savedAsDraft,
   saveForm,
   status,
 }: Props) => {
@@ -81,19 +81,19 @@ const SubmitButtons = ({
               e.preventDefault();
               saveForm(formData, {}, false, true);
             }}
-            disabled={isUpdating || !saveAsDraft}
+            disabled={isUpdating || savedAsDraft}
             style={{ padding: isUpdating ? '4px 24px' : '12px 24px' }}
           >
             {isUpdating ? (
               <LoadingSpinner />
             ) : (
-              <>{saveAsDraft ? 'Save as draft' : 'Saved'}</>
+              <>{savedAsDraft ? 'Saved' : 'Save as draft'}</>
             )}
           </StyledButton>
           <StyledToast
             style={{
-              visibility: saveAsDraft ? 'hidden' : 'visible',
-              opacity: saveAsDraft ? 0 : 1,
+              visibility: savedAsDraft ? 'visible' : 'hidden',
+              opacity: savedAsDraft ? 1 : 0,
             }}
           >
             The draft was successfully saved.{' '}

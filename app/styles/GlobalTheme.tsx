@@ -22,7 +22,6 @@ const theme = {
     success: '#2E8540',
     text: '#313132',
     descriptionGrey: 'rgba(49, 49, 50, 0.7)',
-    successGreen: '#2e8540',
   },
   padding: {
     page: '20px',
