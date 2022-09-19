@@ -41,7 +41,7 @@ const TimeTravel = () => {
 
   const setMockDate = (value: Date) => { 
     if (value) {
-      const mockDate = DateTime.fromJSDate(value,{zone:'America/Vancouver'}).toFormat("yyyy-MM-dd");
+      const mockDate = DateTime.fromJSDate(value,{zone:'UTC'}).toFormat("yyyy-MM-dd");
       cookie.set('mocks.mocked_timestamp', value.valueOf()/1000);
       cookie.set('mocks.mocked_date', mockDate);
       setDate(mockDate);
