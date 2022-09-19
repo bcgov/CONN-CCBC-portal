@@ -14,7 +14,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
 }) => {
   const hideOptional = uiSchema['ui:options']?.hideOptional;
   const altOptionalText = uiSchema['ui:options']?.altOptionalText;
-  const customTitle = uiSchema['ui:options']?.customTitle;
+  const customTitle = uiSchema['ui:options']?.customTitle as JSX.Element;
   const showLabel = displayLabel && !customTitle;
 
   return (
@@ -28,10 +28,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
           htmlFor={id}
         />
       )}
-      <>
-        {/* check type of custom title to make typescript happy */}
-        {typeof customTitle === 'function' && customTitle()}
-      </>
+      {customTitle}
       {help}
       {children}
       {rawErrors && rawErrors.length > 0 ? (
