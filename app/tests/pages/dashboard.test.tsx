@@ -91,7 +91,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getByText(/August 19, 2027, 9:00 a.m. PDT/)
+      screen.getByText(/August 19, 2027, 9:00:00 a.m. PDT/)
     ).toBeInTheDocument();
   });
 

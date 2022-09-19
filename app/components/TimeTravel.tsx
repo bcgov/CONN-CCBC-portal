@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
-import { dateTimeFormat } from '../lib/theme/functions/formatDates';
 import cookie from 'js-cookie';
 import { DateTime } from 'luxon';
 
@@ -40,10 +39,9 @@ const TimeTravel = () => {
   const today = DateTime.now().toFormat('yyyy-MM-dd');
   const [date, setDate] = useState(cookie.get('mocks.mocked_date') || today);
 
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  const setMockDate = (value: any) => { 
+  const setMockDate = (value: Date) => { 
     if (value) {
-      const mockDate = dateTimeFormat(value, 'date_year_first');
+      const mockDate = DateTime.fromJSDate(value,{zone:'UTC'}).toFormat("yyyy-MM-dd");
       cookie.set('mocks.mocked_timestamp', value.valueOf()/1000);
       cookie.set('mocks.mocked_date', mockDate);
       setDate(mockDate);
@@ -53,6 +51,7 @@ const TimeTravel = () => {
       cookie.remove('mocks.mocked_date');
     }
   };
+
   return (
     <StyledContainer>
       <StyledFlex>
@@ -76,7 +75,7 @@ const TimeTravel = () => {
         value={date}
         dropdownMode="select"
         showPopperArrow={false}
-        onChange={(value) => setMockDate(value)}
+        onChange={(value:Date) => setMockDate(value)}
       />
     </StyledContainer>
   );

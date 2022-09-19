@@ -4,7 +4,7 @@ import compiledQuery, {
   ApplicationFormStatusTestQuery,
 } from '__generated__/ApplicationFormStatusTestQuery.graphql';
 import { screen } from '@testing-library/react';
-import { Settings, DateTime, Zone } from 'luxon';
+import { Settings, DateTime } from 'luxon';
 import ApplicationFormStatus from 'components/Form/ApplicationFormStatus';
 
 const testQuery = graphql`
@@ -45,9 +45,8 @@ describe('The application form', () => {
   });
 
   it('displays  the saved time when it was saved on the same day', () => {
-    const mockCurrentTime = DateTime.utc(2020, 1, 1, 5, 0);
+    const mockCurrentTime = DateTime.local(2020, 1, 1, 5, { zone: "America/Vancouver" });
     Settings.now = () => mockCurrentTime.toMillis();
-    Settings.defaultZone = 'UTC';
 
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
@@ -57,21 +56,20 @@ describe('The application form', () => {
   });
 
   it('displays the saved date when it was saved on a different day', () => {
-    const mockCurrentTime = DateTime.utc(2020, 1, 2, 0, 0);
+    const mockCurrentTime = DateTime.local(2020, 1, 2, 0, { zone: "America/Vancouver" });
     Settings.now = () => mockCurrentTime.toMillis();
-    Settings.defaultZone = 'UTC';
+    Settings.defaultLocale = "en-CA";
 
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
     expect(screen.queryByText('Saving')).toBeNull();
-    expect(screen.getByText('Last saved: Jan. 1')).toBeInTheDocument();
+    expect(screen.getByText('Last saved: Jan 1')).toBeInTheDocument();
   });
 
   it('displays the error message if provided', () => {
-    const mockCurrentTime = DateTime.utc(2020, 1, 2, 0, 0);
+    const mockCurrentTime = DateTime.local(2020, 1, 2, 0, { zone: "America/Vancouver" });
     Settings.now = () => mockCurrentTime.toMillis();
-    Settings.defaultZone = 'UTC';
 
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent((data) => ({

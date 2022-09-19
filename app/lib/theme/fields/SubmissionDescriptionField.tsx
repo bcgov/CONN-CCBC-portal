@@ -27,7 +27,7 @@ const SubmissionField: React.FC<FieldProps> = (props) => {
       locale: 'en-CA',
       zone: 'America/Vancouver',
     }
-  ).toLocaleString(DateTime.DATETIME_FULL)}`;
+  ).toFormat('MMMM dd, yyyy, ttt')}`;
 
   return (
     <>
