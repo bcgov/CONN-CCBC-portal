@@ -69,8 +69,8 @@ const SubmitButtons = ({
 }: Props) => {
   const isWithdrawn = status === 'withdrawn';
   const isDraft = status === 'draft';
-  const isDraftAndSubmitPage = isDraft && isSubmitPage;
   const isSubmitted = status === 'submitted';
+  const isDraftAndSubmitPage = isDraft && isSubmitPage;
   const isSubmittedAndSubmitPage = isSubmitted && isSubmitPage;
   const router = useRouter();
 
@@ -105,7 +105,7 @@ const SubmitButtons = ({
           >
             {isUpdating ? (
               <LoadingSpinner />
-            ) : saveAsDraft ? (
+            ) : savedAsDraft ? (
               'Save as draft'
             ) : (
               <>{savedAsDraft ? 'Saved' : 'Save as draft'}</>

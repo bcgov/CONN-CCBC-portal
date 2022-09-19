@@ -446,4 +446,103 @@ describe('The application form', () => {
       }
     );
   });
+
+  it('acknowledgement page shows continue on submitted application', async () => {
+    const mockSubmittedQueryPayload = {
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          formData: {},
+          status: 'submitted',
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(mockSubmittedQueryPayload);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 20,
+      query: data.query,
+    }));
+
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeTruthy();
+  });
+
+  it('submit page submit button is disabled for submitted application', async () => {
+    const mockSubmittedQueryPayload = {
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          formData: {},
+          status: 'submitted',
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(mockSubmittedQueryPayload);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    expect(
+      screen.getByRole('button', { name: 'Changes submitted' })
+    ).toBeTruthy();
+    expect(
+      screen
+        .getByRole('button', { name: 'Changes submitted' })
+        .hasAttribute('disabled')
+    ).toBeTrue();
+  });
+
+  it('submit page has functioning return to dashboard button for submitted application', async () => {
+    const mockSubmittedQueryPayload = {
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          formData: {},
+          status: 'submitted',
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(mockSubmittedQueryPayload);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    expect(
+      screen.getByRole('button', { name: 'Return to dashboard' })
+    ).toBeTruthy();
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Return to dashboard' })
+    );
+
+    expect(componentTestingHelper.router.push).toHaveBeenCalled();
+    expect(componentTestingHelper.router.pathname).toContain('dashboard');
+  });
 });
