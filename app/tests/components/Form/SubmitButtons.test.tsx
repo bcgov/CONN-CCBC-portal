@@ -8,7 +8,7 @@ const renderStaticLayout = ({
   formData = {},
   isSubmitPage = false,
   isUpdating = false,
-  saveAsDraft = true,
+  savedAsDraft = false,
   saveForm,
   status = 'draft',
 }) => {
@@ -19,7 +19,7 @@ const renderStaticLayout = ({
         formData={formData}
         isSubmitPage={isSubmitPage}
         isUpdating={isUpdating}
-        saveAsDraft={saveAsDraft}
+        savedAsDraft={savedAsDraft}
         saveForm={saveForm}
         status={status}
       />
@@ -32,7 +32,7 @@ const defaultProps = {
   formData: {},
   isSubmitPage: false,
   isUpdating: false,
-  saveAsDraft: true,
+  savedAsDraft: false,
   saveForm: () => {
     return;
   },
@@ -113,7 +113,7 @@ describe('The SubmitButtons component', () => {
     //rerender with expected prop change
     rerender(
       <GlobalTheme>
-        <SubmitButtons {...props} saveAsDraft={false} />
+        <SubmitButtons {...props} savedAsDraft={true} />
       </GlobalTheme>
     );
 
@@ -145,7 +145,7 @@ describe('The SubmitButtons component', () => {
     //rerender with expected prop change
     rerender(
       <GlobalTheme>
-        <SubmitButtons {...props} saveAsDraft={false} />
+        <SubmitButtons {...props} savedAsDraft={true} />
       </GlobalTheme>
     );
 
@@ -171,7 +171,7 @@ describe('The SubmitButtons component', () => {
     //rerender with expected prop change
     rerender(
       <GlobalTheme>
-        <SubmitButtons {...props} saveAsDraft={false} />
+        <SubmitButtons {...props} savedAsDraft={true} />
       </GlobalTheme>
     );
 
