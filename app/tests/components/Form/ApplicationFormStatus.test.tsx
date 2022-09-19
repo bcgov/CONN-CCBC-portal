@@ -72,7 +72,6 @@ describe('The application form', () => {
   it('displays the error message if provided', () => {
     const mockCurrentTime = DateTime.utc(2020, 1, 2, 0, 0);
     Settings.now = () => mockCurrentTime.toMillis();
-    Settings.defaultZone = "America/Vancouver";
 
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent(true, (data) => ({
