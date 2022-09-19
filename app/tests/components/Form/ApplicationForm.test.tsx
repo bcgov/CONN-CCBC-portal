@@ -4,7 +4,13 @@ import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  prettyDOM,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
@@ -590,407 +596,377 @@ describe('The application form', () => {
       screen.getByRole('heading', { name: 'Organization contact information' });
     });
 
-    describe('The Review component sections', () => {
-      it('should have correct heading styles', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
-        const heading = screen.getByRole('heading', {
-          name: 'Project information',
-        });
-
-        const style = window.getComputedStyle(heading);
-
-        expect(style.fontSize).toBe('24px');
-        expect(style.marginBottom).toBe('0px');
+    it('should have correct heading styles', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
+      const heading = screen.getByRole('heading', {
+        name: 'Project information',
       });
 
-      it('should have correct subheading styles', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
-        const subheading = screen.getAllByText(
-          'Amount requested under source:'
-        )[0];
+      const style = window.getComputedStyle(heading);
 
-        const style = window.getComputedStyle(subheading);
-
-        expect(style.fontSize).toBe('14px');
-        expect(style.fontWeight).toBe('600');
-        expect(style.padding).toBe('16px');
-        expect(style.margin).toBe('0px');
-      });
+      expect(style.fontSize).toBe('24px');
+      expect(style.marginBottom).toBe('0px');
     });
 
-    describe.only('The Project area section', () => {
-      it.only('should have correct fields', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
+    it('should have correct subheading styles', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
+      const subheading = screen.getAllByText(
+        'Amount requested under source:'
+      )[0];
 
-        expect(
-          screen
-            .getByText(/which zone\(s\) will this project be conducted in\?/i)
-            .closest('tr')
-            .getElementsByTagName('td')[0]
-        ).toHaveTextContent('1');
+      const style = window.getComputedStyle(subheading);
 
-        expect(
-          screen
-            .getByText(
-              /Does your Project span multiple provinces\/territories\?/i
-            )
-            .closest('tr')
-            .getElementsByTagName('td')[0]
-        ).toHaveTextContent(/yes/i);
-
-        expect(
-          screen
-            .getByText(/select the provinces or territories\?/i)
-            .closest('tr')
-            .getElementsByTagName('td')[0]
-        ).toHaveTextContent(/Alberta.*Northwest Territories/i);
-      });
+      expect(style.fontSize).toBe('14px');
+      expect(style.fontWeight).toBe('600');
+      expect(style.padding).toBe('16px');
+      expect(style.margin).toBe('0px');
     });
 
-    describe('The Budget details section without errors', () => {
-      it('should have correct fields', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
+    it('should have the correct fields in the Project Area section', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
 
-        expect(
-          screen
-            .getByText('Total project cost (Template 2 - cell H28)')
-            .closest('tr')
-            .getElementsByTagName('td')[0]
-        ).toHaveTextContent('$1 231 231 231 231');
-      });
-    });
+      const section = within(
+        screen.getByRole('heading', { name: 'Project area' }).closest('section')
+      );
 
-    describe.only('The Budget details section with errors', () => {
-      it.only('should have correct fields', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
-
-        const errorCell = screen
-          .getByText('Total project cost (Template 2 - cell H28)')
+      expect(
+        section
+          .getByText(/which zone\(s\) will this project be conducted in\?/i)
           .closest('tr')
-          .getElementsByTagName('td')[0];
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('1');
 
-        expect(window.getComputedStyle(errorCell).color).toBe('');
+      expect(
+        section
+          .getByText(
+            /Does your Project span multiple provinces\/territories\?/i
+          )
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent(/yes/i);
 
-        expect(document.getElementById('totalProjectCost-error')).toBeNull();
-      });
+      expect(
+        section
+          .getByText(/select the provinces or territories/i)
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent(/Alberta,Northwest Territories/i);
     });
 
-    describe('The Existing network coverage section', () => {
-      it('should have correct section description', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
-        expect(
-          document.getElementById('hasPassiveInfrastructure')
-        ).toHaveTextContent(
-          `Does the Applicant own Passive Infrastructure (including, for example, towers, poles, rights of way or other similar assets and infrastructure)?`
-        );
-      });
+    it('should have correct fields in the budget details section', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
+
+      const section = within(
+        screen
+          .getByRole('heading', { name: 'Budget details' })
+          .closest('section')
+      );
+
+      expect(
+        section
+          .getByText(/Total project cost/i)
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('$1 230');
+
+      expect(
+        section
+          .getByText(/Total eligible cost/i)
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('$1 000');
     });
 
-    describe('The Project funding  section', () => {
-      it('should have correct fields', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
+    it('should display empty red fields in the budget details section when there are errors', () => {
+      componentTestingHelper.loadQuery(mockQueryPayload);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
 
-        expect(
-          document.getElementById(
-            'root_projectFunding_fundingRequestedCCBC2223'
-          )
-        ).toHaveTextContent(`2022-23`);
+      const section = within(
+        screen
+          .getByRole('heading', { name: 'Budget details' })
+          .closest('section')
+      );
 
-        expect(
-          document.getElementById(
-            'root_projectFunding_fundingRequestedCCBC2324'
-          )
-        ).toHaveTextContent(`2023-24`);
+      const errorCell = section
+        .getByText('Total project cost (Template 2 - cell H28)')
+        .closest('tr')
+        .getElementsByTagName('td')[0];
 
-        expect(
-          document.getElementById(
-            'root_projectFunding_fundingRequestedCCBC2425'
-          )
-        ).toHaveTextContent(`2024-25`);
-
-        expect(
-          document.getElementById(
-            'root_projectFunding_fundingRequestedCCBC2526'
-          )
-        ).toHaveTextContent(`2025-26`);
-
-        expect(
-          document.getElementById(
-            'root_projectFunding_fundingRequestedCCBC2627'
-          )
-        ).toHaveTextContent(`2026-27`);
-
-        expect(
-          document.getElementById(
-            'root_projectFunding_totalFundingRequestedCCBC'
-          )
-        ).toHaveTextContent(`Total amount requested under CCBC`);
-
-        expect(
-          document.getElementById(
-            'root_projectFunding_applicationContribution2223'
-          )
-        ).toHaveTextContent(`2022-23`);
-
-        expect(
-          document.getElementById(
-            'root_projectFunding_applicationContribution2324'
-          )
-        ).toHaveTextContent(`2023-24`);
-
-        expect(
-          document.getElementById(
-            'root_projectFunding_applicationContribution2425'
-          )
-        ).toHaveTextContent(`2024-25`);
-
-        expect(
-          document.getElementById(
-            'root_projectFunding_applicationContribution2526'
-          )
-        ).toHaveTextContent(`2025-26`);
-
-        expect(
-          document.getElementById(
-            'root_projectFunding_applicationContribution2627'
-          )
-        ).toHaveTextContent(`2026-27`);
-
-        expect(
-          document.getElementById(
-            'root_projectFunding_totalApplicantContribution'
-          )
-        ).toHaveTextContent(`Total amount Applicant will contribute`);
-      });
+      expect(errorCell).toBeEmptyDOMElement();
+      expect(errorCell).toHaveStyle(
+        'background-color: rgba(248, 214, 203, 0.4)'
+      );
     });
 
-    describe('The Technological solution section', () => {
-      it('should have correct fields', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
-        expect(document.getElementById('systemDesign')).toHaveTextContent(
-          `System design: Provide a description of the system design which covers all key Network components that will enable improved connectivity. This description should provide sufficient detail, from the start to the end points.`
-        );
+    it('should have correct fields in the Existing network coverage section', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
 
-        expect(document.getElementById('scalability')).toHaveTextContent(
-          `Scalability: Describe the ability of the Network to adapt to forecasted increased Network capacity and demand over the next 5 years from the Project Completion Date, accommodating additional subscribers and usage traffic, enhanced services and the Network’s ability to support speeds identified in the application guide.`
-        );
+      const section = within(
+        screen
+          .getByRole('heading', { name: 'Existing network coverage' })
+          .closest('section')
+      );
 
-        expect(document.getElementById('backboneTechnology')).toHaveTextContent(
-          `Please specify the backbone technology type (check all that apply).`
-        );
-
-        expect(document.getElementById('lastMileTechnology')).toHaveTextContent(
-          `Please specify the last mile technology type (check all that apply). If you select fixed wireless, you must complete Template 7.`
-        );
-      });
+      expect(
+        section
+          .getByText(/Does the Applicant own Passive Infrastructure/i)
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent(/yes/i);
     });
 
-    describe('The Project planning section', () => {
-      it('should have correct fields', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
+    it('should have correct fields in the Project funding  section', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
 
-        expect(document.getElementById('projectStartDate')).toHaveTextContent(
-          `Project Start Date (YYYY/MM/DD)`
-        );
-      });
+      expect(
+        document.getElementById('root_projectFunding_fundingRequestedCCBC2223')
+      ).toHaveTextContent(`2022-23`);
+
+      expect(
+        document.getElementById('root_projectFunding_fundingRequestedCCBC2324')
+      ).toHaveTextContent(`2023-24`);
+
+      expect(
+        document.getElementById('root_projectFunding_fundingRequestedCCBC2425')
+      ).toHaveTextContent(`2024-25`);
+
+      expect(
+        document.getElementById('root_projectFunding_fundingRequestedCCBC2526')
+      ).toHaveTextContent(`2025-26`);
+
+      expect(
+        document.getElementById('root_projectFunding_fundingRequestedCCBC2627')
+      ).toHaveTextContent(`2026-27`);
+
+      expect(
+        document.getElementById('root_projectFunding_totalFundingRequestedCCBC')
+      ).toHaveTextContent(`Total amount requested under CCBC`);
+
+      expect(
+        document.getElementById(
+          'root_projectFunding_applicationContribution2223'
+        )
+      ).toHaveTextContent(`2022-23`);
+
+      expect(
+        document.getElementById(
+          'root_projectFunding_applicationContribution2324'
+        )
+      ).toHaveTextContent(`2023-24`);
+
+      expect(
+        document.getElementById(
+          'root_projectFunding_applicationContribution2425'
+        )
+      ).toHaveTextContent(`2024-25`);
+
+      expect(
+        document.getElementById(
+          'root_projectFunding_applicationContribution2526'
+        )
+      ).toHaveTextContent(`2025-26`);
+
+      expect(
+        document.getElementById(
+          'root_projectFunding_applicationContribution2627'
+        )
+      ).toHaveTextContent(`2026-27`);
+
+      expect(
+        document.getElementById(
+          'root_projectFunding_totalApplicantContribution'
+        )
+      ).toHaveTextContent(`Total amount Applicant will contribute`);
     });
 
-    describe('The Other funding sources section', () => {
-      it('should have correct fields', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
+    it('should have correct fields in The Technological solution section', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
+      expect(document.getElementById('systemDesign')).toHaveTextContent(
+        `System design: Provide a description of the system design which covers all key Network components that will enable improved connectivity. This description should provide sufficient detail, from the start to the end points.`
+      );
 
-        expect(
-          document.getElementById('infrastructureBankFunding2223')
-        ).toHaveTextContent(`2022-23`);
+      expect(document.getElementById('scalability')).toHaveTextContent(
+        `Scalability: Describe the ability of the Network to adapt to forecasted increased Network capacity and demand over the next 5 years from the Project Completion Date, accommodating additional subscribers and usage traffic, enhanced services and the Network’s ability to support speeds identified in the application guide.`
+      );
 
-        expect(
-          document.getElementById('infrastructureBankFunding2324')
-        ).toHaveTextContent(`2023-24`);
+      expect(document.getElementById('backboneTechnology')).toHaveTextContent(
+        `Please specify the backbone technology type (check all that apply).`
+      );
 
-        expect(
-          document.getElementById('infrastructureBankFunding2425')
-        ).toHaveTextContent(`2024-25`);
-
-        expect(
-          document.getElementById('infrastructureBankFunding2526')
-        ).toHaveTextContent(`2025-26`);
-
-        expect(
-          document.getElementById('totalInfrastructureBankFunding')
-        ).toHaveTextContent(
-          `Total amount requested under Canadian Infrastructure Bank`
-        );
-
-        expect(
-          document.getElementById('fundingPartnersName')
-        ).toHaveTextContent(`Funding partner's name`);
-      });
+      expect(document.getElementById('lastMileTechnology')).toHaveTextContent(
+        `Please specify the last mile technology type (check all that apply). If you select fixed wireless, you must complete Template 7.`
+      );
     });
 
-    describe('The Organization location section without errors', () => {
-      it('should have dynamically render mailing address', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
+    it('should have correct fields in The Project planning section', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
 
-        expect(document.getElementById('city-value')).toHaveTextContent(
-          'Victoria'
-        );
-
-        expect(document.getElementById('unitNumberMailing')).toHaveTextContent(
-          'Unit number'
-        );
-
-        expect(
-          document.getElementById('isMailingAddress-value')
-        ).toHaveTextContent('No');
-
-        expect(
-          document.getElementById('organizationLocation')
-        ).toHaveTextContent('Mailing address:');
-      });
+      expect(document.getElementById('projectStartDate')).toHaveTextContent(
+        `Project Start Date (YYYY/MM/DD)`
+      );
     });
 
-    describe('The Organization profile section with errors', () => {
-      it('should have the correct field and value', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
+    it('should have correct fields in The Other funding sources section', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
 
-        expect(document.getElementById('bandNumber-error')).toBeNull();
-      });
+      expect(
+        screen
+          .getAllByText('2022-23')[0]
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent(/victoria/i);
+
+      expect(
+        document.getElementById('infrastructureBankFunding2223')
+      ).toHaveTextContent(`2022-23`);
+
+      expect(
+        document.getElementById('infrastructureBankFunding2324')
+      ).toHaveTextContent(`2023-24`);
+
+      expect(
+        document.getElementById('infrastructureBankFunding2425')
+      ).toHaveTextContent(`2024-25`);
+
+      expect(
+        document.getElementById('infrastructureBankFunding2526')
+      ).toHaveTextContent(`2025-26`);
+
+      expect(
+        document.getElementById('totalInfrastructureBankFunding')
+      ).toHaveTextContent(
+        `Total amount requested under Canadian Infrastructure Bank`
+      );
+
+      expect(document.getElementById('fundingPartnersName')).toHaveTextContent(
+        `Funding partner's name`
+      );
     });
 
-    describe('The alert box without errors', () => {
-      it('should have the correct value', () => {
-        componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
+    it('should the correct fields in the Organization location section', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
 
-        expect(document.getElementById('review-alert')).toHaveTextContent(
-          'All fields are complete'
-        );
-      });
+      const section = within(
+        screen
+          .getByRole('heading', { name: 'Organization location' })
+          .closest('section')
+      );
+
+      console.log(prettyDOM(section.getAllByText(/city/i)[0].closest('tr')));
+
+      expect(
+        section
+          .getAllByText(/city/i)[0]
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent(/victoria/i);
+
+      expect(
+        section
+          .getAllByText(/unit number/i)[0]
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent(/1231231/i);
+
+      expect(
+        section
+          .getByText(/Is the mailing address the same as above/i)
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent(/no/i);
     });
 
-    describe('The alert box with errors', () => {
-      it('should have the correct value', () => {
-        componentTestingHelper.loadQuery(mockQueryPayload);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
+    it('should have the correct field and value in the Organization profile section', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
 
-        expect(
-          screen.getByText(
-            'There are empty fields in your application. Applications with unanswered fields may not be assessed.'
-          )
-        ).toBeInTheDocument();
-      });
+      expect(document.getElementById('bandNumber-error')).toBeNull();
     });
 
-    describe.skip('The Review component with no form data', () => {
-      it('should have the correct value', () => {
-        componentTestingHelper.loadQuery(mockQueryPayload);
-        componentTestingHelper.renderComponent((data) => ({
-          application: data.application,
-          pageNumber: REVIEW_PAGE_INDEX,
-          query: data.query,
-        }));
+    it.only('should not display alert box without errors', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
 
-        expect(document.getElementById('review-alert')).toHaveTextContent(
+      expect(screen.getByText('All fields are complete')).toBeInTheDocument();
+    });
+
+    it('should display the alert box when there are errors', () => {
+      componentTestingHelper.loadQuery(mockQueryPayload);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
+
+      expect(
+        screen.getByText(
           'There are empty fields in your application. Applications with unanswered fields may not be assessed.'
-        );
-
-        expect(
-          screen.getByTestId('root_projectInformation_projectTitle-error')
-        ).toBeInTheDocument();
-
-        expect(
-          document.getElementById('geographicAreaDescription-error')
-        ).toBeInTheDocument();
-
-        expect(
-          document.getElementById('hoursOfContractorEmploymentPerWeek-error')
-        ).toBeInTheDocument();
-
-        expect(
-          document.getElementById('totalEligibleCosts-error')
-        ).toBeInTheDocument();
-
-        expect(
-          document.getElementById('totalFundingRequestedCCBC-error')
-        ).toBeInTheDocument();
-
-        expect(
-          document.getElementById('systemDesign-error')
-        ).toBeInTheDocument();
-
-        expect(
-          document.getElementById('projectBenefits-error')
-        ).toBeInTheDocument();
-      });
+        )
+      ).toBeInTheDocument();
     });
+
     it.todo('prevents submission if errors are not acknowledged');
   });
 });

@@ -31,10 +31,10 @@ const StyledColError = styled(StyledColRight)`
 
 const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   id,
-  rawErrors,
   schema,
   uiSchema,
   children,
+  errors,
 }) => {
   if (uiSchema?.['ui:hidden']) return null;
 
@@ -57,8 +57,8 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
       {before}
       <tr>
         <StyledColLeft id={id}>{title}</StyledColLeft>
-        {rawErrors && rawErrors.length > 0 ? (
-          <StyledColError test-id={`${id}-error`} />
+        {errors ? (
+          <StyledColError />
         ) : (
           <StyledColRight id={`${id}-value`}>{children}</StyledColRight>
         )}

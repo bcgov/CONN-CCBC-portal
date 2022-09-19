@@ -59,6 +59,8 @@ const ReviewField: React.FC<FieldProps> = (props) => {
     });
   };
 
+  console.log(formErrorSchema);
+
   return (
     <>
       <p>Please review your responses.</p>
