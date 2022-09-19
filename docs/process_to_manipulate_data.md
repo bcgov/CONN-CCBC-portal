@@ -1,5 +1,10 @@
 ### Process to manipulate data in production
 
+To manipulate data in production, the default workflow is to create a `sqitch` change, associated with `pgTap` tests that are run in our CI pipeline and tested in our `dev` and `test` environments as the application is deployed.
+
+In rare cases, the team needs to manipulate data directly in the database, without going through our usual guardrails. Examples of this are mostly around manipulation of private data. This repository is open-source, therefore we should not commit any private information.
+
+This should be considered a last resort. Updating data in production could lead to cascading failure if done without the proper guardrails, which our CI are providing.
 #### Important steps before you begin:
 
 - Get request/approval from Product Owner
