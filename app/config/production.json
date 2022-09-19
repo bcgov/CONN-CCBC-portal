@@ -1,4 +1,3 @@
-{
-  "OPENSHIFT_APP_NAMESPACE": "ff61fb-prod",
-  "SITEMINDER_LOGOUT_URL": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi"
+{ 
+  "SITEMINDER_LOGOUT_URL": "https://logon.gov.bc.ca/clp-cgi/logoff.cgi"
 }

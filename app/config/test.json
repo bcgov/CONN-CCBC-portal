@@ -1,13 +1,4 @@
 {
-  "ORIGIN": "localhost",
-  "PORT": 3000,
-  "PGUSER": "ccbc_app",
-  "PGPASSWORD": "",
-  "PGHOST": "localhost",
-  "PGPORT": 5432,
-  "PGDATABASE": "ccbc",
-  "PGSCHEMA": "ccbc_public",
-  "OPENSHIFT_APP_NAMESPACE": "ff61fb-test",
   "SITEMINDER_LOGOUT_URL": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi",
   "ENABLE_MOCK_TIME" : true,
   "ENABLE_MOCK_COOKIES" : true
