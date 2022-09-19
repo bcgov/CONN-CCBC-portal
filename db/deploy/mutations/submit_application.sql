@@ -10,6 +10,10 @@ declare
   reference_number bigint;
   seq_name varchar;
   application_status varchar;
+  submission_completed_for varchar;
+  submission_completed_by varchar;
+  submission_title varchar;
+  submission_date varchar;
 begin
 
   select ccbc_public.application_status(
@@ -24,8 +28,31 @@ begin
     raise 'The application cannot be submitted as it has the following status: %', application_status;
   end if;
 
+  select form_data -> 'submission' ->> 'submissionCompletedFor',
+    form_data -> 'submission' ->> 'submissionCompletedBy',
+    form_data -> 'submission' ->> 'submissionTitle',
+    form_data -> 'submission' ->> 'submissionDate'
+   from ccbc_public.application where id = application_row_id
+   into submission_completed_for, submission_completed_by, submission_title, submission_date;
+
+  if coalesce(submission_completed_for, '') = '' then
+    raise 'The application cannot be submitted as the submission field submission_completed_for is null or empty';
+  end if;
+
+  if coalesce(submission_completed_by, '') = '' then
+    raise 'The application cannot be submitted as the submission field submission_completed_by is null or empty';
+  end if;
+  
+  if coalesce(submission_title, '') = '' then
+    raise 'The application cannot be submitted as the submission field submission_title is null or empty';
+  end if;
+
+  if coalesce(submission_date, '') = '' then
+    raise 'The application cannot be submitted as the submission field submission_date is null or empty';
+  end if;
+
   select id, ccbc_intake_number, application_number_seq_name from ccbc_public.open_intake()
-  into current_intake_id, current_intake_number, seq_name ;
+  into current_intake_id, current_intake_number, seq_name;
 
   if current_intake_id is null then
     raise 'There is no open intake, the application cannot be submitted';

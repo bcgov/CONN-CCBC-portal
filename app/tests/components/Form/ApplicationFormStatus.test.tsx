@@ -62,7 +62,7 @@ describe('The application form', () => {
     Settings.defaultLocale = "en-CA";
 
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(false);
+    componentTestingHelper.renderComponent();
 
     expect(screen.queryByText('Saving')).toBeNull();
     expect(screen.getByText('Last saved: Jan 1')).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe('The application form', () => {
     Settings.now = () => mockCurrentTime.toMillis();
 
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(true, (data) => ({
+    componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       error: 'uh-oh',
     }));
@@ -83,7 +83,7 @@ describe('The application form', () => {
 
   it('displays a "saving" message when isSaving is true', () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(true, (data) => ({
+    componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       isSaving: true,
     }));

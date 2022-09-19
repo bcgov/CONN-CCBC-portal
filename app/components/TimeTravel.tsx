@@ -75,7 +75,7 @@ const TimeTravel = () => {
         value={date}
         dropdownMode="select"
         showPopperArrow={false}
-        onChange={(value) => setMockDate(value)}
+        onChange={(value:Date) => setMockDate(value)}
       />
     </StyledContainer>
   );

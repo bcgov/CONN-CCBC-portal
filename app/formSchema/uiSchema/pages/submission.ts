@@ -1,14 +1,17 @@
 const submission = {
   'ui:order': [
     'submissionCompletedFor',
-    'submissionDate',
     'submissionCompletedBy',
     'submissionTitle',
+    'submissionDate',
   ],
   'ui:title': '',
   'ui:field': 'SubmissionField',
+  submissionCompletedFor: {
+    'ui:widget': 'SubmissionCompletedForWidget',
+  },
   submissionDate: {
-    'ui:widget': 'DatePickerWidget',
+    'ui:widget': 'ReadOnlySubmissionWidget',
   },
 };
 

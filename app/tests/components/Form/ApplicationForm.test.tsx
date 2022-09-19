@@ -26,6 +26,35 @@ const mockQueryPayload = {
       id: 'TestApplicationID',
       formData: {},
       status: 'draft',
+      updatedAt: '2022-09-12T14:04:10.790848-07:00',
+    };
+  },
+  Query() {
+    return {
+      openIntake: {
+        closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+      },
+    };
+  },
+};
+
+const submissionPayload = {
+  Application() {
+    return {
+      id: 'TestApplicationID',
+      status: 'draft',
+      updatedAt: '2022-09-12T14:04:10.790848-07:00',
+      formData: {
+        organizationProfile: {
+          organizationName: 'Testing organization name',
+        },
+        submission: {
+          submissionCompletedFor: 'test',
+          submissionDate: '2022-09-27',
+          submissionCompletedBy: 'test',
+          submissionTitle: 'test',
+        },
+      },
     };
   },
   Query() {
@@ -57,7 +86,7 @@ describe('The application form', () => {
 
   it('saves the data as the user types', () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(true);
+    componentTestingHelper.renderComponent();
 
     fireEvent.change(screen.getByLabelText(/project title/i), {
       target: { value: 'test title' },
@@ -67,11 +96,18 @@ describe('The application form', () => {
       'updateApplicationMutation',
       {
         input: {
-          id: 'TestApplicationID',
           applicationPatch: {
-            formData: { projectInformation: { projectTitle: 'test title' } },
+            formData: {
+              projectInformation: {
+                projectTitle: 'test title',
+              },
+              submission: {
+                submissionDate: '2022-09-12',
+              },
+            },
             lastEditedPage: 'projectInformation',
           },
+          id: 'TestApplicationID',
         },
       }
     );
@@ -79,7 +115,7 @@ describe('The application form', () => {
 
   it('sets lastEditedPage to the next page when the user clicks on "continue"', async () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(true);
+    componentTestingHelper.renderComponent();
 
     await userEvent.click(
       screen.getByRole('button', { name: 'Save and continue' })
@@ -89,11 +125,69 @@ describe('The application form', () => {
       'updateApplicationMutation',
       {
         input: {
-          id: 'TestApplicationID',
           applicationPatch: {
-            formData: { projectInformation: {} },
+            formData: {
+              projectInformation: {},
+              submission: {
+                submissionDate: '2022-09-12',
+              },
+            },
             lastEditedPage: 'projectArea',
           },
+          id: 'TestApplicationID',
+        },
+      }
+    );
+  });
+
+  it('auto fills the submission fields', async () => {
+    const mockQueryAutofillPayload = {
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          formData: {
+            organizationProfile: {
+              organizationName: 'Test org',
+            },
+          },
+          status: 'draft',
+          updatedAt: '2022-09-12T14:04:10.790848-07:00',
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(mockQueryAutofillPayload);
+    componentTestingHelper.renderComponent();
+
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Save and continue' })
+    );
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationMutation',
+      {
+        input: {
+          applicationPatch: {
+            formData: {
+              organizationProfile: {
+                organizationName: 'Test org',
+              },
+              projectInformation: {},
+              submission: {
+                submissionCompletedFor: 'Test org',
+                submissionDate: '2022-09-12',
+              },
+            },
+            lastEditedPage: 'projectArea',
+          },
+          id: 'TestApplicationID',
         },
       }
     );
@@ -101,7 +195,7 @@ describe('The application form', () => {
 
   it('acknowledgement page continue is disabled on initial load', async () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(true, (data) => ({
+    componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 20,
       query: data.query,
@@ -116,7 +210,7 @@ describe('The application form', () => {
 
   it('acknowledgement page continue is enabled once all checkboxes have been clicked', async () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(true, (data) => ({
+    componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 20,
       query: data.query,
@@ -160,53 +254,27 @@ describe('The application form', () => {
     };
 
     componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent(true);
+    componentTestingHelper.renderComponent();
 
     expect(screen.getByRole('button', { name: 'Continue' }));
   });
 
-  it('submission page submit button is enabled on when all inputs filled', async () => {
-    componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(true, (data) => ({
+  it('submission page submit button is enabled on when all inputs filled', () => {
+    componentTestingHelper.loadQuery(submissionPayload);
+    componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
       query: data.query,
     }));
 
-    const completedFor = screen.getByLabelText(/Completed for/i);
-
-    const onThisDate = screen.getByLabelText(/On this date/i);
-
-    const completedBy = screen.getByLabelText(/Completed By/i);
-
-    const title = screen.getByLabelText(/Title/i);
-
-    fireEvent.change(completedFor, {
-      value: 'Applicant Name',
-    });
-
-    fireEvent.change(onThisDate, {
-      value: '2022-08-10',
-    });
-
-    fireEvent.change(completedBy, {
-      value: 'Person Completed By',
-    });
-
-    userEvent.type(title, 'Mock Title').then(() => {
-      waitFor(() =>
-        expect(
-          screen
-            .getByRole('button', { name: 'Submit' })
-            .hasAttribute('disabled')
-        ).toBeFalse()
-      );
-    });
+    expect(
+      screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
+    ).toBeFalse();
   });
 
-  it('submission page submit button is enabled on when all inputs filled', async () => {
+  it('submission page submit button is disabled on when all fields are not filled', async () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(true, (data) => ({
+    componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
       query: data.query,
@@ -235,7 +303,7 @@ describe('The application form', () => {
         };
       },
     });
-    componentTestingHelper.renderComponent(true, (data) => ({
+    componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
       query: data.query,
@@ -274,7 +342,7 @@ describe('The application form', () => {
 
   it('Submission page contains submission date from DB', async () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(true, (data) => ({
+    componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
       query: data.query,
@@ -304,7 +372,7 @@ describe('The application form', () => {
     };
 
     componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent(true, (data) => ({
+    componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 20,
       query: data.query,
@@ -336,7 +404,7 @@ describe('The application form', () => {
     };
 
     componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent(true, (data) => ({
+    componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
       query: data.query,
