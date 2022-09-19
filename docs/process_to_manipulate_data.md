@@ -7,9 +7,11 @@ In rare cases, the team needs to manipulate data directly in the database, witho
 This should be considered a last resort. Updating data in production could lead to cascading failure if done without the proper guardrails, which our CI are providing.
 #### Important steps before you begin:
 
-- Get request/approval from Product Owner
-- Back up database before manipulating data
-- Pair program with another developer
+- Get an email request from Product Owner, including a date request for the changes
+- Post a message in the team's channel to find an other developer who is available to pair with you to make the change.
+- Respond to the email request, ensuring that the work will not be done by multiple devs concurrently
+- Start a meeting, sharing your screen with the other developer the entire time
+- Back up database before manipulating data (add link to manual backup instructions here)
 
 #### Manipulating the data
 
@@ -23,6 +25,7 @@ Don't start in `prod`, always start in the `dev` namespace to practice and mitig
 
 `begin;`
 
+At this point, you should see the following `psql` prompt: `ccbc=*>`. The `*` indicates that you are in a transaction, and the `>` is the normal user prompt (instead of `#` for a superuser)
 <br />
 
 3. Insert/update the data
@@ -33,7 +36,7 @@ Don't start in `prod`, always start in the `dev` namespace to practice and mitig
 
 5. If the command was successful select the data and verify the data
 
-6. If everything looks good commit the transaction:
+6. If everything looks good to you and the other developer(s) on the call, commit the transaction:
 
 `commit;`
 
