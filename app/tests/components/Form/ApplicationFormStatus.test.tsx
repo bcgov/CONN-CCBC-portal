@@ -45,12 +45,11 @@ describe('The application form', () => {
   });
 
   it('displays  the saved time when it was saved on the same day', () => {
-    const mockCurrentTime = DateTime.utc(2020, 1, 1, 5, 0);
+    const mockCurrentTime = DateTime.local(2020, 1, 1, 5, { zone: "America/Vancouver" });
     Settings.now = () => mockCurrentTime.toMillis();
-    Settings.defaultZone = "UTC";
 
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(false);
+    componentTestingHelper.renderComponent();
 
     expect(screen.queryByText('Saving')).toBeNull();
     expect(screen.getByText('Last saved: 04:42')).toBeInTheDocument();
