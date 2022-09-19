@@ -17,6 +17,8 @@ This should be considered a last resort. Updating data in production could lead 
 
 Don't start in `prod`, always start in the `dev` namespace to practice and mitigate the chance of a failure in prod.
 
+0. Read through the steps below before starting.
+
 1. Don't commit changes as superuser, change to the database user:
 
 `set role ccbc;`
