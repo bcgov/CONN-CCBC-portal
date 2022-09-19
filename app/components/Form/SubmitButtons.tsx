@@ -2,6 +2,8 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import LoadingSpinner from 'components/LoadingSpinner';
+import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
+import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
 
 const StyledFlex = styled('div')`
   display: flex;
@@ -42,7 +44,14 @@ type Props = {
   isSubmitPage: boolean;
   isUpdating: boolean;
   savedAsDraft: boolean;
-  saveForm: any;
+  saveForm: (
+    formData: any,
+    mutationConfig?: Partial<
+      UseDebouncedMutationConfig<updateApplicationMutation>
+    >,
+    isRedirectingToNextPage?: boolean,
+    isSaveAsDraftBtn?: boolean
+  ) => void;
   status: string;
 };
 
