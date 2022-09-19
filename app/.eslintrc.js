@@ -7,21 +7,6 @@ module.exports = {
   parserOptions: {
     project: ['./tsconfig.json'],
   },
-  rules: {
-    // Todo: fix and remove most of these
-    '@typescript-eslint/no-shadow': 'warn',
-    '@typescript-eslint/no-unused-vars': 'warn',
-    '@typescript-eslint/no-unused-expressions': 'warn',
-    '@typescript-eslint/dot-notation': 'warn',
-    '@typescript-eslint/lines-between-class-members': 'warn',
-    '@typescript-eslint/no-use-before-define': 'warn',
-    '@typescript-eslint/return-await': 'warn',
-    'relay/unused-fields': 'warn',
-    'relay/generated-flow-types': 'warn',
-    'relay/must-colocate-fragment-spreads': 'warn',
-    'import/no-extraneous-dependencies': 'warn',
-    'import/extensions': 'warn',
-  },
   overrides: [
     {
       files: ['tests/**/*'],
