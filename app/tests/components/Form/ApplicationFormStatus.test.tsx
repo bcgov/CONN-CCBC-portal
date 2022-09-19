@@ -4,7 +4,7 @@ import compiledQuery, {
   ApplicationFormStatusTestQuery,
 } from '__generated__/ApplicationFormStatusTestQuery.graphql';
 import { screen } from '@testing-library/react';
-import { Settings, DateTime, Zone } from 'luxon';
+import { Settings, DateTime } from 'luxon';
 import ApplicationFormStatus from 'components/Form/ApplicationFormStatus';
 
 const testQuery = graphql`

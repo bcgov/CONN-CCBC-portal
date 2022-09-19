@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
+import { Settings } from 'luxon';
 import { getClientEnvironment } from '../lib/relay/client';
 import type { AppProps } from 'next/app';
 import { GrowthBook, GrowthBookProvider } from '@growthbook/growthbook-react';
@@ -32,6 +33,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const relayProps = getRelayProps(pageProps, initialPreloadedQuery);
   const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
   const router = useRouter();
+  Settings.defaultZone = "America/Vancouver";
+  Settings.defaultLocale = "en-CA";
 
   const [appMounted, setAppMounted] = useState(false);
 
