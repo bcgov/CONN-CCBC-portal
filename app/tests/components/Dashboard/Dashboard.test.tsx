@@ -104,7 +104,7 @@ describe('The Dashboard', () => {
 
   it('Lists the owners applications CCBC ID', () => {
     componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent(true);
+    componentTestingHelper.renderComponent();
 
     expect(screen.getByText('CCBC-010001')).toBeVisible();
     expect(screen.getByText('CCBC-010002')).toBeVisible();
@@ -133,7 +133,7 @@ describe('The Dashboard', () => {
       },
     };
     componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent(true);
+    componentTestingHelper.renderComponent();
     expect(screen.getByText('Unassigned')).toBeInTheDocument();
     expect(screen.getByText('draft')).toBeInTheDocument();
     expect(screen.getByText('Edit')).toBeInTheDocument();
@@ -166,7 +166,7 @@ describe('The Dashboard', () => {
       },
     };
     componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent(true);
+    componentTestingHelper.renderComponent();
 
     expect(screen.getByText('CCBC-010004')).toBeInTheDocument();
     expect(screen.getByText('submitted')).toBeInTheDocument();
@@ -202,7 +202,7 @@ describe('The Dashboard', () => {
     componentTestingHelper.loadQuery(payload);
     const user = userEvent.setup();
 
-    componentTestingHelper.renderComponent(true);
+    componentTestingHelper.renderComponent();
     expect(screen.getByText('CCBC-010005')).toBeInTheDocument();
     expect(screen.getByText('submitted')).toBeInTheDocument();
     expect(screen.getByText('Edit')).toBeInTheDocument();
@@ -247,7 +247,7 @@ describe('The Dashboard', () => {
       },
     };
     componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent(true);
+    componentTestingHelper.renderComponent();
     expect(screen.getByText('CCBC-010005')).toBeInTheDocument();
     expect(screen.getByText('submitted')).toBeInTheDocument();
     expect(screen.getByText('View')).toBeInTheDocument();
@@ -280,7 +280,7 @@ describe('The Dashboard', () => {
       },
     };
     componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent(true);
+    componentTestingHelper.renderComponent();
     expect(screen.getByText('CCBC-010005')).toBeInTheDocument();
     expect(screen.getByText('withdrawn')).toBeInTheDocument();
     expect(screen.getByText('View')).toBeInTheDocument();

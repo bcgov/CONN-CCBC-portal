@@ -77,16 +77,11 @@ class ComponentTestingHelper<
   };
 
   public renderComponent(
-    useDefaultDateSettings: boolean,
     getPropsFromTestQuery: (data: TQuery['response']) => any = this.options
       .getPropsFromTestQuery,
     extraProps: any = this.options.defaultComponentProps
     
   ) {
-    if (useDefaultDateSettings) {
-      Settings.defaultZone = "America/Vancouver";
-      Settings.defaultLocale = "en-CA";
-    }
     this.renderResult = render(
       <GlobalTheme>
         <GlobalStyle />
