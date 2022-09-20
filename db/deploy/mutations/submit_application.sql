@@ -14,6 +14,7 @@ declare
   submission_completed_by varchar;
   submission_title varchar;
   submission_date varchar;
+  acknowledgements_array_length integer;
 begin
 
   select ccbc_public.application_status(
@@ -31,9 +32,10 @@ begin
   select form_data -> 'submission' ->> 'submissionCompletedFor',
     form_data -> 'submission' ->> 'submissionCompletedBy',
     form_data -> 'submission' ->> 'submissionTitle',
-    form_data -> 'submission' ->> 'submissionDate'
+    form_data -> 'submission' ->> 'submissionDate',
+    jsonb_array_length(form_data -> 'acknowledgements' -> 'acknowledgementsList')
    from ccbc_public.application where id = application_row_id
-   into submission_completed_for, submission_completed_by, submission_title, submission_date;
+   into submission_completed_for, submission_completed_by, submission_title, submission_date, acknowledgements_array_length;
 
   if coalesce(submission_completed_for, '') = '' then
     raise 'The application cannot be submitted as the submission field submission_completed_for is null or empty';
@@ -42,13 +44,17 @@ begin
   if coalesce(submission_completed_by, '') = '' then
     raise 'The application cannot be submitted as the submission field submission_completed_by is null or empty';
   end if;
-  
+
   if coalesce(submission_title, '') = '' then
     raise 'The application cannot be submitted as the submission field submission_title is null or empty';
   end if;
 
   if coalesce(submission_date, '') = '' then
     raise 'The application cannot be submitted as the submission field submission_date is null or empty';
+  end if;
+
+  if acknowledgements_array_length <> 17 or acknowledgements_array_length is null then
+    raise 'The application cannot be submitted as there are unchecked acknowledgements';
   end if;
 
   select id, ccbc_intake_number, application_number_seq_name from ccbc_public.open_intake()
@@ -60,7 +66,7 @@ begin
 
   select nextval(seq_name) into reference_number;
 
-  insert into ccbc_public.application_status 
+  insert into ccbc_public.application_status
     (application_id, status) values (application_row_id, 'submitted');
 
   update ccbc_public.application set
