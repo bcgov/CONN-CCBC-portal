@@ -59,15 +59,6 @@ const formatErrorSchema = (formData, schema) => {
   delete errorSchema['acknowledgements'];
   delete errorSchema['submission'];
 
-  // This is a workaround for 'should be array' error and the schema/radio widget
-  // should ideally be refactored so we don't need this.
-  const arrayError =
-    errorSchema?.organizationProfile?.typeOfOrganization?.__errors[0] ===
-    'should be array';
-  if (arrayError && Object.keys(errorSchema.organizationProfile).length <= 1) {
-    delete errorSchema['organizationProfile'];
-  }
-
   return errorSchema;
 };
 
