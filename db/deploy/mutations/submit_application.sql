@@ -15,6 +15,7 @@ declare
   submission_title varchar;
   submission_date varchar;
   acknowledgements_array_length integer;
+  num_acknowledgements constant integer := 17;
 begin
 
   select ccbc_public.application_status(
@@ -53,7 +54,7 @@ begin
     raise 'The application cannot be submitted as the submission field submission_date is null or empty';
   end if;
 
-  if acknowledgements_array_length <> 17 or acknowledgements_array_length is null then
+  if acknowledgements_array_length <> num_acknowledgements or acknowledgements_array_length is null then
     raise 'The application cannot be submitted as there are unchecked acknowledgements';
   end if;
 
