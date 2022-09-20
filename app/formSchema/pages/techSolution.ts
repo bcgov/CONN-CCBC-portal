@@ -1,4 +1,6 @@
-const techSolution = {
+import { JSONSchema7 } from 'json-schema';
+
+const techSolution: Record<string, JSONSchema7> = {
   techSolution: {
     title: 'Technological solution',
     type: 'object',

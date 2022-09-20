@@ -34,9 +34,12 @@ import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.g
 import { SubmissionDescriptionField } from 'lib/theme/fields';
 import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
 
-const NUM_ACKNOWLEDGEMENTS =
-  acknowledgements.acknowledgements.properties.acknowledgementsList.items.enum
-    .length;
+const NUM_ACKNOWLEDGEMENTS = (
+  (
+    acknowledgements.acknowledgements.properties
+      .acknowledgementsList as JSONSchema7
+  ).items as JSONSchema7
+).enum.length;
 
 const customPages = [
   'acknowledgements',

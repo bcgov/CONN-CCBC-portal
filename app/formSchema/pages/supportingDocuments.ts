@@ -1,4 +1,6 @@
-const supportingDocuments = {
+import { JSONSchema7 } from 'json-schema';
+
+const supportingDocuments: Record<string, JSONSchema7> = {
   supportingDocuments: {
     title: 'Supporting documents',
     type: 'object',

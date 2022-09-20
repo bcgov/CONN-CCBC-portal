@@ -1,4 +1,6 @@
-const coverage = {
+import { JSONSchema7 } from 'json-schema';
+
+const coverage: Record<string, JSONSchema7> = {
   coverage: {
     title: 'Coverage',
     type: 'object',

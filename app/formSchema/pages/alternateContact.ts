@@ -1,3 +1,5 @@
+import { JSONSchema7 } from 'json-schema';
+
 const alternateContact = {
   alternateContact: {
     title: 'Alternate business contact',
@@ -44,6 +46,6 @@ const alternateContact = {
       },
     },
   },
-};
+} as Record<string, JSONSchema7>;
 
 export default alternateContact;

@@ -1,4 +1,6 @@
-const organizationProfile = {
+import { JSONSchema7 } from 'json-schema';
+
+const organizationProfile: Record<string, JSONSchema7> = {
   organizationProfile: {
     title: 'Organization profile',
     description: 'Provide an overview of your organization.',
