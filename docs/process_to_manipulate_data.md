@@ -5,6 +5,7 @@ To manipulate data in production, the default workflow is to create a `sqitch` c
 In rare cases, the team needs to manipulate data directly in the database, without going through our usual guardrails. Examples of this are mostly around manipulation of private data. This repository is open-source, therefore we should not commit any private information.
 
 This should be considered a last resort. Updating data in production could lead to cascading failure if done without the proper guardrails, which our CI are providing.
+
 #### Important steps before you begin:
 
 - Get an email request from Product Owner, including a date request for the changes
@@ -12,6 +13,16 @@ This should be considered a last resort. Updating data in production could lead 
 - Respond to the email request, ensuring that the work will not be done by multiple devs concurrently
 - Start a meeting, sharing your screen with the other developer the entire time
 - Back up database before manipulating data (add link to manual backup instructions here)
+
+#### Selecting the leader pod in OpenShift
+
+The oc project command and -n option in subsequent commands are redundant. They act as an additional guardrail to prevent accidentally running commands in the wrong namespace
+
+```
+oc project ff61fb-dev
+oc -n ff61fb-dev get pods -l postgres-operator.crunchydata.com/cluster=ccbc,postgres-operator.crunchydata.com/role=master
+oc -n ff61fb-dev exec -it <db-leader-pod-name> -- psql -d ccbc
+```
 
 #### Manipulating the data
 
