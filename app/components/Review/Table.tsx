@@ -89,7 +89,7 @@ const Table = ({ errorSchema, formData, subschema }: any) => {
 
           const customTitles = (row, title) => {
             if (row === 'projectBenefits') {
-              return <ProjectBenefits />;
+              return ProjectBenefits;
             } else {
               return title;
             }

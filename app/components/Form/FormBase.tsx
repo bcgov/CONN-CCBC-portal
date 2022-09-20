@@ -1,23 +1,25 @@
-import formTheme from '../../lib/theme/FormWithTheme';
-import { forwardRef } from 'react';
+import defaultTheme from 'lib/theme/DefaultTheme';
+import { forwardRef, useMemo } from 'react';
 import { FormProps, AjvError, withTheme } from '@rjsf/core';
-import { customTransformErrors } from '../../lib/theme/customTransformErrors';
+import { customTransformErrors } from 'lib/theme/customTransformErrors';
 import {
   customFormats,
   customFormatsErrorMessages,
-} from '../../data/jsonSchemaForm/customFormats';
+} from 'data/jsonSchemaForm/customFormats';
 
 interface FormPropsWithTheme<T> extends FormProps<T> {
-  theme?: object;
-  onSubmit: any;
-  formData: any;
+  theme?: any;
 }
 
-const Form = withTheme(formTheme);
 const FormBase: React.ForwardRefRenderFunction<
   object,
   FormPropsWithTheme<object>
 > = (props, ref) => {
+  const Form = useMemo(
+    () => withTheme(props.theme ?? defaultTheme),
+    [props.theme]
+  );
+
   const transformErrors = (errors: AjvError[]) => {
     return customTransformErrors(errors, customFormatsErrorMessages);
   };

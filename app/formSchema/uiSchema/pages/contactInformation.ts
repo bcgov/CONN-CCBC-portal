@@ -1,5 +1,3 @@
-import { NumberWidget } from '../../../lib/theme/widgets';
-
 const contactInformation = {
   'ui:order': [
     'contactTelephoneNumber',
@@ -14,13 +12,13 @@ const contactInformation = {
     },
   },
   contactTelephoneNumber: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       inputType: 'phone',
     },
   },
   contactExtension: {
-    'ui:widget': NumberWidget,
+    'ui:widget': 'NumberWidget',
     'ui:options': {
       maxLength: 9,
       inputType: 'wholeNumber',

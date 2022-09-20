@@ -6,7 +6,7 @@ import {
   AjvError,
   withTheme,
 } from '@rjsf/core';
-import formTheme from '../../lib/theme/FormWithTheme';
+import formTheme from '../../lib/theme/DefaultTheme';
 import { customTransformErrors } from '../../lib/theme/customTransformErrors';
 import {
   customFormats,
