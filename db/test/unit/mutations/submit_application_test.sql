@@ -1,6 +1,6 @@
 begin;
 
-select plan(13);
+select plan(14);
 
 select has_function(
   'ccbc_public', 'submit_application', ARRAY['int'],
@@ -13,14 +13,15 @@ set jwt.claims.sub to '00000000-0000-0000-0000-000000000000';
 
 insert into ccbc_public.application(id, form_data, owner) overriding system value
 values
-  (1, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
+  (1, '{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] }, "submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
   (2, '{}', '00000000-0000-0000-0000-000000000000'),
   (3, '{}', '00000000-0000-0000-0000-000000000000'),
-  (4, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
+  (4, '{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] }, "submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
   (5, '{"submission": {"submissionDate": "", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
   (6, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
   (7, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
-  (8, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": ""}}', '00000000-0000-0000-0000-000000000000');
+  (8, '{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] },"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": ""}}', '00000000-0000-0000-0000-000000000000'),
+  (9, '{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16] },"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000');
 
 insert into ccbc_public.application_status(application_id, status)
 values
@@ -31,7 +32,8 @@ values
   (5, 'draft'),
   (6, 'draft'),
   (7, 'draft'),
-  (8, 'draft');
+  (8, 'draft'),
+  (9, 'draft');
 
 select throws_like(
   $$
@@ -124,6 +126,13 @@ select throws_like(
     select ccbc_public.submit_application(8)
   $$,
   'The application cannot be submitted as the submission field submission_completed_for is null or empty'
+);
+
+select throws_like(
+  $$
+    select ccbc_public.submit_application(9)
+  $$,
+  'The application cannot be submitted as there are unchecked acknowledgements'
 );
 
 select function_privs_are(
