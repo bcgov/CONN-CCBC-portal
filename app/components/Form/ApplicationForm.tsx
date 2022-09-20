@@ -192,7 +192,6 @@ const ApplicationForm: React.FC<Props> = ({
     // Todo: proper 404
     return <h2>404 not found</h2>;
   }
-  const review = sectionName === 'review';
 
   const saveForm = (
     newFormSectionData: object,

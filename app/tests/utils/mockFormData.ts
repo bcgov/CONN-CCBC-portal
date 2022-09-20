@@ -1,10 +1,12 @@
 const mockFormData = {
-  mapping: {
+  coverage: {
     geographicCoverageMap:
       '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
     currentNetworkInfastructure:
       '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
     upgradedNetworkInfrastructure:
+      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    coverageAssessmentStatistics:
       '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
   },
   benefits: {
@@ -35,10 +37,10 @@ const mockFormData = {
     ],
   },
   techSolution: {
-    scalability: '123123123',
-    systemDesign: '123123123',
-    backboneTechnology: ['Fibre', 'Microwave', 'Satellite'],
-    lastMileTechnology: ['Fibre', 'Cable', 'Fixed wireless', 'DSL'],
+    scalability: 'much scalable',
+    systemDesign: 'design of system',
+    backboneTechnology: ['Fibre', 'Satellite'],
+    lastMileTechnology: ['Fibre', 'Fixed wireless'],
   },
   budgetDetails: {
     totalProjectCost: 1230,
@@ -82,29 +84,29 @@ const mockFormData = {
   },
   alternateContact: {
     altEmail: 'test@test.com',
-    altExtension: 123,
+    altExtension: '123',
     altGivenName: 'test',
-    altTelephone: 7899798,
+    altTelephone: '7899798123',
     altFamilyName: 'test',
-    altPostionTitle: '798798',
+    altPositionTitle: 'some alt title',
     isAltFirstContact: true,
     isAltContactSigningOfficer: true,
   },
   authorizedContact: {
     authEmail: '79879',
-    authExtension: 789,
-    authGivenName: '89798',
-    authTelephone: 7897,
+    authExtension: '789',
+    authGivenName: 'Bob',
+    authTelephone: '123123123',
     authFamilyName: '123123',
     isFirstContact: true,
-    authPostionTitle: '798798',
+    authPositionTitle: 'Some title',
     isAuthContactSigningOfficer: true,
   },
   contactInformation: {
-    contactEmail: '123123',
-    contactWebsite: '123123',
-    contactExtension: 123123,
-    contactTelephoneNumber: 123123,
+    contactEmail: 'bob@loblaw.ca',
+    contactWebsite: 'loblaw.ca',
+    contactExtension: '123',
+    contactTelephoneNumber: '123123123',
   },
   projectInformation: {
     projectTitle: '234234234',
@@ -112,18 +114,18 @@ const mockFormData = {
     geographicAreaDescription: '234234234',
   },
   organizationProfile: {
-    isSubsidiary: 'Yes',
-    operatingName: '123123123',
-    parentOrgName: '213123123',
-    businessNumber: 123123123,
-    isNameLegalName: 'No',
-    organizationName: '2143123123',
-    isIndigenousEntity: 'Yes',
-    isLegalPrimaryName: 'No',
-    typeOfOrganization: 'Incorporated company - private of public',
+    isSubsidiary: true,
+    operatingName: 'op name',
+    parentOrgName: 'parent org',
+    businessNumber: '123123123',
+    isNameLegalName: false,
+    organizationName: 'org name',
+    isIndigenousEntity: true,
+    isLegalPrimaryName: false,
+    typeOfOrganization: 'Incorporated company - private or public',
     orgRegistrationDate: '2022-05-31',
-    indigenousEntityDesc: '1231231231',
-    organizationOverview: '123123123',
+    indigenousEntityDesc: 'ind entity',
+    organizationOverview: 'org overview',
   },
   otherFundingSources: {
     infrastructureBankFunding2223: 1,
@@ -195,7 +197,7 @@ const mockFormData = {
   },
   existingNetworkCoverage: {
     hasPassiveInfrastructure: true,
-    isInfrastuctureAvailable: true,
+    isInfrastructureAvailable: true,
     hasProvidedExitingNetworkCoverage:
       'I will provide existing Network information and/or Coverage to ISED by the application deadline',
     requiresThirdPartyInfrastructureAccess: true,

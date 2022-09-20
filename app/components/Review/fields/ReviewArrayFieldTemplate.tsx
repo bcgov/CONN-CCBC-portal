@@ -4,7 +4,6 @@ import React from 'react';
 
 const ReviewArrayFieldTemplate: React.FC<ArrayFieldTemplateProps> = (props) => {
   const { items, uiSchema } = props;
-  console.log(props);
 
   return (
     <>

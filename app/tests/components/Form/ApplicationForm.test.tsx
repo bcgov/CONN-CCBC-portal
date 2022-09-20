@@ -14,6 +14,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
+import crypto from 'crypto';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
@@ -567,6 +568,14 @@ describe('The application form', () => {
   });
   it.todo('prevents submission if errors are not acknowledged');
   describe('the review page', () => {
+    beforeAll(() => {
+      // Some rjsf features require window.crypto, which isn't provided by jsdom
+      Object.defineProperty(global.self, 'crypto', {
+        value: {
+          getRandomValues: (arr) => crypto.randomBytes(arr.length),
+        },
+      });
+    });
     const REVIEW_PAGE_INDEX =
       uiSchema['ui:order'].findIndex((e) => e === 'review') + 1;
 
@@ -820,21 +829,40 @@ describe('The application form', () => {
         pageNumber: REVIEW_PAGE_INDEX,
         query: data.query,
       }));
-      expect(document.getElementById('systemDesign')).toHaveTextContent(
-        `System design: Provide a description of the system design which covers all key Network components that will enable improved connectivity. This description should provide sufficient detail, from the start to the end points.`
+
+      const section = within(
+        screen
+          .getByRole('heading', { name: /Technological solution/i })
+          .closest('section')
       );
 
-      expect(document.getElementById('scalability')).toHaveTextContent(
-        `Scalability: Describe the ability of the Network to adapt to forecasted increased Network capacity and demand over the next 5 years from the Project Completion Date, accommodating additional subscribers and usage traffic, enhanced services and the Network’s ability to support speeds identified in the application guide.`
-      );
+      expect(
+        section
+          .getByText(/System design/i)
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('design of system');
 
-      expect(document.getElementById('backboneTechnology')).toHaveTextContent(
-        `Please specify the backbone technology type (check all that apply).`
-      );
+      expect(
+        section
+          .getByText(/Scalability/i)
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('much scalable');
 
-      expect(document.getElementById('lastMileTechnology')).toHaveTextContent(
-        `Please specify the last mile technology type (check all that apply). If you select fixed wireless, you must complete Template 7.`
-      );
+      expect(
+        section
+          .getByText(/backbone technology/i)
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('Fibre,Satellite');
+
+      expect(
+        section
+          .getByText(/last mile technology/i)
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('Fibre,Fixed wireless');
     });
 
     it('should have correct fields in The Project planning section', () => {
@@ -845,9 +873,18 @@ describe('The application form', () => {
         query: data.query,
       }));
 
-      expect(document.getElementById('projectStartDate')).toHaveTextContent(
-        `Project Start Date (YYYY/MM/DD)`
+      const section = within(
+        screen
+          .getByRole('heading', { name: /Project planning/i })
+          .closest('section')
       );
+
+      expect(
+        section
+          .getByText('Project Start Date (YYYY/MM/DD)')
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('2022-06-10');
     });
 
     it('should have correct fields in The Other funding sources section', () => {
@@ -858,38 +895,55 @@ describe('The application form', () => {
         query: data.query,
       }));
 
-      expect(
+      const section = within(
         screen
+          .getByRole('heading', { name: 'Other funding sources' })
+          .closest('section')
+      );
+
+      expect(
+        section
           .getAllByText('2022-23')[0]
           .closest('tr')
           .getElementsByTagName('td')[0]
-      ).toHaveTextContent(/victoria/i);
+      ).toHaveTextContent('$1');
 
       expect(
-        document.getElementById('infrastructureBankFunding2223')
-      ).toHaveTextContent(`2022-23`);
+        section
+          .getAllByText('2023-24')[0]
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('$2');
 
       expect(
-        document.getElementById('infrastructureBankFunding2324')
-      ).toHaveTextContent(`2023-24`);
+        section
+          .getAllByText('2024-25')[0]
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('$3');
 
       expect(
-        document.getElementById('infrastructureBankFunding2425')
-      ).toHaveTextContent(`2024-25`);
+        section
+          .getAllByText('2025-26')[0]
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('$4');
 
       expect(
-        document.getElementById('infrastructureBankFunding2526')
-      ).toHaveTextContent(`2025-26`);
+        section
+          .getAllByText('2026-27')[0]
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('$5');
 
       expect(
-        document.getElementById('totalInfrastructureBankFunding')
-      ).toHaveTextContent(
-        `Total amount requested under Canadian Infrastructure Bank`
-      );
-
-      expect(document.getElementById('fundingPartnersName')).toHaveTextContent(
-        `Funding partner's name`
-      );
+        section
+          .getByText(
+            /Total amount requested under Canadian Infrastructure Bank/i
+          )
+          .closest('tr')
+          .getElementsByTagName('td')[0]
+      ).toHaveTextContent('$15');
     });
 
     it('should the correct fields in the Organization location section', () => {
@@ -905,8 +959,6 @@ describe('The application form', () => {
           .getByRole('heading', { name: 'Organization location' })
           .closest('section')
       );
-
-      console.log(prettyDOM(section.getAllByText(/city/i)[0].closest('tr')));
 
       expect(
         section
@@ -941,7 +993,7 @@ describe('The application form', () => {
       expect(document.getElementById('bandNumber-error')).toBeNull();
     });
 
-    it.only('should not display alert box without errors', () => {
+    it('should not display alert box without errors', () => {
       componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
       componentTestingHelper.renderComponent((data) => ({
         application: data.application,

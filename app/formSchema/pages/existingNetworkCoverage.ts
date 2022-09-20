@@ -9,7 +9,7 @@ const existingNetworkCoverage = {
     required: [
       'hasProvidedExitingNetworkCoverage',
       'hasPassiveInfrastructure',
-      'isInfrastuctureAvailable',
+      'isInfrastructureAvailable',
       'requiresThirdPartyInfrastructureAccess',
     ],
     properties: {
@@ -29,7 +29,7 @@ const existingNetworkCoverage = {
         enum: [true, false],
         enumNames: ['Yes', 'No'],
       },
-      isInfrastuctureAvailable: {
+      isInfrastructureAvailable: {
         title: `Does the Applicant intend to make reasonable efforts to make its Passive Infrastructure available for use by other broadband operators to expand and improve Coverage in Canada?`,
         type: 'boolean',
         enum: [true, false],

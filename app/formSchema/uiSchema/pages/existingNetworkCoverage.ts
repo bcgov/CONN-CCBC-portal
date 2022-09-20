@@ -2,7 +2,7 @@ const existingNetworkCoverage = {
   'ui:order': [
     'hasProvidedExitingNetworkCoverage',
     'hasPassiveInfrastructure',
-    'isInfrastuctureAvailable',
+    'isInfrastructureAvailable',
     'requiresThirdPartyInfrastructureAccess',
   ],
   'ui:title': '',
@@ -12,7 +12,7 @@ const existingNetworkCoverage = {
   hasPassiveInfrastructure: {
     'ui:widget': 'RadioWidget',
   },
-  isInfrastuctureAvailable: {
+  isInfrastructureAvailable: {
     'ui:widget': 'RadioWidget',
   },
   requiresThirdPartyInfrastructureAccess: {
