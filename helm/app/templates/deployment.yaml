@@ -134,11 +134,13 @@ spec:
                 for file in data/dev/*.sql; do
                   psql -v "ON_ERROR_STOP=1" -f "${file}";
                 done;
+                sqitch --chdir mocks_schema deploy;
               fi;
               if [[ "$NAMESPACE" == *-test ]]; then
                 for file in data/test/*.sql; do
                   psql -v "ON_ERROR_STOP=1" -f "${file}";
                 done;
+                sqitch --chdir mocks_schema deploy;
               fi;
       containers:
         - name: {{ template "ccbc.fullname" . }}
