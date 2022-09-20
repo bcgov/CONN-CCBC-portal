@@ -52,6 +52,7 @@ RUN chmod +x /usr/local/bin/dumb-init
 ENTRYPOINT ["dumb-init", "--", "/usr/bin/env", "bash", "-c"]
 
 COPY app/ ${APP_HOME}/
+COPY mocks_schema/ ${HOME}/mocks_schema
 
 # FIX CVE-2022-29244
 RUN rm -rf /usr/local/bin/npm \
