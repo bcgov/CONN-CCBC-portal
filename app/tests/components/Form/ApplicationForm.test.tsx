@@ -416,4 +416,34 @@ describe('The application form', () => {
       expect(textBox.hasAttribute('disabled')).toBeTrue();
     });
   });
+
+  it('saves the form when the Save as draft button is clicked', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Save as draft' })
+    );
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationMutation',
+      {
+        input: {
+          id: 'TestApplicationID',
+          applicationPatch: {
+            formData: {
+              submission: {
+                submissionDate: '2022-09-12',
+              },
+            },
+            lastEditedPage: 'review',
+          },
+        },
+      }
+    );
+  });
 });
