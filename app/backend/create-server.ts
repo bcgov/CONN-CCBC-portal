@@ -1,7 +1,7 @@
 import Debug from 'debug';
 import { createServer as _createServer } from 'http';
 import dotenv from 'dotenv';
-import config from '../config.js';
+import config from '../config/index.js';
 
 dotenv.config({ path: __dirname + '/../.env' });
 

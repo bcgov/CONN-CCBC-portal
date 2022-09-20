@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import type { SessionExpiryHandlerQuery } from '../__generated__/SessionExpiryHandlerQuery.graphql';
 import { graphql, fetchQuery, useRelayEnvironment } from 'react-relay';
 import { SessionTimeoutHandler } from '@bcgov-cas/sso-react';
-import config from '../config.js';
+import config from '../config/index.js';
 
 const sessionQuery = graphql`
   query SessionExpiryHandlerQuery {

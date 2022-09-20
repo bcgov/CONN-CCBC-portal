@@ -4,7 +4,7 @@ import http from 'http';
 import { createLightship } from 'lightship';
 import { pgPool } from './backend/lib/setup-pg';
 import express from 'express';
-import config from './config.js';
+import config from './config/index.js';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from './backend/lib/session';

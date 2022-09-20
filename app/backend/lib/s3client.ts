@@ -1,4 +1,4 @@
-import config from '../../config.js';
+import config from '../../config/index.js';
 import aws from 'aws-sdk';
 
 const AWS_S3_REGION = config.get('AWS_S3_REGION');

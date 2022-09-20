@@ -159,10 +159,14 @@ const config = convict({
 });
 
 // Load environment dependent configuration
-const env = config.get('NODE_ENV') || 'development';
+const namespace = config.get("OPENSHIFT_APP_NAMESPACE") || 'dev-local';
+const chunks = namespace.split('-');
+const env = config.get('NODE_ENV') !== 'development' 
+  ? chunks[chunks.length-1] || 'local' 
+  : 'local';
 
 try {
-  config.loadFile('./' + env + '.json');
+  config.loadFile('./config/' + env + '.json');
 }
 catch(e){
   console.log(e);
