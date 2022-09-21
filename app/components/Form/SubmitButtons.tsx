@@ -105,8 +105,6 @@ const SubmitButtons = ({
           >
             {isUpdating ? (
               <LoadingSpinner />
-            ) : savedAsDraft ? (
-              'Save as draft'
             ) : (
               <>{savedAsDraft ? 'Saved' : 'Save as draft'}</>
             )}
