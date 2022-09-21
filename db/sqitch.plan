@@ -34,3 +34,4 @@ mutations/create_application 2022-08-31T16:16:23Z Anthony Bushara <anthony@butto
 @1.1.1 2022-09-09T20:35:47Z Marcel Mueller,,, <marcel@Thinkpad> # release v1.1.1
 @1.2.0 2022-09-14T23:35:48Z Matthieu Foucault <matthieu@button.is> # release v1.2.0
 mutations/submit_application [mutations/submit_application@1.0.0] 2022-09-13T19:52:43Z Marcel Mueller <marcel@button.is> # Check all submission fields in form_data are filled before submission
+@1.3.0 2022-09-21T21:25:00Z Matthieu Foucault <matthieu@button.is> # release v1.3.0
