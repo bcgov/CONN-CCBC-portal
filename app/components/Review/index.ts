@@ -7,6 +7,5 @@ export {
   StyledColLeft,
   StyledColRight,
   StyledH4,
-  StyledTable,
   StyledTitleRow,
 } from './Components';

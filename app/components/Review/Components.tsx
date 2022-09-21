@@ -9,13 +9,6 @@ export const StyledH4 = styled('h4')`
   margin: 0;
 `;
 
-export const StyledTable = styled('table')`
-  font-family: 'Roboto';
-  font-style: normal;
-  font-size: 16px;
-  line-height: 19px;
-`;
-
 export const StyledColLeft = styled('th')`
   // Todo: workaround for Jest styled component theme prop error
   // background-color: ${(props) => props.theme.color.backgroundGrey};

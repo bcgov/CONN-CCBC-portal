@@ -560,7 +560,6 @@ describe('The application form', () => {
       '/dashboard'
     );
   });
-  it.todo('prevents submission if errors are not acknowledged');
   describe('the review page', () => {
     beforeAll(() => {
       // Some rjsf features require window.crypto, which isn't provided by jsdom
@@ -1013,6 +1012,40 @@ describe('The application form', () => {
       ).toBeInTheDocument();
     });
 
-    it.todo('prevents submission if errors are not acknowledged');
+    it('allows continuing to the next page if there are no errors', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
+
+      expect(
+        screen.getByRole('button', { name: /save and continue/i })
+      ).toBeEnabled();
+    });
+
+    it('prevents submission if errors are not acknowledged', async () => {
+      componentTestingHelper.loadQuery(mockQueryPayload);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
+
+      expect(
+        screen.getByRole('button', { name: /save and continue/i })
+      ).toBeDisabled();
+
+      await userEvent.click(
+        screen.getByLabelText(
+          /you acknowledge that there are incomplete fields and incomplete applications may not be assessed/i
+        )
+      );
+
+      expect(
+        screen.getByRole('button', { name: /save and continue/i })
+      ).toBeEnabled();
+    });
   });
 });

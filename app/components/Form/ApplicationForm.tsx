@@ -5,12 +5,10 @@ import { graphql, useFragment } from 'react-relay';
 import type { JSONSchema7 } from 'json-schema';
 import styled from 'styled-components';
 import { CalculationForm, FormBase, SubmitButtons } from '.';
-import uiSchema from '../../formSchema/uiSchema/uiSchema';
-import schema from '../../formSchema/schema';
+import { validate, schema, uiSchema } from 'formSchema';
+import { acknowledgements } from 'formSchema/pages';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
-import { acknowledgements } from '../../formSchema/pages';
 import ApplicationFormStatus from './ApplicationFormStatus';
-import validateFormData from '@rjsf/core/dist/cjs/validate';
 import {
   calculateApplicantFunding,
   calculateContractorEmployment,
@@ -45,16 +43,6 @@ const customPages = [
 
 const CUSTOM_SUBMISSION_FIELD = {
   SubmissionField: SubmissionDescriptionField,
-};
-
-const formatErrorSchema = (formData, schema) => {
-  const errorSchema = validateFormData(formData, schema)?.errorSchema;
-
-  // Remove declarations errors from error schema since they aren't on review page
-  delete errorSchema['acknowledgements'];
-  delete errorSchema['submission'];
-
-  return errorSchema;
 };
 
 const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
@@ -146,6 +134,7 @@ const ApplicationForm: React.FC<Props> = ({
   );
   const { id, rowId, formData, status, updatedAt } = application;
 
+  const formErrorSchema = useMemo(() => validate(formData), [formData]);
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
       application.status === 'submitted'
@@ -154,15 +143,15 @@ const ApplicationForm: React.FC<Props> = ({
     return {
       intakeCloseTimestamp,
       fullFormData: formData,
+      formErrorSchema,
     };
   }, [
     openIntake,
     application.status,
     application.intakeByIntakeId?.closeTimestamp,
     formData,
+    formErrorSchema,
   ]);
-
-  const formErrorSchema = formatErrorSchema(formData, schema);
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
@@ -187,6 +176,27 @@ const ApplicationForm: React.FC<Props> = ({
   const isWithdrawn = status === 'withdrawn';
   const isDraft = status === 'draft';
   const isSubmitted = status === 'submitted';
+
+  const isSubmitEnabled = useMemo(() => {
+    if (isWithdrawn) return false;
+
+    if (sectionName === 'review')
+      return noErrors || formData.review?.acknowledgeIncomplete;
+
+    if (sectionName === 'acknowledgements')
+      return areAllAcknowledgementsChecked;
+
+    if (sectionName === 'submission') return areAllSubmissionFieldsSet;
+
+    return true;
+  }, [
+    sectionName,
+    noErrors,
+    areAllAcknowledgementsChecked,
+    areAllSubmissionFieldsSet,
+    isWithdrawn,
+    formData,
+  ]);
 
   if (subschemaArray.length < pageNumber) {
     // Todo: proper 404
@@ -317,15 +327,6 @@ const ApplicationForm: React.FC<Props> = ({
     saveForm(e.formData);
   };
 
-  const handleDisabled = (page: string, noErrors: boolean) => {
-    if (isWithdrawn) return false;
-    if (page === 'review' && noErrors) return false;
-    if (page === 'acknowledgements') return !areAllAcknowledgementsChecked;
-    if (page === 'submission') return !areAllSubmissionFieldsSet;
-
-    return false;
-  };
-
   const calculate = (formData) => {
     formData = {
       ...formData,
@@ -367,7 +368,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const submitBtns = (
     <SubmitButtons
-      disabled={handleDisabled(sectionName, noErrors) || isSubmitting}
+      disabled={!isSubmitEnabled || isSubmitting}
       isUpdating={isUpdating}
       isSubmitPage={isSubmitPage}
       formData={formData}

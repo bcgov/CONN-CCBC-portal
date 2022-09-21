@@ -1,5 +1,5 @@
 import { FieldProps } from '@rjsf/core';
-import { Accordion, StyledTable } from 'components/Review';
+import { Accordion } from 'components/Review';
 import { useMemo } from 'react';
 
 const ReviewSectionField: React.FC<FieldProps> = (props) => {
@@ -16,9 +16,9 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
       error={hasErrors}
       title={schema.title}
     >
-      <StyledTable>
+      <table>
         <tbody>{<registry.fields.ObjectField {...props} />}</tbody>
-      </StyledTable>
+      </table>
     </Accordion>
   );
 };
