@@ -4,7 +4,7 @@ import ObjectFieldTemplate from './ObjectFieldTemplate';
 import { ArrayFieldTemplate, DescriptionField } from './fields';
 import * as widgets from './widgets';
 import * as customWidgets from './widgets/custom';
-import { ReviewField } from 'components/Review';
+import ReviewField from 'components/Review/ReviewPageField';
 
 const { fields, widgets: defaultWidgets } = utils.getDefaultRegistry();
 
