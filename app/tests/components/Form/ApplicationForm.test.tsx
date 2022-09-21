@@ -4,13 +4,7 @@ import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
-import {
-  fireEvent,
-  prettyDOM,
-  screen,
-  waitFor,
-  within,
-} from '@testing-library/react';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
