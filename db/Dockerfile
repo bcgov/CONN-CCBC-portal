@@ -25,6 +25,7 @@ RUN INSTALL_PKGS="postgresql.x86_64 perl-App-cpanminus.noarch" && \
   rm -rf /var/cache
 
 COPY db/ ${HOME}
+COPY mocks_schema/ ${HOME}/mocks_schema
 
 # CPAN needs to install dependencies for all schemas, one directory up
 RUN cpanm --notest --local-lib ./extlib --installdeps .
