@@ -3,6 +3,10 @@ import { dateTimeFormat } from '../../lib/theme/functions/formatDates';
 
 context('Homepage', () => {
   beforeEach(function () {
+    const mockedDateString = '2022-10-10';
+    const mockedDate = new Date(mockedDateString);
+    cy.setCookie('mocks.mocked_timestamp', String(mockedDate.valueOf() / 1000));
+    cy.setCookie('mocks.mocked_date', mockedDateString);
     cy.sqlFixture('dev/001_intake');
     cy.visit('/');
   });
