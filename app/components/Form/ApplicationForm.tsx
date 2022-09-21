@@ -184,9 +184,10 @@ const ApplicationForm: React.FC<Props> = ({
       return noErrors || formData.review?.acknowledgeIncomplete;
 
     if (sectionName === 'acknowledgements')
-      return areAllAcknowledgementsChecked;
+      return areAllAcknowledgementsChecked || isSubmitted;
 
-    if (sectionName === 'submission') return areAllSubmissionFieldsSet;
+    if (sectionName === 'submission')
+      return areAllSubmissionFieldsSet && !isSubmitted;
 
     return true;
   }, [
@@ -196,6 +197,7 @@ const ApplicationForm: React.FC<Props> = ({
     areAllSubmissionFieldsSet,
     isWithdrawn,
     formData,
+    isSubmitted,
   ]);
 
   if (subschemaArray.length < pageNumber) {
