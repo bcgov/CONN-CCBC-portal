@@ -2,7 +2,7 @@ db:
   preUpgradeCommand: |
     psql -v "ON_ERROR_STOP=1" <<EOF
       drop schema if exists sqitch cascade;
+      drop schema if exists mocks cascade;
       drop schema if exists ccbc_public cascade;
       drop schema if exists ccbc_private cascade;
     EOF
-
