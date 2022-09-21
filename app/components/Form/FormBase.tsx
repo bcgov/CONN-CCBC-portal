@@ -1,5 +1,5 @@
 import defaultTheme from 'lib/theme/DefaultTheme';
-import { forwardRef, useMemo } from 'react';
+import { useMemo } from 'react';
 import { FormProps, AjvError, withTheme, ThemeProps } from '@rjsf/core';
 import { customTransformErrors } from 'lib/theme/customTransformErrors';
 import {
@@ -11,10 +11,7 @@ interface FormPropsWithTheme<T> extends FormProps<T> {
   theme?: ThemeProps;
 }
 
-const FormBase: React.ForwardRefRenderFunction<
-  object,
-  FormPropsWithTheme<object>
-> = (props, ref) => {
+const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
   const Form = useMemo(
     () => withTheme(props.theme ?? defaultTheme),
     [props.theme]
@@ -27,9 +24,6 @@ const FormBase: React.ForwardRefRenderFunction<
   return (
     <Form
       {...props}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      ref={ref}
       customFormats={customFormats}
       transformErrors={transformErrors}
       noHtml5Validate
@@ -39,4 +33,4 @@ const FormBase: React.ForwardRefRenderFunction<
   );
 };
 
-export default forwardRef(FormBase);
+export default FormBase;
