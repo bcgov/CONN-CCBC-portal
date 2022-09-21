@@ -542,7 +542,8 @@ describe('The application form', () => {
       screen.getByRole('button', { name: 'Return to dashboard' })
     );
 
-    expect(componentTestingHelper.router.push).toHaveBeenCalled();
-    expect(componentTestingHelper.router.pathname).toContain('dashboard');
+    expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
+      '/dashboard'
+    );
   });
 });
