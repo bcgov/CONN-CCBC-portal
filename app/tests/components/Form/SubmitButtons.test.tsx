@@ -8,6 +8,7 @@ const renderStaticLayout = ({
   formData = {},
   isSubmitPage = false,
   isUpdating = false,
+  isAcknowledgementPage = false,
   savedAsDraft = false,
   saveForm,
   status = 'draft',
@@ -19,6 +20,7 @@ const renderStaticLayout = ({
         formData={formData}
         isSubmitPage={isSubmitPage}
         isUpdating={isUpdating}
+        isAcknowledgementPage={isAcknowledgementPage}
         savedAsDraft={savedAsDraft}
         saveForm={saveForm}
         status={status}
@@ -32,6 +34,7 @@ const defaultProps = {
   formData: {},
   isSubmitPage: false,
   isUpdating: false,
+  isAcknowledgementPage: false,
   savedAsDraft: false,
   saveForm: () => {
     return;
@@ -178,5 +181,53 @@ describe('The SubmitButtons component', () => {
     expect(
       screen.getByRole('button', { name: 'Saved' }).hasAttribute('disabled')
     );
+  });
+
+  it('continue button on submitted acknowledgements page', async () => {
+    const props = {
+      ...defaultProps,
+      isAcknowledgementPage: true,
+      status: 'submitted',
+    };
+
+    renderStaticLayout(props);
+
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeTruthy();
+  });
+
+  it('submit button is disabled on submit page for submitted application', async () => {
+    const props = {
+      ...defaultProps,
+      disabled: true,
+      isSubmitPage: true,
+      status: 'submitted',
+    };
+
+    renderStaticLayout(props);
+
+    
+
+    const submitButton = screen.getByRole('button', {
+      name: 'Changes submitted',
+    });
+
+    expect(submitButton).toBeTruthy();
+    expect(submitButton.hasAttribute('disabled')).toBeTrue();
+  });
+
+  it('return to dashboard button appears on submit page for submitted application', async () => {
+    const props = {
+      ...defaultProps,
+      isSubmitPage: true,
+      status: 'submitted',
+    };
+
+    renderStaticLayout(props);
+
+    const returnToDashboard = screen.getByRole('button', {
+      name: 'Return to dashboard',
+    });
+
+    expect(returnToDashboard).toBeTruthy();
   });
 });

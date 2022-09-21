@@ -4,6 +4,7 @@ import Button from '@button-inc/bcgov-theme/Button';
 import LoadingSpinner from 'components/LoadingSpinner';
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
 import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
+import { useRouter } from 'next/router';
 
 const StyledFlex = styled('div')`
   display: flex;
@@ -42,6 +43,7 @@ type Props = {
   disabled: boolean;
   formData: any;
   isSubmitPage: boolean;
+  isAcknowledgementPage: boolean;
   isUpdating: boolean;
   savedAsDraft: boolean;
   saveForm: (
@@ -59,6 +61,7 @@ const SubmitButtons = ({
   disabled,
   formData,
   isSubmitPage,
+  isAcknowledgementPage,
   isUpdating,
   savedAsDraft,
   saveForm,
@@ -66,13 +69,20 @@ const SubmitButtons = ({
 }: Props) => {
   const isWithdrawn = status === 'withdrawn';
   const isDraft = status === 'draft';
+  const isSubmitted = status === 'submitted';
+  const isDraftAndSubmitPage = isDraft && isSubmitPage;
+  const isSubmittedAndSubmitPage = isSubmitted && isSubmitPage;
+  const router = useRouter();
 
   const formatSubmitBtn = () => {
-    if (isWithdrawn) {
+    if (isWithdrawn || (isSubmitted && isAcknowledgementPage)) {
       return 'Continue';
     }
     if (!isSubmitPage) {
       return 'Save and continue';
+    }
+    if (isSubmitPage && isSubmitted) {
+      return 'Changes submitted';
     }
     return 'Submit';
   };
@@ -82,7 +92,7 @@ const SubmitButtons = ({
       <Button variant="primary" disabled={disabled}>
         {formatSubmitBtn()}
       </Button>
-      {isSubmitPage && isDraft && (
+      {isDraftAndSubmitPage && (
         <>
           <StyledButton
             variant="secondary"
@@ -109,6 +119,17 @@ const SubmitButtons = ({
             <Link href="/dashboard">Return to dashboard</Link>.
           </StyledToast>
         </>
+      )}
+      {isSubmittedAndSubmitPage && (
+        <StyledButton
+          variant="secondary"
+          onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+            e.preventDefault();
+            router.push('/dashboard');
+          }}
+        >
+          Return to dashboard
+        </StyledButton>
       )}
     </StyledFlex>
   );
