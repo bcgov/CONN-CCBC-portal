@@ -123,7 +123,8 @@ const SubmitButtons = ({
       {isSubmittedAndSubmitPage && (
         <StyledButton
           variant="secondary"
-          onClick={() => {
+          onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+            e.preventDefault();
             router.push('/dashboard');
           }}
         >
