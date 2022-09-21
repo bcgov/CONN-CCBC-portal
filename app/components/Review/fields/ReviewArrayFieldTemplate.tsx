@@ -1,5 +1,5 @@
 import { ArrayFieldTemplateProps } from '@rjsf/core';
-import { StyledH4, StyledTitleRow } from '../Table';
+import { StyledH4, StyledTitleRow } from '../index';
 import React from 'react';
 
 const ReviewArrayFieldTemplate: React.FC<ArrayFieldTemplateProps> = (props) => {

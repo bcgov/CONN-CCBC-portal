@@ -1,13 +1,6 @@
 import { FieldProps } from '@rjsf/core';
-import { Accordion } from 'components/Review';
+import { Accordion, StyledTable } from 'components/Review';
 import { useMemo } from 'react';
-import styled from 'styled-components';
-
-const StyledTable = styled('table')`
-  font-style: normal;
-  font-size: 16px;
-  line-height: 19px;
-`;
 
 const ReviewSectionField: React.FC<FieldProps> = (props) => {
   const { idSchema, uiSchema, registry, schema, errorSchema } = props;

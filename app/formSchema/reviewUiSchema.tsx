@@ -1,4 +1,4 @@
-import { StyledH4, StyledTitleRow } from 'components/Review/Table';
+import { StyledH4, StyledTitleRow } from 'components/Review';
 import styled from 'styled-components';
 import {
   alternateContact,
