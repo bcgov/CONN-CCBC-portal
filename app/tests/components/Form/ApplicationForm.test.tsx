@@ -1047,5 +1047,20 @@ describe('The application form', () => {
         screen.getByRole('button', { name: /save and continue/i })
       ).toBeEnabled();
     });
+
+    it('does not show the incomplete fields acknowledgment checkbox if there are no errors', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
+
+      expect(
+        screen.queryByLabelText(
+          /you acknowledge that there are incomplete fields and incomplete applications may not be assessed/i
+        )
+      ).toBeNull();
+    });
   });
 });
