@@ -10,9 +10,7 @@ export const StyledH4 = styled('h4')`
 `;
 
 export const StyledColLeft = styled('th')`
-  // Todo: workaround for Jest styled component theme prop error
-  // background-color: ${(props) => props.theme.color.backgroundGrey};
-  background-color: '#F2F2F2';
+  background-color: ${(props) => props.theme.color.backgroundGrey};
   width: 50%;
   padding: 16px !important;
   border: 1px solid rgba(0, 0, 0, 0.16);
@@ -32,6 +30,5 @@ export const StyledColRight = styled('td')`
 `;
 
 export const StyledColError = styled(StyledColRight)`
-  background-color: rgba(248, 214, 203, 0.4);
-  // background-color: ${(props) => props.theme.color.errorBackground};
+  background-color: ${(props) => props.theme.color.errorBackground};
 `;
