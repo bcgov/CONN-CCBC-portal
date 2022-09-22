@@ -1,6 +1,5 @@
 import { FieldProps } from '@rjsf/core';
 import { schema as fullSchema, reviewUiSchema } from 'formSchema';
-import { useMemo } from 'react';
 import { FormBase } from 'components/Form';
 import ReviewTheme from './ReviewTheme';
 import styled from 'styled-components';
@@ -11,7 +10,7 @@ const StyledAlert = styled(Alert)`
   margin-bottom: 32px;
 `;
 
-const ReviewField: React.FC<FieldProps> = (props) => {
+const ReviewPageField: React.FC<FieldProps> = (props) => {
   const {
     schema,
     formContext,
@@ -78,4 +77,4 @@ const ReviewField: React.FC<FieldProps> = (props) => {
   );
 };
 
-export default ReviewField;
+export default ReviewPageField;
