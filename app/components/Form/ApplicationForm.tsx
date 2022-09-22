@@ -5,17 +5,10 @@ import { graphql, useFragment } from 'react-relay';
 import type { JSONSchema7 } from 'json-schema';
 import styled from 'styled-components';
 import { CalculationForm, FormBase, SubmitButtons } from '.';
-import uiSchema from '../../formSchema/uiSchema/uiSchema';
-import schema from '../../formSchema/schema';
+import { validate, schema, uiSchema } from 'formSchema';
+import { acknowledgements } from 'formSchema/pages';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
-import { Review } from '../Review';
-import { acknowledgements } from '../../formSchema/pages';
 import ApplicationFormStatus from './ApplicationFormStatus';
-
-// https://github.com/rjsf-team/react-jsonschema-form/issues/2131
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import validateFormData from '@rjsf/core/dist/cjs/validate';
 import {
   calculateApplicantFunding,
   calculateContractorEmployment,
@@ -50,16 +43,6 @@ const customPages = [
 
 const CUSTOM_SUBMISSION_FIELD = {
   SubmissionField: SubmissionDescriptionField,
-};
-
-const formatErrorSchema = (formData, schema) => {
-  const errorSchema = validateFormData(formData, schema)?.errorSchema;
-
-  // Remove declarations errors from error schema since they aren't on review page
-  delete errorSchema['acknowledgements'];
-  delete errorSchema['submission'];
-
-  return errorSchema;
 };
 
 const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
@@ -151,6 +134,7 @@ const ApplicationForm: React.FC<Props> = ({
   );
   const { id, rowId, formData, status, updatedAt } = application;
 
+  const formErrorSchema = useMemo(() => validate(formData), [formData]);
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
       application.status === 'submitted'
@@ -158,18 +142,19 @@ const ApplicationForm: React.FC<Props> = ({
         : openIntake?.closeTimestamp;
     return {
       intakeCloseTimestamp,
+      fullFormData: formData,
+      formErrorSchema,
     };
   }, [
     openIntake,
     application.status,
     application.intakeByIntakeId?.closeTimestamp,
+    formData,
+    formErrorSchema,
   ]);
-
-  const formErrorSchema = formatErrorSchema(formData, schema);
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
-  const [reviewConfirm, setReviewConfirm] = useState(false);
   const [savingError, setSavingError] = useState(null);
   const [savedAsDraft, setSavedAsDraft] = useState(false);
 
@@ -192,11 +177,33 @@ const ApplicationForm: React.FC<Props> = ({
   const isDraft = status === 'draft';
   const isSubmitted = status === 'submitted';
 
+  const isSubmitEnabled = useMemo(() => {
+    if (isWithdrawn) return false;
+
+    if (sectionName === 'review')
+      return noErrors || formData.review?.acknowledgeIncomplete;
+
+    if (sectionName === 'acknowledgements')
+      return areAllAcknowledgementsChecked || isSubmitted;
+
+    if (sectionName === 'submission')
+      return areAllSubmissionFieldsSet && !isSubmitted;
+
+    return true;
+  }, [
+    sectionName,
+    noErrors,
+    areAllAcknowledgementsChecked,
+    areAllSubmissionFieldsSet,
+    isWithdrawn,
+    formData,
+    isSubmitted,
+  ]);
+
   if (subschemaArray.length < pageNumber) {
     // Todo: proper 404
     return <h2>404 not found</h2>;
   }
-  const review = sectionName === 'review';
 
   const saveForm = (
     newFormSectionData: object,
@@ -322,22 +329,6 @@ const ApplicationForm: React.FC<Props> = ({
     saveForm(e.formData);
   };
 
-  const handleDisabled = (page: string, noErrors: boolean) => {
-    switch (true) {
-      case isWithdrawn:
-        return false;
-      case page === 'review' && noErrors:
-        return false;
-      case page === 'review':
-        return !reviewConfirm;
-      case page === 'acknowledgements':
-        return !areAllAcknowledgementsChecked && !isSubmitted;
-      case page === 'submission':
-        return !areAllSubmissionFieldsSet || isSubmitted;
-    }
-    return false;
-  };
-
   const calculate = (formData) => {
     formData = {
       ...formData,
@@ -379,7 +370,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const submitBtns = (
     <SubmitButtons
-      disabled={handleDisabled(sectionName, noErrors) || isSubmitting}
+      disabled={!isSubmitEnabled || isSubmitting}
       isUpdating={isUpdating}
       isSubmitPage={isSubmitPage}
       formData={formData}
@@ -503,16 +494,6 @@ const ApplicationForm: React.FC<Props> = ({
           disabled={isFormDisabled()}
           formContext={formContext}
         >
-          {review && (
-            <Review
-              formData={formData}
-              formSchema={schema}
-              reviewConfirm={reviewConfirm}
-              onReviewConfirm={() => setReviewConfirm(!reviewConfirm)}
-              formErrorSchema={formErrorSchema}
-              noErrors={noErrors}
-            />
-          )}
           {submitBtns}
         </FormBase>
       )}

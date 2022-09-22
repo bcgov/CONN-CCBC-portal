@@ -78,7 +78,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_hasPassiveInfrastructure-0"]').parent().click();
 
-    cy.get('input[id="root_isInfrastuctureAvailable-0"]').parent().click();
+    cy.get('input[id="root_isInfrastructureAvailable-0"]').parent().click();
 
     cy.get('input[id="root_requiresThirdPartyInfrastructureAccess-0"]')
       .parent()
@@ -416,7 +416,7 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Review');
 
-    cy.get('input[id="review-confirmation-checkbox"]').parent().click();
+    cy.get('input[id="root_acknowledgeIncomplete"]').parent().click();
 
     cy.get('body').happoScreenshot();
 

@@ -77,7 +77,7 @@ const organizationProfile: Record<string, JSONSchema7> = {
             properties: {
               typeOfOrganization: {
                 enum: [
-                  'Incorporated company - private of public',
+                  'Incorporated company - private or public',
                   'Partnership',
                   'Limited partnership',
                   'Venture/syndicate',
