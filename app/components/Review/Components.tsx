@@ -10,7 +10,6 @@ export const StyledH4 = styled('h4')`
 `;
 
 export const StyledColLeft = styled('th')`
-  background-color: ${(props) => props.theme.color.backgroundGrey};
   width: 50%;
   padding: 16px !important;
   border: 1px solid rgba(0, 0, 0, 0.16);
