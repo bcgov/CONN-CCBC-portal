@@ -195,15 +195,6 @@ lint_chart:
 	helm dep up ./helm/app; \
 	helm template --set metabase.namespace=dummy-namespace -f ./helm/app/values.yaml ccbc ./helm/app --validate;
 
-.PHONY: install_cocogitto
-install_cocogitto:
-	@cargo install --locked cocogitto
-
-.PHONY: install_cocogitto_hook
-install_cocogitto_hook: install_cocogitto
-install_cocogitto_hook:
-	@cog install-hook commit-msg
-
 .PHONY: install_git_hooks
 install_git_hooks: install_cocogitto_hook
 install_git_hooks:
