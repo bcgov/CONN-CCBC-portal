@@ -9,7 +9,7 @@ import MoneyWidget from './widgets/MoneyWidget';
 import BooleanWidget from './widgets/BooleanWidget';
 import FileWidget from './widgets/FileWidget';
 
-const ReadOnlyTheme: ThemeProps = {
+const ReviewTheme: ThemeProps = {
   fields: {
     SectionField: ReviewSectionField,
     InlineArrayField: ReviewInlineArrayField,
@@ -33,4 +33,4 @@ const ReadOnlyTheme: ThemeProps = {
   ArrayFieldTemplate: ReviewArrayFieldTemplate,
 };
 
-export default ReadOnlyTheme;
+export default ReviewTheme;
