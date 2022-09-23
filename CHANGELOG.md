@@ -1,3 +1,22 @@
+# [1.4.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.3.0...v1.4.0) (2022-09-23)
+
+### Bug Fixes
+
+- **ci:** gitleaks uses latest version ([e80eb8b](https://github.com/bcgov/CONN-CCBC-portal/commit/e80eb8bdfd3c532ffd47e82a08f42fd6baf4cfae))
+- in dev environment, drop mocks schema before redeploying ([d94bb76](https://github.com/bcgov/CONN-CCBC-portal/commit/d94bb7618c25c0d1f0c63c2b3cea6f98ac1aabf1))
+- isMailingAddress shouldn't be a required field of mailingAddress ([157659a](https://github.com/bcgov/CONN-CCBC-portal/commit/157659af2f3406bc80a46973d0ec2e5c448f769a))
+
+### Features
+
+- add ReadOnlyMoneyWidget to default theme and support in review ([ba0070d](https://github.com/bcgov/CONN-CCBC-portal/commit/ba0070d7202f4b00248108c48f26195c869ccb7c))
+- add ReviewFilesField ([ada0dd4](https://github.com/bcgov/CONN-CCBC-portal/commit/ada0dd46b2cad3c7b66ae69cacfc18374543da70))
+- format money in review theme ([c4abcce](https://github.com/bcgov/CONN-CCBC-portal/commit/c4abccebf8048a248512338f5df7c17f0c1ac0a3))
+- remove non-rjsf review components ([166020b](https://github.com/bcgov/CONN-CCBC-portal/commit/166020b0462383e0aff1b7259e626bb9287f88c4))
+- ReviewTheme supports extra elements to insert before fields ([3fe2a53](https://github.com/bcgov/CONN-CCBC-portal/commit/3fe2a539baa0823ae9da7f74dcb6e3e4f065c395))
+- reviewUiSchema extends base ui schema ([19a7987](https://github.com/bcgov/CONN-CCBC-portal/commit/19a79872775f4ddba1f74a9f1b28a5a566cce5db))
+- support arrays of objects in review theme ([2b15439](https://github.com/bcgov/CONN-CCBC-portal/commit/2b15439fca427bb3acc136cbcadf678519ca85fe))
+- use ReviewTheme to render the review page ([8f30d13](https://github.com/bcgov/CONN-CCBC-portal/commit/8f30d13cbea9c182276654f2fcbdd768fdc7b0ba))
+
 # [1.3.0](https://github.com/bcgov/CONN-CCBC-portal/compare/1.2.0...v1.3.0) (2022-09-21)
 
 ### Bug Fixes
