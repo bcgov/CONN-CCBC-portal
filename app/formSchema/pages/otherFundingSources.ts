@@ -26,7 +26,7 @@ const otherFundingSources: Record<string, JSONSchema7> = {
       },
       totalInfrastructureBankFunding: {
         title: 'Total amount requested under Canadian Infrastructure Bank',
-        type: 'number',
+        type: ['number', 'null'],
         readOnly: true,
       },
       otherFundingSources: {
