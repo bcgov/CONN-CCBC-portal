@@ -4,9 +4,8 @@ import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
 import { graphql, useFragment } from 'react-relay';
 import type { JSONSchema7 } from 'json-schema';
 import styled from 'styled-components';
-import { CalculationForm, FormBase, SubmitButtons } from '.';
+import { FormBase, SubmitButtons } from '.';
 import { validate, schema, uiSchema } from 'formSchema';
-import { acknowledgements } from 'formSchema/pages';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 import ApplicationFormStatus from './ApplicationFormStatus';
 import {
@@ -23,27 +22,8 @@ import { useUpdateApplicationMutation } from 'schema/mutations/application/updat
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
 import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
 import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
-import { SubmissionDescriptionField } from 'lib/theme/fields';
 import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
-
-const NUM_ACKNOWLEDGEMENTS = (
-  (
-    acknowledgements.acknowledgements.properties
-      .acknowledgementsList as JSONSchema7
-  ).items as JSONSchema7
-).enum.length;
-
-const customPages = [
-  'acknowledgements',
-  'estimatedProjectEmployment',
-  'projectFunding',
-  'otherFundingSources',
-  'submission',
-];
-
-const CUSTOM_SUBMISSION_FIELD = {
-  SubmissionField: SubmissionDescriptionField,
-};
+import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 
 const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
   const isSubmissionCompletedByFilled =
@@ -69,7 +49,7 @@ const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
 
 const verifyAllAcknowledgementsChecked = (
   formData?: AcknowledgementsFieldJSON
-) => formData?.acknowledgementsList?.length === NUM_ACKNOWLEDGEMENTS;
+) => formData?.acknowledgementsList?.length === acknowledgementsEnum.length;
 
 const Flex = styled('header')`
   display: flex;
@@ -92,12 +72,6 @@ interface SubmissionFieldsJSON {
   submissionDate?: string;
   submissionCompletedBy?: string;
   submissionTitle?: string;
-}
-
-interface CalculatedFieldJSON {
-  number1: number;
-  number2: number;
-  sum: number;
 }
 
 const ApplicationForm: React.FC<Props> = ({
@@ -176,6 +150,8 @@ const ApplicationForm: React.FC<Props> = ({
   const isWithdrawn = status === 'withdrawn';
   const isDraft = status === 'draft';
   const isSubmitted = status === 'submitted';
+  const isSubmitPage = sectionName === 'submission';
+  const isAcknowledgementPage = sectionName === 'acknowledgements';
 
   const isSubmitEnabled = useMemo(() => {
     if (isWithdrawn) return false;
@@ -250,6 +226,8 @@ const ApplicationForm: React.FC<Props> = ({
         : '';
 
     if (isDraft) {
+      console.log('Draft!!!');
+      console.log(newFormData);
       // Auto fill submission fields
       newFormData = {
         ...newFormData,
@@ -329,27 +307,29 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
+    if (isAcknowledgementPage) updateAreAllAcknowledgementFieldsSet(e.formData);
+    if (isSubmitPage) updateAreAllSubmissionFieldsSet(e.formData);
+
     setSavedAsDraft(false);
-    saveForm(e.formData);
+    saveForm(calculate(e.formData));
   };
 
-  const calculate = (formData) => {
-    formData = {
-      ...formData,
+  const calculate = (sectionData) => {
+    return {
+      ...sectionData,
       ...(sectionName === 'estimatedProjectEmployment' && {
-        ...calculateProjectEmployment(formData),
-        ...calculateContractorEmployment(formData),
+        ...calculateProjectEmployment(sectionData),
+        ...calculateContractorEmployment(sectionData),
       }),
       ...(sectionName === 'projectFunding' && {
-        ...calculateFundingRequestedCCBC(formData),
-        ...calculateApplicantFunding(formData),
+        ...calculateFundingRequestedCCBC(sectionData),
+        ...calculateApplicantFunding(sectionData),
       }),
       ...(sectionName === 'otherFundingSources' && {
-        ...calculateInfrastructureFunding(formData),
-        ...calculateFundingPartner(formData),
+        ...calculateInfrastructureFunding(sectionData),
+        ...calculateFundingPartner(sectionData),
       }),
     };
-    return formData;
   };
 
   const updateAreAllSubmissionFieldsSet = (formData: SubmissionFieldsJSON) => {
@@ -368,23 +348,6 @@ const ApplicationForm: React.FC<Props> = ({
     return formData;
   };
 
-  const isCustomPage = customPages.includes(sectionName);
-  const isSubmitPage = pageNumber >= subschemaArray.length;
-  const isAcknowledgementPage = sectionName === 'acknowledgements';
-
-  const submitBtns = (
-    <SubmitButtons
-      disabled={!isSubmitEnabled || isSubmitting}
-      isUpdating={isUpdating}
-      isSubmitPage={isSubmitPage}
-      formData={formData}
-      savedAsDraft={savedAsDraft}
-      saveForm={saveForm}
-      isAcknowledgementPage={isAcknowledgementPage}
-      status={status}
-    />
-  );
-
   const isFormDisabled = () => {
     const isAcknowledgementOrSubmissionPage =
       sectionName === 'acknowledgements' || sectionName === 'submission';
@@ -392,88 +355,6 @@ const ApplicationForm: React.FC<Props> = ({
     return isWithdrawn || (isSubmitted && isAcknowledgementOrSubmissionPage);
   };
 
-  const customPagesDict = {
-    acknowledgements: (
-      <CalculationForm
-        key="acknowledgements"
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        onCalculate={updateAreAllAcknowledgementFieldsSet}
-        formData={formData[sectionName]}
-        schema={sectionSchema}
-        uiSchema={uiSchema[sectionName]}
-        noValidate={true}
-        disabled={isFormDisabled()}
-      >
-        {submitBtns}
-      </CalculationForm>
-    ),
-    estimatedProjectEmployment: (
-      <CalculationForm
-        // Facing rendering issues, key here to allow react to identify a new component
-        key="estimatedProjectEmployment"
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
-        formData={formData[sectionName]}
-        schema={sectionSchema}
-        uiSchema={uiSchema[sectionName]}
-        noValidate={true}
-        disabled={isFormDisabled()}
-      >
-        {submitBtns}
-      </CalculationForm>
-    ),
-    otherFundingSources: (
-      <CalculationForm
-        key="otherFundingSources"
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
-        formData={formData[sectionName]}
-        schema={sectionSchema}
-        uiSchema={uiSchema[sectionName]}
-        noValidate={true}
-        disabled={isWithdrawn}
-      >
-        {submitBtns}
-      </CalculationForm>
-    ),
-    projectFunding: (
-      <CalculationForm
-        key="projectFunding"
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        onCalculate={(formData: CalculatedFieldJSON) => calculate(formData)}
-        formData={formData[sectionName]}
-        schema={sectionSchema}
-        fields={CUSTOM_SUBMISSION_FIELD}
-        uiSchema={uiSchema[sectionName]}
-        formContext={formContext}
-        noValidate={true}
-        disabled={isFormDisabled()}
-      >
-        {submitBtns}
-      </CalculationForm>
-    ),
-    submission: (
-      <CalculationForm
-        key="submission"
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        onCalculate={updateAreAllSubmissionFieldsSet}
-        formData={formData[sectionName]}
-        schema={sectionSchema}
-        uiSchema={uiSchema[sectionName]}
-        fields={CUSTOM_SUBMISSION_FIELD}
-        formContext={formContext}
-        noValidate={true}
-        disabled={isFormDisabled()}
-      >
-        {submitBtns}
-      </CalculationForm>
-    ),
-  };
   return (
     <>
       <Flex>
@@ -484,23 +365,28 @@ const ApplicationForm: React.FC<Props> = ({
           error={savingError}
         />
       </Flex>
-      {isCustomPage ? (
-        customPagesDict[sectionName]
-      ) : (
-        <FormBase
-          onSubmit={handleSubmit}
-          onChange={handleChange}
+      <FormBase
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        formData={formData[sectionName]}
+        schema={sectionSchema as JSONSchema7}
+        uiSchema={uiSchema[sectionName]}
+        // Todo: validate entire form on completion
+        noValidate={true}
+        disabled={isFormDisabled()}
+        formContext={formContext}
+      >
+        <SubmitButtons
+          disabled={!isSubmitEnabled || isSubmitting}
+          isUpdating={isUpdating}
+          isSubmitPage={isSubmitPage}
           formData={formData[sectionName]}
-          schema={sectionSchema as JSONSchema7}
-          uiSchema={uiSchema[sectionName]}
-          // Todo: validate entire form on completion
-          noValidate={true}
-          disabled={isFormDisabled()}
-          formContext={formContext}
-        >
-          {submitBtns}
-        </FormBase>
-      )}
+          savedAsDraft={savedAsDraft}
+          saveForm={saveForm}
+          isAcknowledgementPage={isAcknowledgementPage}
+          status={status}
+        />
+      </FormBase>
     </>
   );
 };

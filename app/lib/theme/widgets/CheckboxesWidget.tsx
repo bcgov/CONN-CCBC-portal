@@ -38,6 +38,8 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
     const at = all.indexOf(value);
     const updated = selected.slice(0, at).concat(value, selected.slice(at));
 
+    console.log('select!!!', updated);
+
     return updated.sort((a: any, b: any) => all.indexOf(a) > all.indexOf(b));
   }
 

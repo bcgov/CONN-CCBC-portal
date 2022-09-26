@@ -4,7 +4,7 @@ import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
-import { fireEvent, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
@@ -220,38 +220,45 @@ describe('The application form', () => {
       query: data.query,
     }));
 
-    const continueButton = screen.getByRole('button', {
-      name: 'Save and continue',
-    });
-    //node here is using the jest expect, whereas TS can only find the cypress jest
-    expect(continueButton.hasAttribute('disabled')).toBeTrue();
+    expect(
+      screen.getByRole('button', {
+        name: 'Save and continue',
+      })
+    ).toBeDisabled();
   });
 
   it('acknowledgement page continue is enabled once all checkboxes have been clicked', async () => {
-    componentTestingHelper.loadQuery();
+    componentTestingHelper.loadQuery({
+      ...mockQueryPayload,
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          formData: {
+            ...mockFormData,
+            acknowledgements: {
+              acknowledgementsList: acknowledgementsEnum.slice(0, -1),
+            },
+          },
+          status: 'draft',
+        };
+      },
+    });
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 20,
       query: data.query,
     }));
 
-    const checkBoxes = screen.getAllByRole('checkbox');
+    expect(
+      screen.getByRole('button', { name: 'Save and continue' })
+    ).toBeDisabled();
 
-    const lastCheckBox = checkBoxes.pop();
+    const lastCheckBox = screen.getAllByRole('checkbox').pop();
+    await userEvent.click(lastCheckBox);
 
-    checkBoxes.forEach(async (acknowledgement) => {
-      await userEvent.click(acknowledgement);
-    });
-
-    userEvent.click(lastCheckBox).then(() => {
-      waitFor(() => {
-        expect(
-          screen
-            .getByRole('button', { name: 'Save and continue' })
-            .hasAttribute('disabled')
-        ).toBeFalse();
-      });
-    });
+    expect(
+      screen.getByRole('button', { name: 'Save and continue' })
+    ).toBeEnabled();
   });
 
   it('displays the correct button label for withdrawn applications', async () => {
@@ -442,7 +449,7 @@ describe('The application form', () => {
   });
 
   it('saves the form when the Save as draft button is clicked', async () => {
-    componentTestingHelper.loadQuery();
+    componentTestingHelper.loadQuery(submissionPayload);
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
@@ -460,8 +467,14 @@ describe('The application form', () => {
           id: 'TestApplicationID',
           applicationPatch: {
             formData: {
+              organizationProfile: {
+                organizationName: 'Testing organization name',
+              },
               submission: {
+                submissionCompletedFor: 'Testing organization name',
                 submissionDate: '2022-09-12',
+                submissionCompletedBy: 'test',
+                submissionTitle: 'test',
               },
             },
             lastEditedPage: 'review',
