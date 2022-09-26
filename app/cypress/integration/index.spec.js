@@ -1,5 +1,4 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
-import { dateTimeFormat } from '../../lib/theme/functions/formatDates';
 
 context('Homepage', () => {
   beforeEach(function () {
@@ -480,10 +479,7 @@ context('Homepage', () => {
     cy.get('input[id="root_submissionCompletedBy"]').type('test');
     cy.get('input[id="root_submissionTitle"]').type('test');
 
-    cy.get('[id="root_submissionDate"]').should(
-      'have.text',
-      dateTimeFormat(new Date(), 'date_year_first')
-    );
+    cy.get('[id="root_submissionDate"]').should('have.text', '2022-10-09');
 
     cy.get('body').happoScreenshot();
 
