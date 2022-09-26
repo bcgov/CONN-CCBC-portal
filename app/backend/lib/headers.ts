@@ -16,15 +16,12 @@ const headersMiddleware = () => {
 
     // https://www.zaproxy.org/docs/alerts/10020-1/
     res.append("X-Frame-Options","SAMEORIGIN");       
-    
-    // https://www.zaproxy.org/docs/alerts/10020-1/
-    res.append("Content-Security-Policy", "frame-ancestors");
 
     // https://www.zaproxy.org/docs/alerts/10021/
     res.append("X-Content-Type-Options","nosniff");
 
     // https://www.zaproxy.org/docs/alerts/10038/
-    res.append("Content-Security-Policy","default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self'; frame-ancestors 'self'; form-action 'self'");            
+    res.append("Content-Security-Policy","default-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self'; frame-ancestors 'self'; form-action 'self'");            
 
     // https://www.zaproxy.org/docs/alerts/10063-1/
     res.append("Permissions-Policy","display-capture 'none'");
