@@ -4,7 +4,8 @@ const config = require("./config");
 
 module.exports = {
   basePath: '/applicantportal',
-
+  poweredByHeader: false,
+  
   async redirects() {
     return [
       {
