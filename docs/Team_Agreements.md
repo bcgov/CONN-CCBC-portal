@@ -4,7 +4,7 @@
 
 ## Working with the Board
 
-### Creating cards:
+### Creating cards
 
 - Before creating a card, check if the card already exists on the board.
 - Card Title: Noum + verb/action
@@ -13,16 +13,35 @@
 - Add the Epic
 - Add the Sprint, if needed
 
+### Refining cards
+
+- T-shirt sizing for new cards as a way to facilitate preliminary review / prioritization by PO
+- Estimating/Reviewing cards async before refinement/sprint planning
+- Backlog refinement/sprint planning meetings should happen before the end of the current sprint 
+- Card should pass Definition of Ready (DoR) before it can be moved as a sprint candidate
+- [TBD] new planning-poker/estimation tool (Miro, Parabol)
+
+## Managing cards through stages
+
+- Tracking work done on an issue using checkboxes
+- When card is in development, draft PR should be created
+- When development is complete and results satisfy Definition of Done, status of the PR should be changed to Open for review and card moved in corresponent column
+- When PR is approved, merged and deployed to test, card can be moved to "Ready for PO review" 
+
 ### Communication
 
 - Update the card the Backlog before the Stand-up meeting
 - Always mention the card in the conversation
 - Communication takes place in the development channel in the Gov Team. Gov Teams is the main channel of communication between PO, Stakeholders and the team
+- UEX/design and dev sync takes place in regular meetings [TBD] 2 devs at least for a design-dev sync or whole team?
+- [TBD] designers write user stories and loop in developers for discussion during sync?
 
 ## Meetings
 
 - Not invite everyone to all meetings. Be mindful of each meeting one of the team members should be present. (Required vs Optional)
 - Feel free to leave a meeting if you feel you shouldn’t be there.
+- [TBD] timed-box async backlog refinment?
+- [TBD] Every meeting should have: Meeting Agenda? Meeting minutes? Action items?
 
 ## Development and Version Control
 
