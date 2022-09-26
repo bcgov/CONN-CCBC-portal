@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from './backend/lib/session';
 import ssoMiddleware from './backend/lib/sso-middleware';
+import headersMiddleware from "./backend/lib/headers";
 import graphQlMiddleware from './backend/lib/graphql';
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 
@@ -50,6 +51,8 @@ app.prepare().then(async () => {
   server.use(graphqlUploadExpress());
 
   server.use(graphQlMiddleware());
+  
+  server.use(headersMiddleware());
 
   server.all('*', async (req, res) => handle(req, res));
 
