@@ -8,7 +8,7 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
-import crypto from 'crypto';
+import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
@@ -570,15 +570,8 @@ describe('The application form', () => {
       '/dashboard'
     );
   });
+
   describe('the review page', () => {
-    beforeAll(() => {
-      // Some rjsf features require window.crypto, which isn't provided by jsdom
-      Object.defineProperty(global.self, 'crypto', {
-        value: {
-          getRandomValues: (arr) => crypto.randomBytes(arr.length),
-        },
-      });
-    });
     const REVIEW_PAGE_INDEX =
       uiSchema['ui:order'].findIndex((e) => e === 'review') + 1;
 
