@@ -584,6 +584,95 @@ describe('The application form', () => {
     );
   });
 
+  it('should set the correct calculated value on the employment page', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 10,
+      query: data.query,
+    }));
+
+    const people = screen.getAllByLabelText(/Number of people/)[0];
+    const hours = screen.getAllByLabelText(/Hours of employment/)[0];
+    const months = screen.getAllByLabelText(/Total person months/)[0];
+
+    await userEvent.type(people, '12');
+    await userEvent.type(hours, '40');
+    await userEvent.type(months, '20');
+
+    expect(screen.getByText(22.9)).toBeInTheDocument();
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationMutation',
+      {
+        input: {
+          id: 'TestApplicationID',
+          applicationPatch: {
+            formData: {
+              estimatedProjectEmployment: {
+                estimatedFTECreation: 22.9,
+                estimatedFTEContractorCreation: null,
+                numberOfEmployeesToWork: 12,
+                hoursOfEmploymentPerWeek: 40,
+                personMonthsToBeCreated: 20,
+              },
+              submission: {
+                submissionDate: '2022-09-12',
+              },
+            },
+            lastEditedPage: 'estimatedProjectEmployment',
+          },
+        },
+      }
+    );
+  });
+
+  it('should set the correct calculated value on the project page', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 5,
+      query: data.query,
+    }));
+
+    await userEvent.type(screen.getAllByLabelText(/2022-23/)[0], '1');
+    await userEvent.type(screen.getAllByLabelText(/2023-24/)[0], '2');
+    await userEvent.type(screen.getAllByLabelText(/2024-25/)[0], '3');
+    await userEvent.type(screen.getAllByLabelText(/2025-26/)[0], '4');
+    await userEvent.type(screen.getAllByLabelText(/2026-27/)[0], '5');
+
+    expect(
+      screen.getByLabelText('Total amount requested under CCBC')
+    ).toHaveValue('$15');
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationMutation',
+      {
+        input: {
+          id: 'TestApplicationID',
+          applicationPatch: {
+            formData: {
+              projectFunding: {
+                totalFundingRequestedCCBC: 15,
+                totalApplicantContribution: null,
+                fundingRequestedCCBC2223: 1,
+                fundingRequestedCCBC2324: 2,
+                fundingRequestedCCBC2425: 3,
+                fundingRequestedCCBC2526: 4,
+                fundingRequestedCCBC2627: 5,
+              },
+
+              submission: {
+                submissionDate: '2022-09-12',
+              },
+            },
+            lastEditedPage: 'projectFunding',
+          },
+        },
+      }
+    );
+  });
+
   describe('the review page', () => {
     const REVIEW_PAGE_INDEX =
       uiSchema['ui:order'].findIndex((e) => e === 'review') + 1;

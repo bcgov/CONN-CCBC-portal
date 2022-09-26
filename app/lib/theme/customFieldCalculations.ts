@@ -38,8 +38,6 @@ const calculateContractorEmployment = (formData) => {
 };
 
 const calculateFundingRequestedCCBC = (formData) => {
-  console.log(formData);
-
   const fundingRequestedCCBC2223 =
     Number(formData.fundingRequestedCCBC2223) || 0;
   const fundingRequestedCCBC2324 =
