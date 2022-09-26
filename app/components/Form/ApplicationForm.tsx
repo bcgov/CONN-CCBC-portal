@@ -226,8 +226,6 @@ const ApplicationForm: React.FC<Props> = ({
         : '';
 
     if (isDraft) {
-      console.log('Draft!!!');
-      console.log(newFormData);
       // Auto fill submission fields
       newFormData = {
         ...newFormData,
