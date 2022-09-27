@@ -76,6 +76,24 @@ const reviewUiSchema = {
   estimatedProjectEmployment: {
     ...estimatedProjectEmployment,
     'ui:field': 'SectionField',
+    numberOfEmployeesToWork: {
+      'ui:before': (
+        <tr>
+          <StyledTitleRow colSpan={2}>
+            <StyledH4>Estimated direct employees</StyledH4>
+          </StyledTitleRow>
+        </tr>
+      ),
+    },
+    numberOfContractorsToWork: {
+      'ui:before': (
+        <tr>
+          <StyledTitleRow colSpan={2}>
+            <StyledH4>Estimated contractor labour</StyledH4>
+          </StyledTitleRow>
+        </tr>
+      ),
+    },
   },
   existingNetworkCoverage: {
     ...existingNetworkCoverage,
