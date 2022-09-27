@@ -16,12 +16,7 @@ describe("The headers middleware", () => {
     const middleware = headersMiddleware();
     middleware(mockRequest, mockResponse, nextFunction);
 
-    expect(mockResponse.append).toBeCalledWith("X-Frame-Options", "SAMEORIGIN");
-    expect(mockResponse.append).toBeCalledWith("X-Content-Type-Options", "nosniff");
     expect(mockResponse.append).toBeCalledWith("Content-Security-Policy", "default-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self'; frame-ancestors 'self'; form-action 'self'");
     expect(mockResponse.append).toBeCalledWith("Permissions-Policy", "display-capture 'none'");
-
-    expect(mockResponse.removeHeader).toBeCalledWith("X-Powered-By");
-
   });
 });
