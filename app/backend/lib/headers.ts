@@ -2,7 +2,9 @@ import helmet from "helmet";
 import config from "../../config";
 
 const headersMiddleware = () => {
-  const helmetMiddleware = helmet();
+  const helmetMiddleware = helmet({
+    contentSecurityPolicy: false,
+  });
   return (req, res, next) => {
     // Tell search + crawlers not to index non-production environments:
     if (
