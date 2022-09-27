@@ -8,6 +8,7 @@ import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
+import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
@@ -68,9 +69,7 @@ const submissionPayload = {
           submissionTitle: 'test',
         },
         acknowledgements: {
-          acknowledgementsList: [
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-          ],
+          acknowledgementsList: acknowledgementsEnum,
         },
       },
     };
@@ -312,9 +311,7 @@ describe('The application form', () => {
         submissionTitle: 'some title',
       },
       acknowledgements: {
-        acknowledgementsList: [
-          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-        ],
+        acknowledgementsList: acknowledgementsEnum,
       },
     };
     componentTestingHelper.loadQuery({
@@ -468,6 +465,7 @@ describe('The application form', () => {
                 submissionCompletedBy: 'test',
                 submissionTitle: 'test',
               },
+              acknowledgements: { acknowledgementsList: acknowledgementsEnum },
             },
             lastEditedPage: 'review',
           },
