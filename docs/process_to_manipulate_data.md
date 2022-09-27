@@ -55,6 +55,10 @@ At this point, you should see the following `psql` prompt: `ccbc=*>`. The `*` in
 
 7. If the data is testable in the app check and make sure everything is working as intended
 
-8. Repeat the above steps in `test`
+8. Do not rewrite the statement by hand, copy the successful statement and repeat the above steps in `test`
 
 9. Message the product owner to verify the changes in test and give approval to update in prod.
+
+10. Make changes to prod and notify the product owner
+
+11. Change intake dates in test to previous values or new values provided by the product owner
