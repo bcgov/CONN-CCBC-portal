@@ -709,6 +709,28 @@ describe('The application form', () => {
       ).toHaveTextContent('$1 000');
     });
 
+    it('should display headings in the estimated employment', () => {
+      componentTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+      componentTestingHelper.renderComponent((data) => ({
+        application: data.application,
+        pageNumber: REVIEW_PAGE_INDEX,
+        query: data.query,
+      }));
+
+      const section = within(
+        screen
+          .getByRole('heading', { name: 'Estimated project employment' })
+          .closest('section')
+      );
+
+      expect(
+        section.getByText('Estimated direct employees')
+      ).toBeInTheDocument();
+      expect(
+        section.getByText('Estimated contractor labour')
+      ).toBeInTheDocument();
+    });
+
     it('should display empty red fields in the budget details section when there are errors', () => {
       componentTestingHelper.loadQuery(mockQueryPayload);
       componentTestingHelper.renderComponent((data) => ({
