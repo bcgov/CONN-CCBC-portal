@@ -186,7 +186,7 @@ const ApplicationForm: React.FC<Props> = ({
   }
 
   const saveForm = (
-    newFormSectionData: object,
+    newFormSectionData: any,
     mutationConfig?: Partial<
       UseDebouncedMutationConfig<updateApplicationMutation>
     >,
@@ -202,19 +202,14 @@ const ApplicationForm: React.FC<Props> = ({
       return;
     }
 
-    let newFormData: Record<string, any> = {};
-    if (Object.keys(formData).length === 0) {
-      newFormData[sectionName] = newFormSectionData;
-    } else if (formData[sectionName]) {
-      newFormData = { ...formData };
-      newFormData[sectionName] = {
-        ...formData[sectionName],
-        ...newFormSectionData,
-      };
-    } else {
-      newFormData = { ...formData };
-      newFormData[sectionName] = { ...newFormSectionData };
-    }
+    if (isAcknowledgementPage)
+      updateAreAllAcknowledgementFieldsSet(newFormSectionData);
+    if (isSubmitPage) updateAreAllSubmissionFieldsSet(newFormSectionData);
+
+    let newFormData = {
+      ...formData,
+      [sectionName]: calculate(newFormSectionData),
+    };
 
     // if we're redirecting after this, set lastEditedPage to the next page
     const lastEditedPageNumber = isRedirectingToNextPage
@@ -305,11 +300,8 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
-    if (isAcknowledgementPage) updateAreAllAcknowledgementFieldsSet(e.formData);
-    if (isSubmitPage) updateAreAllSubmissionFieldsSet(e.formData);
-
     setSavedAsDraft(false);
-    saveForm(calculate(e.formData));
+    saveForm(e.formData);
   };
 
   const calculate = (sectionData) => {
