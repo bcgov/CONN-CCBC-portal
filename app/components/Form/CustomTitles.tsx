@@ -3,9 +3,9 @@ import Link from '@button-inc/bcgov-theme/Link';
 const ProjectBenefits = (
   <div>
     <p>
-      Sustainability. Please summarize the benefits that the Project will bring
-      to the targeted areas. Describe the benefits and sustainability of the
-      Project in terms of:
+      Please summarize the benefits that the Project will bring to the targeted
+      areas. Describe the benefits and sustainability of the Project in terms
+      of:
     </p>
     <ul>
       <li>Social and economic benefits</li>

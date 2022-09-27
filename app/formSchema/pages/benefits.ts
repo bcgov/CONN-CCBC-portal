@@ -17,7 +17,7 @@ const benefits: Record<string, JSONSchema7> = {
       },
       numberOfHouseholds: {
         title:
-          'Final number of Eligible Households targeted by this proposal. This value should match cell G50 in Template 1 – Eligibility Summary.',
+          'Final number of Eligible Households targeted by this proposal. This value should match cell F151 in Template 1 – Eligibility Summary.',
         type: 'number',
       },
       householdsImpactedIndigenous: {

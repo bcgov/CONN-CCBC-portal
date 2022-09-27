@@ -24,17 +24,17 @@ const supportingDocuments: Record<string, JSONSchema7> = {
       },
       logicalNetworkDiagram: {
         title:
-          'Please refer to Annex 3 of the application guide for the Logical Network Diagram requirements',
+          'Please refer to Annex 3 of the application guide for the Logical Network Diagram requirements. Accepted file types: .pdf, .png, .jpg, .jpeg, .vsd, .vsdx, .doc, .docx, .ppt, .pptx',
         type: 'string',
       },
       projectSchedule: {
         title:
-          'Please refer to Annex 3 of the application guide for the Project schedule and supporting documents requirements',
+          'Please refer to Annex 3 of the application guide for the Project schedule and supporting documents requirements. Accepted file types: .xlsx or .mpp',
         type: 'string',
       },
       communityRuralDevelopmentBenefits: {
         title:
-          'Please refer to Annex 3 of the application guide for the community letters of support requirements. If you do not currently have these, you will have a 30-day grace period after the intake closes to submit them.',
+          'Please refer to Annex 3 of the application guide for the community letters of support requirements.',
         type: 'string',
       },
       otherSupportingMaterials: {
