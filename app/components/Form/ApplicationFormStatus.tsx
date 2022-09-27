@@ -28,7 +28,7 @@ const StatusContainer = styled('div')`
   align-items: flex-end;
 `;
 
-const SavingStatusContainer = styled('header')`
+const SavingStatusContainer = styled('div')`
   display: flex;
   height: 24px;
   align-items: center;
@@ -88,7 +88,7 @@ const ApplicationFormStatus: React.FC<Props> = ({
         <AppStatus>{status}</AppStatus>
         <AppName>{formData?.projectInformation?.projectTitle}</AppName>
       </StatusNameFlex>
-      <SavingStatusContainer aria-live="off" aria-label="status container">
+      <SavingStatusContainer aria-live="off" aria-label="form saving status">
         {savingStatusIndicator}
       </SavingStatusContainer>
       <ErrorContainer>{error}</ErrorContainer>
