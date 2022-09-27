@@ -8,7 +8,6 @@ import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
-import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
@@ -228,32 +227,25 @@ describe('The application form', () => {
   });
 
   it('acknowledgement page continue is enabled once all checkboxes have been clicked', async () => {
-    componentTestingHelper.loadQuery({
-      ...mockQueryPayload,
-      Application() {
-        return {
-          id: 'TestApplicationID',
-          formData: {
-            ...mockFormData,
-            acknowledgements: {
-              acknowledgementsList: acknowledgementsEnum.slice(0, -1),
-            },
-          },
-          status: 'draft',
-        };
-      },
-    });
+    componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 20,
       query: data.query,
     }));
 
+    const checkBoxes = screen.getAllByRole('checkbox');
+
+    const lastCheckBox = checkBoxes.pop();
+
+    checkBoxes.forEach(async (acknowledgement) => {
+      await userEvent.click(acknowledgement);
+    });
+
     expect(
       screen.getByRole('button', { name: 'Save and continue' })
     ).toBeDisabled();
 
-    const lastCheckBox = screen.getAllByRole('checkbox').pop();
     await userEvent.click(lastCheckBox);
 
     expect(
