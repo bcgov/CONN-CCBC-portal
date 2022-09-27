@@ -187,7 +187,11 @@ const ApplicationForm: React.FC<Props> = ({
       return areAllAcknowledgementsChecked || isSubmitted;
 
     if (sectionName === 'submission')
-      return areAllSubmissionFieldsSet && !isSubmitted;
+      return (
+        areAllSubmissionFieldsSet &&
+        areAllAcknowledgementsChecked &&
+        !isSubmitted
+      );
 
     return true;
   }, [
