@@ -91,7 +91,7 @@ const templateUploads = {
   },
   geographicNames: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Template 9 - Geographic Names',
+    'ui:description': 'Template 9 - Backbone and Geographic Names',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
       label: false,

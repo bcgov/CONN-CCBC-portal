@@ -36,7 +36,10 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
 
   return (
     <>
-      <p>Please review your responses.</p>
+      <p>
+        Please review your responses before proceeding to the acknowledgement
+        and submission pages.
+      </p>
       <StyledAlert
         id="review-alert"
         size="small"

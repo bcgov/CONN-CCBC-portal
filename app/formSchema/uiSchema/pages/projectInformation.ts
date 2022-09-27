@@ -10,7 +10,7 @@ const projectInformation = {
   projectTitle: {
     'ui:description': 'maximum 200 characters',
     'ui:title':
-      'Project title. Be descriptive about the geographic region. Please refrain from using years in the title.',
+      'Provide a Project title. Be descriptive about the geographic region. Please refrain from using years in the title.',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
     },

@@ -21,7 +21,7 @@ const projectPlan: Record<string, JSONSchema7> = {
       },
       projectCompletionDate: {
         title:
-          'Completion Date (YYYY/MM/DD). This determines whether the Project meets the timeframe of the CCBC Program and to compare projects proposing to serve the same general underserved area.',
+          'Project Completion Date (YYYY/MM/DD). This determines whether the Project meets the timeframe of the CCBC Program and to compare projects proposing to serve the same general underserved area.',
         type: 'string',
       },
       relationshipManagerApplicant: {

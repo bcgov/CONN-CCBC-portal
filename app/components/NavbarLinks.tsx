@@ -23,7 +23,7 @@ export const SubHeaderNavbarLinks: React.FC = () => {
         </StyledLi>
         <StyledLi>
           <ExternalLink href="mailto:connectingcommunitiesbc@gov.bc.ca">
-            Help
+            Email us
           </ExternalLink>
         </StyledLi>
       </StyledUl>
