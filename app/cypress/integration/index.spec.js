@@ -4,8 +4,7 @@ context('Homepage', () => {
   beforeEach(function () {
     const mockedDateString = '2022-10-10';
     const mockedDate = new Date(mockedDateString);
-    cy.setCookie('mocks.mocked_timestamp', String(mockedDate.valueOf() / 1000));
-    cy.setCookie('mocks.mocked_date', mockedDateString);
+    cy.useMockedTime(mockedDate);
     cy.sqlFixture('dev/001_intake');
     cy.visit('/');
   });
@@ -13,7 +12,7 @@ context('Homepage', () => {
   // Commenting out radio inputs until we pass in proper names or ids to select from
 
   it('should start and fill the first page of the form', () => {
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Applicant Landing Page' });
 
     cy.get('h1').contains('Welcome');
 
@@ -29,7 +28,7 @@ context('Homepage', () => {
     // Dashboard page
     cy.get('h1').contains('Dashboard');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Dashboard Page' });
 
     cy.get('button').contains('Create application').click();
 
@@ -46,7 +45,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Project Information Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -64,7 +63,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Project Area Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -96,7 +95,9 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({
+      component: 'Existing Network Coverage Page',
+    });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -109,7 +110,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Budget Details Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -134,7 +135,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Project Funding Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -191,7 +192,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Other Funding Sources Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -215,7 +216,9 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({
+      component: 'Technological Solution Page',
+    });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -229,7 +232,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Benefits Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -248,7 +251,9 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({
+      component: 'Project Planning and Management Page',
+    });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -272,7 +277,9 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({
+      component: 'Estimated Project Employment Page',
+    });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -284,7 +291,7 @@ context('Homepage', () => {
     // TODO: Remove this once test is no longer flaky (infinite loop)
     // cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Template Uploads Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -297,7 +304,7 @@ context('Homepage', () => {
     // TODO: Remove this once test is no longer flaky (infinite loop with file upload)
     // cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Supporting Documents Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -311,7 +318,7 @@ context('Homepage', () => {
     // TODO: Remove this once test is no longer flaky (infinite loop with file upload)
     // cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Coverage Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -340,7 +347,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Organization Profile Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -380,7 +387,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Organization Location Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -398,7 +405,9 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({
+      component: 'Organization Contact Information Page',
+    });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -422,7 +431,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Authorized Contact Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -446,7 +455,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Alternate Contact Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -458,7 +467,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Review Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -502,7 +511,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Acknowledgements Page' });
 
     cy.get('button').contains('Save and continue').click();
 
@@ -522,7 +531,7 @@ context('Homepage', () => {
 
     cy.get('div[id="saving-status-container"]').contains('Last saved:');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Submission Page' });
 
     cy.get('button').contains('Submit').click();
 
@@ -534,7 +543,7 @@ context('Homepage', () => {
 
     cy.get('h3').contains('Thank you for applying to CCBC Intake 1');
 
-    cy.get('body').happoScreenshot();
+    cy.get('body').happoScreenshot({ component: 'Success Page' });
 
     cy.get('button').contains('Return to dashboard').click();
   });
