@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
@@ -77,7 +77,11 @@ type File = {
   type: string;
 };
 
-const FileWidget: React.FC<WidgetProps> = ({
+interface FileWidgetProps extends WidgetProps {
+  value: Array<File>;
+}
+
+const FileWidget: React.FC<FileWidgetProps> = ({
   id,
   disabled,
   onChange,
@@ -85,7 +89,6 @@ const FileWidget: React.FC<WidgetProps> = ({
   required,
   uiSchema,
 }) => {
-  const [fileList, setFileList] = useState<File[]>([]);
   const [error, setError] = useState('');
   const router = useRouter();
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
@@ -95,22 +98,11 @@ const FileWidget: React.FC<WidgetProps> = ({
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const allowMultipleFiles = uiSchema['ui:options']?.allowMultipleFiles;
   const acceptedFileTypes = uiSchema['ui:options']?.fileTypes;
-  const isFiles = fileList?.length > 0;
+  const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment;
 
   // 104857600 bytes = 100mb
   const maxFileSizeInBytes = 104857600;
-
-  useEffect(() => {
-    // Set state from value stored in RJSF if it exists
-    value && setFileList(JSON.parse(value));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    // Update value in RJSF with useEffect instead of handleChange due to async setState delay
-    onChange(isFiles ? JSON.stringify(fileList) : undefined);
-  }, [fileList, isFiles, onChange]);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setError('');
@@ -128,7 +120,7 @@ const FileWidget: React.FC<WidgetProps> = ({
       }
       if (isFiles && !allowMultipleFiles) {
         // Soft delete file if 'Replace' button is used for single file uploads
-        const fileId = fileList[0].id;
+        const fileId = value[0].id;
         handleDelete(fileId);
       }
 
@@ -162,11 +154,9 @@ const FileWidget: React.FC<WidgetProps> = ({
           };
 
           if (allowMultipleFiles) {
-            setFileList((prev) =>
-              prev ? [...prev, fileDetails] : [fileDetails]
-            );
+            onChange(value ? [...value, fileDetails] : [fileDetails]);
           } else {
-            setFileList([fileDetails]);
+            onChange([fileDetails]);
           }
         },
       });
@@ -191,13 +181,13 @@ const FileWidget: React.FC<WidgetProps> = ({
       onError: () => setError('deleteFailed'),
       onCompleted: (res) => {
         const id = res?.updateAttachmentByRowId?.attachment?.rowId;
-        const indexOfFile = fileList.findIndex((object) => {
+        const indexOfFile = value.findIndex((object) => {
           return object.id === id;
         });
-        const newFileList = [...fileList];
+        const newFileList = [...value];
         newFileList.splice(indexOfFile, 1);
         const isFileListEmpty = newFileList.length <= 0;
-        setFileList(isFileListEmpty ? null : newFileList);
+        onChange(isFileListEmpty ? null : newFileList);
       },
     });
   };
@@ -230,7 +220,7 @@ const FileWidget: React.FC<WidgetProps> = ({
       <StyledDetails>
         <StyledH4>{description}</StyledH4>
         {isFiles &&
-          fileList.map((file: File) => {
+          value.map((file: File) => {
             return (
               <StyledFileDiv key={file.uuid}>
                 <StyledLink>{file.name}</StyledLink>
