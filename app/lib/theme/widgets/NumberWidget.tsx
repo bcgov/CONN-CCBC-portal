@@ -75,16 +75,14 @@ const NumberWidget: React.FC<WidgetProps> = ({
   const decimals =
     typeof uiSchema['ui:options']?.decimals === 'number'
       ? uiSchema['ui:options']?.decimals
-      : false;
-
-  const comma = uiSchema['ui:options']?.commaSeparator;
+      : 0;
 
   const inputType = options?.inputType;
-  const useFormattedNumbersInput = comma || inputType === 'commaMask';
 
   const isNumber = schema?.type === 'number';
 
   const usePhoneInput = inputType === 'phone';
+  const useFormattedNumbersInput = !usePhoneInput || isNumber;
 
   const wholeNumRegex = /^[0-9]+$/;
 
@@ -101,7 +99,27 @@ const NumberWidget: React.FC<WidgetProps> = ({
     } else if (inputType === 'phone') {
       const format = formatPhone(value);
       onChange(format);
+    } else {
+      onChange(Number(value));
     }
+  };
+
+  const handleChange = (value: string) => {
+    const numberValue = Number(value);
+    if (Number.isNaN(numberValue)) {
+      onChange(null);
+      return;
+    }
+
+    if (schema.maximum !== undefined && numberValue > schema.maximum) {
+      onChange(schema.maximum);
+      return;
+    }
+
+    // send the string value instead of the number so that the period isn't lost when typing a number
+    // an input that keeps an internal state and doesn't trigger onChange when typing a number would allow us to
+    // call onChange with a number instead of a string
+    onChange(value);
   };
 
   return (
@@ -142,11 +160,11 @@ const NumberWidget: React.FC<WidgetProps> = ({
           allowNegativeValue={false}
           maxLength={maxLength || 14}
           decimalsLimit={decimals || 2}
-          onValueChange={(value: any) => onChange(value || undefined)}
+          onValueChange={handleChange}
           required={required}
           aria-label={label}
           placeholder={placeholder}
-          value={value || ''}
+          value={value ?? ''}
         />
       )}
 

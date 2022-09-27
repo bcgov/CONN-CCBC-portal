@@ -19,13 +19,13 @@ const benefits = {
   numberOfHouseholds: {
     'ui:widget': 'NumberWidget',
     'ui:options': {
-      inputType: 'wholeNumber',
+      decimals: 2,
     },
   },
   householdsImpactedIndigenous: {
     'ui:widget': 'NumberWidget',
     'ui:options': {
-      inputType: 'wholeNumber',
+      decimals: 2,
     },
   },
 };
