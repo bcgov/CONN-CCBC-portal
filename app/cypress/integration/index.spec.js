@@ -190,7 +190,7 @@ context('Homepage', () => {
       '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2627"]'
     ).type(123);
 
-    cy.get('header').contains('Last saved:');
+    cy.get('header[aira-label="status container"]').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Other Funding Sources Page' });
 

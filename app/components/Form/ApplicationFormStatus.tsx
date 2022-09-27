@@ -88,7 +88,9 @@ const ApplicationFormStatus: React.FC<Props> = ({
         <AppStatus>{status}</AppStatus>
         <AppName>{formData?.projectInformation?.projectTitle}</AppName>
       </StatusNameFlex>
-      <SavingStatusContainer>{savingStatusIndicator}</SavingStatusContainer>
+      <SavingStatusContainer aria-live="off" aria-label="status container">
+        {savingStatusIndicator}
+      </SavingStatusContainer>
       <ErrorContainer>{error}</ErrorContainer>
     </StatusContainer>
   );
