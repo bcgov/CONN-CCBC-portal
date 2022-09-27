@@ -13,6 +13,7 @@ const organizationProfile: Record<string, JSONSchema7> = {
       'organizationOverview',
       'orgRegistrationDate',
       'businessNumber',
+      'isIndigenousEntity',
     ],
     properties: {
       typeOfOrganization: {
