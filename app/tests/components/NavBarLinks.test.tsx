@@ -6,14 +6,14 @@ const renderStaticLayout = () => {
 };
 
 describe('The SubHeaderNavbarLinks component', () => {
-  it('should render Help button', () => {
+  it('should render Email us button', () => {
     renderStaticLayout();
-    expect(screen.getByText('Help'));
+    expect(screen.getByText('Email us'));
   });
 
   it('should render the mailto href', () => {
     renderStaticLayout();
-    const link = screen.getByRole('link', { name: 'Help' });
+    const link = screen.getByRole('link', { name: 'Email us' });
     expect(link).toHaveAttribute(
       'href',
       'mailto:connectingcommunitiesbc@gov.bc.ca'
