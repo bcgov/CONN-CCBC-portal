@@ -287,9 +287,8 @@ context('Homepage', () => {
 
     cy.get('h1').contains('Template uploads');
 
-    // // Todo: file uploads
-    // TODO: Remove this once test is no longer flaky (infinite loop)
-    // cy.get('header > div').contains('Last saved:');
+    // // Todo: file upload
+    cy.get('header > div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Template Uploads Page' });
 
@@ -301,8 +300,8 @@ context('Homepage', () => {
     cy.get('a').contains('connectingcommunitiesbc@gov.bc.ca');
 
     // // Todo: file uploads
-    // TODO: Remove this once test is no longer flaky (infinite loop with file upload)
-    // cy.get('header > div').contains('Last saved:');
+
+    cy.get('header > div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Supporting Documents Page' });
 
@@ -315,8 +314,8 @@ context('Homepage', () => {
     cy.get('a').contains('Eligibility Mapping Tool');
 
     // Todo: file uploads
-    // TODO: Remove this once test is no longer flaky (infinite loop with file upload)
-    // cy.get('header > div').contains('Last saved:');
+
+    cy.get('header > div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Coverage Page' });
 
