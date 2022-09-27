@@ -1,5 +1,4 @@
 import headersMiddleware from '../../backend/lib/headers';
-import { NextFunction, Request, Response } from 'express';
 jest.mock("react-relay-network-modern/node8");
 
 describe("The headers middleware", () => {
