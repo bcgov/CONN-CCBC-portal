@@ -71,7 +71,7 @@ const verifyAllAcknowledgementsChecked = (
   formData?: AcknowledgementsFieldJSON
 ) => formData?.acknowledgementsList?.length === NUM_ACKNOWLEDGEMENTS;
 
-const Flex = styled('div')`
+const Flex = styled('header')`
   display: flex;
   justify-content: space-between;
   width: 100%;

@@ -9,3 +9,11 @@ EOF`
     )
   );
 });
+
+Cypress.Commands.add('useMockedTime', (datetime) => {
+  cy.setCookie('mocks.mocked_timestamp', String(datetime.valueOf() / 1000));
+});
+
+Cypress.Commands.add('clearMockedTime', () => {
+  cy.clearCookie('mocks.mocked_timestamp');
+});

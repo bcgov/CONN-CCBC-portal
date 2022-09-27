@@ -9,6 +9,9 @@ runs:
     - name: deploy migrations
       shell: bash
       run: docker run --network=host -e "PGUSER=postgres" ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }} sqitch deploy
+    - name: deploy mock schema
+      shell: bash
+      run: docker run --network=host -e "PGUSER=postgres" ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }} sqitch --chdir mocks_schema deploy
     - name: start app
       shell: bash
-      run: docker run -d --network=host -e "PGUSER=postgres" -e "ENABLE_MOCK_AUTH=true" -p 3000:3000 ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
+      run: docker run -d --network=host -e "PGUSER=postgres" -e "ENABLE_MOCK_AUTH=true" -e "ENABLE_MOCK_COOKIES=true" -p 3000:3000 ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
