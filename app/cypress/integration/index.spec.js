@@ -43,7 +43,7 @@ context('Homepage', () => {
 
     cy.get('[id="root_projectDescription"]').type('test');
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Project Information Page' });
 
@@ -61,7 +61,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_provincesTerritories-0"]').parent().click();
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Project Area Page' });
 
@@ -93,7 +93,7 @@ context('Homepage', () => {
       .parent()
       .click();
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({
       component: 'Existing Network Coverage Page',
@@ -108,7 +108,7 @@ context('Homepage', () => {
 
     cy.get('[id="root_totalProjectCost"]');
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Budget Details Page' });
 
@@ -133,7 +133,7 @@ context('Homepage', () => {
     cy.get('[id="root_applicationContribution2526"]').type(123);
     cy.get('[id="root_applicationContribution2627"]').type(123);
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Project Funding Page' });
 
@@ -190,7 +190,7 @@ context('Homepage', () => {
       '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2627"]'
     ).type(123);
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('header').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Other Funding Sources Page' });
 
@@ -214,7 +214,7 @@ context('Homepage', () => {
     cy.get('input[id="root_lastMileTechnology-2"]').parent().click();
     cy.get('input[id="root_lastMileTechnology-3"]').parent().click();
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({
       component: 'Technological Solution Page',
@@ -230,7 +230,7 @@ context('Homepage', () => {
 
     cy.get('[id="root_numberOfHouseholds"]').type('123');
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Benefits Page' });
 
@@ -249,7 +249,7 @@ context('Homepage', () => {
 
     cy.get('[id="root_operationalPlan"]').type('test');
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({
       component: 'Project Planning and Management Page',
@@ -275,7 +275,7 @@ context('Homepage', () => {
 
     cy.get('[id="root_contractorPersonMonthsToBeCreated"]').type(12);
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({
       component: 'Estimated Project Employment Page',
@@ -289,7 +289,7 @@ context('Homepage', () => {
 
     // // Todo: file uploads
     // TODO: Remove this once test is no longer flaky (infinite loop)
-    // cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    // cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Template Uploads Page' });
 
@@ -302,7 +302,7 @@ context('Homepage', () => {
 
     // // Todo: file uploads
     // TODO: Remove this once test is no longer flaky (infinite loop with file upload)
-    // cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    // cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Supporting Documents Page' });
 
@@ -316,7 +316,7 @@ context('Homepage', () => {
 
     // Todo: file uploads
     // TODO: Remove this once test is no longer flaky (infinite loop with file upload)
-    // cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    // cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Coverage Page' });
 
@@ -345,7 +345,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_businessNumber"]').type(123);
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Organization Profile Page' });
 
@@ -385,7 +385,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_mailingAddress_postalCodeMailing"]').type('test');
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Organization Location Page' });
 
@@ -403,7 +403,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_contactWebsite"]').type('test');
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({
       component: 'Organization Contact Information Page',
@@ -429,7 +429,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_isAuthContactSigningOfficer-0"]').parent().click();
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Authorized Contact Page' });
 
@@ -453,7 +453,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_isAltContactSigningOfficer-0"]').parent().click();
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Alternate Contact Page' });
 
@@ -465,7 +465,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_acknowledgeIncomplete"]').parent().click();
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Review Page' });
 
@@ -509,7 +509,7 @@ context('Homepage', () => {
 
     cy.get('input[id="root_acknowledgementsList-16"]').parent().click();
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Acknowledgements Page' });
 
@@ -529,7 +529,7 @@ context('Homepage', () => {
 
     cy.get('[id="root_submissionDate"]').should('have.text', '2022-10-09');
 
-    cy.get('div[id="saving-status-container"]').contains('Last saved:');
+    cy.get('div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Submission Page' });
 
