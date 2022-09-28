@@ -4,7 +4,13 @@ import config from '../../config';
 const headersMiddleware = () => {
   const helmetMiddleware = helmet({
     // CSP header is set in app/middleware.ts, to be compatible with next.js
-    contentSecurityPolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        "style-src":  ["'self'"],
+        "img-src":  ["'self'"],
+        "font-src":  ["'self'"],
+      },
+    },
   });
   return (req, res, next) => {
     // Tell search + crawlers not to index non-production environments:
