@@ -1,7 +1,7 @@
 import { ThemeProvider } from 'styled-components';
 
 // Here we can set a global theme or variables to reference in child components
-const theme = {
+export const theme = {
   width: {
     form: '1020px',
     inputWidthSmall: '50%',
@@ -24,7 +24,7 @@ const theme = {
     descriptionGrey: 'rgba(49, 49, 50, 0.7)',
     stepperGrey: 'rgba(196, 196, 196, 0.16)',
     stepperHover: 'rgba(196, 196, 196, 0.06)',
-    stepperBlue: '#e5eff9',
+    stepperBlue: 'rgb(229, 239, 249)',
   },
   padding: {
     page: '20px',
@@ -38,4 +38,5 @@ type Props = {
 const GlobalTheme: React.FC<Props> = ({ children }) => {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
+
 export default GlobalTheme;

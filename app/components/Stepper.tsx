@@ -15,11 +15,9 @@ const StyledNav = styled('nav')`
 `;
 
 const StyledDiv = styled('div')`
-  color: ${(props) => props.theme.color.links};
   background-color: ${(props) => props.theme.color.stepperGrey};
   display: flex;
   align-items: center;
-  padding: 16px 40px;
   margin: 1px 0;
   width: 290px;
 
@@ -40,14 +38,16 @@ const StyledActive = styled(StyledDiv)`
 `;
 
 const StyledLink = styled('a')`
+  color: ${(props) => props.theme.color.links};
   text-decoration: none;
+  padding: 16px 40px;
 `;
 
 const Stepper = () => {
   const router = useRouter();
   const rowId = router.query.id;
 
-  const formPageList = uiSchema['ui:order'].filter(function (page) {
+  const formPageList = uiSchema['ui:order'].filter((page) => {
     return page !== 'submission';
   });
 
@@ -62,15 +62,21 @@ const Stepper = () => {
         const pageNumber = getFormPage(page);
 
         return (
-          <Link href={`/form/${rowId}/${pageNumber}`} key={page} passHref>
-            <StyledLink>
-              {isCurrentPage ? (
-                <StyledActive>{formPageSchema[page]['title']}</StyledActive>
-              ) : (
-                <StyledDiv>{formPageSchema[page]['title']}</StyledDiv>
-              )}
-            </StyledLink>
-          </Link>
+          <>
+            {isCurrentPage ? (
+              <StyledActive>
+                <Link href={`/form/${rowId}/${pageNumber}`} key={page} passHref>
+                  <StyledLink>{formPageSchema[page]['title']}</StyledLink>
+                </Link>
+              </StyledActive>
+            ) : (
+              <StyledDiv>
+                <Link href={`/form/${rowId}/${pageNumber}`} key={page} passHref>
+                  <StyledLink>{formPageSchema[page]['title']}</StyledLink>
+                </Link>
+              </StyledDiv>
+            )}
+          </>
         );
       })}
     </StyledNav>

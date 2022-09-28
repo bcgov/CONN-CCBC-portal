@@ -20,7 +20,6 @@ const StyledLayout = styled('div')`
 `;
 
 const StyledMain = styled('main')`
-  margin: auto 50px;
   display: flex;
   width: 100%;
   max-width: ${(props) => props.theme.width.pageMaxWidth};
