@@ -13,7 +13,9 @@ const StyledNav = styled('nav')`
     display: block;
   }
 `;
+
 const StyledDiv = styled('div')`
+  color: ${(props) => props.theme.color.links};
   background-color: ${(props) => props.theme.color.stepperGrey};
   display: flex;
   align-items: center;
@@ -22,17 +24,23 @@ const StyledDiv = styled('div')`
   width: 290px;
 
   &:hover {
-    opacity: 0.7;
+    background-color: ${(props) => props.theme.color.stepperHover};
+    text-decoration: underline;
+  }
+`;
+
+const StyledActive = styled(StyledDiv)`
+  background-color: ${(props) => props.theme.color.stepperBlue};
+  text-decoration: underline;
+  font-weight: 600;
+
+  &:hover {
+    background-color: ${(props) => props.theme.color.stepperBlue};
   }
 `;
 
 const StyledLink = styled('a')`
-  color: ${(props) => props.theme.color.links};
   text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;f
-  }
 `;
 
 const Stepper = () => {
@@ -54,17 +62,15 @@ const Stepper = () => {
         const pageNumber = getFormPage(page);
 
         return (
-          <StyledDiv
-            key={page}
-            style={{
-              fontWeight: isCurrentPage ? 600 : 400,
-              textDecoration: isCurrentPage ? 'underline' : 'none',
-            }}
-          >
-            <Link href={`/form/${rowId}/${pageNumber}`} passHref>
-              <StyledLink>{formPageSchema[page]['title']}</StyledLink>
-            </Link>
-          </StyledDiv>
+          <Link href={`/form/${rowId}/${pageNumber}`} key={page} passHref>
+            <StyledLink>
+              {isCurrentPage ? (
+                <StyledActive>{formPageSchema[page]['title']}</StyledActive>
+              ) : (
+                <StyledDiv>{formPageSchema[page]['title']}</StyledDiv>
+              )}
+            </StyledLink>
+          </Link>
         );
       })}
     </StyledNav>

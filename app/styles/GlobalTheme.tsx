@@ -23,6 +23,8 @@ const theme = {
     text: '#313132',
     descriptionGrey: 'rgba(49, 49, 50, 0.7)',
     stepperGrey: 'rgba(196, 196, 196, 0.16)',
+    stepperHover: 'rgba(196, 196, 196, 0.06)',
+    stepperBlue: '#e5eff9',
   },
   padding: {
     page: '20px',
