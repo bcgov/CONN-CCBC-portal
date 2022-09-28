@@ -199,6 +199,9 @@ type Query implements Node {
   intakeByCcbcIntakeNumber(ccbcIntakeNumber: Int!): Intake
   intakeByApplicationNumberSeqName(applicationNumberSeqName: String!): Intake
 
+  """Returns the next intake if any"""
+  nextIntake: Intake
+
   """Returns the current open intake"""
   openIntake: Intake
   session: KeycloakJwt
