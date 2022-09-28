@@ -16,6 +16,7 @@ const StyledSection = styled.section`
 
 const StyledDiv = styled.div`
   margin: 24px;
+  min-width: 100%;
 `;
 
 const getSuccessQuery = graphql`
