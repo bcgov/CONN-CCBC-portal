@@ -2,6 +2,6 @@
 
 BEGIN;
 
-drop function ccbc.create_application;
+drop function ccbc_public.create_application;
 
 COMMIT;

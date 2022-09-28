@@ -21,6 +21,7 @@ select is(
   'now() occurs on may 5th, 1999 as set in config value'
 );
 
+set client_min_messages to warning;
 
 -- 3) we verify that if we set the mocks.mocked_timestamp value to null? or removed? or invalid? we default to now()
 select set_config('mocks.mocked_timestamp', 'some_invalid_bs', true);
@@ -29,6 +30,8 @@ select is(
   true,
   'now() occurs after october 28th 2020 at 17:20'
 );
+
+reset client_min_messages;
 
 -- 4) We verify that fractional epochs are supported
 select set_config('mocks.mocked_timestamp', '925920000.01', true);

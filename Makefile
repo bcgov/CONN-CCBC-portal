@@ -74,7 +74,7 @@ install_dev_tools: stop_pg install_asdf_tools install_perl_tools install_pgtap
 .PHONY: start_pg
 start_pg: ## start the database server if it is not running
 start_pg:
-	@pg_ctl status || pg_ctl start
+	@pg_ctl status || pg_ctl start; true
 
 .PHONY: stop_pg
 stop_pg: ## stop the database server. Always exits with 0
@@ -159,7 +159,7 @@ deploy_test_db_migrations: ## deploy the test database migrations with sqitch
 deploy_test_db_migrations: start_pg create_test_db
 deploy_test_db_migrations:
 	@SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir db deploy
-	# @SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir mocks_schema deploy
+	@SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir mocks_schema deploy
 
 .PHONY: revert_test_db_migrations
 revert_test_db_migrations: ## revert the test database migrations with sqitch
@@ -180,7 +180,7 @@ db_unit_tests: ## run the database unit tests
 db_unit_tests: | start_pg drop_test_db create_test_db deploy_test_db_migrations
 db_unit_tests:
 	@$(PG_PROVE) --failures -d $(DB_NAME)_test db/test/unit/**/*_test.sql
-	# @$(PG_PROVE) --failures -d $(DB_NAME)_test mocks_schema/test/**/*_test.sql
+	@$(PG_PROVE) --failures -d $(DB_NAME)_test mocks_schema/test/**/*_test.sql
 
 .PHONY: db_style_tests
 db_style_tests: ## run the database style tests
