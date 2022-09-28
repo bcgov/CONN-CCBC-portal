@@ -1,11 +1,9 @@
 import React from 'react';
-import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentContext,
-} from 'next/document';
+import Document, { Html, Main, DocumentContext } from 'next/document';
+import {
+  getCspInitialProps,
+  provideComponents,
+} from '@next-safe/middleware/dist/document';
 import { ServerStyleSheet } from 'styled-components';
 import { createRelayDocument, RelayDocument } from 'relay-nextjs/document';
 
@@ -30,8 +28,10 @@ export default class MyDocument extends Document<DocumentProps> {
         });
 
       const initialProps = await Document.getInitialProps(ctx);
+      const cspInitialProps = await getCspInitialProps({ ctx });
       return {
         ...initialProps,
+        ...cspInitialProps,
         relayDocument,
         styles: [
           <React.Fragment key="0">
@@ -47,7 +47,7 @@ export default class MyDocument extends Document<DocumentProps> {
 
   render() {
     const { relayDocument } = this.props;
-
+    const { Head, NextScript } = provideComponents(this.props);
     /* NextJs will automatically include the styles array from the getInitialProps function and render it last */
     return (
       <Html lang="en">
