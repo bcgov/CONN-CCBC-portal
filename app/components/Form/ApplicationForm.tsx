@@ -206,10 +206,26 @@ const ApplicationForm: React.FC<Props> = ({
       updateAreAllAcknowledgementFieldsSet(newFormSectionData);
     if (isSubmitPage) updateAreAllSubmissionFieldsSet(newFormSectionData);
 
-    let newFormData = {
-      ...formData,
-      [sectionName]: calculate(newFormSectionData),
-    };
+    const calculatedSectionData = calculate(newFormSectionData);
+
+    // TODO: The code below should be simplified. It is potentially confusing as it only allows
+    // deleting field from a section by setting them to undefined.
+    // Some of our code potentially relies on this behaviour, and there are related rjsf v4 bugs
+    // that can lead to the previous form's data being erased when we change pages
+    // https://github.com/rjsf-team/react-jsonschema-form/issues/1708
+    let newFormData: Record<string, any> = {};
+    if (Object.keys(formData).length === 0) {
+      newFormData[sectionName] = calculatedSectionData;
+    } else if (formData[sectionName]) {
+      newFormData = { ...formData };
+      newFormData[sectionName] = {
+        ...formData[sectionName],
+        ...calculatedSectionData,
+      };
+    } else {
+      newFormData = { ...formData };
+      newFormData[sectionName] = { ...calculatedSectionData };
+    }
 
     // if we're redirecting after this, set lastEditedPage to the next page
     const lastEditedPageNumber = isRedirectingToNextPage
