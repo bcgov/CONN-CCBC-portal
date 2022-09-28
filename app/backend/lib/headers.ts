@@ -3,6 +3,7 @@ import config from '../../config';
 
 const headersMiddleware = () => {
   const helmetMiddleware = helmet({
+    // CSP header is set in app/middleware.ts, to be compatible with next.js
     contentSecurityPolicy: false,
   });
   return (req, res, next) => {
