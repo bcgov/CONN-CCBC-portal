@@ -16,6 +16,9 @@ const schema = {
 const uiSchema = {
   numberTestField: {
     'ui:widget': NumberWidget,
+    'ui:options': {
+      decimals: 2,
+    },
   },
   wholeNumberTestField: {
     'ui:widget': NumberWidget,
@@ -54,13 +57,13 @@ describe('The NumberWidget number type input', () => {
   });
 
   it('should render the number widget input field', () => {
-    expect(screen.getByTestId('root_numberTestField'));
+    expect(screen.getByTestId('root_numberTestField')).toBeInTheDocument();
   });
 
   it('should contain the correct input value', () => {
     const input = screen.getByTestId('root_numberTestField');
     fireEvent.change(input, { target: { value: 12345.21 } });
-    expect(screen.getByDisplayValue(12345.21));
+    expect(screen.getByDisplayValue('12,345.21')).toBeInTheDocument();
   });
 });
 
@@ -78,18 +81,19 @@ describe('The NumberWidget whole number type input', () => {
   });
 
   it('should render the number widget input field', () => {
-    expect(screen.getByTestId('root_wholeNumberTestField'));
+    expect(screen.getByTestId('root_wholeNumberTestField')).toBeInTheDocument();
   });
 
   it('should not allow string input', () => {
     const input = screen.getByTestId('root_wholeNumberTestField');
     fireEvent.change(input, { target: { value: 'test string' } });
+    expect(screen.queryByDisplayValue('test string')).toBeNull();
   });
 
   it('should contain the correct input value', () => {
     const input = screen.getByTestId('root_wholeNumberTestField');
     fireEvent.change(input, { target: { value: 123456789 } });
-    expect(screen.getByDisplayValue(123456789));
+    expect(screen.getByDisplayValue('123,456,789')).toBeInTheDocument();
   });
 });
 
@@ -107,12 +111,12 @@ describe('The NumberWidget phone input', () => {
   });
 
   it('should render the phone field', () => {
-    expect(screen.getByTestId('root_phoneTestField'));
+    expect(screen.getByTestId('root_phoneTestField')).toBeInTheDocument();
   });
 
   it('should contain the correct input value', () => {
     const input = screen.getByTestId('root_phoneTestField');
     fireEvent.change(input, { target: { value: 1234567890 } });
-    expect(screen.getByDisplayValue('123-456-7890'));
+    expect(screen.getByDisplayValue('123-456-7890')).toBeInTheDocument();
   });
 });
