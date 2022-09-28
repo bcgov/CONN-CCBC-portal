@@ -12,31 +12,23 @@ const estimatedProjectEmployment = {
   ],
   'ui:title': '',
   currentEmployment: {
-    'ui:widget': 'NumberWidget',
     'ui:options': {
       maxLength: 7,
-      commaSeparator: true,
       decimals: 0,
     },
   },
   numberOfEmployeesToWork: {
-    'ui:widget': 'NumberWidget',
     'ui:options': {
-      commaSeparator: true,
       decimals: 0,
     },
   },
   hoursOfEmploymentPerWeek: {
-    'ui:widget': 'NumberWidget',
     'ui:options': {
-      commaSeparator: true,
       decimals: 1,
     },
   },
   personMonthsToBeCreated: {
-    'ui:widget': 'NumberWidget',
     'ui:options': {
-      commaSeparator: true,
       decimals: 1,
     },
   },
@@ -47,23 +39,17 @@ const estimatedProjectEmployment = {
     },
   },
   numberOfContractorsToWork: {
-    'ui:widget': 'NumberWidget',
     'ui:options': {
-      commaSeparator: true,
       decimals: 0,
     },
   },
   hoursOfContractorEmploymentPerWeek: {
-    'ui:widget': 'NumberWidget',
     'ui:options': {
-      commaSeparator: true,
       decimals: 1,
     },
   },
   contractorPersonMonthsToBeCreated: {
-    'ui:widget': 'NumberWidget',
     'ui:options': {
-      commaSeparator: true,
       decimals: 1,
     },
   },

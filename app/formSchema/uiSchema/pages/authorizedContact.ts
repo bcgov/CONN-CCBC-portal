@@ -37,18 +37,14 @@ const authorizedContact = {
     },
   },
   authTelephone: {
-    'ui:widget': 'NumberWidget',
+    'ui:widget': 'NumericStringWidget',
     'ui:options': {
       inputType: 'phone',
       'ui:title': '',
     },
   },
   authExtension: {
-    'ui:widget': 'NumberWidget',
-    'ui:options': {
-      maxLength: 9,
-      inputType: 'wholeNumber',
-    },
+    'ui:widget': 'NumericStringWidget',
   },
 };
 

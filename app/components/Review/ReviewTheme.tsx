@@ -26,6 +26,7 @@ const ReviewTheme: ThemeProps = {
     MoneyWidget: MoneyWidget,
     ReadOnlyMoneyWidget: MoneyWidget,
     NumberWidget: DefaultWidget,
+    NumericStringWidget: DefaultWidget,
     ReadOnlyWidget: DefaultWidget,
   },
   ObjectFieldTemplate: ReviewObjectFieldTemplate,

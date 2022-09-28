@@ -37,6 +37,7 @@ const authorizedContact = {
       authExtension: {
         title: 'Extension',
         type: 'string',
+        maxLength: 9,
       },
       isAuthContactSigningOfficer: {
         title: 'Is this person an authorized signing officer of the Applicant?',

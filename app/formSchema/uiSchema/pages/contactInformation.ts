@@ -12,17 +12,13 @@ const contactInformation = {
     },
   },
   contactTelephoneNumber: {
-    'ui:widget': 'NumberWidget',
+    'ui:widget': 'NumericStringWidget',
     'ui:options': {
       inputType: 'phone',
     },
   },
   contactExtension: {
-    'ui:widget': 'NumberWidget',
-    'ui:options': {
-      maxLength: 9,
-      inputType: 'wholeNumber',
-    },
+    'ui:widget': 'NumericStringWidget',
   },
 };
 

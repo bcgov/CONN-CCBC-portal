@@ -17,13 +17,11 @@ const benefits = {
     },
   },
   numberOfHouseholds: {
-    'ui:widget': 'NumberWidget',
     'ui:options': {
       decimals: 2,
     },
   },
   householdsImpactedIndigenous: {
-    'ui:widget': 'NumberWidget',
     'ui:options': {
       decimals: 2,
     },

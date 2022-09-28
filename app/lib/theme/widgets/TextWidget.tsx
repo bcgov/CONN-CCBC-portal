@@ -3,6 +3,7 @@ import { WidgetProps } from '@rjsf/core';
 import { Label } from '../../../components/Form';
 import Input from '@button-inc/bcgov-theme/Input';
 import styled from 'styled-components';
+import NumberWidget from './NumberWidget';
 
 const INPUT_MAX_LENGTH = 32000;
 
@@ -38,18 +39,25 @@ const StyledMessage = styled('div')`
   }
 `;
 
-const TextWidget: React.FC<WidgetProps> = ({
-  id,
-  placeholder,
-  disabled,
-  onChange,
-  label,
-  options,
-  value,
-  required,
-  uiSchema,
-}) => {
+const TextWidget: React.FC<WidgetProps> = (props) => {
+  const {
+    id,
+    placeholder,
+    disabled,
+    onChange,
+    label,
+    options,
+    value,
+    required,
+    schema,
+    uiSchema,
+  } = props;
   const [error, setError] = useState('');
+
+  // There is no NumberWidget by default in rjsf, so NumberField renders a TextWidget
+  // This allows us to default to a NumberWidget without specifying it in the uiSchema for every number
+  if (schema.type === 'number') return <NumberWidget {...props} />;
+
   const description = uiSchema['ui:description'];
 
   // Check types to make react-currency-input-field happy
