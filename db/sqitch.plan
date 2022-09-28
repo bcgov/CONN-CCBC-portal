@@ -41,3 +41,4 @@ functions/next_intake 2022-09-28T21:46:58Z Marcel Mueller <marcel@button.is> # F
 @1.6.0 2022-10-05T17:25:28Z Matthieu Foucault <matthieu@button.is> # release v1.6.0
 tables/form_data_status_type 2022-09-27T18:54:22Z Anthony Bushara <anthony@button.is> # Status types of a form data
 tables/form_data 2022-09-27T18:50:23Z Anthony Bushara <anthony@button.is> # Table to hold form data
+tables/application_form_data 2022-09-28T15:36:09Z Anthony Bushara <anthony@button.is> # Table linking form_data and and application
