@@ -1,5 +1,6 @@
 import Alert from '@button-inc/bcgov-theme/Alert';
 import styled from 'styled-components';
+import { DateTime } from 'luxon';
 
 const StyledAlert = styled(Alert)`
   margin-bottom: 20px;
@@ -8,7 +9,17 @@ const StyledAlert = styled(Alert)`
   }
 `;
 
-const IntakeAlert = () => {
+interface Props {
+  openTimestamp: string;
+}
+
+const IntakeAlert: React.FC<Props> = ({ openTimestamp }) => {
+  if (!openTimestamp) return;
+
+  const openDay = DateTime.fromISO(openTimestamp).toLocaleString(
+    DateTime.DATE_FULL
+  );
+
   return (
     <StyledAlert size="small" variant="warning">
       <p>
@@ -16,7 +27,7 @@ const IntakeAlert = () => {
         Eligibility Mapping tool are released.
       </p>
       <p>
-        Please check this page after <b>September 29</b> for an update.
+        Please check this page after <b>{openDay}</b> for an update.
       </p>
     </StyledAlert>
   );

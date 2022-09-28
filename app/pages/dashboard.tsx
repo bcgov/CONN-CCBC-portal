@@ -35,6 +35,9 @@ const getDashboardQuery = graphql`
     openIntake {
       closeTimestamp
     }
+    nextIntake {
+      openTimestamp
+    }
   }
 `;
 
@@ -42,7 +45,7 @@ const Dashboard = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, dashboardQuery>) => {
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
-  const { allApplications, session, openIntake } = query;
+  const { allApplications, nextIntake, openIntake, session } = query;
 
   const closeTimestamp = openIntake?.closeTimestamp;
 
@@ -90,7 +93,7 @@ const Dashboard = ({
             }).toFormat('MMMM dd, yyyy, ttt')}
           </p>
         ) : (
-          <IntakeAlert />
+          <IntakeAlert openTimestamp={nextIntake?.openTimestamp} />
         )}
         <StyledGovButton
           onClick={handleCreateApplication}
