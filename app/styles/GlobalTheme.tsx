@@ -22,6 +22,7 @@ const theme = {
     success: '#2E8540',
     text: '#313132',
     descriptionGrey: 'rgba(49, 49, 50, 0.7)',
+    stepperGrey: 'rgba(196, 196, 196, 0.16)',
   },
   padding: {
     page: '20px',
