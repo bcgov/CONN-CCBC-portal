@@ -33,13 +33,16 @@ const getPagesQuery = graphql`
     openIntake {
       openTimestamp
     }
+    nextIntake {
+      openTimestamp
+    }
   }
 `;
 
 const Home = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, pagesQuery>) => {
-  const { openIntake, session } = usePreloadedQuery(
+  const { nextIntake, openIntake, session } = usePreloadedQuery(
     getPagesQuery,
     preloadedQuery
   );
@@ -48,7 +51,9 @@ const Home = ({
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Welcome</h1>
-        {!openIntake && <IntakeAlert />}
+        {!openIntake && (
+          <IntakeAlert openTimestamp={nextIntake?.openTimestamp} />
+        )}
         <section>
           <h3>Before you begin</h3>
           <ul>
