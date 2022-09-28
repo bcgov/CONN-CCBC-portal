@@ -1,4 +1,5 @@
 10027	IGNORE	(Information Disclosure - Suspicious Comments)
+10038	IGNORE	(Content Security Policy (CSP) Header Not Set)
 10049	IGNORE	(Non-Storable Content)
 10094	IGNORE	(Base64 Disclosure)
 10096	IGNORE	(Timestamp Disclosure - Unix)
