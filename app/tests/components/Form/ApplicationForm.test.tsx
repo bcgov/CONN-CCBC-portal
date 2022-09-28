@@ -4,11 +4,11 @@ import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
-import { fireEvent, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
-import crypto from 'crypto';
+import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
@@ -69,9 +69,7 @@ const submissionPayload = {
           submissionTitle: 'test',
         },
         acknowledgements: {
-          acknowledgementsList: [
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-          ],
+          acknowledgementsList: acknowledgementsEnum,
         },
       },
     };
@@ -220,11 +218,11 @@ describe('The application form', () => {
       query: data.query,
     }));
 
-    const continueButton = screen.getByRole('button', {
-      name: 'Save and continue',
-    });
-    //node here is using the jest expect, whereas TS can only find the cypress jest
-    expect(continueButton.hasAttribute('disabled')).toBeTrue();
+    expect(
+      screen.getByRole('button', {
+        name: 'Save and continue',
+      })
+    ).toBeDisabled();
   });
 
   it('acknowledgement page continue is enabled once all checkboxes have been clicked', async () => {
@@ -243,15 +241,15 @@ describe('The application form', () => {
       await userEvent.click(acknowledgement);
     });
 
-    userEvent.click(lastCheckBox).then(() => {
-      waitFor(() => {
-        expect(
-          screen
-            .getByRole('button', { name: 'Save and continue' })
-            .hasAttribute('disabled')
-        ).toBeFalse();
-      });
-    });
+    expect(
+      screen.getByRole('button', { name: 'Save and continue' })
+    ).toBeDisabled();
+
+    await userEvent.click(lastCheckBox);
+
+    expect(
+      screen.getByRole('button', { name: 'Save and continue' })
+    ).toBeEnabled();
   });
 
   it('displays the correct button label for withdrawn applications', async () => {
@@ -313,9 +311,7 @@ describe('The application form', () => {
         submissionTitle: 'some title',
       },
       acknowledgements: {
-        acknowledgementsList: [
-          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-        ],
+        acknowledgementsList: acknowledgementsEnum,
       },
     };
     componentTestingHelper.loadQuery({
@@ -442,7 +438,7 @@ describe('The application form', () => {
   });
 
   it('saves the form when the Save as draft button is clicked', async () => {
-    componentTestingHelper.loadQuery();
+    componentTestingHelper.loadQuery(submissionPayload);
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
       pageNumber: 21,
@@ -460,9 +456,16 @@ describe('The application form', () => {
           id: 'TestApplicationID',
           applicationPatch: {
             formData: {
-              submission: {
-                submissionDate: '2022-09-12',
+              organizationProfile: {
+                organizationName: 'Testing organization name',
               },
+              submission: {
+                submissionCompletedFor: 'Testing organization name',
+                submissionDate: '2022-09-12',
+                submissionCompletedBy: 'test',
+                submissionTitle: 'test',
+              },
+              acknowledgements: { acknowledgementsList: acknowledgementsEnum },
             },
             lastEditedPage: 'review',
           },
@@ -570,15 +573,97 @@ describe('The application form', () => {
       '/dashboard'
     );
   });
-  describe('the review page', () => {
-    beforeAll(() => {
-      // Some rjsf features require window.crypto, which isn't provided by jsdom
-      Object.defineProperty(global.self, 'crypto', {
-        value: {
-          getRandomValues: (arr) => crypto.randomBytes(arr.length),
+
+  it('should set the correct calculated value on the employment page', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 10,
+      query: data.query,
+    }));
+
+    const people = screen.getAllByLabelText(/Number of people/)[0];
+    const hours = screen.getAllByLabelText(/Hours of employment/)[0];
+    const months = screen.getAllByLabelText(/Total person months/)[0];
+
+    await userEvent.type(people, '12');
+    await userEvent.type(hours, '40');
+    await userEvent.type(months, '20');
+
+    expect(screen.getByText(22.9)).toBeInTheDocument();
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationMutation',
+      {
+        input: {
+          id: 'TestApplicationID',
+          applicationPatch: {
+            formData: {
+              estimatedProjectEmployment: {
+                estimatedFTECreation: 22.9,
+                estimatedFTEContractorCreation: null,
+                numberOfEmployeesToWork: 12,
+                hoursOfEmploymentPerWeek: 40,
+                personMonthsToBeCreated: 20,
+              },
+              submission: {
+                submissionDate: '2022-09-12',
+              },
+            },
+            lastEditedPage: 'estimatedProjectEmployment',
+          },
         },
-      });
-    });
+      }
+    );
+  });
+
+  it('should set the correct calculated value on the project page', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 5,
+      query: data.query,
+    }));
+
+    await userEvent.type(screen.getAllByLabelText(/2022-23/)[0], '1');
+    await userEvent.type(screen.getAllByLabelText(/2023-24/)[0], '2');
+    await userEvent.type(screen.getAllByLabelText(/2024-25/)[0], '3');
+    await userEvent.type(screen.getAllByLabelText(/2025-26/)[0], '4');
+    await userEvent.type(screen.getAllByLabelText(/2026-27/)[0], '5');
+
+    expect(
+      screen.getByLabelText('Total amount requested under CCBC')
+    ).toHaveValue('$15');
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationMutation',
+      {
+        input: {
+          id: 'TestApplicationID',
+          applicationPatch: {
+            formData: {
+              projectFunding: {
+                totalFundingRequestedCCBC: 15,
+                totalApplicantContribution: null,
+                fundingRequestedCCBC2223: 1,
+                fundingRequestedCCBC2324: 2,
+                fundingRequestedCCBC2425: 3,
+                fundingRequestedCCBC2526: 4,
+                fundingRequestedCCBC2627: 5,
+              },
+
+              submission: {
+                submissionDate: '2022-09-12',
+              },
+            },
+            lastEditedPage: 'projectFunding',
+          },
+        },
+      }
+    );
+  });
+
+  describe('the review page', () => {
     const REVIEW_PAGE_INDEX =
       uiSchema['ui:order'].findIndex((e) => e === 'review') + 1;
 

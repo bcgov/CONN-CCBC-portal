@@ -24,6 +24,10 @@ const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
   return (
     <Form
       {...props}
+      // Always pass a form data, at least an empty object to prevent
+      // onChange to be triggered on render when the page changes, which has associated bugs
+      // e.g. (fixed in v5) https://github.com/rjsf-team/react-jsonschema-form/issues/1708
+      formData={props.formData ?? {}}
       customFormats={customFormats}
       transformErrors={transformErrors}
       noHtml5Validate
