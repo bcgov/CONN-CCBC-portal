@@ -1,3 +1,43 @@
+# [1.5.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.4.0...v1.5.0) (2022-09-28)
+
+### Bug Fixes
+
+- add isIndigenousEntiy as required ([a281393](https://github.com/bcgov/CONN-CCBC-portal/commit/a281393e9c043f21a15eb1074763a37dd2f3a49a))
+- added unit tests ([52e5833](https://github.com/bcgov/CONN-CCBC-portal/commit/52e58332d585e48f2f05563a64bef27494609391))
+- change back to div and change header in form ([da624b0](https://github.com/bcgov/CONN-CCBC-portal/commit/da624b0f8b031ac4d27375dda8e73713ab299a08))
+- custom command and screenshot titles ([439408e](https://github.com/bcgov/CONN-CCBC-portal/commit/439408e548ea0100ea56a868d6aaee2ca1417f4d))
+- eslint cleanup ([44a785e](https://github.com/bcgov/CONN-CCBC-portal/commit/44a785ed51f4df664988d260a3e48bca7369185c))
+- exclude server.ts from jest coverage ([bdafcac](https://github.com/bcgov/CONN-CCBC-portal/commit/bdafcacba8d0d9494c749d77aeaa8d62366ad8a2))
+- form calculations should happen on submit too ([7a273a5](https://github.com/bcgov/CONN-CCBC-portal/commit/7a273a523ee634c21f903e140178949591ea78f1))
+- form should always have formData ([c56422b](https://github.com/bcgov/CONN-CCBC-portal/commit/c56422bbf257f83dff2715ec82958221fc946e02))
+- missed changing selector ([be1fbe8](https://github.com/bcgov/CONN-CCBC-portal/commit/be1fbe8f1713a5ee7adfe59143bcd2d29ad447c2))
+- next.js powered-by header ([86f97f4](https://github.com/bcgov/CONN-CCBC-portal/commit/86f97f4d9148e4cb02c2ae7b89ac84f2adcea6e6))
+- remove internal state and useEffect of FileWidgets to prevent loop ([aec8832](https://github.com/bcgov/CONN-CCBC-portal/commit/aec88328c9f32981515f2dabacce6e121772e21e))
+- removed duplicate header ([5b445b0](https://github.com/bcgov/CONN-CCBC-portal/commit/5b445b02f9d1408b63ec38310cbe2aecfae8efb8))
+- replace id anti-patten for semantic element ([eb5e8af](https://github.com/bcgov/CONN-CCBC-portal/commit/eb5e8af11af0b80d5c3d7cf69a9a08e776f310e7))
+- **review:** add headings in the estimated employment section ([023e10d](https://github.com/bcgov/CONN-CCBC-portal/commit/023e10d2ad34c05b15a4ec524110d3284e25d0f6))
+- set cookie time ([7761f77](https://github.com/bcgov/CONN-CCBC-portal/commit/7761f7709da3ffcaf292c564a3fd2fa15560877c))
+- submit button is disabled if acknowledgements not checked ([8be3da1](https://github.com/bcgov/CONN-CCBC-portal/commit/8be3da1048f029e5ce806ea09ca7c2a1c81f85c0))
+- **tests:** update time for screenshots ([acea604](https://github.com/bcgov/CONN-CCBC-portal/commit/acea6045c4f363bd7b331c2e402f87f73fa84618))
+- **test:** wait until last saved has rendered ([1aaab61](https://github.com/bcgov/CONN-CCBC-portal/commit/1aaab6167d01c25f94c6252c6996ffed563a8757))
+- totalInfrastructureBankFunding allows null type ([ec4eeca](https://github.com/bcgov/CONN-CCBC-portal/commit/ec4eecafd184edad13ffa160f6dfc7561b9be54b))
+- updated sonarcloud settings ([23b93fc](https://github.com/bcgov/CONN-CCBC-portal/commit/23b93fc4fabf5ded2fcbd29ba9ef636dc82695fe))
+- using default helmet settings ([809a21e](https://github.com/bcgov/CONN-CCBC-portal/commit/809a21ebcab840eb0f04aac3872de891a4d30d4d))
+- WARN-NEW: CSP: Wildcard Directive [10055] x 10 ([98d5920](https://github.com/bcgov/CONN-CCBC-portal/commit/98d5920f2252fc33864b8e23d72e8780cb0fce2c))
+
+### Features
+
+- add aria-label and explicitly set aria-live to off ([d3e4760](https://github.com/bcgov/CONN-CCBC-portal/commit/d3e47600c074c541352e77ba77775341ed7455e4))
+- add dynamic intake opening date to intake alert banner ([0aa4e9e](https://github.com/bcgov/CONN-CCBC-portal/commit/0aa4e9ed0fd0ae0247af4d52d665a47eda2f7d3b))
+- add next_intake postgres function ([1b16121](https://github.com/bcgov/CONN-CCBC-portal/commit/1b161218ef74608391b14f00ade924dce0fc1077))
+- added helmet moddleware ([cc63f8d](https://github.com/bcgov/CONN-CCBC-portal/commit/cc63f8df579908df67365f81dfaea7815fdec4cd))
+- calculations are run in `handleChange` ([921e8da](https://github.com/bcgov/CONN-CCBC-portal/commit/921e8dacab27d09f9793c0019eda71f775bbc418))
+- **tests:** get last saved on file uploda pages ([d61f7e6](https://github.com/bcgov/CONN-CCBC-portal/commit/d61f7e695db23175f81b0a57c87c684f35785385))
+
+### Reverts
+
+- disable CSP header ([0d83601](https://github.com/bcgov/CONN-CCBC-portal/commit/0d836015af8b9a6857b444181ca22ae2dd2e86f2))
+
 # [1.4.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.3.0...v1.4.0) (2022-09-23)
 
 ### Bug Fixes
