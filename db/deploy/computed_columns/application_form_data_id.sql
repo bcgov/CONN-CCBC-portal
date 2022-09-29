@@ -2,7 +2,7 @@
 
 begin;
 
-create or replace function ccbc_public.application_form_data_id(application ccbc_public.application) returns jsonb as
+create or replace function ccbc_public.application_form_data_id(application ccbc_public.application) returns int as
 $$
   select ccbc_public.form_data.id from
   ccbc_public.form_data, ccbc_public.application_form_data
