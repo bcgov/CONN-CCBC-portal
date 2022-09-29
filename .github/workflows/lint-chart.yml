@@ -1,13 +1,17 @@
 name: Lint Helm Chart
 
 on:
+  workflow_call:
+    secrets:
+      OPENSHIFT_SERVER: { required: true }
+      OPENSHIFT_TOKEN: { required: true }
+      OPENSHIFT_APP_NAMESPACE: { required: true }
+      OPENSHIFT_METABASE_NAMESPACE: { required: true }
   push:
     branches-ignore:
       - main
 
 jobs:
-  oc-login:
-    uses: ./.github/workflows/oc_login.yaml
   make-lint-chart:
     runs-on: ubuntu-latest
     steps:
