@@ -6,7 +6,7 @@ import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import FormDiv from '../../../components/FormDiv';
 import Alert from '@button-inc/bcgov-theme/Alert';
-import { Layout } from '../../../components';
+import { Layout, Stepper } from '../../../components';
 import styled from 'styled-components';
 import { PageQuery } from '../../../__generated__/PageQuery.graphql';
 
@@ -45,6 +45,8 @@ const FormPage = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
+      <Stepper />
+
       <FormDiv>
         {status === 'withdrawn' && (
           <StyledAlert id="review-alert" size="small" variant="warning">

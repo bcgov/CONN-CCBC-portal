@@ -6,6 +6,7 @@ import getConfig from 'next/config';
 import styled from 'styled-components';
 
 const runtimeConfig = getConfig()?.publicRuntimeConfig ?? {};
+
 const StyledFooter = styled(Footer)`
   width: 100%;
 `;
@@ -14,17 +15,16 @@ const StyledLayout = styled('div')`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   min-height: 100vh;
 `;
+
 const StyledMain = styled('main')`
-  margin: auto 50px;
+  display: flex;
+  width: 100%;
   max-width: ${(props) => props.theme.width.pageMaxWidth};
   flex: 1;
-  padding: 2em 1.5em;
-
-  @media (min-width: 768px) {
-    padding: 40px 3.5em;
-  }
+  padding: 2em;
 `;
 
 const StyledDiv = styled('div')`
@@ -74,7 +74,11 @@ const Layout: React.FC<Props> = ({ children, session, title }) => {
       </Head>
       <Navigation isLoggedIn={isLoggedIn} />
       <StyledMain>{children}</StyledMain>
-      {enableTimeMachine && <TimeTravel />}
+      {enableTimeMachine && (
+        <StyledDiv style={{ paddingLeft: '16px' }}>
+          <TimeTravel />
+        </StyledDiv>
+      )}
       <StyledFooter>
         <StyledDiv>
           <FooterLinks />

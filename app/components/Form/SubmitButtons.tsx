@@ -10,17 +10,24 @@ const StyledFlex = styled('div')`
   display: flex;
   flex-direction: column;
 
-  @media (min-width: 600px) {
+  ${(props) => props.theme.breakpoint.largeUp} {
     flex-direction: row;
   }
 `;
 
 const StyledButton = styled(Button)`
-  margin: 24px 0;
+  max-width: ${(props) => props.theme.width.inputWidthFull};
   white-space: nowrap;
+  ${(props) => props.theme.breakpoint.mediumUp} {
+    max-width: 260px;
+  }
+`;
+
+const StyledDraftButton = styled(StyledButton)`
+  margin: 24px 0;
   min-width: 178px;
 
-  @media (min-width: 600px) {
+  ${(props) => props.theme.breakpoint.largeUp} {
     margin: 0 24px;
   }
 `;
@@ -89,12 +96,12 @@ const SubmitButtons = ({
 
   return (
     <StyledFlex>
-      <Button variant="primary" disabled={disabled}>
+      <StyledButton variant="primary" disabled={disabled}>
         {formatSubmitBtn()}
-      </Button>
+      </StyledButton>
       {isDraftAndSubmitPage && (
         <>
-          <StyledButton
+          <StyledDraftButton
             variant="secondary"
             onClick={(e: React.MouseEvent<HTMLInputElement>) => {
               e.preventDefault();
@@ -108,7 +115,7 @@ const SubmitButtons = ({
             ) : (
               <>{savedAsDraft ? 'Saved' : 'Save as draft'}</>
             )}
-          </StyledButton>
+          </StyledDraftButton>
           <StyledToast
             style={{
               visibility: savedAsDraft ? 'visible' : 'hidden',

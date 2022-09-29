@@ -82,28 +82,36 @@ const Dashboard = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
-        <h1>Dashboard</h1>
-        {closeTimestamp ? (
-          <p>
-            Start a new application; applications can be saved and edited until
-            the intake closes on{' '}
-            {DateTime.fromISO(closeTimestamp, {
-              locale: 'en-CA',
-              zone: 'America/Vancouver',
-            }).toFormat('MMMM dd, yyyy, ttt')}
-          </p>
-        ) : (
-          <IntakeAlert openTimestamp={nextIntake?.openTimestamp} />
-        )}
-        <StyledGovButton
-          onClick={handleCreateApplication}
-          disabled={!openIntake}
-        >
-          Create application
-        </StyledGovButton>
+        <section>
+          <h1>Dashboard</h1>
+          {closeTimestamp ? (
+            <p>
+              Start a new application; applications can be saved and edited
+              until the intake closes on{' '}
+              {DateTime.fromISO(closeTimestamp, {
+                locale: 'en-CA',
+                zone: 'America/Vancouver',
+              }).toFormat('MMMM dd, yyyy, ttt')}
+            </p>
+          ) : (
+            <IntakeAlert openTimestamp={nextIntake?.openTimestamp} />
+          )}
+          <StyledGovButton
+            onClick={handleCreateApplication}
+            disabled={!openIntake}
+          >
+            Create application
+          </StyledGovButton>
+        </section>
+        <section>
+          {hasApplications && openIntake && (
+            <DashboardTable applications={query} />
+          )}
+          {!hasApplications && openIntake && (
+            <p>Applications will appear here</p>
+          )}
+        </section>
       </div>
-      {hasApplications && openIntake && <DashboardTable applications={query} />}
-      {!hasApplications && openIntake && <p>Applications will appear here</p>}
     </Layout>
   );
 };
