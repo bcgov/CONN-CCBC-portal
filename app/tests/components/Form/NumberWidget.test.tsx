@@ -1,37 +1,33 @@
 import FormTestRenderer from '../../utils/formTestRenderer';
 import { render, screen, fireEvent } from '@testing-library/react';
 import type { JSONSchema7 } from 'json-schema';
-import { NumberWidget } from '../../../lib/theme/widgets';
 
-const schema = {
+const schema: JSONSchema7 = {
   title: 'Number widget test',
   type: 'object',
   properties: {
     numberTestField: { type: 'number', title: 'Number test field' },
-    wholeNumberTestField: { type: 'number', title: 'Whole number test field' },
-    phoneTestField: { type: 'string', title: 'Phone test field' },
+    decimalNumberTestField: {
+      type: 'number',
+      title: 'Decimal number test field',
+    },
+    maxNumberTestField: {
+      type: 'number',
+      title: 'Max number test field',
+      maximum: 42,
+    },
   },
 };
 
 const uiSchema = {
-  numberTestField: {
-    'ui:widget': NumberWidget,
-  },
-  wholeNumberTestField: {
-    'ui:widget': NumberWidget,
+  decimalNumberTestField: {
     'ui:options': {
-      inputType: 'wholeNumber',
-    },
-  },
-  phoneTestField: {
-    'ui:widget': NumberWidget,
-    'ui:options': {
-      inputType: 'phone',
+      decimals: 3,
     },
   },
 };
 
-const renderStaticLayout = (schema: JSONSchema7, uiSchema: JSONSchema7) => {
+const renderStaticLayout = (schema: JSONSchema7, uiSchema: any) => {
   return render(
     <FormTestRenderer
       formData={{}}
@@ -42,77 +38,28 @@ const renderStaticLayout = (schema: JSONSchema7, uiSchema: JSONSchema7) => {
   );
 };
 
-describe('The NumberWidget number type input', () => {
+describe('The NumberWidget', () => {
   beforeEach(() => {
-    renderStaticLayout(
-      {
-        ...schema,
-        properties: { numberTestField: schema.properties.numberTestField },
-      } as JSONSchema7,
-      { numberTestField: uiSchema.numberTestField } as JSONSchema7
-    );
+    renderStaticLayout(schema, uiSchema);
   });
 
-  it('should render the number widget input field', () => {
-    expect(screen.getByTestId('root_numberTestField'));
-  });
-
-  it('should contain the correct input value', () => {
-    const input = screen.getByTestId('root_numberTestField');
+  it('should format numbers', () => {
+    const input = screen.getByLabelText(/^Decimal number/i);
     fireEvent.change(input, { target: { value: 12345.21 } });
-    expect(screen.getByDisplayValue(12345.21));
+    expect(screen.getByDisplayValue('12,345.21')).toBeInTheDocument();
   });
-});
 
-describe('The NumberWidget whole number type input', () => {
-  beforeEach(() => {
-    renderStaticLayout(
-      {
-        ...schema,
-        properties: {
-          wholeNumberTestField: schema.properties.wholeNumberTestField,
-        },
-      } as JSONSchema7,
-      { wholeNumberTestField: uiSchema.wholeNumberTestField } as JSONSchema7
+  it('should never allow non-numeric input', () => {
+    const inputs = screen.getAllByLabelText(/field/i);
+    inputs.forEach((input) =>
+      fireEvent.change(input, { target: { value: 'test string' } })
     );
+    expect(screen.queryByDisplayValue('test string')).toBeNull();
   });
 
-  it('should render the number widget input field', () => {
-    expect(screen.getByTestId('root_wholeNumberTestField'));
-  });
-
-  it('should not allow string input', () => {
-    const input = screen.getByTestId('root_wholeNumberTestField');
-    fireEvent.change(input, { target: { value: 'test string' } });
-  });
-
-  it('should contain the correct input value', () => {
-    const input = screen.getByTestId('root_wholeNumberTestField');
-    fireEvent.change(input, { target: { value: 123456789 } });
-    expect(screen.getByDisplayValue(123456789));
-  });
-});
-
-describe('The NumberWidget phone input', () => {
-  beforeEach(() => {
-    renderStaticLayout(
-      {
-        ...schema,
-        properties: {
-          phoneTestField: schema.properties.phoneTestField,
-        },
-      } as JSONSchema7,
-      { phoneTestField: uiSchema.phoneTestField } as JSONSchema7
-    );
-  });
-
-  it('should render the phone field', () => {
-    expect(screen.getByTestId('root_phoneTestField'));
-  });
-
-  it('should contain the correct input value', () => {
-    const input = screen.getByTestId('root_phoneTestField');
-    fireEvent.change(input, { target: { value: 1234567890 } });
-    expect(screen.getByDisplayValue('123-456-7890'));
+  it('should enforce the maximum value', () => {
+    const input = screen.getByLabelText(/^Max number/i);
+    fireEvent.change(input, { target: { value: 43 } });
+    expect(screen.getByDisplayValue('42')).toBeInTheDocument();
   });
 });

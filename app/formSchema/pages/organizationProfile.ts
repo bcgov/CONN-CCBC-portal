@@ -69,6 +69,7 @@ const organizationProfile: Record<string, JSONSchema7> = {
         title:
           'Applicant business number (9-digit business identifier provided by Canada Revenue Agency)',
         type: 'string',
+        maxLength: 9,
       },
     },
     dependencies: {

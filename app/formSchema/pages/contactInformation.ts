@@ -14,6 +14,7 @@ const contactInformation: Record<string, JSONSchema7> = {
       contactExtension: {
         title: 'Extension',
         type: 'string',
+        maxLength: 9,
       },
       contactEmail: {
         title: 'Email',

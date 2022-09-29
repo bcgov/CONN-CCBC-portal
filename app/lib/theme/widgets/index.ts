@@ -4,6 +4,7 @@ export { default as DatePickerWidget } from './DatePickerWidget';
 export { default as FileWidget } from './FileWidget';
 export { default as MoneyWidget } from './MoneyWidget';
 export { default as NumberWidget } from './NumberWidget';
+export { default as NumericStringWidget } from './NumericStringWidget';
 export { default as RadioWidget } from './RadioWidget';
 export { default as ReadOnlyMoneyWidget } from './ReadOnlyMoneyWidget';
 export { default as ReadOnlyWidget } from './ReadOnlyWidget';

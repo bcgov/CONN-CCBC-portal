@@ -37,6 +37,7 @@ const alternateContact = {
       altExtension: {
         title: 'Extension',
         type: 'string',
+        maxLength: 9,
       },
       isAltContactSigningOfficer: {
         title: 'Is this person an authorized signing officer of the Applicant?',

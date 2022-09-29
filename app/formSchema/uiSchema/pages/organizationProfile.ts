@@ -31,11 +31,7 @@ const organizationProfile = {
     },
   },
   businessNumber: {
-    'ui:widget': 'NumberWidget',
-    'ui:options': {
-      maxLength: 9,
-      inputType: 'wholeNumber',
-    },
+    'ui:widget': 'NumericStringWidget',
   },
   isLegalPrimaryName: {
     'ui:widget': 'RadioWidget',

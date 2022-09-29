@@ -34,17 +34,13 @@ const alternateContact = {
     },
   },
   altTelephone: {
-    'ui:widget': 'NumberWidget',
+    'ui:widget': 'NumericStringWidget',
     'ui:options': {
       inputType: 'phone',
     },
   },
   altExtension: {
-    'ui:widget': 'NumberWidget',
-    'ui:options': {
-      maxLength: 9,
-      inputType: 'wholeNumber',
-    },
+    'ui:widget': 'NumericStringWidget',
   },
   isAltContactSigningOfficer: {
     'ui:widget': 'RadioWidget',
