@@ -43,36 +43,43 @@ const StyledLink = styled('a')`
   padding: 16px 40px;
 `;
 
+const formPageList = uiSchema['ui:order'].filter((formName) => {
+  return formName !== 'submission';
+});
+
 const Stepper = () => {
   const router = useRouter();
   const rowId = router.query.id;
-
-  const formPageList = uiSchema['ui:order'].filter((page) => {
-    return page !== 'submission';
-  });
-
   const formPageSchema = schema.properties;
 
   return (
     <StyledNav>
-      {formPageList.map((page) => {
+      {formPageList.map((formName) => {
         const isCurrentPage =
-          formPageList[Number(router.query.page) - 1] === page;
+          formPageList[Number(router.query.page) - 1] === formName;
 
-        const pageNumber = getFormPage(page);
+        const pageNumber = getFormPage(formName);
 
         return (
           <>
             {isCurrentPage ? (
               <StyledActive>
-                <Link href={`/form/${rowId}/${pageNumber}`} key={page} passHref>
-                  <StyledLink>{formPageSchema[page]['title']}</StyledLink>
+                <Link
+                  href={`/form/${rowId}/${pageNumber}`}
+                  key={formName}
+                  passHref
+                >
+                  <StyledLink>{formPageSchema[formName]['title']}</StyledLink>
                 </Link>
               </StyledActive>
             ) : (
               <StyledDiv>
-                <Link href={`/form/${rowId}/${pageNumber}`} key={page} passHref>
-                  <StyledLink>{formPageSchema[page]['title']}</StyledLink>
+                <Link
+                  href={`/form/${rowId}/${pageNumber}`}
+                  key={formName}
+                  passHref
+                >
+                  <StyledLink>{formPageSchema[formName]['title']}</StyledLink>
                 </Link>
               </StyledDiv>
             )}

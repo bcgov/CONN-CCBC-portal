@@ -20,17 +20,17 @@ jest.mock('next/router', () => ({
 }));
 
 describe('The Stepper component', () => {
-  it('should have correct background colour when active', () => {
+  beforeEach(() => {
     renderStaticLayout();
+  });
+
+  it('should have correct background colour when active', () => {
     const link = screen.getByText('Project information').parentElement;
 
-    const style = window.getComputedStyle(link);
-
-    expect(style.backgroundColor).toBe(theme.color.stepperBlue);
+    expect(link).toHaveStyle({ backgroundColor: theme.color.stepperBlue });
   });
 
   it('should have correct links', () => {
-    renderStaticLayout();
     const projectInformation = screen.getByText('Project information');
     expect(projectInformation).toHaveAttribute('href', '/form/1/1');
 
@@ -106,11 +106,8 @@ describe('The Stepper component', () => {
   });
 
   it('should have correct background colour when not active active', () => {
-    renderStaticLayout();
     const link = screen.getByText('Project area').parentElement;
 
-    const style = window.getComputedStyle(link);
-
-    expect(style.backgroundColor).toBe(theme.color.stepperGrey);
+    expect(link).toHaveStyle({ backgroundColor: theme.color.stepperGrey });
   });
 });
