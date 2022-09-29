@@ -29,6 +29,11 @@ export const theme = {
   padding: {
     page: '20px',
   },
+  breakpoint: {
+    smallUp: '@media (min-width: 600px)',
+    mediumUp: '@media (min-width: 768px)',
+    largeUp: '@media (min-width: 1024px)',
+  },
 };
 
 type Props = {

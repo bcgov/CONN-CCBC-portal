@@ -9,7 +9,6 @@ export const StyledValue = styled('div')`
   margin-top: 12px;
   margin-bottom: 4px;
   padding: 0.6em 0;
-  white-space: nowrap;
 `;
 
 const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({ id, value }) => {

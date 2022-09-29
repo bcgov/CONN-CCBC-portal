@@ -9,7 +9,7 @@ const StyledNav = styled('nav')`
   display: none;
   margin-right: 1em;
 
-  @media (min-width: 768px) {
+  ${(props) => props.theme.breakpoint.mediumUp} {
     display: block;
   }
 `;
