@@ -1,0 +1,9 @@
+name: oc_reusable_login
+
+on:
+  workflow_call:
+    secrets:
+      OPENSHIFT_SERVER: { required: true }
+      OPENSHIFT_TOKEN: { required: true }
+      OPENSHIFT_APP_NAMESPACE: { required: true }
+      OPENSHIFT_METABASE_NAMESPACE: { required: true }
