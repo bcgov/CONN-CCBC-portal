@@ -228,7 +228,9 @@ context('Homepage', () => {
 
     cy.get('[id="root_projectBenefits"]').type('test', { force: true });
 
-    cy.get('[id="root_numberOfHouseholds"]').type('123');
+    cy.get('[id="root_numberOfHouseholds"]').type('12.3');
+
+    cy.get('[id="root_householdsImpactedIndigenous"]').type('1.23');
 
     cy.get('header > div').contains('Last saved:');
 
