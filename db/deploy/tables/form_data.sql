@@ -21,6 +21,6 @@ comment on table ccbc_public.form_data is 'Table to hold applicant form data';
 
 comment on column ccbc_public.form_data.id is 'The unique id of the form data';
 
-comment on column ccbc_public.form_data.form_data is 'The unique id of the form data';
+comment on column ccbc_public.form_data.form_data is 'The data entered into the form by the respondent';
 
 commit;
