@@ -4,7 +4,7 @@ on:
   workflow_call:
     secrets:
       OPENSHIFT_SERVER: { required: true }
-      OPENSHIFT_TOKEN: { required: true }
+      OPENSHIFT_LINTER_TOKEN : { required: true }
   push:
     branches-ignore:
       - main
@@ -19,6 +19,6 @@ jobs:
         uses: redhat-actions/oc-login@v1
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+          openshift_token: ${{ secrets.OPENSHIFT_LINTER_TOKEN  }}
           insecure_skip_tls_verify: true
       - run: make lint_chart
