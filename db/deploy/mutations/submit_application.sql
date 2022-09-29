@@ -30,7 +30,7 @@ begin
     raise 'The application cannot be submitted as it has the following status: %', application_status;
   end if;
 
-  select form_data -> 'submission' ->> 'submissionCompletedFor',
+  select ccbc_public.application_form_data(ccbc_public.application.*) -> 'submission' ->> 'submissionCompletedFor',
     form_data -> 'submission' ->> 'submissionCompletedBy',
     form_data -> 'submission' ->> 'submissionTitle',
     form_data -> 'submission' ->> 'submissionDate',
