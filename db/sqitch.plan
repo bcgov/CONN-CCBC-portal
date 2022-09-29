@@ -43,3 +43,4 @@ tables/form_data_status_type 2022-09-27T18:54:22Z Anthony Bushara <anthony@butto
 tables/form_data 2022-09-27T18:50:23Z Anthony Bushara <anthony@button.is> # Table to hold form data
 tables/application_form_data 2022-09-28T15:36:09Z Anthony Bushara <anthony@button.is> # Table linking form_data and and application
 computed_columns/application_form_data 2022-09-28T18:00:16Z Anthony Bushara <anthony@button.is> # Computed Column to expose an application's form data
+tables/application_001.sql 2022-09-29T15:06:56Z Anthony Bushara <anthony@button.is> # Remove form_data as a column from application
