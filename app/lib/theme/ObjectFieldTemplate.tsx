@@ -2,11 +2,6 @@ import FormBorder from './components/FormBorder';
 import styled from 'styled-components';
 import { ObjectFieldTemplateProps } from '@rjsf/core';
 
-const DefaultDescriptionField = (props: {
-  id: string;
-  description: string;
-}) => <span id={props.id}>{props.description}</span>;
-
 const StyledColumn = styled('div')`
   input,
   select {
@@ -37,7 +32,6 @@ const StyledGrid = styled('div')`
 `;
 
 const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
-  const DescriptionField = props.DescriptionField || DefaultDescriptionField;
   const uiInline = props.uiSchema['ui:inline'];
 
   const getInlineKeys = () => {
@@ -63,15 +57,6 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
       }
       subtitle={props.uiSchema['ui:subtitle']}
     >
-      {props.description && (
-        <h3>
-          <DescriptionField
-            id={`${props.idSchema.$id}__description`}
-            description={props.description}
-          />
-        </h3>
-      )}
-
       {uiInline &&
         uiInline.map((row: any, i: number) => {
           const rowKeys = Object.keys(row);

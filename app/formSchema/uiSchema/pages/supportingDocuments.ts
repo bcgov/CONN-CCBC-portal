@@ -1,4 +1,4 @@
-import { MAX_LONG_INPUT_LENGTH, EXCEL_FILE_EXTENSIONS } from '../constants';
+import { EXCEL_FILE_EXTENSIONS } from '../constants';
 import { SupportingDocuments } from '../../../components/Form/CustomTitles';
 
 const supportingDocuments = {
@@ -13,59 +13,56 @@ const supportingDocuments = {
   'ui:title': '',
   copiesOfRegistration: {
     'ui:widget': 'FileWidget',
-    'ui:description':
-      'Copies of registration and other relevant documents related to incorporation, limited partnership, joint venture, not-for-profit status, etc.',
+    'ui:description': SupportingDocuments,
     'ui:options': {
-      maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
-      // Placing this custom title here as it is the top level field in
-      // supporting documents page so it will sit on top.
-      customTitle: SupportingDocuments,
+      label: false,
     },
   },
   preparedFinancialStatements: {
     'ui:widget': 'FileWidget',
-    'ui:description':
-      'Independently prepared financial statements for the last three (3) years',
     'ui:options': {
-      maxLength: MAX_LONG_INPUT_LENGTH,
-      label: false,
       allowMultipleFiles: true,
+      label: false,
     },
   },
   logicalNetworkDiagram: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Logical Network Diagram',
+    'ui:description':
+      'Please refer to Annex 3 of the application guide for the Logical Network Diagram requirements. Accepted file types: .pdf, .png, .jpg, .jpeg, .vsd, .vsdx, .doc, .docx, .ppt, .pptx',
+
     'ui:options': {
-      maxLength: MAX_LONG_INPUT_LENGTH,
       allowMultipleFiles: true,
+      label: false,
       fileTypes:
         '.pdf, .png, .jpg, .jpeg, .vsd, .vsdx, .doc, .docx, .ppt, .pptx',
     },
   },
   projectSchedule: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Project schedule (preferably a Gantt chart)',
+    'ui:description':
+      'Please refer to Annex 3 of the application guide for the Project schedule and supporting documents requirements. Accepted file types: .xlsx or .mpp',
     'ui:options': {
       allowMultipleFiles: true,
-      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
       fileTypes: `${EXCEL_FILE_EXTENSIONS}, .mpp`,
     },
   },
   communityRuralDevelopmentBenefits: {
     'ui:widget': 'FileWidget',
     'ui:description':
-      'Community and Rural Development Benefits supporting documents',
+      'Please refer to Annex 3 of the application guide for the community letters of support requirements.',
     'ui:options': {
-      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
       allowMultipleFiles: true,
     },
   },
   otherSupportingMaterials: {
     'ui:widget': 'FileWidget',
-    'ui:description': 'Other supporting materials (if applicable)',
+    'ui:description':
+      'Please upload any other files such as evidence of connectivity speeds (such as screen captures of speed test results), a written commitment to facilitating access to Passive Infrastructure, evidence of imminent access to Third Party infrastructure, evidence of other funding sources, network information and/or coverage for ISED, or other documents to support this application.',
     'ui:options': {
-      maxLength: MAX_LONG_INPUT_LENGTH,
+      label: false,
       allowMultipleFiles: true,
       hideOptional: true,
     },

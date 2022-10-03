@@ -41,7 +41,7 @@ const NumberWidget: React.FC<WidgetProps> = ({
   schema,
   uiSchema,
 }) => {
-  const description = uiSchema['ui:description'];
+  const help = uiSchema['ui:help'];
 
   // Check types to make react-currency-input-field happy
   const decimals =
@@ -83,9 +83,7 @@ const NumberWidget: React.FC<WidgetProps> = ({
         placeholder={placeholder}
         value={value ?? ''}
       />
-      <StyledMessage>
-        {description && <Label>{description}</Label>}
-      </StyledMessage>
+      <StyledMessage>{help && <Label>{help}</Label>}</StyledMessage>
     </StyledDiv>
   );
 };

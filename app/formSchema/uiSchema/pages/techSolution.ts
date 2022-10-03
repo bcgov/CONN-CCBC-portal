@@ -10,14 +10,14 @@ const techSolution = {
   'ui:title': '',
   systemDesign: {
     'ui:widget': 'TextAreaWidget',
-    'ui:description': 'maximum 3,500 characters',
+    'ui:help': 'maximum 3,500 characters',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
     },
   },
   scalability: {
     'ui:widget': 'TextAreaWidget',
-    'ui:description': 'maximum 3,500 characters',
+    'ui:help': 'maximum 3,500 characters',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
     },

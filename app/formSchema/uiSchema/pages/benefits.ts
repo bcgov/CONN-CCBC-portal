@@ -10,7 +10,7 @@ const benefits = {
   'ui:title': '',
   projectBenefits: {
     'ui:widget': 'TextAreaWidget',
-    'ui:description': 'maximum 3,500 characters',
+    'ui:help': 'maximum 3,500 characters',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
       customTitle: ProjectBenefits,

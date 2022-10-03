@@ -13,7 +13,7 @@ const schema = {
 
 const uiSchema = {
   stringTestField: {
-    'ui:description': 'maximum 200 characters',
+    'ui:help': 'maximum 200 characters',
     'ui:options': {
       maxLength: 9,
     },
@@ -51,7 +51,7 @@ describe('The TextWidget string type input', () => {
     expect(screen.getByTestId('root_stringTestField'));
   });
 
-  it('should render the text widget description', () => {
+  it('should render the text widget help', () => {
     expect(screen.getByText('maximum 200 characters'));
   });
 

@@ -33,7 +33,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
   uiSchema,
 }) => {
   const maxLength = uiSchema['ui:options']?.maxLength;
-  const description = uiSchema['ui:description'];
+  const help = uiSchema['ui:help'];
 
   return (
     <StyledDiv>
@@ -51,7 +51,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         aria-label={label}
         maxLength={maxLength || INPUT_MAX_LENGTH}
       />
-      {description && <Label>{description}</Label>}
+      {help && <Label>{help}</Label>}
     </StyledDiv>
   );
 };
