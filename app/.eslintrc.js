@@ -1,6 +1,12 @@
 module.exports = {
   root: true,
-  extends: ['airbnb-typescript', 'next', 'plugin:relay/strict', 'prettier'],
+  extends: [
+    'airbnb',
+    'airbnb-typescript',
+    'next',
+    'plugin:relay/strict',
+    'prettier',
+  ],
   env: { es6: true, browser: true, node: true },
   plugins: ['jest', 'relay'],
   parser: '@typescript-eslint/parser',
