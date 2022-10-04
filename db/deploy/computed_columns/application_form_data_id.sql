@@ -10,7 +10,7 @@ $$
   order by form_data_id desc limit 1;
 $$ language sql stable;
 
-grant execute on function ccbc_public.application_form_data to ccbc_auth_user;
+grant execute on function ccbc_public.application_form_data_id to ccbc_auth_user;
 
 comment on function ccbc_public.application_form_data_id is 'Computed column to display form_data id';
 

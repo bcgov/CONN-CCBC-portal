@@ -4,7 +4,8 @@ begin;
 
 create table ccbc_public.form_data(
   id integer primary key generated always as identity,
-  form_data jsonb not null default '{}'::jsonb
+  form_data jsonb not null default '{}'::jsonb,
+  last_edited_page varchar(100)
 );
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'form_data');
 
@@ -14,6 +15,7 @@ begin
 
 perform ccbc_private.grant_permissions('select', 'form_data', 'ccbc_auth_user');
 perform ccbc_private.grant_permissions('insert', 'form_data', 'ccbc_auth_user');
+perform ccbc_private.grant_permissions('update', 'form_data', 'ccbc_auth_user');
 end
 $grant$;
 

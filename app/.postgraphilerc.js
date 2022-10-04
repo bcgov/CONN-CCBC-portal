@@ -2,6 +2,7 @@ module.exports = {
   options: {
     appendPlugins: [
       `${process.cwd()}/backend/lib/graphql/uploadFieldPlugin.js`,
+      '@graphile-contrib/pg-many-to-many',
     ],
     graphileBuildOptions: {
       connectionFilterAllowNullInput: true,

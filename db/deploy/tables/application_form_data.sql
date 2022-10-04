@@ -3,9 +3,9 @@
 begin;
 
 create table ccbc_public.application_form_data(
-  id integer primary key generated always as identity,
   form_data_id integer references ccbc_public.form_data(id),
-  application_id integer references ccbc_public.application(id)
+  application_id integer references ccbc_public.application(id),
+  primary key(form_data_id, application_id)
 );
 
 -- Enable row-level security
@@ -39,8 +39,6 @@ $policy$;
 
 
 comment on table ccbc_public.application_form_data is 'Table to pair an application to form data';
-
-comment on column ccbc_public.application_form_data.id is 'Primary key of application_form_data table';
 
 comment on column ccbc_public.application_form_data.form_data_id is 'The foreign key of a form';
 

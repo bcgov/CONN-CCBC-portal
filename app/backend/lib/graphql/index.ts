@@ -16,6 +16,7 @@ import { graphql, GraphQLSchema } from 'graphql';
 import config from '../../../config';
 import resolveFileUpload from './resolveFileUpload';
 import PostGraphileUploadFieldPlugin from './uploadFieldPlugin';
+import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
 
 export const pgSettings: any = (req: Request) => {
   const opts = {
@@ -27,7 +28,7 @@ export const pgSettings: any = (req: Request) => {
 
 let postgraphileOptions: PostGraphileOptions = {
   appendPlugins: [
-    // PgManyToManyPlugin,
+    PgManyToManyPlugin,
     // ConnectionFilterPlugin,
     TagsFilePlugin,
     PostGraphileUploadFieldPlugin,
