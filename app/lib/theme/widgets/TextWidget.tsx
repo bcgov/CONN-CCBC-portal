@@ -58,7 +58,7 @@ const TextWidget: React.FC<WidgetProps> = (props) => {
   // This allows us to default to a NumberWidget without specifying it in the uiSchema for every number
   if (schema.type === 'number') return <NumberWidget {...props} />;
 
-  const description = uiSchema['ui:description'];
+  const help = uiSchema['ui:help'];
 
   // Check types to make react-currency-input-field happy
   const maxLength =
@@ -113,7 +113,7 @@ const TextWidget: React.FC<WidgetProps> = (props) => {
       <StyledMessage>
         {error && <StyledError>{error}</StyledError>}
 
-        {description && <Label>{description}</Label>}
+        {help && <Label>{help}</Label>}
       </StyledMessage>
     </StyledDiv>
   );

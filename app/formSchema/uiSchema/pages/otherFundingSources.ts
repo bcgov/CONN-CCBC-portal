@@ -56,14 +56,14 @@ const otherFundingSources = {
   otherFundingSourcesArray: {
     items: {
       fundingSourceContactInfo: {
-        'ui:description': 'maximum 250 characters',
+        'ui:help': 'maximum 250 characters',
         'ui:options': {
           maxLength: 250,
         },
         'ui:widget': 'TextAreaWidget',
       },
       fundingPartnersName: {
-        'ui:description': 'maximum 150 characters',
+        'ui:help': 'maximum 150 characters',
         'ui:options': {
           maxLength: 150,
         },
@@ -75,7 +75,7 @@ const otherFundingSources = {
         'ui:widget': 'SelectWidget',
       },
       nameOfFundingProgram: {
-        'ui:description': 'maximum 150 characters',
+        'ui:help': 'maximum 150 characters',
         'ui:options': {
           maxLength: 150,
           altOptionalText: 'if applicable',

@@ -33,7 +33,8 @@ const templateUploads: Record<string, JSONSchema7> = {
         type: 'string',
       },
       popWholesalePricing: {
-        title: 'Template 5 - List of Points of Presence and Wholesale Pricing',
+        title:
+          'Template 5 - List of Points of Presence and Wholesale Pricing (if applicable)',
         type: 'string',
       },
       communityRuralDevelopmentBenefitsTemplate: {
@@ -41,15 +42,15 @@ const templateUploads: Record<string, JSONSchema7> = {
         type: 'string',
       },
       wirelessAddendum: {
-        title: 'Template 7 - Wireless Addendum ',
+        title: 'Template 7 - Wireless Addendum (if applicable)',
         type: 'string',
       },
       supportingConnectivityEvidence: {
-        title: 'Template 8 - Supporting Connectivity Evidence',
+        title: 'Template 8 - Supporting Connectivity Evidence (if applicable)',
         type: 'string',
       },
       geographicNames: {
-        title: 'Template 9 - Geographic Names',
+        title: 'Template 9 - Backbone and Geographic Names',
         type: 'string',
       },
       equipmentDetails: {

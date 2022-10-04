@@ -23,23 +23,19 @@ const supportingDocuments: Record<string, JSONSchema7> = {
         type: 'string',
       },
       logicalNetworkDiagram: {
-        title:
-          'Please refer to Annex 3 of the application guide for the Logical Network Diagram requirements. Accepted file types: .pdf, .png, .jpg, .jpeg, .vsd, .vsdx, .doc, .docx, .ppt, .pptx',
+        title: 'Logical Network Diagram',
         type: 'string',
       },
       projectSchedule: {
-        title:
-          'Please refer to Annex 3 of the application guide for the Project schedule and supporting documents requirements. Accepted file types: .xlsx or .mpp',
+        title: 'Project schedule (preferably a Gantt chart)',
         type: 'string',
       },
       communityRuralDevelopmentBenefits: {
-        title:
-          'Please refer to Annex 3 of the application guide for the community letters of support requirements.',
+        title: 'Community and Rural Development Benefits supporting documents',
         type: 'string',
       },
       otherSupportingMaterials: {
-        title:
-          'Please upload any other files such as evidence of connectivity speeds (such as screen captures of speed test results), a written commitment to facilitating access to Passive Infrastructure, evidence of imminent access to Third Party infrastructure, evidence of other funding sources, network information and/or coverage for ISED, or other documents to support this application.',
+        title: 'Other supporting materials (if applicable)',
         type: 'string',
       },
     },

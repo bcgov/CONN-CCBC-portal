@@ -88,13 +88,13 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   value,
   required,
   uiSchema,
+  label,
 }) => {
   const [error, setError] = useState('');
   const router = useRouter();
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
 
-  const description = uiSchema['ui:description'];
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const allowMultipleFiles = uiSchema['ui:options']?.allowMultipleFiles;
   const acceptedFileTypes = uiSchema['ui:options']?.fileTypes;
@@ -218,7 +218,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   return (
     <StyledContainer style={{ border: error && '1px solid #E71F1F' }}>
       <StyledDetails>
-        <StyledH4>{description}</StyledH4>
+        <StyledH4>{label}</StyledH4>
         {isFiles &&
           value.map((file: File) => {
             return (

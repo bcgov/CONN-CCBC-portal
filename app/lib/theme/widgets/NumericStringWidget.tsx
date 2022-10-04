@@ -45,7 +45,7 @@ const NumericStringWidget: React.FC<WidgetProps> = ({
   uiSchema,
 }) => {
   const [error, setError] = useState('');
-  const description = uiSchema['ui:description'];
+  const help = uiSchema['ui:help'];
 
   const { maxLength, minLength } = schema;
   const inputType = options?.inputType;
@@ -90,7 +90,7 @@ const NumericStringWidget: React.FC<WidgetProps> = ({
       <StyledMessage>
         {error && <StyledError>{error}</StyledError>}
 
-        {description && <Label>{description}</Label>}
+        {help && <Label>{help}</Label>}
       </StyledMessage>
     </StyledDiv>
   );
