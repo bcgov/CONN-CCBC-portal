@@ -1,155 +1,243 @@
-import FormTestRenderer from '../../utils/formTestRenderer';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import type { JSONSchema7 } from 'json-schema';
-import userEvent from '@testing-library/user-event';
+import ApplicationForm from 'components/Form/ApplicationForm';
+import { graphql } from 'react-relay';
+import ComponentTestingHelper from '../../utils/componentTestingHelper';
+import compiledQuery, {
+  FileWidgetTestQuery,
+} from '__generated__/FileWidgetTestQuery.graphql';
+import { act, fireEvent, screen } from '@testing-library/react';
+import getFormPage from 'utils/getFormPage';
 
-const schema = {
-  title: 'File widget test',
-  type: 'object',
-  properties: {
-    fileWidget: { type: 'string', title: 'File widget test' },
+const testQuery = graphql`
+  query FileWidgetTestQuery {
+    # Spread the fragment you want to test here
+    application(id: "TestApplicationID") {
+      ...ApplicationForm_application
+    }
+
+    query {
+      ...ApplicationForm_query
+    }
+  }
+`;
+
+const mockQueryPayload = {
+  Application() {
+    return {
+      id: 'TestApplicationID',
+      formData: {},
+      status: 'draft',
+      updatedAt: '2022-09-12T14:04:10.790848-07:00',
+    };
+  },
+  Query() {
+    return {
+      openIntake: {
+        closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+      },
+    };
   },
 };
 
-const uiSchema = {
-  fileWidget: {
-    'ui:widget': 'FileWidget',
-    'ui:description': 'File upload test description',
-  },
-};
-
-const uiSchemaMultipleFiles = {
-  fileWidget: {
-    'ui:widget': 'FileWidget',
-    'ui:description':
-      'File upload with multiple files enabled test description',
-    'ui:options': {
-      allowMultipleFiles: true,
-    },
-  },
-};
-
-const renderStaticLayout = (schema: JSONSchema7, uiSchema: JSONSchema7) => {
-  return render(
-    <FormTestRenderer
-      formData={{}}
-      onSubmit={() => console.log('test')}
-      schema={schema as JSONSchema7}
-      uiSchema={uiSchema}
-    />
-  );
-};
+const componentTestingHelper = new ComponentTestingHelper<FileWidgetTestQuery>({
+  component: ApplicationForm,
+  testQuery,
+  compiledQuery,
+  defaultQueryResolver: mockQueryPayload,
+  getPropsFromTestQuery: (data) => ({
+    application: data.application,
+    pageNumber: getFormPage('coverage'),
+    query: data.query,
+  }),
+});
 
 describe('The FileWidget', () => {
   beforeEach(() => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema as JSONSchema7);
+    componentTestingHelper.reinit();
+
+    componentTestingHelper.setMockRouterValues({
+      query: { id: '1' },
+    });
   });
 
   it('should render the upload button', () => {
-    expect(screen.getByText('Upload'));
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryAllByText('Upload(s)')[0]).toBeVisible();
   });
 
-  it('should render the file widget description', () => {
-    expect(screen.getByText('File upload test description'));
-  });
+  it('should render the file widget title', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
 
-  it('should render the correct label once file has been uploaded', async () => {
-    const file = new File([new ArrayBuffer(1)], 'file.jpg');
-
-    const inputFile = screen.getByTestId('file-test');
-
-    await userEvent
-      .upload(inputFile, file)
-      .then(() => {
-        waitFor(() => expect(screen.getByText('Replace')));
-      })
-      .then(() => {
-        waitFor(() => expect(screen.getByText('file.jpg')));
-      });
-  });
-});
-
-describe('The FileWidget with multiple files enabled', () => {
-  beforeEach(() => {
-    renderStaticLayout(
-      schema as JSONSchema7,
-      uiSchemaMultipleFiles as JSONSchema7
-    );
-  });
-
-  it('should render the upload button', () => {
-    expect(screen.getByText('Upload(s)'));
-  });
-
-  it('should render the file widget description', () => {
     expect(
       screen.getByText(
-        'File upload with multiple files enabled test description'
+        `Geographic coverage map from ISED's Eligibility Mapping Tool. KMZ is required.`
       )
+    ).toBeVisible();
+  });
+
+  it('should render the file widget description', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(
+      screen.queryByText(
+        `Please upload the email you received upon completion of the Project Coverage.`
+      )
+    ).toBeVisible();
+  });
+
+  it('calls createAttachmentMutation and renders the filename and correct button label', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const file = new File([new ArrayBuffer(1)], 'file.kmz', {
+      type: 'application/vnd.google-earth.kmz',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    fireEvent.change(inputFile, { target: { files: [file] } });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file: file,
+            fileName: 'file.kmz',
+            fileSize: '1 Bytes',
+            fileType: 'application/vnd.google-earth.kmz',
+            applicationId: 1,
+          },
+        },
+      }
     );
+
+    expect(screen.getByLabelText('loading')).toBeInTheDocument();
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText('Replace')).toBeVisible();
+    expect(screen.getByText('file.kmz')).toBeVisible();
   });
 
-  it('should render the correct labels when multiple files have been uploaded', async () => {
-    const file = new File([new ArrayBuffer(1)], 'file.jpg');
-    const file2 = new File([new ArrayBuffer(1)], 'file-2.jpg');
-    const file3 = new File([new ArrayBuffer(1)], 'file-3.jpg');
+  it('calls deleteAttachmentMutation and renders the correct filename and button label', async () => {
+    componentTestingHelper.loadQuery({
+      ...mockQueryPayload,
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          formData: {
+            coverage: {
+              coverageAssessmentStatistics: [
+                {
+                  id: 3,
+                  uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                  name: 'file-2.kmz',
+                  size: 0,
+                  type: 'application/vnd.google-earth.kmz',
+                },
+              ],
+            },
+          },
+          status: 'draft',
+        };
+      },
+    });
+    componentTestingHelper.renderComponent();
 
-    const inputFile = screen.getByTestId('file-test');
+    expect(screen.getByText('file-2.kmz')).toBeVisible();
+    expect(screen.getByText('Replace')).toBeVisible();
 
-    await userEvent
-      .upload(inputFile, file)
-      .then(() => {
-        waitFor(() => expect(screen.getByText('Add file')));
-      })
-      .then(() => {
-        waitFor(() => expect(screen.getByText('file.jpg')));
+    const deleteButton = screen.getByTestId('file-delete-btn');
+
+    deleteButton.click();
+
+    act(() => {
+      componentTestingHelper.expectMutationToBeCalled(
+        'deleteAttachmentMutation',
+        {
+          input: {
+            attachmentPatch: {
+              archivedAt: expect.any(String),
+            },
+            rowId: 3,
+          },
+        }
+      );
+    });
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          deleteAttachment: {
+            attachment: {
+              rowId: 3,
+            },
+          },
+        },
       });
+    });
 
-    await userEvent
-      .upload(inputFile, file2)
-      .then(() => {
-        waitFor(() => expect(screen.getByText('Add file')));
-      })
-      .then(() => {
-        waitFor(() => expect(screen.getByText('file-2.jpg')));
-      });
-
-    await userEvent
-      .upload(inputFile, file3)
-      .then(() => {
-        waitFor(() => expect(screen.getByText('Add file')));
-      })
-      .then(() => {
-        waitFor(() => expect(screen.getByText('file-3.jpg')));
-      });
+    expect(screen.queryByText('file-2.kmz')).toBeNull();
+    expect(screen.queryByText('Replace')).toBeNull();
   });
-});
 
-describe('The FileWidget delete functionality', () => {
-  beforeEach(() => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema as JSONSchema7);
-  });
+  it('renders multiple files and correct button label', async () => {
+    componentTestingHelper.loadQuery({
+      ...mockQueryPayload,
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          formData: {
+            coverage: {
+              currentNetworkInfastructure: [
+                {
+                  id: 1,
+                  uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                  name: 'file.kmz',
+                  size: 0,
+                  type: 'application/vnd.google-earth.kmz',
+                },
+                {
+                  id: 2,
+                  uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                  name: 'file-2.kmz',
+                  size: 0,
+                  type: 'application/vnd.google-earth.kmz',
+                },
+                {
+                  id: 3,
+                  uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                  name: 'file-3.kmz',
+                  size: 0,
+                  type: 'application/vnd.google-earth.kmz',
+                },
+              ],
+            },
+          },
+          status: 'draft',
+        };
+      },
+    });
+    componentTestingHelper.renderComponent();
 
-  it('should render the correct label once file has been uploaded', async () => {
-    const file = new File([new ArrayBuffer(1)], 'file.jpg');
-
-    const inputFile = screen.getByTestId('file-test');
-
-    await userEvent
-      .upload(inputFile, file)
-      .then(() => {
-        waitFor(() => expect(screen.getByText('Replace')));
-      })
-      .then(() => {
-        waitFor(() => expect(screen.getByText('file.jpg')));
-      })
-      .then(() => {
-        waitFor(() => {
-          const deleteBtn = screen.getByTestId('file-delete-btn');
-          fireEvent.click(deleteBtn);
-
-          waitFor(() => expect(screen.getByText('file.jpg')).toBeNull());
-        });
-      });
+    expect(screen.getByText('file.kmz')).toBeVisible();
+    expect(screen.getByText('file-2.kmz')).toBeVisible();
+    expect(screen.getByText('file-3.kmz')).toBeVisible();
+    expect(screen.getByText('Add file')).toBeVisible();
   });
 });
