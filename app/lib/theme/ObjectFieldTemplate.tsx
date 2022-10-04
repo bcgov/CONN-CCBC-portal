@@ -1,6 +1,7 @@
 import FormBorder from './components/FormBorder';
 import styled from 'styled-components';
 import { ObjectFieldTemplateProps } from '@rjsf/core';
+import Description from './components/Description';
 
 const StyledColumn = styled('div')`
   input,
@@ -31,8 +32,14 @@ const StyledGrid = styled('div')`
   min-width: 100%;
 `;
 
-const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
-  const uiInline = props.uiSchema['ui:inline'];
+const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
+  uiSchema,
+  schema,
+  description,
+  title,
+  properties,
+}) => {
+  const uiInline = uiSchema['ui:inline'];
 
   const getInlineKeys = () => {
     // Get array of inline keys so we can see if field exists in grid so we don't render it twice.
@@ -50,20 +57,17 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
   const inlineKeys = getInlineKeys();
   return (
     <FormBorder
-      title={
-        props.uiSchema['ui:subtitle'] ??
-        props.uiSchema['ui:title'] ??
-        props.title
-      }
-      subtitle={props.uiSchema['ui:subtitle']}
+      title={uiSchema['ui:subtitle'] ?? uiSchema['ui:title'] ?? title}
+      subtitle={uiSchema['ui:subtitle']}
     >
+      <Description rawDescription={description} schema={schema} />
       {uiInline &&
         uiInline.map((row: any, i: number) => {
           const rowKeys = Object.keys(row);
 
           // check if row is in current page (props.properties) schema
           const title =
-            props.properties.filter((prop: any) =>
+            properties.filter((prop: any) =>
               Object.keys(row).includes(prop.name)
             ).length > 1;
 
@@ -72,8 +76,8 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
             <StyledGrid
               style={{ gridTemplateColumns: `repeat(${columns || 1}, 1fr)` }}
             >
-              {rowKeys.map((fieldName, i) => {
-                const content = props.properties.find(
+              {rowKeys.map((fieldName) => {
+                const content = properties.find(
                   (prop: any) => prop.name === fieldName
                 )?.content;
 
@@ -115,7 +119,7 @@ const ObjectFieldTemplate = (props: ObjectFieldTemplateProps) => {
           );
         })}
 
-      {props.properties.map((prop: any) => {
+      {properties.map((prop: any) => {
         const isInlineItem = inlineKeys.find((key) => key === prop.name);
         if (!isInlineItem) {
           return prop.content;

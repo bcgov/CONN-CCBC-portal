@@ -1,13 +1,6 @@
 import { FieldTemplateProps } from '@rjsf/core';
+import Description from './components/Description';
 import FieldLabel from './components/FieldLabel';
-import styled from 'styled-components';
-import { useMemo } from 'react';
-
-const StyledH3 = styled('h3')`
-  font-size: 21px;
-  font-weight: 400;
-  line-height: 24.61px;
-`;
 
 const FieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
@@ -26,19 +19,6 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   const customTitle = uiSchema['ui:options']?.customTitle as JSX.Element;
   const showLabel = displayLabel && !customTitle;
 
-  /**
-   * rjsf's DescriptionField does not have access to the schema,
-   * so we need to use the rawDescription and implement the description field logic here instead
-   */
-  const description = useMemo(() => {
-    if (!rawDescription) return null;
-
-    if (schema?.type === 'object' || schema?.type === 'array')
-      return <StyledH3>{rawDescription}</StyledH3>;
-
-    return <div>{rawDescription}</div>;
-  }, [rawDescription, schema]);
-
   return (
     <div>
       {showLabel && (
@@ -51,7 +31,13 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
         />
       )}
       {customTitle}
-      {description}
+      {/*
+        For objects, the description is rendered in the ObjectFieldTemplate,
+        as displayLabel will be false and we want the description to be below the label
+      */}
+      {schema.type !== 'object' && (
+        <Description rawDescription={rawDescription} schema={schema} />
+      )}
       {children}
       {rawErrors && rawErrors.length > 0 ? (
         <div className="error-div">
