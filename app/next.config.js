@@ -35,4 +35,9 @@ module.exports = {
     OPENSHIFT_APP_NAMESPACE: config.get("OPENSHIFT_APP_NAMESPACE"),
     SITEMINDER_LOGOUT_URL: config.get("SITEMINDER_LOGOUT_URL"),
   },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
 };
