@@ -1,4 +1,4 @@
-import { MAX_LONG_INPUT_LENGTH, EXCEL_FILE_EXTENSIONS } from '../constants';
+import { EXCEL_FILE_EXTENSIONS } from '../constants';
 
 const templateUploads = {
   'ui:order': [
