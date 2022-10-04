@@ -4,7 +4,7 @@ module.exports = {
     'airbnb',
     'airbnb-typescript',
     'next',
-    'plugin:relay/strict',
+    'plugin:relay/recommended',
     'prettier',
   ],
   env: { es6: true, browser: true, node: true },
@@ -12,6 +12,9 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: ['./tsconfig.json'],
+  },
+  rules: {
+    'react/jsx-props-no-spreading': 0,
   },
   overrides: [
     {
