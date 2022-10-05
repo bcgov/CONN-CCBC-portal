@@ -13,7 +13,7 @@ import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
     # Spread the fragment you want to test here
-    application(id: "TestApplicationID") {
+    application(id: "TestFormId") {
       ...ApplicationForm_application
     }
 
@@ -26,8 +26,12 @@ const testQuery = graphql`
 const mockQueryPayload = {
   Application() {
     return {
-      id: 'TestApplicationID',
-      formData: {},
+      id: 'TestApplicationId',
+      formData: {
+        id: 'TestFormId',
+        formData: {},
+        applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
+      },
       status: 'draft',
       updatedAt: '2022-09-12T14:04:10.790848-07:00',
     };
@@ -45,7 +49,7 @@ const mockQueryPayloadWithFormData = {
   ...mockQueryPayload,
   Application() {
     return {
-      id: 'TestApplicationID',
+      id: 'TestApplicationId',
       formData: mockFormData,
       status: 'draft',
     };
@@ -55,21 +59,26 @@ const mockQueryPayloadWithFormData = {
 const submissionPayload = {
   Application() {
     return {
-      id: 'TestApplicationID',
+      id: 'TestApplicationId',
       status: 'draft',
       updatedAt: '2022-09-12T14:04:10.790848-07:00',
+
       formData: {
-        organizationProfile: {
-          organizationName: 'Testing organization name',
-        },
-        submission: {
-          submissionCompletedFor: 'test',
-          submissionDate: '2022-09-27',
-          submissionCompletedBy: 'test',
-          submissionTitle: 'test',
-        },
-        acknowledgements: {
-          acknowledgementsList: acknowledgementsEnum,
+        id: 'TestFormId',
+        applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
+        formData: {
+          organizationProfile: {
+            organizationName: 'Testing organization name',
+          },
+          submission: {
+            submissionCompletedFor: 'test',
+            submissionDate: '2022-09-27',
+            submissionCompletedBy: 'test',
+            submissionTitle: 'test',
+          },
+          acknowledgements: {
+            acknowledgementsList: acknowledgementsEnum,
+          },
         },
       },
     };
@@ -109,25 +118,22 @@ describe('The application form', () => {
       target: { value: 'test title' },
     });
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          applicationPatch: {
-            formData: {
-              projectInformation: {
-                projectTitle: 'test title',
-              },
-              submission: {
-                submissionDate: '2022-09-12',
-              },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        formDataPatch: {
+          formData: {
+            projectInformation: {
+              projectTitle: 'test title',
             },
-            lastEditedPage: 'projectInformation',
+            submission: {
+              submissionDate: '2022-09-12',
+            },
           },
-          id: 'TestApplicationID',
+          lastEditedPage: 'projectInformation',
         },
-      }
-    );
+        id: 'TestFormId',
+      },
+    });
   });
 
   it('sets lastEditedPage to the next page when the user clicks on "continue"', async () => {
@@ -138,33 +144,34 @@ describe('The application form', () => {
       screen.getByRole('button', { name: 'Save and continue' })
     );
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          applicationPatch: {
-            formData: {
-              projectInformation: {},
-              submission: {
-                submissionDate: '2022-09-12',
-              },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        formDataPatch: {
+          formData: {
+            projectInformation: {},
+            submission: {
+              submissionDate: '2022-09-12',
             },
-            lastEditedPage: 'projectArea',
           },
-          id: 'TestApplicationID',
+          lastEditedPage: 'projectArea',
         },
-      }
-    );
+        id: 'TestFormId',
+      },
+    });
   });
 
   it('auto fills the submission fields', async () => {
     const mockQueryAutofillPayload = {
       Application() {
         return {
-          id: 'TestApplicationID',
+          id: 'TestApplicationId',
           formData: {
-            organizationProfile: {
-              organizationName: 'Test org',
+            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
+            id: 'TestFormId',
+            formData: {
+              organizationProfile: {
+                organizationName: 'Test org',
+              },
             },
           },
           status: 'draft',
@@ -187,27 +194,24 @@ describe('The application form', () => {
       screen.getByRole('button', { name: 'Save and continue' })
     );
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          applicationPatch: {
-            formData: {
-              organizationProfile: {
-                organizationName: 'Test org',
-              },
-              projectInformation: {},
-              submission: {
-                submissionCompletedFor: 'Test org',
-                submissionDate: '2022-09-12',
-              },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        formDataPatch: {
+          formData: {
+            organizationProfile: {
+              organizationName: 'Test org',
             },
-            lastEditedPage: 'projectArea',
+            projectInformation: {},
+            submission: {
+              submissionCompletedFor: 'Test org',
+              submissionDate: '2022-09-12',
+            },
           },
-          id: 'TestApplicationID',
+          lastEditedPage: 'projectArea',
         },
-      }
-    );
+        id: 'TestFormId',
+      },
+    });
   });
 
   it('acknowledgement page continue is disabled on initial load', async () => {
@@ -256,9 +260,14 @@ describe('The application form', () => {
     const payload = {
       Application() {
         return {
-          id: 'TestApplicationID',
+          id: 'TestApplicationId',
           status: 'withdrawn',
-          formData: {},
+          formData: {
+            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
+            formData: {
+              id: 'TestFormId',
+            },
+          },
         };
       },
       Query() {
@@ -317,9 +326,13 @@ describe('The application form', () => {
     componentTestingHelper.loadQuery({
       Application() {
         return {
-          id: 'TestApplicationID',
+          id: 'TestApplicationId',
           rowId: 42,
-          formData,
+          formData: {
+            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
+            id: 'TestFormId',
+            formData,
+          },
         };
       },
     });
@@ -377,9 +390,14 @@ describe('The application form', () => {
     const payload = {
       Application() {
         return {
-          id: 'TestApplicationID',
+          id: 'TestApplicationId',
           status: 'submitted',
-          formData: {},
+          formData: {
+            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
+            formData: {
+              id: 'TestFormId',
+            },
+          },
         };
       },
       Query() {
@@ -409,9 +427,14 @@ describe('The application form', () => {
     const payload = {
       Application() {
         return {
-          id: 'TestApplicationID',
+          id: 'TestApplicationId',
           status: 'submitted',
-          formData: {},
+          formData: {
+            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
+            formData: {
+              id: 'TestFormId',
+            },
+          },
         };
       },
       Query() {
@@ -453,8 +476,8 @@ describe('The application form', () => {
       'updateApplicationMutation',
       {
         input: {
-          id: 'TestApplicationID',
-          applicationPatch: {
+          id: 'TestFormId',
+          formDataPatch: {
             formData: {
               organizationProfile: {
                 organizationName: 'Testing organization name',
@@ -478,8 +501,13 @@ describe('The application form', () => {
     const mockSubmittedQueryPayload = {
       Application() {
         return {
-          id: 'TestApplicationID',
-          formData: {},
+          id: 'TestApplicationId',
+          formData: {
+            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
+            formData: {
+              id: 'TestFormId',
+            },
+          },
           status: 'submitted',
         };
       },
@@ -506,8 +534,13 @@ describe('The application form', () => {
     const mockSubmittedQueryPayload = {
       Application() {
         return {
-          id: 'TestApplicationID',
-          formData: {},
+          id: 'TestApplicationId',
+          formData: {
+            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
+            formData: {
+              id: 'TestFormId',
+            },
+          },
           status: 'submitted',
         };
       },
@@ -541,8 +574,13 @@ describe('The application form', () => {
     const mockSubmittedQueryPayload = {
       Application() {
         return {
-          id: 'TestApplicationID',
-          formData: {},
+          id: 'TestApplicationId',
+          formData: {
+            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
+            formData: {
+              id: 'TestFormId',
+            },
+          },
           status: 'submitted',
         };
       },
@@ -592,29 +630,26 @@ describe('The application form', () => {
 
     expect(screen.getByText(22.9)).toBeInTheDocument();
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          id: 'TestApplicationID',
-          applicationPatch: {
-            formData: {
-              estimatedProjectEmployment: {
-                estimatedFTECreation: 22.9,
-                estimatedFTEContractorCreation: null,
-                numberOfEmployeesToWork: 12,
-                hoursOfEmploymentPerWeek: 40,
-                personMonthsToBeCreated: 20,
-              },
-              submission: {
-                submissionDate: '2022-09-12',
-              },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        id: 'TestFormId',
+        formDataPatch: {
+          formData: {
+            estimatedProjectEmployment: {
+              estimatedFTECreation: 22.9,
+              estimatedFTEContractorCreation: null,
+              numberOfEmployeesToWork: 12,
+              hoursOfEmploymentPerWeek: 40,
+              personMonthsToBeCreated: 20,
             },
-            lastEditedPage: 'estimatedProjectEmployment',
+            submission: {
+              submissionDate: '2022-09-12',
+            },
           },
+          lastEditedPage: 'estimatedProjectEmployment',
         },
-      }
-    );
+      },
+    });
   });
 
   it('should set the correct calculated value on the project page', async () => {
@@ -635,32 +670,29 @@ describe('The application form', () => {
       screen.getByLabelText('Total amount requested under CCBC')
     ).toHaveValue('$15');
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          id: 'TestApplicationID',
-          applicationPatch: {
-            formData: {
-              projectFunding: {
-                totalFundingRequestedCCBC: 15,
-                totalApplicantContribution: null,
-                fundingRequestedCCBC2223: 1,
-                fundingRequestedCCBC2324: 2,
-                fundingRequestedCCBC2425: 3,
-                fundingRequestedCCBC2526: 4,
-                fundingRequestedCCBC2627: 5,
-              },
-
-              submission: {
-                submissionDate: '2022-09-12',
-              },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        id: 'TestFormId',
+        formDataPatch: {
+          formData: {
+            projectFunding: {
+              totalFundingRequestedCCBC: 15,
+              totalApplicantContribution: null,
+              fundingRequestedCCBC2223: 1,
+              fundingRequestedCCBC2324: 2,
+              fundingRequestedCCBC2425: 3,
+              fundingRequestedCCBC2526: 4,
+              fundingRequestedCCBC2627: 5,
             },
-            lastEditedPage: 'projectFunding',
+
+            submission: {
+              submissionDate: '2022-09-12',
+            },
           },
+          lastEditedPage: 'projectFunding',
         },
-      }
-    );
+      },
+    });
   });
 
   describe('the review page', () => {
