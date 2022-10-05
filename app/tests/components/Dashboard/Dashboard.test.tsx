@@ -17,7 +17,10 @@ const testQuery = graphql`
         status
         projectName
         ccbcNumber
-        lastEditedPage
+        formData {
+          lastEditedPage
+          id
+        }
         intakeByIntakeId {
           ccbcIntakeNumber
           closeTimestamp
@@ -40,7 +43,10 @@ const mockQueryPayload = {
             status: 'withdrawn',
             projectName: null,
             ccbcNumber: 'CCBC-010001',
-            lastEditedPage: '',
+            formData: {
+              lastEditedPage: '',
+              id: 'GFAU87ASD',
+            },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
               closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
@@ -54,7 +60,10 @@ const mockQueryPayload = {
             status: 'submitted',
             projectName: null,
             ccbcNumber: 'CCBC-010002',
-            lastEditedPage: '',
+            formData: {
+              lastEditedPage: '',
+              id: 'GFAU87ASC',
+            },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
               closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
@@ -68,7 +77,10 @@ const mockQueryPayload = {
             status: 'submitted',
             projectName: null,
             ccbcNumber: 'CCBC-010003',
-            lastEditedPage: '',
+            formData: {
+              lastEditedPage: '',
+              id: 'TFAU87ASD',
+            },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
               closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
@@ -124,7 +136,10 @@ describe('The Dashboard', () => {
                 status: 'draft',
                 projectName: null,
                 ccbcNumber: null,
-                lastEditedPage: 'templateUploads',
+                formData: {
+                  lastEditedPage: 'templateUploads',
+                  id: 'GFAQ87ASD',
+                },
                 intakeByIntakeId: null,
               },
             ],
@@ -153,7 +168,10 @@ describe('The Dashboard', () => {
                 status: 'submitted',
                 projectName: null,
                 ccbcNumber: 'CCBC-010004',
-                lastEditedPage: '',
+                formData: {
+                  lastEditedPage: '',
+                  id: 'GFAU87ASD',
+                },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
                   closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
@@ -187,7 +205,10 @@ describe('The Dashboard', () => {
                 status: 'submitted',
                 projectName: null,
                 ccbcNumber: 'CCBC-010005',
-                lastEditedPage: '',
+                formData: {
+                  lastEditedPage: '',
+                  id: 'GFAU87ASD',
+                },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
                   closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
@@ -214,11 +235,14 @@ describe('The Dashboard', () => {
     const withdrawModalBtn = screen.getByTestId('withdraw-yes-btn');
     await user.click(withdrawModalBtn);
 
-    componentTestingHelper.expectMutationToBeCalled('withdrawApplicationMutation', {
-      input: {
-        applicationRowId: 2,
-      },
-    });
+    componentTestingHelper.expectMutationToBeCalled(
+      'withdrawApplicationMutation',
+      {
+        input: {
+          applicationRowId: 2,
+        },
+      }
+    );
   });
 
   it('Renders a submitted application with the intake closed', () => {
@@ -234,7 +258,10 @@ describe('The Dashboard', () => {
                 status: 'submitted',
                 projectName: null,
                 ccbcNumber: 'CCBC-010005',
-                lastEditedPage: '',
+                formData: {
+                  lastEditedPage: '',
+                  id: 'GFAU87ASD',
+                },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
                   closeTimestamp: '2021-09-09T13:49:23.513427-07:00',
@@ -267,7 +294,10 @@ describe('The Dashboard', () => {
                 status: 'withdrawn',
                 projectName: null,
                 ccbcNumber: 'CCBC-010005',
-                lastEditedPage: '',
+                formData: {
+                  lastEditedPage: '',
+                  id: 'GFAU87ASD',
+                },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
                   closeTimestamp: '2024-09-09T13:49:23.513427-07:00',

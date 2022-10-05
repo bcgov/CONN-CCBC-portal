@@ -35,7 +35,9 @@ describe('the useDebouncedMutation hook', () => {
         updateApplication(input: $input) {
           application {
             id
-            formData
+            formData {
+              formData
+            }
           }
         }
       }
