@@ -25,4 +25,6 @@ comment on column ccbc_public.form_data.id is 'The unique id of the form data';
 
 comment on column ccbc_public.form_data.form_data is 'The data entered into the form by the respondent';
 
+comment on column ccbc_public.form_data.last_edited_page is 'Column saving the key of the last edited form page';
+
 commit;

@@ -1,3 +1,7 @@
+const pluralize = require('pluralize');
+
+pluralize.addSingularRule(/data$/i, 'data');
+
 module.exports = {
   options: {
     appendPlugins: [

@@ -2,9 +2,9 @@
 
 begin;
 
-create or replace function ccbc_public.application_form_data(application ccbc_public.application) returns jsonb as
+create or replace function ccbc_public.application_form_data(application ccbc_public.application) returns ccbc_public.form_data as
 $$
-  select form_data from ccbc_public.form_data where id in
+  select row(form_data.*)::ccbc_public.form_data from ccbc_public.form_data where id in
    (select form_data_id from ccbc_public.application_form_data where
     application_id = application.id order by form_data_id desc limit 1 );
 $$ language sql stable;
