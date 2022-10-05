@@ -7,7 +7,6 @@ const mutation = graphql`
   mutation updateFormDataMutation($input: UpdateFormDataInput!) {
     updateFormData(input: $input) {
       formData {
-        rowId
         formData
         applicationsByApplicationFormDataFormDataIdAndApplicationId {
           edges {
