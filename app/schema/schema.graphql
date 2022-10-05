@@ -527,7 +527,7 @@ type Application implements Node {
   ): ApplicationFormDataConnection!
 
   """Computed column to display form_data"""
-  formData: JSON
+  formData: FormData
 
   """Computed column to display form_data id"""
   formDataId: Int
