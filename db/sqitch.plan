@@ -47,4 +47,3 @@ tables/application_001_remove_form_data 2022-09-29T15:06:56Z Anthony Bushara <an
 mutations/create_application [mutations/create_application@1.3.0] 2022-09-29T15:38:35Z Anthony Bushara <anthony@button.is> # Add logic for use with application_form_data and form_data
 computed_columns/application_project_name [computed_columns/application_project_name@1.5.0] 2022-09-29T18:50:24Z Anthony Bushara <anthony@button.is> # Rework to use application_form_data to access the form data
 mutations/submit_application [mutations/submit_application@1.5.0] 2022-09-29T18:56:58Z Anthony Bushara <anthony@button.is> # Rework to access form data through computed column
-computed_columns/application_form_data_id 2022-09-29T20:06:01Z Anthony Bushara <anthony@button.is> # Computed column to expose the relevant form data id
