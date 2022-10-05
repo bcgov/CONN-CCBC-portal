@@ -3,7 +3,8 @@ import Document, { Html, Main, DocumentContext } from 'next/document';
 import {
   getCspInitialProps,
   provideComponents,
-} from '@next-safe/middleware/dist/document';
+} from '@next-safe/middleware/dist/document'; 
+
 import { ServerStyleSheet } from 'styled-components';
 import { createRelayDocument, RelayDocument } from 'relay-nextjs/document';
 
@@ -28,7 +29,7 @@ export default class MyDocument extends Document<DocumentProps> {
         });
 
       const initialProps = await Document.getInitialProps(ctx);
-      const cspInitialProps = await getCspInitialProps({ ctx });
+      const cspInitialProps = await getCspInitialProps({ ctx, trustifyScripts: true, trustifyStyles: true });
       return {
         ...initialProps,
         ...cspInitialProps,

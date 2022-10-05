@@ -6,9 +6,12 @@ const headersMiddleware = () => {
     // CSP header is set in app/middleware.ts, to be compatible with next.js
     contentSecurityPolicy: {
       directives: {
-        "style-src":  ["'self'"],
-        "img-src":  ["'self'"],
+        "script-src":  ["'self' 'unsafe-inline' 'unsafe-eval'"],
+        "connect-src": ["'self' https://cdn.growthbook.io"],
+        "style-src":  ["'self' 'unsafe-inline'"],
+        "img-src":  ["'self' data:"],
         "font-src":  ["'self'"],
+        "object-src": ["data:"],
       },
     },
   });
