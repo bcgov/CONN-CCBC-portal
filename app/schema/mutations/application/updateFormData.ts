@@ -4,9 +4,9 @@ import { graphql } from 'react-relay';
 import useDebouncedMutation from '../useDebouncedMutation';
 
 const mutation = graphql`
-  mutation updateFormDataMutation($input: UpdateFormDataByRowIdInput!) {
-    updateFormDataByRowId(input: $input) {
-      formData{
+  mutation updateFormDataMutation($input: UpdateFormDataInput!) {
+    updateFormData(input: $input) {
+      formData {
         rowId
         formData
         applicationsByApplicationFormDataFormDataIdAndApplicationId {
@@ -21,10 +21,10 @@ const mutation = graphql`
   }
 `;
 
-const useUpdateFormDataMutation = () =>
+const useUpdateFormData = () =>
   useDebouncedMutation<updateFormDataMutation>(
     mutation,
     () => 'An error occurred while attempting to update the application.'
   );
 
-export { mutation, useUpdateFormDataMutation };
+export { mutation, useUpdateFormData };

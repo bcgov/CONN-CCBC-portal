@@ -55,7 +55,10 @@ const ApplicationFormStatus: React.FC<Props> = ({
     graphql`
       fragment ApplicationFormStatus_application on Application {
         updatedAt
-        formData
+        formData {
+          formData
+          id
+        }
         status
       }
     `,
@@ -86,7 +89,7 @@ const ApplicationFormStatus: React.FC<Props> = ({
     <StatusContainer>
       <StatusNameFlex>
         <AppStatus>{status}</AppStatus>
-        <AppName>{formData?.projectInformation?.projectTitle}</AppName>
+        <AppName>{formData.formData?.projectInformation?.projectTitle}</AppName>
       </StatusNameFlex>
       <SavingStatusContainer aria-live="off" aria-label="form saving status">
         {savingStatusIndicator}

@@ -18,12 +18,12 @@ import {
 } from '../../lib/theme/customFieldCalculations';
 import { dateTimeFormat } from '../../lib/theme/functions/formatDates';
 import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
-import { useUpdateApplicationMutation } from 'schema/mutations/application/updateApplication';
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
-import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
 import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
 import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
+import { updateFormDataMutation } from '__generated__/updateFormDataMutation.graphql';
+import { useUpdateFormData } from 'schema/mutations/application/updateFormData';
 
 const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
   const isSubmissionCompletedByFilled =
@@ -84,7 +84,10 @@ const ApplicationForm: React.FC<Props> = ({
       fragment ApplicationForm_application on Application {
         id
         rowId
-        formData
+        formData {
+          formData
+          id
+        }
         status
         updatedAt
         intakeByIntakeId {
@@ -106,7 +109,13 @@ const ApplicationForm: React.FC<Props> = ({
     `,
     query
   );
-  const { id, rowId, formData, status, updatedAt } = application;
+  const {
+    id,
+    rowId,
+    formData: { formData, id: formDataId },
+    status,
+    updatedAt,
+  } = application;
 
   const formErrorSchema = useMemo(() => validate(formData), [formData]);
   const formContext = useMemo(() => {
@@ -140,7 +149,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const router = useRouter();
   const [submitApplication, isSubmitting] = useSubmitApplicationMutation();
-  const [updateApplication, isUpdating] = useUpdateApplicationMutation();
+  const [updateFormData, isUpdating] = useUpdateFormData();
 
   const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
     schema as object
@@ -157,7 +166,7 @@ const ApplicationForm: React.FC<Props> = ({
     if (isWithdrawn) return false;
 
     if (sectionName === 'review')
-      return noErrors || formData.review?.acknowledgeIncomplete;
+      return noErrors || formData.data.review?.acknowledgeIncomplete;
 
     if (sectionName === 'acknowledgements')
       return areAllAcknowledgementsChecked || isSubmitted;
@@ -188,7 +197,7 @@ const ApplicationForm: React.FC<Props> = ({
   const saveForm = (
     newFormSectionData: any,
     mutationConfig?: Partial<
-      UseDebouncedMutationConfig<updateApplicationMutation>
+      UseDebouncedMutationConfig<updateFormDataMutation>
     >,
     isRedirectingToNextPage = false,
     isSaveAsDraftBtn = false
@@ -253,20 +262,21 @@ const ApplicationForm: React.FC<Props> = ({
     }
 
     setSavingError(null);
-    updateApplication({
+
+    updateFormData({
       variables: {
         input: {
-          applicationPatch: {
+          formDataPatch: {
             formData: newFormData,
             lastEditedPage: isSaveAsDraftBtn ? 'review' : lastEditedPage,
           },
-          id,
+          id: formDataId,
         },
       },
       optimisticResponse: {
-        updateApplication: {
-          application: {
-            id,
+        updateFormData: {
+          formData: {
+            id: formDataId,
             formData: newFormData,
             updatedAt: undefined,
           },

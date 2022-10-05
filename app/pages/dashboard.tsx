@@ -21,7 +21,10 @@ const getDashboardQuery = graphql`
         status
         projectName
         ccbcNumber
-        lastEditedPage
+        formData {
+          lastEditedPage
+          id
+        }
         intakeByIntakeId {
           ccbcIntakeNumber
           closeTimestamp

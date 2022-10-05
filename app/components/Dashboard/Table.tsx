@@ -98,13 +98,14 @@ const Table = ({ applications }: Props) => {
             const {
               ccbcNumber,
               intakeByIntakeId,
-              lastEditedPage,
+              formData,
               projectName,
               rowId,
               status,
             } = application;
 
-            const lastEditedIndex = formPages.indexOf(lastEditedPage) + 1;
+            const lastEditedIndex =
+              formPages.indexOf(formData.lastEditedPage) + 1;
 
             const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
             const isIntakeClosed = intakeClosingDate
@@ -125,7 +126,9 @@ const Table = ({ applications }: Props) => {
               if (isSubmitted) {
                 return `/form/${rowId}/1`;
               }
-              return `/form/${rowId}/${lastEditedPage ? lastEditedIndex : 1}`;
+              return `/form/${rowId}/${
+                  formData.lastEditedPage ? lastEditedIndex : 1
+                }`;
             };
 
             return (
