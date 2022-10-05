@@ -17,7 +17,9 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
       title={schema.title}
     >
       <table>
-        <tbody>{<registry.fields.ObjectField {...props} />}</tbody>
+        <tbody>
+          <registry.fields.ObjectField {...props} />
+        </tbody>
       </table>
     </Accordion>
   );

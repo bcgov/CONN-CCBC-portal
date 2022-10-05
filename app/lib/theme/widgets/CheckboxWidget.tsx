@@ -32,25 +32,23 @@ const CheckboxWidget: React.FC<WidgetProps> = ({
   label,
   value,
   required,
-}) => {
-  return (
-    <StyledContainer>
-      <StyledDiv>
-        <Checkbox
-          id={id}
-          checked={typeof value === 'undefined' ? false : value}
-          value={value}
-          required={required}
-          aria-label={label}
-          disabled={disabled}
-          onChange={(event: { target: { checked: any } }) =>
-            onChange(event.target.checked)
-          }
-        />
-        <p>{label}</p>
-      </StyledDiv>
-    </StyledContainer>
-  );
-};
+}) => (
+  <StyledContainer>
+    <StyledDiv>
+      <Checkbox
+        id={id}
+        checked={typeof value === 'undefined' ? false : value}
+        value={value}
+        required={required}
+        aria-label={label}
+        disabled={disabled}
+        onChange={(event: { target: { checked: any } }) =>
+          onChange(event.target.checked)
+        }
+      />
+      <p>{label}</p>
+    </StyledDiv>
+  </StyledContainer>
+);
 
 export default CheckboxWidget;

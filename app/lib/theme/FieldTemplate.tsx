@@ -40,9 +40,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
       )}
       {children}
       {rawErrors && rawErrors.length > 0 ? (
-        <div className="error-div">
-          <>{errors}</>
-        </div>
+        <div className="error-div">{errors}</div>
       ) : null}
     </div>
   );

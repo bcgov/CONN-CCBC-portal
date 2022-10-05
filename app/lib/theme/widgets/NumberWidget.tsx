@@ -1,7 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
-import { Label } from '../../../components/Form';
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input-field';
+import { Label } from '../../../components/Form';
 
 const StyledFormattedNumbersInput = styled(CurrencyInput)`
   margin-top: 12px;
@@ -70,7 +70,7 @@ const NumberWidget: React.FC<WidgetProps> = ({
   return (
     <StyledDiv>
       <StyledFormattedNumbersInput
-        allowDecimals={decimals === 0 ? false : true}
+        allowDecimals={decimals !== 0}
         id={id}
         data-testid={id}
         disabled={disabled}

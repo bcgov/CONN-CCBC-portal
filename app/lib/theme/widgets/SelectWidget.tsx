@@ -1,7 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
 import { Dropdown } from '@button-inc/bcgov-theme';
-import { Label } from '../../../components/Form';
 import styled from 'styled-components';
+import { Label } from '../../../components/Form';
 
 const StyledSelect = styled(Dropdown)`
   .pg-select-wrapper {
@@ -56,7 +56,7 @@ const SelectWidget: React.FC<WidgetProps> = ({
         }
         disabled={disabled}
         placeholder={placeholder}
-        size={'medium'}
+        size="medium"
         required={required}
         value={value}
         aria-label={label}
@@ -65,13 +65,11 @@ const SelectWidget: React.FC<WidgetProps> = ({
           {placeholder}
         </option>
         {options &&
-          options.map((opt) => {
-            return (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            );
-          })}
+          options.map((opt) => (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          ))}
         {description && <Label>{description}</Label>}
       </StyledSelect>
     </StyledDiv>

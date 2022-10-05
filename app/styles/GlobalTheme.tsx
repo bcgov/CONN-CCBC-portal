@@ -40,8 +40,8 @@ type Props = {
   children: JSX.Element | JSX.Element[];
 };
 
-const GlobalTheme: React.FC<Props> = ({ children }) => {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
-};
+const GlobalTheme: React.FC<Props> = ({ children }) => (
+  <ThemeProvider theme={theme}>{children}</ThemeProvider>
+);
 
 export default GlobalTheme;

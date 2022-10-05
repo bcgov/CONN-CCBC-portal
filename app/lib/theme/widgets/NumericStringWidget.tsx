@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
-import { Label } from '../../../components/Form';
 import Input from '@button-inc/bcgov-theme/Input';
 import styled from 'styled-components';
+import { Label } from '../../../components/Form';
 import formatPhone from '../../../utils/formatPhone';
 
 const StyledInput = styled(Input)`
@@ -57,13 +57,11 @@ const NumericStringWidget: React.FC<WidgetProps> = ({
     if (inputType === 'phone') {
       const format = formatPhone(value);
       onChange(format);
+    } else if (!value || wholeNumRegex.test(value)) {
+      setError('');
+      onChange(value?.slice(0, maxLength));
     } else {
-      if (!value || wholeNumRegex.test(value)) {
-        setError('');
-        onChange(value?.slice(0, maxLength));
-      } else {
-        setError('Please enter a valid number');
-      }
+      setError('Please enter a valid number');
     }
   };
 
@@ -74,13 +72,13 @@ const NumericStringWidget: React.FC<WidgetProps> = ({
         type="text"
         id={id}
         onChange={(e: { target: { value: string } }) => {
-          const value = e.target.value;
+          const { value } = e.target;
           handleChange(value);
         }}
         disabled={disabled}
         placeholder={placeholder}
         value={value ?? ''}
-        size={'medium'}
+        size="medium"
         required={required}
         aria-label={label}
         maxLength={isPhone ? 12 : maxLength}

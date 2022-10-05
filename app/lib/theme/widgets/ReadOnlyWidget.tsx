@@ -1,6 +1,6 @@
 import { WidgetProps } from '@rjsf/core';
-import { Label } from '../../../components/Form';
 import styled from 'styled-components';
+import { Label } from '../../../components/Form';
 
 const StyledContainer = styled('div')`
   margin-bottom: 8px;
@@ -31,17 +31,15 @@ const ReadOnlyWidget: React.FC<WidgetProps> = ({
   error,
   description,
   value,
-}) => {
-  return (
-    <StyledContainer>
-      <StyledValue>{value}</StyledValue>
-      <StyledMessage>
-        {error && <StyledError>{error}</StyledError>}
+}) => (
+  <StyledContainer>
+    <StyledValue>{value}</StyledValue>
+    <StyledMessage>
+      {error && <StyledError>{error}</StyledError>}
 
-        {description && <Label>{description}</Label>}
-      </StyledMessage>
-    </StyledContainer>
-  );
-};
+      {description && <Label>{description}</Label>}
+    </StyledMessage>
+  </StyledContainer>
+);
 
 export default ReadOnlyWidget;

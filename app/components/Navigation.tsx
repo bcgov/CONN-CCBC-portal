@@ -1,9 +1,9 @@
 import { BaseNavigation } from '@button-inc/bcgov-theme/Navigation';
 import { BaseHeader } from '@button-inc/bcgov-theme/Header';
-import { SubHeader, NavLoginForm } from '.';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { SubHeader, NavLoginForm } from '.';
 
 const StyledMainTitle = styled(BaseHeader.Item)`
   font-weight: normal;
@@ -41,48 +41,46 @@ interface Props {
   title?: string;
 }
 
-const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
-  return (
-    <BaseNavigation>
-      <StyledBaseHeader>
-        <StyledDiv>
-          <BaseHeader.Group className="banner">
-            <Link passHref href="/">
-              <a>
-                <Image
-                  priority
-                  src="/applicantportal/icons/BCID_CC_RGB_rev.svg"
-                  alt="Logo for Province of British Columbia Connected Communities"
-                  height={100}
-                  width={300}
-                />
-              </a>
-            </Link>
-          </BaseHeader.Group>
-          <StyledMainTitle>
-            <h1>{title}</h1>
-          </StyledMainTitle>
-          <StyledRightSideLinks>
-            {isLoggedIn && (
-              <>
-                <Link passHref href="/dashboard">
-                  <StyledAnchor data-testid="dashboard-btn-test">
-                    Dashboard
-                  </StyledAnchor>
-                </Link>
-                |
-              </>
-            )}
-            <NavLoginForm
-              action={isLoggedIn ? '/logout' : '/login'}
-              linkText={isLoggedIn ? 'Logout' : 'Login'}
-            />
-          </StyledRightSideLinks>
-        </StyledDiv>
-      </StyledBaseHeader>
-      <SubHeader />
-    </BaseNavigation>
-  );
-};
+const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => (
+  <BaseNavigation>
+    <StyledBaseHeader>
+      <StyledDiv>
+        <BaseHeader.Group className="banner">
+          <Link passHref href="/">
+            <a>
+              <Image
+                priority
+                src="/applicantportal/icons/BCID_CC_RGB_rev.svg"
+                alt="Logo for Province of British Columbia Connected Communities"
+                height={100}
+                width={300}
+              />
+            </a>
+          </Link>
+        </BaseHeader.Group>
+        <StyledMainTitle>
+          <h1>{title}</h1>
+        </StyledMainTitle>
+        <StyledRightSideLinks>
+          {isLoggedIn && (
+            <>
+              <Link passHref href="/dashboard">
+                <StyledAnchor data-testid="dashboard-btn-test">
+                  Dashboard
+                </StyledAnchor>
+              </Link>
+              |
+            </>
+          )}
+          <NavLoginForm
+            action={isLoggedIn ? '/logout' : '/login'}
+            linkText={isLoggedIn ? 'Logout' : 'Login'}
+          />
+        </StyledRightSideLinks>
+      </StyledDiv>
+    </StyledBaseHeader>
+    <SubHeader />
+  </BaseNavigation>
+);
 
 export default Navigation;

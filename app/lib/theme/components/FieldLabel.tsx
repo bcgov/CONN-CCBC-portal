@@ -18,9 +18,10 @@ const FieldLabel: React.FC<Props> = ({
   if (!label) {
     return null;
   }
-  const optionalText = ` (${altOptionalText ? altOptionalText : 'optional'})`;
-  const displayedLabel =
-    label + (required || hideOptional ? '' : optionalText) + ' ';
+  const optionalText = ` (${altOptionalText || 'optional'})`;
+  const displayedLabel = `${
+    label + (required || hideOptional ? '' : optionalText)
+  } `;
 
   if (tagName === 'label')
     return <label htmlFor={htmlFor}>{displayedLabel}</label>;

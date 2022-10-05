@@ -1,15 +1,14 @@
-import { MutableRefObject, useRef, useState } from 'react';
+import React, { MutableRefObject, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
-import React from 'react';
+import path from 'path';
 import { useCreateAttachment } from '../../../schema/mutations/attachment/createAttachment';
 import { useDeleteAttachment } from '../../../schema/mutations/attachment/deleteAttachment';
 
 import bytesToSize from '../../../utils/bytesToText';
 import { CancelIcon, LoadingSpinner } from '../../../components';
-import path from 'path';
 
 const StyledContainer = styled('div')`
   margin-top: 16px;
@@ -127,7 +126,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       const variables = {
         input: {
           attachment: {
-            file: file,
+            file,
             fileName: file.name,
             fileSize: bytesToSize(file.size),
             fileType: file.type,
@@ -146,11 +145,11 @@ const FileWidget: React.FC<FileWidgetProps> = ({
           const id = res?.createAttachment?.attachment?.rowId;
 
           const fileDetails = {
-            id: id,
-            uuid: uuid,
-            name: name,
-            size: size,
-            type: type,
+            id,
+            uuid,
+            name,
+            size,
+            type,
           };
 
           if (allowMultipleFiles) {
@@ -181,9 +180,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       onError: () => setError('deleteFailed'),
       onCompleted: (res) => {
         const id = res?.updateAttachmentByRowId?.attachment?.rowId;
-        const indexOfFile = value.findIndex((object) => {
-          return object.id === id;
-        });
+        const indexOfFile = value.findIndex((object) => object.id === id);
         const newFileList = [...value];
         newFileList.splice(indexOfFile, 1);
         const isFileListEmpty = newFileList.length <= 0;
@@ -206,13 +203,14 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const buttonLabel = () => {
     if (isFiles && !allowMultipleFiles) {
       return 'Replace';
-    } else if (isFiles && allowMultipleFiles) {
-      return 'Add file';
-    } else if (allowMultipleFiles) {
-      return 'Upload(s)';
-    } else {
-      return 'Upload';
     }
+    if (isFiles && allowMultipleFiles) {
+      return 'Add file';
+    }
+    if (allowMultipleFiles) {
+      return 'Upload(s)';
+    }
+    return 'Upload';
   };
 
   return (
@@ -220,23 +218,21 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       <StyledDetails>
         <StyledH4>{label}</StyledH4>
         {isFiles &&
-          value.map((file: File) => {
-            return (
-              <StyledFileDiv key={file.uuid}>
-                <StyledLink>{file.name}</StyledLink>
-                <StyledDeleteBtn
-                  data-testid="file-delete-btn"
-                  onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-                    e.preventDefault();
-                    handleDelete(file.id);
-                  }}
-                  disabled={isDeletingAttachment}
-                >
-                  <CancelIcon />
-                </StyledDeleteBtn>
-              </StyledFileDiv>
-            );
-          })}
+          value.map((file: File) => (
+            <StyledFileDiv key={file.uuid}>
+              <StyledLink>{file.name}</StyledLink>
+              <StyledDeleteBtn
+                data-testid="file-delete-btn"
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+                  e.preventDefault();
+                  handleDelete(file.id);
+                }}
+                disabled={isDeletingAttachment}
+              >
+                <CancelIcon />
+              </StyledDeleteBtn>
+            </StyledFileDiv>
+          ))}
         {error && <Error error={error} fileTypes={acceptedFileTypes} />}
       </StyledDetails>
       <div>
@@ -284,7 +280,8 @@ const Error = ({ error, fileTypes }) => {
 
   if (error === 'fileSize') {
     return <StyledError>Files must be less than 100mb.</StyledError>;
-  } else return null;
+  }
+  return null;
 };
 
 export default FileWidget;

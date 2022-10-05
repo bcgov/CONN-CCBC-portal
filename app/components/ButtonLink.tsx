@@ -5,12 +5,10 @@ type Props = {
   children: JSX.Element | JSX.Element[] | string | string[];
   href: string;
 };
-const ButtonLink = ({ children, href }: Props) => {
-  return (
-    <Link href={href} passHref>
-      <Button>{children}</Button>
-    </Link>
-  );
-};
+const ButtonLink = ({ children, href }: Props) => (
+  <Link href={href} passHref>
+    <Button>{children}</Button>
+  </Link>
+);
 
 export default ButtonLink;

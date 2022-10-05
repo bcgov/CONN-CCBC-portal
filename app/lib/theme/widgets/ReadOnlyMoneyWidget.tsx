@@ -1,7 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
-import { Label } from '../../../components/Form';
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input-field';
+import { Label } from '../../../components/Form';
 
 const StyledContainer = styled('div')`
   margin-bottom: 8px;
@@ -42,32 +42,30 @@ const ReadOnlyWidget: React.FC<WidgetProps> = ({
   placeholder,
   required,
   value,
-}) => {
-  return (
-    <StyledContainer>
-      <StyledValue
-        prefix="$"
-        id={id}
-        data-testid={id}
-        style={{ outline: error && '4px solid #E71F1F' }}
-        defaultValue={value || undefined}
-        allowNegativeValue={false}
-        maxLength={14}
-        decimalsLimit={2}
-        onValueChange={(value: any) => onChange(value || undefined)}
-        required={required}
-        aria-label={label}
-        placeholder={placeholder}
-        value={value || 0}
-        disabled
-      />
-      <StyledMessage>
-        {error && <StyledError>{error}</StyledError>}
+}) => (
+  <StyledContainer>
+    <StyledValue
+      prefix="$"
+      id={id}
+      data-testid={id}
+      style={{ outline: error && '4px solid #E71F1F' }}
+      defaultValue={value || undefined}
+      allowNegativeValue={false}
+      maxLength={14}
+      decimalsLimit={2}
+      onValueChange={(value: any) => onChange(value || undefined)}
+      required={required}
+      aria-label={label}
+      placeholder={placeholder}
+      value={value || 0}
+      disabled
+    />
+    <StyledMessage>
+      {error && <StyledError>{error}</StyledError>}
 
-        {description && <Label>{description}</Label>}
-      </StyledMessage>
-    </StyledContainer>
-  );
-};
+      {description && <Label>{description}</Label>}
+    </StyledMessage>
+  </StyledContainer>
+);
 
 export default ReadOnlyWidget;

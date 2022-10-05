@@ -11,8 +11,8 @@ const API_ENDPOINT = '/graphql';
 const fetchRelay = async (
   params: RequestParameters,
   variables: Record<string, object[]>
-) => {
-  return fetch(API_ENDPOINT, {
+) =>
+  fetch(API_ENDPOINT, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -22,10 +22,7 @@ const fetchRelay = async (
       query: params.text,
       variables,
     }),
-  }).then((response) => {
-    return response.json();
-  });
-};
+  }).then((response) => response.json());
 
 export default new Environment({
   network: Network.create(fetchRelay),

@@ -26,38 +26,37 @@ const RadioWidget: React.FC<WidgetProps> = ({
   const { enumOptions }: any = options;
   const formProps = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      let value: string | boolean = e.target.value;
-      if (value === '') value = '';
-      if (value === 'true') value = true;
-      if (value === 'false') value = false;
-      if (value === 'Yes') value = true;
-      if (value === 'No') value = false;
+      let choice: string | boolean = e.target.value;
+      if (choice === '') choice = '';
+      if (choice === 'true') choice = true;
+      if (choice === 'false') choice = false;
+      if (choice === 'Yes') choice = true;
+      if (choice === 'No') choice = false;
 
-      onChange(value);
+      onChange(choice);
     },
   };
   return (
     <StyledContainer>
       {enumOptions &&
         enumOptions.map(
-          (option: { value: string; label: string }, i: number) => {
-            return (
-              <StyledDiv
-                key={option.value}
-                style={{ opacity: disabled && '0.6' }}
-              >
-                <RadioButton
-                  {...formProps}
-                  value={option.value}
-                  id={`${id}-${i}`}
-                  checked={option.value === value}
-                  required={required}
-                  disabled={disabled}
-                />
-                <label>{option.label}</label>
-              </StyledDiv>
-            );
-          }
+          (option: { value: string; label: string }, i: number) => (
+            <StyledDiv
+              key={option.value}
+              style={{ opacity: disabled && '0.6' }}
+            >
+              <RadioButton
+                {...formProps}
+                value={option.value}
+                id={`${id}-${i}`}
+                name={`${id}-${i}`}
+                checked={option.value === value}
+                required={required}
+                disabled={disabled}
+              />
+              <label htmlFor={`${id}-${i}`}>{option.label}</label>
+            </StyledDiv>
+          )
         )}
     </StyledContainer>
   );

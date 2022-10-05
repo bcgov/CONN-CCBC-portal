@@ -5,8 +5,6 @@ const StyledLabel = styled('label')`
   // color: ${(props) => props.theme.color.descriptionGrey};
 `;
 
-const Label = ({ children }: any) => {
-  return <StyledLabel>{children}</StyledLabel>;
-};
+const Label = ({ children }: any) => <StyledLabel>{children}</StyledLabel>;
 
 export default Label;

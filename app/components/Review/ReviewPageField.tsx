@@ -1,10 +1,10 @@
 import { FieldProps } from '@rjsf/core';
 import { schema as fullSchema, reviewUiSchema } from 'formSchema';
 import { FormBase } from 'components/Form';
-import ReviewTheme from './ReviewTheme';
 import styled from 'styled-components';
 import Alert from '@button-inc/bcgov-theme/Alert';
 import { JSONSchema7 } from 'json-schema';
+import ReviewTheme from './ReviewTheme';
 
 const StyledAlert = styled(Alert)`
   margin-bottom: 32px;

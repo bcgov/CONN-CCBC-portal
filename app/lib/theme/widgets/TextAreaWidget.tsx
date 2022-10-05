@@ -1,7 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
-import { Label } from '../../../components/Form';
 import Textarea from '@button-inc/bcgov-theme/Textarea';
 import styled from 'styled-components';
+import { Label } from '../../../components/Form';
 
 const INPUT_MAX_LENGTH = 32000;
 
@@ -45,7 +45,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         }
         placeholder={placeholder}
         value={value || ''}
-        size={'medium'}
+        size="medium"
         resize="vertical"
         required={required}
         aria-label={label}

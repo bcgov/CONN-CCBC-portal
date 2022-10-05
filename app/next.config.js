@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 
-const config = require("./config");
+const config = require('./config');
 
 module.exports = {
   basePath: '/applicantportal',
   poweredByHeader: false,
-  
+
   async redirects() {
     return [
       {
@@ -31,9 +31,9 @@ module.exports = {
   },
   publicRuntimeConfig: {
     NEXT_PUBLIC_GROWTHBOOK_API_KEY: process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY,
-    ENABLE_MOCK_TIME: config.get("ENABLE_MOCK_TIME"),
-    OPENSHIFT_APP_NAMESPACE: config.get("OPENSHIFT_APP_NAMESPACE"),
-    SITEMINDER_LOGOUT_URL: config.get("SITEMINDER_LOGOUT_URL"),
+    ENABLE_MOCK_TIME: config.get('ENABLE_MOCK_TIME'),
+    OPENSHIFT_APP_NAMESPACE: config.get('OPENSHIFT_APP_NAMESPACE'),
+    SITEMINDER_LOGOUT_URL: config.get('SITEMINDER_LOGOUT_URL'),
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

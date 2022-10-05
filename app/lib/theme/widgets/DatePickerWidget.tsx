@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { WidgetProps } from '@rjsf/core';
-import { dateTimeFormat } from '../functions/formatDates';
 import styled from 'styled-components';
+import { dateTimeFormat } from '../functions/formatDates';
 
 const StyledContainer = styled('div')`
   margin-top: 12px;
@@ -52,19 +52,17 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
     onFocus(id, getDateString(day));
   };
 
-  const CustomInput = ({ value, onClick, ...rest }: any) => {
-    return (
-      <StyledDiv>
-        <StyledDatePicker
-          showPopperArrow={false}
-          value={value}
-          onClick={onClick}
-          {...rest}
-        />
-        <CalendarIcon onClick={onClick} />
-      </StyledDiv>
-    );
-  };
+  const CustomInput = ({ value, onClick, ...rest }: any) => (
+    <StyledDiv>
+      <StyledDatePicker
+        showPopperArrow={false}
+        value={value}
+        onClick={onClick}
+        {...rest}
+      />
+      <CalendarIcon onClick={onClick} />
+    </StyledDiv>
+  );
 
   return (
     <StyledContainer>

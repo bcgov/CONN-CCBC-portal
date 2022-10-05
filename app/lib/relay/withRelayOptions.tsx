@@ -1,8 +1,8 @@
-import { getClientEnvironment } from './client';
 import type { NextPageContext } from 'next';
 import { WiredOptions } from 'relay-nextjs/wired/component';
 import { NextRouter } from 'next/router';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
+import { getClientEnvironment } from './client';
 
 const withRelayOptions: WiredOptions<any> = {
   fallback: <div>Loading...</div>,
@@ -29,11 +29,9 @@ const withRelayOptions: WiredOptions<any> = {
       },
     };
   },
-  variablesFromContext: (ctx: NextPageContext | NextRouter) => {
-    return {
-      ...ctx.query,
-    };
-  },
+  variablesFromContext: (ctx: NextPageContext | NextRouter) => ({
+    ...ctx.query,
+  }),
 };
 
 export default withRelayOptions;

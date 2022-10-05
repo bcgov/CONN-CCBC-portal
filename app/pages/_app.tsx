@@ -4,9 +4,9 @@ import getConfig from 'next/config';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
 import { Settings } from 'luxon';
-import { getClientEnvironment } from '../lib/relay/client';
 import type { AppProps } from 'next/app';
 import { GrowthBook, GrowthBookProvider } from '@growthbook/growthbook-react';
+import { getClientEnvironment } from '../lib/relay/client';
 import GlobalStyle from '../styles/GobalStyles';
 import GlobalTheme from '../styles/GlobalTheme';
 import BCGovTypography from '../components/BCGovTypography';
@@ -29,12 +29,12 @@ await fetch(growthbookUrl)
     growthbook.setFeatures(res.features);
   });
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   const relayProps = getRelayProps(pageProps, initialPreloadedQuery);
   const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
   const router = useRouter();
-  Settings.defaultZone = "America/Vancouver";
-  Settings.defaultLocale = "en-CA";
+  Settings.defaultZone = 'America/Vancouver';
+  Settings.defaultLocale = 'en-CA';
 
   const [appMounted, setAppMounted] = useState(false);
 
@@ -76,6 +76,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </GlobalTheme>
     </GrowthBookProvider>
   );
-}
+};
 
 export default MyApp;

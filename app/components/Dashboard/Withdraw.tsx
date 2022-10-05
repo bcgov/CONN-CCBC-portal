@@ -46,49 +46,43 @@ const StyledIcon = styled('span')`
   }
 `;
 
-const Withdraw = () => {
-  return (
-    <StyledWithdraw>
-      <div>
-        <Divider />
-      </div>
-      <StyledDropdown>
-        <StyledIcon>
-          <ArrowDown />
-        </StyledIcon>
-        <StyledContent className="dropdown-content">
-          <a href="#modal-id">Withdraw</a>
-        </StyledContent>
-      </StyledDropdown>
-    </StyledWithdraw>
-  );
-};
+const Withdraw = () => (
+  <StyledWithdraw>
+    <div>
+      <Divider />
+    </div>
+    <StyledDropdown>
+      <StyledIcon>
+        <ArrowDown />
+      </StyledIcon>
+      <StyledContent className="dropdown-content">
+        <a href="#modal-id">Withdraw</a>
+      </StyledContent>
+    </StyledDropdown>
+  </StyledWithdraw>
+);
 export default Withdraw;
 
-const Divider = () => {
-  return (
-    <svg
-      width="2"
-      height="17"
-      viewBox="0 0 2 17"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M1 0.5V16.5" stroke="#D6D6D6" />
-    </svg>
-  );
-};
+const Divider = () => (
+  <svg
+    width="2"
+    height="17"
+    viewBox="0 0 2 17"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M1 0.5V16.5" stroke="#D6D6D6" />
+  </svg>
+);
 
-const ArrowDown = () => {
-  return (
-    <svg
-      width="14"
-      height="8"
-      viewBox="0 0 14 8"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M1 1L7 7L13 1" stroke="#1A5A96" />
-    </svg>
-  );
-};
+const ArrowDown = () => (
+  <svg
+    width="14"
+    height="8"
+    viewBox="0 0 14 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M1 1L7 7L13 1" stroke="#1A5A96" />
+  </svg>
+);
