@@ -18,21 +18,21 @@ select has_column('ccbc_public', 'application_status', 'status','The table appli
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
 insert into ccbc_public.application
-  (id, ccbc_number, owner, form_data,last_edited_page) overriding system value
+  (id, ccbc_number, owner) overriding system value
    values
-  (1,'CCBC-010001', '11111111-1111-1111-1111-111111111112','{}','projectArea');
+  (1,'CCBC-010001', '11111111-1111-1111-1111-111111111112');
 
 insert into ccbc_public.application_status (application_id, status) VALUES (1, 'draft');
 
 -- Test setup - second user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 insert into ccbc_public.application
-  (id, ccbc_number, owner, form_data,last_edited_page) overriding system value
+  (id, ccbc_number, owner) overriding system value
   values
-  (2,'CCBC-010002', '11111111-1111-1111-1111-111111111113','{}','projectArea'),
-  (3,'CCBC-010003', '11111111-1111-1111-1111-111111111113','{}','projectArea');
+  (2,'CCBC-010002', '11111111-1111-1111-1111-111111111113'),
+  (3,'CCBC-010003', '11111111-1111-1111-1111-111111111113');
 
-  insert into ccbc_public.application_status (application_id, status) 
+  insert into ccbc_public.application_status (application_id, status)
   VALUES
    (2, 'draft'),
    (3, 'draft');

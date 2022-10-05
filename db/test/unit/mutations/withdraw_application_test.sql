@@ -8,11 +8,11 @@ select has_function(
 );
 
 set jwt.claims.sub to '00000000-0000-0000-0000-000000000000';
-insert into ccbc_public.application(id, form_data, owner) overriding system value
+insert into ccbc_public.application(id, owner) overriding system value
 values
-  (2, '{}', '00000000-0000-0000-0000-000000000000'),
-  (3, '{}', '00000000-0000-0000-0000-000000000000'),
-  (4, '{}', '00000000-0000-0000-0000-000000000000');
+  (2, '00000000-0000-0000-0000-000000000000'),
+  (3, '00000000-0000-0000-0000-000000000000'),
+  (4, '00000000-0000-0000-0000-000000000000');
 
 
 insert into ccbc_public.application_status(application_id, status)
