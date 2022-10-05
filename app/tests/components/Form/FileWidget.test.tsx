@@ -1,11 +1,11 @@
 import ApplicationForm from 'components/Form/ApplicationForm';
 import { graphql } from 'react-relay';
-import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledQuery, {
   FileWidgetTestQuery,
 } from '__generated__/FileWidgetTestQuery.graphql';
 import { act, fireEvent, screen } from '@testing-library/react';
 import getFormPage from 'utils/getFormPage';
+import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
 const testQuery = graphql`
   query FileWidgetTestQuery {
@@ -105,7 +105,7 @@ describe('The FileWidget', () => {
       {
         input: {
           attachment: {
-            file: file,
+            file,
             fileName: 'file.kmz',
             fileSize: '1 Bytes',
             fileType: 'application/vnd.google-earth.kmz',
