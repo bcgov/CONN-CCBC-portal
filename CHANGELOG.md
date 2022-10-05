@@ -1,3 +1,17 @@
+# [1.6.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.5.0...v1.6.0) (2022-10-05)
+
+### Bug Fixes
+
+- invert title and description in FileWidget ([7ab9402](https://github.com/bcgov/CONN-CCBC-portal/commit/7ab9402863a8addd067f44b99c908d9dd406c3a7))
+- layout not centered ([6a25202](https://github.com/bcgov/CONN-CCBC-portal/commit/6a25202c7920a44301f19b5b6eac15d3685cf03f))
+- submit button breakpoints due to reduced width from stepper ([ac3b6e6](https://github.com/bcgov/CONN-CCBC-portal/commit/ac3b6e684e0750aeee526c138d275acfa886d692))
+
+### Features
+
+- add mvp form stepper ([01e9e2f](https://github.com/bcgov/CONN-CCBC-portal/commit/01e9e2feaa6ed0e5c9cf9cf4734cca58c74e0d72))
+- improve stepper hover styles ([f417bd7](https://github.com/bcgov/CONN-CCBC-portal/commit/f417bd733a9fb509725a0ee0f1d8e4f8c4fa2743))
+- number of households allow decimals ([fc073b1](https://github.com/bcgov/CONN-CCBC-portal/commit/fc073b1dad644f9f71e5888c9e4a2df0097061b3))
+
 # [1.5.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.4.0...v1.5.0) (2022-09-28)
 
 ### Bug Fixes
