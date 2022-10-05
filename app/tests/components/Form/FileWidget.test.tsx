@@ -240,4 +240,23 @@ describe('The FileWidget', () => {
     expect(screen.getByText('file-3.kmz')).toBeVisible();
     expect(screen.getByText('Add file')).toBeVisible();
   });
+
+  it('displays an error message when attempting to upload incorrect file type', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const file = new File([new ArrayBuffer(1)], 'image.png', {
+      type: 'image/png',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    fireEvent.change(inputFile, { target: { files: [file] } });
+
+    expect(
+      screen.getByText(
+        'Please use an accepted file type. Accepted types for this field are:'
+      )
+    ).toBeVisible();
+  });
 });
