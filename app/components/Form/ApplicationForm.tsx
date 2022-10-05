@@ -166,7 +166,7 @@ const ApplicationForm: React.FC<Props> = ({
     if (isWithdrawn) return false;
 
     if (sectionName === 'review')
-      return noErrors || formData.data.review?.acknowledgeIncomplete;
+      return noErrors || formData.review?.acknowledgeIncomplete;
 
     if (sectionName === 'acknowledgements')
       return areAllAcknowledgementsChecked || isSubmitted;
