@@ -1,13 +1,10 @@
----
-name: Pull Request Template
-about: Default pull request template
-title: '<type>[(optional scope)]: <description>'
-labels: ''
-assignees: ''
----
+<!--
+PR title should follow the `<type>[(optional scope)]: <description>` format.
+See docs/Team_Agreements.md#commit-message-guidelines
+-->
 
-<!-- see docs/Team_Agreements.md#commit-message-guidelines -->
+Implements # \<issue number\>
 
-References # \<issue number\>
-
-<!-- Detailed description of the change -->
+<!--
+Add detailed description of the changes if the PR title isn't enough
+ -->
