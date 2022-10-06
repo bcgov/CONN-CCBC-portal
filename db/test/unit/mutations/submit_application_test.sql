@@ -7,8 +7,12 @@ truncate table
   ccbc_public.attachment,
   ccbc_public.form_data,
   ccbc_public.application_form_data,
-  ccbc_public.intake
+  ccbc_public.intake,
+  ccbc_public.form_data_status_type
 restart identity;
+
+insert into ccbc_public.form_Data_status_type values
+ ('draft', 'Draft'), ('submitted', 'Submitted');
 
 select has_function(
   'ccbc_public', 'submit_application', ARRAY['int'],
@@ -26,7 +30,7 @@ do
 $$
 begin
 for i in 1..10 loop
-  
+
   perform ccbc_public.create_application();
 
 end loop ;

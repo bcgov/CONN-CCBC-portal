@@ -7,8 +7,12 @@ truncate table
   ccbc_public.application_status,
   ccbc_public.attachment,
   ccbc_public.form_data,
-  ccbc_public.application_form_data
+  ccbc_public.application_form_data,
+  ccbc_public.form_data_status_type
 restart identity;
+
+insert into ccbc_public.form_Data_status_type values
+ ('draft', 'Draft'), ('submitted', 'Submitted');
 
 select has_function(
   'ccbc_public', 'application_form_data',

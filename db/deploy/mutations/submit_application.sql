@@ -16,6 +16,7 @@ declare
   submission_date varchar;
   num_acknowledgements constant integer := 17;
   _form_data jsonb;
+  form_data_id int;
 begin
 
   select ccbc_public.application_status(
@@ -30,17 +31,9 @@ begin
     raise 'The application cannot be submitted as it has the following status: %', application_status;
   end if;
 
-  select form_data from
+  select form_data, id from
    ccbc_public.application_form_data((select row(ccbc_public.application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id))
-    into _form_data;
-
-  -- select ccbc_public.application_form_data(ccbc_public.application.*) -> 'submission' ->> 'submissionCompletedFor',
-  --   form_data -> 'submission' ->> 'submissionCompletedBy',
-  --   form_data -> 'submission' ->> 'submissionTitle',
-  --   form_data -> 'submission' ->> 'submissionDate',
-  --   jsonb_array_length(form_data -> 'acknowledgements' -> 'acknowledgementsList')
-  --  from ccbc_public.application where id = application_row_id
-  --  into submission_completed_for, submission_completed_by, submission_title, submission_date, acknowledgements_array_length;
+    into _form_data, form_data_id;
 
   if coalesce(_form_data -> 'submission' ->> 'submissionCompletedFor', '') = '' then
     raise 'The application cannot be submitted as the submission field submission_completed_for is null or empty';
@@ -81,6 +74,10 @@ begin
       lpad(reference_number::text, 4, '0')
     )
   where id = application_row_id;
+
+  update ccbc_public.form_data set
+    form_data_status_type_id = 'submitted'
+    where id = form_data_id;
 
   return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);
 end;

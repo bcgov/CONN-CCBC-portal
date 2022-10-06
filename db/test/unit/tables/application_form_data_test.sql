@@ -7,8 +7,12 @@ truncate table
   ccbc_public.attachment,
   ccbc_public.form_data,
   ccbc_public.application_form_data,
-  ccbc_public.intake
+  ccbc_public.intake,
+  ccbc_public.form_data_status_type
 restart identity;
+
+insert into ccbc_public.form_Data_status_type values
+ ('draft', 'Draft'), ('submitted', 'Submitted');
 
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
 values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1),
