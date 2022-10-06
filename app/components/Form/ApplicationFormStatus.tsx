@@ -57,7 +57,6 @@ const ApplicationFormStatus: React.FC<Props> = ({
         updatedAt
         formData {
           formData
-          id
         }
         status
       }

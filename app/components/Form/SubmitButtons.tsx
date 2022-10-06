@@ -64,7 +64,7 @@ type Props = {
   status: string;
 };
 
-function SubmitButtons({
+const SubmitButtons = ({
   disabled,
   formData,
   isSubmitPage,
@@ -73,7 +73,7 @@ function SubmitButtons({
   savedAsDraft,
   saveForm,
   status,
-}: Props) {
+}: Props) => {
   const isWithdrawn = status === 'withdrawn';
   const isDraft = status === 'draft';
   const isSubmitted = status === 'submitted';
@@ -137,6 +137,6 @@ function SubmitButtons({
       )}
     </StyledFlex>
   );
-}
+};
 
 export default SubmitButtons;
