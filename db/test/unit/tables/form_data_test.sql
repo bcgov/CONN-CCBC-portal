@@ -8,13 +8,10 @@ truncate table
   ccbc_public.attachment,
   ccbc_public.form_data,
   ccbc_public.application_form_data,
-  ccbc_public.intake,
-  ccbc_public.form_data_status_type
+  ccbc_public.intake
 restart identity;
 
 
-insert into ccbc_public.form_Data_status_type values
- ('draft', 'Draft'), ('submitted', 'Submitted');
 
 -- table exists
 select has_table(

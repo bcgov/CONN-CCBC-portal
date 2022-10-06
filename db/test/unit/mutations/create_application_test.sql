@@ -7,12 +7,9 @@ truncate table
   ccbc_public.application_status,
   ccbc_public.attachment,
   ccbc_public.form_data,
-  ccbc_public.application_form_data,
-  ccbc_public.form_data_status_type
+  ccbc_public.application_form_data
 restart identity;
 
-insert into ccbc_public.form_Data_status_type values
- ('draft', 'Draft'), ('submitted', 'Submitted');
 
 insert into
   ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number)

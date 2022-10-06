@@ -7,6 +7,9 @@ create table ccbc_public.form_data_status_type(
   description varchar(1000)
 );
 
+insert into ccbc_public.form_Data_status_type values
+ ('draft', 'Draft'), ('submitted', 'Submitted');
+
 do
 $$
 begin
