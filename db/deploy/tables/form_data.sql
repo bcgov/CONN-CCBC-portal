@@ -9,6 +9,11 @@ create table ccbc_public.form_data(
 );
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'form_data');
 
+alter table ccbc_public.form_data force row level security;
+alter table ccbc_public.form_data enable row level security;
+
+grant usage, select on sequence ccbc_public.form_data_id_seq to ccbc_auth_user;
+
 do
 $grant$
 begin
@@ -16,6 +21,10 @@ begin
 perform ccbc_private.grant_permissions('select', 'form_data', 'ccbc_auth_user');
 perform ccbc_private.grant_permissions('insert', 'form_data', 'ccbc_auth_user');
 perform ccbc_private.grant_permissions('update', 'form_data', 'ccbc_auth_user');
+
+-- RLS for select and update can be found in application_form_data table
+perform ccbc_private.upsert_policy('ccbc_auth_user can always insert', 'form_data', 'insert', 'ccbc_auth_user',
+'true');
 end
 $grant$;
 
