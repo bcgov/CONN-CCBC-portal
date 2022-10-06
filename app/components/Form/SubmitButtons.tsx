@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import LoadingSpinner from 'components/LoadingSpinner';
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
-import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
 import { useRouter } from 'next/router';
+import { updateFormDataMutation } from '__generated__/updateFormDataMutation.graphql';
 
 const StyledFlex = styled('div')`
   display: flex;
@@ -56,7 +56,7 @@ type Props = {
   saveForm: (
     formData: any,
     mutationConfig?: Partial<
-      UseDebouncedMutationConfig<updateApplicationMutation>
+      UseDebouncedMutationConfig<updateFormDataMutation>
     >,
     isRedirectingToNextPage?: boolean,
     isSaveAsDraftBtn?: boolean
@@ -64,7 +64,7 @@ type Props = {
   status: string;
 };
 
-const SubmitButtons = ({
+function SubmitButtons({
   disabled,
   formData,
   isSubmitPage,
@@ -73,7 +73,7 @@ const SubmitButtons = ({
   savedAsDraft,
   saveForm,
   status,
-}: Props) => {
+}: Props) {
   const isWithdrawn = status === 'withdrawn';
   const isDraft = status === 'draft';
   const isSubmitted = status === 'submitted';
@@ -81,6 +81,7 @@ const SubmitButtons = ({
   const isSubmittedAndSubmitPage = isSubmitted && isSubmitPage;
   const router = useRouter();
 
+  const formatSaveAsDraftBtn = () => (savedAsDraft ? 'Saved' : 'Save as draft');
   const formatSubmitBtn = () => {
     if (isWithdrawn || (isSubmitted && isAcknowledgementPage)) {
       return 'Continue';
@@ -110,11 +111,7 @@ const SubmitButtons = ({
             disabled={isUpdating || savedAsDraft}
             style={{ padding: isUpdating ? '4px 24px' : '12px 24px' }}
           >
-            {isUpdating ? (
-              <LoadingSpinner />
-            ) : (
-              <>{savedAsDraft ? 'Saved' : 'Save as draft'}</>
-            )}
+            {isUpdating ? <LoadingSpinner /> : formatSaveAsDraftBtn()}
           </StyledDraftButton>
           <StyledToast
             style={{
@@ -140,6 +137,6 @@ const SubmitButtons = ({
       )}
     </StyledFlex>
   );
-};
+}
 
 export default SubmitButtons;
