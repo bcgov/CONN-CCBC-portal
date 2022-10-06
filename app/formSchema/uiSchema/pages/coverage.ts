@@ -1,4 +1,3 @@
-import { EXCEL_FILE_EXTENSIONS } from '../constants';
 import { GeographicCoverageMap } from '../../../components/Form/CustomTitles';
 
 const coverage = {
@@ -20,10 +19,10 @@ const coverage = {
   coverageAssessmentStatistics: {
     'ui:widget': 'FileWidget',
     'ui:description':
-      'Please upload the email you received upon completion of the Project Coverage.',
+      'Please upload the XML file that was attached to the email you received upon completion of the project coverage.',
     'ui:options': {
+      fileTypes: `.xml`,
       label: false,
-      fileTypes: `.eml, .msg, .txt, .pdf, .doc, .docx, .xml, .jpg, .jpeg, .png, ${EXCEL_FILE_EXTENSIONS}`,
     },
   },
   currentNetworkInfastructure: {
