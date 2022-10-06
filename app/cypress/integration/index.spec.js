@@ -6,6 +6,7 @@ context('Homepage', () => {
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
     cy.sqlFixture('dev/001_intake');
+    cy.sqlFixture('dev/001_form_data_status_type');
     cy.visit('/');
   });
 
