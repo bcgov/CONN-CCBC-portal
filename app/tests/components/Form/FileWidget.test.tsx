@@ -72,7 +72,7 @@ describe('The FileWidget', () => {
 
     expect(
       screen.getByText(
-        `Geographic coverage map from ISED's Eligibility Mapping Tool. KMZ is required.`
+        `ISED's Eligibility Mapping Tool - Coverage Assessment and Statistics`
       )
     ).toBeVisible();
   });
@@ -82,8 +82,8 @@ describe('The FileWidget', () => {
     componentTestingHelper.renderComponent();
 
     expect(
-      screen.queryByText(
-        `Please upload the email you received upon completion of the Project Coverage.`
+      screen.getByText(
+        'Please upload the XML file that was attached to the email you received upon completion of the project coverage.'
       )
     ).toBeVisible();
   });
