@@ -1,6 +1,5 @@
 import ApplicationForm from 'components/Form/ApplicationForm';
 import { graphql } from 'react-relay';
-import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
@@ -9,6 +8,7 @@ import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
+import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
@@ -50,7 +50,9 @@ const mockQueryPayloadWithFormData = {
   Application() {
     return {
       id: 'TestApplicationId',
-      formData: mockFormData,
+      formData: {
+        formData: mockFormData,
+      },
       status: 'draft',
     };
   },
@@ -282,7 +284,7 @@ describe('The application form', () => {
     componentTestingHelper.loadQuery(payload);
     componentTestingHelper.renderComponent();
 
-    expect(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeVisible();
   });
 
   it('submission page submit button is enabled on when all inputs filled', () => {
@@ -472,29 +474,26 @@ describe('The application form', () => {
       screen.getByRole('button', { name: 'Save as draft' })
     );
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          id: 'TestFormId',
-          formDataPatch: {
-            formData: {
-              organizationProfile: {
-                organizationName: 'Testing organization name',
-              },
-              submission: {
-                submissionCompletedFor: 'Testing organization name',
-                submissionDate: '2022-09-12',
-                submissionCompletedBy: 'test',
-                submissionTitle: 'test',
-              },
-              acknowledgements: { acknowledgementsList: acknowledgementsEnum },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        id: 'TestFormId',
+        formDataPatch: {
+          formData: {
+            organizationProfile: {
+              organizationName: 'Testing organization name',
             },
-            lastEditedPage: 'review',
+            submission: {
+              submissionCompletedFor: 'Testing organization name',
+              submissionDate: '2022-09-12',
+              submissionCompletedBy: 'test',
+              submissionTitle: 'test',
+            },
+            acknowledgements: { acknowledgementsList: acknowledgementsEnum },
           },
+          lastEditedPage: 'review',
         },
-      }
-    );
+      },
+    });
   });
 
   it('acknowledgement page shows continue on submitted application', async () => {
