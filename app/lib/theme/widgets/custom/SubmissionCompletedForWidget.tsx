@@ -23,9 +23,7 @@ const SubmissionCompletedForWidget: React.FC<WidgetProps> = ({ id, value }) => {
   return (
     <StyledContainer>
       <StyledValue id={id}>
-        {value ? (
-          value
-        ) : (
+        {value || (
           <StyledError>
             No legal organization name was provided. Please return to the{' '}
             <StyledLink href={`/form/${rowId}/${pageNumber}`}>

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
-import { X } from '.';
 import { useWithdrawApplicationMutation } from 'schema/mutations/application/withdrawApplication';
+import { X } from '.';
 
 const StyledModal = styled(Modal)`
   display: flex;
@@ -39,7 +39,7 @@ const StyledConfirmBox = styled('div')`
 const WithdrawModal = ({ id }) => {
   const [successModal, setSuccessModal] = useState(false);
 
-  const [withdrawApplication] = useWithdrawApplicationMutation()
+  const [withdrawApplication] = useWithdrawApplicationMutation();
 
   const handleWithdraw = async () => {
     withdrawApplication({

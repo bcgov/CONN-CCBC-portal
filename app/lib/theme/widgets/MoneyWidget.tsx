@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
-import { Label } from '../../../components/Form';
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input-field';
+import { Label } from '../../../components/Form';
 
 const StyledCurrencyInput = styled(CurrencyInput)`
   margin-top: 12px;

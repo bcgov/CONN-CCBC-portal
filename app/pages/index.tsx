@@ -1,10 +1,10 @@
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
-import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import Link from '@button-inc/bcgov-theme/Link';
-import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
 import styled from 'styled-components';
+import defaultRelayOptions from '../lib/relay/withRelayOptions';
+import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
 
 const StyledOl = styled('ol')`
@@ -153,9 +153,7 @@ const Home = ({
 
 export const withRelayOptions = {
   ...defaultRelayOptions,
-  serverSideProps: async () => {
-    return {};
-  },
+  serverSideProps: async () => ({}),
 };
 
 export default withRelay(Home, getPagesQuery, withRelayOptions);

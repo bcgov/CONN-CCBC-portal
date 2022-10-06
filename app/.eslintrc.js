@@ -11,10 +11,20 @@ module.exports = {
   plugins: ['jest', 'relay'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: ['./tsconfig.json'],
+    project: 'tsconfig.json',
+    tsconfigRootDir: __dirname,
+    sourceType: 'module',
   },
   rules: {
     'react/jsx-props-no-spreading': 0,
+    'react/jsx-no-useless-fragment': [2, { allowExpressions: true }],
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
   },
   overrides: [
     {

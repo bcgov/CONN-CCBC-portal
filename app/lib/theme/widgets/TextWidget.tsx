@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
-import { Label } from '../../../components/Form';
 import Input from '@button-inc/bcgov-theme/Input';
 import styled from 'styled-components';
+import { Label } from '../../../components/Form';
 import NumberWidget from './NumberWidget';
 
 const INPUT_MAX_LENGTH = 32000;
@@ -98,13 +98,13 @@ const TextWidget: React.FC<WidgetProps> = (props) => {
         disabled={disabled}
         data-testid={id}
         onChange={(e: { target: { value: string } }) => {
-          const value = e.target.value;
+          const { value } = e.target;
           checkValidations(onChange, value);
         }}
         placeholder={placeholder}
         value={value ?? ''}
         min={0}
-        size={'medium'}
+        size="medium"
         required={required}
         aria-label={label}
         maxLength={maxLength || INPUT_MAX_LENGTH}

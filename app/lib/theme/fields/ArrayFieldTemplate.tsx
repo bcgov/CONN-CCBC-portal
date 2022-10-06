@@ -23,22 +23,20 @@ const ArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
   const uiArrayButtons = props.uiSchema?.items?.['ui:array-buttons'];
   return (
     <div>
-      {props.items.map((item, i: number) => {
-        return (
-          <div key={item.key}>
-            {i != 0 && (
-              <StyledDiv>
-                <StyledButton onClick={item.onDropIndexClick(item.index)}>
-                  {uiArrayButtons?.removeBtnLabel || 'Remove'}
-                </StyledButton>
-              </StyledDiv>
-            )}
+      {props.items.map((item, i: number) => (
+        <div key={item.key}>
+          {i != 0 && (
+            <StyledDiv>
+              <StyledButton onClick={item.onDropIndexClick(item.index)}>
+                {uiArrayButtons?.removeBtnLabel || 'Remove'}
+              </StyledButton>
+            </StyledDiv>
+          )}
 
-            {item.children}
-            <hr />
-          </div>
-        );
-      })}
+          {item.children}
+          <hr />
+        </div>
+      ))}
 
       {props.canAdd && (
         <Button onClick={props.onAddClick}>

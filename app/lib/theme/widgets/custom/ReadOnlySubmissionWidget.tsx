@@ -11,12 +11,10 @@ export const StyledValue = styled('div')`
   padding: 0.6em 0;
 `;
 
-const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({ id, value }) => {
-  return (
-    <StyledContainer>
-      <StyledValue id={id}>{value}</StyledValue>
-    </StyledContainer>
-  );
-};
+const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({ id, value }) => (
+  <StyledContainer>
+    <StyledValue id={id}>{value}</StyledValue>
+  </StyledContainer>
+);
 
 export default ReadOnlySubmissionWidget;

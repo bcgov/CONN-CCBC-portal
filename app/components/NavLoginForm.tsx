@@ -23,12 +23,10 @@ type Props = {
   action: '/login' | '/logout';
 };
 
-const LoginForm: React.FC<Props> = ({ linkText, action }) => {
-  return (
-    <StyledForm action={action} method="POST">
-      <StyledButton type="submit">{linkText}</StyledButton>
-    </StyledForm>
-  );
-};
+const LoginForm: React.FC<Props> = ({ linkText, action }) => (
+  <StyledForm action={action} method="POST">
+    <StyledButton type="submit">{linkText}</StyledButton>
+  </StyledForm>
+);
 
 export default LoginForm;

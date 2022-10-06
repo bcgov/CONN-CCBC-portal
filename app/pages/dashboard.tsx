@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { graphql } from 'react-relay';
+import { DateTime } from 'luxon';
+import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
 import { IntakeAlert, Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
-import { DateTime } from 'luxon';
 
 const getDashboardQuery = graphql`
   query dashboardQuery($formOwner: ApplicationCondition!) {

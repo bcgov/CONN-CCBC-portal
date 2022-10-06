@@ -74,7 +74,8 @@ const Table = ({ applications }: Props) => {
   const getStatusType = (status: string) => {
     if (status === 'draft') {
       return 'Draft';
-    } else if (status === 'withdrawn') {
+    }
+    if (status === 'withdrawn') {
       return 'Withdrawn';
     }
 
@@ -117,13 +118,14 @@ const Table = ({ applications }: Props) => {
             const getApplicationUrl = () => {
               if (isWithdrawn) {
                 return `/form/${application.rowId}/${reviewPage}`;
-              } else if (isSubmitted && isIntakeClosed) {
-                return `/form/${application.rowId}/${reviewPage}`;
-              } else if (isSubmitted) {
-                return `/form/${rowId}/1`;
-              } else {
-                return `/form/${rowId}/${lastEditedPage ? lastEditedIndex : 1}`;
               }
+              if (isSubmitted && isIntakeClosed) {
+                return `/form/${application.rowId}/${reviewPage}`;
+              }
+              if (isSubmitted) {
+                return `/form/${rowId}/1`;
+              }
+              return `/form/${rowId}/${lastEditedPage ? lastEditedIndex : 1}`;
             };
 
             return (

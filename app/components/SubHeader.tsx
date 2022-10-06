@@ -1,7 +1,6 @@
 import { BaseHeader } from '@button-inc/bcgov-theme/Header';
-import { SubHeaderNavbarLinks } from '.';
-
 import styled from 'styled-components';
+import { SubHeaderNavbarLinks } from '.';
 
 const StyledDiv = styled('div')`
   width: 100%;
@@ -9,14 +8,12 @@ const StyledDiv = styled('div')`
   margin: auto;
 `;
 
-const SubHeader: React.FC = () => {
-  return (
-    <BaseHeader header="sub">
-      <StyledDiv>
-        <SubHeaderNavbarLinks />
-      </StyledDiv>
-    </BaseHeader>
-  );
-};
+const SubHeader: React.FC = () => (
+  <BaseHeader header="sub">
+    <StyledDiv>
+      <SubHeaderNavbarLinks />
+    </StyledDiv>
+  </BaseHeader>
+);
 
 export default SubHeader;

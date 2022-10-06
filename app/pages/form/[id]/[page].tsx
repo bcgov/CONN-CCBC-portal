@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
-import { ApplicationForm, Back } from '../../../components/Form';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
-import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
-import FormDiv from '../../../components/FormDiv';
 import Alert from '@button-inc/bcgov-theme/Alert';
-import { Layout, Stepper } from '../../../components';
 import styled from 'styled-components';
+import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
+import FormDiv from '../../../components/FormDiv';
+import { Layout, Stepper } from '../../../components';
+import { ApplicationForm, Back } from '../../../components/Form';
 import { PageQuery } from '../../../__generated__/PageQuery.graphql';
 
 const StyledAlert = styled(Alert)`
@@ -72,11 +72,9 @@ const FormPage = ({
 export const withRelayOptions = {
   ...defaultRelayOptions,
 
-  variablesFromContext: (ctx) => {
-    return {
-      rowId: parseInt(ctx.query.id.toString()),
-    };
-  },
+  variablesFromContext: (ctx) => ({
+    rowId: parseInt(ctx.query.id.toString()),
+  }),
 };
 
 export default withRelay(FormPage, getPageQuery, withRelayOptions);

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import GlobalTheme from '../styles/GlobalTheme';
 import Link from '@button-inc/bcgov-theme/Link';
+import GlobalTheme from '../styles/GlobalTheme';
 
 const StyledUl = styled.ul`
   padding-left: 20px;

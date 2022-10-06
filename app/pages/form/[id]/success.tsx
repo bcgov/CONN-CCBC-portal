@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
-import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import Button from '@button-inc/bcgov-theme/Button';
-import SuccessBanner from '../../../components/Form/SuccessBanner';
 import styled from 'styled-components';
+import SuccessBanner from '../../../components/Form/SuccessBanner';
+import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import { Layout } from '../../../components';
 import { successQuery } from '../../../__generated__/successQuery.graphql';
 import { dateTimeFormat } from '../../../lib/theme/functions/formatDates';
@@ -97,11 +97,9 @@ const Success = ({
 
 export const withRelayOptions = {
   ...defaultRelayOptions,
-  variablesFromContext: (ctx) => {
-    return {
-      rowId: parseInt(ctx.query.id?.toString()),
-    };
-  },
+  variablesFromContext: (ctx) => ({
+    rowId: parseInt(ctx.query.id?.toString()),
+  }),
 };
 
 export default withRelay(Success, getSuccessQuery, withRelayOptions);

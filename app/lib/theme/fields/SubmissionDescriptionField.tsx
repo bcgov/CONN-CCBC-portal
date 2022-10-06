@@ -16,10 +16,10 @@ const SubmissionField: React.FC<FieldProps> = (props) => {
     registry,
   } = props;
 
-  //Remove the title so it isn't rendered twice.
+  // Remove the title so it isn't rendered twice.
   const submissionSchemaWithoutTitle = { ...schema };
   delete submissionSchemaWithoutTitle.title;
-  const ObjectField = registry.fields.ObjectField;
+  const { ObjectField } = registry.fields;
 
   const submissionDescriptionText = `Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes on ${DateTime.fromISO(
     intakeCloseTimestamp,

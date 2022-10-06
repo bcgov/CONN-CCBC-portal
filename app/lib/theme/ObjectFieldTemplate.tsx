@@ -1,6 +1,6 @@
-import FormBorder from './components/FormBorder';
 import styled from 'styled-components';
 import { ObjectFieldTemplateProps } from '@rjsf/core';
+import FormBorder from './components/FormBorder';
 import Description from './components/Description';
 
 const StyledColumn = styled('div')`
@@ -86,17 +86,15 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
                     return <div key={fieldName}>{content}</div>;
                   }
                   return (
-                    <>
-                      <StyledColumn
-                        style={{
-                          gridColumn: row[fieldName],
-                          marginRight: Object.keys(row).length > 2 ? '1em' : 0,
-                        }}
-                        key={fieldName}
-                      >
-                        {content}
-                      </StyledColumn>
-                    </>
+                    <StyledColumn
+                      style={{
+                        gridColumn: row[fieldName],
+                        marginRight: Object.keys(row).length > 2 ? '1em' : 0,
+                      }}
+                      key={fieldName}
+                    >
+                      {content}
+                    </StyledColumn>
                   );
                 }
               })}

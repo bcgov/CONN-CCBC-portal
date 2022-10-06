@@ -80,7 +80,6 @@ class ComponentTestingHelper<
     getPropsFromTestQuery: (data: TQuery['response']) => any = this.options
       .getPropsFromTestQuery,
     extraProps: any = this.options.defaultComponentProps
-    
   ) {
     this.renderResult = render(
       <GlobalTheme>

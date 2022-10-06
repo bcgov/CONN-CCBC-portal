@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import type { SessionExpiryHandlerQuery } from '../__generated__/SessionExpiryHandlerQuery.graphql';
 import { graphql, fetchQuery, useRelayEnvironment } from 'react-relay';
 import { SessionTimeoutHandler } from '@bcgov-cas/sso-react';
+import type { SessionExpiryHandlerQuery } from '../__generated__/SessionExpiryHandlerQuery.graphql';
 import config from '../config/index.js';
 
 const sessionQuery = graphql`
@@ -54,7 +54,6 @@ const SessionExpiryHandler: React.FC = () => {
     }
 
     window.location.replace(logOutURL);
-
   };
 
   if (hasSession)

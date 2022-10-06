@@ -15,8 +15,10 @@ let debouncedMutation: {
   timeoutId: number;
 } = null;
 
-const debounceMutationMiddleware = (timeout = 250): Middleware => {
-  return (next) => async (req) => {
+const debounceMutationMiddleware =
+  (timeout = 250): Middleware =>
+  (next) =>
+  async (req) => {
     if (!(req instanceof RelayNetworkLayerRequest) || !req.isMutation()) {
       if (debouncedMutation) {
         debouncedMutation.debouncedFn();
@@ -39,8 +41,8 @@ const debounceMutationMiddleware = (timeout = 250): Middleware => {
       debouncedMutation.debouncedFn();
     }
 
-    const debounced = async () => {
-      return new Promise<RelayNetworkLayerResponse>((resolve) => {
+    const debounced = async () =>
+      new Promise<RelayNetworkLayerResponse>((resolve) => {
         if (
           debouncedMutation &&
           debouncedMutation.debounceKey === debounceKey
@@ -61,10 +63,8 @@ const debounceMutationMiddleware = (timeout = 250): Middleware => {
           timeoutId: window.setTimeout(debouncedFn, timeout),
         };
       });
-    };
 
     return debounced();
   };
-};
 
 export default debounceMutationMiddleware;
