@@ -115,7 +115,7 @@ describe('The FileWidget', () => {
       }
     );
 
-    expect(screen.getByLabelText('loading')).toBeInTheDocument();
+    expect(screen.getByLabelText('loading')).toBeVisible();
 
     act(() => {
       componentTestingHelper.environment.mock.resolveMostRecentOperation({
