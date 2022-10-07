@@ -20,6 +20,17 @@ When adding a sqitch change to create an object, we follow the `<object_type>/<o
 - `util_functions`: for any function used primarily to increase code reuse, either in the public or private schema
 - `views`: all views go in there
 
+### No verify scripts
+
+Our schema changes are tested via pgTap, made in transactions, and continuously tested, providing many guardrails against accidental changes.
+The `verify` scripts are a way for sqitch to
+
+> Verify that a database is valid relative to the plan and the verification scripts for each deployed change.
+
+We consider these files unnecessary given all of other guardrails mentioned above, and therefore recommend to not create them.
+
+You can skip the creation of verify scripts by using `sqitch add --without verify`
+
 ### Updating after release
 
 Once a change is released, updating the deploy script is not possible. To update the object, the following options are available:
