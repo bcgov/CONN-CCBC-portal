@@ -39,3 +39,4 @@ mutations/submit_application [mutations/submit_application@1.0.0] 2022-09-13T19:
 functions/next_intake 2022-09-28T21:46:58Z Marcel Mueller <marcel@button.is> # Function to display the next intake
 @1.5.0 2022-09-28T23:08:06Z Matthieu Foucault <matthieu@button.is> # release v1.5.0
 @1.6.0 2022-10-05T17:25:28Z Matthieu Foucault <matthieu@button.is> # release v1.6.0
+functions/receive_applications 2022-10-07T19:23:03Z Marcel Mueller <marcel@button.is> # Function to change the status of an application to received
