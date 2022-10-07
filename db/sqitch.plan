@@ -47,3 +47,4 @@ mutations/create_application [mutations/create_application@1.3.0] 2022-09-29T15:
 computed_columns/application_project_name [computed_columns/application_project_name@1.5.0] 2022-09-29T18:50:24Z Anthony Bushara <anthony@button.is> # Rework to use application_form_data to access the form data
 mutations/submit_application [mutations/submit_application@1.5.0] 2022-09-29T18:56:58Z Anthony Bushara <anthony@button.is> # Rework to access form data through computed column
 @1.7.0 2022-10-12T18:54:15Z Matthieu Foucault <matthieu@button.is> # release v1.7.0
+computed_columns/form_data_is_editable 2022-10-07T14:27:32Z Anthony Bushara <anthony@button.is> # Computed column to determine if an application's form data is editable
