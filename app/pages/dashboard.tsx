@@ -23,7 +23,6 @@ const getDashboardQuery = graphql`
         ccbcNumber
         formData {
           lastEditedPage
-          id
         }
         intakeByIntakeId {
           ccbcIntakeNumber

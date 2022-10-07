@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DashboardTable } from '../../../components/Dashboard';
 import { graphql } from 'react-relay';
+import { DashboardTable } from '../../../components/Dashboard';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledDashboardTestQuery, {
   DashboardTestQuery,
@@ -19,7 +19,6 @@ const testQuery = graphql`
         ccbcNumber
         formData {
           lastEditedPage
-          id
         }
         intakeByIntakeId {
           ccbcIntakeNumber
@@ -45,7 +44,6 @@ const mockQueryPayload = {
             ccbcNumber: 'CCBC-010001',
             formData: {
               lastEditedPage: '',
-              id: 'GFAU87ASD',
             },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
@@ -62,7 +60,6 @@ const mockQueryPayload = {
             ccbcNumber: 'CCBC-010002',
             formData: {
               lastEditedPage: '',
-              id: 'GFAU87ASC',
             },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
@@ -79,7 +76,6 @@ const mockQueryPayload = {
             ccbcNumber: 'CCBC-010003',
             formData: {
               lastEditedPage: '',
-              id: 'TFAU87ASD',
             },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
@@ -95,13 +91,11 @@ const mockQueryPayload = {
 
 const componentTestingHelper = new ComponentTestingHelper<DashboardTestQuery>({
   component: DashboardTable,
-  testQuery: testQuery,
+  testQuery,
   compiledQuery: compiledDashboardTestQuery,
-  getPropsFromTestQuery: (data) => {
-    return {
-      applications: data,
-    };
-  },
+  getPropsFromTestQuery: (data) => ({
+    applications: data,
+  }),
   defaultQueryResolver: mockQueryPayload,
   defaultQueryVariables: {
     formOwner: { owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6' },
@@ -138,7 +132,6 @@ describe('The Dashboard', () => {
                 ccbcNumber: null,
                 formData: {
                   lastEditedPage: 'templateUploads',
-                  id: 'GFAQ87ASD',
                 },
                 intakeByIntakeId: null,
               },
@@ -170,7 +163,6 @@ describe('The Dashboard', () => {
                 ccbcNumber: 'CCBC-010004',
                 formData: {
                   lastEditedPage: '',
-                  id: 'GFAU87ASD',
                 },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
@@ -207,7 +199,6 @@ describe('The Dashboard', () => {
                 ccbcNumber: 'CCBC-010005',
                 formData: {
                   lastEditedPage: '',
-                  id: 'GFAU87ASD',
                 },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
@@ -260,7 +251,6 @@ describe('The Dashboard', () => {
                 ccbcNumber: 'CCBC-010005',
                 formData: {
                   lastEditedPage: '',
-                  id: 'GFAU87ASD',
                 },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
@@ -296,7 +286,6 @@ describe('The Dashboard', () => {
                 ccbcNumber: 'CCBC-010005',
                 formData: {
                   lastEditedPage: '',
-                  id: 'GFAU87ASD',
                 },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,

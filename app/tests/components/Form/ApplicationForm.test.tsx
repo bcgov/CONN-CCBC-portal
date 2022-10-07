@@ -13,7 +13,7 @@ import ComponentTestingHelper from '../../utils/componentTestingHelper';
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
     # Spread the fragment you want to test here
-    application(id: "TestFormId") {
+    application(id: "TestApplicationId") {
       ...ApplicationForm_application
     }
 
@@ -30,7 +30,6 @@ const mockQueryPayload = {
       formData: {
         id: 'TestFormId',
         formData: {},
-        applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
       },
       status: 'draft',
       updatedAt: '2022-09-12T14:04:10.790848-07:00',
@@ -67,7 +66,6 @@ const submissionPayload = {
 
       formData: {
         id: 'TestFormId',
-        applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
         formData: {
           organizationProfile: {
             organizationName: 'Testing organization name',
@@ -168,7 +166,6 @@ describe('The application form', () => {
         return {
           id: 'TestApplicationId',
           formData: {
-            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
             id: 'TestFormId',
             formData: {
               organizationProfile: {
@@ -265,7 +262,6 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           status: 'withdrawn',
           formData: {
-            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
             formData: {
               id: 'TestFormId',
             },
@@ -331,7 +327,6 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           rowId: 42,
           formData: {
-            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
             id: 'TestFormId',
             formData,
           },
@@ -395,7 +390,6 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           status: 'submitted',
           formData: {
-            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
             formData: {
               id: 'TestFormId',
             },
@@ -432,7 +426,6 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           status: 'submitted',
           formData: {
-            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
             formData: {
               id: 'TestFormId',
             },
@@ -502,7 +495,6 @@ describe('The application form', () => {
         return {
           id: 'TestApplicationId',
           formData: {
-            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
             formData: {
               id: 'TestFormId',
             },
@@ -535,7 +527,6 @@ describe('The application form', () => {
         return {
           id: 'TestApplicationId',
           formData: {
-            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
             formData: {
               id: 'TestFormId',
             },
@@ -575,7 +566,6 @@ describe('The application form', () => {
         return {
           id: 'TestApplicationId',
           formData: {
-            applicationsByApplicationFormDataFormDataIdAndApplicationId: {},
             formData: {
               id: 'TestFormId',
             },
