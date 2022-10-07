@@ -147,13 +147,6 @@ revert_db_migrations:
 	@$(SQITCH) --chdir mocks_schema revert
 
 
-.PHONY: verify_db_migrations
-verify_db_migrations: ## verify the database migrations with sqitch
-verify_db_migrations: start_pg
-verify_db_migrations:
-	@$(SQITCH) --chdir db verify
-	@$(SQITCH) --chdir mocks_schema verify
-
 .PHONY: deploy_test_db_migrations
 deploy_test_db_migrations: ## deploy the test database migrations with sqitch
 deploy_test_db_migrations: start_pg create_test_db
@@ -167,13 +160,6 @@ revert_test_db_migrations: start_pg
 revert_test_db_migrations:
 	@SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir schema revert
 	@SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir mocks_schema revert
-
-.PHONY: verify_test_db_migrations
-verify_test_db_migrations: ## verify the test database migrations with sqitch
-verify_test_db_migrations: start_pg
-verify_test_db_migrations:
-	@SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir schema verify
-	@SQITCH_TARGET="db:pg:" PGHOST=localhost PGDATABASE=$(DB_NAME)_test $(SQITCH) --chdir mocks_schema verify
 
 .PHONY: db_unit_tests
 db_unit_tests: ## run the database unit tests
