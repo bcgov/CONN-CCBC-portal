@@ -25,7 +25,7 @@ select mocks.set_mocked_time_in_transaction((select open_timestamp from ccbc_pub
 -- Columns
 
 select has_column('ccbc_public', 'form_data', 'id','The table application has column id');
-select has_column('ccbc_public', 'form_data', 'form_data','The table application has column form_data');
+select has_column('ccbc_public', 'form_data', 'json_data','The table application has column json_data');
 
 set jwt.claims.sub to 'user1';
 
@@ -36,7 +36,7 @@ select ccbc_public.create_application();
 
 select results_eq(
   $$
-    select form_data, id from ccbc_public.form_data;
+    select json_data, id from ccbc_public.form_data;
   $$,
   $$
     values('{}'::jsonb, 1)
@@ -50,12 +50,6 @@ select results_eq(
 set jwt.claims.sub to 'user2';
 
 select ccbc_public.create_application();
-select * from ccbc_public.form_data where ccbc_public.form_data.id in (select ccbc_public.application_form_data.form_data_id from
-        ccbc_public.application_form_data, ccbc_public.application
-        where ccbc_public.application_form_data.form_data_id = ccbc_public.form_data.id and
-        ccbc_public.application.owner = (select sub from ccbc_public.session())
-        and ccbc_public.application.id = ccbc_public.application_form_data.application_id
-);
 
 select * from ccbc_public.form_data where
 id in (select form_data_id from ccbc_public.application_form_data where form_data_id=id);

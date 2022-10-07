@@ -3886,7 +3886,7 @@ type FormData implements Node {
   rowId: Int!
 
   """The data entered into the form by the respondent"""
-  formData: JSON!
+  jsonData: JSON!
 
   """Column saving the key of the last edited form page"""
   lastEditedPage: String
@@ -4125,8 +4125,8 @@ enum FormDataOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
-  FORM_DATA_ASC
-  FORM_DATA_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
   LAST_EDITED_PAGE_ASC
   LAST_EDITED_PAGE_DESC
   FORM_DATA_STATUS_TYPE_ID_ASC
@@ -4155,8 +4155,8 @@ input FormDataCondition {
   """Checks for equality with the object’s `rowId` field."""
   rowId: Int
 
-  """Checks for equality with the object’s `formData` field."""
-  formData: JSON
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
 
   """Checks for equality with the object’s `lastEditedPage` field."""
   lastEditedPage: String
@@ -8637,7 +8637,7 @@ input CreateFormDataInput {
 """An input for mutations affecting `FormData`"""
 input FormDataInput {
   """The data entered into the form by the respondent"""
-  formData: JSON
+  jsonData: JSON
 
   """Column saving the key of the last edited form page"""
   lastEditedPage: String
@@ -9424,7 +9424,7 @@ Represents an update to a `FormData`. Fields that are set will be updated.
 """
 input FormDataPatch {
   """The data entered into the form by the respondent"""
-  formData: JSON
+  jsonData: JSON
 
   """Column saving the key of the last edited form page"""
   lastEditedPage: String

@@ -51,6 +51,22 @@ const verifyAllAcknowledgementsChecked = (
   formData?: AcknowledgementsFieldJSON
 ) => formData?.acknowledgementsList?.length === acknowledgementsEnum.length;
 
+const calculate = (sectionData, sectionName: string) => ({
+  ...sectionData,
+  ...(sectionName === 'estimatedProjectEmployment' && {
+    ...calculateProjectEmployment(sectionData),
+    ...calculateContractorEmployment(sectionData),
+  }),
+  ...(sectionName === 'projectFunding' && {
+    ...calculateFundingRequestedCCBC(sectionData),
+    ...calculateApplicantFunding(sectionData),
+  }),
+  ...(sectionName === 'otherFundingSources' && {
+    ...calculateInfrastructureFunding(sectionData),
+    ...calculateFundingPartner(sectionData),
+  }),
+});
+
 const Flex = styled('header')`
   display: flex;
   justify-content: space-between;
@@ -74,22 +90,6 @@ interface SubmissionFieldsJSON {
   submissionTitle?: string;
 }
 
-const calculate = (sectionData, sectionName: string) => ({
-  ...sectionData,
-  ...(sectionName === 'estimatedProjectEmployment' && {
-    ...calculateProjectEmployment(sectionData),
-    ...calculateContractorEmployment(sectionData),
-  }),
-  ...(sectionName === 'projectFunding' && {
-    ...calculateFundingRequestedCCBC(sectionData),
-    ...calculateApplicantFunding(sectionData),
-  }),
-  ...(sectionName === 'otherFundingSources' && {
-    ...calculateInfrastructureFunding(sectionData),
-    ...calculateFundingPartner(sectionData),
-  }),
-});
-
 const ApplicationForm: React.FC<Props> = ({
   pageNumber,
   application: applicationKey,
@@ -100,7 +100,7 @@ const ApplicationForm: React.FC<Props> = ({
       fragment ApplicationForm_application on Application {
         rowId
         formData {
-          formData
+          jsonData
           id
         }
         status
@@ -126,12 +126,12 @@ const ApplicationForm: React.FC<Props> = ({
   );
   const {
     rowId,
-    formData: { formData, id: formDataId },
+    formData: { jsonData, id: formDataId },
     status,
     updatedAt,
   } = application;
 
-  const formErrorSchema = useMemo(() => validate(formData), [formData]);
+  const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
       application.status === 'submitted'
@@ -139,14 +139,14 @@ const ApplicationForm: React.FC<Props> = ({
         : openIntake?.closeTimestamp;
     return {
       intakeCloseTimestamp,
-      fullFormData: formData,
+      fullFormData: jsonData,
       formErrorSchema,
     };
   }, [
     openIntake,
     application.status,
     application.intakeByIntakeId?.closeTimestamp,
-    formData,
+    jsonData,
     formErrorSchema,
   ]);
 
@@ -156,9 +156,9 @@ const ApplicationForm: React.FC<Props> = ({
   const [savedAsDraft, setSavedAsDraft] = useState(false);
 
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
-    useState(verifyAllAcknowledgementsChecked(formData.acknowledgements));
+    useState(verifyAllAcknowledgementsChecked(jsonData['acknowledgements']));
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
-    verifyAllSubmissionsFilled(formData.submission)
+    verifyAllSubmissionsFilled(jsonData['submission'])
   );
 
   const updateAreAllAcknowledgementFieldsSet = (
@@ -198,7 +198,7 @@ const ApplicationForm: React.FC<Props> = ({
     if (isWithdrawn) return false;
 
     if (sectionName === 'review')
-      return noErrors || formData.review?.acknowledgeIncomplete;
+      return noErrors || jsonData?.review?.acknowledgeIncomplete;
 
     if (sectionName === 'acknowledgements')
       return areAllAcknowledgementsChecked || isSubmitted;
@@ -217,7 +217,7 @@ const ApplicationForm: React.FC<Props> = ({
     areAllAcknowledgementsChecked,
     areAllSubmissionFieldsSet,
     isWithdrawn,
-    formData,
+    jsonData,
     isSubmitted,
   ]);
 
@@ -255,16 +255,16 @@ const ApplicationForm: React.FC<Props> = ({
     // that can lead to the previous form's data being erased when we change pages
     // https://github.com/rjsf-team/react-jsonschema-form/issues/1708
     let newFormData: Record<string, any> = {};
-    if (Object.keys(formData).length === 0) {
+    if (Object.keys(jsonData).length === 0) {
       newFormData[sectionName] = calculatedSectionData;
-    } else if (formData[sectionName]) {
-      newFormData = { ...formData };
+    } else if (jsonData[sectionName]) {
+      newFormData = { ...jsonData };
       newFormData[sectionName] = {
-        ...formData[sectionName],
+        ...jsonData[sectionName],
         ...calculatedSectionData,
       };
     } else {
-      newFormData = { ...formData };
+      newFormData = { ...jsonData };
       newFormData[sectionName] = { ...calculatedSectionData };
     }
 
@@ -299,7 +299,7 @@ const ApplicationForm: React.FC<Props> = ({
       variables: {
         input: {
           formDataPatch: {
-            formData: newFormData,
+            jsonData: newFormData,
             lastEditedPage: isSaveAsDraftBtn ? 'review' : lastEditedPage,
           },
           id: formDataId,
@@ -309,7 +309,7 @@ const ApplicationForm: React.FC<Props> = ({
         updateFormData: {
           formData: {
             id: formDataId,
-            formData: newFormData,
+            jsonData: newFormData,
             updatedAt: undefined,
             applicationsByApplicationFormDataFormDataIdAndApplicationId:
               undefined,
@@ -384,11 +384,11 @@ const ApplicationForm: React.FC<Props> = ({
       <FormBase
         onSubmit={handleSubmit}
         onChange={handleChange}
-        formData={formData[sectionName]}
+        formData={jsonData[sectionName]}
         schema={sectionSchema as JSONSchema7}
         uiSchema={uiSchema[sectionName]}
         // Todo: validate entire form on completion
-        noValidate
+        noValidate={true}
         disabled={isFormDisabled()}
         formContext={formContext}
       >
@@ -396,7 +396,7 @@ const ApplicationForm: React.FC<Props> = ({
           disabled={!isSubmitEnabled || isSubmitting}
           isUpdating={isUpdating}
           isSubmitPage={isSubmitPage}
-          formData={formData[sectionName]}
+          formData={jsonData[sectionName]}
           savedAsDraft={savedAsDraft}
           saveForm={saveForm}
           isAcknowledgementPage={isAcknowledgementPage}

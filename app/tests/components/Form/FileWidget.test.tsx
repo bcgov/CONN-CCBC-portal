@@ -141,7 +141,7 @@ describe('The FileWidget', () => {
         return {
           id: 'TestApplicationID',
           formData: {
-            formData: {
+            jsonData: {
               coverage: {
                 coverageAssessmentStatistics: [
                   {
@@ -205,7 +205,7 @@ describe('The FileWidget', () => {
         return {
           id: 'TestApplicationID',
           formData: {
-            formData: {
+            jsonData: {
               coverage: {
                 currentNetworkInfastructure: [
                   {

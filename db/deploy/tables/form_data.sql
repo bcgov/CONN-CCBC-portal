@@ -4,9 +4,9 @@ begin;
 
 create table ccbc_public.form_data(
   id integer primary key generated always as identity,
-  form_data jsonb not null default '{}'::jsonb,
+  json_data jsonb not null default '{}'::jsonb,
   last_edited_page varchar(100),
-  form_data_status_type_id varchar(1000) references ccbc_public.form_data_status_type(name) default 'draft'
+  form_data_status_type_id varchar(1000) references ccbc_public.form_data_status_type(name) default 'pending'
 );
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'form_data');
 
@@ -33,7 +33,7 @@ comment on table ccbc_public.form_data is 'Table to hold applicant form data';
 
 comment on column ccbc_public.form_data.id is 'The unique id of the form data';
 
-comment on column ccbc_public.form_data.form_data is 'The data entered into the form by the respondent';
+comment on column ccbc_public.form_data.json_data is 'The data entered into the form by the respondent';
 
 comment on column ccbc_public.form_data.last_edited_page is 'Column saving the key of the last edited form page';
 

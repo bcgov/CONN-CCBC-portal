@@ -27,7 +27,7 @@ begin
   -- which requires the application_form_data record
   new_form_data_id := nextval(pg_get_serial_sequence('ccbc_public.form_data','id'));
 
-  insert into ccbc_public.form_data (id, form_data) overriding system value
+  insert into ccbc_public.form_data (id, json_data) overriding system value
    values (new_form_data_id , '{}'::jsonb);
 
   insert into ccbc_public.application_form_data (application_id, form_data_id)

@@ -20,7 +20,7 @@ set jwt.claims.sub to 'testCcbcAuthUser';
 set role ccbc_auth_user;
 
 select ccbc_public.create_application();
-update ccbc_public.form_data set form_data = '{ "projectInformation": {"projectTitle": "my title" }}'::jsonb;
+update ccbc_public.form_data set json_data = '{ "projectInformation": {"projectTitle": "my title" }}'::jsonb;
 
 select is (
   (

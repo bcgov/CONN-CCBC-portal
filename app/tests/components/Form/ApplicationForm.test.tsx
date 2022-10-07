@@ -26,10 +26,9 @@ const testQuery = graphql`
 const mockQueryPayload = {
   Application() {
     return {
-      id: 'TestApplicationId',
       formData: {
         id: 'TestFormId',
-        formData: {},
+        jsonData: {},
       },
       status: 'draft',
       updatedAt: '2022-09-12T14:04:10.790848-07:00',
@@ -48,9 +47,9 @@ const mockQueryPayloadWithFormData = {
   ...mockQueryPayload,
   Application() {
     return {
-      id: 'TestApplicationId',
       formData: {
-        formData: mockFormData,
+        id: 'TestFormId',
+        jsonData: mockFormData,
       },
       status: 'draft',
     };
@@ -60,13 +59,12 @@ const mockQueryPayloadWithFormData = {
 const submissionPayload = {
   Application() {
     return {
-      id: 'TestApplicationId',
       status: 'draft',
       updatedAt: '2022-09-12T14:04:10.790848-07:00',
 
       formData: {
         id: 'TestFormId',
-        formData: {
+        jsonData: {
           organizationProfile: {
             organizationName: 'Testing organization name',
           },
@@ -121,7 +119,7 @@ describe('The application form', () => {
     componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
       input: {
         formDataPatch: {
-          formData: {
+          jsonData: {
             projectInformation: {
               projectTitle: 'test title',
             },
@@ -147,7 +145,7 @@ describe('The application form', () => {
     componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
       input: {
         formDataPatch: {
-          formData: {
+          jsonData: {
             projectInformation: {},
             submission: {
               submissionDate: '2022-09-12',
@@ -167,7 +165,7 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           formData: {
             id: 'TestFormId',
-            formData: {
+            jsonData: {
               organizationProfile: {
                 organizationName: 'Test org',
               },
@@ -196,7 +194,7 @@ describe('The application form', () => {
     componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
       input: {
         formDataPatch: {
-          formData: {
+          jsonData: {
             organizationProfile: {
               organizationName: 'Test org',
             },
@@ -262,7 +260,7 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           status: 'withdrawn',
           formData: {
-            formData: {
+            jsonData: {
               id: 'TestFormId',
             },
           },
@@ -310,7 +308,7 @@ describe('The application form', () => {
   });
 
   it('waits for the mutations to be completed before redirecting to the success page', async () => {
-    const formData = {
+    const jsonData = {
       submission: {
         submissionCompletedFor: 'Bob Loblaw',
         submissionDate: '2022-08-10',
@@ -328,7 +326,7 @@ describe('The application form', () => {
           rowId: 42,
           formData: {
             id: 'TestFormId',
-            formData,
+            jsonData,
           },
         };
       },
@@ -390,7 +388,7 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           status: 'submitted',
           formData: {
-            formData: {
+            jsonData: {
               id: 'TestFormId',
             },
           },
@@ -426,7 +424,7 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           status: 'submitted',
           formData: {
-            formData: {
+            jsonData: {
               id: 'TestFormId',
             },
           },
@@ -471,7 +469,7 @@ describe('The application form', () => {
       input: {
         id: 'TestFormId',
         formDataPatch: {
-          formData: {
+          jsonData: {
             organizationProfile: {
               organizationName: 'Testing organization name',
             },
@@ -495,7 +493,7 @@ describe('The application form', () => {
         return {
           id: 'TestApplicationId',
           formData: {
-            formData: {
+            jsonData: {
               id: 'TestFormId',
             },
           },
@@ -527,7 +525,7 @@ describe('The application form', () => {
         return {
           id: 'TestApplicationId',
           formData: {
-            formData: {
+            jsonData: {
               id: 'TestFormId',
             },
           },
@@ -566,7 +564,7 @@ describe('The application form', () => {
         return {
           id: 'TestApplicationId',
           formData: {
-            formData: {
+            jsonData: {
               id: 'TestFormId',
             },
           },
@@ -623,7 +621,7 @@ describe('The application form', () => {
       input: {
         id: 'TestFormId',
         formDataPatch: {
-          formData: {
+          jsonData: {
             estimatedProjectEmployment: {
               estimatedFTECreation: 22.9,
               estimatedFTEContractorCreation: null,
@@ -663,7 +661,7 @@ describe('The application form', () => {
       input: {
         id: 'TestFormId',
         formDataPatch: {
-          formData: {
+          jsonData: {
             projectFunding: {
               totalFundingRequestedCCBC: 15,
               totalApplicantContribution: null,

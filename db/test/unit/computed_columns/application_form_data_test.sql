@@ -7,12 +7,8 @@ truncate table
   ccbc_public.application_status,
   ccbc_public.attachment,
   ccbc_public.form_data,
-  ccbc_public.application_form_data,
-  ccbc_public.form_data_status_type
+  ccbc_public.application_form_data
 restart identity;
-
-insert into ccbc_public.form_Data_status_type values
- ('draft', 'Draft'), ('submitted', 'Submitted');
 
 select has_function(
   'ccbc_public', 'application_form_data',
@@ -27,7 +23,7 @@ set jwt.claims.sub to 'testCcbcAuthUser';
 set role ccbc_auth_user;
 
 select ccbc_public.create_application();
-update ccbc_public.form_data set form_data = '{ "projectInformation": {"projectTitle": "my title" }}'::jsonb;
+update ccbc_public.form_data set json_data = '{ "projectInformation": {"projectTitle": "my title" }}'::jsonb;
 
 select ccbc_public.create_application();
 
@@ -37,11 +33,9 @@ select ccbc_public.create_application();
 
 set jwt.claims.sub to 'testCcbcAuthUser';
 
-select * from ccbc_public.form_data;
-
 select results_eq (
   $$
-    select id, form_data from ccbc_public.application_form_data(
+    select id, json_data from ccbc_public.application_form_data(
       (select row(application.*)::ccbc_public.application from ccbc_public.application where id=1)
     );
   $$,
@@ -53,7 +47,7 @@ select results_eq (
 
 select results_eq (
   $$
-    select id, form_data from ccbc_public.application_form_data(
+    select id, json_data from ccbc_public.application_form_data(
       (select row(application.*)::ccbc_public.application from ccbc_public.application where id=2)
     );
   $$,
@@ -65,7 +59,7 @@ select results_eq (
 
 select results_eq (
   $$
-        select id, form_data from ccbc_public.application_form_data(
+        select id, json_data from ccbc_public.application_form_data(
       (select row(application.*)::ccbc_public.application from ccbc_public.application where id=3)
     );
   $$,

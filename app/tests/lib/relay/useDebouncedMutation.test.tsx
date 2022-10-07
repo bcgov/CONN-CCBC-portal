@@ -36,14 +36,14 @@ describe('the useDebouncedMutation hook', () => {
           application {
             id
             formData {
-              formData
+              jsonData
             }
           }
         }
       }
     `;
 
-    function Renderer({ initialMutation, commitInRender }) {
+    const Renderer = ({ initialMutation, commitInRender }) => {
       const [mutation] = useState(initialMutation);
       const [commitFn, isMutationInFlight] = useDebouncedMutation(
         mutation,
@@ -62,19 +62,19 @@ describe('the useDebouncedMutation hook', () => {
       }
       isInFlightFn(isMutationInFlight);
       return null;
-    }
+    };
 
-    function Container(props) {
-      const [env] = useState(props.environment);
+    const Container = ({ environment: containerEnvironment, mutation, commitInRender }) => {
+      const [env] = useState(containerEnvironment);
       return (
         <RelayEnvironmentProvider environment={env}>
           <Renderer
-            initialMutation={props.mutation}
-            commitInRender={props.commitInRender}
+            initialMutation={mutation}
+            commitInRender={commitInRender}
           />
         </RelayEnvironmentProvider>
       );
-    }
+    };
 
     renderContainer = function (env, mutation, commitInRender = false) {
       act(() => {
@@ -97,7 +97,7 @@ describe('the useDebouncedMutation hook', () => {
     const disposable1 = disposable;
     const disposeSpy = jest.spyOn(disposable1, 'dispose');
     commit({ variables, debounceKey: 'debounceKey1' });
-    expect(disposeSpy).toBeCalledTimes(1);
+    expect(disposeSpy).toHaveBeenCalledTimes(1);
   });
 
   it('throws an exception if the debounceKey is not provided', () => {

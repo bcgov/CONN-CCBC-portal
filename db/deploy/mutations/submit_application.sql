@@ -31,7 +31,7 @@ begin
     raise 'The application cannot be submitted as it has the following status: %', application_status;
   end if;
 
-  select form_data, id from
+  select json_data, id from
    ccbc_public.application_form_data((select row(ccbc_public.application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id))
     into _form_data, form_data_id;
 
@@ -76,7 +76,7 @@ begin
   where id = application_row_id;
 
   update ccbc_public.form_data set
-    form_data_status_type_id = 'submitted'
+    form_data_status_type_id = 'committed'
     where id = form_data_id;
 
   return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);
