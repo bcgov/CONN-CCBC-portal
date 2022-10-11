@@ -1,6 +1,6 @@
 import { BaseHeader } from '@button-inc/bcgov-theme/Header';
 import styled from 'styled-components';
-import { SubHeaderNavbarLinks } from '.';
+import SubHeaderNavbarLinks from './NavbarLinks';
 
 const StyledDiv = styled('div')`
   width: 100%;

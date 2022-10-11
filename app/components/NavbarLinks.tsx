@@ -12,13 +12,11 @@ const StyledUl = styled.ul`
   padding-left: ${(props) => props.theme.padding.page};
 `;
 
-export const SubHeaderNavbarLinks: React.FC = () => (
+const SubHeaderNavbarLinks: React.FC = () => (
   <GlobalTheme>
     <StyledUl>
       <StyledLi>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
+        <Link href="/">Home</Link>
       </StyledLi>
       <StyledLi>
         <ExternalLink href="mailto:connectingcommunitiesbc@gov.bc.ca">
@@ -28,3 +26,4 @@ export const SubHeaderNavbarLinks: React.FC = () => (
     </StyledUl>
   </GlobalTheme>
 );
+export default SubHeaderNavbarLinks;

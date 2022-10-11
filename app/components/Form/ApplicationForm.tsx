@@ -12,6 +12,9 @@ import { useSubmitApplicationMutation } from 'schema/mutations/application/submi
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 import { updateFormDataMutation } from '__generated__/updateFormDataMutation.graphql';
 import { useUpdateFormData } from 'schema/mutations/application/updateFormData';
+import { ReviewField } from 'components/Review';
+import SubmitButtons from './SubmitButtons';
+import FormBase from './FormBase';
 import { dateTimeFormat } from '../../lib/theme/functions/formatDates';
 import {
   calculateApplicantFunding,
@@ -23,7 +26,6 @@ import {
 } from '../../lib/theme/customFieldCalculations';
 import ApplicationFormStatus from './ApplicationFormStatus';
 import { schemaToSubschemasArray } from '../../utils/schemaUtils';
-import { FormBase, SubmitButtons } from '.';
 
 const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
   const isSubmissionCompletedByFilled =
@@ -156,9 +158,9 @@ const ApplicationForm: React.FC<Props> = ({
   const [savedAsDraft, setSavedAsDraft] = useState(false);
 
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
-    useState(verifyAllAcknowledgementsChecked(jsonData['acknowledgements']));
+    useState(verifyAllAcknowledgementsChecked(jsonData.acknowledgements));
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
-    verifyAllSubmissionsFilled(jsonData['submission'])
+    verifyAllSubmissionsFilled(jsonData.submission)
   );
 
   const updateAreAllAcknowledgementFieldsSet = (
@@ -384,11 +386,13 @@ const ApplicationForm: React.FC<Props> = ({
       <FormBase
         onSubmit={handleSubmit}
         onChange={handleChange}
+        // Moved here to prevent cycle of FormBase calling the ReviewField through DefaultTheme
+        fields={{ ReviewField }}
         formData={jsonData[sectionName]}
         schema={sectionSchema as JSONSchema7}
         uiSchema={uiSchema[sectionName]}
         // Todo: validate entire form on completion
-        noValidate={true}
+        noValidate
         disabled={isFormDisabled()}
         formContext={formContext}
       >

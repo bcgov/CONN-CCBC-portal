@@ -1,9 +1,10 @@
 import Head from 'next/head';
 import { Footer } from '@button-inc/bcgov-theme';
 import getConfig from 'next/config';
-
 import styled from 'styled-components';
-import { FooterLinks, Navigation, TimeTravel } from '.';
+import FooterLinks from './FooterLinks';
+import Navigation from './Navigation';
+import TimeTravel from './TimeTravel';
 
 const runtimeConfig = getConfig()?.publicRuntimeConfig ?? {};
 

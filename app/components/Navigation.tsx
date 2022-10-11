@@ -3,7 +3,8 @@ import { BaseHeader } from '@button-inc/bcgov-theme/Header';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
-import { SubHeader, NavLoginForm } from '.';
+import SubHeader from './SubHeader';
+import NavLoginForm from './NavLoginForm';
 
 const StyledMainTitle = styled(BaseHeader.Item)`
   font-weight: normal;
@@ -47,15 +48,14 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => (
       <StyledDiv>
         <BaseHeader.Group className="banner">
           <Link passHref href="/">
-            <a>
-              <Image
-                priority
-                src="/applicantportal/icons/BCID_CC_RGB_rev.svg"
-                alt="Logo for Province of British Columbia Connected Communities"
-                height={100}
-                width={300}
-              />
-            </a>
+            <Image
+              style={{ cursor: 'pointer' }}
+              priority
+              src="/applicantportal/icons/BCID_CC_RGB_rev.svg"
+              alt="Logo for Province of British Columbia Connected Communities"
+              height={100}
+              width={300}
+            />
           </Link>
         </BaseHeader.Group>
         <StyledMainTitle>
