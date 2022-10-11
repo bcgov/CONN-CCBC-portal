@@ -40,3 +40,5 @@ functions/next_intake 2022-09-28T21:46:58Z Marcel Mueller <marcel@button.is> # F
 @1.5.0 2022-09-28T23:08:06Z Matthieu Foucault <matthieu@button.is> # release v1.5.0
 @1.6.0 2022-10-05T17:25:28Z Matthieu Foucault <matthieu@button.is> # release v1.6.0
 functions/receive_applications 2022-10-07T19:23:03Z Marcel Mueller <marcel@button.is> # Function to change the status of an application to received
+ccbc_job_executor_permissions 2022-10-07T22:34:55Z Marcel Mueller <marcel@button.is> # Initial permissions for ccbc_job_executor
+create_roles [create_roles@1.5.0] 2022-10-11T17:25:07Z Marcel Mueller <marcel@button.is> # Add ccbc_job_executor role to create_roles
