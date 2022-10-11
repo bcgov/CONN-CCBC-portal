@@ -24,7 +24,6 @@ comment on column ccbc_public.application_status_type.description is 'Descriptio
 insert into ccbc_public.application_status_type (name, description) values
 ('draft', 'Draft'),
 ('withdrawn', 'Withdrawn'),
-('submitted', 'Submitted'),
-('received', 'Received');
+('submitted', 'Submitted');
 
 COMMIT;

@@ -1,5 +1,5 @@
 begin;
-select plan(4);
+select plan(6);
 
 
 select has_role( 'ccbc_auth_user', 'role ccbc_auth_user exists' );

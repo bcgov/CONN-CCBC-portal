@@ -294,6 +294,9 @@ type Query implements Node {
 
   """Returns the current open intake"""
   openIntake: Intake
+
+  """Detects closed intake and marks all submitted applications as Received"""
+  receiveApplications: String
   session: KeycloakJwt
 
   """Reads a single `Application` using its globally unique `ID`."""
