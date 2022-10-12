@@ -2,12 +2,12 @@
 
 BEGIN;
 
-create or replace function ccbc_public.receive_applications() returns void as 
+create or replace function ccbc_public.receive_applications() returns table(result_id int) as
 $function$
-	declare 
+	declare
         current_app    record;
         last_status    text;
-	    applications cursor 
+	    applications cursor
 		    for select id
 		    from ccbc_public.application
 		    where intake_id in (
@@ -16,30 +16,33 @@ $function$
     begin
     -- open the cursor
     open applications;
-        
+
     loop
         -- fetch row into the film
         fetch applications into current_app;
         -- exit when no more row to fetch
         exit when not found;
 
-        select last_status = s.status from ccbc_public.application_status s inner join 
-        (select max(created_at) as created_at, application_id 
+        select last_status = s.status from ccbc_public.application_status s inner join
+        (select max(created_at) as created_at, application_id
             from ccbc_public.application_status group by application_id) maxdate
         on maxdate.application_id=s.application_id and maxdate.created_at=s.created_at
         where s.application_id=current_app.id;
 
         -- process
-        if last_status = 'submitted' then     
-            insert into ccbc_public.application_status (application_id, status) 
+        if last_status = 'submitted' then
+            insert into ccbc_public.application_status (application_id, status)
             values (current_app.id,'received');
+            result_id := application_id;
+            return next;
         end if;
     end loop;
-    
+
     -- close the cursor
     close applications;
 
-    end; 
+
+    end;
 $function$ language plpgsql stable;
 
 grant execute on function ccbc_public.receive_applications to ccbc_auth_user;
