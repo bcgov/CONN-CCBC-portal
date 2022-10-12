@@ -1,3 +1,46 @@
+# [1.7.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.6.0...v1.7.0) (2022-10-12)
+
+### Bug Fixes
+
+- another update on RLS on form_data ([5af1aec](https://github.com/bcgov/CONN-CCBC-portal/commit/5af1aec0fa432ac2baa80c2c96eb6cfa4d7ec338))
+- FileWidget eslint errors ([5071b14](https://github.com/bcgov/CONN-CCBC-portal/commit/5071b148c921ff86527f6f47550f85ad171e69a3))
+- fix revert on create_application ([211039f](https://github.com/bcgov/CONN-CCBC-portal/commit/211039f7d5518ef63974d442455fa2ad4146d452))
+- give relevant comment on form_data column ([86b129c](https://github.com/bcgov/CONN-CCBC-portal/commit/86b129c25942f223af1debc7df94165e517c7b8a))
+- naming convention for changes and remove last_edited ([37c9035](https://github.com/bcgov/CONN-CCBC-portal/commit/37c903508e55217936a01f59710c1b93170553c1))
+- reference error for review data ([05ffa55](https://github.com/bcgov/CONN-CCBC-portal/commit/05ffa55ddcf65524fe419af40a7ce38fa3263a69))
+- **test:** add fixture for form_data_status_type ([90c12aa](https://github.com/bcgov/CONN-CCBC-portal/commit/90c12aaa946e9fdcc7e7ed0510013c1c6aa3df3c))
+- **test:** fix some tests from change in formData ([11d9620](https://github.com/bcgov/CONN-CCBC-portal/commit/11d962079e61b7fa56039086d62d557e8a87f321))
+- **test:** fix some tests with updating form ([ca3f60e](https://github.com/bcgov/CONN-CCBC-portal/commit/ca3f60eb8e40b62e30460bbe42ac144943071512))
+- **test:** fixed import in NavBarLinks test ([af246c7](https://github.com/bcgov/CONN-CCBC-portal/commit/af246c722f9d95f32d3ff86b65ea770092aa81af))
+- **tests:** fix db unit tests ([17d0f88](https://github.com/bcgov/CONN-CCBC-portal/commit/17d0f887a19d80b9c3a76ba636f62f7402e69c0b))
+- **test:** wrap formData in FileWidgetTest ([1583d03](https://github.com/bcgov/CONN-CCBC-portal/commit/1583d03e5e55ba250414e5f28d6adfbf86e67611))
+- update RLS for form_data ([b3453a3](https://github.com/bcgov/CONN-CCBC-portal/commit/b3453a3f9e2eb135885d24d6f5706ebf5985e072))
+- use proper return type ([c91e4a9](https://github.com/bcgov/CONN-CCBC-portal/commit/c91e4a92b197623376d294c918f9d48a12086034))
+- use proper type for submit props ([5b67f62](https://github.com/bcgov/CONN-CCBC-portal/commit/5b67f623c31912a5638e66d12f582043d079d74f))
+
+### Features
+
+- add form_data and form_data_status_type tables ([eedf00e](https://github.com/bcgov/CONN-CCBC-portal/commit/eedf00e0908d2c07cb0b52f883100bd928e8fc6c))
+- change eligibility mapping accepted file type and description ([3994dee](https://github.com/bcgov/CONN-CCBC-portal/commit/3994dee6cdce7fcf65b6e66840e35d1dc554d301))
+- computed column for form_data ([2485fc3](https://github.com/bcgov/CONN-CCBC-portal/commit/2485fc31a37d3798d6554071f2a0ab88c028f34c))
+- **db:** change form_data to json_data and change form datastatus types ([f79252c](https://github.com/bcgov/CONN-CCBC-portal/commit/f79252cd94e6a1a32f05d3e23522fc55b808cbfd))
+- **db:** update tests and data no longer pluralized ([ad18f7c](https://github.com/bcgov/CONN-CCBC-portal/commit/ad18f7c911d565970f52d0919b410ce5b093eb11))
+- expose form_data id to be able to update form data ([9ac499e](https://github.com/bcgov/CONN-CCBC-portal/commit/9ac499e824e0077bf04b2932d76ba41907d54c23))
+- many to many application_form_data table ([89652e6](https://github.com/bcgov/CONN-CCBC-portal/commit/89652e670b94cb60050daf8844297c96de0a4ade))
+- move last_edited_page to form_data ([b20bcce](https://github.com/bcgov/CONN-CCBC-portal/commit/b20bcce216c743e724108ab1aaabd950da97e056))
+- remove form_data from application table ([612dda1](https://github.com/bcgov/CONN-CCBC-portal/commit/612dda103f91ba48ee32a8d3939aa61871545f1e))
+- rework create application to use new form_data ([8d95766](https://github.com/bcgov/CONN-CCBC-portal/commit/8d9576644ea39a7022612578e22bb037652b1776))
+- rework to fix application_project_name ([4659b50](https://github.com/bcgov/CONN-CCBC-portal/commit/4659b50c6a234440196e596f5913ab5c673663b6))
+- rls and tests for form_data ([50e28d4](https://github.com/bcgov/CONN-CCBC-portal/commit/50e28d454f481894096c98b706a8fb1aa5ec1ea1))
+- schema change and new mutation for form ([b0016e7](https://github.com/bcgov/CONN-CCBC-portal/commit/b0016e7c235e3a2130e5007582e57d3b9783d0ea))
+- **test:** application_form_data tests ([fa361b8](https://github.com/bcgov/CONN-CCBC-portal/commit/fa361b8b2206e979e82175eb62b6834f50a8160d))
+- **test:** test for table form_data_status_type ([5712a79](https://github.com/bcgov/CONN-CCBC-portal/commit/5712a79325e88375c9b7b4eb9beff1dbdac36a63))
+- **test:** update tests for mockFormData ([eacb9f5](https://github.com/bcgov/CONN-CCBC-portal/commit/eacb9f52a33f9953474f08a1cb97fd7d5dc63baa))
+- update submit application to use computed column ([1dd5dbf](https://github.com/bcgov/CONN-CCBC-portal/commit/1dd5dbf086079802929e1ceb23cc93bc4e33a56d))
+- update to use form_data_status_type ([7ce3173](https://github.com/bcgov/CONN-CCBC-portal/commit/7ce317396970bbe6e0dbe27e70287be4f4cae667))
+- updates from code review ([89c69fb](https://github.com/bcgov/CONN-CCBC-portal/commit/89c69fb3a982e7eb5635b7d73c434be1693887ac))
+- use formData in application ([c20f397](https://github.com/bcgov/CONN-CCBC-portal/commit/c20f397440a50e879f24eb7d353d11a5b53908e2))
+
 # [1.6.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.5.0...v1.6.0) (2022-10-05)
 
 ### Bug Fixes
