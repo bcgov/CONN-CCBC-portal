@@ -3,3 +3,7 @@ namespacePrefix: ~
 deployer:
   serviceAccount:
     enabled: true
+
+linter:
+  serviceAccount:
+    enabled: true
