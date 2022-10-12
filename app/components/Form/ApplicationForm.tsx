@@ -103,6 +103,7 @@ const ApplicationForm: React.FC<Props> = ({
         rowId
         formData {
           jsonData
+          isEditable
           id
         }
         status
@@ -128,7 +129,7 @@ const ApplicationForm: React.FC<Props> = ({
   );
   const {
     rowId,
-    formData: { jsonData, id: formDataId },
+    formData: { jsonData, id: formDataId, isEditable },
     status,
     updatedAt,
   } = application;
@@ -143,6 +144,7 @@ const ApplicationForm: React.FC<Props> = ({
       intakeCloseTimestamp,
       fullFormData: jsonData,
       formErrorSchema,
+      isEditable,
     };
   }, [
     openIntake,
@@ -150,6 +152,7 @@ const ApplicationForm: React.FC<Props> = ({
     application.intakeByIntakeId?.closeTimestamp,
     jsonData,
     formErrorSchema,
+    isEditable,
   ]);
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
@@ -370,7 +373,11 @@ const ApplicationForm: React.FC<Props> = ({
     const isAcknowledgementOrSubmissionPage =
       sectionName === 'acknowledgements' || sectionName === 'submission';
 
-    return isWithdrawn || (isSubmitted && isAcknowledgementOrSubmissionPage);
+    return (
+      isWithdrawn ||
+      (isSubmitted && isAcknowledgementOrSubmissionPage) ||
+      !isEditable
+    );
   };
 
   return (
@@ -398,6 +405,7 @@ const ApplicationForm: React.FC<Props> = ({
       >
         <SubmitButtons
           disabled={!isSubmitEnabled || isSubmitting}
+          isEditable={isEditable}
           isUpdating={isUpdating}
           isSubmitPage={isSubmitPage}
           formData={jsonData[sectionName]}
