@@ -1,23 +1,24 @@
-## Working together
+# Contributor guide
 
-- Share what you plan to work on to prevent duplication of work
+The CCBC team meets on a daily basis, with a 1-hour meeting inspired by [Honeycomb's meandering team sync](https://www.honeycomb.io/blog/standup-meetings-are-dead/).
 
-## Working with the Board
+## Issue lifecycle
 
-### Creating cards
+Our work is tracked in GitHub issues, located in this repository. We use Zenhub to support the issue lifecycle and estimation.
 
-- Before creating a card, check if the card already exists on the board.
-- Card Title: Noum + verb/action
+### Creating issues
+
+- Any team member can, and should, create issues to prioritize and track the work.
+- Check if the card already exists on the board.
+- Card Title: Noun + verb/action
 - Add tags - Use the existing ones. Don't create tags. Talk with the team first!
-- Add to the proper column/stage
-- Add the Epic
-- Add the Sprint, if needed
+- New cards should remain in the "New issues" column and prioritized with the product owner
 
 ### Refining cards
 
 - T-shirt sizing for new cards as a way to facilitate preliminary review / prioritization by PO
 - Estimating/Reviewing cards async before refinement/sprint planning
-- Backlog refinement/sprint planning meetings should happen before the end of the current sprint 
+- Backlog refinement/sprint planning meetings should happen before the end of the current sprint
 - Card should pass Definition of Ready (DoR) before it can be moved as a sprint candidate
 - [TBD] new planning-poker/estimation tool (Miro, Parabol)
 
@@ -26,7 +27,7 @@
 - Tracking work done on an issue using checkboxes
 - When card is in development, draft PR should be created
 - When development is complete and results satisfy Definition of Done, status of the PR should be changed to Open for review and card moved in corresponent column
-- When PR is approved, merged and deployed to test, card can be moved to "Ready for PO review" 
+- When PR is approved, merged and deployed to test, card can be moved to "Ready for PO review"
 
 ### Communication
 
