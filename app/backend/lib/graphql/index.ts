@@ -1,18 +1,19 @@
 import type { Request } from 'express';
+import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
 import {
   postgraphile,
   createPostGraphileSchema,
   withPostGraphileContext,
+  PostGraphileOptions,
 } from 'postgraphile';
+import { graphql, GraphQLSchema } from 'graphql';
+import { TagsFilePlugin } from 'postgraphile/plugins';
 import PostgraphileRc from '../../../.postgraphilerc';
 
 import { pgPool, getDatabaseUrl } from '../setup-pg';
-import { PostGraphileOptions } from 'postgraphile';
 import authenticationPgSettings from './authenticationPgSettings';
-import {TagsFilePlugin} from 'postgraphile/plugins'
 
-import { generateDatabaseMockOptions } from "./helpers";
-import { graphql, GraphQLSchema } from 'graphql';
+import { generateDatabaseMockOptions } from './helpers';
 import config from '../../../config';
 import resolveFileUpload from './resolveFileUpload';
 import PostGraphileUploadFieldPlugin from './uploadFieldPlugin';
@@ -20,14 +21,14 @@ import PostGraphileUploadFieldPlugin from './uploadFieldPlugin';
 export const pgSettings: any = (req: Request) => {
   const opts = {
     ...authenticationPgSettings(req),
-    ...generateDatabaseMockOptions(req.cookies, ["mocks.mocked_timestamp"]),
+    ...generateDatabaseMockOptions(req.cookies, ['mocks.mocked_timestamp']),
   };
   return opts;
 };
 
 let postgraphileOptions: PostGraphileOptions = {
   appendPlugins: [
-    // PgManyToManyPlugin,
+    PgManyToManyPlugin,
     // ConnectionFilterPlugin,
     TagsFilePlugin,
     PostGraphileUploadFieldPlugin,
@@ -67,9 +68,8 @@ if (config.get('NODE_ENV') === 'production') {
   };
 }
 
-const postgraphileMiddleware = () => {
-  return postgraphile(pgPool, config.get('PGSCHEMA'), postgraphileOptions);
-};
+const postgraphileMiddleware = () =>
+  postgraphile(pgPool, config.get('PGSCHEMA'), postgraphileOptions);
 
 export default postgraphileMiddleware;
 
@@ -98,17 +98,16 @@ export async function performQuery(
       pgPool,
       pgSettings: settings,
     },
-    async (context) => {
+    async (context) =>
       // Execute your GraphQL query in this function with the provided
       // `context` object, which should NOT be used outside of this
       // function.
-      return graphql(
+      graphql(
         await postgraphileSchema(),
         query,
         null,
         { ...context },
         variables
-      );
-    }
+      )
   );
 }

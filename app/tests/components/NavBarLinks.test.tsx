@@ -1,5 +1,5 @@
-import { SubHeaderNavbarLinks } from '../../components/NavbarLinks';
 import { render, screen } from '@testing-library/react';
+import SubHeaderNavbarLinks from '../../components/NavbarLinks';
 
 const renderStaticLayout = () => {
   return render(<SubHeaderNavbarLinks />);
@@ -8,7 +8,7 @@ const renderStaticLayout = () => {
 describe('The SubHeaderNavbarLinks component', () => {
   it('should render Email us button', () => {
     renderStaticLayout();
-    expect(screen.getByText('Email us'));
+    expect(screen.getByText('Email us')).toBeInTheDocument();
   });
 
   it('should render the mailto href', () => {

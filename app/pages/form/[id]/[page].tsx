@@ -17,7 +17,6 @@ const StyledAlert = styled(Alert)`
 const getPageQuery = graphql`
   query PageQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
-      formData
       id
       owner
       status

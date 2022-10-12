@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DashboardTable } from '../../../components/Dashboard';
 import { graphql } from 'react-relay';
+import { DashboardTable } from '../../../components/Dashboard';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledDashboardTestQuery, {
   DashboardTestQuery,
@@ -17,7 +17,9 @@ const testQuery = graphql`
         status
         projectName
         ccbcNumber
-        lastEditedPage
+        formData {
+          lastEditedPage
+        }
         intakeByIntakeId {
           ccbcIntakeNumber
           closeTimestamp
@@ -40,7 +42,9 @@ const mockQueryPayload = {
             status: 'withdrawn',
             projectName: null,
             ccbcNumber: 'CCBC-010001',
-            lastEditedPage: '',
+            formData: {
+              lastEditedPage: '',
+            },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
               closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
@@ -54,7 +58,9 @@ const mockQueryPayload = {
             status: 'submitted',
             projectName: null,
             ccbcNumber: 'CCBC-010002',
-            lastEditedPage: '',
+            formData: {
+              lastEditedPage: '',
+            },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
               closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
@@ -68,7 +74,9 @@ const mockQueryPayload = {
             status: 'submitted',
             projectName: null,
             ccbcNumber: 'CCBC-010003',
-            lastEditedPage: '',
+            formData: {
+              lastEditedPage: '',
+            },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
               closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
@@ -83,13 +91,11 @@ const mockQueryPayload = {
 
 const componentTestingHelper = new ComponentTestingHelper<DashboardTestQuery>({
   component: DashboardTable,
-  testQuery: testQuery,
+  testQuery,
   compiledQuery: compiledDashboardTestQuery,
-  getPropsFromTestQuery: (data) => {
-    return {
-      applications: data,
-    };
-  },
+  getPropsFromTestQuery: (data) => ({
+    applications: data,
+  }),
   defaultQueryResolver: mockQueryPayload,
   defaultQueryVariables: {
     formOwner: { owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6' },
@@ -124,7 +130,9 @@ describe('The Dashboard', () => {
                 status: 'draft',
                 projectName: null,
                 ccbcNumber: null,
-                lastEditedPage: 'templateUploads',
+                formData: {
+                  lastEditedPage: 'templateUploads',
+                },
                 intakeByIntakeId: null,
               },
             ],
@@ -153,7 +161,9 @@ describe('The Dashboard', () => {
                 status: 'submitted',
                 projectName: null,
                 ccbcNumber: 'CCBC-010004',
-                lastEditedPage: '',
+                formData: {
+                  lastEditedPage: '',
+                },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
                   closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
@@ -187,7 +197,9 @@ describe('The Dashboard', () => {
                 status: 'submitted',
                 projectName: null,
                 ccbcNumber: 'CCBC-010005',
-                lastEditedPage: '',
+                formData: {
+                  lastEditedPage: '',
+                },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
                   closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
@@ -214,11 +226,14 @@ describe('The Dashboard', () => {
     const withdrawModalBtn = screen.getByTestId('withdraw-yes-btn');
     await user.click(withdrawModalBtn);
 
-    componentTestingHelper.expectMutationToBeCalled('withdrawApplicationMutation', {
-      input: {
-        applicationRowId: 2,
-      },
-    });
+    componentTestingHelper.expectMutationToBeCalled(
+      'withdrawApplicationMutation',
+      {
+        input: {
+          applicationRowId: 2,
+        },
+      }
+    );
   });
 
   it('Renders a submitted application with the intake closed', () => {
@@ -234,7 +249,9 @@ describe('The Dashboard', () => {
                 status: 'submitted',
                 projectName: null,
                 ccbcNumber: 'CCBC-010005',
-                lastEditedPage: '',
+                formData: {
+                  lastEditedPage: '',
+                },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
                   closeTimestamp: '2021-09-09T13:49:23.513427-07:00',
@@ -267,7 +284,9 @@ describe('The Dashboard', () => {
                 status: 'withdrawn',
                 projectName: null,
                 ccbcNumber: 'CCBC-010005',
-                lastEditedPage: '',
+                formData: {
+                  lastEditedPage: '',
+                },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
                   closeTimestamp: '2024-09-09T13:49:23.513427-07:00',

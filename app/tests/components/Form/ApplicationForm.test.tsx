@@ -1,6 +1,5 @@
 import ApplicationForm from 'components/Form/ApplicationForm';
 import { graphql } from 'react-relay';
-import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
@@ -9,11 +8,12 @@ import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
+import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
 const testQuery = graphql`
   query ApplicationFormTestQuery @relay_test_operation {
     # Spread the fragment you want to test here
-    application(id: "TestApplicationID") {
+    application(id: "TestApplicationId") {
       ...ApplicationForm_application
     }
 
@@ -26,8 +26,10 @@ const testQuery = graphql`
 const mockQueryPayload = {
   Application() {
     return {
-      id: 'TestApplicationID',
-      formData: {},
+      formData: {
+        id: 'TestFormId',
+        jsonData: {},
+      },
       status: 'draft',
       updatedAt: '2022-09-12T14:04:10.790848-07:00',
     };
@@ -45,8 +47,10 @@ const mockQueryPayloadWithFormData = {
   ...mockQueryPayload,
   Application() {
     return {
-      id: 'TestApplicationID',
-      formData: mockFormData,
+      formData: {
+        id: 'TestFormId',
+        jsonData: mockFormData,
+      },
       status: 'draft',
     };
   },
@@ -55,21 +59,24 @@ const mockQueryPayloadWithFormData = {
 const submissionPayload = {
   Application() {
     return {
-      id: 'TestApplicationID',
       status: 'draft',
       updatedAt: '2022-09-12T14:04:10.790848-07:00',
+
       formData: {
-        organizationProfile: {
-          organizationName: 'Testing organization name',
-        },
-        submission: {
-          submissionCompletedFor: 'test',
-          submissionDate: '2022-09-27',
-          submissionCompletedBy: 'test',
-          submissionTitle: 'test',
-        },
-        acknowledgements: {
-          acknowledgementsList: acknowledgementsEnum,
+        id: 'TestFormId',
+        jsonData: {
+          organizationProfile: {
+            organizationName: 'Testing organization name',
+          },
+          submission: {
+            submissionCompletedFor: 'test',
+            submissionDate: '2022-09-27',
+            submissionCompletedBy: 'test',
+            submissionTitle: 'test',
+          },
+          acknowledgements: {
+            acknowledgementsList: acknowledgementsEnum,
+          },
         },
       },
     };
@@ -109,25 +116,22 @@ describe('The application form', () => {
       target: { value: 'test title' },
     });
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          applicationPatch: {
-            formData: {
-              projectInformation: {
-                projectTitle: 'test title',
-              },
-              submission: {
-                submissionDate: '2022-09-12',
-              },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        formDataPatch: {
+          jsonData: {
+            projectInformation: {
+              projectTitle: 'test title',
             },
-            lastEditedPage: 'projectInformation',
+            submission: {
+              submissionDate: '2022-09-12',
+            },
           },
-          id: 'TestApplicationID',
+          lastEditedPage: 'projectInformation',
         },
-      }
-    );
+        id: 'TestFormId',
+      },
+    });
   });
 
   it('sets lastEditedPage to the next page when the user clicks on "continue"', async () => {
@@ -138,33 +142,33 @@ describe('The application form', () => {
       screen.getByRole('button', { name: 'Save and continue' })
     );
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          applicationPatch: {
-            formData: {
-              projectInformation: {},
-              submission: {
-                submissionDate: '2022-09-12',
-              },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        formDataPatch: {
+          jsonData: {
+            projectInformation: {},
+            submission: {
+              submissionDate: '2022-09-12',
             },
-            lastEditedPage: 'projectArea',
           },
-          id: 'TestApplicationID',
+          lastEditedPage: 'projectArea',
         },
-      }
-    );
+        id: 'TestFormId',
+      },
+    });
   });
 
   it('auto fills the submission fields', async () => {
     const mockQueryAutofillPayload = {
       Application() {
         return {
-          id: 'TestApplicationID',
+          id: 'TestApplicationId',
           formData: {
-            organizationProfile: {
-              organizationName: 'Test org',
+            id: 'TestFormId',
+            jsonData: {
+              organizationProfile: {
+                organizationName: 'Test org',
+              },
             },
           },
           status: 'draft',
@@ -187,27 +191,24 @@ describe('The application form', () => {
       screen.getByRole('button', { name: 'Save and continue' })
     );
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          applicationPatch: {
-            formData: {
-              organizationProfile: {
-                organizationName: 'Test org',
-              },
-              projectInformation: {},
-              submission: {
-                submissionCompletedFor: 'Test org',
-                submissionDate: '2022-09-12',
-              },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        formDataPatch: {
+          jsonData: {
+            organizationProfile: {
+              organizationName: 'Test org',
             },
-            lastEditedPage: 'projectArea',
+            projectInformation: {},
+            submission: {
+              submissionCompletedFor: 'Test org',
+              submissionDate: '2022-09-12',
+            },
           },
-          id: 'TestApplicationID',
+          lastEditedPage: 'projectArea',
         },
-      }
-    );
+        id: 'TestFormId',
+      },
+    });
   });
 
   it('acknowledgement page continue is disabled on initial load', async () => {
@@ -256,9 +257,13 @@ describe('The application form', () => {
     const payload = {
       Application() {
         return {
-          id: 'TestApplicationID',
+          id: 'TestApplicationId',
           status: 'withdrawn',
-          formData: {},
+          formData: {
+            jsonData: {
+              id: 'TestFormId',
+            },
+          },
         };
       },
       Query() {
@@ -273,7 +278,7 @@ describe('The application form', () => {
     componentTestingHelper.loadQuery(payload);
     componentTestingHelper.renderComponent();
 
-    expect(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeVisible();
   });
 
   it('submission page submit button is enabled on when all inputs filled', () => {
@@ -303,7 +308,7 @@ describe('The application form', () => {
   });
 
   it('waits for the mutations to be completed before redirecting to the success page', async () => {
-    const formData = {
+    const jsonData = {
       submission: {
         submissionCompletedFor: 'Bob Loblaw',
         submissionDate: '2022-08-10',
@@ -317,9 +322,12 @@ describe('The application form', () => {
     componentTestingHelper.loadQuery({
       Application() {
         return {
-          id: 'TestApplicationID',
+          id: 'TestApplicationId',
           rowId: 42,
-          formData,
+          formData: {
+            id: 'TestFormId',
+            jsonData,
+          },
         };
       },
     });
@@ -377,9 +385,13 @@ describe('The application form', () => {
     const payload = {
       Application() {
         return {
-          id: 'TestApplicationID',
+          id: 'TestApplicationId',
           status: 'submitted',
-          formData: {},
+          formData: {
+            jsonData: {
+              id: 'TestFormId',
+            },
+          },
         };
       },
       Query() {
@@ -409,9 +421,13 @@ describe('The application form', () => {
     const payload = {
       Application() {
         return {
-          id: 'TestApplicationID',
+          id: 'TestApplicationId',
           status: 'submitted',
-          formData: {},
+          formData: {
+            jsonData: {
+              id: 'TestFormId',
+            },
+          },
         };
       },
       Query() {
@@ -449,37 +465,38 @@ describe('The application form', () => {
       screen.getByRole('button', { name: 'Save as draft' })
     );
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          id: 'TestApplicationID',
-          applicationPatch: {
-            formData: {
-              organizationProfile: {
-                organizationName: 'Testing organization name',
-              },
-              submission: {
-                submissionCompletedFor: 'Testing organization name',
-                submissionDate: '2022-09-12',
-                submissionCompletedBy: 'test',
-                submissionTitle: 'test',
-              },
-              acknowledgements: { acknowledgementsList: acknowledgementsEnum },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        id: 'TestFormId',
+        formDataPatch: {
+          jsonData: {
+            organizationProfile: {
+              organizationName: 'Testing organization name',
             },
-            lastEditedPage: 'review',
+            submission: {
+              submissionCompletedFor: 'Testing organization name',
+              submissionDate: '2022-09-12',
+              submissionCompletedBy: 'test',
+              submissionTitle: 'test',
+            },
+            acknowledgements: { acknowledgementsList: acknowledgementsEnum },
           },
+          lastEditedPage: 'review',
         },
-      }
-    );
+      },
+    });
   });
 
   it('acknowledgement page shows continue on submitted application', async () => {
     const mockSubmittedQueryPayload = {
       Application() {
         return {
-          id: 'TestApplicationID',
-          formData: {},
+          id: 'TestApplicationId',
+          formData: {
+            jsonData: {
+              id: 'TestFormId',
+            },
+          },
           status: 'submitted',
         };
       },
@@ -506,8 +523,12 @@ describe('The application form', () => {
     const mockSubmittedQueryPayload = {
       Application() {
         return {
-          id: 'TestApplicationID',
-          formData: {},
+          id: 'TestApplicationId',
+          formData: {
+            jsonData: {
+              id: 'TestFormId',
+            },
+          },
           status: 'submitted',
         };
       },
@@ -541,8 +562,12 @@ describe('The application form', () => {
     const mockSubmittedQueryPayload = {
       Application() {
         return {
-          id: 'TestApplicationID',
-          formData: {},
+          id: 'TestApplicationId',
+          formData: {
+            jsonData: {
+              id: 'TestFormId',
+            },
+          },
           status: 'submitted',
         };
       },
@@ -592,29 +617,26 @@ describe('The application form', () => {
 
     expect(screen.getByText(22.9)).toBeInTheDocument();
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          id: 'TestApplicationID',
-          applicationPatch: {
-            formData: {
-              estimatedProjectEmployment: {
-                estimatedFTECreation: 22.9,
-                estimatedFTEContractorCreation: null,
-                numberOfEmployeesToWork: 12,
-                hoursOfEmploymentPerWeek: 40,
-                personMonthsToBeCreated: 20,
-              },
-              submission: {
-                submissionDate: '2022-09-12',
-              },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        id: 'TestFormId',
+        formDataPatch: {
+          jsonData: {
+            estimatedProjectEmployment: {
+              estimatedFTECreation: 22.9,
+              estimatedFTEContractorCreation: null,
+              numberOfEmployeesToWork: 12,
+              hoursOfEmploymentPerWeek: 40,
+              personMonthsToBeCreated: 20,
             },
-            lastEditedPage: 'estimatedProjectEmployment',
+            submission: {
+              submissionDate: '2022-09-12',
+            },
           },
+          lastEditedPage: 'estimatedProjectEmployment',
         },
-      }
-    );
+      },
+    });
   });
 
   it('should set the correct calculated value on the project page', async () => {
@@ -635,32 +657,29 @@ describe('The application form', () => {
       screen.getByLabelText('Total amount requested under CCBC')
     ).toHaveValue('$15');
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
-      {
-        input: {
-          id: 'TestApplicationID',
-          applicationPatch: {
-            formData: {
-              projectFunding: {
-                totalFundingRequestedCCBC: 15,
-                totalApplicantContribution: null,
-                fundingRequestedCCBC2223: 1,
-                fundingRequestedCCBC2324: 2,
-                fundingRequestedCCBC2425: 3,
-                fundingRequestedCCBC2526: 4,
-                fundingRequestedCCBC2627: 5,
-              },
-
-              submission: {
-                submissionDate: '2022-09-12',
-              },
+    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
+      input: {
+        id: 'TestFormId',
+        formDataPatch: {
+          jsonData: {
+            projectFunding: {
+              totalFundingRequestedCCBC: 15,
+              totalApplicantContribution: null,
+              fundingRequestedCCBC2223: 1,
+              fundingRequestedCCBC2324: 2,
+              fundingRequestedCCBC2425: 3,
+              fundingRequestedCCBC2526: 4,
+              fundingRequestedCCBC2627: 5,
             },
-            lastEditedPage: 'projectFunding',
+
+            submission: {
+              submissionDate: '2022-09-12',
+            },
           },
+          lastEditedPage: 'projectFunding',
         },
-      }
-    );
+      },
+    });
   });
 
   describe('the review page', () => {

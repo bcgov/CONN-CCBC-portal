@@ -10,6 +10,7 @@ declare
   _sub varchar;
   result ccbc_public.application;
   new_application_id int;
+  new_form_data_id int;
 begin
 
   select open_timestamp from ccbc_public.open_intake() into _open_timestamp;
@@ -19,10 +20,20 @@ begin
 
   select sub into _sub from ccbc_public.session();
 
-  insert into ccbc_public.application (form_data, owner) values ('{}'::jsonb, _sub)
+  insert into ccbc_public.application (owner) values (_sub)
    returning id into new_application_id;
 
-  insert into ccbc_public.application_status (application_id, status) 
+  -- using nextval instead of returning id on insert to prevent triggering select RLS,
+  -- which requires the application_form_data record
+  new_form_data_id := nextval(pg_get_serial_sequence('ccbc_public.form_data','id'));
+
+  insert into ccbc_public.form_data (id, json_data) overriding system value
+   values (new_form_data_id , '{}'::jsonb);
+
+  insert into ccbc_public.application_form_data (application_id, form_data_id)
+   values (new_application_id, new_form_data_id);
+
+  insert into ccbc_public.application_status (application_id, status)
   values (new_application_id, 'draft');
 
   select * from ccbc_public.application where id = new_application_id into result;

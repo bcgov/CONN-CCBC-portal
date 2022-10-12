@@ -141,16 +141,18 @@ describe('The FileWidget', () => {
         return {
           id: 'TestApplicationID',
           formData: {
-            coverage: {
-              coverageAssessmentStatistics: [
-                {
-                  id: 3,
-                  uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
-                  name: 'file-2.kmz',
-                  size: 0,
-                  type: 'application/vnd.google-earth.kmz',
-                },
-              ],
+            jsonData: {
+              coverage: {
+                coverageAssessmentStatistics: [
+                  {
+                    id: 3,
+                    uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                    name: 'file-2.kmz',
+                    size: 0,
+                    type: 'application/vnd.google-earth.kmz',
+                  },
+                ],
+              },
             },
           },
           status: 'draft',
@@ -203,30 +205,32 @@ describe('The FileWidget', () => {
         return {
           id: 'TestApplicationID',
           formData: {
-            coverage: {
-              currentNetworkInfastructure: [
-                {
-                  id: 1,
-                  uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
-                  name: 'file.kmz',
-                  size: 0,
-                  type: 'application/vnd.google-earth.kmz',
-                },
-                {
-                  id: 2,
-                  uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
-                  name: 'file-2.kmz',
-                  size: 0,
-                  type: 'application/vnd.google-earth.kmz',
-                },
-                {
-                  id: 3,
-                  uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
-                  name: 'file-3.kmz',
-                  size: 0,
-                  type: 'application/vnd.google-earth.kmz',
-                },
-              ],
+            jsonData: {
+              coverage: {
+                currentNetworkInfastructure: [
+                  {
+                    id: 1,
+                    uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                    name: 'file.kmz',
+                    size: 0,
+                    type: 'application/vnd.google-earth.kmz',
+                  },
+                  {
+                    id: 2,
+                    uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                    name: 'file-2.kmz',
+                    size: 0,
+                    type: 'application/vnd.google-earth.kmz',
+                  },
+                  {
+                    id: 3,
+                    uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                    name: 'file-3.kmz',
+                    size: 0,
+                    type: 'application/vnd.google-earth.kmz',
+                  },
+                ],
+              },
             },
           },
           status: 'draft',

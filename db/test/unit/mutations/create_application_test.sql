@@ -5,7 +5,9 @@ select plan(5);
 truncate table
   ccbc_public.application,
   ccbc_public.application_status,
-  ccbc_public.attachment
+  ccbc_public.attachment,
+  ccbc_public.form_data,
+  ccbc_public.application_form_data
 restart identity;
 
 insert into
@@ -20,13 +22,15 @@ set role ccbc_auth_user;
 
 select results_eq(
   $$
-    select id, owner, form_data, intake_id, ccbc_number from ccbc_public.create_application();
+    select id, owner, intake_id, ccbc_number from ccbc_public.create_application();
   $$,
   $$
-    values (1,'testCcbcAuthUser'::varchar, '{}'::jsonb, null::int, null::varchar)
+    values (1,'testCcbcAuthUser'::varchar, null::int, null::varchar)
   $$,
   'Should return newly created application'
 );
+
+-- TODO: add test to find form_data here
 
 select results_eq(
   $$

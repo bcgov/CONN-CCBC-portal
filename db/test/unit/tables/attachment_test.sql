@@ -40,15 +40,15 @@ set role ccbc_auth_user;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
 insert into ccbc_public.application
-  (ccbc_number, owner, form_data, last_edited_page) values
-  ('CCBC-010001', '11111111-1111-1111-1111-111111111112','{}', 'projectArea');
+  (ccbc_number, owner) values
+  ('CCBC-010001', '11111111-1111-1111-1111-111111111112');
 
 -- Test setup - second user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 insert into ccbc_public.application
-  (ccbc_number, owner, form_data,last_edited_page) values
-  ('CCBC-010002', '11111111-1111-1111-1111-111111111113','{}','projectArea'),
-  ('CCBC-010003', '11111111-1111-1111-1111-111111111113','{}','projectArea');
+  (ccbc_number, owner) values
+  ('CCBC-010002', '11111111-1111-1111-1111-111111111113'),
+  ('CCBC-010003', '11111111-1111-1111-1111-111111111113');
 
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 select lives_ok(

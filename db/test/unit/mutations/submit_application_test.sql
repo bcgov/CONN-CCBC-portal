@@ -1,39 +1,75 @@
 begin;
 
 select plan(14);
+truncate table
+  ccbc_public.application,
+  ccbc_public.application_status,
+  ccbc_public.attachment,
+  ccbc_public.form_data,
+  ccbc_public.application_form_data,
+  ccbc_public.intake
+restart identity;
+
 
 select has_function(
   'ccbc_public', 'submit_application', ARRAY['int'],
   'Function submit_application should exist'
 );
 
-delete from ccbc_public.intake;
 
 set jwt.claims.sub to '00000000-0000-0000-0000-000000000000';
+insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
+values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1),
+      ('2022-05-01 09:00:01-07', '2022-06-01 09:00:00-07', 2);
+select mocks.set_mocked_time_in_transaction((select open_timestamp from ccbc_public.intake limit 1));
 
-insert into ccbc_public.application(id, form_data, owner) overriding system value
-values
-  (1, '{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] }, "submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
-  (2, '{}', '00000000-0000-0000-0000-000000000000'),
-  (3, '{}', '00000000-0000-0000-0000-000000000000'),
-  (4, '{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] }, "submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
-  (5, '{"submission": {"submissionDate": "", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
-  (6, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
-  (7, '{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000'),
-  (8, '{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] },"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": ""}}', '00000000-0000-0000-0000-000000000000'),
-  (9, '{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16] },"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}', '00000000-0000-0000-0000-000000000000');
+do
+$$
+begin
+for i in 1..10 loop
+
+  perform ccbc_public.create_application();
+
+end loop ;
+
+end;
+$$;
+
+UPDATE ccbc_public.form_data SET
+ json_data = '{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] }, "submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}'
+ where id = 1;
+
+ UPDATE ccbc_public.form_data SET
+ json_data ='{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] }, "submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}'
+ where id = 4;
+
+ UPDATE ccbc_public.form_data SET
+ json_data ='{"submission": {"submissionDate": "", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}'
+ where id = 5;
+
+ UPDATE ccbc_public.form_data SET
+ json_data ='{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}'
+ where id = 6;
+
+UPDATE ccbc_public.form_data SET
+json_data ='{"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "", "submissionCompletedFor": "Testing Incorporated"}}'
+where id = 7;
+
+UPDATE ccbc_public.form_data SET
+json_data ='{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] },"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": ""}}'
+where id = 8;
+
+UPDATE ccbc_public.form_data SET
+json_data = '{"acknowledgements": { "acknowledgementsList": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16] },"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}}'
+where id = 9;
 
 insert into ccbc_public.application_status(application_id, status)
 values
-  (1, 'draft'),
   (2, 'submitted'),
-  (3, 'withdrawn'),
-  (4, 'draft'),
-  (5, 'draft'),
-  (6, 'draft'),
-  (7, 'draft'),
-  (8, 'draft'),
-  (9, 'draft');
+  (3, 'withdrawn');
+
+select mocks.set_mocked_time_in_transaction((select open_timestamp - interval '1 second' from ccbc_public.intake limit 1));
+
 
 select throws_like(
   $$
@@ -43,9 +79,7 @@ select throws_like(
   'Throws an exception when there is no open intake'
 );
 
-insert into ccbc_public.intake
-  (id, open_timestamp, close_timestamp, ccbc_intake_number) overriding system value
-  values (42, now(), now() + interval '10 days', 10);
+select mocks.set_mocked_time_in_transaction((select open_timestamp from ccbc_public.intake limit 1));
 
 select throws_like(
   $$
@@ -74,7 +108,7 @@ select results_eq(
     select id, ccbc_number, intake_id from ccbc_public.submit_application(1)
   $$,
   $$
-    values (1, 'CCBC-100001'::varchar, 42)
+    values (1, 'CCBC-010001'::varchar, 1)
   $$,
   'Returns the application with an intake number if in draft'
 );
@@ -95,7 +129,7 @@ select results_eq(
     select id, ccbc_number, intake_id from ccbc_public.submit_application(4)
   $$,
   $$
-    values (4, 'CCBC-100002'::varchar, 42)
+    values (4, 'CCBC-010002'::varchar, 1)
   $$,
   'Increases the ccbc number when submitting applications'
 );
@@ -144,6 +178,8 @@ select function_privs_are(
   'ccbc_public', 'submit_application', ARRAY['int'], 'ccbc_guest', ARRAY[]::text[],
   'ccbc_guest cannot execute ccbc_public.submit_application(int)'
 );
+
+-- TODO: check if form_data is set as committed
 
 select finish();
 

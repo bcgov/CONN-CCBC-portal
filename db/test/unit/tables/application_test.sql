@@ -3,7 +3,7 @@ create extension if not exists pgtap;
 reset client_min_messages;
 
 begin;
-SELECT plan(9);
+SELECT plan(7);
 
 -- Table exists
 select has_table(
@@ -16,8 +16,6 @@ select has_table(
 select has_column('ccbc_public', 'application', 'id','The table application has column id');
 select has_column('ccbc_public', 'application', 'ccbc_number','The table application has column ccbc_number');
 select has_column('ccbc_public', 'application', 'owner','The table application has column owner');
-select has_column('ccbc_public', 'application', 'form_data','The table application has column form_data');
-select has_column('ccbc_public', 'application', 'last_edited_page','The table application has column last_edited_page');
 
 insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
@@ -31,15 +29,15 @@ insert into ccbc_public.ccbc_user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
 insert into ccbc_public.application
-  (ccbc_number, owner, form_data,last_edited_page) values
-  ('CCBC-010001', '11111111-1111-1111-1111-111111111112','{}','projectArea');
+  (ccbc_number, owner) values
+  ('CCBC-010001', '11111111-1111-1111-1111-111111111112');
 
 -- Test setup - second user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 insert into ccbc_public.application
-  (ccbc_number, owner, form_data,last_edited_page) values
-  ('CCBC-010002', '11111111-1111-1111-1111-111111111113','{}','projectArea'),
-  ('CCBC-010003', '11111111-1111-1111-1111-111111111113','{}','projectArea');
+  (ccbc_number, owner) values
+  ('CCBC-010002', '11111111-1111-1111-1111-111111111113'),
+  ('CCBC-010003', '11111111-1111-1111-1111-111111111113');
 -- ccbc_auth_user
 set role ccbc_auth_user;
 select concat('current user is: ', (select current_user));

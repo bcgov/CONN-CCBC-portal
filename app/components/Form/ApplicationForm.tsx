@@ -4,10 +4,18 @@ import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
 import { graphql, useFragment } from 'react-relay';
 import type { JSONSchema7 } from 'json-schema';
 import styled from 'styled-components';
-import { FormBase, SubmitButtons } from '.';
 import { validate, schema, uiSchema } from 'formSchema';
-import { schemaToSubschemasArray } from '../../utils/schemaUtils';
-import ApplicationFormStatus from './ApplicationFormStatus';
+import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
+import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
+import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
+import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
+import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
+import { updateFormDataMutation } from '__generated__/updateFormDataMutation.graphql';
+import { useUpdateFormData } from 'schema/mutations/application/updateFormData';
+import { ReviewField } from 'components/Review';
+import SubmitButtons from './SubmitButtons';
+import FormBase from './FormBase';
+import { dateTimeFormat } from '../../lib/theme/functions/formatDates';
 import {
   calculateApplicantFunding,
   calculateContractorEmployment,
@@ -16,14 +24,8 @@ import {
   calculateInfrastructureFunding,
   calculateProjectEmployment,
 } from '../../lib/theme/customFieldCalculations';
-import { dateTimeFormat } from '../../lib/theme/functions/formatDates';
-import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
-import { useUpdateApplicationMutation } from 'schema/mutations/application/updateApplication';
-import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
-import { updateApplicationMutation } from '__generated__/updateApplicationMutation.graphql';
-import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
-import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
-import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
+import ApplicationFormStatus from './ApplicationFormStatus';
+import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 
 const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
   const isSubmissionCompletedByFilled =
@@ -50,6 +52,22 @@ const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
 const verifyAllAcknowledgementsChecked = (
   formData?: AcknowledgementsFieldJSON
 ) => formData?.acknowledgementsList?.length === acknowledgementsEnum.length;
+
+const calculate = (sectionData, sectionName: string) => ({
+  ...sectionData,
+  ...(sectionName === 'estimatedProjectEmployment' && {
+    ...calculateProjectEmployment(sectionData),
+    ...calculateContractorEmployment(sectionData),
+  }),
+  ...(sectionName === 'projectFunding' && {
+    ...calculateFundingRequestedCCBC(sectionData),
+    ...calculateApplicantFunding(sectionData),
+  }),
+  ...(sectionName === 'otherFundingSources' && {
+    ...calculateInfrastructureFunding(sectionData),
+    ...calculateFundingPartner(sectionData),
+  }),
+});
 
 const Flex = styled('header')`
   display: flex;
@@ -82,9 +100,11 @@ const ApplicationForm: React.FC<Props> = ({
   const application = useFragment(
     graphql`
       fragment ApplicationForm_application on Application {
-        id
         rowId
-        formData
+        formData {
+          jsonData
+          id
+        }
         status
         updatedAt
         intakeByIntakeId {
@@ -106,9 +126,14 @@ const ApplicationForm: React.FC<Props> = ({
     `,
     query
   );
-  const { id, rowId, formData, status, updatedAt } = application;
+  const {
+    rowId,
+    formData: { jsonData, id: formDataId },
+    status,
+    updatedAt,
+  } = application;
 
-  const formErrorSchema = useMemo(() => validate(formData), [formData]);
+  const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
       application.status === 'submitted'
@@ -116,14 +141,14 @@ const ApplicationForm: React.FC<Props> = ({
         : openIntake?.closeTimestamp;
     return {
       intakeCloseTimestamp,
-      fullFormData: formData,
+      fullFormData: jsonData,
       formErrorSchema,
     };
   }, [
     openIntake,
     application.status,
     application.intakeByIntakeId?.closeTimestamp,
-    formData,
+    jsonData,
     formErrorSchema,
   ]);
 
@@ -133,14 +158,32 @@ const ApplicationForm: React.FC<Props> = ({
   const [savedAsDraft, setSavedAsDraft] = useState(false);
 
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
-    useState(verifyAllAcknowledgementsChecked(formData['acknowledgements']));
+    useState(verifyAllAcknowledgementsChecked(jsonData.acknowledgements));
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
-    verifyAllSubmissionsFilled(formData['submission'])
+    verifyAllSubmissionsFilled(jsonData.submission)
   );
+
+  const updateAreAllAcknowledgementFieldsSet = (
+    akcnowledgementsList: AcknowledgementsFieldJSON
+  ) => {
+    setAreAllacknowledgementsChecked(
+      verifyAllAcknowledgementsChecked(akcnowledgementsList)
+    );
+
+    return akcnowledgementsList;
+  };
+
+  const updateAreAllSubmissionFieldsSet = (
+    submissionFields: SubmissionFieldsJSON
+  ) => {
+    setAreAllSubmissionFieldsSet(verifyAllSubmissionsFilled(submissionFields));
+
+    return submissionFields;
+  };
 
   const router = useRouter();
   const [submitApplication, isSubmitting] = useSubmitApplicationMutation();
-  const [updateApplication, isUpdating] = useUpdateApplicationMutation();
+  const [updateFormData, isUpdating] = useUpdateFormData();
 
   const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
     schema as object
@@ -157,7 +200,7 @@ const ApplicationForm: React.FC<Props> = ({
     if (isWithdrawn) return false;
 
     if (sectionName === 'review')
-      return noErrors || formData.review?.acknowledgeIncomplete;
+      return noErrors || jsonData.review?.acknowledgeIncomplete;
 
     if (sectionName === 'acknowledgements')
       return areAllAcknowledgementsChecked || isSubmitted;
@@ -176,7 +219,7 @@ const ApplicationForm: React.FC<Props> = ({
     areAllAcknowledgementsChecked,
     areAllSubmissionFieldsSet,
     isWithdrawn,
-    formData,
+    jsonData,
     isSubmitted,
   ]);
 
@@ -188,7 +231,7 @@ const ApplicationForm: React.FC<Props> = ({
   const saveForm = (
     newFormSectionData: any,
     mutationConfig?: Partial<
-      UseDebouncedMutationConfig<updateApplicationMutation>
+      UseDebouncedMutationConfig<updateFormDataMutation>
     >,
     isRedirectingToNextPage = false,
     isSaveAsDraftBtn = false
@@ -206,7 +249,7 @@ const ApplicationForm: React.FC<Props> = ({
       updateAreAllAcknowledgementFieldsSet(newFormSectionData);
     if (isSubmitPage) updateAreAllSubmissionFieldsSet(newFormSectionData);
 
-    const calculatedSectionData = calculate(newFormSectionData);
+    const calculatedSectionData = calculate(newFormSectionData, sectionName);
 
     // TODO: The code below should be simplified. It is potentially confusing as it only allows
     // deleting field from a section by setting them to undefined.
@@ -214,16 +257,16 @@ const ApplicationForm: React.FC<Props> = ({
     // that can lead to the previous form's data being erased when we change pages
     // https://github.com/rjsf-team/react-jsonschema-form/issues/1708
     let newFormData: Record<string, any> = {};
-    if (Object.keys(formData).length === 0) {
+    if (Object.keys(jsonData).length === 0) {
       newFormData[sectionName] = calculatedSectionData;
-    } else if (formData[sectionName]) {
-      newFormData = { ...formData };
+    } else if (jsonData[sectionName]) {
+      newFormData = { ...jsonData };
       newFormData[sectionName] = {
-        ...formData[sectionName],
+        ...jsonData[sectionName],
         ...calculatedSectionData,
       };
     } else {
-      newFormData = { ...formData };
+      newFormData = { ...jsonData };
       newFormData[sectionName] = { ...calculatedSectionData };
     }
 
@@ -253,26 +296,29 @@ const ApplicationForm: React.FC<Props> = ({
     }
 
     setSavingError(null);
-    updateApplication({
+
+    updateFormData({
       variables: {
         input: {
-          applicationPatch: {
-            formData: newFormData,
+          formDataPatch: {
+            jsonData: newFormData,
             lastEditedPage: isSaveAsDraftBtn ? 'review' : lastEditedPage,
           },
-          id,
+          id: formDataId,
         },
       },
       optimisticResponse: {
-        updateApplication: {
-          application: {
-            id,
-            formData: newFormData,
+        updateFormData: {
+          formData: {
+            id: formDataId,
+            jsonData: newFormData,
             updatedAt: undefined,
+            applicationsByApplicationFormDataFormDataIdAndApplicationId:
+              undefined,
           },
         },
       },
-      debounceKey: id,
+      debounceKey: formDataId,
       onError: () => {
         setSavingError(
           <>
@@ -320,40 +366,6 @@ const ApplicationForm: React.FC<Props> = ({
     saveForm(e.formData);
   };
 
-  const calculate = (sectionData) => {
-    return {
-      ...sectionData,
-      ...(sectionName === 'estimatedProjectEmployment' && {
-        ...calculateProjectEmployment(sectionData),
-        ...calculateContractorEmployment(sectionData),
-      }),
-      ...(sectionName === 'projectFunding' && {
-        ...calculateFundingRequestedCCBC(sectionData),
-        ...calculateApplicantFunding(sectionData),
-      }),
-      ...(sectionName === 'otherFundingSources' && {
-        ...calculateInfrastructureFunding(sectionData),
-        ...calculateFundingPartner(sectionData),
-      }),
-    };
-  };
-
-  const updateAreAllSubmissionFieldsSet = (formData: SubmissionFieldsJSON) => {
-    setAreAllSubmissionFieldsSet(verifyAllSubmissionsFilled(formData));
-
-    return formData;
-  };
-
-  const updateAreAllAcknowledgementFieldsSet = (
-    formData: AcknowledgementsFieldJSON
-  ) => {
-    setAreAllacknowledgementsChecked(
-      verifyAllAcknowledgementsChecked(formData)
-    );
-
-    return formData;
-  };
-
   const isFormDisabled = () => {
     const isAcknowledgementOrSubmissionPage =
       sectionName === 'acknowledgements' || sectionName === 'submission';
@@ -374,11 +386,13 @@ const ApplicationForm: React.FC<Props> = ({
       <FormBase
         onSubmit={handleSubmit}
         onChange={handleChange}
-        formData={formData[sectionName]}
+        // Moved here to prevent cycle of FormBase calling the ReviewField through DefaultTheme
+        fields={{ ReviewField }}
+        formData={jsonData[sectionName]}
         schema={sectionSchema as JSONSchema7}
         uiSchema={uiSchema[sectionName]}
         // Todo: validate entire form on completion
-        noValidate={true}
+        noValidate
         disabled={isFormDisabled()}
         formContext={formContext}
       >
@@ -386,7 +400,7 @@ const ApplicationForm: React.FC<Props> = ({
           disabled={!isSubmitEnabled || isSubmitting}
           isUpdating={isUpdating}
           isSubmitPage={isSubmitPage}
-          formData={formData[sectionName]}
+          formData={jsonData[sectionName]}
           savedAsDraft={savedAsDraft}
           saveForm={saveForm}
           isAcknowledgementPage={isAcknowledgementPage}

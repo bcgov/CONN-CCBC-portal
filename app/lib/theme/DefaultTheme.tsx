@@ -1,5 +1,5 @@
 import { ThemeProps, utils } from '@rjsf/core';
-import ReviewField from 'components/Review/ReviewPageField';
+
 import FieldTemplate from './FieldTemplate';
 import ObjectFieldTemplate from './ObjectFieldTemplate';
 import { ArrayFieldTemplate, SubmissionDescriptionField } from './fields';
@@ -11,7 +11,6 @@ const { fields, widgets: defaultWidgets } = utils.getDefaultRegistry();
 const formTheme: ThemeProps = {
   fields: {
     ...fields,
-    ReviewField,
     SubmissionField: SubmissionDescriptionField,
   },
   widgets: {

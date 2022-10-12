@@ -1,4 +1,4 @@
--- Deploy ccbc:mutations/submit_application to pg
+-- Revert ccbc:mutations/submit_application from pg
 
 begin;
 
@@ -10,9 +10,6 @@ declare
   reference_number bigint;
   seq_name varchar;
   application_status varchar;
-  num_acknowledgements constant integer := 17;
-  _form_data jsonb;
-  form_data_id int;
 begin
 
   select ccbc_public.application_status(
@@ -27,32 +24,8 @@ begin
     raise 'The application cannot be submitted as it has the following status: %', application_status;
   end if;
 
-  select json_data, id from
-   ccbc_public.application_form_data((select row(ccbc_public.application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id))
-    into _form_data, form_data_id;
-
-  if coalesce(_form_data -> 'submission' ->> 'submissionCompletedFor', '') = '' then
-    raise 'The application cannot be submitted as the submission field submission_completed_for is null or empty';
-  end if;
-
-  if coalesce(_form_data -> 'submission' ->> 'submissionCompletedBy', '') = '' then
-    raise 'The application cannot be submitted as the submission field submission_completed_by is null or empty';
-  end if;
-
-  if coalesce(_form_data -> 'submission' ->> 'submissionTitle', '') = '' then
-    raise 'The application cannot be submitted as the submission field submission_title is null or empty';
-  end if;
-
-  if coalesce(_form_data -> 'submission' ->> 'submissionDate', '') = '' then
-    raise 'The application cannot be submitted as the submission field submission_date is null or empty';
-  end if;
-
-  if coalesce(jsonb_array_length(_form_data -> 'acknowledgements' -> 'acknowledgementsList'),0) <> num_acknowledgements then
-    raise 'The application cannot be submitted as there are unchecked acknowledgements';
-  end if;
-
   select id, ccbc_intake_number, application_number_seq_name from ccbc_public.open_intake()
-  into current_intake_id, current_intake_number, seq_name;
+  into current_intake_id, current_intake_number, seq_name ;
 
   if current_intake_id is null then
     raise 'There is no open intake, the application cannot be submitted';
@@ -70,10 +43,6 @@ begin
       lpad(reference_number::text, 4, '0')
     )
   where id = application_row_id;
-
-  update ccbc_public.form_data set
-    form_data_status_type_id = 'committed'
-    where id = form_data_id;
 
   return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);
 end;
