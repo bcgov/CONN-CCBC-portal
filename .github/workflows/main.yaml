@@ -14,8 +14,7 @@ jobs:
 
   test-code:
     uses: ./.github/workflows/test-code.yaml
-    secrets:
-      SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+    secrets: inherit
 
   test-containers:
     needs: [build]
