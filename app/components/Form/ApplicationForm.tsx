@@ -200,7 +200,7 @@ const ApplicationForm: React.FC<Props> = ({
     if (isWithdrawn) return false;
 
     if (sectionName === 'review')
-      return noErrors || jsonData?.review?.acknowledgeIncomplete;
+      return noErrors || jsonData.review?.acknowledgeIncomplete;
 
     if (sectionName === 'acknowledgements')
       return areAllAcknowledgementsChecked || isSubmitted;

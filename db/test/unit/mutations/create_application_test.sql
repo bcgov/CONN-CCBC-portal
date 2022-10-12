@@ -10,7 +10,6 @@ truncate table
   ccbc_public.application_form_data
 restart identity;
 
-
 insert into
   ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number)
 overriding system value
@@ -30,6 +29,8 @@ select results_eq(
   $$,
   'Should return newly created application'
 );
+
+-- TODO: add test to find form_data here
 
 select results_eq(
   $$

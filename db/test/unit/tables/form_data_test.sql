@@ -1,6 +1,6 @@
 begin;
 
-select plan(5);
+select plan(7);
 
 truncate table
   ccbc_public.application,
@@ -26,6 +26,8 @@ select mocks.set_mocked_time_in_transaction((select open_timestamp from ccbc_pub
 
 select has_column('ccbc_public', 'form_data', 'id','The table application has column id');
 select has_column('ccbc_public', 'form_data', 'json_data','The table application has column json_data');
+select has_column('ccbc_public', 'form_data', 'last_edited_page','The table application has column json_data');
+select has_column('ccbc_public', 'form_data', 'last_edited_page','The table application has column json_data');
 
 set jwt.claims.sub to 'user1';
 

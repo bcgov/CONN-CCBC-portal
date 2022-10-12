@@ -48,14 +48,16 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => (
       <StyledDiv>
         <BaseHeader.Group className="banner">
           <Link passHref href="/">
-            <Image
-              style={{ cursor: 'pointer' }}
-              priority
-              src="/applicantportal/icons/BCID_CC_RGB_rev.svg"
-              alt="Logo for Province of British Columbia Connected Communities"
-              height={100}
-              width={300}
-            />
+            <a>
+              <Image
+                style={{ cursor: 'pointer' }}
+                priority
+                src="/applicantportal/icons/BCID_CC_RGB_rev.svg"
+                alt="Logo for Province of British Columbia Connected Communities"
+                height={100}
+                width={300}
+              />
+            </a>
           </Link>
         </BaseHeader.Group>
         <StyledMainTitle>

@@ -1,7 +1,7 @@
 -- Revert ccbc:tables/application_form_data from pg
 
-BEGIN;
+begin;
 
--- XXX Add DDLs here.
+drop table ccbc_public.application_form_data;
 
-COMMIT;
+commit;

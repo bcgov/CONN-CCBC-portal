@@ -179,6 +179,8 @@ select function_privs_are(
   'ccbc_guest cannot execute ccbc_public.submit_application(int)'
 );
 
+-- TODO: check if form_data is set as committed
+
 select finish();
 
 rollback;

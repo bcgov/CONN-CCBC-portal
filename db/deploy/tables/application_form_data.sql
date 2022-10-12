@@ -2,11 +2,19 @@
 
 begin;
 
+-- When dropping columns after release, we should also migrate the data.
+-- In this case, we know there is no data in the production db
+alter table ccbc_public.application drop column form_data;
+alter table ccbc_public.application drop column last_edited_page;
 create table ccbc_public.application_form_data(
   form_data_id integer references ccbc_public.form_data(id),
   application_id integer references ccbc_public.application(id),
   primary key(form_data_id, application_id)
 );
+
+create index application_form_data_form_data_id_idx on ccbc_public.application_form_data(form_data_id);
+
+create index application_form_data_application_id_idx on ccbc_public.application_form_data(application_id);
 
 -- Enable row-level security
 alter table ccbc_public.application_form_data force row level security;
@@ -27,17 +35,17 @@ $policy$
 begin
 
 perform ccbc_private.upsert_policy('ccbc_auth_user_insert_application_form_data', 'application_form_data', 'insert', 'ccbc_auth_user',
-'application_id in (select id from ccbc_public.application where owner=(select sub from ccbc_public.session()))');
+'application_id in (select id from ccbc_public.application)');
 
 perform ccbc_private.upsert_policy('ccbc_auth_user_select_application_form_data', 'application_form_data', 'select', 'ccbc_auth_user',
-'application_id in (select id from ccbc_public.application where owner=(select sub from ccbc_public.session()))');
+'application_id in (select id from ccbc_public.application)');
 
-perform ccbc_private.upsert_policy('ccbc_auth_user can select if they can access application_form_data',
+perform ccbc_private.upsert_policy('ccbc_auth_user_select_form_data',
   'form_data', 'select', 'ccbc_auth_user',
-  'id in (select form_data_id from ccbc_public.application_form_data where form_data_id=id)');
-perform ccbc_private.upsert_policy('ccbc_auth_user can update form data if they can access application_form_data',
+  'id in (select form_data_id from ccbc_public.application_form_data)');
+perform ccbc_private.upsert_policy('ccbc_auth_user_update_form_data',
  'form_data', 'update', 'ccbc_auth_user',
-  'id in (select form_data_id from ccbc_public.application_form_data where form_data_id=id)');
+  'id in (select form_data_id from ccbc_public.application_form_data)');
 
 end
 $policy$;

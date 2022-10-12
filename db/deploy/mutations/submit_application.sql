@@ -10,10 +10,6 @@ declare
   reference_number bigint;
   seq_name varchar;
   application_status varchar;
-  submission_completed_for varchar;
-  submission_completed_by varchar;
-  submission_title varchar;
-  submission_date varchar;
   num_acknowledgements constant integer := 17;
   _form_data jsonb;
   form_data_id int;

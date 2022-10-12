@@ -64,6 +64,8 @@ select function_privs_are(
   'ccbc_guest cannot execute ccbc_public.withdraw_application(int)'
 );
 
+-- TODO: Check to see if withdrawn form_data is committed
+
 select finish();
 
 rollback;

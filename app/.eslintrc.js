@@ -16,6 +16,14 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'jsx-a11y/anchor-is-valid': [
+      'error',
+      {
+        components: ['Link'],
+        specialLink: ['hrefLeft', 'hrefRight'],
+        aspects: ['invalidHref', 'preferButton'],
+      },
+    ],
     'arrow-body-style': 0,
     'react/jsx-props-no-spreading': 0,
     'react/jsx-no-useless-fragment': [2, { allowExpressions: true }],

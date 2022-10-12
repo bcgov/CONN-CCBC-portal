@@ -43,7 +43,6 @@ tables/form_data_status_type 2022-09-27T18:54:22Z Anthony Bushara <anthony@butto
 tables/form_data 2022-09-27T18:50:23Z Anthony Bushara <anthony@button.is> # Table to hold form data
 tables/application_form_data 2022-09-28T15:36:09Z Anthony Bushara <anthony@button.is> # Table linking form_data and and application
 computed_columns/application_form_data 2022-09-28T18:00:16Z Anthony Bushara <anthony@button.is> # Computed Column to expose an application's form data
-tables/application_001_remove_form_data 2022-09-29T15:06:56Z Anthony Bushara <anthony@button.is> # Remove form_data as a column from application
 mutations/create_application [mutations/create_application@1.3.0] 2022-09-29T15:38:35Z Anthony Bushara <anthony@button.is> # Add logic for use with application_form_data and form_data
 computed_columns/application_project_name [computed_columns/application_project_name@1.5.0] 2022-09-29T18:50:24Z Anthony Bushara <anthony@button.is> # Rework to use application_form_data to access the form data
 mutations/submit_application [mutations/submit_application@1.5.0] 2022-09-29T18:56:58Z Anthony Bushara <anthony@button.is> # Rework to access form data through computed column
