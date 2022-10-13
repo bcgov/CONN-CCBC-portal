@@ -1,6 +1,6 @@
 begin;
 
-select plan(6);
+select plan(7);
 
 
 truncate table
@@ -8,7 +8,8 @@ truncate table
   ccbc_public.application_status,
   ccbc_public.attachment,
   ccbc_public.form_data,
-  ccbc_public.application_form_data
+  ccbc_public.application_form_data,
+  ccbc_public.intake
 restart identity;
 
 select has_function(
@@ -25,7 +26,9 @@ select mocks.set_mocked_time_in_transaction((select open_timestamp from ccbc_pub
 set jwt.claims.sub to 'testCcbcAuthUser';
 select ccbc_public.create_application();
 
-update ccbc_public.form_data set form_data_status_type_id = 'submitted';
+update ccbc_public.form_data set form_data_status_type_id = 'committed';
+update ccbc_public.application set intake_id = 1;
+insert into ccbc_public.application_status (application_id, status) VALUES (1,'submitted');
 
 set role ccbc_auth_user;
 select ccbc_public.create_application();
@@ -76,6 +79,21 @@ select results_eq (
     values('t'::boolean)
   $$,
   'Current form is editable as it is a draft, even if there is no open intake'
+);
+
+insert into ccbc_public.application_status (application_id, status) VALUES (1, 'withdrawn');
+reset role;
+select mocks.set_mocked_time_in_transaction((select open_timestamp + interval '1 day' from ccbc_public.intake limit 1));
+set role ccbc_auth_user;
+select results_eq (
+  $$
+    select ccbc_public.form_data_is_editable(ccbc_public.form_data.*)
+    from ccbc_public.form_data where id=1;
+  $$,
+  $$
+    values('f'::boolean)
+  $$,
+  'Form is uneditable though intake is open as it is withdrawn'
 );
 
 select function_privs_are(
