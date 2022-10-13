@@ -1,6 +1,5 @@
-import { withRelayOptions } from '../../pages/dashboard';
 import { screen } from '@testing-library/react';
-import Dashboard from '../../pages/dashboard';
+import Dashboard, { withRelayOptions } from '../../pages/dashboard';
 import PageTestingHelper from '../utils/pageTestingHelper';
 import compileddashboardQuery, {
   dashboardQuery,
@@ -27,6 +26,21 @@ const mockQueryPayload = {
           },
         ],
       },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+      openIntake: {
+        openTimestamp: '2022-08-19T09:00:00-07:00',
+        closeTimestamp: '2027-08-19T09:00:00-07:00',
+      },
+    };
+  },
+};
+
+const mockNoApplicationsPayload = {
+  Query() {
+    return {
+      allApplications: { nodes: [] },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
@@ -117,6 +131,40 @@ describe('The index page', () => {
     ).toBeInTheDocument();
   });
 
+  it('displays the open intake message when there an open intake', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(/Review of applications will begin on/)
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/August 19, 2027, 9:00:00 a.m. PDT/)
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(
+        /You can edit draft and submitted applications until this date./
+      )
+    ).toBeInTheDocument();
+  });
+
+  it('displays the closed intake message when there is no open intake', async () => {
+    pageTestingHelper.loadQuery(mockClosedIntakePayload);
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(`Applications are currently not being accepted.`)
+    ).toBeInTheDocument();
+
+    const link = screen.getByText('program webpage');
+    expect(link).toHaveAttribute(
+      'href',
+      'https://www2.gov.bc.ca/gov/content/governments/connectivity-in-bc/20601/20601-63737'
+    );
+  });
+
   it('has create intake button enabled when there is an open intake', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
@@ -131,5 +179,27 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText(`Create application`)).toBeDisabled();
+  });
+
+  it('displays the message when user has no applications', async () => {
+    pageTestingHelper.loadQuery(mockNoApplicationsPayload);
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(`Applications will appear here`)
+    ).toBeInTheDocument();
+  });
+
+  it('displays the dashboard table when the user has an application', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText(`CCBC ID`)).toBeInTheDocument();
+    expect(screen.getByText(`Project title`)).toBeInTheDocument();
+    expect(screen.getByText(`Status`)).toBeInTheDocument();
+    expect(screen.getByText(`Actions`)).toBeInTheDocument();
+    expect(screen.getByText(`CCBC-010001`)).toBeInTheDocument();
+    expect(screen.getByText(`withdrawn`)).toBeInTheDocument();
+    expect(screen.getByText(`View`)).toBeInTheDocument();
   });
 });

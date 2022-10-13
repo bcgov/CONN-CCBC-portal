@@ -4,6 +4,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { graphql } from 'react-relay';
 import { DateTime } from 'luxon';
+import Link from '@button-inc/bcgov-theme/Link';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
@@ -86,18 +87,35 @@ const Dashboard = ({
       <div>
         <section>
           <h1>Dashboard</h1>
-          {closeTimestamp ? (
+          {!openIntake && (
+            <IntakeAlert openTimestamp={nextIntake?.openTimestamp} />
+          )}
+          {openIntake ? (
             <p>
-              Start a new application; applications can be saved and edited
-              until the intake closes on{' '}
+              Review of applications will begin on{' '}
               {DateTime.fromISO(closeTimestamp, {
                 locale: 'en-CA',
                 zone: 'America/Vancouver',
               }).toFormat('MMMM dd, yyyy, ttt')}
+              . You can edit draft and submitted applications until this date.
             </p>
           ) : (
-            <IntakeAlert openTimestamp={nextIntake?.openTimestamp} />
+            <div>
+              <p>Applications are currently not being accepted.</p>
+              <p>
+                Please check the{' '}
+                <Link
+                  href="https://www2.gov.bc.ca/gov/content/governments/connectivity-in-bc/20601/20601-63737"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  program webpage
+                </Link>{' '}
+                for updates.
+              </p>
+            </div>
           )}
+
           <StyledGovButton
             onClick={handleCreateApplication}
             disabled={!openIntake}
@@ -106,10 +124,9 @@ const Dashboard = ({
           </StyledGovButton>
         </section>
         <section>
-          {hasApplications && openIntake && (
+          {hasApplications ? (
             <DashboardTable applications={query} />
-          )}
-          {!hasApplications && openIntake && (
+          ) : (
             <p>Applications will appear here</p>
           )}
         </section>
