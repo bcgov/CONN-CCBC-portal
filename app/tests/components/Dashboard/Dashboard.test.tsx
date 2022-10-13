@@ -19,6 +19,7 @@ const testQuery = graphql`
         ccbcNumber
         formData {
           lastEditedPage
+          isEditable
         }
         intakeByIntakeId {
           ccbcIntakeNumber
@@ -44,6 +45,7 @@ const mockQueryPayload = {
             ccbcNumber: 'CCBC-010001',
             formData: {
               lastEditedPage: '',
+              isEditable: false,
             },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
@@ -60,6 +62,7 @@ const mockQueryPayload = {
             ccbcNumber: 'CCBC-010002',
             formData: {
               lastEditedPage: '',
+              isEditable: true,
             },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
@@ -76,6 +79,7 @@ const mockQueryPayload = {
             ccbcNumber: 'CCBC-010003',
             formData: {
               lastEditedPage: '',
+              isEditable: true,
             },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
@@ -132,6 +136,7 @@ describe('The Dashboard', () => {
                 ccbcNumber: null,
                 formData: {
                   lastEditedPage: 'templateUploads',
+                  isEditable: true,
                 },
                 intakeByIntakeId: null,
               },
@@ -163,6 +168,7 @@ describe('The Dashboard', () => {
                 ccbcNumber: 'CCBC-010004',
                 formData: {
                   lastEditedPage: '',
+                  isEditable: true,
                 },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
@@ -199,6 +205,7 @@ describe('The Dashboard', () => {
                 ccbcNumber: 'CCBC-010005',
                 formData: {
                   lastEditedPage: '',
+                  isEditable: true,
                 },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
@@ -251,6 +258,7 @@ describe('The Dashboard', () => {
                 ccbcNumber: 'CCBC-010005',
                 formData: {
                   lastEditedPage: '',
+                  isEditable: false,
                 },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,
@@ -286,6 +294,7 @@ describe('The Dashboard', () => {
                 ccbcNumber: 'CCBC-010005',
                 formData: {
                   lastEditedPage: '',
+                  isEditable: false,
                 },
                 intakeByIntakeId: {
                   ccbcIntakeNumber: 1,

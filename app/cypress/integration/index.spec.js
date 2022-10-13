@@ -1,4 +1,5 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
+/// <reference types="Cypress" />
 
 context('Homepage', () => {
   beforeEach(function () {
@@ -139,7 +140,7 @@ context('Homepage', () => {
 
     cy.get('button').contains('Save and continue').click();
 
-    // // // // Other funding sources page
+    // Other funding sources page
 
     cy.get('h1').contains('Other funding sources');
 
@@ -547,6 +548,283 @@ context('Homepage', () => {
     cy.get('body').happoScreenshot({ component: 'Success Page' });
 
     cy.get('button').contains('Return to dashboard').click();
+  });
+
+  it('should see dashboard and have disabled form out of intake', () => {
+    const mockedDateString = '2025-10-10';
+    const mockedDate = new Date(mockedDateString);
+    cy.useMockedTime(mockedDate);
+
+    cy.get('h1').contains('Welcome');
+
+    cy.get('a').contains('program details');
+
+    // Todo: find a way around using these wait
+    cy.wait(2000);
+
+    cy.get('button').contains('Go to dashboard').click();
+
+    cy.url().should('contain', '/dashboard');
+
+    // Dashboard page
+    cy.get('h1').contains('Dashboard');
+    cy.get('body').happoScreenshot({ component: 'Out of Intake Dashboard' });
+
+    cy.get('a').contains('View').click();
+
+    // Project information page
+
+    cy.get('[id="root_projectTitle"]').should('be.disabled');
+    cy.get('[id="root_geographicAreaDescription"]').should('be.disabled');
+    cy.get('[id="root_projectDescription"]').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Project Information Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // Project area page
+
+    cy.get('h1').contains('Project area');
+
+    cy.get('a').contains('project zones');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Project Area Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // Existing network coverage page
+    cy.get('h1').contains('Existing network coverage');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Existing Network Coverage Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // // Budget details page
+    cy.get('h1').contains('Budget details');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Budget Details Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // // Project funding page
+    cy.get('h1').contains('Project funding');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Project Funding Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // Other funding sources page
+
+    cy.get('h1').contains('Other funding sources');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Other Funding Sources Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // Technological solution page
+    cy.get('h1').contains('Technological solution');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Technological Solution Page',
+    });
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('button').contains('Continue').click();
+
+    // Benefits page
+
+    cy.get('h1').contains('Benefits');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Benefits Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // // // Project planning and management page
+    cy.get('h1').contains('Project planning and management');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Project Planning and Management Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // // Estimated project employment page
+
+    cy.get('h1').contains('Estimated project employment');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Estimated Project Employment Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // // Template uploads page
+
+    cy.get('h1').contains('Template uploads');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Template Uploads Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // // Supporting documents page
+    cy.get('h1').contains('Supporting documents');
+
+    cy.get('a').contains('connectingcommunitiesbc@gov.bc.ca');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Supporting Documents Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // // Coverage page
+
+    cy.get('h1').contains('Coverage');
+
+    cy.get('a').contains('Eligibility Mapping Tool');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Coverage Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // Organization Profile page
+
+    cy.get('h1').contains('Organization profile');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Organization Profile Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // Organization location page
+
+    cy.get('h1').contains('Organization location');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Organization Location Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // Organization contact information page
+
+    cy.get('h1').contains('Organization contact information');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Organization Contact Information Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // Authorized contact page
+
+    cy.get('h1').contains('Authorized business contact');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Authorized Contact Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // // Alternate contact page
+
+    cy.get('h1').contains('Alternate business contact');
+
+    cy.get('input').should('be.disabled');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Alternate Contact Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // // Review page
+
+    cy.get('h1').contains('Review');
+
+    cy.get('body').happoScreenshot({ component: 'Out of Intake Review Page' });
+
+    cy.get('button').contains('Continue').click();
+
+    // // Acknowledgements page
+
+    cy.get('h1').contains('Acknowledgements');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Acknowledgements Page',
+    });
+
+    cy.get('button').contains('Continue').click();
+
+    // // Sign Submission
+
+    cy.get('h1').contains('Submission');
+
+    cy.get('[id="root_submissionCompletedFor"]').should(
+      'have.text',
+      'Test org name'
+    );
+
+    cy.get('input[id="root_submissionCompletedBy"]').should('be.disabled');
+    cy.get('input[id="root_submissionTitle"]').should('be.disabled');
+
+    cy.get('[id="root_submissionDate"]').should('have.text', '2022-10-09');
+
+    cy.get('body').happoScreenshot({
+      component: 'Out of Intake Submission Page',
+    });
+
+    cy.get('button').contains('Submit').should('be.disabled');
+
+    cy.get('button').contains('Return to dashboard').click();
+
+    cy.wait(1000);
+
+    cy.url().should('contain', '/dashboard');
   });
 
   it('should render the header', () => {

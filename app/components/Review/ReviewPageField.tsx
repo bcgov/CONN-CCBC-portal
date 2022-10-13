@@ -65,7 +65,7 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
           idSchema={idSchema.acknowledgeIncomplete}
           formData={formData?.acknowledgeIncomplete}
           autofocus={false}
-          disabled={false}
+          disabled={!formContext.isEditable}
           errorSchema={errorSchema?.acknowledgeIncomplete}
           onChange={handleAckChange}
           onBlur={onBlur}

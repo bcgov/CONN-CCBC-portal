@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { Modal, StatusPill, Withdraw, X } from '.';
+import { Modal, StatusPill, Withdraw } from '.';
 import { dashboardQuery$data } from '../../__generated__/dashboardQuery.graphql';
 import schema from '../../formSchema/schema';
 
@@ -61,15 +60,10 @@ const Table = ({ applications }: Props) => {
   const [withdrawId, setWithdrawId] = useState<null | number>(null);
 
   const applicationNodes = applications.allApplications.nodes;
-  const router = useRouter();
 
   const formPages = Object.keys(schema.properties);
 
   const reviewPage = formPages.indexOf('review') + 1;
-
-  const handleGoToReviewPage = (application) => {
-    router.push(`/form/${application.rowId}/${reviewPage}`);
-  };
 
   const getStatusType = (status: string) => {
     if (status === 'draft') {
@@ -114,7 +108,6 @@ const Table = ({ applications }: Props) => {
 
             const isWithdrawn = application.status === 'withdrawn';
             const isSubmitted = application.status === 'submitted';
-            const isEditable = !isWithdrawn && !(isSubmitted && isIntakeClosed);
 
             const getApplicationUrl = () => {
               if (isWithdrawn) {
@@ -127,8 +120,8 @@ const Table = ({ applications }: Props) => {
                 return `/form/${rowId}/1`;
               }
               return `/form/${rowId}/${
-                  formData.lastEditedPage ? lastEditedIndex : 1
-                }`;
+                formData.lastEditedPage ? lastEditedIndex : 1
+              }`;
             };
 
             return (
@@ -143,15 +136,16 @@ const Table = ({ applications }: Props) => {
                 <StyledTableCell>
                   <StyledBtns>
                     <Link href={getApplicationUrl()}>
-                      {isEditable ? 'Edit' : 'View'}
+                      {formData.isEditable ? 'Edit' : 'View'}
                     </Link>
                     {isSubmitted && !isIntakeClosed && (
-                      <div
+                      <button
                         onClick={() => setWithdrawId(rowId)}
                         data-testid="withdraw-btn-test"
+                        type="button"
                       >
                         <Withdraw />
-                      </div>
+                      </button>
                     )}
                   </StyledBtns>
                 </StyledTableCell>

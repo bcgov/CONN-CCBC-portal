@@ -1,6 +1,6 @@
 begin;
 
-select plan(7);
+select * from no_plan();
 
 truncate table
   ccbc_public.application,
@@ -66,6 +66,54 @@ select results_eq(
   'Should only show form data related to owned applications'
 );
 
+
+reset role;
+
+create or replace function ccbc_public.form_data_is_editable(form_data ccbc_public.form_data) returns boolean as $$
+select false;
+$$ language sql;
+
+grant execute on function ccbc_public.form_data_is_editable to ccbc_auth_user;
+
+
+set role ccbc_auth_user;
+
+update ccbc_public.form_data set json_data = '{"asdf":"asdf"}'::jsonb where id = 2;
+
+
+select results_eq(
+  $$
+    select json_data from ccbc_public.form_data where id=2;
+  $$,
+  $$
+    values('{}'::jsonb)
+  $$,
+  'Values are not updated if it does not pass RLS for is editable'
+);
+
+reset role;
+
+create or replace function ccbc_public.form_data_is_editable(form_data ccbc_public.form_data) returns boolean as $$
+select true;
+$$ language sql;
+
+grant execute on function ccbc_public.form_data_is_editable to ccbc_auth_user;
+
+
+set role ccbc_auth_user;
+
+
+update ccbc_public.form_data set json_data = '{"asdf":"asdf"}'::jsonb where id = 2;
+
+select results_eq(
+  $$
+    select json_data from ccbc_public.form_data where id=2;
+  $$,
+  $$
+    values('{"asdf":"asdf"}'::jsonb)
+  $$,
+  'Values are updated if it passes RLS for is editable'
+);
 
 select finish();
 

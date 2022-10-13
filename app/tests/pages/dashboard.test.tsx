@@ -17,7 +17,10 @@ const mockQueryPayload = {
             status: 'withdrawn',
             projectName: null,
             ccbcNumber: 'CCBC-010001',
-            lastEditedPage: '',
+            formData: {
+              lastEditedPage: '',
+              isEditable: false,
+            },
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
               closeTimestamp: '2022-09-09T13:49:23.513427-07:00',

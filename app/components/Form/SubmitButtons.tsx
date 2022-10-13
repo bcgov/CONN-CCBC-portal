@@ -52,6 +52,7 @@ type Props = {
   isSubmitPage: boolean;
   isAcknowledgementPage: boolean;
   isUpdating: boolean;
+  isEditable: boolean;
   savedAsDraft: boolean;
   saveForm: (
     formData: any,
@@ -70,11 +71,11 @@ const SubmitButtons = ({
   isSubmitPage,
   isAcknowledgementPage,
   isUpdating,
+  isEditable,
   savedAsDraft,
   saveForm,
   status,
 }: Props) => {
-  const isWithdrawn = status === 'withdrawn';
   const isDraft = status === 'draft';
   const isSubmitted = status === 'submitted';
   const isDraftAndSubmitPage = isDraft && isSubmitPage;
@@ -83,13 +84,16 @@ const SubmitButtons = ({
 
   const formatSaveAsDraftBtn = () => (savedAsDraft ? 'Saved' : 'Save as draft');
   const formatSubmitBtn = () => {
-    if (isWithdrawn || (isSubmitted && isAcknowledgementPage)) {
+    if (
+      (isSubmitted && isAcknowledgementPage) ||
+      (!isEditable && !isSubmitPage)
+    ) {
       return 'Continue';
     }
     if (!isSubmitPage) {
       return 'Save and continue';
     }
-    if (isSubmitPage && isSubmitted) {
+    if (isSubmitPage && isSubmitted && isEditable) {
       return 'Changes submitted';
     }
     return 'Submit';

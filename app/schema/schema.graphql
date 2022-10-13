@@ -3955,6 +3955,9 @@ type FormData implements Node {
     condition: ApplicationFormDataCondition
   ): ApplicationFormDataConnection!
 
+  """computed column to display whether form_data is editable or not"""
+  isEditable: Boolean
+
   """Reads and enables pagination through a set of `Application`."""
   applicationsByApplicationFormDataFormDataIdAndApplicationId(
     """Only read the first `n` values of the set."""
