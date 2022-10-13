@@ -3,6 +3,9 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
+import { useMemo } from 'react';
+import { Callout } from '@button-inc/bcgov-theme';
+import { DateTime } from 'luxon';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
@@ -25,6 +28,17 @@ const StyledBtnContainer = styled('div')`
   margin: 24px 0;
 `;
 
+// while a `strong` element may be displayed as bold,
+// that should not be relied upon and font-weight should be used instead.
+// Using a `strong` element is still useful on a semantic level.
+const BoldText = styled('strong')`
+  font-weight: bold;
+`;
+
+const StyledCallout = styled(Callout)`
+  margin: ${(props) => props.theme.spacing.medium} 0;
+`;
+
 const getPagesQuery = graphql`
   query pagesQuery {
     session {
@@ -32,6 +46,7 @@ const getPagesQuery = graphql`
     }
     openIntake {
       openTimestamp
+      closeTimestamp
     }
     nextIntake {
       openTimestamp
@@ -47,6 +62,34 @@ const Home = ({
     preloadedQuery
   );
 
+  const intakeCalloutChildren = useMemo(() => {
+    if (!openIntake)
+      return (
+        <>
+          <BoldText>Applications are not currently being accepted.</BoldText>
+          <br />
+          Please check the{' '}
+          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
+            program webpage
+          </Link>{' '}
+          for updates.
+        </>
+      );
+
+    return (
+      <BoldText>
+        Applications are accepted until{' '}
+        {DateTime.fromISO(openIntake.closeTimestamp).toLocaleString(
+          DateTime.DATETIME_FULL
+        )}
+        .
+        <br />
+        Review of applications will not begin until this date. Draft and
+        submitted applications can be edited until then.
+      </BoldText>
+    );
+  }, [openIntake]);
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
@@ -55,17 +98,13 @@ const Home = ({
           <IntakeAlert openTimestamp={nextIntake?.openTimestamp} />
         )}
         <section>
-          <h3>Before you begin</h3>
-          <ul>
-            <li>
-              Refer to{' '}
-              <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
-                program details
-              </Link>{' '}
-              for the application materials and full information about the
-              Connecting Communities British Columbia (CCBC) program.
-            </li>
-          </ul>
+          Refer to{' '}
+          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
+            program details
+          </Link>{' '}
+          for the application materials and full information about the
+          Connecting Communities British Columbia (CCBC) program.
+          <StyledCallout>{intakeCalloutChildren}</StyledCallout>
         </section>
         <section>
           <h3>Get started</h3>

@@ -35,7 +35,7 @@ const StyledDiv = styled('div')`
 `;
 
 const StyledBaseHeader = styled(BaseHeader)`
-  padding-right: ${(props) => props.theme.padding.page};
+  padding-right: ${(props) => props.theme.spacing.large};
 `;
 interface Props {
   isLoggedIn?: boolean;

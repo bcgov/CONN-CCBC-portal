@@ -1,10 +1,9 @@
-import { withRelayOptions } from '../../pages';
 import { screen } from '@testing-library/react';
-import PageTestingHelper from '../utils/pageTestingHelper';
-import Home from '../../pages/index';
 import compiledPagesQuery, {
   pagesQuery,
 } from '__generated__/pagesQuery.graphql';
+import Home, { withRelayOptions } from '../../pages';
+import PageTestingHelper from '../utils/pageTestingHelper';
 
 const mockQueryPayload = {
   Query() {
@@ -34,6 +33,12 @@ const mockClosedIntakePayload = {
 const intakeAlertMessage =
   'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
 
+const closedIntakeCallout = 'Applications are not currently being accepted.';
+
+// using a regex below because the text is broken in multiple elements
+const openedIntakeCallout =
+  /Applications are accepted until August 19, 2027 at 9:00 a.m. PDT./;
+
 const pageTestingHelper = new PageTestingHelper<pagesQuery>({
   pageComponent: Home,
   compiledQuery: compiledPagesQuery,
@@ -46,13 +51,7 @@ describe('The index page', () => {
   });
 
   it('does not redirect an unauthorized user', async () => {
-    const ctx = {
-      req: {
-        url: '/',
-      },
-    } as any;
-
-    expect(await withRelayOptions.serverSideProps(ctx)).toEqual({});
+    expect(await withRelayOptions.serverSideProps()).toEqual({});
   });
 
   it('Displays the Go to dashboard button for a logged in user', async () => {
@@ -74,5 +73,20 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText(intakeAlertMessage)).toBeInTheDocument();
+  });
+
+  it('Displays the opened intake callout when there is an open intake', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText(openedIntakeCallout)).toBeInTheDocument();
+    expect(screen.queryByText(closedIntakeCallout)).toBeNull();
+  });
+  it('Displays the closed intake callout when there is no open intake', () => {
+    pageTestingHelper.loadQuery(mockClosedIntakePayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText(closedIntakeCallout)).toBeInTheDocument();
+    expect(screen.queryByText(openedIntakeCallout)).toBeNull();
   });
 });

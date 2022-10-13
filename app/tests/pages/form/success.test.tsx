@@ -1,6 +1,5 @@
-import { withRelayOptions } from '../../../pages/form/[id]/success';
 import { screen } from '@testing-library/react';
-import Success from '../../../pages/form/[id]/success';
+import Success, { withRelayOptions } from '../../../pages/form/[id]/success';
 import PageTestingHelper from '../../utils/pageTestingHelper';
 import compiledsuccessQuery, {
   successQuery,
@@ -70,7 +69,7 @@ it('displays the correct save time', () => {
   pageTestingHelper.renderPage();
 
   expect(
-    screen.getByText(/2022-08-15 at 01:43 PM \(PDT\)/i)
+    screen.getByText(/2022-08-15 at 01:43 p.m. \(PDT\)/i)
   ).toBeInTheDocument();
 });
 
