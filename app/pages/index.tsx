@@ -35,6 +35,11 @@ const BoldText = styled('strong')`
   font-weight: bold;
 `;
 
+const StyledCallout = styled(Callout)`
+  margin-top: 16px;
+  margin-bottom: 16px;
+`;
+
 const getPagesQuery = graphql`
   query pagesQuery {
     session {
@@ -100,9 +105,7 @@ const Home = ({
           </Link>{' '}
           for the application materials and full information about the
           Connecting Communities British Columbia (CCBC) program.
-          <Callout style={{ marginTop: '16px', marginBottom: '16px' }}>
-            {intakeCalloutChildren}
-          </Callout>
+          <StyledCallout>{intakeCalloutChildren}</StyledCallout>
         </section>
         <section>
           <h3>Get started</h3>
