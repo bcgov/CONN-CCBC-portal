@@ -22,7 +22,7 @@ begin
 
   select ccbc_public.application_status(attached_application) into attached_application_status;
 
-  if form_data_status = 'committed' and open_intake_id = attached_application.id and attached_application_status = 'submitted' then
+  if form_data_status = 'committed' and open_intake_id = attached_application.intake_id and attached_application_status = 'submitted' then
     return true;
   end if;
 
