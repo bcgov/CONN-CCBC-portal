@@ -26,8 +26,10 @@ export const theme = {
     stepperHover: 'rgba(196, 196, 196, 0.06)',
     stepperBlue: 'rgb(229, 239, 249)',
   },
-  padding: {
-    page: '20px',
+  spacing: {
+    small: '8px',
+    medium: '16px',
+    large: '20px',
   },
   breakpoint: {
     smallUp: '@media (min-width: 600px)',

@@ -36,8 +36,7 @@ const BoldText = styled('strong')`
 `;
 
 const StyledCallout = styled(Callout)`
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin: ${(props) => props.theme.spacing.medium} 0;
 `;
 
 const getPagesQuery = graphql`
