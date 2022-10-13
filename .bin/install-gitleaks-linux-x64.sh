@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -xeuo pipefail;
 
-version="8.14.1";
+version="8.15.0";
 releases_api="https://api.github.com/repos/zricethezav/gitleaks/releases/latest";
 releases_json="$(curl -s ${releases_api})";
 
@@ -15,12 +15,12 @@ case "$OSTYPE" in
   *)        echo "Error: unknown: $OSTYPE – definitely not supported"; exit 1; ;;
 esac
 
-
+# disabling this until we configure dependabot to open a PR for new releases
 # error if the specified release isn't latest
-if (echo "${releases_json}" | jq -e "(.name != \"v${version}\")"); then
-  echo "Error: the latest version of gitleaks is $(echo "${releases_json}" | jq "(.name)")";
-  exit 1;
-fi
+# if (echo "${releases_json}" | jq -e "(.name != \"v${version}\")"); then
+#   echo "Error: the latest version of gitleaks is $(echo "${releases_json}" | jq "(.name)")";
+#   exit 1;
+# fi
 
 # download the specified release
 download_url=$(echo "${releases_json}" | jq -r ".assets[] | select(.name | contains(\"${arch}\")) | .browser_download_url");
