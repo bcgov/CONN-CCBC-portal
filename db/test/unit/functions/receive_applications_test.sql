@@ -1,5 +1,5 @@
 begin;
-select plan(3);
+select plan(4);
 
 select has_function(
   'ccbc_public', 'receive_applications',
@@ -41,6 +41,14 @@ select results_eq(
   $$,
   ARRAY['4'::bigint],
     'Count 4 rows where status is submitted'
+);
+
+select results_eq(
+  $$
+    select count(*) from ccbc_public.application_status where status = 'received';
+  $$,
+  ARRAY['0'::bigint],
+    'Expect no rows where status is received'
 );
 
 select * from ccbc_public.receive_applications();
