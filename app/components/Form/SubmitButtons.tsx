@@ -95,7 +95,7 @@ const SubmitButtons = ({
     if (!isSubmitPage) {
       return 'Save and continue';
     }
-    if (isSubmitPage && isSubmitted) {
+    if (isSubmitPage && isSubmitted && isEditable) {
       return 'Changes submitted';
     }
     return 'Submit';
