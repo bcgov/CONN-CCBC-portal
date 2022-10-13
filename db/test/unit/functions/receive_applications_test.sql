@@ -10,6 +10,8 @@ select has_function(
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
 
 delete from ccbc_public.intake;
+delete from ccbc_public.application;
+delete from ccbc_public.application_status;
 
 insert into
   ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number)
@@ -41,19 +43,7 @@ select results_eq(
     'Count 4 rows where status is submitted'
 );
 
-
--- DO $$
--- BEGIN
-
--- raise notice 'we are inside do';
-
--- perform 'ccbc_public.receive_applications()';
-
--- END;
--- $$ language plpgsql;
-
-select ccbc_public.receive_applications();
-
+select * from ccbc_public.receive_applications();
 
 select results_eq(
   $$
@@ -62,9 +52,6 @@ select results_eq(
   ARRAY['3'::bigint],
     'Expect 3 rows where status is received'
 );
-
-
-
 
 select finish();
 
