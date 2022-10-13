@@ -18,7 +18,7 @@
     "cypress": "cypress open"
   },
   "dependencies": {
-    "@bcgov-cas/sso-express": "^3.1.0",
+    "@bcgov-cas/sso-express": "^3.2.0",
     "@bcgov-cas/sso-react": "^2.0.0",
     "@button-inc/bcgov-theme": "^1.0.1",
     "@graphile-contrib/pg-many-to-many": "^1.0.1",

@@ -29,7 +29,8 @@ export const theme = {
   spacing: {
     small: '8px',
     medium: '16px',
-    large: '20px',
+    large: '24px',
+    xlarge: '48px',
   },
   breakpoint: {
     smallUp: '@media (min-width: 600px)',

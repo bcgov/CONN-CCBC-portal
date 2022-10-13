@@ -1,4 +1,5 @@
 import ssoExpress from '@bcgov-cas/sso-express';
+import { IDP_HINTS, IDP_HINT_PARAM } from '../../data/ssoConstants';
 import config from '../../config';
 import createUserMiddleware from './createUser';
 
@@ -31,11 +32,19 @@ export default async function ssoMiddleware() {
       sessionIdleRemainingTime: mockAuth,
     },
     oidcConfig: {
-      baseUrl: baseUrl,
+      baseUrl,
       clientId: 'conn-ccbc-portal-3934',
       oidcIssuer: `https://${oidcIssuer}/auth/realms/standard`,
       clientSecret: `${config.get('CLIENT_SECRET')}`,
     },
     onAuthCallback: createUserMiddleware(),
+    authorizationUrlParams: (req) => {
+      if (
+        Object.values(IDP_HINTS).includes(req.query[IDP_HINT_PARAM] as string)
+      )
+        return { [IDP_HINT_PARAM]: req.query[IDP_HINT_PARAM] as string };
+
+      return {};
+    },
   });
 }
