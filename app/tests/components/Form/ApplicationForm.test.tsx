@@ -29,6 +29,7 @@ const mockQueryPayload = {
       formData: {
         id: 'TestFormId',
         jsonData: {},
+        isEditable: true,
       },
       status: 'draft',
       updatedAt: '2022-09-12T14:04:10.790848-07:00',
@@ -50,6 +51,7 @@ const mockQueryPayloadWithFormData = {
       formData: {
         id: 'TestFormId',
         jsonData: mockFormData,
+        isEditable: true,
       },
       status: 'draft',
     };
@@ -64,6 +66,7 @@ const submissionPayload = {
 
       formData: {
         id: 'TestFormId',
+        isEditable: true,
         jsonData: {
           organizationProfile: {
             organizationName: 'Testing organization name',
@@ -165,6 +168,7 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           formData: {
             id: 'TestFormId',
+            isEditable: true,
             jsonData: {
               organizationProfile: {
                 organizationName: 'Test org',
@@ -528,6 +532,7 @@ describe('The application form', () => {
             jsonData: {
               id: 'TestFormId',
             },
+            isEditable: true,
           },
           status: 'submitted',
         };
@@ -680,6 +685,54 @@ describe('The application form', () => {
         },
       },
     });
+  });
+
+  it('Form is disabled when isEditable is false', () => {
+    const mockFormDataIsEditableFalse = {
+      ...mockQueryPayload,
+      Application() {
+        return {
+          formData: {
+            id: 'TestFormId',
+            jsonData: {},
+            isEditable: false,
+          },
+          status: 'draft',
+          updatedAt: '2022-09-12T14:04:10.790848-07:00',
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(mockFormDataIsEditableFalse);
+    componentTestingHelper.renderComponent();
+
+    expect(
+      screen.getByLabelText(
+        'Provide a Project title. Be descriptive about the geographic region. Please refrain from using years in the title.'
+      )
+    ).toBeDisabled();
+  });
+
+  it('Button is continue when isEditable is false', () => {
+    const mockFormDataIsEditableFalse = {
+      ...mockQueryPayload,
+      Application() {
+        return {
+          formData: {
+            id: 'TestFormId',
+            jsonData: {},
+            isEditable: false,
+          },
+          status: 'draft',
+          updatedAt: '2022-09-12T14:04:10.790848-07:00',
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(mockFormDataIsEditableFalse);
+    componentTestingHelper.renderComponent();
+
+    expect(
+      screen.getByRole('button', { name: 'Continue' })
+    ).toBeInTheDocument();
   });
 
   describe('the review page', () => {

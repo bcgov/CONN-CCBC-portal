@@ -76,7 +76,6 @@ const SubmitButtons = ({
   saveForm,
   status,
 }: Props) => {
-  const isWithdrawn = status === 'withdrawn';
   const isDraft = status === 'draft';
   const isSubmitted = status === 'submitted';
   const isDraftAndSubmitPage = isDraft && isSubmitPage;
@@ -86,7 +85,6 @@ const SubmitButtons = ({
   const formatSaveAsDraftBtn = () => (savedAsDraft ? 'Saved' : 'Save as draft');
   const formatSubmitBtn = () => {
     if (
-      isWithdrawn ||
       (isSubmitted && isAcknowledgementPage) ||
       (!isEditable && !isSubmitPage)
     ) {

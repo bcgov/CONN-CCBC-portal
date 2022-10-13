@@ -239,7 +239,7 @@ const ApplicationForm: React.FC<Props> = ({
     isRedirectingToNextPage = false,
     isSaveAsDraftBtn = false
   ) => {
-    if (isWithdrawn) {
+    if (!isEditable) {
       if (pageNumber < subschemaArray.length) {
         router.push(`/form/${rowId}/${pageNumber + 1}`);
       } else {

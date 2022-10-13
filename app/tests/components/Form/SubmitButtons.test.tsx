@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 const renderStaticLayout = ({
   disabled = false,
+  isEditable = true,
   formData = {},
   isSubmitPage = false,
   isUpdating = false,
@@ -20,6 +21,7 @@ const renderStaticLayout = ({
         formData={formData}
         isSubmitPage={isSubmitPage}
         isUpdating={isUpdating}
+        isEditable={isEditable}
         isAcknowledgementPage={isAcknowledgementPage}
         savedAsDraft={savedAsDraft}
         saveForm={saveForm}
@@ -32,13 +34,12 @@ const renderStaticLayout = ({
 const defaultProps = {
   disabled: false,
   formData: {},
+  isEditable: true,
   isSubmitPage: false,
   isUpdating: false,
   isAcknowledgementPage: false,
   savedAsDraft: false,
-  saveForm: () => {
-    return;
-  },
+  saveForm: () => {},
   status: 'draft',
 };
 
@@ -54,6 +55,7 @@ describe('The SubmitButtons component', () => {
   it('should render the button label Continue if application is withdrawn on pages other than submission page', () => {
     renderStaticLayout({
       ...defaultProps,
+      isEditable: false,
       status: 'withdrawn',
     });
 
@@ -113,10 +115,10 @@ describe('The SubmitButtons component', () => {
       screen.getByRole('button', { name: 'Save as draft' })
     );
 
-    //rerender with expected prop change
+    // rerender with expected prop change
     rerender(
       <GlobalTheme>
-        <SubmitButtons {...props} savedAsDraft={true} />
+        <SubmitButtons {...props} savedAsDraft />
       </GlobalTheme>
     );
 
@@ -145,10 +147,10 @@ describe('The SubmitButtons component', () => {
       screen.getByRole('button', { name: 'Save as draft' })
     );
 
-    //rerender with expected prop change
+    // rerender with expected prop change
     rerender(
       <GlobalTheme>
-        <SubmitButtons {...props} savedAsDraft={true} />
+        <SubmitButtons {...props} savedAsDraft />
       </GlobalTheme>
     );
 
@@ -171,16 +173,14 @@ describe('The SubmitButtons component', () => {
       screen.getByRole('button', { name: 'Save as draft' })
     );
 
-    //rerender with expected prop change
+    // rerender with expected prop change
     rerender(
       <GlobalTheme>
-        <SubmitButtons {...props} savedAsDraft={true} />
+        <SubmitButtons {...props} savedAsDraft />
       </GlobalTheme>
     );
 
-    expect(
-      screen.getByRole('button', { name: 'Saved' }).hasAttribute('disabled')
-    );
+    expect(screen.getByRole('button', { name: 'Saved' })).toBeDisabled();
   });
 
   it('continue button on submitted acknowledgements page', async () => {
@@ -205,8 +205,6 @@ describe('The SubmitButtons component', () => {
 
     renderStaticLayout(props);
 
-    
-
     const submitButton = screen.getByRole('button', {
       name: 'Changes submitted',
     });
@@ -228,6 +226,22 @@ describe('The SubmitButtons component', () => {
       name: 'Return to dashboard',
     });
 
-    expect(returnToDashboard).toBeTruthy();
+    expect(returnToDashboard).toBeInTheDocument();
+  });
+
+  it('displays continue button if isEditable is false when not on submit page', () => {
+    const props = {
+      ...defaultProps,
+      isSubmitPage: false,
+      isEditable: false,
+    };
+
+    renderStaticLayout(props);
+
+    const continueButton = screen.getByRole('button', {
+      name: 'Continue',
+    });
+
+    expect(continueButton).toBeInTheDocument();
   });
 });
