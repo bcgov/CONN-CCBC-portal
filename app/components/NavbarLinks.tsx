@@ -9,7 +9,7 @@ const StyledLi = styled.li`
 `;
 
 const StyledUl = styled.ul`
-  padding-left: ${(props) => props.theme.spacing.large};
+  padding-left: ${(props) => props.theme.spacing.medium};
 `;
 
 const SubHeaderNavbarLinks: React.FC = () => (
