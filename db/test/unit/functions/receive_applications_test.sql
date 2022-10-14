@@ -13,6 +13,8 @@ delete from ccbc_public.intake;
 delete from ccbc_public.application;
 delete from ccbc_public.application_status;
 
+select mocks.set_mocked_time_in_transaction('2022-09-30 09:00:00-07'::timestamptz);
+
 insert into
   ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number)
 overriding system value

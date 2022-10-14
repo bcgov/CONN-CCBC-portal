@@ -25,13 +25,21 @@ begin
   if not exists (
     select true
     from pg_catalog.pg_roles
+    where rolname = 'ccbc_job_executor') then
+
+    create role ccbc_job_executor;
+  end if;
+
+  if not exists (
+    select true
+    from pg_catalog.pg_roles
     where rolname = 'ccbc_app') then
 
     create user ccbc_app;
   end if;
 
 
-  grant ccbc_guest, ccbc_auth_user to ccbc_app;
+  grant ccbc_guest, ccbc_auth_user, ccbc_job_executor to ccbc_app;
   execute format('grant create, connect on database %I to ccbc_app', current_database());
 
 end
