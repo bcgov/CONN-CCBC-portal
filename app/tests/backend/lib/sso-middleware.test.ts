@@ -5,6 +5,7 @@ import ssoMiddleware from 'backend/lib/sso-middleware';
 import request from 'supertest';
 import express from 'express';
 import session from 'express-session';
+import crypto from 'crypto';
 import { IDP_HINTS, IDP_HINT_PARAM } from 'data/ssoConstants';
 
 describe('The sso middleware', () => {
@@ -12,7 +13,7 @@ describe('The sso middleware', () => {
 
   beforeEach(async () => {
     app = express();
-    app.use(session({ secret: 'keyboard cat' }));
+    app.use(session({ secret: crypto.randomUUID(), cookie: { secure: true } }));
     app.use(await ssoMiddleware());
   });
 
