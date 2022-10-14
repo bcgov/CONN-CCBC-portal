@@ -76,9 +76,9 @@ select results_eq (
     from ccbc_public.form_data where id = 2;
   $$,
   $$
-    values('t'::boolean)
+    values('f'::boolean)
   $$,
-  'Current form is editable as it is a draft, even if there is no open intake'
+  'Current form is not editable as it is a draft, and there is no open intake'
 );
 
 insert into ccbc_public.application_status (application_id, status) VALUES (1, 'withdrawn');
