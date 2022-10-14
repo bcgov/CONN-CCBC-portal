@@ -11,11 +11,11 @@ attached_application_status varchar(1000);
 form_data_status varchar(1000):= form_data.form_data_status_type_id;
 begin
 
-  if form_data_status = 'pending' then
+  select id from ccbc_public.open_intake() into open_intake_id;
+
+  if form_data_status = 'pending' and open_intake_id is not null then
     return true;
   end if;
-
-  select id from ccbc_public.open_intake() into open_intake_id;
 
   select app.* into attached_application from ccbc_public.application_form_data as afd, ccbc_public.application as app where afd.form_data_id = form_data.id
   and afd.application_id = app.id ;
