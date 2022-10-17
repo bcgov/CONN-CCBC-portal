@@ -7,12 +7,12 @@ context('Homepage', () => {
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
     cy.sqlFixture('dev/001_intake');
+    cy.sqlFixture('dev/reset_db')
+    cy.sqlFixture('dev/001_application')
     cy.visit('/');
   });
 
-  // Commenting out radio inputs until we pass in proper names or ids to select from
-
-  it('should start and fill the first page of the form', () => {
+  it('should start, open dashboard, select draft application and skip to page 12 of the form', () => {
     cy.get('body').happoScreenshot({ component: 'Applicant Landing Page' });
 
     cy.get('h1').contains('Welcome');
@@ -37,11 +37,11 @@ context('Homepage', () => {
     cy.wait(2000);
     
     // cy.visit('http://localhost:3000/applicantportal/form/1/12');
-    cy.get('#root_copiesOfRegistration-btn').click(); 
+    cy.get('[id="root_copiesOfRegistration-btn"]').click(); 
     cy.get('[data-testid=file-test]').first().selectFile('cypress/fixtures/doc.txt', { force: true });
     cy.wait(2000);
     cy.get('a').contains('doc.txt');
 
-});
+  });
 });
 
