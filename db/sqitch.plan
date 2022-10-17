@@ -55,3 +55,4 @@ functions/receive_applications 2022-10-07T19:23:03Z Marcel Mueller <marcel@butto
 create_roles [create_roles@1.5.0] 2022-10-11T17:25:07Z Marcel Mueller <marcel@button.is> # Add ccbc_job_executor role to create_roles
 ccbc_job_executor_permissions 2022-10-07T22:34:55Z Marcel Mueller <marcel@button.is> # Initial permissions for ccbc_job_executor
 tables/application_status_type_001_add_status_received 2022-10-11T18:39:51Z Marcel Mueller <marcel@button.is> # Insert received application status type
+computed_columns/application_status [computed_columns/application_status@1.8.0] 2022-10-17T20:08:21Z Marcel Mueller <marcel@button.is> # Grant execute function to ccbc_job_executor
