@@ -8,7 +8,7 @@ $function$
         current_app    ccbc_public.application%ROWTYPE;
         last_status    text;
         cnt             int;
-	    applications refcursor; 
+	    applications refcursor;
 
     begin
     select count(*) into cnt from ccbc_public.application
@@ -24,11 +24,7 @@ $function$
         fetch applications into current_app;
         exit when not found;
 
-        select s.status into last_status from ccbc_public.application_status s inner join
-        (select max(created_at) as created_at, application_id
-            from ccbc_public.application_status group by application_id) maxdate
-        on maxdate.application_id=s.application_id and maxdate.created_at=s.created_at
-        where s.application_id=current_app.id;
+        select ccbc_public.application_status(current_app) into last_status;
 
         if last_status = 'submitted' then
             insert into ccbc_public.application_status (application_id, status)
