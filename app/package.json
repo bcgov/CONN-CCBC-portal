@@ -18,7 +18,7 @@
     "cypress": "cypress open"
   },
   "dependencies": {
-    "@bcgov-cas/sso-express": "^3.1.0",
+    "@bcgov-cas/sso-express": "^3.2.0",
     "@bcgov-cas/sso-react": "^2.0.0",
     "@button-inc/bcgov-theme": "^1.0.1",
     "@graphile-contrib/pg-many-to-many": "^1.0.1",
@@ -97,6 +97,7 @@
     "react-dom": "^18.0.0",
     "relay-compiler": "^13.2.0",
     "relay-test-utils": "^13.2.0",
+    "supertest": "^6.3.0",
     "ts-jest": "^28.0.2",
     "ts-node": "^10.7.0",
     "typescript": "4.6.3",

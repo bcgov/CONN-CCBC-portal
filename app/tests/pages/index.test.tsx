@@ -30,6 +30,17 @@ const mockClosedIntakePayload = {
   },
 };
 
+const loggedOutPayload = {
+  Query() {
+    return {
+      session: {
+        sub: null,
+      },
+      openIntake: null,
+    };
+  },
+};
+
 const intakeAlertMessage =
   'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
 
@@ -82,11 +93,36 @@ describe('The index page', () => {
     expect(screen.getByText(openedIntakeCallout)).toBeInTheDocument();
     expect(screen.queryByText(closedIntakeCallout)).toBeNull();
   });
+
   it('Displays the closed intake callout when there is no open intake', () => {
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
     expect(screen.getByText(closedIntakeCallout)).toBeInTheDocument();
     expect(screen.queryByText(openedIntakeCallout)).toBeNull();
+  });
+
+  it('Displays the Business BCeID login button', () => {
+    pageTestingHelper.loadQuery(loggedOutPayload);
+    pageTestingHelper.renderPage();
+    const button = screen.getByRole('button', {
+      name: 'Login with Business BCeID',
+    });
+    expect(button.closest('form')).toHaveAttribute(
+      'action',
+      '/login?kc_idp_hint=bceidbusiness'
+    );
+  });
+
+  it('Displays the Basic BCeID login button', () => {
+    pageTestingHelper.loadQuery(loggedOutPayload);
+    pageTestingHelper.renderPage();
+    const button = screen.getByRole('button', {
+      name: 'Login with Basic BCeID',
+    });
+    expect(button.closest('form')).toHaveAttribute(
+      'action',
+      '/login?kc_idp_hint=bceidbasic'
+    );
   });
 });

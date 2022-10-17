@@ -4,7 +4,7 @@ import { graphql } from 'react-relay';
 import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
 import { useMemo } from 'react';
-import { Callout } from '@button-inc/bcgov-theme';
+import { Button, Callout } from '@button-inc/bcgov-theme';
 import { DateTime } from 'luxon';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
@@ -25,7 +25,19 @@ const StyledDetails = styled('div')`
 `;
 
 const StyledBtnContainer = styled('div')`
-  margin: 24px 0;
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  margin: ${(props) => props.theme.spacing.large} 0;
+  padding: ${(props) => props.theme.spacing.large};
+  gap: ${(props) => props.theme.spacing.medium};
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+`;
+
+const BasicBCeIDFlex = styled('div')`
+  display: inline-flex;
+  gap: ${(props) => props.theme.spacing.xlarge};
 `;
 
 // while a `strong` element may be displayed as bold,
@@ -107,24 +119,26 @@ const Home = ({
           <StyledCallout>{intakeCalloutChildren}</StyledCallout>
         </section>
         <section>
-          <h3>Get started</h3>
-
           {session?.sub ? (
             <StyledBtnContainer>
               <ButtonLink href="/dashboard">Go to dashboard</ButtonLink>
             </StyledBtnContainer>
           ) : (
             <>
-              <p>
-                Login with a Business BCeID or Basic BCeID. If you do not have a
-                BCeID, please{' '}
-                <Link href="https://www.bceid.ca/os/?7770&SkipTo=Basic">
-                  register for a Basic BCeID
-                </Link>
-                .
-              </p>
               <StyledBtnContainer>
-                <LoginForm />
+                <span>Do you have a Business BCeID?</span>
+                <LoginForm idp="Business BCeID" />
+              </StyledBtnContainer>
+              <StyledBtnContainer>
+                <span>If you do not have a Business BCeID:</span>
+                <BasicBCeIDFlex>
+                  <LoginForm idp="Basic BCeID" />
+                  <a href="https://www.bceid.ca/os/?7770&SkipTo=Basic">
+                    <Button variant="secondary">
+                      Register for Basic BCeID
+                    </Button>
+                  </a>
+                </BasicBCeIDFlex>
               </StyledBtnContainer>
             </>
           )}
