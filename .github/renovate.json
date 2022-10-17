@@ -1,0 +1,7 @@
+{
+  "includePaths": ["./app", "./db"],
+  "enabledManagers": ["dockerfile"],
+  "commitMessagePrefix": "ci:",
+  "platform": "github",
+  "onboading": false
+}
