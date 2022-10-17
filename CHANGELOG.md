@@ -1,3 +1,31 @@
+# [1.8.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.7.0...v1.8.0) (2022-10-17)
+
+### Bug Fixes
+
+- compare intake id instead of application id ([3d63e64](https://github.com/bcgov/CONN-CCBC-portal/commit/3d63e64871b0eab7997d00f2d64150bc5c84eafd))
+- **test:** add isEditable in test ([27da1f0](https://github.com/bcgov/CONN-CCBC-portal/commit/27da1f0798b7cec0e6f5eb0710ab91c3a4a5f593))
+- update dashboard tests ([7f75c2b](https://github.com/bcgov/CONN-CCBC-portal/commit/7f75c2bf07734692756805a9536f70f85252017d))
+
+### Features
+
+- add application status to determine if is editable ([04a3f79](https://github.com/bcgov/CONN-CCBC-portal/commit/04a3f79076f103b8171d41ff375552896177ecf5))
+- change so that drafts are not editable when an intake is not open ([e8c2380](https://github.com/bcgov/CONN-CCBC-portal/commit/e8c238014f98cfd58e50560fbc59fdfff504b84b))
+- create form data is editable computed column ([6594cfd](https://github.com/bcgov/CONN-CCBC-portal/commit/6594cfd97a2357d8db0a8c52e069da2d7cedbb6c))
+- dashboard is displayed after intake ends ([089e06b](https://github.com/bcgov/CONN-CCBC-portal/commit/089e06b59b953bde02e7e950126573c32e4eeed9))
+- dashboard wording updates ([f703f13](https://github.com/bcgov/CONN-CCBC-portal/commit/f703f13f75bda053a49e8cd56a4525116776f890))
+- form data is uneditable on the backend if isEditable is false ([7996856](https://github.com/bcgov/CONN-CCBC-portal/commit/79968567cd9ce1a8a8317e23963984fb99f5c8d3))
+- form is disabled if isEditable is false ([775508d](https://github.com/bcgov/CONN-CCBC-portal/commit/775508da7bd4ea03251a1e98dc7fb6a034bd3030))
+- landing page displays intake state in a callout ([ecf77f7](https://github.com/bcgov/CONN-CCBC-portal/commit/ecf77f7dfeff74ff5210222f2153b9a606953b62))
+- landing page shows multiple login buttons ([3d00ad9](https://github.com/bcgov/CONN-CCBC-portal/commit/3d00ad926c35381cc2a7ea7b20796d24cd488373))
+- more tests for form_data_is_editable ([0154aaa](https://github.com/bcgov/CONN-CCBC-portal/commit/0154aaa799fad5f1ba3215d5ff605f038b9305c1))
+- submit is shown on submit page on a uneditable form ([1fe807b](https://github.com/bcgov/CONN-CCBC-portal/commit/1fe807b4e432cf986058b34bfb5c1978d81c285d))
+- table shows "view" when form data is not editable ([787fdad](https://github.com/bcgov/CONN-CCBC-portal/commit/787fdad7efdb9e4671b5d759c07a529ee873b24b))
+- **test:** e2e tests for an out-of-intake application ([e24f3d9](https://github.com/bcgov/CONN-CCBC-portal/commit/e24f3d96e66371135160ecd0c82d83a63bae3e2a))
+- update form_data_id_editable to use plpgsql for better readability ([474500b](https://github.com/bcgov/CONN-CCBC-portal/commit/474500b703e6eb222782c85e5333c9383d247d45))
+- update form_data_is_editable for new form_data_is_editable statuses ([a30db0e](https://github.com/bcgov/CONN-CCBC-portal/commit/a30db0e8b8d80727d1c4ddc83c5a92d0ebcf23e2))
+- updated tests ([b82405f](https://github.com/bcgov/CONN-CCBC-portal/commit/b82405faa5f2fc1599250ebd05986f5925f638ea))
+- withdraw ensures that a form_data is committed ([cfce372](https://github.com/bcgov/CONN-CCBC-portal/commit/cfce37299487d9846eb1ab0981bb6ba11eab6771))
+
 # [1.7.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.6.0...v1.7.0) (2022-10-12)
 
 ### Bug Fixes
