@@ -28,9 +28,6 @@ context('Homepage', () => {
 
     // Dashboard page
     cy.get('h1').contains('Dashboard');
-
-    cy.get('body').happoScreenshot({ component: 'Dashboard Page' });
-
     cy.get('a').contains('Edit').click();
     cy.wait(2000);
     cy.get('a').contains('Supporting documents').click();
