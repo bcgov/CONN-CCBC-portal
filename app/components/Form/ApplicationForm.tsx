@@ -212,7 +212,8 @@ const ApplicationForm: React.FC<Props> = ({
       return (
         areAllSubmissionFieldsSet &&
         areAllAcknowledgementsChecked &&
-        !isSubmitted
+        !isSubmitted &&
+        isEditable
       );
 
     return true;
@@ -224,6 +225,7 @@ const ApplicationForm: React.FC<Props> = ({
     isWithdrawn,
     jsonData,
     isSubmitted,
+    isEditable,
   ]);
 
   if (subschemaArray.length < pageNumber) {

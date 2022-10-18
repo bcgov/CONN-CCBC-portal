@@ -78,8 +78,9 @@ const SubmitButtons = ({
 }: Props) => {
   const isDraft = status === 'draft';
   const isSubmitted = status === 'submitted';
-  const isDraftAndSubmitPage = isDraft && isSubmitPage;
-  const isSubmittedAndSubmitPage = isSubmitted && isSubmitPage;
+  const isDraftAndSubmitPage = isDraft && isSubmitPage && isEditable;
+  const isSubmittedAndSubmitPage =
+    (isSubmitted && isSubmitPage) || (isSubmitPage && !isEditable);
   const router = useRouter();
 
   const formatSaveAsDraftBtn = () => (savedAsDraft ? 'Saved' : 'Save as draft');
