@@ -6,9 +6,9 @@ context('Homepage', () => {
     const mockedDateString = '2022-10-10';
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
-    cy.sqlFixture('dev/reset_db')
-    cy.sqlFixture('dev/001_intake');
-    cy.sqlFixture('dev/001_application')
+    cy.sqlFixture('e2e/reset_db')
+    cy.sqlFixture('e2e/001_intake');
+    cy.sqlFixture('e2e/001_application')
     cy.visit('/');
   });
 
@@ -42,7 +42,7 @@ context('Homepage', () => {
   });
 
   afterEach(function() {
-    cy.sqlFixture('dev/reset_db')
+    cy.sqlFixture('e2e/reset_db')
   });
 });
 
