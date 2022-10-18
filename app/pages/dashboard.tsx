@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'; 
 import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { usePreloadedQuery } from 'react-relay/hooks';
-import { graphql } from 'react-relay';
-import { DateTime } from 'luxon';
-import Link from '@button-inc/bcgov-theme/Link';
+import { graphql } from 'react-relay'; 
+import { useFeature } from '@growthbook/growthbook-react'; 
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
-import { IntakeAlert, Layout } from '../components';
+import { DynamicAlert, Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
 
@@ -82,6 +81,9 @@ const Dashboard = ({
       },
     });
   };
+  
+  const openIntakeBanner = useFeature('open_intake_alert').value || {};
+  const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -89,32 +91,12 @@ const Dashboard = ({
         <section>
           <h1>Dashboard</h1>
           {!openIntake && (
-            <IntakeAlert openTimestamp={nextIntake?.openTimestamp} />
+            <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
+            variant={closedIntakeBanner.variant} includeLink={true}></DynamicAlert>        
           )}
-          {openIntake ? (
-            <p>
-              Review of applications will begin on{' '}
-              {DateTime.fromISO(closeTimestamp, {
-                locale: 'en-CA',
-                zone: 'America/Vancouver',
-              }).toFormat('MMMM dd, yyyy, ttt')}
-              . You can edit draft and submitted applications until this date.
-            </p>
-          ) : (
-            <div>
-              <p>Applications are currently not being accepted.</p>
-              <p>
-                Please check the{' '}
-                <Link
-                  href="https://www2.gov.bc.ca/gov/content/governments/connectivity-in-bc/20601/20601-63737"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  program webpage
-                </Link>{' '}
-                for updates.
-              </p>
-            </div>
+          {openIntake && (
+            <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
+            variant={openIntakeBanner.variant} includeLink={false}></DynamicAlert>
           )}
 
           <StyledGovButton

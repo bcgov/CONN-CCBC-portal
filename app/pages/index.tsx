@@ -5,12 +5,10 @@ import { useFeature } from '@growthbook/growthbook-react';
 import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
 import { useMemo } from 'react';
-import { Button, Callout } from '@button-inc/bcgov-theme';
-import { DateTime } from 'luxon';
+import { Button } from '@button-inc/bcgov-theme'; 
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
-import { pagesQuery } from '../__generated__/pagesQuery.graphql';
-import DynamicAlert from 'components/DynamicAlert';
+import { ButtonLink, DynamicAlert, Layout, LoginForm } from '../components';
+import { pagesQuery } from '../__generated__/pagesQuery.graphql'; 
 
 const StyledOl = styled('ol')`
   max-width: 300px;

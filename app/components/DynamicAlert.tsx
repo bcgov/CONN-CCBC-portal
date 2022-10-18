@@ -9,6 +9,9 @@ const StyledAlert = styled(Alert)`
   p {
     margin: 0 0.5em;
   }
+  a {
+    font-size: 0.8rem;
+  }
 `;
 const BoldText = styled('strong')`
   font-weight: bold;
@@ -39,7 +42,9 @@ const DynamicAlert: React.FC<Props> = ({ dateTimestamp, variant, text, includeLi
       <>
         <br />
           Please check the{' '}
-          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
+          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc"
+            target="_blank"
+            rel="noopener noreferrer">
             program webpage
           </Link>{' '}
           for updates.
