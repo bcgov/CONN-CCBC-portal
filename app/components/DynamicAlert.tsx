@@ -22,13 +22,14 @@ interface Props {
   variant: string;
   text: string;
   includeLink : boolean;
+  displayOpenDate : boolean;
 }
 
-const DynamicAlert: React.FC<Props> = ({ dateTimestamp, variant, text, includeLink}) => {
+const DynamicAlert: React.FC<Props> = ({ dateTimestamp, variant, text, includeLink, displayOpenDate}) => {
   if (!text) return;
 
   // merge code
-  if (dateTimestamp && text.indexOf("[DATE") > -1) {
+  if (dateTimestamp && displayOpenDate && text.indexOf("[DATE") > -1) {
     const dateString = DateTime.fromISO(dateTimestamp).toLocaleString(
       DateTime.DATE_FULL
     );

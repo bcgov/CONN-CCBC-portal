@@ -83,7 +83,7 @@ const Dashboard = ({
   };
   
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
-  const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
+  const closedIntakeBanner = useFeature('closed_intake_alert').value || {}; 
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -92,11 +92,12 @@ const Dashboard = ({
           <h1>Dashboard</h1>
           {!openIntake && (
             <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
-            variant={closedIntakeBanner.variant} includeLink={true}></DynamicAlert>        
+            variant={closedIntakeBanner.variant} includeLink={true} 
+            displayOpenDate = {closedIntakeBanner.displayOpenDate}></DynamicAlert>        
           )}
           {openIntake && (
             <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
-            variant={openIntakeBanner.variant} includeLink={false}></DynamicAlert>
+            variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false} ></DynamicAlert>
           )}
 
           <StyledGovButton
