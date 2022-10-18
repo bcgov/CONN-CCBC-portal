@@ -1,0 +1,52 @@
+import Alert from '@button-inc/bcgov-theme/Alert';
+import Link from '@button-inc/bcgov-theme/Link';
+import styled from 'styled-components';
+import { DateTime } from 'luxon';
+
+const StyledAlert = styled(Alert)`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  p {
+    margin: 0 0.5em;
+  }
+`;
+const BoldText = styled('strong')`
+  font-weight: bold;
+`;
+
+interface Props {
+  dateTimestamp: string;
+  variant: string;
+  text: string;
+  includeLink : boolean;
+}
+
+const DynamicAlert: React.FC<Props> = ({ dateTimestamp, variant, text, includeLink}) => {
+  if (!text) return;
+
+  // merge code
+  if (dateTimestamp && text.indexOf("[DATE") > -1) {
+    const dateString = DateTime.fromISO(dateTimestamp).toLocaleString(
+      DateTime.DATE_FULL
+    );
+    text = text.replace("[DATE]", dateString);
+  }
+
+  return (
+    <StyledAlert size="small" variant={variant}>
+      <p><BoldText>{text}</BoldText>
+      {includeLink && 
+      <>
+        <br />
+          Please check the{' '}
+          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
+            program webpage
+          </Link>{' '}
+          for updates.
+      </>}
+      </p>
+    </StyledAlert>
+  );
+};
+
+export default DynamicAlert;

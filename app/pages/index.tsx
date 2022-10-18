@@ -1,6 +1,7 @@
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
+import { useFeature } from '@growthbook/growthbook-react';
 import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
 import { useMemo } from 'react';
@@ -9,6 +10,7 @@ import { DateTime } from 'luxon';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { ButtonLink, IntakeAlert, Layout, LoginForm } from '../components';
 import { pagesQuery } from '../__generated__/pagesQuery.graphql';
+import DynamicAlert from 'components/DynamicAlert';
 
 const StyledOl = styled('ol')`
   max-width: 300px;
@@ -40,17 +42,6 @@ const BasicBCeIDFlex = styled('div')`
   gap: ${(props) => props.theme.spacing.xlarge};
 `;
 
-// while a `strong` element may be displayed as bold,
-// that should not be relied upon and font-weight should be used instead.
-// Using a `strong` element is still useful on a semantic level.
-const BoldText = styled('strong')`
-  font-weight: bold;
-`;
-
-const StyledCallout = styled(Callout)`
-  margin: ${(props) => props.theme.spacing.medium} 0;
-`;
-
 const getPagesQuery = graphql`
   query pagesQuery {
     session {
@@ -75,30 +66,20 @@ const Home = ({
   );
 
   const intakeCalloutChildren = useMemo(() => {
-    if (!openIntake)
+    const openIntakeBanner = useFeature('open_intake_alert').value || {};
+    const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
+    // expected null or {"variant": "success", text: "Applications now are being accepted." }
+    // or {"variant": "success", text: "Applications are not currently being accepted." }
+
+    if (openIntake)
       return (
-        <>
-          <BoldText>Applications are not currently being accepted.</BoldText>
-          <br />
-          Please check the{' '}
-          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
-            program webpage
-          </Link>{' '}
-          for updates.
-        </>
+        <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
+        variant={openIntakeBanner.variant} includeLink={false}></DynamicAlert>
       );
 
     return (
-      <BoldText>
-        Applications are accepted until{' '}
-        {DateTime.fromISO(openIntake.closeTimestamp).toLocaleString(
-          DateTime.DATETIME_FULL
-        )}
-        .
-        <br />
-        Review of applications will not begin until this date. Draft and
-        submitted applications can be edited until then.
-      </BoldText>
+      <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
+        variant={closedIntakeBanner.variant} includeLink={false}></DynamicAlert>
     );
   }, [openIntake]);
 
@@ -106,9 +87,6 @@ const Home = ({
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Welcome</h1>
-        {!openIntake && (
-          <IntakeAlert openTimestamp={nextIntake?.openTimestamp} />
-        )}
         <section>
           Refer to{' '}
           <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
@@ -116,7 +94,7 @@ const Home = ({
           </Link>{' '}
           for the application materials and full information about the
           Connecting Communities British Columbia (CCBC) program.
-          <StyledCallout>{intakeCalloutChildren}</StyledCallout>
+          {intakeCalloutChildren}
         </section>
         <section>
           {session?.sub ? (
