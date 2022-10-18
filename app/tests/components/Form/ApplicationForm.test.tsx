@@ -736,6 +736,58 @@ describe('The application form', () => {
     ).toBeInTheDocument();
   });
 
+  it('submit button is disabled when isEditable is false', () => {
+    const mockFormDataIsEditableFalse = {
+      ...mockQueryPayload,
+      Application() {
+        return {
+          formData: {
+            id: 'TestFormId',
+            jsonData: {},
+            isEditable: false,
+          },
+          status: 'draft',
+          updatedAt: '2022-09-12T14:04:10.790848-07:00',
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(mockFormDataIsEditableFalse);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    expect(screen.getByRole('button', { name: 'Submit' })).toBeDisabled();
+  });
+
+  it('return to dashboard is visible when isEditable is false', () => {
+    const mockFormDataIsEditableFalse = {
+      ...mockQueryPayload,
+      Application() {
+        return {
+          formData: {
+            id: 'TestFormId',
+            jsonData: {},
+            isEditable: false,
+          },
+          status: 'draft',
+          updatedAt: '2022-09-12T14:04:10.790848-07:00',
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(mockFormDataIsEditableFalse);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    expect(
+      screen.getByRole('button', { name: 'Return to dashboard' })
+    ).toBeInTheDocument();
+  });
+
   describe('the review page', () => {
     const REVIEW_PAGE_INDEX =
       uiSchema['ui:order'].findIndex((e) => e === 'review') + 1;
