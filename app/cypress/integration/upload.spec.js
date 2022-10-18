@@ -6,8 +6,8 @@ context('Homepage', () => {
     const mockedDateString = '2022-10-10';
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
-    cy.sqlFixture('dev/001_intake');
     cy.sqlFixture('dev/reset_db')
+    cy.sqlFixture('dev/001_intake');
     cy.sqlFixture('dev/001_application')
     cy.visit('/');
   });
@@ -42,6 +42,10 @@ context('Homepage', () => {
     cy.wait(2000);
     cy.get('a').contains('doc.txt');
 
+  });
+
+  afterEach(function() {
+    cy.sqlFixture('dev/reset_db')
   });
 });
 
