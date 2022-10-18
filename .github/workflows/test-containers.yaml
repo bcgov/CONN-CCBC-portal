@@ -24,7 +24,9 @@ jobs:
       - name: run app locally
         uses: ./.github/actions/local-app-run
       - run: yarn install --frozen-lockfile
-        working-directory: ./app
+        working-directory: ./app 
+      - name: deploy data for e2e
+        run: make deploy_e2e_data
       - name: run e2e tests
         env:
           HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}

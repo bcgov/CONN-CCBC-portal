@@ -117,6 +117,13 @@ deploy_db_migrations:
 	@$(SQITCH) --chdir db deploy
 	@$(SQITCH) --chdir mocks_schema deploy
 
+deploy_e2e_data: ## deploy the database migrations with sqitch and load the data for local development and dev namespace
+deploy_e2e_data: deploy_db_migrations
+deploy_e2e_data:
+	@for file in $(__DIRNAME)/db/data/e2e/*; do \
+		$(PSQL) -d $(DB_NAME) -f "$${file}"; \
+	done;
+
 deploy_dev_data: ## deploy the database migrations with sqitch and load the data for local development and dev namespace
 deploy_dev_data: deploy_db_migrations
 deploy_dev_data:
