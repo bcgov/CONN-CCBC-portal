@@ -331,6 +331,7 @@ describe('The application form', () => {
           formData: {
             id: 'TestFormId',
             jsonData,
+            isEditable: true,
           },
         };
       },
