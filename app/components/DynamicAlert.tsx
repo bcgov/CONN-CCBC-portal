@@ -37,7 +37,7 @@ const DynamicAlert: React.FC<Props> = ({ dateTimestamp, variant, text, includeLi
   }
 
   return (
-    <StyledAlert size="small" variant={variant}>
+    <StyledAlert size="small" variant={variant} data-testid="custom-alert">
       <p><BoldText>{text}</BoldText>
       {includeLink && 
       <>

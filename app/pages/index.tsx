@@ -63,7 +63,7 @@ const Home = ({
     preloadedQuery
   );
 
-  const intakeCalloutChildren = useMemo(() => {
+  const intakeCalloutChildren = () => {
     const openIntakeBanner = useFeature('open_intake_alert').value || {};
     const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
     // expected null or {"variant": "success", text: "Applications now are being accepted." }
@@ -80,13 +80,14 @@ const Home = ({
         variant={closedIntakeBanner.variant} includeLink={false}
         displayOpenDate = {closedIntakeBanner.displayOpenDate}></DynamicAlert>
     );
-  }, [openIntake]);
+  };
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <h1>Welcome</h1>
         <section>
+          <>
           Refer to{' '}
           <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
             program details
@@ -94,6 +95,7 @@ const Home = ({
           for the application materials and full information about the
           Connecting Communities British Columbia (CCBC) program.
           {intakeCalloutChildren}
+          </>
         </section>
         <section>
           {session?.sub ? (

@@ -72,34 +72,18 @@ describe('The index page', () => {
     expect(screen.getByText('Go to dashboard')).toBeInTheDocument();
   });
 
-  it('Does not display alert message when there is an open intake', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(screen.queryByText(intakeAlertMessage)).toBeNull();
-  });
-
   it('Displays the alert message when there is no open intake', async () => {
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText(intakeAlertMessage)).toBeInTheDocument();
+    expect(screen.queryByTestId("custom-alert")).toBeInTheDocument; 
   });
 
-  it('Displays the opened intake callout when there is an open intake', () => {
+  it('Displays the alert message when there is an open intake', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText(openedIntakeCallout)).toBeInTheDocument();
-    expect(screen.queryByText(closedIntakeCallout)).toBeNull();
-  });
-
-  it('Displays the closed intake callout when there is no open intake', () => {
-    pageTestingHelper.loadQuery(mockClosedIntakePayload);
-    pageTestingHelper.renderPage();
-
-    expect(screen.getByText(closedIntakeCallout)).toBeInTheDocument();
-    expect(screen.queryByText(openedIntakeCallout)).toBeNull();
+    expect(screen.queryByTestId("custom-alert")).toBeInTheDocument; 
   });
 
   it('Displays the Business BCeID login button', () => {

@@ -103,69 +103,18 @@ describe('The index page', () => {
     });
   });
 
-  it('renders the close date', () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.getByText(/August 19, 2027, 9:00:00 a.m. PDT/)
-    ).toBeInTheDocument();
-  });
-
-  it('does not display alert message when there is an open intake', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.queryByText(
-        `New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.`
-      )
-    ).toBeNull();
-  });
-
   it('displays the alert message when there is no open intake', async () => {
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.getByText(
-        `New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.`
-      )
-    ).toBeInTheDocument();
+    expect(screen.queryByTestId("custom-alert")).toBeInTheDocument;
   });
 
   it('displays the open intake message when there an open intake', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.getByText(/Review of applications will begin on/)
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(/August 19, 2027, 9:00:00 a.m. PDT/)
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(
-        /You can edit draft and submitted applications until this date./
-      )
-    ).toBeInTheDocument();
-  });
-
-  it('displays the closed intake message when there is no open intake', async () => {
-    pageTestingHelper.loadQuery(mockClosedIntakePayload);
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.getByText(`Applications are currently not being accepted.`)
-    ).toBeInTheDocument();
-
-    const link = screen.getByText('program webpage');
-    expect(link).toHaveAttribute(
-      'href',
-      'https://www2.gov.bc.ca/gov/content/governments/connectivity-in-bc/20601/20601-63737'
-    );
+    expect(screen.queryByTestId("custom-alert")).toBeInTheDocument;
   });
 
   it('has create intake button enabled when there is an open intake', async () => {
