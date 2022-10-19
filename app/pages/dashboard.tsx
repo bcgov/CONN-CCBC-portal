@@ -92,12 +92,12 @@ const Dashboard = ({
           <h1>Dashboard</h1>
           {!openIntake && (
             <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
-            variant={closedIntakeBanner.variant} includeLink={true} 
-            displayOpenDate = {closedIntakeBanner.displayOpenDate}></DynamicAlert>        
+            variant={closedIntakeBanner.variant} includeLink 
+            displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
           )}
           {openIntake && (
             <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
-            variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false} ></DynamicAlert>
+            variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false} />
           )}
 
           <StyledGovButton

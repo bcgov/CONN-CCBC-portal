@@ -72,13 +72,13 @@ const Home = ({
     if (openIntake)
       return (
         <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
-        variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false}></DynamicAlert>
+        variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false}/>
       );
 
     return (
       <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
         variant={closedIntakeBanner.variant} includeLink={false}
-        displayOpenDate = {closedIntakeBanner.displayOpenDate}></DynamicAlert>
+        displayOpenDate = {closedIntakeBanner.displayOpenDate}/>
     );
   };
 

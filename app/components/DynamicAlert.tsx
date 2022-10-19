@@ -26,19 +26,19 @@ interface Props {
 }
 
 const DynamicAlert: React.FC<Props> = ({ dateTimestamp, variant, text, includeLink, displayOpenDate}) => {
-  if (!text) return;
-
+  if (!text) return null;
+  let alertText = text;
   // merge code
   if (dateTimestamp && displayOpenDate && text.indexOf("[DATE") > -1) {
     const dateString = DateTime.fromISO(dateTimestamp).toLocaleString(
       DateTime.DATE_FULL
     );
-    text = text.replace("[DATE]", dateString);
+    alertText = text.replace("[DATE]", dateString);
   }
 
   return (
     <StyledAlert size="small" variant={variant} data-testid="custom-alert">
-      <p><BoldText>{text}</BoldText>
+      <p><BoldText>{alertText}</BoldText>
       {includeLink && 
       <>
         <br />
