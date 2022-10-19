@@ -1,7 +1,6 @@
 import Stepper from 'components/Stepper';
 import { render, screen } from '@testing-library/react';
-import GlobalTheme from 'styles/GlobalTheme';
-import { theme } from 'styles/GlobalTheme';
+import GlobalTheme, { theme } from 'styles/GlobalTheme';
 
 const renderStaticLayout = () => {
   return render(
@@ -32,77 +31,116 @@ describe('The Stepper component', () => {
 
   it('should have correct links', () => {
     const projectInformation = screen.getByText('Project information');
-    expect(projectInformation).toHaveAttribute('href', '/form/1/1');
+    expect(projectInformation).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/1'
+    );
 
     const projectArea = screen.getByText('Project area');
-    expect(projectArea).toHaveAttribute('href', '/form/1/2');
+    expect(projectArea).toHaveAttribute('href', '/applicantportal/form/1/2');
 
     const existingNetworkCoverage = screen.getByText(
       'Existing network coverage'
     );
-    expect(existingNetworkCoverage).toHaveAttribute('href', '/form/1/3');
+    expect(existingNetworkCoverage).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/3'
+    );
 
     const budgetDetails = screen.getByText('Budget details');
-    expect(budgetDetails).toHaveAttribute('href', '/form/1/4');
+    expect(budgetDetails).toHaveAttribute('href', '/applicantportal/form/1/4');
 
     const projectFunding = screen.getByText('Project funding');
-    expect(projectFunding).toHaveAttribute('href', '/form/1/5');
+    expect(projectFunding).toHaveAttribute('href', '/applicantportal/form/1/5');
 
     const otherFundingSources = screen.getByText('Other funding sources');
-    expect(otherFundingSources).toHaveAttribute('href', '/form/1/6');
+    expect(otherFundingSources).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/6'
+    );
 
     const technologicalSolution = screen.getByText('Technological solution');
-    expect(technologicalSolution).toHaveAttribute('href', '/form/1/7');
+    expect(technologicalSolution).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/7'
+    );
 
     const benefits = screen.getByText('Benefits');
-    expect(benefits).toHaveAttribute('href', '/form/1/8');
+    expect(benefits).toHaveAttribute('href', '/applicantportal/form/1/8');
 
     const projectPlanning = screen.getByText('Project planning and management');
-    expect(projectPlanning).toHaveAttribute('href', '/form/1/9');
+    expect(projectPlanning).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/9'
+    );
 
     const estimatedProjectEmployment = screen.getByText(
       'Estimated project employment'
     );
-    expect(estimatedProjectEmployment).toHaveAttribute('href', '/form/1/10');
+    expect(estimatedProjectEmployment).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/10'
+    );
 
     const templateUploads = screen.getByText('Template uploads');
-    expect(templateUploads).toHaveAttribute('href', '/form/1/11');
+    expect(templateUploads).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/11'
+    );
 
     const supportingDocuments = screen.getByText('Supporting documents');
-    expect(supportingDocuments).toHaveAttribute('href', '/form/1/12');
+    expect(supportingDocuments).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/12'
+    );
 
     const coverage = screen.getByText('Coverage');
-    expect(coverage).toHaveAttribute('href', '/form/1/13');
+    expect(coverage).toHaveAttribute('href', '/applicantportal/form/1/13');
 
     const organizationProfile = screen.getByText('Organization profile');
-    expect(organizationProfile).toHaveAttribute('href', '/form/1/14');
+    expect(organizationProfile).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/14'
+    );
 
     const organizationLocation = screen.getByText('Organization location');
-    expect(organizationLocation).toHaveAttribute('href', '/form/1/15');
+    expect(organizationLocation).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/15'
+    );
 
     const organizationContactInformation = screen.getByText(
       'Organization contact information'
     );
     expect(organizationContactInformation).toHaveAttribute(
       'href',
-      '/form/1/16'
+      '/applicantportal/form/1/16'
     );
 
     const authorizedBusinessContact = screen.getByText(
       'Authorized business contact'
     );
-    expect(authorizedBusinessContact).toHaveAttribute('href', '/form/1/17');
+    expect(authorizedBusinessContact).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/17'
+    );
 
     const alternateBusinessContact = screen.getByText(
       'Alternate business contact'
     );
-    expect(alternateBusinessContact).toHaveAttribute('href', '/form/1/18');
+    expect(alternateBusinessContact).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/18'
+    );
 
     const review = screen.getByText('Review');
-    expect(review).toHaveAttribute('href', '/form/1/19');
+    expect(review).toHaveAttribute('href', '/applicantportal/form/1/19');
 
     const acknowledgements = screen.getByText('Acknowledgements');
-    expect(acknowledgements).toHaveAttribute('href', '/form/1/20');
+    expect(acknowledgements).toHaveAttribute(
+      'href',
+      '/applicantportal/form/1/20'
+    );
   });
 
   it('should have correct background colour when not active active', () => {

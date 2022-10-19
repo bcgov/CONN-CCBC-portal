@@ -4,11 +4,11 @@ import { graphql } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import Alert from '@button-inc/bcgov-theme/Alert';
 import styled from 'styled-components';
-import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
-import FormDiv from '../../../components/FormDiv';
-import { Layout, Stepper } from '../../../components';
-import { ApplicationForm, Back } from '../../../components/Form';
-import { PageQuery } from '../../../__generated__/PageQuery.graphql';
+import defaultRelayOptions from '../../../../lib/relay/withRelayOptions';
+import FormDiv from '../../../../components/FormDiv';
+import { Layout, Stepper } from '../../../../components';
+import { ApplicationForm, Back } from '../../../../components/Form';
+import { PageQuery } from '../../../../__generated__/PageQuery.graphql';
 
 const StyledAlert = styled(Alert)`
   margin-bottom: 32px;
@@ -72,7 +72,7 @@ export const withRelayOptions = {
   ...defaultRelayOptions,
 
   variablesFromContext: (ctx) => ({
-    rowId: parseInt(ctx.query.id.toString()),
+    rowId: parseInt(ctx.query.id.toString(), 10),
   }),
 };
 

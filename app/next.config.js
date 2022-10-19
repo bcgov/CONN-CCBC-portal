@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 
-const config = require('./config');
+const convictConfig = require('./config');
 
 module.exports = {
-  basePath: '/applicantportal',
   poweredByHeader: false,
 
   async redirects() {
@@ -11,19 +10,19 @@ module.exports = {
       {
         source: '/',
         destination: '/applicantportal',
-        basePath: false,
         permanent: true,
       },
     ];
   },
   reactStrictMode: true,
   webpack: (config, { isServer }) => {
+    const newConfig = { ...config };
     if (!isServer) {
-      config.resolve.fallback.fs = false;
+      newConfig.resolve.fallback.fs = false;
     }
-    config.experiments = { topLevelAwait: true, layers: true };
+    newConfig.experiments = { topLevelAwait: true, layers: true };
 
-    return config;
+    return newConfig;
   },
   compiler: {
     // ssr and displayName are configured by default
@@ -31,9 +30,9 @@ module.exports = {
   },
   publicRuntimeConfig: {
     NEXT_PUBLIC_GROWTHBOOK_API_KEY: process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY,
-    ENABLE_MOCK_TIME: config.get('ENABLE_MOCK_TIME'),
-    OPENSHIFT_APP_NAMESPACE: config.get('OPENSHIFT_APP_NAMESPACE'),
-    SITEMINDER_LOGOUT_URL: config.get('SITEMINDER_LOGOUT_URL'),
+    ENABLE_MOCK_TIME: convictConfig.get('ENABLE_MOCK_TIME'),
+    OPENSHIFT_APP_NAMESPACE: convictConfig.get('OPENSHIFT_APP_NAMESPACE'),
+    SITEMINDER_LOGOUT_URL: convictConfig.get('SITEMINDER_LOGOUT_URL'),
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

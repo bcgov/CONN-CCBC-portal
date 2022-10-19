@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { JSONSchema7 } from 'json-schema';
 import Link from 'next/link';
 import styled from 'styled-components';
 import schema from 'formSchema/schema';
@@ -59,27 +60,27 @@ const Stepper = () => {
           formPageList[Number(router.query.page) - 1] === formName;
 
         const pageNumber = getFormPage(formName);
-
+        const formSchema = formPageSchema[formName] as JSONSchema7;
         return (
           <>
             {isCurrentPage ? (
               <StyledActive>
                 <Link
-                  href={`/form/${rowId}/${pageNumber}`}
+                  href={`/applicantportal/form/${rowId}/${pageNumber}`}
                   key={formName}
                   passHref
                 >
-                  <StyledLink>{formPageSchema[formName]['title']}</StyledLink>
+                  <StyledLink>{formSchema.title}</StyledLink>
                 </Link>
               </StyledActive>
             ) : (
               <StyledDiv>
                 <Link
-                  href={`/form/${rowId}/${pageNumber}`}
+                  href={`/applicantportal/form/${rowId}/${pageNumber}`}
                   key={formName}
                   passHref
                 >
-                  <StyledLink>{formPageSchema[formName]['title']}</StyledLink>
+                  <StyledLink>{formSchema.title}</StyledLink>
                 </Link>
               </StyledDiv>
             )}

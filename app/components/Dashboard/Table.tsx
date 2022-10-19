@@ -111,15 +111,15 @@ const Table = ({ applications }: Props) => {
 
             const getApplicationUrl = () => {
               if (isWithdrawn) {
-                return `/form/${application.rowId}/${reviewPage}`;
+                return `/applicantportal/form/${application.rowId}/${reviewPage}`;
               }
               if (isSubmitted && isIntakeClosed) {
-                return `/form/${application.rowId}/${reviewPage}`;
+                return `/applicantportal/form/${application.rowId}/${reviewPage}`;
               }
               if (isSubmitted) {
-                return `/form/${rowId}/1`;
+                return `/applicantportal/form/${rowId}/1`;
               }
-              return `/form/${rowId}/${
+              return `/applicantportal/form/${rowId}/${
                 formData.lastEditedPage ? lastEditedIndex : 1
               }`;
             };

@@ -125,7 +125,7 @@ const SubmitButtons = ({
             }}
           >
             The draft was successfully saved.{' '}
-            <Link href="/dashboard">Return to dashboard</Link>.
+            <Link href="/applicantportal/dashboard">Return to dashboard</Link>.
           </StyledToast>
         </>
       )}
@@ -135,7 +135,7 @@ const SubmitButtons = ({
           style={{ marginLeft: '24px' }}
           onClick={(e: React.MouseEvent<HTMLInputElement>) => {
             e.preventDefault();
-            router.push('/dashboard');
+            router.push('/applicantportal/dashboard');
           }}
         >
           Return to dashboard

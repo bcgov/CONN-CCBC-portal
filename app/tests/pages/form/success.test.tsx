@@ -1,5 +1,7 @@
 import { screen } from '@testing-library/react';
-import Success, { withRelayOptions } from '../../../pages/form/[id]/success';
+import Success, {
+  withRelayOptions,
+} from '../../../pages/applicantportal/form/[id]/success';
 import PageTestingHelper from '../../utils/pageTestingHelper';
 import compiledsuccessQuery, {
   successQuery,
@@ -88,7 +90,7 @@ describe('The index page', () => {
   it('should redirect an unauthorized user', async () => {
     const ctx = {
       req: {
-        url: '/dashboard',
+        url: '/applicantportal/dashboard',
       },
     } as any;
 

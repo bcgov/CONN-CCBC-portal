@@ -6,9 +6,9 @@ context('Homepage', () => {
     const mockedDateString = '2022-10-10';
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
-    cy.sqlFixture('e2e/reset_db')
+    cy.sqlFixture('e2e/reset_db');
     cy.sqlFixture('e2e/001_intake');
-    cy.sqlFixture('e2e/001_application')
+    cy.sqlFixture('e2e/001_application');
     cy.visit('/');
   });
 
@@ -32,17 +32,16 @@ context('Homepage', () => {
     cy.wait(2000);
     cy.get('a').contains('Supporting documents').click();
     cy.wait(2000);
-    
-    // cy.visit('http://localhost:3000/applicantportal/form/1/12');
-    cy.get('[id="root_copiesOfRegistration-btn"]').click(); 
-    cy.get('[data-testid=file-test]').first().selectFile('cypress/fixtures/doc.txt', { force: true });
+
+    cy.get('[id="root_copiesOfRegistration-btn"]').click();
+    cy.get('[data-testid=file-test]')
+      .first()
+      .selectFile('cypress/fixtures/doc.txt', { force: true });
     cy.wait(2000);
     cy.get('a').contains('doc.txt');
-
   });
 
-  afterEach(function() {
-    cy.sqlFixture('e2e/reset_db')
+  afterEach(function () {
+    cy.sqlFixture('e2e/reset_db');
   });
 });
-

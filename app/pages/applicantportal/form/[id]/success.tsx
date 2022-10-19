@@ -4,11 +4,11 @@ import { graphql } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import Button from '@button-inc/bcgov-theme/Button';
 import styled from 'styled-components';
-import SuccessBanner from '../../../components/Form/SuccessBanner';
-import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
-import { Layout } from '../../../components';
-import { successQuery } from '../../../__generated__/successQuery.graphql';
-import { dateTimeFormat } from '../../../lib/theme/functions/formatDates';
+import SuccessBanner from '../../../../components/Form/SuccessBanner';
+import defaultRelayOptions from '../../../../lib/relay/withRelayOptions';
+import { Layout } from '../../../../components';
+import { successQuery } from '../../../../__generated__/successQuery.graphql';
+import { dateTimeFormat } from '../../../../lib/theme/functions/formatDates';
 
 const StyledSection = styled.section`
   margin: 24px 0;
@@ -48,12 +48,14 @@ const Success = ({
     if (date) {
       return dateTimeFormat(date, 'date_year_first');
     }
+    return null;
   };
 
   const getTimeString = (date: Date) => {
     if (date) {
       return dateTimeFormat(date, 'minutes_time_only');
     }
+    return null;
   };
 
   const projectName = applicationByRowId?.projectName;
@@ -87,7 +89,7 @@ const Success = ({
             {getDateString(dateCloseTimestamp)}
           </div>
         </StyledSection>
-        <Link href="/dashboard" passHref>
+        <Link href="/applicantportal/dashboard" passHref>
           <Button>Return to dashboard</Button>
         </Link>
       </StyledDiv>
@@ -98,7 +100,7 @@ const Success = ({
 export const withRelayOptions = {
   ...defaultRelayOptions,
   variablesFromContext: (ctx) => ({
-    rowId: parseInt(ctx.query.id?.toString()),
+    rowId: parseInt(ctx.query.id?.toString(), 10),
   }),
 };
 
