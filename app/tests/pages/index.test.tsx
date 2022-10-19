@@ -76,14 +76,14 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
-    expect(screen.getByTestId("custom-alert")).toBeInTheDocument; 
+    expect(screen.getByTestId('custom-alert')).toBeInTheDocument; 
   });
 
   it('Displays the alert message when there is an open intake', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
-
-    expect(screen.getByTestId("custom-alert")).toBeInTheDocument; 
+    
+    expect(screen.getByTestId('custom-alert')).toBeInTheDocument; 
   });
 
   it('Displays the Business BCeID login button', () => {
