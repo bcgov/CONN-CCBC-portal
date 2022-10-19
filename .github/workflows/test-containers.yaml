@@ -6,6 +6,8 @@ on:
     secrets:
       HAPPO_API_KEY: { required: true }
       HAPPO_API_SECRET: { required: true }
+      RENOVATE_GITHUB_TOKEN: { required: true }
+      RENOVATE_PRIVATE_KEY: { required: true }
 
 concurrency:
   group: test-containers-${{ github.ref }}
@@ -53,6 +55,8 @@ jobs:
 
   trivy-scan-app:
     runs-on: ubuntu-latest
+    outputs:
+      results-length: ${{ steps.scan-results-length.outputs.results-length }}
     timeout-minutes: 60
     steps:
       - name: Checkout code
@@ -72,9 +76,14 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
+      - name: Get Results Length From Sarif
+        id: scan-results-length
+        run: echo "results-length=$(cat trivy-results.sarif | jq '.runs[0].results | length')" >> $GITHUB_OUTPUT
 
   trivy-scan-db:
     runs-on: ubuntu-latest
+    outputs:
+      results-length: ${{ steps.scan-results-length.outputs.results-length }}
     timeout-minutes: 60
     steps:
       - name: Checkout code
@@ -94,3 +103,21 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
+      - name: Get Results Length From Sarif
+        id: scan-results-length
+        run: echo "results-length=$(cat trivy-results.sarif | jq '.runs[0].results | length')" >> $GITHUB_OUTPUT
+
+  renovate:
+    needs: ['trivy-scan-db', 'trivy-scan-app']
+    if: needs.trivy-scan-db.outputs.results-length > 0 || needs.trivy-scan-app.outputs.results-length > 0
+    env:
+      RENOVATE_GIT_PRIVATE_KEY: ${{secrets.RENOVATE_PRIVATE_KEY}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v32.238.1
+        with:
+          configurationFile: ./.github/renovate.json
+          token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
