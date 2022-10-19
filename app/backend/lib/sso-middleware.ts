@@ -2,6 +2,7 @@ import ssoExpress from '@bcgov-cas/sso-express';
 import { IDP_HINTS, IDP_HINT_PARAM } from '../../data/ssoConstants';
 import config from '../../config';
 import createUserMiddleware from './createUser';
+import getAuthRole from '../../utils/getAuthRole';
 
 const baseUrl =
   config.get('NODE_ENV') === 'production'
@@ -24,8 +25,8 @@ else oidcIssuer = 'loginproxy.gov.bc.ca';
 export default async function ssoMiddleware() {
   return ssoExpress({
     applicationDomain: '.gov.bc.ca',
-    getLandingRoute: () => {
-      return '/applicantportal/dashboard';
+    getLandingRoute: (req) => {
+      return getAuthRole(req).landingRoute;
     },
     bypassAuthentication: {
       login: mockAuth,
