@@ -111,7 +111,6 @@ jobs:
     needs: ['trivy-scan-db', 'trivy-scan-app']
     if: needs.trivy-scan-db.outputs.results-length > 0 || needs.trivy-scan-app.outputs.results-length > 0
     env:
-      LOG_LEVEL: 'debug'
       RENOVATE_GIT_PRIVATE_KEY: ${{secrets.RENOVATE_PRIVATE_KEY}}
     runs-on: ubuntu-latest
     steps:
