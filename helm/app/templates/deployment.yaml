@@ -146,49 +146,35 @@ spec:
         - name: {{ template "ccbc.fullname" . }}
           image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}
           imagePullPolicy: {{ .Values.image.app.pullPolicy }}
-          env:
-          - name: PGUSER
-            value: {{ template "ccbc.fullname" . }}_app
-          - name: PGDATABASE
-            value: {{ template "ccbc.fullname" . }}
-          - name: PGHOST
-            valueFrom:
-              secretKeyRef:
-                key: host
-                name: ccbc-pguser-ccbc
-          - name: PGPASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: database-app-password
-                name: ccbc
-          - name: SESSION_SECRET
-            valueFrom:
-              secretKeyRef:
-                key: session-secret
-                name: {{ template "ccbc.fullname" . }}
-          - name: HOST
-            value: {{ .Values.secureRoute.host }}
-          - name: OPENSHIFT_APP_NAMESPACE
-            value: {{ .Values.app.namespace }}
-          - name: NEXT_PUBLIC_GROWTHBOOK_API_KEY
-            value: {{ .Values.growthbook.key }}
-          - name: ENABLE_ANALYTICS
-            value: {{ .Values.app.enableAnalytics | quote }}
-          - name: CLIENT_SECRET
-            valueFrom:
-              secretKeyRef:
-                key: client-secret
-                name: {{ template "ccbc.fullname" . }}-sso-express
-          - name: AWS_S3_BUCKET
-            value: {{ .Values.objectStorage.awsS3Bucket }}
-          - name: AWS_S3_REGION
-            value: {{ .Values.objectStorage.awsS3Region }}
-          - name: AWS_S3_KEY
-            value: {{ .Values.objectStorage.awsS3Key }}
-          - name: AWS_S3_SECRET_KEY
-            value: {{ .Values.objectStorage.awsS3SecretKey }}
-          - name: AWS_ROLE_ARN
-            value: {{ .Values.objectStorage.awsRoleArn }}
+          env: {{ include "ccbc.ccbcAppUserPgEnv" . | nindent 10 }}
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: session-secret
+                  name: {{ template "ccbc.fullname" . }}
+            - name: HOST
+              value: {{ .Values.secureRoute.host }}
+            - name: OPENSHIFT_APP_NAMESPACE
+              value: {{ .Values.app.namespace }}
+            - name: NEXT_PUBLIC_GROWTHBOOK_API_KEY
+              value: {{ .Values.growthbook.key }}
+            - name: ENABLE_ANALYTICS
+              value: {{ .Values.app.enableAnalytics | quote }}
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: client-secret
+                  name: {{ template "ccbc.fullname" . }}-sso-express
+            - name: AWS_S3_BUCKET
+              value: {{ .Values.objectStorage.awsS3Bucket }}
+            - name: AWS_S3_REGION
+              value: {{ .Values.objectStorage.awsS3Region }}
+            - name: AWS_S3_KEY
+              value: {{ .Values.objectStorage.awsS3Key }}
+            - name: AWS_S3_SECRET_KEY
+              value: {{ .Values.objectStorage.awsS3SecretKey }}
+            - name: AWS_ROLE_ARN
+              value: {{ .Values.objectStorage.awsRoleArn }}
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}

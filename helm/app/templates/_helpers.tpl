@@ -45,3 +45,20 @@ app.kubernetes.io/instance: {{ .Release.Name }}
         key: host
         name: ccbc-pguser-ccbc
 {{- end }}
+
+{{- define "ccbc.ccbcAppUserPgEnv" }}
+  - name: PGUSER
+    value: {{ template "ccbc.fullname" . }}_app
+  - name: PGDATABASE
+    value: {{ template "ccbc.fullname" . }}
+  - name: PGHOST
+    valueFrom:
+      secretKeyRef:
+        key: host
+        name: ccbc-pguser-ccbc
+  - name: PGPASSWORD
+    valueFrom:
+      secretKeyRef:
+        key: database-app-password
+        name: ccbc
+{{- end }}
