@@ -137,7 +137,9 @@ const Home = ({
         <section>
           {session?.sub ? (
             <StyledBtnContainer>
-              <ButtonLink href="/dashboard">Go to dashboard</ButtonLink>
+              <ButtonLink href="/applicantportal/dashboard">
+                Go to dashboard
+              </ButtonLink>
             </StyledBtnContainer>
           ) : (
             <>
