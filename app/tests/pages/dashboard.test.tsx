@@ -107,14 +107,14 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
-    expect(screen.queryByTestId("custom-alert")).toBeInTheDocument;
+    expect(screen.getByTestId("custom-alert")).toBeInTheDocument;
   });
 
   it('displays the open intake message when there an open intake', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.queryByTestId("custom-alert")).toBeInTheDocument;
+    expect(screen.getByTestId("custom-alert")).toBeInTheDocument;
   });
 
   it('has create intake button enabled when there is an open intake', async () => {
