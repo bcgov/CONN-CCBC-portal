@@ -1,7 +1,8 @@
 {
-  "includePaths": ["./app", "./db"],
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "enabledManagers": ["dockerfile"],
-  "commitMessagePrefix": "ci:",
+  "commitMessagePrefix": "chore:",
   "platform": "github",
-  "onboading": false
+  "onboarding": false,
+  "repositories": ["bcgov/CONN-CCBC-portal"]
 }
