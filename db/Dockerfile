@@ -1,5 +1,5 @@
 # Docker build should be run from parent directory
-FROM registry.access.redhat.com/ubi9/s2i-base@sha256:c2ca28ba049ce376595d3eab8690ac0b3c8d2aac1df94ead053667835fa23f06
+FROM registry.access.redhat.com/ubi9/s2i-base@sha256:5c7f0c020cfe76485acd1d7e974bbc0ff064e9009796a75bb4b04de429e9161c
 
 ENV SUMMARY="DB Schema for bcgov/CONN-CCBC-portal" \
   DESCRIPTION="Sqitch migrations for the accompanying app container image"
@@ -18,7 +18,7 @@ ENV HOME=/opt/app-root/src
 WORKDIR ${HOME}
 
 RUN INSTALL_PKGS="postgresql.x86_64 perl-App-cpanminus.noarch" && \
-  yum -y update && \
+  # yum -y update && \
   yum -y install --setopt=tsflags=nodocs $INSTALL_PKGS && \
   rpm -V $INSTALL_PKGS && \
   yum -y clean all --enablerepo='*' && \

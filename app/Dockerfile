@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/s2i-base@sha256:c2ca28ba049ce376595d3eab8690ac0b3c8d2aac1df94ead053667835fa23f06
+FROM registry.access.redhat.com/ubi9/s2i-base@sha256:5c7f0c020cfe76485acd1d7e974bbc0ff064e9009796a75bb4b04de429e9161c
 
 ENV SUMMARY="An image for the CONN-CCBC-portal app" \
     DESCRIPTION="This image contains the compiled CONN-CCBC-portal node app"
@@ -19,7 +19,7 @@ ENV HOME=/root
 WORKDIR ${APP_HOME}
 
 RUN INSTALL_PKGS="yarn-1.22.18-1" && \
-  yum -y update && \
+  # yum -y update && \
   curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo > /etc/yum.repos.d/yarn.repo && \
   rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg && \
   yum -y install --setopt=tsflags=nodocs $INSTALL_PKGS && \
