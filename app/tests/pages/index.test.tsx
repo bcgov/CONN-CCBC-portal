@@ -45,7 +45,7 @@ const loggedOutPayload = {
 
 const openedIntakeMessage =
   'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
-const closedIntakeMessage = 'Applications are not currently being accepted.';
+const closedIntakeMessage = 'Intake is closed.';
 
 const mockOpenIntakeData: JSONValue = {variant: "warning", text: openedIntakeMessage,displayOpenDate: false };
 const mockClosedIntakeData: JSONValue = {variant: "warning", text: closedIntakeMessage,displayOpenDate: false };
