@@ -1,6 +1,6 @@
 begin;
 
-select plan(5);
+select plan(7);
 
 select has_function('ccbc_public', 'session', 'function ccbc_public.session exists');
 
@@ -24,6 +24,16 @@ select function_privs_are(
 select function_privs_are(
   'ccbc_public', 'session', ARRAY[]::text[], 'ccbc_guest', ARRAY['EXECUTE'],
   'ccbc_guest can execute ccbc_public.session()'
+);
+
+select function_privs_are(
+  'ccbc_public', 'session', ARRAY[]::text[], 'ccbc_admin', ARRAY['EXECUTE'],
+  'ccbc_admin can execute ccbc_public.session()'
+);
+
+select function_privs_are(
+  'ccbc_public', 'session', ARRAY[]::text[], 'ccbc_analyst', ARRAY['EXECUTE'],
+  'ccbc_analyst can execute ccbc_public.session()'
 );
 
 select finish();

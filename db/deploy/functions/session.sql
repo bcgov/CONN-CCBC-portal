@@ -42,6 +42,6 @@ begin
 end
 $function$ language 'plpgsql' stable;
 
-grant execute on function ccbc_public.session to ccbc_auth_user, ccbc_guest;
+grant execute on function ccbc_public.session to ccbc_auth_user, ccbc_guest, ccbc_analyst, ccbc_admin;
 
 commit;
