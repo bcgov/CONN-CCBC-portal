@@ -96,7 +96,7 @@ const Dashboard = ({
             displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
           )}
           {openIntake && (
-            <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
+            <DynamicAlert dateTimestamp={closeTimestamp} text={openIntakeBanner.text}
             variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false} />
           )}
 
