@@ -44,6 +44,7 @@
     "luxon": "^3.0.1",
     "next": "^12.1.6",
     "openid-client": "^5.1.6",
+    "path-to-regexp": "^6.2.1",
     "pluralize": "^7.0.0",
     "postgraphile": "^4.12.9",
     "react": "^18.0.0",
