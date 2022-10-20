@@ -15,7 +15,8 @@
     "pretest": "yarn run build:relay",
     "test": "jest",
     "test:e2e": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "format": "prettier --write './**/*.tsx' --config ../.prettierrc"
   },
   "dependencies": {
     "@bcgov-cas/sso-express": "^3.2.0",

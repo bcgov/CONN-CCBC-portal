@@ -47,12 +47,31 @@ const openedIntakeMessage =
   'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
 const closedIntakeMessage = 'Intake is closed.';
 
-const mockOpenIntakeData: JSONValue = {variant: "warning", text: openedIntakeMessage,displayOpenDate: false };
-const mockClosedIntakeData: JSONValue = {variant: "warning", text: closedIntakeMessage,displayOpenDate: false };
+const mockOpenIntakeData: JSONValue = {
+  variant: 'warning',
+  text: openedIntakeMessage,
+  displayOpenDate: false,
+};
+const mockClosedIntakeData: JSONValue = {
+  variant: 'warning',
+  text: closedIntakeMessage,
+  displayOpenDate: false,
+};
 
-const mockOpenIntake: FeatureResult<JSONValue> = {value: mockOpenIntakeData, source:'defaultValue',on:null,off:null,ruleId:'open_intake_alert'};
-const mockClosedIntake: FeatureResult<JSONValue> = {value: mockClosedIntakeData, source:'defaultValue',on:null,off:null,ruleId:'open_intake_alert'};
-
+const mockOpenIntake: FeatureResult<JSONValue> = {
+  value: mockOpenIntakeData,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'open_intake_alert',
+};
+const mockClosedIntake: FeatureResult<JSONValue> = {
+  value: mockClosedIntakeData,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'open_intake_alert',
+};
 
 const pageTestingHelper = new PageTestingHelper<pagesQuery>({
   pageComponent: Home,
@@ -84,7 +103,6 @@ describe('The index page', () => {
     expect(screen.getByTestId('custom-alert')).toBeInTheDocument();
     expect(screen.getByText(closedIntakeMessage)).toBeInTheDocument();
     expect(screen.queryByText(openedIntakeMessage)).toBeNull();
-
   });
 
   it('Displays the alert message when there is an open intake', () => {
@@ -121,7 +139,7 @@ describe('The index page', () => {
     );
   });
 
-  afterEach(() => {    
+  afterEach(() => {
     jest.clearAllMocks();
   });
 });

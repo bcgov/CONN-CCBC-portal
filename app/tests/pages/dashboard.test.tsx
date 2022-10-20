@@ -5,17 +5,37 @@ import Dashboard, { withRelayOptions } from '../../pages/dashboard';
 import PageTestingHelper from '../utils/pageTestingHelper';
 import compileddashboardQuery, {
   dashboardQuery,
-} from '../../__generated__/dashboardQuery.graphql'; 
+} from '../../__generated__/dashboardQuery.graphql';
 
 const openedIntakeMessage =
   'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
 const closedIntakeMessage = 'Applications are not currently being accepted.';
 
-const mockOpenIntakeData: JSONValue = {variant: "warning", text: openedIntakeMessage,displayOpenDate: false };
-const mockClosedIntakeData: JSONValue = {variant: "warning", text: closedIntakeMessage,displayOpenDate: false };
+const mockOpenIntakeData: JSONValue = {
+  variant: 'warning',
+  text: openedIntakeMessage,
+  displayOpenDate: false,
+};
+const mockClosedIntakeData: JSONValue = {
+  variant: 'warning',
+  text: closedIntakeMessage,
+  displayOpenDate: false,
+};
 
-const mockOpenIntake: FeatureResult<JSONValue> = {value: mockOpenIntakeData, source:'defaultValue',on:null,off:null,ruleId:'open_intake_alert'};
-const mockClosedIntake: FeatureResult<JSONValue> = {value: mockClosedIntakeData, source:'defaultValue',on:null,off:null,ruleId:'open_intake_alert'};
+const mockOpenIntake: FeatureResult<JSONValue> = {
+  value: mockOpenIntakeData,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'open_intake_alert',
+};
+const mockClosedIntake: FeatureResult<JSONValue> = {
+  value: mockClosedIntakeData,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'open_intake_alert',
+};
 
 const mockQueryPayload = {
   Query() {
@@ -173,7 +193,7 @@ describe('The index page', () => {
     expect(screen.getByText(`View`)).toBeInTheDocument();
   });
 
-  afterEach(() => {    
+  afterEach(() => {
     jest.clearAllMocks();
   });
 });
