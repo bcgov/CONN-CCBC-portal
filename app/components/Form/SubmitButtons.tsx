@@ -132,6 +132,7 @@ const SubmitButtons = ({
       {isSubmittedAndSubmitPage && (
         <StyledButton
           variant="secondary"
+          style={{ marginLeft: '24px' }}
           onClick={(e: React.MouseEvent<HTMLInputElement>) => {
             e.preventDefault();
             router.push('/dashboard');
