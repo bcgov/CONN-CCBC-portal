@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/react';
+import * as moduleApi from '@growthbook/growthbook-react';
+import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import Dashboard, { withRelayOptions } from '../../pages/dashboard';
 import PageTestingHelper from '../utils/pageTestingHelper';
 import compileddashboardQuery, {
   dashboardQuery,
-} from '../../__generated__/dashboardQuery.graphql';
-import * as moduleApi from '@growthbook/growthbook-react';
-import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
+} from '../../__generated__/dashboardQuery.graphql'; 
 
 const openedIntakeMessage =
   'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';

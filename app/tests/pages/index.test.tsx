@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/react';
+import * as moduleApi from '@growthbook/growthbook-react';
+import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import compiledPagesQuery, {
   pagesQuery,
 } from '__generated__/pagesQuery.graphql';
 import Home, { withRelayOptions } from '../../pages';
 import PageTestingHelper from '../utils/pageTestingHelper';
-import * as moduleApi from '@growthbook/growthbook-react';
-import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 
 const mockQueryPayload = {
   Query() {
@@ -120,7 +120,7 @@ describe('The index page', () => {
       '/login?kc_idp_hint=bceidbasic'
     );
   });
-  
+
   afterEach(() => {    
     jest.clearAllMocks();
   });
