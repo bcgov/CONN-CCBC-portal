@@ -4,5 +4,6 @@
   "commitMessagePrefix": "chore:",
   "platform": "github",
   "onboarding": false,
-  "repositories": ["bcgov/CONN-CCBC-portal"]
+  "repositories": ["bcgov/CONN-CCBC-portal"],
+  "gitAuthor": "CCBC Service Account <ccbc@button.is>"
 }
