@@ -9,7 +9,7 @@ context('Homepage', () => {
     cy.sqlFixture('e2e/reset_db');
     cy.sqlFixture('e2e/001_intake');
     cy.sqlFixture('e2e/001_application');
-    cy.visit('/');
+    cy.visit('/applicantportal');
   });
 
   it('should start, open dashboard, select draft application and skip to page 12 of the form', () => {
@@ -20,7 +20,7 @@ context('Homepage', () => {
     cy.get('a').contains('program details');
 
     // Todo: find a way around using these wait
-    cy.wait(2000);
+    cy.wait(4000);
 
     cy.get('button').contains('Go to dashboard').click();
 
