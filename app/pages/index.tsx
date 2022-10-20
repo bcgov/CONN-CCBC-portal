@@ -108,7 +108,6 @@ const Home = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
-        <h1>Welcome</h1>
         {!openIntake && (
             <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
             variant={closedIntakeBanner.variant} includeLink 
@@ -118,6 +117,7 @@ const Home = ({
             <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
             variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false} />
           )}
+        <h1>Welcome</h1>
         <section>
           <>
           Refer to{' '}

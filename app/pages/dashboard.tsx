@@ -91,13 +91,16 @@ const Dashboard = ({
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <section>
-          <h1>Dashboard</h1>
-          
           {openIntake && (
             <DynamicAlert dateTimestamp={closeTimestamp} text={openIntakeBanner.text}
             variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false} />
           )}
-
+          {!openIntake && (
+            <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
+            variant={closedIntakeBanner.variant} includeLink 
+            displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
+          )}
+          <h1>Dashboard</h1>
           {openIntake ? (
             <p>
               Review of applications will begin on{' '}
@@ -122,11 +125,6 @@ const Dashboard = ({
                 for updates.
               </p>
             </div>
-          )}
-          {!openIntake && (
-            <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
-            variant={closedIntakeBanner.variant} includeLink 
-            displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
           )}
           <StyledGovButton
             onClick={handleCreateApplication}
