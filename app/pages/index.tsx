@@ -4,7 +4,6 @@ import { graphql } from 'react-relay';
 import { useFeature } from '@growthbook/growthbook-react';
 import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
-import { useMemo } from 'react';
 import { Button } from '@button-inc/bcgov-theme'; 
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { ButtonLink, DynamicAlert, Layout, LoginForm } from '../components';
