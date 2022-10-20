@@ -63,24 +63,8 @@ const Home = ({
     preloadedQuery
   );
 
-  const intakeCalloutChildren = () => {
-    const openIntakeBanner = useFeature('open_intake_alert').value || {};
-    const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
-    // expected null or {"variant": "success", text: "Applications now are being accepted." }
-    // or {"variant": "success", text: "Applications are not currently being accepted." }
-
-    if (openIntake)
-      return (
-        <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
-        variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false}/>
-      );
-
-    return (
-      <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
-        variant={closedIntakeBanner.variant} includeLink={false}
-        displayOpenDate = {closedIntakeBanner.displayOpenDate}/>
-    );
-  };
+  const openIntakeBanner = useFeature('open_intake_alert').value || {};
+  const closedIntakeBanner = useFeature('closed_intake_alert').value || {}; 
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -94,7 +78,15 @@ const Home = ({
           </Link>{' '}
           for the application materials and full information about the
           Connecting Communities British Columbia (CCBC) program.
-          {intakeCalloutChildren}
+          {!openIntake && (
+            <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
+            variant={closedIntakeBanner.variant} includeLink 
+            displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
+          )}
+          {openIntake && (
+            <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
+            variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false} />
+          )}
           </>
         </section>
         <section>
