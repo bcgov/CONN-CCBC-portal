@@ -22,7 +22,6 @@ const withRelayOptions: WiredOptions<any> = {
     const authRole = getAuthRole(request);
     const authenticated = isAuthenticated(request);
     const routeAuthorized = isRouteAuthorized(request.url, authRole.pgRole);
-
     // They're logged in and authorized to access the page or the page is not protected
     if (routeAuthorized) {
       return {};

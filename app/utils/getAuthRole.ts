@@ -1,10 +1,16 @@
 import { Request } from 'express';
 
 const getAuthRole = (req: Request) => {
+  if (!req?.claims)
+    return {
+      pgRole: 'ccbc_guest',
+      landingRoute: '/',
+    };
+
   const idp = req.claims.identity_provider;
   const roles = req.claims.client_roles as any;
-  const isAdmin = roles.includes('admin');
-  const isAnalyst = roles.includes('analyst');
+  const isAdmin = roles?.includes('admin');
+  const isAnalyst = roles?.includes('analyst');
   if (idp === 'idir') {
     if (isAdmin) {
       return {

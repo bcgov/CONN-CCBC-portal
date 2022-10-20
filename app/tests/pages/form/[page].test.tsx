@@ -133,7 +133,7 @@ describe('The form page', () => {
 
     expect(await withRelayOptions.serverSideProps(ctx)).toEqual({
       redirect: {
-        destination: '/',
+        destination: '/applicantportal',
       },
     });
   });

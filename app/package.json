@@ -95,6 +95,7 @@
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
     "jest-extended": "^3.0.2",
+    "jest-mock": "^29.2.1",
     "prettier": "^2.6.2",
     "react-dom": "^18.0.0",
     "relay-compiler": "^13.2.0",
