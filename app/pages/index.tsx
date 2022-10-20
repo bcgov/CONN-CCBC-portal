@@ -9,7 +9,7 @@ import { Button, Callout } from '@button-inc/bcgov-theme';
 import { DateTime } from 'luxon';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import { ButtonLink, DynamicAlert, Layout, LoginForm } from '../components';
-import { pagesQuery } from '../__generated__/pagesQuery.graphql'; 
+import { pagesQuery } from '../__generated__/pagesQuery.graphql';
 
 const StyledOl = styled('ol')`
   max-width: 300px;
@@ -103,29 +103,37 @@ const Home = ({
   }, [openIntake]);
 
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
-  const closedIntakeBanner = useFeature('closed_intake_alert').value || {}; 
+  const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
         {!openIntake && (
-            <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
-            variant={closedIntakeBanner.variant} displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
-          )}
-          {openIntake && (
-            <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
-            variant={openIntakeBanner.variant} displayOpenDate={false} />
-          )}
+          <DynamicAlert
+            dateTimestamp={nextIntake?.openTimestamp}
+            text={closedIntakeBanner.text}
+            variant={closedIntakeBanner.variant}
+            displayOpenDate={closedIntakeBanner.displayOpenDate}
+          />
+        )}
+        {openIntake && (
+          <DynamicAlert
+            dateTimestamp={openIntake.closeTimestamp}
+            text={openIntakeBanner.text}
+            variant={openIntakeBanner.variant}
+            displayOpenDate={false}
+          />
+        )}
         <h1>Welcome</h1>
         <section>
           <>
-          Refer to{' '}
-          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
-            program details
-          </Link>{' '}
-          for the application materials and full information about the
-          Connecting Communities British Columbia (CCBC) program.
-          <StyledCallout>{intakeCalloutChildren}</StyledCallout>
+            Refer to{' '}
+            <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
+              program details
+            </Link>{' '}
+            for the application materials and full information about the
+            Connecting Communities British Columbia (CCBC) program.
+            <StyledCallout>{intakeCalloutChildren}</StyledCallout>
           </>
         </section>
         <section>

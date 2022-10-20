@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'; 
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { usePreloadedQuery } from 'react-relay/hooks';
-import { graphql } from 'react-relay'; 
+import { graphql } from 'react-relay';
 import { DateTime } from 'luxon';
 import Link from '@button-inc/bcgov-theme/Link';
-import { useFeature } from '@growthbook/growthbook-react'; 
+import { useFeature } from '@growthbook/growthbook-react';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
@@ -83,21 +83,29 @@ const Dashboard = ({
       },
     });
   };
-  
+
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
-  const closedIntakeBanner = useFeature('closed_intake_alert').value || {}; 
+  const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <section>
           {openIntake && (
-            <DynamicAlert dateTimestamp={closeTimestamp} text={openIntakeBanner.text}
-            variant={openIntakeBanner.variant} displayOpenDate={false} />
+            <DynamicAlert
+              dateTimestamp={closeTimestamp}
+              text={openIntakeBanner.text}
+              variant={openIntakeBanner.variant}
+              displayOpenDate={false}
+            />
           )}
           {!openIntake && (
-            <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
-            variant={closedIntakeBanner.variant} displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
+            <DynamicAlert
+              dateTimestamp={nextIntake?.openTimestamp}
+              text={closedIntakeBanner.text}
+              variant={closedIntakeBanner.variant}
+              displayOpenDate={closedIntakeBanner.displayOpenDate}
+            />
           )}
           <h1>Dashboard</h1>
           {openIntake ? (
