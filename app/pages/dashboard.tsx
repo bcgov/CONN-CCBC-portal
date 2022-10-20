@@ -93,12 +93,11 @@ const Dashboard = ({
         <section>
           {openIntake && (
             <DynamicAlert dateTimestamp={closeTimestamp} text={openIntakeBanner.text}
-            variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false} />
+            variant={openIntakeBanner.variant} displayOpenDate={false} />
           )}
           {!openIntake && (
             <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
-            variant={closedIntakeBanner.variant} includeLink 
-            displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
+            variant={closedIntakeBanner.variant} displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
           )}
           <h1>Dashboard</h1>
           {openIntake ? (

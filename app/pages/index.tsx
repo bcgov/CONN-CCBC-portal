@@ -110,12 +110,11 @@ const Home = ({
       <div>
         {!openIntake && (
             <DynamicAlert dateTimestamp={nextIntake?.openTimestamp} text={closedIntakeBanner.text}
-            variant={closedIntakeBanner.variant} includeLink 
-            displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
+            variant={closedIntakeBanner.variant} displayOpenDate = {closedIntakeBanner.displayOpenDate}/>        
           )}
           {openIntake && (
             <DynamicAlert dateTimestamp={openIntake.closeTimestamp} text={openIntakeBanner.text}
-            variant={openIntakeBanner.variant} includeLink={false} displayOpenDate={false} />
+            variant={openIntakeBanner.variant} displayOpenDate={false} />
           )}
         <h1>Welcome</h1>
         <section>

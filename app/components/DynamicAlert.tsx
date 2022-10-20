@@ -1,5 +1,4 @@
 import Alert from '@button-inc/bcgov-theme/Alert';
-import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 
@@ -21,11 +20,10 @@ interface Props {
   dateTimestamp: string;
   variant: string;
   text: string;
-  includeLink : boolean;
   displayOpenDate : boolean;
 }
 
-const DynamicAlert: React.FC<Props> = ({ dateTimestamp, variant, text, includeLink, displayOpenDate}) => {
+const DynamicAlert: React.FC<Props> = ({ dateTimestamp, variant, text, displayOpenDate}) => {
   if (!text) return null;
   let alertText = text;
   // merge code
@@ -39,17 +37,6 @@ const DynamicAlert: React.FC<Props> = ({ dateTimestamp, variant, text, includeLi
   return (
     <StyledAlert size="small" variant={variant} data-testid="custom-alert">
       <p><BoldText>{alertText}</BoldText>
-      {includeLink && 
-      <>
-        <br />
-          Please check the{' '}
-          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc"
-            target="_blank"
-            rel="noopener noreferrer">
-            program webpage
-          </Link>{' '}
-          for updates.
-      </>}
       </p>
     </StyledAlert>
   );
