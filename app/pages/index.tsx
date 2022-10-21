@@ -126,7 +126,6 @@ const Home = ({
         )}
         <h1>Welcome</h1>
         <section>
-          <>
             Refer to{' '}
             <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
               program details
@@ -134,7 +133,6 @@ const Home = ({
             for the application materials and full information about the
             Connecting Communities British Columbia (CCBC) program.
             <StyledCallout>{intakeCalloutChildren}</StyledCallout>
-          </>
         </section>
         <section>
           {session?.sub ? (
