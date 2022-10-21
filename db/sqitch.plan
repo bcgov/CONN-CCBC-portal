@@ -61,3 +61,5 @@ create_roles [create_roles@1.9.0] 2022-10-20T21:44:00Z Marcel Mueller <marcel@bu
 functions/session [functions/session@1.9.0] 2022-10-20T21:52:01Z Marcel Mueller <marcel@button.is> # Grant execute on session for ccbc_analyst and ccbc_admin roles
 schemas/private [schemas/private@1.9.0] 2022-10-20T22:24:32Z Marcel Mueller <marcel@button.is> # Grant private schema usage to ccbc_analyst and ccbc_admin
 schemas/public [schemas/public@1.9.0] 2022-10-20T22:24:37Z Marcel Mueller <marcel@button.is> # Grant public schema usage to ccbc_analyst and ccbc_admin
+functions/receive_applications [functions/receive_applications@1.9.0] 2022-10-21T17:50:30Z Matthieu Foucault <matthieu@button.is> # fix permissions for ccbc_job_executor
+ccbc_job_executor_permissions [ccbc_job_executor_permissions@1.9.0] 2022-10-21T18:05:34Z Matthieu Foucault <matthieu@button.is> # add missing permissions for job_executor

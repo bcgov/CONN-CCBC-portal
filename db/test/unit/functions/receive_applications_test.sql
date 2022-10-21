@@ -37,6 +37,8 @@ insert into ccbc_public.application_status (application_id, status, created_at) 
 (3, 'submitted', '2021-08-19 09:00:00 America/Vancouver'),
 (4, 'submitted', '2021-08-19 09:00:00 America/Vancouver');
 
+set role ccbc_job_executor;
+
 select results_eq(
   $$
     select count(*) from ccbc_public.application_status where status = 'submitted';

@@ -38,7 +38,8 @@ $function$
     end;
 $function$ language plpgsql volatile;
 
-grant execute on function ccbc_public.receive_applications to ccbc_auth_user;
+grant execute on function ccbc_public.receive_applications to ccbc_job_executor;
+revoke execute on function ccbc_public.receive_applications from ccbc_auth_user;
 
 comment on function ccbc_public.receive_applications is 'Detects closed intake and marks all submitted applications as Received';
 
