@@ -57,3 +57,7 @@ ccbc_job_executor_permissions 2022-10-07T22:34:55Z Marcel Mueller <marcel@button
 tables/application_status_type_001_add_status_received 2022-10-11T18:39:51Z Marcel Mueller <marcel@button.is> # Insert received application status type
 computed_columns/application_status [computed_columns/application_status@1.8.0] 2022-10-17T20:08:21Z Marcel Mueller <marcel@button.is> # Grant execute function to ccbc_job_executor
 @1.9.0 2022-10-21T15:25:23Z Marcel Mueller <marcel@button.is> # release v1.9.0
+create_roles [create_roles@1.9.0] 2022-10-20T21:44:00Z Marcel Mueller <marcel@button.is> # Add ccbc_analyst and ccbc_admin roles
+functions/session [functions/session@1.9.0] 2022-10-20T21:52:01Z Marcel Mueller <marcel@button.is> # Grant execute on session for ccbc_analyst and ccbc_admin roles
+schemas/private [schemas/private@1.9.0] 2022-10-20T22:24:32Z Marcel Mueller <marcel@button.is> # Grant private schema usage to ccbc_analyst and ccbc_admin
+schemas/public [schemas/public@1.9.0] 2022-10-20T22:24:37Z Marcel Mueller <marcel@button.is> # Grant public schema usage to ccbc_analyst and ccbc_admin
