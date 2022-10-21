@@ -243,9 +243,9 @@ const ApplicationForm: React.FC<Props> = ({
   ) => {
     if (!isEditable) {
       if (pageNumber < subschemaArray.length) {
-        router.push(`/form/${rowId}/${pageNumber + 1}`);
+        router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
       } else {
-        router.push(`/form/${rowId}/success`);
+        router.push(`/applicantportal/form/${rowId}/success`);
       }
       return;
     }
@@ -349,7 +349,7 @@ const ApplicationForm: React.FC<Props> = ({
         {
           onCompleted: () => {
             //  TODO: update rerouting logic to handle when there are form errors etc.
-            router.push(`/form/${rowId}/${pageNumber + 1}`);
+            router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
           },
         },
         true
@@ -361,7 +361,8 @@ const ApplicationForm: React.FC<Props> = ({
             applicationRowId: rowId,
           },
         },
-        onCompleted: () => router.push(`/form/${rowId}/success`),
+        onCompleted: () =>
+          router.push(`/applicantportal/form/${rowId}/success`),
       });
     }
   };

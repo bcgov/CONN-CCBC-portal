@@ -369,7 +369,7 @@ describe('The application form', () => {
 
     // We only redirect when the ccbc id is set
     expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
-      '/form/42/success'
+      '/applicantportal/form/42/success'
     );
   });
 
@@ -601,7 +601,7 @@ describe('The application form', () => {
     );
 
     expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
-      '/dashboard'
+      '/applicantportal/dashboard'
     );
   });
 

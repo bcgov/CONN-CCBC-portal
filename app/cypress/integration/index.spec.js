@@ -7,7 +7,7 @@ context('Homepage', () => {
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
     cy.sqlFixture('dev/001_intake');
-    cy.visit('/');
+    cy.visit('/applicantportal');
   });
 
   // Commenting out radio inputs until we pass in proper names or ids to select from
@@ -20,7 +20,7 @@ context('Homepage', () => {
     cy.get('a').contains('program details');
 
     // Todo: find a way around using these wait
-    cy.wait(2000);
+    cy.wait(4000);
 
     cy.get('button').contains('Go to dashboard').click();
 

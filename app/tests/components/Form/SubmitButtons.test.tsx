@@ -158,7 +158,7 @@ describe('The SubmitButtons component', () => {
 
     expect(
       screen.getByRole('link', { name: 'Return to dashboard' })
-    ).toHaveAttribute('href', '/dashboard');
+    ).toHaveAttribute('href', '/applicantportal/dashboard');
   });
 
   it('should disable the Save as draft button in the saved state', async () => {

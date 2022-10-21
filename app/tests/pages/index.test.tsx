@@ -2,9 +2,9 @@ import { screen } from '@testing-library/react';
 import * as moduleApi from '@growthbook/growthbook-react';
 import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import compiledPagesQuery, {
-  pagesQuery,
-} from '__generated__/pagesQuery.graphql';
-import Home, { withRelayOptions } from '../../pages';
+  applicantportalQuery,
+} from '__generated__/applicantportalQuery.graphql';
+import Home, { withRelayOptions } from '../../pages/applicantportal';
 import PageTestingHelper from '../utils/pageTestingHelper';
 
 const mockQueryPayload = {
@@ -73,7 +73,7 @@ const mockClosedIntake: FeatureResult<JSONValue> = {
   ruleId: 'open_intake_alert',
 };
 
-const pageTestingHelper = new PageTestingHelper<pagesQuery>({
+const pageTestingHelper = new PageTestingHelper<applicantportalQuery>({
   pageComponent: Home,
   compiledQuery: compiledPagesQuery,
   defaultQueryResolver: mockQueryPayload,

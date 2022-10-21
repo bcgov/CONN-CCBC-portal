@@ -6,10 +6,10 @@ context('Homepage', () => {
     const mockedDateString = '2022-10-10';
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
-    cy.sqlFixture('e2e/reset_db')
+    cy.sqlFixture('e2e/reset_db');
     cy.sqlFixture('e2e/001_intake');
-    cy.sqlFixture('e2e/001_application')
-    cy.visit('/');
+    cy.sqlFixture('e2e/001_application');
+    cy.visit('/applicantportal');
   });
 
   it('should start, open dashboard, select draft application and skip to page 12 of the form', () => {
@@ -20,7 +20,7 @@ context('Homepage', () => {
     cy.get('a').contains('program details');
 
     // Todo: find a way around using these wait
-    cy.wait(2000);
+    cy.wait(4000);
 
     cy.get('button').contains('Go to dashboard').click();
 
@@ -32,17 +32,16 @@ context('Homepage', () => {
     cy.wait(2000);
     cy.get('a').contains('Supporting documents').click();
     cy.wait(2000);
-    
-    // cy.visit('http://localhost:3000/applicantportal/form/1/12');
-    cy.get('[id="root_copiesOfRegistration-btn"]').click(); 
-    cy.get('[data-testid=file-test]').first().selectFile('cypress/fixtures/doc.txt', { force: true });
+
+    cy.get('[id="root_copiesOfRegistration-btn"]').click();
+    cy.get('[data-testid=file-test]')
+      .first()
+      .selectFile('cypress/fixtures/doc.txt', { force: true });
     cy.wait(2000);
     cy.get('a').contains('doc.txt');
-
   });
 
-  afterEach(function() {
-    cy.sqlFixture('e2e/reset_db')
+  afterEach(function () {
+    cy.sqlFixture('e2e/reset_db');
   });
 });
-

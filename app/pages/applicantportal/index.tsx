@@ -7,9 +7,9 @@ import styled from 'styled-components';
 import { useMemo } from 'react';
 import { Button, Callout } from '@button-inc/bcgov-theme';
 import { DateTime } from 'luxon';
-import defaultRelayOptions from '../lib/relay/withRelayOptions';
-import { ButtonLink, DynamicAlert, Layout, LoginForm } from '../components';
-import { pagesQuery } from '../__generated__/pagesQuery.graphql';
+import { ButtonLink, DynamicAlert, Layout, LoginForm } from '../../components';
+import defaultRelayOptions from '../../lib/relay/withRelayOptions';
+import { applicantportalQuery } from '../../__generated__/applicantportalQuery.graphql';
 
 const StyledOl = styled('ol')`
   max-width: 300px;
@@ -52,8 +52,8 @@ const StyledCallout = styled(Callout)`
   margin: ${(props) => props.theme.spacing.medium} 0;
 `;
 
-const getPagesQuery = graphql`
-  query pagesQuery {
+const getApplicantportalQuery = graphql`
+  query applicantportalQuery {
     session {
       sub
     }
@@ -69,9 +69,9 @@ const getPagesQuery = graphql`
 
 const Home = ({
   preloadedQuery,
-}: RelayProps<Record<string, unknown>, pagesQuery>) => {
+}: RelayProps<Record<string, unknown>, applicantportalQuery>) => {
   const { nextIntake, openIntake, session } = usePreloadedQuery(
-    getPagesQuery,
+    getApplicantportalQuery,
     preloadedQuery
   );
   const intakeCalloutChildren = useMemo(() => {
@@ -126,18 +126,20 @@ const Home = ({
         )}
         <h1>Welcome</h1>
         <section>
-            Refer to{' '}
-            <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
-              program details
-            </Link>{' '}
-            for the application materials and full information about the
-            Connecting Communities British Columbia (CCBC) program.
-            <StyledCallout>{intakeCalloutChildren}</StyledCallout>
+          Refer to{' '}
+          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
+            program details
+          </Link>{' '}
+          for the application materials and full information about the
+          Connecting Communities British Columbia (CCBC) program.
+          <StyledCallout>{intakeCalloutChildren}</StyledCallout>
         </section>
         <section>
           {session?.sub ? (
             <StyledBtnContainer>
-              <ButtonLink href="/dashboard">Go to dashboard</ButtonLink>
+              <ButtonLink href="/applicantportal/dashboard">
+                Go to dashboard
+              </ButtonLink>
             </StyledBtnContainer>
           ) : (
             <>
@@ -225,4 +227,4 @@ export const withRelayOptions = {
   serverSideProps: async () => ({}),
 };
 
-export default withRelay(Home, getPagesQuery, withRelayOptions);
+export default withRelay(Home, getApplicantportalQuery, withRelayOptions);

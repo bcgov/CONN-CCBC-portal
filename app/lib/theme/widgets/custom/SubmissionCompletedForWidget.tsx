@@ -26,7 +26,7 @@ const SubmissionCompletedForWidget: React.FC<WidgetProps> = ({ id, value }) => {
         {value || (
           <StyledError>
             No legal organization name was provided. Please return to the{' '}
-            <StyledLink href={`/form/${rowId}/${pageNumber}`}>
+            <StyledLink href={`/applicantportal/form/${rowId}/${pageNumber}`}>
               Organization Profile
             </StyledLink>{' '}
             page and enter one.

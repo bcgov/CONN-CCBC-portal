@@ -1,11 +1,11 @@
-import { withRelayOptions } from '../../../pages/form/[id]/success';
 import { screen } from '@testing-library/react';
-import FormPage from '../../../pages/form/[id]/[page]';
+import { NextPageContext } from 'next';
+import { withRelayOptions } from '../../../pages/applicantportal/form/[id]/success';
+import FormPage from '../../../pages/applicantportal/form/[id]/[page]';
 import PageTestingHelper from '../../utils/pageTestingHelper';
 import compiledPageQuery, {
   PageQuery,
 } from '../../../__generated__/PageQuery.graphql';
-import { NextPageContext } from 'next';
 
 const mockQueryPayload = {
   Query() {
@@ -67,7 +67,7 @@ describe('The form page', () => {
   });
 
   it('displays the info banner when editing a submitted application', () => {
-    const mockQueryPayload = {
+    const payload = {
       Query() {
         return {
           applicationByRowId: {
@@ -86,7 +86,7 @@ describe('The form page', () => {
         };
       },
     };
-    pageTestingHelper.loadQuery(mockQueryPayload);
+    pageTestingHelper.loadQuery(payload);
     pageTestingHelper.renderPage();
 
     expect(
@@ -95,7 +95,7 @@ describe('The form page', () => {
   });
 
   it('displays the alert banner when editing a withdrawn application', () => {
-    const mockQueryPayload = {
+    const payload = {
       Query() {
         return {
           applicationByRowId: {
@@ -115,7 +115,7 @@ describe('The form page', () => {
       },
     };
 
-    pageTestingHelper.loadQuery(mockQueryPayload);
+    pageTestingHelper.loadQuery(payload);
     pageTestingHelper.renderPage();
 
     expect(

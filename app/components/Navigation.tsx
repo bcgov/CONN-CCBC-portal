@@ -52,7 +52,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => (
               <Image
                 style={{ cursor: 'pointer' }}
                 priority
-                src="/applicantportal/icons/BCID_CC_RGB_rev.svg"
+                src="/icons/BCID_CC_RGB_rev.svg"
                 alt="Logo for Province of British Columbia Connected Communities"
                 height={100}
                 width={300}
@@ -66,7 +66,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => (
         <StyledRightSideLinks>
           {isLoggedIn && (
             <>
-              <Link passHref href="/dashboard">
+              <Link passHref href="/applicantportal/dashboard">
                 <StyledAnchor data-testid="dashboard-btn-test">
                   Dashboard
                 </StyledAnchor>

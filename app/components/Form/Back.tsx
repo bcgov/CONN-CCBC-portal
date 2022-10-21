@@ -11,7 +11,10 @@ const StyledDiv = styled.div`
 `;
 
 const Back = ({ pageNumber, applicationId }: Props) => {
-  const url = pageNumber > 1 ? `/form/${applicationId}/${pageNumber - 1}` : '/dashboard';
+  const url =
+    pageNumber > 1
+      ? `/applicantportal/form/${applicationId}/${pageNumber - 1}`
+      : '/applicantportal/dashboard';
 
   return (
     <StyledDiv>
