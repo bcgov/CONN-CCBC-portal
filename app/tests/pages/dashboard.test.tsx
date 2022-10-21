@@ -1,9 +1,41 @@
 import { screen } from '@testing-library/react';
+import * as moduleApi from '@growthbook/growthbook-react';
+import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import Dashboard, { withRelayOptions } from '../../pages/dashboard';
 import PageTestingHelper from '../utils/pageTestingHelper';
 import compileddashboardQuery, {
   dashboardQuery,
 } from '../../__generated__/dashboardQuery.graphql';
+
+const openedIntakeMessage =
+  'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
+const closedIntakeMessage = 'Applications are not currently being accepted.';
+
+const mockOpenIntakeData: JSONValue = {
+  variant: 'warning',
+  text: openedIntakeMessage,
+  displayOpenDate: false,
+};
+const mockClosedIntakeData: JSONValue = {
+  variant: 'warning',
+  text: closedIntakeMessage,
+  displayOpenDate: false,
+};
+
+const mockOpenIntake: FeatureResult<JSONValue> = {
+  value: mockOpenIntakeData,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'open_intake_alert',
+};
+const mockClosedIntake: FeatureResult<JSONValue> = {
+  value: mockClosedIntakeData,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'open_intake_alert',
+};
 
 const mockQueryPayload = {
   Query() {
@@ -103,69 +135,24 @@ describe('The index page', () => {
     });
   });
 
-  it('renders the close date', () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.getByText(/August 19, 2027, 9:00:00 a.m. PDT/)
-    ).toBeInTheDocument();
-  });
-
-  it('does not display alert message when there is an open intake', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.queryByText(
-        `New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.`
-      )
-    ).toBeNull();
-  });
-
   it('displays the alert message when there is no open intake', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockClosedIntake);
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.getByText(
-        `New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.`
-      )
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('custom-alert')).toBeInTheDocument();
+    expect(screen.getByText(closedIntakeMessage)).toBeInTheDocument();
+    expect(screen.queryByText(openedIntakeMessage)).toBeNull();
   });
 
   it('displays the open intake message when there an open intake', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockOpenIntake);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.getByText(/Review of applications will begin on/)
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(/August 19, 2027, 9:00:00 a.m. PDT/)
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(
-        /You can edit draft and submitted applications until this date./
-      )
-    ).toBeInTheDocument();
-  });
-
-  it('displays the closed intake message when there is no open intake', async () => {
-    pageTestingHelper.loadQuery(mockClosedIntakePayload);
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.getByText(`Applications are currently not being accepted.`)
-    ).toBeInTheDocument();
-
-    const link = screen.getByText('program webpage');
-    expect(link).toHaveAttribute(
-      'href',
-      'https://www2.gov.bc.ca/gov/content/governments/connectivity-in-bc/20601/20601-63737'
-    );
+    expect(screen.getByTestId('custom-alert')).toBeInTheDocument();
+    expect(screen.getByText(openedIntakeMessage)).toBeInTheDocument();
+    expect(screen.queryByText(closedIntakeMessage)).toBeNull();
   });
 
   it('has create intake button enabled when there is an open intake', async () => {
@@ -204,5 +191,9 @@ describe('The index page', () => {
     expect(screen.getByText(`CCBC-010001`)).toBeInTheDocument();
     expect(screen.getByText(`withdrawn`)).toBeInTheDocument();
     expect(screen.getByText(`View`)).toBeInTheDocument();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 });

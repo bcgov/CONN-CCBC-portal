@@ -5,10 +5,11 @@ import { usePreloadedQuery } from 'react-relay/hooks';
 import { graphql } from 'react-relay';
 import { DateTime } from 'luxon';
 import Link from '@button-inc/bcgov-theme/Link';
+import { useFeature } from '@growthbook/growthbook-react';
 import defaultRelayOptions from '../lib/relay/withRelayOptions';
 import StyledGovButton from '../components/StyledGovButton';
 import { useCreateApplicationMutation } from '../schema/mutations/application/createApplication';
-import { IntakeAlert, Layout } from '../components';
+import { DynamicAlert, Layout } from '../components';
 import { DashboardTable } from '../components/Dashboard';
 import { dashboardQuery } from '../__generated__/dashboardQuery.graphql';
 
@@ -83,14 +84,30 @@ const Dashboard = ({
     });
   };
 
+  const openIntakeBanner = useFeature('open_intake_alert').value || {};
+  const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <section>
-          <h1>Dashboard</h1>
-          {!openIntake && (
-            <IntakeAlert openTimestamp={nextIntake?.openTimestamp} />
+          {openIntake && (
+            <DynamicAlert
+              dateTimestamp={closeTimestamp}
+              text={openIntakeBanner.text}
+              variant={openIntakeBanner.variant}
+              displayOpenDate={false}
+            />
           )}
+          {!openIntake && (
+            <DynamicAlert
+              dateTimestamp={nextIntake?.openTimestamp}
+              text={closedIntakeBanner.text}
+              variant={closedIntakeBanner.variant}
+              displayOpenDate={closedIntakeBanner.displayOpenDate}
+            />
+          )}
+          <h1>Dashboard</h1>
           {openIntake ? (
             <p>
               Review of applications will begin on{' '}
@@ -116,7 +133,6 @@ const Dashboard = ({
               </p>
             </div>
           )}
-
           <StyledGovButton
             onClick={handleCreateApplication}
             disabled={!openIntake}

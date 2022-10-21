@@ -4,6 +4,7 @@ export { default as CancelIcon } from './CancelIcon';
 export { default as FooterLinks } from './FooterLinks';
 export { default as FormDiv } from './FormDiv';
 export { default as IntakeAlert } from './IntakeAlert';
+export { default as DynamicAlert} from './DynamicAlert';
 export { default as Layout } from './Layout';
 export { default as LoadingSpinner } from './LoadingSpinner';
 export { default as LoginForm } from './LoginForm';

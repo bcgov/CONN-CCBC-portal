@@ -1,4 +1,6 @@
 import { screen } from '@testing-library/react';
+import * as moduleApi from '@growthbook/growthbook-react';
+import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import compiledPagesQuery, {
   pagesQuery,
 } from '__generated__/pagesQuery.graphql';
@@ -41,14 +43,35 @@ const loggedOutPayload = {
   },
 };
 
-const intakeAlertMessage =
+const openedIntakeMessage =
   'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
+const closedIntakeMessage = 'Intake is closed.';
 
-const closedIntakeCallout = 'Applications are not currently being accepted.';
+const mockOpenIntakeData: JSONValue = {
+  variant: 'warning',
+  text: openedIntakeMessage,
+  displayOpenDate: false,
+};
+const mockClosedIntakeData: JSONValue = {
+  variant: 'warning',
+  text: closedIntakeMessage,
+  displayOpenDate: false,
+};
 
-// using a regex below because the text is broken in multiple elements
-const openedIntakeCallout =
-  /Applications are accepted until August 19, 2027 at 9:00 a.m. PDT./;
+const mockOpenIntake: FeatureResult<JSONValue> = {
+  value: mockOpenIntakeData,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'open_intake_alert',
+};
+const mockClosedIntake: FeatureResult<JSONValue> = {
+  value: mockClosedIntakeData,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'open_intake_alert',
+};
 
 const pageTestingHelper = new PageTestingHelper<pagesQuery>({
   pageComponent: Home,
@@ -72,34 +95,24 @@ describe('The index page', () => {
     expect(screen.getByText('Go to dashboard')).toBeInTheDocument();
   });
 
-  it('Does not display alert message when there is an open intake', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(screen.queryByText(intakeAlertMessage)).toBeNull();
-  });
-
   it('Displays the alert message when there is no open intake', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockClosedIntake);
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText(intakeAlertMessage)).toBeInTheDocument();
+    expect(screen.getByTestId('custom-alert')).toBeInTheDocument();
+    expect(screen.getByText(closedIntakeMessage)).toBeInTheDocument();
+    expect(screen.queryByText(openedIntakeMessage)).toBeNull();
   });
 
-  it('Displays the opened intake callout when there is an open intake', () => {
+  it('Displays the alert message when there is an open intake', () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockOpenIntake);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText(openedIntakeCallout)).toBeInTheDocument();
-    expect(screen.queryByText(closedIntakeCallout)).toBeNull();
-  });
-
-  it('Displays the closed intake callout when there is no open intake', () => {
-    pageTestingHelper.loadQuery(mockClosedIntakePayload);
-    pageTestingHelper.renderPage();
-
-    expect(screen.getByText(closedIntakeCallout)).toBeInTheDocument();
-    expect(screen.queryByText(openedIntakeCallout)).toBeNull();
+    expect(screen.getByTestId('custom-alert')).toBeInTheDocument();
+    expect(screen.getByText(openedIntakeMessage)).toBeInTheDocument();
+    expect(screen.queryByText(closedIntakeMessage)).toBeNull();
   });
 
   it('Displays the Business BCeID login button', () => {
@@ -124,5 +137,9 @@ describe('The index page', () => {
       'action',
       '/login?kc_idp_hint=bceidbasic'
     );
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 });
