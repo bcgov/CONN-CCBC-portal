@@ -14,3 +14,40 @@ Allowed roles at the time of writing are:
 
 - Admin
 - Analyst
+
+#### Protected pages
+
+Pages that any user can visit:
+
+- `/`
+- `/analyst`
+- `/applicantportal`
+- `/analyst/request-access`
+
+Users with an `analyst` or `admin` role can access all subpages of the `/analyst/*` route. They can not access the applicant portal `/applicantportal/*` subpages.
+
+#### Redirection behaviour when attempting to access an unauthorized route
+
+###### IDIR user with no assigned role:
+
+Role given: `ccbc_guest`
+Landing route: `/analyst/request-access`
+
+###### IDIR user with assigned role 'admin':
+
+Role given: `ccbc_admin`
+Landing route: `/analyst/dashboard`
+
+###### IDIR user with assigned role 'analyst':
+
+Role given: `ccbc_analyst`
+Landing route: `/analyst/dashboard`
+
+###### Applicant portal BCeID user:
+
+Role given: `ccbc_auth_user`
+Landing route: `/applicantportal/dashboard`
+
+#### Client side routing
+
+Client side routing will not go through the page redirection login so keep that in mind when using `next/link` as it could cause security issues and bugs. In many cases it will be preferrable to trigger a page reload.
