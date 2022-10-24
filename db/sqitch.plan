@@ -70,3 +70,5 @@ views/summary_view 2022-10-24T20:16:50Z ,,, Vladimir <vladimir@button.is> # feat
 mutations/update_application_form 2022-10-25T19:15:08Z Matthieu Foucault <matthieu@button.is> # custom mutation to update the application form data
 tables/ccbc_user_001_no_unique_email 2022-10-26T19:00:26Z Matthieu Foucault <matthieu@button.is> # remove unique constraint on email
 @1.11.0 2022-10-26T19:55:03Z Marcel Mueller <marcel@button.is> # release v1.11.0
+tables/application_001_add_analyst_permission 2022-10-24T14:56:56Z Anthony Bushara <anthony@button.is> # Adds the analyst permissions and RLS for the application table
+tables/application_status_001_give_read_and_insert_to_ccbc_analyst 2022-10-24T17:29:23Z Anthony Bushara <anthony@button.is> # Gives the select and insert permission to ccbc_analyst
