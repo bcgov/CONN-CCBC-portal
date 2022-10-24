@@ -8,6 +8,7 @@ import { IndigenousEntity } from '../../../components/Form/CustomTitles';
 const organizationProfile = {
   'ui:order': [
     'typeOfOrganization',
+    'other',
     'organizationName',
     'isLegalPrimaryName',
     'isNameLegalName',
