@@ -4,14 +4,14 @@ const pagesAuthorization = [
   {
     routePaths: [
       '/',
-      '/analystportal',
+      '/analyst',
       '/applicantportal',
-      '/analystportal/request-access',
+      '/analyst/request-access',
     ],
     isProtected: false,
   },
   {
-    routePaths: ['/analystportal/(.*)'],
+    routePaths: ['/analyst/(.*)'],
     isProtected: true,
     allowedRoles: ['ccbc_admin', 'ccbc_analyst'],
   },

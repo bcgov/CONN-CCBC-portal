@@ -4,7 +4,7 @@ import { graphql } from 'react-relay';
 import styled from 'styled-components';
 import defaultRelayOptions from '../../lib/relay/withRelayOptions';
 import { ButtonLink, Layout, LoginForm } from '../../components';
-import { analystportalQuery } from '../../__generated__/analystportalQuery.graphql';
+import { analystQuery } from '../../__generated__/analystQuery.graphql';
 
 const StyledBtnContainer = styled('div')`
   display: flex;
@@ -17,8 +17,8 @@ const StyledBtnContainer = styled('div')`
   border-radius: 8px;
 `;
 
-const getAnalystportalQuery = graphql`
-  query analystportalQuery {
+const getanalystQuery = graphql`
+  query analystQuery {
     session {
       sub
     }
@@ -27,8 +27,8 @@ const getAnalystportalQuery = graphql`
 
 const Home = ({
   preloadedQuery,
-}: RelayProps<Record<string, unknown>, analystportalQuery>) => {
-  const { session } = usePreloadedQuery(getAnalystportalQuery, preloadedQuery);
+}: RelayProps<Record<string, unknown>, analystQuery>) => {
+  const { session } = usePreloadedQuery(getanalystQuery, preloadedQuery);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -43,9 +43,7 @@ const Home = ({
 
           {session?.sub ? (
             <StyledBtnContainer>
-              <ButtonLink href="/analystportal/dashboard">
-                Go to dashboard
-              </ButtonLink>
+              <ButtonLink href="/analyst/dashboard">Go to dashboard</ButtonLink>
             </StyledBtnContainer>
           ) : (
             <StyledBtnContainer>
@@ -64,4 +62,4 @@ export const withRelayOptions = {
   serverSideProps: async () => ({}),
 };
 
-export default withRelay(Home, getAnalystportalQuery, withRelayOptions);
+export default withRelay(Home, getanalystQuery, withRelayOptions);

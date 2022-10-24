@@ -15,18 +15,18 @@ const getAuthRole = (req: Request) => {
     if (isAdmin) {
       return {
         pgRole: 'ccbc_admin',
-        landingRoute: '/analystportal/dashboard',
+        landingRoute: '/analyst/dashboard',
       };
     }
     if (isAnalyst) {
       return {
         pgRole: 'ccbc_analyst',
-        landingRoute: '/analystportal/dashboard',
+        landingRoute: '/analyst/dashboard',
       };
     }
     return {
       pgRole: 'ccbc_guest',
-      landingRoute: '/analystportal/request-access',
+      landingRoute: '/analyst/request-access',
     };
   }
   return {

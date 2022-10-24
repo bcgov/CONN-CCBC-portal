@@ -24,7 +24,7 @@ describe('The index page', () => {
 
     const ctx = {
       req: {
-        url: '/analystportal/dashboard',
+        url: '/analyst/dashboard',
         claims: {
           client_roles: ['admin'],
           identity_provider: 'idir',
@@ -40,7 +40,7 @@ describe('The index page', () => {
 
     const ctx = {
       req: {
-        url: '/analystportal/dashboard',
+        url: '/analyst/dashboard',
         claims: {
           identity_provider: 'bceidbasic',
         },
@@ -57,7 +57,7 @@ describe('The index page', () => {
   it('should redirect unauthenticated users to the appropriate landing page', async () => {
     const ctxAnalyst = {
       req: {
-        url: '/analystportal/dashboard',
+        url: '/analyst/dashboard',
       },
     } as any;
 
@@ -69,7 +69,7 @@ describe('The index page', () => {
 
     expect(await withRelayOptions.serverSideProps(ctxAnalyst)).toEqual({
       redirect: {
-        destination: '/analystportal',
+        destination: '/analyst',
       },
     });
 

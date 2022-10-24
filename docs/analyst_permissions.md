@@ -1,6 +1,6 @@
 ### Overview of analyst permissions
 
-Analysts will log in through the `/analystportal` route and will use IDIR for authentication. To prevent anyone who has an IDIR from accessing the analyst dashboard an `analyst` or `admin` role will have to be tied to the IDIR through the [SSO app](https://bcgov.github.io/sso-requests). If they don't have a role assigned to their IDIR they will be redirected to `/analystportal/request-access`.
+Analysts will log in through the `/analyst` route and will use IDIR for authentication. To prevent anyone who has an IDIR from accessing the analyst dashboard an `analyst` or `admin` role will have to be tied to the IDIR through the [SSO app](https://bcgov.github.io/sso-requests). If they don't have a role assigned to their IDIR they will be redirected to `/analyst/request-access`.
 
 #### Assigning roles to an IDIR
 

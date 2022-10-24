@@ -39,8 +39,8 @@ const withRelayOptions: WiredOptions<any> = {
     // Redirect them to landing route responding to the page they are trying to access
     return {
       redirect: {
-        destination: request.url.startsWith('/analystportal')
-          ? '/analystportal'
+        destination: request.url.startsWith('/analyst')
+          ? '/analyst'
           : '/applicantportal',
       },
     };
