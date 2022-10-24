@@ -104,10 +104,10 @@ const ApplicationForm: React.FC<Props> = ({
         formData {
           jsonData
           isEditable
+          updatedAt
           id
         }
         status
-        updatedAt
         intakeByIntakeId {
           closeTimestamp
         }
@@ -129,9 +129,8 @@ const ApplicationForm: React.FC<Props> = ({
   );
   const {
     rowId,
-    formData: { jsonData, id: formDataId, isEditable },
+    formData: { jsonData, id: formDataId, isEditable, updatedAt },
     status,
-    updatedAt,
   } = application;
 
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);

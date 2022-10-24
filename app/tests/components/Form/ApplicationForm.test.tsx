@@ -30,9 +30,9 @@ const mockQueryPayload = {
         id: 'TestFormId',
         jsonData: {},
         isEditable: true,
+        updatedAt: '2022-09-12T14:04:10.790848-07:00',
       },
       status: 'draft',
-      updatedAt: '2022-09-12T14:04:10.790848-07:00',
     };
   },
   Query() {
@@ -62,11 +62,10 @@ const submissionPayload = {
   Application() {
     return {
       status: 'draft',
-      updatedAt: '2022-09-12T14:04:10.790848-07:00',
-
       formData: {
         id: 'TestFormId',
         isEditable: true,
+        updatedAt: '2022-09-12T14:04:10.790848-07:00',
         jsonData: {
           organizationProfile: {
             organizationName: 'Testing organization name',
@@ -174,9 +173,9 @@ describe('The application form', () => {
                 organizationName: 'Test org',
               },
             },
+            updatedAt: '2022-09-12T14:04:10.790848-07:00',
           },
           status: 'draft',
-          updatedAt: '2022-09-12T14:04:10.790848-07:00',
         };
       },
       Query() {
@@ -697,9 +696,9 @@ describe('The application form', () => {
             id: 'TestFormId',
             jsonData: {},
             isEditable: false,
+            updatedAt: '2022-09-12T14:04:10.790848-07:00',
           },
           status: 'draft',
-          updatedAt: '2022-09-12T14:04:10.790848-07:00',
         };
       },
     };
@@ -722,9 +721,9 @@ describe('The application form', () => {
             id: 'TestFormId',
             jsonData: {},
             isEditable: false,
+            updatedAt: '2022-09-12T14:04:10.790848-07:00',
           },
           status: 'draft',
-          updatedAt: '2022-09-12T14:04:10.790848-07:00',
         };
       },
     };
@@ -745,9 +744,9 @@ describe('The application form', () => {
             id: 'TestFormId',
             jsonData: {},
             isEditable: false,
+            updatedAt: '2022-09-12T14:04:10.790848-07:00',
           },
           status: 'draft',
-          updatedAt: '2022-09-12T14:04:10.790848-07:00',
         };
       },
     };
@@ -770,9 +769,9 @@ describe('The application form', () => {
             id: 'TestFormId',
             jsonData: {},
             isEditable: false,
+            updatedAt: '2022-09-12T14:04:10.790848-07:00',
           },
           status: 'draft',
-          updatedAt: '2022-09-12T14:04:10.790848-07:00',
         };
       },
     };
