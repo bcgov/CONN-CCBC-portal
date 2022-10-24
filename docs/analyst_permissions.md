@@ -50,4 +50,4 @@ Landing route: `/applicantportal/dashboard`
 
 #### Client side routing
 
-Client side routing will not go through the page redirection login so keep that in mind when using `next/link` as it could cause security issues and bugs. In many cases it will be preferrable to trigger a page reload.
+Client side routing will not go through the page redirection login so keep that in mind when using `next/link` as it could cause bugs. In many cases it will be preferrable to trigger a page reload.
