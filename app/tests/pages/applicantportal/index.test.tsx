@@ -4,8 +4,8 @@ import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import compiledPagesQuery, {
   applicantportalQuery,
 } from '__generated__/applicantportalQuery.graphql';
-import Home, { withRelayOptions } from '../../pages/applicantportal';
-import PageTestingHelper from '../utils/pageTestingHelper';
+import Home, { withRelayOptions } from '../../../pages/applicantportal';
+import PageTestingHelper from '../../utils/pageTestingHelper';
 
 const mockQueryPayload = {
   Query() {
@@ -52,6 +52,7 @@ const mockOpenIntakeData: JSONValue = {
   text: openedIntakeMessage,
   displayOpenDate: false,
 };
+
 const mockClosedIntakeData: JSONValue = {
   variant: 'warning',
   text: closedIntakeMessage,
@@ -65,6 +66,7 @@ const mockOpenIntake: FeatureResult<JSONValue> = {
   off: null,
   ruleId: 'open_intake_alert',
 };
+
 const mockClosedIntake: FeatureResult<JSONValue> = {
   value: mockClosedIntakeData,
   source: 'defaultValue',

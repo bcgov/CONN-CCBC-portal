@@ -22,6 +22,6 @@ begin
 end;
 $function$ language plpgsql strict volatile;
 
-grant execute on function ccbc_public.create_user_from_session to ccbc_auth_user;
+grant execute on function ccbc_public.create_user_from_session to ccbc_auth_user, ccbc_admin, ccbc_analyst;
 
 commit;

@@ -3,7 +3,7 @@ import { IDP_HINTS, IDP_HINT_PARAM } from 'data/ssoConstants';
 import styled from 'styled-components';
 
 interface Props {
-  idp: 'Basic BCeID' | 'Business BCeID';
+  idp: 'Basic BCeID' | 'Business BCeID' | 'IDIR';
 }
 
 const StyledForm = styled('form')`

@@ -3,11 +3,11 @@ import * as moduleApi from '@growthbook/growthbook-react';
 import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import Dashboard, {
   withRelayOptions,
-} from '../../pages/applicantportal/dashboard';
-import PageTestingHelper from '../utils/pageTestingHelper';
+} from '../../../pages/applicantportal/dashboard';
+import PageTestingHelper from '../../utils/pageTestingHelper';
 import compileddashboardQuery, {
   dashboardQuery,
-} from '../../__generated__/dashboardQuery.graphql';
+} from '../../../__generated__/dashboardQuery.graphql';
 
 const openedIntakeMessage =
   'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
@@ -132,7 +132,7 @@ describe('The index page', () => {
 
     expect(await withRelayOptions.serverSideProps(ctx)).toEqual({
       redirect: {
-        destination: '/',
+        destination: '/applicantportal',
       },
     });
   });

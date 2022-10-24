@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/react';
 import { NextPageContext } from 'next';
-import { withRelayOptions } from '../../../pages/applicantportal/form/[id]/success';
-import FormPage from '../../../pages/applicantportal/form/[id]/[page]';
-import PageTestingHelper from '../../utils/pageTestingHelper';
+import { withRelayOptions } from '../../../../pages/applicantportal/form/[id]/success';
+import FormPage from '../../../../pages/applicantportal/form/[id]/[page]';
+import PageTestingHelper from '../../../utils/pageTestingHelper';
 import compiledPageQuery, {
   PageQuery,
-} from '../../../__generated__/PageQuery.graphql';
+} from '../../../../__generated__/PageQuery.graphql';
 
 const mockQueryPayload = {
   Query() {
@@ -133,7 +133,7 @@ describe('The form page', () => {
 
     expect(await withRelayOptions.serverSideProps(ctx)).toEqual({
       redirect: {
-        destination: '/',
+        destination: '/applicantportal',
       },
     });
   });

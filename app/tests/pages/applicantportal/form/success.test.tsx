@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/react';
 import Success, {
   withRelayOptions,
-} from '../../../pages/applicantportal/form/[id]/success';
-import PageTestingHelper from '../../utils/pageTestingHelper';
+} from '../../../../pages/applicantportal/form/[id]/success';
+import PageTestingHelper from '../../../utils/pageTestingHelper';
 import compiledsuccessQuery, {
   successQuery,
-} from '../../../__generated__/successQuery.graphql';
+} from '../../../../__generated__/successQuery.graphql';
 
 const mockQueryPayload = {
   Query() {
@@ -96,7 +96,7 @@ describe('The index page', () => {
 
     expect(await withRelayOptions.serverSideProps(ctx)).toEqual({
       redirect: {
-        destination: '/',
+        destination: '/applicantportal',
       },
     });
   });
@@ -106,13 +106,13 @@ describe('The form/success page', () => {
   it('should redirect an unauthorized user', async () => {
     const ctx = {
       req: {
-        url: '/form/1/success',
+        url: '/applicantportal/form/1/success',
       },
     } as any;
 
     expect(await withRelayOptions.serverSideProps(ctx)).toEqual({
       redirect: {
-        destination: '/',
+        destination: '/applicantportal',
       },
     });
   });

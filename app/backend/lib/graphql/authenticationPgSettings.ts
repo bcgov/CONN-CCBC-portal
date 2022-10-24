@@ -1,6 +1,7 @@
 import { isAuthenticated } from '@bcgov-cas/sso-express';
 import type { Request } from 'express';
 import config from '../../../config';
+import getAuthRole from '../../../utils/getAuthRole';
 
 const authenticationPgSettings = (req: Request) => {
   if (config.get('ENABLE_MOCK_AUTH')) {
@@ -18,7 +19,7 @@ const authenticationPgSettings = (req: Request) => {
       ...claimsSettings,
     };
 
-  const claims = req.claims;
+  const { claims } = req;
 
   const properties = [
     'jti',
@@ -48,8 +49,8 @@ const authenticationPgSettings = (req: Request) => {
   properties.forEach((property) => {
     claimsSettings[`jwt.claims.${property}`] = claims![property];
   });
-  // TODO - look at roles/ claims to determine the correct database role when that becomes a required feature
-  claimsSettings.role = 'ccbc_auth_user';
+
+  claimsSettings.role = getAuthRole(req).pgRole;
 
   return {
     ...claimsSettings,
