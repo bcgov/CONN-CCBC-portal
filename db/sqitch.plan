@@ -72,3 +72,5 @@ tables/ccbc_user_001_no_unique_email 2022-10-26T19:00:26Z Matthieu Foucault <mat
 @1.11.0 2022-10-26T19:55:03Z Marcel Mueller <marcel@button.is> # release v1.11.0
 tables/application_001_add_analyst_permission 2022-10-24T14:56:56Z Anthony Bushara <anthony@button.is> # Adds the analyst permissions and RLS for the application table
 tables/application_status_001_give_read_and_insert_to_ccbc_analyst 2022-10-24T17:29:23Z Anthony Bushara <anthony@button.is> # Gives the select and insert permission to ccbc_analyst
+computed_columns/application_project_name [computed_columns/application_project_name@1.9.0] 2022-10-24T19:27:49Z Anthony Bushara <anthony@button.is> # Add ccbc_analyst to application_project_name computed column
+computed_columns/application_status [computed_columns/application_status@1.9.0] 2022-10-24T19:30:15Z Anthony Bushara <anthony@button.is> # Add ccbc_analyst to application_status computed column

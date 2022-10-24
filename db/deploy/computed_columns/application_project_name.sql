@@ -7,5 +7,6 @@ create or replace function ccbc_public.application_project_name(application ccbc
 $$ language sql stable;
 
 grant execute on function ccbc_public.application_project_name to ccbc_auth_user;
+grant execute on function ccbc_public.application_project_name to ccbc_analyst;
 
 commit;
