@@ -74,6 +74,9 @@ autoscaling:
 metabase:
   instanceName: ccbc-metabase
   namespace: '' # The value must be passed in via the deploy script
+  prodNamespace: b40eb8-prod
+  prodIngress:
+    enable:
 
 # Postgres Cluster resource values:
 exporter:

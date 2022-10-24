@@ -1,0 +1,4 @@
+metabase:
+  prodIngress:
+    enable: true
+  prodNamespace: b40eb8-prod

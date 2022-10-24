@@ -6,3 +6,8 @@ db:
       drop schema if exists ccbc_public cascade;
       drop schema if exists ccbc_private cascade;
     EOF
+
+metabase:
+  prodIngress:
+    enable: true
+  prodNamespace: b40eb8-prod
