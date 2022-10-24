@@ -3,7 +3,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import styled from 'styled-components';
 import defaultRelayOptions from '../../lib/relay/withRelayOptions';
-import { ButtonLink, Layout, LoginForm } from '../../components';
+import { Layout, LoginForm } from '../../components';
 import { analystQuery } from '../../__generated__/analystQuery.graphql';
 
 const StyledBtnContainer = styled('div')`
@@ -40,16 +40,9 @@ const Home = ({
             NetworkBC members with access to Connecting Communities BC (CCBC)
             applications may log in with their IDIR.
           </p>
-
-          {session?.sub ? (
-            <StyledBtnContainer>
-              <ButtonLink href="/analyst/dashboard">Go to dashboard</ButtonLink>
-            </StyledBtnContainer>
-          ) : (
-            <StyledBtnContainer>
-              <LoginForm idp="IDIR" />
-            </StyledBtnContainer>
-          )}
+          <StyledBtnContainer>
+            <LoginForm idp="IDIR" />
+          </StyledBtnContainer>
           <p>If you do not have access, please contact your administrator</p>
         </section>
       </div>
