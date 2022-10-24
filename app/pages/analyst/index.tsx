@@ -63,15 +63,15 @@ export const withRelayOptions = {
     const { default: getAuthRole } = await import('../../utils/getAuthRole');
     const request = ctx.req as any;
     const isIdirUser = request?.claims?.identity_provider === 'idir';
-    const authRole = getAuthRole(request)?.pgRole;
+    const authRole = getAuthRole(request);
     const isAuthenticatedAnalyst =
-      authRole === 'ccbc_admin' || authRole === 'ccbc_analyst';
+      authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'ccbc_analyst';
 
     // They're logged in and have a ccbc_admin or ccbc_analyst role
     if (isAuthenticatedAnalyst) {
       return {
         redirect: {
-          destination: `/analyst/dashboard`,
+          destination: authRole.landingRoute,
         },
       };
     }
@@ -85,7 +85,7 @@ export const withRelayOptions = {
       };
     }
 
-    return {};
+    return defaultRelayOptions.serverSideProps(ctx);
   },
 };
 

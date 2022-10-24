@@ -49,7 +49,7 @@ const authenticationPgSettings = (req: Request) => {
   properties.forEach((property) => {
     claimsSettings[`jwt.claims.${property}`] = claims![property];
   });
-  // TODO - look at roles/ claims to determine the correct database role when that becomes a required feature
+
   claimsSettings.role = getAuthRole(req).pgRole;
 
   return {
