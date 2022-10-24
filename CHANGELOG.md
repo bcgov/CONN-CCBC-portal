@@ -1,3 +1,26 @@
+# [1.10.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.9.0...v1.10.0) (2022-10-24)
+
+### Bug Fixes
+
+- add missing field to organization profile ui:order ([ca16ed5](https://github.com/bcgov/CONN-CCBC-portal/commit/ca16ed5275ecdb968384f158d018152b06d92f16))
+- analyst_permissions client side routing wording ([c3582fc](https://github.com/bcgov/CONN-CCBC-portal/commit/c3582fca699c588a71f3419f20c2712300cf0ab8))
+- applicant portal dashboard url ([d39c36e](https://github.com/bcgov/CONN-CCBC-portal/commit/d39c36e38ceae22fd2bce82808b80ac615e5b2d0))
+- ccbc_job_executor can execute receive_applications() ([6675baf](https://github.com/bcgov/CONN-CCBC-portal/commit/6675baf88065e857a869ac63284e5030d949fb9e))
+- e2e test failure ([ac865c4](https://github.com/bcgov/CONN-CCBC-portal/commit/ac865c41bdd7d2e8711abf79962c3caf1b4fc37c))
+- grant usage on schemas for ccbc_admin and ccbc_analyst ([f780c0b](https://github.com/bcgov/CONN-CCBC-portal/commit/f780c0b190037ab43aaac7487c052b2068d1a042))
+- use formData updated_at instead of application table ([c93adfc](https://github.com/bcgov/CONN-CCBC-portal/commit/c93adfc417b4f3b7c7bb47b18047431aa1bdae53))
+
+### Features
+
+- add /request-access page ([51f07fd](https://github.com/bcgov/CONN-CCBC-portal/commit/51f07fd2bd05216154f6052dde3dc0ba5ee5c2ce))
+- add basic analyst dashboard page ([fd2762b](https://github.com/bcgov/CONN-CCBC-portal/commit/fd2762b8074afa414fc62929098754c193b78a82))
+- add getAuthRole and check role in sso-middleware and authenticationPgSettings ([6f8e717](https://github.com/bcgov/CONN-CCBC-portal/commit/6f8e717598b6659d53612afe93f2f6b4d256d5e4))
+- add isRouteAuthorized util function ([a950391](https://github.com/bcgov/CONN-CCBC-portal/commit/a950391e789e55fa59286e5befa4d370ee0a0334))
+- add permissions for ccbc_user table and create_user function ([62981ce](https://github.com/bcgov/CONN-CCBC-portal/commit/62981ce633fabac6b6f752697e494415814e52dc))
+- add roles ccbc_admin and ccbc_analyst ([8fe6032](https://github.com/bcgov/CONN-CCBC-portal/commit/8fe6032537c0ddcb8d10266597762d28e5ece68a))
+- change /analystportal route to /analyst ([0d6995e](https://github.com/bcgov/CONN-CCBC-portal/commit/0d6995ef5ff630d1889c1e3d09c026253f713480))
+- redirect authenticated users on /analyst login page ([bbc8baf](https://github.com/bcgov/CONN-CCBC-portal/commit/bbc8baf0b8bcf14b4ca404689e277ce9f8b602bf))
+
 # [1.9.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.8.0...v1.9.0) (2022-10-21)
 
 ### Bug Fixes
