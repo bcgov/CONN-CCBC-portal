@@ -59,7 +59,34 @@ const Home = ({
 
 export const withRelayOptions = {
   ...defaultRelayOptions,
-  serverSideProps: async () => ({}),
+  serverSideProps: async (ctx) => {
+    const { default: getAuthRole } = await import('../../utils/getAuthRole');
+    const request = ctx.req as any;
+    const isIdirUser = request?.claims.identity_provider === 'idir';
+    const authRole = getAuthRole(request)?.pgRole;
+    const isAuthenticatedAnalyst =
+      authRole === 'ccbc_admin' || authRole === 'ccbc_analyst';
+
+    // They're logged in and have a ccbc_admin or ccbc_analyst role
+    if (isAuthenticatedAnalyst) {
+      return {
+        redirect: {
+          destination: `/analyst/dashboard`,
+        },
+      };
+    }
+
+    // They're logged in with IDIR but don't have an authorized role
+    if (isIdirUser && !isAuthenticatedAnalyst) {
+      return {
+        redirect: {
+          destination: `/analyst/request-access`,
+        },
+      };
+    }
+
+    return {};
+  },
 };
 
 export default withRelay(Home, getanalystQuery, withRelayOptions);
