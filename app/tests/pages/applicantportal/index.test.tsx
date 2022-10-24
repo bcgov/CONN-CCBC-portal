@@ -4,8 +4,8 @@ import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import compiledPagesQuery, {
   applicantportalQuery,
 } from '__generated__/applicantportalQuery.graphql';
-import Home, { withRelayOptions } from '../../pages/applicantportal';
-import PageTestingHelper from '../utils/pageTestingHelper';
+import Home, { withRelayOptions } from '../../../pages/applicantportal';
+import PageTestingHelper from '../../utils/pageTestingHelper';
 
 const mockQueryPayload = {
   Query() {

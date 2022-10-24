@@ -17,7 +17,7 @@ const StyledBtnContainer = styled('div')`
   border-radius: 8px;
 `;
 
-const getanalystQuery = graphql`
+const getAnalystQuery = graphql`
   query analystQuery {
     session {
       sub
@@ -28,7 +28,7 @@ const getanalystQuery = graphql`
 const Home = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, analystQuery>) => {
-  const { session } = usePreloadedQuery(getanalystQuery, preloadedQuery);
+  const { session } = usePreloadedQuery(getAnalystQuery, preloadedQuery);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -62,7 +62,7 @@ export const withRelayOptions = {
   serverSideProps: async (ctx) => {
     const { default: getAuthRole } = await import('../../utils/getAuthRole');
     const request = ctx.req as any;
-    const isIdirUser = request?.claims.identity_provider === 'idir';
+    const isIdirUser = request?.claims?.identity_provider === 'idir';
     const authRole = getAuthRole(request)?.pgRole;
     const isAuthenticatedAnalyst =
       authRole === 'ccbc_admin' || authRole === 'ccbc_analyst';
@@ -89,4 +89,4 @@ export const withRelayOptions = {
   },
 };
 
-export default withRelay(Home, getanalystQuery, withRelayOptions);
+export default withRelay(Home, getAnalystQuery, withRelayOptions);

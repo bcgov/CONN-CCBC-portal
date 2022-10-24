@@ -28,13 +28,8 @@ const AnalystDashboard = ({
   );
 };
 
-export const withRelayOptions = {
-  ...defaultRelayOptions,
-  serverSideProps: async () => ({}),
-};
-
 export default withRelay(
   AnalystDashboard,
   getDashboardAnalystQuery,
-  withRelayOptions
+  defaultRelayOptions
 );

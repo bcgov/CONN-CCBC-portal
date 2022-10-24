@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/react';
 import Success, {
   withRelayOptions,
-} from '../../../pages/applicantportal/form/[id]/success';
-import PageTestingHelper from '../../utils/pageTestingHelper';
+} from '../../../../pages/applicantportal/form/[id]/success';
+import PageTestingHelper from '../../../utils/pageTestingHelper';
 import compiledsuccessQuery, {
   successQuery,
-} from '../../../__generated__/successQuery.graphql';
+} from '../../../../__generated__/successQuery.graphql';
 
 const mockQueryPayload = {
   Query() {
