@@ -330,6 +330,10 @@ context('Homepage', () => {
 
     cy.get('input[id="root_typeOfOrganization-0"]').parent().click();
 
+    cy.get('input[id="root_typeOfOrganization-14"]').parent().click();
+
+    cy.get('input[id="root_other"]').type('test');
+
     cy.get('input[id="root_organizationName"]').type('Test org name');
 
     cy.get('input[id="root_isNameLegalName-0"]').parent().click();
