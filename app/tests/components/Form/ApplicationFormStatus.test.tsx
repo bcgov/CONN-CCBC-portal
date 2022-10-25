@@ -20,8 +20,10 @@ const mockQueryPayload = {
   Application() {
     return {
       id: 'TestApplicationID',
-      formData: { projectInformation: { projectTitle: 'test title' } },
-      updatedAt: DateTime.local(2020, 1, 1, 4, 42).toISO(),
+      formData: {
+        updatedAt: DateTime.local(2020, 1, 1, 4, 42).toISO(),
+      },
+      projectName: 'test title',
       status: 'draft',
     };
   },

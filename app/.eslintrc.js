@@ -34,6 +34,7 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'relay/generated-flow-types': 0, // we're not using Flow
   },
   overrides: [
     {

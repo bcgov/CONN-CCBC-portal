@@ -51,10 +51,16 @@ const ApplicationFormStatus: React.FC<Props> = ({
   isSaving,
   error,
 }) => {
-  const { updatedAt, projectName, status } = useFragment(
+  const {
+    formData: { updatedAt },
+    projectName,
+    status,
+  } = useFragment(
     graphql`
       fragment ApplicationFormStatus_application on Application {
-        updatedAt
+        formData {
+          updatedAt
+        }
         projectName
         status
       }
