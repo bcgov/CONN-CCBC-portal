@@ -43,7 +43,7 @@ select results_eq(
     values (3::bigint)
   $$,
   'Summary_view should have 123 columns'
-)
+);
 
 -- Test setup - first user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
