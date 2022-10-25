@@ -40,7 +40,7 @@ select results_eq(
     table_name = 'summary_view';
   $$,
   $$
-    values (3::bigint)
+    values (123::bigint)
   $$,
   'Summary_view should have 123 columns'
 );
