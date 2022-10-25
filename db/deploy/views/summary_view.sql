@@ -119,8 +119,8 @@ SELECT a.intake_id, f.id, a.ccbc_number, f.last_edited_page, f.form_data_status_
   json_data->'estimatedProjectEmployment' ->> 'hoursOfContractorEmploymentPerWeek' as hours_Of_Contractor_Employment_Per_Week
   
 FROM ccbc_public.application a 
-    inner join ccbc_public.application_form_data afd on a.id = afd.application_id
-    inner join ccbc_public.form_data f on f.id = afd.form_data_id
+    left join ccbc_public.application_form_data afd on a.id = afd.application_id
+    left join ccbc_public.form_data f on f.id = afd.form_data_id
     where ccbc_public.application_status(a) <> 'draft';
     ;
 
