@@ -1,5 +1,5 @@
 begin;
-select plan(5);
+select plan(7);
 
 truncate table
   ccbc_public.application,
@@ -45,17 +45,28 @@ select results_eq(
   'Summary_view should have 123 columns'
 );
 
--- Test setup - first user
+-- -- Test setup - first user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
+insert into ccbc_public.application
+  (id, ccbc_number, owner) overriding system value
+   values
+  (1,'CCBC-010001', '11111111-1111-1111-1111-111111111112');
 
-select ccbc_public.create_application();
+insert into ccbc_public.application_status (application_id, status) VALUES (1, 'draft');
 
 -- Test setup - second user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
+insert into ccbc_public.application
+  (id, ccbc_number, owner) overriding system value
+  values
+  (2,'CCBC-010002', '11111111-1111-1111-1111-111111111113'),
+  (3,'CCBC-010003', '11111111-1111-1111-1111-111111111113');
 
-select ccbc_public.create_application();
-select ccbc_public.create_application();
+  insert into ccbc_public.application_status (application_id, status)
+  VALUES
+   (2, 'draft'),
+   (3, 'draft');
 
 set role ccbc_analyst;
 
@@ -64,9 +75,29 @@ select results_eq(
     select count(*) from ccbc_public.summary_view;
   $$,
   $$
-    values (3::bigint)
+    values (0::bigint)
   $$,
-  'Analyst should be able to see all applications'
+  'Analyst should not be able to see draft applications'
+);
+
+-- update statuses
+set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
+
+update ccbc_public.application_status set status='submitted' where application_id = 1;
+
+-- Test setup - second user
+set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
+
+update ccbc_public.application_status set status='submitted' where application_id = 2;
+
+select results_eq(
+  $$
+    select count(*) from ccbc_public.summary_view;
+  $$,
+  $$
+    values (2::bigint)
+  $$,
+  'Analyst should be able to see applications from all users'
 );
 
 select finish();
