@@ -8,6 +8,7 @@ const mutation = graphql`
     updateFormData(input: $input) {
       formData {
         jsonData
+        updatedAt
         applicationsByApplicationFormDataFormDataIdAndApplicationId {
           edges {
             node {
