@@ -23,7 +23,8 @@ What we need for each sprint.
 - “T” estable (in principle, even if there isn’t a test for it yet)
 - [ ] **It has Acceptance Criteria.**
 - [ ] **If it has a Prototype, a screenshot should be added to the story.**
-- [ ] **The Acceptance Criteria was evaluated by the Dev Team (Feasible or not, or there is a better way to do this).**
+- [ ] **The User Story was evaluated by the Dev Team (Feasible or not, or there is a better way to do this).**
+- [ ] **It has a Technical Analysis (architectural design/path to development) written by the Dev Team**
 - [ ] **Another person can execute it without further questions (clarity).**
 
 ---
@@ -56,4 +57,10 @@ so that [because - why this is important? What problem is this solving?]
 ## Not included:
 -
 -
+
+## Technical Analysis
+- [ ]
+- [ ]
+- [ ]
+
 ```
