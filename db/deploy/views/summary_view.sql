@@ -138,6 +138,6 @@ FROM ccbc_public.application a
     comment on column ccbc_public.summary_view.archived_at is 'archived at timestamp';
     comment on column ccbc_public.summary_view.intake_id is 'Application Intake Number, used as the prefix for CCBC reference number';
 
-    grant select on ccbc_public.summary_view to ccbc_auth_user, ccbc_analyst, ccbc_admin;
+    grant select on ccbc_public.summary_view to ccbc_analyst, ccbc_admin;
 
 COMMIT;
