@@ -14,6 +14,9 @@ inputs:
   openshift_metabase_namespace:
     description: 'The metabase namespace being deployed to'
     required: true
+  openshift_metabase_prod_namespace:
+    description: 'The metabase prod namespace allowing us to connect dev and test databases'
+    required: true
   tag:
     description: 'the sha value from the latest build'
     required: true
@@ -61,6 +64,7 @@ runs:
         openshift_token: ${{ inputs.openshift_token }}
         openshift_app_namespace: ${{ inputs.openshift_app_namespace }}
         openshift_metabase_namespace: ${{ inputs.openshift_metabase_namespace }}
+        openshift_metabase_prod_namespace: ${{ inputs.openshift_metabase_prod_namespace }}
         next_public_growthbook_api_key: ${{ inputs.next_public_growthbook_api_key }}
         aws_s3_bucket: ${{ inputs.aws_s3_bucket }}
         aws_s3_region: ${{ inputs.aws_s3_region }}
@@ -74,6 +78,7 @@ runs:
         ./lib/app_deploy.sh -n ${{ inputs.openshift_app_namespace }} \
           --set app.namespace=${{ inputs.openshift_app_namespace }} \
           --set metabase.namespace=${{ inputs.openshift_metabase_namespace }} \
+          --set metabase.prodNamespace=${{ inputs.openshift_metabase_prod_namespace }} \
           --set image.app.tag=${{ inputs.tag }} \
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
