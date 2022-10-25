@@ -85,12 +85,12 @@ set role ccbc_auth_user;
 
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
-update ccbc_public.application_status set status='submitted' where application_id = 1;
+insert into ccbc_public.application_status (application_id, status) VALUES (1, 'submitted');
 
 -- Test setup - second user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 
-update ccbc_public.application_status set status='submitted' where application_id = 2;
+insert into ccbc_public.application_status (application_id, status) VALUES (2, 'submitted');
 
 set role ccbc_analyst;
 
