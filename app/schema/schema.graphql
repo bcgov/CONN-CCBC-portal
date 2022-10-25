@@ -557,6 +557,11 @@ type Application implements Node {
 
   """Computed column to display form_data"""
   formData: FormData
+
+  """Computed column to display organization name from json data"""
+  organizationName: String
+
+  """Computed column to display the project name"""
   projectName: String
 
   """Computed column to return status of an application"""
