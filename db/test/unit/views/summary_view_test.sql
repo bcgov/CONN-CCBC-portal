@@ -81,6 +81,8 @@ select results_eq(
 );
 
 -- update statuses
+set role ccbc_auth_user;
+
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
 update ccbc_public.application_status set status='submitted' where application_id = 1;
@@ -89,6 +91,8 @@ update ccbc_public.application_status set status='submitted' where application_i
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 
 update ccbc_public.application_status set status='submitted' where application_id = 2;
+
+set role ccbc_analyst;
 
 select results_eq(
   $$
