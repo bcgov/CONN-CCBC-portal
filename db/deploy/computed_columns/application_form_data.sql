@@ -10,6 +10,7 @@ $$
 $$ language sql stable;
 
 grant execute on function ccbc_public.application_form_data to ccbc_auth_user;
+grant execute on function ccbc_public.application_form_data to ccbc_analyst;
 
 comment on function ccbc_public.application_form_data is 'Computed column to display form_data';
 
