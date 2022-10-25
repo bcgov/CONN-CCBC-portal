@@ -74,3 +74,5 @@ tables/application_001_add_analyst_permission 2022-10-24T14:56:56Z Anthony Busha
 tables/application_status_001_give_read_and_insert_to_ccbc_analyst 2022-10-24T17:29:23Z Anthony Bushara <anthony@button.is> # Gives the select and insert permission to ccbc_analyst
 computed_columns/application_project_name [computed_columns/application_project_name@1.9.0] 2022-10-24T19:27:49Z Anthony Bushara <anthony@button.is> # Add ccbc_analyst to application_project_name computed column
 computed_columns/application_status [computed_columns/application_status@1.9.0] 2022-10-24T19:30:15Z Anthony Bushara <anthony@button.is> # Add ccbc_analyst to application_status computed column
+tables/application_form_data_001_add_rls_for_analyst 2022-10-24T19:51:34Z Anthony Bushara <anthony@button.is> # Add row level security for analyst
+tables/form_data_001_add_permisions_for_analyst 2022-10-24T20:30:23Z Anthony Bushara <anthony@button.is> # Add permissions for analyst
