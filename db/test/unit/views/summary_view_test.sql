@@ -48,25 +48,28 @@ select results_eq(
 -- -- Test setup - first user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
-insert into ccbc_public.application
-  (id, ccbc_number, owner) overriding system value
-   values
-  (1,'CCBC-010001', '11111111-1111-1111-1111-111111111112');
+select ccbc_public.create_application();
+-- insert into ccbc_public.application
+--   (id, ccbc_number, owner) overriding system value
+--    values
+--   (1,'CCBC-010001', '11111111-1111-1111-1111-111111111112');
 
-insert into ccbc_public.application_status (application_id, status) VALUES (1, 'draft');
+-- insert into ccbc_public.application_status (application_id, status) VALUES (1, 'draft');
 
 -- Test setup - second user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
-insert into ccbc_public.application
-  (id, ccbc_number, owner) overriding system value
-  values
-  (2,'CCBC-010002', '11111111-1111-1111-1111-111111111113'),
-  (3,'CCBC-010003', '11111111-1111-1111-1111-111111111113');
+select ccbc_public.create_application();
+select ccbc_public.create_application();
+-- insert into ccbc_public.application
+--   (id, ccbc_number, owner) overriding system value
+--   values
+--   (2,'CCBC-010002', '11111111-1111-1111-1111-111111111113'),
+--   (3,'CCBC-010003', '11111111-1111-1111-1111-111111111113');
 
-  insert into ccbc_public.application_status (application_id, status)
-  VALUES
-   (2, 'draft'),
-   (3, 'draft');
+--   insert into ccbc_public.application_status (application_id, status)
+--   VALUES
+--    (2, 'draft'),
+--    (3, 'draft');
 
 set role ccbc_analyst;
 
