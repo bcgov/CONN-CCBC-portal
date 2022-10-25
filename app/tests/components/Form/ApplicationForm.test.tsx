@@ -28,6 +28,7 @@ const mockQueryPayload = {
     return {
       formData: {
         id: 'TestFormId',
+        rowId: 123,
         jsonData: {},
         isEditable: true,
         updatedAt: '2022-09-12T14:04:10.790848-07:00',
@@ -118,22 +119,20 @@ describe('The application form', () => {
       target: { value: 'test title' },
     });
 
-    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
-      input: {
-        formDataPatch: {
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationFormMutation',
+      {
+        input: {
+          formDataRowId: 123,
           jsonData: {
             projectInformation: {
               projectTitle: 'test title',
             },
-            submission: {
-              submissionDate: '2022-09-12',
-            },
           },
           lastEditedPage: 'projectInformation',
         },
-        id: 'TestFormId',
-      },
-    });
+      }
+    );
   });
 
   it('sets lastEditedPage to the next page when the user clicks on "continue"', async () => {
@@ -144,74 +143,18 @@ describe('The application form', () => {
       screen.getByRole('button', { name: 'Save and continue' })
     );
 
-    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
-      input: {
-        formDataPatch: {
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationFormMutation',
+      {
+        input: {
+          formDataRowId: 123,
           jsonData: {
             projectInformation: {},
-            submission: {
-              submissionDate: '2022-09-12',
-            },
           },
           lastEditedPage: 'projectArea',
         },
-        id: 'TestFormId',
-      },
-    });
-  });
-
-  it('auto fills the submission fields', async () => {
-    const mockQueryAutofillPayload = {
-      Application() {
-        return {
-          id: 'TestApplicationId',
-          formData: {
-            id: 'TestFormId',
-            isEditable: true,
-            jsonData: {
-              organizationProfile: {
-                organizationName: 'Test org',
-              },
-            },
-            updatedAt: '2022-09-12T14:04:10.790848-07:00',
-          },
-          status: 'draft',
-        };
-      },
-      Query() {
-        return {
-          openIntake: {
-            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
-          },
-        };
-      },
-    };
-
-    componentTestingHelper.loadQuery(mockQueryAutofillPayload);
-    componentTestingHelper.renderComponent();
-
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Save and continue' })
+      }
     );
-
-    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
-      input: {
-        formDataPatch: {
-          jsonData: {
-            organizationProfile: {
-              organizationName: 'Test org',
-            },
-            projectInformation: {},
-            submission: {
-              submissionCompletedFor: 'Test org',
-              submissionDate: '2022-09-12',
-            },
-          },
-          lastEditedPage: 'projectArea',
-        },
-        id: 'TestFormId',
-      },
-    });
   });
 
   it('acknowledgement page continue is disabled on initial load', async () => {
@@ -469,17 +412,18 @@ describe('The application form', () => {
       screen.getByRole('button', { name: 'Save as draft' })
     );
 
-    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
-      input: {
-        id: 'TestFormId',
-        formDataPatch: {
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationFormMutation',
+      {
+        input: {
+          formDataRowId: 42,
           jsonData: {
             organizationProfile: {
               organizationName: 'Testing organization name',
             },
             submission: {
-              submissionCompletedFor: 'Testing organization name',
-              submissionDate: '2022-09-12',
+              submissionCompletedFor: 'test',
+              submissionDate: '2022-09-27',
               submissionCompletedBy: 'test',
               submissionTitle: 'test',
             },
@@ -487,8 +431,8 @@ describe('The application form', () => {
           },
           lastEditedPage: 'review',
         },
-      },
-    });
+      }
+    );
   });
 
   it('acknowledgement page shows continue on submitted application', async () => {
@@ -622,10 +566,11 @@ describe('The application form', () => {
 
     expect(screen.getByText(22.9)).toBeInTheDocument();
 
-    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
-      input: {
-        id: 'TestFormId',
-        formDataPatch: {
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationFormMutation',
+      {
+        input: {
+          formDataRowId: 123,
           jsonData: {
             estimatedProjectEmployment: {
               estimatedFTECreation: 22.9,
@@ -634,14 +579,11 @@ describe('The application form', () => {
               hoursOfEmploymentPerWeek: 40,
               personMonthsToBeCreated: 20,
             },
-            submission: {
-              submissionDate: '2022-09-12',
-            },
           },
           lastEditedPage: 'estimatedProjectEmployment',
         },
-      },
-    });
+      }
+    );
   });
 
   it('should set the correct calculated value on the project page', async () => {
@@ -662,10 +604,11 @@ describe('The application form', () => {
       screen.getByLabelText('Total amount requested under CCBC')
     ).toHaveValue('$15');
 
-    componentTestingHelper.expectMutationToBeCalled('updateFormDataMutation', {
-      input: {
-        id: 'TestFormId',
-        formDataPatch: {
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationFormMutation',
+      {
+        input: {
+          formDataRowId: 123,
           jsonData: {
             projectFunding: {
               totalFundingRequestedCCBC: 15,
@@ -676,15 +619,11 @@ describe('The application form', () => {
               fundingRequestedCCBC2526: 4,
               fundingRequestedCCBC2627: 5,
             },
-
-            submission: {
-              submissionDate: '2022-09-12',
-            },
           },
           lastEditedPage: 'projectFunding',
         },
-      },
-    });
+      }
+    );
   });
 
   it('Form is disabled when isEditable is false', () => {

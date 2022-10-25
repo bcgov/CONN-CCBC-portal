@@ -4,7 +4,7 @@ import Button from '@button-inc/bcgov-theme/Button';
 import LoadingSpinner from 'components/LoadingSpinner';
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
 import { useRouter } from 'next/router';
-import { updateFormDataMutation } from '__generated__/updateFormDataMutation.graphql';
+import { updateApplicationFormMutation } from '__generated__/updateApplicationFormMutation.graphql';
 
 const StyledFlex = styled('div')`
   display: flex;
@@ -57,7 +57,7 @@ type Props = {
   saveForm: (
     formData: any,
     mutationConfig?: Partial<
-      UseDebouncedMutationConfig<updateFormDataMutation>
+      UseDebouncedMutationConfig<updateApplicationFormMutation>
     >,
     isRedirectingToNextPage?: boolean,
     isSaveAsDraftBtn?: boolean

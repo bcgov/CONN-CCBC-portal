@@ -10,12 +10,11 @@ import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutatio
 import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
 import { useSubmitApplicationMutation } from 'schema/mutations/application/submitApplication';
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
-import { updateFormDataMutation } from '__generated__/updateFormDataMutation.graphql';
-import { useUpdateFormData } from 'schema/mutations/application/updateFormData';
+import { updateApplicationFormMutation } from '__generated__/updateApplicationFormMutation.graphql';
+import { useUpdateApplicationForm } from 'schema/mutations/application/updateApplicationForm';
 import { ReviewField } from 'components/Review';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
-import { dateTimeFormat } from '../../lib/theme/functions/formatDates';
 import {
   calculateApplicantFunding,
   calculateContractorEmployment,
@@ -29,17 +28,11 @@ import { schemaToSubschemasArray } from '../../utils/schemaUtils';
 
 const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
   const isSubmissionCompletedByFilled =
-    formData?.submissionCompletedBy !== undefined &&
-    formData?.submissionCompletedBy.length > 0;
+    formData?.submissionCompletedBy?.length > 0;
   const isSubmissionCompletedForFilled =
-    formData?.submissionCompletedFor !== undefined &&
-    formData?.submissionCompletedFor.length > 0;
-  const isSubmissionDateFilled =
-    formData?.submissionDate !== undefined &&
-    formData?.submissionDate.length > 0;
-  const isSubmissionTitleFilled =
-    formData?.submissionTitle !== undefined &&
-    formData?.submissionTitle.length > 0;
+    formData?.submissionCompletedFor?.length > 0;
+  const isSubmissionDateFilled = formData?.submissionDate?.length > 0;
+  const isSubmissionTitleFilled = formData?.submissionTitle?.length > 0;
 
   return (
     isSubmissionCompletedByFilled &&
@@ -102,10 +95,10 @@ const ApplicationForm: React.FC<Props> = ({
       fragment ApplicationForm_application on Application {
         rowId
         formData {
+          id
+          rowId
           jsonData
           isEditable
-          updatedAt
-          id
         }
         status
         intakeByIntakeId {
@@ -129,7 +122,7 @@ const ApplicationForm: React.FC<Props> = ({
   );
   const {
     rowId,
-    formData: { jsonData, id: formDataId, isEditable, updatedAt },
+    formData: { jsonData, rowId: formDataRowId, id: formDataId, isEditable },
     status,
   } = application;
 
@@ -185,7 +178,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const router = useRouter();
   const [submitApplication, isSubmitting] = useSubmitApplicationMutation();
-  const [updateFormData, isUpdating] = useUpdateFormData();
+  const [updateApplicationForm, isUpdating] = useUpdateApplicationForm();
 
   const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
     schema as object
@@ -193,7 +186,6 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
   const isWithdrawn = status === 'withdrawn';
-  const isDraft = status === 'draft';
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';
   const isAcknowledgementPage = sectionName === 'acknowledgements';
@@ -235,7 +227,7 @@ const ApplicationForm: React.FC<Props> = ({
   const saveForm = (
     newFormSectionData: any,
     mutationConfig?: Partial<
-      UseDebouncedMutationConfig<updateFormDataMutation>
+      UseDebouncedMutationConfig<updateApplicationFormMutation>
     >,
     isRedirectingToNextPage = false,
     isSaveAsDraftBtn = false
@@ -283,36 +275,18 @@ const ApplicationForm: React.FC<Props> = ({
         ? subschemaArray[lastEditedPageNumber][0]
         : '';
 
-    if (isDraft) {
-      // Auto fill submission fields
-      newFormData = {
-        ...newFormData,
-        submission: {
-          ...newFormData.submission,
-          submissionCompletedFor:
-            newFormData?.organizationProfile?.organizationName,
-          submissionDate: dateTimeFormat(
-            new Date(updatedAt),
-            'date_year_first'
-          ),
-        },
-      };
-    }
-
     setSavingError(null);
 
-    updateFormData({
+    updateApplicationForm({
       variables: {
         input: {
-          formDataPatch: {
-            jsonData: newFormData,
-            lastEditedPage: isSaveAsDraftBtn ? 'review' : lastEditedPage,
-          },
-          id: formDataId,
+          jsonData: newFormData,
+          lastEditedPage: isSaveAsDraftBtn ? 'review' : lastEditedPage,
+          formDataRowId,
         },
       },
       optimisticResponse: {
-        updateFormData: {
+        updateApplicationForm: {
           formData: {
             id: formDataId,
             jsonData: newFormData,
