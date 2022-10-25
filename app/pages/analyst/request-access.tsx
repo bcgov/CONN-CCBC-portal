@@ -35,13 +35,8 @@ const RequestAccess = ({
   );
 };
 
-export const withRelayOptions = {
-  ...defaultRelayOptions,
-  serverSideProps: async () => ({}),
-};
-
 export default withRelay(
   RequestAccess,
   getRequestAccessQuery,
-  withRelayOptions
+  defaultRelayOptions
 );

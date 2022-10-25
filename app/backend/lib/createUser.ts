@@ -1,4 +1,5 @@
 import type { Request } from 'express';
+import getAuthRole from '../../utils/getAuthRole';
 import { performQuery } from './graphql';
 
 const createUserMutation = `
@@ -11,6 +12,9 @@ mutation {
 
 const createUserMiddleware = () => {
   return async (req: Request) => {
+    const authRole = getAuthRole(req);
+    if (authRole.pgRole === 'ccbc_guest') return;
+
     const response = await performQuery(createUserMutation, {}, req);
     if (response.errors) {
       throw new Error(
