@@ -1,3 +1,32 @@
+# [1.11.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.10.0...v1.11.0) (2022-10-26)
+
+### Bug Fixes
+
+- added persmissions ([cc47e12](https://github.com/bcgov/CONN-CCBC-portal/commit/cc47e12e726b9026c3fee57cc74ea95b3c164282))
+- added unit tests ([8d1394d](https://github.com/bcgov/CONN-CCBC-portal/commit/8d1394df75f02261cf9663b66b6766787d82a0e0))
+- application form status displays the formData updatedAt value ([e3e9b42](https://github.com/bcgov/CONN-CCBC-portal/commit/e3e9b420078800d4f8d449c5a1d59be70fb66e16))
+- ccbc_user.email should not be unique ([72d5a41](https://github.com/bcgov/CONN-CCBC-portal/commit/72d5a419f4be1e0699340f9290dfd0bc8bf9ad4e))
+- correct number of columns ([bc1eaf5](https://github.com/bcgov/CONN-CCBC-portal/commit/bc1eaf58cc3964fe07bf5253b31bdfb43e3a51e3))
+- createUser doesn't get called for unauthorized idirs ([a0e881a](https://github.com/bcgov/CONN-CCBC-portal/commit/a0e881a09294830534146f518be3fc354e4308b7))
+- insert status ([8b5007e](https://github.com/bcgov/CONN-CCBC-portal/commit/8b5007ea2f2086aa9ccd27eb580f3977a3be4f60))
+- policy ([692af30](https://github.com/bcgov/CONN-CCBC-portal/commit/692af30cf206d51f7e9eb73a213fd862da9ce7b6))
+- removed ccbc_analyst unneeded permissions ([6813dd3](https://github.com/bcgov/CONN-CCBC-portal/commit/6813dd383dd9dd3b2bceba575ef894b039275385))
+- rollback debug ([8a05f6f](https://github.com/bcgov/CONN-CCBC-portal/commit/8a05f6f55205d338e9e5ecfc721dc315e36ed468))
+- set role ([0b19242](https://github.com/bcgov/CONN-CCBC-portal/commit/0b192421318d7ddad200924df76f0eee2e86bddd))
+- setting the submission page fields is done by a custom mutation ([c710b76](https://github.com/bcgov/CONN-CCBC-portal/commit/c710b7644cb01bc122b43c198bfa8668cfcf032d))
+- typo ([dd3c855](https://github.com/bcgov/CONN-CCBC-portal/commit/dd3c855cf2b3cc6e24f717e8f6b6d0ee60ffc195))
+- updated permissions ([1b7c32a](https://github.com/bcgov/CONN-CCBC-portal/commit/1b7c32a12fc476378bc17f408d905a7a8774e7e5))
+- updated schema ([d0b5b33](https://github.com/bcgov/CONN-CCBC-portal/commit/d0b5b3349a6c26f4f8aa6814054c6000d5353405))
+- updated tests ([a505e99](https://github.com/bcgov/CONN-CCBC-portal/commit/a505e9979fecf932085077b198d2f488fd36402a))
+- updateFormData mutation returns the updatedAt field ([4974f7b](https://github.com/bcgov/CONN-CCBC-portal/commit/4974f7b53d2588e04b29c259a0257883785b09a2))
+- using ccbc_public.create_application(); ([e29405e](https://github.com/bcgov/CONN-CCBC-portal/commit/e29405e7352216ae20d32211abac428d08872674))
+
+### Features
+
+- add metabase prod ingress network policy ([943ebc9](https://github.com/bcgov/CONN-CCBC-portal/commit/943ebc9abb1bf62790396d2e5f7a74023e2dbbde))
+- added summary_view ([1fa34b3](https://github.com/bcgov/CONN-CCBC-portal/commit/1fa34b387e9e93118ae3f9e75da89439dee54622))
+- use metabase prod namespace env var in CI ([e672c38](https://github.com/bcgov/CONN-CCBC-portal/commit/e672c38ffa9b6dad094da1c9c5f7b8d44343ed19))
+
 # [1.10.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.9.0...v1.10.0) (2022-10-24)
 
 ### Bug Fixes
