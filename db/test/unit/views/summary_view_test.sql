@@ -55,7 +55,7 @@ set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 select ccbc_public.create_application();
 select ccbc_public.create_application();
 
-set role ccbc_analyst;
+set role postgres;
 
 select results_eq(
   $$
@@ -79,7 +79,7 @@ set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 
 insert into ccbc_public.application_status (application_id, status) VALUES (2, 'submitted');
 
-set role ccbc_analyst;
+set role postgres;
 
 select results_eq(
   $$
