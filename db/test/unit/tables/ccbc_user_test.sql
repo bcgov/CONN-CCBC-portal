@@ -19,8 +19,8 @@ insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
   ('foo1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111112'),
   ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111113'),
-  ('foo3', 'bar', 'foo3@bar.com', '11111111-1111-1111-1111-111111111114'),
-  ('foo4', 'bar', 'foo4@bar.com', '11111111-1111-1111-1111-111111111115');
+  ('foo3', 'bar', 'someemail@bar.com', '11111111-1111-1111-1111-111111111114'),
+  ('foo4', 'bar', 'someemail@bar.com', '11111111-1111-1111-1111-111111111115'); -- 3 and 4 have the same email
 
 -- Row level security tests --
 
@@ -140,8 +140,8 @@ select results_eq(
     values
       ( '11111111-1111-1111-1111-111111111112'::varchar, 'foo1@bar.com'::varchar),
       ( '11111111-1111-1111-1111-111111111113'::varchar, 'foo2@bar.com'::varchar),
-      ( '11111111-1111-1111-1111-111111111114'::varchar, 'foo3@bar.com'::varchar),
-      ( '11111111-1111-1111-1111-111111111115'::varchar, 'foo4@bar.com'::varchar),
+      ( '11111111-1111-1111-1111-111111111114'::varchar, 'someemail@bar.com'::varchar),
+      ( '11111111-1111-1111-1111-111111111115'::varchar, 'someemail@bar.com'::varchar),
       ('11111111-1111-1111-1111-111111111111'::varchar, 'foo42@bar.com'::varchar);
   $$,
   'ccbc_admin can only select all users'
@@ -212,8 +212,8 @@ select results_eq(
     values
       ( '11111111-1111-1111-1111-111111111112'::varchar, 'foo1@bar.com'::varchar),
       ( '11111111-1111-1111-1111-111111111113'::varchar, 'foo2@bar.com'::varchar),
-      ( '11111111-1111-1111-1111-111111111114'::varchar, 'foo3@bar.com'::varchar),
-      ( '11111111-1111-1111-1111-111111111115'::varchar, 'foo4@bar.com'::varchar),
+      ( '11111111-1111-1111-1111-111111111114'::varchar, 'someemail@bar.com'::varchar),
+      ( '11111111-1111-1111-1111-111111111115'::varchar, 'someemail@bar.com'::varchar),
       ('11111111-1111-1111-1111-111111111111'::varchar, 'foo42@bar.com'::varchar);
   $$,
   'ccbc_analyst can only select all users'
