@@ -7,6 +7,7 @@ create or replace function ccbc_public.application_organization_name(application
 $$ language sql stable;
 
 grant execute on function ccbc_public.application_organization_name to ccbc_analyst;
+grant execute on function ccbc_public.application_organization_name to ccbc_admin;
 
 comment on function ccbc_public.application_organization_name is 'Computed column to display organization name from json data';
 

@@ -60,6 +60,11 @@ select function_privs_are(
 );
 
 select function_privs_are(
+  'ccbc_public', 'application_organization_name', ARRAY['ccbc_public.application'], 'ccbc_admin', ARRAY['EXECUTE'],
+  'ccbc_analyst can execute ccbc_public.application_organization_name(ccbc_public.application)'
+);
+
+select function_privs_are(
   'ccbc_public', 'application_organization_name', ARRAY['ccbc_public.application'], 'ccbc_guest', ARRAY[]::text[],
   'ccbc_guest cannot execute ccbc_public.application_organization_name(ccbc_public.application)'
 );

@@ -6,4 +6,8 @@ drop policy ccbc_analyst_user_select_application_status on ccbc_public.applicati
 
 drop policy ccbc_analyst_user_insert_application_status on ccbc_public.application_status;
 
+drop policy ccbc_admin_user_select_application_status on ccbc_public.application_status;
+
+drop policy ccbc_admin_user_insert_application_status on ccbc_public.application_status;
+
 commit;

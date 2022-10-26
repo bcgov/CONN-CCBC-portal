@@ -6,4 +6,8 @@ drop policy ccbc_analyst_select_received_form_data on ccbc_public.application_fo
 
 drop policy ccbc_analyst_insert_new_received_form_data on ccbc_public.application_form_data;
 
+drop policy ccbc_admin_select_received_form_data on ccbc_public.application_form_data;
+
+drop policy ccbc_admin_insert_new_received_form_data on ccbc_public.application_form_data;
+
 commit;
