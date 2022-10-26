@@ -53,7 +53,8 @@ const reviewUiSchema = {
     ...acknowledgements,
     'ui:field': 'SectionField',
     acknowledgementsList: {
-      'ui:field': 'InlineArrayField',
+      ...acknowledgements.acknowledgementsList,
+      'ui:field': 'ArrayBooleanField',
     },
   },
   alternateContact: {
