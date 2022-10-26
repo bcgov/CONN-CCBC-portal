@@ -14,7 +14,7 @@ const ArrayBooleanField: React.FC<FieldProps> = ({
   return (
     <>
       {enumValues.map((item, i) => {
-        const value = formData[i];
+        const value = formData && formData[i];
         const isError = rawErrors && rawErrors.length > 0;
         const isValueTrue = enumValues.includes(value);
 
