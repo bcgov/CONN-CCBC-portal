@@ -263,4 +263,35 @@ describe('The FileWidget', () => {
       )
     ).toBeVisible();
   });
+
+  it("doesn't allow uploading a second file if the mutation is in flight", () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const file = new File([new ArrayBuffer(1)], 'file.kmz', {
+      type: 'application/vnd.google-earth.kmz',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    fireEvent.change(inputFile, { target: { files: [file] } });
+
+    const getOperationNames = () =>
+      componentTestingHelper.environment.mock
+        .getAllOperations()
+        .map((op) => op.fragment.node.name);
+
+    expect(getOperationNames()).toEqual([
+      'FileWidgetTestQuery',
+      'createAttachmentMutation',
+    ]);
+
+    fireEvent.change(inputFile, { target: { files: [file] } });
+
+    // we have not resolved the mutation, so there should not be another mutation
+    expect(getOperationNames()).toEqual([
+      'FileWidgetTestQuery',
+      'createAttachmentMutation',
+    ]);
+  });
 });
