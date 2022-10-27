@@ -80,6 +80,37 @@ interface FileWidgetProps extends WidgetProps {
   value: Array<File>;
 }
 
+const checkFileType = (file, fileTypes) => {
+  const extension = path.extname(file)?.toLowerCase();
+  const typesArr = fileTypes && fileTypes.replace(/ /g, '').split(',');
+
+  return typesArr.includes(extension);
+};
+
+const Error = ({ error, fileTypes }) => {
+  if (error === 'uploadFailed') {
+    return <StyledError>File failed to upload, please try again</StyledError>;
+  }
+
+  if (error === 'deleteFailed') {
+    return <StyledError>Delete file failed, please try again</StyledError>;
+  }
+
+  if (error === 'fileType') {
+    return (
+      <StyledError>
+        Please use an accepted file type. Accepted types for this field are:
+        <div>{fileTypes}</div>
+      </StyledError>
+    );
+  }
+
+  if (error === 'fileSize') {
+    return <StyledError>Files must be less than 100MB.</StyledError>;
+  }
+  return null;
+};
+
 const FileWidget: React.FC<FileWidgetProps> = ({
   id,
   disabled,
@@ -103,67 +134,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   // 104857600 bytes = 100mb
   const maxFileSizeInBytes = 104857600;
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError('');
-    const formId = parseInt(router?.query?.id as string);
-    const file = e.target.files?.[0];
-    if (file) {
-      const { name, size, type } = file;
-      if (size > maxFileSizeInBytes) {
-        setError('fileSize');
-        return;
-      }
-      if (acceptedFileTypes && !checkFileType(file.name, acceptedFileTypes)) {
-        setError('fileType');
-        return;
-      }
-      if (isFiles && !allowMultipleFiles) {
-        // Soft delete file if 'Replace' button is used for single file uploads
-        const fileId = value[0].id;
-        handleDelete(fileId);
-      }
-
-      const variables = {
-        input: {
-          attachment: {
-            file,
-            fileName: file.name,
-            fileSize: bytesToSize(file.size),
-            fileType: file.type,
-            applicationId: formId,
-          },
-        },
-      };
-
-      createAttachment({
-        variables,
-        onError: () => {
-          setError('uploadFailed');
-        },
-        onCompleted: (res) => {
-          const uuid = res?.createAttachment?.attachment?.file;
-          const id = res?.createAttachment?.attachment?.rowId;
-
-          const fileDetails = {
-            id,
-            uuid,
-            name,
-            size,
-            type,
-          };
-
-          if (allowMultipleFiles) {
-            onChange(value ? [...value, fileDetails] : [fileDetails]);
-          } else {
-            onChange([fileDetails]);
-          }
-        },
-      });
-    }
-
-    e.target.value = '';
-  };
-
   const handleDelete = (attachmentId) => {
     setError('');
     const variables = {
@@ -179,8 +149,10 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       variables,
       onError: () => setError('deleteFailed'),
       onCompleted: (res) => {
-        const id = res?.updateAttachmentByRowId?.attachment?.rowId;
-        const indexOfFile = value.findIndex((object) => object.id === id);
+        const attachmentRowId = res?.updateAttachmentByRowId?.attachment?.rowId;
+        const indexOfFile = value.findIndex(
+          (object) => object.id === attachmentRowId
+        );
         const newFileList = [...value];
         newFileList.splice(indexOfFile, 1);
         const isFileListEmpty = newFileList.length <= 0;
@@ -189,11 +161,78 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     });
   };
 
-  const checkFileType = (file, fileTypes) => {
-    const extension = path.extname(file)?.toLowerCase();
-    const typesArr = fileTypes && fileTypes.replace(/ /g, '').split(',');
+  const validateFile = (file: globalThis.File) => {
+    if (!file) return { isValid: false, error: '' };
 
-    return typesArr.includes(extension);
+    const { size } = file;
+    if (size > maxFileSizeInBytes) {
+      return { isValid: false, error: 'fileSize' };
+    }
+    if (acceptedFileTypes && !checkFileType(file.name, acceptedFileTypes)) {
+      return { isValid: false, error: 'fileType' };
+    }
+
+    return { isValid: true, error: null };
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (loading) return;
+    setError('');
+    const formId = parseInt(router?.query?.id as string, 10);
+    const file = e.target.files?.[0];
+
+    const { isValid, error: newError } = validateFile(file);
+    if (!isValid) {
+      setError(newError);
+      return;
+    }
+
+    const { name, size, type } = file;
+
+    if (isFiles && !allowMultipleFiles) {
+      // Soft delete file if 'Replace' button is used for single file uploads
+      const fileId = value[0].id;
+      handleDelete(fileId);
+    }
+
+    const variables = {
+      input: {
+        attachment: {
+          file,
+          fileName: name,
+          fileSize: bytesToSize(size),
+          fileType: type,
+          applicationId: formId,
+        },
+      },
+    };
+
+    createAttachment({
+      variables,
+      onError: () => {
+        setError('uploadFailed');
+      },
+      onCompleted: (res) => {
+        const uuid = res?.createAttachment?.attachment?.file;
+        const attachmentRowId = res?.createAttachment?.attachment?.rowId;
+
+        const fileDetails = {
+          id: attachmentRowId,
+          uuid,
+          name,
+          size,
+          type,
+        };
+
+        if (allowMultipleFiles) {
+          onChange(value ? [...value, fileDetails] : [fileDetails]);
+        } else {
+          onChange([fileDetails]);
+        }
+      },
+    });
+
+    e.target.value = '';
   };
 
   const handleClick = () => {
@@ -258,30 +297,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       />
     </StyledContainer>
   );
-};
-
-const Error = ({ error, fileTypes }) => {
-  if (error === 'uploadFailed') {
-    return <StyledError>File failed to upload, please try again</StyledError>;
-  }
-
-  if (error === 'deleteFailed') {
-    return <StyledError>Delete file failed, please try again</StyledError>;
-  }
-
-  if (error === 'fileType') {
-    return (
-      <StyledError>
-        Please use an accepted file type. Accepted types for this field are:
-        <div>{fileTypes}</div>
-      </StyledError>
-    );
-  }
-
-  if (error === 'fileSize') {
-    return <StyledError>Files must be less than 100mb.</StyledError>;
-  }
-  return null;
 };
 
 export default FileWidget;
