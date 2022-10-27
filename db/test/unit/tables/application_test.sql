@@ -3,7 +3,15 @@ create extension if not exists pgtap;
 reset client_min_messages;
 
 begin;
-SELECT plan(7);
+SELECT plan(9);
+
+truncate table
+  ccbc_public.application,
+  ccbc_public.application_status,
+  ccbc_public.attachment,
+  ccbc_public.form_data,
+  ccbc_public.application_form_data
+restart identity;
 
 -- Table exists
 select has_table(
@@ -72,6 +80,34 @@ select is_empty(
     'user3 cannot see application created by other users'
 );
 
+set role ccbc_analyst;
+
+select is_empty(
+  $$
+    select * from ccbc_public.application
+  $$,
+  'analyst cannot see any applications as none are in the received state'
+);
+
+reset role;
+
+insert into ccbc_public.application_status (application_id, status) values
+(1,'received');
+
+insert into ccbc_public.application_status (application_id, status) values
+(1,'withdrawn');
+
+set role ccbc_analyst;
+
+select results_eq(
+  $$
+    select count(*) from ccbc_public.application
+  $$,
+  $$
+    values(1::bigint)
+  $$,
+  'analyst can only see applications that are or have been in the received state'
+);
 
 select finish();
 rollback;
