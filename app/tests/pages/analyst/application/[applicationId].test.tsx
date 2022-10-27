@@ -1,5 +1,6 @@
 import { screen, within } from '@testing-library/react';
 import mockFormData from 'tests/utils/mockFormData';
+import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 import PageTestingHelper from '../../../utils/pageTestingHelper';
 import Application from '../../../../pages/analyst/application/[applicationId]';
 import compiledApplicationIdQuery, {
@@ -12,6 +13,21 @@ const mockQueryPayload = {
       applicationByRowId: {
         formData: {
           jsonData: mockFormData,
+        },
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+    };
+  },
+};
+
+const mockEmptyFormDataPayload = {
+  Query() {
+    return {
+      applicationByRowId: {
+        formData: {
+          jsonData: {},
         },
       },
       session: {
@@ -231,27 +247,7 @@ describe('The analyst view application page', () => {
   });
 
   it('should display empty red fields in the budget details section when there are errors', () => {
-    const payload = {
-      Application() {
-        return {
-          formData: {
-            id: 'TestFormId',
-            rowId: 123,
-            jsonData: {},
-            isEditable: true,
-            updatedAt: '2022-09-12T14:04:10.790848-07:00',
-          },
-        };
-      },
-      Query() {
-        return {
-          openIntake: {
-            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(payload);
+    pageTestingHelper.loadQuery(mockEmptyFormDataPayload);
     pageTestingHelper.renderPage();
 
     const section = within(
@@ -466,5 +462,236 @@ describe('The analyst view application page', () => {
     pageTestingHelper.renderPage();
 
     expect(document.getElementById('bandNumber-error')).toBeNull();
+  });
+
+  it('should have the correct error in the Review section if form checkbox not checked', () => {
+    pageTestingHelper.loadQuery(mockEmptyFormDataPayload);
+    pageTestingHelper.renderPage();
+
+    const section = within(
+      screen.getByRole('heading', { name: 'Review' }).closest('section')
+    );
+
+    expect(
+      section
+        .getAllByText(
+          'By checking this box, you acknowledge that there are incomplete fields and incomplete applications may not be assessed. If the incomplete fields are not applicable to you, please check the box and continue to the acknowledgements page.'
+        )[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveStyle('background-color: rgba(248, 214, 203, 0.4)');
+  });
+
+  it('should have the correct value in the Review section if form checkbox is checked', () => {
+    const payload = {
+      Query() {
+        return {
+          applicationByRowId: {
+            formData: {
+              jsonData: {
+                review: {
+                  acknowledgeIncomplete: true,
+                },
+              },
+            },
+          },
+          session: {
+            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+          },
+        };
+      },
+    };
+    pageTestingHelper.loadQuery(payload);
+    pageTestingHelper.renderPage();
+
+    const section = within(
+      screen.getByRole('heading', { name: 'Review' }).closest('section')
+    );
+
+    expect(
+      section
+        .getAllByText(
+          'By checking this box, you acknowledge that there are incomplete fields and incomplete applications may not be assessed. If the incomplete fields are not applicable to you, please check the box and continue to the acknowledgements page.'
+        )[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+  });
+
+  it('should have the correct message in the Review section if form has no validation errors', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const section = within(
+      screen.getByRole('heading', { name: 'Review' }).closest('section')
+    );
+
+    expect(
+      section.getByText('All mandatory fields are filled')
+    ).toBeInTheDocument();
+  });
+
+  it('should have correct fields in Acknowledgements section', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const section = within(
+      screen
+        .getByRole('heading', { name: 'Acknowledgements' })
+        .closest('section')
+    );
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[0])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[1])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[2])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[3])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[3])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[5])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[6])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[7])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[8])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[9])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[10])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[11])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[12])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[13])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[14])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[15])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+
+    expect(
+      section
+        .getAllByText(acknowledgementsEnum[16])[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent('Yes');
+  });
+
+  it('should the correct fields in the Submission section', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const section = within(
+      screen.getByRole('heading', { name: 'Submission' }).closest('section')
+    );
+
+    expect(
+      section
+        .getAllByText('Completed for (Legal organization name)')[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent(mockFormData.submission.submissionCompletedFor);
+
+    expect(
+      section
+        .getAllByText('Completed by')[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent(mockFormData.submission.submissionCompletedBy);
+
+    expect(
+      section.getByText('Title').closest('tr').getElementsByTagName('td')[0]
+    ).toHaveTextContent(mockFormData.submission.submissionTitle);
+
+    expect(
+      section
+        .getAllByText('On this date (YYYY-MM-DD)')[0]
+        .closest('tr')
+        .getElementsByTagName('td')[0]
+    ).toHaveTextContent(mockFormData.submission.submissionDate);
   });
 });
