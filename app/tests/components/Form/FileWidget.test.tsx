@@ -294,4 +294,21 @@ describe('The FileWidget', () => {
       'createAttachmentMutation',
     ]);
   });
+
+  it('displays an error message when attempting to upload a file that is too large', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const file = {
+      name: 'file-3.kmz',
+      size: 104857601,
+      type: 'application/vnd.google-earth.kmz',
+    };
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    fireEvent.change(inputFile, { target: { files: [file] } });
+
+    expect(screen.getByText(/Files must be less than 100MB/)).toBeVisible();
+  });
 });

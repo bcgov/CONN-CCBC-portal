@@ -106,7 +106,7 @@ const Error = ({ error, fileTypes }) => {
   }
 
   if (error === 'fileSize') {
-    return <StyledError>Files must be less than 100mb.</StyledError>;
+    return <StyledError>Files must be less than 100MB.</StyledError>;
   }
   return null;
 };
