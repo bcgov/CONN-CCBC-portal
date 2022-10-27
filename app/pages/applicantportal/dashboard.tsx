@@ -4,6 +4,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { graphql } from 'react-relay';
 import { DateTime } from 'luxon';
+import styled from 'styled-components';
 import Link from '@button-inc/bcgov-theme/Link';
 import { useFeature } from '@growthbook/growthbook-react';
 import defaultRelayOptions from '../../lib/relay/withRelayOptions';
@@ -44,6 +45,11 @@ const getDashboardQuery = graphql`
       openTimestamp
     }
   }
+`;
+
+const StyledContainer = styled('div')`
+  margin: 0 auto;
+  width: 100%;
 `;
 
 const Dashboard = ({
@@ -89,7 +95,7 @@ const Dashboard = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <div>
+      <StyledContainer>
         <section>
           {openIntake && (
             <DynamicAlert
@@ -147,7 +153,7 @@ const Dashboard = ({
             <p>Applications will appear here</p>
           )}
         </section>
-      </div>
+      </StyledContainer>
     </Layout>
   );
 };
