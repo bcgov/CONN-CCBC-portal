@@ -16,20 +16,7 @@ spec:
       podSelector:
         matchLabels:
           app.kubernetes.io/instance: {{ .Values.metabase.instanceName }}
-
 {{- if .Values.metabase.prodIngress.enable }}
-kind: NetworkPolicy
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: {{ .Release.Name }}-metabase-prod-ingress
-  labels:
-{{ include "ccbc.labels" . | nindent 4 }}
-spec:
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/instance: {{ .Release.Name }}
-  ingress:
-  - from:
     - namespaceSelector:
         matchLabels:
           kubernetes.io/metadata.name: {{ .Values.metabase.prodNamespace }}
@@ -37,3 +24,5 @@ spec:
         matchLabels:
           app.kubernetes.io/instance: {{ .Values.metabase.instanceName }}
 {{- end }}
+
+
