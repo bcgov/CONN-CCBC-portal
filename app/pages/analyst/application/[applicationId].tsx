@@ -1,8 +1,9 @@
+import { useMemo } from 'react';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import FormBase from 'components/Form/FormBase';
-import { schema as fullSchema, analystUiSchema } from 'formSchema';
+import { schema as fullSchema, analystUiSchema, validate } from 'formSchema';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import FormDiv from '../../../components/FormDiv';
 import Layout from '../../../components/Layout';
@@ -26,12 +27,12 @@ const Application = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, ApplicationIdQuery>) => {
   const query = usePreloadedQuery(getApplicationQuery, preloadedQuery);
-
   const { applicationByRowId, session } = query;
-
   const {
     formData: { jsonData },
   } = applicationByRowId;
+
+  const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -42,6 +43,10 @@ const Application = ({
           theme={ReviewTheme}
           schema={fullSchema}
           uiSchema={analystUiSchema as any}
+          formContext={{
+            // validate errors and pass through formContext for review checkbox section
+            errors: formErrorSchema,
+          }}
           formData={jsonData}
           liveValidate
           tagName="div"

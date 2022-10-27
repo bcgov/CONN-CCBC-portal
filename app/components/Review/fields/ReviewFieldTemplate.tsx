@@ -14,6 +14,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   if (
     id === 'root' ||
     uiSchema?.['ui:field'] === 'SectionField' ||
+    uiSchema?.['ui:field'] === 'ReviewCheckboxField' ||
     schema.type === 'array' ||
     schema.type === 'object'
   )

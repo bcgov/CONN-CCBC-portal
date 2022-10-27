@@ -53,7 +53,6 @@ const reviewUiSchema = {
     ...acknowledgements,
     'ui:field': 'SectionField',
     acknowledgementsList: {
-      ...acknowledgements.acknowledgementsList,
       'ui:field': 'ArrayBooleanField',
     },
   },
@@ -214,6 +213,9 @@ const reviewUiSchema = {
   review: {
     ...review,
     'ui:field': 'SectionField',
+    acknowledgeIncomplete: {
+      'ui:field': 'ReviewCheckboxField',
+    },
   },
   techSolution: {
     ...techSolution,
