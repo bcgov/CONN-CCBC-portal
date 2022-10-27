@@ -4,16 +4,13 @@ import config from '../../../config';
 import getAuthRole from '../../../utils/getAuthRole';
 
 const authenticationPgSettings = (req: Request) => {
-  if (config.get('ENABLE_MOCK_AUTH')) {
-    return {
-      'jwt.claims.sub': '00000000-0000-0000-0000-000000000000',
-      role: 'ccbc_auth_user',
-    };
-  }
-
   const claimsSettings: any = {
-    role: 'ccbc_guest',
+    role: getAuthRole(req).pgRole,
   };
+
+  if (config.get('ENABLE_MOCK_AUTH'))
+    claimsSettings['jwt.claims.sub'] = `mockUser@${claimsSettings.role}`;
+
   if (!isAuthenticated(req))
     return {
       ...claimsSettings,
@@ -49,8 +46,6 @@ const authenticationPgSettings = (req: Request) => {
   properties.forEach((property) => {
     claimsSettings[`jwt.claims.${property}`] = claims![property];
   });
-
-  claimsSettings.role = getAuthRole(req).pgRole;
 
   return {
     ...claimsSettings,

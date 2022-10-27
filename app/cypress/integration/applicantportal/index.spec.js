@@ -1,5 +1,4 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
-/// <reference types="Cypress" />
 
 context('Homepage', () => {
   beforeEach(function () {
@@ -7,6 +6,7 @@ context('Homepage', () => {
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
     cy.sqlFixture('dev/001_intake');
+    cy.mockLogin('ccbc_auth_user');
     cy.visit('/applicantportal');
   });
 

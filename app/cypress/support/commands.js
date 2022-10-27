@@ -17,3 +17,8 @@ Cypress.Commands.add('useMockedTime', (datetime) => {
 Cypress.Commands.add('clearMockedTime', () => {
   cy.clearCookie('mocks.mocked_timestamp');
 });
+
+Cypress.Commands.add('mockLogin', (roleName) => {
+  cy.setCookie('mocks.auth_role', roleName);
+  cy.getCookie('mocks.auth_role').should('exist');
+});

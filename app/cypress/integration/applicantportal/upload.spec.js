@@ -1,5 +1,4 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
-/// <reference types="Cypress" />
 
 context('Homepage', () => {
   beforeEach(function () {
@@ -9,6 +8,7 @@ context('Homepage', () => {
     cy.sqlFixture('e2e/reset_db');
     cy.sqlFixture('e2e/001_intake');
     cy.sqlFixture('e2e/001_application');
+    cy.mockLogin('ccbc_auth_user');
     cy.visit('/applicantportal');
   });
 
