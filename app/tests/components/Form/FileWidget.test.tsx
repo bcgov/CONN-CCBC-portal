@@ -168,19 +168,17 @@ describe('The FileWidget', () => {
 
     deleteButton.click();
 
-    act(() => {
-      componentTestingHelper.expectMutationToBeCalled(
-        'deleteAttachmentMutation',
-        {
-          input: {
-            attachmentPatch: {
-              archivedAt: expect.any(String),
-            },
-            rowId: 3,
+    componentTestingHelper.expectMutationToBeCalled(
+      'deleteAttachmentMutation',
+      {
+        input: {
+          attachmentPatch: {
+            archivedAt: expect.any(String),
           },
-        }
-      );
-    });
+          rowId: 3,
+        },
+      }
+    );
 
     act(() => {
       componentTestingHelper.environment.mock.resolveMostRecentOperation({
@@ -310,5 +308,71 @@ describe('The FileWidget', () => {
     fireEvent.change(inputFile, { target: { files: [file] } });
 
     expect(screen.getByText(/Files must be less than 100MB/)).toBeVisible();
+  });
+
+  it('displays an error message when the createAttachment mutation fails', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const file = new File([new ArrayBuffer(1)], 'file.kmz', {
+      type: 'application/vnd.google-earth.kmz',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    fireEvent.change(inputFile, { target: { files: [file] } });
+
+    act(() =>
+      componentTestingHelper.environment.mock.rejectMostRecentOperation(
+        new Error()
+      )
+    );
+
+    expect(screen.getByText(/File failed to upload/)).toBeVisible();
+  });
+
+  it('displays an error message when the deleteAttachment mutation fails', async () => {
+    componentTestingHelper.loadQuery({
+      ...mockQueryPayload,
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          formData: {
+            jsonData: {
+              coverage: {
+                coverageAssessmentStatistics: [
+                  {
+                    id: 3,
+                    uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                    name: 'file-2.kmz',
+                    size: 0,
+                    type: 'application/vnd.google-earth.kmz',
+                  },
+                ],
+              },
+            },
+          },
+          status: 'draft',
+        };
+      },
+    });
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('file-2.kmz')).toBeVisible();
+    expect(screen.getByText('Replace')).toBeVisible();
+
+    const deleteButton = screen.getByTestId('file-delete-btn');
+
+    deleteButton.click();
+
+    act(() => {
+      componentTestingHelper.environment.mock.rejectMostRecentOperation(
+        new Error()
+      );
+    });
+
+    expect(screen.getByText('file-2.kmz')).toBeVisible();
+    expect(screen.getByText('Replace')).toBeVisible();
+    expect(screen.getByText(/Delete file failed/)).toBeVisible();
   });
 });
