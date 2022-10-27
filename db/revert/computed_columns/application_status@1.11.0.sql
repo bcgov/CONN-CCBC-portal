@@ -10,7 +10,7 @@ select status from ccbc_public.application_status
     order by id desc limit 1;
 $$ language sql stable;
 
-grant execute on function ccbc_public.application_status to public;
+grant execute on function ccbc_public.application_status to ccbc_auth_user;
 
 comment on function ccbc_public.application_status is 'Computed column to return status of an application';
 
