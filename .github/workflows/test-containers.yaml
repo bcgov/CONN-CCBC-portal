@@ -47,7 +47,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           docker_name: 'owasp/zap2docker-stable'
-          target: 'http://localhost:3000/'
+          target: 'http://localhost:3000/applicantportal'
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a -d -T 5 -m 2'
           issue_title: OWASP Full Scan
