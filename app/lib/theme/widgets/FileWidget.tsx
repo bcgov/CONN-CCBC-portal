@@ -161,64 +161,76 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     });
   };
 
+  const validateFile = (file: globalThis.File) => {
+    if (!file) return { isValid: false, error: '' };
+
+    const { size } = file;
+    if (size > maxFileSizeInBytes) {
+      return { isValid: false, error: 'fileSize' };
+    }
+    if (acceptedFileTypes && !checkFileType(file.name, acceptedFileTypes)) {
+      return { isValid: false, error: 'fileType' };
+    }
+
+    return { isValid: true, error: null };
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (loading) return;
     setError('');
     const formId = parseInt(router?.query?.id as string, 10);
     const file = e.target.files?.[0];
-    if (file) {
-      const { name, size, type } = file;
-      if (size > maxFileSizeInBytes) {
-        setError('fileSize');
-        return;
-      }
-      if (acceptedFileTypes && !checkFileType(file.name, acceptedFileTypes)) {
-        setError('fileType');
-        return;
-      }
-      if (isFiles && !allowMultipleFiles) {
-        // Soft delete file if 'Replace' button is used for single file uploads
-        const fileId = value[0].id;
-        handleDelete(fileId);
-      }
 
-      const variables = {
-        input: {
-          attachment: {
-            file,
-            fileName: file.name,
-            fileSize: bytesToSize(file.size),
-            fileType: file.type,
-            applicationId: formId,
-          },
-        },
-      };
-
-      createAttachment({
-        variables,
-        onError: () => {
-          setError('uploadFailed');
-        },
-        onCompleted: (res) => {
-          const uuid = res?.createAttachment?.attachment?.file;
-          const attachmentRowId = res?.createAttachment?.attachment?.rowId;
-
-          const fileDetails = {
-            id: attachmentRowId,
-            uuid,
-            name,
-            size,
-            type,
-          };
-
-          if (allowMultipleFiles) {
-            onChange(value ? [...value, fileDetails] : [fileDetails]);
-          } else {
-            onChange([fileDetails]);
-          }
-        },
-      });
+    const { isValid, error: newError } = validateFile(file);
+    if (!isValid) {
+      setError(newError);
+      return;
     }
+
+    const { name, size, type } = file;
+
+    if (isFiles && !allowMultipleFiles) {
+      // Soft delete file if 'Replace' button is used for single file uploads
+      const fileId = value[0].id;
+      handleDelete(fileId);
+    }
+
+    const variables = {
+      input: {
+        attachment: {
+          file,
+          fileName: name,
+          fileSize: bytesToSize(size),
+          fileType: type,
+          applicationId: formId,
+        },
+      },
+    };
+
+    createAttachment({
+      variables,
+      onError: () => {
+        setError('uploadFailed');
+      },
+      onCompleted: (res) => {
+        const uuid = res?.createAttachment?.attachment?.file;
+        const attachmentRowId = res?.createAttachment?.attachment?.rowId;
+
+        const fileDetails = {
+          id: attachmentRowId,
+          uuid,
+          name,
+          size,
+          type,
+        };
+
+        if (allowMultipleFiles) {
+          onChange(value ? [...value, fileDetails] : [fileDetails]);
+        } else {
+          onChange([fileDetails]);
+        }
+      },
+    });
 
     e.target.value = '';
   };
