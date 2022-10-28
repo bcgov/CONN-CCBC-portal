@@ -66,7 +66,6 @@ ccbc_job_executor_permissions [ccbc_job_executor_permissions@1.9.0] 2022-10-21T1
 tables/ccbc_user_001_admin_analyst_permissions 2022-10-21T19:25:33Z Marcel Mueller <marcel@button.is> # grant permissions on table ccbc_user to ccbc_admin and ccbc_analyst
 mutations/create_user_from_session [mutations/create_user_from_session@1.9.0] 2022-10-21T19:27:58Z Marcel Mueller <marcel@button.is> # grant execute on function to ccbc_admin and ccbc_analyst
 @1.10.0 2022-10-24T23:29:33Z Matthieu Foucault <matthieu@button.is> # release v1.10.0
-views/summary_view 2022-10-24T20:16:50Z ,,, Vladimir <vladimir@button.is> # feat: view for metabase users
 mutations/update_application_form 2022-10-25T19:15:08Z Matthieu Foucault <matthieu@button.is> # custom mutation to update the application form data
 tables/ccbc_user_001_no_unique_email 2022-10-26T19:00:26Z Matthieu Foucault <matthieu@button.is> # remove unique constraint on email
 @1.11.0 2022-10-26T19:55:03Z Marcel Mueller <marcel@button.is> # release v1.11.0
