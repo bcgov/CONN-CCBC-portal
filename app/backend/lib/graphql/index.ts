@@ -1,4 +1,5 @@
 import type { Request } from 'express';
+import * as Sentry from '@sentry/nextjs';
 import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
 import {
   postgraphile,
@@ -39,8 +40,6 @@ let postgraphileOptions: PostGraphileOptions = {
   classicIds: true,
   enableQueryBatching: true,
   dynamicJson: true,
-  extendedErrors: ['hint', 'detail', 'errcode'],
-  showErrorStack: 'json',
   pgSettings,
   graphileBuildOptions: {
     ...PostgraphileRc.options.graphileBuildOptions,
@@ -53,6 +52,22 @@ let postgraphileOptions: PostGraphileOptions = {
     ],
   },
 };
+
+if (config.get('SENTRY_ENVIRONMENT')) {
+  postgraphileOptions = {
+    ...postgraphileOptions,
+    handleErrors: (errors) => {
+      Sentry.captureException(errors);
+      return errors;
+    },
+  };
+} else {
+  postgraphileOptions = {
+    ...postgraphileOptions,
+    extendedErrors: ['hint', 'detail', 'errcode'],
+    showErrorStack: 'json',
+  };
+}
 
 if (config.get('NODE_ENV') === 'production') {
   postgraphileOptions = {

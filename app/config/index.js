@@ -165,7 +165,7 @@ const config = convict({
   SENTRY_ENVIRONMENT: {
     doc: '',
     format: String,
-    default: 'localhost',
+    default: '',
     env: 'SENTRY_ENVIRONMENT',
   },
   SENTRY_RELEASE: {
