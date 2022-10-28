@@ -1,8 +1,9 @@
 // import { ErrorContext } from 'contexts/ErrorContext';
-import { useContext } from 'react';
+// import { useContext } from 'react';
 import { Environment, useMutation } from 'react-relay';
-import { commitMutation as baseCommitMutation } from 'relay-runtime';
+import * as Sentry from '@sentry/nextjs';
 import {
+  commitMutation as baseCommitMutation,
   Disposable,
   GraphQLTaggedNode,
   IEnvironment,
@@ -30,6 +31,7 @@ export default function useMutationWithErrorMessage<
       onError: (error) => {
         config.onError?.(error);
         // setError(getErrorMessage(error));
+        Sentry.captureException(error);
       },
     };
 
