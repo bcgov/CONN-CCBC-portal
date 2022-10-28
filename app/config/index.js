@@ -162,6 +162,18 @@ const config = convict({
     default: false,
     env: 'ENABLE_MOCK_COOKIES',
   },
+  SENTRY_ENVIRONMENT: {
+    doc: '',
+    format: String,
+    default: 'localhost',
+    env: 'SENTRY_ENVIRONMENT',
+  },
+  SENTRY_RELEASE: {
+    doc: '',
+    format: String,
+    default: 'local_development',
+    env: 'SENTRY_RELEASE',
+  },
 });
 
 // Load environment dependent configuration
@@ -173,7 +185,7 @@ const env =
     : 'local';
 
 try {
-  config.loadFile('./config/' + env + '.json');
+  config.loadFile(`./config/${env}.json`);
 } catch (e) {
   console.log(e);
   console.log(env);

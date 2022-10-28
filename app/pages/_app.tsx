@@ -4,6 +4,7 @@ import getConfig from 'next/config';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
 import { Settings } from 'luxon';
+import * as Sentry from '@sentry/nextjs';
 import type { AppProps } from 'next/app';
 import { GrowthBook, GrowthBookProvider } from '@growthbook/growthbook-react';
 import { getClientEnvironment } from '../lib/relay/client';
@@ -70,9 +71,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <GlobalTheme>
         <GlobalStyle />
         <BCGovTypography />
-        <RelayEnvironmentProvider environment={env}>
-          {component}
-        </RelayEnvironmentProvider>
+        <Sentry.ErrorBoundary>
+          <RelayEnvironmentProvider environment={env}>
+            {component}
+          </RelayEnvironmentProvider>
+        </Sentry.ErrorBoundary>
       </GlobalTheme>
     </GrowthBookProvider>
   );
