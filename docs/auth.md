@@ -1,3 +1,23 @@
+# Authentication and Authorization
+
+## Authentication
+
+### Mocking Authentication
+
+To facilitate automated testing, the application supports bypassing the authentication when the `ENABLE_MOCK_AUTH` environment variable is set to `true`.
+In this mode, the users's role can be defined via a cookie (the cookie's name is defined by the `MOCK_ROLE_COOKIE_NAME` environment variable, which defaults to `'mocks.auth_role'`).
+This enables requests made with tools such as `cypress` or `k6` to bypass the login flow and authenticate as:
+
+- an applicant by setting the cookie to `ccbc_auth_user`
+- an analyst by setting the cookie to `ccbc_analyst`
+- an admin by setting the cookie to `ccbc_admin`
+
+For convenience, a cypress command was created: in cypress tests, you can use `cy.mockLogin(<mock_role_name>)` to log in for the rest of the test.
+
+The session sub will be defined as `mockUser@<mock_role_name>`, meaning that for a mock applicant to see applications, the application's owner must be `mockUser@ccbc_auth_user`.
+
+## Authorization
+
 ### Overview of analyst permissions
 
 Analysts will log in through the `/analyst` route and will use IDIR for authentication. To prevent anyone who has an IDIR from accessing the analyst dashboard an `analyst` or `admin` role will have to be tied to the IDIR through the [SSO app](https://bcgov.github.io/sso-requests). If they don't have a role assigned to their IDIR they will be redirected to `/analyst/request-access`.
