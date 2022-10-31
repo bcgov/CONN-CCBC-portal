@@ -22,8 +22,6 @@ app:
   probesPort: '9000'
   namespace: ''
   enableAnalytics: true
-sentry:
-  environment:
 secureRoute:
   host: '' # The host value must be passed in via the deploy script
   wwwRoute:

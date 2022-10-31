@@ -1,3 +1,4 @@
 {
-  "SITEMINDER_LOGOUT_URL": "https://logon.gov.bc.ca/clp-cgi/logoff.cgi"
+  "SITEMINDER_LOGOUT_URL": "https://logon.gov.bc.ca/clp-cgi/logoff.cgi",
+  "SENTRY_ENVIRONMENT": "prod"
 }

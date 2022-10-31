@@ -163,13 +163,13 @@ const config = convict({
     env: 'ENABLE_MOCK_COOKIES',
   },
   SENTRY_ENVIRONMENT: {
-    doc: '',
+    doc: 'This can be any string, should be left empty for local development unless working on Sentry setup',
     format: String,
     default: '',
     env: 'SENTRY_ENVIRONMENT',
   },
   SENTRY_RELEASE: {
-    doc: '',
+    doc: 'App release tag',
     format: String,
     default: 'local_development',
     env: 'SENTRY_RELEASE',

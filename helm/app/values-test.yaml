@@ -1,6 +1,3 @@
 metabase:
   prodIngress:
     enable: true
-
-sentry:
-  environment: test

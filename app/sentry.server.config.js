@@ -10,7 +10,7 @@ const { SENTRY_ENVIRONMENT, SENTRY_RELEASE } =
   getConfig().publicRuntimeConfig || {};
 
 const SENTRY_DSN = SENTRY_ENVIRONMENT
-  ? 'https://ed6b3cb9ea6a470f870a0169ec43146b@o4504057667649536.ingest.sentry.io/4504057888374784'
+  ? 'https://d6719b95640e48e28369cd152b9ea9e5@o4504057667649536.ingest.sentry.io/4504079285944320'
   : null;
 
 Sentry.init({

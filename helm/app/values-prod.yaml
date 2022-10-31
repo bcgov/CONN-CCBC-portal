@@ -28,6 +28,3 @@ instances:
   limits:
     cpu: 1000m
     memory: 1Gi
-
-sentry:
-  environment: prod
