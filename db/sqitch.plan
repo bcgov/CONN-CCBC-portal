@@ -78,3 +78,4 @@ tables/application_form_data_001_add_rls_for_analyst 2022-10-24T19:51:34Z Anthon
 tables/form_data_002_add_permisions_for_analyst 2022-10-24T20:30:23Z Anthony Bushara <anthony@button.is> # Add permissions for analyst
 computed_columns/application_organization_name 2022-10-25T15:05:18Z Anthony Bushara <anthony@button.is> # computed column to display the organization name for analysts
 computed_columns/application_form_data [computed_columns/application_form_data@1.9.0] 2022-10-25T18:34:11Z Anthony Bushara <anthony@button.is> # Add ccbc_analyst permission
+views/summary_view [views/summary_view@1.11.0] 2022-10-28T18:38:28Z ,,, Vladimir <vladimir@button.is> # drop summary_view

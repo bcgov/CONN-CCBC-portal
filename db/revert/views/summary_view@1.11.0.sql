@@ -1,4 +1,4 @@
--- Deploy ccbc:views/summary_view from pg
+-- Revert ccbc:views/summary_view from pg
 
 BEGIN;
 
