@@ -4,11 +4,11 @@ import { graphql } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import FormBase from 'components/Form/FormBase';
 import { schema as fullSchema, analystUiSchema, validate } from 'formSchema';
-import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
-import FormDiv from '../../../components/FormDiv';
-import Layout from '../../../components/Layout';
-import { ApplicationIdQuery } from '../../../__generated__/ApplicationIdQuery.graphql';
-import ReviewTheme from '../../../components/Review/ReviewTheme';
+import defaultRelayOptions from 'lib/relay/withRelayOptions';
+import FormDiv from 'components/FormDiv';
+import Layout from 'components/Layout';
+import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
+import ReviewTheme from 'components/Review/ReviewTheme';
 
 const getApplicationQuery = graphql`
   query ApplicationIdQuery($rowId: Int!) {
@@ -43,12 +43,12 @@ const Application = ({
           theme={ReviewTheme}
           schema={fullSchema}
           uiSchema={analystUiSchema as any}
+          liveValidate
           formContext={{
             // validate errors and pass through formContext for review checkbox section
             errors: formErrorSchema,
           }}
           formData={jsonData}
-          liveValidate
           tagName="div"
         />
       </FormDiv>

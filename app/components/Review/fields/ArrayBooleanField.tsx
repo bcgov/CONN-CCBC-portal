@@ -1,16 +1,18 @@
 import { FieldProps } from '@rjsf/core';
+import { JSONSchema7 } from 'json-schema';
 import React from 'react';
 import { StyledColLeft, StyledColRight, StyledColError } from '../index';
 
-// Field to display a list of yes/no values instead of the enum for array type fields
+/**
+	Field to display a list of yes/no values instead of the enum for array type fields
+*/
 const ArrayBooleanField: React.FC<FieldProps> = ({
   id,
   formData,
   rawErrors,
   schema,
 }) => {
-  const fieldSchema = schema as any;
-  const enumValues = fieldSchema.items.enum;
+  const enumValues = (schema.items as JSONSchema7).enum as string[];
   return (
     <>
       {enumValues.map((item, i) => {

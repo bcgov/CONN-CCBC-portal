@@ -2,7 +2,6 @@ import React from 'react';
 import { FieldProps } from '@rjsf/core';
 import { StyledColLeft, StyledColRight, StyledColError } from '../index';
 
-// Field to display a list of yes/no values instead of the enum for array type fields
 const ReviewCheckboxField: React.FC<FieldProps> = ({
   id,
   formContext,
