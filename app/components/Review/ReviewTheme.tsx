@@ -1,4 +1,6 @@
 import { ThemeProps } from '@rjsf/core';
+import ArrayBooleanField from './fields/ArrayBooleanField';
+import ReviewCheckboxField from './fields/ReviewCheckboxField';
 import ReviewInlineArrayField from './fields/ReviewInlineArrayField';
 import ReviewObjectFieldTemplate from './ReviewObjectFieldTemplate';
 import ReviewSectionField from './ReviewSectionField';
@@ -13,6 +15,8 @@ const ReviewTheme: ThemeProps = {
   fields: {
     SectionField: ReviewSectionField,
     InlineArrayField: ReviewInlineArrayField,
+    ArrayBooleanField,
+    ReviewCheckboxField,
   },
   widgets: {
     TextAreaWidget: DefaultWidget,

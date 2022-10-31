@@ -1,3 +1,5 @@
+import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
+
 const mockFormData = {
   coverage: {
     geographicCoverageMap:
@@ -210,6 +212,15 @@ const mockFormData = {
     numberOfContractorsToWork: 1,
     contractorPersonMonthsToBeCreated: 1,
     hoursOfContractorEmploymentPerWeek: 1,
+  },
+  acknowledgements: {
+    acknowledgementsList: acknowledgementsEnum,
+  },
+  submission: {
+    submissionDate: '2022-10-26',
+    submissionTitle: 'Test Title',
+    submissionCompletedBy: 'Test Person',
+    submissionCompletedFor: 'Test Company',
   },
 };
 
