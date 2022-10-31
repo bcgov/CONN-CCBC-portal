@@ -2,6 +2,6 @@
 
 BEGIN;
 
-    drop view if exists ccbc_public.summary_view;
+     drop view if exists ccbc_public.summary_view;
 
 COMMIT;
