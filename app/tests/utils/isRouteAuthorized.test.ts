@@ -23,6 +23,13 @@ describe('The isRouteAuthorized function', () => {
     expect(isRouteAuthorized('/analyst/request-access', '')).toBe(true);
   });
 
+  it('allows unauthenticated users to access the /error-500 route', () => {
+    expect(isRouteAuthorized('/analyst/request-access', 'ccbc_guest')).toBe(
+      true
+    );
+    expect(isRouteAuthorized('/analyst/request-access', '')).toBe(true);
+  });
+
   it('does not allow unauthenticated users to access the /analyst/(.*) route', () => {
     expect(isRouteAuthorized('/analyst/(.*)', 'ccbc_guest')).toBe(false);
     expect(isRouteAuthorized('/analyst/(.*)', '')).toBe(false);

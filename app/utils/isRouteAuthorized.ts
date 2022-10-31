@@ -7,6 +7,7 @@ const pagesAuthorization = [
       '/analyst',
       '/applicantportal',
       '/analyst/request-access',
+      '/error-500',
     ],
     isProtected: false,
   },
