@@ -14,7 +14,7 @@ const getError500Query = graphql`
     }
   }
 `;
-const Error = ({
+const Error500Page = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, error500Query>) => {
   const query = usePreloadedQuery(getError500Query, preloadedQuery);
@@ -37,4 +37,4 @@ const Error = ({
   );
 };
 
-export default withRelay(Error, getError500Query, defaultRelayOptions);
+export default withRelay(Error500Page, getError500Query, defaultRelayOptions);
