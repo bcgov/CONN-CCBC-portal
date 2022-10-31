@@ -16,6 +16,8 @@ const StyledTableHead = styled('thead')`
 const StyledTableHeadCell = styled('th')`
   padding: 12px;
 
+  border-top: 1px solid hsla(0, 0%, 0%, 0.12);
+
   &:first-child {
     padding: 12px;
   }

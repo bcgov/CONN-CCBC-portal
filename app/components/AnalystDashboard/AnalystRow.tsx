@@ -17,6 +17,7 @@ const StyledRow = styled('tr')`
 
 const StyledCcbdIdCell = styled('td')`
   width: 9.7%;
+  padding-left: 12px !important;
 `;
 
 const StyledStatusCell = styled('td')`
@@ -31,6 +32,17 @@ const StyledOrganizationNameCell = styled('td')`
   width: 16.76%;
 `;
 
+const StyledLeadCell = styled('td')`
+  width: 11.97%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
+const StyledPackageCell = styled('td')`
+  width: 5.81%;
+`;
+
 const PillSpan = styled.span`
   background-color: #1a5a96;
   color: #ffffff;
@@ -41,21 +53,19 @@ const PillSpan = styled.span`
 
 const AnalystRow: React.FC<Props> = ({ application }) => {
   // TODO: remove this when adding in application link
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { rowId, status, projectName, ccbcNumber, organizationName } =
-    useFragment(
-      graphql`
-        fragment AnalystRow_application on Application {
-          id
-          rowId
-          status
-          projectName
-          ccbcNumber
-          organizationName
-        }
-      `,
-      application
-    );
+  const { status, projectName, ccbcNumber, organizationName } = useFragment(
+    graphql`
+      fragment AnalystRow_application on Application {
+        id
+        rowId
+        status
+        projectName
+        ccbcNumber
+        organizationName
+      }
+    `,
+    application
+  );
 
   return (
     <StyledRow>
@@ -67,8 +77,9 @@ const AnalystRow: React.FC<Props> = ({ application }) => {
       <StyledOrganizationNameCell>
         {organizationName}
       </StyledOrganizationNameCell>
-      <td />
-      <td />
+      {/* to be filled in later when these columns are implemented on backend */}
+      <StyledLeadCell />
+      <StyledPackageCell />
     </StyledRow>
   );
 };
