@@ -5,26 +5,25 @@ describe('The applicant dashboard', () => {
     const mockedDateString = '2022-10-10';
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
+    cy.sqlFixture('e2e/reset_db');
     cy.sqlFixture('dev/001_intake');
     cy.mockLogin('ccbc_auth_user');
-    cy.visit('/applicantportal/dashboard');
   });
 
   // Commenting out radio inputs until we pass in proper names or ids to select from
 
   it('should allow to start and fill an application', () => {
+    cy.visit('/applicantportal/dashboard');
     // Dashboard page
-    cy.get('h1').contains('Dashboard');
+
+    cy.findByRole('heading', { name: /^Dashboard/i }).should('exist');
 
     cy.get('body').happoScreenshot({ component: 'Dashboard Page' });
 
-    cy.get('button').contains('Create application').click();
-
-    cy.wait(4000);
+    cy.findByRole('button', { name: /Create application/i }).click();
 
     // Project information page
-
-    cy.get('h1').contains('Project information');
+    cy.findByRole('heading', { name: /^Project information/i }).should('exist');
     cy.get('[id="root_projectTitle"]');
 
     cy.get('[id="root_geographicAreaDescription"]').type('test');
@@ -90,7 +89,7 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Budget details page
-    cy.get('h1').contains('Budget details');
+    cy.findByRole('heading', { name: /^Budget details/i }).should('exist');
 
     cy.get('[id="root_totalEligibleCosts"]');
 
@@ -103,11 +102,7 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Project funding page
-    cy.get('h1').contains('Project funding');
-
-    cy.get('[id="root_fundingRequestedCCBC2223"]').then(() => {
-      cy.wait(500);
-    });
+    cy.findByRole('heading', { name: /^Project funding/i }).should('exist');
 
     cy.get('[id="root_fundingRequestedCCBC2223"]').type(123);
     cy.get('[id="root_fundingRequestedCCBC2324"]').type(123);
@@ -128,8 +123,9 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // Other funding sources page
-
-    cy.get('h1').contains('Other funding sources');
+    cy.findByRole('heading', { name: /^Other funding sources/i }).should(
+      'exist'
+    );
 
     cy.get('[id="root_infrastructureBankFunding2223"]').type(123);
     cy.get('[id="root_infrastructureBankFunding2324"]').type(123);
@@ -185,7 +181,9 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Technological solution page
-    cy.get('h1').contains('Technological solution');
+    cy.findByRole('heading', { name: /^Technological solution/i }).should(
+      'exist'
+    );
 
     cy.get('[id="root_systemDesign"]');
 
@@ -211,8 +209,7 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Benefits page
-
-    cy.get('h1').contains('Benefits');
+    cy.findByRole('heading', { name: /^Benefits/i }).should('exist');
 
     cy.get('[id="root_projectBenefits"]').type('test', { force: true });
 
@@ -226,8 +223,10 @@ describe('The applicant dashboard', () => {
 
     cy.get('button').contains('Save and continue').click();
 
-    // // // Project planning and management page
-    cy.get('h1').contains('Project planning and management');
+    // Project planning and management page
+    cy.findByRole('heading', {
+      name: /Project planning and management/i,
+    }).should('exist');
 
     cy.get('#root_projectStartDate');
 
@@ -248,8 +247,9 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Estimated project employment page
-
-    cy.get('h1').contains('Estimated project employment');
+    cy.findByRole('heading', { name: /^Estimated project employment/i }).should(
+      'exist'
+    );
 
     cy.get('[id="root_currentEmployment"]').type(20);
 
@@ -274,10 +274,8 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Template uploads page
+    cy.findByRole('heading', { name: /^Template uploads/i }).should('exist');
 
-    cy.get('h1').contains('Template uploads');
-
-    // // Todo: file upload
     cy.get('header > div').contains('Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Template Uploads Page' });
@@ -285,11 +283,11 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Supporting documents page
-    cy.get('h1').contains('Supporting documents');
+    cy.findByRole('heading', { name: /^Supporting documents/i }).should(
+      'exist'
+    );
 
     cy.get('a').contains('connectingcommunitiesbc@gov.bc.ca');
-
-    // // Todo: file uploads
 
     cy.get('header > div').contains('Last saved:');
 
@@ -298,8 +296,7 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Coverage page
-
-    cy.get('h1').contains('Coverage');
+    cy.findByRole('heading', { name: /^Coverage/i }).should('exist');
 
     cy.get('a').contains('Eligibility Mapping Tool');
 
@@ -312,8 +309,9 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // Organization Profile page
-
-    cy.get('h1').contains('Organization profile');
+    cy.findByRole('heading', { name: /^Organization profile/i }).should(
+      'exist'
+    );
 
     cy.get('input[id="root_typeOfOrganization-0"]').parent().click();
 
@@ -345,8 +343,9 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Organization location page
-
-    cy.get('h1').contains('Organization location');
+    cy.findByRole('heading', { name: /^Organization location/i }).should(
+      'exist'
+    );
 
     cy.get('input[id="root_streetNumber"]').type(123);
 
@@ -385,8 +384,9 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Organization contact information page
-
-    cy.get('h1').contains('Organization contact information');
+    cy.findByRole('heading', {
+      name: /Organization contact information/i,
+    }).should('exist');
 
     cy.get('input[id="root_contactTelephoneNumber"]').type('123-4567');
 
@@ -405,8 +405,9 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Authorized contact page
-
-    cy.get('h1').contains('Authorized business contact');
+    cy.findByRole('heading', { name: /^Authorized business contact/i }).should(
+      'exist'
+    );
 
     cy.get('input[id="root_authFamilyName"]').type('test');
 
@@ -429,8 +430,9 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Alternate contact page
-
-    cy.get('h1').contains('Alternate business contact');
+    cy.findByRole('heading', { name: /^Alternate business contact/i }).should(
+      'exist'
+    );
 
     cy.get('input[id="root_altFamilyName"]').type('test');
 
@@ -453,8 +455,7 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Review page
-
-    cy.get('h1').contains('Review');
+    cy.findByRole('heading', { name: /^Review/i }).should('exist');
 
     cy.get('input[id="root_acknowledgeIncomplete"]').parent().click();
 
@@ -465,8 +466,7 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Acknowledgements page
-
-    cy.get('h1').contains('Acknowledgements');
+    cy.findByRole('heading', { name: /^Acknowledgements/i }).should('exist');
 
     cy.get('input[id="root_acknowledgementsList-0"]').parent().click();
 
@@ -509,8 +509,7 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Save and continue').click();
 
     // // Sign Submission
-
-    cy.get('h1').contains('Submission');
+    cy.findByRole('heading', { name: /^Submission/i }).should('exist');
 
     cy.get('[id="root_submissionCompletedFor"]').should(
       'have.text',
@@ -528,13 +527,14 @@ describe('The applicant dashboard', () => {
 
     cy.get('button').contains('Submit').click();
 
-    cy.wait(1000);
-
     // // Success page
+    cy.findByRole('heading', { name: /^Application submitted/i }).should(
+      'exist'
+    );
 
-    cy.get('h2').contains('Application submitted');
-
-    cy.get('h3').contains('Thank you for applying to CCBC Intake 1');
+    cy.findByRole('heading', {
+      name: /Thank you for applying to CCBC Intake 1/i,
+    }).should('exist');
 
     cy.get('body').happoScreenshot({ component: 'Success Page' });
 
@@ -545,6 +545,8 @@ describe('The applicant dashboard', () => {
     const mockedDateString = '2025-10-10';
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
+    cy.sqlFixture('e2e/001_application');
+    cy.visit('/applicantportal/dashboard');
 
     // Dashboard page
     cy.get('h1').contains('Dashboard');
@@ -801,8 +803,6 @@ describe('The applicant dashboard', () => {
     cy.get('button').contains('Submit').should('be.disabled');
 
     cy.get('button').contains('Return to dashboard').click();
-
-    cy.wait(1000);
 
     cy.url().should('contain', '/dashboard');
   });

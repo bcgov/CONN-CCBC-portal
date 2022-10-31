@@ -9,7 +9,7 @@
     "build:relay": "mkdir -p __generated__ && relay-compiler",
     "build:server": "tsc --project tsconfig.server.json",
     "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
-    "start": "node --unhandled-rejections=strict dist/server.js",
+    "start": "NODE_ENV=production node --unhandled-rejections=strict dist/server.js",
     "lint": "next lint",
     "relay": "mkdir -p __generated__ && relay-compiler",
     "pretest": "yarn run build:relay",
@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
+    "@testing-library/cypress": "^8.0.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^14.4.3",

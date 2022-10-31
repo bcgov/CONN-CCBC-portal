@@ -1,4 +1,5 @@
 import 'happo-cypress';
+import '@testing-library/cypress/add-commands';
 
 Cypress.Commands.add('sqlFixture', (fixtureName) => {
   return cy.fixture(`${fixtureName}.sql`).then((fixture) =>
