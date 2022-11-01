@@ -1,4 +1,5 @@
 import 'happo-cypress';
+import '@testing-library/cypress/add-commands';
 
 Cypress.Commands.add('sqlFixture', (fixtureName) => {
   return cy.fixture(`${fixtureName}.sql`).then((fixture) =>
@@ -16,4 +17,9 @@ Cypress.Commands.add('useMockedTime', (datetime) => {
 
 Cypress.Commands.add('clearMockedTime', () => {
   cy.clearCookie('mocks.mocked_timestamp');
+});
+
+Cypress.Commands.add('mockLogin', (roleName) => {
+  cy.setCookie('mocks.auth_role', roleName);
+  cy.getCookie('mocks.auth_role').should('exist');
 });

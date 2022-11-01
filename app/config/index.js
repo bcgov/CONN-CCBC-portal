@@ -114,6 +114,12 @@ const config = convict({
     default: false,
     env: 'ENABLE_MOCK_AUTH',
   },
+  MOCK_ROLE_COOKIE_NAME: {
+    doc: 'name of the cookie used to retrieve the mock user role when ENABLE_MOCK_AUTH is true',
+    format: String,
+    default: 'mocks.auth_role',
+    env: 'MOCK_ROLE_COOKIE_NAME',
+  },
   AWS_S3_BUCKET: {
     doc: 'AWS S3 bucket name',
     format: String,
@@ -159,21 +165,24 @@ const config = convict({
 });
 
 // Load environment dependent configuration
-const namespace = config.get("OPENSHIFT_APP_NAMESPACE") || 'dev-local';
+const namespace = config.get('OPENSHIFT_APP_NAMESPACE') || 'dev-local';
 const chunks = namespace.split('-');
-const env = config.get('NODE_ENV') !== 'development' 
-  ? chunks[chunks.length-1] || 'local' 
-  : 'local';
+const env =
+  config.get('NODE_ENV') !== 'development'
+    ? chunks[chunks.length - 1] || 'local'
+    : 'local';
 
 try {
   config.loadFile('./config/' + env + '.json');
-}
-catch(e){
+} catch (e) {
   console.log(e);
   console.log(env);
 }
 config.validate({ allowed: 'warn' });
-if (config.get("OPENSHIFT_APP_NAMESPACE").endsWith("-prod") && config.get("ENABLE_MOCK_TIME")) {
-  throw new Error("ENABLE_MOCK_TIME cannot be true with a -prod namespace.");
+if (
+  config.get('OPENSHIFT_APP_NAMESPACE').endsWith('-prod') &&
+  config.get('ENABLE_MOCK_TIME')
+) {
+  throw new Error('ENABLE_MOCK_TIME cannot be true with a -prod namespace.');
 }
 module.exports = config;
