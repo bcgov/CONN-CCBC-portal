@@ -1,5 +1,7 @@
 begin;
 
+select mocks.set_mocked_time_in_transaction('2022-10-09 09:00:00-07'::timestamptz);
+
 insert into ccbc_public.application
 (id, ccbc_number,owner,intake_id,created_by, created_at,updated_by, updated_at)
 overriding system value
