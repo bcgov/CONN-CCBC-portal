@@ -1,5 +1,6 @@
 {
   "SITEMINDER_LOGOUT_URL": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi",
-  "ENABLE_MOCK_TIME" : false,
-  "ENABLE_MOCK_COOKIES" : true
+  "ENABLE_MOCK_TIME": false,
+  "ENABLE_MOCK_COOKIES": true,
+  "SENTRY_RELEASE": "local_development"
 }

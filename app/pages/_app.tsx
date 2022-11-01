@@ -4,13 +4,15 @@ import getConfig from 'next/config';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
 import { Settings } from 'luxon';
+import * as Sentry from '@sentry/nextjs';
 import type { AppProps } from 'next/app';
 import { GrowthBook, GrowthBookProvider } from '@growthbook/growthbook-react';
-import { getClientEnvironment } from '../lib/relay/client';
-import GlobalStyle from '../styles/GobalStyles';
-import GlobalTheme from '../styles/GlobalTheme';
-import BCGovTypography from '../components/BCGovTypography';
-import { SessionExpiryHandler } from '../components';
+import Error500 from 'pages/500';
+import { getClientEnvironment } from 'lib/relay/client';
+import GlobalStyle from 'styles/GobalStyles';
+import GlobalTheme from 'styles/GlobalTheme';
+import BCGovTypography from 'components/BCGovTypography';
+import { SessionExpiryHandler } from 'components';
 
 const clientEnv = getClientEnvironment();
 const initialPreloadedQuery = getInitialPreloadedQuery({
@@ -70,9 +72,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <GlobalTheme>
         <GlobalStyle />
         <BCGovTypography />
-        <RelayEnvironmentProvider environment={env}>
-          {component}
-        </RelayEnvironmentProvider>
+        <Sentry.ErrorBoundary fallback={<Error500 />}>
+          <RelayEnvironmentProvider environment={env}>
+            {component}
+          </RelayEnvironmentProvider>
+        </Sentry.ErrorBoundary>
       </GlobalTheme>
     </GrowthBookProvider>
   );

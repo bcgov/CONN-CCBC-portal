@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
-
+const { withSentryConfig } = require('@sentry/nextjs');
 const convictConfig = require('./config');
 
-module.exports = {
+const moduleExports = {
   poweredByHeader: false,
 
   async redirects() {
@@ -33,6 +33,8 @@ module.exports = {
     ENABLE_MOCK_TIME: convictConfig.get('ENABLE_MOCK_TIME'),
     OPENSHIFT_APP_NAMESPACE: convictConfig.get('OPENSHIFT_APP_NAMESPACE'),
     SITEMINDER_LOGOUT_URL: convictConfig.get('SITEMINDER_LOGOUT_URL'),
+    SENTRY_ENVIRONMENT: convictConfig.get('SENTRY_ENVIRONMENT'),
+    SENTRY_RELEASE: convictConfig.get('SENTRY_RELEASE'),
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
@@ -40,3 +42,12 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
 };
+
+const sentryWebpackPluginOptions = {
+  // Set to false to create a sentry release on build with the sentry CLI
+  // This will upload sourcemaps to sentry.
+  dryRun: true,
+  silent: true,
+};
+
+module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
