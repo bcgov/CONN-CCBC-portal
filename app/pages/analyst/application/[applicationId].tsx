@@ -9,6 +9,7 @@ import FormDiv from 'components/FormDiv';
 import Layout from 'components/Layout';
 import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
+import NavigationSidebar from 'components/Analyst/NavigationSidebar';
 
 const getApplicationQuery = graphql`
   query ApplicationIdQuery($rowId: Int!) {
@@ -36,6 +37,7 @@ const Application = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
+      <NavigationSidebar />
       <FormDiv style={{ margin: 'auto' }}>
         <h1>Application</h1>
 

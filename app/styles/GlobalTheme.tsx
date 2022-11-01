@@ -35,7 +35,7 @@ export const theme = {
   breakpoint: {
     smallUp: '@media (min-width: 600px)',
     mediumUp: '@media (min-width: 768px)',
-    largeUp: '@media (min-width: 1024px)',
+    largeUp: '@media (min-width: 1007px)',
   },
 };
 
