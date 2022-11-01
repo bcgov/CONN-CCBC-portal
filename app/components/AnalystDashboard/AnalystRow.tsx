@@ -52,7 +52,6 @@ const PillSpan = styled.span`
 `;
 
 const AnalystRow: React.FC<Props> = ({ application }) => {
-  // TODO: remove this when adding in application link
   const { status, projectName, ccbcNumber, organizationName } = useFragment(
     graphql`
       fragment AnalystRow_application on Application {
@@ -77,7 +76,7 @@ const AnalystRow: React.FC<Props> = ({ application }) => {
       <StyledOrganizationNameCell>
         {organizationName}
       </StyledOrganizationNameCell>
-      {/* to be filled in later when these columns are implemented on backend */}
+      {/* Filled in later when these columns are implemented on backend */}
       <StyledLeadCell />
       <StyledPackageCell />
     </StyledRow>
