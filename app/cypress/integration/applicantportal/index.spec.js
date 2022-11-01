@@ -7,20 +7,20 @@ describe('The applicant landing page', () => {
   });
 
   it('Should render the expected elements ', () => {
-    cy.get('h1').contains('Welcome');
+    cy.contains('h1', 'Welcome');
 
-    cy.get('a').contains('program details');
+    cy.contains('a', 'program details');
 
-    cy.get('header').contains('Email us');
-    cy.get('header').get('.banner').find('img');
-    cy.get('.pg-menu-group').find('a').contains('Dashboard');
-    cy.get('.pg-menu-group').find('form').get('button').contains('Logout');
+    cy.contains('header', 'Email us');
+    cy.get('header .banner img');
+    cy.contains('.pg-menu-group a', 'Dashboard');
+    cy.contains('.pg-menu-group form button', 'Logout');
 
-    cy.get('footer').contains('Program details');
-    cy.get('footer').contains('Disclaimer');
-    cy.get('footer').contains('Privacy');
-    cy.get('footer').contains('Accessibility');
-    cy.get('footer').contains('Copyright');
+    cy.contains('footer', 'Program details');
+    cy.contains('footer', 'Disclaimer');
+    cy.contains('footer', 'Privacy');
+    cy.contains('footer', 'Accessibility');
+    cy.contains('footer', 'Copyright');
 
     cy.get('body').happoScreenshot({ component: 'Applicant Landing Page' });
   });
