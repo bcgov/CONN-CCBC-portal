@@ -7,7 +7,7 @@ import { Settings } from 'luxon';
 import * as Sentry from '@sentry/nextjs';
 import type { AppProps } from 'next/app';
 import { GrowthBook, GrowthBookProvider } from '@growthbook/growthbook-react';
-import Error500 from 'pages/error-500';
+import Error500 from 'pages/500';
 import { getClientEnvironment } from 'lib/relay/client';
 import GlobalStyle from 'styles/GobalStyles';
 import GlobalTheme from 'styles/GlobalTheme';
