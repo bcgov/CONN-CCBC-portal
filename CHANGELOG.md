@@ -1,3 +1,28 @@
+# [1.12.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.11.0...v1.12.0) (2022-11-01)
+
+### Bug Fixes
+
+- application_status permissions ([3ffa0c5](https://github.com/bcgov/CONN-CCBC-portal/commit/3ffa0c5f92d93e5fa71b6ccc2a0f9912e14b9ad6))
+- FileWidget cannot call two mutations concurrently ([cf28323](https://github.com/bcgov/CONN-CCBC-portal/commit/cf283231054fc92f4e89ef184afece3d123e20c4))
+- remove summary_view ([1cc3344](https://github.com/bcgov/CONN-CCBC-portal/commit/1cc3344dc70bbca741721364f14b2a853f8d4669))
+- remove unneeded files ([0ef95a3](https://github.com/bcgov/CONN-CCBC-portal/commit/0ef95a3362594d23ae261e69fa46e4e33be01279))
+- rename prod config to match with namespace suffix ([a9e47ef](https://github.com/bcgov/CONN-CCBC-portal/commit/a9e47ef09934e1a7787dd2f45c904f5ce45d5fc6))
+- rework ([1de1a9b](https://github.com/bcgov/CONN-CCBC-portal/commit/1de1a9b8de9727ff75eb1206b7f0390a64f7ba0f))
+- set dashboard container width ([e64a51a](https://github.com/bcgov/CONN-CCBC-portal/commit/e64a51a525bc55286fc68f7a68fceb57e4c9a932))
+- set landing url as owasp zap target ([b829147](https://github.com/bcgov/CONN-CCBC-portal/commit/b8291470c254b9e67626800bbeda49b37df28cdc))
+- set single metabase-ingress network policy with conditional ([9a133b4](https://github.com/bcgov/CONN-CCBC-portal/commit/9a133b4e0365cc39daa74970e3274d555b637508))
+
+### Features
+
+- add analyst application view page ([fe60f63](https://github.com/bcgov/CONN-CCBC-portal/commit/fe60f6340824fd637e28d0fc4c49f51106750d80))
+- add ArrayBooleanField and use in analystUiSchema ([cbcf57a](https://github.com/bcgov/CONN-CCBC-portal/commit/cbcf57ad7bc7763fb3b4addc27d510826041ce54))
+- add permissions for analyst role ([a2c16fe](https://github.com/bcgov/CONN-CCBC-portal/commit/a2c16fe8e636acd80f994e3c3344f4a016accdfe))
+- add reviewCheckboxField for analyst application view ([3b41339](https://github.com/bcgov/CONN-CCBC-portal/commit/3b41339700ab4077e6028513b055a409f66b07db))
+- application_organization_name computed column ([7834c15](https://github.com/bcgov/CONN-CCBC-portal/commit/7834c153362ffd8555b2f01998811313dc749170))
+- form data has permissions ([da782e4](https://github.com/bcgov/CONN-CCBC-portal/commit/da782e4724080b3daef51f861cb555508f7f250d))
+- give analyst permission on computed columns ([cfde3d9](https://github.com/bcgov/CONN-CCBC-portal/commit/cfde3d9b090de65169cb6f1f7df030b77504cc41))
+- remove summary_view and tests ([602fb28](https://github.com/bcgov/CONN-CCBC-portal/commit/602fb2840f4ddd1d7fa55246cda54922c77e3a72))
+
 # [1.11.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.10.0...v1.11.0) (2022-10-26)
 
 ### Bug Fixes
