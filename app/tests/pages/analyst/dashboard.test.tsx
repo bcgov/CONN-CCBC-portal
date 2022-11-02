@@ -1,4 +1,5 @@
 import { mocked } from 'jest-mock';
+import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import Dashboard from '../../../pages/analyst/dashboard';
@@ -26,7 +27,7 @@ const mockQueryPayload = {
           },
           {
             id: 'someOtherId',
-            rowId: 1,
+            rowId: 2,
             status: 'received',
             projectName: 'Test Proj Name 2',
             ccbcNumber: 'CCBC-010002',
@@ -136,6 +137,17 @@ describe('The index page', () => {
     expect(screen.getByText('Organization')).toBeInTheDocument();
     expect(screen.getByText('Lead')).toBeInTheDocument();
     expect(screen.getByText('Package')).toBeInTheDocument();
+  });
+
+  it('click on table row leads to review page', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const row = screen.getByText('CCBC-010001').parentElement;
+
+    await userEvent.click(row);
+
+    expect(pageTestingHelper.router.push).toHaveBeenCalled();
   });
 
   afterEach(() => {
