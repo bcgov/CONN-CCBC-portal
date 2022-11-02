@@ -14,7 +14,7 @@ const StyledAside = styled.aside`
 
 const StyledNav = styled.nav`
   position: sticky;
-  top: 32px;
+  top: 40px;
 `;
 
 const StyledUpperSection = styled.section`

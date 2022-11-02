@@ -2,7 +2,8 @@ import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
-import { Layout } from 'components';
+import Layout from 'components/Layout';
+import AnalystLayout from 'components/Analyst/AnalystLayout';
 import { historyQuery } from '__generated__/historyQuery.graphql';
 
 const getHistoryQuery = graphql`
@@ -20,7 +21,9 @@ const History = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <h1>History</h1>
+      <AnalystLayout>
+        <h2>History placeholder</h2>
+      </AnalystLayout>
     </Layout>
   );
 };

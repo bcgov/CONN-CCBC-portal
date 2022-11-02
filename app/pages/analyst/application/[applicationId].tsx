@@ -2,15 +2,13 @@ import { useMemo } from 'react';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay/hooks';
-import styled from 'styled-components';
 import FormBase from 'components/Form/FormBase';
 import { schema as fullSchema, analystUiSchema, validate } from 'formSchema';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
-import FormDiv from 'components/FormDiv';
 import Layout from 'components/Layout';
 import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
-import NavigationSidebar from 'components/Analyst/NavigationSidebar';
+import AnalystLayout from 'components/Analyst/AnalystLayout';
 
 const getApplicationQuery = graphql`
   query ApplicationIdQuery($rowId: Int!) {
@@ -23,15 +21,6 @@ const getApplicationQuery = graphql`
       sub
     }
   }
-`;
-
-const StyledContainer = styled.div`
-  display: flex;
-`;
-
-const StyledFlex = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 const Application = ({
@@ -47,27 +36,20 @@ const Application = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <StyledFlex>
-        <h1>Application</h1>
-
-        <StyledContainer>
-          <NavigationSidebar />
-          <FormDiv style={{ margin: 'auto' }}>
-            <FormBase
-              theme={ReviewTheme}
-              schema={fullSchema}
-              uiSchema={analystUiSchema as any}
-              liveValidate
-              formContext={{
-                // validate errors and pass through formContext for review checkbox section
-                errors: formErrorSchema,
-              }}
-              formData={jsonData}
-              tagName="div"
-            />
-          </FormDiv>
-        </StyledContainer>
-      </StyledFlex>
+      <AnalystLayout>
+        <FormBase
+          theme={ReviewTheme}
+          schema={fullSchema}
+          uiSchema={analystUiSchema as any}
+          liveValidate
+          formContext={{
+            // validate errors and pass through formContext for review checkbox section
+            errors: formErrorSchema,
+          }}
+          formData={jsonData}
+          tagName="div"
+        />
+      </AnalystLayout>
     </Layout>
   );
 };
