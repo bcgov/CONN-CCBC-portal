@@ -106,7 +106,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText(`CCBC Analyst dashboard`)).toBeVisible();
+    expect(screen.getByText('Dashboard')).toBeVisible();
   });
 
   it('displays the Analyst Table', async () => {
@@ -120,6 +120,18 @@ describe('The index page', () => {
     expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
     expect(screen.getByText('Test Proj Name 2')).toBeInTheDocument();
     expect(screen.getByText('Test Org Name 2')).toBeInTheDocument();
+  });
+
+  it('analyst table headers are consistent', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('CCBC ID')).toBeInTheDocument();
+    expect(screen.getByText('Status')).toBeInTheDocument();
+    expect(screen.getByText('Project title')).toBeInTheDocument();
+    expect(screen.getByText('Organization')).toBeInTheDocument();
+    expect(screen.getByText('Lead')).toBeInTheDocument();
+    expect(screen.getByText('Package')).toBeInTheDocument();
   });
 
   afterEach(() => {
