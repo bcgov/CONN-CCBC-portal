@@ -19,9 +19,10 @@ const StyledNavItem = styled.div<StyledProps>`
   display: flex;
   border-radius: 4px;
   background-color: ${(p) => p.selected};
+  cursor: pointer;
 
   &:hover {
-    background-color: #f8f8f8;
+    background-color: ${(props) => props.theme.color.navigationLightGrey};
   }
 `;
 
@@ -38,7 +39,7 @@ const StyledIconContainer = styled.div`
 const StyledLinkContainer = styled.div`
   display: none;
 
-  ${(props) => props.theme.breakpoint.mediumUp} {
+  ${(props) => props.theme.breakpoint.largeUp} {
     display: block;
   }
 `;

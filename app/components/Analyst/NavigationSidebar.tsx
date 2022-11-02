@@ -12,10 +12,14 @@ const StyledAside = styled.aside`
   min-height: 100%;
 `;
 
-const StyledNav = styled.nav``;
+const StyledNav = styled.nav`
+  position: sticky;
+  top: 32px;
+`;
 
 const StyledUpperSection = styled.section`
   border-bottom: 1px solid #d6d6d6;
+  color: ${(props) => props.theme.color.navigationBlue};
 `;
 
 const NavigationSidebar = () => {
