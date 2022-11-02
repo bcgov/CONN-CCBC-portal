@@ -106,7 +106,11 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText('Dashboard')).toBeVisible();
+    expect(
+      screen.getByText('Dashboard', {
+        selector: 'h1',
+      })
+    ).toBeVisible();
   });
 
   it('displays the Analyst Table', async () => {
