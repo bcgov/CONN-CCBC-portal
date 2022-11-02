@@ -14,6 +14,26 @@ const mockQueryPayload = {
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
+      allApplications: {
+        nodes: [
+          {
+            id: 'someId',
+            rowId: 1,
+            status: 'received',
+            projectName: 'Test Proj Name',
+            ccbcNumber: 'CCBC-010001',
+            organizationName: 'Test Org Name',
+          },
+          {
+            id: 'someOtherId',
+            rowId: 1,
+            status: 'received',
+            projectName: 'Test Proj Name 2',
+            ccbcNumber: 'CCBC-010002',
+            organizationName: 'Test Org Name 2',
+          },
+        ],
+      },
     };
   },
 };
@@ -86,7 +106,36 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText(`CCBC Analyst dashboard`)).toBeVisible();
+    expect(
+      screen.getByText('Dashboard', {
+        selector: 'h1',
+      })
+    ).toBeVisible();
+  });
+
+  it('displays the Analyst Table', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
+    expect(screen.getByText('Test Proj Name')).toBeInTheDocument();
+    expect(screen.getByText('Test Org Name')).toBeInTheDocument();
+
+    expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+    expect(screen.getByText('Test Proj Name 2')).toBeInTheDocument();
+    expect(screen.getByText('Test Org Name 2')).toBeInTheDocument();
+  });
+
+  it('analyst table headers are consistent', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('CCBC ID')).toBeInTheDocument();
+    expect(screen.getByText('Status')).toBeInTheDocument();
+    expect(screen.getByText('Project title')).toBeInTheDocument();
+    expect(screen.getByText('Organization')).toBeInTheDocument();
+    expect(screen.getByText('Lead')).toBeInTheDocument();
+    expect(screen.getByText('Package')).toBeInTheDocument();
   });
 
   afterEach(() => {
