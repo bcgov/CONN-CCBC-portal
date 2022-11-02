@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay/hooks';
+import styled from 'styled-components';
 import FormBase from 'components/Form/FormBase';
 import { schema as fullSchema, analystUiSchema, validate } from 'formSchema';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
@@ -24,6 +25,15 @@ const getApplicationQuery = graphql`
   }
 `;
 
+const StyledContainer = styled.div`
+  display: flex;
+`;
+
+const StyledFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Application = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, ApplicationIdQuery>) => {
@@ -37,23 +47,27 @@ const Application = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <NavigationSidebar />
-      <FormDiv style={{ margin: 'auto' }}>
+      <StyledFlex>
         <h1>Application</h1>
 
-        <FormBase
-          theme={ReviewTheme}
-          schema={fullSchema}
-          uiSchema={analystUiSchema as any}
-          liveValidate
-          formContext={{
-            // validate errors and pass through formContext for review checkbox section
-            errors: formErrorSchema,
-          }}
-          formData={jsonData}
-          tagName="div"
-        />
-      </FormDiv>
+        <StyledContainer>
+          <NavigationSidebar />
+          <FormDiv style={{ margin: 'auto' }}>
+            <FormBase
+              theme={ReviewTheme}
+              schema={fullSchema}
+              uiSchema={analystUiSchema as any}
+              liveValidate
+              formContext={{
+                // validate errors and pass through formContext for review checkbox section
+                errors: formErrorSchema,
+              }}
+              formData={jsonData}
+              tagName="div"
+            />
+          </FormDiv>
+        </StyledContainer>
+      </StyledFlex>
     </Layout>
   );
 };
