@@ -36,7 +36,7 @@ const AnalystDashboard = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledDashboardContainer>
-        <h1>CCBC Analyst dashboard</h1>
+        <h1>Dashboard</h1>
         <AnalystTable applications={{ allApplications }} />
       </StyledDashboardContainer>
     </Layout>

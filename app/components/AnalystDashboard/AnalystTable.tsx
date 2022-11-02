@@ -10,7 +10,7 @@ const StyledTable = styled('table')`
 `;
 
 const StyledTableHead = styled('thead')`
-  padding: 16px 8px 16px 8px;
+  padding: 16px 8px;
 `;
 
 const StyledTableHeadCell = styled('th')`
