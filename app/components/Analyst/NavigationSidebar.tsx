@@ -32,7 +32,7 @@ const NavigationSidebar = () => {
       <StyledNav>
         <StyledUpperSection>
           <NavItem
-            currentPath={asPath as string}
+            currentPath={asPath}
             href="/analyst/dashboard/"
             icon={faChevronLeft}
             label="Dashboard"
@@ -40,19 +40,19 @@ const NavigationSidebar = () => {
         </StyledUpperSection>
         <section>
           <NavItem
-            currentPath={asPath as string}
+            currentPath={asPath}
             href={`/analyst/application/${applicationId}`}
             icon={faClipboardList}
             label="Application"
           />
           <NavItem
-            currentPath={asPath as string}
+            currentPath={asPath}
             href={`/analyst/application/${applicationId}/assessments`}
             icon={faCheckDouble}
             label="Assessments"
           />
           <NavItem
-            currentPath={asPath as string}
+            currentPath={asPath}
             href={`/analyst/application/${applicationId}/history`}
             icon={faClockRotateLeft}
             label="History"
