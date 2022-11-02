@@ -131,6 +131,13 @@ deploy_perf_data:
 	@for file in $(__DIRNAME)/db/data/perf/*; do \
 		$(PSQL) -d $(DB_NAME) -f "$${file}"; \
 	done;
+
+.PHONY: perf_test
+perf_test: ## run performance tests with k6
+perf_test: APP_HOST=http://localhost:3000
+perf_test:
+	@k6 -e NUM_APPLICATIONS=100 -e APP_HOST=$(APP_HOST) run app/tests/perf/script.js --out csv=k6Results/test_results.csv
+
 deploy_test_data: ## deploy the database migrations with sqitch and load the data for test namespace
 deploy_test_data: deploy_db_migrations
 deploy_test_data:
