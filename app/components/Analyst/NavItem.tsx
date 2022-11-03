@@ -36,10 +36,10 @@ const StyledIconContainer = styled.div`
 `;
 
 const StyledLabelContainer = styled.div`
-  padding-left: 8px;
   display: none;
 
   ${(props) => props.theme.breakpoint.largeUp} {
+    padding-left: 8px;
     display: block;
   }
 `;
