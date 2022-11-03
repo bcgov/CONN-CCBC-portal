@@ -33,40 +33,32 @@ describe('The NavigationSidebar', () => {
     useRouter.mockImplementation(() => mockRouterState);
     renderStaticLayout();
 
-    expect(screen.getByText('Dashboard')).toHaveAttribute(
-      'href',
-      '/analyst/dashboard'
-    );
+    expect(
+      screen.getByText('Dashboard').parentElement.parentElement
+    ).toHaveAttribute('href', '/analyst/dashboard');
 
-    expect(screen.getByText('Application')).toHaveAttribute(
-      'href',
-      '/analyst/application/1'
-    );
+    expect(
+      screen.getByText('Application').parentElement.parentElement
+    ).toHaveAttribute('href', '/analyst/application/1');
 
-    expect(screen.getByText('Assessments')).toHaveAttribute(
-      'href',
-      '/analyst/application/1/assessments'
-    );
+    expect(
+      screen.getByText('Assessments').parentElement.parentElement
+    ).toHaveAttribute('href', '/analyst/application/1/assessments');
 
-    expect(screen.getByText('History')).toHaveAttribute(
-      'href',
-      '/analyst/application/1/history'
-    );
+    expect(
+      screen.getByText('History').parentElement.parentElement
+    ).toHaveAttribute('href', '/analyst/application/1/history');
   });
 
   it('should have the selected colour when on the same url', () => {
     useRouter.mockImplementation(() => mockRouterState);
     renderStaticLayout();
 
-    expect(
-      screen.getByText('Application').parentElement.parentElement
-    ).toHaveStyle({
+    expect(screen.getByText('Application').parentElement).toHaveStyle({
       backgroundColor: 'rgb(241, 242, 243)',
     });
 
-    expect(
-      screen.getByText('Dashboard').parentElement.parentElement
-    ).not.toHaveStyle({
+    expect(screen.getByText('Dashboard').parentElement).not.toHaveStyle({
       backgroundColor: 'rgb(241, 242, 243)',
     });
   });
@@ -80,15 +72,11 @@ describe('The NavigationSidebar', () => {
     useRouter.mockImplementation(() => mockRouter);
     renderStaticLayout();
 
-    expect(
-      screen.getByText('Application').parentElement.parentElement
-    ).not.toHaveStyle({
+    expect(screen.getByText('Application').parentElement).not.toHaveStyle({
       backgroundColor: 'rgb(241, 242, 243)',
     });
 
-    expect(
-      screen.getByText('Assessments').parentElement.parentElement
-    ).toHaveStyle({
+    expect(screen.getByText('Assessments').parentElement).toHaveStyle({
       backgroundColor: 'rgb(241, 242, 243)',
     });
   });
