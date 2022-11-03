@@ -2,21 +2,34 @@
 name: User story template
 about: Default user story template
 title: ''
-labels: User Story
+labels: Need Refinement, User Story
 assignees: ''
 
 ---
 
-### User Story
-As an 
+As a 
 I want 
 so that 
 
-### Description
-_(Brief description of the work involved, including any user research context or key decisions.)_
+## Acceptance Criteria:
 
-### Acceptance Criteria:
-- [ ] **Scenario: **
-#
-- [ ] Task
-- [ ] Task
+- [ ] Scenario: ...
+    Given
+    When
+    Then
+
+- [ ] Scenario: ...
+    Given
+    When
+    Then
+
+## Not included:
+-
+-
+
+## Technical Analysis
+- [ ]
+- [ ]
+- [ ]
+
+## Wireframes
