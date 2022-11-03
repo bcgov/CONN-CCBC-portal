@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { AnalystRow_application$key } from '__generated__/AnalystRow_application.graphql';
@@ -12,6 +13,7 @@ const StyledRow = styled('tr')`
 
   &:hover {
     background: #f2f2f2;
+    cursor: pointer;
   }
 `;
 
@@ -56,22 +58,28 @@ const PillSpan = styled.span`
 `;
 
 const AnalystRow: React.FC<Props> = ({ application }) => {
-  const { status, projectName, ccbcNumber, organizationName } = useFragment(
-    graphql`
-      fragment AnalystRow_application on Application {
-        id
-        rowId
-        status
-        projectName
-        ccbcNumber
-        organizationName
-      }
-    `,
-    application
-  );
+  const { rowId, status, projectName, ccbcNumber, organizationName } =
+    useFragment(
+      graphql`
+        fragment AnalystRow_application on Application {
+          rowId
+          status
+          projectName
+          ccbcNumber
+          organizationName
+        }
+      `,
+      application
+    );
+
+  const router = useRouter();
+
+  const handleOnClick = () => {
+    router.push(`/analyst/application/${rowId}`);
+  };
 
   return (
-    <StyledRow>
+    <StyledRow onClick={handleOnClick}>
       <StyledCcbdIdCell>{ccbcNumber}</StyledCcbdIdCell>
       <StyledStatusCell>
         <PillSpan>{status}</PillSpan>

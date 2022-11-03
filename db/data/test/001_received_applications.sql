@@ -11,6 +11,7 @@ select mocks.set_mocked_time_in_transaction((select open_timestamp + interval '1
 set role ccbc_auth_user;
 set jwt.claims.sub to 'mockUser@ccbc_auth_user';
 
+
 select application_id into received_application_status_id
 from ccbc_public.application_status where status = 'received';
 
