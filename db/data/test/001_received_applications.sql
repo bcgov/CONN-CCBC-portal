@@ -7,7 +7,10 @@ declare _form_data_id int;
 declare received_application_status_id int;
 begin
 
-set jwt.claims.sub to 'test-user';
+select mocks.set_mocked_time_in_transaction((select open_timestamp + interval '1 minute' from ccbc_public.intake where ccbc_intake_number = 1));
+set role ccbc_auth_user;
+set jwt.claims.sub to 'mockUser@ccbc_auth_user';
+
 
 select application_id into received_application_status_id
 from ccbc_public.application_status where status = 'received';
