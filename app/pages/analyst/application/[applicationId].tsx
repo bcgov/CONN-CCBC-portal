@@ -5,10 +5,10 @@ import { usePreloadedQuery } from 'react-relay/hooks';
 import FormBase from 'components/Form/FormBase';
 import { schema as fullSchema, analystUiSchema, validate } from 'formSchema';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
-import FormDiv from 'components/FormDiv';
 import Layout from 'components/Layout';
 import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
+import AnalystLayout from 'components/Analyst/AnalystLayout';
 
 const getApplicationQuery = graphql`
   query ApplicationIdQuery($rowId: Int!) {
@@ -36,9 +36,7 @@ const Application = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <FormDiv style={{ margin: 'auto' }}>
-        <h1>Application</h1>
-
+      <AnalystLayout>
         <FormBase
           theme={ReviewTheme}
           schema={fullSchema}
@@ -51,7 +49,7 @@ const Application = ({
           formData={jsonData}
           tagName="div"
         />
-      </FormDiv>
+      </AnalystLayout>
     </Layout>
   );
 };

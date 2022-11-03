@@ -13,6 +13,8 @@ export const theme = {
     // https://developer.gov.bc.ca/Design-System/Colour-Palette
     backgroundBlue: '#3F5986',
     backgroundGrey: '#F2F2F2',
+    navigationLightGrey: '#F8F8F8',
+    navigationBlue: '#38598A',
     components: '#606060',
     error: '#D8292F',
     errorBackground: 'rgba(248, 214, 203, 0.4)',
@@ -35,7 +37,7 @@ export const theme = {
   breakpoint: {
     smallUp: '@media (min-width: 600px)',
     mediumUp: '@media (min-width: 768px)',
-    largeUp: '@media (min-width: 1024px)',
+    largeUp: '@media (min-width: 1007px)',
   },
 };
 
