@@ -1,3 +1,34 @@
+# [1.13.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.12.0...v1.13.0) (2022-11-03)
+
+### Bug Fixes
+
+- deploy mocks schema before dev/test data ([2fec3ac](https://github.com/bcgov/CONN-CCBC-portal/commit/2fec3ac970f30f2f4a11606b9c3d872907b94eea))
+- remove /error-500 route from isRouteAuthorized ([a00f745](https://github.com/bcgov/CONN-CCBC-portal/commit/a00f745608bf1b6bb66c3c69540c8cfa9d4693af))
+- remove received_applications from dev data ([da040ed](https://github.com/bcgov/CONN-CCBC-portal/commit/da040ed66c4ee41db86e5e2700b8db961bf26cd9))
+- remove test received application ([efb386e](https://github.com/bcgov/CONN-CCBC-portal/commit/efb386ee63d65cd5f9734649ffd6f18511a9dbf2))
+- script sets role to ccbc_auth_user ([567179e](https://github.com/bcgov/CONN-CCBC-portal/commit/567179ed894564ba4e38bcdb40f50db8db12baac))
+- sentry config settings ([1cb26e1](https://github.com/bcgov/CONN-CCBC-portal/commit/1cb26e11e335f351363219423535db257c57e812))
+- use analyst role before to check if received application id exists ([12486a0](https://github.com/bcgov/CONN-CCBC-portal/commit/12486a06de3239709bb75c9d2fe5635860ba3dd7))
+- wrap NavItem component with link ([593c713](https://github.com/bcgov/CONN-CCBC-portal/commit/593c71373f86c184d4aec639d2d461ee3dccdfad))
+
+### Features
+
+- add /error-500 route to isRouteAuthorized ([6efe9be](https://github.com/bcgov/CONN-CCBC-portal/commit/6efe9be641500ccc299c782659d5a40d0145430d))
+- add AnalystLayout component ([04270b7](https://github.com/bcgov/CONN-CCBC-portal/commit/04270b7e75285cb9e9245ffa28b87798236f5fdc))
+- add config files to sonarcloud exclusions ([65f6ebd](https://github.com/bcgov/CONN-CCBC-portal/commit/65f6ebd0d061f3843b5b089959ec4da8a2c294ae))
+- add custom 500 error fallback ([97008f4](https://github.com/bcgov/CONN-CCBC-portal/commit/97008f4c20cb0567603de342b1576a8fd1fba53b))
+- add dashboard e2e test for clicking on the dashboard ([d804070](https://github.com/bcgov/CONN-CCBC-portal/commit/d8040703159481b169a973de6a282c7e7f5cd263))
+- add empty history and assessment pages ([5b6d22c](https://github.com/bcgov/CONN-CCBC-portal/commit/5b6d22ccd48fb2e1edf0bb836cd14dac9f453ffc))
+- add navigation sidebar for analyst application view ([ee71cba](https://github.com/bcgov/CONN-CCBC-portal/commit/ee71cbaca563f6f052c2dd9b19e0cdad5df3f6ae))
+- add sentry logging to useMutationWithErrorMessage ([0893e9a](https://github.com/bcgov/CONN-CCBC-portal/commit/0893e9a38236ce9ebdcc3313370938743aafdbd7))
+- click to application leads to review page ([99d865c](https://github.com/bcgov/CONN-CCBC-portal/commit/99d865c44cdb25a7db27388e2174fee79abae6cf))
+- dashboard table ([bca990d](https://github.com/bcgov/CONN-CCBC-portal/commit/bca990ddd263cd77c51fc0c766f60f00ad7a4dfd))
+- install font-awesome icons packages ([891e953](https://github.com/bcgov/CONN-CCBC-portal/commit/891e953aa731fba7738bf77b7de149c51bed6b3a))
+- make navigation sidebar sticky ([7f1f068](https://github.com/bcgov/CONN-CCBC-portal/commit/7f1f06840ecd6dd546e39cdd81ebab76e825b904))
+- preliminary sentry nextjs setup ([f8aff2a](https://github.com/bcgov/CONN-CCBC-portal/commit/f8aff2a9395dfeae4ff12bf9b1b8277c7bea6d81))
+- styles closer to design ([39bb147](https://github.com/bcgov/CONN-CCBC-portal/commit/39bb147e051e50b4b8ac29f7e082a76d03f2a721))
+- use sentry env vars in helm deployment and disable dev error logging ([775cf56](https://github.com/bcgov/CONN-CCBC-portal/commit/775cf5688b286b655e8e18a66ee96a202de205cc))
+
 # [1.12.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.11.0...v1.12.0) (2022-11-01)
 
 ### Bug Fixes
