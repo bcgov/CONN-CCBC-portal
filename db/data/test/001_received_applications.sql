@@ -7,7 +7,7 @@ declare _form_data_id int;
 declare received_application_status_id int;
 begin
 
-set jwt.claims.sub to 'dev-user';
+set jwt.claims.sub to 'test-user';
 
 select application_id into received_application_status_id
 from ccbc_public.application_status where status = 'received';
