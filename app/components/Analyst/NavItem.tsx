@@ -29,14 +29,14 @@ const StyledNavItem = styled.div<StyledProps>`
 const StyledLink = styled.a`
   color: inherit;
   text-decoration: none;
-  padding-left: 8px;
 `;
 
 const StyledIconContainer = styled.div`
   width: 12px;
 `;
 
-const StyledLinkContainer = styled.div`
+const StyledLabelContainer = styled.div`
+  padding-left: 8px;
   display: none;
 
   ${(props) => props.theme.breakpoint.largeUp} {
@@ -48,16 +48,16 @@ const NavItem: React.FC<Props> = ({ currentPath, href, icon, label }) => {
   const selectedColour = currentPath === href ? '#F1F2F3' : 'inherit';
 
   return (
-    <StyledNavItem selected={selectedColour}>
-      <StyledIconContainer>
-        <FontAwesomeIcon icon={icon} fixedWidth aria-hidden="true" />
-      </StyledIconContainer>
-      <StyledLinkContainer>
-        <Link href={href} passHref>
-          <StyledLink>{label}</StyledLink>
-        </Link>
-      </StyledLinkContainer>
-    </StyledNavItem>
+    <Link href={href} passHref>
+      <StyledLink>
+        <StyledNavItem selected={selectedColour}>
+          <StyledIconContainer>
+            <FontAwesomeIcon icon={icon} fixedWidth aria-hidden="true" />
+          </StyledIconContainer>
+          <StyledLabelContainer>{label}</StyledLabelContainer>
+        </StyledNavItem>
+      </StyledLink>
+    </Link>
   );
 };
 
