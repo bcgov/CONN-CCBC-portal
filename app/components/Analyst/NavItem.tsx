@@ -18,7 +18,8 @@ const StyledNavItem = styled.div<StyledProps>`
   padding: 8px;
   display: flex;
   border-radius: 4px;
-  background-color: ${(p) => p.selected};
+  background-color: ${(p) => (p.selected ? '#F1F2F3' : 'inherit')};
+  font-weight: ${(p) => (p.selected ? 700 : 400)};
   cursor: pointer;
 
   &:hover {
@@ -31,10 +32,6 @@ const StyledLink = styled.a`
   text-decoration: none;
 `;
 
-const StyledIconContainer = styled.div`
-  width: 12px;
-`;
-
 const StyledLabelContainer = styled.div`
   padding-left: 8px;
   display: none;
@@ -45,15 +42,11 @@ const StyledLabelContainer = styled.div`
 `;
 
 const NavItem: React.FC<Props> = ({ currentPath, href, icon, label }) => {
-  const selectedColour = currentPath === href ? '#F1F2F3' : 'inherit';
-
   return (
     <Link href={href} passHref>
       <StyledLink>
-        <StyledNavItem selected={selectedColour}>
-          <StyledIconContainer>
-            <FontAwesomeIcon icon={icon} fixedWidth aria-hidden="true" />
-          </StyledIconContainer>
+        <StyledNavItem selected={currentPath === href}>
+          <FontAwesomeIcon icon={icon} fixedWidth aria-hidden="true" />
           <StyledLabelContainer>{label}</StyledLabelContainer>
         </StyledNavItem>
       </StyledLink>
