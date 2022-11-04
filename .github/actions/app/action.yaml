@@ -53,6 +53,10 @@ inputs:
   environment:
     description: 'Environment to set specific helm values file'
     required: true
+  enable_load_test:
+    description: 'Deploy the application in load test mode'
+    required: false
+    default: false
 
 runs:
   using: composite
@@ -91,6 +95,7 @@ runs:
           --set objectStorage.awsRoleArn=${{ inputs.aws_role_arn }} \
           --set certbot.certbot.email=${{ inputs.certbot_email }} \
           --set certbot.certbot.server=${{ inputs.certbot_server }} \
+          --set loadTest.enable=${{ inputs.enable_load_test }} \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash

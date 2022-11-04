@@ -169,6 +169,12 @@ spec:
             - |
               set -euox pipefail;
 {{ .Values.db.postMigrationCommand | indent 14 }}
+
+                {{- if .Values.loadTest.enable }}
+                for file in data/perf/*.sql; do
+                  psql -v "ON_ERROR_STOP=1" -f "${file}";
+                done;
+                {{- end }}
 {{- end }}
 
       containers:
@@ -206,6 +212,8 @@ spec:
               value: {{ .Values.objectStorage.awsRoleArn }}
             - name: SENTRY_RELEASE
               value: {{ .Values.image.app.tag }}
+            - name: ENABLE_MOCK_AUTH
+              value: {{ .Values.loadTest.enable }}
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}
