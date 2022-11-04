@@ -132,28 +132,9 @@ spec:
               sqitch deploy;
 
 {{- if .Values.db.postMigrationCommand }}
-        - env:
+        - env: {{ include "ccbc.postgresPgEnv" . | nindent 8 }}
           - name: SQITCH_TARGET
             value: "db:pg:"
-          - name: PGUSER
-            value: postgres
-          - name: PGPASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: password
-                name: ccbc-pguser-postgres
-          - name: PGDATABASE
-            value: {{ template "ccbc.fullname" . }}
-          - name: PGPORT
-            valueFrom:
-              secretKeyRef:
-                key: port
-                name: ccbc-pguser-postgres
-          - name: PGHOST
-            valueFrom:
-              secretKeyRef:
-                key: host
-                name: ccbc-pguser-postgres
           - name: NAMESPACE
             valueFrom:
               fieldRef:
