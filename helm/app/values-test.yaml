@@ -1,3 +1,10 @@
 metabase:
   prodIngress:
     enable: true
+
+db:
+  postMigrationCommand: |
+    sqitch --chdir mocks_schema deploy;
+    for file in data/test/*.sql; do
+      psql -v "ON_ERROR_STOP=1" -f "${file}";
+    done;

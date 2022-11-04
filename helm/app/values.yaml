@@ -63,13 +63,13 @@ db:
   name: ccbc
   appUser: ccbc_app
   readonlyUser: ccbc_readonly
-  preInitCommand: ''
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+
+  # A bash script to run in a pre-upgrade hook, in a psql container
+  preUpgradeCommand: ~
+
+  # A bash script to run after the migrations are deployed, in a psql container
+  # The script will be run by the postgres user, allowing to deploy test data, bypassing RLS
+  postMigrationCommand: ~
 
 metabase:
   instanceName: ccbc-metabase

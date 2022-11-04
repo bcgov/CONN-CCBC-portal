@@ -124,24 +124,53 @@ spec:
               cpu: {{ .Values.resources.psql.requests.cpu }}
               memory: {{ .Values.resources.psql.requests.memory }}
           command:
+            - sqitch deploy;
+
+{{- if .Values.db.postMigrationCommand }}
+        - env:
+          - name: PGUSER
+            value: postgres
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: ccbc-pguser-postgres
+          - name: PGDATABASE
+            value: {{ template "ccbc.fullname" . }}
+          - name: PGPORT
+            valueFrom:
+              secretKeyRef:
+                key: port
+                name: ccbc-pguser-postgres
+          - name: PGHOST
+            valueFrom:
+              secretKeyRef:
+                key: host
+                name: ccbc-pguser-postgres
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          name: {{ template "ccbc.fullname" . }}-deploy-data
+          image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
+          imagePullPolicy: {{ .Values.image.db.pullPolicy }}
+          resources:
+            limits:
+              cpu: {{ .Values.resources.psql.limits.cpu }}
+              memory: {{ .Values.resources.psql.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.psql.requests.cpu }}
+              memory: {{ .Values.resources.psql.requests.memory }}
+          command:
             - /usr/bin/env
             - bash
             - -c
             - |
               set -euox pipefail;
-              sqitch deploy;
-              if [[ "$NAMESPACE" == *-dev ]]; then
-                sqitch --chdir mocks_schema deploy;
-                for file in data/dev/*.sql; do
-                  psql -v "ON_ERROR_STOP=1" -f "${file}";
-                done;
-              fi;
-              if [[ "$NAMESPACE" == *-test ]]; then
-                sqitch --chdir mocks_schema deploy;
-                for file in data/test/*.sql; do
-                  psql -v "ON_ERROR_STOP=1" -f "${file}";
-                done;
-              fi;
+{{ .Values.db.postMigrationCommand | indent 14 }}
+{{- end }}
+
       containers:
         - name: {{ template "ccbc.fullname" . }}
           image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}
