@@ -65,6 +65,8 @@ db:
   readonlyUser: ccbc_readonly
 
   # A bash script to run in a pre-upgrade hook, in a psql container
+  # The script will be run by the postgres user,
+  # allowing to clean up any objects created in a previous postMigrationCommand
   preUpgradeCommand: ~
 
   # A bash script to run after the migrations are deployed, in a psql container

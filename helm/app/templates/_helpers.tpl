@@ -24,6 +24,28 @@ app.kubernetes.io/name: {{ .Values.fullnameOverride }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
+{{- define "ccbc.postgresPgEnv" }}
+  - name: PGUSER
+    value: postgres
+  - name: PGPASSWORD
+    valueFrom:
+      secretKeyRef:
+        key: password
+        name: ccbc-pguser-postgres
+  - name: PGDATABASE
+    value: {{ template "ccbc.fullname" . }}
+  - name: PGPORT
+    valueFrom:
+      secretKeyRef:
+        key: port
+        name: ccbc-pguser-postgres
+  - name: PGHOST
+    valueFrom:
+      secretKeyRef:
+        key: host
+        name: ccbc-pguser-postgres
+{{- end }}
+
 {{- define "ccbc.ccbcUserPgEnv" }}
   - name: PGUSER
     value: {{ template "ccbc.fullname" . }}

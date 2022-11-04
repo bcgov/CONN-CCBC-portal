@@ -16,7 +16,7 @@ spec:
       activeDeadlineSeconds: 600
       restartPolicy: Never
       containers:
-        - env: {{ include "ccbc.ccbcUserPgEnv" . | nindent 16 }}
+        - env: {{ include "ccbc.postgresPgEnv" . | nindent 16 }}
           name: {{ template "ccbc.fullname" . }}-db-pre-upgrade
           image: {{ .Values.image.psql.repository }}:{{ default .Values.defaultImageTag .Values.image.psql.tag }}
           imagePullPolicy:  {{ .Values.image.db.pullPolicy }}
