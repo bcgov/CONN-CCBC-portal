@@ -124,7 +124,12 @@ spec:
               cpu: {{ .Values.resources.psql.requests.cpu }}
               memory: {{ .Values.resources.psql.requests.memory }}
           command:
-            - sqitch deploy;
+            - /usr/bin/env
+            - bash
+            - -c
+            - |
+              set -euox pipefail;
+              sqitch deploy;
 
 {{- if .Values.db.postMigrationCommand }}
         - env:
