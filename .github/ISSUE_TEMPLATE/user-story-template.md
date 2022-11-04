@@ -17,19 +17,20 @@ so that
     Given
     When
     Then
-
+#
 - [ ] Scenario: ...
     Given
     When
     Then
+#
 
 ## Not included:
 -
 -
 
 ## Technical Analysis
-- [ ]
-- [ ]
-- [ ]
+- [ ] .
+- [ ] . 
+- [ ] .
 
 ## Wireframes
