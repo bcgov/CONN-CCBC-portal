@@ -7,6 +7,12 @@ db:
       drop schema if exists ccbc_private cascade;
     EOF
 
+  postMigrationCommand: |
+    sqitch --chdir mocks_schema deploy;
+    for file in data/dev/*.sql; do
+      psql -v "ON_ERROR_STOP=1" -f "${file}";
+    done;
+
 metabase:
   prodIngress:
     enable: true
