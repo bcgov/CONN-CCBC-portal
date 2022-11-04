@@ -145,3 +145,8 @@ certbot:
     server: '' # The value must be passed in via the deploy script
   cron:
     suspend: false # The certs have been issued in all environments
+
+loadTest:
+  # if true, this will start the app with ENABLE_MOCK_AUTH=true, and deploy the data located in `db/data/perf`
+  # These settings enable load testing, which is triggered in a separate helm chart
+  enable: false

@@ -124,6 +124,13 @@ deploy_dev_data:
 		$(PSQL) -d $(DB_NAME) -f "$${file}"; \
 	done;
 
+.PHONY: deploy_perf_data
+deploy_perf_data: ## deploy the database migrations with sqitch and load the data for performance testing
+deploy_perf_data: deploy_dev_data deploy_db_migrations
+deploy_perf_data:
+	@for file in $(__DIRNAME)/db/data/perf/*; do \
+		$(PSQL) -d $(DB_NAME) -f "$${file}"; \
+	done;
 deploy_test_data: ## deploy the database migrations with sqitch and load the data for test namespace
 deploy_test_data: deploy_db_migrations
 deploy_test_data:

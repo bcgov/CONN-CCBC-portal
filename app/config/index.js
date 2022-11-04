@@ -197,4 +197,12 @@ if (
 ) {
   throw new Error('ENABLE_MOCK_TIME cannot be true with a -prod namespace.');
 }
+
+if (
+  config.get('OPENSHIFT_APP_NAMESPACE').endsWith('-prod') &&
+  config.get('ENABLE_MOCK_AUTH')
+) {
+  throw new Error('ENABLE_MOCK_AUTH cannot be true with a -prod namespace.');
+}
+
 module.exports = config;
