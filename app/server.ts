@@ -1,20 +1,22 @@
 import next from 'next';
+import express from 'express';
 import delay from 'delay';
 import http from 'http';
 import { createLightship } from 'lightship';
-import { pgPool } from './backend/lib/setup-pg';
-import express from 'express';
-import config from './config/index.js';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+// eslint-disable-next-line import/extensions
+import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
+import { pgPool } from './backend/lib/setup-pg';
+import config from './config';
 import session from './backend/lib/session';
 import ssoMiddleware from './backend/lib/sso-middleware';
-import headersMiddleware from "./backend/lib/headers";
+import headersMiddleware from './backend/lib/headers';
 import graphQlMiddleware from './backend/lib/graphql';
-import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
+import s3archive from './backend/lib/s3archive';
 
 const port = config.get('PORT');
-const dev = config.get('NODE_ENV') != 'production';
+const dev = config.get('NODE_ENV') !== 'production';
 
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -51,8 +53,10 @@ app.prepare().then(async () => {
   server.use(graphqlUploadExpress());
 
   server.use(graphQlMiddleware());
-  
+
   server.use(headersMiddleware());
+
+  server.use('/', s3archive);
 
   server.all('*', async (req, res) => handle(req, res));
 
