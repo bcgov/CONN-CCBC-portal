@@ -38,7 +38,7 @@ insert into ccbc_public.analyst (given_name, family_name) values
 ('Afshin', 'Shaabany'),
 ('Ali', 'Fathalian'),
 ('Maria', 'Fuccenecco'),
-('Helene', 'Payette'),
+('Hélène', 'Payette'),
 ('Karl', 'Lu'),
 ('Meherzad', 'Romer');
 

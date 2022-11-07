@@ -93,7 +93,7 @@ select results_eq(
       ('Afshin'::varchar, 'Shaabany'::varchar),
       ('Ali'::varchar, 'Fathalian'::varchar),
       ('Maria'::varchar, 'Fuccenecco'::varchar),
-      ('Helene'::varchar, 'Payette'::varchar),
+      ('Hélène'::varchar, 'Payette'::varchar),
       ('Karl'::varchar, 'Lu'::varchar),
       ('Meherzad'::varchar, 'Romer'::varchar);
   $$,
@@ -151,7 +151,7 @@ select results_eq(
       ('Afshin'::varchar, 'Shaabany'::varchar),
       ('Ali'::varchar, 'Fathalian'::varchar),
       ('Maria'::varchar, 'Fuccenecco'::varchar),
-      ('Helene'::varchar, 'Payette'::varchar),
+      ('Hélène'::varchar, 'Payette'::varchar),
       ('Karl'::varchar, 'Lu'::varchar),
       ('Meherzad'::varchar, 'Romer'::varchar);
   $$,
