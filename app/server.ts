@@ -14,6 +14,9 @@ import ssoMiddleware from './backend/lib/sso-middleware';
 import headersMiddleware from './backend/lib/headers';
 import graphQlMiddleware from './backend/lib/graphql';
 import s3archive from './backend/lib/s3archive';
+import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
+
+importJsonSchemasToDb();
 
 const port = config.get('PORT');
 const dev = config.get('NODE_ENV') !== 'production';
@@ -53,7 +56,6 @@ app.prepare().then(async () => {
   server.use(graphqlUploadExpress());
 
   server.use(graphQlMiddleware());
-
   server.use(headersMiddleware());
 
   server.use('/', s3archive);
