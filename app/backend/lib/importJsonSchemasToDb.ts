@@ -7,15 +7,16 @@ const importJsonSchemasToDb = async () => {
     await client.query('begin');
     await client.query('set local role ccbc_job_executor');
     // since the slugs are unique, if it already exists we update since we may the schema may have been updated
-    const insertQuery = `insert into ccbc_public.form (slug, json_schema, description)
-    values($1, $2, $3) on conflict (slug) do update set
-    json_schema=excluded.json_schema, description=excluded.description`;
+    const insertQuery = `insert into ccbc_public.form (slug, json_schema, description, form_type)
+    values($1, $2, $3, $4) on conflict (slug) do update set
+    json_schema=excluded.json_schema, description=excluded.description, form_type = excluded.form_type`;
     await client.query(insertQuery, [
       'intake1schema',
       schema,
       'Schema of the first batch of applications',
+      'intake',
     ]);
-    // to add new schemas, use the use await client.query(insertQuery, [<slug>, <schema>, <description>])
+    // to add new schemas, use the use await client.query(insertQuery, [<slug>, <schema>, <description>, <form_type: intake | rfi>])
     await client.query('commit');
   } catch (e) {
     await pgPool.query('rollback');
