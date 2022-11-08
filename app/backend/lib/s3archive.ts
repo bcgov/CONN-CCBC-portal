@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import archiver from 'archiver';
+import { DateTime } from 'luxon';
 import archivePaths from '../../data/archivePaths';
 import config from '../../config';
 import s3Client from './s3client';
@@ -27,6 +28,7 @@ const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const s3archive = Router();
 
 s3archive.get('/api/analyst/archive', async (req, res) => {
+  const currentDate = DateTime.now().toFormat('yyyyMMdd');
   const authRole = getAuthRole(req);
   const isRoleAuthorized =
     authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'ccbc_analyst';
@@ -34,7 +36,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
 
   res.writeHead(200, {
     'Content-Type': 'application/zip',
-    'Content-disposition': 'attachment; filename=ccbc_archive.zip',
+    'Content-disposition': `attachment; filename=CCBC applications ${currentDate}.zip`,
   });
 
   const allApplications = await performQuery(getApplicationsQuery, {}, req);
@@ -70,7 +72,6 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
         const { name, uuid } = attachment;
         const path = archivePaths[field].path(ccbcNumber, name);
 
-        console.log(uuid);
         // Get object from s3
         const objectSrc = s3Client
           .getObject({
