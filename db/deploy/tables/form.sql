@@ -5,8 +5,9 @@ begin;
 create table ccbc_public.form(
   id integer primary key generated always as identity,
   slug varchar(1000) unique,
-  json_schema jsonb not null,
-  description varchar(1000)
+  json_schema jsonb not null default '{}'::jsonb,
+  description varchar(1000),
+  form_type varchar(1000) references ccbc_public.form_type(name)
 );
 
 do
@@ -22,6 +23,8 @@ perform ccbc_private.grant_permissions('update', 'form', 'ccbc_job_executor');
 
 end
 $grant$;
+
+insert into ccbc_public.form (slug, description, form_type) values ('intake1schema', 'Temporary record to be replaced by the app on startup', 'intake');
 
 commit;
 
