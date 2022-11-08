@@ -31,7 +31,7 @@ begin;
     end;
   $function$ language plpgsql volatile;
 
-  grant execute on function mocks.now to ccbc_auth_user, ccbc_guest;
+  grant execute on function mocks.now to ccbc_auth_user, ccbc_guest, ccbc_admin, ccbc_analyst, ccbc_job_executor;
 
 
 commit;

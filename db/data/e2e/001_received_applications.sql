@@ -16,6 +16,7 @@ if received_application_status_id is not null then
  return;
 end if;
 
+perform mocks.set_mocked_time_in_transaction((select open_timestamp + interval '1 minute' from ccbc_public.intake where ccbc_intake_number = 1));
 select id from ccbc_public.create_application() into _application_id;
 
 select form_data_id into _form_data_id from ccbc_public.application_form_data
