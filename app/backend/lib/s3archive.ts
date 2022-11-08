@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import archiver from 'archiver';
 import { DateTime } from 'luxon';
-import archivePaths from '../../data/archivePaths';
 import config from '../../config';
-import s3Client from './s3client';
+import getArchivePath from '../../utils/getArchivePath';
 import getAuthRole from '../../utils/getAuthRole';
+import s3Client from './s3client';
 import { performQuery } from './graphql';
 
 const getApplicationsQuery = `
@@ -15,9 +15,6 @@ query getApplications {
         jsonData
       }
       ccbcNumber
-      projectName
-      organizationName
-      status
     }
   }
 }
@@ -70,7 +67,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
       // Even fields single file uploads are stored in an array so we will iterate them
       attachmentFields[field].forEach((attachment) => {
         const { name, uuid } = attachment;
-        const path = archivePaths[field].path(ccbcNumber, name);
+        const path = getArchivePath(field, ccbcNumber, name);
 
         // Get object from s3
         const objectSrc = s3Client
