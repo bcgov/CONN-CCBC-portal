@@ -81,3 +81,4 @@ computed_columns/application_form_data [computed_columns/application_form_data@1
 views/summary_view [views/summary_view@1.11.0] 2022-10-28T18:38:28Z ,,, Vladimir <vladimir@button.is> # drop summary_view
 @1.12.0 2022-11-01T16:10:04Z Marcel Mueller <marcel@button.is> # release v1.12.0
 @1.13.0 2022-11-03T19:19:43Z Marcel Mueller <marcel@button.is> # release v1.13.0
+tables/analyst 2022-11-04T16:51:27Z Marcel Mueller <marcel@button.is> # add analyst table
