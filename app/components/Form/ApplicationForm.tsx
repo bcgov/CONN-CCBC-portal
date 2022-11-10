@@ -24,7 +24,10 @@ import {
   calculateProjectEmployment,
 } from '../../lib/theme/customFieldCalculations';
 import ApplicationFormStatus from './ApplicationFormStatus';
-import { schemaToSubschemasArray } from '../../utils/schemaUtils';
+import {
+  getSectionNameFromPageNumber,
+  schemaToSubschemasArray,
+} from '../../utils/schemaUtils';
 
 const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
   const isSubmissionCompletedByFilled =
@@ -99,6 +102,9 @@ const ApplicationForm: React.FC<Props> = ({
           rowId
           jsonData
           isEditable
+          formByFormSchemaId {
+            jsonSchema
+          }
         }
         status
         intakeByIntakeId {
@@ -122,11 +128,18 @@ const ApplicationForm: React.FC<Props> = ({
   );
   const {
     rowId,
-    formData: { jsonData, rowId: formDataRowId, id: formDataId, isEditable },
+    formData: {
+      jsonData,
+      rowId: formDataRowId,
+      id: formDataId,
+      isEditable,
+      formByFormSchemaId: { jsonSchema },
+    },
     status,
   } = application;
 
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
+  const sectionName = getSectionNameFromPageNumber(pageNumber);
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
       application.status === 'submitted'
@@ -181,10 +194,10 @@ const ApplicationForm: React.FC<Props> = ({
   const [updateApplicationForm, isUpdating] = useUpdateApplicationForm();
 
   const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
-    schema as object
+    jsonSchema as object
   );
 
-  const [sectionName, sectionSchema] = subschemaArray[pageNumber - 1];
+  const sectionSchema = schema.properties[sectionName] as JSONSchema7;
   const isWithdrawn = status === 'withdrawn';
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';

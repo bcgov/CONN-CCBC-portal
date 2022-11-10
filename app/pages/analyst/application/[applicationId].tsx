@@ -3,7 +3,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import FormBase from 'components/Form/FormBase';
-import { schema as fullSchema, analystUiSchema, validate } from 'formSchema';
+import { analystUiSchema, validate } from 'formSchema';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
@@ -16,6 +16,9 @@ const getApplicationQuery = graphql`
       ...AnalystLayout_application
       formData {
         jsonData
+        formByFormSchemaId {
+          jsonSchema
+        }
       }
     }
     session {
@@ -30,7 +33,10 @@ const Application = ({
   const query = usePreloadedQuery(getApplicationQuery, preloadedQuery);
   const { applicationByRowId, session } = query;
   const {
-    formData: { jsonData },
+    formData: {
+      jsonData,
+      formByFormSchemaId: { jsonSchema },
+    },
   } = applicationByRowId;
 
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
@@ -40,7 +46,7 @@ const Application = ({
       <AnalystLayout application={applicationByRowId}>
         <FormBase
           theme={ReviewTheme}
-          schema={fullSchema}
+          schema={jsonSchema}
           uiSchema={analystUiSchema as any}
           liveValidate
           formContext={{
