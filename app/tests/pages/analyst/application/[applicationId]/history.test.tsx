@@ -27,6 +27,9 @@ const pageTestingHelper = new PageTestingHelper<historyQuery>({
 describe('The index page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
+    pageTestingHelper.setMockRouterValues({
+      query: { applicationId: '1' },
+    });
   });
 
   it('displays the title', async () => {
