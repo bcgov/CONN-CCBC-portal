@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import archiver from 'archiver';
+import * as Sentry from '@sentry/nextjs';
 import { DateTime } from 'luxon';
 import config from '../../config';
 import getArchivePath from '../../utils/getArchivePath';
@@ -21,6 +22,7 @@ query getApplications {
 `;
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
+const SENTRY_ENVIRONMENT = config.get('SENTRY_ENVIRONMENT');
 
 const s3archive = Router();
 
@@ -29,7 +31,9 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
   const authRole = getAuthRole(req);
   const isRoleAuthorized =
     authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'ccbc_analyst';
-  if (!isRoleAuthorized) return;
+  if (!isRoleAuthorized) {
+    return res.status(404).end();
+  }
 
   res.writeHead(200, {
     'Content-Type': 'application/zip',
@@ -47,10 +51,11 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
 
   const archive = archiver('zip');
 
-  // Handle various events
-  archive.on('end', () => {});
-  archive.on('warning', () => {});
-  archive.on('error', () => {});
+  if (SENTRY_ENVIRONMENT) {
+    archive.on('error', (err) => {
+      Sentry.captureException(err);
+    });
+  }
 
   // Send the archive to the route
   archive.pipe(res);
@@ -91,6 +96,8 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
   });
 
   archive.finalize();
+
+  return res.end();
 });
 
 export default s3archive;
