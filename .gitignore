@@ -7,3 +7,4 @@ app/__generated__/
 helm/**/charts
 .bin/gitleaks
 gitleaks
+k6Results/
