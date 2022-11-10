@@ -90,3 +90,4 @@ tables/form 2022-11-03T20:31:46Z Anthony Bushara <anthony@button.is> # Table hol
 tables/form_data_003_add_schema_reference 2022-11-08T16:05:05Z Anthony Bushara <anthony@button.is> # Adds the reference to the schema to the table
 computed_columns/application_form_data [computed_columns/application_form_data@1.12.0] 2022-11-08T19:06:31Z Anthony Bushara <anthony@button.is> # Rework to ensure that form data is returning intake data
 mutations/create_application [mutations/create_application@1.12.0] 2022-11-08T19:27:16Z Anthony Bushara <anthony@button.is> # Add form_schema to insert for form_data
+mutations/submit_application [mutations/submit_application@1.12.0] 2022-11-10T16:09:19Z Anthony Bushara <anthony@button.is> # Use the schema to get the number of acknowledgements

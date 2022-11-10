@@ -10,7 +10,8 @@ declare
   reference_number bigint;
   seq_name varchar;
   application_status varchar;
-  num_acknowledgements constant integer := 17;
+  num_acknowledgements integer;
+  _form_data_schema_id integer;
   _form_data jsonb;
   form_data_id int;
 begin
@@ -27,9 +28,12 @@ begin
     raise 'The application cannot be submitted as it has the following status: %', application_status;
   end if;
 
-  select json_data, id from
+  select json_data, id, form_schema_id from
    ccbc_public.application_form_data((select row(ccbc_public.application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id))
-    into _form_data, form_data_id;
+    into _form_data, form_data_id, _form_data_schema_id;
+
+  select jsonb_array_length(json_schema -> 'properties' -> 'acknowledgements' -> 'properties' -> 'acknowledgementsList' -> 'items' -> 'enum')
+    from ccbc_public.form where id = _form_data_schema_id into num_acknowledgements;
 
   if coalesce(_form_data -> 'submission' ->> 'submissionCompletedFor', '') = '' then
     raise 'The application cannot be submitted as the submission field submission_completed_for is null or empty';
