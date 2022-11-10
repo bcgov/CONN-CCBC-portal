@@ -7,7 +7,10 @@ import AnalystLayout from 'components/Analyst/AnalystLayout';
 import { assessmentsQuery } from '__generated__/assessmentsQuery.graphql';
 
 const getAssessmentsQuery = graphql`
-  query assessmentsQuery {
+  query assessmentsQuery($rowId: Int!) {
+    applicationByRowId(rowId: $rowId) {
+      ...AnalystLayout_application
+    }
     session {
       sub
     }
@@ -17,15 +20,28 @@ const getAssessmentsQuery = graphql`
 const Assessments = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, assessmentsQuery>) => {
-  const { session } = usePreloadedQuery(getAssessmentsQuery, preloadedQuery);
+  const { applicationByRowId, session } = usePreloadedQuery(
+    getAssessmentsQuery,
+    preloadedQuery
+  );
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout>
+      <AnalystLayout application={applicationByRowId}>
         <h2>Assessments placeholder</h2>
       </AnalystLayout>
     </Layout>
   );
 };
 
-export default withRelay(Assessments, getAssessmentsQuery, defaultRelayOptions);
+export const withRelayOptions = {
+  ...defaultRelayOptions,
+
+  variablesFromContext: (ctx) => {
+    return {
+      rowId: parseInt(ctx.query.applicationId.toString(), 10),
+    };
+  },
+};
+
+export default withRelay(Assessments, getAssessmentsQuery, withRelayOptions);

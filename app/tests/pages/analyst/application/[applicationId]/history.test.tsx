@@ -19,7 +19,9 @@ const pageTestingHelper = new PageTestingHelper<historyQuery>({
   pageComponent: History,
   compiledQuery: compiledhistoryQuery,
   defaultQueryResolver: mockQueryPayload,
-  defaultQueryVariables: {},
+  defaultQueryVariables: {
+    rowId: 1,
+  },
 });
 
 describe('The index page', () => {
