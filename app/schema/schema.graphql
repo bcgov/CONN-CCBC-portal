@@ -3804,7 +3804,7 @@ type Application implements Node {
     condition: ApplicationAnalystLeadCondition
   ): ApplicationAnalystLeadsConnection!
 
-  """Computed column to return status of an application"""
+  """Computed column to return analyst lead of an application"""
   analystLead: String
 
   """Computed column to display form_data"""

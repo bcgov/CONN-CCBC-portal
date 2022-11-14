@@ -103,8 +103,9 @@ const AnalystRow: React.FC<Props> = ({ analysts, application }) => {
         }}
       >
         <AssignLead
-          lead={analystLead}
           analysts={analysts?.allAnalysts?.nodes}
+          applicationId={rowId}
+          lead={analystLead}
         />
       </StyledLeadCell>
       <StyledPackageCell />

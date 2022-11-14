@@ -7,7 +7,7 @@ $$
 select concat_ws(' ', given_name, family_name) AS name from ccbc_public.application_analyst_lead as al
     inner join ccbc_public.analyst a on a.id = al.analyst_id
     where al.application_id = application.id
-    order by al.application_id desc limit 1;
+    order by al.id desc limit 1;
 $$ language sql stable;
 
 grant execute on function ccbc_public.application_analyst_lead to ccbc_analyst;
