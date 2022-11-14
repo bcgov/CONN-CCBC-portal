@@ -16,6 +16,20 @@ select has_function(
   'Function submit_application should exist'
 );
 
+-- must initially hydrate the test data here, as it's used when submitting
+insert into ccbc_public.form (slug, json_schema) values ('intake1schema',
+'{ "properties": {
+  "acknowledgements": {
+    "properties": {
+      "acknowledgementsList": {
+        "items": {
+           "enum": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
+          }
+        }
+      }
+    }
+  }
+}'::jsonb) on conflict (slug) do update set json_schema=excluded.json_schema, slug=excluded.slug;
 
 set jwt.claims.sub to '00000000-0000-0000-0000-000000000000';
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
