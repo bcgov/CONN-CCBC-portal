@@ -20,8 +20,6 @@ interface Props {
   label?: string;
 }
 
-// input: { applicationAnalystLead: { analystId: 10, applicationId: 10 } }
-
 const AssignLead: React.FC<Props> = ({
   analysts,
   applicationId,

@@ -24,6 +24,13 @@ const getApplicationQuery = graphql`
     session {
       sub
     }
+    allAnalysts(orderBy: NATURAL) {
+      nodes {
+        rowId
+        givenName
+        familyName
+      }
+    }
   }
 `;
 
@@ -31,7 +38,7 @@ const Application = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, ApplicationIdQuery>) => {
   const query = usePreloadedQuery(getApplicationQuery, preloadedQuery);
-  const { applicationByRowId, session } = query;
+  const { allAnalysts, applicationByRowId, session } = query;
   const {
     formData: {
       jsonData,
@@ -43,7 +50,10 @@ const Application = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout application={applicationByRowId}>
+      <AnalystLayout
+        application={applicationByRowId}
+        analysts={{ allAnalysts }}
+      >
         <FormBase
           theme={ReviewTheme}
           schema={jsonSchema}
