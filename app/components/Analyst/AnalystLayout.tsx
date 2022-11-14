@@ -1,6 +1,9 @@
 import styled from 'styled-components';
+import { graphql, useFragment } from 'react-relay';
 import NavigationSidebar from 'components/Analyst/NavigationSidebar';
 import FormDiv from 'components/FormDiv';
+import { AnalystLayout_application$key } from '__generated__/AnalystLayout_application.graphql';
+import ApplicationHeader from './ApplicationHeader';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -15,14 +18,25 @@ const StyledFlex = styled.div`
 
 interface Props {
   children: JSX.Element[] | JSX.Element;
+  application: AnalystLayout_application$key;
 }
 
-const AnalystLayout: React.FC<Props> = ({ children }) => {
+const AnalystLayout: React.FC<Props> = ({
+  application: applicationKey,
+  children,
+}) => {
+  const application = useFragment(
+    graphql`
+      fragment AnalystLayout_application on Application {
+        ...ApplicationHeader_application
+      }
+    `,
+    applicationKey
+  );
+
   return (
     <StyledContainer>
-      {/* This header is a placeholder for the Application Header component */}
-      <h1>Application</h1>
-
+      <ApplicationHeader application={application} />
       <StyledFlex>
         <NavigationSidebar />
         <FormDiv>{children}</FormDiv>

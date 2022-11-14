@@ -12,7 +12,7 @@ describe('The analyst application view', () => {
 
   it('loads', () => {
     cy.visit('/analyst/application/1');
-    cy.contains('h1', 'Application');
+    cy.contains('h1', 'Test application');
     cy.get('body').happoScreenshot({ component: 'Analyst application view' });
   });
 });

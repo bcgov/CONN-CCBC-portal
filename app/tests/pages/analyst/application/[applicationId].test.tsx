@@ -12,6 +12,9 @@ const mockQueryPayload = {
   Query() {
     return {
       applicationByRowId: {
+        ccbcNumber: 'CCBC-10001',
+        organizationName: 'test org',
+        projectName: 'test project',
         formData: {
           jsonData: mockFormData,
         },
@@ -27,6 +30,11 @@ const mockEmptyFormDataPayload = {
   Query() {
     return {
       applicationByRowId: {
+        applicationByRowId: {
+          ccbcNumber: 'CCBC-10001',
+          organizationName: 'test org',
+          projectName: 'test project',
+        },
         formData: {
           jsonData: {},
         },
@@ -73,7 +81,7 @@ describe('The analyst view application page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getByRole('heading', { name: 'Application' })
+      screen.getByRole('heading', { name: 'test project' })
     ).toBeInTheDocument();
   });
 

@@ -19,12 +19,17 @@ const pageTestingHelper = new PageTestingHelper<assessmentsQuery>({
   pageComponent: Assessments,
   compiledQuery: compiledassessmentsQuery,
   defaultQueryResolver: mockQueryPayload,
-  defaultQueryVariables: {},
+  defaultQueryVariables: {
+    rowId: 1,
+  },
 });
 
 describe('The index page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
+    pageTestingHelper.setMockRouterValues({
+      query: { applicationId: '1' },
+    });
   });
 
   it('displays the title', async () => {

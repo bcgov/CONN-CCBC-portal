@@ -13,6 +13,7 @@ import AnalystLayout from 'components/Analyst/AnalystLayout';
 const getApplicationQuery = graphql`
   query ApplicationIdQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
+      ...AnalystLayout_application
       formData {
         jsonData
       }
@@ -36,7 +37,7 @@ const Application = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout>
+      <AnalystLayout application={applicationByRowId}>
         <FormBase
           theme={ReviewTheme}
           schema={fullSchema}
