@@ -95,3 +95,5 @@ mutations/submit_application [mutations/submit_application@1.12.0] 2022-11-10T16
 @1.16.1 2022-11-17T21:45:55Z Marcel Mueller <marcel@button.is> # release v1.16.1
 tables/analyst_001_update_names 2022-11-18T17:58:18Z Anthony Bushara <anthony@button.is> # Fix Carreen's name and remove Meherzad from the list
 @1.16.2 2022-11-22T20:15:51Z Marcel Mueller <marcel@button.is> # release v1.16.2
+tables/application_analyst_lead 2022-11-14T15:36:21Z Marcel Mueller <marcel@button.is> # add application_analyst_lead table
+computed_columns/application_analyst_lead 2022-11-14T16:01:37Z Marcel Mueller <marcel@button.is> # add computed column application_analyst_lead
