@@ -11,6 +11,7 @@ export const theme = {
   },
   color: {
     // https://developer.gov.bc.ca/Design-System/Colour-Palette
+    white: '#ffffff',
     backgroundBlue: '#3F5986',
     backgroundGrey: '#F2F2F2',
     navigationLightGrey: '#F8F8F8',
@@ -24,6 +25,7 @@ export const theme = {
     success: '#2E8540',
     text: '#313132',
     descriptionGrey: 'rgba(49, 49, 50, 0.7)',
+    borderGrey: '#c4c4c4',
     stepperGrey: 'rgba(196, 196, 196, 0.16)',
     stepperHover: 'rgba(196, 196, 196, 0.06)',
     stepperBlue: 'rgb(229, 239, 249)',

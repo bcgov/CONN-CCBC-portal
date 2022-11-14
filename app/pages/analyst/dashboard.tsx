@@ -19,6 +19,13 @@ const getDashboardAnalystQuery = graphql`
         ...AnalystRow_application
       }
     }
+    allAnalysts(orderBy: NATURAL) {
+      nodes {
+        rowId
+        givenName
+        familyName
+      }
+    }
   }
 `;
 
@@ -36,7 +43,7 @@ const StyledBtnContainer = styled.div`
 const AnalystDashboard = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, dashboardAnalystQuery>) => {
-  const { session, allApplications } = usePreloadedQuery(
+  const { session, allAnalysts, allApplications } = usePreloadedQuery(
     getDashboardAnalystQuery,
     preloadedQuery
   );
@@ -54,7 +61,10 @@ const AnalystDashboard = ({
             </ButtonLink>
           </StyledBtnContainer>
         )}
-        <AnalystTable applications={{ allApplications }} />
+        <AnalystTable
+          applications={{ allApplications }}
+          analysts={{ allAnalysts }}
+        />
       </StyledDashboardContainer>
     </Layout>
   );

@@ -32,9 +32,10 @@ const StyledTableHeadCell = styled('th')`
 
 interface Props {
   applications: Pick<dashboardAnalystQuery$data, 'allApplications'>;
+  analysts: Pick<dashboardAnalystQuery$data, 'allAnalysts'>;
 }
 
-const AnalystTable: React.FC<Props> = ({ applications }) => {
+const AnalystTable: React.FC<Props> = ({ analysts, applications }) => {
   return (
     <StyledTable>
       <StyledTableHead>
@@ -49,7 +50,13 @@ const AnalystTable: React.FC<Props> = ({ applications }) => {
       </StyledTableHead>
       <tbody>
         {applications.allApplications?.nodes.map((application) => {
-          return <AnalystRow application={application} key={application.id} />;
+          return (
+            <AnalystRow
+              application={application}
+              analysts={analysts}
+              key={application.id}
+            />
+          );
         })}
       </tbody>
     </StyledTable>
