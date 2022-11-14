@@ -5,7 +5,8 @@ truncate table
   ccbc_public.application_status,
   ccbc_public.attachment,
   ccbc_public.form_data,
-  ccbc_public.application_form_data
+  ccbc_public.application_form_data,
+  ccbc_public.application_analyst_lead
 restart identity;
 
 select mocks.set_mocked_time_in_transaction((select open_timestamp + interval '1 minute' from ccbc_public.intake where ccbc_intake_number = 1));

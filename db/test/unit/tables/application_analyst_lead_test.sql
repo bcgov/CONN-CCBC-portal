@@ -1,11 +1,15 @@
 begin;
-select plan(12);
+select plan(16);
 
 select has_table('ccbc_public', 'application_analyst_lead', 'table ccbc_public.application_analyst_lead exists');
 select has_column('ccbc_public', 'application_analyst_lead', 'id', 'table ccbc_public.application_analyst_lead has id column');
 select has_column('ccbc_public', 'application_analyst_lead', 'application_id', 'table ccbc_public.application_analyst_lead has application_id column');
 select has_column('ccbc_public', 'application_analyst_lead', 'analyst_id', 'table ccbc_public.application_analyst_lead has analyst_id column');
 
+select mocks.set_mocked_time_in_transaction('2022-04-01 09:00:00-07'::timestamptz);
+
+insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
+values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1);
 
 -- ccbc_guest
 set role ccbc_guest;
@@ -38,6 +42,8 @@ select throws_like(
 set role ccbc_auth_user;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
 
+select ccbc_public.create_application();
+
 select throws_like(
   $$
     select * from ccbc_public.application_analyst_lead
@@ -68,11 +74,11 @@ reset role;
 set role ccbc_admin;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
 
-insert into ccbc_public.application
-  (id, application_id, analyst_id) overriding system value
+insert into ccbc_public.application_analyst_lead
+  (application_id, analyst_id) overriding system value
   values
-  (1, 1, 1),
-  (2, 2, 2);
+  (1, 1),
+  (1, 2);
 
 
 select results_eq(
