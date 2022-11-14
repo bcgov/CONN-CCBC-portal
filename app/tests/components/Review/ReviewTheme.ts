@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { screen, within } from '@testing-library/react';
+import { schema } from 'formSchema';
 import mockFormData from 'tests/utils/mockFormData';
 
 const mockQueryPayload = {
@@ -11,6 +12,9 @@ const mockQueryPayload = {
         jsonData: {},
         isEditable: true,
         updatedAt: '2022-09-12T14:04:10.790848-07:00',
+        formByFormSchemaId: {
+          jsonSchema: schema,
+        },
       },
       status: 'draft',
     };
@@ -32,6 +36,9 @@ const mockQueryPayloadWithFormData = {
         id: 'TestFormId',
         jsonData: mockFormData,
         isEditable: true,
+        formByFormSchemaId: {
+          jsonSchema: schema,
+        },
       },
       status: 'draft',
     };

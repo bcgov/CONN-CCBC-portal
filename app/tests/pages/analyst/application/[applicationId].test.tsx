@@ -2,6 +2,7 @@ import { screen, within } from '@testing-library/react';
 import mockFormData from 'tests/utils/mockFormData';
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 import sharedReviewThemeTests from 'tests/components/Review/ReviewTheme';
+import { schema } from 'formSchema';
 import PageTestingHelper from '../../../utils/pageTestingHelper';
 import Application from '../../../../pages/analyst/application/[applicationId]';
 import compiledApplicationIdQuery, {
@@ -17,6 +18,9 @@ const mockQueryPayload = {
         projectName: 'test project',
         formData: {
           jsonData: mockFormData,
+          formByFormSchemaId: {
+            jsonSchema: schema,
+          },
         },
       },
       session: {
@@ -37,6 +41,9 @@ const mockEmptyFormDataPayload = {
         },
         formData: {
           jsonData: {},
+          formByFormSchemaId: {
+            jsonSchema: schema,
+          },
         },
       },
       session: {
@@ -122,6 +129,9 @@ describe('The analyst view application page', () => {
         return {
           applicationByRowId: {
             formData: {
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
               jsonData: {
                 review: {
                   acknowledgeIncomplete: true,
