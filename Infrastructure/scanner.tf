@@ -56,12 +56,15 @@ resource "aws_iam_role_policy_attachment" "attach-scan-role-policy" {
 
 // Add the lambda function
 resource "aws_lambda_function" "scan-file" {
-    filename         = "clamav_lambda_layer.zip"
+    filename         = "clamav_lambda.zip"
     function_name    = "scan-bucket-file"
+    layers = [
+      module.lambda_layer_s3.lambda_layer_arn,
+    ]
     role             = "${aws_iam_role.bucket-antivirus-scan.arn}"
-    handler          = "scan.lambda_handler"
-    source_code_hash = "${filebase64sha256("clamav_lambda_layer.zip")}"
-    runtime          = "python2.7"
+    handler          = "index.handler"
+    source_code_hash = "${filebase64sha256("clamav_lambda.zip")}"
+    runtime          = "nodejs16.x"
     timeout          = 300
     memory_size      = 1024
 

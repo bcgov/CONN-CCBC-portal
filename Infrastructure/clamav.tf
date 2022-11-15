@@ -61,12 +61,12 @@ resource "aws_iam_role_policy_attachment" "clamav" {
 }
 
 resource "aws_lambda_function" "update-clamav-definitions" {
-    filename         = "clamav_lambda_layer.zip"
+    filename         = "clamav_lambda.zip"
     function_name    = "update-clamav-definitions"
     role             = "${aws_iam_role.clamav.arn}"
-    handler          = "update.lambda_handler"
-    source_code_hash = "${filebase64sha256("clamav_lambda_layer.zip")}"
-    runtime          = "python2.7"
+    handler          = "index.updateDb"
+    source_code_hash = "${filebase64sha256("clamav_lambda.zip")}"
+    runtime          = "nodejs16.x"
     timeout          = 300
     memory_size      = 512
 
