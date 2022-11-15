@@ -1,6 +1,6 @@
 import { mocked } from 'jest-mock';
 import userEvent from '@testing-library/user-event';
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import Dashboard from '../../../pages/analyst/dashboard';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
@@ -32,6 +32,20 @@ const mockQueryPayload = {
             projectName: 'Test Proj Name 2',
             ccbcNumber: 'CCBC-010002',
             organizationName: 'Test Org Name 2',
+          },
+        ],
+      },
+      allAnalysts: {
+        nodes: [
+          {
+            rowId: 1,
+            givenName: 'Test',
+            familyName: '1',
+          },
+          {
+            rowId: 2,
+            givenName: 'Test',
+            familyName: '2',
           },
         ],
       },
@@ -148,6 +162,46 @@ describe('The index page', () => {
     await userEvent.click(row);
 
     expect(pageTestingHelper.router.push).toHaveBeenCalled();
+  });
+
+  it('shows the assign lead dropdown', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByRole('option', { name: 'Unassigned' })[0]
+    ).toBeInTheDocument();
+  });
+
+  it('shows the correct options in the assign lead dropdown', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByRole('option', { name: 'Test 1' })[0]
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole('option', { name: 'Test 2' })[0]
+    ).toBeInTheDocument();
+  });
+
+  it('calls the mutation when a lead has been selected', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const assignLead = screen.getAllByRole('option', { name: 'Test 2' })[0]
+      .parentElement;
+
+    fireEvent.change(assignLead, { target: { value: 2 } });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'createApplicationAnalystLeadMutation',
+      {
+        input: {
+          applicationAnalystLead: { analystId: 2, applicationId: 1 },
+        },
+      }
+    );
   });
 
   afterEach(() => {
