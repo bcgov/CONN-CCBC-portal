@@ -1,3 +1,34 @@
+# [1.15.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.13.0...v1.15.0) (2022-11-15)
+
+### Bug Fixes
+
+- add accents ([0986ee3](https://github.com/bcgov/CONN-CCBC-portal/commit/0986ee3523ef7523e13b60db657dd6ce0da1bda3))
+- add analyst layout fragment to history and assessment pages ([33d6692](https://github.com/bcgov/CONN-CCBC-portal/commit/33d669288ed1710584db90e5a750d5256817dfc7))
+- add SQITCH_TARGET env var to deploy-data init container ([ae1bc33](https://github.com/bcgov/CONN-CCBC-portal/commit/ae1bc3345dbf603b22d2d2bf1fc1d9aa709b8597))
+- boolean env vars should be quoted ([7dbd6d8](https://github.com/bcgov/CONN-CCBC-portal/commit/7dbd6d84c610e6187078389aeb600fc551cf7d39))
+- fontawesome css loading bug ([b78af12](https://github.com/bcgov/CONN-CCBC-portal/commit/b78af122f7c29843850d99d3e5038a0f726325bf))
+- pre-upgrade command should use postgres user ([19a6070](https://github.com/bcgov/CONN-CCBC-portal/commit/19a6070365027e80b06d12a904e34d9f679193d3))
+- sqitch deploy should be run in bash ([51dbb77](https://github.com/bcgov/CONN-CCBC-portal/commit/51dbb771dcc9f0445b557eeea7535ba59c88afb0))
+- use the correct role before inserting in intake table ([acff47f](https://github.com/bcgov/CONN-CCBC-portal/commit/acff47f18900b73735024fa04d8ee4bc39e33a80))
+
+### Features
+
+- add analyst table ([79be540](https://github.com/bcgov/CONN-CCBC-portal/commit/79be54072607743c3fa07e4a724e4df3c5cc4a0e))
+- add application header component ([3fd696d](https://github.com/bcgov/CONN-CCBC-portal/commit/3fd696d9569f79c48636597a555cd6883ffc2b77))
+- add archivePaths file for mapping s3 zip structure ([d73525d](https://github.com/bcgov/CONN-CCBC-portal/commit/d73525d395d427abd0a02e9eac19cfdbd3cdc0c1))
+- add current date to archive name ([aa8fda4](https://github.com/bcgov/CONN-CCBC-portal/commit/aa8fda4e6f3850aab92ead4876f945720be50321))
+- add export attachments button ([bfda65d](https://github.com/bcgov/CONN-CCBC-portal/commit/bfda65db3ca83f8e75c0ab26502324f1de99ef58))
+- add s3archive route to server and test archiver streaming ([bf4cdf6](https://github.com/bcgov/CONN-CCBC-portal/commit/bf4cdf6eb0cae0666b739428173f26482a8dc5da))
+- add sentry logging to s3archive ([2b0af27](https://github.com/bcgov/CONN-CCBC-portal/commit/2b0af27c3c4f72a941c17563371a2b1d5b475e75))
+- increase happo max screenshot height ([23d70b5](https://github.com/bcgov/CONN-CCBC-portal/commit/23d70b530ff29cd1560a61c8913e5fbcd18bac58))
+- query form data, get objects from s3 and append to archive ([b990995](https://github.com/bcgov/CONN-CCBC-portal/commit/b9909958b75938c298d5797d9270304d831a128f))
+- route uses roundrobin load balancing ([30409b4](https://github.com/bcgov/CONN-CCBC-portal/commit/30409b4e31054988fe9ba7ed73e06407b13d0737))
+
+### Performance Improvements
+
+- rewrite form_data_is_editable as sql function ([c74458f](https://github.com/bcgov/CONN-CCBC-portal/commit/c74458f0a0430a162aae141da2d66d8b999ce736))
+- tweak cpu limits ([bb5917e](https://github.com/bcgov/CONN-CCBC-portal/commit/bb5917e2a6eab3c6f285a753e6b62ed306cd95f0))
+
 # [1.14.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.13.0...v1.14.0) (2022-11-15)
 
 ### Bug Fixes
