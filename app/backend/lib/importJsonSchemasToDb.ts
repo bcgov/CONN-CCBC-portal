@@ -19,7 +19,7 @@ const importJsonSchemasToDb = async () => {
     // to add new schemas, use the use await client.query(insertQuery, [<slug>, <schema>, <description>, <form_type: intake | rfi>])
     await client.query('commit');
   } catch (e) {
-    await pgPool.query('rollback');
+    await client.query('rollback');
     // rethrow so we don't silently fail without finding out the issue
     console.error(e);
     throw e;
