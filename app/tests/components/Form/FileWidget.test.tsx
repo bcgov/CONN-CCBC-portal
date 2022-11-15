@@ -5,6 +5,7 @@ import compiledQuery, {
 } from '__generated__/FileWidgetTestQuery.graphql';
 import { act, fireEvent, screen } from '@testing-library/react';
 import getFormPage from 'utils/getFormPage';
+import { schema } from 'formSchema';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
 const testQuery = graphql`
@@ -24,7 +25,11 @@ const mockQueryPayload = {
   Application() {
     return {
       id: 'TestApplicationID',
-      formData: {},
+      formData: {
+        formByFormSchemaId: {
+          jsonSchema: schema,
+        },
+      },
       status: 'draft',
       updatedAt: '2022-09-12T14:04:10.790848-07:00',
     };
@@ -141,6 +146,9 @@ describe('The FileWidget', () => {
         return {
           id: 'TestApplicationID',
           formData: {
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
             jsonData: {
               coverage: {
                 coverageAssessmentStatistics: [
@@ -203,6 +211,9 @@ describe('The FileWidget', () => {
         return {
           id: 'TestApplicationID',
           formData: {
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
             jsonData: {
               coverage: {
                 currentNetworkInfastructure: [
@@ -350,6 +361,9 @@ describe('The FileWidget', () => {
                   },
                 ],
               },
+            },
+            formByFormSchemaId: {
+              jsonSchema: schema,
             },
           },
           status: 'draft',

@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react';
 import { NextPageContext } from 'next';
+import { schema } from 'formSchema';
 import { withRelayOptions } from '../../../../pages/applicantportal/form/[id]/success';
 import FormPage from '../../../../pages/applicantportal/form/[id]/[page]';
 import PageTestingHelper from '../../../utils/pageTestingHelper';
@@ -19,6 +20,11 @@ const mockQueryPayload = {
         },
         projectName: 'Project testing title',
         updatedAt: '2022-08-15T16:43:28.973734-04:00',
+        formData: {
+          formByFormSchemaId: {
+            jsonSchema: schema,
+          },
+        },
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -79,6 +85,11 @@ describe('The form page', () => {
             },
             projectName: 'Project testing title',
             updatedAt: '2022-08-15T16:43:28.973734-04:00',
+            formData: {
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
+            },
           },
           session: {
             sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -107,6 +118,11 @@ describe('The form page', () => {
             },
             projectName: 'Project testing title',
             updatedAt: '2022-08-15T16:43:28.973734-04:00',
+            formData: {
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
+            },
           },
           session: {
             sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',

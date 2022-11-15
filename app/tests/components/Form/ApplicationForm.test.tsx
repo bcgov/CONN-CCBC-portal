@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
+import { schema } from 'formSchema';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import sharedReviewThemeTests from '../Review/ReviewTheme';
 
@@ -31,6 +32,9 @@ const mockQueryPayload = {
         id: 'TestFormId',
         rowId: 123,
         jsonData: {},
+        formByFormSchemaId: {
+          jsonSchema: schema,
+        },
         isEditable: true,
         updatedAt: '2022-09-12T14:04:10.790848-07:00',
       },
@@ -54,6 +58,9 @@ const mockQueryPayloadWithFormData = {
         id: 'TestFormId',
         jsonData: mockFormData,
         isEditable: true,
+        formByFormSchemaId: {
+          jsonSchema: schema,
+        },
       },
       status: 'draft',
     };
@@ -68,6 +75,9 @@ const submissionPayload = {
         id: 'TestFormId',
         isEditable: true,
         updatedAt: '2022-09-12T14:04:10.790848-07:00',
+        formByFormSchemaId: {
+          jsonSchema: schema,
+        },
         jsonData: {
           organizationProfile: {
             organizationName: 'Testing organization name',
@@ -207,6 +217,9 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           status: 'withdrawn',
           formData: {
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
             jsonData: {
               id: 'TestFormId',
             },
@@ -272,6 +285,9 @@ describe('The application form', () => {
           id: 'TestApplicationId',
           rowId: 42,
           formData: {
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
             id: 'TestFormId',
             jsonData,
             isEditable: true,
@@ -339,6 +355,9 @@ describe('The application form', () => {
             jsonData: {
               id: 'TestFormId',
             },
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
           },
         };
       },
@@ -374,6 +393,9 @@ describe('The application form', () => {
           formData: {
             jsonData: {
               id: 'TestFormId',
+            },
+            formByFormSchemaId: {
+              jsonSchema: schema,
             },
           },
         };
@@ -445,6 +467,9 @@ describe('The application form', () => {
             jsonData: {
               id: 'TestFormId',
             },
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
           },
           status: 'submitted',
         };
@@ -476,6 +501,9 @@ describe('The application form', () => {
           formData: {
             jsonData: {
               id: 'TestFormId',
+            },
+            formByFormSchemaId: {
+              jsonSchema: schema,
             },
             isEditable: true,
           },
@@ -516,6 +544,9 @@ describe('The application form', () => {
           formData: {
             jsonData: {
               id: 'TestFormId',
+            },
+            formByFormSchemaId: {
+              jsonSchema: schema,
             },
           },
           status: 'submitted',
@@ -633,6 +664,9 @@ describe('The application form', () => {
       Application() {
         return {
           formData: {
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
             id: 'TestFormId',
             jsonData: {},
             isEditable: false,
@@ -658,6 +692,9 @@ describe('The application form', () => {
       Application() {
         return {
           formData: {
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
             id: 'TestFormId',
             jsonData: {},
             isEditable: false,
@@ -681,6 +718,9 @@ describe('The application form', () => {
       Application() {
         return {
           formData: {
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
             id: 'TestFormId',
             jsonData: {},
             isEditable: false,
@@ -706,6 +746,9 @@ describe('The application form', () => {
       Application() {
         return {
           formData: {
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
             id: 'TestFormId',
             jsonData: {},
             isEditable: false,

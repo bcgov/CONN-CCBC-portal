@@ -10,9 +10,12 @@ declare
   reference_number bigint;
   seq_name varchar;
   application_status varchar;
+  submission_completed_for varchar;
+  submission_completed_by varchar;
+  submission_title varchar;
+  submission_date varchar;
+  acknowledgements_array_length integer;
   num_acknowledgements constant integer := 17;
-  _form_data jsonb;
-  form_data_id int;
 begin
 
   select ccbc_public.application_status(
@@ -27,27 +30,31 @@ begin
     raise 'The application cannot be submitted as it has the following status: %', application_status;
   end if;
 
-  select json_data, id from
-   ccbc_public.application_form_data((select row(ccbc_public.application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id))
-    into _form_data, form_data_id;
+  select form_data -> 'submission' ->> 'submissionCompletedFor',
+    form_data -> 'submission' ->> 'submissionCompletedBy',
+    form_data -> 'submission' ->> 'submissionTitle',
+    form_data -> 'submission' ->> 'submissionDate',
+    jsonb_array_length(form_data -> 'acknowledgements' -> 'acknowledgementsList')
+   from ccbc_public.application where id = application_row_id
+   into submission_completed_for, submission_completed_by, submission_title, submission_date, acknowledgements_array_length;
 
-  if coalesce(_form_data -> 'submission' ->> 'submissionCompletedFor', '') = '' then
+  if coalesce(submission_completed_for, '') = '' then
     raise 'The application cannot be submitted as the submission field submission_completed_for is null or empty';
   end if;
 
-  if coalesce(_form_data -> 'submission' ->> 'submissionCompletedBy', '') = '' then
+  if coalesce(submission_completed_by, '') = '' then
     raise 'The application cannot be submitted as the submission field submission_completed_by is null or empty';
   end if;
 
-  if coalesce(_form_data -> 'submission' ->> 'submissionTitle', '') = '' then
+  if coalesce(submission_title, '') = '' then
     raise 'The application cannot be submitted as the submission field submission_title is null or empty';
   end if;
 
-  if coalesce(_form_data -> 'submission' ->> 'submissionDate', '') = '' then
+  if coalesce(submission_date, '') = '' then
     raise 'The application cannot be submitted as the submission field submission_date is null or empty';
   end if;
 
-  if coalesce(jsonb_array_length(_form_data -> 'acknowledgements' -> 'acknowledgementsList'),0) <> num_acknowledgements then
+  if acknowledgements_array_length <> num_acknowledgements or acknowledgements_array_length is null then
     raise 'The application cannot be submitted as there are unchecked acknowledgements';
   end if;
 
@@ -70,10 +77,6 @@ begin
       lpad(reference_number::text, 4, '0')
     )
   where id = application_row_id;
-
-  update ccbc_public.form_data set
-    form_data_status_type_id = 'committed'
-    where id = form_data_id;
 
   return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);
 end;

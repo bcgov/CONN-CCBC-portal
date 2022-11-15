@@ -85,3 +85,9 @@ tables/analyst 2022-11-04T16:51:27Z Marcel Mueller <marcel@button.is> # add anal
 computed_columns/form_data_is_editable [computed_columns/form_data_is_editable@1.12.0] 2022-11-10T00:35:11Z Matthieu Foucault <matthieu@button.is> # rewrite in sql
 @1.14.0 2022-11-15T18:54:34Z Marcel Mueller <marcel@button.is> # release v1.14.0
 @1.15.0 2022-11-15T21:08:21Z Marcel Mueller <marcel@button.is> # release v1.15.0
+tables/form_type 2022-11-08T15:22:59Z Anthony Bushara <anthony@button.is> # The type of form data, used to differentiate different schemas for queries
+tables/form 2022-11-03T20:31:46Z Anthony Bushara <anthony@button.is> # Table holding json schema for forms
+tables/form_data_003_add_schema_reference 2022-11-08T16:05:05Z Anthony Bushara <anthony@button.is> # Adds the reference to the schema to the table
+computed_columns/application_form_data [computed_columns/application_form_data@1.12.0] 2022-11-08T19:06:31Z Anthony Bushara <anthony@button.is> # Rework to ensure that form data is returning intake data
+mutations/create_application [mutations/create_application@1.12.0] 2022-11-08T19:27:16Z Anthony Bushara <anthony@button.is> # Add form_schema to insert for form_data
+mutations/submit_application [mutations/submit_application@1.12.0] 2022-11-10T16:09:19Z Anthony Bushara <anthony@button.is> # Use the schema to get the number of acknowledgements
