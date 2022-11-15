@@ -1,6 +1,6 @@
 begin;
 
-select no_plan();
+select plan(6);
 truncate table
   ccbc_public.application,
   ccbc_public.application_status,
