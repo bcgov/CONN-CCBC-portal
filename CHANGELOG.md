@@ -1,3 +1,19 @@
+# [1.16.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.15.0...v1.16.0) (2022-11-16)
+
+### Bug Fixes
+
+- receive-applications cronjob utc/pst schedule ([a2c6e8f](https://github.com/bcgov/CONN-CCBC-portal/commit/a2c6e8f8fc08526b8b48b903f02fa3815ccb4dde))
+- s3archive response ([57f5b74](https://github.com/bcgov/CONN-CCBC-portal/commit/57f5b74a02f7f2a3645944f4a78314de62c76ca3))
+
+### Features
+
+- add form_type for forms ([067428f](https://github.com/bcgov/CONN-CCBC-portal/commit/067428f3375b5cd90a7dba7e293ae1e269035eb3))
+- form table added ([2d79629](https://github.com/bcgov/CONN-CCBC-portal/commit/2d79629827d061f1fa69c930fba1518764211d47))
+- form_data is linked to the appropriate form_schema ([f200ae9](https://github.com/bcgov/CONN-CCBC-portal/commit/f200ae95f902e8a7ba1e442cd62c8c1137a880d2))
+- on app startup import schema to DB ([01e0d13](https://github.com/bcgov/CONN-CCBC-portal/commit/01e0d1359e484831a577b50cf928135e6686bf1e))
+- use schema from DB when rendering form ([7809e94](https://github.com/bcgov/CONN-CCBC-portal/commit/7809e949915b25a49246596f86b22444c5cf2baa))
+- use schema to get number of akcnoweledgements ([6de460a](https://github.com/bcgov/CONN-CCBC-portal/commit/6de460aec06703e03bce2475a137a567bcba7ff5))
+
 # [1.15.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.13.0...v1.15.0) (2022-11-15)
 
 ### Bug Fixes
