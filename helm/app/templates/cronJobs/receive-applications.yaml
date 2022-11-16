@@ -5,7 +5,7 @@ metadata:
   labels: {{ include "ccbc.labels" . | nindent 4 }}
 spec:
   suspend: false
-  schedule: "0 9,21 * * *" # run cronjob at At 09:00 and 21:00
+  schedule: "0 5,17 * * *" # run cronjob at At 09:00 and 21:00
   jobTemplate:
     spec:
       backoffLimit: 0
