@@ -7,7 +7,6 @@ const s3 = new AWS.S3();
 exports.handler = async (event) => {
   if (!event.Records) {
     console.log("Not an S3 event invocation!");
-    execSync('freshclam --config-file=freshclam.conf --datadir=/opt/var/lib/clamav',{stdio: 'inherit'});
     return;
   }
 
@@ -28,12 +27,9 @@ exports.handler = async (event) => {
     // write file to disk
     writeFileSync(`/tmp/${record.s3.object.key}`, s3Object.Body);
     
-    try { 
-      //execSync('cd /opt/var/lib/clamav', {stdio: 'inherit'});
-      //execSync('ls -al', {stdio: 'inherit'});
-
+    try {  
       // scan it
-      const scanStatus = execSync(`clamscan --database=/opt/var/lib/clamav /tmp/${record.s3.object.key}`);
+      execSync(`clamscan --database=/opt/var/lib/clamav /tmp/${record.s3.object.key}`);
 
       await s3
         .putObjectTagging({
@@ -55,8 +51,6 @@ exports.handler = async (event) => {
         });
     } catch(err) {
       console.log("---- got error ---");
-      console.log(JSON.stringify(err));
-
       if (err.status === 1) {
         // tag as dirty, OR you can delete it
         await s3

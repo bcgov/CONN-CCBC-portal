@@ -96,35 +96,3 @@ resource "aws_s3_bucket_notification" "new-file-notification" {
     }
 }
 
-data "aws_caller_identity" "current" {}
-
-// Add a policy to the bucket that prevents download of infected files
-resource "aws_s3_bucket_policy" "buckets-to-scan" {
-  count = "${length(var.buckets-to-scan)}"
-  bucket = "${element(var.buckets-to-scan, count.index)}"
-
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Deny",
-      "NotPrincipal": {
-          "AWS": [
-              "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
-              "arn:aws:sts::${data.aws_caller_identity.current.account_id}:assumed-role/${aws_iam_role.bucket-antivirus-scan.name}/${aws_lambda_function.scan-file.function_name}",
-              "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.bucket-antivirus-scan.name}"
-          ]
-      },
-      "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::${element(var.buckets-to-scan, count.index)}/*",
-      "Condition": {
-          "StringNotEquals": {
-              "s3:ExistingObjectTag/av-status": "CLEAN"
-          }
-      }
-    }
-  ]
-}
-POLICY
-}
