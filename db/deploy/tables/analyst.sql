@@ -32,7 +32,7 @@ insert into ccbc_public.analyst (given_name, family_name) values
 ('Leslie', 'Chiu'),
 ('Daniel', 'Stanyer'),
 ('Lia', 'Wilson'),
-('Careen', 'Unguran'),
+('Carreen', 'Unguran'),
 ('Justin', 'Bauer'),
 ('Cyril', 'Moersch'),
 ('Afshin', 'Shaabany'),
