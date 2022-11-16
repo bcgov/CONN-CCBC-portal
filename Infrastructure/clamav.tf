@@ -63,6 +63,9 @@ resource "aws_iam_role_policy_attachment" "clamav" {
 resource "aws_lambda_function" "update-clamav-definitions" {
     filename         = "clamav_lambda.zip"
     function_name    = "update-clamav-definitions"
+    layers = [
+      module.lambda_layer_s3.lambda_layer_arn,
+    ]
     role             = "${aws_iam_role.clamav.arn}"
     handler          = "index.updateDb"
     source_code_hash = "${filebase64sha256("clamav_lambda.zip")}"
