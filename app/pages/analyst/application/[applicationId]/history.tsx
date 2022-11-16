@@ -14,20 +14,30 @@ const getHistoryQuery = graphql`
     session {
       sub
     }
+    allAnalysts(orderBy: NATURAL) {
+      nodes {
+        rowId
+        givenName
+        familyName
+      }
+    }
   }
 `;
 
 const History = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, historyQuery>) => {
-  const { applicationByRowId, session } = usePreloadedQuery(
+  const { allAnalysts, applicationByRowId, session } = usePreloadedQuery(
     getHistoryQuery,
     preloadedQuery
   );
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout application={applicationByRowId}>
+      <AnalystLayout
+        analysts={{ allAnalysts }}
+        application={applicationByRowId}
+      >
         <h2>History placeholder</h2>
       </AnalystLayout>
     </Layout>

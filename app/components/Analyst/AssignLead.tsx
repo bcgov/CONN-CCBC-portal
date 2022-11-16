@@ -14,14 +14,14 @@ const StyledDropdown = styled.select`
 const StyledOption = styled.option``;
 
 interface Props {
-  lead: any;
+  lead: string;
   analysts: any;
-  applicationId: any;
+  applicationId: number;
   label?: string;
 }
 
 const AssignLead: React.FC<Props> = ({
-  analysts,
+  analysts = {},
   applicationId,
   label = 'Unassigned',
   lead,
