@@ -7,30 +7,32 @@ describe('The getArchivePath function', () => {
   it('returns the correct path for eligibilityAndImpactsCalculator', () => {
     expect(
       getArchivePath('eligibilityAndImpactsCalculator', CCBC_ID, FILE_NAME)
-    ).toBe('/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 1');
+    ).toBe(
+      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 1 - test.xml'
+    );
   });
 
   it('returns the correct path for detailedBudget', () => {
     expect(getArchivePath('detailedBudget', CCBC_ID, FILE_NAME)).toBe(
-      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 2'
+      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 2 - test.xml'
     );
   });
 
   it('returns the correct path for financialForecast', () => {
     expect(getArchivePath('financialForecast', CCBC_ID, FILE_NAME)).toBe(
-      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 3'
+      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 3 - test.xml'
     );
   });
 
   it('returns the correct path for lastMileIspOffering', () => {
     expect(getArchivePath('lastMileIspOffering', CCBC_ID, FILE_NAME)).toBe(
-      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 4'
+      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 4 - test.xml'
     );
   });
 
   it('returns the correct path for popWholesalePricing', () => {
     expect(getArchivePath('popWholesalePricing', CCBC_ID, FILE_NAME)).toBe(
-      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 5'
+      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 5 - test.xml'
     );
   });
 
@@ -41,30 +43,34 @@ describe('The getArchivePath function', () => {
         CCBC_ID,
         FILE_NAME
       )
-    ).toBe('/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 6');
+    ).toBe(
+      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 6 - test.xml'
+    );
   });
 
   it('returns the correct path for wirelessAddendum', () => {
     expect(getArchivePath('wirelessAddendum', CCBC_ID, FILE_NAME)).toBe(
-      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 7'
+      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 7 - test.xml'
     );
   });
 
   it('returns the correct path for supportingConnectivityEvidence', () => {
     expect(
       getArchivePath('supportingConnectivityEvidence', CCBC_ID, FILE_NAME)
-    ).toBe('/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 8');
+    ).toBe(
+      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 8 - test.xml'
+    );
   });
 
   it('returns the correct path for geographicNames', () => {
     expect(getArchivePath('geographicNames', CCBC_ID, FILE_NAME)).toBe(
-      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 9'
+      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 9 - test.xml'
     );
   });
 
   it('returns the correct path for equipmentDetails', () => {
     expect(getArchivePath('equipmentDetails', CCBC_ID, FILE_NAME)).toBe(
-      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 10'
+      '/CCBC-010001/Step 2 - Templates/CCBC-010001 - Template 10 - test.xml'
     );
   });
 

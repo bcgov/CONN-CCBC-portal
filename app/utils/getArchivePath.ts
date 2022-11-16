@@ -13,34 +13,34 @@ Supported variables which get replaced in the path are:
 const archivePaths = {
   // Template Uploads
   eligibilityAndImpactsCalculator: {
-    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 1`,
+    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 1 - $fileName`,
   },
   detailedBudget: {
-    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 2`,
+    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 2 - $fileName`,
   },
   financialForecast: {
-    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 3`,
+    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 3 - $fileName`,
   },
   lastMileIspOffering: {
-    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 4`,
+    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 4 - $fileName`,
   },
   popWholesalePricing: {
-    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 5`,
+    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 5 - $fileName`,
   },
   communityRuralDevelopmentBenefitsTemplate: {
-    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 6`,
+    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 6 - $fileName`,
   },
   wirelessAddendum: {
-    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 7`,
+    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 7 - $fileName`,
   },
   supportingConnectivityEvidence: {
-    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 8`,
+    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 8 - $fileName`,
   },
   geographicNames: {
-    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 9`,
+    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 9 - $fileName`,
   },
   equipmentDetails: {
-    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 10`,
+    path: `/$id/${TEMPLATE_UPLOADS}/$id - Template 10 - $fileName`,
   },
   // Supporting Documents
   copiesOfRegistration: {
