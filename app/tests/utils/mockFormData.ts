@@ -2,14 +2,38 @@ import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 
 const mockFormData = {
   coverage: {
-    geographicCoverageMap:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    currentNetworkInfastructure:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    upgradedNetworkInfrastructure:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    coverageAssessmentStatistics:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    geographicCoverageMap: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    currentNetworkInfastructure: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    upgradedNetworkInfrastructure: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    coverageAssessmentStatistics: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
   },
   benefits: {
     projectBenefits: '213123123',
@@ -63,26 +87,86 @@ const mockFormData = {
     applicationContribution2627: 5,
   },
   templateUploads: {
-    detailedBudget:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    geographicNames:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    equipmentDetails:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    wirelessAddendum:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    financialForecast:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    lastMileIspOffering:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    popWholesalePricing:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    supportingConnectivityEvidence:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    eligibilityAndImpactsCalculator:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    communityRuralDevelopmentBenefitsTemplate:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    detailedBudget: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    geographicNames: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    equipmentDetails: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    wirelessAddendum: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    financialForecast: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    lastMileIspOffering: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    popWholesalePricing: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    supportingConnectivityEvidence: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    eligibilityAndImpactsCalculator: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    communityRuralDevelopmentBenefitsTemplate: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
   },
   alternateContact: {
     altEmail: 'test@test.com',
@@ -167,16 +251,46 @@ const mockFormData = {
     ],
   },
   supportingDocuments: {
-    projectSchedule:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    copiesOfRegistration:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    logicalNetworkDiagram:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    preparedFinancialStatements:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
-    communityRuralDevelopmentBenefits:
-      '[{"uuid":"d56a8477-b4d8-43c7-bd75-75d376ddeca4","name":"File.pdf","size":35,"type":"text/plain"}]',
+    projectSchedule: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    copiesOfRegistration: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    logicalNetworkDiagram: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    preparedFinancialStatements: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
+    communityRuralDevelopmentBenefits: [
+      {
+        uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+        name: 'File.pdf',
+        size: 35,
+        type: 'text/plain',
+      },
+    ],
   },
   organizationLocation: {
     city: 'Victoria',
