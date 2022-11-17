@@ -1,3 +1,9 @@
+## [1.16.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.16.0...v1.16.1) (2022-11-17)
+
+### Bug Fixes
+
+- remove errors for file upload fields stored as array ([be6413b](https://github.com/bcgov/CONN-CCBC-portal/commit/be6413bf8ada80e9ac9e7a76476d87a4725c2fa8))
+
 # [1.16.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.15.0...v1.16.0) (2022-11-16)
 
 ### Bug Fixes
