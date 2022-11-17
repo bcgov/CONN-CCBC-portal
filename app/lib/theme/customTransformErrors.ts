@@ -1,12 +1,14 @@
 import { AjvError } from '@rjsf/core';
 
-export const customTransformErrors = (
+const customTransformErrors = (
   errors: AjvError[],
   customFormatsErrorMessages: { [key: string]: string }
 ) =>
   // Ignore oneOf errors https://github.com/rjsf-team/react-jsonschema-form/issues/1263
   errors
     .filter((error) => error.name !== 'oneOf')
+    // Ignore should be a string error for file uploads which are saved as array
+    .filter((error) => error.message !== 'should be string')
     .map((error) => {
       if (!['format', 'required'].includes(error.name)) return error;
       if (error.name === 'required')
@@ -21,3 +23,5 @@ export const customTransformErrors = (
         };
       return error;
     });
+
+export default customTransformErrors;
