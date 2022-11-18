@@ -93,3 +93,4 @@ mutations/create_application [mutations/create_application@1.12.0] 2022-11-08T19
 mutations/submit_application [mutations/submit_application@1.12.0] 2022-11-10T16:09:19Z Anthony Bushara <anthony@button.is> # Use the schema to get the number of acknowledgements
 @1.16.0 2022-11-16T20:24:01Z Marcel Mueller <marcel@button.is> # release v1.16.0
 @1.16.1 2022-11-17T21:45:55Z Marcel Mueller <marcel@button.is> # release v1.16.1
+tables/analyst_001_update_names 2022-11-18T17:58:18Z Anthony Bushara <anthony@button.is> # Fix Carreen's name and remove Meherzad from the list
