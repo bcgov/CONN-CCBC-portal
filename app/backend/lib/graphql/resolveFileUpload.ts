@@ -1,7 +1,7 @@
 import crypto from 'crypto';
+import fs from 'fs';
 import s3Client from '../s3client';
 import config from '../../../config';
-import fs from 'fs';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const AWS_S3_REGION = config.get('AWS_S3_REGION');
@@ -34,30 +34,30 @@ if (!isDeployedToOpenShift) {
 }
 
 const saveRemoteFile = async (stream) => {
+  if (!stream) {
+    throw new Error('Choose a file to upload first.');
+  }
   const uuid = crypto.randomUUID();
 
-  try {
-    const uploadParams = {
-      Bucket: AWS_S3_BUCKET,
-      Key: uuid,
-      Body: stream,
-    };
+  const uploadParams = {
+    Bucket: AWS_S3_BUCKET,
+    Key: uuid,
+    Body: stream,
+  };
 
-    const options = { partSize: 10 * 1024 * 1024, queueSize: 1 };
+  const options = { partSize: 10 * 1024 * 1024, queueSize: 1 };
 
-    s3Client.upload(uploadParams, options, (err, data) => {
-      if (err) {
-        return console.log(err);
-      } else {
-        return console.log(data);
-      }
+  const s3Upload = s3Client
+    .upload(uploadParams, options)
+    .promise()
+    .then(() => {
+      return uuid;
+    })
+    .catch((err) => {
+      throw new Error(`Error, unable to upload to S3: ${err}`);
     });
-    return uuid;
-  } catch (err) {
-    if (!stream) {
-      throw 'Choose a file to upload first.';
-    }
-  }
+
+  return s3Upload;
 };
 
 const saveLocalFile = async (upload) => {
@@ -85,11 +85,10 @@ const saveLocalFile = async (upload) => {
 export default async function resolveFileUpload(upload) {
   if (isLocalDevelopment) {
     return saveLocalFile(upload);
-  } else {
-    const { createReadStream } = upload;
-    const stream = createReadStream();
-    const uuid = await saveRemoteFile(stream);
-
-    return uuid;
   }
+  const { createReadStream } = upload;
+  const stream = createReadStream();
+  const uuid = await saveRemoteFile(stream);
+
+  return uuid;
 }

@@ -26,6 +26,7 @@ const SENTRY_ENVIRONMENT = config.get('SENTRY_ENVIRONMENT');
 
 const s3archive = Router();
 
+// eslint-disable-next-line consistent-return
 s3archive.get('/api/analyst/archive', async (req, res) => {
   const currentDate = DateTime.now().toFormat('yyyyMMdd');
   const authRole = getAuthRole(req);
@@ -49,7 +50,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
 
   const applications = allApplications.data.allApplications.nodes;
 
-  const archive = archiver('zip');
+  const archive = archiver('zip', { zlib: { level: 0 } });
 
   if (SENTRY_ENVIRONMENT) {
     archive.on('error', (err) => {
@@ -95,7 +96,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
     sortAndAppendAttachments(jsonData, ccbcId);
   });
 
-  return archive.finalize();
+  archive.finalize();
 });
 
 export default s3archive;
