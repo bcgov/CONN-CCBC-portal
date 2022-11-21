@@ -72,7 +72,10 @@ resource "aws_lambda_function" "update-clamav-definitions" {
     runtime          = "nodejs16.x"
     timeout          = 300
     memory_size      = 512
-
+    vpc_config {
+        subnet_ids       = [data.aws_subnet.a.id,data.aws_subnet.b.id]
+        security_group_ids = [data.aws_security_group.a.id]
+    }
     environment {
         variables = {
             AV_DEFINITION_S3_BUCKET = "${aws_s3_bucket.clamav-definitions.bucket}"

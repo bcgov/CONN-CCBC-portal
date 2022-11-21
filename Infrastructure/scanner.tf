@@ -67,6 +67,11 @@ resource "aws_lambda_function" "scan-file" {
     runtime          = "nodejs16.x"
     timeout          = 300
     memory_size      = 1024
+    
+    vpc_config {
+        subnet_ids       = [data.aws_subnet.a.id,data.aws_subnet.b.id]
+        security_group_ids  = [data.aws_security_group.a.id]
+    }
 
     environment {
         variables = {
