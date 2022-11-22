@@ -30,3 +30,10 @@ module "db_backup" {
   vpc_id = data.aws_vpc.selected.id
   bucket_name = var.backup_bucket_name 
 }
+
+
+module "clamav_db" {
+  source  = "./modules/s3_bucket"
+  vpc_id = data.aws_vpc.selected.id
+  bucket_name = var.clamav_bucket_name 
+}

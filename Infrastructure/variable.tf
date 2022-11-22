@@ -14,3 +14,7 @@ variable "bucket_name" {
 variable "backup_bucket_name" {
     default = "fapi7b-dev-ccbc-dbbackup"
 }
+
+variable "clamav_bucket_name" {
+  default = "fapi7b-dev-ccbc-clamav-db"
+}
