@@ -31,9 +31,14 @@ module "db_backup" {
   bucket_name = var.backup_bucket_name 
 }
 
-
-module "clamav_db" {
-  source  = "./modules/s3_bucket"
-  vpc_id = data.aws_vpc.selected.id
-  bucket_name = var.clamav_bucket_name 
+resource "aws_s3_bucket" "clamav-definitions" {
+    bucket = "${var.clamav-definitions-bucket}" 
 }
+
+
+
+# module "clamav-definitions" {
+#   bucket_name = var.clamav-definitions-bucket 
+#   source  = "./modules/s3_bucket"
+#   vpc_id = data.aws_vpc.selected.id
+# }
