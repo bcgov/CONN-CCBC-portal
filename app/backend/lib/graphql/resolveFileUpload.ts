@@ -33,7 +33,7 @@ if (!isDeployedToOpenShift) {
   );
 }
 
-const saveRemoteFile = async (stream) => {
+export const saveRemoteFile = async (stream) => {
   if (!stream) {
     throw new Error('Choose a file to upload first.');
   }
@@ -60,7 +60,7 @@ const saveRemoteFile = async (stream) => {
   return s3Upload;
 };
 
-const saveLocalFile = async (upload) => {
+export const saveLocalFile = async (upload) => {
   const uuid = crypto.randomUUID();
   const { createReadStream } = upload;
   const stream = createReadStream();

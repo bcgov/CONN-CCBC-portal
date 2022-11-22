@@ -96,7 +96,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
     sortAndAppendAttachments(jsonData, ccbcId);
   });
 
-  archive.finalize();
+  return archive.finalize();
 });
 
 export default s3archive;
