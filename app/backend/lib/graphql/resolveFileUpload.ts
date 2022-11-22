@@ -45,10 +45,17 @@ export const saveRemoteFile = async (stream) => {
     Body: stream,
   };
 
-  const options = { partSize: 10 * 1024 * 1024, queueSize: 1 };
+  const options = { partSize: 5 * 1024 * 1024, queueSize: 4 };
 
-  const s3Upload = s3Client
+  const s3Upload = await s3Client
     .upload(uploadParams, options)
+    .on('httpUploadProgress', (httpUploadProgress) => {
+      console.log(
+        `Uploaded ${
+          Math.round((httpUploadProgress.loaded / 1000000) * 10) / 10
+        }MB`
+      );
+    })
     .promise()
     .then(() => {
       return uuid;
