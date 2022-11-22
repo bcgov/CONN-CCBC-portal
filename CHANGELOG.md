@@ -1,3 +1,11 @@
+## [1.16.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.16.1...v1.16.2) (2022-11-22)
+
+### Bug Fixes
+
+- adjust s3 upload part size and queue size ([e3b08a4](https://github.com/bcgov/CONN-CCBC-portal/commit/e3b08a4cf46a986bcf23d9b50c528f340420e133))
+- resolveFileUpload error handling ([83f823a](https://github.com/bcgov/CONN-CCBC-portal/commit/83f823a2ecebee12f74a03d3cb7eabefe63f59f7))
+- resolveFileUpload error handling ([bcc5a5f](https://github.com/bcgov/CONN-CCBC-portal/commit/bcc5a5fa693d11a3d10c931c48339ecf18bd7c97))
+
 ## [1.16.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.16.0...v1.16.1) (2022-11-17)
 
 ### Bug Fixes
