@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import * as Sentry from '@sentry/nextjs';
 import fs from 'fs';
 import s3Client from '../s3client';
 import config from '../../../config';
@@ -9,6 +10,7 @@ const AWS_S3_KEY = config.get('AWS_S3_KEY');
 const AWS_S3_SECRET_KEY = config.get('AWS_S3_SECRET_KEY');
 const AWS_ROLE_ARN = config.get('AWS_ROLE_ARN');
 const OPENSHIFT_APP_NAMESPACE = config.get('OPENSHIFT_APP_NAMESPACE');
+const SENTRY_ENVIRONMENT = config.get('SENTRY_ENVIRONMENT');
 
 const isDeployedToOpenShift =
   OPENSHIFT_APP_NAMESPACE.endsWith('-dev') ||
@@ -45,15 +47,23 @@ export const saveRemoteFile = async (stream) => {
     Body: stream,
   };
 
-  const options = { partSize: 10 * 1024 * 1024, queueSize: 1 };
+  const options = { partSize: 5 * 1024 * 1024, queueSize: 4 };
 
-  const s3Upload = s3Client
+  const s3Upload = await s3Client
     .upload(uploadParams, options)
+    .on('httpUploadProgress', (httpUploadProgress) => {
+      const uploadedInMB =
+        Math.round((httpUploadProgress.loaded / 1000000) * 10) / 10;
+      console.log(`Uploaded ${uploadedInMB}MB`);
+    })
     .promise()
     .then(() => {
       return uuid;
     })
     .catch((err) => {
+      if (SENTRY_ENVIRONMENT) {
+        Sentry.captureException(err);
+      }
       throw new Error(`Error, unable to upload to S3: ${err}`);
     });
 
