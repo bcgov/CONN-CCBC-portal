@@ -5,9 +5,16 @@ import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import { assessmentsQuery } from '__generated__/assessmentsQuery.graphql';
+import { FormBase } from 'components/Form';
+import screening from 'formSchema/analyst/screening';
+import screeningUiSchema from 'formSchema/uiSchema/analyst/screeningUi';
 
 const getAssessmentsQuery = graphql`
   query assessmentsQuery($rowId: Int!) {
+    applicationByRowId(rowId: $rowId) {
+      ...AnalystLayout_application
+    }
+    ...AnalystSelectWidget_query
     session {
       sub
     }
@@ -19,11 +26,26 @@ const Assessments = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, assessmentsQuery>) => {
   const query = usePreloadedQuery(getAssessmentsQuery, preloadedQuery);
-  const { session } = query;
+
+  const { applicationByRowId, session, allAnalysts } = query;
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <h2>Assessments placeholder</h2>
+        <div>
+          {/* Tabs section here */}
+          Screening
+        </div>
+        <FormBase
+          schema={screening}
+          uiSchema={screeningUiSchema}
+          noValidate
+          // add to this here
+          formData={{}}
+          formContext={{ query }}
+          tagName="div"
+        />
       </AnalystLayout>
     </Layout>
   );

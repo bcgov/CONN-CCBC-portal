@@ -1,5 +1,6 @@
 import { pgPool } from './setup-pg';
 import schema from '../../formSchema/schema';
+import screening from '../../formSchema/analyst/screening';
 
 const importJsonSchemasToDb = async () => {
   const client = await pgPool.connect();
@@ -16,6 +17,14 @@ const importJsonSchemasToDb = async () => {
       'Schema of the first batch of applications',
       'intake',
     ]);
+
+    await client.query(insertQuery, [
+      'screeningAssessmentSchema',
+      screening,
+      'Schema of the assessment screening for analysts',
+      'intake',
+    ]);
+
     // to add new schemas, use the use await client.query(insertQuery, [<slug>, <schema>, <description>, <form_type: intake | rfi>])
     await client.query('commit');
   } catch (e) {

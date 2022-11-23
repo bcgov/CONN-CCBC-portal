@@ -11,10 +11,13 @@ const screeningUiSchema = {
     'otherFiles',
   ],
   assignedTo: {
-    'ui:widget': 'specialWidget',
+    'ui:widget': 'AnalystSelectWidget',
   },
   targetDate: {
     'ui:widget': 'DatePickerWidget',
+    'ui:options': {
+      isClearable: true,
+    },
   },
   nextStep: {
     'ui:widget': 'RadioWidget',
@@ -23,7 +26,7 @@ const screeningUiSchema = {
     'ui:widget': 'RadioWidget',
   },
   contestingMap: {
-    'ui:widget': '',
+    'ui:widget': 'CheckboxWidget',
   },
   assessmentTemplate: {
     'ui:widget': 'FileWidget',

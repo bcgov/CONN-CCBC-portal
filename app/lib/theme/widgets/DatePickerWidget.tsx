@@ -26,68 +26,8 @@ function getDateString(date: Date | undefined) {
   if (date) {
     return dateTimeFormat(date, 'date_year_first');
   }
+  return undefined;
 }
-
-const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
-  id,
-  value,
-  disabled,
-  readonly,
-  onBlur,
-  onChange,
-  onFocus,
-}) => {
-  const [day, setDay] = useState(value ? new Date(value) : undefined);
-
-  const handleChange = (d: Date) => {
-    setDay(d);
-    onChange(getDateString(d));
-  };
-
-  const handleBlur = () => {
-    onBlur(id, getDateString(day));
-  };
-
-  const handleFocus = () => {
-    onFocus(id, getDateString(day));
-  };
-
-  const CustomInput = ({ value, onClick, ...rest }: any) => (
-    <StyledDiv>
-      <StyledDatePicker
-        showPopperArrow={false}
-        value={value}
-        onClick={onClick}
-        {...rest}
-      />
-      <CalendarIcon onClick={onClick} />
-    </StyledDiv>
-  );
-
-  return (
-    <StyledContainer>
-      <DatePicker
-        id={id}
-        disabled={disabled}
-        readOnly={readonly}
-        className="form-control"
-        selected={day}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        dateFormat="yyyy-MM-dd"
-        placeholderText="YYYY-MM-DD"
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        showPopperArrow={false}
-        customInput={<CustomInput />}
-      />
-    </StyledContainer>
-  );
-};
-
-export default DatePickerWidget;
 
 const CalendarIcon = ({ onClick }: any) => {
   const StyledSpan = styled('span')`
@@ -151,3 +91,73 @@ const CalendarIcon = ({ onClick }: any) => {
     </StyledSpan>
   );
 };
+
+const CustomInput = ({ value, onClick, ...rest }: any) => (
+  <StyledDiv>
+    <StyledDatePicker
+      showPopperArrow={false}
+      value={value}
+      onClick={onClick}
+      {...rest}
+    />
+    <CalendarIcon onClick={onClick} />
+  </StyledDiv>
+);
+
+const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
+  id,
+  value,
+  disabled,
+  readonly,
+  options,
+  onBlur,
+  onChange,
+  onFocus,
+}) => {
+  const [day, setDay] = useState(value ? new Date(value) : undefined);
+
+  const handleChange = (d: Date) => {
+    setDay(d);
+    onChange(getDateString(d));
+  };
+
+  const handleBlur = () => {
+    onBlur(id, getDateString(day));
+  };
+
+  const handleFocus = () => {
+    onFocus(id, getDateString(day));
+  };
+
+  return (
+    <StyledContainer>
+      <DatePicker
+        id={id}
+        disabled={disabled}
+        readOnly={readonly}
+        className="form-control"
+        selected={day}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        onFocus={handleFocus}
+        dateFormat="yyyy-MM-dd"
+        placeholderText="YYYY-MM-DD"
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
+        isClearable={options.isClearable as boolean}
+        showPopperArrow={false}
+        customInput={<CustomInput />}
+      />
+    </StyledContainer>
+  );
+};
+
+DatePickerWidget.defaultProps = {
+  // eslint-disable-next-line react/default-props-match-prop-types
+  options: {
+    isClearable: false,
+  },
+};
+
+export default DatePickerWidget;
