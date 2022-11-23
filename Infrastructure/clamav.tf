@@ -71,7 +71,10 @@ resource "aws_lambda_function" "update-clamav-definitions" {
     source_code_hash = "${filebase64sha256("clamav_lambda.zip")}"
     runtime          = "nodejs16.x"
     timeout          = 300
-    memory_size      = 512
+    memory_size      = 2048
+    ephemeral_storage {
+      size = 2048 # Min 512 MB and the Max 10240 MB
+    }
 
     environment {
         variables = {
