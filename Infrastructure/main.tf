@@ -42,8 +42,9 @@ module "lambda_layer_s3" {
   compatible_architectures = ["x86_64","arm64"]
 
   create_package  = false
-  s3_existing_package = {
-    bucket = var.bucket_name 
-    key    = "clamav_lambda_layer.zip"
-  }
+  local_existing_package = "clamav_lambda_layer.zip"
+  # s3_existing_package = {
+  #   bucket = var.bucket_name 
+  #   key    = "clamav_lambda_layer.zip"
+  # }
 }

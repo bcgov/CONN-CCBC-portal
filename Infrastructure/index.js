@@ -1,5 +1,5 @@
 const { execSync } = require("child_process");
-const { writeFileSync, unlinkSync, existsSync, mkdirSync } = require("fs");
+const { writeFileSync, readFileSync, unlinkSync, existsSync, mkdirSync } = require("fs");
 const AWS = require("aws-sdk");
 
 const s3 = new AWS.S3();
@@ -104,11 +104,49 @@ async function fetchDataFromS3(params)
     }	
     return;
 }
+
+async function updateDefinitions(){
+  var files=['bytecode.cvd','daily.cvd','freshclam.dat','main.cvd'];
+
+  await Promise.all(files.map(async (x) => {
+    const blob = readFileSync(`/tmp/clamav/${x}`);
+    var params = {
+      Bucket: process.env.AV_DEFINITION_S3_BUCKET,  
+      Key:  x,
+      Body: blob
+    };
+     await uploadFileToS3(params); 
+    console.log(`uploaded ${x} to s3`);
+  }));
+  console.log(`got all definition files`);
+}
+
+async function uploadFileToS3(params)
+{
+    try {
+      await s3.upload({
+        Bucket: params.Bucket,
+        Key: params.Key,
+        Body: params.Body,
+      }).promise()
+    }
+    catch (ex) {
+        console.error(ex);
+    }	
+    return;
+}
+
 exports.updateDb = async (event, context) => {
+  if (!existsSync('/tmp/clamav')){
+    mkdirSync('/tmp/clamav');
+    console.log(`created /tmp/clamav folder`);
+  }
   
   try { 
     // update db
-    execSync('freshclam --config-file=freshclam.conf --datadir=/opt/var/lib/clamav',{stdio: 'inherit'});
+    execSync('freshclam --config-file=/opt/bin/freshclam.conf --datadir=/tmp/clamav',{stdio: 'inherit'}); 
+    await updateDefinitions();
+
   } catch(err) {
     console.log(err);
   }

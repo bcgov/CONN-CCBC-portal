@@ -83,16 +83,16 @@ resource "aws_lambda_function" "update-clamav-definitions" {
     }
 }
 
-// Cloudwatch event that fires every three hours
-resource "aws_cloudwatch_event_rule" "every-three-hours" {
-    name                = "every-three-hours"
-    description         = "Fires every three hours"
-    schedule_expression = "rate(3 hours)"
+// Cloudwatch event that fires every day
+resource "aws_cloudwatch_event_rule" "every-day" {
+    name                = "every-day"
+    description         = "Fires once a day"
+    schedule_expression = "cron(0 12 * * ? *)"
 }
 
 // A rule to call a lambda function when the Cloudwatch event fires
 resource "aws_cloudwatch_event_target" "update-clamav-definitions" {
-    rule      = "${aws_cloudwatch_event_rule.every-three-hours.name}"
+    rule      = "${aws_cloudwatch_event_rule.every-day.name}"
     target_id = "update-clamav-definitions"
     arn       = "${aws_lambda_function.update-clamav-definitions.arn}"
 }
@@ -103,6 +103,6 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_update_antivirus" {
     action        = "lambda:InvokeFunction"
     function_name = "${aws_lambda_function.update-clamav-definitions.function_name}"
     principal  = "events.amazonaws.com"
-    source_arn = "${aws_cloudwatch_event_rule.every-three-hours.arn}"
+    source_arn = "${aws_cloudwatch_event_rule.every-day.arn}"
 }
 
