@@ -572,6 +572,7 @@ type Analyst implements Node {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  active: Boolean
 
   """Reads a single `CcbcUser` that is related to this `Analyst`."""
   ccbcUserByCreatedBy: CcbcUser
@@ -6954,6 +6955,8 @@ enum AnalystsOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  ACTIVE_ASC
+  ACTIVE_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -6988,6 +6991,9 @@ input AnalystCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `active` field."""
+  active: Boolean
 }
 
 """
@@ -12402,6 +12408,7 @@ input AnalystInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  active: Boolean
 }
 
 """The output of our create `ApplicationAnalystLead` mutation."""
@@ -13210,6 +13217,7 @@ input AnalystPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  active: Boolean
 }
 
 """All input for the `updateAnalystByRowId` mutation."""

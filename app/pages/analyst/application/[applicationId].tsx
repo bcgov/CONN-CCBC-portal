@@ -24,7 +24,7 @@ const getApplicationQuery = graphql`
     session {
       sub
     }
-    allAnalysts(orderBy: NATURAL) {
+    allAnalysts(condition: { active: true }) {
       nodes {
         rowId
         givenName

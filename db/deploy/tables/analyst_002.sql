@@ -3,6 +3,6 @@
 begin;
 
 alter table ccbc_public.analyst
-add column active boolean default false;
+add column active boolean default true;
 
 commit;

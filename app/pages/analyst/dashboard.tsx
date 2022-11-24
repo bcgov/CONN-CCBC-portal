@@ -19,7 +19,7 @@ const getDashboardAnalystQuery = graphql`
         ...AnalystRow_application
       }
     }
-    allAnalysts(orderBy: NATURAL) {
+    allAnalysts(condition: { active: true }) {
       nodes {
         rowId
         givenName
