@@ -4297,6 +4297,9 @@ type Application implements Node {
   """Computed column to return analyst lead of an application"""
   analystLead: String
 
+  """Computed column that takes the slug to return an assessment form"""
+  assessmentForm(_slug: String!): FormData
+
   """Computed column to display form_data"""
   formData: FormData
 
@@ -14136,6 +14139,12 @@ type Mutation {
     """
     input: CreateRfiInput!
   ): CreateRfiPayload
+  createAssessmentForm(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateAssessmentFormInput!
+  ): CreateAssessmentFormPayload
   createUserFromSession(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -17648,50 +17657,6 @@ input CreateApplicationInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-}
-
-"""The output of our `createRfi` mutation."""
-type CreateRfiPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-  rfiData: RfiData
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `RfiDataStatusType` that is related to this `RfiData`."""
-  rfiDataStatusTypeByRfiDataStatusTypeId: RfiDataStatusType
-
-  """Reads a single `CcbcUser` that is related to this `RfiData`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `RfiData`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `RfiData`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `RfiData`. May be used by Relay 1."""
-  rfiDataEdge(
-    """The method to use when ordering `RfiData`."""
-    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RfiDataEdge
-}
-
-"""All input for the `createRfi` mutation."""
-input CreateRfiInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  applicationRowId: Int!
-  jsonData: JSON!
 }
 
 """The output of our `createUserFromSession` mutation."""

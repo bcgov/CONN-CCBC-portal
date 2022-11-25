@@ -107,3 +107,7 @@ tables/application_rfi_data 2022-11-27T22:39:18Z ,,, Vladimir <vladimir@button.i
 computed_columns/application_rfi 2022-11-28T20:42:15Z ,,, Vladimir <vladimir@button.is> # add application_rfi computed column
 mutations/create_rfi 2022-11-28T22:45:40Z ,,, Vladimir <vladimir@button.is> # add create_rfi mutation
 @1.19.0 2022-12-02T22:22:21Z Marcel Mueller <marcel@button.is> # release v1.19.0
+tables/form_type_001_add_assessment_type 2022-11-23T16:53:01Z Anthony Bushara <anthony@button.is> # Adds the assessment type to the form_type table
+tables/form_data_004_sequence_permissions_analyst 2022-11-24T21:03:19Z Anthony Bushara <anthony@button.is> # Adds the select and usage permissions to analyst and admin users
+mutations/create_assessment_form 2022-11-24T15:58:41Z Anthony Bushara <anthony@button.is> # Mutation to create an assessment form
+computed_columns/application_assessment_form 2022-11-25T15:30:35Z Anthony Bushara <anthony@button.is> # Computed column to retrieve an assessment form based on the schema slug
