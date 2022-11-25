@@ -1,4 +1,4 @@
--- Revert ccbc:tables/analyst from pg
+-- Deploy ccbc:tables/analyst to pg
 
 begin;
 

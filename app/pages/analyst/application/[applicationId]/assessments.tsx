@@ -14,20 +14,30 @@ const getAssessmentsQuery = graphql`
     session {
       sub
     }
+    allAnalysts(orderBy: NATURAL) {
+      nodes {
+        rowId
+        givenName
+        familyName
+      }
+    }
   }
 `;
 
 const Assessments = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, assessmentsQuery>) => {
-  const { applicationByRowId, session } = usePreloadedQuery(
+  const { allAnalysts, applicationByRowId, session } = usePreloadedQuery(
     getAssessmentsQuery,
     preloadedQuery
   );
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout application={applicationByRowId}>
+      <AnalystLayout
+        analysts={{ allAnalysts }}
+        application={applicationByRowId}
+      >
         <h2>Assessments placeholder</h2>
       </AnalystLayout>
     </Layout>

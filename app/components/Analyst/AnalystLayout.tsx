@@ -19,9 +19,11 @@ const StyledFlex = styled.div`
 interface Props {
   children: JSX.Element[] | JSX.Element;
   application: AnalystLayout_application$key;
+  analysts: any;
 }
 
 const AnalystLayout: React.FC<Props> = ({
+  analysts,
   application: applicationKey,
   children,
 }) => {
@@ -36,7 +38,7 @@ const AnalystLayout: React.FC<Props> = ({
 
   return (
     <StyledContainer>
-      <ApplicationHeader application={application} />
+      <ApplicationHeader application={application} analysts={analysts} />
       <StyledFlex>
         <NavigationSidebar />
         <FormDiv>{children}</FormDiv>

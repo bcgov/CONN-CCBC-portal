@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import { ApplicationHeader_application$key } from '__generated__/ApplicationHeader_application.graphql';
+import AssignLead from 'components/Analyst/AssignLead';
 
 const StyledCallout = styled.div`
   margin-bottom: 40px;
@@ -21,19 +22,24 @@ const StyledH2 = styled.h2`
 
 interface Props {
   application: ApplicationHeader_application$key;
+  analysts: any;
 }
 
-const ApplicationHeader: React.FC<Props> = ({ application }) => {
-  const { ccbcNumber, organizationName, projectName } = useFragment(
-    graphql`
-      fragment ApplicationHeader_application on Application {
-        projectName
-        organizationName
-        ccbcNumber
-      }
-    `,
-    application
-  );
+const ApplicationHeader: React.FC<Props> = ({ analysts, application }) => {
+  const { analystLead, ccbcNumber, organizationName, projectName, rowId } =
+    useFragment(
+      graphql`
+        fragment ApplicationHeader_application on Application {
+          analystLead
+          organizationName
+          ccbcNumber
+          projectName
+          rowId
+        }
+      `,
+      application
+    );
+
   return (
     <StyledCallout>
       <div>
@@ -41,7 +47,14 @@ const ApplicationHeader: React.FC<Props> = ({ application }) => {
         <StyledH1>{projectName}</StyledH1>
         <StyledH2>{organizationName}</StyledH2>
       </div>
-      <div>{/* Todo: Received/Package/Lead controls here */}</div>
+      <div>
+        <AssignLead
+          label="Lead"
+          analysts={analysts?.allAnalysts?.nodes}
+          applicationId={rowId}
+          lead={analystLead}
+        />
+      </div>
     </StyledCallout>
   );
 };

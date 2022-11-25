@@ -2,9 +2,11 @@ import { useRouter } from 'next/router';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { AnalystRow_application$key } from '__generated__/AnalystRow_application.graphql';
+import AssignLead from 'components/Analyst/AssignLead';
 
 interface Props {
   application: AnalystRow_application$key;
+  analysts: any;
 }
 
 const StyledRow = styled('tr')`
@@ -40,9 +42,8 @@ const StyledOrganizationNameCell = styled(StyledBaseCell)`
 
 const StyledLeadCell = styled(StyledBaseCell)`
   width: 11.97%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  max-width: 11.97%;
+  cursor: default;
 `;
 
 const StyledPackageCell = styled(StyledBaseCell)`
@@ -57,20 +58,27 @@ const PillSpan = styled.span`
   text-transform: capitalize;
 `;
 
-const AnalystRow: React.FC<Props> = ({ application }) => {
-  const { rowId, status, projectName, ccbcNumber, organizationName } =
-    useFragment(
-      graphql`
-        fragment AnalystRow_application on Application {
-          rowId
-          status
-          projectName
-          ccbcNumber
-          organizationName
-        }
-      `,
-      application
-    );
+const AnalystRow: React.FC<Props> = ({ analysts, application }) => {
+  const {
+    analystLead,
+    rowId,
+    status,
+    projectName,
+    ccbcNumber,
+    organizationName,
+  } = useFragment(
+    graphql`
+      fragment AnalystRow_application on Application {
+        rowId
+        status
+        analystLead
+        projectName
+        ccbcNumber
+        organizationName
+      }
+    `,
+    application
+  );
 
   const router = useRouter();
 
@@ -89,7 +97,17 @@ const AnalystRow: React.FC<Props> = ({ application }) => {
         {organizationName}
       </StyledOrganizationNameCell>
       {/* Filled in later when these columns are implemented on backend */}
-      <StyledLeadCell />
+      <StyledLeadCell
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <AssignLead
+          analysts={analysts?.allAnalysts?.nodes}
+          applicationId={rowId}
+          lead={analystLead}
+        />
+      </StyledLeadCell>
       <StyledPackageCell />
     </StyledRow>
   );

@@ -1,10 +1,11 @@
 begin;
-select plan(18);
+select plan(19);
 
 select has_table('ccbc_public', 'analyst', 'table ccbc_public.analyst exists');
 select has_column('ccbc_public', 'analyst', 'id', 'table ccbc_public.analyst has id column');
 select has_column('ccbc_public', 'analyst', 'given_name', 'table ccbc_public.analyst has given_name column');
 select has_column('ccbc_public', 'analyst', 'family_name', 'table ccbc_public.analyst has family_name column');
+select has_column('ccbc_public', 'analyst', 'active', 'table ccbc_public.analyst has active column');
 
 
 -- ccbc_guest

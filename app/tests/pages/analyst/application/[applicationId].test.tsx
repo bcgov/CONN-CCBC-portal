@@ -26,6 +26,20 @@ const mockQueryPayload = {
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
+      allAnalysts: {
+        nodes: [
+          {
+            rowId: 1,
+            givenName: 'Test',
+            familyName: '1',
+          },
+          {
+            rowId: 2,
+            givenName: 'Test',
+            familyName: '2',
+          },
+        ],
+      },
     };
   },
 };
@@ -227,5 +241,20 @@ describe('The analyst view application page', () => {
         .closest('tr')
         .getElementsByTagName('td')[0]
     ).toHaveTextContent(mockFormData.submission.submissionDate);
+  });
+
+  it('should show the assign lead dropdown', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByRole('option', { name: 'Lead' })[0]
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole('option', { name: 'Test 1' })[0]
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole('option', { name: 'Test 2' })[0]
+    ).toBeInTheDocument();
   });
 });
