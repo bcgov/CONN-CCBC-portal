@@ -4306,6 +4306,9 @@ type Application implements Node {
   """Computed column to display the project name"""
   projectName: String
 
+  """Computed column to return last RFI for an application"""
+  rfi: String
+
   """Computed column to return status of an application"""
   status: String
 
@@ -7027,7 +7030,7 @@ type ApplicationRfiData implements Node {
   applicationByApplicationId: Application
 }
 
-"""Table to hold applicant form data"""
+"""Table to hold RFI form data"""
 type RfiData implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
@@ -7037,11 +7040,11 @@ type RfiData implements Node {
   """The unique id of the form data"""
   rowId: Int!
 
+  """Reference number assigned to the RFI"""
+  rfiNumber: String
+
   """The data entered into the form by the respondent"""
   jsonData: JSON!
-
-  """Column saving the key of the last edited form page"""
-  lastEditedPage: String
 
   """Column referencing the form data status type, defaults to draft"""
   rfiDataStatusTypeId: String
@@ -7296,10 +7299,10 @@ enum RfiDataOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
+  RFI_NUMBER_ASC
+  RFI_NUMBER_DESC
   JSON_DATA_ASC
   JSON_DATA_DESC
-  LAST_EDITED_PAGE_ASC
-  LAST_EDITED_PAGE_DESC
   RFI_DATA_STATUS_TYPE_ID_ASC
   RFI_DATA_STATUS_TYPE_ID_DESC
   CREATED_BY_ASC
@@ -7325,11 +7328,11 @@ input RfiDataCondition {
   """Checks for equality with the object’s `rowId` field."""
   rowId: Int
 
+  """Checks for equality with the object’s `rfiNumber` field."""
+  rfiNumber: String
+
   """Checks for equality with the object’s `jsonData` field."""
   jsonData: JSON
-
-  """Checks for equality with the object’s `lastEditedPage` field."""
-  lastEditedPage: String
 
   """Checks for equality with the object’s `rfiDataStatusTypeId` field."""
   rfiDataStatusTypeId: String
@@ -14127,6 +14130,12 @@ type Mutation {
     """
     input: CreateApplicationInput!
   ): CreateApplicationPayload
+  createRfi(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateRfiInput!
+  ): CreateRfiPayload
   createUserFromSession(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -15070,11 +15079,11 @@ input CreateRfiDataInput {
 
 """An input for mutations affecting `RfiData`"""
 input RfiDataInput {
+  """Reference number assigned to the RFI"""
+  rfiNumber: String
+
   """The data entered into the form by the respondent"""
   jsonData: JSON
-
-  """Column saving the key of the last edited form page"""
-  lastEditedPage: String
 
   """Column referencing the form data status type, defaults to draft"""
   rfiDataStatusTypeId: String
@@ -16554,11 +16563,11 @@ input UpdateRfiDataInput {
 Represents an update to a `RfiData`. Fields that are set will be updated.
 """
 input RfiDataPatch {
+  """Reference number assigned to the RFI"""
+  rfiNumber: String
+
   """The data entered into the form by the respondent"""
   jsonData: JSON
-
-  """Column saving the key of the last edited form page"""
-  lastEditedPage: String
 
   """Column referencing the form data status type, defaults to draft"""
   rfiDataStatusTypeId: String
@@ -17639,6 +17648,50 @@ input CreateApplicationInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+}
+
+"""The output of our `createRfi` mutation."""
+type CreateRfiPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  rfiData: RfiData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `RfiDataStatusType` that is related to this `RfiData`."""
+  rfiDataStatusTypeByRfiDataStatusTypeId: RfiDataStatusType
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `RfiData`. May be used by Relay 1."""
+  rfiDataEdge(
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RfiDataEdge
+}
+
+"""All input for the `createRfi` mutation."""
+input CreateRfiInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  applicationRowId: Int!
+  jsonData: JSON!
 }
 
 """The output of our `createUserFromSession` mutation."""

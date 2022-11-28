@@ -9,7 +9,7 @@ truncate table
   ccbc_public.form_data,
   ccbc_public.application_form_data,
   ccbc_public.application_analyst_lead
-restart identity;
+restart identity cascade;
 
 insert into
   ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number)

@@ -22,9 +22,19 @@ begin
 perform ccbc_private.grant_permissions('select', 'rfi_data', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('insert', 'rfi_data', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('update', 'rfi_data', 'ccbc_analyst');
+perform ccbc_private.grant_permissions('select', 'rfi_data', 'ccbc_auth_user');
 
 perform ccbc_private.upsert_policy('ccbc_analyst can always insert', 'rfi_data', 'insert', 'ccbc_analyst',
 'true');
+
+-- same for admin
+perform ccbc_private.grant_permissions('select', 'rfi_data', 'ccbc_admin');
+perform ccbc_private.grant_permissions('insert', 'rfi_data', 'ccbc_admin');
+perform ccbc_private.grant_permissions('update', 'rfi_data', 'ccbc_admin'); 
+
+perform ccbc_private.upsert_policy('ccbc_admin can always insert', 'rfi_data', 'insert', 'ccbc_admin',
+'true');
+
 end
 $grant$;
 

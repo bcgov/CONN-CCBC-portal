@@ -8,8 +8,10 @@ truncate table
   ccbc_public.form_data,
   ccbc_public.application_form_data,
   ccbc_public.intake,
-  ccbc_public.application_analyst_lead
-restart identity;
+  ccbc_public.application_analyst_lead,
+  ccbc_public.application_rfi_data,
+  ccbc_public.rfi_data
+restart identity cascade;
 
 
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)

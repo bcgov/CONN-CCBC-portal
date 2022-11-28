@@ -21,27 +21,36 @@ $grant$
 begin
 perform ccbc_private.grant_permissions('select', 'application_rfi_data', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('insert', 'application_rfi_data', 'ccbc_analyst');
+perform ccbc_private.grant_permissions('select', 'application_rfi_data', 'ccbc_admin');
+perform ccbc_private.grant_permissions('insert', 'application_rfi_data', 'ccbc_admin');
 
 end
 $grant$;
 
--- RLS: can only see and insert its own records in rfi_data
+-- RLS
 do
 $policy$
 begin
 
-perform ccbc_private.upsert_policy('ccbc_analyst_insert_application_rfi_data', 'application_rfi_data', 'insert', 'ccbc_analyst',
-'application_id in (select id from ccbc_public.application)');
-
-perform ccbc_private.upsert_policy('ccbc_analyst_select_application_rfi_data', 'application_rfi_data', 'select', 'ccbc_analyst',
-'application_id in (select id from ccbc_public.application)');
-
+perform ccbc_private.upsert_policy('ccbc_analyst_insert_application_rfi_data', 
+  'application_rfi_data', 'insert', 'ccbc_analyst', 'true');
+perform ccbc_private.upsert_policy('ccbc_analyst_select_application_rfi_data', 
+  'application_rfi_data', 'select', 'ccbc_analyst', 'true');
 perform ccbc_private.upsert_policy('ccbc_analyst_select_rfi_data',
-  'rfi_data', 'select', 'ccbc_analyst',
-  'id in (select rfi_data_id from ccbc_public.application_rfi_data)');
+  'rfi_data', 'select', 'ccbc_analyst','true');
 perform ccbc_private.upsert_policy('ccbc_analyst_update_rfi_data',
- 'rfi_data', 'update', 'ccbc_analyst',
-  'id in (select rfi_data_id from ccbc_public.application_rfi_data)');
+ 'rfi_data', 'update', 'ccbc_analyst', 'true');
+
+-- same for admin
+
+perform ccbc_private.upsert_policy('ccbc_admin_insert_application_rfi_data', 
+  'application_rfi_data', 'insert', 'ccbc_admin', 'true');
+perform ccbc_private.upsert_policy('ccbc_admin_select_application_rfi_data', 
+  'application_rfi_data', 'select', 'ccbc_admin', 'true');
+perform ccbc_private.upsert_policy('ccbc_admin_select_rfi_data',
+  'rfi_data', 'select', 'ccbc_admin', 'true');
+perform ccbc_private.upsert_policy('ccbc_admin_update_rfi_data',
+ 'rfi_data', 'update', 'ccbc_admin', 'true');
 
 end
 $policy$;

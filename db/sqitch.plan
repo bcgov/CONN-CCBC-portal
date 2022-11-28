@@ -105,3 +105,4 @@ tables/rfi_data_status_type 2022-11-27T22:38:12Z ,,, Vladimir <vladimir@button.i
 tables/rfi_data 2022-11-27T22:35:17Z ,,, Vladimir <vladimir@button.is> # add table for RFI
 tables/application_rfi_data 2022-11-27T22:39:18Z ,,, Vladimir <vladimir@button.is> # add relation between application and RFI
 computed_columns/application_rfi 2022-11-28T20:42:15Z ,,, Vladimir <vladimir@button.is> # add application_rfi computed column
+mutations/create_rfi 2022-11-28T22:45:40Z ,,, Vladimir <vladimir@button.is> # add create_rfi mutation

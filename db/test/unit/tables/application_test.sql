@@ -11,8 +11,10 @@ truncate table
   ccbc_public.attachment,
   ccbc_public.form_data,
   ccbc_public.application_form_data,
-  ccbc_public.application_analyst_lead
-restart identity;
+  ccbc_public.application_analyst_lead,
+  ccbc_public.application_rfi_data,
+  ccbc_public.rfi_data
+restart identity cascade;
 
 -- Table exists
 select has_table(
