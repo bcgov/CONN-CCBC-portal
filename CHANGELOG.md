@@ -1,3 +1,26 @@
+# [1.17.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.16.2...v1.17.0) (2022-11-28)
+
+### Bug Fixes
+
+- add missing layout props ([2d6568a](https://github.com/bcgov/CONN-CCBC-portal/commit/2d6568a13afa29bd1fa1ece13491d03743c19931))
+- cleanup analyst_lead errors ([64557dd](https://github.com/bcgov/CONN-CCBC-portal/commit/64557dd1ca87081492f7442c260bb17089fb68b0))
+- lambda resources ([050da60](https://github.com/bcgov/CONN-CCBC-portal/commit/050da60d78f09e488e6dfa696ff1aecf6284b1b0))
+- layer and lambda in separate zip ([505e8ce](https://github.com/bcgov/CONN-CCBC-portal/commit/505e8ce6da1ce7b157ef45313c06edd1b3e3bb25))
+- preserve s3 buckets ([67eb0d3](https://github.com/bcgov/CONN-CCBC-portal/commit/67eb0d3e07df41def378aa30e7c097b24e59533a))
+- updated readme ([2f1fe7f](https://github.com/bcgov/CONN-CCBC-portal/commit/2f1fe7f56017889e3afcb3a3f0a10c729960acf6))
+
+### Features
+
+- add analyst table active column ([cbb9bd9](https://github.com/bcgov/CONN-CCBC-portal/commit/cbb9bd9bb299a35caf63c44e863c83c53a17e3f7))
+- add application analyst lead table and computed column ([04fda20](https://github.com/bcgov/CONN-CCBC-portal/commit/04fda2037d9a516b88790392a33a083caf049bcc))
+- add assign analyst to application header ([ac859d3](https://github.com/bcgov/CONN-CCBC-portal/commit/ac859d327531054de081981512e30f4c3a434cc4))
+- add AssignLead component ([bcabb01](https://github.com/bcgov/CONN-CCBC-portal/commit/bcabb01682d41751b61929b784e547cfaf04dbfc))
+- added terraform for lambda deployment ([d6f3b5d](https://github.com/bcgov/CONN-CCBC-portal/commit/d6f3b5da055b13bb2167b7339d7d40c5a8754284))
+- assign new analyst lead on select change ([33b9f05](https://github.com/bcgov/CONN-CCBC-portal/commit/33b9f05c3781b73b8e4ee507376ae5891c9b91bc))
+- update virus definition on schedule ([08813f4](https://github.com/bcgov/CONN-CCBC-portal/commit/08813f48fa48ae53c8d0d66f97cd4a30c3e46a6b))
+- updated lambdas and readme ([df5a2be](https://github.com/bcgov/CONN-CCBC-portal/commit/df5a2bee517229048bf6f4f36eae497a2d220a0e))
+- use definition files from s3 ([053f04b](https://github.com/bcgov/CONN-CCBC-portal/commit/053f04bf4b8e7a609c801ed377a544d0e1353ceb))
+
 ## [1.16.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.16.1...v1.16.2) (2022-11-22)
 
 ### Bug Fixes
