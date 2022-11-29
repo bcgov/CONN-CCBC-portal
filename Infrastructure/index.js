@@ -143,8 +143,11 @@ exports.updateDb = async (event, context) => {
   }
   
   try { 
+    // recreate freshclam.conf in /tmp
+    execSync("printf '%s\n' 'DatabaseMirror database.clamav.net' 'ScriptedUpdates no' 'CompressLocalDatabase yes' > /tmp/freshclam.conf",{stdio: 'inherit'});
+
     // update db
-    execSync('freshclam --config-file=/opt/bin/freshclam.conf --datadir=/tmp/clamav',{stdio: 'inherit'}); 
+    execSync('freshclam --config-file=/tmp/freshclam.conf --datadir=/tmp/clamav',{stdio: 'inherit'});
     await updateDefinitions();
 
   } catch(err) {
