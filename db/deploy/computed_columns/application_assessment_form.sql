@@ -7,7 +7,7 @@ create or replace function ccbc_public.application_assessment_form(application c
 select row(fd.*) from ccbc_public.form_data as fd, ccbc_public.form as f,
   ccbc_public.application_form_data as af where af.application_id = application.id
   and fd.id = af.form_data_id and fd.form_schema_id = f.id and f.slug = _slug
-  and f.type = 'assessment'
+  and f.form_type = 'assessment'
   order by fd.id desc limit 1;
 
 $$ language sql stable;

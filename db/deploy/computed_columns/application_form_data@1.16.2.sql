@@ -4,12 +4,13 @@ begin;
 
 create or replace function ccbc_public.application_form_data(application ccbc_public.application) returns ccbc_public.form_data as
 $$
-  select row(fd.*)::ccbc_public.form_data from ccbc_public.form_data as fd, ccbc_public.form as f, ccbc_public.application_form_data as af
+  select row(fd.*)::ccbc_public.form_data from ccbc_public.form_data as fd, ccbc_public.form as f
    where
    fd.form_schema_id = f.id and
    f.form_type = 'intake' and
-   af.application_id = application.id and
-   fd.id = af.form_data_id order by af.form_data_id desc limit 1;
+   fd.id =
+   (select form_data_id from ccbc_public.application_form_data where
+    application_id = application.id order by form_data_id desc limit 1 );
 $$ language sql stable;
 
 grant execute on function ccbc_public.application_form_data to ccbc_auth_user;
