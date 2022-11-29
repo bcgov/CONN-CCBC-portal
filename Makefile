@@ -136,10 +136,11 @@ deploy_perf_data:
 generate_perf_files: ## Create k6files folder and generate mock upload test files
 generate_perf_files:
 	@mkdir -p k6files;
-	 cd k6files && head -c 100000 </dev/urandom >file_1M.bin;
-	 cd k6files && head -c 1000000 </dev/urandom >file_10M.bin;
-	 cd k6files && head -c 5000000 </dev/urandom >file_50M.bin;
-	 cd k6files && head -c 10000000 </dev/urandom >file_100M.bin;
+	 cd k6files && head -c 100000 </dev/urandom >file_100KB.bin;
+	 cd k6files && head -c 1000000 </dev/urandom >file_1M.bin;
+	 cd k6files && head -c 10000000 </dev/urandom >file_10M.bin;
+	 cd k6files && head -c 50000000 </dev/urandom >file_50M.bin;
+	 cd k6files && head -c 100000000 </dev/urandom >file_100M.bin;
 
 .PHONY: perf_test
 perf_test: ## run performance tests with k6
