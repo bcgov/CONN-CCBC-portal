@@ -8,11 +8,19 @@ import { assessmentsQuery } from '__generated__/assessmentsQuery.graphql';
 import { FormBase } from 'components/Form';
 import screening from 'formSchema/analyst/screening';
 import screeningUiSchema from 'formSchema/uiSchema/analyst/screeningUi';
+import { useCreateScreeningAssessmentMutation } from 'schema/mutations/assessment/createScreeningAssessment';
+import { Button } from '@button-inc/bcgov-theme';
+import { useState } from 'react';
 
+// replace with slug later with tabs
 const getAssessmentsQuery = graphql`
   query assessmentsQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
       ...AnalystLayout_application
+      rowId
+      assessmentForm(_slug: "screeningAssessmentSchema") {
+        jsonData
+      }
     }
     ...AnalystSelectWidget_query
     session {
@@ -28,6 +36,23 @@ const Assessments = ({
   const query = usePreloadedQuery(getAssessmentsQuery, preloadedQuery);
 
   const { applicationByRowId, session, allAnalysts } = query;
+  const [formData, setFormData] = useState(
+    applicationByRowId.assessmentForm?.jsonData
+  );
+  const [createAssessment, isCreating] = useCreateScreeningAssessmentMutation();
+
+  const handleSubmit = async (newFormData: any) => {
+    createAssessment({
+      variables: {
+        input: {
+          _applicationId: applicationByRowId.rowId,
+          _jsonData: newFormData,
+          schemaSlug: 'screeningAssessmentSchema',
+        },
+      },
+      onCompleted: () => {},
+    });
+  };
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -41,11 +66,22 @@ const Assessments = ({
           schema={screening}
           uiSchema={screeningUiSchema}
           noValidate
-          // add to this here
-          formData={{}}
+          onChange={(e) => {
+            setFormData(e.formData);
+          }}
+          formData={formData}
           formContext={{ query }}
           tagName="div"
-        />
+          onSubmit={handleSubmit}
+        >
+          <Button
+            variant="primary"
+            onClick={() => handleSubmit(formData)}
+            disabled={isCreating}
+          >
+            Submit
+          </Button>
+        </FormBase>
       </AnalystLayout>
     </Layout>
   );

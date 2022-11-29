@@ -22,7 +22,7 @@ const importJsonSchemasToDb = async () => {
       'screeningAssessmentSchema',
       screening,
       'Schema of the assessment screening for analysts',
-      'intake',
+      'assessment',
     ]);
 
     // to add new schemas, use the use await client.query(insertQuery, [<slug>, <schema>, <description>, <form_type: intake | rfi>])

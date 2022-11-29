@@ -14,6 +14,7 @@ const getApplicationQuery = graphql`
   query ApplicationIdQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
       formData {
+        rowId
         jsonData
         formByFormSchemaId {
           jsonSchema
