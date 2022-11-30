@@ -5,6 +5,7 @@ import {
   faChevronLeft,
   faClipboardList,
   faClockRotateLeft,
+  faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 
@@ -50,6 +51,12 @@ const NavigationSidebar = () => {
             href={`/analyst/application/${applicationId}/assessments`}
             icon={faCheckDouble}
             label="Assessments"
+          />
+          <NavItem
+            currentPath={asPath}
+            href={`/analyst/application/${applicationId}/rfi`}
+            icon={faEnvelope}
+            label="RFI"
           />
           <NavItem
             currentPath={asPath}
