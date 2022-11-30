@@ -8,3 +8,4 @@ helm/**/charts
 .bin/gitleaks
 gitleaks
 k6Results/
+k6files/
