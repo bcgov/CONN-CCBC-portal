@@ -1,3 +1,17 @@
+# [1.18.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.17.0...v1.18.0) (2022-11-30)
+
+### Bug Fixes
+
+- analyst lead can be unassigned ([fe2a499](https://github.com/bcgov/CONN-CCBC-portal/commit/fe2a499b264f66a88fee056fe155806edc0732d5))
+- using /tmp folder to store freshclam.conf ([6cc541c](https://github.com/bcgov/CONN-CCBC-portal/commit/6cc541caae60c61ef36a5b0888b70c21c1a4ec80))
+
+### Features
+
+- add basic k6 load test readme ([0c53420](https://github.com/bcgov/CONN-CCBC-portal/commit/0c53420bd80a342a21bc7d23821460cea16296b6))
+- add FormData function and start k6 upload test ([f0410ff](https://github.com/bcgov/CONN-CCBC-portal/commit/f0410ff9ec42baf79ecca62f825e04eb82619301))
+- add generate_perf_files to makefile ([5700cf1](https://github.com/bcgov/CONN-CCBC-portal/commit/5700cf117560308bdb3f85bdcef4e8761897c469))
+- update upload k6 tests for multiple file sizes ([df53848](https://github.com/bcgov/CONN-CCBC-portal/commit/df5384846132ccfe70a5cae3a543fc241ef4f224))
+
 # [1.17.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.16.2...v1.17.0) (2022-11-28)
 
 ### Bug Fixes
