@@ -1,6 +1,6 @@
 begin;
 
-select plan(4);
+select plan(5);
 
 truncate table
   ccbc_public.application,
@@ -47,10 +47,11 @@ overriding system value
 values
 (2,1,'received',1,'2022-10-18 10:16:45.319172-07');
 
+
 set role ccbc_admin;
 
-insert into ccbc_public.application_analyst_lead (application_id, analyst_id) VALUES (1,1);
-insert into ccbc_public.application_analyst_lead (application_id, analyst_id) VALUES (1,2);
+insert into ccbc_public.application_analyst_lead (application_id, analyst_id) VALUES (1, 1);
+insert into ccbc_public.application_analyst_lead (application_id, analyst_id) VALUES (1, 2);
 
 select is (
   (
@@ -60,6 +61,19 @@ select is (
   ),
   'Harpreet Bains',
   'ccbc_public.application_analyst_lead retrieves the analyst lead'
+);
+
+insert into ccbc_public.application_analyst_lead (application_id, analyst_id) VALUES (1, null);
+
+
+select is (
+  (
+    select ccbc_public.application_analyst_lead(
+      (select row(application.*)::ccbc_public.application from ccbc_public.application where id = 1)
+    )
+  ),
+  '',
+  'ccbc_public.application_analyst_lead returns correct value when analyst_id is null'
 );
 
 select finish();
