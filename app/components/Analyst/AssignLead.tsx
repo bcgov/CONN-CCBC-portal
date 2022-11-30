@@ -29,7 +29,7 @@ const AssignLead: React.FC<Props> = ({
   const [assignAnalyst] = useAssignAnalystMutation();
 
   const handleAssignAnalyst = (e) => {
-    const analystId = parseInt(e.target.value, 10);
+    const analystId = parseInt(e.target.value, 10) || null;
 
     assignAnalyst({
       variables: {
@@ -39,9 +39,12 @@ const AssignLead: React.FC<Props> = ({
   };
 
   const analystList = Object.keys(analysts);
+
   return (
     <StyledDropdown name="assign-analyst" onChange={handleAssignAnalyst}>
-      <StyledOption selected={!lead}>{label}</StyledOption>
+      <StyledOption key={label} selected={!lead} value={null}>
+        {label}
+      </StyledOption>
       {analystList.map((analystKey) => {
         const analyst = analysts[analystKey];
         const analystName = `${analyst.givenName} ${analyst.familyName}`;

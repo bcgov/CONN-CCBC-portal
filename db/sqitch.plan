@@ -99,3 +99,4 @@ tables/analyst_002 2022-11-15T20:15:40Z Marcel Mueller <marcel@button.is> # add 
 tables/application_analyst_lead 2022-11-14T15:36:21Z Marcel Mueller <marcel@button.is> # add application_analyst_lead table
 computed_columns/application_analyst_lead 2022-11-14T16:01:37Z Marcel Mueller <marcel@button.is> # add computed column application_analyst_lead
 @1.17.0 2022-11-28T18:53:30Z Marcel Mueller <marcel@button.is> # release v1.17.0
+computed_columns/application_analyst_lead [computed_columns/application_analyst_lead@1.17.0] 2022-11-30T15:54:01Z Marcel Mueller <marcel@button.is> # refactor application_analyst_lead computed column to return null values
