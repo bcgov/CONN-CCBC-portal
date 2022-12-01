@@ -38,9 +38,6 @@ const Assessments = ({
   const query = usePreloadedQuery(getAssessmentsQuery, preloadedQuery);
 
   const { applicationByRowId, session, allAnalysts } = query;
-  const [formData, setFormData] = useState(
-    applicationByRowId.assessmentForm?.jsonData
-  );
   const [createAssessment, isCreating] = useCreateScreeningAssessmentMutation();
   const [isFormSaved, setIsFormSaved] = useState(false);
 
