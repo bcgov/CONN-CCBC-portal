@@ -27,7 +27,7 @@ const StyledDiv = styled('div')`
 
 const StyledContainer = styled('div')<Props>`
   margin: 16px 0;
-  column-count: ${(props) => (props.columns ? props.columns : 1)};
+  column-count: ${(props) => props.columns || 1};
 `;
 
 const CheckboxesWidget: React.FC<WidgetProps> = ({
@@ -39,14 +39,13 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
   value,
   required,
 }) => {
-  const columns = options?.checkboxColumns;
+  const columns = options?.checkboxColumns as number;
 
   function selectValue(val: any, selected: any, all: any) {
     const at = all.indexOf(val);
     const updated = selected.slice(0, at).concat(val, selected.slice(at));
     return updated.sort((a: any, b: any) => all.indexOf(a) > all.indexOf(b));
   }
-  console.log(options);
 
   function deselectValue(val: any, selected: any) {
     return selected.filter((v: any) => v !== val);

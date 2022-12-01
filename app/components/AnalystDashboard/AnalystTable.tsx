@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { dashboardAnalystQuery$data } from '__generated__/dashboardAnalystQuery.graphql';
+import { graphql, useFragment } from 'react-relay';
 import AnalystRow from './AnalystRow';
 
 const StyledTable = styled('table')`
@@ -31,11 +31,27 @@ const StyledTableHeadCell = styled('th')`
 `;
 
 interface Props {
-  applications: Pick<dashboardAnalystQuery$data, 'allApplications'>;
-  analysts: Pick<dashboardAnalystQuery$data, 'allAnalysts'>;
+  query: any;
 }
 
-const AnalystTable: React.FC<Props> = ({ analysts, applications }) => {
+const AnalystTable: React.FC<Props> = ({ query }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment AnalystTable_query on Query {
+        ...AnalystRow_query
+        allApplications(orderBy: CCBC_NUMBER_ASC) {
+          nodes {
+            id
+            ...AnalystRow_application
+          }
+        }
+      }
+    `,
+    query
+  );
+
+  const { allApplications } = queryFragment;
+
   return (
     <StyledTable>
       <StyledTableHead>
@@ -49,11 +65,11 @@ const AnalystTable: React.FC<Props> = ({ analysts, applications }) => {
         </tr>
       </StyledTableHead>
       <tbody>
-        {applications.allApplications?.nodes.map((application) => {
+        {allApplications?.nodes.map((application) => {
           return (
             <AnalystRow
               application={application}
-              analysts={analysts}
+              query={queryFragment}
               key={application.id}
             />
           );

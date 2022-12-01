@@ -19,13 +19,13 @@ const StyledFlex = styled.div`
 interface Props {
   children: JSX.Element[] | JSX.Element;
   application: AnalystLayout_application$key;
-  analysts: any;
+  query: any;
 }
 
 const AnalystLayout: React.FC<Props> = ({
-  analysts,
   application: applicationKey,
   children,
+  query,
 }) => {
   const application = useFragment(
     graphql`
@@ -36,9 +36,17 @@ const AnalystLayout: React.FC<Props> = ({
     applicationKey
   );
 
+  const queryFragment = useFragment(
+    graphql`
+      fragment AnalystLayout_query on Query {
+        ...ApplicationHeader_query
+      }
+    `,
+    query
+  );
   return (
     <StyledContainer>
-      <ApplicationHeader application={application} analysts={analysts} />
+      <ApplicationHeader query={queryFragment} application={application} />
       <StyledFlex>
         <NavigationSidebar />
         <FormDiv>{children}</FormDiv>

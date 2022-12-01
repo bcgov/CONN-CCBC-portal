@@ -6,7 +6,7 @@ import AssignLead from 'components/Analyst/AssignLead';
 
 interface Props {
   application: AnalystRow_application$key;
-  analysts: any;
+  query: any;
 }
 
 const StyledRow = styled('tr')`
@@ -59,7 +59,16 @@ const PillSpan = styled.span`
   white-space: nowrap;
 `;
 
-const AnalystRow: React.FC<Props> = ({ analysts, application }) => {
+const AnalystRow: React.FC<Props> = ({ query, application }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment AnalystRow_query on Query {
+        ...AssignLead_query
+      }
+    `,
+    query
+  );
+
   const {
     analystLead,
     rowId,
@@ -104,7 +113,7 @@ const AnalystRow: React.FC<Props> = ({ analysts, application }) => {
         }}
       >
         <AssignLead
-          analysts={analysts?.allAnalysts?.nodes}
+          query={queryFragment}
           applicationId={rowId}
           lead={analystLead}
         />

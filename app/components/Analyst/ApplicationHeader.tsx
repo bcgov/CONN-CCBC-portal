@@ -22,10 +22,10 @@ const StyledH2 = styled.h2`
 
 interface Props {
   application: ApplicationHeader_application$key;
-  analysts: any;
+  query: any;
 }
 
-const ApplicationHeader: React.FC<Props> = ({ analysts, application }) => {
+const ApplicationHeader: React.FC<Props> = ({ application, query }) => {
   const { analystLead, ccbcNumber, organizationName, projectName, rowId } =
     useFragment(
       graphql`
@@ -40,6 +40,15 @@ const ApplicationHeader: React.FC<Props> = ({ analysts, application }) => {
       application
     );
 
+  const queryFragment = useFragment(
+    graphql`
+      fragment ApplicationHeader_query on Query {
+        ...AssignLead_query
+      }
+    `,
+    query
+  );
+
   return (
     <StyledCallout>
       <div>
@@ -50,9 +59,9 @@ const ApplicationHeader: React.FC<Props> = ({ analysts, application }) => {
       <div>
         <AssignLead
           label="Lead"
-          analysts={analysts?.allAnalysts?.nodes}
           applicationId={rowId}
           lead={analystLead}
+          query={queryFragment}
         />
       </div>
     </StyledCallout>

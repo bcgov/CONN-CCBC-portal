@@ -14,30 +14,18 @@ const getRfiIdQuery = graphql`
     session {
       sub
     }
-    allAnalysts(orderBy: NATURAL) {
-      nodes {
-        rowId
-        givenName
-        familyName
-      }
-    }
+    ...AnalystLayout_query
   }
 `;
 
 const RfiId = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, RfiIdQuery>) => {
-  const { allAnalysts, applicationByRowId, session } = usePreloadedQuery(
-    getRfiIdQuery,
-    preloadedQuery
-  );
-
+  const query = usePreloadedQuery(getRfiIdQuery, preloadedQuery);
+  const { applicationByRowId, session } = query;
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout
-        analysts={{ allAnalysts }}
-        application={applicationByRowId}
-      >
+      <AnalystLayout query={query} application={applicationByRowId}>
         <h2>RFI</h2>
         <hr />
         <RfiForm />
