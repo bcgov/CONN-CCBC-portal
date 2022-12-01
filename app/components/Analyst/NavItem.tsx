@@ -17,6 +17,8 @@ const StyledNavItem = styled.div<StyledProps>`
   margin: 4px 0;
   padding: 8px;
   display: flex;
+  flex-direction: row;
+  align-items: center;
   border-radius: 4px;
   background-color: ${(p) => (p.selected ? '#F1F2F3' : 'inherit')};
   font-weight: ${(p) => (p.selected ? 700 : 400)};

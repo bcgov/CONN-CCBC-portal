@@ -3,7 +3,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
-import { AnalystLayout, RFI } from 'components/Analyst';
+import { AnalystLayout, RfiForm } from 'components/Analyst';
 import { RfiIdQuery } from '__generated__/RfiIdQuery.graphql';
 
 const getRfiIdQuery = graphql`
@@ -40,7 +40,7 @@ const RfiId = ({
       >
         <h2>RFI</h2>
         <hr />
-        <RFI />
+        <RfiForm />
       </AnalystLayout>
     </Layout>
   );

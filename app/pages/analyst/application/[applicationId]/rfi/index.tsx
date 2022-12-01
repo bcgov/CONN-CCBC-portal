@@ -1,10 +1,10 @@
+import { useRouter } from 'next/router';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
-import Button from '@button-inc/bcgov-theme/Button';
-import Layout from 'components/Layout';
-import AnalystLayout from 'components/Analyst/AnalystLayout';
+import { ButtonLink, Layout } from 'components';
+import { AnalystLayout } from 'components/Analyst';
 import { rfiQuery } from '__generated__/rfiQuery.graphql';
 
 const getRfiQuery = graphql`
@@ -33,6 +33,9 @@ const RFI = ({
     preloadedQuery
   );
 
+  const router = useRouter();
+  const { applicationId } = router.query;
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout
@@ -41,7 +44,9 @@ const RFI = ({
       >
         <h2>RFI</h2>
         <hr />
-        <Button>Create RFI</Button>
+        <ButtonLink href={`/analyst/application/${applicationId}/rfi/0`}>
+          New RFI
+        </ButtonLink>
         {/* RFI list will go here */}
       </AnalystLayout>
     </Layout>

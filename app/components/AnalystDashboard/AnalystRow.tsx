@@ -56,6 +56,7 @@ const PillSpan = styled.span`
   border-radius: 16px;
   padding: 4px 12px;
   text-transform: capitalize;
+  white-space: nowrap;
 `;
 
 const AnalystRow: React.FC<Props> = ({ analysts, application }) => {

@@ -10,7 +10,7 @@ const StyledCancel = styled(Button)`
   margin-left: 24px;
 `;
 
-const RFI = () => {
+const RfiForm = () => {
   const router = useRouter();
   const { applicationId } = router.query;
 
@@ -26,4 +26,4 @@ const RFI = () => {
   );
 };
 
-export default RFI;
+export default RfiForm;
