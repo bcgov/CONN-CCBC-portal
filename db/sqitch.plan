@@ -101,3 +101,6 @@ computed_columns/application_analyst_lead 2022-11-14T16:01:37Z Marcel Mueller <m
 @1.17.0 2022-11-28T18:53:30Z Marcel Mueller <marcel@button.is> # release v1.17.0
 computed_columns/application_analyst_lead [computed_columns/application_analyst_lead@1.17.0] 2022-11-30T15:54:01Z Marcel Mueller <marcel@button.is> # refactor application_analyst_lead computed column to return null values
 @1.18.0 2022-11-30T19:24:38Z Marcel Mueller <marcel@button.is> # release v1.18.0
+tables/rfi_data_status_type 2022-11-27T22:38:12Z ,,, Vladimir <vladimir@button.is> # add RFI status type
+tables/rfi_data 2022-11-27T22:35:17Z ,,, Vladimir <vladimir@button.is> # add table for RFI
+tables/application_rfi_data 2022-11-27T22:39:18Z ,,, Vladimir <vladimir@button.is> # add relation between application and RFI
