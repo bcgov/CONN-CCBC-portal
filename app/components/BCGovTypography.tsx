@@ -1,7 +1,16 @@
-import { TypographyStyle } from "react-typography";
-import typography from "@button-inc/bcgov-theme/typography";
-import "@bcgov/bc-sans/css/BCSans.css";
+import Typography from 'typography';
+import { TypographyStyle } from 'react-typography';
 
-export default function BCGovTypography() {
+const typography = new Typography({
+  baseFontSize: '16px',
+  baseLineHeight: 1.25,
+  headerFontFamily: ['BCSans', 'Verdana', 'Arial', 'sans-serif'],
+  bodyFontFamily: ['BCSans', 'Verdana', 'Arial', 'sans-serif'],
+  scaleRatio: 2.074,
+});
+
+const BCGovTypography = () => {
   return <TypographyStyle typography={typography} />;
-}
+};
+
+export default BCGovTypography;
