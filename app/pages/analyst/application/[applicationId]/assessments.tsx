@@ -11,6 +11,8 @@ import screeningUiSchema from 'formSchema/uiSchema/analyst/screeningUi';
 import { useCreateScreeningAssessmentMutation } from 'schema/mutations/assessment/createScreeningAssessment';
 import { Button } from '@button-inc/bcgov-theme';
 import { useState } from 'react';
+import { ISubmitEvent } from '@rjsf/core';
+import { LoadingSpinner } from 'dist/components';
 
 // replace with slug later with tabs
 const getAssessmentsQuery = graphql`
@@ -40,17 +42,21 @@ const Assessments = ({
     applicationByRowId.assessmentForm?.jsonData
   );
   const [createAssessment, isCreating] = useCreateScreeningAssessmentMutation();
+  const [isFormSaved, setIsFormSaved] = useState(false);
 
-  const handleSubmit = async (newFormData: any) => {
+  const handleSubmit = async (e: ISubmitEvent<any>) => {
     createAssessment({
       variables: {
         input: {
           _applicationId: applicationByRowId.rowId,
-          _jsonData: newFormData,
+          _jsonData: e.formData,
           schemaSlug: 'screeningAssessmentSchema',
         },
       },
       onCompleted: () => {},
+      optimisticResponse: {
+        jsonData: e.formData,
+      },
     });
   };
 
@@ -66,21 +72,18 @@ const Assessments = ({
           schema={screening}
           uiSchema={screeningUiSchema}
           noValidate
-          onChange={(e) => {
-            setFormData(e.formData);
+          formData={applicationByRowId.assessmentForm?.jsonData}
+          onChange={() => {
+            setIsFormSaved(false);
           }}
-          formData={formData}
           formContext={{ query }}
           tagName="div"
           onSubmit={handleSubmit}
         >
-          <Button
-            variant="primary"
-            onClick={() => handleSubmit(formData)}
-            disabled={isCreating}
-          >
-            Submit
+          <Button variant="primary" disabled={isCreating}>
+            {isFormSaved ? 'Save' : 'Saved'}
           </Button>
+          {isCreating && <LoadingSpinner />}
         </FormBase>
       </AnalystLayout>
     </Layout>
