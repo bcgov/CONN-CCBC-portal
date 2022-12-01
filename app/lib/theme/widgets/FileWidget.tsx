@@ -178,7 +178,9 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (loading) return;
     setError('');
-    const formId = parseInt(router?.query?.id as string, 10);
+    const formId =
+      parseInt(router?.query?.id as string, 10) ||
+      parseInt(router?.query?.applicationId as string, 10);
     const file = e.target.files?.[0];
 
     const { isValid, error: newError } = validateFile(file);
