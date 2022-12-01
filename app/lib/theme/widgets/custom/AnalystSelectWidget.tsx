@@ -8,8 +8,9 @@ const AnalystSelectWidget: React.FC<WidgetProps> = (props) => {
   const { allAnalysts } = useFragment<AnalystSelectWidgetFragment_query$key>(
     graphql`
       fragment AnalystSelectWidget_query on Query {
-        allAnalysts {
+        allAnalysts(orderBy: NATURAL) {
           nodes {
+            rowId
             givenName
             familyName
           }
