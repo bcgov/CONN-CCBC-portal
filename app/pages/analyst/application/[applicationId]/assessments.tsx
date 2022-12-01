@@ -12,7 +12,7 @@ import { useCreateScreeningAssessmentMutation } from 'schema/mutations/assessmen
 import { Button } from '@button-inc/bcgov-theme';
 import { useState } from 'react';
 import { ISubmitEvent } from '@rjsf/core';
-import { LoadingSpinner } from 'dist/components';
+import { LoadingSpinner } from 'components';
 
 // replace with slug later with tabs
 const getAssessmentsQuery = graphql`
@@ -53,7 +53,9 @@ const Assessments = ({
           schemaSlug: 'screeningAssessmentSchema',
         },
       },
-      onCompleted: () => {},
+      onCompleted: () => {
+        setIsFormSaved(true);
+      },
       optimisticResponse: {
         jsonData: e.formData,
       },
@@ -77,11 +79,10 @@ const Assessments = ({
             setIsFormSaved(false);
           }}
           formContext={{ query }}
-          tagName="div"
           onSubmit={handleSubmit}
         >
           <Button variant="primary" disabled={isCreating}>
-            {isFormSaved ? 'Save' : 'Saved'}
+            {!isFormSaved ? 'Save' : 'Saved'}
           </Button>
           {isCreating && <LoadingSpinner />}
         </FormBase>
