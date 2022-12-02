@@ -1,3 +1,20 @@
+# [1.19.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.18.0...v1.19.0) (2022-12-02)
+
+### Bug Fixes
+
+- added ccbc_admin permissions ([91100af](https://github.com/bcgov/CONN-CCBC-portal/commit/91100af6e5858343ae0f0676a6feefb9d1f64a52))
+- base font size set in typography from 18px to 16px ([20a0793](https://github.com/bcgov/CONN-CCBC-portal/commit/20a079350540c24565a48f4735620c57425c9d12))
+
+### Features
+
+- add rfi form schema and ui schema ([d5e76f3](https://github.com/bcgov/CONN-CCBC-portal/commit/d5e76f398819eba363b8783bc2f433750fff8f24))
+- add rfi pages ([21f43b9](https://github.com/bcgov/CONN-CCBC-portal/commit/21f43b9b14013a34d48037b797f4870fa4d072f7))
+- add save rfi and improve form styling ([4a931f2](https://github.com/bcgov/CONN-CCBC-portal/commit/4a931f2b76dea568770a16c022906ffb0b9a61df))
+- added computed column ([a4a998a](https://github.com/bcgov/CONN-CCBC-portal/commit/a4a998a16423c4e3c5badc5fcedcf07bd8b3f2b3))
+- added create_rfi mutation and updated tests ([1948938](https://github.com/bcgov/CONN-CCBC-portal/commit/19489387542057993b72f1a5f98c63d272fbbd6c))
+- improve rfi page and enable columns in checkboxes widget ([c0cd8df](https://github.com/bcgov/CONN-CCBC-portal/commit/c0cd8df1431894502aa8ac47b3cb92dc1ffcc491))
+- use upload field names for rfi enum values ([944561c](https://github.com/bcgov/CONN-CCBC-portal/commit/944561c683d4129ff5d505439e86b5da924d7a25))
+
 # [1.18.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.17.0...v1.18.0) (2022-11-30)
 
 ### Bug Fixes
