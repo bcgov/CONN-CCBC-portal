@@ -32,5 +32,5 @@ instances:
 autoscaling:
   enabled: true
   minReplicas: 3
-  maxReplicas: 5
+  maxReplicas: 6
   targetCPUUtilizationPercentage: 80
