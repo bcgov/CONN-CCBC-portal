@@ -18,16 +18,15 @@ import { LoadingSpinner } from 'components';
 const getAssessmentsQuery = graphql`
   query assessmentsQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
-      ...AnalystLayout_application
       rowId
       assessmentForm(_slug: "screeningAssessmentSchema") {
         jsonData
       }
     }
-    ...AnalystSelectWidget_query
     session {
       sub
     }
+    ...AnalystSelectWidget_query
     ...AnalystLayout_query
   }
 `;
