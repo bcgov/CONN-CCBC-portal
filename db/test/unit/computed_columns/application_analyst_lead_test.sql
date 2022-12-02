@@ -10,7 +10,7 @@ truncate table
   ccbc_public.application_form_data,
   ccbc_public.intake,
   ccbc_public.application_analyst_lead
-restart identity;
+restart identity cascade;
 
 
 select function_privs_are(

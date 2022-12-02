@@ -135,6 +135,35 @@ type Query implements Node {
     condition: ApplicationFormDataCondition
   ): ApplicationFormDataConnection
 
+  """Reads and enables pagination through a set of `ApplicationRfiData`."""
+  allApplicationRfiData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationRfiData`."""
+    orderBy: [ApplicationRfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationRfiDataCondition
+  ): ApplicationRfiDataConnection
+
   """Reads and enables pagination through a set of `ApplicationStatus`."""
   allApplicationStatuses(
     """Only read the first `n` values of the set."""
@@ -395,10 +424,69 @@ type Query implements Node {
     """
     condition: IntakeCondition
   ): IntakesConnection
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  allRfiData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection
+
+  """Reads and enables pagination through a set of `RfiDataStatusType`."""
+  allRfiDataStatusTypes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiDataStatusType`."""
+    orderBy: [RfiDataStatusTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataStatusTypeCondition
+  ): RfiDataStatusTypesConnection
   analystByRowId(rowId: Int!): Analyst
   applicationByRowId(rowId: Int!): Application
   applicationAnalystLeadByRowId(rowId: Int!): ApplicationAnalystLead
   applicationFormDataByFormDataIdAndApplicationId(formDataId: Int!, applicationId: Int!): ApplicationFormData
+  applicationRfiDataByRfiDataIdAndApplicationId(rfiDataId: Int!, applicationId: Int!): ApplicationRfiData
   applicationStatusByRowId(rowId: Int!): ApplicationStatus
   applicationStatusTypeByName(name: String!): ApplicationStatusType
   attachmentByRowId(rowId: Int!): Attachment
@@ -411,6 +499,8 @@ type Query implements Node {
   intakeByRowId(rowId: Int!): Intake
   intakeByCcbcIntakeNumber(ccbcIntakeNumber: Int!): Intake
   intakeByApplicationNumberSeqName(applicationNumberSeqName: String!): Intake
+  rfiDataByRowId(rowId: Int!): RfiData
+  rfiDataStatusTypeByName(name: String!): RfiDataStatusType
 
   """Returns the next intake if any"""
   nextIntake: Intake
@@ -450,6 +540,14 @@ type Query implements Node {
     """
     id: ID!
   ): ApplicationFormData
+
+  """Reads a single `ApplicationRfiData` using its globally unique `ID`."""
+  applicationRfiData(
+    """
+    The globally unique `ID` to be used in selecting a single `ApplicationRfiData`.
+    """
+    id: ID!
+  ): ApplicationRfiData
 
   """Reads a single `ApplicationStatus` using its globally unique `ID`."""
   applicationStatus(
@@ -512,6 +610,20 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `Intake`."""
     id: ID!
   ): Intake
+
+  """Reads a single `RfiData` using its globally unique `ID`."""
+  rfiData(
+    """The globally unique `ID` to be used in selecting a single `RfiData`."""
+    id: ID!
+  ): RfiData
+
+  """Reads a single `RfiDataStatusType` using its globally unique `ID`."""
+  rfiDataStatusType(
+    """
+    The globally unique `ID` to be used in selecting a single `RfiDataStatusType`.
+    """
+    id: ID!
+  ): RfiDataStatusType
 }
 
 """An object with a globally unique `ID`."""
@@ -1433,6 +1545,93 @@ type CcbcUser implements Node {
     """
     condition: ApplicationAnalystLeadCondition
   ): ApplicationAnalystLeadsConnection!
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
@@ -3318,6 +3517,267 @@ type CcbcUser implements Node {
     """
     condition: CcbcUserCondition
   ): CcbcUserCcbcUsersByApplicationAnalystLeadArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `RfiDataStatusType`."""
+  rfiDataStatusTypesByRfiDataCreatedByAndRfiDataStatusTypeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiDataStatusType`."""
+    orderBy: [RfiDataStatusTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataStatusTypeCondition
+  ): CcbcUserRfiDataStatusTypesByRfiDataCreatedByAndRfiDataStatusTypeIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByRfiDataCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByRfiDataCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByRfiDataCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByRfiDataCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `RfiDataStatusType`."""
+  rfiDataStatusTypesByRfiDataUpdatedByAndRfiDataStatusTypeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiDataStatusType`."""
+    orderBy: [RfiDataStatusTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataStatusTypeCondition
+  ): CcbcUserRfiDataStatusTypesByRfiDataUpdatedByAndRfiDataStatusTypeIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByRfiDataUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByRfiDataUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByRfiDataUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByRfiDataUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `RfiDataStatusType`."""
+  rfiDataStatusTypesByRfiDataArchivedByAndRfiDataStatusTypeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiDataStatusType`."""
+    orderBy: [RfiDataStatusTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataStatusTypeCondition
+  ): CcbcUserRfiDataStatusTypesByRfiDataArchivedByAndRfiDataStatusTypeIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByRfiDataArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByRfiDataArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByRfiDataArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByRfiDataArchivedByAndUpdatedByManyToManyConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -3805,6 +4265,35 @@ type Application implements Node {
     condition: ApplicationAnalystLeadCondition
   ): ApplicationAnalystLeadsConnection!
 
+  """Reads and enables pagination through a set of `ApplicationRfiData`."""
+  applicationRfiDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationRfiData`."""
+    orderBy: [ApplicationRfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationRfiDataCondition
+  ): ApplicationRfiDataConnection!
+
   """Computed column to return analyst lead of an application"""
   analystLead: String
 
@@ -3816,6 +4305,9 @@ type Application implements Node {
 
   """Computed column to display the project name"""
   projectName: String
+
+  """Computed column to return last RFI for an application"""
+  rfi: String
 
   """Computed column to return status of an application"""
   status: String
@@ -4138,6 +4630,35 @@ type Application implements Node {
     """
     condition: CcbcUserCondition
   ): ApplicationCcbcUsersByApplicationAnalystLeadApplicationIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByApplicationRfiDataApplicationIdAndRfiDataId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): ApplicationRfiDataByApplicationRfiDataApplicationIdAndRfiDataIdManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -6468,6 +6989,600 @@ input ApplicationAnalystLeadCondition {
   archivedAt: Datetime
 }
 
+"""A connection to a list of `ApplicationRfiData` values."""
+type ApplicationRfiDataConnection {
+  """A list of `ApplicationRfiData` objects."""
+  nodes: [ApplicationRfiData]!
+
+  """
+  A list of edges which contains the `ApplicationRfiData` and cursor to aid in pagination.
+  """
+  edges: [ApplicationRfiDataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationRfiData` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""Table to pair an application to RFI data"""
+type ApplicationRfiData implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """The foreign key of a form"""
+  rfiDataId: Int!
+
+  """The foreign key of an application"""
+  applicationId: Int!
+
+  """Reads a single `RfiData` that is related to this `ApplicationRfiData`."""
+  rfiDataByRfiDataId: RfiData
+
+  """
+  Reads a single `Application` that is related to this `ApplicationRfiData`.
+  """
+  applicationByApplicationId: Application
+}
+
+"""Table to hold RFI form data"""
+type RfiData implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """The unique id of the form data"""
+  rowId: Int!
+
+  """Reference number assigned to the RFI"""
+  rfiNumber: String
+
+  """The data entered into the form by the respondent"""
+  jsonData: JSON!
+
+  """Column referencing the form data status type, defaults to draft"""
+  rfiDataStatusTypeId: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `RfiDataStatusType` that is related to this `RfiData`."""
+  rfiDataStatusTypeByRfiDataStatusTypeId: RfiDataStatusType
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationRfiData`."""
+  applicationRfiDataByRfiDataId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationRfiData`."""
+    orderBy: [ApplicationRfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationRfiDataCondition
+  ): ApplicationRfiDataConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationRfiDataRfiDataIdAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+  ): RfiDataApplicationsByApplicationRfiDataRfiDataIdAndApplicationIdManyToManyConnection!
+}
+
+"""The statuses applicable to an RFI"""
+type RfiDataStatusType implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """The name of the status type"""
+  name: String!
+
+  """The description of the status type"""
+  description: String
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByRfiDataStatusTypeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByRfiDataRfiDataStatusTypeIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByRfiDataRfiDataStatusTypeIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByRfiDataRfiDataStatusTypeIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndArchivedByManyToManyConnection!
+}
+
+"""A connection to a list of `RfiData` values."""
+type RfiDataConnection {
+  """A list of `RfiData` objects."""
+  nodes: [RfiData]!
+
+  """
+  A list of edges which contains the `RfiData` and cursor to aid in pagination.
+  """
+  edges: [RfiDataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `RfiData` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `RfiData` edge in the connection."""
+type RfiDataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `RfiData` at the end of the edge."""
+  node: RfiData
+}
+
+"""Methods to use when ordering `RfiData`."""
+enum RfiDataOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  RFI_NUMBER_ASC
+  RFI_NUMBER_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
+  RFI_DATA_STATUS_TYPE_ID_ASC
+  RFI_DATA_STATUS_TYPE_ID_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `RfiData` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input RfiDataCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `rfiNumber` field."""
+  rfiNumber: String
+
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
+
+  """Checks for equality with the object’s `rfiDataStatusTypeId` field."""
+  rfiDataStatusTypeId: String
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `RfiData`."""
+type RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `RfiData`."""
+type RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `RfiData`."""
+type RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `RfiData`."""
+type RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `RfiData`."""
+type RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `RfiData`."""
+type RfiDataStatusTypeCcbcUsersByRfiDataRfiDataStatusTypeIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""Methods to use when ordering `ApplicationRfiData`."""
+enum ApplicationRfiDataOrderBy {
+  NATURAL
+  RFI_DATA_ID_ASC
+  RFI_DATA_ID_DESC
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ApplicationRfiData` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input ApplicationRfiDataCondition {
+  """Checks for equality with the object’s `rfiDataId` field."""
+  rfiDataId: Int
+
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationRfiData`.
+"""
+type RfiDataApplicationsByApplicationRfiDataRfiDataIdAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationRfiData`, and the cursor to aid in pagination.
+  """
+  edges: [RfiDataApplicationsByApplicationRfiDataRfiDataIdAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationRfiData`.
+"""
+type RfiDataApplicationsByApplicationRfiDataRfiDataIdAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+}
+
+"""A `ApplicationRfiData` edge in the connection."""
+type ApplicationRfiDataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationRfiData` at the end of the edge."""
+  node: ApplicationRfiData
+}
+
 """
 A connection to a list of `ApplicationStatusType` values, with data from `ApplicationStatus`.
 """
@@ -7177,6 +8292,36 @@ type ApplicationCcbcUsersByApplicationAnalystLeadApplicationIdAndArchivedByManyT
     """
     condition: ApplicationAnalystLeadCondition
   ): ApplicationAnalystLeadsConnection!
+}
+
+"""
+A connection to a list of `RfiData` values, with data from `ApplicationRfiData`.
+"""
+type ApplicationRfiDataByApplicationRfiDataApplicationIdAndRfiDataIdManyToManyConnection {
+  """A list of `RfiData` objects."""
+  nodes: [RfiData]!
+
+  """
+  A list of edges which contains the `RfiData`, info from the `ApplicationRfiData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationRfiDataByApplicationRfiDataApplicationIdAndRfiDataIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `RfiData` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `RfiData` edge in the connection, with data from `ApplicationRfiData`.
+"""
+type ApplicationRfiDataByApplicationRfiDataApplicationIdAndRfiDataIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `RfiData` at the end of the edge."""
+  node: RfiData
 }
 
 """A `Application` edge in the connection."""
@@ -11191,6 +12336,542 @@ type CcbcUserCcbcUsersByApplicationAnalystLeadArchivedByAndUpdatedByManyToManyEd
 }
 
 """
+A connection to a list of `RfiDataStatusType` values, with data from `RfiData`.
+"""
+type CcbcUserRfiDataStatusTypesByRfiDataCreatedByAndRfiDataStatusTypeIdManyToManyConnection {
+  """A list of `RfiDataStatusType` objects."""
+  nodes: [RfiDataStatusType]!
+
+  """
+  A list of edges which contains the `RfiDataStatusType`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserRfiDataStatusTypesByRfiDataCreatedByAndRfiDataStatusTypeIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `RfiDataStatusType` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""
+A `RfiDataStatusType` edge in the connection, with data from `RfiData`.
+"""
+type CcbcUserRfiDataStatusTypesByRfiDataCreatedByAndRfiDataStatusTypeIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `RfiDataStatusType` at the end of the edge."""
+  node: RfiDataStatusType
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByRfiDataStatusTypeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""Methods to use when ordering `RfiDataStatusType`."""
+enum RfiDataStatusTypesOrderBy {
+  NATURAL
+  NAME_ASC
+  NAME_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `RfiDataStatusType` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input RfiDataStatusTypeCondition {
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByRfiDataCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByRfiDataCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""
+A connection to a list of `RfiDataStatusType` values, with data from `RfiData`.
+"""
+type CcbcUserRfiDataStatusTypesByRfiDataUpdatedByAndRfiDataStatusTypeIdManyToManyConnection {
+  """A list of `RfiDataStatusType` objects."""
+  nodes: [RfiDataStatusType]!
+
+  """
+  A list of edges which contains the `RfiDataStatusType`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserRfiDataStatusTypesByRfiDataUpdatedByAndRfiDataStatusTypeIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `RfiDataStatusType` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""
+A `RfiDataStatusType` edge in the connection, with data from `RfiData`.
+"""
+type CcbcUserRfiDataStatusTypesByRfiDataUpdatedByAndRfiDataStatusTypeIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `RfiDataStatusType` at the end of the edge."""
+  node: RfiDataStatusType
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByRfiDataStatusTypeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByRfiDataUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByRfiDataUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""
+A connection to a list of `RfiDataStatusType` values, with data from `RfiData`.
+"""
+type CcbcUserRfiDataStatusTypesByRfiDataArchivedByAndRfiDataStatusTypeIdManyToManyConnection {
+  """A list of `RfiDataStatusType` objects."""
+  nodes: [RfiDataStatusType]!
+
+  """
+  A list of edges which contains the `RfiDataStatusType`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserRfiDataStatusTypesByRfiDataArchivedByAndRfiDataStatusTypeIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `RfiDataStatusType` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""
+A `RfiDataStatusType` edge in the connection, with data from `RfiData`.
+"""
+type CcbcUserRfiDataStatusTypesByRfiDataArchivedByAndRfiDataStatusTypeIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `RfiDataStatusType` at the end of the edge."""
+  node: RfiDataStatusType
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByRfiDataStatusTypeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByRfiDataArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `RfiData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByRfiDataArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `RfiData`."""
+type CcbcUserCcbcUsersByRfiDataArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `RfiData`."""
+  rfiDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RfiDataCondition
+  ): RfiDataConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationAnalystLead`.
 """
 type AnalystApplicationsByApplicationAnalystLeadAnalystIdAndApplicationIdManyToManyConnection {
@@ -11548,6 +13229,34 @@ input FormTypeCondition {
   description: String
 }
 
+"""A connection to a list of `RfiDataStatusType` values."""
+type RfiDataStatusTypesConnection {
+  """A list of `RfiDataStatusType` objects."""
+  nodes: [RfiDataStatusType]!
+
+  """
+  A list of edges which contains the `RfiDataStatusType` and cursor to aid in pagination.
+  """
+  edges: [RfiDataStatusTypesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `RfiDataStatusType` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""A `RfiDataStatusType` edge in the connection."""
+type RfiDataStatusTypesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `RfiDataStatusType` at the end of the edge."""
+  node: RfiDataStatusType
+}
+
 type KeycloakJwt {
   """
   OPTIONAL - The "jti" (JWT ID) claim provides a unique identifier for the JWT.
@@ -11752,6 +13461,14 @@ type Mutation {
     input: CreateApplicationFormDataInput!
   ): CreateApplicationFormDataPayload
 
+  """Creates a single `ApplicationRfiData`."""
+  createApplicationRfiData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationRfiDataInput!
+  ): CreateApplicationRfiDataPayload
+
   """Creates a single `ApplicationStatus`."""
   createApplicationStatus(
     """
@@ -11824,6 +13541,22 @@ type Mutation {
     input: CreateIntakeInput!
   ): CreateIntakePayload
 
+  """Creates a single `RfiData`."""
+  createRfiData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateRfiDataInput!
+  ): CreateRfiDataPayload
+
+  """Creates a single `RfiDataStatusType`."""
+  createRfiDataStatusType(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateRfiDataStatusTypeInput!
+  ): CreateRfiDataStatusTypePayload
+
   """Updates a single `Analyst` using its globally unique id and a patch."""
   updateAnalyst(
     """
@@ -11895,6 +13628,24 @@ type Mutation {
     """
     input: UpdateApplicationFormDataByFormDataIdAndApplicationIdInput!
   ): UpdateApplicationFormDataPayload
+
+  """
+  Updates a single `ApplicationRfiData` using its globally unique id and a patch.
+  """
+  updateApplicationRfiData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationRfiDataInput!
+  ): UpdateApplicationRfiDataPayload
+
+  """Updates a single `ApplicationRfiData` using a unique key and a patch."""
+  updateApplicationRfiDataByRfiDataIdAndApplicationId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationRfiDataByRfiDataIdAndApplicationIdInput!
+  ): UpdateApplicationRfiDataPayload
 
   """
   Updates a single `ApplicationStatus` using its globally unique id and a patch.
@@ -12074,6 +13825,40 @@ type Mutation {
     input: UpdateIntakeByApplicationNumberSeqNameInput!
   ): UpdateIntakePayload
 
+  """Updates a single `RfiData` using its globally unique id and a patch."""
+  updateRfiData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRfiDataInput!
+  ): UpdateRfiDataPayload
+
+  """Updates a single `RfiData` using a unique key and a patch."""
+  updateRfiDataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRfiDataByRowIdInput!
+  ): UpdateRfiDataPayload
+
+  """
+  Updates a single `RfiDataStatusType` using its globally unique id and a patch.
+  """
+  updateRfiDataStatusType(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRfiDataStatusTypeInput!
+  ): UpdateRfiDataStatusTypePayload
+
+  """Updates a single `RfiDataStatusType` using a unique key and a patch."""
+  updateRfiDataStatusTypeByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRfiDataStatusTypeByNameInput!
+  ): UpdateRfiDataStatusTypePayload
+
   """Deletes a single `Analyst` using its globally unique id."""
   deleteAnalyst(
     """
@@ -12123,6 +13908,22 @@ type Mutation {
     """
     input: DeleteApplicationFormDataByFormDataIdAndApplicationIdInput!
   ): DeleteApplicationFormDataPayload
+
+  """Deletes a single `ApplicationRfiData` using its globally unique id."""
+  deleteApplicationRfiData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationRfiDataInput!
+  ): DeleteApplicationRfiDataPayload
+
+  """Deletes a single `ApplicationRfiData` using a unique key."""
+  deleteApplicationRfiDataByRfiDataIdAndApplicationId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationRfiDataByRfiDataIdAndApplicationIdInput!
+  ): DeleteApplicationRfiDataPayload
 
   """Deletes a single `ApplicationStatus` using its globally unique id."""
   deleteApplicationStatus(
@@ -12291,12 +14092,50 @@ type Mutation {
     """
     input: DeleteIntakeByApplicationNumberSeqNameInput!
   ): DeleteIntakePayload
+
+  """Deletes a single `RfiData` using its globally unique id."""
+  deleteRfiData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRfiDataInput!
+  ): DeleteRfiDataPayload
+
+  """Deletes a single `RfiData` using a unique key."""
+  deleteRfiDataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRfiDataByRowIdInput!
+  ): DeleteRfiDataPayload
+
+  """Deletes a single `RfiDataStatusType` using its globally unique id."""
+  deleteRfiDataStatusType(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRfiDataStatusTypeInput!
+  ): DeleteRfiDataStatusTypePayload
+
+  """Deletes a single `RfiDataStatusType` using a unique key."""
+  deleteRfiDataStatusTypeByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRfiDataStatusTypeByNameInput!
+  ): DeleteRfiDataStatusTypePayload
   createApplication(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: CreateApplicationInput!
   ): CreateApplicationPayload
+  createRfi(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateRfiInput!
+  ): CreateRfiPayload
   createUserFromSession(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -12547,6 +14386,58 @@ input CreateApplicationFormDataInput {
 input ApplicationFormDataInput {
   """The foreign key of a form"""
   formDataId: Int!
+
+  """The foreign key of an application"""
+  applicationId: Int!
+}
+
+"""The output of our create `ApplicationRfiData` mutation."""
+type CreateApplicationRfiDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationRfiData` that was created by this mutation."""
+  applicationRfiData: ApplicationRfiData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `RfiData` that is related to this `ApplicationRfiData`."""
+  rfiDataByRfiDataId: RfiData
+
+  """
+  Reads a single `Application` that is related to this `ApplicationRfiData`.
+  """
+  applicationByApplicationId: Application
+
+  """An edge for our `ApplicationRfiData`. May be used by Relay 1."""
+  applicationRfiDataEdge(
+    """The method to use when ordering `ApplicationRfiData`."""
+    orderBy: [ApplicationRfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationRfiDataEdge
+}
+
+"""All input for the create `ApplicationRfiData` mutation."""
+input CreateApplicationRfiDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ApplicationRfiData` to be created by this mutation."""
+  applicationRfiData: ApplicationRfiDataInput!
+}
+
+"""An input for mutations affecting `ApplicationRfiData`"""
+input ApplicationRfiDataInput {
+  """The foreign key of a form"""
+  rfiDataId: Int!
 
   """The foreign key of an application"""
   applicationId: Int!
@@ -13139,6 +15030,127 @@ input IntakeInput {
   archivedAt: Datetime
 }
 
+"""The output of our create `RfiData` mutation."""
+type CreateRfiDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RfiData` that was created by this mutation."""
+  rfiData: RfiData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `RfiDataStatusType` that is related to this `RfiData`."""
+  rfiDataStatusTypeByRfiDataStatusTypeId: RfiDataStatusType
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `RfiData`. May be used by Relay 1."""
+  rfiDataEdge(
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RfiDataEdge
+}
+
+"""All input for the create `RfiData` mutation."""
+input CreateRfiDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `RfiData` to be created by this mutation."""
+  rfiData: RfiDataInput!
+}
+
+"""An input for mutations affecting `RfiData`"""
+input RfiDataInput {
+  """Reference number assigned to the RFI"""
+  rfiNumber: String
+
+  """The data entered into the form by the respondent"""
+  jsonData: JSON
+
+  """Column referencing the form data status type, defaults to draft"""
+  rfiDataStatusTypeId: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""The output of our create `RfiDataStatusType` mutation."""
+type CreateRfiDataStatusTypePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RfiDataStatusType` that was created by this mutation."""
+  rfiDataStatusType: RfiDataStatusType
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `RfiDataStatusType`. May be used by Relay 1."""
+  rfiDataStatusTypeEdge(
+    """The method to use when ordering `RfiDataStatusType`."""
+    orderBy: [RfiDataStatusTypesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RfiDataStatusTypesEdge
+}
+
+"""All input for the create `RfiDataStatusType` mutation."""
+input CreateRfiDataStatusTypeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `RfiDataStatusType` to be created by this mutation."""
+  rfiDataStatusType: RfiDataStatusTypeInput!
+}
+
+"""An input for mutations affecting `RfiDataStatusType`"""
+input RfiDataStatusTypeInput {
+  """The name of the status type"""
+  name: String!
+
+  """The description of the status type"""
+  description: String
+}
+
 """The output of our update `Analyst` mutation."""
 type UpdateAnalystPayload {
   """
@@ -13533,6 +15545,89 @@ input UpdateApplicationFormDataByFormDataIdAndApplicationIdInput {
 
   """The foreign key of a form"""
   formDataId: Int!
+
+  """The foreign key of an application"""
+  applicationId: Int!
+}
+
+"""The output of our update `ApplicationRfiData` mutation."""
+type UpdateApplicationRfiDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationRfiData` that was updated by this mutation."""
+  applicationRfiData: ApplicationRfiData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `RfiData` that is related to this `ApplicationRfiData`."""
+  rfiDataByRfiDataId: RfiData
+
+  """
+  Reads a single `Application` that is related to this `ApplicationRfiData`.
+  """
+  applicationByApplicationId: Application
+
+  """An edge for our `ApplicationRfiData`. May be used by Relay 1."""
+  applicationRfiDataEdge(
+    """The method to use when ordering `ApplicationRfiData`."""
+    orderBy: [ApplicationRfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationRfiDataEdge
+}
+
+"""All input for the `updateApplicationRfiData` mutation."""
+input UpdateApplicationRfiDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationRfiData` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `ApplicationRfiData` being updated.
+  """
+  applicationRfiDataPatch: ApplicationRfiDataPatch!
+}
+
+"""
+Represents an update to a `ApplicationRfiData`. Fields that are set will be updated.
+"""
+input ApplicationRfiDataPatch {
+  """The foreign key of a form"""
+  rfiDataId: Int
+
+  """The foreign key of an application"""
+  applicationId: Int
+}
+
+"""
+All input for the `updateApplicationRfiDataByRfiDataIdAndApplicationId` mutation.
+"""
+input UpdateApplicationRfiDataByRfiDataIdAndApplicationIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ApplicationRfiData` being updated.
+  """
+  applicationRfiDataPatch: ApplicationRfiDataPatch!
+
+  """The foreign key of a form"""
+  rfiDataId: Int!
 
   """The foreign key of an application"""
   applicationId: Int!
@@ -14410,6 +16505,179 @@ input UpdateIntakeByApplicationNumberSeqNameInput {
   applicationNumberSeqName: String!
 }
 
+"""The output of our update `RfiData` mutation."""
+type UpdateRfiDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RfiData` that was updated by this mutation."""
+  rfiData: RfiData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `RfiDataStatusType` that is related to this `RfiData`."""
+  rfiDataStatusTypeByRfiDataStatusTypeId: RfiDataStatusType
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `RfiData`. May be used by Relay 1."""
+  rfiDataEdge(
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RfiDataEdge
+}
+
+"""All input for the `updateRfiData` mutation."""
+input UpdateRfiDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `RfiData` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `RfiData` being updated.
+  """
+  rfiDataPatch: RfiDataPatch!
+}
+
+"""
+Represents an update to a `RfiData`. Fields that are set will be updated.
+"""
+input RfiDataPatch {
+  """Reference number assigned to the RFI"""
+  rfiNumber: String
+
+  """The data entered into the form by the respondent"""
+  jsonData: JSON
+
+  """Column referencing the form data status type, defaults to draft"""
+  rfiDataStatusTypeId: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""All input for the `updateRfiDataByRowId` mutation."""
+input UpdateRfiDataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `RfiData` being updated.
+  """
+  rfiDataPatch: RfiDataPatch!
+
+  """The unique id of the form data"""
+  rowId: Int!
+}
+
+"""The output of our update `RfiDataStatusType` mutation."""
+type UpdateRfiDataStatusTypePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RfiDataStatusType` that was updated by this mutation."""
+  rfiDataStatusType: RfiDataStatusType
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `RfiDataStatusType`. May be used by Relay 1."""
+  rfiDataStatusTypeEdge(
+    """The method to use when ordering `RfiDataStatusType`."""
+    orderBy: [RfiDataStatusTypesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RfiDataStatusTypesEdge
+}
+
+"""All input for the `updateRfiDataStatusType` mutation."""
+input UpdateRfiDataStatusTypeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `RfiDataStatusType` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `RfiDataStatusType` being updated.
+  """
+  rfiDataStatusTypePatch: RfiDataStatusTypePatch!
+}
+
+"""
+Represents an update to a `RfiDataStatusType`. Fields that are set will be updated.
+"""
+input RfiDataStatusTypePatch {
+  """The name of the status type"""
+  name: String
+
+  """The description of the status type"""
+  description: String
+}
+
+"""All input for the `updateRfiDataStatusTypeByName` mutation."""
+input UpdateRfiDataStatusTypeByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `RfiDataStatusType` being updated.
+  """
+  rfiDataStatusTypePatch: RfiDataStatusTypePatch!
+
+  """The name of the status type"""
+  name: String!
+}
+
 """The output of our delete `Analyst` mutation."""
 type DeleteAnalystPayload {
   """
@@ -14604,6 +16872,69 @@ input DeleteApplicationFormDataByFormDataIdAndApplicationIdInput {
 
   """The foreign key of a form"""
   formDataId: Int!
+
+  """The foreign key of an application"""
+  applicationId: Int!
+}
+
+"""The output of our delete `ApplicationRfiData` mutation."""
+type DeleteApplicationRfiDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationRfiData` that was deleted by this mutation."""
+  applicationRfiData: ApplicationRfiData
+  deletedApplicationRfiDataId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `RfiData` that is related to this `ApplicationRfiData`."""
+  rfiDataByRfiDataId: RfiData
+
+  """
+  Reads a single `Application` that is related to this `ApplicationRfiData`.
+  """
+  applicationByApplicationId: Application
+
+  """An edge for our `ApplicationRfiData`. May be used by Relay 1."""
+  applicationRfiDataEdge(
+    """The method to use when ordering `ApplicationRfiData`."""
+    orderBy: [ApplicationRfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationRfiDataEdge
+}
+
+"""All input for the `deleteApplicationRfiData` mutation."""
+input DeleteApplicationRfiDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationRfiData` to be deleted.
+  """
+  id: ID!
+}
+
+"""
+All input for the `deleteApplicationRfiDataByRfiDataIdAndApplicationId` mutation.
+"""
+input DeleteApplicationRfiDataByRfiDataIdAndApplicationIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The foreign key of a form"""
+  rfiDataId: Int!
 
   """The foreign key of an application"""
   applicationId: Int!
@@ -15165,6 +17496,118 @@ input DeleteIntakeByApplicationNumberSeqNameInput {
   applicationNumberSeqName: String!
 }
 
+"""The output of our delete `RfiData` mutation."""
+type DeleteRfiDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RfiData` that was deleted by this mutation."""
+  rfiData: RfiData
+  deletedRfiDataId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `RfiDataStatusType` that is related to this `RfiData`."""
+  rfiDataStatusTypeByRfiDataStatusTypeId: RfiDataStatusType
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `RfiData`. May be used by Relay 1."""
+  rfiDataEdge(
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RfiDataEdge
+}
+
+"""All input for the `deleteRfiData` mutation."""
+input DeleteRfiDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `RfiData` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteRfiDataByRowId` mutation."""
+input DeleteRfiDataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The unique id of the form data"""
+  rowId: Int!
+}
+
+"""The output of our delete `RfiDataStatusType` mutation."""
+type DeleteRfiDataStatusTypePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RfiDataStatusType` that was deleted by this mutation."""
+  rfiDataStatusType: RfiDataStatusType
+  deletedRfiDataStatusTypeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `RfiDataStatusType`. May be used by Relay 1."""
+  rfiDataStatusTypeEdge(
+    """The method to use when ordering `RfiDataStatusType`."""
+    orderBy: [RfiDataStatusTypesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RfiDataStatusTypesEdge
+}
+
+"""All input for the `deleteRfiDataStatusType` mutation."""
+input DeleteRfiDataStatusTypeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `RfiDataStatusType` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteRfiDataStatusTypeByName` mutation."""
+input DeleteRfiDataStatusTypeByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The name of the status type"""
+  name: String!
+}
+
 """The output of our `createApplication` mutation."""
 type CreateApplicationPayload {
   """
@@ -15205,6 +17648,50 @@ input CreateApplicationInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+}
+
+"""The output of our `createRfi` mutation."""
+type CreateRfiPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  rfiData: RfiData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `RfiDataStatusType` that is related to this `RfiData`."""
+  rfiDataStatusTypeByRfiDataStatusTypeId: RfiDataStatusType
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `RfiData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `RfiData`. May be used by Relay 1."""
+  rfiDataEdge(
+    """The method to use when ordering `RfiData`."""
+    orderBy: [RfiDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RfiDataEdge
+}
+
+"""All input for the `createRfi` mutation."""
+input CreateRfiInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  applicationRowId: Int!
+  jsonData: JSON!
 }
 
 """The output of our `createUserFromSession` mutation."""
