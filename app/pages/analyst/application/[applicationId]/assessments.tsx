@@ -61,11 +61,6 @@ const Assessments = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
-        <h2>Assessments placeholder</h2>
-        <div>
-          {/* Tabs section here */}
-          Screening
-        </div>
         <FormBase
           schema={screening}
           uiSchema={screeningUiSchema}
