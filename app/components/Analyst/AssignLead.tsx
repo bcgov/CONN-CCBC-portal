@@ -1,4 +1,6 @@
+import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import { AssignLead_query$key } from '__generated__/AssignLead_query.graphql';
 import { useAssignAnalystMutation } from '../../schema/mutations/application/createApplicationAnalystLead';
 
 const StyledDropdown = styled.select`
@@ -15,17 +17,32 @@ const StyledOption = styled.option``;
 
 interface Props {
   lead: string;
-  analysts: any;
   applicationId: number;
   label?: string;
+  query: any;
 }
 
 const AssignLead: React.FC<Props> = ({
-  analysts = {},
   applicationId,
   label = 'Unassigned',
   lead,
+  query,
 }) => {
+  const { allAnalysts } = useFragment<AssignLead_query$key>(
+    graphql`
+      fragment AssignLead_query on Query {
+        allAnalysts(orderBy: NATURAL, condition: { active: true }) {
+          nodes {
+            rowId
+            givenName
+            familyName
+          }
+        }
+      }
+    `,
+    query
+  );
+
   const [assignAnalyst] = useAssignAnalystMutation();
 
   const handleAssignAnalyst = (e) => {
@@ -38,7 +55,7 @@ const AssignLead: React.FC<Props> = ({
     });
   };
 
-  const analystList = Object.keys(analysts);
+  const analystList = Object.keys(allAnalysts.nodes);
 
   return (
     <StyledDropdown name="assign-analyst" onChange={handleAssignAnalyst}>
@@ -46,7 +63,7 @@ const AssignLead: React.FC<Props> = ({
         {label}
       </StyledOption>
       {analystList.map((analystKey) => {
-        const analyst = analysts[analystKey];
+        const analyst = allAnalysts.nodes[analystKey];
         const analystName = `${analyst.givenName} ${analyst.familyName}`;
 
         return (

@@ -8,36 +8,21 @@ import { assessmentsQuery } from '__generated__/assessmentsQuery.graphql';
 
 const getAssessmentsQuery = graphql`
   query assessmentsQuery($rowId: Int!) {
-    applicationByRowId(rowId: $rowId) {
-      ...AnalystLayout_application
-    }
     session {
       sub
     }
-    allAnalysts(orderBy: NATURAL) {
-      nodes {
-        rowId
-        givenName
-        familyName
-      }
-    }
+    ...AnalystLayout_query
   }
 `;
 
 const Assessments = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, assessmentsQuery>) => {
-  const { allAnalysts, applicationByRowId, session } = usePreloadedQuery(
-    getAssessmentsQuery,
-    preloadedQuery
-  );
-
+  const query = usePreloadedQuery(getAssessmentsQuery, preloadedQuery);
+  const { session } = query;
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout
-        analysts={{ allAnalysts }}
-        application={applicationByRowId}
-      >
+      <AnalystLayout query={query}>
         <h2>Assessments placeholder</h2>
       </AnalystLayout>
     </Layout>

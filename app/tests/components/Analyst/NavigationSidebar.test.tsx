@@ -45,6 +45,11 @@ describe('The NavigationSidebar', () => {
       screen.getByText('Assessments').parentElement.parentElement
     ).toHaveAttribute('href', '/analyst/application/1/assessments');
 
+    expect(screen.getByText('RFI').parentElement.parentElement).toHaveAttribute(
+      'href',
+      '/analyst/application/1/rfi'
+    );
+
     expect(
       screen.getByText('History').parentElement.parentElement
     ).toHaveAttribute('href', '/analyst/application/1/history');

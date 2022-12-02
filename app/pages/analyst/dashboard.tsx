@@ -7,25 +7,14 @@ import styled from 'styled-components';
 import defaultRelayOptions from '../../lib/relay/withRelayOptions';
 import { ButtonLink, Layout } from '../../components';
 import { dashboardAnalystQuery } from '../../__generated__/dashboardAnalystQuery.graphql';
+
 // will probably have to change to cursor for pagination/infinte scroll
 const getDashboardAnalystQuery = graphql`
   query dashboardAnalystQuery {
     session {
       sub
     }
-    allApplications(orderBy: CCBC_NUMBER_ASC) {
-      nodes {
-        id
-        ...AnalystRow_application
-      }
-    }
-    allAnalysts(condition: { active: true }) {
-      nodes {
-        rowId
-        givenName
-        familyName
-      }
-    }
+    ...AnalystTable_query
   }
 `;
 
@@ -43,11 +32,8 @@ const StyledBtnContainer = styled.div`
 const AnalystDashboard = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, dashboardAnalystQuery>) => {
-  const { session, allAnalysts, allApplications } = usePreloadedQuery(
-    getDashboardAnalystQuery,
-    preloadedQuery
-  );
-
+  const query = usePreloadedQuery(getDashboardAnalystQuery, preloadedQuery);
+  const { session } = query;
   const exportAttachmentsBtn = useFeature('export_attachments_btn').value;
 
   return (
@@ -61,10 +47,7 @@ const AnalystDashboard = ({
             </ButtonLink>
           </StyledBtnContainer>
         )}
-        <AnalystTable
-          applications={{ allApplications }}
-          analysts={{ allAnalysts }}
-        />
+        <AnalystTable query={query} />
       </StyledDashboardContainer>
     </Layout>
   );

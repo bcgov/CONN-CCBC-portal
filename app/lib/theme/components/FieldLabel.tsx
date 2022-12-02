@@ -5,10 +5,12 @@ interface Props {
   label: string;
   required: boolean;
   tagName?: 'label' | 'dt';
+  bold: boolean;
 }
 
 const FieldLabel: React.FC<Props> = ({
   altOptionalText,
+  bold,
   hideOptional,
   htmlFor,
   label,
@@ -24,7 +26,11 @@ const FieldLabel: React.FC<Props> = ({
   } `;
 
   if (tagName === 'label')
-    return <label htmlFor={htmlFor}>{displayedLabel}</label>;
+    return (
+      <label htmlFor={htmlFor} style={{ fontWeight: bold ? 700 : 400 }}>
+        {displayedLabel}
+      </label>
+    );
 
   return <dt>{displayedLabel}</dt>;
 };

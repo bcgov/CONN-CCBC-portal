@@ -3,11 +3,11 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
-import AnalystLayout from 'components/Analyst/AnalystLayout';
-import { historyQuery } from '__generated__/historyQuery.graphql';
+import { AnalystLayout, RfiForm } from 'components/Analyst';
+import { RfiIdQuery } from '__generated__/RfiIdQuery.graphql';
 
-const getHistoryQuery = graphql`
-  query historyQuery($rowId: Int!) {
+const getRfiIdQuery = graphql`
+  query RfiIdQuery($rowId: Int!) {
     session {
       sub
     }
@@ -15,15 +15,17 @@ const getHistoryQuery = graphql`
   }
 `;
 
-const History = ({
+const RfiId = ({
   preloadedQuery,
-}: RelayProps<Record<string, unknown>, historyQuery>) => {
-  const query = usePreloadedQuery(getHistoryQuery, preloadedQuery);
+}: RelayProps<Record<string, unknown>, RfiIdQuery>) => {
+  const query = usePreloadedQuery(getRfiIdQuery, preloadedQuery);
   const { session } = query;
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
-        <h2>History placeholder</h2>
+        <h2>RFI</h2>
+        <hr />
+        <RfiForm />
       </AnalystLayout>
     </Layout>
   );
@@ -35,8 +37,9 @@ export const withRelayOptions = {
   variablesFromContext: (ctx) => {
     return {
       rowId: parseInt(ctx.query.applicationId.toString(), 10),
+      rfiId: parseInt(ctx.query.rfiId.toString(), 10),
     };
   },
 };
 
-export default withRelay(History, getHistoryQuery, withRelayOptions);
+export default withRelay(RfiId, getRfiIdQuery, withRelayOptions);

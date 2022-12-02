@@ -13,7 +13,6 @@ import AnalystLayout from 'components/Analyst/AnalystLayout';
 const getApplicationQuery = graphql`
   query ApplicationIdQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
-      ...AnalystLayout_application
       formData {
         jsonData
         formByFormSchemaId {
@@ -24,21 +23,14 @@ const getApplicationQuery = graphql`
     session {
       sub
     }
-    allAnalysts(condition: { active: true }) {
-      nodes {
-        rowId
-        givenName
-        familyName
-      }
-    }
+    ...AnalystLayout_query
   }
 `;
-
 const Application = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, ApplicationIdQuery>) => {
   const query = usePreloadedQuery(getApplicationQuery, preloadedQuery);
-  const { allAnalysts, applicationByRowId, session } = query;
+  const { applicationByRowId, session } = query;
   const {
     formData: {
       jsonData,
@@ -50,10 +42,7 @@ const Application = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout
-        application={applicationByRowId}
-        analysts={{ allAnalysts }}
-      >
+      <AnalystLayout query={query}>
         <FormBase
           theme={ReviewTheme}
           schema={jsonSchema}
