@@ -44,6 +44,13 @@ resources:
       cpu: 100m
       memory: '256Mi'
 
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
 deployer:
   namespace: '' # The namespace must be passed in via the deploy script
   serviceAccount:

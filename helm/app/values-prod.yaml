@@ -28,3 +28,9 @@ instances:
   limits:
     cpu: 1000m
     memory: 1Gi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
