@@ -22,12 +22,12 @@ const rfiUiSchema = {
     'ui:widget': 'FileWidget',
     'ui:options': {
       label: false,
-      boldTitle: true,
     },
   },
   rfiAdditionalFiles: {
     'ui:widget': 'CheckboxesWidget',
     'ui:options': {
+      boldTitle: true,
       checkboxColumns: 2,
     },
   },

@@ -35,7 +35,6 @@ const RFI = ({
         <ButtonLink href={`/analyst/application/${applicationId}/rfi/0`}>
           New RFI
         </ButtonLink>
-        {/* RFI list will go here */}
       </AnalystLayout>
     </Layout>
   );

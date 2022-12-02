@@ -19,17 +19,18 @@ const RfiForm = () => {
   const [createRfi] = useCreateRfiMutation();
 
   const handleSubmit = (e: ISubmitEvent<any>) => {
-    console.log(e);
     createRfi({
       variables: {
         input: {
-          rowId: parseInt(applicationId as string, 10),
+          applicationRowId: parseInt(applicationId as string, 10),
+          jsonData: e.formData,
         },
       },
       onCompleted: () => {
         router.push(rfiUrl);
       },
       onError: (err) => {
+        // eslint-disable-next-line no-console
         console.log('Error creating RFI', err);
       },
     });

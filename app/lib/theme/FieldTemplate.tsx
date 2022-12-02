@@ -15,6 +15,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   id,
 }) => {
   const hideOptional = uiSchema['ui:options']?.hideOptional;
+  const boldTitle = uiSchema['ui:options']?.boldTitle as boolean;
   const altOptionalText = uiSchema['ui:options']?.altOptionalText;
   const customTitle = uiSchema['ui:options']?.customTitle as JSX.Element;
   const showLabel = displayLabel && !customTitle;
@@ -23,6 +24,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
     <div>
       {showLabel && (
         <FieldLabel
+          bold={boldTitle}
           label={label}
           altOptionalText={altOptionalText && String(altOptionalText)}
           hideOptional={hideOptional && true}
