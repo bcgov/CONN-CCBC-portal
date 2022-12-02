@@ -22,7 +22,8 @@ begin
 perform ccbc_private.grant_permissions('select', 'application_rfi_data', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('insert', 'application_rfi_data', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('select', 'application_rfi_data', 'ccbc_admin');
-perform ccbc_private.grant_permissions('insert', 'application_rfi_data', 'ccbc_admin');
+perform ccbc_private.grant_permissions('insert', 'application_rfi_data', 'ccbc_admin'); 
+perform ccbc_private.grant_permissions('select', 'application_rfi_data', 'ccbc_auth_user');
 
 end
 $grant$;

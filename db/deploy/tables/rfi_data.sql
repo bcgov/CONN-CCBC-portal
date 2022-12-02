@@ -14,6 +14,7 @@ alter table ccbc_public.rfi_data force row level security;
 alter table ccbc_public.rfi_data enable row level security;
 
 grant usage, select on sequence ccbc_public.rfi_data_id_seq to ccbc_analyst;
+grant usage, select on sequence ccbc_public.rfi_data_id_seq to ccbc_admin;
 
 do
 $grant$

@@ -15,6 +15,8 @@ $$
 begin
 
 perform ccbc_private.grant_permissions('select', 'rfi_data_status_type','ccbc_analyst');
+perform ccbc_private.grant_permissions('select', 'rfi_data_status_type','ccbc_admin');
+perform ccbc_private.grant_permissions('select', 'rfi_data_status_type','ccbc_auth_user');
 
 end
 $$;
