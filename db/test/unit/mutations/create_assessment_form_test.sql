@@ -9,7 +9,7 @@ truncate table
   ccbc_public.form_data,
   ccbc_public.application_form_data,
   ccbc_public.intake
-restart identity;
+restart identity cascade;
 
 select has_function('ccbc_public', 'create_assessment_form',
 'Function create_assessment_form should exist');
