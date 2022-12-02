@@ -37,7 +37,7 @@ const Assessments = ({
 }: RelayProps<Record<string, unknown>, assessmentsQuery>) => {
   const query = usePreloadedQuery(getAssessmentsQuery, preloadedQuery);
 
-  const { applicationByRowId, session, allAnalysts } = query;
+  const { applicationByRowId, session } = query;
   const [createAssessment, isCreating] = useCreateScreeningAssessmentMutation();
   const [isFormSaved, setIsFormSaved] = useState(false);
 
