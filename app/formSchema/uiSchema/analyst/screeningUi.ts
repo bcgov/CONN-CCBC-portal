@@ -26,7 +26,7 @@ const screeningUiSchema = {
     'ui:widget': 'RadioWidget',
   },
   contestingMap: {
-    'ui:widget': 'CheckboxWidget',
+    'ui:widget': 'CheckboxesWidget',
   },
   assessmentTemplate: {
     'ui:widget': 'FileWidget',

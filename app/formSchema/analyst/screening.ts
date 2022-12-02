@@ -33,11 +33,13 @@ const screening: JSONSchema7 = {
       enum: ['Eligible', 'Ineligible', 'Incomplete'],
     },
     contestingMap: {
-      type: 'boolean',
-      title: 'Applicant is contesting the map',
-      description: '',
-      enum: [false, true],
-      default: false,
+      title: 'Contesting Map',
+      type: 'array',
+      items: {
+        type: 'string',
+        enum: ['Applicant is contesting the area map'],
+      },
+      uniqueItems: true,
     },
     assessmentTemplate: {
       title: 'Assessment template',
