@@ -8,9 +8,6 @@ import { assessmentsQuery } from '__generated__/assessmentsQuery.graphql';
 
 const getAssessmentsQuery = graphql`
   query assessmentsQuery($rowId: Int!) {
-    applicationByRowId(rowId: $rowId) {
-      ...AnalystLayout_application
-    }
     session {
       sub
     }
@@ -22,10 +19,10 @@ const Assessments = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, assessmentsQuery>) => {
   const query = usePreloadedQuery(getAssessmentsQuery, preloadedQuery);
-  const { applicationByRowId, session } = query;
+  const { session } = query;
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout query={query} application={applicationByRowId}>
+      <AnalystLayout query={query}>
         <h2>Assessments placeholder</h2>
       </AnalystLayout>
     </Layout>

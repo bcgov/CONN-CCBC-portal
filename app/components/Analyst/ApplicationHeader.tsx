@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
-import { ApplicationHeader_application$key } from '__generated__/ApplicationHeader_application.graphql';
 import AssignLead from 'components/Analyst/AssignLead';
 
 const StyledCallout = styled.div`
@@ -21,33 +20,29 @@ const StyledH2 = styled.h2`
 `;
 
 interface Props {
-  application: ApplicationHeader_application$key;
   query: any;
 }
 
-const ApplicationHeader: React.FC<Props> = ({ application, query }) => {
-  const { analystLead, ccbcNumber, organizationName, projectName, rowId } =
-    useFragment(
-      graphql`
-        fragment ApplicationHeader_application on Application {
+const ApplicationHeader: React.FC<Props> = ({ query }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment ApplicationHeader_query on Query {
+        applicationByRowId(rowId: $rowId) {
           analystLead
           organizationName
           ccbcNumber
           projectName
           rowId
         }
-      `,
-      application
-    );
-
-  const queryFragment = useFragment(
-    graphql`
-      fragment ApplicationHeader_query on Query {
         ...AssignLead_query
       }
     `,
     query
   );
+
+  const { applicationByRowId } = queryFragment;
+  const { analystLead, ccbcNumber, organizationName, projectName, rowId } =
+    applicationByRowId;
 
   return (
     <StyledCallout>

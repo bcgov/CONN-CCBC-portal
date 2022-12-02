@@ -7,20 +7,39 @@ import ApplicationHeader from 'components/Analyst/ApplicationHeader';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
 const testQuery = graphql`
-  query ApplicationHeaderTestQuery @relay_test_operation {
-    # Spread the fragment you want to test here
-    application(id: "TestApplicationID") {
-      ...ApplicationHeader_application
-    }
+  query ApplicationHeaderTestQuery($rowId: Int!) {
+    ...ApplicationHeader_query
   }
 `;
 
 const mockQueryPayload = {
-  Application() {
+  Query() {
     return {
-      ccbcNumber: 'CCBC-10001',
-      organizationName: 'test org',
-      projectName: 'test project',
+      applicationByRowId: {
+        ccbcNumber: 'CCBC-10001',
+        organizationName: 'test org',
+        projectName: 'test project',
+        formData: {
+          jsonData: {},
+          formByFormSchemaId: {
+            jsonSchema: {},
+          },
+        },
+      },
+      allAnalysts: {
+        nodes: [
+          {
+            rowId: 1,
+            givenName: 'Test',
+            familyName: '1',
+          },
+          {
+            rowId: 2,
+            givenName: 'Test',
+            familyName: '2',
+          },
+        ],
+      },
     };
   },
 };
@@ -32,8 +51,7 @@ const componentTestingHelper =
     compiledQuery,
     defaultQueryResolver: mockQueryPayload,
     getPropsFromTestQuery: (data) => ({
-      application: data.application,
-      isSaving: false,
+      query: data,
     }),
   });
 

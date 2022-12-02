@@ -8,9 +8,6 @@ import { historyQuery } from '__generated__/historyQuery.graphql';
 
 const getHistoryQuery = graphql`
   query historyQuery($rowId: Int!) {
-    applicationByRowId(rowId: $rowId) {
-      ...AnalystLayout_application
-    }
     session {
       sub
     }
@@ -22,10 +19,10 @@ const History = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, historyQuery>) => {
   const query = usePreloadedQuery(getHistoryQuery, preloadedQuery);
-  const { applicationByRowId, session } = query;
+  const { session } = query;
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout query={query} application={applicationByRowId}>
+      <AnalystLayout query={query}>
         <h2>History placeholder</h2>
       </AnalystLayout>
     </Layout>

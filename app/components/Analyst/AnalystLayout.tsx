@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import NavigationSidebar from 'components/Analyst/NavigationSidebar';
 import FormDiv from 'components/FormDiv';
-import { AnalystLayout_application$key } from '__generated__/AnalystLayout_application.graphql';
 import ApplicationHeader from './ApplicationHeader';
 
 const StyledContainer = styled.div`
@@ -18,24 +17,10 @@ const StyledFlex = styled.div`
 
 interface Props {
   children: JSX.Element[] | JSX.Element;
-  application: AnalystLayout_application$key;
   query: any;
 }
 
-const AnalystLayout: React.FC<Props> = ({
-  application: applicationKey,
-  children,
-  query,
-}) => {
-  const application = useFragment(
-    graphql`
-      fragment AnalystLayout_application on Application {
-        ...ApplicationHeader_application
-      }
-    `,
-    applicationKey
-  );
-
+const AnalystLayout: React.FC<Props> = ({ children, query }) => {
   const queryFragment = useFragment(
     graphql`
       fragment AnalystLayout_query on Query {
@@ -46,7 +31,7 @@ const AnalystLayout: React.FC<Props> = ({
   );
   return (
     <StyledContainer>
-      <ApplicationHeader query={queryFragment} application={application} />
+      <ApplicationHeader query={queryFragment} />
       <StyledFlex>
         <NavigationSidebar />
         <FormDiv>{children}</FormDiv>

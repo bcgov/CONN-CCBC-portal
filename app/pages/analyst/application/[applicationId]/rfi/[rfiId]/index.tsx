@@ -8,9 +8,6 @@ import { RfiIdQuery } from '__generated__/RfiIdQuery.graphql';
 
 const getRfiIdQuery = graphql`
   query RfiIdQuery($rowId: Int!) {
-    applicationByRowId(rowId: $rowId) {
-      ...AnalystLayout_application
-    }
     session {
       sub
     }
@@ -22,10 +19,10 @@ const RfiId = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, RfiIdQuery>) => {
   const query = usePreloadedQuery(getRfiIdQuery, preloadedQuery);
-  const { applicationByRowId, session } = query;
+  const { session } = query;
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout query={query} application={applicationByRowId}>
+      <AnalystLayout query={query}>
         <h2>RFI</h2>
         <hr />
         <RfiForm />
