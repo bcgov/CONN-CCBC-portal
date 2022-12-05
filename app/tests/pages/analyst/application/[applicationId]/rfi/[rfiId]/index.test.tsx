@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react';
 import RfiId from 'pages/analyst/application/[applicationId]/rfi/[rfiId]';
+import userEvent from '@testing-library/user-event';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledhistoryQuery, {
   historyQuery,
@@ -191,6 +192,25 @@ describe('The index page', () => {
         name: 'Cancel',
       })
     ).toBeVisible();
+  });
+
+  it('calls the mutation on save', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+    const user = userEvent.setup();
+
+    const button = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await user.click(button);
+
+    pageTestingHelper.expectMutationToBeCalled('createRfiMutation', {
+      input: {
+        applicationRowId: 1,
+        jsonData: {},
+      },
+    });
   });
 
   afterEach(() => {
