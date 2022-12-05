@@ -25,3 +25,8 @@ variable "clamav-definitions-bucket" {
     description = "The name of the bucket which will contain clamav definitions"
     default = "fapi7b-dev-ccbc-clamav"
 }
+
+variable "sns-name" {
+    description = "The name of the SNS topic for ClamAV lambda notifications"
+    default = "clamav-notification"
+}

@@ -49,6 +49,11 @@ resource "aws_iam_policy" "clamav" {
          ],
          "Effect":"Allow",
          "Resource":"arn:aws:s3:::${aws_s3_bucket.clamav-definitions.bucket}/*"
+      },
+      {
+          "Effect": "Allow",
+          "Action": "sns:*",
+          "Resource": "arn:aws:sns:*:${data.aws_caller_identity.current.account_id}:${var.sns-name}"
       }
    ]
 }
@@ -78,7 +83,8 @@ resource "aws_lambda_function" "update-clamav-definitions" {
 
     environment {
         variables = {
-            AV_DEFINITION_S3_BUCKET = "${aws_s3_bucket.clamav-definitions.bucket}"
+            AV_DEFINITION_S3_BUCKET = "${aws_s3_bucket.clamav-definitions.bucket}",
+            AV_NOTIFICATION_TOPIC = "${aws_sns_topic.notification_sns_topic.arn}"
         }
     }
 }

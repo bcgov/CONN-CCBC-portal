@@ -19,6 +19,8 @@ data "aws_vpc" "selected" {
   state = "available"
 }
 
+data "aws_caller_identity" "current" {}
+
 module "s3" {
   source  = "./modules/s3_bucket"
   vpc_id = data.aws_vpc.selected.id
