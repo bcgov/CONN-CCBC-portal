@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Assessments from 'pages/analyst/application/[applicationId]/assessments';
+import React, { Dispatch } from 'react';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledassessmentsQuery, {
   assessmentsQuery,
@@ -89,6 +90,23 @@ describe('The index page', () => {
         },
       }
     );
+  });
+
+  it('Form shows saved after save', async () => {
+    const setStateMock = jest.fn();
+    const mockImplementation = (useState) => [useState, setStateMock];
+    jest
+      .spyOn(React, 'useState')
+      .mockImplementation(
+        mockImplementation as () => [unknown, Dispatch<unknown>]
+      );
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    await userEvent.click(screen.getByLabelText('Eligible'));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }));
+    expect(setStateMock).toHaveBeenCalledWith(true);
   });
 
   afterEach(() => {
