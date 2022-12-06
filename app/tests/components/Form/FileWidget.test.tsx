@@ -389,4 +389,36 @@ describe('The FileWidget', () => {
     expect(screen.getByText('Replace')).toBeVisible();
     expect(screen.getByText(/Delete file failed/)).toBeVisible();
   });
+
+  it('File Widget gets application id from url', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const applicationId = '5';
+    componentTestingHelper.router.query.id = null;
+    componentTestingHelper.router.query.applicationId = applicationId;
+
+    const file = new File([new ArrayBuffer(1)], 'file.kmz', {
+      type: 'application/vnd.google-earth.kmz',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    fireEvent.change(inputFile, { target: { files: [file] } });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file,
+            fileName: 'file.kmz',
+            fileSize: '1 Bytes',
+            fileType: 'application/vnd.google-earth.kmz',
+            applicationId: parseInt(applicationId, 10),
+          },
+        },
+      }
+    );
+  });
 });

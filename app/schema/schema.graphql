@@ -4297,6 +4297,9 @@ type Application implements Node {
   """Computed column to return analyst lead of an application"""
   analystLead: String
 
+  """Computed column that takes the slug to return an assessment form"""
+  assessmentForm(_slug: String!): FormData
+
   """Computed column to display form_data"""
   formData: FormData
 
@@ -14130,6 +14133,12 @@ type Mutation {
     """
     input: CreateApplicationInput!
   ): CreateApplicationPayload
+  createAssessmentForm(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateAssessmentFormInput!
+  ): CreateAssessmentFormPayload
   createRfi(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -17648,6 +17657,56 @@ input CreateApplicationInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+}
+
+"""The output of our `createAssessmentForm` mutation."""
+type CreateAssessmentFormPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  formData: FormData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `FormDataStatusType` that is related to this `FormData`.
+  """
+  formDataStatusTypeByFormDataStatusTypeId: FormDataStatusType
+
+  """Reads a single `CcbcUser` that is related to this `FormData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `FormData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `FormData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """Reads a single `Form` that is related to this `FormData`."""
+  formByFormSchemaId: Form
+
+  """An edge for our `FormData`. May be used by Relay 1."""
+  formDataEdge(
+    """The method to use when ordering `FormData`."""
+    orderBy: [FormDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): FormDataEdge
+}
+
+"""All input for the `createAssessmentForm` mutation."""
+input CreateAssessmentFormInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  schemaSlug: String!
+  _jsonData: JSON!
+  _applicationId: Int!
 }
 
 """The output of our `createRfi` mutation."""
