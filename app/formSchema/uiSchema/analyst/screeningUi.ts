@@ -33,12 +33,14 @@ const screeningUiSchema = {
     'ui:options': {
       label: false,
       fileTypes: EXCEL_FILE_EXTENSIONS,
+      allowMultipleFiles: true,
     },
   },
   otherFiles: {
     'ui:widget': 'FileWidget',
     'ui:options': {
       label: false,
+      allowMultipleFiles: true,
     },
   },
 };
