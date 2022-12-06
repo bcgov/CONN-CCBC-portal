@@ -31,7 +31,7 @@ const StyledH4 = styled('h4')`
   margin: 0;
 `;
 
-const StyledLink = styled('a')`
+const StyledLink = styled.button`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
 `;
@@ -254,6 +254,15 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     return 'Upload';
   };
 
+  const handleDownload = async (uuid, fileName) => {
+    const url = `/api/s3/download/${uuid}/${fileName}`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((response) => {
+        window.open(response, '_blank');
+      });
+  };
+
   return (
     <StyledContainer style={{ border: error && '1px solid #E71F1F' }}>
       <StyledDetails>
@@ -261,7 +270,14 @@ const FileWidget: React.FC<FileWidgetProps> = ({
         {isFiles &&
           value.map((file: File) => (
             <StyledFileDiv key={file.uuid}>
-              <StyledLink>{file.name}</StyledLink>
+              <StyledLink
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleDownload(file.uuid, file.name);
+                }}
+              >
+                {file.name}
+              </StyledLink>
               <StyledDeleteBtn
                 data-testid="file-delete-btn"
                 onClick={(e: React.MouseEvent<HTMLInputElement>) => {
