@@ -1,3 +1,18 @@
+# [1.20.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.19.0...v1.20.0) (2022-12-06)
+
+### Features
+
+- add applicationId to file upload for analyst side ([72820a4](https://github.com/bcgov/CONN-CCBC-portal/commit/72820a4e852529d12ff35013c6da960e870fa36a))
+- add roles for admin and analyst for file uploads ([a3ffbcf](https://github.com/bcgov/CONN-CCBC-portal/commit/a3ffbcf763d811e77f7acbfe1119397f8f7c902d))
+- add screening schema ([95b2704](https://github.com/bcgov/CONN-CCBC-portal/commit/95b270425e165440b3a48471b4d9323aacad6e80))
+- add spinner and dynamic save text ([f7b0528](https://github.com/bcgov/CONN-CCBC-portal/commit/f7b05283b330a22f0d0af96a9c5f0152f7fe7949))
+- backend for assessments ([dfebca8](https://github.com/bcgov/CONN-CCBC-portal/commit/dfebca8bb5180e1eb4e0f23646077c4775035c9a))
+- create AnalystSelectWidget and import schema to db ([fb7146f](https://github.com/bcgov/CONN-CCBC-portal/commit/fb7146fa0c30122a6501707475ec321798eef29e))
+- db tests ([4fe630d](https://github.com/bcgov/CONN-CCBC-portal/commit/4fe630d77625d171a53a47ff4a003d5901eb97e4))
+- screening assessment form display ([e00fbf8](https://github.com/bcgov/CONN-CCBC-portal/commit/e00fbf8a45513a1dbee971867fea675878080681))
+- update computed columns for assessment schemas ([6dd9735](https://github.com/bcgov/CONN-CCBC-portal/commit/6dd9735ce6a303e0229bda1ae7b5a8723ae2f9e1))
+- update terraform to provision SNS topic for lambda notifications ([2e8ecb7](https://github.com/bcgov/CONN-CCBC-portal/commit/2e8ecb79a46d2fafd329230e740cb397e7f39748))
+
 # [1.19.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.18.0...v1.19.0) (2022-12-02)
 
 ### Bug Fixes
