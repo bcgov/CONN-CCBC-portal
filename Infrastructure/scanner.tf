@@ -42,6 +42,11 @@ resource "aws_iam_policy" "bucket-antivirus-scan" {
          ],
          "Effect":"Allow",
          "Resource":"*"
+      },
+      {
+          "Effect": "Allow",
+          "Action": "sns:*",
+          "Resource": "arn:aws:sns:*:${data.aws_caller_identity.current.account_id}:${var.sns-name}"
       }
    ]
 }
@@ -73,7 +78,8 @@ resource "aws_lambda_function" "scan-file" {
 
     environment {
         variables = {
-        AV_DEFINITION_S3_BUCKET = "${aws_s3_bucket.clamav-definitions.bucket}"
+          AV_DEFINITION_S3_BUCKET = "${aws_s3_bucket.clamav-definitions.bucket}",
+          AV_NOTIFICATION_TOPIC = "${aws_sns_topic.notification_sns_topic.arn}"
         }
     }
 }

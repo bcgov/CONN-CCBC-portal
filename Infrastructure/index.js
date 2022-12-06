@@ -69,6 +69,8 @@ exports.handler = async (event) => {
             }
           })
           .promise();
+          var message=`Virus detected in ${record.s3.object.key} (bucket ${process.env.AV_DEFINITION_S3_BUCKET})`;
+          await notify(message);
       }
     }
 
@@ -134,6 +136,22 @@ async function uploadFileToS3(params)
         console.error(ex);
     }	
     return;
+}
+
+async function notify(message) {
+  const snsClient = new AWS.SNS({apiVersion: '2010-03-31',region: 'ca-central-1'});
+  var params = {
+    Message: message,  
+    TopicArn: process.env.AV_NOTIFICATION_TOPIC 
+  };
+ 
+  try {
+    const data = await snsClient.publish(params).promise();
+    console.log("Success.",  data);
+    return data; 
+  } catch (err) {
+    console.log("Error", err.stack);
+  } 
 }
 
 exports.updateDb = async (event, context) => {
