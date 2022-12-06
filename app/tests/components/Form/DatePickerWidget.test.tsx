@@ -50,4 +50,16 @@ describe('The Datepicker widget', () => {
 
     expect(datepicker).toHaveValue('1293-08-23');
   });
+
+  it('Should have empty value when cleared', () => {
+    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+
+    const datepicker = screen.getByTestId('root_datepickerTestField');
+
+    fireEvent.change(datepicker, { target: { value: '1293-08-23' } });
+
+    fireEvent.change(datepicker, { target: { value: null } });
+
+    expect(datepicker).toHaveValue('');
+  });
 });
