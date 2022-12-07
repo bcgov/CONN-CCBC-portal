@@ -18,6 +18,7 @@ import { LoadingSpinner } from 'components';
 const getAssessmentsQuery = graphql`
   query assessmentsQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
+      id
       rowId
       assessmentForm(_slug: "screeningAssessmentSchema") {
         jsonData
@@ -54,6 +55,14 @@ const Assessments = ({
       },
       optimisticResponse: {
         jsonData: e.formData,
+      },
+      updater: (store, data) => {
+        const application = store.get(applicationByRowId.id);
+        application.setLinkedRecord(
+          store.get(data.createAssessmentForm.formData.id),
+          'assessmentForm',
+          { _slug: 'screeningAssessmentSchema' }
+        );
       },
     });
   };
