@@ -1,4 +1,4 @@
-import { EXCEL_FILE_EXTENSIONS } from '../constants';
+import { ANALYST_EXCEL_FILE_EXTENSIONS } from '../constants';
 
 const screeningUiSchema = {
   'ui:order': [
@@ -32,7 +32,7 @@ const screeningUiSchema = {
     'ui:widget': 'FileWidget',
     'ui:options': {
       label: false,
-      fileTypes: EXCEL_FILE_EXTENSIONS,
+      fileTypes: ANALYST_EXCEL_FILE_EXTENSIONS,
       allowMultipleFiles: true,
     },
   },

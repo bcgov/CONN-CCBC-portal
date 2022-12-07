@@ -8,6 +8,7 @@ const mutation = graphql`
   ) {
     createAssessmentForm(input: $input) {
       formData {
+        id
         rowId
         jsonData
       }
