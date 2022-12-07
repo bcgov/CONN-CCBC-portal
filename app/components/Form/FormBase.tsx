@@ -12,7 +12,7 @@ interface FormPropsWithTheme<T> extends FormProps<T> {
 }
 
 const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
-  const { theme, formData } = props;
+  const { theme, formData, omitExtraData } = props;
   const Form = useMemo(() => withTheme(theme ?? defaultTheme), [theme]);
 
   const transformErrors = (errors: AjvError[]) => {
@@ -29,7 +29,7 @@ const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
       customFormats={customFormats}
       transformErrors={transformErrors}
       noHtml5Validate
-      omitExtraData
+      omitExtraData={omitExtraData || true}
       showErrorList={false}
     />
   );

@@ -42,6 +42,7 @@ const Assessments = ({
   const [isFormSaved, setIsFormSaved] = useState(false);
 
   const handleSubmit = async (e: ISubmitEvent<any>) => {
+    console.log(e.formData);
     createAssessment({
       variables: {
         input: {
@@ -78,6 +79,7 @@ const Assessments = ({
           onChange={() => {
             setIsFormSaved(false);
           }}
+          omitExtraData={false}
           formContext={{ query }}
           onSubmit={handleSubmit}
         >
