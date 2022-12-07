@@ -73,7 +73,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
       // Even fields single file uploads are stored in an array so we will iterate them
       attachmentFields[field].forEach((attachment) => {
         const { name, uuid } = attachment;
-        const path = getArchivePath(field, ccbcNumber, name);
+        const archivePath = getArchivePath(field, ccbcNumber, name);
 
         // Get object from s3
         const objectSrc = s3Client
@@ -84,7 +84,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
           .createReadStream();
 
         archive.append(objectSrc, {
-          name: path,
+          name: `${archivePath.path}${archivePath.name}`,
         });
       });
     });
