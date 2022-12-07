@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import FormBase from 'components/Form/FormBase';
 import rfiSchema from 'formSchema/analyst/rfiSchema';
-import rfiUiSchema from 'formSchema/uiSchema/analyst/rfiUiSchema';
+import { rfiViewUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import RfiTheme from 'components/Analyst/RFI/RfiTheme';
 
 interface Props {
@@ -22,14 +22,25 @@ const StyledH4 = styled.h4`
   font-size: 21px;
 `;
 
+const Hidden = () => {
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <></>;
+};
+
 const RFI: React.FC<Props> = ({ formData, rfiNumber }) => {
   return (
     <StyledContainer>
       <StyledH4>{rfiNumber}</StyledH4>
       <FormBase
-        theme={RfiTheme}
+        theme={{
+          ...RfiTheme,
+          widgets: {
+            ...RfiTheme.widgets,
+            CheckboxWidget: Hidden,
+          },
+        }}
         schema={rfiSchema}
-        uiSchema={rfiUiSchema}
+        uiSchema={rfiViewUiSchema}
         formData={formData}
         noValidate
         tagName="div"

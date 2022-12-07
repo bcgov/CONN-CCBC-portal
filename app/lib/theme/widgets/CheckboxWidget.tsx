@@ -12,10 +12,6 @@ const StyledDiv = styled('div')`
     border-radius: 2px;
   }
 
-  & label {
-    padding-left: 1em;
-  }
-
   & div {
     padding-right: 8px;
   }
@@ -43,10 +39,10 @@ const CheckboxWidget: React.FC<WidgetProps> = ({
         aria-label={label}
         disabled={disabled}
         onChange={(event: { target: { checked: any } }) =>
-          onChange(event.target.checked)
+          onChange(event.target.checked || undefined)
         }
       />
-      <p>{label}</p>
+      <label htmlFor={id}>{label}</label>
     </StyledDiv>
   </StyledContainer>
 );

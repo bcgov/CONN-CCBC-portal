@@ -1,9 +1,9 @@
 import { ThemeProps, utils } from '@rjsf/core';
-import ObjectFieldTemplate from 'lib/theme/ObjectFieldTemplate';
 import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
-import FileWidget from 'lib/theme/widgets/FileWidget';
+import { CheckboxWidget, FileWidget } from 'lib/theme/widgets';
 import DefaultWidget from './DefaultWidget';
 import FieldTemplate from './FieldTemplate';
+import ObjectFieldTemplate from './ObjectFieldTemplate';
 
 const { fields, widgets: defaultWidgets } = utils.getDefaultRegistry();
 
@@ -13,6 +13,7 @@ const RfiTheme: ThemeProps = {
   },
   widgets: {
     ...defaultWidgets,
+    CheckboxWidget,
     CheckboxesWidget: DefaultWidget,
     DatePickerWidget: DefaultWidget,
     FileWidget,

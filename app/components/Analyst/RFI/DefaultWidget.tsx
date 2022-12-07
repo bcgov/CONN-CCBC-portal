@@ -8,11 +8,14 @@ const StyledTR = styled.tr`
 const StyledTdLeft = styled.td`
   border-style: hidden;
   font-weight: 700;
+  padding-top: 0;
+  padding-bottom: 24px;
 `;
 
 const StyledTdRight = styled.td`
   border-style: hidden;
   padding-left: 72px;
+  padding-top: 0;
 `;
 
 const DefaultWidget: React.FC<WidgetProps> = ({ label, value }) => {
