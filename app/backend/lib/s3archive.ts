@@ -61,31 +61,56 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
   // Send the archive to the route
   archive.pipe(res);
 
+  const detectInfected = (uuid: string) => {
+      var params = {
+        Bucket: AWS_S3_BUCKET,
+        Key: uuid,
+      };
+      return s3Client.getObjectTagging(params, function(err, data) {
+        if (err) {
+          console.log(err, err.stack); 
+          return null;
+        } 
+        else {   
+          return data;
+        }   
+      }).promise();   
+  }
+
   const sortAndAppendAttachments = (formData, ccbcNumber) => {
     const attachmentFields = {
       ...formData?.templateUploads,
       ...formData?.supportingDocuments,
       ...formData?.coverage,
     };
-
+    
     // Iterate through fields
-    Object.keys(attachmentFields).forEach((field) => {
+    Object.keys(attachmentFields).forEach(async(field) => {
+
       // Even fields single file uploads are stored in an array so we will iterate them
-      attachmentFields[field].forEach((attachment) => {
+      attachmentFields[field].forEach(async(attachment) => {
         const { name, uuid } = attachment;
         const path = getArchivePath(field, ccbcNumber, name);
-
-        // Get object from s3
-        const objectSrc = s3Client
-          .getObject({
-            Bucket: AWS_S3_BUCKET,
-            Key: uuid,
-          })
-          .createReadStream();
-
-        archive.append(objectSrc, {
-          name: path,
-        });
+        const healthCheck = await detectInfected(uuid);
+        const suspect = healthCheck.TagSet.find(x => x.Key === 'av_status');
+        if (suspect?.Value === 'dirty') {
+          archive.append('', {
+            name: `${path}_flagged_as_containing_virus`,
+          });
+        }
+        else {
+          // Get object from s3
+          const objectSrc = s3Client
+            .getObject({
+              Bucket: AWS_S3_BUCKET,
+              Key: uuid,
+            })
+            .createReadStream();
+  
+          archive.append(objectSrc, {
+            name: path,
+          });
+        }
       });
     });
   };
