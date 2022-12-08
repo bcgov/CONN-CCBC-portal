@@ -1,12 +1,4 @@
 import { JSONSchema7 } from 'json-schema';
-import templateUploadsFields from 'dist/formSchema/pages/templateUploads';
-import supportingDocumentsFields from 'dist/formSchema/pages/supportingDocuments';
-import coverageFields from 'dist/formSchema/pages/coverage';
-
-const templateUploads = templateUploadsFields.templateUploads.properties;
-const supportingDocuments =
-  supportingDocumentsFields.supportingDocuments.properties;
-const coverage = coverageFields.coverage.properties;
 
 const rfi = {
   title: '',
@@ -45,7 +37,6 @@ const rfi = {
         detailedBudgetRfi: {
           title: 'Template 2 - Detailed Budget',
           type: 'boolean',
-          hidden: true,
         },
         financialForecastRfi: {
           title: 'Template 3 - Financial Forecast',
@@ -124,109 +115,163 @@ const rfi = {
       dependencies: {
         eligibilityAndImpactsCalculatorRfi: {
           properties: {
-            eligibilityAndImpactsCalculator:
-              templateUploads.eligibilityAndImpactsCalculator,
+            eligibilityAndImpactsCalculator: {
+              title: 'Template 1 - Eligibility and Impacts Calculator',
+              type: 'boolean',
+            },
           },
         },
         detailedBudgetRfi: {
           properties: {
-            detailedBudget: templateUploads.detailedBudget,
+            detailedBudget: {
+              title: 'Template 2 - Detailed Budget',
+              type: 'boolean',
+            },
           },
         },
         financialForecastRfi: {
           properties: {
-            financialForecast: templateUploads.financialForecast,
+            financialForecast: {
+              title: 'Template 3 - Financial Forecast',
+              type: 'boolean',
+            },
           },
         },
         lastMileIspOfferingRfi: {
           properties: {
-            lastMileIspOffering: templateUploads.lastMileIspOffering,
+            lastMileIspOffering: {
+              title: 'Template 4 - Last Mile Internet Service Offering',
+              type: 'boolean',
+            },
           },
         },
         popWholesalePricingRfi: {
           properties: {
-            popWholesalePricing: templateUploads.popWholesalePricing,
+            popWholesalePricing: {
+              title:
+                'Template 5 - List of Points of Presence and Wholesale Pricing',
+              type: 'boolean',
+            },
           },
         },
         communityRuralDevelopmentBenefitsTemplateRfi: {
           properties: {
-            communityRuralDevelopmentBenefitsTemplate:
-              templateUploads.communityRuralDevelopmentBenefitsTemplate,
+            communityRuralDevelopmentBenefitsTemplate: {
+              title: 'Template 6 - Community and Rural Development Benefits',
+              type: 'boolean',
+            },
           },
         },
         wirelessAddendumRfi: {
           properties: {
-            wirelessAddendum: templateUploads.wirelessAddendum,
+            wirelessAddendum: {
+              title: 'Template 7 - Wireless Addendum',
+              type: 'boolean',
+            },
           },
         },
         supportingConnectivityEvidenceRfi: {
           properties: {
-            supportingConnectivityEvidence:
-              templateUploads.supportingConnectivityEvidence,
+            supportingConnectivityEvidence: {
+              title: 'Template 8 - Supporting Connectivity Evidence',
+              type: 'boolean',
+            },
           },
         },
         geographicNamesRfi: {
           properties: {
-            geographicNames: templateUploads.geographicNames,
+            geographicNames: {
+              title: 'Template 9 - Backbone and Geographic Names',
+              type: 'boolean',
+            },
           },
         },
         equipmentDetailsRfi: {
           properties: {
-            equipmentDetails: templateUploads.equipmentDetails,
+            equipmentDetails: {
+              title: 'Template 10 - Equipment Details',
+              type: 'boolean',
+            },
           },
         },
         copiesOfRegistrationRfi: {
           properties: {
-            copiesOfRegistration: supportingDocuments.copiesOfRegistration,
+            copiesOfRegistration: {
+              title: 'Copies of registration and other relevant documents',
+              type: 'boolean',
+            },
           },
         },
         preparedFinancialStatementsRfi: {
           properties: {
-            preparedFinancialStatements:
-              supportingDocuments.preparedFinancialStatements,
+            preparedFinancialStatements: {
+              title: 'Financial statements',
+              type: 'boolean',
+            },
           },
         },
         logicalNetworkDiagramRfi: {
           properties: {
-            logicalNetworkDiagram: supportingDocuments.logicalNetworkDiagram,
+            logicalNetworkDiagram: {
+              title: 'Logical Network Diagram',
+              type: 'boolean',
+            },
           },
         },
         projectScheduleRfi: {
           properties: {
-            projectSchedule: supportingDocuments.projectSchedule,
+            projectSchedule: {
+              title: 'Project schedule',
+              type: 'boolean',
+            },
           },
         },
         communityRuralDevelopmentBenefitsRfi: {
           properties: {
-            communityRuralDevelopmentBenefits:
-              supportingDocuments.communityRuralDevelopmentBenefits,
+            communityRuralDevelopmentBenefits: {
+              title: 'Benefits supporting documents',
+              type: 'boolean',
+            },
           },
         },
         otherSupportingMaterialsRfi: {
           properties: {
-            otherSupportingMaterials:
-              supportingDocuments.otherSupportingMaterials,
+            otherSupportingMaterials: {
+              title: 'Other supporting materials',
+              type: 'boolean',
+            },
           },
         },
         geographicCoverageMapRfi: {
           properties: {
-            geographicCoverageMap: coverage.geographicCoverageMap,
+            geographicCoverageMap: {
+              title: 'Coverage map from Eligibility Mapping Tool',
+              type: 'boolean',
+            },
           },
         },
         coverageAssessmentStatisticsRfi: {
           properties: {
-            coverageAssessmentStatistics: coverage.coverageAssessmentStatistics,
+            coverageAssessmentStatistics: {
+              title: 'Coverage Assessment and Statistics',
+              type: 'boolean',
+            },
           },
         },
         currentNetworkInfastructureRfi: {
           properties: {
-            currentNetworkInfastructure: coverage.currentNetworkInfastructure,
+            currentNetworkInfastructure: {
+              title: 'Current network infrastructure',
+              type: 'boolean',
+            },
           },
         },
         upgradedNetworkInfrastructureRfi: {
           properties: {
-            upgradedNetworkInfrastructure:
-              coverage.upgradedNetworkInfrastructure,
+            upgradedNetworkInfrastructure: {
+              title: 'Proposed or Upgraded Network Infrastructure',
+              type: 'boolean',
+            },
           },
         },
       },

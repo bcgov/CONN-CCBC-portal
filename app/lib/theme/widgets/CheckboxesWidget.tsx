@@ -2,10 +2,6 @@ import { WidgetProps } from '@rjsf/core';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 import styled from 'styled-components';
 
-interface Props {
-  columns: number;
-}
-
 const StyledDiv = styled('div')`
   display: flex;
   flex-direction: row;
@@ -25,9 +21,8 @@ const StyledDiv = styled('div')`
   }
 `;
 
-const StyledContainer = styled('div')<Props>`
+const StyledContainer = styled('div')`
   margin: 16px 0;
-  column-count: ${(props) => props.columns || 1};
 `;
 
 const CheckboxesWidget: React.FC<WidgetProps> = ({
@@ -39,8 +34,6 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
   value,
   required,
 }) => {
-  const columns = options?.checkboxColumns as number;
-
   function selectValue(val: any, selected: any, all: any) {
     const at = all.indexOf(val);
     const updated = selected.slice(0, at).concat(val, selected.slice(at));
@@ -53,7 +46,7 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
 
   const { enumOptions }: any = options;
   return (
-    <StyledContainer columns={columns}>
+    <StyledContainer>
       {enumOptions &&
         enumOptions.map(
           (option: { value: string; label: string }, i: number) => {

@@ -1,31 +1,35 @@
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 
-const StyledTR = styled.tr`
-  border-style: hidden;
+const StyledFlex = styled.div`
+  display: flex;
 `;
 
-const StyledTdLeft = styled.td`
+const StyledColumnLeft = styled.div`
   border-style: hidden;
   font-weight: 700;
   padding-top: 0;
   padding-bottom: 24px;
+  min-width: 140px;
 `;
 
-const StyledTdRight = styled.td`
-  border-style: hidden;
-  padding-left: 72px;
+const StyledColumnRight = styled.div`
   padding-top: 0;
 `;
 
+export const HiddenWidget = () => {
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <></>;
+};
+
 const DefaultWidget: React.FC<WidgetProps> = ({ label, value }) => {
+  const formattedValue = value?.toString().split(',').join(', ');
+
   return (
-    <StyledTR>
-      <StyledTdLeft>
-        <b>{label}</b>
-      </StyledTdLeft>
-      <StyledTdRight>{value?.toString()}</StyledTdRight>
-    </StyledTR>
+    <StyledFlex>
+      <StyledColumnLeft>{label}</StyledColumnLeft>
+      <StyledColumnRight>{formattedValue}</StyledColumnRight>
+    </StyledFlex>
   );
 };
 

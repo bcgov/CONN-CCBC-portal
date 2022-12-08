@@ -54,7 +54,7 @@ describe('The index page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
     pageTestingHelper.setMockRouterValues({
-      query: { applicationId: '1', rfiId: '1' },
+      query: { applicationId: '1', rfiId: '0' },
     });
   });
 
@@ -91,7 +91,7 @@ describe('The index page', () => {
 
     expect(
       screen.getByRole('button', {
-        name: 'Upload',
+        name: 'Upload(s)',
       })
     ).toBeVisible();
   });
@@ -101,7 +101,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getByText('Template 1 - Eligibility & impacts Calculator')
+      screen.getByText('Template 1 - Eligibility and Impacts Calculator')
     ).toBeInTheDocument();
 
     expect(
@@ -135,7 +135,7 @@ describe('The index page', () => {
     ).toBeInTheDocument();
 
     expect(
-      screen.getByText('Template 9 - Backbone & Geographic Names')
+      screen.getByText('Template 9 - Backbone and Geographic Names')
     ).toBeInTheDocument();
 
     expect(
@@ -179,8 +179,6 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText('Email correspondence')).toBeInTheDocument();
-
     expect(
       screen.getByRole('button', {
         name: 'Save',
@@ -208,7 +206,9 @@ describe('The index page', () => {
     pageTestingHelper.expectMutationToBeCalled('createRfiMutation', {
       input: {
         applicationRowId: 1,
-        jsonData: {},
+        jsonData: {
+          rfiAdditionalFiles: {},
+        },
       },
     });
   });

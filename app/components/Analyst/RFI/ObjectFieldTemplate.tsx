@@ -1,20 +1,18 @@
 import styled from 'styled-components';
 import { ObjectFieldTemplateProps } from '@rjsf/core';
+import RequestedFilesField from './RequestedFilesField';
 
 interface ContainerProps {
   columns?: number;
 }
 
-const StyledFlex = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+const StyledContainer = styled.div<ContainerProps>`
+  column-count: ${(props) => (props.columns ? props.columns : 1)};
   border: none;
+  margin-bottom: 16px;
 `;
 
-const StyledItem = styled.div<ContainerProps>`
-  flex: 1;
-  flex-basis: ${(props) => (props.columns === 2 ? '50%' : '100%')};
-
+const StyledItem = styled.div`
   & :first-child {
     margin-top: 0;
   }
@@ -29,25 +27,23 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   title,
   properties,
 }) => {
-  const columnCount = uiSchema['ui:options']?.columns
-    ? uiSchema['ui:options']?.columns
-    : 1;
+  const options = uiSchema['ui:options'];
+  const columnCount = options?.columns ? options?.columns : 1;
+  const showLabel = options?.label !== false;
+  const reqFilesField = uiSchema?.['ui:field'] === 'RequestedFilesField';
 
-  const showLabel = uiSchema['ui:options']?.label !== false;
-
+  if (reqFilesField) {
+    return <RequestedFilesField properties={properties} />;
+  }
   return (
     <section>
       {showLabel && <StyledH4>{uiSchema['ui:title'] || title}</StyledH4>}
 
-      <StyledFlex className="formFieldset">
+      <StyledContainer columns={columnCount as number}>
         {properties.map((prop: any) => {
-          return (
-            <StyledItem key={prop.name} columns={columnCount as number}>
-              {prop.content}
-            </StyledItem>
-          );
+          return <StyledItem key={prop.name}>{prop.content}</StyledItem>;
         })}
-      </StyledFlex>
+      </StyledContainer>
     </section>
   );
 };
