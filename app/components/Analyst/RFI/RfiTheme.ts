@@ -30,6 +30,7 @@ const RfiTheme: ThemeProps = {
   ArrayFieldTemplate,
 };
 
+// Modified RFI theme for the list RFI component
 export const RfiViewTheme: ThemeProps = {
   ...RfiTheme,
   widgets: {

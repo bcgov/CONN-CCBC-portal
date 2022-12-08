@@ -54,107 +54,6 @@ const rfiUiSchema = {
       checkboxColumns: 2,
       columns: 2,
     },
-    eligibilityAndImpactsCalculatorRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    detailedBudgetRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    financialForecastRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    lastMileIspOfferingRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    popWholesalePricingRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    communityRuralDevelopmentBenefitsTemplateRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    wirelessAddendumRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    supportingConnectivityEvidenceRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    geographicNamesRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    equipmentDetailsRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    copiesOfRegistrationRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    preparedFinancialStatementsRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    logicalNetworkDiagramRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    projectScheduleRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    communityRuralDevelopmentBenefitsRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    otherSupportingMaterialsRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    geographicCoverageMapRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    coverageAssessmentStatisticsRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    currentNetworkInfastructureRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-    upgradedNetworkInfrastructureRfi: {
-      'ui:options': {
-        label: false,
-      },
-    },
-
     eligibilityAndImpactsCalculator: {
       'ui:widget': 'hidden',
       'ui:options': {
@@ -284,20 +183,11 @@ export const rfiViewUiSchema = {
   rfiAdditionalFiles: {
     ...rfiUiSchema.rfiAdditionalFiles,
     'ui:field': 'RequestedFilesField',
-    'ui:options': {
-      label: false,
-    },
     eligibilityAndImpactsCalculator: {
       'ui:widget': 'ListFilesWidget',
-      'ui:options': {
-        label: false,
-      },
     },
     detailedBudget: {
       'ui:widget': 'ListFilesWidget',
-      'ui:options': {
-        label: false,
-      },
     },
     financialForecast: {
       'ui:widget': 'ListFilesWidget',

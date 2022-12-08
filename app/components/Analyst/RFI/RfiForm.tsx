@@ -43,6 +43,7 @@ const RfiForm = () => {
         theme={RfiTheme}
         schema={rfiSchema}
         uiSchema={rfiUiSchema}
+        omitExtraData={false}
         formData={{}}
         onSubmit={handleSubmit}
         noValidate

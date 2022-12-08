@@ -54,7 +54,7 @@ type File = {
 const ListFilesWidget: React.FC<WidgetProps> = ({ label, value }) => {
   const isFiles = value?.length > 0;
 
-  const handleDownload = async (uuid, fileName) => {
+  const handleDownload = async (uuid: string, fileName: string) => {
     const url = `/api/s3/download/${uuid}/${fileName}`;
     await fetch(url)
       .then((response) => response.json())
