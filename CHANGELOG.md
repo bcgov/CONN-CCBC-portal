@@ -1,3 +1,15 @@
+# [1.21.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.20.0...v1.21.0) (2022-12-08)
+
+### Bug Fixes
+
+- fileUploads no longer ignored ([8682e35](https://github.com/bcgov/CONN-CCBC-portal/commit/8682e353bf9a32a35417616010b410e4a370f6b8))
+
+### Features
+
+- add xlsm to accepted analyst file extensions ([d3caea4](https://github.com/bcgov/CONN-CCBC-portal/commit/d3caea48fe19d09a4b47a18f36cfd5c8f77e5287))
+- allow multiple files for each upload ([e509986](https://github.com/bcgov/CONN-CCBC-portal/commit/e509986a72cb3752bf2b45cc6b685359b276c61c))
+- use updater to manually link new formData object ([82ab9f0](https://github.com/bcgov/CONN-CCBC-portal/commit/82ab9f0bde05851da8ea0840146c40e959eee779))
+
 # [1.20.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.19.0...v1.20.0) (2022-12-06)
 
 ### Features
