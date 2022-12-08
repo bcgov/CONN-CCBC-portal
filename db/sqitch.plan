@@ -115,3 +115,4 @@ computed_columns/application_form_data [computed_columns/application_form_data@1
 tables/attachment_001_add_analyst_roles 2022-12-06T16:02:43Z Anthony Bushara <anthony@button.is> # Add the analyst and admin roles to attachment table
 @1.20.0 2022-12-06T18:31:10Z Marcel Mueller <marcel@button.is> # release v1.20.0
 @1.21.0 2022-12-08T14:53:31Z Anthony Bushara <anthony@button.is> # release v1.21.0
+@1.21.1 2022-12-08T18:30:12Z Anthony Bushara <anthony@button.is> # release v1.21.1

@@ -1,3 +1,9 @@
+## [1.21.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.21.0...v1.21.1) (2022-12-08)
+
+### Bug Fixes
+
+- use null coalescing operator instead of or operator ([db95c7e](https://github.com/bcgov/CONN-CCBC-portal/commit/db95c7ec3d2f09d606ebc6474c1dddc6e845621e))
+
 # [1.21.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.20.0...v1.21.0) (2022-12-08)
 
 ### Bug Fixes
