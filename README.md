@@ -102,9 +102,10 @@ To make this process easy, we use [`release-it`](https://github.com/release-it/r
 When you're ready to make a release, apply the following steps:
 
 1. create a `chore/release` branch
+1. set the upstream with `git push -u origin chore/release`
 1. run `make release` and follow the prompts
 1. create a pull request
-1. once the pull request is approved, **merge using fast-forward, from your local git repository**. Only commits that are tagged can be deployed to test and prod.
+1. once the pull request is approved, merge using merge button on GitHub UI. Only commits that are tagged can be deployed to test and prod.
 
 If you want to override the version number, which is automatically determined based on the conventional commit messages being relased, you can do so by passing a parameter to the `release-it` command, e.g.
 
