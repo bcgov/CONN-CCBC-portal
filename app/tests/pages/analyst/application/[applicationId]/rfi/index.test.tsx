@@ -49,6 +49,15 @@ const mockQueryPayload = {
                       upgradedNetworkInfrastructureRfi: true,
                       eligibilityAndImpactsCalculatorRfi: true,
                       communityRuralDevelopmentBenefitsTemplateRfi: true,
+                      equipmentDetails: [
+                        {
+                          id: 7,
+                          name: 'test 3.xls',
+                          size: 0,
+                          type: 'application/vnd.ms-excel',
+                          uuid: 'cb219e12-2b8b-4ba9-be7d-b4af4d1caa5b',
+                        },
+                      ],
                     },
                     rfiEmailCorrespondance: [
                       {
@@ -160,7 +169,14 @@ describe('The index page', () => {
     expect(
       screen.getByText('Proposed or Upgraded Network Infrastructure')
     ).toBeVisible();
+  });
+
+  it('shows all of the correct Requested file items', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
     expect(screen.getAllByText('Not received')[0]).toBeVisible();
+    expect(screen.getByText('test 3.xls')).toBeVisible();
   });
 
   it('should have correct styles', async () => {

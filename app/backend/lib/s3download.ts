@@ -21,14 +21,20 @@ s3download.get('/api/s3/download/:uuid/:fileName', (req, res) => {
     return res.status(404).end();
   }
 
-  const signedUrl = s3Client.getSignedUrl('getObject', {
+  const signedUrl = s3Client.getSignedUrlPromise('getObject', {
     Bucket: AWS_S3_BUCKET,
-    Key: uuid as string,
+    Key: uuid,
     Expires: 60,
     ResponseContentDisposition: `attachment; filename="${fileName}"`,
   });
 
-  res.json(signedUrl);
+  signedUrl
+    .then((url) => {
+      res.json(url);
+    })
+    .catch(() => {
+      res.status(500).end();
+    });
 });
 
 export default s3download;
