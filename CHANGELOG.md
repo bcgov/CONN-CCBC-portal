@@ -1,3 +1,15 @@
+# [1.22.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.21.0...v1.22.0) (2022-12-08)
+
+### Bug Fixes
+
+- autoscaling v2 field changes ([4a060b7](https://github.com/bcgov/CONN-CCBC-portal/commit/4a060b78f98de2aae039b9e35cee0dc295bf562d))
+- use null coalescing operator instead of or operator ([db95c7e](https://github.com/bcgov/CONN-CCBC-portal/commit/db95c7ec3d2f09d606ebc6474c1dddc6e845621e))
+
+### Features
+
+- add horizontal pod autoscaler ([aa80c80](https://github.com/bcgov/CONN-CCBC-portal/commit/aa80c8065208eeabbe1628ce231de7056bf95bf8))
+- adjust deployment resources ([62db297](https://github.com/bcgov/CONN-CCBC-portal/commit/62db297870591025eaf228710d4872f62072b6b6))
+
 # [1.21.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.20.0...v1.21.0) (2022-12-08)
 
 ### Bug Fixes
