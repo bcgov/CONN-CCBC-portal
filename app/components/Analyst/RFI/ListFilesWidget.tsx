@@ -33,24 +33,6 @@ type File = {
   type: string;
 };
 
-// for testing file list until applicant side of rfi implemented
-// const files = [
-//   {
-//     id: 2,
-//     uuid: 'e21a3a35-a7c9-42e8-a68d-eded2ea1a84f',
-//     name: 'placeholder_file_1M.bin',
-//     size: 1000000,
-//     type: 'application/octet-stream',
-//   },
-//   {
-//     id: 3,
-//     uuid: '224bb85f-1f3f-4fc1-bbb1-21738888580c',
-//     name: 'placeholder_file_1M.bin',
-//     size: 1000000,
-//     type: 'application/octet-stream',
-//   },
-// ];
-
 const ListFilesWidget: React.FC<WidgetProps> = ({ label, value }) => {
   const isFiles = value?.length > 0;
 
