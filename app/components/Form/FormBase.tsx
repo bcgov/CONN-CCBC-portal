@@ -29,7 +29,7 @@ const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
       customFormats={customFormats}
       transformErrors={transformErrors}
       noHtml5Validate
-      omitExtraData={omitExtraData || true}
+      omitExtraData={omitExtraData ?? true}
       showErrorList={false}
     />
   );
