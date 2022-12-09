@@ -27,6 +27,7 @@ const getApplicationQuery = graphql`
     ...AnalystLayout_query
   }
 `;
+
 const Application = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, ApplicationIdQuery>) => {

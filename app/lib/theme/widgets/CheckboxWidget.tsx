@@ -6,7 +6,7 @@ const StyledDiv = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 16px;
+  margin: 16px 0;
 
   & span {
     border-radius: 2px;
@@ -21,8 +21,8 @@ const StyledDiv = styled('div')`
   }
 `;
 
-const StyledContainer = styled('div')`
-  margin: 16px 0;
+const StyledP = styled.p`
+  margin: 0;
 `;
 
 const CheckboxWidget: React.FC<WidgetProps> = ({
@@ -33,22 +33,20 @@ const CheckboxWidget: React.FC<WidgetProps> = ({
   value,
   required,
 }) => (
-  <StyledContainer>
-    <StyledDiv>
-      <Checkbox
-        id={id}
-        checked={typeof value === 'undefined' ? false : value}
-        value={value}
-        required={required}
-        aria-label={label}
-        disabled={disabled}
-        onChange={(event: { target: { checked: any } }) =>
-          onChange(event.target.checked)
-        }
-      />
-      <p>{label}</p>
-    </StyledDiv>
-  </StyledContainer>
+  <StyledDiv>
+    <Checkbox
+      id={id}
+      checked={typeof value === 'undefined' ? false : value}
+      value={value}
+      required={required}
+      aria-label={label}
+      disabled={disabled}
+      onChange={(event: { target: { checked: any } }) =>
+        onChange(event.target.checked)
+      }
+    />
+    <StyledP>{label}</StyledP>
+  </StyledDiv>
 );
 
 export default CheckboxWidget;

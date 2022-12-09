@@ -7,6 +7,7 @@ import FormBase from 'components/Form/FormBase';
 import rfiSchema from 'formSchema/analyst/rfiSchema';
 import rfiUiSchema from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { useCreateRfiMutation } from 'schema/mutations/application/createRfi';
+import RfiTheme from './RfiTheme';
 
 const StyledCancel = styled(Button)`
   margin-left: 24px;
@@ -39,8 +40,10 @@ const RfiForm = () => {
   return (
     <div>
       <FormBase
+        theme={RfiTheme}
         schema={rfiSchema}
         uiSchema={rfiUiSchema}
+        omitExtraData={false}
         formData={{}}
         onSubmit={handleSubmit}
         noValidate

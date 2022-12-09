@@ -38,7 +38,7 @@ context('Homepage', () => {
       .first()
       .selectFile('cypress/fixtures/doc.txt', { force: true });
     cy.wait(2000);
-    cy.contains('a', 'doc.txt');
+    cy.contains('button', 'doc.txt');
   });
 
   afterEach(function () {
