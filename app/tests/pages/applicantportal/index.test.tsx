@@ -117,6 +117,17 @@ describe('The index page', () => {
     expect(screen.queryByText(closedIntakeMessage)).toBeNull();
   });
 
+  it('Displays the callout message with correct time when there is an open intake', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(
+        /Applications are accepted until August 19, 2027 at 8:30 a.m. PDT./
+      )
+    ).toBeInTheDocument();
+  });
+
   it('Displays the Business BCeID login button', () => {
     pageTestingHelper.loadQuery(loggedOutPayload);
     pageTestingHelper.renderPage();
