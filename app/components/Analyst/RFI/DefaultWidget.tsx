@@ -18,8 +18,7 @@ const StyledColumnRight = styled.div`
 `;
 
 export const HiddenWidget = () => {
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  return <></>;
+  return null;
 };
 
 const DefaultWidget: React.FC<WidgetProps> = ({ label, value }) => {

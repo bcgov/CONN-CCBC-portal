@@ -7,7 +7,6 @@ const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 
 const s3download = Router();
 
-// eslint-disable-next-line consistent-return
 s3download.get('/api/s3/download/:uuid/:fileName', (req, res) => {
   const { uuid, fileName } = req.params;
 
@@ -28,7 +27,7 @@ s3download.get('/api/s3/download/:uuid/:fileName', (req, res) => {
     ResponseContentDisposition: `attachment; filename="${fileName}"`,
   });
 
-  signedUrl
+  return signedUrl
     .then((url) => {
       res.json(url);
     })
