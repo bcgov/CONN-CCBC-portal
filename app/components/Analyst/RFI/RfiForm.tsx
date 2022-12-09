@@ -23,7 +23,7 @@ interface RfiFormProps {
 const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
   const router = useRouter();
   const { applicationId, rfiId } = router.query;
-  const { jsonData } = useFragment<RfiForm_RfiData$key>(
+  const rfiFormData = useFragment<RfiForm_RfiData$key>(
     graphql`
       fragment RfiForm_RfiData on RfiData {
         jsonData
@@ -78,7 +78,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
         schema={rfiSchema}
         uiSchema={rfiUiSchema}
         omitExtraData={false}
-        formData={jsonData ?? {}}
+        formData={rfiFormData?.jsonData ?? {}}
         onSubmit={handleSubmit}
         noValidate
       >
