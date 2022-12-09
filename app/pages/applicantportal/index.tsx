@@ -74,6 +74,7 @@ const Home = ({
     getApplicantportalQuery,
     preloadedQuery
   );
+
   const intakeCalloutChildren = useMemo(() => {
     if (!openIntake)
       return (
@@ -88,13 +89,13 @@ const Home = ({
         </>
       );
 
+    const formattedClosingDate = DateTime.fromISO(openIntake.closeTimestamp)
+      .minus({ minutes: 30 })
+      .toLocaleString(DateTime.DATETIME_FULL);
+
     return (
       <BoldText>
-        Applications are accepted until{' '}
-        {DateTime.fromISO(openIntake.closeTimestamp).toLocaleString(
-          DateTime.DATETIME_FULL
-        )}
-        .
+        {`Applications are accepted until ${formattedClosingDate}.`}
         <br />
         Review of applications will not begin until this date. Draft and
         submitted applications can be edited until then.
