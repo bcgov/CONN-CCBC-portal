@@ -45,7 +45,7 @@ export const saveRemoteFile = async (stream) => {
     Body: stream,
   };
 
-  const options = { partSize: 5 * 1024 * 1024, queueSize: 4 };
+  const options = { partSize: 5 * 1024 * 1024, queueSize: 1 };
 
   const s3Upload = await s3Client
     .upload(uploadParams, options)
