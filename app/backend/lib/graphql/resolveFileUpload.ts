@@ -106,9 +106,9 @@ export const saveLocalFile = async (upload) => {
 };
 
 export default async function resolveFileUpload(upload) {
-  // if (isLocalDevelopment) {
-  //   return saveLocalFile(upload);
-  // }
+  if (isLocalDevelopment) {
+    return saveLocalFile(upload);
+  }
   const { createReadStream } = upload;
   const stream = createReadStream();
   const uuid = await saveRemoteFile(stream);
