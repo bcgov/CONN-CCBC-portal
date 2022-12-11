@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import { Upload } from '@aws-sdk/lib-storage';
 import { CompleteMultipartUploadCommandOutput } from '@aws-sdk/client-s3';
 import fs from 'fs';
+import { Readable } from 'node:stream';
 import { s3ClientV3 } from '../s3client';
 import config from '../../../config';
 
@@ -39,7 +40,7 @@ export const saveRemoteFile = async (stream) => {
   try {
     console.time('saveRemoteFile');
 
-    if (!stream) {
+    if (!stream || !(stream instanceof Readable)) {
       throw new Error('Choose a file to upload first.');
     }
 
@@ -81,6 +82,7 @@ export const saveRemoteFile = async (stream) => {
   }
 };
 
+// NOSONAR
 export const saveLocalFile = async (upload) => {
   const uuid = crypto.randomUUID();
   const { createReadStream } = upload;
@@ -104,9 +106,9 @@ export const saveLocalFile = async (upload) => {
 };
 
 export default async function resolveFileUpload(upload) {
-  if (isLocalDevelopment) {
-    return saveLocalFile(upload);
-  }
+  // if (isLocalDevelopment) {
+  //   return saveLocalFile(upload);
+  // }
   const { createReadStream } = upload;
   const stream = createReadStream();
   const uuid = await saveRemoteFile(stream);
