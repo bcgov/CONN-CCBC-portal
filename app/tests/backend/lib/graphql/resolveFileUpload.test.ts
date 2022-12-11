@@ -12,7 +12,7 @@ describe('The saveRemoteFile function', () => {
 
   it('should throw an error with unsupported payload', async () => {
     await expect(saveRemoteFile({})).rejects.toThrow(
-      'Error, unable to upload to S3: Error: Unsupported body payload object'
+      'Unsupported body payload object'
     );
   });
 });

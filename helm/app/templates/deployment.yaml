@@ -196,6 +196,10 @@ spec:
               value: {{ .Values.objectStorage.awsS3Key }}
             - name: AWS_S3_SECRET_KEY
               value: {{ .Values.objectStorage.awsS3SecretKey }}
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ .Values.objectStorage.awsS3Key }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ .Values.objectStorage.awsS3SecretKey }}
             - name: AWS_ROLE_ARN
               value: {{ .Values.objectStorage.awsRoleArn }}
             - name: SENTRY_RELEASE
