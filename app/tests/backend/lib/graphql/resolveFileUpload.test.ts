@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import resolveFileUpload, {
   saveLocalFile,
   saveRemoteFile,
@@ -12,7 +16,7 @@ describe('The saveRemoteFile function', () => {
 
   it('should throw an error with unsupported payload', async () => {
     await expect(saveRemoteFile({})).rejects.toThrow(
-      'Unsupported body payload object'
+      'ReferenceError: ReadableStream is not defined'
     );
   });
 });

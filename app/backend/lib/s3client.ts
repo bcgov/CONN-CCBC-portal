@@ -35,10 +35,14 @@ export default s3Client;
 const awsConfig = {
   region: AWS_S3_REGION,
   credentials: fromTemporaryCredentials({
+    // fromEnv() pulling these env vars:
+    // AWS_ACCESS_KEY_ID
+    // AWS_SECRET_ACCESS_KEY
     masterCredentials: fromEnv(),
     params: {
       RoleArn: AWS_ROLE_ARN,
       RoleSessionName: `s3-v3-role-session-${Date.now()}`,
+      // we confirmed that when the temporary credentials expire this factory is documented to use the master credentials to refresh the temporary
       DurationSeconds: 3600,
     },
     clientConfig: { region: AWS_S3_REGION },

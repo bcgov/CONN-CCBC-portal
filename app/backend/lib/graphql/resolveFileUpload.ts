@@ -60,13 +60,15 @@ export const saveRemoteFile = async (stream) => {
     });
 
     parallelUploads3.on('httpUploadProgress', (progress) => {
-      console.log(progress);
+      console.log(
+        `Uploaded ${Math.round((progress.loaded / 1000000) * 10) / 10}MB`
+      );
     });
 
     const data = await parallelUploads3.done();
-    console.log(data);
 
-    const key = (data as CompleteMultipartUploadCommandOutput).Key;
+    const key = (data as CompleteMultipartUploadCommandOutput)?.Key;
+
     if (!key) {
       throw new Error('Data does not contain a key');
     }
