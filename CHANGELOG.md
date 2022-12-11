@@ -1,3 +1,19 @@
+# [1.23.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.22.0...v1.23.0) (2022-12-11)
+
+### Bug Fixes
+
+- use getSignedUrlPromise ([3036c36](https://github.com/bcgov/CONN-CCBC-portal/commit/3036c36cf29f9db908d6972b9edbadbf1e1acf2b))
+
+### Features
+
+- add requested files rfi field ([70f425e](https://github.com/bcgov/CONN-CCBC-portal/commit/70f425ec9697d397f58fb8a0102ba7cb56ca218b))
+- add rfi schema dependencies and update theme to support new schema ([de44d00](https://github.com/bcgov/CONN-CCBC-portal/commit/de44d0058468f3aaff5fb6239a8903bb9a89354d))
+- add rfi theme ([748ef00](https://github.com/bcgov/CONN-CCBC-portal/commit/748ef00138c72f0c9014ea12c06f3b1ab5438b58))
+- add s3download api and file widget downloads ([0b7172c](https://github.com/bcgov/CONN-CCBC-portal/commit/0b7172c887174f9a707e712c554b6cbdaa3b9067))
+- log file upload progress ([a41ea0b](https://github.com/bcgov/CONN-CCBC-portal/commit/a41ea0b45faa8344f9139456c04c1d8a1592fd72))
+- subtract time in intake callout ([dcd77f4](https://github.com/bcgov/CONN-CCBC-portal/commit/dcd77f4a03e22bbef530aef41802da8f053faa29))
+- use aws sdk v3 for file uploads ([c014c3e](https://github.com/bcgov/CONN-CCBC-portal/commit/c014c3e491130a7eef2e959854cf60042a18434e))
+
 # [1.22.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.21.0...v1.22.0) (2022-12-08)
 
 ### Bug Fixes
