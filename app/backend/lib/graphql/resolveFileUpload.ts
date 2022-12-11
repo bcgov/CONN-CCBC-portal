@@ -1,6 +1,9 @@
 import crypto from 'crypto';
+import { Upload } from '@aws-sdk/lib-storage';
+import { CompleteMultipartUploadCommandOutput } from '@aws-sdk/client-s3';
 import fs from 'fs';
-import s3Client from '../s3client';
+import { Readable } from 'node:stream';
+import { s3ClientV3 } from '../s3client';
 import config from '../../../config';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
@@ -34,39 +37,52 @@ if (!isDeployedToOpenShift) {
 }
 
 export const saveRemoteFile = async (stream) => {
-  if (!stream) {
-    throw new Error('Choose a file to upload first.');
-  }
-  const uuid = crypto.randomUUID();
+  try {
+    console.time('saveRemoteFile');
 
-  const uploadParams = {
-    Bucket: AWS_S3_BUCKET,
-    Key: uuid,
-    Body: stream,
-  };
+    if (!stream || !(stream instanceof Readable)) {
+      throw new Error('Choose a file to upload first.');
+    }
 
-  const options = { partSize: 5 * 1024 * 1024, queueSize: 4 };
+    const uuid = crypto.randomUUID();
 
-  const s3Upload = await s3Client
-    .upload(uploadParams, options)
-    .on('httpUploadProgress', (httpUploadProgress) => {
-      console.log(
-        `Uploaded ${
-          Math.round((httpUploadProgress.loaded / 1000000) * 10) / 10
-        }MB`
-      );
-    })
-    .promise()
-    .then(() => {
-      return uuid;
-    })
-    .catch((err) => {
-      throw new Error(`Error, unable to upload to S3: ${err}`);
+    const uploadParams = {
+      Bucket: AWS_S3_BUCKET,
+      Key: uuid,
+      Body: stream,
+    };
+
+    const parallelUploads3 = new Upload({
+      client: s3ClientV3,
+      params: uploadParams,
+      queueSize: 4, // optional concurrency configuration
+      partSize: 1024 * 1024 * 5, // optional size of each part, in bytes, at least 5MB
+      leavePartsOnError: false, // optional manually handle dropped parts
     });
 
-  return s3Upload;
+    parallelUploads3.on('httpUploadProgress', (progress) => {
+      console.log(
+        `Uploaded ${Math.round((progress.loaded / 1000000) * 10) / 10}MB`
+      );
+    });
+
+    const data = await parallelUploads3.done();
+
+    const key = (data as CompleteMultipartUploadCommandOutput)?.Key;
+
+    if (!key) {
+      throw new Error('Data does not contain a key');
+    }
+    return key;
+  } catch (err) {
+    console.log('Error', err);
+    throw new Error(err);
+  } finally {
+    console.timeEnd('saveRemoteFile');
+  }
 };
 
+// NOSONAR
 export const saveLocalFile = async (upload) => {
   const uuid = crypto.randomUUID();
   const { createReadStream } = upload;

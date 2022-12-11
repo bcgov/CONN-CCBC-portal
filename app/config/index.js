@@ -144,6 +144,20 @@ const config = convict({
     default: '',
     env: 'AWS_S3_SECRET_KEY',
   },
+  // AWS_ACCESS_KEY_ID is read directly and not through config
+  AWS_ACCESS_KEY_ID: {
+    doc: 'AWS S3 key',
+    format: String,
+    default: '',
+    env: 'AWS_ACCESS_KEY_ID',
+  },
+  // AWS_SECRET_ACCESS_KEY is read directly and not through config
+  AWS_SECRET_ACCESS_KEY: {
+    doc: 'AWS S3 secret key',
+    format: String,
+    default: '',
+    env: 'AWS_SECRET_ACCESS_KEY',
+  },
   AWS_ROLE_ARN: {
     doc: 'AWS Role ARN',
     format: String,
