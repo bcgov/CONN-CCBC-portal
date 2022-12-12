@@ -23,6 +23,7 @@ interface RfiFormProps {
 const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
   const router = useRouter();
   const { applicationId, rfiId } = router.query;
+  const isNewRfiForm = rfiId === '0';
   const rfiFormData = useFragment<RfiForm_RfiData$key>(
     graphql`
       fragment RfiForm_RfiData on RfiData {
@@ -36,7 +37,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
   const [updateRfi] = useUpdateRfiMutation();
 
   const handleSubmit = (e: ISubmitEvent<any>) => {
-    if (rfiId === '0') {
+    if (isNewRfiForm) {
       createRfi({
         variables: {
           input: {
@@ -78,7 +79,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
         schema={rfiSchema}
         uiSchema={rfiUiSchema}
         omitExtraData={false}
-        formData={rfiFormData?.jsonData ?? {}}
+        formData={isNewRfiForm ? {} : rfiFormData?.jsonData}
         onSubmit={handleSubmit}
         noValidate
       >
