@@ -33,6 +33,7 @@ const mockQueryPayload = {
                   rfiDataStatusTypeByRfiDataStatusTypeId: {
                     name: 'draft',
                   },
+                  archivedAt: null,
                 },
               },
             },
@@ -71,6 +72,7 @@ const mockQueryPayload = {
                   },
                   rowId: 3,
                   rfiNumber: 'CCBC-010001-2',
+                  archivedAt: null,
                   rfiDataStatusTypeByRfiDataStatusTypeId: {
                     name: 'draft',
                   },
