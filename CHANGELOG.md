@@ -1,3 +1,9 @@
+## [1.23.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.23.0...v1.23.1) (2022-12-13)
+
+### Bug Fixes
+
+- patch fs-capacitor with working stream code and cjs modules ([f14c051](https://github.com/bcgov/CONN-CCBC-portal/commit/f14c051f678096e0cd7fb0afc3f8a0bfc7474939))
+
 # [1.23.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.22.0...v1.23.0) (2022-12-11)
 
 ### Bug Fixes
