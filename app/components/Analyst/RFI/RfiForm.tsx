@@ -79,7 +79,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
         schema={rfiSchema}
         uiSchema={rfiUiSchema}
         omitExtraData={false}
-        formData={isNewRfiForm ? {} : rfiFormData?.jsonData}
+        formData={rfiFormData?.jsonData ?? {}}
         onSubmit={handleSubmit}
         noValidate
       >
