@@ -15,7 +15,6 @@
     "pretest": "yarn run build:relay",
     "postinstall": "yarn patch-package",
     "test": "jest",
-    "test_s3": "jest tests/backend/lib/s3client.test.ts",
     "test:e2e": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run",
     "cypress": "cypress open",
     "format": "prettier --write './**/*.tsx' --config ../.prettierrc"
