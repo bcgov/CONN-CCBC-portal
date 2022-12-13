@@ -45,3 +45,9 @@ The `data` folder contains the data that we want do deploy in our various enviro
 In local environments, the `make deploy_dev_data`, `make deploy_test_data` and `make deploy_prod_data` can be used to deploy the sqitch changes and the data in a single command.
 
 The `data` folder is also cypress' fixtures folder, meaning that any of the scripts in it can be run in our cypress tests using commands such as `cy.sqlFixture("dev/001_intake");`
+
+## Metabase 
+
+Metabase uses `ccbc_readonly` user to connect to the database. If `ccbc_readonly` user needs to use any of computed columns, necessary permissions should be granted manually. 
+
+I.e. `grant execute on function ccbc_public.application_status to ccbc_readonly;`

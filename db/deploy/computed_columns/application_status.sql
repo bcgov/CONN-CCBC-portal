@@ -14,7 +14,10 @@ grant execute on function ccbc_public.application_status to ccbc_auth_user;
 grant execute on function ccbc_public.application_status to ccbc_job_executor;
 grant execute on function ccbc_public.application_status to ccbc_analyst;
 grant execute on function ccbc_public.application_status to ccbc_admin;
-grant execute on function ccbc_public.application_status to public; -- needed for Metabase
+
+-- ccbc_readonly user is used by Metabase and it is added outside of this project.
+-- statement below should be run manually to allow Metabase users to use the function.
+-- grant execute on function ccbc_public.application_status to ccbc_readonly;  
 
 comment on function ccbc_public.application_status is 'Computed column to return status of an application';
 
