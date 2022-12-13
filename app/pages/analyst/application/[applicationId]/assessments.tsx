@@ -42,7 +42,6 @@ const Assessments = ({
   const [isFormSaved, setIsFormSaved] = useState(false);
 
   const handleSubmit = async (e: ISubmitEvent<any>) => {
-    console.log(e.formData);
     createAssessment({
       variables: {
         input: {
