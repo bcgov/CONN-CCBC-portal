@@ -17,16 +17,17 @@ jest.mock('../../../utils/getAuthRole');
 
 jest.setTimeout(10000000);
 
+const INFECTED_FILE_PREFIX = 'BROKEN';
 const mockStream = new PassThrough();
 
 const mockObjectTagging =  {
-  promise:jest.fn(() => {
+  promise:() => {
     return new Promise((resolve, reject) => {
       return resolve({
         TagSet:[{"Key":"av_status", "Value":"dirty"}],
       });
     });
-  }),
+  },
   catch: jest.fn(),
 };
 
@@ -177,7 +178,10 @@ describe('The s3 archive', () => {
     expect(zipEntries.length).toBe(1);
 
     zipEntries.forEach(function (zipEntry) { 
-        expect(zipEntry.entryName.indexOf('Template 2')).not.toBe(-1); 
+      // check that file exists
+      expect(zipEntry.entryName.indexOf('Template 2')).not.toBe(-1); 
+      // check trha file was renamed
+      expect(zipEntry.entryName.indexOf(INFECTED_FILE_PREFIX)).not.toBe(-1); 
     });
     
   });
