@@ -36,7 +36,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
   if (!isRoleAuthorized) {
     return res.status(404).end();
   }
-  let infected = [];
+  const infected = [];
 
   res.writeHead(200, {
     'Content-Type': 'application/zip',

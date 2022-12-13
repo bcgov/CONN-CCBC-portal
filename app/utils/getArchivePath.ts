@@ -84,7 +84,7 @@ const getArchivePath = (
   const { path } = archivePaths[fieldName];
 
   // return path.replaceAll('$id', ccbcId).replaceAll('$fileName', fileName);
-  return path.replace(/$id/g, ccbcId).replace(/$fileName/g, fileName);
+  return path.replace(/\$id/g, ccbcId).replace(/\$fileName/g, fileName);
 };
 
 export default getArchivePath;
