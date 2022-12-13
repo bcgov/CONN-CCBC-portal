@@ -42,10 +42,12 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
     'Content-Type': 'application/zip',
     'Content-disposition': `attachment; filename=CCBC applications ${currentDate}.zip`,
   });
+  
+  const archive = archiver('zip', { zlib: { level: 0 } });
 
   // untility functions
   const detectInfected = async(uuid: string) => {
-    var params = {
+    const params = {
       Bucket: AWS_S3_BUCKET,
       Key: uuid,
     };
@@ -121,8 +123,6 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
     await markAllInfected(jsonData);
   }));
   
-  const archive = archiver('zip', { zlib: { level: 0 } });
-
   if (SENTRY_ENVIRONMENT) {
     archive.on('error', (err) => {
       Sentry.captureException(err);

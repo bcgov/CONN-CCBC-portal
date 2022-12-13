@@ -22,8 +22,8 @@ const mockStream = new PassThrough();
 
 const mockObjectTagging =  {
   promise:() => {
-    return new Promise((resolve, reject) => {
-      return resolve({
+    return new Promise((resolve) => {
+      resolve({
         TagSet:[{"Key":"av_status", "Value":"dirty"}],
       });
     });
@@ -43,8 +43,8 @@ jest.mock('../../../backend/lib/s3client',()=>{
           return mockStream;
         },
         promise:jest.fn(() => {
-          return new Promise((resolve, reject) => {
-            return resolve({
+          return new Promise((resolve) => {
+            resolve({
               TagSet:[{"Key":"av_status", "Value":"dirty"}],
             });
           });
@@ -61,10 +61,10 @@ jest.mock('../../../backend/lib/s3client',()=>{
 const binaryParser = (res, callback) => {
   res.setEncoding('binary');
   res.data = '';
-  res.on('data', function (chunk) {
+  res.on('data', (chunk) => {
       res.data += chunk;
   });
-  res.on('end', function () {
+  res.on('end', () => {
       callback(null, Buffer.from(res.data, 'binary'));
   });
 }
@@ -169,14 +169,14 @@ describe('The s3 archive', () => {
     expect(response.status).toBe(200);
     expect(response.headers['content-type']).toBe('application/zip');
 
-    expect(Buffer.isBuffer(response.body)).toBeTrue;
+    expect(Buffer.isBuffer(response.body)).toBeTrue();
 
-    var zip = new AdmZip(response.body);
+    const zip = new AdmZip(response.body);
     
-    var zipEntries = zip.getEntries(); 
+    const zipEntries = zip.getEntries(); 
     expect(zipEntries.length).toBe(1);
 
-    zipEntries.forEach(function (zipEntry) { 
+    zipEntries.forEach((zipEntry) => { 
       // check that file exists
       expect(zipEntry.entryName.indexOf('Template 2')).not.toBe(-1); 
 
