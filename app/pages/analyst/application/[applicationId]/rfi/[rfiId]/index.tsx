@@ -8,8 +8,8 @@ import RfiForm from 'components/Analyst/RFI/RfiForm';
 import { RfiIdQuery } from '__generated__/RfiIdQuery.graphql';
 
 const getRfiIdQuery = graphql`
-  query RfiIdQuery($rowId: Int!) {
-    rfiDataByRowId(rowId: $rowId) {
+  query RfiIdQuery($rowId: Int!, $rfiId: Int!) {
+    rfiDataByRowId(rowId: $rfiId) {
       ...RfiForm_RfiData
     }
     session {
