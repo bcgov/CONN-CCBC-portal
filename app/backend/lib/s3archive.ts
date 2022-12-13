@@ -23,6 +23,7 @@ query getApplications {
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const SENTRY_ENVIRONMENT = config.get('SENTRY_ENVIRONMENT');
+const INFECTED_FILE_PREFIX = 'BROKEN';
 
 const s3archive = Router();
 
@@ -61,6 +62,21 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
   // Send the archive to the route
   archive.pipe(res);
 
+  const detectInfected = (uuid: string) => {
+      var params = {
+        Bucket: AWS_S3_BUCKET,
+        Key: uuid,
+      };
+      return s3Client.getObjectTagging(params, function(err, data) {
+        if (err) {
+          console.log(err, err.stack); 
+          return null;
+        } 
+        else {   
+          return data;
+        }   
+      }).promise();   
+  }
   const sortAndAppendAttachments = (formData, ccbcNumber) => {
     const attachmentFields = {
       ...formData?.templateUploads,
@@ -74,18 +90,27 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
       attachmentFields[field].forEach((attachment) => {
         const { name, uuid } = attachment;
         const path = getArchivePath(field, ccbcNumber, name);
-
+        const healthCheck = detectInfected(uuid);
+        const suspect = healthCheck.TagSet.find(x => x.Key === 'av_status');
+        if (suspect?.Value === 'dirty') {
+          console.log('found virus');
+          archive.append('', {
+            name: `${INFECTED_FILE_PREFIX}_${path}`,
+          });
+        }
+        else {
         // Get object from s3
-        const objectSrc = s3Client
-          .getObject({
-            Bucket: AWS_S3_BUCKET,
-            Key: uuid,
-          })
-          .createReadStream();
+          const objectSrc = s3Client
+            .getObject({
+              Bucket: AWS_S3_BUCKET,
+              Key: uuid,
+            })
+            .createReadStream();
 
-        archive.append(objectSrc, {
-          name: path,
-        });
+          archive.append(objectSrc, {
+            name: path,
+          });
+        }
       });
     });
   };
