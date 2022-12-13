@@ -125,7 +125,6 @@ describe('The s3 archive', () => {
     expect(response.headers['content-type']).toBe('application/zip');
   });
 
-  
   it('should receive the archive with correct file', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
@@ -180,7 +179,8 @@ describe('The s3 archive', () => {
     zipEntries.forEach(function (zipEntry) { 
       // check that file exists
       expect(zipEntry.entryName.indexOf('Template 2')).not.toBe(-1); 
-      // check trha file was renamed
+
+      // check that infected file was renamed
       expect(zipEntry.entryName.indexOf(INFECTED_FILE_PREFIX)).not.toBe(-1); 
     });
     
