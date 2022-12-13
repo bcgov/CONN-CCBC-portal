@@ -65,6 +65,7 @@ jobs:
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
           certbot_email: ${{ secrets.CERTBOT_EMAIL }}
           certbot_server: ${{ secrets.CERTBOT_SERVER }}
+          enable_load_test: true
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:
