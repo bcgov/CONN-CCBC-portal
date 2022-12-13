@@ -88,6 +88,7 @@
     "@types/relay-test-utils": "^6.0.5",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "adm-zip": "^0.5.9",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-relay": "^13.2.0",
     "babel-plugin-styled-components": "^2.0.7",
