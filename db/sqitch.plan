@@ -118,4 +118,5 @@ tables/attachment_001_add_analyst_roles 2022-12-06T16:02:43Z Anthony Bushara <an
 @1.22.0 2022-12-08T20:08:49Z Anthony Bushara <anthony@button.is> # release v1.22.0
 @1.23.0 2022-12-11T04:15:58Z Marcel Mueller <marcel@button.is> # release v1.23.0
 @1.23.1 2022-12-13T03:39:09Z Anthony Bushara <anthony@button.is> # release v1.23.1
+tables/analyst_002_update_lia_lastname 2022-12-13T19:16:31Z Anthony Bushara <anthony@button.is> # Changes Lia's last name
 computed_columns/application_status [computed_columns/application_status@1.20.0] 2022-12-13T18:14:55Z ,,, Vladimir <vladimir@button.is> # ccbc_readonly role
