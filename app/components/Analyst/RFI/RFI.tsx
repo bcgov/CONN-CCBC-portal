@@ -81,11 +81,9 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
         console.log('Error updating RFI', err);
       },
       updater: (store, data) => {
-        const rfi = store.get(rfiDataByRfiDataId.id);
-        rfi.setLinkedRecord(
-          store.get(data.updateRfiData.rfiData.id),
-          'rfiData'
-        );
+        store
+          .get(rfiDataByRfiDataId.id)
+          .setLinkedRecord(store.get(data.updateRfiData.rfiData.id), 'rfiData');
       },
     });
   };
