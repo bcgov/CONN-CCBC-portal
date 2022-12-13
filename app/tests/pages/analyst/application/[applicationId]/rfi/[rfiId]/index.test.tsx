@@ -89,6 +89,17 @@ const pageTestingHelper = new PageTestingHelper<RfiIdQuery>({
   defaultQueryResolver: mockQueryPayload,
   defaultQueryVariables: {
     rowId: 1,
+    rfiId: 0,
+  },
+});
+
+const editPageTestingHelper = new PageTestingHelper<RfiIdQuery>({
+  pageComponent: RfiId,
+  compiledQuery: compiledRfiQuery,
+  defaultQueryResolver: mockPreFilledFormPayload,
+  defaultQueryVariables: {
+    rowId: 1,
+    rfiId: 1,
   },
 });
 
@@ -256,11 +267,11 @@ describe('The index page', () => {
   });
 
   it('calls the update mutation on save if exiting rfi present', async () => {
-    pageTestingHelper.loadQuery(mockPreFilledFormPayload);
-    pageTestingHelper.setMockRouterValues({
+    editPageTestingHelper.setMockRouterValues({
       query: { applicationId: '1', rfiId: '1' },
     });
-    pageTestingHelper.renderPage();
+    editPageTestingHelper.loadQuery();
+    editPageTestingHelper.renderPage();
     const user = userEvent.setup();
 
     const button = screen.getByRole('button', {
@@ -269,7 +280,7 @@ describe('The index page', () => {
 
     await user.click(button);
 
-    pageTestingHelper.expectMutationToBeCalled('updateRfiMutation', {
+    editPageTestingHelper.expectMutationToBeCalled('updateRfiMutation', {
       input: {
         rfiRowId: 1,
         jsonData: {
