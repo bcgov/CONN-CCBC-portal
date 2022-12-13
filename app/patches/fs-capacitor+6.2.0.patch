@@ -1,0 +1,18 @@
+diff --git a/node_modules/fs-capacitor/dist/index.js b/node_modules/fs-capacitor/dist/index.js
+index 91c6d96..7b4e772 100644
+--- a/node_modules/fs-capacitor/dist/index.js
++++ b/node_modules/fs-capacitor/dist/index.js
+@@ -48,7 +48,12 @@ class ReadStream extends stream_1.Readable {
+             // If there were no more bytes to read and the write stream is finished,
+             // than this stream has reached the end.
+             if (this._writeStream._writableState.finished) {
+-                this.push(null);
++                // Check if we have consumed the whole file up to where
++                // the write stream has written before ending the stream
++                if (this._pos < this._writeStream._pos)
++                    this._read(n);
++                else
++                    this.push(null);
+                 return;
+             }
+             // Otherwise, wait for the write stream to add more data or finish.
