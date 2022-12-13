@@ -14,6 +14,7 @@ grant execute on function ccbc_public.application_status to ccbc_auth_user;
 grant execute on function ccbc_public.application_status to ccbc_job_executor;
 grant execute on function ccbc_public.application_status to ccbc_analyst;
 grant execute on function ccbc_public.application_status to ccbc_admin;
+grant execute on function ccbc_public.application_status to ccbc_readonly;
 
 comment on function ccbc_public.application_status is 'Computed column to return status of an application';
 
