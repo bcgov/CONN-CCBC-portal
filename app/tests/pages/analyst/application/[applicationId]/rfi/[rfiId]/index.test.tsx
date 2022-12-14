@@ -46,6 +46,7 @@ const mockPreFilledFormPayload = {
   Query() {
     return {
       rfiDataByRowId: {
+        rfiNumber: 'CCBC-10001-1',
         jsonData: {
           detailedBudgetRfi: true,
           eligibilityAndImpactsCalculatorRfi: true,
@@ -290,6 +291,18 @@ describe('The index page', () => {
         },
       },
     });
+  });
+
+  it('has rfi number on edit page', async () => {
+    editPageTestingHelper.setMockRouterValues({
+      query: { applicationId: '1', rfiId: '1' },
+    });
+    editPageTestingHelper.loadQuery();
+    editPageTestingHelper.renderPage();
+
+    const h4RFINumber = screen.getByText('CCBC-10001-1');
+
+    expect(h4RFINumber).toBeInTheDocument();
   });
 
   afterEach(() => {
