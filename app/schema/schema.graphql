@@ -4703,6 +4703,9 @@ type ApplicationStatus implements Node {
   """created at timestamp"""
   createdAt: Datetime!
 
+  """Change reason for analyst status change"""
+  changeReason: String
+
   """
   Reads a single `Application` that is related to this `ApplicationStatus`.
   """
@@ -4876,6 +4879,7 @@ type ApplicationStatusType implements Node {
 
   """Description of the status type"""
   description: String
+  visibleByApplicant: Boolean
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
   applicationStatusesByStatus(
@@ -4978,6 +4982,8 @@ enum ApplicationStatusesOrderBy {
   CREATED_BY_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
+  CHANGE_REASON_ASC
+  CHANGE_REASON_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -5001,6 +5007,9 @@ input ApplicationStatusCondition {
 
   """Checks for equality with the object’s `createdAt` field."""
   createdAt: Datetime
+
+  """Checks for equality with the object’s `changeReason` field."""
+  changeReason: String
 }
 
 """
@@ -7654,6 +7663,8 @@ enum ApplicationStatusTypesOrderBy {
   NAME_DESC
   DESCRIPTION_ASC
   DESCRIPTION_DESC
+  VISIBLE_BY_APPLICANT_ASC
+  VISIBLE_BY_APPLICANT_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -7668,6 +7679,9 @@ input ApplicationStatusTypeCondition {
 
   """Checks for equality with the object’s `description` field."""
   description: String
+
+  """Checks for equality with the object’s `visibleByApplicant` field."""
+  visibleByApplicant: Boolean
 }
 
 """
@@ -14517,6 +14531,9 @@ input ApplicationStatusInput {
 
   """created at timestamp"""
   createdAt: Datetime
+
+  """Change reason for analyst status change"""
+  changeReason: String
 }
 
 """The output of our create `ApplicationStatusType` mutation."""
@@ -14561,6 +14578,7 @@ input ApplicationStatusTypeInput {
 
   """Description of the status type"""
   description: String
+  visibleByApplicant: Boolean
 }
 
 """The output of our create `Attachment` mutation."""
@@ -15716,6 +15734,9 @@ input ApplicationStatusPatch {
 
   """created at timestamp"""
   createdAt: Datetime
+
+  """Change reason for analyst status change"""
+  changeReason: String
 }
 
 """All input for the `updateApplicationStatusByRowId` mutation."""
@@ -15786,6 +15807,7 @@ input ApplicationStatusTypePatch {
 
   """Description of the status type"""
   description: String
+  visibleByApplicant: Boolean
 }
 
 """All input for the `updateApplicationStatusTypeByName` mutation."""
