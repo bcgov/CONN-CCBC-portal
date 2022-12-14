@@ -15,13 +15,9 @@ const getRfiQuery = graphql`
         edges {
           node {
             rfiDataByRfiDataId {
-              jsonData
-              rowId
-              rfiNumber
-              rfiDataStatusTypeByRfiDataStatusTypeId {
-                name
-              }
+              id
               archivedAt
+              ...RFI_query
             }
           }
         }
@@ -46,7 +42,6 @@ const RFIPage = ({
     applicationByRowId.applicationRfiDataByApplicationId.edges?.map(
       ({ node }) => node.rfiDataByRfiDataId
     );
-
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
@@ -58,22 +53,14 @@ const RFIPage = ({
         <>
           {rfiList &&
             rfiList.map((rfi) => {
-              const {
-                jsonData,
-                rowId,
-                rfiNumber,
-                rfiDataStatusTypeByRfiDataStatusTypeId,
-                archivedAt,
-              } = rfi;
+              const { archivedAt } = rfi;
               // not a fan of this solution, but can't filter through graphql
               if (archivedAt === null) {
                 return (
                   <RFI
-                    key={rfiNumber}
-                    rfiNumber={rfiNumber}
-                    formData={jsonData}
-                    rowId={rowId}
-                    status={rfiDataStatusTypeByRfiDataStatusTypeId.name}
+                    key={rfi.id}
+                    rfiDataByRfiDataId={rfi}
+                    id={rfi.id as string}
                   />
                 );
               }
