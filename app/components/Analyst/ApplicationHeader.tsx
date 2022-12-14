@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
+import ChangeStatus from './ChangeStatus';
 
 const StyledCallout = styled.div`
   margin-bottom: 40px;
@@ -19,6 +20,11 @@ const StyledH2 = styled.h2`
   font-size: 16px;
 `;
 
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 interface Props {
   query: any;
 }
@@ -35,6 +41,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           rowId
         }
         ...AssignLead_query
+        ...ChangeStatus_query
       }
     `,
     query
@@ -51,14 +58,15 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
         <StyledH1>{projectName}</StyledH1>
         <StyledH2>{organizationName}</StyledH2>
       </div>
-      <div>
+      <StyledDiv>
+        <ChangeStatus query={queryFragment} />
         <AssignLead
           label="Lead"
           applicationId={rowId}
           lead={analystLead}
           query={queryFragment}
         />
-      </div>
+      </StyledDiv>
     </StyledCallout>
   );
 };
