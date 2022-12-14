@@ -1,14 +1,18 @@
 import styled from 'styled-components';
+import { graphql, useFragment } from 'react-relay';
+import { IChangeEvent } from '@rjsf/core';
 import FormBase from 'components/Form/FormBase';
 import rfiSchema from 'formSchema/analyst/rfiSchema';
 import { rfiViewUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { RfiViewTheme } from 'components/Analyst/RFI/RfiTheme';
+import { useRouter } from 'next/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { useUpdateRfiJsonDataMutation } from 'schema/mutations/application/updateRfiJsonData';
 
 interface Props {
-  formData: any;
-  rowId: number;
-  rfiNumber: string;
-  status: string;
+  id: string;
+  rfiDataByRfiDataId: any;
 }
 
 const StyledContainer = styled.div`
@@ -22,15 +26,85 @@ const StyledH4 = styled.h4`
   font-size: 21px;
 `;
 
-const RFI: React.FC<Props> = ({ formData, rfiNumber }) => {
+const HeadingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: 24px;
+  // justify-content: space-between;
+`;
+
+const StyledFontAwesome = styled(FontAwesomeIcon)`
+  color: ${(props) => props.theme.color.links};
+  cursor: pointer;
+`;
+
+const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
+  const router = useRouter();
+  const applicationId = router.query.applicationId as string;
+
+  const queryFragment = useFragment(
+    graphql`
+      fragment RFI_query on RfiData {
+        jsonData
+        rfiNumber
+        rowId
+      }
+    `,
+    rfiDataByRfiDataId
+  );
+
+  const { jsonData, rfiNumber, rowId } = queryFragment;
+
+  const [updateRfiJsonData] = useUpdateRfiJsonDataMutation();
+
+  const handleClickEditButton = () => {
+    router.push(`/analyst/application/${applicationId}/rfi/${rowId}`);
+  };
+
+  const handleChange = (e: IChangeEvent<any>) => {
+    updateRfiJsonData({
+      variables: {
+        input: {
+          id,
+          rfiDataPatch: {
+            jsonData: e.formData,
+          },
+        },
+      },
+      optimisticResponse: {
+        jsonData: e.formData,
+      },
+      onError: (err) => {
+        // eslint-disable-next-line no-console
+        console.log('Error updating RFI', err);
+      },
+      updater: (store, data) => {
+        store
+          .get(rfiDataByRfiDataId.id)
+          .setLinkedRecord(store.get(data.updateRfiData.rfiData.id), 'rfiData');
+      },
+    });
+  };
+
   return (
     <StyledContainer>
-      <StyledH4>{rfiNumber}</StyledH4>
+      <HeadingContainer>
+        <StyledH4>{rfiNumber}</StyledH4>
+        <StyledFontAwesome
+          aria-label={`Edit ${rfiNumber}`}
+          onClick={handleClickEditButton}
+          icon={faPen}
+          fixedWidth
+        />
+      </HeadingContainer>
       <FormBase
         theme={RfiViewTheme}
         schema={rfiSchema}
         uiSchema={rfiViewUiSchema}
-        formData={formData}
+        onChange={handleChange}
+        formData={jsonData}
         noValidate
         tagName="div"
         // Pass children to hide submit button

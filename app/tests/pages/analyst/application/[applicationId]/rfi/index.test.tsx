@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import RFI from 'pages/analyst/application/[applicationId]/rfi';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledRfiQuery, { rfiQuery } from '__generated__/rfiQuery.graphql';
@@ -30,6 +30,49 @@ const mockQueryPayload = {
                   },
                   rowId: 4,
                   rfiNumber: 'CCBC-010001-1',
+                  rfiDataStatusTypeByRfiDataStatusTypeId: {
+                    name: 'draft',
+                  },
+                  archivedAt: null,
+                },
+              },
+            },
+            {
+              node: {
+                rfiDataByRfiDataId: {
+                  jsonData: {
+                    rfiType: ['Technical', 'Missing files or information'],
+                    rfiDueBy: '2022-11-28',
+                    rfiAdditionalFiles: {
+                      equipmentDetailsRfi: true,
+                      geographicCoverageMapRfi: true,
+                      preparedFinancialStatementsRfi: true,
+                      upgradedNetworkInfrastructureRfi: true,
+                      eligibilityAndImpactsCalculatorRfi: true,
+                      communityRuralDevelopmentBenefitsTemplateRfi: true,
+                      equipmentDetails: [
+                        {
+                          id: 7,
+                          name: 'test 3.xls',
+                          size: 0,
+                          type: 'application/vnd.ms-excel',
+                          uuid: 'cb219e12-2b8b-4ba9-be7d-b4af4d1caa5b',
+                        },
+                      ],
+                    },
+                    rfiEmailCorrespondance: [
+                      {
+                        id: 6,
+                        name: 'test 2.xls',
+                        size: 0,
+                        type: 'application/vnd.ms-excel',
+                        uuid: 'cb219e12-2b8b-4ba9-be7d-b4af4d1caa5b',
+                      },
+                    ],
+                  },
+                  rowId: 3,
+                  rfiNumber: 'CCBC-010001-2',
+                  archivedAt: null,
                   rfiDataStatusTypeByRfiDataStatusTypeId: {
                     name: 'draft',
                   },
@@ -71,6 +114,7 @@ const mockQueryPayload = {
                   },
                   rowId: 3,
                   rfiNumber: 'CCBC-010001-2',
+                  archivedAt: 'just about anything',
                   rfiDataStatusTypeByRfiDataStatusTypeId: {
                     name: 'draft',
                   },
@@ -98,6 +142,37 @@ const mockQueryPayload = {
         ],
       },
     };
+  },
+};
+
+const rfiMutationInput = {
+  input: {
+    id: '<RfiData-mock-id-1>',
+    rfiDataPatch: {
+      jsonData: {
+        rfiType: ['Missing files or information'],
+        rfiAdditionalFiles: {
+          detailedBudgetRfi: true,
+        },
+        rfiDueBy: '2022-12-03',
+        rfiEmailCorrespondance: [
+          {
+            id: 7,
+            name: 'test.xls',
+            size: 0,
+            type: 'application/vnd.ms-excel',
+            uuid: '4e27e513-6c56-4e5b-81d6-a14fa5f7eae3',
+          },
+          {
+            id: 1,
+            uuid: 'string',
+            name: 'test-file.kmz',
+            size: 1,
+            type: 'application/vnd.google-earth.kmz',
+          },
+        ],
+      },
+    },
   },
 };
 
@@ -200,6 +275,76 @@ describe('The index page', () => {
     });
   });
 
+  // Wrap file test in function to reuse
+  const fileTest = () => {
+    const file = new File([new ArrayBuffer(1)], 'test-file.kmz', {
+      type: 'application/vnd.google-earth.kmz',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    act(() => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
+      input: {
+        attachment: {
+          file,
+          fileName: 'test-file.kmz',
+          fileSize: '1 Bytes',
+          fileType: 'application/vnd.google-earth.kmz',
+          applicationId: 1,
+        },
+      },
+    });
+
+    expect(screen.getByLabelText('loading')).toBeVisible();
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+  };
+
+  it('calls the correct mutations when uploading an email', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    fileTest();
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateRfiJsonDataMutation',
+      rfiMutationInput
+    );
+  });
+
+  it('calls an error mutations when mutation fails', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+    const logSpy = jest.spyOn(console, 'log');
+
+    fileTest();
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateRfiJsonDataMutation',
+      rfiMutationInput
+    );
+
+    act(() => {
+      pageTestingHelper.environment.mock.rejectMostRecentOperation(new Error());
+    });
+
+    expect(logSpy).toHaveBeenCalledWith('Error updating RFI', new Error());
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });
