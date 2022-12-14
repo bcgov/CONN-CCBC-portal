@@ -11,6 +11,7 @@ select has_table(
 select has_column('ccbc_public', 'application_status', 'id','The table application has column id');
 select has_column('ccbc_public', 'application_status', 'application_id','The table application has column application_id');
 select has_column('ccbc_public', 'application_status', 'status','The table application has column status');
+select has_column('ccbc_public', 'application_status', 'change_reason','The table application has column change_reason');
 
 -- Row level security tests --
 
