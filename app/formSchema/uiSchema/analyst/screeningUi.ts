@@ -12,21 +12,35 @@ const screeningUiSchema = {
   ],
   assignedTo: {
     'ui:widget': 'AnalystSelectWidget',
+    'ui:options': {
+      boldTitle: true,
+    },
   },
   targetDate: {
     'ui:widget': 'DatePickerWidget',
     'ui:options': {
       isClearable: true,
+      boldTitle: true,
+      addHorizontalLine: true,
     },
   },
   nextStep: {
     'ui:widget': 'RadioWidget',
+    'ui:options': {
+      boldTitle: true,
+    },
   },
   decision: {
     'ui:widget': 'RadioWidget',
+    'ui:options': {
+      boldTitle: true,
+    },
   },
   contestingMap: {
     'ui:widget': 'CheckboxesWidget',
+    'ui:options': {
+      boldTitle: true,
+    },
   },
   assessmentTemplate: {
     'ui:widget': 'FileWidget',
@@ -40,7 +54,6 @@ const screeningUiSchema = {
     'ui:widget': 'FileWidget',
     'ui:options': {
       label: false,
-      allowMultipleFiles: true,
     },
   },
 };

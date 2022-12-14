@@ -28,7 +28,7 @@ const screening: JSONSchema7 = {
       enum: ['Needs 2nd review', 'Needs RFI', 'Assessment complete'],
     },
     decision: {
-      title: 'Decision',
+      title: 'Progress',
       type: 'string',
       enum: ['Eligible', 'Ineligible', 'Incomplete'],
     },

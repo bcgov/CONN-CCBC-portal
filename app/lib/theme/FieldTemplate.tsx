@@ -1,6 +1,12 @@
 import { FieldTemplateProps } from '@rjsf/core';
+import styled from 'styled-components';
 import Description from './components/Description';
 import FieldLabel from './components/FieldLabel';
+
+const StyledHR = styled.hr`
+  margin-top: ${(props) => props.theme.spacing.large};
+  margin-bottom: ${(props) => props.theme.spacing.large};
+`;
 
 const FieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
@@ -18,6 +24,8 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   const boldTitle = uiSchema['ui:options']?.boldTitle as boolean;
   const altOptionalText = uiSchema['ui:options']?.altOptionalText;
   const customTitle = uiSchema['ui:options']?.customTitle as JSX.Element;
+  const isAddHorizontalLine = uiSchema['ui:options']
+    ?.addHorizontalLine as boolean;
   const showLabel = displayLabel && !customTitle;
 
   return (
@@ -44,6 +52,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
       {rawErrors && rawErrors.length > 0 ? (
         <div className="error-div">{errors}</div>
       ) : null}
+      {isAddHorizontalLine && <StyledHR />}
     </div>
   );
 };
