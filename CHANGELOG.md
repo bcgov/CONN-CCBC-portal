@@ -1,3 +1,30 @@
+# [1.24.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.23.1...v1.24.0) (2022-12-14)
+
+### Bug Fixes
+
+- add check for newRfiForm ([f202ffd](https://github.com/bcgov/CONN-CCBC-portal/commit/f202ffdf32032ed6250245da80e88c67efd76961))
+- added permissions to function application_status ([c00517e](https://github.com/bcgov/CONN-CCBC-portal/commit/c00517ecafcffd11516a180ffab59f72dd1cd408))
+- added tests ([b5821e5](https://github.com/bcgov/CONN-CCBC-portal/commit/b5821e52607a4bd246e17939acfedd3f67c6dc64))
+- cleanup ([30ecfab](https://github.com/bcgov/CONN-CCBC-portal/commit/30ecfabbbc2f9d572a0d33ff55ab9a80ca0d0935))
+- getArchivePath ([f37c65e](https://github.com/bcgov/CONN-CCBC-portal/commit/f37c65e5b9959791eb8181969704ea27a9436996))
+- lint fixes ([bee99c0](https://github.com/bcgov/CONN-CCBC-portal/commit/bee99c0d5424a89adb1f142bb56a0edfc84c806f))
+- remove unused dependencies ([5f4ddac](https://github.com/bcgov/CONN-CCBC-portal/commit/5f4ddac778b386824aee4c4e3625d764cc950a86))
+- typo ([1815b8c](https://github.com/bcgov/CONN-CCBC-portal/commit/1815b8c2fa49ace120871f43278e71c59e5f3f12))
+- updated permissions ([f5ee8a6](https://github.com/bcgov/CONN-CCBC-portal/commit/f5ee8a68734b78d8c905ea2f26b351c7957ab1b2))
+
+### Features
+
+- add custom mutation to update RFI ([e487b50](https://github.com/bcgov/CONN-CCBC-portal/commit/e487b507a0f39f5a08b1d57392e22f1f669b1806))
+- add horizontal line after date ([559b272](https://github.com/bcgov/CONN-CCBC-portal/commit/559b27246b071743eb46b1e51221d9ec250852cf))
+- add updateRfiJsonData mutation ([6c79945](https://github.com/bcgov/CONN-CCBC-portal/commit/6c799457b25520304111799f0277c68de80c3c54))
+- change decision to progress in screening schema ([af2ae1e](https://github.com/bcgov/CONN-CCBC-portal/commit/af2ae1e0d865d2cc5e585a7ddc20b6d874162a94))
+- edit button on RFI page ([9d559eb](https://github.com/bcgov/CONN-CCBC-portal/commit/9d559eb194f871ad1c0c6c678fc699442edd08bf))
+- extract tags for all attachments before adding to archive ([ef6972d](https://github.com/bcgov/CONN-CCBC-portal/commit/ef6972dd0b10e21c6ded1c7c93a6d4811156fc21))
+- fetching tags for s3 object ([2c54717](https://github.com/bcgov/CONN-CCBC-portal/commit/2c54717dee6f34b56d143ad4c398c95d21c9a2e4))
+- rfi number on edit rfi page ([05ca7b4](https://github.com/bcgov/CONN-CCBC-portal/commit/05ca7b44e42dbd8c4a80f36c6412c644815a7212))
+- save list rfi email data onChange ([40e3723](https://github.com/bcgov/CONN-CCBC-portal/commit/40e37234deccde023be011470e3823b213dc44f5))
+- update mutation is used if existing rfi data is displayed ([4e5ae80](https://github.com/bcgov/CONN-CCBC-portal/commit/4e5ae80c349348e65f7316631b6075aeb8c772d3))
+
 ## [1.23.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.23.0...v1.23.1) (2022-12-13)
 
 ### Bug Fixes
