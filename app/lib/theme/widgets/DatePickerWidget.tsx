@@ -130,26 +130,29 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   };
 
   return (
-    <StyledContainer>
-      <DatePicker
-        id={id}
-        disabled={disabled}
-        readOnly={readonly}
-        className="form-control"
-        selected={day}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        dateFormat="yyyy-MM-dd"
-        placeholderText="YYYY-MM-DD"
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        isClearable={options.isClearable as boolean}
-        showPopperArrow={false}
-        customInput={<CustomInput />}
-      />
-    </StyledContainer>
+    <>
+      <StyledContainer>
+        <DatePicker
+          id={id}
+          disabled={disabled}
+          readOnly={readonly}
+          className="form-control"
+          selected={day}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          dateFormat="yyyy-MM-dd"
+          placeholderText="YYYY-MM-DD"
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
+          isClearable={options.isClearable as boolean}
+          showPopperArrow={false}
+          customInput={<CustomInput />}
+        />
+      </StyledContainer>
+      {(options.addHorizontalLine as boolean) && <hr />}
+    </>
   );
 };
 
@@ -157,6 +160,7 @@ DatePickerWidget.defaultProps = {
   // eslint-disable-next-line react/default-props-match-prop-types
   options: {
     isClearable: false,
+    addHorizontalLine: false,
   },
 };
 

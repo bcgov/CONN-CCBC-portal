@@ -17,6 +17,7 @@ const screeningUiSchema = {
     'ui:widget': 'DatePickerWidget',
     'ui:options': {
       isClearable: true,
+      addHorizontalLine: true,
     },
   },
   nextStep: {
