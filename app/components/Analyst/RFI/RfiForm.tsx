@@ -20,6 +20,12 @@ interface RfiFormProps {
   rfiDataKey: RfiForm_RfiData$key;
 }
 
+const StyledH4 = styled.h4`
+  margin: 24px 0 24px;
+  font-weight: 700;
+  font-size: 24px;
+`;
+
 const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
   const router = useRouter();
   const { applicationId, rfiId } = router.query;
@@ -27,6 +33,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
   const rfiFormData = useFragment<RfiForm_RfiData$key>(
     graphql`
       fragment RfiForm_RfiData on RfiData {
+        rfiNumber
         jsonData
       }
     `,
@@ -74,6 +81,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
 
   return (
     <div>
+      <StyledH4>{rfiFormData?.rfiNumber}</StyledH4>
       <FormBase
         theme={RfiTheme}
         schema={rfiSchema}
