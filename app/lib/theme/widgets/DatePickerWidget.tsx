@@ -157,7 +157,6 @@ DatePickerWidget.defaultProps = {
   // eslint-disable-next-line react/default-props-match-prop-types
   options: {
     isClearable: false,
-    addHorizontalLine: false,
   },
 };
 
