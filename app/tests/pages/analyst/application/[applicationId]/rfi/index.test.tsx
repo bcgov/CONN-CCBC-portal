@@ -33,6 +33,7 @@ const mockQueryPayload = {
                   rfiDataStatusTypeByRfiDataStatusTypeId: {
                     name: 'draft',
                   },
+                  archivedAt: null,
                 },
               },
             },
@@ -71,6 +72,49 @@ const mockQueryPayload = {
                   },
                   rowId: 3,
                   rfiNumber: 'CCBC-010001-2',
+                  archivedAt: null,
+                  rfiDataStatusTypeByRfiDataStatusTypeId: {
+                    name: 'draft',
+                  },
+                },
+              },
+            },
+            {
+              node: {
+                rfiDataByRfiDataId: {
+                  jsonData: {
+                    rfiType: ['Technical', 'Missing files or information'],
+                    rfiDueBy: '2022-11-28',
+                    rfiAdditionalFiles: {
+                      equipmentDetailsRfi: true,
+                      geographicCoverageMapRfi: true,
+                      preparedFinancialStatementsRfi: true,
+                      upgradedNetworkInfrastructureRfi: true,
+                      eligibilityAndImpactsCalculatorRfi: true,
+                      communityRuralDevelopmentBenefitsTemplateRfi: true,
+                      equipmentDetails: [
+                        {
+                          id: 7,
+                          name: 'test 3.xls',
+                          size: 0,
+                          type: 'application/vnd.ms-excel',
+                          uuid: 'cb219e12-2b8b-4ba9-be7d-b4af4d1caa5b',
+                        },
+                      ],
+                    },
+                    rfiEmailCorrespondance: [
+                      {
+                        id: 6,
+                        name: 'test 2.xls',
+                        size: 0,
+                        type: 'application/vnd.ms-excel',
+                        uuid: 'cb219e12-2b8b-4ba9-be7d-b4af4d1caa5b',
+                      },
+                    ],
+                  },
+                  rowId: 3,
+                  rfiNumber: 'CCBC-010001-2',
+                  archivedAt: 'just about anything',
                   rfiDataStatusTypeByRfiDataStatusTypeId: {
                     name: 'draft',
                   },

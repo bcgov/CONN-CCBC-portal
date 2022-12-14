@@ -21,6 +21,7 @@ const getRfiQuery = graphql`
               rfiDataStatusTypeByRfiDataStatusTypeId {
                 name
               }
+              archivedAt
             }
           }
         }
@@ -62,16 +63,21 @@ const RFIPage = ({
                 rowId,
                 rfiNumber,
                 rfiDataStatusTypeByRfiDataStatusTypeId,
+                archivedAt,
               } = rfi;
-              return (
-                <RFI
-                  key={rfiNumber}
-                  rfiNumber={rfiNumber}
-                  formData={jsonData}
-                  rowId={rowId}
-                  status={rfiDataStatusTypeByRfiDataStatusTypeId.name}
-                />
-              );
+              // not a fan of this solution, but can't filter through graphql
+              if (archivedAt === null) {
+                return (
+                  <RFI
+                    key={rfiNumber}
+                    rfiNumber={rfiNumber}
+                    formData={jsonData}
+                    rowId={rowId}
+                    status={rfiDataStatusTypeByRfiDataStatusTypeId.name}
+                  />
+                );
+              }
+              return null;
             })}
         </>
       </AnalystLayout>

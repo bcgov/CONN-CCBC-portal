@@ -3,6 +3,9 @@ import FormBase from 'components/Form/FormBase';
 import rfiSchema from 'formSchema/analyst/rfiSchema';
 import { rfiViewUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { RfiViewTheme } from 'components/Analyst/RFI/RfiTheme';
+import { useRouter } from 'next/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   formData: any;
@@ -22,10 +25,37 @@ const StyledH4 = styled.h4`
   font-size: 21px;
 `;
 
-const RFI: React.FC<Props> = ({ formData, rfiNumber }) => {
+const HeadingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: 24px;
+  // justify-content: space-between;
+`;
+
+const StyledFontAwesome = styled(FontAwesomeIcon)`
+  color: ${(props) => props.theme.color.links};
+  cursor: pointer;
+`;
+
+const RFI: React.FC<Props> = ({ formData, rfiNumber, rowId }) => {
+  const router = useRouter();
+  const applicationId = router.query.applicationId as string;
+  const handleClickEditButton = () => {
+    router.push(`/analyst/application/${applicationId}/rfi/${rowId}`);
+  };
   return (
     <StyledContainer>
-      <StyledH4>{rfiNumber}</StyledH4>
+      <HeadingContainer>
+        <StyledH4>{rfiNumber}</StyledH4>
+        <StyledFontAwesome
+          aria-label={`Edit ${rfiNumber}`}
+          onClick={handleClickEditButton}
+          icon={faPen}
+          fixedWidth
+        />
+      </HeadingContainer>
       <FormBase
         theme={RfiViewTheme}
         schema={rfiSchema}
