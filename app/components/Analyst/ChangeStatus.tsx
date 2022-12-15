@@ -5,7 +5,10 @@ import statusColors from 'data/statusColors';
 import ChangeStatusModal from './ChangeStatusModal';
 
 interface DropdownProps {
-  color: any;
+  color: {
+    primary: string;
+    backgroundColor: string;
+  };
 }
 
 const StyledDropdown = styled.select<DropdownProps>`
@@ -15,7 +18,7 @@ const StyledDropdown = styled.select<DropdownProps>`
   appearance: none;
   padding: 6px 12px;
   height: 30px;
-  min-width: 210px;
+  min-width: 206px;
   margin-bottom: 16px;
 
   background: ${(props) => props.color.backgroundColor}
@@ -59,28 +62,26 @@ const ChangeStatus = ({ query }) => {
 
   const { allApplicationStatusTypes, applicationByRowId } = queryFragment;
   const { status } = applicationByRowId;
-
-  const findStatus = (statusName, statusList) => {
-    return statusList.find((type) => type.name === statusName);
-  };
-
-  const [currentStatus, setcurrentStatus] = useState(
-    findStatus(status, allApplicationStatusTypes.nodes)
-  );
-
-  const [draftStatus, setDraftStatus] = useState(
-    findStatus(status, allApplicationStatusTypes.nodes)
-  );
-
   const hiddenStatusTypes = ['draft', 'submitted', 'withdrawn'];
 
   // Filter unwanted status types
   const statusTypes = allApplicationStatusTypes.nodes.filter(
-    (type) => !hiddenStatusTypes.includes(type.name)
+    (statusType) => !hiddenStatusTypes.includes(statusType.name)
+  );
+
+  const getStatus = (statusName, statusList) => {
+    return statusList.find((statusType) => statusType.name === statusName);
+  };
+
+  const [currentStatus, setcurrentStatus] = useState(
+    getStatus(status, statusTypes)
+  );
+  const [draftStatus, setDraftStatus] = useState(
+    getStatus(status, statusTypes)
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setDraftStatus(findStatus(e.target.value, allApplicationStatusTypes.nodes));
+    setDraftStatus(getStatus(e.target.value, statusTypes));
 
     // Open modal using anchor tag
     window.location.hash = '#modal-id';
@@ -95,13 +96,15 @@ const ChangeStatus = ({ query }) => {
         onCancelChange={() => setDraftStatus(currentStatus)}
       />
       <StyledDropdown
+        data-testid="change-status"
         onChange={handleChange}
+        // Use draft status for colour so it changes
         color={statusColors[draftStatus.name]}
-        value={draftStatus.name || currentStatus.name}
+        value={draftStatus.name}
       >
         {statusTypes &&
-          statusTypes.map((type) => {
-            const { description, name, id } = type;
+          statusTypes.map((statusType) => {
+            const { description, name, id } = statusType;
             return (
               <StyledOption value={name} key={id}>
                 {description}

@@ -72,7 +72,11 @@ const ChangeStatusModal = ({
           to {draftStatus?.description}.
         </p>
         <div>Please provide a reason for changing the status. (optional)</div>
-        <StyledTextArea maxLength={1000} onChange={handleChange} />
+        <StyledTextArea
+          maxLength={1000}
+          onChange={handleChange}
+          data-testid="reason-for-change"
+        />
         <ModalButtons>
           <Modal.Close>
             <Button onClick={handleClick} data-testid="withdraw-yes-btn">
