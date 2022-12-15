@@ -1,3 +1,9 @@
+## [1.24.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.24.0...v1.24.1) (2022-12-15)
+
+### Bug Fixes
+
+- add null handling in s3 archiver ([e141e5c](https://github.com/bcgov/CONN-CCBC-portal/commit/e141e5c99d0f09d36aed83899ff72664b18cd60e))
+
 # [1.24.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.23.1...v1.24.0) (2022-12-14)
 
 ### Bug Fixes
