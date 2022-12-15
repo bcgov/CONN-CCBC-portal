@@ -77,7 +77,7 @@ const Home = ({
 
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
   const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
-  const showSubtractedTime = useFeature('show_subtracted_time').value || {};
+  const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
 
   const intakeCalloutChildren = useMemo(() => {
     if (!openIntake)
@@ -95,7 +95,7 @@ const Home = ({
 
     const formattedClosingDate = dateTimeSubtracted(
       openIntake.closeTimestamp,
-      showSubtractedTime ? 30 : 0
+      showSubtractedTime
     );
 
     return (

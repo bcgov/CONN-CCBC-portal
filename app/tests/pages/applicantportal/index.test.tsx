@@ -72,7 +72,15 @@ const mockClosedIntake: FeatureResult<JSONValue> = {
   source: 'defaultValue',
   on: null,
   off: null,
-  ruleId: 'open_intake_alert',
+  ruleId: 'closed_intake_alert',
+};
+
+const mockSubtractedValue: FeatureResult<JSONValue> = {
+  value: 30,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_subtracted_time',
 };
 
 const pageTestingHelper = new PageTestingHelper<applicantportalQuery>({
@@ -118,12 +126,13 @@ describe('The index page', () => {
   });
 
   it('Displays the callout message with correct time when there is an open intake', () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockSubtractedValue);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     expect(
       screen.getByText(
-        /Applications are accepted until August 19, 2027 at 8:30 a.m. PDT./
+        /Applications are accepted until August 19, 2027, 8:30:00 a.m. PDT./
       )
     ).toBeInTheDocument();
   });

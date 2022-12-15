@@ -92,7 +92,7 @@ const Dashboard = ({
 
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
   const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
-  const showSubtractedTime = useFeature('show_subtracted_time').value || {};
+  const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -118,8 +118,8 @@ const Dashboard = ({
           {openIntake ? (
             <p>
               Review of applications will begin on{' '}
-              {dateTimeSubtracted(closeTimestamp, showSubtractedTime ? 30 : 0)}.
-              You can edit draft and submitted applications until this date.
+              {dateTimeSubtracted(closeTimestamp, showSubtractedTime)}. You can
+              edit draft and submitted applications until this date.
             </p>
           ) : (
             <div>

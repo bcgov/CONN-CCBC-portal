@@ -17,7 +17,7 @@ const SubmissionField: React.FC<FieldProps> = (props) => {
     registry,
   } = props;
 
-  const showSubtractedTime = useFeature('show_subtracted_time').value || {};
+  const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
 
   // Remove the title so it isn't rendered twice.
   const submissionSchemaWithoutTitle = { ...schema };
@@ -26,7 +26,7 @@ const SubmissionField: React.FC<FieldProps> = (props) => {
 
   const submissionDescriptionText = `Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes on ${dateTimeSubtracted(
     intakeCloseTimestamp,
-    showSubtractedTime ? 30 : 0
+    showSubtractedTime
   )}`;
 
   return (
