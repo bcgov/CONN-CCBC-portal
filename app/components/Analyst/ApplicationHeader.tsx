@@ -22,7 +22,8 @@ const StyledH2 = styled.h2`
 
 const StyledDiv = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  min-width: 220px;
 `;
 
 interface Props {
