@@ -23,12 +23,12 @@ const screening: JSONSchema7 = {
       type: 'string',
     },
     nextStep: {
-      title: 'Next step',
+      title: 'Progress',
       type: 'string',
       enum: ['Needs 2nd review', 'Needs RFI', 'Assessment complete'],
     },
     decision: {
-      title: 'Progress',
+      title: 'Decision',
       type: 'string',
       enum: ['Eligible', 'Ineligible', 'Incomplete'],
     },
