@@ -1,5 +1,6 @@
 import { FieldProps } from '@rjsf/core';
-import { DateTime } from 'luxon';
+import { useFeature } from '@growthbook/growthbook-react';
+import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import Description from '../components/Description';
 
 /*
@@ -16,18 +17,17 @@ const SubmissionField: React.FC<FieldProps> = (props) => {
     registry,
   } = props;
 
+  const showSubtractedTime = useFeature('show_subtracted_time').value || {};
+
   // Remove the title so it isn't rendered twice.
   const submissionSchemaWithoutTitle = { ...schema };
   delete submissionSchemaWithoutTitle.title;
   const { ObjectField } = registry.fields;
 
-  const submissionDescriptionText = `Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes on ${DateTime.fromISO(
+  const submissionDescriptionText = `Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes on ${dateTimeSubtracted(
     intakeCloseTimestamp,
-    {
-      locale: 'en-CA',
-      zone: 'America/Vancouver',
-    }
-  ).toFormat('MMMM dd, yyyy, ttt')}`;
+    showSubtractedTime ? 30 : 0
+  )}`;
 
   return (
     <>

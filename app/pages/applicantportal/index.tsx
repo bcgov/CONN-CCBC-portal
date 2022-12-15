@@ -6,7 +6,7 @@ import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
 import { useMemo } from 'react';
 import { Button, Callout } from '@button-inc/bcgov-theme';
-import { DateTime } from 'luxon';
+import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import { ButtonLink, DynamicAlert, Layout, LoginForm } from '../../components';
 import defaultRelayOptions from '../../lib/relay/withRelayOptions';
 import { applicantportalQuery } from '../../__generated__/applicantportalQuery.graphql';
@@ -75,6 +75,10 @@ const Home = ({
     preloadedQuery
   );
 
+  const openIntakeBanner = useFeature('open_intake_alert').value || {};
+  const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
+  const showSubtractedTime = useFeature('show_subtracted_time').value || {};
+
   const intakeCalloutChildren = useMemo(() => {
     if (!openIntake)
       return (
@@ -89,9 +93,10 @@ const Home = ({
         </>
       );
 
-    const formattedClosingDate = DateTime.fromISO(openIntake.closeTimestamp)
-      .minus({ minutes: 30 })
-      .toLocaleString(DateTime.DATETIME_FULL);
+    const formattedClosingDate = dateTimeSubtracted(
+      openIntake.closeTimestamp,
+      showSubtractedTime ? 30 : 0
+    );
 
     return (
       <BoldText>
@@ -102,9 +107,6 @@ const Home = ({
       </BoldText>
     );
   }, [openIntake]);
-
-  const openIntakeBanner = useFeature('open_intake_alert').value || {};
-  const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
 
   return (
     <Layout session={session} title="Connecting Communities BC">
