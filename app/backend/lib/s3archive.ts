@@ -6,7 +6,7 @@ import config from '../../config';
 import getArchivePath from '../../utils/getArchivePath';
 import getAuthRole from '../../utils/getAuthRole';
 import s3Client from './s3client';
-import { performQuery } from './graphql'; 
+import { performQuery } from './graphql';
 
 const getApplicationsQuery = `
 query getApplications {
@@ -42,38 +42,43 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
     'Content-Type': 'application/zip',
     'Content-disposition': `attachment; filename=CCBC applications ${currentDate}.zip`,
   });
-  
+
   const archive = archiver('zip', { zlib: { level: 0 } });
 
   // untility functions
-  const detectInfected = async(uuid: string) => {
+  const detectInfected = async (uuid: string) => {
     const params = {
       Bucket: AWS_S3_BUCKET,
       Key: uuid,
     };
-    const getTags = await s3Client.getObjectTagging(params).promise();  
+    const getTags = await s3Client.getObjectTagging(params).promise();
     return getTags;
-  }
-  const markAllInfected = async (formData) =>{
+  };
+  const markAllInfected = async (formData) => {
     const attachmentFields = {
       ...formData?.templateUploads,
       ...formData?.supportingDocuments,
       ...formData?.coverage,
     };
+    /**
+     * {
+     * templateUploads: null
+     * }
+     */
 
     // Iterate through fields
-    Object.keys(attachmentFields).forEach((field) => {
+    Object.keys(attachmentFields)?.forEach((field) => {
       // Even fields single file uploads are stored in an array so we will iterate them
-      attachmentFields[field].forEach(async(attachment) => {
-        const { uuid } = attachment; 
+      attachmentFields[field]?.forEach(async (attachment) => {
+        const { uuid } = attachment;
         const healthCheck = await detectInfected(uuid);
-        const suspect = healthCheck.TagSet.find(x => x.Key === 'av_status');
+        const suspect = healthCheck.TagSet.find((x) => x.Key === 'av_status');
         if (suspect?.Value === 'dirty') {
           infected.push(uuid);
         }
       });
     });
-  }
+  };
   const sortAndAppendAttachments = (formData, ccbcNumber) => {
     const attachmentFields = {
       ...formData?.templateUploads,
@@ -82,18 +87,17 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
     };
 
     // Iterate through fields
-    Object.keys(attachmentFields).forEach((field) => {
+    Object.keys(attachmentFields)?.forEach((field) => {
       // Even fields single file uploads are stored in an array so we will iterate them
-      attachmentFields[field].forEach((attachment) => {
+      attachmentFields[field]?.forEach((attachment) => {
         const { name, uuid } = attachment;
-        const path = getArchivePath(field, ccbcNumber, name); 
+        const path = getArchivePath(field, ccbcNumber, name);
         if (infected.indexOf(uuid) > -1) {
           archive.append('', {
             name: `${INFECTED_FILE_PREFIX}_${path}`,
           });
-        }
-        else {
-        // Get object from s3
+        } else {
+          // Get object from s3
           const objectSrc = s3Client
             .getObject({
               Bucket: AWS_S3_BUCKET,
@@ -115,14 +119,16 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
       `Failed to retrieve form data:\n${allApplications.errors.join('\n')}`
     );
   }
- 
+
   const applications = allApplications.data.allApplications.nodes;
 
-  await Promise.all(applications.map(async (application) => {
-    const jsonData = application?.formData?.jsonData; 
-    await markAllInfected(jsonData);
-  }));
-  
+  await Promise.all(
+    applications.map(async (application) => {
+      const jsonData = application?.formData?.jsonData;
+      await markAllInfected(jsonData);
+    })
+  );
+
   if (SENTRY_ENVIRONMENT) {
     archive.on('error', (err) => {
       Sentry.captureException(err);
