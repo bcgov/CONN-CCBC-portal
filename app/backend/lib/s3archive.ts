@@ -1,11 +1,14 @@
 import { Router } from 'express';
 import archiver from 'archiver';
+import { GetObjectCommand, GetObjectCommandOutput } from '@aws-sdk/client-s3'; // ES Modules import
+import { Readable } from 'stream';
+
 import * as Sentry from '@sentry/nextjs';
 import { DateTime } from 'luxon';
 import config from '../../config';
 import getArchivePath from '../../utils/getArchivePath';
 import getAuthRole from '../../utils/getAuthRole';
-import s3Client from './s3client';
+import s3Client, { s3ClientV3 } from './s3client';
 import { performQuery } from './graphql';
 
 const getApplicationsQuery = `
@@ -98,7 +101,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
     Object.keys(attachmentFields)?.forEach((field) => {
       // Even fields single file uploads are stored in an array so we will iterate them
       if (attachmentFields[field] instanceof Array) {
-        attachmentFields[field]?.forEach((attachment) => {
+        attachmentFields[field]?.forEach(async (attachment) => {
           const { name, uuid } = attachment;
           const path = getArchivePath(field, ccbcNumber, name);
           if (infected.indexOf(uuid) > -1) {
@@ -106,17 +109,23 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
               name: `${INFECTED_FILE_PREFIX}_${path}`,
             });
           } else {
-            // Get object from s3
-            const objectSrc = s3Client
-              .getObject({
-                Bucket: AWS_S3_BUCKET,
-                Key: uuid,
-              })
-              .createReadStream();
+            const params = {
+              Bucket: AWS_S3_BUCKET,
+              Key: uuid,
+            };
+            const command = new GetObjectCommand(params);
 
-            archive.append(objectSrc, {
-              name: path,
-            });
+            try {
+              const objectSrc = (await s3ClientV3.send(
+                command
+              )) as GetObjectCommandOutput;
+
+              archive.append(objectSrc.Body as Readable, {
+                name: path,
+              });
+            } catch (error) {
+              console.log(error);
+            }
           }
         });
       } else {
