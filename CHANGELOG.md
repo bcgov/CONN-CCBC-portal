@@ -1,3 +1,13 @@
+# [1.25.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.24.2...v1.25.0) (2022-12-16)
+
+### Bug Fixes
+
+- set flag for test ([bfb32a6](https://github.com/bcgov/CONN-CCBC-portal/commit/bfb32a6f0ba2f756021dc46ba1ec2761f2cfb5f2))
+
+### Features
+
+- use feature flag ([f2a5d50](https://github.com/bcgov/CONN-CCBC-portal/commit/f2a5d50aa10a843ea32d0ede5620fe2abdfcd093))
+
 ## [1.24.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.24.1...v1.24.2) (2022-12-16)
 
 ### Bug Fixes
