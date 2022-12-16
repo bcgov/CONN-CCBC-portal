@@ -1,3 +1,13 @@
+# [1.27.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.26.0...v1.27.0) (2022-12-16)
+
+### Bug Fixes
+
+- s3-archive-non-array-data ([ed0033e](https://github.com/bcgov/CONN-CCBC-portal/commit/ed0033e73974ed185709dd19de731e856744994e))
+
+### Features
+
+- add rowId data in sentry error ([f6e83ad](https://github.com/bcgov/CONN-CCBC-portal/commit/f6e83adff0d2324baf721d65199c98fd9eb63813))
+
 # [1.26.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.25.0...v1.26.0) (2022-12-16)
 
 ### Features
