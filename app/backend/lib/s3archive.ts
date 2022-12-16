@@ -81,7 +81,9 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
           }
         });
       } else {
-        Sentry.captureException(new Error(''));
+        Sentry.captureException(
+          new Error(`non-array data in form_data: ${formData.rowId}`)
+        );
       }
     });
   };
@@ -95,7 +97,6 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
     // Iterate through fields
     Object.keys(attachmentFields)?.forEach((field) => {
       // Even fields single file uploads are stored in an array so we will iterate them
-      console.log(field, attachmentFields[field]);
       if (attachmentFields[field] instanceof Array) {
         attachmentFields[field]?.forEach((attachment) => {
           const { name, uuid } = attachment;
@@ -119,7 +120,9 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
           }
         });
       } else {
-        Sentry.captureException(new Error(''));
+        Sentry.captureException(
+          new Error(`non-array data in form_data: ${formData.rowId}`)
+        );
       }
     });
   };
@@ -134,20 +137,12 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
   const applications = allApplications.data.allApplications.nodes;
 
   if (checkTags) {
-    try {
-      await Promise.all(
-        applications.map(async (application) => {
-          const jsonData = application?.formData?.jsonData;
-          try {
-            await markAllInfected(jsonData);
-          } catch (e) {
-            console.log(e);
-          }
-        })
-      );
-    } catch (err) {
-      console.log(err);
-    }
+    await Promise.all(
+      applications.map(async (application) => {
+        const jsonData = application?.formData?.jsonData;
+        await markAllInfected(jsonData);
+      })
+    );
   }
 
   if (SENTRY_ENVIRONMENT) {
