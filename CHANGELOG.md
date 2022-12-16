@@ -1,3 +1,9 @@
+# [1.28.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.27.0...v1.28.0) (2022-12-16)
+
+### Features
+
+- add config correctClockSkew to s3client ([66efabb](https://github.com/bcgov/CONN-CCBC-portal/commit/66efabb8de554b2e23e92b8bc084029dfb53cfeb))
+
 # [1.27.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.26.0...v1.27.0) (2022-12-16)
 
 ### Bug Fixes
