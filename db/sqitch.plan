@@ -123,3 +123,4 @@ computed_columns/application_status [computed_columns/application_status@1.20.0]
 mutations/update_rfi 2022-12-08T20:49:50Z Anthony Bushara <anthony@button.is> # Mutation to insert rather than update in place and archive previous rfis
 @1.24.0 2022-12-14T19:20:34Z Marcel Mueller <marcel@button.is> # release v1.24.0
 @1.24.1 2022-12-15T23:38:22Z Marcel Mueller <marcel@button.is> # release v1.24.1
+@1.24.2 2022-12-16T00:30:00Z Marcel Mueller <marcel@button.is> # release v1.24.2
