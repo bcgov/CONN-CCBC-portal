@@ -87,7 +87,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
       }
     });
   };
-  const sortAndAppendAttachments = (formData, ccbcNumber) => {
+  const sortAndAppendAttachments = (formData, ccbcNumber, formDataRowId) => {
     const attachmentFields = {
       ...formData?.templateUploads,
       ...formData?.supportingDocuments,
@@ -121,7 +121,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
         });
       } else {
         Sentry.captureException(
-          new Error(`non-array data in form_data: ${formData.rowId}`)
+          new Error(`non-array data in form_data: ${formDataRowId}`)
         );
       }
     });
@@ -157,7 +157,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
   applications.forEach((application) => {
     const jsonData = application?.formData?.jsonData;
     const ccbcId = application?.ccbcNumber;
-    sortAndAppendAttachments(jsonData, ccbcId);
+    sortAndAppendAttachments(jsonData, ccbcId, application?.formData?.rowId);
   });
 
   return archive.finalize();

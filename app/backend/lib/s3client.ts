@@ -13,6 +13,7 @@ const AWS_S3_SECRET_KEY = config.get('AWS_S3_SECRET_KEY');
 const AWS_ROLE_ARN = config.get('AWS_ROLE_ARN');
 
 aws.config.update({
+  correctClockSkew: true,
   credentials: new aws.ChainableTemporaryCredentials({
     params: {
       RoleArn: AWS_ROLE_ARN,
