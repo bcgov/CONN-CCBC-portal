@@ -1,3 +1,9 @@
+# [1.26.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.25.0...v1.26.0) (2022-12-16)
+
+### Features
+
+- add dateTimeSubtracted function ([3a3ad01](https://github.com/bcgov/CONN-CCBC-portal/commit/3a3ad018c7f61414af522eb3ced97df49eedcb1e))
+
 # [1.25.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.24.2...v1.25.0) (2022-12-16)
 
 ### Bug Fixes
