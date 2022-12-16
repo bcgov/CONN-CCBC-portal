@@ -232,5 +232,52 @@ describe('The s3 archive', () => {
     expect(zipEntries.length).toBe(0);
   });
 
+  it('should finish with empty detailedBudget and continue if non-array data stored', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          allApplications: {
+            nodes: [
+              {
+                formData: {
+                  jsonData: {
+                    templateUploads: {
+                      detailedBudget: null,
+                      asdf: { ja: 'asdf' },
+                    },
+                  },
+                },
+                ccbcNumber: 'CCBC-100001',
+              },
+            ],
+          },
+        },
+      };
+    });
+
+    const response = await request(app)
+      .get('/api/analyst/archive')
+      .set('Accept', 'application/zip')
+      .buffer()
+      .parse(binaryParser);
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toBe('application/zip');
+
+    expect(Buffer.isBuffer(response.body)).toBeTrue();
+
+    const zip = new AdmZip(response.body);
+
+    const zipEntries = zip.getEntries();
+    expect(zipEntries.length).toBe(0);
+  });
+
   jest.resetAllMocks();
 });
