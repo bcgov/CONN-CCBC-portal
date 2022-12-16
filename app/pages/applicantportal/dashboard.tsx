@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { graphql } from 'react-relay';
-import { DateTime } from 'luxon';
+import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import styled from 'styled-components';
 import Link from '@button-inc/bcgov-theme/Link';
 import { useFeature } from '@growthbook/growthbook-react';
@@ -92,6 +92,7 @@ const Dashboard = ({
 
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
   const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
+  const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -117,11 +118,8 @@ const Dashboard = ({
           {openIntake ? (
             <p>
               Review of applications will begin on{' '}
-              {DateTime.fromISO(closeTimestamp, {
-                locale: 'en-CA',
-                zone: 'America/Vancouver',
-              }).toFormat('MMMM dd, yyyy, ttt')}
-              . You can edit draft and submitted applications until this date.
+              {dateTimeSubtracted(closeTimestamp, showSubtractedTime)}. You can
+              edit draft and submitted applications until this date.
             </p>
           ) : (
             <div>

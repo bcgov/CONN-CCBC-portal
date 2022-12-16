@@ -39,6 +39,14 @@ const mockClosedIntake: FeatureResult<JSONValue> = {
   ruleId: 'open_intake_alert',
 };
 
+const mockSubtractedValue: FeatureResult<JSONValue> = {
+  value: 30,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_subtracted_time',
+};
+
 const mockQueryPayload = {
   Query() {
     return {
@@ -155,6 +163,16 @@ describe('The index page', () => {
     expect(screen.getByTestId('custom-alert')).toBeInTheDocument();
     expect(screen.getByText(openedIntakeMessage)).toBeInTheDocument();
     expect(screen.queryByText(closedIntakeMessage)).toBeNull();
+  });
+
+  it('displays the close intake message when there an open intake', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockSubtractedValue);
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(/August 19, 2027, 8:30:00 a.m. PDT/)
+    ).toBeInTheDocument();
   });
 
   it('has create intake button enabled when there is an open intake', async () => {
