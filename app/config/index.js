@@ -188,6 +188,12 @@ const config = convict({
     default: 'local_development',
     env: 'SENTRY_RELEASE',
   },
+  CHECK_TAGS: {
+    doc: 'Enable checking tags on s3 object',
+    format: Boolean,
+    default: false,
+    env: 'CHECK_TAGS',
+  }
 });
 
 // Load environment dependent configuration

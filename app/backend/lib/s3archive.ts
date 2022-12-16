@@ -24,6 +24,7 @@ query getApplications {
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const SENTRY_ENVIRONMENT = config.get('SENTRY_ENVIRONMENT');
 const INFECTED_FILE_PREFIX = 'BROKEN';
+const checkTags = config.get('CHECK_TAGS');
 
 const s3archive = Router();
 
@@ -122,7 +123,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
 
   const applications = allApplications.data.allApplications.nodes;
 
-  try{
+  if (checkTags) {
     await Promise.all(
       applications.map(async (application) => {
         const jsonData = application?.formData?.jsonData;
@@ -130,9 +131,6 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
       })
     );
   }
-  catch(err) {
-    Sentry.captureException(err);
-  };
 
   if (SENTRY_ENVIRONMENT) {
     archive.on('error', (err) => {
