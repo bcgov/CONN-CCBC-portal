@@ -1,3 +1,9 @@
+## [1.24.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.24.1...v1.24.2) (2022-12-16)
+
+### Bug Fixes
+
+- wrapped call to getObjectTagging in try/catch ([8d06fd8](https://github.com/bcgov/CONN-CCBC-portal/commit/8d06fd890e2bc27638ff355c16343830edb272ed))
+
 ## [1.24.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.24.0...v1.24.1) (2022-12-15)
 
 ### Bug Fixes
