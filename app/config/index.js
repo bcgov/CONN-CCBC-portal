@@ -191,7 +191,7 @@ const config = convict({
   CHECK_TAGS: {
     doc: 'Enable checking tags on s3 object',
     format: Boolean,
-    default: false,
+    default: true,
     env: 'CHECK_TAGS',
   }
 });
