@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import type { JSONSchema7 } from 'json-schema';
+import { Settings, DateTime } from 'luxon';
 import FormTestRenderer from '../../utils/formTestRenderer';
 
 const mockSchema = {
@@ -62,4 +63,21 @@ describe('The Datepicker widget', () => {
 
     expect(datepicker).toHaveValue('');
   });
+
+  
+  it('Should display correct date in any timezone', () => {
+    const mockCurrentTime = DateTime.local(2023, 10, 1, 0, {
+      zone: 'America/New_York',
+    });
+    Settings.now = () => mockCurrentTime.toMillis();
+
+    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+
+    const datepicker = screen.getByTestId('root_datepickerTestField');
+
+    fireEvent.change(datepicker, { target: { value: '2023-10-01' } });
+ 
+    expect(datepicker).toHaveValue('2023-10-01');
+  });
+
 });

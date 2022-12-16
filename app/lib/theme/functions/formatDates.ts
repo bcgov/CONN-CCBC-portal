@@ -72,4 +72,9 @@ export const dateTimeFormat = (
   }
 };
 
-
+export const fixDate = (originalDate) => {
+  const offset = 1000 * (new Date()).getTimezoneOffset() * 60;
+  const adjusted = (new Date(originalDate)).getTime() + offset;
+  const format = new Date(adjusted);
+  return format;
+}

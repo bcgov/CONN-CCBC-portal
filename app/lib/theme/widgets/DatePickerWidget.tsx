@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
-import { dateTimeFormat } from '../functions/formatDates';
+import { dateTimeFormat, fixDate } from '../functions/formatDates';
 
 const StyledContainer = styled('div')`
   margin-top: 12px;
@@ -115,6 +115,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   onFocus,
 }) => {
   const [day, setDay] = useState(value ? new Date(value) : undefined);
+ // const [day, setDay] = useState(value ? fixDate(value) : undefined);
 
   const handleChange = (d: Date) => {
     setDay(d);
