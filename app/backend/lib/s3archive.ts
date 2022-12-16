@@ -122,12 +122,17 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
 
   const applications = allApplications.data.allApplications.nodes;
 
-  await Promise.all(
-    applications.map(async (application) => {
-      const jsonData = application?.formData?.jsonData;
-      await markAllInfected(jsonData);
-    })
-  );
+  try{
+    await Promise.all(
+      applications.map(async (application) => {
+        const jsonData = application?.formData?.jsonData;
+        await markAllInfected(jsonData);
+      })
+    );
+  }
+  catch(err) {
+    Sentry.captureException(err);
+  };
 
   if (SENTRY_ENVIRONMENT) {
     archive.on('error', (err) => {
