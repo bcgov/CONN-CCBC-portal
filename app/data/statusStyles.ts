@@ -12,7 +12,7 @@ const statusStyles = {
   cancelled: {
     primary: '#414141',
     backgroundColor: '#E8E8E8',
-    pillWidth: '124px',
+    pillWidth: '120px',
   },
   closed: {
     primary: '#414141',
@@ -27,7 +27,7 @@ const statusStyles = {
   conditionally_approved: {
     primary: '#FFFFFF',
     backgroundColor: '#1F8234',
-    pillWidth: '250px',
+    pillWidth: '212px',
   },
   on_hold: {
     primary: '#A37000',

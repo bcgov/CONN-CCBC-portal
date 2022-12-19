@@ -22,6 +22,7 @@ const mockQueryPayload = {
             jsonSchema: schema,
           },
         },
+        status: 'received',
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -59,6 +60,7 @@ const mockEmptyFormDataPayload = {
             jsonSchema: schema,
           },
         },
+        status: 'received',
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',

@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Assessments from 'pages/analyst/application/[applicationId]/assessments';
+import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledassessmentsQuery, {
   assessmentsQuery,
@@ -15,6 +16,10 @@ const mockQueryPayload = {
       applicationByRowId: {
         rowId: 1,
         assessmentForm: null,
+        status: 'received',
+      },
+      allApplicationStatusTypes: {
+        ...allApplicationStatusTypes,
       },
       allAnalysts: {
         nodes: [
@@ -55,7 +60,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText(`Screening`)).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Screening' })).toBeVisible();
   });
 
   it('Displays the form', async () => {
