@@ -71,5 +71,17 @@ export const dateTimeFormat = (
     return dateTime.toString();
   }
 };
-
-
+/**
+ * Accepts Date with no timezone information and returns exatcly same date in user's timezone.
+ * Thus, 2022-10-01 will appear as 2022-10-01 for user in PST zone (GMT -800) and for user in Ottawa (GMT +300). 
+ * Without the fix, 2022-10-01 would be assumed by browser as 2022-10-01 UTC and thus appear as 2022-09-30 
+ * for user in PST zone (2022-10-01 00:00:00 UTC => 2022-09-30 16:00:00 PST)
+ * @param originalDate 
+ * @returns Date
+ */
+export const fixDate = (originalDate: Date) => {
+  const offset = 1000 * (new Date()).getTimezoneOffset() * 60;
+  const adjusted = (new Date(originalDate)).getTime() + offset;
+  const format = new Date(adjusted);
+  return format;
+}
