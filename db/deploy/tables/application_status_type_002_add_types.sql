@@ -11,7 +11,6 @@ alter table ccbc_public.application_status_type add column visible_by_applicant 
 perform ccbc_private.grant_permissions('select', 'application_status_type', 'ccbc_admin');
 perform ccbc_private.grant_permissions('select', 'application_status_type', 'ccbc_analyst');
 
-
 insert into ccbc_public.application_status_type (name, description, visible_by_applicant) values
 ('screening', 'Screening', false),
 ('assessment', 'Assessment', false),

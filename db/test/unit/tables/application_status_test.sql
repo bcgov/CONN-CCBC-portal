@@ -1,5 +1,5 @@
 begin;
-SELECT plan(6);
+SELECT plan(12);
 
 -- Table exists
 select has_table(
@@ -59,6 +59,67 @@ select throws_ok(
   'new row violates row-level security policy for table "application_status"',
   'Will not allow user to update status of application it does not own'
 );
+
+-- Test setup - insert status
+set jwt.claims.sub to '11111111-1111-1111-1111-111111111114';
+
+set role ccbc_admin;
+insert into ccbc_public.application_status (application_id, status) VALUES (1, 'submitted');
+insert into ccbc_public.application_status (application_id, status) VALUES (1, 'received');
+insert into ccbc_public.application_status (application_id, status) VALUES (1, 'on_hold');
+insert into ccbc_public.application_status (application_id, status) VALUES (1, 'approved');
+
+-- Test setup - first user
+set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
+set role ccbc_auth_user;
+
+-- Test to ensure ccbc_auth_user can only view application_status with allowed status types
+select results_eq(
+  $$
+    select status from ccbc_public.application_status;
+  $$,
+  $$
+    values ('draft'::varchar),
+           ('submitted'::varchar),
+           ('received'::varchar);
+  $$,
+  'Should only show allowed statuses for ccbc_auth_user'
+);
+
+-- Test to ensure ccbc_auth_user can only insert allowed status types
+
+select lives_ok(
+  $$
+   insert into ccbc_public.application_status (application_id,status) VALUES (1, 'draft')
+  $$,
+  'ccbc_auth_user can insert application_status with allowed status type'
+);
+
+select lives_ok(
+  $$
+   insert into ccbc_public.application_status (application_id,status) VALUES (1, 'submitted')
+  $$,
+  'ccbc_auth_user can insert application_status with allowed status type'
+);
+
+select throws_ok(
+  $$
+    insert into ccbc_public.application_status (application_id,status) VALUES (1, 'approved')
+  $$,
+  '42501',
+  'new row violates row-level security policy "application_status_insert_only_allowed" for table "application_status"',
+  'Will not allow user to update status with disallowed status type'
+);
+
+select throws_ok(
+  $$
+    insert into ccbc_public.application_status (application_id,status) VALUES (1, 'on_hold')
+  $$,
+  '42501',
+  'new row violates row-level security policy "application_status_insert_only_allowed" for table "application_status"',
+  'Will not allow user to update status with disallowed status type'
+);
+
 
 select finish();
 rollback;
