@@ -49,7 +49,7 @@ const verifyAllAcknowledgementsChecked = (
   formData?: AcknowledgementsFieldJSON
 ) => formData?.acknowledgementsList?.length === acknowledgementsEnum.length;
 
-const calculate = (sectionData, sectionName: string) => ({
+export const calculate = (sectionData, sectionName: string) => ({
   ...sectionData,
   ...(sectionName === 'estimatedProjectEmployment' && {
     ...calculateProjectEmployment(sectionData),
