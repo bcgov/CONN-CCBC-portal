@@ -1,3 +1,22 @@
+# [1.29.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.28.0...v1.29.0) (2022-12-20)
+
+### Bug Fixes
+
+- change in date value ([ee365a8](https://github.com/bcgov/CONN-CCBC-portal/commit/ee365a8feb4e13111cd4b1de8784a2e244370836))
+- handle change status for withdrawn application ([78e7b7f](https://github.com/bcgov/CONN-CCBC-portal/commit/78e7b7ff830f3208d0be2d6a4aded28ed0011fdd))
+- typo ([89e0d08](https://github.com/bcgov/CONN-CCBC-portal/commit/89e0d08bb5123dad79ca965d4ce59c0bd6a18fbb))
+- updates based on PR comments ([2b37c91](https://github.com/bcgov/CONN-CCBC-portal/commit/2b37c911d42e4bf6d1971dcf558c6b9eb01aa42f))
+- using fixDate function to ensure correct date ([487f573](https://github.com/bcgov/CONN-CCBC-portal/commit/487f5737d5203f51d68729448836a9f1e6ddf65b))
+
+### Features
+
+- add change status menu and modal ([37f84e6](https://github.com/bcgov/CONN-CCBC-portal/commit/37f84e660530d7837107e291aea2d2c86d784eb9))
+- add column change_reason to application_status table ([79292bd](https://github.com/bcgov/CONN-CCBC-portal/commit/79292bd5f074221aed2002095e0699906297b04e))
+- add createApplicationStatus mutation ([39a47e1](https://github.com/bcgov/CONN-CCBC-portal/commit/39a47e19c662aa6ea5c1d4651b98162deb62ab9c))
+- add permissions and new status types ([e919e46](https://github.com/bcgov/CONN-CCBC-portal/commit/e919e4603bd7380bb5f0b9df0f16384412b66aac))
+- add rls policies for application_status ([38c6490](https://github.com/bcgov/CONN-CCBC-portal/commit/38c64906a278439ce6f2dfed8959f7e534e7dd28))
+- set status pill width ([3454501](https://github.com/bcgov/CONN-CCBC-portal/commit/34545014a5e613ea3dcb3da68770b6f7e60f4407))
+
 # [1.28.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.27.0...v1.28.0) (2022-12-16)
 
 ### Features
