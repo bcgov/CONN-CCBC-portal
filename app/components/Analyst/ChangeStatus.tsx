@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
-import ChangeStatusModal from './ChangeStatusModal';
+import { useCreateApplicationStatusMutation } from 'schema/mutations/assessment/createApplicationStatus';
+import ChangeModal from './ChangeModal';
 
 interface DropdownProps {
   statusStyles: {
@@ -55,6 +57,18 @@ const getStatus = (statusName, statusList) => {
   return statusList.find((statusType) => statusType.name === statusName);
 };
 
+const ModalDescription = ({ currentStatus, draftStatus }) => {
+  return (
+    <>
+      <p>
+        You are about to change the status from {currentStatus?.description} to{' '}
+        {draftStatus?.description}.
+      </p>
+      <div>Please provide a reason for changing the status. (optional)</div>
+    </>
+  );
+};
+
 const ChangeStatus = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
@@ -77,6 +91,9 @@ const ChangeStatus = ({ query }) => {
 
   const { allApplicationStatusTypes, applicationByRowId } = queryFragment;
   const { status } = applicationByRowId;
+  const router = useRouter();
+  const applicationId = Number(router.query.applicationId);
+  const [createStatus] = useCreateApplicationStatusMutation();
 
   const hiddenStatusTypes = ['draft', 'submitted', 'withdrawn'];
 
@@ -85,6 +102,7 @@ const ChangeStatus = ({ query }) => {
     (statusType) => !hiddenStatusTypes.includes(statusType.name)
   );
 
+  const [changeReason, setChangeReason] = useState('');
   const [currentStatus, setcurrentStatus] = useState(
     getStatus(status, statusTypes)
   );
@@ -96,20 +114,47 @@ const ChangeStatus = ({ query }) => {
     setDraftStatus(getStatus(e.target.value, statusTypes));
 
     // Open modal using anchor tag
-    window.location.hash = '#modal-id';
+    window.location.hash = '#change-status-modal';
   };
 
   if (status === 'withdrawn') {
     return <StyledWithdrawn>Withdrawn</StyledWithdrawn>;
   }
 
+  const handleSave = async () => {
+    createStatus({
+      variables: {
+        input: {
+          applicationStatus: {
+            applicationId,
+            changeReason,
+            status: draftStatus.name,
+          },
+        },
+      },
+      onCompleted: () => {
+        setcurrentStatus(draftStatus);
+      },
+    });
+  };
+
   return (
     <>
-      <ChangeStatusModal
-        currentStatus={currentStatus}
-        draftStatus={draftStatus}
-        onSuccess={() => setcurrentStatus(draftStatus)}
-        onCancelChange={() => setDraftStatus(currentStatus)}
+      <ChangeModal
+        id="change-status-modal"
+        saveLabel="Save change"
+        cancelLabel="Cancel change"
+        onSave={handleSave}
+        onCancel={() => setDraftStatus(currentStatus)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+          setChangeReason(e.target.value)
+        }
+        description={
+          <ModalDescription
+            currentStatus={currentStatus}
+            draftStatus={draftStatus}
+          />
+        }
       />
       <StyledDropdown
         data-testid="change-status"

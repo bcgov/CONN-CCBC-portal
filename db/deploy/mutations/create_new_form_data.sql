@@ -12,8 +12,8 @@ begin
   -- using nextval instead of returning id on insert to prevent triggering select RLS,
   new_form_data_id := nextval(pg_get_serial_sequence('ccbc_public.form_data','id'));
 
-  insert into ccbc_public.form_data (id, json_data, form_schema_id) overriding system value
-    values (new_form_data_id, json_data, form_schema_id);
+  insert into ccbc_public.form_data (id, json_data, form_schema_id, reason_for_change) overriding system value
+    values (new_form_data_id, json_data, form_schema_id, reason_for_change);
 
   insert into ccbc_public.application_form_data (application_id, form_data_id)
    values (application_row_id, new_form_data_id);

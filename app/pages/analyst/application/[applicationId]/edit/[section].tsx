@@ -104,7 +104,9 @@ const EditApplication = ({
           formSchemaId,
         },
       },
-      onCompleted: () => {},
+      onCompleted: () => {
+        router.push(`/analyst/application/${applicationId}`);
+      },
     });
   };
   return (
@@ -130,7 +132,7 @@ const EditApplication = ({
           <Button
             onClick={(e: React.MouseEvent<HTMLInputElement>) => {
               e.preventDefault();
-              window.location.hash = '#change-modal-id';
+              window.location.hash = '#change-modal';
             }}
           >
             Save

@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
@@ -16,16 +17,16 @@ const ModalButtons = styled('div')`
 
 const StyledTextArea = styled.textarea`
   width: 100%;
-  min-width: 200px;
+  min-width: 400px;
   height: 126px;
   resize: none;
-  margin-top: 12px;
+  margin-top: 16px;
   margin-bottom: 16px;
 `;
 
 interface Props {
   cancelLabel?: string;
-  description?: string;
+  description?: string | ReactElement;
   id?: string;
   maxLength?: number;
   onCancel?: Function;
@@ -38,7 +39,7 @@ interface Props {
 const ChangeModal: React.FC<Props> = ({
   cancelLabel = 'Cancel',
   description = 'Please provide a reason for the change.',
-  id = 'change-modal-id',
+  id = 'change-modal',
   maxLength = 1000,
   onCancel = () => {},
   onChange,
@@ -50,7 +51,7 @@ const ChangeModal: React.FC<Props> = ({
     <StyledModal id={id}>
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content>
-        <p>{description}</p>
+        <div>{description}</div>
         <StyledTextArea
           maxLength={maxLength}
           onChange={(e) => onChange(e)}
