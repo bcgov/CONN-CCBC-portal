@@ -1,5 +1,6 @@
 import { act, fireEvent, screen } from '@testing-library/react';
 import RFI from 'pages/analyst/application/[applicationId]/rfi';
+import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledRfiQuery, { rfiQuery } from '__generated__/rfiQuery.graphql';
 
@@ -123,6 +124,9 @@ const mockQueryPayload = {
             },
           ],
         },
+      },
+      allApplicationStatusTypes: {
+        ...allApplicationStatusTypes,
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',

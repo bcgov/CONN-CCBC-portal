@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import RfiId from 'pages/analyst/application/[applicationId]/rfi/[rfiId]';
 import userEvent from '@testing-library/user-event';
+import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledRfiQuery, { RfiIdQuery } from '__generated__/RfiIdQuery.graphql';
 
@@ -17,6 +18,7 @@ const mockQueryPayload = {
             jsonSchema: {},
           },
         },
+        status: 'received',
       },
       rfiDataByRowId: {
         jsonData: null,
@@ -37,6 +39,9 @@ const mockQueryPayload = {
             familyName: '2',
           },
         ],
+      },
+      allApplicationStatusTypes: {
+        ...allApplicationStatusTypes,
       },
     };
   },
@@ -62,6 +67,7 @@ const mockPreFilledFormPayload = {
             jsonSchema: {},
           },
         },
+        status: 'received',
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
