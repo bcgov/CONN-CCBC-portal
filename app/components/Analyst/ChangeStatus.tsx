@@ -51,6 +51,10 @@ const StyledOption = styled.option`
   background-color: ${(props) => props.theme.color.white};
 `;
 
+const getStatus = (statusName, statusList) => {
+  return statusList.find((statusType) => statusType.name === statusName);
+};
+
 const ChangeStatus = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
@@ -73,7 +77,6 @@ const ChangeStatus = ({ query }) => {
 
   const { allApplicationStatusTypes, applicationByRowId } = queryFragment;
   const { status } = applicationByRowId;
-  console.log(status);
 
   const hiddenStatusTypes = ['draft', 'submitted', 'withdrawn'];
 
@@ -81,10 +84,6 @@ const ChangeStatus = ({ query }) => {
   const statusTypes = allApplicationStatusTypes.nodes.filter(
     (statusType) => !hiddenStatusTypes.includes(statusType.name)
   );
-
-  const getStatus = (statusName, statusList) => {
-    return statusList.find((statusType) => statusType.name === statusName);
-  };
 
   const [currentStatus, setcurrentStatus] = useState(
     getStatus(status, statusTypes)
