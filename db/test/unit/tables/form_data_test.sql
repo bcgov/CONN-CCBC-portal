@@ -29,8 +29,8 @@ select mocks.set_mocked_time_in_transaction((select open_timestamp from ccbc_pub
 
 select has_column('ccbc_public', 'form_data', 'id','The table application has column id');
 select has_column('ccbc_public', 'form_data', 'json_data','The table application has column json_data');
-select has_column('ccbc_public', 'form_data', 'last_edited_page','The table application has column json_data');
-select has_column('ccbc_public', 'form_data', 'last_edited_page','The table application has column json_data');
+select has_column('ccbc_public', 'form_data', 'last_edited_page','The table application has column last_edited_page');
+select has_column('ccbc_public', 'form_data', 'reason_for_change','The table application has column reason_for_change');
 
 set jwt.claims.sub to 'user1';
 
