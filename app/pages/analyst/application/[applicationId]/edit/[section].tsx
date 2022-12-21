@@ -64,9 +64,8 @@ const EditApplication = ({
   const [changeReason, setChangeReason] = useState('');
 
   const handleChange = (e: IChangeEvent) => {
-    const newFormSectionData = e.formData;
+    const newFormSectionData = { ...e.formData };
     const calculatedSectionData = calculate(newFormSectionData, sectionName);
-
     setSectionFormData(calculatedSectionData);
   };
 
