@@ -9,7 +9,6 @@ declare
   result ccbc_public.form_data;
   new_form_data_id int;
 begin
-  -- using nextval instead of returning id on insert to prevent triggering select RLS,
   new_form_data_id := nextval(pg_get_serial_sequence('ccbc_public.form_data','id'));
 
   insert into ccbc_public.form_data (id, json_data, form_schema_id, reason_for_change) overriding system value

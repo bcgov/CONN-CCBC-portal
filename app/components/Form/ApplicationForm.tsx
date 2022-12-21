@@ -88,6 +88,33 @@ interface SubmissionFieldsJSON {
   submissionTitle?: string;
 }
 
+export const mergeFormSectionData = (
+  formData,
+  formSectionName,
+  calculatedSection
+) => {
+  // TODO: The code below should be simplified. It is potentially confusing as it only allows
+  // deleting field from a section by setting them to undefined.
+  // Some of our code potentially relies on this behaviour, and there are related rjsf v4 bugs
+  // that can lead to the previous form's data being erased when we change pages
+  // https://github.com/rjsf-team/react-jsonschema-form/issues/1708
+  let newFormData: Record<string, any> = {};
+  if (Object.keys(formData).length === 0) {
+    newFormData[formSectionName] = calculatedSection;
+  } else if (formData[formSectionName]) {
+    newFormData = { ...formData };
+    newFormData[formSectionName] = {
+      ...formData[formSectionName],
+      ...calculatedSection,
+    };
+  } else {
+    newFormData = { ...formData };
+    newFormData[formSectionName] = { ...calculatedSection };
+  }
+
+  return newFormData;
+};
+
 const ApplicationForm: React.FC<Props> = ({
   pageNumber,
   application: applicationKey,
@@ -260,24 +287,11 @@ const ApplicationForm: React.FC<Props> = ({
 
     const calculatedSectionData = calculate(newFormSectionData, sectionName);
 
-    // TODO: The code below should be simplified. It is potentially confusing as it only allows
-    // deleting field from a section by setting them to undefined.
-    // Some of our code potentially relies on this behaviour, and there are related rjsf v4 bugs
-    // that can lead to the previous form's data being erased when we change pages
-    // https://github.com/rjsf-team/react-jsonschema-form/issues/1708
-    let newFormData: Record<string, any> = {};
-    if (Object.keys(jsonData).length === 0) {
-      newFormData[sectionName] = calculatedSectionData;
-    } else if (jsonData[sectionName]) {
-      newFormData = { ...jsonData };
-      newFormData[sectionName] = {
-        ...jsonData[sectionName],
-        ...calculatedSectionData,
-      };
-    } else {
-      newFormData = { ...jsonData };
-      newFormData[sectionName] = { ...calculatedSectionData };
-    }
+    const newFormData = mergeFormSectionData(
+      jsonData,
+      sectionName,
+      calculatedSectionData
+    );
 
     // if we're redirecting after this, set lastEditedPage to the next page
     const lastEditedPageNumber = isRedirectingToNextPage

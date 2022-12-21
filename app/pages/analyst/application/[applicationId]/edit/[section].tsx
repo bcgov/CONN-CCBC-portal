@@ -8,9 +8,12 @@ import { IChangeEvent } from '@rjsf/core';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Button from '@button-inc/bcgov-theme/Button';
 import FormBase from 'components/Form/FormBase';
-import { calculate } from 'components/Form/ApplicationForm';
+import {
+  calculate,
+  mergeFormSectionData,
+} from 'components/Form/ApplicationForm';
 import Layout from 'components/Layout';
-import { schema, uiSchema } from 'formSchema';
+import { uiSchema } from 'formSchema';
 import { AnalystLayout, ChangeModal } from 'components/Analyst';
 import { SectionQuery } from '__generated__/SectionQuery.graphql';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
@@ -18,15 +21,12 @@ import { useCreateNewFormDataMutation } from 'schema/mutations/application/creat
 const getSectionQuery = graphql`
   query SectionQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
-      applicationFormDataByApplicationId(last: 1) {
-        nodes {
-          formDataByFormDataId {
-            formSchemaId
-          }
-        }
-      }
       formData {
+        formSchemaId
         jsonData
+        formByFormSchemaId {
+          jsonSchema
+        }
       }
     }
     session {
@@ -44,15 +44,9 @@ const EditApplication = ({
     session,
     applicationByRowId: {
       formData: {
+        formByFormSchemaId: { jsonSchema },
+        formSchemaId,
         jsonData,
-        // formByFormSchemaId: { jsonSchema },
-      },
-      applicationFormDataByApplicationId: {
-        nodes: [
-          {
-            formDataByFormDataId: { formSchemaId },
-          },
-        ],
       },
     },
   } = query;
@@ -62,7 +56,7 @@ const EditApplication = ({
   const router = useRouter();
   const sectionName = router.query.section as string;
   const applicationId = router.query.applicationId as string;
-  const sectionSchema = schema.properties[sectionName] as JSONSchema7;
+  const sectionSchema = jsonSchema.properties[sectionName] as JSONSchema7;
 
   // https://github.com/rjsf-team/react-jsonschema-form/issues/1023
   // Save and update form data in state due to RJSF setState bug
@@ -81,19 +75,11 @@ const EditApplication = ({
   const handleSubmit = () => {
     const calculatedSectionData = calculate(sectionFormData, sectionName);
 
-    let newFormData: Record<string, any> = {};
-    if (Object.keys(jsonData).length === 0) {
-      newFormData[sectionName] = calculatedSectionData;
-    } else if (jsonData[sectionName]) {
-      newFormData = { ...jsonData };
-      newFormData[sectionName] = {
-        ...jsonData[sectionName],
-        ...calculatedSectionData,
-      };
-    } else {
-      newFormData = { ...jsonData };
-      newFormData[sectionName] = { ...calculatedSectionData };
-    }
+    const newFormData = mergeFormSectionData(
+      jsonData,
+      sectionName,
+      calculatedSectionData
+    );
 
     createNewFormData({
       variables: {
