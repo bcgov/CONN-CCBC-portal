@@ -130,3 +130,4 @@ mutations/update_rfi 2022-12-08T20:49:50Z Anthony Bushara <anthony@button.is> # 
 @1.28.0 2022-12-16T20:26:51Z Marcel Mueller <marcel@button.is> # release v1.28.0
 tables/application_status_type_002_add_types 2022-12-14T00:01:17Z Marcel Mueller <marcel@button.is> # add new status types
 tables/application_status_002_change_reason 2022-12-13T20:24:06Z Marcel Mueller <marcel@button.is> # add change_reason column
+@1.29.0 2022-12-20T22:20:22Z Marcel Mueller <marcel@button.is> # release v1.29.0
