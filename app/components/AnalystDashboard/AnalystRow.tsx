@@ -26,6 +26,7 @@ const StyledBaseCell = styled('td')`
 const StyledCcbdIdCell = styled(StyledBaseCell)`
   width: 9.7%;
   padding-left: 12px !important;
+  white-space: nowrap;
 `;
 
 const StyledStatusCell = styled(StyledBaseCell)`

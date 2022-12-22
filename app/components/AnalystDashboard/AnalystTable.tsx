@@ -4,9 +4,7 @@ import AnalystRow from './AnalystRow';
 
 const StyledTable = styled('table')`
   margin-bottom: 0px;
-  table-layout: fixed;
   width: 100%;
-  max-width: 1170px;
 `;
 
 const StyledTableHead = styled('thead')`
