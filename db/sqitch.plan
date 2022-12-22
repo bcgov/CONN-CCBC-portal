@@ -140,3 +140,5 @@ tables/intake_001_add_permissions 2022-12-21T17:39:34Z Marcel Mueller <marcel@bu
 computed_columns/application_all_assessments 2023-01-03T21:01:13Z Marcel Mueller <marcel@button.is> # add computed column to return all assessments form data
 mutations/create_assessment_form [mutations/create_assessment_form@1.30.0] 2023-01-03T23:26:52Z Marcel Mueller <marcel@button.is> # archive old assessment form
 tables/rfi_data_001_allow_insert_for_ccbc_auth_user 2022-12-15T20:49:50Z Anthony Bushara <anthony@button.is> # Mutation to insert rather than update in place and archive previous rfis
+computed_columns/application_rfi [computed_columns/application_rfi@1.24.0] 2022-12-22T06:24:48Z Anthony Bushara <anthony@button.is> # Rework to return the whole rfi row
+computed_columns/application_has_rfi_open 2022-12-22T06:11:48Z Anthony Bushara <anthony@button.is> # Computed column to check if the application rfi is open to view and edit
