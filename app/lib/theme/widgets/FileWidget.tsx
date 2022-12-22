@@ -2,7 +2,7 @@ import React, { MutableRefObject, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
-import { Button, Link } from '@button-inc/bcgov-theme';
+import { Button } from '@button-inc/bcgov-theme';
 import path from 'path';
 import GenericModal from './GenericModal';
 import { useCreateAttachment } from '../../../schema/mutations/attachment/createAttachment';
@@ -122,8 +122,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   label,
 }) => {
   const [error, setError] = useState('');
-  const [fileError, showFileError] = useState(false);
-  const refLink = useRef() as MutableRefObject<HTMLInputElement>;
   const router = useRouter();
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
@@ -244,6 +242,9 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     hiddenFileInput.current.click();
   };
 
+  const showModal =() =>{
+    window.location.hash = `#${id}-file-error`;
+  }
   const buttonLabel = () => {
     if (isFiles && !allowMultipleFiles) {
       return 'Replace';
@@ -264,8 +265,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       .then((response) => {
         console.log(response);
         if(response.avstatus) {
-          showFileError(true);
-          if (refLink && refLink.current) refLink.current.click();
+          showModal();
         }
         else {
           window.open(response, '_blank');
@@ -323,10 +323,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
         required={required}
         accept={acceptedFileTypes && acceptedFileTypes.toString()}
       />
-      <Link href={`#${id}-file-error`} ref={refLink}
-       style={{ display: 'none' }} 
-       required={required}
-      >Open Modal</Link>
       <GenericModal  
         id={`${id}-file-error`}
         title='File error' 

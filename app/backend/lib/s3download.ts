@@ -13,8 +13,7 @@ const detectInfected = async (uuid: string) => {
   };
   const getTags = await s3Client.getObjectTagging(params).promise();
   console.log(getTags);
-  //return getTags;
-  return {TagSet:[{Key:'av_status', Value: 'dirty'}]};
+  return getTags;
 
 };
 
