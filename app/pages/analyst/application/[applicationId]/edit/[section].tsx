@@ -112,6 +112,7 @@ const EditApplication = ({
             ref={hiddenSubmitRef}
             type="submit"
             style={{ display: 'none' }}
+            data-testid="hidden-submit"
             aria-label="hidden-submit"
           />
           <Button
