@@ -12,7 +12,6 @@ const detectInfected = async (uuid: string) => {
     Key: uuid,
   };
   const getTags = await s3Client.getObjectTagging(params).promise();
-  console.log(getTags);
   return getTags;
 
 };
@@ -34,6 +33,7 @@ s3download.get('/api/s3/download/:uuid/:fileName', async(req, res) => {
   const suspect = healthCheck.TagSet.find((x) => x.Key === 'av_status');
   if (suspect?.Value === 'dirty') {
     res.json({avstatus:'dirty'});
+    return res.status(200).end();
   }
   else {
     const signedUrl = s3Client.getSignedUrlPromise('getObject', {

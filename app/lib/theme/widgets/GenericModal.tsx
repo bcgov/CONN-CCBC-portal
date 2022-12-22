@@ -34,34 +34,32 @@ const closeMe = () => {
 
 const GenericModal = ({ id, message, title }) => {
   return (
-    <>
-      <StyledModal id={id}>
-        <Modal.Header>
-          {title}
+    <StyledModal id={id}>
+      <Modal.Header>
+        {title}
+        <Modal.Close>
+          <XIcon />
+        </Modal.Close>
+      </Modal.Header>
+      <Modal.Content>
+        <p>
+          {message}
+        </p>
+        <ModalButtons>
           <Modal.Close>
-            <XIcon />
-          </Modal.Close>
-        </Modal.Header>
-        <Modal.Content>
-          <p>
-            {message}
-          </p>
-          <ModalButtons>
-            <Modal.Close>
-              <Button onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-                  // hack around RJSF event propagation
-                  e.preventDefault(); 
-                  e.stopPropagation();    
-                  closeMe();              
-                }} 
-                data-testid="generic-yes-btn">
-                Ok
-              </Button>
-            </Modal.Close> 
-          </ModalButtons>
-        </Modal.Content>
-      </StyledModal>
-    </>
+            <Button onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+                // hack around RJSF event propagation
+                e.preventDefault(); 
+                e.stopPropagation();    
+                closeMe();              
+              }} 
+              data-testid="generic-yes-btn">
+              Ok
+            </Button>
+          </Modal.Close> 
+        </ModalButtons>
+      </Modal.Content>
+    </StyledModal>
   );
 };
 

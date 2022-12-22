@@ -263,7 +263,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     await fetch(url)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         if(response.avstatus) {
           showModal();
         }
