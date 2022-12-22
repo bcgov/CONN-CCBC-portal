@@ -97,12 +97,31 @@ const ChangeStatus = ({ query }) => {
 
   const hiddenStatusTypes = ['draft', 'submitted', 'withdrawn'];
 
+  const statusOrder = [
+    'received',
+    'screening',
+    'assessment',
+    'recommendation',
+    'conditionally_approved',
+    'approved',
+    'complete',
+    'on_hold',
+    'cancelled',
+    'closed',
+  ];
+
   // Filter unwanted status types
   const statusTypes = allApplicationStatusTypes.nodes.filter(
     (statusType) => !hiddenStatusTypes.includes(statusType.name)
   );
 
   const [changeReason, setChangeReason] = useState('');
+  const statusTypesOrdered = statusOrder
+    .map((statusName) => {
+      return statusTypes.find((statusType) => statusType?.name === statusName);
+    })
+    .filter(Boolean);
+
   const [currentStatus, setcurrentStatus] = useState(
     getStatus(status, statusTypes)
   );
@@ -163,8 +182,8 @@ const ChangeStatus = ({ query }) => {
         statusStyles={statusStyles[draftStatus?.name]}
         value={draftStatus?.name}
       >
-        {statusTypes &&
-          statusTypes.map((statusType) => {
+        {statusTypesOrdered &&
+          statusTypesOrdered.map((statusType) => {
             const { description, name, id } = statusType;
             return (
               <StyledOption value={name} key={id}>
