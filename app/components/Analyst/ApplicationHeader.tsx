@@ -24,7 +24,6 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  width: 100%;
 `;
 
 interface Props {

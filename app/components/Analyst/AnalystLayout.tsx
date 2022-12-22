@@ -15,6 +15,10 @@ const StyledFlex = styled.div`
   display: flex;
 `;
 
+const StyledFormDiv = styled(FormDiv)`
+  max-width: 100%;
+`;
+
 interface Props {
   children: JSX.Element[] | JSX.Element;
   query: any;
@@ -34,7 +38,7 @@ const AnalystLayout: React.FC<Props> = ({ children, query }) => {
       <ApplicationHeader query={queryFragment} />
       <StyledFlex>
         <NavigationSidebar />
-        <FormDiv>{children}</FormDiv>
+        <StyledFormDiv>{children}</StyledFormDiv>
       </StyledFlex>
     </StyledContainer>
   );
