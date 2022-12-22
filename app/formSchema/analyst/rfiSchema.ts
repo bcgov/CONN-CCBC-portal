@@ -117,7 +117,7 @@ const rfi = {
           properties: {
             eligibilityAndImpactsCalculator: {
               title: 'Template 1 - Eligibility and Impacts Calculator',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -125,7 +125,7 @@ const rfi = {
           properties: {
             detailedBudget: {
               title: 'Template 2 - Detailed Budget',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -133,7 +133,7 @@ const rfi = {
           properties: {
             financialForecast: {
               title: 'Template 3 - Financial Forecast',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -141,7 +141,7 @@ const rfi = {
           properties: {
             lastMileIspOffering: {
               title: 'Template 4 - Last Mile Internet Service Offering',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -150,7 +150,7 @@ const rfi = {
             popWholesalePricing: {
               title:
                 'Template 5 - List of Points of Presence and Wholesale Pricing',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -158,7 +158,7 @@ const rfi = {
           properties: {
             communityRuralDevelopmentBenefitsTemplate: {
               title: 'Template 6 - Community and Rural Development Benefits',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -166,7 +166,7 @@ const rfi = {
           properties: {
             wirelessAddendum: {
               title: 'Template 7 - Wireless Addendum',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -174,7 +174,7 @@ const rfi = {
           properties: {
             supportingConnectivityEvidence: {
               title: 'Template 8 - Supporting Connectivity Evidence',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -182,7 +182,7 @@ const rfi = {
           properties: {
             geographicNames: {
               title: 'Template 9 - Backbone and Geographic Names',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -190,7 +190,7 @@ const rfi = {
           properties: {
             equipmentDetails: {
               title: 'Template 10 - Equipment Details',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -198,7 +198,7 @@ const rfi = {
           properties: {
             copiesOfRegistration: {
               title: 'Copies of registration and other relevant documents',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -206,7 +206,7 @@ const rfi = {
           properties: {
             preparedFinancialStatements: {
               title: 'Financial statements',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -214,7 +214,7 @@ const rfi = {
           properties: {
             logicalNetworkDiagram: {
               title: 'Logical Network Diagram',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -222,7 +222,7 @@ const rfi = {
           properties: {
             projectSchedule: {
               title: 'Project schedule',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -230,7 +230,7 @@ const rfi = {
           properties: {
             communityRuralDevelopmentBenefits: {
               title: 'Benefits supporting documents',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -238,7 +238,7 @@ const rfi = {
           properties: {
             otherSupportingMaterials: {
               title: 'Other supporting materials',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -246,7 +246,7 @@ const rfi = {
           properties: {
             geographicCoverageMap: {
               title: 'Coverage map from Eligibility Mapping Tool',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -254,7 +254,7 @@ const rfi = {
           properties: {
             coverageAssessmentStatistics: {
               title: 'Coverage Assessment and Statistics',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -262,7 +262,7 @@ const rfi = {
           properties: {
             currentNetworkInfastructure: {
               title: 'Current network infrastructure',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
@@ -270,7 +270,7 @@ const rfi = {
           properties: {
             upgradedNetworkInfrastructure: {
               title: 'Proposed or Upgraded Network Infrastructure',
-              type: 'boolean',
+              type: 'string',
             },
           },
         },
