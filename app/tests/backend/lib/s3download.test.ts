@@ -1,12 +1,12 @@
 /**
  * @jest-environment node
  */
-import s3download from '../../../backend/lib/s3download';
 import { mocked } from 'jest-mock';
 import request from 'supertest';
 import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
+import s3download from '../../../backend/lib/s3download';
 import getAuthRole from '../../../utils/getAuthRole';
 
 jest.mock('../../../backend/lib/graphql');
