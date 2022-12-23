@@ -18,7 +18,7 @@ const mockQueryPayload = {
       allApplications: {
         nodes: [
           {
-            id: 'someId',
+            id: '1',
             rowId: 1,
             status: 'received',
             projectName: 'Test Proj Name',
@@ -26,12 +26,28 @@ const mockQueryPayload = {
             organizationName: 'Test Org Name',
           },
           {
-            id: 'someOtherId',
+            id: '2',
             rowId: 2,
-            status: 'received',
+            status: 'approved',
             projectName: 'Test Proj Name 2',
             ccbcNumber: 'CCBC-010002',
             organizationName: 'Test Org Name 2',
+          },
+          {
+            id: '3',
+            rowId: 3,
+            status: 'cancelled',
+            projectName: 'Test Proj Name 3',
+            ccbcNumber: 'CCBC-010003',
+            organizationName: 'Test Org Name 3',
+          },
+          {
+            id: '4',
+            rowId: 4,
+            status: 'assessment',
+            projectName: 'Test Proj Name 4',
+            ccbcNumber: 'CCBC-010004',
+            organizationName: 'Test Org Name 4',
           },
         ],
       },
@@ -202,6 +218,46 @@ describe('The index page', () => {
         },
       }
     );
+  });
+
+  it('has the correct received status styles', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const statusName = screen.getByText('Received');
+
+    expect(statusName).toHaveStyle('color: #FFFFFF');
+    expect(statusName).toHaveStyle('background-color: #345FA9;');
+  });
+
+  it('has the correct approved status styles', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const statusName = screen.getByText('Approved');
+
+    expect(statusName).toHaveStyle('color: #FFFFFF');
+    expect(statusName).toHaveStyle('background-color: #1F8234;');
+  });
+
+  it('has the correct cancelled status styles', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const statusName = screen.getByText('Cancelled');
+
+    expect(statusName).toHaveStyle('color: #414141');
+    expect(statusName).toHaveStyle('background-color: #E8E8E8;');
+  });
+
+  it('has the correct assessment status styles', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const statusName = screen.getByText('Assessment');
+
+    expect(statusName).toHaveStyle('color: #003366');
+    expect(statusName).toHaveStyle('background-color: #DBE6F0;');
   });
 
   afterEach(() => {

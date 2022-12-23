@@ -34,6 +34,7 @@ interface Props {
   onSave: Function;
   saveLabel?: string;
   title?: string;
+  value: string;
 }
 
 const ChangeModal: React.FC<Props> = ({
@@ -46,6 +47,7 @@ const ChangeModal: React.FC<Props> = ({
   onSave,
   saveLabel = 'Save',
   title = 'Reason for change',
+  value,
 }) => {
   return (
     <StyledModal id={id}>
@@ -55,6 +57,7 @@ const ChangeModal: React.FC<Props> = ({
         <StyledTextArea
           maxLength={maxLength}
           onChange={(e) => onChange(e)}
+          value={value}
           data-testid="reason-for-change"
         />
         <ModalButtons>

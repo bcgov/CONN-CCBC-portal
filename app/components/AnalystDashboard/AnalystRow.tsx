@@ -3,6 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { AnalystRow_application$key } from '__generated__/AnalystRow_application.graphql';
 import AssignLead from 'components/Analyst/AssignLead';
+import StatusPill from './StatusPill';
 
 interface Props {
   application: AnalystRow_application$key;
@@ -26,6 +27,7 @@ const StyledBaseCell = styled('td')`
 const StyledCcbdIdCell = styled(StyledBaseCell)`
   width: 9.7%;
   padding-left: 12px !important;
+  white-space: nowrap;
 `;
 
 const StyledStatusCell = styled(StyledBaseCell)`
@@ -48,15 +50,6 @@ const StyledLeadCell = styled(StyledBaseCell)`
 
 const StyledPackageCell = styled(StyledBaseCell)`
   width: 5.81%;
-`;
-
-const PillSpan = styled.span`
-  background-color: #1a5a96;
-  color: #ffffff;
-  border-radius: 16px;
-  padding: 4px 12px;
-  text-transform: capitalize;
-  white-space: nowrap;
 `;
 
 const AnalystRow: React.FC<Props> = ({ query, application }) => {
@@ -100,7 +93,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
     <StyledRow onClick={handleOnClick}>
       <StyledCcbdIdCell>{ccbcNumber}</StyledCcbdIdCell>
       <StyledStatusCell>
-        <PillSpan>{status}</PillSpan>
+        <StatusPill status={status} />
       </StyledStatusCell>
       <StyledProjectNameCell>{projectName}</StyledProjectNameCell>
       <StyledOrganizationNameCell>

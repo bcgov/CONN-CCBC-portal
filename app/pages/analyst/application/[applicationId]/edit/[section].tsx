@@ -140,6 +140,7 @@ const EditApplication = ({
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setChangeReason(e.target.value)
           }
+          value={changeReason}
         />
       </AnalystLayout>
     </Layout>

@@ -19,7 +19,7 @@ const getDashboardAnalystQuery = graphql`
 `;
 
 const StyledDashboardContainer = styled.div`
-  display: block;
+  width: 100%;
 `;
 
 const StyledBtnContainer = styled.div`
