@@ -1,6 +1,6 @@
 begin;
 
-select plan(7);
+select plan(9);
 
 
 truncate table
@@ -100,6 +100,16 @@ select results_eq (
 select function_privs_are(
   'ccbc_public', 'form_data_is_editable', ARRAY['ccbc_public.form_data'], 'ccbc_auth_user', ARRAY['EXECUTE'],
   'ccbc_auth_user can execute ccbc_public.form_data_is_editable(ccbc_public.form_data)'
+);
+
+select function_privs_are(
+  'ccbc_public', 'form_data_is_editable', ARRAY['ccbc_public.form_data'], 'ccbc_admin', ARRAY['EXECUTE'],
+  'ccbc_admin can execute ccbc_public.form_data_is_editable(ccbc_public.form_data)'
+);
+
+select function_privs_are(
+  'ccbc_public', 'form_data_is_editable', ARRAY['ccbc_public.form_data'], 'ccbc_analyst', ARRAY['EXECUTE'],
+  'ccbc_analyst can execute ccbc_public.form_data_is_editable(ccbc_public.form_data)'
 );
 
 

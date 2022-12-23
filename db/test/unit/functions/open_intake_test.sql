@@ -1,6 +1,6 @@
 BEGIN;
 
-SELECT plan(6);
+SELECT plan(8);
 
 SELECT has_function('ccbc_public', 'open_intake',
  'function ccbc_public.open_intake exists');
@@ -61,9 +61,20 @@ select function_privs_are(
   'ccbc_public', 'open_intake', ARRAY[]::text[], 'ccbc_auth_user', ARRAY['EXECUTE'],
   'ccbc_auth_user can execute ccbc_public.open_intake()'
 );
+
 select function_privs_are(
   'ccbc_public', 'open_intake', ARRAY[]::text[], 'ccbc_guest', ARRAY['EXECUTE'],
   'ccbc_guest can execute ccbc_public.open_intake()'
+);
+
+select function_privs_are(
+  'ccbc_public', 'open_intake', ARRAY[]::text[], 'ccbc_admin', ARRAY['EXECUTE'],
+  'ccbc_admin can execute ccbc_public.open_intake()'
+);
+
+select function_privs_are(
+  'ccbc_public', 'open_intake', ARRAY[]::text[], 'ccbc_analyst', ARRAY['EXECUTE'],
+  'ccbc_analyst can execute ccbc_public.open_intake()'
 );
 
 SELECT finish();

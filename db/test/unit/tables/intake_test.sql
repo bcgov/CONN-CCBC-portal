@@ -1,6 +1,6 @@
 begin;
 
-select plan(14);
+select plan(16);
 
 -- Table exists
 select has_table(
@@ -52,6 +52,16 @@ select table_privs_are(
 
 select table_privs_are(
   'ccbc_public', 'intake', 'ccbc_auth_user', ARRAY['SELECT'],
+  'ccbc_auth_user can select from intake table'
+);
+
+select table_privs_are(
+  'ccbc_public', 'intake', 'ccbc_admin', ARRAY['SELECT'],
+  'ccbc_guest can select from intake table'
+);
+
+select table_privs_are(
+  'ccbc_public', 'intake', 'ccbc_analyst', ARRAY['SELECT'],
   'ccbc_auth_user can select from intake table'
 );
 

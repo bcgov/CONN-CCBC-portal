@@ -23,7 +23,7 @@ $$
    )
 $$ language sql stable;
 
-grant execute on function ccbc_public.form_data_is_editable to ccbc_auth_user;
+grant execute on function ccbc_public.form_data_is_editable to ccbc_auth_user, ccbc_admin, ccbc_analyst;
 
 comment on function ccbc_public.form_data_is_editable is 'computed column to display whether form_data is editable or not';
 

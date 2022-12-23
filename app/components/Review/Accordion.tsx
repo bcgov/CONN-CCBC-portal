@@ -1,7 +1,9 @@
+import { useRouter } from 'next/router';
 import { BaseAccordion } from '@button-inc/bcgov-theme/Accordion';
-import React from 'react';
 import styled from 'styled-components';
-import noop from 'lodash/noop';
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 import AlertIcon from './AlertIcon';
 
 const ToggleRight = styled.div`
@@ -40,38 +42,10 @@ const StyledAlert = styled('label')`
   margin-right: 16px;
 `;
 
-const Accordion = ({
-  children,
-  defaultToggled,
-  error,
-  onToggle,
-  title,
-  ...rest
-}: any) => (
-  <StyledBaseAccordion
-    {...rest}
-    onToggle={onToggle || noop}
-    defaultToggled={defaultToggled}
-  >
-    <BaseAccordion.Header>
-      <h2>{title}</h2>
-      <StyledToggleRight>
-        {error && (
-          <StyledAlert>
-            <AlertIcon />
-          </StyledAlert>
-        )}
-        <BaseAccordion.ToggleOff>
-          <Plus />
-        </BaseAccordion.ToggleOff>
-        <BaseAccordion.ToggleOn>
-          <Minus />
-        </BaseAccordion.ToggleOn>
-      </StyledToggleRight>
-    </BaseAccordion.Header>
-    <BaseAccordion.Content>{children}</BaseAccordion.Content>
-  </StyledBaseAccordion>
-);
+const StyledButton = styled.button`
+  border-radius: 0;
+  appearance: none;
+`;
 
 const Minus = () => (
   <svg
@@ -102,4 +76,58 @@ const Plus = () => (
     />
   </svg>
 );
+
+const noop = () => {};
+
+const Accordion = ({
+  allowAnalystEdit,
+  children,
+  defaultToggled,
+  error,
+  name,
+  onToggle,
+  title,
+  ...rest
+}: any) => {
+  const router = useRouter();
+  const applicationId = router.query.applicationId as string;
+
+  return (
+    <StyledBaseAccordion
+      {...rest}
+      onToggle={onToggle || noop}
+      defaultToggled={defaultToggled}
+    >
+      <BaseAccordion.Header>
+        <h2>{title}</h2>
+        <StyledToggleRight>
+          {allowAnalystEdit && (
+            <Link
+              href={`/analyst/application/${applicationId}/edit/${name}`}
+              passHref
+            >
+              <StyledButton>
+                <FontAwesomeIcon icon={faPen} fixedWidth />
+              </StyledButton>
+            </Link>
+          )}
+
+          {error && (
+            <StyledAlert>
+              <AlertIcon />
+            </StyledAlert>
+          )}
+          <BaseAccordion.ToggleOff>
+            <Plus />
+          </BaseAccordion.ToggleOff>
+          <BaseAccordion.ToggleOn>
+            <Minus />
+          </BaseAccordion.ToggleOn>
+        </StyledToggleRight>
+      </BaseAccordion.Header>
+      <BaseAccordion.Content>{children}</BaseAccordion.Content>
+    </StyledBaseAccordion>
+  );
+};
+
 export default Accordion;
