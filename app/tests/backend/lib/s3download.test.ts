@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import s3download from 'backend/lib/s3download';
+import s3download from '../../../backend/lib/s3download';
 import { mocked } from 'jest-mock';
 import request from 'supertest';
 import express from 'express';
@@ -11,6 +11,31 @@ import getAuthRole from '../../../utils/getAuthRole';
 
 jest.mock('../../../backend/lib/graphql');
 jest.mock('../../../utils/getAuthRole');
+
+const mockObjectTagging = {
+  promise: () => {
+    return new Promise((resolve) => {
+      resolve({
+        TagSet: [{ Key: 'av_status', Value: 'clean' }],
+      });
+    });
+  },
+  catch: jest.fn(),
+};
+jest.mock('../../../backend/lib/s3client', () => {
+  return {
+    upload: jest.fn().mockReturnThis(),
+    listObjects: jest.fn().mockReturnThis(),
+    getSignedUrlPromise: ()=>{
+      return new Promise((resolve) => {
+        resolve('fake_signed_url');
+      })
+    },
+    getObjectTagging: () => {
+      return mockObjectTagging;
+    },
+  };
+});
 
 describe('The s3 download', () => {
   let app;
@@ -33,7 +58,7 @@ describe('The s3 download', () => {
     expect(response.status).toBe(404);
   });
 
-  it('should receive the correct response for auth user with no env vars set', async () => {
+  it('should receive the correct response for auth user', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
         pgRole: 'ccbc_auth_user',
@@ -42,7 +67,7 @@ describe('The s3 download', () => {
     });
 
     const response = await request(app).get('/api/s3/download/test/test');
-    expect(response.status).toBe(500);
+    expect(response.status).toBe(200);
   });
 
   jest.resetAllMocks();
