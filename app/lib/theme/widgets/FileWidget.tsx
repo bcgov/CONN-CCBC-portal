@@ -4,7 +4,6 @@ import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
 import path from 'path';
-import GenericModal from './GenericModal';
 import { useCreateAttachment } from '../../../schema/mutations/attachment/createAttachment';
 import { useDeleteAttachment } from '../../../schema/mutations/attachment/deleteAttachment';
 
@@ -243,7 +242,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   };
 
   const showModal =() =>{
-    window.location.hash = `#${id}-file-error`;
+    window.location.hash = 'file-error';
   }
   const buttonLabel = () => {
     if (isFiles && !allowMultipleFiles) {
@@ -322,10 +321,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
         required={required}
         accept={acceptedFileTypes && acceptedFileTypes.toString()}
       />
-      <GenericModal  
-        id={`${id}-file-error`}
-        title='File error' 
-        message='This file cannot be downloaded' />
     </StyledContainer>
   );
 };

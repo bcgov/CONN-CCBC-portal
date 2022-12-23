@@ -13,7 +13,6 @@ const detectInfected = async (uuid: string) => {
   };
   const getTags = await s3Client.getObjectTagging(params).promise();
   return getTags;
-
 };
 
 s3download.get('/api/s3/download/:uuid/:fileName', async(req, res) => {
@@ -32,25 +31,24 @@ s3download.get('/api/s3/download/:uuid/:fileName', async(req, res) => {
   const healthCheck = await detectInfected(uuid);
   const suspect = healthCheck.TagSet.find((x) => x.Key === 'av_status');
   if (suspect?.Value === 'dirty') {
-    res.json({avstatus:'dirty'});
-    return res.status(200).end();
+    return res.json({avstatus:'dirty'});
   }
-
-  const signedUrl = s3Client.getSignedUrlPromise('getObject', {
-    Bucket: AWS_S3_BUCKET,
-    Key: uuid,
-    Expires: 60,
-    ResponseContentDisposition: `attachment; filename="${fileName}"`,
-  });
-
-  return signedUrl
-    .then((url) => {
-      res.json(url);
-    })
-    .catch(() => {
-      res.status(500).end();
+  else {
+    const signedUrl = s3Client.getSignedUrlPromise('getObject', {
+      Bucket: AWS_S3_BUCKET,
+      Key: uuid,
+      Expires: 60,
+      ResponseContentDisposition: `attachment; filename="${fileName}"`,
     });
-
+  
+    return signedUrl
+      .then((url) => {
+        res.json(url);
+      })
+      .catch(() => {
+        res.status(500).end();
+      });
+  }
 });
 
 export default s3download;

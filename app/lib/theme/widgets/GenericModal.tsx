@@ -32,7 +32,7 @@ const closeMe = () => {
   xButton.click();
 }
 
-const GenericModal = ({ id, message, title }) => {
+const GenericModal = ({ id, message='', title='' }) => {
   return (
     <StyledModal id={id}>
       <Modal.Header>

@@ -6,6 +6,7 @@ import {
   customFormats,
   customFormatsErrorMessages,
 } from 'data/jsonSchemaForm/customFormats';
+import GenericModal from 'lib/theme/widgets/GenericModal';
 
 interface FormPropsWithTheme<T> extends FormProps<T> {
   theme?: ThemeProps;
@@ -20,6 +21,11 @@ const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
   };
 
   return (
+    <>
+    <GenericModal  
+      id='file-error'
+      title='File error' 
+      message='This file cannot be downloaded' />
     <Form
       {...props}
       // Always pass a form data, at least an empty object to prevent
@@ -32,6 +38,7 @@ const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
       omitExtraData={omitExtraData ?? true}
       showErrorList={false}
     />
+    </>
   );
 };
 
