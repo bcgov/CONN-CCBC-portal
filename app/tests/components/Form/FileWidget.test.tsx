@@ -469,6 +469,13 @@ describe('The FileWidget', () => {
 
     expect(screen.getByText('File error')).toBeInTheDocument();
     expect(screen.getByText('File error')).toBeVisible();
+
+    const closeModal = screen.getByTestId('generic-yes-btn');
+
+    await act(async () => {
+      fireEvent.click(closeModal);
+    });
+    expect(screen.getByText('File error')).not.toBeVisible();
   });
 
   afterEach(() => {
