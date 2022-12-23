@@ -31,8 +31,7 @@ s3download.get('/api/s3/download/:uuid/:fileName', async(req, res) => {
   const healthCheck = await detectInfected(uuid);
   const suspect = healthCheck.TagSet.find((x) => x.Key === 'av_status');
   if (suspect?.Value === 'dirty') {
-    res.json({avstatus:'dirty'});
-    res.status(200).end();
+    return res.json({avstatus:'dirty'});
   } 
   const signedUrl = s3Client.getSignedUrlPromise('getObject', {
     Bucket: AWS_S3_BUCKET,
