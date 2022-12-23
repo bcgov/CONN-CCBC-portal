@@ -1,3 +1,38 @@
+# [1.30.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.29.0...v1.30.0) (2022-12-23)
+
+### Bug Fixes
+
+- added more tests ([b604530](https://github.com/bcgov/CONN-CCBC-portal/commit/b604530d75e1acb8b993e582d299631a11418824))
+- added test for modal close ([0f8bf23](https://github.com/bcgov/CONN-CCBC-portal/commit/0f8bf233c564ae29c4664e3a42991d4f3b6c9148))
+- analyst dashboard width ([6662086](https://github.com/bcgov/CONN-CCBC-portal/commit/666208675c6c7fa5db23306207f3e0328d08656b))
+- application header title wrap ([7cde7da](https://github.com/bcgov/CONN-CCBC-portal/commit/7cde7da5ff9f6f393e12eb83f92fc3fe18d098ff))
+- eslint cleanup ([44eb63f](https://github.com/bcgov/CONN-CCBC-portal/commit/44eb63fb608f71c5f660d95b64426df7c01a206d))
+- eslint fix ([9c52dd8](https://github.com/bcgov/CONN-CCBC-portal/commit/9c52dd8d584799a1946647b6593917e7228c0d39))
+- eslint fixes ([7a577d3](https://github.com/bcgov/CONN-CCBC-portal/commit/7a577d3f6a0c219f2358733a068647a943b77bc4))
+- handling close button on modal ([9483d2c](https://github.com/bcgov/CONN-CCBC-portal/commit/9483d2c04c92d2a4957ecd06c38cef7eb42583c8))
+- minor fix ([ab26ecc](https://github.com/bcgov/CONN-CCBC-portal/commit/ab26ecc81c1aa6e943a5cf8d910ecee3139492b7))
+- return ([b8a8de5](https://github.com/bcgov/CONN-CCBC-portal/commit/b8a8de522fc4d494fd868f5d4209cda2f47154fa))
+- sonarcloud fixes ([b08faa7](https://github.com/bcgov/CONN-CCBC-portal/commit/b08faa7de22f2452fb7bbb3ebe7e4652f015a754))
+- stale calculated formData on analyst edit application form ([87d90b7](https://github.com/bcgov/CONN-CCBC-portal/commit/87d90b73281f73bb9d792e63c383b2ef28ee63af))
+- unneeded else removed ([5a9431a](https://github.com/bcgov/CONN-CCBC-portal/commit/5a9431a09af8ea5ff2833c3a52391e0666d3bf8a))
+- updated tests ([07571c7](https://github.com/bcgov/CONN-CCBC-portal/commit/07571c7991a3e9b1cc7bc3451087c20dd39f74e3))
+- using return ([a6156ca](https://github.com/bcgov/CONN-CCBC-portal/commit/a6156ca74623734d78a33d6d4a94eacfa752f6d5))
+
+### Features
+
+- add analyst application edit page ([7423240](https://github.com/bcgov/CONN-CCBC-portal/commit/74232407510400ba0c7da5d2ce7f58986cd63adf))
+- add anaylst permissions and archive form_data on new insert ([953390b](https://github.com/bcgov/CONN-CCBC-portal/commit/953390ba580cc181c559a6fd85449475a25e4ba1))
+- add application edit [section] page tests ([44cfd15](https://github.com/bcgov/CONN-CCBC-portal/commit/44cfd15f3de045897e66daa92e977b7729c2d67e))
+- add create_new_form_data mutation ([c011e09](https://github.com/bcgov/CONN-CCBC-portal/commit/c011e093ad612c4e1695435febe66ea13ce28b46))
+- add modal to notify on infected file (WIP) ([d9f4031](https://github.com/bcgov/CONN-CCBC-portal/commit/d9f4031f6bcc61fbcd481f416a6014b7a9af3d10))
+- add new form_data column reason_for_change ([c437089](https://github.com/bcgov/CONN-CCBC-portal/commit/c4370899315e5dbe98afc53a81e9e74ea7afa0ab))
+- add save to analyst edit application ([14265d0](https://github.com/bcgov/CONN-CCBC-portal/commit/14265d003b3a90e43aba91fbe4b6f18da4b693af))
+- analyst dashboard status pill component ([2de58b4](https://github.com/bcgov/CONN-CCBC-portal/commit/2de58b485d19894edefaa189952e21c10d493612))
+- change status list order ([07cb9b2](https://github.com/bcgov/CONN-CCBC-portal/commit/07cb9b27fc13d65aed41fa8635b5ea47186d9707))
+- clear modal textarea on successful save ([683e5c6](https://github.com/bcgov/CONN-CCBC-portal/commit/683e5c65e058a74672e584ac401c824877b6931e))
+- move GenericModal to FormBase to simplify DOM ([89b6310](https://github.com/bcgov/CONN-CCBC-portal/commit/89b63102bdaeedb8ce56a98fb08398b927495dc9))
+- update sysdig team yaml ([0a8a0fd](https://github.com/bcgov/CONN-CCBC-portal/commit/0a8a0fd0e9e946b406412a0b932147c567777c09))
+
 # [1.29.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.28.0...v1.29.0) (2022-12-20)
 
 ### Bug Fixes
