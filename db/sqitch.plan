@@ -136,3 +136,4 @@ mutations/create_new_form_data 2022-12-20T18:57:38Z Marcel Mueller <marcel@butto
 computed_columns/form_data_is_editable [computed_columns/form_data_is_editable@1.29.0] 2022-12-21T17:20:08Z Marcel Mueller <marcel@button.is> # add analyst permissions
 functions/open_intake [functions/open_intake@1.29.0] 2022-12-21T17:32:21Z Marcel Mueller <marcel@button.is> # add permissions for analysts
 tables/intake_001_add_permissions 2022-12-21T17:39:34Z Marcel Mueller <marcel@button.is> # add permissions for analysts
+@1.30.0 2022-12-23T22:28:13Z Marcel Mueller <marcel@button.is> # release v1.30.0
