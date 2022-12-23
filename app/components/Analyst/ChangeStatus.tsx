@@ -152,6 +152,7 @@ const ChangeStatus = ({ query }) => {
         },
       },
       onCompleted: () => {
+        setChangeReason('');
         setcurrentStatus(draftStatus);
       },
     });
@@ -164,6 +165,7 @@ const ChangeStatus = ({ query }) => {
         saveLabel="Save change"
         cancelLabel="Cancel change"
         onSave={handleSave}
+        value={changeReason}
         onCancel={() => setDraftStatus(currentStatus)}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
           setChangeReason(e.target.value)
