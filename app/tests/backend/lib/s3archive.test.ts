@@ -20,11 +20,23 @@ jest.setTimeout(10000000);
 const INFECTED_FILE_PREFIX = 'BROKEN';
 const mockStream = new PassThrough();
 
-const mockObjectTagging = {
+let mockObjectTagging;
+const mockObjectTaggingDirty = {
   promise: () => {
     return new Promise((resolve) => {
       resolve({
         TagSet: [{ Key: 'av_status', Value: 'dirty' }],
+      });
+    });
+  },
+  catch: jest.fn(),
+};
+
+const mockObjectTaggingClean = {
+  promise: () => {
+    return new Promise((resolve) => {
+      resolve({
+        TagSet: [{ Key: 'av_status', Value: 'clean' }],
       });
     });
   },
@@ -73,6 +85,7 @@ describe('The s3 archive', () => {
   let app;
 
   beforeEach(async () => {
+    mockObjectTagging = null;
     app = express();
     app.use(session({ secret: crypto.randomUUID(), cookie: { secure: true } }));
     app.use('/', s3archive);
@@ -161,6 +174,7 @@ describe('The s3 archive', () => {
       };
     });
 
+    mockObjectTagging = mockObjectTaggingDirty;
     const response = await request(app)
       .get('/api/analyst/archive')
       .set('Accept', 'application/zip')
@@ -251,6 +265,14 @@ describe('The s3 archive', () => {
                     templateUploads: {
                       detailedBudget: null,
                       asdf: { ja: 'asdf' },
+                      financialForecast :[
+                        {
+                          uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
+                          name: 'File.pdf',
+                          size: 35,
+                          type: 'text/plain',
+                        }
+                      ]
                     },
                   },
                 },
@@ -261,6 +283,8 @@ describe('The s3 archive', () => {
         },
       };
     });
+
+    mockObjectTagging = mockObjectTaggingClean;
 
     const response = await request(app)
       .get('/api/analyst/archive')
@@ -276,7 +300,7 @@ describe('The s3 archive', () => {
     const zip = new AdmZip(response.body);
 
     const zipEntries = zip.getEntries();
-    expect(zipEntries.length).toBe(0);
+    expect(zipEntries.length).toBe(1);  // financialForecast should be included
   });
 
   jest.resetAllMocks();
