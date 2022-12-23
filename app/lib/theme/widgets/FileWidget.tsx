@@ -279,6 +279,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
           value.map((file: File) => (
             <StyledFileDiv key={file.uuid}>
               <StyledLink
+                data-testid="file-download-link"
                 onClick={(e) => {
                   e.preventDefault();
                   handleDownload(file.uuid, file.name);

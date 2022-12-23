@@ -27,7 +27,10 @@ const XIcon = () => (
 );
 
 // using vanilla js
-const closeMe = () => {
+const closeMe = (e: React.MouseEvent<HTMLInputElement>) => {
+  // hack around RJSF event propagation
+  e.preventDefault(); 
+  e.stopPropagation();    
   const xButton = document.getElementsByClassName("pg-modal-close")[0] as HTMLButtonElement;
   xButton.click();
 }
@@ -48,10 +51,7 @@ const GenericModal = ({ id, message='', title='' }) => {
         <ModalButtons>
           <Modal.Close>
             <Button onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-                // hack around RJSF event propagation
-                e.preventDefault(); 
-                e.stopPropagation();    
-                closeMe();              
+                closeMe(e);              
               }} 
               data-testid="generic-yes-btn">
               Ok
