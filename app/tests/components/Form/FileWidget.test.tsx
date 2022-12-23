@@ -421,4 +421,66 @@ describe('The FileWidget', () => {
       }
     );
   });
+
+  it('displays the file download error modal for infected file', async () => {
+    componentTestingHelper.loadQuery({
+      ...mockQueryPayload,
+      Application() {
+        return {
+          id: 'TestApplicationID',
+          formData: {
+            jsonData: {
+              coverage: {
+                coverageAssessmentStatistics: [
+                  {
+                    id: 3,
+                    uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                    name: 'file-2.kmz',
+                    size: 0,
+                    type: 'application/vnd.google-earth.kmz',
+                  },
+                ],
+              },
+            },
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
+          },
+          status: 'draft',
+        };
+      },
+    });
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('file-2.kmz')).toBeVisible();
+    expect(screen.getByTestId('file-download-link')).toBeVisible();
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ avstatus: 'dirty' }),
+      }),
+    ) as jest.Mock;
+      
+    const downloadLink = screen.getByTestId('file-download-link');
+
+    await act(async () => {
+      fireEvent.click(downloadLink);
+    });
+
+    expect(screen.getByText('File error')).toBeInTheDocument();
+    expect(screen.getByText('File error')).toBeVisible();
+
+    const closeModal = screen.getByTestId('generic-yes-btn');
+
+    // to improve code coverage
+    await act(async () => {
+      fireEvent.click(closeModal);
+    });
+    
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
 });
