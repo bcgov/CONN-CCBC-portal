@@ -16,7 +16,9 @@ spec:
       role: ROLE_TEAM_EDIT
     - name: tonybushara@gmail.com
       role: ROLE_TEAM_EDIT
-    - name: mlmueller@protonmail.com
+    - name: marcel@button.is
+      role: ROLE_TEAM_EDIT
+    - name: philip@button.is
       role: ROLE_TEAM_EDIT
     - name: meherzad.romer@gov.bc.ca
       role: ROLE_TEAM_READ
