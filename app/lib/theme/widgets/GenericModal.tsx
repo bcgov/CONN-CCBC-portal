@@ -37,7 +37,7 @@ const closeMe = (e: React.MouseEvent<HTMLInputElement>) => {
 
 const GenericModal = ({ id, message='', title='' }) => {
   return (
-    <StyledModal id={id}>
+    <StyledModal id={id}  data-testid="generic-modal">
       <Modal.Header>
         {title}
         <Modal.Close>
@@ -50,9 +50,7 @@ const GenericModal = ({ id, message='', title='' }) => {
         </p>
         <ModalButtons>
           <Modal.Close>
-            <Button onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-                closeMe(e);              
-              }} 
+            <Button onClick={closeMe} 
               data-testid="generic-yes-btn">
               Ok
             </Button>

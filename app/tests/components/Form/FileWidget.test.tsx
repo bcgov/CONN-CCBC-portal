@@ -475,7 +475,8 @@ describe('The FileWidget', () => {
     await act(async () => {
       fireEvent.click(closeModal);
     });
-    expect(screen.getByText('File error')).not.toBeVisible();
+    
+    expect(screen.getByTestId('generic-modal')).not.toBeVisible();
   });
 
   afterEach(() => {
