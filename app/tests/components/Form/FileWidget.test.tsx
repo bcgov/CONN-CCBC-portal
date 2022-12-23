@@ -472,11 +472,11 @@ describe('The FileWidget', () => {
 
     const closeModal = screen.getByTestId('generic-yes-btn');
 
+    // to improve code coverage
     await act(async () => {
       fireEvent.click(closeModal);
     });
     
-    expect(screen.getByTestId('generic-modal')).not.toBeVisible();
   });
 
   afterEach(() => {
