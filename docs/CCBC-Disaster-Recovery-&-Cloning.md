@@ -1,12 +1,13 @@
-CCBC - Generic Postgres PGO from Crunchy Data Disaster Recovery & Cloning
+# CCBC - Generic Postgres PGO from Crunchy Data Disaster Recovery & Cloning
+
 ===========================================================================
 
-Preface
+### Preface
 
 The following is a generic approach that any DevOps may use as guidance when introducing Postgres PGO disaster recovery and cloning for your Postgres data.
 
 
-Postgres Operator PGO
+### Postgres Operator PGO
 
 PGO, the Postgres Operator from Crunchy Data, gives you a declarative Postgres solution that automatically manages your PostgreSQL clusters.
 Designed for your GitOps workflows, it is easy to get started with Postgres on Kubernetes with PGO. You can have a production-grade Postgres cluster complete with high availability, disaster recovery, and monitoring, all over secure TLS communications. You can customize your Postgres cluster to tailor it to your workload.
@@ -16,7 +17,7 @@ PGO offers cloning Postgres clusters and using rolling updates to roll out disru
 PGO automates Postgres management on Kubernetes, providing a seamless cloud native Postgres solution to keep your data always available.
 
 
-Installation
+### Installation
 
 Install and get up and running with PGO with the Postgres Operator from Crunchy Data. The following are additional instructions to get Postgres up and running on Kubernetes:
 
@@ -26,26 +27,26 @@ YOUR_GITHUB_UN="<your GitHub username>"
 git clone --depth 1 "git@github.com:${YOUR_GITHUB_UN}/postgres-operator-examples.git"
 cd postgres-operator-examples
 
-    Run kubectl apply -k kustomize/install
+    Run `kubectl apply -k kustomize/install`
 
 
 
 
-Cloud Native Postgres for Kubernetes
+### Cloud Native Postgres for Kubernetes
 
 Create, Scale, & Delete PostgreSQL clusters, while fully customizing your Pods and PostgreSQL configuration with safe, automated failover backed by a distributed consensus high availability solution. PGO uses Pod Anti-Affinity to help resiliency, so you can configure how aggressively it responds. Failed primaries automatically heal, allowing for faster recovery time. There is support for standby PostgreSQL clusters that work both within and across multiple Kubernetes clusters.
 
 
 
 
-Disaster Recovery
+### Disaster Recovery
 
 Backups and restores leverage the open source pgBackRest utility and includes support for full, incremental, and differential backups as well as efficient delta restores. Set how long you to retain your backups. This works will with large databases.
 
 
 
 
-Security and TLS
+### Security and TLS
 
 PGO enforces that all connections occur over TLS. You can also bring your own TLS infrastructure if you do not want to use the defaults provided by PGO.
 
@@ -64,7 +65,7 @@ Choose between asynchronous and synchronous replication for workloads that are s
 
 
 
-Cloning
+### Cloning
 
 Create new clusters from your existing clusters or backups with efficient data cloning.
 
@@ -72,7 +73,7 @@ Create new clusters from your existing clusters or backups with efficient data c
 
 
 
-Connection Pooling
+### Connection Pooling
 
 Advanced connection pooling support using pgBouncer.
 
@@ -82,7 +83,7 @@ Have your PostgreSQL clusters deployed to your preferred Kubernetes Nodes. Set y
 
 
 
-Scheduled Backups
+### Scheduled Backups
 
 Choose the type of backup (full, incremental, differential) and the frequency of occurrence on each PostgreSQL cluster.
 
@@ -96,14 +97,14 @@ You can also mix-and-match: PGO lets you store backups in multiple locations.
 
 
 
-Full Customization
+### Full Customization
 
 Choose the resources for your Postgres cluster: container resources and storage size. Resize at any time with minimal disruption. Use your own container image repository, including support imagePullSecrets and private repositories
 
 
 
 
-Namespaces
+### Namespaces
 
 Deploy PGO to watch Postgres clusters in all of your namespaces, or restrict which namespaces you want PGO to manage Postgres clusters in.
 
@@ -148,7 +149,7 @@ For more information about which versions of the PostgreSQL Operator include whi
 
 
 
-Supported Platforms
+### Supported Platforms
 
 PGO, the Postgres Operator from Crunchy Data, is tested on the following platforms:
 
@@ -171,9 +172,9 @@ Ensure you have the following utilities installed on your host machine:
 
 
 
-Installation
+### Installation
 
-Step 1: Download the Examples
+ - Step 1: Download the Examples
 
 First, go to GitHub and fork the Postgres Operator examples repository:
 
@@ -186,7 +187,7 @@ git clone --depth 1 "git@github.com:${YOUR_GITHUB_UN}/postgres-operator-examples
 cd postgres-operator-examples
 
 
-Step 2: Install PGO, the Postgres Operator
+- Step 2: Install PGO, the Postgres Operator
 
 You can install PGO, the Postgres Operator from Crunchy Data, using the command below:
 
@@ -212,22 +213,22 @@ postgres-operator-9dd545d64-t4h8d   1/1         Running             0           
 
 
 
-Creating a Postgres Cluster
+### Creating a Postgres Cluster
 
 Create a simple Postgres cluster. Do this by executing the following command:
 
-kubectl apply -k kustomize/postgres
+k`ubectl apply -k kustomize/postgres`
 
 This will create a Postgres cluster named hippo in the postgres-operator namespace. Track the progress of the cluster using the following command:
 
-kubectl -n postgres-operator describe postgresclusters.postgres-operator.crunchydata.com hippo
+`kubectl -n postgres-operator describe postgresclusters.postgres-operator.crunchydata.com hippo`
 
 
 
 
 
 
-Connecting to the Postgres cluster
+### Connecting to the Postgres cluster
 
 As part of creating a Postgres cluster, the Postgres Operator creates a PostgreSQL user account. The credentials for this account are stored in a Secret that has the name <clusterName>-pguser-<userName>.
 
@@ -254,7 +255,7 @@ Connect via psql in the Terminal
 
 
 
-Connecting Directly
+### Connecting Directly
 
 If users are on the same network as the PostgreSQL cluster, users may connect directly to it using the following command:
 
@@ -266,7 +267,7 @@ psql $(kubectl -n postgres-operator get secrets hippo-pguser-hippo -o go-templat
 
 
 
-Connect Using a Port-Forward
+### Connect Using a Port-Forward
 
 In a new terminal, create a port forward:
 
@@ -275,7 +276,7 @@ PG_CLUSTER_PRIMARY_POD=$(kubectl get pod -n postgres-operator -o name \
 kubectl -n postgres-operator port-forward "${PG_CLUSTER_PRIMARY_POD}" 5432:5432
 
 
-Establish a connection to the PostgreSQL cluster
+### Establish a connection to the PostgreSQL cluster
 
 PG_CLUSTER_USER_SECRET_NAME=hippo-pguser-hippo
 
@@ -288,7 +289,7 @@ psql -h localhost
 
 
 
-Connect an Application
+### Connect an Application
 The information provided in the user Secret will allow users to connect an application directly to the PostgreSQL database.
 For example, connecting to Keycloak. Keycloak is a popular open source identity management tool that is backed by a PostgreSQL database. Using the hippo cluster created earlier, users may deploy the following manifest file:
 
@@ -343,7 +344,7 @@ spec:
       restartPolicy: Always
 EOF
 
-kubectl apply -f keycloak.yaml
+`kubectl apply -f keycloak.yaml`
 
 
 There is a full example for how to deploy Keycloak with the Postgres Operator in the kustomize/keycloak folder.
@@ -363,7 +364,7 @@ The kubectl explain command is useful here. You may use kubectl explain postgres
 
 
 
-How to Create a Postgres Cluster
+### How to Create a Postgres Cluster
 
 To create a Postgres cluster using the example in the kustomize/postgres directory, all we have to do is run:
 kubectl apply -k kustomize/postgres
@@ -375,7 +376,7 @@ kubectl -n postgres-operator get pods \
 
 
 
-PGO created a Postgres cluster based on the information provided to it in the Kustomize manifests located in the kustomize/postgres directory. Let’s better understand what happened by inspecting the kustomize/postgres/postgres.yaml file:
+PGO created a Postgres cluster based on the information provided to it in the Kustomize manifests located in the kustomize/postgres directory. Let"s better understand what happened by inspecting the kustomize/postgres/postgres.yaml file:
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
@@ -419,7 +420,7 @@ As part of creating a Postgres cluster, users may also specify information about
 
 
 
-Troubleshooting
+### Troubleshooting
 
 PostgreSQL / pgBackRest Pods Stuck in Pending Phase
 
@@ -431,7 +432,7 @@ Also ensure that enough persistent volumes are available: the Kubernetes adminis
 
 
 
-Connecting to a Postgres Cluster
+### Connecting to a Postgres Cluster
 
 PGO creates a series of Kubernetes Services to provide stable endpoints for connecting to Postgres databases. These endpoints make it easy to provide a consistent way for applications to maintain connectivity to data. To inspect what services are available, executing the following command:
 
@@ -457,11 +458,11 @@ When the Postgres cluster is initialized, PGO will bootstrap a database and Post
     uri: A PostgreSQL connection URI that provides all the information for logging into the Postgres database.
     jdbc-uri: A PostgreSQL JDBC connection URI that provides all the information for logging into the Postgres database via the JDBC driver.
 
-All connections are over TLS. PGO provides its own certificate authority (CA) to allow you to securely connect your applications to your Postgres clusters. This allows users to use the verify-full “SSL mode” of Postgres, which provides eavesdropping protection and prevents MITM attacks. Users can also choose to provide their own CA.
+All connections are over TLS. PGO provides its own certificate authority (CA) to allow you to securely connect your applications to your Postgres clusters. This allows users to use the verify-full "SSL mode" of Postgres, which provides eavesdropping protection and prevents MITM attacks. Users can also choose to provide their own CA.
 
 
 
-Modifying Service Type, NodePort Value and Metadata
+### Modifying Service Type, NodePort Value and Metadata
 
 By default, PGO deploys Services with the ClusterIP Service type. Based on how users wish to expose their database, users may want to modify the Services to use a different Service type and NodePort value.
 You can modify the Services that PGO manages from the following attributes:
@@ -516,7 +517,7 @@ If exposing Services externally and are relying on TLS verification, you must us
 
 
 
-Connecting an Application
+### Connecting an Application
 
 Connect to OpenShift's Keycloak, an open source identity management application. Keycloak can be deployed on Kubernetes and is backed by a Postgres database. While we provide an example of deploying Keycloak and a PostgresCluster in the Postgres Operator examples repository, the manifest below deploys it using the previously created hippo cluster that is already running:
 kubectl apply --filename=- <<EOF
@@ -592,7 +593,7 @@ Using this method, you can tie applications directly into your GitOps pipeline t
 
 
 
-System Limitations to Consider
+### System Limitations to Consider
 
     The database storage disk fails or some other hardware failure occurs
     The network on which the database resides becomes unreachable
@@ -664,7 +665,7 @@ kubectl -n postgres-operator get pods \
 
 
 
-General Testing 
+### General Testing 
 
 To test high availability set up follow the instructions below for testing an HA Cluster. An important part of building a resilient Postgres environment is testing its resiliency.
 
@@ -709,7 +710,7 @@ Test #2: Remove the Primary StatefulSet
 StatefulSets are a Kubernetes object that provide helpful mechanisms for managing Pods that interface with stateful applications, such as databases. They provide a stable mechanism for managing Pods to help ensure data is retrievable in a predictable way.
 
 Try to remove the StatefulSet that is pointed to the Pod that represents the Postgres primary.
-First, determine which Pod is the primary. We’ll store it in an environmental variable for convenience.
+First, determine which Pod is the primary. We"ll store it in an environmental variable for convenience.
 
 PRIMARY_POD=$(kubectl -n postgres-operator get pods \
   --selector=postgres-operator.crunchydata.com/role=master \
@@ -750,7 +751,7 @@ which should yield something similar to:
 
 hippo-instance1-6kbw
 
-Test that the failover successfully occurred in a few ways. You can connect to the example Keycloak application that we deployed in the previous section. Based on Keycloak’s connection retry logic, you may need to wait a moment for it to reconnect, but you will see it connected and resume being able to read and write data. You can also connect to the Postgres instance directly and execute the following command:
+Test that the failover successfully occurred in a few ways. You can connect to the example Keycloak application that we deployed in the previous section. Based on Keycloak"s connection retry logic, you may need to wait a moment for it to reconnect, but you will see it connected and resume being able to read and write data. You can also connect to the Postgres instance directly and execute the following command:
 
 SELECT NOT pg_catalog.pg_is_in_recovery() is_primary;
 
@@ -764,9 +765,9 @@ Note that failover would still occur because the Postgres HA system works indepe
 
 
 
-Synchronous Replication
+### Synchronous Replication
 
-Synchronous replication is a replication mode designed to limit the risk of transaction loss. Synchronous replication waits for a transaction to be written to at least one additional server before it considers the transaction to be committed. For more information on synchronous replication, please read about PGO’s high availability architecture
+Synchronous replication is a replication mode designed to limit the risk of transaction loss. Synchronous replication waits for a transaction to be written to at least one additional server before it considers the transaction to be committed. For more information on synchronous replication, please read about PGO"s high availability architecture
 
 To add synchronous replication to your Postgres cluster, you can add the following to your spec:
 
@@ -786,7 +787,7 @@ spec:
         parameters:
           synchronous_commit: "on"
 
-Note that Patroni, which manages many aspects of the cluster’s availability, will favor availability over synchronicity. This means that if a synchronous replica goes down, Patroni will allow for asynchronous replication to continue as well as writes to the primary. However, if you want to disable all writing if there are no synchronous replicas available, you would have to enable synchronous_mode_strict, i.e.:
+Note that Patroni, which manages many aspects of the cluster"s availability, will favor availability over synchronicity. This means that if a synchronous replica goes down, Patroni will allow for asynchronous replication to continue as well as writes to the primary. However, if you want to disable all writing if there are no synchronous replicas available, you would have to enable synchronous_mode_strict, i.e.:
 
 spec:
   patroni:
@@ -795,14 +796,14 @@ spec:
       synchronous_mode_strict: true
 
 
-Kubernetes affinity rules, which include Pod anti-affinity and Node affinity, can help you to define where you want your workloads to reside. Pod anti-affinity is important for high availability: when used correctly, it ensures that your Postgres instances are distributed amongst different Nodes. Node affinity can be used to assign instances to specific Nodes, e.g. to utilize hardware that’s optimized for databases.
+Kubernetes affinity rules, which include Pod anti-affinity and Node affinity, can help you to define where you want your workloads to reside. Pod anti-affinity is important for high availability: when used correctly, it ensures that your Postgres instances are distributed amongst different Nodes. Node affinity can be used to assign instances to specific Nodes, e.g. to utilize hardware that"s optimized for databases.
 
 
 
 
 
 
-Pod Labels
+### Pod Labels
 
 PGO sets up several labels for Postgres cluster management that can be used for Pod anti-affinity or affinity rules in general. These include:
 
@@ -810,7 +811,7 @@ PGO sets up several labels for Postgres cluster management that can be used for 
     postgres-operator.crunchydata.com/instance-set: This is assigned to all Postgres instances within a group of spec.instances. In the example above, the value of this label is instance1. If you do not assign a label, the value is automatically set by PGO using a NN format, e.g. 00.
     postgres-operator.crunchydata.com/instance: This is a unique label assigned to each Postgres instance containing the name of the Postgres instance.
 
-Let’s look at how we can set up affinity rules for our Postgres cluster to help improve high availability.
+Let's look at how we can set up affinity rules for our Postgres cluster to help improve high availability.
 
 
 
@@ -819,9 +820,9 @@ Kubernetes has two types of Pod anti-affinity:
     Preferred: With preferred (preferredDuringSchedulingIgnoredDuringExecution) Pod anti-affinity, Kubernetes will make a best effort to schedule Pods matching the anti-affinity rules to different Nodes. However, if it is not possible to do so, then Kubernetes may schedule one or more Pods to the same Node.
     Required: With required (requiredDuringSchedulingIgnoredDuringExecution) Pod anti-affinity, Kubernetes mandates that each Pod matching the anti-affinity rules must be scheduled to different Nodes. However, a Pod may not be scheduled if Kubernetes cannot find a Node that does not contain a Pod matching the rules.
 
-There is a trade-off with these two types of pod anti-affinity: while “required” anti-affinity will ensure that all the matching Pods are scheduled on different Nodes, if Kubernetes cannot find an available Node, your Postgres instance may not be scheduled. Likewise, while “preferred” anti-affinity will make a best effort to scheduled your Pods on different Nodes, Kubernetes may compromise and schedule more than one Postgres instance of the same cluster on the same Node.
+There is a trade-off with these two types of pod anti-affinity: while "required" anti-affinity will ensure that all the matching Pods are scheduled on different Nodes, if Kubernetes cannot find an available Node, your Postgres instance may not be scheduled. Likewise, while "preferred" anti-affinity will make a best effort to scheduled your Pods on different Nodes, Kubernetes may compromise and schedule more than one Postgres instance of the same cluster on the same Node.
 
-By understanding these trade-offs, the makeup of your Kubernetes cluster, and your requirements, you can choose the method that makes the most sense for your Postgres deployment. We’ll show examples of both methods below.
+By understanding these trade-offs, the makeup of your Kubernetes cluster, and your requirements, you can choose the method that makes the most sense for your Postgres deployment. We"ll show examples of both methods below.
 
 Deploy your Postgres cluster with preferred Pod anti-affinity. Note that if you have a single-node Kubernetes cluster, you will not see your Postgres instances deployed to different nodes. However, your Postgres instances will be deployed.
 
@@ -881,11 +882,11 @@ affinity:
 
 spec.instances.affinity.podAntiAffinity follows the standard Kubernetes Pod anti-affinity spec. The values for the matchLabels are derived from what we described in the previous section: postgres-operator.crunchydata.com/cluster is set to our cluster name of hippo, and postgres-operator.crunchydata.com/instance-set is set to the instance set name of instance1. We choose a topologyKey of kubernetes.io/hostname, which is standard in Kubernetes clusters.
 
-Preferred Pod anti-affinity will perform a best effort to schedule your Postgres Pods to different nodes. Let’s see how you can require your Postgres Pods to be scheduled to different nodes.
+Preferred Pod anti-affinity will perform a best effort to schedule your Postgres Pods to different nodes. Let"s see how you can require your Postgres Pods to be scheduled to different nodes.
 
 Required Pod anti-affinity forces Kubernetes to scheduled your Postgres Pods to different Nodes. Note that if Kubernetes is unable to schedule all Pods to different Nodes, some of your Postgres instances may become unavailable.
 
-Using the previous example, let’s indicate to Kubernetes that we want to use required Pod anti-affinity for our Postgres clusters:
+Using the previous example, let"s indicate to Kubernetes that we want to use required Pod anti-affinity for our Postgres clusters:
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
@@ -934,7 +935,7 @@ kubectl get pods -n postgres-operator -o wide \
 
 Node affinity can be used to assign your Postgres instances to Nodes with specific hardware or to guarantee a Postgres instance resides in a specific zone. Node affinity can be set within the spec.instances.affinity.nodeAffinity attribute, following the standard Kubernetes node affinity spec.
 
-Let’s see an example with required Node affinity. Let’s say we have a set of Nodes that are reserved for database usage that have a label workload-role=db. We can create a Postgres cluster with a required Node affinity rule to scheduled all of the databases to those Nodes using the following configuration:
+Let"s see an example with required Node affinity. Let"s say we have a set of Nodes that are reserved for database usage that have a label workload-role=db. We can create a Postgres cluster with a required Node affinity rule to scheduled all of the databases to those Nodes using the following configuration:
 
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
@@ -985,7 +986,7 @@ The spread constraint API fields can be configured for instance, PgBouncer and p
         whenUnsatisfiable: <string>
         labelSelector: <object>
 
-where "maxSkew" describes the maximum degree to which Pods can be unevenly distributed, "topologyKey" is the key that defines a topology in the Nodes' Labels, "whenUnsatisfiable" specifies what action should be taken when "maxSkew" can’t be satisfied, and "labelSelector" is used to find matching Pods.
+where "maxSkew" describes the maximum degree to which Pods can be unevenly distributed, "topologyKey" is the key that defines a topology in the Nodes' Labels, "whenUnsatisfiable" specifies what action should be taken when "maxSkew" can"t be satisfied, and "labelSelector" is used to find matching Pods.
 
 
 To help illustrate how you might use this with your cluster, we can review examples for configuring spread constraints on our Instance and pgBackRest repo host Pods. For this example, assume we have a three node Kubernetes cluster where the first node is labeled with my-node-label=one, the second node is labeled with my-node-label=two and the final node is labeled my-node-label=three. The label key my-node-label will function as our topologyKey. Note all three nodes in our examples will be schedulable, so a Pod could live on any of the three Nodes.
@@ -1003,15 +1004,15 @@ You can set your topology spread constraints on our cluster Instance Pods. Given
             matchLabels:
               postgres-operator.crunchydata.com/instance-set: instance1
 
-we will expect 5 Instance pods to be created. Each of these Pods will have the standard postgres-operator.crunchydata.com/instance-set: instance1 Label set, so each Pod will be properly counted when determining the maxSkew. Since we have 3 nodes with a maxSkew of 1 and we’ve set whenUnsatisfiable to DoNotSchedule, we should see 2 Pods on 2 of the nodes and 1 Pod on the remaining Node, thus ensuring our Pods are distributed as evenly as possible.
+we will expect 5 Instance pods to be created. Each of these Pods will have the standard postgres-operator.crunchydata.com/instance-set: instance1 Label set, so each Pod will be properly counted when determining the maxSkew. Since we have 3 nodes with a maxSkew of 1 and we"ve set whenUnsatisfiable to DoNotSchedule, we should see 2 Pods on 2 of the nodes and 1 Pod on the remaining Node, thus ensuring our Pods are distributed as evenly as possible.
 
 
 
 
 
-pgBackRest Repo Pod Spread Constraints
+### pgBackRest Repo Pod Spread Constraints
 
-We can also set topology spread constraints on our cluster’s pgBackRest repo host pod. While we normally will only have a single pod per cluster, we could use a more generic label to add a preference that repo host Pods from different clusters are distributed among our Nodes. For example, by setting our matchLabel value to postgres-operator.crunchydata.com/pgbackrest: "" and our whenUnsatisfiable value to ScheduleAnyway, we will allow our repo host Pods to be scheduled no matter what Nodes may be available, but attempt to minimize skew as much as possible.
+We can also set topology spread constraints on our cluster"s pgBackRest repo host pod. While we normally will only have a single pod per cluster, we could use a more generic label to add a preference that repo host Pods from different clusters are distributed among our Nodes. For example, by setting our matchLabel value to postgres-operator.crunchydata.com/pgbackrest: "" and our whenUnsatisfiable value to ScheduleAnyway, we will allow our repo host Pods to be scheduled no matter what Nodes may be available, but attempt to minimize skew as much as possible.
 
       repoHost:
         topologySpreadConstraints:
@@ -1024,7 +1025,7 @@ We can also set topology spread constraints on our cluster’s pgBackRest repo hos
 
 Putting it All Together
 
-Now that each of our Pods has our desired Topology Spread Constraints defined, let’s put together a complete cluster definition:
+Now that each of our Pods has our desired Topology Spread Constraints defined, let"s put together a complete cluster definition:
 
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
@@ -1080,15 +1081,15 @@ kubectl get pods -n postgres-operator -o wide --selector=postgres-operator.crunc
 
 
 
-Resize a Postgres Cluster
+### Resize a Postgres Cluster
 
-You did it – the application is a success. Traffic is booming, so much so that you need to add more resources to your Postgres cluster. However, you’re worried that any resize operation may cause downtime and create a poor experience for your end users.
+You did it " the application is a success. Traffic is booming, so much so that you need to add more resources to your Postgres cluster. However, you"re worried that any resize operation may cause downtime and create a poor experience for your end users.
 
 This is where PGO comes in: PGO will help orchestrate rolling out any potentially disruptive changes to your cluster to minimize or eliminate and downtime for your application. To do so, we will assume that you have deployed a high availability Postgres cluster as described in the previous section.
 
 Memory and CPU resources are an important component for vertically scaling your Postgres cluster. Coupled with tweaks to your Postgres configuration file, allocating more memory and CPU to your cluster can help it to perform better under load.
 
-It’s important for instances in the same high availability set to have the same resources. PGO lets you adjust CPU and memory within the resources sections of the postgresclusters.postgres-operator.crunchydata.com custom resource. These include:
+It"s important for instances in the same high availability set to have the same resources. PGO lets you adjust CPU and memory within the resources sections of the postgresclusters.postgres-operator.crunchydata.com custom resource. These include:
 
     spec.instances.resources section, which sets the resource values for the PostgreSQL container, as well as any init containers in the associated pod and containers created by the pgDataVolume and pgWALVolume data migration jobs.
     spec.instances.sidecars.replicaCertCopy.resources section, which sets the resources for the replica-cert-copy sidecar container.
@@ -1104,7 +1105,7 @@ It’s important for instances in the same high availability set to have the same 
 
 The layout of these resources sections should be familiar: they follow the same pattern as the standard Kubernetes structure for setting container resources. Note that these settings also allow for the configuration of QoS classes.
 
-For example, using the spec.instances.resources section, let’s say we want to update our hippo Postgres cluster so that each instance has a limit of 2.0 CPUs and 4Gi of memory. We can make the following changes to the manifest:
+For example, using the spec.instances.resources section, let"s say we want to update our hippo Postgres cluster so that each instance has a limit of 2.0 CPUs and 4Gi of memory. We can make the following changes to the manifest:
 
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
@@ -1151,16 +1152,16 @@ Apply these updates to your Postgres cluster with the following command:
 
 kubectl apply -k kustomize/postgres
 
-Now, let’s watch how the rollout happens:
+Now, let"s watch how the rollout happens:
 
 watch "kubectl -n postgres-operator get pods \
   --selector=postgres-operator.crunchydata.com/cluster=hippo,postgres-operator.crunchydata.com/instance \
   -o=jsonpath='{range .items[*]}{.metadata.name}{\"\t\"}{.metadata.labels.postgres-operator\.crunchydata\.com/role}{\"\t\"}{.status.phase}{\"\t\"}{.spec.containers[].resources.limits}{\"\n\"}{end}'"
 
 
-Observe how each Pod is terminated one-at-a-time. This is part of a “rolling update”. Because updating the resources of a Pod is a destructive action, PGO first applies the CPU and memory changes to the replicas. PGO ensures that the changes are successfully applied to a replica instance before moving on to the next replica.
+Observe how each Pod is terminated one-at-a-time. This is part of a "rolling update". Because updating the resources of a Pod is a destructive action, PGO first applies the CPU and memory changes to the replicas. PGO ensures that the changes are successfully applied to a replica instance before moving on to the next replica.
 
-Once all of the changes are applied, PGO will perform a “controlled switchover”: it will promote a replica to become a primary, and apply the changes to the final Postgres instance.
+Once all of the changes are applied, PGO will perform a "controlled switchover": it will promote a replica to become a primary, and apply the changes to the final Postgres instance.
 
 By rolling out the changes in this way, PGO ensures there is minimal to zero disruption to your application: you are able to successfully roll out updates.
 
@@ -1168,20 +1169,20 @@ By rolling out the changes in this way, PGO ensures there is minimal to zero dis
 
 
 
-Resize PVC
+### Resize PVC
 
-Your application is a success. Your data continues to grow, and it’s becoming apparently that you need more disk. That’s great: you can resize your PVC directly on your postgresclusters.postgres-operator.crunchydata.com custom resource with minimal to zero downtime.
+Your application is a success. Your data continues to grow, and it"s becoming apparently that you need more disk. That"s great: you can resize your PVC directly on your postgresclusters.postgres-operator.crunchydata.com custom resource with minimal to zero downtime.
 
 PVC resizing, also known as volume expansion, is a function of your storage class: it must support volume resizing. Additionally, PVCs can only be sized up: you cannot shrink the size of a PVC.
 
 You can adjust PVC sizes on all of the managed storage instances in a Postgres instance that are using Kubernetes storage. These include:
 
     spec.instances.dataVolumeClaimSpec.resources.requests.storage: The Postgres data directory (aka your database).
-    spec.backups.pgbackrest.repos.volume.volumeClaimSpec.resources.requests.storage: The pgBackRest repository when using “volume” storage
+    spec.backups.pgbackrest.repos.volume.volumeClaimSpec.resources.requests.storage: The pgBackRest repository when using "volume" storage
 
 The above should be familiar: it follows the same pattern as the standard Kubernetes PVC structure.
 
-For example, let’s say we want to update our hippo Postgres cluster so that each instance now uses a 10Gi PVC and our backup repository uses a 20Gi PVC. We can do so with the following markup:
+For example, let"s say we want to update our hippo Postgres cluster so that each instance now uses a 10Gi PVC and our backup repository uses a 20Gi PVC. We can do so with the following markup:
 
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
@@ -1393,11 +1394,11 @@ If the storage class does not support PVC resizing, you can use the technique de
 
 
 
-Customize a Postgres Cluster
+### Customize a Postgres Cluster
 
 Part of the trick of managing multiple instances in a Postgres cluster is ensuring all of the configuration changes are propagated to each of them. This is where PGO helps: when you make a Postgres configuration change for a cluster, PGO will apply it to all of the Postgres instances.
 
-For example, in our previous step we added CPU and memory limits of 2.0 and 4Gi respectively. Let’s tweak some of the Postgres settings to better use our new resources. We can do this in the spec.patroni.dynamicConfiguration section. Here is an example updated manifest that tweaks several settings:
+For example, in our previous step we added CPU and memory limits of 2.0 and 4Gi respectively. Let"s tweak some of the Postgres settings to better use our new resources. We can do this in the spec.patroni.dynamicConfiguration section. Here is an example updated manifest that tweaks several settings:
 
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
@@ -1471,7 +1472,7 @@ All connections in PGO use TLS to encrypt communication between components. PGO 
 If you want to use the TLS infrastructure that PGO provides, you can skip the rest of this section and move on to learning how to apply software updates.
 
 
-There are a few different TLS endpoints that can be customized for PGO, including those of the Postgres cluster and controlling how Postgres instances authenticate with each other. Let’s look at how we can customize TLS.
+There are a few different TLS endpoints that can be customized for PGO, including those of the Postgres cluster and controlling how Postgres instances authenticate with each other. Let"s look at how we can customize TLS.
 
 Your TLS certificate should have a Common Name (CN) setting that matches the primary Service name. This is the name of the cluster suffixed with -primary. For example, for our hippo cluster this would be hippo-primary.
 
@@ -1495,7 +1496,7 @@ spec:
   customTLSSecret:
     name: hippo.tls
 
-If you’re unable to control the key-value pairs in the Secret, you can create a mapping that looks similar to this:
+If you"re unable to control the key-value pairs in the Secret, you can create a mapping that looks similar to this:
 
 spec:
   customTLSSecret:
@@ -1536,7 +1537,7 @@ PGO allows for pod priority classes to indicate the relative importance of a pod
     Dedicated Repo Host: Priority defined under the repoHost section of the spec is applied to the dedicated repo host by editing the spec.backups.pgbackrest.repoHost.priorityClassName section of the custom resource.
     PgBouncer: Priority is defined under the pgBouncer section of the spec and will apply to all PgBouncer Pods by editing the spec.proxy.pgBouncer.priorityClassName section of the custom resource.
     Backup (manual and scheduled): Priority is defined under the spec.backups.pgbackrest.jobs.priorityClassName section and applies that priority to all pgBackRest backup Jobs (manual and scheduled).
-    Restore (data source or in-place): Priority is defined for either a “data source” restore or an in-place restore by editing the spec.dataSource.postgresCluster.priorityClassName section of the custom resource.
+    Restore (data source or in-place): Priority is defined for either a "data source" restore or an in-place restore by editing the spec.dataSource.postgresCluster.priorityClassName section of the custom resource.
     Data Migration: The priority defined for the first instance set in the spec (array position 0) is used for the PGDATA and WAL migration Jobs. The pgBackRest repo migration Job will use the priority class applied to the repoHost.
 
 
@@ -1560,7 +1561,7 @@ PGO allows you to configure custom sidecar Containers for your PostgreSQL instan
 
 To use the custom sidecar features, currently in Alpha, you will need to enable them via the PGO feature gate.
 
-PGO feature gates are enabled by setting the PGO_FEATURE_GATES environment variable on the PGO Deployment. For a feature named ‘FeatureName’, that would look like
+PGO feature gates are enabled by setting the PGO_FEATURE_GATES environment variable on the PGO Deployment. For a feature named "FeatureName", that would look like
 
 PGO_FEATURE_GATES="FeatureName=true"
 
@@ -1588,7 +1589,7 @@ Once this feature is enabled, you can add your custom Containers as an array to 
 
 
 
-Database Initialization SQL
+### Database Initialization SQL
 
 PGO can run SQL for you as part of the cluster creation and initialization process. PGO runs the SQL using the psql client so you can use meta-commands to connect to different databases, change error handling, or set and use variables. Its capabilities are described in the psql documentation.
 Initialization SQL ConfigMap
@@ -1654,6 +1655,6 @@ Be sure to transfer any changes back over to your local file. Another option is 
 kubectl create configmap hippo-init-sql --from-file=init.sql=/path/to/init.sql --dry-run=client -o yaml | kubectl apply -f -
 
 
-If you edit your ConfigMap and your changes aren’t showing up, you may be waiting for PGO to reconcile your cluster. After some time, PGO will automatically reconcile the cluster or you can trigger reconciliation by applying any change to your cluster (e.g. with kubectl apply -k kustomize/postgres).
+If you edit your ConfigMap and your changes aren"t showing up, you may be waiting for PGO to reconcile your cluster. After some time, PGO will automatically reconcile the cluster or you can trigger reconciliation by applying any change to your cluster (e.g. with kubectl apply -k kustomize/postgres).
 
 To ensure that psql returns a failure exit code when your SQL commands fails.
