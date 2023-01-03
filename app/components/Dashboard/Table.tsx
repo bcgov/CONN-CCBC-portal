@@ -147,6 +147,13 @@ const Table = ({ applications }: Props) => {
                         <Withdraw />
                       </button>
                     )}
+                    {application.hasRfiOpen && (
+                      <Link
+                        href={`/applicantportal/form/${application.rowId}/rfi/${application.rfi.rowId}/`}
+                      >
+                        Upload Files
+                      </Link>
+                    )}
                   </StyledBtns>
                 </StyledTableCell>
               </StyledRow>

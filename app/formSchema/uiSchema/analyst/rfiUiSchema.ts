@@ -246,4 +246,300 @@ export const rfiViewUiSchema = {
   },
 };
 
+export const rfiApplicantUiSchema = {
+  'ui:order': [
+    'rfiType',
+    'rfiDueBy',
+    'rfiEmailCorrespondance',
+    'rfiAdditionalFiles',
+    'eligibilityAndImpactsCalculatorRfi',
+    'detailedBudgetRfi',
+    'eligibilityAndImpactsCalculator',
+    'detailedBudget',
+    'financialForecastRfi',
+    'lastMileIspOfferingRfi',
+    'popWholesalePricingRfi',
+    'communityRuralDevelopmentBenefitsTemplateRfi',
+    'wirelessAddendumRfi',
+    'supportingConnectivityEvidenceRfi',
+    'geographicNamesRfi',
+    'equipmentDetailsRfi',
+    'eligibilityAndImpactsCalculator',
+    'detailedBudget',
+    'financialForecast',
+    'lastMileIspOffering',
+    'popWholesalePricing',
+    'communityRuralDevelopmentBenefitsTemplate',
+    'wirelessAddendum',
+    'supportingConnectivityEvidence',
+    'geographicNames',
+    'equipmentDetails',
+  ],
+  rfiType: {
+    'ui:widget': 'hidden',
+    'ui:title': ' ',
+    'ui:options': {
+      label: false,
+      title: false,
+    },
+  },
+  rfiDueBy: {
+    'ui:widget': 'hidden',
+    'ui:options': {
+      label: false,
+    },
+  },
+  rfiEmailCorrespondance: {
+    'ui:widget': 'hidden',
+    'ui:options': {
+      label: false,
+    },
+  },
+  rfiAdditionalFiles: {
+    'ui:options': {
+      label: false,
+    },
+    eligibilityAndImpactsCalculator: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    eligibilityAndImpactsCalculatorRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    detailedBudget: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    detailedBudgetRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    financialForecast: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    financialForecastRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    lastMileIspOffering: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    lastMileIspOfferingRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    popWholesalePricing: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    popWholesalePricingRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    communityRuralDevelopmentBenefitsTemplate: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    communityRuralDevelopmentBenefitsTemplateRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    wirelessAddendum: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    wirelessAddendumRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    supportingConnectivityEvidence: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    supportingConnectivityEvidenceRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    geographicNames: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    geographicNamesRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    equipmentDetails: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    equipmentDetailsRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    copiesOfRegistration: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    copiesOfRegistrationRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    preparedFinancialStatements: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    preparedFinancialStatementsRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    logicalNetworkDiagram: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    logicalNetworkDiagramRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    projectSchedule: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    projectScheduleRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    communityRuralDevelopmentBenefits: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    communityRuralDevelopmentBenefitsRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    otherSupportingMaterials: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    otherSupportingMaterialsRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    geographicCoverageMap: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    geographicCoverageMapRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    coverageAssessmentStatistics: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    coverageAssessmentStatisticsRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    currentNetworkInfastructure: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    currentNetworkInfastructureRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+    upgradedNetworkInfrastructure: {
+      'ui:widget': 'FileWidget',
+      'ui:options': {
+        hideOptional: true,
+      },
+    },
+    upgradedNetworkInfrastructureRfi: {
+      'ui:widget': 'hidden',
+      'ui:options': {
+        label: false,
+      },
+    },
+  },
+};
+
 export default rfiUiSchema;

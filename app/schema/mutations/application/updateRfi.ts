@@ -7,6 +7,8 @@ const mutation = graphql`
     updateRfi(input: $input) {
       rfiData {
         rfiNumber
+        rowId
+        id
       }
     }
   }
