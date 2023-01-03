@@ -116,6 +116,9 @@ const reviewUiSchema = {
   },
   organizationProfile: {
     ...organizationProfile,
+    typeOfOrganization: {
+      'ui:widget': 'TextWidget',
+    },
     'ui:field': 'SectionField',
   },
   otherFundingSources: {
