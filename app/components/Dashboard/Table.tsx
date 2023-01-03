@@ -45,6 +45,8 @@ const StyledTableCell = styled('td')`
 
 const StyledBtns = styled('div')`
   display: flex;
+  justify-content: flex-start;
+  gap: 24px;
   align-items: center;
   & a {
     text-decoration: none;
