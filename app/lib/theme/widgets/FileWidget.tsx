@@ -145,18 +145,29 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       },
     };
 
+    const deleteFileFromFormData = (res) => {
+      const attachmentRowId = res?.updateAttachmentByRowId?.attachment?.rowId;
+      const indexOfFile = value.findIndex(
+        (object) => object.id === attachmentRowId
+      );
+      const newFileList = [...value];
+      newFileList.splice(indexOfFile, 1);
+      const isFileListEmpty = newFileList.length <= 0;
+      onChange(isFileListEmpty ? null : newFileList);
+    };
+
     deleteAttachment({
       variables,
-      onError: () => setError('deleteFailed'),
+      onError: (res) => {
+        /// Allow files to be deleted from form data if attachment record was already archived
+        if (res.message.includes('Deleted records cannot be modified')) {
+          deleteFileFromFormData(res);
+        } else {
+          setError('deleteFailed');
+        }
+      },
       onCompleted: (res) => {
-        const attachmentRowId = res?.updateAttachmentByRowId?.attachment?.rowId;
-        const indexOfFile = value.findIndex(
-          (object) => object.id === attachmentRowId
-        );
-        const newFileList = [...value];
-        newFileList.splice(indexOfFile, 1);
-        const isFileListEmpty = newFileList.length <= 0;
-        onChange(isFileListEmpty ? null : newFileList);
+        deleteFileFromFormData(res);
       },
     });
   };
@@ -241,9 +252,9 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     hiddenFileInput.current.click();
   };
 
-  const showModal =() =>{
+  const showModal = () => {
     window.location.hash = 'file-error';
-  }
+  };
   const buttonLabel = () => {
     if (isFiles && !allowMultipleFiles) {
       return 'Replace';
@@ -262,10 +273,9 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     await fetch(url)
       .then((response) => response.json())
       .then((response) => {
-        if(response.avstatus) {
+        if (response.avstatus) {
           showModal();
-        }
-        else {
+        } else {
           window.open(response, '_blank');
         }
       });
