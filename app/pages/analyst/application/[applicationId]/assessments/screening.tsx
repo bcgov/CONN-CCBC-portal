@@ -6,6 +6,7 @@ import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import { screeningAssessmentQuery } from '__generated__/screeningAssessmentQuery.graphql';
 import { FormBase } from 'components/Form';
+import AssessmentsTabs from 'components/Analyst/Assessments/AssessmentsTabs';
 import screening from 'formSchema/analyst/screening';
 import screeningUiSchema from 'formSchema/uiSchema/analyst/screeningUi';
 import { useCreateScreeningAssessmentMutation } from 'schema/mutations/assessment/createScreeningAssessment';
@@ -73,6 +74,7 @@ const ScreeningAssessment = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
+        <AssessmentsTabs />
         <FormBase
           schema={screening}
           uiSchema={screeningUiSchema}

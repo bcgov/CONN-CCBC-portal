@@ -1,7 +1,7 @@
 import { JSONSchema7 } from 'json-schema';
 
 const screening: JSONSchema7 = {
-  title: 'Screening',
+  title: ' ',
   description: '',
   type: 'object',
   required: [
