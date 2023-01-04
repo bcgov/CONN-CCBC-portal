@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import statusStyles from 'data/statusStyles';
 import { AnalystRow_application$key } from '__generated__/AnalystRow_application.graphql';
 import AssignLead from 'components/Analyst/AssignLead';
-import StatusPill from './StatusPill';
+import StatusPill from '../Analyst/StatusPill';
 
 interface Props {
   application: AnalystRow_application$key;
@@ -93,7 +94,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
     <StyledRow onClick={handleOnClick}>
       <StyledCcbdIdCell>{ccbcNumber}</StyledCcbdIdCell>
       <StyledStatusCell>
-        <StatusPill status={status} />
+        <StatusPill status={status} styles={statusStyles} />
       </StyledStatusCell>
       <StyledProjectNameCell>{projectName}</StyledProjectNameCell>
       <StyledOrganizationNameCell>

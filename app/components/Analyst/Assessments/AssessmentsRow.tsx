@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
 import { graphql, useFragment } from 'react-relay';
+import assessmentPillStyles from 'data/assessmentPillStyles';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
-import AssessmentsPill from './AssessmentsPill';
+import StatusPill from '../StatusPill';
 
 const StyledRow = styled('tr')`
   max-width: 1170px;
@@ -63,8 +64,9 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
     <StyledRow onClick={handleClick}>
       <StyledCell>{name}</StyledCell>
       <StyledCell>
-        <AssessmentsPill
+        <StatusPill
           status={isComplete ? 'Complete' : progress || 'Not started'}
+          styles={assessmentPillStyles}
         />
       </StyledCell>
       {jsonData?.assignedTo ? (
@@ -74,7 +76,12 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
       )}
       <StyledCell>{dateString}</StyledCell>
       <StyledCell>
-        {decision && <AssessmentsPill status={jsonData?.decision} />}
+        {decision && (
+          <StatusPill
+            status={jsonData?.decision}
+            styles={assessmentPillStyles}
+          />
+        )}
       </StyledCell>
     </StyledRow>
   );
