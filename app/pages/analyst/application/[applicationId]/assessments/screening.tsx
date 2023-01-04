@@ -4,7 +4,7 @@ import { graphql } from 'react-relay';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
-import { assessmentsQuery } from '__generated__/assessmentsQuery.graphql';
+import { screeningAssessmentQuery } from '__generated__/screeningAssessmentQuery.graphql';
 import { FormBase } from 'components/Form';
 import screening from 'formSchema/analyst/screening';
 import screeningUiSchema from 'formSchema/uiSchema/analyst/screeningUi';
@@ -15,8 +15,8 @@ import { ISubmitEvent } from '@rjsf/core';
 import { LoadingSpinner } from 'components';
 
 // replace with slug later with tabs
-const getAssessmentsQuery = graphql`
-  query assessmentsQuery($rowId: Int!) {
+const getScreeningAssessmentQuery = graphql`
+  query screeningAssessmentQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
       id
       rowId
@@ -32,10 +32,10 @@ const getAssessmentsQuery = graphql`
   }
 `;
 
-const Assessments = ({
+const ScreeningAssessment = ({
   preloadedQuery,
-}: RelayProps<Record<string, unknown>, assessmentsQuery>) => {
-  const query = usePreloadedQuery(getAssessmentsQuery, preloadedQuery);
+}: RelayProps<Record<string, unknown>, screeningAssessmentQuery>) => {
+  const query = usePreloadedQuery(getScreeningAssessmentQuery, preloadedQuery);
 
   const { applicationByRowId, session } = query;
   const [createAssessment, isCreating] = useCreateScreeningAssessmentMutation();
@@ -102,4 +102,8 @@ export const withRelayOptions = {
   },
 };
 
-export default withRelay(Assessments, getAssessmentsQuery, withRelayOptions);
+export default withRelay(
+  ScreeningAssessment,
+  getScreeningAssessmentQuery,
+  withRelayOptions
+);

@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Assessments from 'pages/analyst/application/[applicationId]/assessments';
+import ScreeningAssessment from 'pages/analyst/application/[applicationId]/assessments/screening';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
-import compiledassessmentsQuery, {
-  assessmentsQuery,
-} from '__generated__/assessmentsQuery.graphql';
+import compiledScreeningAssessmentsQuery, {
+  screeningAssessmentQuery,
+} from '__generated__/screeningAssessmentQuery.graphql';
 
 const mockQueryPayload = {
   Query() {
@@ -39,9 +39,9 @@ const mockQueryPayload = {
   },
 };
 
-const pageTestingHelper = new PageTestingHelper<assessmentsQuery>({
-  pageComponent: Assessments,
-  compiledQuery: compiledassessmentsQuery,
+const pageTestingHelper = new PageTestingHelper<screeningAssessmentQuery>({
+  pageComponent: ScreeningAssessment,
+  compiledQuery: compiledScreeningAssessmentsQuery,
   defaultQueryResolver: mockQueryPayload,
   defaultQueryVariables: {
     rowId: 1,

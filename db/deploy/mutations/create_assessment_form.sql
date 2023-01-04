@@ -6,7 +6,17 @@ create or replace function ccbc_public.create_assessment_form(schema_slug varcha
 declare
 _form_schema_id  int;
 new_form_data_id int;
+old_form_data_id int;
 begin
+
+  select fd.id into old_form_data_id from ccbc_public.form_data as fd
+  join ccbc_public.application_form_data af on af.form_data_id = fd.id
+  join ccbc_public.form f on f.id = fd.form_schema_id
+  where application_id = _application_id
+  and f.slug = schema_slug
+  and f.form_type = 'assessment'
+  order by fd.id desc limit 1;
+
 -- insert row into form_data, with slug as specified from input
 
   select id into _form_schema_id from ccbc_public.form where slug = schema_slug;
@@ -25,6 +35,10 @@ begin
   insert into ccbc_public.application_form_data (application_id, form_data_id)
     values (_application_id, new_form_data_id);
 
+
+  if exists (select * from ccbc_public.form_data where id = old_form_data_id)
+    then update ccbc_public.form_data set archived_at = now() where id = old_form_data_id;
+  end if;
 
   return (select row(ccbc_public.form_data.*) from ccbc_public.form_data where id = new_form_data_id);
 end;

@@ -29,6 +29,7 @@ export const theme = {
     stepperGrey: 'rgba(196, 196, 196, 0.16)',
     stepperHover: 'rgba(196, 196, 196, 0.06)',
     stepperBlue: 'rgb(229, 239, 249)',
+    disabledGrey: '#939393',
   },
   spacing: {
     small: '8px',
