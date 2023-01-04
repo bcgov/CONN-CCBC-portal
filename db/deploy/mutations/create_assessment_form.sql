@@ -13,8 +13,8 @@ begin
   join ccbc_public.application_form_data af on af.form_data_id = fd.id
   join ccbc_public.form f on f.id = fd.form_schema_id
   where application_id = _application_id
-  and slug = schema_slug
-  and form_type = 'assessment'
+  and f.slug = schema_slug
+  and f.form_type = 'assessment'
   order by fd.id desc limit 1;
 
 -- insert row into form_data, with slug as specified from input
