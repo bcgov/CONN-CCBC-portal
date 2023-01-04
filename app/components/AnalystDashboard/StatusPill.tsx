@@ -7,6 +7,7 @@ interface Props {
 
 interface StatusPillProps {
   statusStyles: {
+    border?: string;
     primary: string;
     backgroundColor: string;
     pillWidth?: string;
@@ -17,7 +18,7 @@ interface StatusPillProps {
 export const StyledStatusPill = styled.div<StatusPillProps>`
   color: ${(props) => props.statusStyles?.primary};
   background-color: ${(props) => props.statusStyles?.backgroundColor};
-  border: none;
+  border: ${(props) => props.statusStyles?.border || 'none'};
   border-radius: 16px;
   padding: 4px 12px;
   white-space: nowrap;

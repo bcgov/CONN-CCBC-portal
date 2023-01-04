@@ -18,6 +18,10 @@ const StyledCell = styled.td`
   padding: 16px 12px;
 `;
 
+const StyledDisabledCell = styled(StyledCell)`
+  color: ${(props) => props.theme.color.disabledGrey};
+`;
+
 interface Props {
   assessment: any;
   name: string;
@@ -40,11 +44,13 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
   const decision = jsonData?.decision;
   const isComplete = progress === 'Assessment complete' && decision;
 
-  const dateString = DateTime.fromISO(date).toLocaleString({
-    weekday: 'short',
-    month: 'short',
-    day: '2-digit',
-  });
+  const dateString =
+    date &&
+    DateTime.fromISO(date).toLocaleString({
+      weekday: 'short',
+      month: 'short',
+      day: '2-digit',
+    });
 
   const handleClick = () => {
     router.push(
@@ -60,7 +66,11 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
           status={isComplete ? 'Complete' : progress || 'Not started'}
         />
       </StyledCell>
-      <StyledCell>{jsonData?.assignedTo || 'Not assigned'}</StyledCell>
+      {jsonData?.assignedTo ? (
+        <StyledCell>{jsonData?.assignedTo} </StyledCell>
+      ) : (
+        <StyledDisabledCell>Not assigned</StyledDisabledCell>
+      )}
       <StyledCell>{dateString}</StyledCell>
       <StyledCell>
         {decision && <AssessmentsPill status={jsonData?.decision} />}

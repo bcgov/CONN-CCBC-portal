@@ -16,6 +16,10 @@ const StyledTh = styled('th')`
   font-weight: bold;
 `;
 
+const StyledTBody = styled.tbody`
+  line-height: 130%;
+`;
+
 interface Props {
   query: any;
 }
@@ -54,13 +58,13 @@ const AssessmentsTable: React.FC<Props> = ({ query }) => {
           <StyledTh>Decision</StyledTh>
         </tr>
       </StyledTableHead>
-      <tbody>
+      <StyledTBody>
         {/* Not mapping assessment rows so we can easily name row and keep desired order */}
         <AssessementsRow
           name="Screening"
           assessment={findAssessment(assessments, 'screeningAssessmentSchema')}
         />
-      </tbody>
+      </StyledTBody>
     </StyledTable>
   );
 };
