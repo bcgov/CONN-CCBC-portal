@@ -28,7 +28,7 @@ interface Props {
 }
 
 const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
-  const { jsonData } = useFragment(
+  const queryFragment = useFragment(
     graphql`
       fragment AssessmentsRow_application on FormData {
         jsonData
@@ -37,6 +37,7 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
     assessment
   );
 
+  const jsonData = queryFragment?.jsonData;
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
   const date = jsonData?.targetDate;

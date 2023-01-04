@@ -17,7 +17,7 @@ const StyledTh = styled('th')`
 `;
 
 const StyledTBody = styled.tbody`
-  line-height: 130%;
+  line-height: 120%;
 `;
 
 interface Props {
