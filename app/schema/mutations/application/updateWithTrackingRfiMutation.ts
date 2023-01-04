@@ -1,9 +1,9 @@
 import { graphql } from 'react-relay';
-import { updateRfiMutation } from '__generated__/updateRfiMutation.graphql';
+import { updateWithTrackingRfiMutation } from '__generated__/updateWithTrackingRfiMutation.graphql';
 import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`
-  mutation updateRfiMutation($input: UpdateRfiInput!) {
+  mutation updateWithTrackingRfiMutation($input: UpdateRfiInput!) {
     updateRfi(input: $input) {
       rfiData {
         rfiNumber
@@ -14,10 +14,10 @@ const mutation = graphql`
   }
 `;
 
-const useUpdateRfiMutation = () =>
-  useMutationWithErrorMessage<updateRfiMutation>(
+const useUpdateWithTrackingRfiMutation = () =>
+  useMutationWithErrorMessage<updateWithTrackingRfiMutation>(
     mutation,
     () => 'An error occurred while attempting to create the application.'
   );
 
-export { mutation, useUpdateRfiMutation };
+export { mutation, useUpdateWithTrackingRfiMutation };

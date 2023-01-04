@@ -9,7 +9,7 @@ import { RfiTheme } from 'components/Analyst/RFI';
 import rfiSchema from 'formSchema/analyst/rfiSchema';
 import { rfiApplicantUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { Button } from '@button-inc/bcgov-theme';
-import { useUpdateRfiMutation } from 'schema/mutations/application/updateRfi';
+import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import { ISubmitEvent } from '@rjsf/core';
 import { useRouter } from 'next/router';
 import FormDiv from 'components/FormDiv';
@@ -44,7 +44,7 @@ const ApplicantRfiPage = ({
 }: RelayProps<Record<string, unknown>, ApplicantRfiIdQuery>) => {
   const query = usePreloadedQuery(getApplicantRfiIdQuery, preloadedQuery);
   const { session, rfiDataByRowId, applicationByRowId } = query;
-  const [updateRfi] = useUpdateRfiMutation();
+  const [updateRfi] = useUpdateWithTrackingRfiMutation();
   const router = useRouter();
 
   const handleSubmit = (e: ISubmitEvent<any>) => {
@@ -81,6 +81,7 @@ const ApplicantRfiPage = ({
             uiSchema={rfiApplicantUiSchema}
             omitExtraData={false}
             formData={rfiDataByRowId.jsonData}
+            formContext={{ rfiDueByDate: rfiDataByRowId.jsonData.rfiDueBy }}
             onSubmit={handleSubmit}
             noValidate
           >

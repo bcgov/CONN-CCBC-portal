@@ -9,7 +9,7 @@ import rfiUiSchema from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { useCreateRfiMutation } from 'schema/mutations/application/createRfi';
 import { graphql, useFragment } from 'react-relay';
 import { RfiForm_RfiData$key } from '__generated__/RfiForm_RfiData.graphql';
-import { useUpdateRfiMutation } from 'schema/mutations/application/updateRfi';
+import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import RfiTheme from './RfiTheme';
 
 const StyledCancel = styled(Button)`
@@ -41,7 +41,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
   );
   const rfiUrl = `/analyst/application/${applicationId}/rfi`;
   const [createRfi] = useCreateRfiMutation();
-  const [updateRfi] = useUpdateRfiMutation();
+  const [updateRfi] = useUpdateWithTrackingRfiMutation();
 
   const handleSubmit = (e: ISubmitEvent<any>) => {
     if (isNewRfiForm) {
