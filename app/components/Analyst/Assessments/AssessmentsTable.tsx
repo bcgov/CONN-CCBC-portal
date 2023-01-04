@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
-import AssessementsRow from './AssessmentsRow';
+import AssessmentsRow from './AssessmentsRow';
 
 const StyledTable = styled('table')`
   width: 100%;
@@ -60,7 +60,7 @@ const AssessmentsTable: React.FC<Props> = ({ query }) => {
       </StyledTableHead>
       <StyledTBody>
         {/* Not mapping assessment rows so we can easily name row and keep desired order */}
-        <AssessementsRow
+        <AssessmentsRow
           name="Screening"
           assessment={findAssessment(assessments, 'screeningAssessmentSchema')}
         />

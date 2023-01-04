@@ -11,8 +11,6 @@ import { assessmentsQuery } from '__generated__/assessmentsQuery.graphql';
 const getAssessmentsQuery = graphql`
   query assessmentsQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
-      id
-      rowId
       ...AssessmentsTable_query
     }
     session {
@@ -33,7 +31,7 @@ const Assessments = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
-        <h1>Assessements</h1>
+        <h2>Assessments</h2>
         <AssessmentsTable query={applicationByRowId} />
       </AnalystLayout>
     </Layout>
