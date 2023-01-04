@@ -12,9 +12,7 @@ const StyledTableHead = styled('thead')`
 
 const StyledTh = styled('th')`
   padding: 12px;
-
   border-top: 1px solid hsla(0, 0%, 0%, 0.12);
-
   font-weight: bold;
 `;
 
@@ -22,18 +20,29 @@ interface Props {
   query: any;
 }
 
+const findAssessment = (list: Array<any>, slug: string) => {
+  return list.find((assessment) => assessment.formByFormSchemaId.slug === slug);
+};
+
 const AssessmentsTable: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
       fragment AssessmentsTable_query on Application {
-        assessmentForm(_slug: "screeningAssessmentSchema") {
-          jsonData
+        allAssessments {
+          nodes {
+            ...AssessmentsRow_application
+            formByFormSchemaId {
+              slug
+            }
+          }
         }
       }
     `,
     query
   );
-  const { assessmentForm } = queryFragment;
+  const { allAssessments } = queryFragment;
+  const assessments = allAssessments.nodes;
+
   return (
     <StyledTable>
       <StyledTableHead>
@@ -46,9 +55,10 @@ const AssessmentsTable: React.FC<Props> = ({ query }) => {
         </tr>
       </StyledTableHead>
       <tbody>
+        {/* Not mapping assessment rows so we can easily name row and keep desired order */}
         <AssessementsRow
           name="Screening"
-          assessment={assessmentForm.jsonData}
+          assessment={findAssessment(assessments, 'screeningAssessmentSchema')}
         />
       </tbody>
     </StyledTable>

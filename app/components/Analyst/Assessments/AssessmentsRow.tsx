@@ -1,13 +1,15 @@
 import { useRouter } from 'next/router';
+import { graphql, useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
+import AssessmentsPill from './AssessmentsPill';
 
 const StyledRow = styled('tr')`
   max-width: 1170px;
   padding: 16px 8px;
 
   &:hover {
-    background: #f2f2f2;
+    background: ${(props) => props.theme.color.backgroundGrey};
     cursor: pointer;
   }
 `;
@@ -22,9 +24,21 @@ interface Props {
 }
 
 const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
-  const date = assessment?.targetDate;
+  const { jsonData } = useFragment(
+    graphql`
+      fragment AssessmentsRow_application on FormData {
+        jsonData
+      }
+    `,
+    assessment
+  );
+
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
+  const date = jsonData?.targetDate;
+  const progress = jsonData?.nextStep;
+  const decision = jsonData?.decision;
+  const isComplete = progress === 'Assessment complete' && decision;
 
   const dateString = DateTime.fromISO(date).toLocaleString({
     weekday: 'short',
@@ -41,10 +55,16 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
   return (
     <StyledRow onClick={handleClick}>
       <StyledCell>{name}</StyledCell>
-      <StyledCell>{assessment?.nextStep || 'Not started'}</StyledCell>
-      <StyledCell>{assessment?.assignedTo || 'Not assigned'}</StyledCell>
+      <StyledCell>
+        <AssessmentsPill
+          status={isComplete ? 'Complete' : progress || 'Not started'}
+        />
+      </StyledCell>
+      <StyledCell>{jsonData?.assignedTo || 'Not assigned'}</StyledCell>
       <StyledCell>{dateString}</StyledCell>
-      <StyledCell>{assessment?.decision}</StyledCell>
+      <StyledCell>
+        {decision && <AssessmentsPill status={jsonData?.decision} />}
+      </StyledCell>
     </StyledRow>
   );
 };

@@ -9,12 +9,12 @@ interface StatusPillProps {
   statusStyles: {
     primary: string;
     backgroundColor: string;
-    pillWidth: string;
+    pillWidth?: string;
     description: string;
   };
 }
 
-const StyledStatusPill = styled.div<StatusPillProps>`
+export const StyledStatusPill = styled.div<StatusPillProps>`
   color: ${(props) => props.statusStyles?.primary};
   background-color: ${(props) => props.statusStyles?.backgroundColor};
   border: none;
