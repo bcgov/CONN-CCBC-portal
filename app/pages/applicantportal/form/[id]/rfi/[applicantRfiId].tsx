@@ -71,7 +71,15 @@ const ApplicantRfiPage = ({
     <Layout session={session} title="Connecting Communities BC">
       <div>
         <Flex>
-          <h2>RFI</h2>
+          <div>
+            <h2>Upload new files</h2>
+            {rfiDataByRowId.jsonData.rfiDueBy && (
+              <p>
+                Please upload the following files by{' '}
+                {rfiDataByRowId.jsonData.rfiDueBy}
+              </p>
+            )}
+          </div>
           <RfiFormStatus application={applicationByRowId} isSaving={false} />
         </Flex>
         <FormDiv>
@@ -81,7 +89,6 @@ const ApplicantRfiPage = ({
             uiSchema={rfiApplicantUiSchema}
             omitExtraData={false}
             formData={rfiDataByRowId.jsonData}
-            formContext={{ rfiDueByDate: rfiDataByRowId.jsonData.rfiDueBy }}
             onSubmit={handleSubmit}
             noValidate
           >
