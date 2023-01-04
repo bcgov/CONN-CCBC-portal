@@ -4294,10 +4294,31 @@ type Application implements Node {
     condition: ApplicationRfiDataCondition
   ): ApplicationRfiDataConnection!
 
+  """Reads and enables pagination through a set of `FormData`."""
+  allAssessments(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+  ): FormDataConnection!
+
   """Computed column to return analyst lead of an application"""
   analystLead: String
 
-  """Computed column that takes the slug to return an assessment form"""
+  """Computed column that returns list of assessment form data"""
   assessmentForm(_slug: String!): FormData
 
   """Computed column to display form_data"""

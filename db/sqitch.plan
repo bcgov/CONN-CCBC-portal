@@ -137,3 +137,5 @@ computed_columns/form_data_is_editable [computed_columns/form_data_is_editable@1
 functions/open_intake [functions/open_intake@1.29.0] 2022-12-21T17:32:21Z Marcel Mueller <marcel@button.is> # add permissions for analysts
 tables/intake_001_add_permissions 2022-12-21T17:39:34Z Marcel Mueller <marcel@button.is> # add permissions for analysts
 @1.30.0 2022-12-23T22:28:13Z Marcel Mueller <marcel@button.is> # release v1.30.0
+computed_columns/application_all_assessments 2023-01-03T21:01:13Z Marcel Mueller <marcel@button.is> # add computed column to return all assessments form data
+mutations/create_assessment_form [mutations/create_assessment_form@1.30.0] 2023-01-03T23:26:52Z Marcel Mueller <marcel@button.is> # archive old assessment form
