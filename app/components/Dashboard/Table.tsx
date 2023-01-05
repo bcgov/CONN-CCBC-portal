@@ -45,6 +45,8 @@ const StyledTableCell = styled('td')`
 
 const StyledBtns = styled('div')`
   display: flex;
+  justify-content: flex-start;
+  gap: 24px;
   align-items: center;
   & a {
     text-decoration: none;
@@ -146,6 +148,13 @@ const Table = ({ applications }: Props) => {
                       >
                         <Withdraw />
                       </button>
+                    )}
+                    {application.hasRfiOpen && (
+                      <Link
+                        href={`/applicantportal/form/${application.rowId}/rfi/${application.rfi.rowId}/`}
+                      >
+                        Upload Files
+                      </Link>
                     )}
                   </StyledBtns>
                 </StyledTableCell>

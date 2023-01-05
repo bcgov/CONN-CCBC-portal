@@ -1,26 +1,22 @@
 import { graphql, useFragment } from 'react-relay';
-import { ApplicationFormStatus_application$key } from '__generated__/ApplicationFormStatus_application.graphql';
+import { RfiFormStatus_application$key } from '__generated__/RfiFormStatus_application.graphql';
 import GenericFormStatus from './GenericFormStatus';
 
 interface Props {
-  application: ApplicationFormStatus_application$key;
+  application: RfiFormStatus_application$key;
   isSaving: boolean;
   error?: JSX.Element;
 }
 
-const ApplicationFormStatus: React.FC<Props> = ({
-  application,
-  isSaving,
-  error,
-}) => {
+const RfiFormStatus: React.FC<Props> = ({ application, isSaving, error }) => {
   const {
-    formData: { updatedAt },
+    rfi: { updatedAt },
     projectName,
     status,
   } = useFragment(
     graphql`
-      fragment ApplicationFormStatus_application on Application {
-        formData {
+      fragment RfiFormStatus_application on Application {
+        rfi {
           updatedAt
         }
         projectName
@@ -41,4 +37,4 @@ const ApplicationFormStatus: React.FC<Props> = ({
   );
 };
 
-export default ApplicationFormStatus;
+export default RfiFormStatus;

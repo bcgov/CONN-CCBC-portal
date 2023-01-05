@@ -33,6 +33,10 @@ const getDashboardQuery = graphql`
           closeTimestamp
           openTimestamp
         }
+        hasRfiOpen
+        rfi {
+          rowId
+        }
       }
     }
     session {

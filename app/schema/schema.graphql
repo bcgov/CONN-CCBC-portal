@@ -4324,6 +4324,9 @@ type Application implements Node {
   """Computed column to display form_data"""
   formData: FormData
 
+  """Computed column to return whether the rfi is open"""
+  hasRfiOpen: Boolean
+
   """Computed column to display organization name from json data"""
   organizationName: String
 
@@ -4331,7 +4334,7 @@ type Application implements Node {
   projectName: String
 
   """Computed column to return last RFI for an application"""
-  rfi: String
+  rfi: RfiData
 
   """Computed column to return status of an application"""
   status: String

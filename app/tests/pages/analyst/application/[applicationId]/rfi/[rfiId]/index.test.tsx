@@ -287,16 +287,19 @@ describe('The index page', () => {
 
     await user.click(button);
 
-    editPageTestingHelper.expectMutationToBeCalled('updateRfiMutation', {
-      input: {
-        rfiRowId: 1,
-        jsonData: {
-          rfiAdditionalFiles: {},
-          detailedBudgetRfi: true,
-          eligibilityAndImpactsCalculatorRfi: true,
+    editPageTestingHelper.expectMutationToBeCalled(
+      'updateWithTrackingRfiMutation',
+      {
+        input: {
+          rfiRowId: 1,
+          jsonData: {
+            rfiAdditionalFiles: {},
+            detailedBudgetRfi: true,
+            eligibilityAndImpactsCalculatorRfi: true,
+          },
         },
-      },
-    });
+      }
+    );
   });
 
   it('has rfi number on edit page', async () => {
