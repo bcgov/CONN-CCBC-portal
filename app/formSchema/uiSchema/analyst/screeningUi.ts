@@ -8,6 +8,7 @@ const screeningUiSchema = {
     'decision',
     'contestingMap',
     'assessmentTemplate',
+    'completedAssessment',
     'otherFiles',
   ],
   assignedTo: {
@@ -47,6 +48,13 @@ const screeningUiSchema = {
     'ui:options': {
       label: false,
       fileTypes: ANALYST_EXCEL_FILE_EXTENSIONS,
+      allowMultipleFiles: true,
+    },
+  },
+  completedAssessment: {
+    'ui:widget': 'FileWidget',
+    'ui:options': {
+      label: false,
       allowMultipleFiles: true,
     },
   },

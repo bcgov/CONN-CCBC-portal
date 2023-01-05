@@ -1,4 +1,5 @@
 import { JSONSchema7 } from 'json-schema';
+import sharedAssessmentFields from './sharedAssessmentFields';
 
 const screening: JSONSchema7 = {
   title: ' ',
@@ -14,19 +15,7 @@ const screening: JSONSchema7 = {
     'otherFiles',
   ],
   properties: {
-    assignedTo: {
-      title: 'Assigned to',
-      type: 'string',
-    },
-    targetDate: {
-      title: 'Target date',
-      type: 'string',
-    },
-    nextStep: {
-      title: 'Progress',
-      type: 'string',
-      enum: ['Needs 2nd review', 'Needs RFI', 'Assessment complete'],
-    },
+    ...sharedAssessmentFields.properties,
     decision: {
       title: 'Decision',
       type: 'string',
@@ -43,10 +32,6 @@ const screening: JSONSchema7 = {
     },
     assessmentTemplate: {
       title: 'Assessment template',
-      type: 'string',
-    },
-    otherFiles: {
-      title: 'Other files',
       type: 'string',
     },
   },
