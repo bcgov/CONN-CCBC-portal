@@ -1,6 +1,11 @@
 import { pgPool } from './setup-pg';
 import schema from '../../formSchema/schema';
-import screening from '../../formSchema/analyst/screening';
+import {
+  financialRisk,
+  projectManagement,
+  screening,
+  technical,
+} from '../../formSchema/analyst';
 
 const importJsonSchemasToDb = async () => {
   const client = await pgPool.connect();
@@ -19,9 +24,30 @@ const importJsonSchemasToDb = async () => {
     ]);
 
     await client.query(insertQuery, [
+      'financialRiskAssessmentSchema',
+      financialRisk,
+      'Schema of the financial risk assessment for analysts',
+      'assessment',
+    ]);
+
+    await client.query(insertQuery, [
+      'projectManagementAssessmentSchema',
+      projectManagement,
+      'Schema of the project management assessment for analysts',
+      'assessment',
+    ]);
+
+    await client.query(insertQuery, [
       'screeningAssessmentSchema',
       screening,
-      'Schema of the assessment screening for analysts',
+      'Schema of the screening assessment for analysts',
+      'assessment',
+    ]);
+
+    await client.query(insertQuery, [
+      'technicalAssessmentSchema',
+      technical,
+      'Schema of the technical assessment for analysts',
       'assessment',
     ]);
 
