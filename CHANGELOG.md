@@ -1,3 +1,24 @@
+# [1.31.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.30.0...v1.31.0) (2023-01-05)
+
+### Bug Fixes
+
+- all_assessments query ([b0f94bd](https://github.com/bcgov/CONN-CCBC-portal/commit/b0f94bd0e6658c8a8114ce8fb3f4cbe7a7b8cb24))
+- assessment delete attachment error ([ee704f0](https://github.com/bcgov/CONN-CCBC-portal/commit/ee704f0ca88e0e798b15e86e4cb266c90026f784))
+- review schema type of organization display value ([c96d813](https://github.com/bcgov/CONN-CCBC-portal/commit/c96d8138fea61d0d24d59eb687be23810032d9ac))
+
+### Features
+
+- add all_assessments computed column and archive old assessment forms ([a0171a3](https://github.com/bcgov/CONN-CCBC-portal/commit/a0171a39895929d376f581b6e12ed09beff31aa6))
+- add assessment pill styles ([d545dfb](https://github.com/bcgov/CONN-CCBC-portal/commit/d545dfb44ecdc1fda1eb6fa88c1693c3a977491a))
+- add assessments table ([0301f91](https://github.com/bcgov/CONN-CCBC-portal/commit/0301f915aaef1e68cbf4011900c84842fcc03784))
+- add assessments tabs and placeholder pages ([b60f3ee](https://github.com/bcgov/CONN-CCBC-portal/commit/b60f3eef3f810a2048703455e453a070f836e014))
+- add spacing between upload files and view ([6d16774](https://github.com/bcgov/CONN-CCBC-portal/commit/6d16774e5e94d6e319749705125dce8618eb3657))
+- add upload text to rfi page ([711a50f](https://github.com/bcgov/CONN-CCBC-portal/commit/711a50fd3224016790a97bf739edeca5e93fe25e))
+- ccbc_auth_user can access rfi data ([ac22a3b](https://github.com/bcgov/CONN-CCBC-portal/commit/ac22a3ba321ea8151f04ec9e7cee71cb0790aad0))
+- db changes for exposing rfi to applicant ([0a274d9](https://github.com/bcgov/CONN-CCBC-portal/commit/0a274d94c6c7586c7a48d79eec8d83fe5c7aaf3d))
+- frontend for rfi reply ([82ce0f2](https://github.com/bcgov/CONN-CCBC-portal/commit/82ce0f24a6867b06a81fcdaf19433db5077c3a47))
+- improve assessment table conditional styles ([7c6da97](https://github.com/bcgov/CONN-CCBC-portal/commit/7c6da97ed5a6635685cb30c602012b8845a102f6))
+
 # [1.30.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.29.0...v1.30.0) (2022-12-23)
 
 ### Bug Fixes
