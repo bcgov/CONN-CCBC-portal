@@ -10,7 +10,6 @@ import {
   AssessmentsForm,
 } from 'components/Analyst/Assessments';
 import screening from 'formSchema/analyst/screening';
-import screeningUiSchema from 'formSchema/uiSchema/analyst/screeningUi';
 
 // replace with slug later with tabs
 const getScreeningAssessmentQuery = graphql`
@@ -35,21 +34,15 @@ const ScreeningAssessment = ({
 }: RelayProps<Record<string, unknown>, screeningAssessmentQuery>) => {
   const query = usePreloadedQuery(getScreeningAssessmentQuery, preloadedQuery);
 
-  const {
-    applicationByRowId: {
-      assessmentForm: { jsonData },
-    },
-    session,
-  } = query;
+  const { applicationByRowId, session } = query;
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <AssessmentsTabs />
         <AssessmentsForm
-          formData={jsonData}
+          formData={applicationByRowId.assessmentForm?.jsonData}
           schema={screening}
-          uiSchema={screeningUiSchema}
           slug="screeningAssessmentSchema"
           query={query}
         />
