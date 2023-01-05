@@ -27,7 +27,7 @@ const StyledAnchor = styled.a<AnchorProps>`
   white-space: nowrap;
 
   &:hover {
-    opacity: 0.6;
+    opacity: ${(props) => (props.selected ? `1` : `0.6`)};
   }
 `;
 
@@ -41,11 +41,6 @@ const AssessmentsTabs = () => {
       <Link passHref href={`${baseUrl}/screening`}>
         <StyledAnchor selected={`${baseUrl}/screening` === router.asPath}>
           Screening
-        </StyledAnchor>
-      </Link>
-      <Link passHref href={`${baseUrl}/gis`}>
-        <StyledAnchor selected={`${baseUrl}/gis` === router.asPath}>
-          GIS
         </StyledAnchor>
       </Link>
       <Link passHref href={`${baseUrl}/technical`}>
