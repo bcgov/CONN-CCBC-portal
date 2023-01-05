@@ -3,25 +3,12 @@
  */
 
 import { Upload } from '@aws-sdk/lib-storage';
-import fetch from 'node-fetch';
 import resolveFileUpload, {
   saveLocalFile,
   saveRemoteFile,
 } from 'backend/lib/graphql/resolveFileUpload';
 import { Readable } from 'stream';
 
-jest.mock('node-fetch',()=>({
-  __esModule: true,
-  default: () =>
-      Promise.resolve({
-        headers: {
-          get: jest.fn(() => {return 'fake_url';})
-        },
-        json: () => Promise.resolve({}),
-      }
-    )
-  })
-  );
 jest.mock('@aws-sdk/lib-storage');
 
 const mockSignedUrl = {
