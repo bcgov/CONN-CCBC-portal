@@ -41,7 +41,7 @@ const TechnicalAssessment = ({
         <AssessmentsForm
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={technical}
-          slug="financialRiskAssessmentSchema"
+          slug="technicalAssessmentSchema"
           query={query}
         />
       </AnalystLayout>

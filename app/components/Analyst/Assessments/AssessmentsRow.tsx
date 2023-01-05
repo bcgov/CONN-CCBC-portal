@@ -56,7 +56,10 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
 
   const handleClick = () => {
     router.push(
-      `/analyst/application/${applicationId}/assessments/${name.toLowerCase()}`
+      `/analyst/application/${applicationId}/assessments/${name
+        .split(' ')
+        .join('-')
+        .toLowerCase()}`
     );
   };
 
