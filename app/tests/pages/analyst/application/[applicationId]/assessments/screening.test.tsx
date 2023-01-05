@@ -105,18 +105,15 @@ describe('The index page', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-    pageTestingHelper.expectMutationToBeCalled(
-      'createScreeningAssessmentMutation',
-      {
-        input: {
-          _applicationId: 1,
-          _jsonData: {
-            decision: 'Eligible',
-          },
-          _assessmentType: 'screening',
+    pageTestingHelper.expectMutationToBeCalled('createAssessmentMutation', {
+      input: {
+        _applicationId: 1,
+        _jsonData: {
+          decision: 'Eligible',
         },
-      }
-    );
+        _assessmentType: 'screening',
+      },
+    });
   });
 
   afterEach(() => {

@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import PmAssessment from 'pages/analyst/application/[applicationId]/assessments/project-management';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
@@ -84,6 +85,25 @@ describe('The index page', () => {
     expect(technical).toHaveStyle('font-weight: 400;');
     expect(screening).toHaveStyle('font-weight: 400;');
     expect(financialRisk).toHaveStyle('font-weight: 400;');
+  });
+
+  it('Form saves when submit button is pressed', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    await userEvent.click(screen.getByLabelText('Needs 2nd review'));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+    pageTestingHelper.expectMutationToBeCalled('createAssessmentMutation', {
+      input: {
+        _applicationId: 1,
+        _jsonData: {
+          nextStep: 'Needs 2nd review',
+        },
+        schemaSlug: 'projectManagementAssessmentSchema',
+      },
+    });
   });
 
   afterEach(() => {
