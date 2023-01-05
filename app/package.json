@@ -23,6 +23,7 @@
     "@aws-sdk/client-s3": "^3.226.0",
     "@aws-sdk/credential-providers": "^3.226.0",
     "@aws-sdk/lib-storage": "^3.226.0",
+    "@aws-sdk/middleware-apply-body-checksum": "^3.226.0",
     "@bcgov-cas/sso-express": "^3.2.0",
     "@bcgov-cas/sso-react": "^2.0.0",
     "@button-inc/bcgov-theme": "^1.0.1",

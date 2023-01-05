@@ -1,12 +1,10 @@
 import crypto from 'crypto';
-import fetch from "node-fetch";
 import { Upload } from '@aws-sdk/lib-storage';
 import { CompleteMultipartUploadCommandOutput } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import { Readable } from 'node:stream';
 import { s3ClientV3 } from '../s3client';
-import config from '../../../config';
-import generateUploadUrl from './s3upload';
+import config from '../../../config'; 
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const AWS_S3_REGION = config.get('AWS_S3_REGION');
@@ -38,7 +36,7 @@ if (!isDeployedToOpenShift) {
   );
 }
 
-export const saveRemoteFile1 = async (stream) => {
+export const saveRemoteFile = async (stream) => {
   try {
     console.time('saveRemoteFile');
 
@@ -84,25 +82,6 @@ export const saveRemoteFile1 = async (stream) => {
   }
 };
 
-export const saveRemoteFile = async(stream) => {
-  if (!stream || !(stream instanceof Readable)) {
-    throw new Error('Choose a file to upload first.');
-  }
-
-  const presignedUrl = await generateUploadUrl();
-
-  const res = await fetch(presignedUrl.url, {
-    method: "POST",
-    body: stream,
-  });
-
-  const location = res.headers.get("Location"); // get the final url of our uploaded file
-  const key = location.substring(location.lastIndexOf('/') + 1);
-  if (!key ||key === location) {
-    throw new Error('Data does not contain a key');
-  }
-  return key;
-}
 // NOSONAR
 export const saveLocalFile = async (upload) => {
   const uuid = crypto.randomUUID();
