@@ -10,7 +10,7 @@ new_assessment_data_id int;
 old_assessment_data_id int;
 begin
 
-  select ad.id into old_assessment_data_id from ccbc_public.assessment_data as ad where ad.assessment_data_type = assessment_type and ad.application_id = _application_id
+  select ad.id into old_assessment_data_id from ccbc_public.assessment_data as ad where ad.assessment_data_type = _assessment_type and ad.application_id = _application_id
   order by ad.id desc limit 1;
 
 
