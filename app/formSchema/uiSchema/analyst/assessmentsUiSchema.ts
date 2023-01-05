@@ -1,6 +1,6 @@
 import { ANALYST_EXCEL_FILE_EXTENSIONS } from '../constants';
 
-const screeningUiSchema = {
+const assessmentsUiSchema = {
   'ui:order': [
     'assignedTo',
     'targetDate',
@@ -66,4 +66,4 @@ const screeningUiSchema = {
   },
 };
 
-export default screeningUiSchema;
+export default assessmentsUiSchema;

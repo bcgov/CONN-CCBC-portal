@@ -6,12 +6,12 @@ import { ISubmitEvent } from '@rjsf/core';
 import LoadingSpinner from 'components/LoadingSpinner';
 import type { JSONSchema7 } from 'json-schema';
 import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createAssessment';
+import assessmentsUiSchema from 'formSchema/uiSchema/analyst/assessmentsUiSchema';
 
 interface Props {
   query: any;
   schema: JSONSchema7;
   slug: string;
-  uiSchema: any;
   formData: any;
 }
 
@@ -20,7 +20,6 @@ const AssessmentsForm: React.FC<Props> = ({
   query,
   schema,
   slug,
-  uiSchema,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -65,7 +64,7 @@ const AssessmentsForm: React.FC<Props> = ({
   return (
     <FormBase
       schema={schema}
-      uiSchema={uiSchema}
+      uiSchema={assessmentsUiSchema}
       noValidate
       formData={newFormData}
       onChange={(e) => {
