@@ -44,7 +44,7 @@ const awsConfig = {
   httpOptions: {
     timeout: 45000,
     connectTimeout: 45000,
-    agent: agent
+    agent
   },
   maxRetries: 10,
   retryDelayOptions: {
