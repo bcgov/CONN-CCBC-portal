@@ -39,6 +39,9 @@ const ScreeningAssessment = ({
 
   const { applicationByRowId, session } = query;
   const [createAssessment, isCreating] = useCreateScreeningAssessmentMutation();
+  const [formData, setFormData] = useState(
+    applicationByRowId.assessmentForm?.jsonData
+  );
   const [isFormSaved, setIsFormSaved] = useState(false);
 
   const handleSubmit = async (e: ISubmitEvent<any>) => {
@@ -74,9 +77,10 @@ const ScreeningAssessment = ({
           schema={screening}
           uiSchema={screeningUiSchema}
           noValidate
-          formData={applicationByRowId.assessmentForm?.jsonData}
-          onChange={() => {
+          formData={formData}
+          onChange={(e) => {
             setIsFormSaved(false);
+            setFormData({ ...e.formData });
           }}
           omitExtraData={false}
           formContext={{ query }}
