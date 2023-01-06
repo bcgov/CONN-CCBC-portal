@@ -55,3 +55,5 @@ I.e. `grant execute on function ccbc_public.application_status to ccbc_readonly;
 ## Database Architecture
 
 View on this miro link: https://miro.com/app/board/uXjVOnpFeNI=/
+
+![Alternatively check out this image](../docs/images/db-architecture.jpg)
