@@ -27,21 +27,6 @@ select ccbc_public.create_application();
 insert into ccbc_public.application_status
  (application_id, status) values (1,'received'), (2, 'received');
 
--- Set role to job_executor and put in test slug for assessment forms
-set role ccbc_job_executor;
--- insert here to use for tests
-insert into ccbc_public.form (slug, form_type, json_schema) overriding system value
- values ('gis', 'assessment', '{}'::jsonb) on conflict (id) do update set
- json_schema=excluded.json_schema, slug=excluded.slug, form_type = excluded.form_type;
-
-insert into ccbc_public.form (slug, form_type, json_schema) overriding system value
- values ('screening', 'assessment', '{}'::jsonb) on conflict (id) do update set
- json_schema=excluded.json_schema, slug=excluded.slug, form_type = excluded.form_type;
-
-insert into ccbc_public.form (slug, form_type, json_schema) overriding system value
- values ('technical', 'assessment', '{}'::jsonb) on conflict (id) do update set
- json_schema=excluded.json_schema, slug=excluded.slug, form_type = excluded.form_type;
-
 -- set role to analyst and create assessment form
 set role ccbc_analyst;
 

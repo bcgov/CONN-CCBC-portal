@@ -222,6 +222,64 @@ type Query implements Node {
     condition: ApplicationStatusTypeCondition
   ): ApplicationStatusTypesConnection
 
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  allAssessmentData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection
+
+  """Reads and enables pagination through a set of `AssessmentType`."""
+  allAssessmentTypes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentType`."""
+    orderBy: [AssessmentTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentTypeCondition
+  ): AssessmentTypesConnection
+
   """Reads and enables pagination through a set of `Attachment`."""
   allAttachments(
     """Only read the first `n` values of the set."""
@@ -489,6 +547,8 @@ type Query implements Node {
   applicationRfiDataByRfiDataIdAndApplicationId(rfiDataId: Int!, applicationId: Int!): ApplicationRfiData
   applicationStatusByRowId(rowId: Int!): ApplicationStatus
   applicationStatusTypeByName(name: String!): ApplicationStatusType
+  assessmentDataByRowId(rowId: Int!): AssessmentData
+  assessmentTypeByName(name: String!): AssessmentType
   attachmentByRowId(rowId: Int!): Attachment
   ccbcUserByRowId(rowId: Int!): CcbcUser
   formByRowId(rowId: Int!): Form
@@ -564,6 +624,22 @@ type Query implements Node {
     """
     id: ID!
   ): ApplicationStatusType
+
+  """Reads a single `AssessmentData` using its globally unique `ID`."""
+  assessmentData(
+    """
+    The globally unique `ID` to be used in selecting a single `AssessmentData`.
+    """
+    id: ID!
+  ): AssessmentData
+
+  """Reads a single `AssessmentType` using its globally unique `ID`."""
+  assessmentType(
+    """
+    The globally unique `ID` to be used in selecting a single `AssessmentType`.
+    """
+    id: ID!
+  ): AssessmentType
 
   """Reads a single `Attachment` using its globally unique `ID`."""
   attachment(
@@ -1632,6 +1708,93 @@ type CcbcUser implements Node {
     """
     condition: RfiDataCondition
   ): RfiDataConnection!
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
@@ -3778,6 +3941,354 @@ type CcbcUser implements Node {
     """
     condition: CcbcUserCondition
   ): CcbcUserCcbcUsersByRfiDataArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByAssessmentDataCreatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+  ): CcbcUserApplicationsByAssessmentDataCreatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `AssessmentType`."""
+  assessmentTypesByAssessmentDataCreatedByAndAssessmentDataType(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentType`."""
+    orderBy: [AssessmentTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentTypeCondition
+  ): CcbcUserAssessmentTypesByAssessmentDataCreatedByAndAssessmentDataTypeManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByAssessmentDataCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByAssessmentDataCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByAssessmentDataUpdatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+  ): CcbcUserApplicationsByAssessmentDataUpdatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `AssessmentType`."""
+  assessmentTypesByAssessmentDataUpdatedByAndAssessmentDataType(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentType`."""
+    orderBy: [AssessmentTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentTypeCondition
+  ): CcbcUserAssessmentTypesByAssessmentDataUpdatedByAndAssessmentDataTypeManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByAssessmentDataUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByAssessmentDataUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByAssessmentDataArchivedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+  ): CcbcUserApplicationsByAssessmentDataArchivedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `AssessmentType`."""
+  assessmentTypesByAssessmentDataArchivedByAndAssessmentDataType(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentType`."""
+    orderBy: [AssessmentTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentTypeCondition
+  ): CcbcUserAssessmentTypesByAssessmentDataArchivedByAndAssessmentDataTypeManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByAssessmentDataArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): CcbcUserCcbcUsersByAssessmentDataArchivedByAndUpdatedByManyToManyConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -4294,7 +4805,36 @@ type Application implements Node {
     condition: ApplicationRfiDataCondition
   ): ApplicationRfiDataConnection!
 
-  """Reads and enables pagination through a set of `FormData`."""
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
   allAssessments(
     """Only read the first `n` values of the set."""
     first: Int
@@ -4313,13 +4853,13 @@ type Application implements Node {
 
     """Read all values in the set after (below) this cursor."""
     after: Cursor
-  ): FormDataConnection!
+  ): AssessmentDataConnection!
 
   """Computed column to return analyst lead of an application"""
   analystLead: String
 
-  """Computed column that returns list of assessment form data"""
-  assessmentForm(_slug: String!): FormData
+  """Computed column that takes the slug to return an assessment form"""
+  assessmentForm(_assessmentDataType: String!): AssessmentData
 
   """Computed column to display form_data"""
   formData: FormData
@@ -4686,6 +5226,122 @@ type Application implements Node {
     """
     condition: RfiDataCondition
   ): ApplicationRfiDataByApplicationRfiDataApplicationIdAndRfiDataIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `AssessmentType`."""
+  assessmentTypesByAssessmentDataApplicationIdAndAssessmentDataType(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentType`."""
+    orderBy: [AssessmentTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentTypeCondition
+  ): ApplicationAssessmentTypesByAssessmentDataApplicationIdAndAssessmentDataTypeManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataApplicationIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): ApplicationCcbcUsersByAssessmentDataApplicationIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataApplicationIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): ApplicationCcbcUsersByAssessmentDataApplicationIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataApplicationIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): ApplicationCcbcUsersByAssessmentDataApplicationIdAndArchivedByManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -7627,6 +8283,532 @@ type ApplicationRfiDataEdge {
   node: ApplicationRfiData
 }
 
+"""A connection to a list of `AssessmentData` values."""
+type AssessmentDataConnection {
+  """A list of `AssessmentData` objects."""
+  nodes: [AssessmentData]!
+
+  """
+  A list of edges which contains the `AssessmentData` and cursor to aid in pagination.
+  """
+  edges: [AssessmentDataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `AssessmentData` you could get from the connection."""
+  totalCount: Int!
+}
+
+type AssessmentData implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  rowId: Int!
+  applicationId: Int!
+  jsonData: JSON!
+  assessmentDataType: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `Application` that is related to this `AssessmentData`."""
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `AssessmentType` that is related to this `AssessmentData`.
+  """
+  assessmentTypeByAssessmentDataType: AssessmentType
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByArchivedBy: CcbcUser
+}
+
+"""
+Table containing the different assessment types that can be assigned to an assessment
+"""
+type AssessmentType implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Name of and primary key of the type of an assessment"""
+  name: String!
+
+  """Description of the assessment type"""
+  description: String
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByAssessmentDataType(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByAssessmentDataAssessmentDataTypeAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+  ): AssessmentTypeApplicationsByAssessmentDataAssessmentDataTypeAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataAssessmentDataTypeAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataAssessmentDataTypeAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAssessmentDataAssessmentDataTypeAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+  ): AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndArchivedByManyToManyConnection!
+}
+
+"""Methods to use when ordering `AssessmentData`."""
+enum AssessmentDataOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
+  ASSESSMENT_DATA_TYPE_ASC
+  ASSESSMENT_DATA_TYPE_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `AssessmentData` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input AssessmentDataCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
+
+  """Checks for equality with the object’s `assessmentDataType` field."""
+  assessmentDataType: String
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
+"""
+A connection to a list of `Application` values, with data from `AssessmentData`.
+"""
+type AssessmentTypeApplicationsByAssessmentDataAssessmentDataTypeAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [AssessmentTypeApplicationsByAssessmentDataAssessmentDataTypeAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `AssessmentData`.
+"""
+type AssessmentTypeApplicationsByAssessmentDataAssessmentDataTypeAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type AssessmentTypeCcbcUsersByAssessmentDataAssessmentDataTypeAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""A `AssessmentData` edge in the connection."""
+type AssessmentDataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `AssessmentData` at the end of the edge."""
+  node: AssessmentData
+}
+
 """
 A connection to a list of `ApplicationStatusType` values, with data from `ApplicationStatus`.
 """
@@ -8371,6 +9553,259 @@ type ApplicationRfiDataByApplicationRfiDataApplicationIdAndRfiDataIdManyToManyEd
 
   """The `RfiData` at the end of the edge."""
   node: RfiData
+}
+
+"""
+A connection to a list of `AssessmentType` values, with data from `AssessmentData`.
+"""
+type ApplicationAssessmentTypesByAssessmentDataApplicationIdAndAssessmentDataTypeManyToManyConnection {
+  """A list of `AssessmentType` objects."""
+  nodes: [AssessmentType]!
+
+  """
+  A list of edges which contains the `AssessmentType`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationAssessmentTypesByAssessmentDataApplicationIdAndAssessmentDataTypeManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `AssessmentType` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `AssessmentType` edge in the connection, with data from `AssessmentData`.
+"""
+type ApplicationAssessmentTypesByAssessmentDataApplicationIdAndAssessmentDataTypeManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `AssessmentType` at the end of the edge."""
+  node: AssessmentType
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByAssessmentDataType(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""Methods to use when ordering `AssessmentType`."""
+enum AssessmentTypesOrderBy {
+  NATURAL
+  NAME_ASC
+  NAME_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `AssessmentType` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input AssessmentTypeCondition {
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type ApplicationCcbcUsersByAssessmentDataApplicationIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByAssessmentDataApplicationIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type ApplicationCcbcUsersByAssessmentDataApplicationIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type ApplicationCcbcUsersByAssessmentDataApplicationIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByAssessmentDataApplicationIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type ApplicationCcbcUsersByAssessmentDataApplicationIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type ApplicationCcbcUsersByAssessmentDataApplicationIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByAssessmentDataApplicationIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type ApplicationCcbcUsersByAssessmentDataApplicationIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
 }
 
 """A `Application` edge in the connection."""
@@ -12921,6 +14356,702 @@ type CcbcUserCcbcUsersByRfiDataArchivedByAndUpdatedByManyToManyEdge {
 }
 
 """
+A connection to a list of `Application` values, with data from `AssessmentData`.
+"""
+type CcbcUserApplicationsByAssessmentDataCreatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByAssessmentDataCreatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `AssessmentData`.
+"""
+type CcbcUserApplicationsByAssessmentDataCreatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `AssessmentType` values, with data from `AssessmentData`.
+"""
+type CcbcUserAssessmentTypesByAssessmentDataCreatedByAndAssessmentDataTypeManyToManyConnection {
+  """A list of `AssessmentType` objects."""
+  nodes: [AssessmentType]!
+
+  """
+  A list of edges which contains the `AssessmentType`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserAssessmentTypesByAssessmentDataCreatedByAndAssessmentDataTypeManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `AssessmentType` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `AssessmentType` edge in the connection, with data from `AssessmentData`.
+"""
+type CcbcUserAssessmentTypesByAssessmentDataCreatedByAndAssessmentDataTypeManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `AssessmentType` at the end of the edge."""
+  node: AssessmentType
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByAssessmentDataType(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type CcbcUserCcbcUsersByAssessmentDataCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAssessmentDataCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type CcbcUserCcbcUsersByAssessmentDataCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type CcbcUserCcbcUsersByAssessmentDataCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAssessmentDataCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type CcbcUserCcbcUsersByAssessmentDataCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `AssessmentData`.
+"""
+type CcbcUserApplicationsByAssessmentDataUpdatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByAssessmentDataUpdatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `AssessmentData`.
+"""
+type CcbcUserApplicationsByAssessmentDataUpdatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `AssessmentType` values, with data from `AssessmentData`.
+"""
+type CcbcUserAssessmentTypesByAssessmentDataUpdatedByAndAssessmentDataTypeManyToManyConnection {
+  """A list of `AssessmentType` objects."""
+  nodes: [AssessmentType]!
+
+  """
+  A list of edges which contains the `AssessmentType`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserAssessmentTypesByAssessmentDataUpdatedByAndAssessmentDataTypeManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `AssessmentType` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `AssessmentType` edge in the connection, with data from `AssessmentData`.
+"""
+type CcbcUserAssessmentTypesByAssessmentDataUpdatedByAndAssessmentDataTypeManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `AssessmentType` at the end of the edge."""
+  node: AssessmentType
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByAssessmentDataType(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type CcbcUserCcbcUsersByAssessmentDataUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAssessmentDataUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type CcbcUserCcbcUsersByAssessmentDataUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type CcbcUserCcbcUsersByAssessmentDataUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAssessmentDataUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type CcbcUserCcbcUsersByAssessmentDataUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `AssessmentData`.
+"""
+type CcbcUserApplicationsByAssessmentDataArchivedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByAssessmentDataArchivedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `AssessmentData`.
+"""
+type CcbcUserApplicationsByAssessmentDataArchivedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `AssessmentType` values, with data from `AssessmentData`.
+"""
+type CcbcUserAssessmentTypesByAssessmentDataArchivedByAndAssessmentDataTypeManyToManyConnection {
+  """A list of `AssessmentType` objects."""
+  nodes: [AssessmentType]!
+
+  """
+  A list of edges which contains the `AssessmentType`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserAssessmentTypesByAssessmentDataArchivedByAndAssessmentDataTypeManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `AssessmentType` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `AssessmentType` edge in the connection, with data from `AssessmentData`.
+"""
+type CcbcUserAssessmentTypesByAssessmentDataArchivedByAndAssessmentDataTypeManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `AssessmentType` at the end of the edge."""
+  node: AssessmentType
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByAssessmentDataType(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type CcbcUserCcbcUsersByAssessmentDataArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAssessmentDataArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type CcbcUserCcbcUsersByAssessmentDataArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `AssessmentData`.
+"""
+type CcbcUserCcbcUsersByAssessmentDataArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `AssessmentData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAssessmentDataArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `AssessmentData`."""
+type CcbcUserCcbcUsersByAssessmentDataArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `AssessmentData`."""
+  assessmentDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AssessmentDataCondition
+  ): AssessmentDataConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationAnalystLead`.
 """
 type AnalystApplicationsByApplicationAnalystLeadAnalystIdAndApplicationIdManyToManyConnection {
@@ -13199,6 +15330,32 @@ type ApplicationStatusTypesEdge {
 
   """The `ApplicationStatusType` at the end of the edge."""
   node: ApplicationStatusType
+}
+
+"""A connection to a list of `AssessmentType` values."""
+type AssessmentTypesConnection {
+  """A list of `AssessmentType` objects."""
+  nodes: [AssessmentType]!
+
+  """
+  A list of edges which contains the `AssessmentType` and cursor to aid in pagination.
+  """
+  edges: [AssessmentTypesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `AssessmentType` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `AssessmentType` edge in the connection."""
+type AssessmentTypesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `AssessmentType` at the end of the edge."""
+  node: AssessmentType
 }
 
 """A connection to a list of `FormDataStatusType` values."""
@@ -13534,6 +15691,22 @@ type Mutation {
     input: CreateApplicationStatusTypeInput!
   ): CreateApplicationStatusTypePayload
 
+  """Creates a single `AssessmentData`."""
+  createAssessmentData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateAssessmentDataInput!
+  ): CreateAssessmentDataPayload
+
+  """Creates a single `AssessmentType`."""
+  createAssessmentType(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateAssessmentTypeInput!
+  ): CreateAssessmentTypePayload
+
   """Creates a single `Attachment`."""
   createAttachment(
     """
@@ -13733,6 +15906,42 @@ type Mutation {
     """
     input: UpdateApplicationStatusTypeByNameInput!
   ): UpdateApplicationStatusTypePayload
+
+  """
+  Updates a single `AssessmentData` using its globally unique id and a patch.
+  """
+  updateAssessmentData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAssessmentDataInput!
+  ): UpdateAssessmentDataPayload
+
+  """Updates a single `AssessmentData` using a unique key and a patch."""
+  updateAssessmentDataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAssessmentDataByRowIdInput!
+  ): UpdateAssessmentDataPayload
+
+  """
+  Updates a single `AssessmentType` using its globally unique id and a patch.
+  """
+  updateAssessmentType(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAssessmentTypeInput!
+  ): UpdateAssessmentTypePayload
+
+  """Updates a single `AssessmentType` using a unique key and a patch."""
+  updateAssessmentTypeByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAssessmentTypeByNameInput!
+  ): UpdateAssessmentTypePayload
 
   """
   Updates a single `Attachment` using its globally unique id and a patch.
@@ -14005,6 +16214,38 @@ type Mutation {
     """
     input: DeleteApplicationStatusTypeByNameInput!
   ): DeleteApplicationStatusTypePayload
+
+  """Deletes a single `AssessmentData` using its globally unique id."""
+  deleteAssessmentData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAssessmentDataInput!
+  ): DeleteAssessmentDataPayload
+
+  """Deletes a single `AssessmentData` using a unique key."""
+  deleteAssessmentDataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAssessmentDataByRowIdInput!
+  ): DeleteAssessmentDataPayload
+
+  """Deletes a single `AssessmentType` using its globally unique id."""
+  deleteAssessmentType(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAssessmentTypeInput!
+  ): DeleteAssessmentTypePayload
+
+  """Deletes a single `AssessmentType` using a unique key."""
+  deleteAssessmentTypeByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAssessmentTypeByNameInput!
+  ): DeleteAssessmentTypePayload
 
   """Deletes a single `Attachment` using its globally unique id."""
   deleteAttachment(
@@ -14617,6 +16858,127 @@ input ApplicationStatusTypeInput {
   """Description of the status type"""
   description: String
   visibleByApplicant: Boolean
+}
+
+"""The output of our create `AssessmentData` mutation."""
+type CreateAssessmentDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AssessmentData` that was created by this mutation."""
+  assessmentData: AssessmentData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Application` that is related to this `AssessmentData`."""
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `AssessmentType` that is related to this `AssessmentData`.
+  """
+  assessmentTypeByAssessmentDataType: AssessmentType
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `AssessmentData`. May be used by Relay 1."""
+  assessmentDataEdge(
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AssessmentDataEdge
+}
+
+"""All input for the create `AssessmentData` mutation."""
+input CreateAssessmentDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `AssessmentData` to be created by this mutation."""
+  assessmentData: AssessmentDataInput!
+}
+
+"""An input for mutations affecting `AssessmentData`"""
+input AssessmentDataInput {
+  applicationId: Int!
+  jsonData: JSON
+  assessmentDataType: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""The output of our create `AssessmentType` mutation."""
+type CreateAssessmentTypePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AssessmentType` that was created by this mutation."""
+  assessmentType: AssessmentType
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `AssessmentType`. May be used by Relay 1."""
+  assessmentTypeEdge(
+    """The method to use when ordering `AssessmentType`."""
+    orderBy: [AssessmentTypesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AssessmentTypesEdge
+}
+
+"""All input for the create `AssessmentType` mutation."""
+input CreateAssessmentTypeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `AssessmentType` to be created by this mutation."""
+  assessmentType: AssessmentTypeInput!
+}
+
+"""An input for mutations affecting `AssessmentType`"""
+input AssessmentTypeInput {
+  """Name of and primary key of the type of an assessment"""
+  name: String!
+
+  """Description of the assessment type"""
+  description: String
 }
 
 """The output of our create `Attachment` mutation."""
@@ -15865,6 +18227,177 @@ input UpdateApplicationStatusTypeByNameInput {
   applicationStatusTypePatch: ApplicationStatusTypePatch!
 
   """Name of and primary key of the status of an application"""
+  name: String!
+}
+
+"""The output of our update `AssessmentData` mutation."""
+type UpdateAssessmentDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AssessmentData` that was updated by this mutation."""
+  assessmentData: AssessmentData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Application` that is related to this `AssessmentData`."""
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `AssessmentType` that is related to this `AssessmentData`.
+  """
+  assessmentTypeByAssessmentDataType: AssessmentType
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `AssessmentData`. May be used by Relay 1."""
+  assessmentDataEdge(
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AssessmentDataEdge
+}
+
+"""All input for the `updateAssessmentData` mutation."""
+input UpdateAssessmentDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `AssessmentData` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `AssessmentData` being updated.
+  """
+  assessmentDataPatch: AssessmentDataPatch!
+}
+
+"""
+Represents an update to a `AssessmentData`. Fields that are set will be updated.
+"""
+input AssessmentDataPatch {
+  applicationId: Int
+  jsonData: JSON
+  assessmentDataType: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""All input for the `updateAssessmentDataByRowId` mutation."""
+input UpdateAssessmentDataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `AssessmentData` being updated.
+  """
+  assessmentDataPatch: AssessmentDataPatch!
+  rowId: Int!
+}
+
+"""The output of our update `AssessmentType` mutation."""
+type UpdateAssessmentTypePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AssessmentType` that was updated by this mutation."""
+  assessmentType: AssessmentType
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `AssessmentType`. May be used by Relay 1."""
+  assessmentTypeEdge(
+    """The method to use when ordering `AssessmentType`."""
+    orderBy: [AssessmentTypesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AssessmentTypesEdge
+}
+
+"""All input for the `updateAssessmentType` mutation."""
+input UpdateAssessmentTypeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `AssessmentType` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `AssessmentType` being updated.
+  """
+  assessmentTypePatch: AssessmentTypePatch!
+}
+
+"""
+Represents an update to a `AssessmentType`. Fields that are set will be updated.
+"""
+input AssessmentTypePatch {
+  """Name of and primary key of the type of an assessment"""
+  name: String
+
+  """Description of the assessment type"""
+  description: String
+}
+
+"""All input for the `updateAssessmentTypeByName` mutation."""
+input UpdateAssessmentTypeByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `AssessmentType` being updated.
+  """
+  assessmentTypePatch: AssessmentTypePatch!
+
+  """Name of and primary key of the type of an assessment"""
   name: String!
 }
 
@@ -17134,6 +19667,121 @@ input DeleteApplicationStatusTypeByNameInput {
   name: String!
 }
 
+"""The output of our delete `AssessmentData` mutation."""
+type DeleteAssessmentDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AssessmentData` that was deleted by this mutation."""
+  assessmentData: AssessmentData
+  deletedAssessmentDataId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Application` that is related to this `AssessmentData`."""
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `AssessmentType` that is related to this `AssessmentData`.
+  """
+  assessmentTypeByAssessmentDataType: AssessmentType
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `AssessmentData`. May be used by Relay 1."""
+  assessmentDataEdge(
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AssessmentDataEdge
+}
+
+"""All input for the `deleteAssessmentData` mutation."""
+input DeleteAssessmentDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `AssessmentData` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteAssessmentDataByRowId` mutation."""
+input DeleteAssessmentDataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  rowId: Int!
+}
+
+"""The output of our delete `AssessmentType` mutation."""
+type DeleteAssessmentTypePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `AssessmentType` that was deleted by this mutation."""
+  assessmentType: AssessmentType
+  deletedAssessmentTypeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `AssessmentType`. May be used by Relay 1."""
+  assessmentTypeEdge(
+    """The method to use when ordering `AssessmentType`."""
+    orderBy: [AssessmentTypesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AssessmentTypesEdge
+}
+
+"""All input for the `deleteAssessmentType` mutation."""
+input DeleteAssessmentTypeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `AssessmentType` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteAssessmentTypeByName` mutation."""
+input DeleteAssessmentTypeByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """Name of and primary key of the type of an assessment"""
+  name: String!
+}
+
 """The output of our delete `Attachment` mutation."""
 type DeleteAttachmentPayload {
   """
@@ -17738,35 +20386,35 @@ type CreateAssessmentFormPayload {
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
-  formData: FormData
+  assessmentData: AssessmentData
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
 
-  """
-  Reads a single `FormDataStatusType` that is related to this `FormData`.
-  """
-  formDataStatusTypeByFormDataStatusTypeId: FormDataStatusType
+  """Reads a single `Application` that is related to this `AssessmentData`."""
+  applicationByApplicationId: Application
 
-  """Reads a single `CcbcUser` that is related to this `FormData`."""
+  """
+  Reads a single `AssessmentType` that is related to this `AssessmentData`.
+  """
+  assessmentTypeByAssessmentDataType: AssessmentType
+
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
   ccbcUserByCreatedBy: CcbcUser
 
-  """Reads a single `CcbcUser` that is related to this `FormData`."""
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
   ccbcUserByUpdatedBy: CcbcUser
 
-  """Reads a single `CcbcUser` that is related to this `FormData`."""
+  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
   ccbcUserByArchivedBy: CcbcUser
 
-  """Reads a single `Form` that is related to this `FormData`."""
-  formByFormSchemaId: Form
-
-  """An edge for our `FormData`. May be used by Relay 1."""
-  formDataEdge(
-    """The method to use when ordering `FormData`."""
-    orderBy: [FormDataOrderBy!] = [PRIMARY_KEY_ASC]
-  ): FormDataEdge
+  """An edge for our `AssessmentData`. May be used by Relay 1."""
+  assessmentDataEdge(
+    """The method to use when ordering `AssessmentData`."""
+    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AssessmentDataEdge
 }
 
 """All input for the `createAssessmentForm` mutation."""
@@ -17776,7 +20424,7 @@ input CreateAssessmentFormInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  schemaSlug: String!
+  _assessmentType: String!
   _jsonData: JSON!
   _applicationId: Int!
 }

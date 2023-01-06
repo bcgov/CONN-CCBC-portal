@@ -25,7 +25,7 @@ interface Props {
 }
 
 const findAssessment = (list: Array<any>, slug: string) => {
-  return list.find((assessment) => assessment.formByFormSchemaId.slug === slug);
+  return list.find((assessment) => assessment.assessmentDataType === slug);
 };
 
 const AssessmentsTable: React.FC<Props> = ({ query }) => {
@@ -35,9 +35,7 @@ const AssessmentsTable: React.FC<Props> = ({ query }) => {
         allAssessments {
           nodes {
             ...AssessmentsRow_application
-            formByFormSchemaId {
-              slug
-            }
+            assessmentDataType
           }
         }
       }
@@ -62,7 +60,7 @@ const AssessmentsTable: React.FC<Props> = ({ query }) => {
         {/* Not mapping assessment rows so we can easily name row and keep desired order */}
         <AssessmentsRow
           name="Screening"
-          assessment={findAssessment(assessments, 'screeningAssessmentSchema')}
+          assessment={findAssessment(assessments, 'screening')}
         />
       </StyledTBody>
     </StyledTable>

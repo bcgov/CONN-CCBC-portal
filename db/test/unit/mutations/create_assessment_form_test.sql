@@ -24,9 +24,6 @@ set role ccbc_auth_user;
 -- Set role to job_executor and put in test slug for assessment forms
 set role ccbc_job_executor;
 -- insert here to use for tests
-insert into ccbc_public.form (id, slug, form_type, json_schema) overriding system value
- values (200, 'assessment', 'assessment', '{}'::jsonb) on conflict (id) do update set
- json_schema=excluded.json_schema, slug=excluded.slug, form_type = excluded.form_type;
 
 set role ccbc_auth_user;
 
@@ -40,24 +37,24 @@ insert into ccbc_public.application_status
 
 -- set role to analyst and create assessment form
 set role ccbc_analyst;
-select ccbc_public.create_assessment_form('assessment'::varchar , '{}'::jsonb, 1);
+select ccbc_public.create_assessment_form('screening'::varchar , '{}'::jsonb, 1);
 
 select results_eq(
   $$
-    select count(*) from ccbc_public.application_form_data where application_id = 1;
+    select count(*) from ccbc_public.assessment_data where application_id = 1;
   $$,
   $$
-    values(2::bigint);
+    values(1::bigint);
   $$,
   'Should see two form_data entries in application_form_data for application 1'
 );
 
 select results_eq(
   $$
-    select id, json_data, form_schema_id from ccbc_public.form_data where form_schema_id = 200;
+    select id, json_data, assessment_data_type from ccbc_public.assessment_data where assessment_data_type = 'screening';
   $$,
   $$
-    values(3, '{}'::jsonb, 200);
+    values(1::int, '{}'::jsonb, 'screening'::varchar);
   $$,
   'Should see only one form_data for assessment on application 1'
 );

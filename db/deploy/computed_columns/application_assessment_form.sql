@@ -2,13 +2,15 @@
 
 begin;
 
-create or replace function ccbc_public.application_assessment_form(application ccbc_public.application, _slug varchar) returns ccbc_public.form_data as $$
+drop function ccbc_public.application_assessment_form(ccbc_public.application, varchar);
 
-select row(fd.*) from ccbc_public.form_data as fd, ccbc_public.form as f,
-  ccbc_public.application_form_data as af where af.application_id = application.id
-  and fd.id = af.form_data_id and fd.form_schema_id = f.id and f.slug = _slug
-  and f.form_type = 'assessment'
-  order by fd.id desc limit 1;
+create or replace function ccbc_public.application_assessment_form(application ccbc_public.application, _assessment_data_type varchar) returns ccbc_public.assessment_data as $$
+
+select row(ad.*) from ccbc_public.assessment_data as ad
+  where ad.application_id = application.id
+  and ad.assessment_data_type = _assessment_data_type
+  and ad.archived_at is null
+  order by ad.id desc limit 1;
 
 $$ language sql stable;
 

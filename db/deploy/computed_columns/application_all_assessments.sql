@@ -2,15 +2,14 @@
 
 begin;
 
-create or replace function ccbc_public.application_all_assessments(application ccbc_public.application) returns setof ccbc_public.form_data as $$
+drop function ccbc_public.application_all_assessments(ccbc_public.application);
 
-  select row(fd.*) from ccbc_public.form_data as fd
-  join ccbc_public.application_form_data af on af.form_data_id = fd.id
-  join ccbc_public.form f on f.id = fd.form_schema_id
-  where af.application_id = application.id
-  and f.form_type = 'assessment'
-  and fd.archived_at is null
-  order by fd.id;
+create or replace function ccbc_public.application_all_assessments(application ccbc_public.application) returns setof ccbc_public.assessment_data as $$
+
+  select row(ad.*) from ccbc_public.assessment_data as ad
+  where ad.application_id = application.id
+  and ad.archived_at is null
+  order by ad.id;
 
 $$ language sql stable;
 
