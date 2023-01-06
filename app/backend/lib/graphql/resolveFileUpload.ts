@@ -4,7 +4,7 @@ import { CompleteMultipartUploadCommandOutput } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import { Readable } from 'node:stream';
 import { s3ClientV3 } from '../s3client';
-import config from '../../../config';
+import config from '../../../config'; 
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const AWS_S3_REGION = config.get('AWS_S3_REGION');

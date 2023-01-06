@@ -1,5 +1,7 @@
 import aws from 'aws-sdk';
 import { S3Client } from '@aws-sdk/client-s3';
+import { getApplyMd5BodyChecksumPlugin } from '@aws-sdk/middleware-apply-body-checksum';
+import https from 'https';
 
 import {
   fromTemporaryCredentials,
@@ -32,9 +34,22 @@ aws.config.update({
 const s3Client = new aws.S3();
 
 export default s3Client;
-
+const agent = new https.Agent({
+  maxSockets: 300,
+  keepAlive: true
+ });
 const awsConfig = {
   region: AWS_S3_REGION,
+  logger: console,
+  httpOptions: {
+    timeout: 45000,
+    connectTimeout: 45000,
+    agent
+  },
+  maxRetries: 10,
+  retryDelayOptions: {
+    base: 500
+  },
   credentials: fromTemporaryCredentials({
     // fromEnv() pulling these env vars:
     // AWS_ACCESS_KEY_ID
@@ -47,7 +62,12 @@ const awsConfig = {
       DurationSeconds: 3600,
     },
     clientConfig: { region: AWS_S3_REGION },
-  }),
+  }
+  ),
 };
 
-export const s3ClientV3 = new S3Client(awsConfig);
+const s3ClientV3sdk = new S3Client(awsConfig);
+s3ClientV3sdk.middlewareStack.use(
+    getApplyMd5BodyChecksumPlugin(s3ClientV3sdk.config)
+);
+export const s3ClientV3 = s3ClientV3sdk;
