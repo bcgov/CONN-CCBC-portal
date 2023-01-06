@@ -15,7 +15,7 @@ const getPmAssessmentQuery = graphql`
   query projectManagementAssessmentQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
       ...AssessmentsForm_query
-      assessmentForm(_slug: "projectManagementAssessmentSchema") {
+      assessmentForm(_assessmentDataType: "projectManagement") {
         jsonData
       }
     }
@@ -41,7 +41,7 @@ const PmAssessment = ({
         <AssessmentsForm
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={projectManagement}
-          slug="projectManagementAssessmentSchema"
+          slug="projectManagement"
           query={query}
         />
       </AnalystLayout>

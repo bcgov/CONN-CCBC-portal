@@ -15,8 +15,7 @@ import screening from 'formSchema/analyst/screening';
 const getScreeningAssessmentQuery = graphql`
   query screeningAssessmentQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
-      id
-      rowId
+      ...AssessmentsForm_query
       assessmentForm(_assessmentDataType: "screening") {
         jsonData
       }
@@ -43,7 +42,7 @@ const ScreeningAssessment = ({
         <AssessmentsForm
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={screening}
-          slug="screeningAssessmentSchema"
+          slug="screening"
           query={query}
         />
       </AnalystLayout>

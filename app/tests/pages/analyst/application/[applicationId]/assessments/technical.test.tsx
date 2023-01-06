@@ -102,7 +102,7 @@ describe('The index page', () => {
         _jsonData: {
           decision: 'Pass',
         },
-        schemaSlug: 'technicalAssessmentSchema',
+        _assessmentType: 'technical',
       },
     });
   });

@@ -15,7 +15,7 @@ const getTechnicalAssessmentQuery = graphql`
   query technicalAssessmentQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
       ...AssessmentsForm_query
-      assessmentForm(_slug: "technicalAssessmentSchema") {
+      assessmentForm(_assessmentDataType: "technical") {
         jsonData
       }
     }
@@ -41,7 +41,7 @@ const TechnicalAssessment = ({
         <AssessmentsForm
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={technical}
-          slug="technicalAssessmentSchema"
+          slug="technical"
           query={query}
         />
       </AnalystLayout>

@@ -15,7 +15,7 @@ const getFinancialRiskAssessmentQuery = graphql`
   query financialRiskAssessmentQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
       ...AssessmentsForm_query
-      assessmentForm(_slug: "financialRiskAssessmentSchema") {
+      assessmentForm(_assessmentDataType: "financialRisk") {
         jsonData
       }
     }
@@ -44,7 +44,7 @@ const FinancialRiskAssessment = ({
         <AssessmentsForm
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={financialRisk}
-          slug="financialRiskAssessmentSchema"
+          slug="financialRisk"
           query={query}
         />
       </AnalystLayout>

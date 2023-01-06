@@ -100,7 +100,7 @@ describe('The index page', () => {
         _jsonData: {
           decision: 'Low risk',
         },
-        schemaSlug: 'financialRiskAssessmentSchema',
+        _assessmentType: 'financialRisk',
       },
     });
   });

@@ -41,7 +41,7 @@ const AssessmentsForm: React.FC<Props> = ({
         input: {
           _applicationId: queryFragment.rowId,
           _jsonData: e.formData,
-          schemaSlug: slug,
+          _assessmentType: slug,
         },
       },
       onCompleted: () => {
@@ -53,9 +53,9 @@ const AssessmentsForm: React.FC<Props> = ({
       updater: (store, data) => {
         const application = store.get(queryFragment.id);
         application.setLinkedRecord(
-          store.get(data.createAssessmentForm.formData.id),
+          store.get(data.createAssessmentForm.assessmentData.id),
           'assessmentForm',
-          { _slug: slug }
+          { _assessmentDataType: slug }
         );
       },
     });

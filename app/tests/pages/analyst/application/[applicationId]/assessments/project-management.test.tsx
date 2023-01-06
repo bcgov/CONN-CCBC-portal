@@ -101,7 +101,7 @@ describe('The index page', () => {
         _jsonData: {
           nextStep: 'Needs 2nd review',
         },
-        schemaSlug: 'projectManagementAssessmentSchema',
+        _assessmentType: 'projectManagement',
       },
     });
   });
