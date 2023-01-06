@@ -7,7 +7,8 @@ truncate table
   ccbc_public.attachment,
   ccbc_public.form_data,
   ccbc_public.application_form_data,
-  ccbc_public.intake
+  ccbc_public.intake,
+  ccbc_public.assessment_data
 restart identity cascade;
 
 select has_function('ccbc_public', 'application_assessment_form',
@@ -36,33 +37,33 @@ insert into ccbc_public.form (id, slug, form_type, json_schema) overriding syste
 
 -- set role to analyst and create assessment form
 set role ccbc_analyst;
-select ccbc_public.create_assessment_form('assessment'::varchar , '{}'::jsonb, 1);
+select ccbc_public.create_assessment_form('screening'::varchar , '{}'::jsonb, 1);
 
 -- form_data id is '3' here because we have more than one application
 select results_eq(
   $$
-    select id, json_data, form_schema_id from ccbc_public.application_assessment_form(
+    select id, json_data, assessment_data_type from ccbc_public.application_assessment_form(
       (select row(application.*)::ccbc_public.application
-       from ccbc_public.application where id=1), 'assessment'
+       from ccbc_public.application where id=1), 'screening'
     );
   $$,
   $$
-    values(3, '{}'::jsonb, 200);
+    values(1, '{}'::jsonb, 'screening'::varchar);
   $$,
   'Should return the newly created assessment form'
 );
 
-select ccbc_public.create_assessment_form('assessment'::varchar, '{"asdf":3}'::jsonb, 1);
+select ccbc_public.create_assessment_form('screening'::varchar, '{"asdf":3}'::jsonb, 1);
 
 select results_eq(
   $$
-    select id, json_data, form_schema_id from ccbc_public.application_assessment_form(
+    select id, json_data, assessment_data_type from ccbc_public.application_assessment_form(
       (select row(application.*)::ccbc_public.application
-       from ccbc_public.application where id=1), 'assessment'
+       from ccbc_public.application where id=1), 'screening'
     );
   $$,
   $$
-    values(4, '{"asdf":3}'::jsonb, 200);
+    values(2, '{"asdf":3}'::jsonb, 'screening'::varchar);
   $$,
   'Should return the newly created assessment form'
 );
