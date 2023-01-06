@@ -1,3 +1,22 @@
+# [1.32.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.31.0...v1.32.0) (2023-01-06)
+
+### Bug Fixes
+
+- lint cleanup ([02fe047](https://github.com/bcgov/CONN-CCBC-portal/commit/02fe047cc46ce026224c188760cf59f17c3ad89d))
+- test ([6234c32](https://github.com/bcgov/CONN-CCBC-portal/commit/6234c32864246699214a8cfa8a96b41aad1c67a8))
+
+### Features
+
+- add financial, project and technical assessment form schemas ([cdcc676](https://github.com/bcgov/CONN-CCBC-portal/commit/cdcc676628739036cba1e31bb7b2521d17748367))
+- add new rows to assessments dashboard ([392c55f](https://github.com/bcgov/CONN-CCBC-portal/commit/392c55f8782e9225a07441a98db61c23f449f282))
+- db changes for assessment data ([67e9f32](https://github.com/bcgov/CONN-CCBC-portal/commit/67e9f3248bf6b26e2e441763f675c91f11ed99e5))
+- implement remaining assessment form pages ([ea4a3b9](https://github.com/bcgov/CONN-CCBC-portal/commit/ea4a3b9c4c1992f5d33c51d90e55d20ab166b4aa))
+- import new assessment schemas to db ([322efc9](https://github.com/bcgov/CONN-CCBC-portal/commit/322efc949f4aa8844803766bfd7434eca2ff5c8b))
+- rework application_assessment_form for new assessment_data table ([d3f9c32](https://github.com/bcgov/CONN-CCBC-portal/commit/d3f9c327b4b347f6e3b926e9c65cac9c4c0cfae4))
+- rework computed column application all assessments ([3c34fb1](https://github.com/bcgov/CONN-CCBC-portal/commit/3c34fb192e5eb78f88b6b77e9650d537cfd60e77))
+- rework create assessment ([621f800](https://github.com/bcgov/CONN-CCBC-portal/commit/621f8007fa91d8a0856bbd5523782a6e43080dcc))
+- using signed URL to upload file ([b29374a](https://github.com/bcgov/CONN-CCBC-portal/commit/b29374a09772b9e190f687d1ffa2c7c7e12184bc))
+
 # [1.31.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.30.0...v1.31.0) (2023-01-05)
 
 ### Bug Fixes
