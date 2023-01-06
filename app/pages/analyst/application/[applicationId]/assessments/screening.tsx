@@ -21,7 +21,7 @@ const getScreeningAssessmentQuery = graphql`
     applicationByRowId(rowId: $rowId) {
       id
       rowId
-      assessmentForm(_slug: "screeningAssessmentSchema") {
+      assessmentForm(_assessmentDataType: "screening") {
         jsonData
       }
     }
@@ -51,7 +51,7 @@ const ScreeningAssessment = ({
         input: {
           _applicationId: applicationByRowId.rowId,
           _jsonData: e.formData,
-          schemaSlug: 'screeningAssessmentSchema',
+          _assessmentType: 'screening',
         },
       },
       onCompleted: () => {
@@ -63,9 +63,9 @@ const ScreeningAssessment = ({
       updater: (store, data) => {
         const application = store.get(applicationByRowId.id);
         application.setLinkedRecord(
-          store.get(data.createAssessmentForm.formData.id),
+          store.get(data.createAssessmentForm.assessmentData.id),
           'assessmentForm',
-          { _slug: 'screeningAssessmentSchema' }
+          { _assessmentDataType: 'screening' }
         );
       },
     });

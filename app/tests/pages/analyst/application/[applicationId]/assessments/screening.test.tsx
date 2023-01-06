@@ -113,7 +113,7 @@ describe('The index page', () => {
           _jsonData: {
             decision: 'Eligible',
           },
-          schemaSlug: 'screeningAssessmentSchema',
+          _assessmentType: 'screening',
         },
       }
     );

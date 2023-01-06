@@ -25,9 +25,8 @@ const mockQueryPayload = {
                 assignedTo: 'Rachel Greenspan',
                 targetDate: '2023-01-10',
               },
-              formByFormSchemaId: {
-                slug: 'screeningAssessmentSchema',
-              },
+
+              assessmentDataType: 'screening',
             },
           ],
         },

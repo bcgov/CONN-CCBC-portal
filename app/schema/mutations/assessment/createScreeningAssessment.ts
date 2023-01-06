@@ -7,7 +7,7 @@ const mutation = graphql`
     $input: CreateAssessmentFormInput!
   ) {
     createAssessmentForm(input: $input) {
-      formData {
+      assessmentData {
         id
         rowId
         jsonData

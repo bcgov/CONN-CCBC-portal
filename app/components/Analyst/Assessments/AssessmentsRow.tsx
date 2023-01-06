@@ -31,7 +31,7 @@ interface Props {
 const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
   const queryFragment = useFragment(
     graphql`
-      fragment AssessmentsRow_application on FormData {
+      fragment AssessmentsRow_application on AssessmentData {
         jsonData
       }
     `,
