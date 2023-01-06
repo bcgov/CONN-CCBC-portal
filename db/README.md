@@ -46,8 +46,14 @@ In local environments, the `make deploy_dev_data`, `make deploy_test_data` and `
 
 The `data` folder is also cypress' fixtures folder, meaning that any of the scripts in it can be run in our cypress tests using commands such as `cy.sqlFixture("dev/001_intake");`
 
-## Metabase 
+## Metabase
 
-Metabase uses `ccbc_readonly` user to connect to the database. If `ccbc_readonly` user needs to use any of computed columns, necessary permissions should be granted manually. 
+Metabase uses `ccbc_readonly` user to connect to the database. If `ccbc_readonly` user needs to use any of computed columns, necessary permissions should be granted manually.
 
 I.e. `grant execute on function ccbc_public.application_status to ccbc_readonly;`
+
+## Database Architecture
+
+View on this miro link: https://miro.com/app/board/uXjVOnpFeNI=/
+
+![Alternatively check out this image](../docs/images/db-architecture.jpg)
