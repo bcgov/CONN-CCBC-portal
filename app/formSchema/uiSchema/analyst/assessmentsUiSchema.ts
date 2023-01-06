@@ -1,6 +1,6 @@
 import { ANALYST_EXCEL_FILE_EXTENSIONS } from '../constants';
 
-const screeningUiSchema = {
+const assessmentsUiSchema = {
   'ui:order': [
     'assignedTo',
     'targetDate',
@@ -8,6 +8,7 @@ const screeningUiSchema = {
     'decision',
     'contestingMap',
     'assessmentTemplate',
+    'completedAssessment',
     'otherFiles',
   ],
   assignedTo: {
@@ -50,6 +51,13 @@ const screeningUiSchema = {
       allowMultipleFiles: true,
     },
   },
+  completedAssessment: {
+    'ui:widget': 'FileWidget',
+    'ui:options': {
+      label: false,
+      allowMultipleFiles: true,
+    },
+  },
   otherFiles: {
     'ui:widget': 'FileWidget',
     'ui:options': {
@@ -58,4 +66,4 @@ const screeningUiSchema = {
   },
 };
 
-export default screeningUiSchema;
+export default assessmentsUiSchema;

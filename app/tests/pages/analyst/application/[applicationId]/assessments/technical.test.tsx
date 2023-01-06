@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import TechnicalAssessment from 'pages/analyst/application/[applicationId]/assessments/technical';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
@@ -85,6 +86,25 @@ describe('The index page', () => {
     expect(projectManagement).toHaveStyle('font-weight: 400;');
     expect(screening).toHaveStyle('font-weight: 400;');
     expect(financialRisk).toHaveStyle('font-weight: 400;');
+  });
+
+  it('Form saves when submit button is pressed', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    await userEvent.click(screen.getByLabelText('Pass'));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+    pageTestingHelper.expectMutationToBeCalled('createAssessmentMutation', {
+      input: {
+        _applicationId: 1,
+        _jsonData: {
+          decision: 'Pass',
+        },
+        _assessmentType: 'technical',
+      },
+    });
   });
 
   afterEach(() => {
