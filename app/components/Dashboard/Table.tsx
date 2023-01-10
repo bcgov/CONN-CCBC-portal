@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
 import styled from 'styled-components';
-import { Modal, StatusPill, Withdraw } from '.';
-import { dashboardQuery$data } from '../../__generated__/dashboardQuery.graphql';
-import schema from '../../formSchema/schema';
+import schema from 'formSchema/schema';
+import { dashboardQuery$data } from '__generated__/dashboardQuery.graphql';
+import Modal from './Modal';
+import Row from './Row';
 
 const StyledTable = styled('table')`
   margin-bottom: 0px;
@@ -25,33 +25,6 @@ const StyledTableHeadCell = styled('th')`
   font-weight: bold;
 
   box-shadow: inset -2px 0px white;
-`;
-
-const StyledRow = styled('tr')`
-  &:hover {
-    background: #f2f2f2;
-  }
-`;
-
-const StyledTableCell = styled('td')`
-  padding: 12px;
-  &:first-child {
-    padding: 12px;
-  }
-  &:last-child {
-    padding: 12px;
-  }
-`;
-
-const StyledBtns = styled('div')`
-  display: flex;
-  justify-content: flex-start;
-  gap: 24px;
-  align-items: center;
-  & a {
-    text-decoration: none;
-    color: #1a5a96;
-  }
 `;
 
 type Props = {
@@ -84,6 +57,7 @@ const Table = ({ applications }: Props) => {
         <StyledTableHead>
           <tr>
             <StyledTableHeadCell>CCBC ID</StyledTableHeadCell>
+            <StyledTableHeadCell>Intake</StyledTableHeadCell>
             <StyledTableHeadCell>Project title</StyledTableHeadCell>
             <StyledTableHeadCell>Status</StyledTableHeadCell>
             <StyledTableHeadCell>Actions</StyledTableHeadCell>
@@ -91,74 +65,15 @@ const Table = ({ applications }: Props) => {
         </StyledTableHead>
         <tbody>
           {applicationNodes.map((application) => {
-            const {
-              ccbcNumber,
-              intakeByIntakeId,
-              formData,
-              projectName,
-              rowId,
-              status,
-            } = application;
-
-            const lastEditedIndex =
-              formPages.indexOf(formData.lastEditedPage) + 1;
-
-            const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
-            const isIntakeClosed = intakeClosingDate
-              ? Date.parse(intakeClosingDate) < Date.now()
-              : false;
-
-            const isWithdrawn = application.status === 'withdrawn';
-            const isSubmitted = application.status === 'submitted';
-
-            const getApplicationUrl = () => {
-              if (isWithdrawn) {
-                return `/applicantportal/form/${application.rowId}/${reviewPage}`;
-              }
-              if (isSubmitted && isIntakeClosed) {
-                return `/applicantportal/form/${application.rowId}/${reviewPage}`;
-              }
-              if (isSubmitted) {
-                return `/applicantportal/form/${rowId}/1`;
-              }
-              return `/applicantportal/form/${rowId}/${
-                formData.lastEditedPage ? lastEditedIndex : 1
-              }`;
-            };
-
             return (
-              <StyledRow key={rowId}>
-                <StyledTableCell>{ccbcNumber || 'Unassigned'}</StyledTableCell>
-                <StyledTableCell>{projectName}</StyledTableCell>
-                <StyledTableCell>
-                  <StatusPill StatusType={getStatusType(status)}>
-                    {status}
-                  </StatusPill>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <StyledBtns>
-                    <Link href={getApplicationUrl()}>
-                      {formData.isEditable ? 'Edit' : 'View'}
-                    </Link>
-                    {isSubmitted && !isIntakeClosed && (
-                      <button
-                        onClick={() => setWithdrawId(rowId)}
-                        data-testid="withdraw-btn-test"
-                        type="button"
-                      >
-                        <Withdraw />
-                      </button>
-                    )}
-                    {application.hasRfiOpen && (
-                      <Link
-                        href={`/applicantportal/form/${application.rowId}/rfi/${application.rfi.rowId}/`}
-                      >
-                        Upload Files
-                      </Link>
-                    )}
-                  </StyledBtns>
-                </StyledTableCell>
-              </StyledRow>
+              <Row
+                application={application}
+                key={application.owner}
+                formPages={formPages}
+                getStatusType={getStatusType}
+                reviewPage={reviewPage}
+                setWithdrawId={setWithdrawId}
+              />
             );
           })}
         </tbody>
