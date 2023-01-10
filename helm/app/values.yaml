@@ -134,7 +134,7 @@ pgbackrest:
     limits:
       cpu: 50m
       memory: 128Mi
-  retention: '30'
+  retention: 30
 
 pgBouncer:
   replicas: 2
