@@ -3,7 +3,7 @@ import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
 import { useWithdrawApplicationMutation } from 'schema/mutations/application/withdrawApplication';
-import { X } from '.';
+import X from './XIcon';
 
 const StyledModal = styled(Modal)`
   display: flex;
@@ -89,7 +89,7 @@ const WithdrawModal = ({ id }) => {
       {successModal && (
         <StyledConfirmBox>
           <div>Application withdrawn</div>
-          <button onClick={() => setSuccessModal(false)}>
+          <button type="button" onClick={() => setSuccessModal(false)}>
             <X />
           </button>
         </StyledConfirmBox>
