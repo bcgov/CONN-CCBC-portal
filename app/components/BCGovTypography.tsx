@@ -1,5 +1,6 @@
 import Typography from 'typography';
 import { TypographyStyle } from 'react-typography';
+import '@bcgov/bc-sans/css/BCSans.css';
 
 const typography = new Typography({
   baseFontSize: '16px',
