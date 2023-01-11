@@ -62,6 +62,7 @@ const assessmentsUiSchema = {
     'ui:widget': 'FileWidget',
     'ui:options': {
       label: false,
+      allowMultipleFiles: true,
     },
   },
 };
