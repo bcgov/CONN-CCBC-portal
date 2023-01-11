@@ -38,7 +38,7 @@
     "aws-sdk": "^2.1170.0",
     "body-parser": "^1.20.0",
     "connect-pg-simple": "^7.0.0",
-    "convict": "^6.2.2",
+    "convict": "^6.2.4",
     "cookie-parser": "^1.4.6",
     "debug": "^4.1.7",
     "delay": "^5.0.0",
