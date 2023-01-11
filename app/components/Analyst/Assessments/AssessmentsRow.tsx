@@ -45,6 +45,7 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
   const progress = jsonData?.nextStep;
   const decision = jsonData?.decision;
   const isComplete = progress === 'Assessment complete' && decision;
+  const assignedTo = jsonData?.assignedTo;
 
   const dateString =
     date &&
@@ -63,17 +64,28 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
     );
   };
 
+  const getStatus = (
+    completed: string,
+    assigned: string,
+    assesmentProgress: string
+  ) => {
+    if (completed) return 'Complete';
+    if (assigned && !assesmentProgress) return 'Assigned';
+    if (!assesmentProgress) return 'Not started';
+    return assesmentProgress;
+  };
+
   return (
     <StyledRow onClick={handleClick}>
       <StyledCell>{name}</StyledCell>
       <StyledCell>
         <StatusPill
-          status={isComplete ? 'Complete' : progress || 'Not started'}
+          status={getStatus(isComplete, assignedTo, progress)}
           styles={assessmentPillStyles}
         />
       </StyledCell>
-      {jsonData?.assignedTo ? (
-        <StyledCell>{jsonData?.assignedTo} </StyledCell>
+      {assignedTo ? (
+        <StyledCell>{assignedTo}</StyledCell>
       ) : (
         <StyledDisabledCell>Not assigned</StyledDisabledCell>
       )}
