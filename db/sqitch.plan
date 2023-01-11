@@ -150,3 +150,4 @@ mutations/create_assessment_form [mutations/create_assessment_form@1.30.1] 2023-
 computed_columns/application_all_assessments [computed_columns/application_all_assessments@1.30.1] 2023-01-05T23:19:47Z Anthony Bushara <anthony@button.is> # Rework to use new assessments table
 computed_columns/application_assessment_form [computed_columns/application_assessment_form@1.30.1] 2023-01-06T12:21:13Z Anthony Bushara <anthony@button.is> # Use new assessment_data table for this query
 @1.32.0 2023-01-06T18:38:39Z Marcel Mueller <marcel@button.is> # release v1.32.0
+@1.33.0 2023-01-11T18:57:08Z Marcel Mueller <marcel@button.is> # release v1.33.0

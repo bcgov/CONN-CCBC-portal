@@ -1,3 +1,13 @@
+# [1.33.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.32.0...v1.33.0) (2023-01-11)
+
+### Bug Fixes
+
+- assessment dashboard displays assigned ([8d98d3b](https://github.com/bcgov/CONN-CCBC-portal/commit/8d98d3b74800d496b2505b216f8d1f1643ed27a1))
+
+### Features
+
+- allow multi file uploads on assessment pages ([0a4c5f7](https://github.com/bcgov/CONN-CCBC-portal/commit/0a4c5f704f99d007ea554754b096b8d1e5ac17cf))
+
 # [1.32.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.31.0...v1.32.0) (2023-01-06)
 
 ### Bug Fixes
