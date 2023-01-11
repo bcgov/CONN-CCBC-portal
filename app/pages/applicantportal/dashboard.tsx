@@ -11,7 +11,7 @@ import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import StyledGovButton from 'components/StyledGovButton';
 import { useCreateApplicationMutation } from 'schema/mutations/application/createApplication';
 import { DynamicAlert, Layout } from 'components';
-import { Table } from 'components/Dashboard';
+import { DashboardTable } from 'components/Dashboard';
 import { dashboardQuery } from '__generated__/dashboardQuery.graphql';
 
 const getDashboardQuery = graphql`
@@ -150,7 +150,7 @@ const Dashboard = ({
         </section>
         <section>
           {hasApplications ? (
-            <Table applications={query} />
+            <DashboardTable applications={query} />
           ) : (
             <p>Applications will appear here</p>
           )}
