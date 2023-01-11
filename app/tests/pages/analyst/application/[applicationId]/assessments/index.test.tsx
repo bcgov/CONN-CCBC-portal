@@ -25,8 +25,16 @@ const mockQueryPayload = {
                 assignedTo: 'Rachel Greenspan',
                 targetDate: '2023-01-10',
               },
-
               assessmentDataType: 'screening',
+            },
+            {
+              jsonData: {
+                assignedTo: 'Harpreet Bains',
+              },
+              assessmentDataType: 'technical',
+            },
+            {
+              assessmentDataType: 'projectManagement',
             },
           ],
         },
@@ -91,6 +99,7 @@ describe('The index page', () => {
     expect(screen.getByText('Rachel Greenspan')).toBeInTheDocument();
     expect(screen.getByText('Tue, Jan 10')).toBeInTheDocument();
     expect(screen.getByText('Incomplete')).toBeInTheDocument();
+    expect(screen.getAllByText('Not started')[0]).toBeInTheDocument();
   });
 
   it('should have the correct pill styles', async () => {
@@ -104,6 +113,15 @@ describe('The index page', () => {
     expect(statusProgress).toHaveStyle('background-color: #345FA9;');
     expect(statusDecision).toHaveStyle('color: #FFFFFF');
     expect(statusDecision).toHaveStyle('background-color: #C38A00;');
+  });
+
+  it('should have the correct status if an assessment is assigned with no decision', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const statusDecision = screen.getByText('Assigned');
+    expect(statusDecision).toHaveStyle('color: #313132;');
+    expect(statusDecision).toHaveStyle('background-color: #DBE6F0;');
   });
 
   afterEach(() => {
