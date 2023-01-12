@@ -69,6 +69,21 @@ const mockQueryPayload = {
               openTimestamp: '2022-07-25T00:00:00-07:00',
             },
           },
+          {
+            id: 'WyJhcHBsaWNhdGlvbnMiLDJf',
+            rowId: 3,
+            owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+            status: 'Received',
+            projectName: 'test',
+            ccbcNumber: 'CCBC-020002',
+            formData: {
+              lastEditedPage: '',
+              isEditable: false,
+            },
+            intakeByIntakeId: {
+              ccbcIntakeNumber: 2,
+            },
+          },
         ],
       },
       session: {
@@ -205,12 +220,21 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText(`CCBC ID`)).toBeInTheDocument();
+    expect(screen.getByText(`Intake`)).toBeInTheDocument();
     expect(screen.getByText(`Project title`)).toBeInTheDocument();
     expect(screen.getByText(`Status`)).toBeInTheDocument();
     expect(screen.getByText(`Actions`)).toBeInTheDocument();
     expect(screen.getByText(`CCBC-010001`)).toBeInTheDocument();
     expect(screen.getByText(`withdrawn`)).toBeInTheDocument();
-    expect(screen.getByText(`View`)).toBeInTheDocument();
+    expect(screen.getAllByText(`View`)[0]).toBeInTheDocument();
+  });
+
+  it('displays the intake numbers for 2 applications', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
   });
 
   afterEach(() => {

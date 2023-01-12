@@ -7,12 +7,12 @@ import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import styled from 'styled-components';
 import Link from '@button-inc/bcgov-theme/Link';
 import { useFeature } from '@growthbook/growthbook-react';
-import defaultRelayOptions from '../../lib/relay/withRelayOptions';
-import StyledGovButton from '../../components/StyledGovButton';
-import { useCreateApplicationMutation } from '../../schema/mutations/application/createApplication';
-import { DynamicAlert, Layout } from '../../components';
-import { DashboardTable } from '../../components/Dashboard';
-import { dashboardQuery } from '../../__generated__/dashboardQuery.graphql';
+import defaultRelayOptions from 'lib/relay/withRelayOptions';
+import StyledGovButton from 'components/StyledGovButton';
+import { useCreateApplicationMutation } from 'schema/mutations/application/createApplication';
+import { DynamicAlert, Layout } from 'components';
+import { DashboardTable } from 'components/Dashboard';
+import { dashboardQuery } from '__generated__/dashboardQuery.graphql';
 
 const getDashboardQuery = graphql`
   query dashboardQuery($formOwner: ApplicationCondition!) {
