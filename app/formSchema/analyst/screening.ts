@@ -19,7 +19,8 @@ const screening: JSONSchema7 = {
     decision: {
       title: 'Decision',
       type: 'string',
-      enum: ['Eligible', 'Ineligible', 'Incomplete'],
+      enum: ['No decision', 'Eligible', 'Ineligible', 'Incomplete'],
+      default: 'No decision',
     },
     contestingMap: {
       title: 'Contesting Map',

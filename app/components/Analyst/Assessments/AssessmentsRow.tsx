@@ -43,7 +43,8 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
   const applicationId = router.query.applicationId as string;
   const date = jsonData?.targetDate;
   const progress = jsonData?.nextStep;
-  const decision = jsonData?.decision;
+  const decision =
+    jsonData?.decision === 'No decision' ? null : jsonData?.decision;
   const isComplete = progress === 'Assessment complete' && decision;
   const assignedTo = jsonData?.assignedTo;
 
@@ -71,7 +72,6 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
   ) => {
     if (completed) return 'Complete';
     if (assigned && !assesmentProgress) return 'Assigned';
-    if (!assesmentProgress) return 'Not started';
     return assesmentProgress;
   };
 

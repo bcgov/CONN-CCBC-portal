@@ -39,7 +39,7 @@ const StatusPill: React.FC<Props> = ({ status, styles }) => {
   return (
     <StyledStatusPill styles={pillStyles}>
       {isComplete && <StyledFontAwesome icon={faCheck} fixedWidth size="sm" />}
-      {pillStyles.description || status}
+      {pillStyles?.description || status}
     </StyledStatusPill>
   );
 };
