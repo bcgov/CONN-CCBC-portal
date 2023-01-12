@@ -6,6 +6,7 @@ import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledTechnicalAssessmentQuery, {
   technicalAssessmentQuery,
 } from '__generated__/technicalAssessmentQuery.graphql';
+import sharedAssessmentTests from './shared-assessments';
 
 const mockQueryPayload = {
   Query() {
@@ -100,12 +101,15 @@ describe('The index page', () => {
       input: {
         _applicationId: 1,
         _jsonData: {
+          nextStep: 'Not started',
           decision: 'Pass',
         },
         _assessmentType: 'technical',
       },
     });
   });
+
+  sharedAssessmentTests(pageTestingHelper);
 
   afterEach(() => {
     jest.clearAllMocks();

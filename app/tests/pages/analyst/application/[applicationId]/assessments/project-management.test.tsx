@@ -106,6 +106,17 @@ describe('The index page', () => {
     });
   });
 
+  it('should select radio option by default', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const radioInput1 = screen.getByRole('radio', {
+      name: 'root_nextStep-0',
+    });
+
+    expect(radioInput1).toBeChecked();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

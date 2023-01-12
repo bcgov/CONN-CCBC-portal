@@ -6,6 +6,7 @@ import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledScreeningAssessmentsQuery, {
   screeningAssessmentQuery,
 } from '__generated__/screeningAssessmentQuery.graphql';
+import sharedAssessmentTests from './shared-assessments';
 
 const mockQueryPayload = {
   Query() {
@@ -109,12 +110,15 @@ describe('The index page', () => {
       input: {
         _applicationId: 1,
         _jsonData: {
+          nextStep: 'Not started',
           decision: 'Eligible',
         },
         _assessmentType: 'screening',
       },
     });
   });
+
+  sharedAssessmentTests(pageTestingHelper);
 
   afterEach(() => {
     jest.clearAllMocks();

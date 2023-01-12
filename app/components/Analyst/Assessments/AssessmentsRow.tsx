@@ -71,7 +71,8 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
     assesmentProgress: string
   ) => {
     if (completed) return 'Complete';
-    if (assigned && !assesmentProgress) return 'Assigned';
+    if (assigned && assesmentProgress === 'Not started') return 'Assigned';
+    if (!assesmentProgress) return 'Not started';
     return assesmentProgress;
   };
 
