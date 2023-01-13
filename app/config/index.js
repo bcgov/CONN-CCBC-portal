@@ -170,6 +170,12 @@ const config = convict({
     default: '',
     env: 'AWS_ROLE_ARN',
   },
+  ARCHIVE_REQUEST_TOPIC_ARN: {
+    doc: 'AWS SNS Archvie request topic ARN',
+    format: String,
+    default: 'arn:aws:sns:ca-central-1:780887525069:archive-on-demand',
+    env: 'ARCHIVE_REQUEST_TOPIC_ARN',
+  },
   ENABLE_MOCK_TIME: {
     doc: 'Enable Mock Time',
     format: Boolean,
