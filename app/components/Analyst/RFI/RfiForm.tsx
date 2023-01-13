@@ -10,6 +10,7 @@ import { useCreateRfiMutation } from 'schema/mutations/application/createRfi';
 import { graphql, useFragment } from 'react-relay';
 import { RfiForm_RfiData$key } from '__generated__/RfiForm_RfiData.graphql';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
+import removeFalseyValuesFromObject from 'utils/removeFalseValuesFromObject';
 import RfiTheme from './RfiTheme';
 
 const StyledCancel = styled(Button)`
@@ -39,17 +40,27 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
     `,
     rfiDataKey
   );
+
   const rfiUrl = `/analyst/application/${applicationId}/rfi`;
   const [createRfi] = useCreateRfiMutation();
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
 
   const handleSubmit = (e: ISubmitEvent<any>) => {
+    const formData = {
+      ...e.formData,
+      rfiAdditionalFiles: {
+        // Remove fields with false values from object to prevent unintended bugs when
+        // a user unchecks a previously checked field.
+        ...removeFalseyValuesFromObject(e.formData.rfiAdditionalFiles),
+      },
+    };
+
     if (isNewRfiForm) {
       createRfi({
         variables: {
           input: {
             applicationRowId: parseInt(applicationId as string, 10),
-            jsonData: e.formData,
+            jsonData: formData,
           },
         },
         onCompleted: () => {
@@ -64,7 +75,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
       updateRfi({
         variables: {
           input: {
-            jsonData: e.formData,
+            jsonData: formData,
             rfiRowId: parseInt(rfiId as string, 10),
           },
         },
