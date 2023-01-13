@@ -1,6 +1,6 @@
 begin;
 
-select plan(10);
+select plan(12);
 
 truncate table
   ccbc_public.application,
@@ -43,7 +43,22 @@ select results_eq (
   'No existing open rfi '
 );
 
-select ccbc_public.create_rfi(1, '{}'::jsonb);
+-- RFI always saves rfiAdditionalFiles object even when no files were selected
+select ccbc_public.create_rfi(1, '{"rfiAdditionalFiles": {}}'::jsonb);
+
+select results_eq (
+  $$
+  select ccbc_public.application_has_rfi_open(
+    (select row(application.*)::ccbc_public.application from ccbc_public.application)
+  )
+  $$,
+  $$
+    values('f'::boolean)
+  $$,
+  'The current rfi is not open as no due date was set and no files were requested'
+);
+
+select ccbc_public.create_rfi(1, '{"rfiDueBy": "2022-04-01", "rfiAdditionalFiles": {"testField": "true"}}'::jsonb);
 
 select results_eq (
   $$
@@ -54,24 +69,10 @@ select results_eq (
   $$
     values('t'::boolean)
   $$,
-  'The current rfi is open as it has no end date'
+  'The current rfi is open with a due by date of current date and file fields exists'
 );
 
-select ccbc_public.create_rfi(1, '{"rfiDueBy": "2022-04-01"}'::jsonb);
-
-select results_eq (
-  $$
-  select ccbc_public.application_has_rfi_open(
-    (select row(application.*)::ccbc_public.application from ccbc_public.application)
-  )
-  $$,
-  $$
-    values('t'::boolean)
-  $$,
-  'The current rfi is open with a due by date of current date'
-);
-
-select ccbc_public.create_rfi(1, '{"rfiDueBy": "2022-03-31"}'::jsonb);
+select ccbc_public.create_rfi(1, '{"rfiDueBy": "2022-03-31", "rfiAdditionalFiles": {"testField": "true"}}'::jsonb);
 
 select results_eq (
   $$
@@ -85,7 +86,7 @@ select results_eq (
   'The current rfi is closed with a due by date before the current date'
 );
 
-select ccbc_public.create_rfi(1, '{"rfiDueBy": "2022-04-02"}'::jsonb);
+select ccbc_public.create_rfi(1, '{"rfiDueBy": "2022-04-02", "rfiAdditionalFiles": {"testField": "true"}}'::jsonb);
 
 select results_eq (
   $$
@@ -96,7 +97,35 @@ select results_eq (
   $$
     values('t'::boolean)
   $$,
-  'The current rfi is open with a due by date after the current date'
+  'The current rfi is open with a due by date after the current date and there are requested files'
+);
+
+select ccbc_public.create_rfi(1, '{"rfiDueBy": "2023-04-02", "rfiAdditionalFiles": {}}'::jsonb);
+
+select results_eq (
+  $$
+  select ccbc_public.application_has_rfi_open(
+    (select row(application.*)::ccbc_public.application from ccbc_public.application)
+  )
+  $$,
+  $$
+    values('f'::boolean)
+  $$,
+  'The current rfi is closed with no files requested'
+);
+
+select ccbc_public.create_rfi(1, '{"rfiDueBy": "2023-04-02", "rfiAdditionalFiles": {"testField": "true"}}'::jsonb);
+
+select results_eq (
+  $$
+  select ccbc_public.application_has_rfi_open(
+    (select row(application.*)::ccbc_public.application from ccbc_public.application)
+  )
+  $$,
+  $$
+    values('t'::boolean)
+  $$,
+  'The current rfi is open with files requested'
 );
 
 select function_privs_are(

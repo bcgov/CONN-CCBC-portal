@@ -22,6 +22,10 @@ const StyledH4 = styled.h4`
   width: 100%;
 `;
 
+const StyledSection = styled.section`
+  display: inline-block;
+`;
+
 const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   uiSchema,
   title,
@@ -36,7 +40,7 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
     return <RequestedFilesField properties={properties} />;
   }
   return (
-    <section>
+    <StyledSection>
       {showLabel && <StyledH4>{uiSchema['ui:title'] || title}</StyledH4>}
 
       <StyledContainer columns={columnCount as number}>
@@ -44,7 +48,7 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
           return <StyledItem key={prop.name}>{prop.content}</StyledItem>;
         })}
       </StyledContainer>
-    </section>
+    </StyledSection>
   );
 };
 
