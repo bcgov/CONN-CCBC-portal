@@ -52,9 +52,9 @@ select results_eq (
   )
   $$,
   $$
-    values('t'::boolean)
+    values('f'::boolean)
   $$,
-  'The current rfi is open as it has no end date'
+  'The current rfi is not open as no due date was set'
 );
 
 select ccbc_public.create_rfi(1, '{"rfiDueBy": "2022-04-01"}'::jsonb);
