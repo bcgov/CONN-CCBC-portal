@@ -30,6 +30,8 @@ const mockQueryPayload = {
             {
               jsonData: {
                 assignedTo: 'Harpreet Bains',
+                decision: 'No decision',
+                nextStep: 'Not started',
               },
               assessmentDataType: 'technical',
             },

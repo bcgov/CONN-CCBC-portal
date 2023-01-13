@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
@@ -39,7 +38,7 @@ const StatusPill: React.FC<Props> = ({ status, styles }) => {
   return (
     <StyledStatusPill styles={pillStyles}>
       {isComplete && <StyledFontAwesome icon={faCheck} fixedWidth size="sm" />}
-      {pillStyles.description || status}
+      {pillStyles?.description || status}
     </StyledStatusPill>
   );
 };

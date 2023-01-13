@@ -6,6 +6,7 @@ import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledFinancialRiskAssessmentQuery, {
   financialRiskAssessmentQuery,
 } from '__generated__/financialRiskAssessmentQuery.graphql';
+import sharedAssessmentTests from './shared-assessments';
 
 const mockQueryPayload = {
   Query() {
@@ -98,12 +99,15 @@ describe('The index page', () => {
       input: {
         _applicationId: 1,
         _jsonData: {
+          nextStep: 'Not started',
           decision: 'Low risk',
         },
         _assessmentType: 'financialRisk',
       },
     });
   });
+
+  sharedAssessmentTests(pageTestingHelper);
 
   afterEach(() => {
     jest.clearAllMocks();

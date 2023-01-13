@@ -18,7 +18,8 @@ const technical: JSONSchema7 = {
     decision: {
       title: 'Decision',
       type: 'string',
-      enum: ['Pass', 'Fail'],
+      enum: ['No decision', 'Pass', 'Fail'],
+      default: 'No decision',
     },
     completedAssessment: {
       title: 'Completed assessment',
