@@ -4,9 +4,13 @@ begin;
 
 create or replace function ccbc_public.application_has_rfi_open(application ccbc_public.application) returns boolean as
 $$
-  -- id is not null and ( rfiDueBy ? rfiDueByTimestamp > now() : true)
+  -- id is not null and ( rfiDueBy ? rfiDueByTimestamp > now() : true) and rfiAdditionalFiles is not empty
   -- Subtract 1 day from now() as it was returning false 1 day earlier than the due date
-  select (id is not null) and (coalesce(to_timestamp(json_data ->> 'rfiDueBy', 'YYYY-MM-DD') > now() - interval '1' day, 'false'::boolean)) from ccbc_public.application_rfi(application);
+  select (id is not null) and
+    (coalesce(to_timestamp(json_data ->> 'rfiDueBy', 'YYYY-MM-DD') > now() - interval '1' day
+       and json_data ->> 'rfiAdditionalFiles' <> '{}',
+    'false'::boolean))
+  from ccbc_public.application_rfi(application);
 
 $$ language sql stable;
 
