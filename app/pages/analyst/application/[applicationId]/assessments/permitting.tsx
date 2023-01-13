@@ -28,6 +28,16 @@ const getPermittingAssessmentQuery = graphql`
   }
 `;
 
+const permittingUiSchema = {
+  ...assessmentsUiSchema,
+  decision: {
+    'ui:widget': 'CheckboxesWidget',
+    'ui:options': {
+      boldTitle: true,
+    },
+  },
+};
+
 const PermittingAssessment = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, permittingAssessmentQuery>) => {
@@ -41,15 +51,7 @@ const PermittingAssessment = ({
         <AssessmentsTabs />
         <AssessmentsForm
           formData={applicationByRowId.assessmentForm?.jsonData}
-          uiSchema={{
-            ...assessmentsUiSchema,
-            decision: {
-              'ui:widget': 'CheckboxesWidget',
-              'ui:options': {
-                boldTitle: true,
-              },
-            },
-          }}
+          uiSchema={permittingUiSchema}
           schema={permitting}
           slug="permitting"
           query={query}

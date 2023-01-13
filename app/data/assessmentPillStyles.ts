@@ -69,6 +69,21 @@ const assessmentPillStyles = {
     primary: '#FFFFFF;',
     backgroundColor: '#2E8540',
   },
+  'Major permit approval issues anticipated': {
+    primary: '#FFFFFF;',
+    backgroundColor: '#D8292F',
+    description: 'Major issues',
+  },
+  'Permits will likely delay project timeline': {
+    primary: '#FFFFFF;',
+    backgroundColor: '#C38A00',
+    description: 'Delays anticipated',
+  },
+  'No obvious flags identified at this stage': {
+    primary: '#FFFFFF;',
+    backgroundColor: '#2E8540',
+    description: 'No obvious flags',
+  },
 };
 
 export default assessmentPillStyles;
