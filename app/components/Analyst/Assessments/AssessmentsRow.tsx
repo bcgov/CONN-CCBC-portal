@@ -23,6 +23,18 @@ const StyledDisabledCell = styled(StyledCell)`
   color: ${(props) => props.theme.color.disabledGrey};
 `;
 
+const StyledDecisionCell = styled(StyledCell)`
+  & div {
+    margin: 8px 0;
+  }
+  & div:first-child {
+    margin-top: 0;
+  }
+  & div:last-child {
+    margin-bottom: 0;
+  }
+`;
+
 interface Props {
   assessment: any;
   name: string;
@@ -45,7 +57,10 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
   const progress = jsonData?.nextStep;
   const decision =
     jsonData?.decision === 'No decision' ? null : jsonData?.decision;
-  const isComplete = progress === 'Assessment complete' && decision;
+  const isPermitting = name === 'Permitting';
+  const isPermittingComplete = isPermitting && decision && decision.length > 0;
+  const isComplete =
+    (progress === 'Assessment complete' && decision) || isPermittingComplete;
   const assignedTo = jsonData?.assignedTo;
 
   const dateString =
@@ -71,7 +86,8 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
     assesmentProgress: string
   ) => {
     if (completed) return 'Complete';
-    if (assigned && assesmentProgress === 'Not started') return 'Assigned';
+    if (assigned && (assesmentProgress === 'Not started' || !assesmentProgress))
+      return 'Assigned';
     if (!assesmentProgress) return 'Not started';
     return assesmentProgress;
   };
@@ -91,14 +107,25 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
         <StyledDisabledCell>Not assigned</StyledDisabledCell>
       )}
       <StyledCell>{dateString}</StyledCell>
-      <StyledCell>
-        {decision && (
+      <StyledDecisionCell>
+        {decision && !isPermitting && (
           <StatusPill
             status={jsonData?.decision}
             styles={assessmentPillStyles}
           />
         )}
-      </StyledCell>
+        {decision &&
+          isPermitting &&
+          decision.map((item) => {
+            return (
+              <StatusPill
+                key={item}
+                status={item}
+                styles={assessmentPillStyles}
+              />
+            );
+          })}
+      </StyledDecisionCell>
     </StyledRow>
   );
 };

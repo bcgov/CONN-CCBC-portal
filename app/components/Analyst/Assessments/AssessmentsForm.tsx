@@ -13,6 +13,7 @@ interface Props {
   schema: JSONSchema7;
   slug: string;
   formData: any;
+  uiSchema?: any;
 }
 
 const AssessmentsForm: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const AssessmentsForm: React.FC<Props> = ({
   query,
   schema,
   slug,
+  uiSchema,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -64,7 +66,7 @@ const AssessmentsForm: React.FC<Props> = ({
   return (
     <FormBase
       schema={schema}
-      uiSchema={assessmentsUiSchema}
+      uiSchema={uiSchema || assessmentsUiSchema}
       noValidate
       formData={newFormData}
       onChange={(e) => {

@@ -6,6 +6,7 @@ const assessmentsUiSchema = {
     'targetDate',
     'nextStep',
     'decision',
+    'notesAndConsiderations',
     'contestingMap',
     'assessmentTemplate',
     'completedAssessment',
@@ -63,6 +64,13 @@ const assessmentsUiSchema = {
     'ui:options': {
       label: false,
       allowMultipleFiles: true,
+    },
+  },
+  notesAndConsiderations: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:options': {
+      boldTitle: true,
+      maxLength: 1000,
     },
   },
 };

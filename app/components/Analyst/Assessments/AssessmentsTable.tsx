@@ -74,6 +74,10 @@ const AssessmentsTable: React.FC<Props> = ({ query }) => {
           name="Financial Risk"
           assessment={findAssessment(assessments, 'financialRisk')}
         />
+        <AssessmentsRow
+          name="Permitting"
+          assessment={findAssessment(assessments, 'permitting')}
+        />
       </StyledTBody>
     </StyledTable>
   );
