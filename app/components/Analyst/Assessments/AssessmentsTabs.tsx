@@ -60,6 +60,11 @@ const AssessmentsTabs = () => {
           Financial Risk
         </StyledAnchor>
       </Link>
+      <Link passHref href={`${baseUrl}/permitting`}>
+        <StyledAnchor selected={`${baseUrl}/permitting` === router.asPath}>
+          Permitting
+        </StyledAnchor>
+      </Link>
     </StyledNav>
   );
 };

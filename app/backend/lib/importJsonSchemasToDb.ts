@@ -2,6 +2,7 @@ import { pgPool } from './setup-pg';
 import schema from '../../formSchema/schema';
 import {
   financialRisk,
+  permitting,
   projectManagement,
   screening,
   technical,
@@ -48,6 +49,13 @@ const importJsonSchemasToDb = async () => {
       'technicalAssessmentSchema',
       technical,
       'Schema of the technical assessment for analysts',
+      'assessment',
+    ]);
+
+    await client.query(insertQuery, [
+      'permittingAssessmentSchema',
+      permitting,
+      'Schema of the permitting assessment for analysts',
       'assessment',
     ]);
 
