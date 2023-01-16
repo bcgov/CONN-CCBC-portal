@@ -1,3 +1,18 @@
+# [1.34.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.33.0...v1.34.0) (2023-01-16)
+
+### Bug Fixes
+
+- remove unchecked rfi requested files from form data ([f601a6c](https://github.com/bcgov/CONN-CCBC-portal/commit/f601a6c89c7db8f23ad9b08a2012fda883a232c2))
+- reply rfi requires due date set to display on applicant portal ([5113ac5](https://github.com/bcgov/CONN-CCBC-portal/commit/5113ac5309901185ed8e61e44b60c6349d8c5b33))
+- reply rfi upload files button display correct on rfi due date ([f9d48fc](https://github.com/bcgov/CONN-CCBC-portal/commit/f9d48fc910361bc7a86e8e1cd198af499daaa81e))
+- use bc-sans package ([881509b](https://github.com/bcgov/CONN-CCBC-portal/commit/881509bab1e305c1f2fa1bd208e6b63cbe7e631c))
+
+### Features
+
+- add applicant intake column and cleanup dashboard ([28b2ace](https://github.com/bcgov/CONN-CCBC-portal/commit/28b2acebc3804e1ca0f2006634f51e302407e0c3))
+- add default radio options for assessments progress and decision ([d32c7c1](https://github.com/bcgov/CONN-CCBC-portal/commit/d32c7c12e95b49c208667d357e3703628ce60d4f))
+- require requested file fields to for an application rfi to be open ([69463ee](https://github.com/bcgov/CONN-CCBC-portal/commit/69463ee925a9a72825aecf66aca1b6ad55256c3b))
+
 # [1.33.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.32.0...v1.33.0) (2023-01-11)
 
 ### Bug Fixes
