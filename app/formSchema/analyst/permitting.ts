@@ -21,7 +21,7 @@ const permitting: JSONSchema7 = {
       type: 'string',
     },
     decision: {
-      title: 'Decision',
+      title: 'Flags',
       type: 'array',
       items: {
         type: 'string',
