@@ -21,22 +21,11 @@ const mockQueryPayload = {
             {
               jsonData: {
                 decision: 'Incomplete',
-                nextStep: 'Assessment complete',
+                nextStep: 'Needs RFI',
                 assignedTo: 'Rachel Greenspan',
                 targetDate: '2023-01-10',
               },
               assessmentDataType: 'screening',
-            },
-            {
-              jsonData: {
-                assignedTo: 'Harpreet Bains',
-                decision: 'No decision',
-                nextStep: 'Not started',
-              },
-              assessmentDataType: 'technical',
-            },
-            {
-              assessmentDataType: 'projectManagement',
             },
           ],
         },
@@ -55,6 +44,22 @@ const mockQueryPayload = {
       },
     };
   },
+};
+
+const customAssessmentQueryPayload = (assessment) => {
+  return {
+    Query() {
+      return {
+        ...mockQueryPayload,
+        applicationByRowId: {
+          ...mockQueryPayload.Query().applicationByRowId,
+          allAssessments: {
+            nodes: [assessment],
+          },
+        },
+      };
+    },
+  };
 };
 
 const pageTestingHelper = new PageTestingHelper<assessmentsQuery>({
@@ -97,7 +102,6 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getAllByText('Screening')[1]).toBeInTheDocument();
-    expect(screen.getAllByText('Complete')[1]).toBeInTheDocument();
     expect(screen.getByText('Rachel Greenspan')).toBeInTheDocument();
     expect(screen.getByText('Tue, Jan 10')).toBeInTheDocument();
     expect(screen.getByText('Incomplete')).toBeInTheDocument();
@@ -108,22 +112,105 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const statusProgress = screen.getAllByText('Complete')[1];
     const statusDecision = screen.getByText('Incomplete');
 
-    expect(statusProgress).toHaveStyle('color: #FFFFFF');
-    expect(statusProgress).toHaveStyle('background-color: #345FA9;');
     expect(statusDecision).toHaveStyle('color: #FFFFFF');
     expect(statusDecision).toHaveStyle('background-color: #C38A00;');
   });
 
-  it('should have the correct status if an assessment is assigned with no decision', async () => {
-    pageTestingHelper.loadQuery();
+  it('should have Assigned status if an assessment is assigned with no progress made', async () => {
+    const mockPayload = customAssessmentQueryPayload({
+      jsonData: {
+        assignedTo: 'Rachel Greenspan',
+      },
+      assessmentDataType: 'screening',
+    });
+
+    pageTestingHelper.loadQuery(mockPayload);
     pageTestingHelper.renderPage();
 
     const statusDecision = screen.getByText('Assigned');
     expect(statusDecision).toHaveStyle('color: #313132;');
     expect(statusDecision).toHaveStyle('background-color: #DBE6F0;');
+  });
+
+  it('should not display Complete if progress is not assessment complete and a decision has been made', async () => {
+    const mockPayload = customAssessmentQueryPayload({
+      jsonData: {
+        decision: 'Incomplete',
+        nextStep: 'Needs RFI',
+      },
+      assessmentDataType: 'screening',
+    });
+
+    pageTestingHelper.loadQuery(mockPayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.queryByText('Complete')).not.toBeInTheDocument();
+  });
+
+  it('should have the Complete status if progress is Assessment complete and a decision has been made', async () => {
+    const mockPayload = customAssessmentQueryPayload({
+      jsonData: {
+        decision: 'Incomplete',
+        nextStep: 'Assessment complete',
+      },
+      assessmentDataType: 'screening',
+    });
+
+    pageTestingHelper.loadQuery(mockPayload);
+    pageTestingHelper.renderPage();
+
+    const status = screen.getByText('Complete');
+
+    expect(status).toHaveStyle('color: #FFFFFF');
+    expect(status).toHaveStyle('background-color: #345FA9;');
+  });
+
+  it('any permitting flags are checked then show progress as Complete', async () => {
+    const mockPayload = customAssessmentQueryPayload({
+      jsonData: {
+        decision: ['Major permit approval issues anticipate'],
+      },
+      assessmentDataType: 'permitting',
+    });
+
+    pageTestingHelper.loadQuery(mockPayload);
+    pageTestingHelper.renderPage();
+
+    const status = screen.getByText('Complete');
+
+    expect(status).toHaveStyle('color: #FFFFFF');
+    expect(status).toHaveStyle('background-color: #345FA9;');
+  });
+
+  it('can display multiple status pills for permitting assessment', async () => {
+    const mockPayload = customAssessmentQueryPayload({
+      jsonData: {
+        decision: [
+          'Major permit approval issues anticipated',
+          'Permits will likely delay project timeline',
+          'No obvious flags identified at this stage',
+        ],
+      },
+      assessmentDataType: 'permitting',
+    });
+
+    pageTestingHelper.loadQuery(mockPayload);
+    pageTestingHelper.renderPage();
+
+    const status1 = screen.getByText('Delays anticipated');
+    const status2 = screen.getByText('No obvious flags');
+    const status3 = screen.getByText('Major issues');
+
+    expect(status1).toHaveStyle('color: #FFFFFF');
+    expect(status1).toHaveStyle('background-color: #C38A00;');
+
+    expect(status2).toHaveStyle('color: #FFFFFF');
+    expect(status2).toHaveStyle('background-color: #2E8540;');
+
+    expect(status3).toHaveStyle('color: #FFFFFF');
+    expect(status3).toHaveStyle('background-color: #D8292F;');
   });
 
   afterEach(() => {

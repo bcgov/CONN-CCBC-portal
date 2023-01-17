@@ -6,7 +6,7 @@ describe('The analyst technical assessment page', () => {
   });
 
   it('loads', () => {
-    cy.visit('/analyst/application/1/assessments/project-management');
+    cy.visit('/analyst/application/1/assessments/technical');
     cy.contains('a', 'Technical');
     cy.get('body').happoScreenshot({
       component: 'Analyst technical assessment page',
