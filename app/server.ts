@@ -1,5 +1,6 @@
 import next from 'next';
 import express from 'express';
+import passport from 'passport';
 import delay from 'delay';
 import http from 'http';
 import { createLightship } from 'lightship';
@@ -15,6 +16,7 @@ import headersMiddleware from './backend/lib/headers';
 import graphQlMiddleware from './backend/lib/graphql';
 import s3archive from './backend/lib/s3archive';
 import s3download from './backend/lib/s3download';
+import logout from './backend/lib/logout';
 import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
 
 importJsonSchemasToDb();
@@ -61,6 +63,11 @@ app.prepare().then(async () => {
 
   server.use('/', s3archive);
   server.use('/', s3download);
+
+  // passport needed to use req.logout() and req.session.destroy() in logout.ts
+  server.use(passport.initialize());
+  server.use(passport.session());
+  server.use('/', logout);
 
   server.all('*', async (req, res) => handle(req, res));
 

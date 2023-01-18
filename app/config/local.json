@@ -1,7 +1,8 @@
 {
+  "AUTH_SERVER_URL": "https://dev.loginproxy.gov.bc.ca/auth",
   "SITEMINDER_LOGOUT_URL": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi",
   "ENABLE_MOCK_TIME": false,
   "ENABLE_MOCK_COOKIES": true,
-  "CHECK_TAGS" : true,
+  "CHECK_TAGS": true,
   "SENTRY_RELEASE": "local_development"
 }

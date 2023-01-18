@@ -24,7 +24,7 @@ type Props = {
 };
 
 const LoginForm: React.FC<Props> = ({ linkText, action }) => (
-  <StyledForm action={action} method="POST">
+  <StyledForm action={action} method={action === '/login' ? 'POST' : 'GET'}>
     <StyledButton type="submit">{linkText}</StyledButton>
   </StyledForm>
 );
