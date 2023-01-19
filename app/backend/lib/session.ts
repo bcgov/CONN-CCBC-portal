@@ -24,7 +24,8 @@ const session = () => {
     secret: sessionSecret,
     store,
     resave: false,
-    saveUninitialized: true,
+    // testing saveUninitialized set to false so we can totally clear cookies on logout
+    saveUninitialized: false,
     cookie: {
       // session expiration is set by default to 30 days
       maxAge: THIRTY_DAYS,

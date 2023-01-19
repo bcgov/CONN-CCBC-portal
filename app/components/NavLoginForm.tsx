@@ -20,11 +20,11 @@ const StyledForm = styled.form`
 
 type Props = {
   linkText: string;
-  action: '/login' | '/logout';
+  action: '/api/login/multi-auth' | '/api/logout';
 };
 
 const LoginForm: React.FC<Props> = ({ linkText, action }) => (
-  <StyledForm action={action} method={action === '/login' ? 'POST' : 'GET'}>
+  <StyledForm action={action} method="POST">
     <StyledButton type="submit">{linkText}</StyledButton>
   </StyledForm>
 );

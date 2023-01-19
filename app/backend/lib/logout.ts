@@ -11,7 +11,7 @@ const siteminderUrl = config.get('SITEMINDER_LOGOUT_URL');
 
 const logout = Router();
 
-logout.get('/logout', async (req: any, res) => {
+logout.post('/api/logout', async (req: any, res) => {
   req.logout(() => {
     const idp = req.claims.identity_provider;
     const baseRoute = idp === 'idir' ? '/analyst' : '/';
@@ -21,6 +21,7 @@ logout.get('/logout', async (req: any, res) => {
     )}`;
 
     req.session.destroy(() => {
+      res.clearCookie('connect.sid');
       res.redirect(logoutUrl);
     });
   });

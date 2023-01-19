@@ -151,7 +151,7 @@ describe('The index page', () => {
     });
     expect(button.closest('form')).toHaveAttribute(
       'action',
-      '/login?kc_idp_hint=bceidbusiness'
+      '/login/kc_idp_hint=bceidbusiness'
     );
   });
 
@@ -163,7 +163,7 @@ describe('The index page', () => {
     });
     expect(button.closest('form')).toHaveAttribute(
       'action',
-      '/login?kc_idp_hint=bceidbasic'
+      '/login/kc_idp_hint=bceidbasic'
     );
   });
 
