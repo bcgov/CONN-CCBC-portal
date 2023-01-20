@@ -13,7 +13,7 @@ const logout = Router();
 
 logout.post('/api/logout', async (req: any, res) => {
   req.logout(() => {
-    const idp = req.claims.identity_provider;
+    const idp = req.claims?.identity_provider;
     const baseRoute = idp === 'idir' ? '/analyst' : '/';
 
     const logoutUrl = `${siteminderUrl}?retnow=1&returl=${authServerUrl}/realms/standard/protocol/openid-connect/logout?redirect_uri=${encodeURI(

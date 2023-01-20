@@ -51,6 +51,9 @@ app.prepare().then(async () => {
   server.disable('x-powered-by'); // at minimum, disable x-powered-by header
   server.set('trust proxy', 1); // trust first proxy
 
+  // passport needed to use req.logout() and req.session.destroy() in login.ts and logout.ts
+  server.use(passport.initialize());
+
   const { middleware: sessionMiddleware } = session();
 
   server.use(sessionMiddleware);
@@ -64,10 +67,6 @@ app.prepare().then(async () => {
 
   server.use('/', s3archive);
   server.use('/', s3download);
-
-  // passport needed to use req.logout() and req.session.destroy() in logout.ts
-  server.use(passport.initialize());
-  server.use(passport.session());
   server.use('/', login);
   server.use('/', logout);
 
