@@ -16,7 +16,7 @@ logout.post('/api/logout', async (req: any, res) => {
     const idp = req.claims?.identity_provider;
     const baseRoute = idp === 'idir' ? '/analyst' : '/';
 
-    const logoutUrl = `${siteminderUrl}?retnow=1&returl=${authServerUrl}/realms/standard/protocol/openid-connect/logout?redirect_uri=${encodeURI(
+    const logoutUrl = `${siteminderUrl}?retnow=1&returl=${authServerUrl}/protocol/openid-connect/logout?redirect_uri=${encodeURI(
       `${baseUrl}${baseRoute}`
     )}`;
 

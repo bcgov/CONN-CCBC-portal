@@ -1,5 +1,5 @@
 {
-  "AUTH_SERVER_URL": "https://test.loginproxy.gov.bc.ca/auth",
+  "AUTH_SERVER_URL": "https://test.loginproxy.gov.bc.ca/auth/realms/standard",
   "SITEMINDER_LOGOUT_URL": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi",
   "ENABLE_MOCK_TIME": true,
   "ENABLE_MOCK_COOKIES": true,
