@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { BaseNavigation } from '@button-inc/bcgov-theme/Navigation';
 import { BaseHeader } from '@button-inc/bcgov-theme/Header';
 import Link from 'next/link';
@@ -42,47 +43,52 @@ interface Props {
   title?: string;
 }
 
-const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => (
-  <BaseNavigation>
-    <StyledBaseHeader>
-      <StyledDiv>
-        <BaseHeader.Group className="banner">
-          <Link passHref href="/">
-            <a>
-              <Image
-                style={{ cursor: 'pointer' }}
-                priority
-                src="/icons/BCID_CC_RGB_rev.svg"
-                alt="Logo for Province of British Columbia Connected Communities"
-                height={100}
-                width={300}
-              />
-            </a>
-          </Link>
-        </BaseHeader.Group>
-        <StyledMainTitle>
-          <h1>{title}</h1>
-        </StyledMainTitle>
-        <StyledRightSideLinks>
-          {isLoggedIn && (
-            <>
-              <Link passHref href="/applicantportal/dashboard">
-                <StyledAnchor data-testid="dashboard-btn-test">
-                  Dashboard
-                </StyledAnchor>
-              </Link>
-              |
-            </>
-          )}
-          <NavLoginForm
-            action={isLoggedIn ? '/logout' : '/login'}
-            linkText={isLoggedIn ? 'Logout' : 'Login'}
-          />
-        </StyledRightSideLinks>
-      </StyledDiv>
-    </StyledBaseHeader>
-    <SubHeader />
-  </BaseNavigation>
-);
+const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
+  const router = useRouter();
+  const isApplicantPortal = router?.pathname.startsWith('/applicantportal');
+
+  return (
+    <BaseNavigation>
+      <StyledBaseHeader>
+        <StyledDiv>
+          <BaseHeader.Group className="banner">
+            <Link passHref href="/">
+              <a>
+                <Image
+                  style={{ cursor: 'pointer' }}
+                  priority
+                  src="/icons/BCID_CC_RGB_rev.svg"
+                  alt="Logo for Province of British Columbia Connected Communities"
+                  height={100}
+                  width={300}
+                />
+              </a>
+            </Link>
+          </BaseHeader.Group>
+          <StyledMainTitle>
+            <h1>{title}</h1>
+          </StyledMainTitle>
+          <StyledRightSideLinks>
+            {isLoggedIn && isApplicantPortal && (
+              <>
+                <Link passHref href="/applicantportal/dashboard">
+                  <StyledAnchor data-testid="dashboard-btn-test">
+                    Dashboard
+                  </StyledAnchor>
+                </Link>
+                |
+              </>
+            )}
+            <NavLoginForm
+              action={isLoggedIn ? '/logout' : '/login'}
+              linkText={isLoggedIn ? 'Logout' : 'Login'}
+            />
+          </StyledRightSideLinks>
+        </StyledDiv>
+      </StyledBaseHeader>
+      {isApplicantPortal && <SubHeader />}
+    </BaseNavigation>
+  );
+};
 
 export default Navigation;

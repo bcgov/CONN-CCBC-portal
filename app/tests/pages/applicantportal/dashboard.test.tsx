@@ -136,6 +136,9 @@ const pageTestingHelper = new PageTestingHelper<dashboardQuery>({
 describe('The index page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
+    pageTestingHelper.setMockRouterValues({
+      pathname: '/applicantportal/dashboard',
+    });
   });
 
   it('displays the correct nav links when user is logged in', () => {
