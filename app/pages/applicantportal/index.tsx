@@ -1,3 +1,4 @@
+import type { NextPageContext } from 'next';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
@@ -227,7 +228,25 @@ const Home = ({
 
 export const withRelayOptions = {
   ...defaultRelayOptions,
-  serverSideProps: async () => ({}),
+  serverSideProps: async (ctx: NextPageContext) => {
+    const { default: getAuthRole } = await import('../../utils/getAuthRole');
+
+    const request = ctx.req as any;
+    const authRole = getAuthRole(request);
+    const pgRole = authRole?.pgRole;
+    const isAnalyst = pgRole === 'ccbc_admin' || pgRole === 'ccbc_analyst';
+
+    // Redirect signed in analysts to the analyst landing page
+    if (isAnalyst) {
+      return {
+        redirect: {
+          destination: authRole.landingRoute,
+        },
+      };
+    }
+
+    return {};
+  },
 };
 
 export default withRelay(Home, getApplicantportalQuery, withRelayOptions);

@@ -95,7 +95,13 @@ describe('The index page', () => {
   });
 
   it('does not redirect an unauthorized user', async () => {
-    expect(await withRelayOptions.serverSideProps()).toEqual({});
+    expect(
+      await withRelayOptions.serverSideProps({
+        pathname: '',
+        query: undefined,
+        AppTree: undefined,
+      })
+    ).toEqual({});
   });
 
   it('Displays the Go to dashboard button for a logged in user', async () => {
