@@ -16,7 +16,7 @@ ex:
 
     $psql -V
 
- - output similar to below
+ - output similar to below 
 
     psql (PostgreSQL) 14.6 (Ubuntu 14.6-1.pgdg20.04+1)
 
@@ -143,7 +143,7 @@ The information below describes the entire software development stack pertaining
 		(PostgresDb 14)
 
 3: Def'n developer workflow & constraints 
-   - Define Commit requirements and procedures
+   - Define Commit requirements and procedures 
      - ex: commit messages must have prefixed text based on conventional commits.
            ex=> fix: feat: chore: docs:
            https://www.conventionalcommits.org/en/v1.0.0-beta.2/
