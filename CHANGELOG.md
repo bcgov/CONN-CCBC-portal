@@ -1,3 +1,18 @@
+# [1.35.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.34.0...v1.35.0) (2023-01-24)
+
+### Bug Fixes
+
+- default export ([eeb0028](https://github.com/bcgov/CONN-CCBC-portal/commit/eeb00287bacfd4d9329f549e08c061df91ee3f51))
+
+### Features
+
+- add custom login route ([d0c86ff](https://github.com/bcgov/CONN-CCBC-portal/commit/d0c86ff5dec29cbf0e812f72c704eb6281d143ad))
+- add custom logout route ([da93b38](https://github.com/bcgov/CONN-CCBC-portal/commit/da93b38e38a02571d2a84ca4d103cabf39e17830))
+- add permitting assessment ([1525887](https://github.com/bcgov/CONN-CCBC-portal/commit/1525887cc6a09abc89a9c27891fe4ca95181c54e))
+- archiver lambda ([4420cd8](https://github.com/bcgov/CONN-CCBC-portal/commit/4420cd87ac147b944b64646ff5dda2ad7ed3585b))
+- lambda reading from sns ([f0e0b75](https://github.com/bcgov/CONN-CCBC-portal/commit/f0e0b75991c7eb55aecc068259a1e62bc07e0083))
+- update nav for analysts and add redirect to analyst dashboard ([cb04410](https://github.com/bcgov/CONN-CCBC-portal/commit/cb04410ca9fb2f851818bc4bf7f52f48d2c0a1ab))
+
 # [1.34.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.33.0...v1.34.0) (2023-01-16)
 
 ### Bug Fixes
