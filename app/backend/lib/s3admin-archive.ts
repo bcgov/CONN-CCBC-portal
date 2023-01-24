@@ -4,7 +4,7 @@ import config from '../../config';
 import getAuthRole from '../../utils/getAuthRole';
 import {checkFileExists,getFileFromS3} from './s3client';
 import {pushMessage} from './sns-client';
-import getAttachementList from './attachements';
+import getAttachmentList from './attachments';
 import getLastIntakeId from './lastIntake';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
@@ -47,7 +47,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
     return res.status(200).end();
   };
 
-  const attachments = await getAttachementList(parseInt(intake as string, 10), req);
+  const attachments = await getAttachmentList(parseInt(intake as string, 10), req);
   await pushMessage(ARCHIVE_REQUEST_TOPIC_ARN, fileName, JSON.stringify(attachments));
   res.send({'status':'request submitted'});
   return res.status(200).end();
