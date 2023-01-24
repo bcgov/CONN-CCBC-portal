@@ -1,5 +1,6 @@
 import next from 'next';
 import express from 'express';
+import passport from 'passport';
 import delay from 'delay';
 import http from 'http';
 import { createLightship } from 'lightship';
@@ -15,6 +16,8 @@ import headersMiddleware from './backend/lib/headers';
 import graphQlMiddleware from './backend/lib/graphql';
 import s3archive from './backend/lib/s3archive';
 import s3download from './backend/lib/s3download';
+import logout from './backend/lib/logout';
+import login from './backend/lib/login';
 import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
 
 importJsonSchemasToDb();
@@ -48,6 +51,9 @@ app.prepare().then(async () => {
   server.disable('x-powered-by'); // at minimum, disable x-powered-by header
   server.set('trust proxy', 1); // trust first proxy
 
+  // passport needed to use req.logout() and req.session.destroy() in login.ts and logout.ts
+  server.use(passport.initialize());
+
   const { middleware: sessionMiddleware } = session();
 
   server.use(sessionMiddleware);
@@ -61,6 +67,8 @@ app.prepare().then(async () => {
 
   server.use('/', s3archive);
   server.use('/', s3download);
+  server.use('/', login);
+  server.use('/', logout);
 
   server.all('*', async (req, res) => handle(req, res));
 

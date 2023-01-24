@@ -90,6 +90,12 @@ const config = convict({
     default: '',
     env: 'SITEMINDER_LOGOUT_URL',
   },
+  AUTH_SERVER_URL: {
+    doc: 'Auth server URL',
+    format: '*',
+    default: '',
+    env: 'AUTH_SERVER_URL',
+  },
   OPENSHIFT_APP_NAMESPACE: {
     doc: 'Namespace on OpenShift to which the app is deployed',
     format: ['ff61fb-dev', 'ff61fb-test', 'ff61fb-prod', ''],
@@ -193,7 +199,7 @@ const config = convict({
     format: Boolean,
     default: true,
     env: 'CHECK_TAGS',
-  }
+  },
 });
 
 // Load environment dependent configuration

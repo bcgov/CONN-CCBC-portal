@@ -13,7 +13,7 @@ const StyledForm = styled('form')`
 const LoginForm: React.FC<Props> = ({ idp }) => {
   return (
     <StyledForm
-      action={`/login?${IDP_HINT_PARAM}=${IDP_HINTS[idp]}`}
+      action={`/api/login/${IDP_HINT_PARAM}=${IDP_HINTS[idp]}`}
       method="POST"
     >
       <Button type="submit">Login with {idp}</Button>

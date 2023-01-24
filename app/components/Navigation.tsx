@@ -80,7 +80,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
               </>
             )}
             <NavLoginForm
-              action={isLoggedIn ? '/logout' : '/login'}
+              action={isLoggedIn ? '/api/logout' : '/api/login/multi-auth'}
               linkText={isLoggedIn ? 'Logout' : 'Login'}
             />
           </StyledRightSideLinks>

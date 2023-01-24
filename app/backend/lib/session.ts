@@ -24,7 +24,7 @@ const session = () => {
     secret: sessionSecret,
     store,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       // session expiration is set by default to 30 days
       maxAge: THIRTY_DAYS,
