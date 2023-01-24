@@ -22,7 +22,7 @@ query getApplications($intakeId: Int!) {
 }
 `;
 
-const getAttachementList = async(intake:number, req) => {
+const getAttachmentList = async(intake:number, req) => {
   const infected = [];
   const attachments = [];
   // untility functions
@@ -119,4 +119,4 @@ const getAttachementList = async(intake:number, req) => {
   return attachments;
 }
 
-export default getAttachementList;
+export default getAttachmentList;

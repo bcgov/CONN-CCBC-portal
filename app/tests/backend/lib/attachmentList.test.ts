@@ -8,7 +8,7 @@ import session from 'express-session';
 import crypto from 'crypto';
 import { PassThrough } from 'stream';
 import s3archive from '../../../backend/lib/s3archive';
-import getAttachementList from '../../../backend/lib/attachements';
+import getAttachmentList from '../../../backend/lib/attachments';
 import { performQuery } from '../../../backend/lib/graphql';
 import getAuthRole from '../../../utils/getAuthRole';
 
@@ -117,7 +117,7 @@ describe('Attachment list', () => {
     });
 
     mockObjectTagging = mockObjectTaggingClean;
-    const response = await getAttachementList(1,request);
+    const response = await getAttachmentList(1,request);
 
     const expected =  [
       {
@@ -165,7 +165,7 @@ describe('Attachment list', () => {
     });
 
     mockObjectTagging = mockObjectTaggingDirty;
-    const response = await getAttachementList(1,request);
+    const response = await getAttachmentList(1,request);
 
     const expected =  [
       {
