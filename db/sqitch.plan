@@ -154,3 +154,4 @@ computed_columns/application_assessment_form [computed_columns/application_asses
 computed_columns/application_has_rfi_open [computed_columns/application_has_rfi_open@1.32.0] 2023-01-11T19:48:04Z Marcel Mueller <marcel@button.is> # fix due date ending 1 day early
 @1.34.0 2023-01-16T18:05:54Z Marcel Mueller <marcel@button.is> # release v1.34.0
 @1.35.0 2023-01-24T18:40:51Z Marcel Mueller <marcel@button.is> # release v1.35.0
+@1.35.1 2023-01-24T23:09:45Z Marcel Mueller <marcel@button.is> # release v1.35.1

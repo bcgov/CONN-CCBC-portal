@@ -1,3 +1,11 @@
+## [1.35.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.35.0...v1.35.1) (2023-01-24)
+
+### Bug Fixes
+
+- file rename ([048feee](https://github.com/bcgov/CONN-CCBC-portal/commit/048feeee9e8bc6442ff9f99946cf02bd3a49ef3b))
+- typo ([0f466be](https://github.com/bcgov/CONN-CCBC-portal/commit/0f466be626c69921c2dff1e9f013f993496017d9))
+- v2 aws s3 client config ([890ed93](https://github.com/bcgov/CONN-CCBC-portal/commit/890ed937cedaf0eecfb27cae51851ae9f10d5961))
+
 # [1.35.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.34.0...v1.35.0) (2023-01-24)
 
 ### Bug Fixes
