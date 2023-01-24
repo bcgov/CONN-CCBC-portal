@@ -1,3 +1,10 @@
+# [1.35.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.34.0...v1.35.0) (2023-01-24)
+
+### Features
+
+- add permitting assessment ([1525887](https://github.com/bcgov/CONN-CCBC-portal/commit/1525887cc6a09abc89a9c27891fe4ca95181c54e))
+- update nav for analysts and add redirect to analyst dashboard ([cb04410](https://github.com/bcgov/CONN-CCBC-portal/commit/cb04410ca9fb2f851818bc4bf7f52f48d2c0a1ab))
+
 # [1.34.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.33.0...v1.34.0) (2023-01-16)
 
 ### Bug Fixes
