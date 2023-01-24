@@ -2,7 +2,7 @@
 set -xeuo pipefail;
 
 version="8.15.3";
-releases_api="https://api.github.com/repos/zricethezav/gitleaks/releases/latest";
+releases_api="https://api.github.com/repos/zricethezav/gitleaks/releases/tags/v${version}";
 releases_json="$(curl -s ${releases_api})";
 
 case "$OSTYPE" in
