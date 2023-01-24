@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ template "ccbc.fullname" . }}-receive-applications
+  labels: {{ include "ccbc.labels" . | nindent 4 }}
+spec:
+  suspend: false
+  schedule: "0 5,17 * * *" # run cronjob at At 09:00 and 21:00
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 600
+      template:
+        metadata:
+          labels: {{ include "ccbc.labels" . | nindent 14 }}
+        spec:
+          restartPolicy: Never
+          containers:
+            - env: {{ include "ccbc.ccbcAppUserPgEnv" . | nindent 16 }}
+              name: {{ template "ccbc.fullname" . }}-receive-applications
+              image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
+              imagePullPolicy: {{ .Values.image.db.pullPolicy }}
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+                requests:
+                  cpu: 100m
+                  memory: 64Mi
+              command:
+                - /usr/bin/env
+                - bash
+                - -c
+                - |
+                  curl --location --request GET '{{ .Values.secureRoute.host }}/api/analyst/admin-archive/-1' --header 'x-api-key: {{ .Values.objectStorage.awsS3SecretKey }}'

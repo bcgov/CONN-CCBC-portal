@@ -18,6 +18,7 @@ import s3archive from './backend/lib/s3archive';
 import s3download from './backend/lib/s3download';
 import logout from './backend/lib/logout';
 import login from './backend/lib/login';
+import s3adminArchive from './backend/lib/s3admin-archive';
 import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
 
 importJsonSchemasToDb();
@@ -65,6 +66,7 @@ app.prepare().then(async () => {
   server.use(graphQlMiddleware());
   server.use(headersMiddleware());
 
+  server.use('/', s3adminArchive);
   server.use('/', s3archive);
   server.use('/', s3download);
   server.use('/', login);

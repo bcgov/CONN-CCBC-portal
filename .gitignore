@@ -9,3 +9,4 @@ helm/**/charts
 gitleaks
 k6Results/
 k6files/
+app/script/
