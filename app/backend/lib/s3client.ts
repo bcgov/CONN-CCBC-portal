@@ -3,7 +3,7 @@ import { S3Client } from '@aws-sdk/client-s3';
 import { getApplyMd5BodyChecksumPlugin } from '@aws-sdk/middleware-apply-body-checksum';
 
 import config from '../../config/index';
-import {awsConfig} from './awsCommon'
+import awsConfig from './awsCommon'
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 

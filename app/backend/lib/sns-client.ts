@@ -1,6 +1,6 @@
 import { SNSClient, PublishCommand } from "@aws-sdk/client-sns"; 
 
-import {awsConfig} from './awsCommon'
+import awsConfig from './awsCommon'
 
 export const snsClient = new SNSClient(awsConfig);
 

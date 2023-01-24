@@ -14,7 +14,7 @@ const agent = new https.Agent({
   keepAlive: true
  });
 
-export const awsConfig = {
+const awsConfig = {
   region: AWS_S3_REGION,
   logger: console,
   httpOptions: {
@@ -38,3 +38,5 @@ export const awsConfig = {
   }
   ),
 };
+
+export default awsConfig;
