@@ -23,5 +23,36 @@
         },
       },
     },
+    procedure: {
+      'ccbc_public.application_analyst_lead': {
+        tags: {
+          sortable: true,
+          filterarble: true,
+        },
+      },
+      'ccbc_public.application_organization_name': {
+        tags: {
+          sortable: true,
+          filterarble: true,
+        },
+      },
+      'ccbc_public.application_status': {
+        tags: {
+          sortable: true,
+          filterarble: true,
+        },
+      },
+      'ccbc_public.application_project_name': {
+        tags: {
+          sortable: true,
+          filterarble: true,
+        },
+      },
+      'ccbc_public.application_status_order': {
+        tags: {
+          sortable: true,
+        },
+      },
+    },
   },
 }
