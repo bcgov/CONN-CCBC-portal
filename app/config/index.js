@@ -173,7 +173,7 @@ const config = convict({
   ARCHIVE_REQUEST_TOPIC_ARN: {
     doc: 'AWS SNS Archvie request topic ARN',
     format: String,
-    default: 'arn:aws:sns:ca-central-1:780887525069:archive-on-demand',
+    default: 'arn:aws:sns:ca-central-1:780887525069:ccbc-export-files',
     env: 'ARCHIVE_REQUEST_TOPIC_ARN',
   },
   ENABLE_MOCK_TIME: {
