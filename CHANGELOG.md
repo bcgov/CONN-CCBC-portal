@@ -1,3 +1,9 @@
+## [1.35.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.35.1...v1.35.2) (2023-01-25)
+
+### Bug Fixes
+
+- sns topic arn config ([fe58765](https://github.com/bcgov/CONN-CCBC-portal/commit/fe58765e12df2e8c596b980e44840fe3bed1c444))
+
 ## [1.35.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.35.0...v1.35.1) (2023-01-24)
 
 ### Bug Fixes
