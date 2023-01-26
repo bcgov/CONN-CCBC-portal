@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 
 interface LinkProps {
+  isAdmin: boolean;
   selected: boolean;
 }
 
@@ -12,7 +14,8 @@ const StyledA = styled.a<LinkProps>`
   font-size: 32px;
   color: ${(props) => (props.selected ? props.theme.color.text : '#9B9B9B')};
   padding: 0px 16px;
-  border-bottom: ${(props) => (props.selected ? '2px solid #000000' : 'none')};
+  border-bottom: ${(props) =>
+    props.selected && props.isAdmin ? '2px solid #000000' : 'none'};
 `;
 
 const StyledNav = styled.nav`
@@ -21,18 +24,36 @@ const StyledNav = styled.nav`
   padding-bottom: 3px;
 `;
 
-const DashboardTabs = () => {
+const DashboardTabs = ({ session }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment DashboardTabs_query on KeycloakJwt {
+        authRole
+      }
+    `,
+    session
+  );
+
+  const { authRole } = queryFragment;
+
+  const isAdmin = authRole === 'ccbc_admin';
   const router = useRouter();
 
   return (
     <StyledNav>
       <Link href="/analyst/dashboard" passHref>
-        <StyledA selected={router?.pathname.startsWith('/analyst/dashboard')}>
+        <StyledA
+          isAdmin={isAdmin}
+          selected={router?.pathname.startsWith('/analyst/dashboard')}
+        >
           Dashboard
         </StyledA>
       </Link>
       <Link href="/analyst/admin/download-attachments" passHref>
-        <StyledA selected={router?.pathname.startsWith('/analyst/admin')}>
+        <StyledA
+          isAdmin={isAdmin}
+          selected={router?.pathname.startsWith('/analyst/admin')}
+        >
           Administrative
         </StyledA>
       </Link>

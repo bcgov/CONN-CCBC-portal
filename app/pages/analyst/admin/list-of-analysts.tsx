@@ -11,6 +11,7 @@ const getListOfAnalystsQuery = graphql`
   query listOfAnalystsQuery {
     session {
       sub
+      ...DashboardTabs_query
     }
     ...AnalystTable_query
   }
@@ -29,7 +30,7 @@ const ListOfAnalysts = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
-        <DashboardTabs />
+        <DashboardTabs session={session} />
       </StyledContainer>
     </Layout>
   );

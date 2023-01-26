@@ -11,6 +11,7 @@ const getApplicationIntakesQuery = graphql`
   query applicationIntakesQuery {
     session {
       sub
+      ...DashboardTabs_query
     }
     ...AnalystTable_query
   }
@@ -29,7 +30,7 @@ const ApplicationIntakes = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
-        <DashboardTabs />
+        <DashboardTabs session={session} />
         <AnalystTable query={query} />
       </StyledContainer>
     </Layout>

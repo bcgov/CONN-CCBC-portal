@@ -13,6 +13,7 @@ const getDashboardAnalystQuery = graphql`
   query dashboardAnalystQuery {
     session {
       sub
+      ...DashboardTabs_query
     }
     ...AnalystTable_query
   }
@@ -39,7 +40,7 @@ const AnalystDashboard = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledDashboardContainer>
-        <DashboardTabs />
+        <DashboardTabs session={session} />
         {exportAttachmentsBtn && (
           <StyledBtnContainer>
             <ButtonLink href="/api/analyst/archive">

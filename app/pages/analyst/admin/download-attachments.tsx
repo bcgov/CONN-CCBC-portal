@@ -11,6 +11,7 @@ const getDownloadAttachmentsQuery = graphql`
   query downloadAttachmentsQuery {
     session {
       sub
+      ...DashboardTabs_query
     }
     ...AnalystTable_query
   }
@@ -29,7 +30,7 @@ const DownloadAttachments = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
-        <DashboardTabs />
+        <DashboardTabs session={session} />
       </StyledContainer>
     </Layout>
   );
