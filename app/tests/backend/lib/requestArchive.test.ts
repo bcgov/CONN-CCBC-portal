@@ -29,20 +29,14 @@ jest.mock('../../../backend/lib/s3client', () => {
       res.setHeader('Content-Type', 'application/zip');
       res.setHeader('Content-disposition', `attachment; filename=${filename}`);
       res.send(mockStream);
-    }
-  }
-});
-
-jest.mock('../../../backend/lib/sns-client', () => {
-  return { 
-    pushMessage: ()=>{
+    },
+    uploadFileToS3: () => {
       return new Promise((resolve) => {
         resolve({});
       });
     }
   }
 });
-
 
 describe('The attachments archive', () => {
   let app;

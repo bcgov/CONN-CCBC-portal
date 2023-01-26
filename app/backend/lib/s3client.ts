@@ -61,4 +61,19 @@ export const checkFileExists = async (params) =>{
   }
   return true;
 }
+export const uploadFileToS3 = async(params) =>
+{
+    try {
+      await s3Client.upload({
+        Bucket: params.Bucket,
+        Key: params.Key,
+        Body: params.Body,
+      }).promise();
+      return true;
+    }
+    catch (ex) {
+      console.error(ex);
+    }	
+    return false;
+}
 export const s3ClientV3 = s3ClientV3sdk;

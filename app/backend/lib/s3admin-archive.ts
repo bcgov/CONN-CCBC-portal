@@ -2,14 +2,12 @@ import { Router } from 'express';
 
 import config from '../../config';
 import getAuthRole from '../../utils/getAuthRole';
-import { checkFileExists, getFileFromS3 } from './s3client';
-import { pushMessage } from './sns-client';
+import {checkFileExists,getFileFromS3, uploadFileToS3} from './s3client';
 import getAttachmentList from './attachments';
 import getLastIntakeId from './lastIntake';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const AWS_S3_SECRET_KEY = config.get('AWS_S3_SECRET_KEY');
-const ARCHIVE_REQUEST_TOPIC_ARN = config.get('ARCHIVE_REQUEST_TOPIC_ARN');
 
 const s3adminArchive = Router();
 
@@ -35,8 +33,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   }
   let { intake } = req.params;
   const s3Key = `Intake_${intake}_attachments`;
-  const fileName = `${s3Key}.zip`;
-  const s3params = {
+  const s3params =  {
     Bucket: AWS_S3_BUCKET,
     Key: s3Key,
   };
@@ -54,12 +51,15 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
     parseInt(intake as string, 10),
     req
   );
-  await pushMessage(
-    ARCHIVE_REQUEST_TOPIC_ARN,
-    fileName,
-    JSON.stringify(attachments)
-  );
-  res.send({ status: 'request submitted' });
+
+  const fileName = `${s3Key}.json`;
+  const params = {
+    Bucket: AWS_S3_BUCKET,  
+    Key:  fileName,
+    Body: JSON.stringify(attachments)
+  };
+  const response = await uploadFileToS3(params)
+  res.send(response);
   return res.status(200).end();
 });
 
