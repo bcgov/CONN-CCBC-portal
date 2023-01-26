@@ -1,5 +1,5 @@
 # Docker build should be run from parent directory
-FROM registry.access.redhat.com/ubi9/s2i-base@sha256:83c7ec86b6a12858a0d9127400b101cc1aec867e9228738747eae42af2d4dcd4
+FROM registry.access.redhat.com/ubi9/s2i-base@sha256:55c5e3b695f56768208a1d20f354bce8a152a27239dc178b99f6bf530b16f155
 
 ENV SUMMARY="DB Schema for bcgov/CONN-CCBC-portal" \
   DESCRIPTION="Sqitch migrations for the accompanying app container image"
