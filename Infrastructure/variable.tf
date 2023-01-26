@@ -30,7 +30,3 @@ variable "sns-name" {
     description = "The name of the SNS topic for ClamAV lambda notifications"
     default = "clamav-notification"
 }
-variable "sns-name-export" {
-    description = "The name of the SNS topic for export attachment"
-    default = "ccbc-export-files"
-}
