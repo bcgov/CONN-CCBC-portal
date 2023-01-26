@@ -85,16 +85,13 @@ resource "aws_lambda_permission" "allow_data_bucket" {
     source_arn = "arn:aws:s3:::${var.bucket_name}"
 }
 
-// Permissions to allow the SNS event to call our Lambda function
-resource "aws_lambda_permission" "allow_sns_to_start_export" {
-    statement_id  = "AllowExecutionFromCloudWatch"
-    action        = "lambda:InvokeFunction"
-    function_name = "${aws_lambda_function.export-files.function_name}"
-    principal  = "events.amazonaws.com"
-    source_arn = "${aws_sns_topic.notification_sns_topic.arn}"
-}
-resource "aws_sns_topic_subscription" "topic_lambda" {
-  topic_arn = "${aws_sns_topic.notification_sns_topic.arn}"
-  protocol  = "lambda"
-  endpoint  = "${aws_lambda_function.export-files.arn}"
+// Allow the S3 bucket to send notifications to the lambda function
+resource "aws_s3_bucket_notification" "file-notification" {
+    count = "${length(var.buckets-to-scan)}"
+    bucket = "${element(var.buckets-to-scan, count.index)}"
+
+    lambda_function {
+        lambda_function_arn = "${aws_lambda_function.export-files.arn}"
+        events              = ["s3:ObjectCreated:*"]
+    }
 }
