@@ -72,6 +72,7 @@ export const uploadFileToS3 = async(params) =>
       return true;
     }
     catch (ex) {
+      // eslint-disable-next-line no-console
       console.error(ex);
     }	
     return false;
