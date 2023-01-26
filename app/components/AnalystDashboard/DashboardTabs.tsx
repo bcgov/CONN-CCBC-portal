@@ -16,11 +16,15 @@ const StyledA = styled.a<LinkProps>`
   padding: 0px 16px;
   border-bottom: ${(props) =>
     props.selected && props.isAdmin ? '2px solid #000000' : 'none'};
+
+  &:hover {
+    opacity: ${(props) => (props.selected ? `1` : `0.6`)};
+  }
 `;
 
 const StyledNav = styled.nav`
   border-bottom: 1px solid #d6d6d6;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   padding-bottom: 3px;
 `;
 

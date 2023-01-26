@@ -2,6 +2,7 @@ import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import { DashboardTabs } from 'components/AnalystDashboard';
+import AdminTabs from 'components/Admin/AdminTabs';
 import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { Layout } from 'components';
@@ -31,6 +32,7 @@ const ListOfAnalysts = ({
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
         <DashboardTabs session={session} />
+        <AdminTabs />
       </StyledContainer>
     </Layout>
   );

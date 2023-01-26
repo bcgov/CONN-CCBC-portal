@@ -1,10 +1,11 @@
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
-import { AnalystTable, DashboardTabs } from 'components/AnalystDashboard';
+import { DashboardTabs } from 'components/AnalystDashboard';
 import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { Layout } from 'components';
+import AdminTabs from 'components/Admin/AdminTabs';
 import { applicationIntakesQuery } from '__generated__/applicationIntakesQuery.graphql';
 
 const getApplicationIntakesQuery = graphql`
@@ -31,7 +32,7 @@ const ApplicationIntakes = ({
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
         <DashboardTabs session={session} />
-        <AnalystTable query={query} />
+        <AdminTabs />
       </StyledContainer>
     </Layout>
   );
