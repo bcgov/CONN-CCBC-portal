@@ -1,3 +1,14 @@
+# [1.36.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.35.2...v1.36.0) (2023-01-26)
+
+### Bug Fixes
+
+- console.log ([959de40](https://github.com/bcgov/CONN-CCBC-portal/commit/959de406d021623cb643992c95e16a7876d25532))
+- lastIntake query error ([945a9d2](https://github.com/bcgov/CONN-CCBC-portal/commit/945a9d2414a1add081a7a95f63f4ea4b1cdb7592))
+
+### Features
+
+- use s3 instead of sns ([3f79106](https://github.com/bcgov/CONN-CCBC-portal/commit/3f79106c4f06b90e3596cf73721e1a4adac6689f))
+
 ## [1.35.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.35.1...v1.35.2) (2023-01-25)
 
 ### Bug Fixes
