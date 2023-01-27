@@ -8,14 +8,14 @@ interface LinkProps {
 
 const StyledA = styled.a<LinkProps>`
   text-decoration: none;
-  font-weight: 700;
+  font-weight: ${(props) => (props.selected ? 700 : 400)};
   font-size: 24px;
+  white-space: nowrap;
   color: ${(props) => (props.selected ? props.theme.color.text : '#9B9B9B')};
-  padding: 0px 16px;
-  border: 1px solid #d6d6d6;
   background-color: ${(props) => props.theme.color.white};
+  padding: 8px 16px 0px 16px;
+  border: 1px solid #d6d6d6;
   border-bottom: ${(props) => (props.selected ? 'none' : '1px solid #d6d6d6')};
-  padding-top: 8px;
   border-radius: 4px 4px 0px 0px;
   margin-right: 16px;
   position: relative;
@@ -23,6 +23,10 @@ const StyledA = styled.a<LinkProps>`
 
   &:hover {
     opacity: ${(props) => (props.selected ? `1` : `0.6`)};
+  }
+
+  @-moz-document url-prefix() {
+    top: ${(props) => (props.selected ? '-1.2px' : '-2px')};
   }
 `;
 

@@ -14,7 +14,6 @@ const getApplicationIntakesQuery = graphql`
       sub
       ...DashboardTabs_query
     }
-    ...AnalystTable_query
   }
 `;
 

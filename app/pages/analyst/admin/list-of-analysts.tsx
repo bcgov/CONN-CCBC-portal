@@ -14,7 +14,6 @@ const getListOfAnalystsQuery = graphql`
       sub
       ...DashboardTabs_query
     }
-    ...AnalystTable_query
   }
 `;
 

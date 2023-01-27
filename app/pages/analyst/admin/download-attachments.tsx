@@ -14,7 +14,6 @@ const getDownloadAttachmentsQuery = graphql`
       sub
       ...DashboardTabs_query
     }
-    ...AnalystTable_query
   }
 `;
 

@@ -10,7 +10,7 @@ interface LinkProps {
 
 const StyledA = styled.a<LinkProps>`
   text-decoration: none;
-  font-weight: 700;
+  font-weight: ${(props) => (props.selected ? 700 : 400)};
   font-size: 32px;
   color: ${(props) => (props.selected ? props.theme.color.text : '#9B9B9B')};
   padding: 0px 16px;
@@ -39,7 +39,6 @@ const DashboardTabs = ({ session }) => {
   );
 
   const { authRole } = queryFragment;
-
   const isAdmin = authRole === 'ccbc_admin';
   const router = useRouter();
 
@@ -53,14 +52,16 @@ const DashboardTabs = ({ session }) => {
           Dashboard
         </StyledA>
       </Link>
-      <Link href="/analyst/admin/download-attachments" passHref>
-        <StyledA
-          isAdmin={isAdmin}
-          selected={router?.pathname.startsWith('/analyst/admin')}
-        >
-          Administrative
-        </StyledA>
-      </Link>
+      {isAdmin && (
+        <Link href="/analyst/admin/download-attachments" passHref>
+          <StyledA
+            isAdmin={isAdmin}
+            selected={router?.pathname.startsWith('/analyst/admin')}
+          >
+            Administrative
+          </StyledA>
+        </Link>
+      )}
     </StyledNav>
   );
 };
