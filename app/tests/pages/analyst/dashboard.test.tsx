@@ -138,8 +138,8 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getByText('Dashboard', {
-        selector: 'h1',
+      screen.getByRole('link', {
+        name: 'Dashboard',
       })
     ).toBeVisible();
   });
