@@ -23,11 +23,13 @@ const SubmissionField: React.FC<FieldProps> = (props) => {
   const submissionSchemaWithoutTitle = { ...schema };
   delete submissionSchemaWithoutTitle.title;
   const { ObjectField } = registry.fields;
+  const formattedTime =
+    intakeCloseTimestamp &&
+    dateTimeSubtracted(intakeCloseTimestamp, showSubtractedTime);
 
-  const submissionDescriptionText = `Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes on ${dateTimeSubtracted(
-    intakeCloseTimestamp,
-    showSubtractedTime
-  )}`;
+  const submissionDescriptionText = `Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes${
+    formattedTime ? ` on ${formattedTime}` : ''
+  }.`;
 
   return (
     <>

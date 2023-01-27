@@ -169,9 +169,8 @@ const ApplicationForm: React.FC<Props> = ({
   const sectionName = getSectionNameFromPageNumber(pageNumber);
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
-      application.status === 'submitted'
-        ? application.intakeByIntakeId?.closeTimestamp
-        : openIntake?.closeTimestamp;
+      application.intakeByIntakeId?.closeTimestamp ||
+      openIntake?.closeTimestamp;
     return {
       intakeCloseTimestamp,
       fullFormData: jsonData,
