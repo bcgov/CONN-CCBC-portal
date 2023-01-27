@@ -1,3 +1,14 @@
+# [1.37.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.36.0...v1.37.0) (2023-01-27)
+
+### Bug Fixes
+
+- prod siteminder logout url ([b156826](https://github.com/bcgov/CONN-CCBC-portal/commit/b15682638d22db32beb8619371ec2f7aada6de09))
+
+### Features
+
+- add auth_role to session ([6f5ad06](https://github.com/bcgov/CONN-CCBC-portal/commit/6f5ad063408cb7d5457de57d9471e6ac97735818))
+- updated lamda and terraform ([4aa98ab](https://github.com/bcgov/CONN-CCBC-portal/commit/4aa98abb719ddbfc33ce82a02f94be2228969053))
+
 # [1.36.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.35.2...v1.36.0) (2023-01-26)
 
 ### Bug Fixes

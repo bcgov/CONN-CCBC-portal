@@ -159,3 +159,4 @@ computed_columns/application_has_rfi_open [computed_columns/application_has_rfi_
 @1.36.0 2023-01-26T19:12:12Z Marcel Mueller <marcel@button.is> # release v1.36.0
 types/keycloak_jwt_001_add_role 2023-01-20T23:06:27Z Marcel Mueller <marcel@button.is> # add role to keycloak_jwt type
 functions/session [functions/session@1.34.0] 2023-01-20T23:09:42Z Marcel Mueller <marcel@button.is> # add role to session
+@1.37.0 2023-01-27T19:18:54Z Marcel Mueller <marcel@button.is> # release v1.37.0
