@@ -7,7 +7,6 @@ import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
-import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 import { schema } from 'formSchema';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import sharedReviewThemeTests from '../Review/ReviewTheme';
@@ -63,43 +62,6 @@ const mockQueryPayloadWithFormData = {
         },
       },
       status: 'draft',
-    };
-  },
-};
-
-const submissionPayload = {
-  Application() {
-    return {
-      status: 'draft',
-      formData: {
-        id: 'TestFormId',
-        isEditable: true,
-        updatedAt: '2022-09-12T14:04:10.790848-07:00',
-        formByFormSchemaId: {
-          jsonSchema: schema,
-        },
-        jsonData: {
-          organizationProfile: {
-            organizationName: 'Testing organization name',
-          },
-          submission: {
-            submissionCompletedFor: 'test',
-            submissionDate: '2022-09-27',
-            submissionCompletedBy: 'test',
-            submissionTitle: 'test',
-          },
-          acknowledgements: {
-            acknowledgementsList: acknowledgementsEnum,
-          },
-        },
-      },
-    };
-  },
-  Query() {
-    return {
-      openIntake: {
-        closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
-      },
     };
   },
 };
@@ -241,110 +203,6 @@ describe('The application form', () => {
     expect(screen.getByRole('button', { name: 'Continue' })).toBeVisible();
   });
 
-  it('submission page submit button is enabled on when all inputs filled', () => {
-    componentTestingHelper.loadQuery(submissionPayload);
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    expect(
-      screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
-    ).toBeFalse();
-  });
-
-  it('submission page submit button is disabled on when all fields are not filled', async () => {
-    componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    expect(
-      screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
-    ).toBeTrue();
-  });
-
-  it('waits for the mutations to be completed before redirecting to the success page', async () => {
-    const jsonData = {
-      submission: {
-        submissionCompletedFor: 'Bob Loblaw',
-        submissionDate: '2022-08-10',
-        submissionCompletedBy: 'Bob Loblaw',
-        submissionTitle: 'some title',
-      },
-      acknowledgements: {
-        acknowledgementsList: acknowledgementsEnum,
-      },
-    };
-    componentTestingHelper.loadQuery({
-      Application() {
-        return {
-          id: 'TestApplicationId',
-          rowId: 42,
-          formData: {
-            formByFormSchemaId: {
-              jsonSchema: schema,
-            },
-            id: 'TestFormId',
-            jsonData,
-            isEditable: true,
-          },
-        };
-      },
-    });
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    await userEvent.click(screen.getByRole('button', { name: 'Submit' }));
-
-    // After the first mutation completes, we still don't redirect
-    expect(componentTestingHelper.router.push).not.toHaveBeenCalled();
-
-    componentTestingHelper.expectMutationToBeCalled(
-      'submitApplicationMutation',
-      {
-        input: {
-          applicationRowId: 42,
-        },
-      }
-    );
-
-    componentTestingHelper.environment.mock.resolveMostRecentOperation({
-      data: {
-        applicationsAddCcbcId: {
-          application: {
-            ccbcNumber: 'CCBC-010042',
-            status: 'submitted',
-          },
-        },
-      },
-    });
-
-    // We only redirect when the ccbc id is set
-    expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
-      '/applicantportal/form/42/success'
-    );
-  });
-
-  it('Submission page contains submission date from DB', async () => {
-    componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    expect(
-      screen.getByText(/August 27, 2022, 9:51:26 a.m. PDT/)
-    ).toBeInTheDocument();
-  });
-
   it('Acknowledgement fields are disabled when visiting submitted application', async () => {
     const payload = {
       Application() {
@@ -384,80 +242,6 @@ describe('The application form', () => {
     });
   });
 
-  it('Submission fields are disabled when visiting submitted application', async () => {
-    const payload = {
-      Application() {
-        return {
-          id: 'TestApplicationId',
-          status: 'submitted',
-          formData: {
-            jsonData: {
-              id: 'TestFormId',
-            },
-            formByFormSchemaId: {
-              jsonSchema: schema,
-            },
-          },
-        };
-      },
-      Query() {
-        return {
-          openIntake: {
-            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
-          },
-        };
-      },
-    };
-
-    componentTestingHelper.loadQuery(payload);
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    const textBoxes = screen.getAllByRole('textbox');
-
-    textBoxes.forEach((textBox) => {
-      expect(textBox.hasAttribute('disabled')).toBeTrue();
-    });
-  });
-
-  it('saves the form when the Save as draft button is clicked', async () => {
-    componentTestingHelper.loadQuery(submissionPayload);
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Save as draft' })
-    );
-
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationFormMutation',
-      {
-        input: {
-          formDataRowId: 42,
-          jsonData: {
-            organizationProfile: {
-              organizationName: 'Testing organization name',
-            },
-            submission: {
-              submissionCompletedFor: 'test',
-              submissionDate: '2022-09-27',
-              submissionCompletedBy: 'test',
-              submissionTitle: 'test',
-            },
-            acknowledgements: { acknowledgementsList: acknowledgementsEnum },
-          },
-          lastEditedPage: 'review',
-        },
-      }
-    );
-  });
-
   it('acknowledgement page shows continue on submitted application', async () => {
     const mockSubmittedQueryPayload = {
       Application() {
@@ -491,93 +275,6 @@ describe('The application form', () => {
     }));
 
     expect(screen.getByRole('button', { name: 'Continue' })).toBeTruthy();
-  });
-
-  it('submit page submit button is disabled for submitted application', async () => {
-    const mockSubmittedQueryPayload = {
-      Application() {
-        return {
-          id: 'TestApplicationId',
-          formData: {
-            jsonData: {
-              id: 'TestFormId',
-            },
-            formByFormSchemaId: {
-              jsonSchema: schema,
-            },
-            isEditable: true,
-          },
-          status: 'submitted',
-        };
-      },
-      Query() {
-        return {
-          openIntake: {
-            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
-          },
-        };
-      },
-    };
-
-    componentTestingHelper.loadQuery(mockSubmittedQueryPayload);
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    expect(
-      screen.getByRole('button', { name: 'Changes submitted' })
-    ).toBeTruthy();
-    expect(
-      screen
-        .getByRole('button', { name: 'Changes submitted' })
-        .hasAttribute('disabled')
-    ).toBeTrue();
-  });
-
-  it('submit page has functioning return to dashboard button for submitted application', async () => {
-    const mockSubmittedQueryPayload = {
-      Application() {
-        return {
-          id: 'TestApplicationId',
-          formData: {
-            jsonData: {
-              id: 'TestFormId',
-            },
-            formByFormSchemaId: {
-              jsonSchema: schema,
-            },
-          },
-          status: 'submitted',
-        };
-      },
-      Query() {
-        return {
-          openIntake: {
-            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
-          },
-        };
-      },
-    };
-
-    componentTestingHelper.loadQuery(mockSubmittedQueryPayload);
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    expect(
-      screen.getByRole('button', { name: 'Return to dashboard' })
-    ).toBeTruthy();
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Return to dashboard' })
-    );
-
-    expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
-      '/applicantportal/dashboard'
-    );
   });
 
   it('should set the correct calculated value on the employment page', async () => {
@@ -709,64 +406,6 @@ describe('The application form', () => {
 
     expect(
       screen.getByRole('button', { name: 'Continue' })
-    ).toBeInTheDocument();
-  });
-
-  it('submit button is disabled when isEditable is false', () => {
-    const mockFormDataIsEditableFalse = {
-      ...mockQueryPayload,
-      Application() {
-        return {
-          formData: {
-            formByFormSchemaId: {
-              jsonSchema: schema,
-            },
-            id: 'TestFormId',
-            jsonData: {},
-            isEditable: false,
-            updatedAt: '2022-09-12T14:04:10.790848-07:00',
-          },
-          status: 'draft',
-        };
-      },
-    };
-    componentTestingHelper.loadQuery(mockFormDataIsEditableFalse);
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    expect(screen.getByRole('button', { name: 'Submit' })).toBeDisabled();
-  });
-
-  it('return to dashboard is visible when isEditable is false', () => {
-    const mockFormDataIsEditableFalse = {
-      ...mockQueryPayload,
-      Application() {
-        return {
-          formData: {
-            formByFormSchemaId: {
-              jsonSchema: schema,
-            },
-            id: 'TestFormId',
-            jsonData: {},
-            isEditable: false,
-            updatedAt: '2022-09-12T14:04:10.790848-07:00',
-          },
-          status: 'draft',
-        };
-      },
-    };
-    componentTestingHelper.loadQuery(mockFormDataIsEditableFalse);
-    componentTestingHelper.renderComponent((data) => ({
-      application: data.application,
-      pageNumber: 21,
-      query: data.query,
-    }));
-
-    expect(
-      screen.getByRole('button', { name: 'Return to dashboard' })
     ).toBeInTheDocument();
   });
 

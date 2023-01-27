@@ -169,8 +169,9 @@ const ApplicationForm: React.FC<Props> = ({
   const sectionName = getSectionNameFromPageNumber(pageNumber);
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
-      application.intakeByIntakeId?.closeTimestamp ||
+      application?.intakeByIntakeId?.closeTimestamp ||
       openIntake?.closeTimestamp;
+
     return {
       intakeCloseTimestamp,
       fullFormData: jsonData,
@@ -179,8 +180,7 @@ const ApplicationForm: React.FC<Props> = ({
     };
   }, [
     openIntake,
-    application.status,
-    application.intakeByIntakeId?.closeTimestamp,
+    application?.intakeByIntakeId?.closeTimestamp,
     jsonData,
     formErrorSchema,
     isEditable,
