@@ -15635,6 +15635,9 @@ type KeycloakJwt {
   identityProvider: String
   userGroups: [String]
 
+  """Role of the user from the login provider"""
+  authRole: String
+
   """Reads a single `CcbcUser` that is related to this `KeycloakJwt`."""
   ccbcUserBySub: CcbcUser
 }

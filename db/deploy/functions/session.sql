@@ -36,7 +36,8 @@ begin
       current_setting('jwt.claims.broker_session_id', true),
       current_setting('jwt.claims.priority_group', true),
       current_setting('jwt.claims.identity_provider', true),
-      (select string_to_array(current_setting('jwt.claims.user_groups', true), ','))
+      (select string_to_array(current_setting('jwt.claims.user_groups', true), ',')),
+      current_setting('role', true)
     )::ccbc_public.keycloak_jwt
   );
 end
