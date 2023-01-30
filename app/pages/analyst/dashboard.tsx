@@ -2,17 +2,18 @@ import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import { useFeature } from '@growthbook/growthbook-react';
-import { AnalystTable } from 'components/AnalystDashboard';
+import { AnalystTable, DashboardTabs } from 'components/AnalystDashboard';
 import styled from 'styled-components';
-import defaultRelayOptions from '../../lib/relay/withRelayOptions';
-import { ButtonLink, Layout } from '../../components';
-import { dashboardAnalystQuery } from '../../__generated__/dashboardAnalystQuery.graphql';
+import defaultRelayOptions from 'lib/relay/withRelayOptions';
+import { ButtonLink, Layout } from 'components';
+import { dashboardAnalystQuery } from '__generated__/dashboardAnalystQuery.graphql';
 
 // will probably have to change to cursor for pagination/infinte scroll
 const getDashboardAnalystQuery = graphql`
   query dashboardAnalystQuery {
     session {
       sub
+      ...DashboardTabs_query
     }
     ...AnalystTable_query
   }
@@ -39,7 +40,7 @@ const AnalystDashboard = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledDashboardContainer>
-        <h1>Dashboard</h1>
+        <DashboardTabs session={session} />
         {exportAttachmentsBtn && (
           <StyledBtnContainer>
             <ButtonLink href="/api/analyst/archive">

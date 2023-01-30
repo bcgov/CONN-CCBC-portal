@@ -11,7 +11,7 @@ describe('The analyst dashboard', () => {
 
   it('loads', () => {
     cy.visit('/analyst/dashboard');
-    cy.contains('h1', 'Dashboard');
+    cy.contains('a', 'Dashboard');
     cy.get('body').happoScreenshot({ component: 'Analyst Dashboard' });
   });
 

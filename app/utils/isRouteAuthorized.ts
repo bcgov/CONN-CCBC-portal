@@ -11,9 +11,19 @@ const pagesAuthorization = [
     isProtected: false,
   },
   {
-    routePaths: ['/analyst/(.*)'],
+    routePaths: ['/analyst/application/(.*)'],
     isProtected: true,
     allowedRoles: ['ccbc_admin', 'ccbc_analyst'],
+  },
+  {
+    routePaths: ['/analyst/dashboard'],
+    isProtected: true,
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst'],
+  },
+  {
+    routePaths: ['/analyst/admin/(.*)'],
+    isProtected: true,
+    allowedRoles: ['ccbc_admin'],
   },
   {
     routePaths: ['/applicantportal/(.*)'],

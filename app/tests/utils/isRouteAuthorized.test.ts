@@ -39,18 +39,46 @@ describe('The isRouteAuthorized function', () => {
     expect(isRouteAuthorized('/some/other/route', 'ccbc_admin')).toBe(false);
   });
 
-  it('allows ccbc_admin to access any route under the /analyst/(.*) route', () => {
-    expect(isRouteAuthorized('/analyst/(.*)', 'ccbc_admin')).toBe(true);
-    expect(isRouteAuthorized('/analyst/some/other/route', 'ccbc_admin')).toBe(
-      true
-    );
+  it('allows ccbc_admin to access the /analyst/dashboard route', () => {
+    expect(isRouteAuthorized('/analyst/dashboard', 'ccbc_admin')).toBe(true);
   });
 
-  it('allows ccbc_analyst to access any route under the /analyst/(.*) route', () => {
-    expect(isRouteAuthorized('/analyst/(.*)', 'ccbc_analyst')).toBe(true);
-    expect(isRouteAuthorized('/analyst/some/other/route', 'ccbc_analyst')).toBe(
+  it('allows ccbc_analyst to access the /analyst/dashboard route', () => {
+    expect(isRouteAuthorized('/analyst/dashboard', 'ccbc_analyst')).toBe(true);
+  });
+
+  it('allows ccbc_admin to access any route under the /analyst/admin(.*) route', () => {
+    expect(isRouteAuthorized('/analyst/admin/(.*)', 'ccbc_admin')).toBe(true);
+    expect(
+      isRouteAuthorized('/analyst/admin/some/other/route', 'ccbc_admin')
+    ).toBe(true);
+  });
+
+  it('does not allow ccbc_analyst to access any route under the /analyst/admin(.*) route', () => {
+    expect(isRouteAuthorized('/analyst/admin/(.*)', 'ccbc_analyst')).toBe(
+      false
+    );
+    expect(
+      isRouteAuthorized('/analyst/admin/some/other/route', 'ccbc_analyst')
+    ).toBe(false);
+  });
+
+  it('allows ccbc_admin to access any route under the /analyst/application/(.*) route', () => {
+    expect(isRouteAuthorized('/analyst/application/(.*)', 'ccbc_admin')).toBe(
       true
     );
+    expect(
+      isRouteAuthorized('/analyst/application/some/other/route', 'ccbc_admin')
+    ).toBe(true);
+  });
+
+  it('allows ccbc_analyst to access any route under the /analyst/application/(.*) route', () => {
+    expect(isRouteAuthorized('/analyst/application/(.*)', 'ccbc_analyst')).toBe(
+      true
+    );
+    expect(
+      isRouteAuthorized('/analyst/application/some/other/route', 'ccbc_analyst')
+    ).toBe(true);
   });
 
   it('does not allow ccbc_admin to access any route under the /applicantportal/(.*) route', () => {
