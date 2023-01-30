@@ -37,6 +37,7 @@ module.exports = {
     'relay/generated-flow-types': 0, // we're not using Flow
     'relay/must-colocate-fragment-spreads': 0,
     'relay/unused-fields': 0,
+    'class-methods-use-this': 1,
   },
   overrides: [
     {
