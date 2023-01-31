@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
 import { ButtonLink, Layout } from 'components';
-import AdminTabs from 'components/Admin/AdminTabs'; //'components/Admin/AdminTabs';
+import AdminTabs from 'components/Admin/AdminTabs';
 import { downloadAttachmentsQuery } from '__generated__/downloadAttachmentsQuery.graphql';
 
 const getDownloadAttachmentsQuery = graphql`
