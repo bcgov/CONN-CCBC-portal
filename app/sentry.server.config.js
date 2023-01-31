@@ -17,4 +17,6 @@ Sentry.init({
   dsn: SENTRY_DSN,
   environment: SENTRY_ENVIRONMENT,
   release: SENTRY_RELEASE,
+  // trace 20% of transactions
+  tracesSampleRate: 0.2,
 });

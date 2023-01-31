@@ -16,4 +16,12 @@ Sentry.init({
   dsn: SENTRY_DSN,
   environment: SENTRY_ENVIRONMENT,
   release: SENTRY_RELEASE,
+  tracesSampler: (samplingContext) => {
+    // trace 100% of file upload transactions
+    if (samplingContext.transactionContext.name === 'file-upload') {
+      return 1.0;
+    }
+    // trace 20% of remaining transactions
+    return 0.2;
+  },
 });

@@ -1,5 +1,6 @@
 import React, { MutableRefObject, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import * as Sentry from '@sentry/nextjs';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
@@ -187,6 +188,12 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const transaction = Sentry.startTransaction({ name: 'file-upload' });
+    const span = transaction.startChild({
+      op: 'file-upload',
+      description: 'file-upload',
+    });
+
     if (loading) return;
     setError('');
     const formId =
@@ -224,6 +231,10 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       variables,
       onError: () => {
         setError('uploadFailed');
+
+        span.setStatus('Error');
+        span.finish();
+        transaction.finish();
       },
       onCompleted: (res) => {
         const uuid = res?.createAttachment?.attachment?.file;
@@ -242,6 +253,10 @@ const FileWidget: React.FC<FileWidgetProps> = ({
         } else {
           onChange([fileDetails]);
         }
+
+        span.setStatus('OK');
+        span.finish();
+        transaction.finish();
       },
     });
 
