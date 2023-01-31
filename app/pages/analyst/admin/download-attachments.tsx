@@ -2,13 +2,12 @@ import { ChangeEvent, useState } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
-import { DashboardTabs } from 'components/AnalystDashboard';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
+import { DashboardTabs } from 'components/AnalystDashboard';
 import { ButtonLink, Layout } from 'components';
-import AdminTabs from 'components/Admin/AdminTabs';
-import { performQuery } from '../../../backend/lib/graphql';
+import AdminTabs from 'components/Admin/AdminTabs'; //'components/Admin/AdminTabs';
 import { downloadAttachmentsQuery } from '__generated__/downloadAttachmentsQuery.graphql';
 
 const getDownloadAttachmentsQuery = graphql`
@@ -52,16 +51,16 @@ const StyledOption = styled.option``;
 const AttachmentsTab = (allIntakes) =>{
   
   const [intake, setIntake] = useState('');
+  const {nodes} = allIntakes;
   const selectIntake = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selected = e.target.id;
+    const selected = e.target.value;
     setIntake(selected);
   }
 
   return (
     <div>
-    <StyledDropdown name="assign-analyst" onChange={(e) => selectIntake(e)}>
-      {allIntakes && allIntakes.nodes && Array.isArray(allIntakes.nodes) && 
-        allIntakes.nodes.map((intakeData) => {
+    <StyledDropdown name="select-intake" data-testid="select-intake-test" onChange={(e) => selectIntake(e)}>
+      {nodes && nodes.map((intakeData) => {
         const startDate = DateTime.fromISO(intakeData.openTimestamp, {
           locale: 'en-CA',
           zone: 'America/Vancouver',
@@ -76,8 +75,8 @@ const AttachmentsTab = (allIntakes) =>{
           <StyledOption
             id = {intakeData.rowId}
             key={intakeData.rowId}
-            value={intakeName}
-            selected={intakeData.rowId === intake}
+            value={intakeData.ccbcIntakeNumber}
+            selected={intakeData.ccbcIntakeNumber === intake}
           >
             {intakeName}
           </StyledOption>
@@ -85,7 +84,7 @@ const AttachmentsTab = (allIntakes) =>{
       })}
     </StyledDropdown>
       <StyledBtnContainer>
-        <ButtonLink href="/api/analyst/archive">
+        <ButtonLink href = {`/api/analyst/admin-archive/${intake}`} >
           Export attachments
         </ButtonLink>
       </StyledBtnContainer>
