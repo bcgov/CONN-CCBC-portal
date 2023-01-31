@@ -35,6 +35,10 @@ const StyledBtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1.25rem;
+  margin-top: 1em;
+  float:right;
+  position: relative;
+  width: 50%;
 `;
 const StyledDropdown = styled.select`
   text-overflow: ellipsis;
@@ -44,6 +48,9 @@ const StyledDropdown = styled.select`
   padding: 8px;
   max-width: 100%;
   border-radius: 4px;
+  margin-top: 1em;
+  float:left;
+  position: relative;
 `;
 
 const StyledOption = styled.option``;
@@ -59,35 +66,40 @@ const AttachmentsTab = (allIntakes) =>{
 
   return (
     <div>
-    <StyledDropdown name="select-intake" data-testid="select-intake-test" onChange={(e) => selectIntake(e)}>
-      {nodes && nodes.map((intakeData) => {
-        const startDate = DateTime.fromISO(intakeData.openTimestamp, {
-          locale: 'en-CA',
-          zone: 'America/Vancouver',
-        }).toFormat('MMMM dd, yyyy');
-        const endDate = DateTime.fromISO(intakeData.closeTimestamp, {
-          locale: 'en-CA',
-          zone: 'America/Vancouver',
-        }).toFormat('MMMM dd, yyyy');
-        const intakeName = `Intake ${intakeData.ccbcIntakeNumber}. ${startDate} - ${endDate}`;
+        <h2>Download Attachments</h2>
+        <strong>Which intake would you like to download files from?</strong>
+        <p>This downloads everyting applicants uploaded with their applications. It does not include files received through RFIs</p>
+        {nodes &&
+          <StyledDropdown name="select-intake" data-testid="select-intake-test" onChange={(e) => selectIntake(e)}>
+            {nodes && nodes.filter(x=>DateTime.fromISO(x.openTimestamp) < DateTime.now()).map((intakeData) => {
+              const startDate = DateTime.fromISO(intakeData.openTimestamp, {
+                locale: 'en-CA',
+                zone: 'America/Vancouver',
+              }).toFormat('MMMM dd, yyyy');
+              const endDate = DateTime.fromISO(intakeData.closeTimestamp, {
+                locale: 'en-CA',
+                zone: 'America/Vancouver',
+              }).toFormat('MMMM dd, yyyy');
+              const intakeName = `Intake ${intakeData.ccbcIntakeNumber}. ${startDate} - ${endDate}`;
 
-        return (
-          <StyledOption
-            id = {intakeData.rowId}
-            key={intakeData.rowId}
-            value={intakeData.ccbcIntakeNumber}
-            selected={intakeData.ccbcIntakeNumber === intake}
-          >
-            {intakeName}
-          </StyledOption>
-        );
-      })}
-    </StyledDropdown>
-      <StyledBtnContainer>
-        <ButtonLink href = {`/api/analyst/admin-archive/${intake}`} >
-          Export attachments
-        </ButtonLink>
-      </StyledBtnContainer>
+              return (
+                <StyledOption
+                  id = {intakeData.rowId}
+                  key={intakeData.rowId}
+                  value={intakeData.ccbcIntakeNumber}
+                  selected={intakeData.ccbcIntakeNumber === intake}
+                >
+                  {intakeName}
+                </StyledOption>
+              );
+            })}
+          </StyledDropdown>
+        }
+        <StyledBtnContainer>
+          <ButtonLink href = {`/api/analyst/admin-archive/${intake}`} >
+            Export attachments
+          </ButtonLink>
+        </StyledBtnContainer>
     </div>
   )
 }

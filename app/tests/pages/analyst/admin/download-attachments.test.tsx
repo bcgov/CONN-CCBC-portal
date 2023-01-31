@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DownloadAttachments from 'pages/analyst/admin/download-attachments';
 
@@ -27,6 +27,12 @@ const mockQueryPayload = {
             ccbcIntakeNumber: 2,
             openTimestamp: '2022-09-19T09:00:00-07:00',
             closeTimestamp: '2023-01-02T09:00:00-07:00',
+            rowId: 2
+          }, 
+          {
+            ccbcIntakeNumber: 3,
+            openTimestamp: '2042-09-19T09:00:00-07:00',
+            closeTimestamp: '2043-01-02T09:00:00-07:00',
             rowId: 2
           }
         ]
@@ -84,6 +90,9 @@ describe('The Download attachments admin page', () => {
     expect(
       screen.getAllByRole('option', { name: 'Intake 2. September 19, 2022 - January 02, 2023' })[0]
     ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole('option').length
+    ).toBe(2);
   });
 
   it('produces correct link to the attachment archive', async() => {
@@ -93,7 +102,9 @@ describe('The Download attachments admin page', () => {
     expect(screen.getByTestId('select-intake-test')).toBeInTheDocument();
 
     const secondIntake =  screen.getAllByRole('option', { name: 'Intake 2. September 19, 2022 - January 02, 2023' })[0];
-    await userEvent.selectOptions(screen.getByTestId('select-intake-test'), secondIntake);
+    await act(async () => {
+      await userEvent.selectOptions(screen.getByTestId('select-intake-test'), secondIntake);
+    });
  
     const link = screen.getByRole('button', { name: 'Export attachments' });
     expect(link).toHaveAttribute(
