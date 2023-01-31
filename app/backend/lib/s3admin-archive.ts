@@ -35,7 +35,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   const s3Key = `Intake_${intake}_attachments`;
   const s3params =  {
     Bucket: AWS_S3_BUCKET,
-    Key: s3Key,
+    Key: `${s3Key}.zip`,
   };
   if (intake === '-1') intake = await getLastIntakeId(req);
   if (intake === '-1') {
