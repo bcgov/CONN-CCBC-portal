@@ -16,7 +16,7 @@ const getDownloadAttachmentsQuery = graphql`
       sub
       ...DashboardTabs_query  
     }
-    allIntakes {
+    allIntakes(orderBy: CLOSE_TIMESTAMP_DESC) {
       nodes {
         ccbcIntakeNumber
         closeTimestamp
@@ -30,15 +30,18 @@ const getDownloadAttachmentsQuery = graphql`
 const StyledContainer = styled.div`
   width: 100%;
 `;
+const StyledCaption = styled.div`
+  line-height: 2.5rem;
+`;
+
 const StyledBtnContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1.25rem;
-  margin-top: 1em;
-  float:right;
-  position: relative;
-  width: 50%;
+  margin-top: 2rem;
+  flex-direction: row;
+  justify-content: left;
 `;
 const StyledDropdown = styled.select`
   text-overflow: ellipsis;
@@ -48,19 +51,18 @@ const StyledDropdown = styled.select`
   padding: 8px;
   max-width: 100%;
   border-radius: 4px;
-  margin-top: 1em;
-  float:left;
+  margin-top: 0.25rem;
   position: relative;
+  justify-content: left;
 `;
 
 const StyledOption = styled.option``;
  
 const AttachmentsTab = (allIntakes) =>{
   const {nodes} = allIntakes;
-  const sortedNodes = nodes
-    .filter(x => DateTime.fromISO(x.closeTimestamp) <= DateTime.now())
-    .sort((a, b) => DateTime.fromISO(b.closeTimestamp) > DateTime.fromISO(a.closeTimestamp));
-  const lastIntake = sortedNodes && sortedNodes.length > 0 ? sortedNodes[0].ccbcIntakeNumber : '1';
+  const filtered = nodes
+    .filter(x => DateTime.fromISO(x.closeTimestamp) <= DateTime.now());
+  const lastIntake = filtered && filtered.length > 0 ? filtered[0].ccbcIntakeNumber : '1';
 
   const [intake, setIntake] = useState(lastIntake);
   const selectIntake = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -72,10 +74,11 @@ const AttachmentsTab = (allIntakes) =>{
     <div>
         <h2>Download Attachments</h2>
         <strong>Which intake would you like to download files from?</strong>
-        <p>This downloads everyting applicants uploaded with their applications. It does not include files received through RFIs</p>
-        {sortedNodes &&
+        <StyledCaption>This downloads everyting applicants uploaded with their applications. 
+          It does not include files received through RFIs.</StyledCaption>
+        {filtered &&
           <StyledDropdown name="select-intake" data-testid="select-intake-test" onChange={(e) => selectIntake(e)}>
-            {sortedNodes && sortedNodes.map((intakeData) => {
+            {filtered && filtered.map((intakeData) => {
               const startDate = DateTime.fromISO(intakeData.openTimestamp, {
                 locale: 'en-CA',
                 zone: 'America/Vancouver',
@@ -101,7 +104,7 @@ const AttachmentsTab = (allIntakes) =>{
         }
         <StyledBtnContainer>
           <ButtonLink href = {`/api/analyst/admin-archive/${intake}`} >
-            Export attachments
+            Download attachments
           </ButtonLink>
         </StyledBtnContainer>
     </div>
