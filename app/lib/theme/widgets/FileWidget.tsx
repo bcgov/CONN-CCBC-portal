@@ -190,8 +190,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const transaction = Sentry.startTransaction({ name: 'file-upload' });
     const span = transaction.startChild({
-      op: 'file-upload',
-      description: 'file-upload',
+      op: 'file-widget-handle-upload',
+      description: 'FileWidget handleUpload function',
     });
 
     if (loading) return;
@@ -232,7 +232,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       onError: () => {
         setError('uploadFailed');
 
-        span.setStatus('Error');
+        span.setStatus('unknown_error');
         span.finish();
         transaction.finish();
       },
@@ -254,7 +254,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
           onChange([fileDetails]);
         }
 
-        span.setStatus('OK');
+        span.setStatus('ok');
         span.finish();
         transaction.finish();
       },
