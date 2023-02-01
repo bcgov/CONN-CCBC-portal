@@ -547,6 +547,7 @@ type Query implements Node {
   applicationRfiDataByRfiDataIdAndApplicationId(rfiDataId: Int!, applicationId: Int!): ApplicationRfiData
   applicationStatusByRowId(rowId: Int!): ApplicationStatus
   applicationStatusTypeByName(name: String!): ApplicationStatusType
+  applicationStatusTypeByStatusOrder(statusOrder: Int!): ApplicationStatusType
   assessmentDataByRowId(rowId: Int!): AssessmentData
   assessmentTypeByName(name: String!): AssessmentType
   attachmentByRowId(rowId: Int!): Attachment
@@ -4879,6 +4880,9 @@ type Application implements Node {
   """Computed column to return status of an application"""
   status: String
 
+  """Computed column to return the order of the status"""
+  statusOrder: Int
+
   """Reads and enables pagination through a set of `ApplicationStatusType`."""
   applicationStatusTypesByApplicationStatusApplicationIdAndStatus(
     """Only read the first `n` values of the set."""
@@ -5560,6 +5564,7 @@ type ApplicationStatusType implements Node {
   """Description of the status type"""
   description: String
   visibleByApplicant: Boolean
+  statusOrder: Int!
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
   applicationStatusesByStatus(
@@ -5782,6 +5787,8 @@ enum ApplicationsOrderBy {
   PROJECT_NAME_DESC
   STATUS_ASC
   STATUS_DESC
+  STATUS_ORDER_ASC
+  STATUS_ORDER_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -8887,6 +8894,8 @@ enum ApplicationStatusTypesOrderBy {
   DESCRIPTION_DESC
   VISIBLE_BY_APPLICANT_ASC
   VISIBLE_BY_APPLICANT_DESC
+  STATUS_ORDER_ASC
+  STATUS_ORDER_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -8904,6 +8913,9 @@ input ApplicationStatusTypeCondition {
 
   """Checks for equality with the object’s `visibleByApplicant` field."""
   visibleByApplicant: Boolean
+
+  """Checks for equality with the object’s `statusOrder` field."""
+  statusOrder: Int
 }
 
 """
@@ -15919,6 +15931,16 @@ type Mutation {
   ): UpdateApplicationStatusTypePayload
 
   """
+  Updates a single `ApplicationStatusType` using a unique key and a patch.
+  """
+  updateApplicationStatusTypeByStatusOrder(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationStatusTypeByStatusOrderInput!
+  ): UpdateApplicationStatusTypePayload
+
+  """
   Updates a single `AssessmentData` using its globally unique id and a patch.
   """
   updateAssessmentData(
@@ -16224,6 +16246,14 @@ type Mutation {
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
     input: DeleteApplicationStatusTypeByNameInput!
+  ): DeleteApplicationStatusTypePayload
+
+  """Deletes a single `ApplicationStatusType` using a unique key."""
+  deleteApplicationStatusTypeByStatusOrder(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationStatusTypeByStatusOrderInput!
   ): DeleteApplicationStatusTypePayload
 
   """Deletes a single `AssessmentData` using its globally unique id."""
@@ -16869,6 +16899,7 @@ input ApplicationStatusTypeInput {
   """Description of the status type"""
   description: String
   visibleByApplicant: Boolean
+  statusOrder: Int!
 }
 
 """The output of our create `AssessmentData` mutation."""
@@ -18222,6 +18253,7 @@ input ApplicationStatusTypePatch {
   """Description of the status type"""
   description: String
   visibleByApplicant: Boolean
+  statusOrder: Int
 }
 
 """All input for the `updateApplicationStatusTypeByName` mutation."""
@@ -18239,6 +18271,21 @@ input UpdateApplicationStatusTypeByNameInput {
 
   """Name of and primary key of the status of an application"""
   name: String!
+}
+
+"""All input for the `updateApplicationStatusTypeByStatusOrder` mutation."""
+input UpdateApplicationStatusTypeByStatusOrderInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ApplicationStatusType` being updated.
+  """
+  applicationStatusTypePatch: ApplicationStatusTypePatch!
+  statusOrder: Int!
 }
 
 """The output of our update `AssessmentData` mutation."""
@@ -19676,6 +19723,16 @@ input DeleteApplicationStatusTypeByNameInput {
 
   """Name of and primary key of the status of an application"""
   name: String!
+}
+
+"""All input for the `deleteApplicationStatusTypeByStatusOrder` mutation."""
+input DeleteApplicationStatusTypeByStatusOrderInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  statusOrder: Int!
 }
 
 """The output of our delete `AssessmentData` mutation."""
