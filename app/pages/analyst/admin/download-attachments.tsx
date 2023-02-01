@@ -70,6 +70,15 @@ const AttachmentsTab = (allIntakes) =>{
     setIntake(selected);
   }
 
+  const handleDownload = async () => {
+    const url = `/api/analyst/admin-archive/${intake}`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((response) => {
+        window.open(response, '_blank');
+      });
+  };
+
   return (
     <div>
         <h2>Download Attachments</h2>
@@ -103,7 +112,7 @@ const AttachmentsTab = (allIntakes) =>{
           </StyledDropdown>
         }
         <StyledBtnContainer>
-          <ButtonLink href = {`/api/analyst/admin-archive/${intake}`} >
+          <ButtonLink onClick={handleDownload} href='#' >
             Download attachments
           </ButtonLink>
         </StyledBtnContainer>
