@@ -43,7 +43,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   }
   const alreadyExists = await checkFileExists(s3params);
   if (alreadyExists) {
-    await getFileFromS3(s3Key, `${s3Key}.zip`, res);
+    await getFileFromS3(s3params.Key, s3params.Key, res);
     return res.status(200).end();
   }
 

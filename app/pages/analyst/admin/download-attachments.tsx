@@ -56,9 +56,13 @@ const StyledDropdown = styled.select`
 const StyledOption = styled.option``;
  
 const AttachmentsTab = (allIntakes) =>{
-  
-  const [intake, setIntake] = useState('');
   const {nodes} = allIntakes;
+  const sortedNodes = nodes
+    .filter(x => DateTime.fromISO(x.closeTimestamp) <= DateTime.now())
+    .sort((a, b) => DateTime.fromISO(b.closeTimestamp) > DateTime.fromISO(a.closeTimestamp));
+  const lastIntake = sortedNodes && sortedNodes.length > 0 ? sortedNodes[0].ccbcIntakeNumber : '1';
+
+  const [intake, setIntake] = useState(lastIntake);
   const selectIntake = (e: ChangeEvent<HTMLSelectElement>) => {
     const selected = e.target.value;
     setIntake(selected);
@@ -69,9 +73,9 @@ const AttachmentsTab = (allIntakes) =>{
         <h2>Download Attachments</h2>
         <strong>Which intake would you like to download files from?</strong>
         <p>This downloads everyting applicants uploaded with their applications. It does not include files received through RFIs</p>
-        {nodes &&
+        {sortedNodes &&
           <StyledDropdown name="select-intake" data-testid="select-intake-test" onChange={(e) => selectIntake(e)}>
-            {nodes && nodes.filter(x=>DateTime.fromISO(x.openTimestamp) < DateTime.now()).map((intakeData) => {
+            {sortedNodes && sortedNodes.map((intakeData) => {
               const startDate = DateTime.fromISO(intakeData.openTimestamp, {
                 locale: 'en-CA',
                 zone: 'America/Vancouver',
