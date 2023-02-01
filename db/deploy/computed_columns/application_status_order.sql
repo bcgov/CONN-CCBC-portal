@@ -12,4 +12,9 @@ select ast.status_order from
     order by id desc limit 1;
 $$ language sql stable;
 
+comment on function ccbc_public.application_status_order is 'Computed column to return the order of the status';
+
+grant execute on function ccbc_public.application_status_order to ccbc_analyst;
+grant execute on function ccbc_public.application_status_order to ccbc_admin;
+
 commit;

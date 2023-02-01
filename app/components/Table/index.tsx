@@ -7,26 +7,25 @@ import {
   GraphQLTaggedNode,
   useRelayEnvironment,
 } from 'react-relay';
+import safeJsonParse from 'lib/helpers/safeJsonParse';
 import FilterRow from './FilterRow';
 import { FilterArgs, PageArgs, TableFilter } from './Filters';
 import Pagination from './Pagination';
 import SortableHeader from './SortableHeader';
-
-function safeJsonParse(toParse: string) {
-  try {
-    return JSON.parse(toParse);
-  } catch (e) {
-    return e;
-  }
-}
 
 const StyledTable = styled('table')`
   margin-bottom: 0px;
   width: 100%;
 `;
 
+const StyledTableHead = styled('thead')`
+  padding: 16px 8px;
+  cursor: pointer;
+`;
+
 interface Props {
   filters: TableFilter[];
+  disableFiltering?: boolean;
   paginated?: boolean;
   totalRowCount?: number;
   emptyStateContents?: JSX.Element | string;
@@ -47,6 +46,7 @@ const Table: React.FC<Props> = ({
   totalRowCount,
   children,
   pageQuery,
+  disableFiltering = false,
   emptyStateContents = <span className="no-results">No results found.</span>,
 }) => {
   const environment = useRelayEnvironment();
@@ -153,7 +153,7 @@ const Table: React.FC<Props> = ({
   return (
     <StyledTable>
       {/* class name is used to increase specificity of CSS selectors and override defaults */}
-      <thead>
+      <StyledTableHead>
         <tr>
           {filters.map((filter) => (
             <SortableHeader
@@ -166,14 +166,15 @@ const Table: React.FC<Props> = ({
             />
           ))}
         </tr>
-
-        <FilterRow
-          filterArgs={filterArgs}
-          filters={filters}
-          disabled={isRefetching}
-          onSubmit={applyFilterArgs}
-        />
-      </thead>
+        {!disableFiltering && (
+          <FilterRow
+            filterArgs={filterArgs}
+            filters={filters}
+            disabled={isRefetching}
+            onSubmit={applyFilterArgs}
+          />
+        )}
+      </StyledTableHead>
       <tbody>
         {rows.length > 0 ? (
           rows

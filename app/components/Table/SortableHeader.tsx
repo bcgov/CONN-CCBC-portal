@@ -6,6 +6,24 @@ import {
   faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
+
+const StyledTableHeadCell = styled('th')`
+  padding: 12px;
+
+  border-top: 1px solid hsla(0, 0%, 0%, 0.12);
+
+  &:first-child {
+    padding: 12px;
+  }
+  &:last-child {
+    padding: 12px;
+    box-shadow: none;
+  }
+  font-weight: bold;
+
+  box-shadow: inset -2px 0px white;
+`;
 
 interface Props {
   orderByPrefix?: string;
@@ -57,7 +75,7 @@ const SortableHeader: React.FC<Props> = ({
 
   const handleClick = () => {
     const newSortDirection =
-      sortDirection == 'none' || sortDirection == 'descending'
+      sortDirection === 'none' || sortDirection === 'descending'
         ? 'ascending'
         : 'descending';
 
@@ -73,7 +91,7 @@ const SortableHeader: React.FC<Props> = ({
     onRouteUpdate(url, 'replace');
   };
   return (
-    <th
+    <StyledTableHeadCell
       onClick={() => sortable && handleClick()}
       aria-sort={sortDirection}
       className={loading ? 'loading' : ''}
@@ -82,61 +100,12 @@ const SortableHeader: React.FC<Props> = ({
       {displayName}&nbsp;
       {sortable && (
         <FontAwesomeIcon
-          color="white"
+          color="grey"
+          size="xl"
           icon={SORT_DIRECTIONS[sortDirection].icon}
         />
       )}
-      <style jsx>{`
-        th {
-          position: relative;
-          cursor: pointer;
-          background-color: #003366;
-          color: white;
-          text-align: left;
-          padding: 0.5rem;
-          height: 4rem;
-        }
-
-        th:not(last-child) {
-          border-right: 1px solid #ccc;
-        }
-
-        th:first-child {
-          border-top-left-radius: 0.25rem;
-          border-left: 1px solid #003366;
-          border-top: 1px solid #003366;
-          padding: 0.5rem;
-        }
-
-        th:last-child {
-          border-top-right-radius: 0.25rem;
-          border-right: 1px solid #003366;
-          border-top: 1px solid #003366;
-        }
-
-        .loading {
-          cursor: not-allowed;
-          pointer-events: none;
-          animation: shimmer-animation 2s infinite linear;
-          background: linear-gradient(
-            to right,
-            #003366 4%,
-            #38598a 25%,
-            #003366 36%
-          );
-          background-size: 500px 100%;
-        }
-
-        @keyframes shimmer-animation {
-          0% {
-            background-position: -500px 0;
-          }
-          100% {
-            background-position: 500px 0;
-          }
-        }
-      `}</style>
-    </th>
+    </StyledTableHeadCell>
   );
 };
 
