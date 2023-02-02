@@ -14,40 +14,50 @@ const mockQueryPayload = {
     return {
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'ccbc_analyst',
       },
       allApplications: {
-        nodes: [
+        totalCount: 4,
+        edges: [
           {
-            id: '1',
-            rowId: 1,
-            status: 'received',
-            projectName: 'Test Proj Name',
-            ccbcNumber: 'CCBC-010001',
-            organizationName: 'Test Org Name',
+            node: {
+              id: '1',
+              rowId: 1,
+              status: 'received',
+              projectName: 'Test Proj Name',
+              ccbcNumber: 'CCBC-010001',
+              organizationName: 'Test Org Name',
+            },
           },
           {
-            id: '2',
-            rowId: 2,
-            status: 'approved',
-            projectName: 'Test Proj Name 2',
-            ccbcNumber: 'CCBC-010002',
-            organizationName: 'Test Org Name 2',
+            node: {
+              id: '2',
+              rowId: 2,
+              status: 'approved',
+              projectName: 'Test Proj Name 2',
+              ccbcNumber: 'CCBC-010002',
+              organizationName: 'Test Org Name 2',
+            },
           },
           {
-            id: '3',
-            rowId: 3,
-            status: 'cancelled',
-            projectName: 'Test Proj Name 3',
-            ccbcNumber: 'CCBC-010003',
-            organizationName: 'Test Org Name 3',
+            node: {
+              id: '3',
+              rowId: 3,
+              status: 'cancelled',
+              projectName: 'Test Proj Name 3',
+              ccbcNumber: 'CCBC-010003',
+              organizationName: 'Test Org Name 3',
+            },
           },
           {
-            id: '4',
-            rowId: 4,
-            status: 'assessment',
-            projectName: 'Test Proj Name 4',
-            ccbcNumber: 'CCBC-010004',
-            organizationName: 'Test Org Name 4',
+            node: {
+              id: '4',
+              rowId: 4,
+              status: 'assessment',
+              projectName: 'Test Proj Name 4',
+              ccbcNumber: 'CCBC-010004',
+              organizationName: 'Test Org Name 4',
+            },
           },
         ],
       },
@@ -75,7 +85,11 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
   pageComponent: Dashboard,
   compiledQuery: compileddashboardQuery,
   defaultQueryResolver: mockQueryPayload,
-  defaultQueryVariables: {},
+  defaultQueryVariables: {
+    offset: null,
+    orderBy: null,
+    pageSize: null,
+  },
 });
 
 describe('The index page', () => {
@@ -185,7 +199,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getAllByRole('option', { name: 'Unassigned' })[0]
+      screen.getAllByRole('option', { name: 'Unassigned', hidden: true })[0]
     ).toBeInTheDocument();
   });
 
@@ -194,10 +208,10 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getAllByRole('option', { name: 'Test 1' })[0]
+      screen.getAllByRole('option', { name: 'Test 1', hidden: true })[0]
     ).toBeInTheDocument();
     expect(
-      screen.getAllByRole('option', { name: 'Test 2' })[0]
+      screen.getAllByRole('option', { name: 'Test 2', hidden: true })[0]
     ).toBeInTheDocument();
   });
 
@@ -205,8 +219,10 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const assignLead = screen.getAllByRole('option', { name: 'Test 2' })[0]
-      .parentElement;
+    const assignLead = screen.getAllByRole('option', {
+      name: 'Test 2',
+      hidden: true,
+    })[0].parentElement;
 
     fireEvent.change(assignLead, { target: { value: 2 } });
 

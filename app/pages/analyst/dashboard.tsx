@@ -3,7 +3,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import { useFeature } from '@growthbook/growthbook-react';
 import { DashboardTabs, AnalystRow } from 'components/AnalystDashboard';
-import { TextFilter } from 'components/Table/Filters';
+import { TextFilter, NumberFilter } from 'components/Table/Filters';
 import Table from 'components/Table';
 import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
@@ -13,9 +13,10 @@ import { dashboardAnalystQuery } from '__generated__/dashboardAnalystQuery.graph
 const tableFilters = [
   new TextFilter('CCBC ID', 'ccbcNumber'),
   new TextFilter('Status', 'statusOrder'),
-  new TextFilter('Project Title', 'projectName'),
+  new TextFilter('Project title', 'projectName'),
   new TextFilter('Organization', 'organizationName'),
   new TextFilter('Lead', 'analystLead'),
+  new NumberFilter('Package', '', { sortable: false, filterable: false }),
 ];
 
 // will probably have to change to cursor for pagination/infinte scroll
