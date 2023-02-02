@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { Layout } from 'components';
 import { dashboardAnalystQuery } from '__generated__/dashboardAnalystQuery.graphql';
+import { useRouter } from 'next/router';
 
 const tableFilters = [
   new TextFilter('CCBC ID', 'ccbcNumber'),
@@ -47,16 +48,37 @@ const StyledDashboardContainer = styled.div`
   width: 100%;
 `;
 
+const StyledSortText = styled.button`
+  color: #3f5986;
+  margin-bottom: 24px;
+  cursor: pointer;
+`;
+
 const AnalystDashboard = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, dashboardAnalystQuery>) => {
   const query = usePreloadedQuery(getDashboardAnalystQuery, preloadedQuery);
+  const router = useRouter();
   const { session, allApplications } = query;
+
+  const handleClearSorting = () => {
+    const url = {
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        orderBy: 'PRIMARY_KEY_ASC',
+      },
+    };
+    router.replace(url, url, { shallow: true });
+  };
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
+        <StyledSortText onClick={handleClearSorting}>
+          Clear sorting
+        </StyledSortText>
         <Table
           pageQuery={getDashboardAnalystQuery}
           paginated={false}

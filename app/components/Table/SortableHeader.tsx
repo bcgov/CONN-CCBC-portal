@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSort,
   faCaretUp,
@@ -7,6 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import SortArrows from './SortArrows';
 
 const StyledTableHeadCell = styled('th')`
   padding: 12px;
@@ -23,6 +23,11 @@ const StyledTableHeadCell = styled('th')`
   font-weight: bold;
 
   box-shadow: inset -2px 0px white;
+`;
+
+const StyledTextContainer = styled('div')`
+  display: flex;
+  align-items: baseline;
 `;
 
 interface Props {
@@ -97,14 +102,10 @@ const SortableHeader: React.FC<Props> = ({
       className={loading ? 'loading' : ''}
       aria-disabled={loading}
     >
-      {displayName}&nbsp;
-      {sortable && (
-        <FontAwesomeIcon
-          color="grey"
-          size="xl"
-          icon={SORT_DIRECTIONS[sortDirection].icon}
-        />
-      )}
+      <StyledTextContainer>
+        {displayName}&nbsp;
+        {sortable && <SortArrows sortDirection={sortDirection} />}
+      </StyledTextContainer>
     </StyledTableHeadCell>
   );
 };
