@@ -1,7 +1,6 @@
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
-import { useFeature } from '@growthbook/growthbook-react';
 import { DashboardTabs, AnalystRow } from 'components/AnalystDashboard';
 import { TextFilter, NumberFilter } from 'components/Table/Filters';
 import Table from 'components/Table';
@@ -53,19 +52,11 @@ const AnalystDashboard = ({
 }: RelayProps<Record<string, unknown>, dashboardAnalystQuery>) => {
   const query = usePreloadedQuery(getDashboardAnalystQuery, preloadedQuery);
   const { session, allApplications } = query;
-  const exportAttachmentsBtn = useFeature('export_attachments_btn').value;
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
-        {exportAttachmentsBtn && (
-          <StyledBtnContainer>
-            <ButtonLink href="/api/analyst/archive">
-              Export attachments
-            </ButtonLink>
-          </StyledBtnContainer>
-        )}
         <Table
           pageQuery={getDashboardAnalystQuery}
           paginated={false}
