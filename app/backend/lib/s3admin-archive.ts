@@ -35,7 +35,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   const s3Key = `Intake_${intake}_attachments`;
   const s3params =  {
     Bucket: AWS_S3_BUCKET,
-    Key: s3Key,
+    Key: `${s3Key}.zip`,
   };
   if (intake === '-1') intake = await getLastIntakeId(req);
   if (intake === '-1') {
@@ -43,7 +43,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   }
   const alreadyExists = await checkFileExists(s3params);
   if (alreadyExists) {
-    await getFileFromS3(s3Key, `${s3Key}.zip`, res);
+    await getFileFromS3(s3params.Key, s3params.Key, res);
     return res.status(200).end();
   }
 

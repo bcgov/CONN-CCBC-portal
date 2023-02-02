@@ -57,7 +57,7 @@ export const checkFileExists = async (params) =>{
   try {
     await s3Client.headObject(params).promise();  
   } catch (error) {
-      return false;
+    return false;
   }
   return true;
 }

@@ -74,7 +74,13 @@ const config = {
   // moduleDirectories: [
   //   "node_modules"
   // ],
+  roots: [
+    "<rootDir>"
+  ],
 
+  modulePaths: [
+    "<rootDir>"
+  ],
   // An array of file extensions your modules use
   // moduleFileExtensions: [
   //   "js",
