@@ -120,7 +120,7 @@ describe('The Download attachments admin page', () => {
     await act(async () => {
       await userEvent.click(link);
     });
-    expect(fetch).toBeCalledWith('/api/analyst/admin-archive/2');
+    expect(fetch).toHaveBeenCalledWith('/api/analyst/admin-archive/2');
   });
 
   afterEach(() => {
