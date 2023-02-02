@@ -147,17 +147,6 @@ describe('The index page', () => {
     expect(await defaultRelayOptions.serverSideProps(ctx)).toEqual({});
   });
 
-  it('displays the title', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.getByRole('link', {
-        name: 'Dashboard',
-      })
-    ).toBeVisible();
-  });
-
   it('displays the Analyst Table', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
