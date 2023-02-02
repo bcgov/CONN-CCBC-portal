@@ -106,7 +106,7 @@ describe('The Download attachments admin page', () => {
       await userEvent.selectOptions(screen.getByTestId('select-intake-test'), secondIntake);
     });
  
-    const link = screen.getByRole('button', { name: 'Export attachments' });
+    const link = screen.getByRole('button', { name: 'Download attachments' });
     expect(link).toHaveAttribute(
       'href',
       '/api/analyst/admin-archive/2'
