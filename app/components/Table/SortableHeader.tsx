@@ -102,7 +102,7 @@ const SortableHeader: React.FC<Props> = ({
       className={loading ? 'loading' : ''}
       aria-disabled={loading}
     >
-      <StyledTextContainer>
+      <StyledTextContainer aria-sort={sortDirection}>
         {displayName}&nbsp;
         {sortable && <SortArrows sortDirection={sortDirection} />}
       </StyledTextContainer>

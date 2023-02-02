@@ -29,7 +29,7 @@ describe('The sortable table header', () => {
 
     expect(
       screen.getByText('testdisplay').querySelector('svg')
-    ).toHaveAttribute('data-icon', 'sort');
+    ).toHaveAttribute('data-icon', 'sort-up');
   });
 
   it('doesnt display the sort direction arrows if sortable is false', () => {
@@ -72,6 +72,6 @@ describe('The sortable table header', () => {
     );
     expect(
       screen.getByText('testdisplay').querySelector('svg')
-    ).toHaveAttribute('data-icon', 'caret-down');
+    ).toHaveAttribute('data-icon', 'sort-up');
   });
 });
