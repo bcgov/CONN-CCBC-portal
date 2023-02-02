@@ -43,6 +43,12 @@ const mockQueryPayload = {
 
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 
+global.fetch = jest.fn(() =>
+Promise.resolve({
+  json: () => Promise.resolve({}),
+}),
+) as jest.Mock;
+
 const pageTestingHelper = new PageTestingHelper<downloadAttachmentsQuery>({
   pageComponent: DownloadAttachments,
   compiledQuery: compiledDownloadAttachmentsQuery,
@@ -82,7 +88,7 @@ describe('The Download attachments admin page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByTestId('select-intake-test')).toBeInTheDocument();
-    expect(screen.getByText('Export attachments')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Download attachments' })).toBeInTheDocument();
 
     expect(
       screen.getAllByRole('option', { name: 'Intake 1. July 25, 2022 - August 09, 2022'})[0]
@@ -109,9 +115,12 @@ describe('The Download attachments admin page', () => {
     const link = screen.getByRole('button', { name: 'Download attachments' });
     expect(link).toHaveAttribute(
       'href',
-      '/api/analyst/admin-archive/2'
+      '/#'
     );
-
+    await act(async () => {
+      await userEvent.click(link);
+    });
+    expect(fetch).toBeCalledWith('/api/analyst/admin-archive/2');
   });
 
   afterEach(() => {
