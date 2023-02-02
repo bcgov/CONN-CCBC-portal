@@ -9357,7 +9357,7 @@ type ApplicationPackage implements Node {
 
   """Column containing the package number the application is assigned to"""
   applicationId: Int
-  package: Int!
+  package: Int
 
   """created by user id"""
   createdBy: Int
@@ -18190,7 +18190,7 @@ input CreateApplicationPackageInput {
 input ApplicationPackageInput {
   """Column containing the package number the application is assigned to"""
   applicationId: Int
-  package: Int!
+  package: Int
 
   """created by user id"""
   createdBy: Int
