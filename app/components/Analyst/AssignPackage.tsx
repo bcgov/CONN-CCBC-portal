@@ -1,6 +1,6 @@
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
-import { useApplicationPackageMutation } from 'schema/mutations/application/createApplicationPackage';
+import { useCreatePackageMutation } from 'schema/mutations/application/createPackage';
 
 const StyledDropdown = styled.select`
   text-overflow: ellipsis;
@@ -30,15 +30,17 @@ const AssignPackage = ({ application }) => {
   const applicationPackage =
     applicationPackagesByApplicationId.nodes?.[0]?.package;
 
-  const [createPackage] = useApplicationPackageMutation();
+  const [createPackage] = useCreatePackageMutation();
 
   const handleAssignPackage = (e) => {
     const packageNumber = parseInt(e.target.value, 10) || null;
+    console.log(packageNumber);
 
     createPackage({
       variables: {
         input: {
-          applicationPackage: { package: packageNumber, applicationId: rowId },
+          _applicationId: rowId,
+          _package: packageNumber,
         },
       },
     });

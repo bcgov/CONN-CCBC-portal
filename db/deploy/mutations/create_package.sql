@@ -2,7 +2,7 @@
 
 begin;
 
-create or replace function ccbc_public.create_package(_application_id int, _package int) returns ccbc_public.application_package as $$
+create or replace function ccbc_public.create_package(_application_id int, _package int default null) returns ccbc_public.application_package as $$
 declare
 new_application_package_id int;
 old_application_package_id int;

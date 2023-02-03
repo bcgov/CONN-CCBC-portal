@@ -5,7 +5,7 @@ begin;
 create table ccbc_public.application_package(
   id integer primary key generated always as identity,
   application_id integer references ccbc_public.application(id),
-  package integer null check (package > 0)
+  package integer check (package > 0)
 );
 
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_package');

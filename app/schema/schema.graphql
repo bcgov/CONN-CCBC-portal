@@ -22250,7 +22250,7 @@ input CreatePackageInput {
   """
   clientMutationId: String
   _applicationId: Int!
-  _package: Int!
+  _package: Int
 }
 
 """The output of our `createRfi` mutation."""
