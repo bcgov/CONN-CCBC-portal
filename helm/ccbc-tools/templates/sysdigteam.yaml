@@ -8,8 +8,6 @@ spec:
   team:
     description: The Sysdig Team for the OpenShift Project Set {{ .Values.namespacePrefix }}
     users:
-    - name: matthieu@button.is
-      role: ROLE_TEAM_EDIT
     - name: vladimir@button.is
       role: ROLE_TEAM_EDIT
     - name: alec@button.is
@@ -17,8 +15,6 @@ spec:
     - name: tonybushara@gmail.com
       role: ROLE_TEAM_EDIT
     - name: marcel@button.is
-      role: ROLE_TEAM_EDIT
-    - name: philip@button.is
       role: ROLE_TEAM_EDIT
     - name: meherzad.romer@gov.bc.ca
       role: ROLE_TEAM_READ
