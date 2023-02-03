@@ -77,12 +77,12 @@ const getAttachmentList = async(intake:number, req) => {
       // Even fields single file uploads are stored in an array so we will iterate them
       if (attachmentFields[field] instanceof Array) {
         attachmentFields[field]?.forEach((attachment) => {
-          const { name, uuid } = attachment;
+          const { name, uuid, size, type } = attachment;
           const path = getArchivePath(field, ccbcNumber, name);
           if (infected.indexOf(uuid) > -1) {
-            attachments.push({name:`${INFECTED_FILE_PREFIX}_${path}`, uuid});
+            attachments.push({name:`${INFECTED_FILE_PREFIX}_${path}`, uuid, size, type, ccbcId: ccbcNumber});
           } else {
-            attachments.push({name: path, uuid});
+            attachments.push({name: path, uuid, size, type, ccbcId: ccbcNumber});
           }
         });
       } else {

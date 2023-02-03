@@ -122,7 +122,10 @@ describe('Attachment list', () => {
     const expected =  [
       {
         uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
-        name: '/CCBC-100001/Step 2 - Templates/CCBC-100001 - Template 2 - File.pdf'
+        name: '/CCBC-100001/Step 2 - Templates/CCBC-100001 - Template 2 - File.pdf',
+        size: 35,
+        type: 'text/plain',
+        ccbcId: 'CCBC-100001',
       },
     ]
     expect(response).toEqual(expected);
@@ -170,7 +173,10 @@ describe('Attachment list', () => {
     const expected =  [
       {
         uuid: 'd56a8477-b4d8-43c7-bd75-75d376ddeca4',
-        name: `${INFECTED_FILE_PREFIX}_/CCBC-100001/Step 2 - Templates/CCBC-100001 - Template 2 - File.pdf`
+        name: `${INFECTED_FILE_PREFIX}_/CCBC-100001/Step 2 - Templates/CCBC-100001 - Template 2 - File.pdf`,
+        size: 35,
+        type: 'text/plain',
+        ccbcId: 'CCBC-100001',
       },
     ]
     expect(response).toEqual(expected);
