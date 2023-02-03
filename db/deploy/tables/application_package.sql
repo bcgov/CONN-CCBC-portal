@@ -5,7 +5,7 @@ begin;
 create table ccbc_public.application_package(
   id integer primary key generated always as identity,
   application_id integer references ccbc_public.application(id),
-  package integer check (package > 0 or package = null) default null
+  package integer null check (package > 0)
 );
 
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_package');
@@ -17,10 +17,12 @@ begin
 -- Grant ccbc_admin permissions
 perform ccbc_private.grant_permissions('select', 'application_package', 'ccbc_admin');
 perform ccbc_private.grant_permissions('insert', 'application_package', 'ccbc_admin');
+perform ccbc_private.grant_permissions('update', 'application_package', 'ccbc_admin');
 
 -- Grant ccbc_analyst permissions
 perform ccbc_private.grant_permissions('select', 'application_package', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('insert', 'application_package', 'ccbc_analyst');
+perform ccbc_private.grant_permissions('update', 'application_package', 'ccbc_analyst');
 
 end
 $grant$;

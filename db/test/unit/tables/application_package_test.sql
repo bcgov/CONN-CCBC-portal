@@ -25,12 +25,12 @@ select table_privs_are(
 );
 
 select table_privs_are(
-  'ccbc_public', 'application_package', 'ccbc_admin', ARRAY['SELECT', 'INSERT'],
+  'ccbc_public', 'application_package', 'ccbc_admin', ARRAY['SELECT', 'INSERT', 'UPDATE'],
   'ccbc_admin can select, insert and update from attachment table'
 );
 
 select table_privs_are(
-  'ccbc_public', 'application_package', 'ccbc_analyst', ARRAY['SELECT', 'INSERT'],
+  'ccbc_public', 'application_package', 'ccbc_analyst', ARRAY['SELECT', 'INSERT', 'UPDATE'],
   'ccbc_analyst can select, insert and update from attachment table'
 );
 
