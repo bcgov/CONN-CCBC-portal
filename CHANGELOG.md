@@ -1,3 +1,29 @@
+# [1.38.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.37.0...v1.38.0) (2023-02-03)
+
+### Bug Fixes
+
+- added more tests ([a05c09b](https://github.com/bcgov/CONN-CCBC-portal/commit/a05c09ba7086c422466c4e0bd871a23a6a1d751d))
+- added tests ([c89d35f](https://github.com/bcgov/CONN-CCBC-portal/commit/c89d35f1aa8fe695ccccb5b137d4cfe4982cac6a))
+- canonical name for toHaveBeenCalledWith ([596d4ad](https://github.com/bcgov/CONN-CCBC-portal/commit/596d4ad7da3adb458da5d18a415e30dbc8ff89cf))
+- default props ([9984e23](https://github.com/bcgov/CONN-CCBC-portal/commit/9984e23288d9d62a389768e160a20a41690f8c01))
+- download behavior ([f99f5f5](https://github.com/bcgov/CONN-CCBC-portal/commit/f99f5f57a4832c4619a797a918a9829574f50883))
+- invalid datetime in submission description field ([f694128](https://github.com/bcgov/CONN-CCBC-portal/commit/f6941289960e642c0944222a453cae62ad780a7e))
+- minor cleanup ([1c61006](https://github.com/bcgov/CONN-CCBC-portal/commit/1c610065a1cc50106d0a6140440f10d3db25f128))
+- PR comments ([91db32a](https://github.com/bcgov/CONN-CCBC-portal/commit/91db32a6afb1330ca7cf626cfe509ccb4fffd7be))
+- trivy resolution and tests ([65afc37](https://github.com/bcgov/CONN-CCBC-portal/commit/65afc37a00aee6a9a32938fc25da33a2e7d58c8e))
+- updated test ([804a663](https://github.com/bcgov/CONN-CCBC-portal/commit/804a663bc1f652aeab2d882a0a6d26db14ae074e))
+- wrong file name ([6a6188c](https://github.com/bcgov/CONN-CCBC-portal/commit/6a6188ca4f6a6f7cf074a1d5f98c6473ca9f3c72))
+
+### Features
+
+- add admin pages tabs ([0055d87](https://github.com/bcgov/CONN-CCBC-portal/commit/0055d8761298329900e35c42a204963b95b999ea))
+- add admin route authorizations to isRouteAuthorized ([3679abc](https://github.com/bcgov/CONN-CCBC-portal/commit/3679abc633d96a4fba1d5e2f5e0e7f3aff146499))
+- add administrative tab and pages ([7e9fc4c](https://github.com/bcgov/CONN-CCBC-portal/commit/7e9fc4c3a80f23e3fd794511824db627c9276927))
+- created download attachement admin page ([721d057](https://github.com/bcgov/CONN-CCBC-portal/commit/721d057d9ebb58b834a3fae973825517149bb1fb))
+- enable sentry performance metrics ([0889b22](https://github.com/bcgov/CONN-CCBC-portal/commit/0889b222a39b75204f8ad722dfe41d92ac094d8d))
+- pass more information about attachments ([1a8157f](https://github.com/bcgov/CONN-CCBC-portal/commit/1a8157ffefd2e635c3842af73b4f6a5137c14414))
+- sorted list of intakes ([7652eaa](https://github.com/bcgov/CONN-CCBC-portal/commit/7652eaa3f6e0be336dfcb156df763cb3e0dec6eb))
+
 # [1.37.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.36.0...v1.37.0) (2023-01-27)
 
 ### Bug Fixes
