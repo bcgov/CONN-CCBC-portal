@@ -13,16 +13,18 @@ exports.handler = async(event, context, callback) => {
     return;
   }
   const record = event.Records[0];
-  if (record.s3.object.key.indexOf('Intake_')>-1) {
+
+  if (record.s3.object.key.indexOf('Intake_')>-1 && record.s3.object.key.indexOf('json')>-1) {
     const s3Object = await s3
     .getObject({
       Bucket: record.s3.bucket.name,
       Key: record.s3.object.key
     })
     .promise();
-    const message = s3Object.Body
+    const message = s3Object.Body;
     console.log(`Got list of attachments from S3; file size: ${message.length}`);
     const list = JSON.parse(message);
+    const issues = [];
     const key = record.s3.object.key.replace('.json','.zip');
     const currentDate = DateTime.now().toFormat('yyyyMMdd');
     const fileName = `CCBC_applications_${currentDate}.zip`;
@@ -43,21 +45,82 @@ exports.handler = async(event, context, callback) => {
       output.on('end', function() {
         console.log('Data has been drained');
       });
-      
+      output.on('error', function (err) { 
+        console.log('[OUTPUT STREAM ERROR]', err); 
+      });
+
+      archive.on('error', function(err) {
+        console.log('[ARCHIVER ERROR]', err); 
+      });
       for (const record of list) {
         // each record: { name, uuid }
         if (record.name.indexOf(INFECTED_FILE_PREFIX) > -1) {
           archive.addFile(`${INFECTED_FILE_PREFIX}_${record.name}`, '');
+          issues.push({
+            status: 409,
+            name: record.name, 
+            uuid: record.uuid, 
+            size: record.size,
+            type: record.type,
+            size_s3: 0,
+            type_s3: '',
+            timestamp: Date.now().toLocaleString(), 
+            details: 'File excluded due to possible virus infection'
+          });
         }
         else {
           const objectSrc = await s3.getObject({
               Bucket: AWS_S3_BUCKET,  
               Key: record.uuid
-            }).promise();
-          console.log(`downloaded ${record.name} from s3, key: ${record.uuid}`);
-          archive.addFile(record.name, objectSrc.Body);
+            })
+            .promise()
+            .catch((err) =>{
+              issues.push({
+                status: 500,
+                name: record.name, 
+                uuid: record.uuid, 
+                size: record.size,
+                type: record.type,
+                size_s3: 0,
+                type_s3: '',
+                timestamp: Date.now().toLocaleString(), 
+                details: JSON.stringify(err)
+              });
+            });
+          if (objectSrc && objectSrc.Body) {
+            console.log(`downloaded ${record.name} from s3, key: ${record.uuid}`);
+            archive.addFile(record.name, objectSrc.Body);
+            const metadata = objectSrc.Metadata;
+            if (metadata) {
+              if (metadata.ContentLength !== record.size || metadata.ContentType !== record.type){
+                issues.push({
+                  status: 400,
+                  name: record.name, 
+                  uuid: record.uuid, 
+                  size: record.size,
+                  type: record.type,
+                  size_s3: metadata.ContentLength,
+                  type_s3: metadata.ContentType,
+                  timestamp: Date.now().toLocaleString(), 
+                  details: 'Size or file type mismatch'
+                });
+              }
+            }
+          }
         }
       }
+      let summary = '';
+      if (issues.length>0) {
+        issues.forEach(x => {
+          const line =`${x.status} - ${x.uuid} - ${x.name} - ${x.type} - ${x.size_s3} - ${x.size} - ${x.timestamp}`;
+          summary += line + '\r\n';
+        });
+      }
+      else {
+        summary = 'Download successfull';
+      }
+      archive.addFile('errors.txt',Buffer.alloc(summary.length, summary));
+      
       archive.writeZip(`/tmp/${fileName}`);
       const stats = statSync(`/tmp/${fileName}`);
       const fileSizeInBytes = stats.size;
