@@ -5286,6 +5286,9 @@ type Application implements Node {
   """Computed column to display organization name from json data"""
   organizationName: String
 
+  """Computed column to return the package number for an application"""
+  package: Int
+
   """Computed column to display the project name"""
   projectName: String
 

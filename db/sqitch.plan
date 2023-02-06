@@ -165,3 +165,4 @@ tables/application_status_type_003_status_order 2023-01-20T15:52:39Z Anthony Bus
 computed_columns/application_status_order 2023-01-20T19:57:51Z Anthony Bushara <anthony@button.is> # Computed column to display the order of the given application's status
 tables/application_package 2023-02-02T17:45:10Z Marcel Mueller <marcel@button.is> # Add table application package
 mutations/create_package 2023-02-03T19:14:34Z Marcel Mueller <marcel@button.is> # mutation to create application_package
+computed_columns/application_package 2023-02-06T22:21:00Z Marcel Mueller <marcel@button.is> # add computed column application_package
