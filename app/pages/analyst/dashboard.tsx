@@ -10,6 +10,8 @@ import { Layout } from 'components';
 import { dashboardAnalystQuery } from '__generated__/dashboardAnalystQuery.graphql';
 import { useRouter } from 'next/router';
 
+const DEFAULT_SORT = 'PRIMARY_KEY_ASC';
+
 const tableFilters = [
   new TextFilter('CCBC ID', 'ccbcNumber'),
   new TextFilter('Status', 'statusOrder'),
@@ -61,12 +63,15 @@ const AnalystDashboard = ({
   const router = useRouter();
   const { session, allApplications } = query;
 
+  const hasSort =
+    router.query?.orderBy && router.query?.orderBy !== DEFAULT_SORT;
+
   const handleClearSorting = () => {
     const url = {
       pathname: router.pathname,
       query: {
         ...router.query,
-        orderBy: 'PRIMARY_KEY_ASC',
+        orderBy: DEFAULT_SORT,
       },
     };
     router.replace(url, url, { shallow: true });
@@ -76,9 +81,11 @@ const AnalystDashboard = ({
     <Layout session={session} title="Connecting Communities BC">
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
-        <StyledSortText onClick={handleClearSorting}>
-          Clear sorting
-        </StyledSortText>
+        {hasSort && (
+          <StyledSortText onClick={handleClearSorting}>
+            Clear sorting
+          </StyledSortText>
+        )}
         <Table
           pageQuery={getDashboardAnalystQuery}
           paginated={false}
