@@ -2,7 +2,7 @@ import { graphql } from 'react-relay';
 import compiledQuery, {
   ApplicationHeaderTestQuery,
 } from '__generated__/ApplicationHeaderTestQuery.graphql';
-import { screen } from '@testing-library/react';
+import { act, screen, fireEvent } from '@testing-library/react';
 import ApplicationHeader from 'components/Analyst/ApplicationHeader';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
@@ -24,6 +24,14 @@ const mockQueryPayload = {
           formByFormSchemaId: {
             jsonSchema: {},
           },
+        },
+        rowId: 1,
+        applicationPackagesByApplicationId: {
+          nodes: [
+            {
+              package: 1,
+            },
+          ],
         },
       },
       allAnalysts: {
@@ -122,5 +130,46 @@ describe('The application header component', () => {
 
     expect(orgName).toHaveStyle({ fontSize: '16px' });
     expect(orgName).toHaveStyle({ fontWeight: 'bold' });
+  });
+
+  it('displays the current application status', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('1')).toBeVisible();
+  });
+
+  it('has the list of statuses', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
+    expect(screen.getByText('4')).toBeInTheDocument();
+    expect(screen.getByText('5')).toBeInTheDocument();
+    expect(screen.getByText('6')).toBeInTheDocument();
+    expect(screen.getByText('7')).toBeInTheDocument();
+    expect(screen.getByText('8')).toBeInTheDocument();
+    expect(screen.getByText('9')).toBeInTheDocument();
+    expect(screen.getByText('10')).toBeInTheDocument();
+  });
+
+  it('calls the mutation when the package is changed', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const select = screen.getByTestId('assign-package');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: '3' } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled('createPackageMutation', {
+      input: {
+        _applicationId: 1,
+        _package: 3,
+      },
+    });
   });
 });

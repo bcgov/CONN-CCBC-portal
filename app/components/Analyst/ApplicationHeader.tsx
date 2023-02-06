@@ -27,6 +27,10 @@ const StyledDiv = styled.div`
   align-items: flex-end;
 `;
 
+const StyledMargin = styled.div`
+  margin: 8px 0;
+`;
+
 interface Props {
   query: any;
 }
@@ -63,7 +67,9 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
       </div>
       <StyledDiv>
         <ChangeStatus query={queryFragment} />
-        <AssignPackage application={applicationByRowId} />
+        <StyledMargin>
+          <AssignPackage application={applicationByRowId} />
+        </StyledMargin>
         <AssignLead
           label="Lead"
           applicationId={rowId}

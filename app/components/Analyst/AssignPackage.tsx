@@ -9,7 +9,6 @@ const StyledDropdown = styled.select`
   border: 1px solid ${(props) => props.theme.color.borderGrey};
   padding: 8px;
   max-width: 100%;
-  border-radius: 4px;
 `;
 
 const AssignPackage = ({ application }) => {
@@ -34,7 +33,6 @@ const AssignPackage = ({ application }) => {
 
   const handleAssignPackage = (e) => {
     const packageNumber = parseInt(e.target.value, 10) || null;
-    console.log(packageNumber);
 
     createPackage({
       variables: {
@@ -48,7 +46,7 @@ const AssignPackage = ({ application }) => {
 
   const options = [null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
-    <StyledDropdown onChange={handleAssignPackage}>
+    <StyledDropdown onChange={handleAssignPackage} data-testid="assign-package">
       {options.map((option) => {
         return (
           <option
