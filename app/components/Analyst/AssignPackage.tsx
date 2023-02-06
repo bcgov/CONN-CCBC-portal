@@ -7,7 +7,7 @@ const StyledDropdown = styled.select`
   color: ${(props) => props.theme.color.links};
   background-color: ${(props) => props.theme.color.white};
   border: 1px solid ${(props) => props.theme.color.borderGrey};
-  padding: 8px;
+  padding: 0 8px;
   max-width: 100%;
 `;
 

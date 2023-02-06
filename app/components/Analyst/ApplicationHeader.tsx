@@ -24,7 +24,7 @@ const StyledH2 = styled.h2`
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 
 const StyledMargin = styled.div`
