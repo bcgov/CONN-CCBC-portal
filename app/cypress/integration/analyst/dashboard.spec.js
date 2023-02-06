@@ -22,4 +22,12 @@ describe('The analyst dashboard', () => {
     cy.get('tbody > tr').click();
     cy.url().should('include', '/analyst/application/');
   });
+
+  it('sort dashboard', () => {
+    cy.visit('/analyst/dashboard');
+    cy.wait(2000);
+    cy.get('tr > th').first().click();
+    cy.url().should('include', 'orderBy');
+    cy.get('body').happoScreenshot({ component: 'Sorted Analyst Dashboard' });
+  });
 });

@@ -34,6 +34,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@graphile-contrib/pg-many-to-many": "^1.0.1",
     "@growthbook/growthbook-react": "^0.9.0",
+    "@mui/base": "^5.0.0-alpha.115",
     "@rjsf/core": "^4.2.0",
     "@sentry/nextjs": "^7.36.0",
     "archiver": "^5.3.1",

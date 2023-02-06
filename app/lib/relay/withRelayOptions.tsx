@@ -2,6 +2,8 @@ import type { NextPageContext } from 'next';
 import { WiredOptions } from 'relay-nextjs/wired/component';
 import { NextRouter } from 'next/router';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
+import safeJsonParse from 'lib/helpers/safeJsonParse';
+import { DEFAULT_PAGE_SIZE } from 'components/Table/Pagination';
 import { getClientEnvironment } from './client';
 import isRouteAuthorized from '../../utils/isRouteAuthorized';
 
@@ -45,9 +47,16 @@ const withRelayOptions: WiredOptions<any> = {
       },
     };
   },
-  variablesFromContext: (ctx: NextPageContext | NextRouter) => ({
-    ...ctx.query,
-  }),
+  variablesFromContext: (ctx: NextPageContext | NextRouter) => {
+    const filterArgs = safeJsonParse(ctx.query.filterArgs as string);
+    const pageArgs = safeJsonParse(ctx.query.pageArgs as string);
+    return {
+      ...ctx.query,
+      ...filterArgs,
+      pageSize: DEFAULT_PAGE_SIZE,
+      ...pageArgs,
+    };
+  },
 };
 
 export default withRelayOptions;
