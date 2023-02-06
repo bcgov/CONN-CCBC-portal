@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 describe('The analyst dashboard', () => {
   beforeEach(function () {
     const mockedDateString = '2022-10-10';
