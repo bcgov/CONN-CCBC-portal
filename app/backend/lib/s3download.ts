@@ -29,7 +29,7 @@ s3download.get('/api/s3/download/:uuid/:fileName', async(req, res) => {
   }
   // first check AV tag
   const healthCheck = await detectInfected(uuid);
-  const suspect = healthCheck.TagSet.find((x) => x.Key === 'av_status');
+  const suspect = healthCheck.TagSet.find((x) => x.Key === 'av-status');
   if (suspect?.Value === 'dirty') {
     return res.json({avstatus:'dirty'});
   } 

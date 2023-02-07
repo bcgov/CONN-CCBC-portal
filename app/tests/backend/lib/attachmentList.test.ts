@@ -25,7 +25,7 @@ const mockObjectTaggingDirty = {
   promise: () => {
     return new Promise((resolve) => {
       resolve({
-        TagSet: [{ Key: 'av_status', Value: 'dirty' }],
+        TagSet: [{ Key: 'av-status', Value: 'dirty' }],
       });
     });
   },
@@ -36,7 +36,7 @@ const mockObjectTaggingClean = {
   promise: () => {
     return new Promise((resolve) => {
       resolve({
-        TagSet: [{ Key: 'av_status', Value: 'clean' }],
+        TagSet: [{ Key: 'av-status', Value: 'clean' }],
       });
     });
   },
@@ -57,7 +57,7 @@ jest.mock('../../../backend/lib/s3client', () => {
         promise: jest.fn(() => {
           return new Promise((resolve) => {
             resolve({
-              TagSet: [{ Key: 'av_status', Value: 'dirty' }],
+              TagSet: [{ Key: 'av-status', Value: 'dirty' }],
             });
           });
         }),

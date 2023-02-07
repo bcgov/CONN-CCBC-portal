@@ -16,7 +16,7 @@ const mockObjectTagging = {
   promise: () => {
     return new Promise((resolve) => {
       resolve({
-        TagSet: [{ Key: 'av_status', Value: 'clean' }],
+        TagSet: [{ Key: 'av-status', Value: 'clean' }],
       });
     });
   },

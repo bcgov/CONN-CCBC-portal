@@ -75,7 +75,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
         attachmentFields[field]?.forEach(async (attachment) => {
           const { uuid } = attachment;
           const healthCheck = await detectInfected(uuid);
-          const suspect = healthCheck.TagSet.find((x) => x.Key === 'av_status');
+          const suspect = healthCheck.TagSet.find((x) => x.Key === 'av-status');
           if (suspect?.Value === 'dirty') {
             infected.push(uuid);
           }
