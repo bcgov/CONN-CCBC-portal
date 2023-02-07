@@ -19,7 +19,7 @@ const StyledA = styled.a<LinkProps>`
   border-radius: 4px 4px 0px 0px;
   margin-right: 16px;
   position: relative;
-  top: ${(props) => (props.selected ? '-0.8px' : '-1px')};
+  top: ${(props) => (props.selected ? '0px' : '-1px')};
 
   &:hover {
     opacity: ${(props) => (props.selected ? `1` : `0.6`)};
