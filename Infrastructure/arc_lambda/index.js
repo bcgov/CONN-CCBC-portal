@@ -49,9 +49,6 @@ exports.handler = async(event, context, callback) => {
         console.log('[OUTPUT STREAM ERROR]', err); 
       });
 
-      archive.on('error', function(err) {
-        console.log('[ARCHIVER ERROR]', err); 
-      });
       for (const record of list) {
         // each record: { name, uuid }
         if (record.name.indexOf(INFECTED_FILE_PREFIX) > -1) {
@@ -63,8 +60,9 @@ exports.handler = async(event, context, callback) => {
             size: record.size,
             type: record.type,
             size_s3: 0,
-            type_s3: '',
-            timestamp: Date.now().toLocaleString(), 
+            type_s3: 'N/A',
+            created:  'N/A', 
+            timestamp: (new Date()).toLocaleString(), 
             details: 'File excluded due to possible virus infection'
           });
         }
@@ -82,29 +80,28 @@ exports.handler = async(event, context, callback) => {
                 size: record.size,
                 type: record.type,
                 size_s3: 0,
-                type_s3: '',
-                timestamp: Date.now().toLocaleString(), 
+                type_s3: 'N/A',
+                created:  'N/A', 
+                timestamp: (new Date()).toLocaleString(), 
                 details: JSON.stringify(err)
               });
             });
           if (objectSrc && objectSrc.Body) {
             console.log(`downloaded ${record.name} from s3, key: ${record.uuid}`);
             archive.addFile(record.name, objectSrc.Body);
-            const metadata = objectSrc.Metadata;
-            if (metadata) {
-              if (metadata.ContentLength !== record.size || metadata.ContentType !== record.type){
-                issues.push({
-                  status: 400,
-                  name: record.name, 
-                  uuid: record.uuid, 
-                  size: record.size,
-                  type: record.type,
-                  size_s3: metadata.ContentLength,
-                  type_s3: metadata.ContentType,
-                  timestamp: Date.now().toLocaleString(), 
-                  details: 'Size or file type mismatch'
-                });
-              }
+            if (objectSrc.ContentLength !== record.size){
+              issues.push({
+                status: 400,
+                name: record.name, 
+                uuid: record.uuid, 
+                size: record.size,
+                type: record.type,
+                size_s3: objectSrc.ContentLength,
+                type_s3: objectSrc.ContentType,
+                created: objectSrc.LastModified.toLocaleString(), 
+                timestamp: (new Date()).toLocaleString(), 
+                details: 'Size mismatch'
+              });
             }
           }
         }
@@ -112,12 +109,13 @@ exports.handler = async(event, context, callback) => {
       let summary = '';
       if (issues.length>0) {
         issues.forEach(x => {
-          const line =`${x.status} - ${x.uuid} - ${x.name} - ${x.type} - ${x.size_s3} - ${x.size} - ${x.timestamp}`;
+          const line =`${x.status} - ${x.uuid} - ${x.name} - ${x.type} - ${x.size} - ${x.type_s3} - ${x.size_s3} - ${x.created} - ${x.timestamp}`;
           summary += line + '\r\n';
+          summary += 'Details: ' + x.details + '\r\n';
         });
       }
       else {
-        summary = 'Download successfull';
+        summary = 'Download successful';
       }
       archive.addFile('errors.txt',Buffer.alloc(summary.length, summary));
       
