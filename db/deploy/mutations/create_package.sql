@@ -8,7 +8,7 @@ new_application_package_id int;
 old_application_package_id int;
 begin
 
-  select ap.id into old_application_package_id from ccbc_public.application_package as ap where ap.application_id = application_id
+  select ap.id into old_application_package_id from ccbc_public.application_package as ap where ap.application_id = _application_id
   order by ap.id desc limit 1;
 
   insert into ccbc_public.application_package (application_id, package)
