@@ -115,7 +115,7 @@ exports.handler = async(event, context, callback) => {
         });
       }
       else {
-        summary = 'Download successfull';
+        summary = 'Download successful';
       }
       archive.addFile('errors.txt',Buffer.alloc(summary.length, summary));
       
