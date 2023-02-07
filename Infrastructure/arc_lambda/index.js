@@ -62,7 +62,7 @@ exports.handler = async(event, context, callback) => {
             size_s3: 0,
             type_s3: 'N/A',
             created:  'N/A', 
-            timestamp: Date.now().toLocaleString(), 
+            timestamp: (new Date()).toLocaleString(), 
             details: 'File excluded due to possible virus infection'
           });
         }
@@ -82,7 +82,7 @@ exports.handler = async(event, context, callback) => {
                 size_s3: 0,
                 type_s3: 'N/A',
                 created:  'N/A', 
-                timestamp: Date.now().toLocaleString(), 
+                timestamp: (new Date()).toLocaleString(), 
                 details: JSON.stringify(err)
               });
             });
