@@ -18,7 +18,7 @@ const tableFilters = [
   new TextFilter('Project title', 'projectName'),
   new TextFilter('Organization', 'organizationName'),
   new TextFilter('Lead', 'analystLead'),
-  new NumberFilter('Package', '', { sortable: false, filterable: false }),
+  new NumberFilter('Package', 'package'),
 ];
 
 // will probably have to change to cursor for pagination/infinte scroll

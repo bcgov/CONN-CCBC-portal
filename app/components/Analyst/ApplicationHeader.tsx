@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
-import ChangeStatus from './ChangeStatus';
+import AssignPackage from 'components/Analyst/AssignPackage';
+import ChangeStatus from 'components/Analyst/ChangeStatus';
 
 const StyledCallout = styled.div`
   margin-bottom: 40px;
@@ -23,7 +24,11 @@ const StyledH2 = styled.h2`
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
+`;
+
+const StyledMargin = styled.div`
+  margin: 8px 0;
 `;
 
 interface Props {
@@ -40,6 +45,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           ccbcNumber
           projectName
           rowId
+          ...AssignPackage_query
         }
         ...AssignLead_query
         ...ChangeStatus_query
@@ -61,6 +67,9 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
       </div>
       <StyledDiv>
         <ChangeStatus query={queryFragment} />
+        <StyledMargin>
+          <AssignPackage application={applicationByRowId} />
+        </StyledMargin>
         <AssignLead
           label="Lead"
           applicationId={rowId}

@@ -53,6 +53,11 @@
           sortable: true,
         },
       },
+      'ccbc_public.application_package': {
+        tags: {
+          sortable: true,
+        },
+      },
     },
   },
 }
