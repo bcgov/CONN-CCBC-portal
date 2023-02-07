@@ -78,21 +78,27 @@ export const saveRemoteFile = async (stream) => {
 
     const key = (data as CompleteMultipartUploadCommandOutput)?.Key;
 
+    span.setStatus('ok');
+    span.finish();
+    transaction.finish();
+
     if (!key) {
       throw new Error('Data does not contain a key');
     }
 
     span.setStatus('ok');
     span.finish();
+    transaction.finish();
+
     return key;
   } catch (err) {
     span.setStatus('unknown_error');
     span.finish();
+    transaction.finish();
 
     console.log('Error', err);
     throw new Error(err);
   } finally {
-    transaction.finish();
     console.timeEnd('saveRemoteFile');
   }
 };
