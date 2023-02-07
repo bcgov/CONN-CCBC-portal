@@ -1,3 +1,27 @@
+# [1.39.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.38.0...v1.39.0) (2023-02-07)
+
+### Bug Fixes
+
+- admin tabs border top css ([7d137a6](https://github.com/bcgov/CONN-CCBC-portal/commit/7d137a6be2af5cb3787847965c03ec8d1dc22ee4))
+- create_package mutation variable name ([1279797](https://github.com/bcgov/CONN-CCBC-portal/commit/1279797c027f4a3274e4f931cd95f9a93f1b3146))
+- date formatting ([ea94767](https://github.com/bcgov/CONN-CCBC-portal/commit/ea94767d69390c9fefcc13a1df3380b60c113106))
+- typo in message ([28cb998](https://github.com/bcgov/CONN-CCBC-portal/commit/28cb99823b973b8ae8ec50e07cee509752088a58))
+- typo in s3 object tag ([7b11c84](https://github.com/bcgov/CONN-CCBC-portal/commit/7b11c849e81c9c1a4be7018593bed267b791b4d0))
+
+### Features
+
+- add application_package computed column ([0801169](https://github.com/bcgov/CONN-CCBC-portal/commit/08011695d65fb2ae8f9a546a28a78cba89286f14))
+- add assign package component ([b3b5d1a](https://github.com/bcgov/CONN-CCBC-portal/commit/b3b5d1a13ab510eec22895b7062cc4a1dcc9fb80))
+- add clear sort and change sorting to spec ([fa6f7ba](https://github.com/bcgov/CONN-CCBC-portal/commit/fa6f7babf54109c03161cdd70485d9669d5c7c6c))
+- add dashboard package column sorting ([647346b](https://github.com/bcgov/CONN-CCBC-portal/commit/647346b60a7b9d658578ab20cc59cdf6f96476fb))
+- add generic sortable table ([85e3250](https://github.com/bcgov/CONN-CCBC-portal/commit/85e325056fe903a4c5f26a7837d355c8caa6ddee))
+- add postgres mutation create_package ([51c0939](https://github.com/bcgov/CONN-CCBC-portal/commit/51c093944c2c55c28e7cfea65d4f5311c9056190))
+- add sorting to columns ([4c41c9c](https://github.com/bcgov/CONN-CCBC-portal/commit/4c41c9c018bf37c32d54636ebcb6b6458d404304))
+- add table application_package ([8ac91ab](https://github.com/bcgov/CONN-CCBC-portal/commit/8ac91ab52b98c4cb326ca6a2510caf6642adf0ff))
+- clear sorting only appears after starting to sort ([2c487b8](https://github.com/bcgov/CONN-CCBC-portal/commit/2c487b846a5227d1fc1470754ffabeaa51674030))
+- CSS for table and correct column for sorting ([146ff24](https://github.com/bcgov/CONN-CCBC-portal/commit/146ff248c58cb762d33e141c343beb58fd9c44ef))
+- update application header dropdown styles ([afd6be5](https://github.com/bcgov/CONN-CCBC-portal/commit/afd6be5784bfef4fb6ee2042b41a2e6996236941))
+
 # [1.38.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.37.0...v1.38.0) (2023-02-03)
 
 ### Bug Fixes
