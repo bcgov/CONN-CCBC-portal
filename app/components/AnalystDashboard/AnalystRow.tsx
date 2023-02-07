@@ -67,7 +67,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
     analystLead,
     rowId,
     status,
-    package,
+    package: applicationPackage,
     projectName,
     ccbcNumber,
     organizationName,
@@ -114,7 +114,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
           lead={analystLead}
         />
       </StyledLeadCell>
-      <StyledPackageCell>{package}</StyledPackageCell>
+      <StyledPackageCell>{applicationPackage}</StyledPackageCell>
     </StyledRow>
   );
 };
