@@ -1,5 +1,5 @@
 [
-    {code:400, text:'Bad Data'},
-    {code:409, text:'Infected File'},
-    {code:500, text:'Unexpected Error'}
+    {"code":400, "text":"Bad Data"},
+    {"code":409, "text":"Infected File"},
+    {"code":500, "text":"Unexpected Error"}
 ]
