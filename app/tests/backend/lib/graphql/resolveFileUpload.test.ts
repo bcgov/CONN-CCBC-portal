@@ -8,38 +8,55 @@ import resolveFileUpload, {
   saveRemoteFile,
 } from 'backend/lib/graphql/resolveFileUpload';
 import { Readable } from 'stream';
+import * as Sentry from '@sentry/nextjs';
 
 jest.mock('@aws-sdk/lib-storage');
 
 const mockSignedUrl = {
-  "url": "https://s3.eu-central-1.amazonaws.com/example-bucket",
-  "fields": {
-    "bucket": "example-bucket",
-    "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
-    "X-Amz-Credential": "SOMETHINGSOMETHING/123456/eu-central-1/s3/aws4_request",
-    "X-Amz-Date": "20210704T104027Z",
-    "key": "public/SOME-GUID-KEY",
-    "Policy": "AREALLYLONGPOLICYSTRING",
-    "X-Amz-Signature": "SIGNATURESTRING"
-  }
+  url: 'https://s3.eu-central-1.amazonaws.com/example-bucket',
+  fields: {
+    bucket: 'example-bucket',
+    'X-Amz-Algorithm': 'AWS4-HMAC-SHA256',
+    'X-Amz-Credential':
+      'SOMETHINGSOMETHING/123456/eu-central-1/s3/aws4_request',
+    'X-Amz-Date': '20210704T104027Z',
+    key: 'public/SOME-GUID-KEY',
+    Policy: 'AREALLYLONGPOLICYSTRING',
+    'X-Amz-Signature': 'SIGNATURESTRING',
+  },
 };
 
 jest.mock('../../../../backend/lib/s3client', () => {
   return {
     upload: jest.fn().mockReturnThis(),
     listObjects: jest.fn().mockReturnThis(),
-    createPresignedPost: ()=>{
+    createPresignedPost: () => {
       return new Promise((resolve) => {
         resolve(mockSignedUrl);
-      })
+      });
     },
-    getSignedUrlPromise: ()=>{
+    getSignedUrlPromise: () => {
       return new Promise((resolve) => {
         resolve(mockSignedUrl);
-      })
+      });
     },
   };
 });
+
+const sentryMocked = jest
+  .spyOn(Sentry, 'startTransaction')
+  .mockImplementation(() => {
+    return {
+      finish: jest.fn(() => ({})),
+      startChild: jest.fn(() => {
+        return {
+          setStatus: jest.fn(() => ({})),
+          finish: jest.fn(() => ({})),
+        };
+      }),
+    };
+  });
+
 async function* generateContents() {
   for (let index = 0; index < 8; index += 1) {
     yield `[Part ${index}] ${'#'.repeat(2000000)}`;
@@ -59,6 +76,7 @@ describe('The saveRemoteFile function', () => {
       'Choose a file to upload first.'
     );
   });
+
   it('Should throw error if data does not return key', async () => {
     Upload.mockImplementation(() => {
       return {
@@ -71,6 +89,37 @@ describe('The saveRemoteFile function', () => {
     await expect(saveRemoteFile(fakeStreamOfUnknownlength)).rejects.toThrow(
       'Data does not contain a key'
     );
+    expect(sentryMocked).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should complete the upload and return the key', async () => {
+    const sentryMockedStatus = jest
+      .spyOn(Sentry, 'startTransaction')
+      .mockImplementation(() => {
+        return {
+          finish: jest.fn(() => ({})),
+          startChild: jest.fn(() => {
+            return {
+              setStatus: jest.fn(() => 'ok'),
+              finish: jest.fn(() => ({})),
+            };
+          }),
+        };
+      });
+
+    Upload.mockImplementation(() => {
+      return {
+        done: jest.fn(() => ({
+          Key: 'test-key',
+        })),
+        on: jest.fn(() => {}),
+      };
+    });
+
+    await expect(saveRemoteFile(fakeStreamOfUnknownlength)).resolves.toBe(
+      'test-key'
+    );
+    expect(sentryMockedStatus).toHaveBeenCalledTimes(1);
   });
 });
 

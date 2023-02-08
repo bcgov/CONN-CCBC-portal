@@ -1,10 +1,11 @@
 import crypto from 'crypto';
 import { Upload } from '@aws-sdk/lib-storage';
+import * as Sentry from '@sentry/nextjs';
 import { CompleteMultipartUploadCommandOutput } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import { Readable } from 'node:stream';
 import { s3ClientV3 } from '../s3client';
-import config from '../../../config'; 
+import config from '../../../config';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const AWS_S3_REGION = config.get('AWS_S3_REGION');
@@ -37,6 +38,12 @@ if (!isDeployedToOpenShift) {
 }
 
 export const saveRemoteFile = async (stream) => {
+  const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
+  const span = transaction.startChild({
+    op: 'resolve-file-upload',
+    description: 'resolveFileUpload saveRemoteFile function',
+  });
+
   try {
     console.time('saveRemoteFile');
 
@@ -61,20 +68,34 @@ export const saveRemoteFile = async (stream) => {
     });
 
     parallelUploads3.on('httpUploadProgress', (progress) => {
-      console.log(
-        `Uploaded ${Math.round((progress.loaded / 1000000) * 10) / 10}MB`
-      );
+      const uploadProgressInMB =
+        Math.round((progress.loaded / 1000000) * 10) / 10;
+      console.log(`Uploaded ${uploadProgressInMB}MB`);
+      transaction.setMeasurement('memoryUsed', uploadProgressInMB, 'megabtye');
     });
 
     const data = await parallelUploads3.done();
 
     const key = (data as CompleteMultipartUploadCommandOutput)?.Key;
 
+    span.setStatus('ok');
+    span.finish();
+    transaction.finish();
+
     if (!key) {
       throw new Error('Data does not contain a key');
     }
+
+    span.setStatus('ok');
+    span.finish();
+    transaction.finish();
+
     return key;
   } catch (err) {
+    span.setStatus('unknown_error');
+    span.finish();
+    transaction.finish();
+
     console.log('Error', err);
     throw new Error(err);
   } finally {
