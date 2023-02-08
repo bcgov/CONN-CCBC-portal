@@ -94,4 +94,17 @@ Virus defintion files reside on S3 in the `fapi7b-XXX-ccbc-clamav` bucket and ge
 
 Lambda `scan-file` uses virus defintion files from the `fapi7b-XXX-ccbc-clamav` S3 bucket.
 
-	
+## Intake close 
+
+When intake is closed, two cron job are executed:
+- all application submitted before the intake closes are marked as 'Received' (by the job in the database);
+- all attachments submitted by the customer are archived into single zip file and uploaded to S3 (by the lambda);
+
+When attachments are added to the archive, additional file `errors.txt` is generated.
+If no errors happens, file contains only phrase `Download successful`.
+If any error detected during archiving, it is recorded in the file with the error code and details about the uploaded file.
+Error codes are:
+- 400 Bad data, indicating that file size mismatches between database and S3, possibly due to data corruption;
+- 409 Infected file, indicating that virus scanner marked the file as infected (see https://learn.microsoft.com/en-us/openspecs/sharepoint_protocols/ms-wsshp/1c302d04-b76f-44e9-800d-c974250de84d);
+- 500 Unexpected error for any other errors received from AWS SDK;
+
