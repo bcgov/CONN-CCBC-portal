@@ -83,7 +83,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           <AssignPackage application={applicationByRowId} />
         </StyledPackage>
         <StyledItem>
-          <StyledLabel htmlFor="lead">Lead</StyledLabel>
+          <StyledLabel htmlFor="assign-lead">Lead</StyledLabel>
           <AssignLead
             label="Lead"
             applicationId={rowId}
