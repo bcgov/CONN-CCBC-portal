@@ -88,7 +88,9 @@ exports.handler = async(event, context, callback) => {
             });
           if (objectSrc && objectSrc.Body) {
             console.log(`downloaded ${record.name} from s3, key: ${record.uuid}`);
-            archive.addFile(record.name, objectSrc.Body);
+            // remove leading slash which breaks zip file for Windows Explorer
+            const filepath = record.name.indexOf('/') === 0 ? record.name.substring(1) : record.name; 
+            archive.addFile(filepath, objectSrc.Body);
             if (objectSrc.ContentLength !== record.size){
               issues.push({
                 status: 400,
