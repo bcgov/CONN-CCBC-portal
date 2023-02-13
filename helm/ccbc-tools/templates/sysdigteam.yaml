@@ -17,4 +17,4 @@ spec:
     - name: marcel@button.is
       role: ROLE_TEAM_EDIT
     - name: meherzad.romer@gov.bc.ca
-      role: ROLE_TEAM_READ
+      role: ROLE_TEAM_EDIT
