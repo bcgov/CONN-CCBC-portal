@@ -110,6 +110,9 @@ exports.handler = async(event, context, callback) => {
       }
       let summary = '';
       if (issues.length>0) {
+        summary += 'Errors detected - please send this file to meherzad.romer@gov.bc.ca \r\n';
+        summary += (new Date()).toLocaleString() + '\r\n\r\n';
+        summary += 'These files were not included in the downloaded zip file due to errors:\r\n';
         issues.forEach(x => {
           const line =`${x.status} - ${x.uuid} - ${x.name} - ${x.type} - ${x.size} - ${x.type_s3} - ${x.size_s3} - ${x.created} - ${x.timestamp}`;
           summary += line + '\r\n';

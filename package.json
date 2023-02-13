@@ -9,6 +9,9 @@
     "@release-it/conventional-changelog": "^5.1.0",
     "release-it": "^15.4.1"
   },
+  "resolutions": {
+    "cacheable-request": "10.2.7"
+  },
   "release-it": {
     "npm": {
       "publish": false
