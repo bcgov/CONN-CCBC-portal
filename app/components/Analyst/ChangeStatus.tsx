@@ -182,6 +182,7 @@ const ChangeStatus = ({ query }) => {
         // Use draft status for colour so it changes as user selects it
         statusStyles={statusStyles[draftStatus?.name]}
         value={draftStatus?.name}
+        id="change-status"
       >
         {statusTypesOrdered &&
           statusTypesOrdered.map((statusType) => {

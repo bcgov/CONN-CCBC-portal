@@ -46,7 +46,11 @@ const AssignPackage = ({ application }) => {
 
   const options = [null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
-    <StyledDropdown onChange={handleAssignPackage} data-testid="assign-package">
+    <StyledDropdown
+      id="assign-package"
+      onChange={handleAssignPackage}
+      data-testid="assign-package"
+    >
       {options.map((option) => {
         return (
           <option

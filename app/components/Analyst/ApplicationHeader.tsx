@@ -22,12 +22,20 @@ const StyledH2 = styled.h2`
 `;
 
 const StyledDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  display: grid;
 `;
 
-const StyledMargin = styled.div`
+const StyledLabel = styled.label`
+  min-width: 74px;
+  color: ${(props) => props.theme.color.components};
+`;
+
+const StyledItem = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledPackage = styled(StyledItem)`
   margin: 8px 0;
 `;
 
@@ -66,16 +74,23 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
         <StyledH2>{organizationName}</StyledH2>
       </div>
       <StyledDiv>
-        <ChangeStatus query={queryFragment} />
-        <StyledMargin>
+        <StyledItem>
+          <StyledLabel htmlFor="change-status">Status</StyledLabel>
+          <ChangeStatus query={queryFragment} />
+        </StyledItem>
+        <StyledPackage>
+          <StyledLabel htmlFor="assign-package">Package</StyledLabel>
           <AssignPackage application={applicationByRowId} />
-        </StyledMargin>
-        <AssignLead
-          label="Lead"
-          applicationId={rowId}
-          lead={analystLead}
-          query={queryFragment}
-        />
+        </StyledPackage>
+        <StyledItem>
+          <StyledLabel htmlFor="assign-lead">Lead</StyledLabel>
+          <AssignLead
+            label="Lead"
+            applicationId={rowId}
+            lead={analystLead}
+            query={queryFragment}
+          />
+        </StyledItem>
       </StyledDiv>
     </StyledCallout>
   );

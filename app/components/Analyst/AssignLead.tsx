@@ -58,7 +58,11 @@ const AssignLead: React.FC<Props> = ({
   const analystList = Object.keys(allAnalysts.nodes);
 
   return (
-    <StyledDropdown name="assign-analyst" onChange={handleAssignAnalyst}>
+    <StyledDropdown
+      name="assign-analyst"
+      id="assign-lead"
+      onChange={handleAssignAnalyst}
+    >
       <StyledOption key={label} selected={!lead} value={null}>
         {label}
       </StyledOption>
