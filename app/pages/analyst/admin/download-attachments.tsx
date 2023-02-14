@@ -4,6 +4,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
+import cookie from 'js-cookie';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
 import { ButtonLink, Layout } from 'components';
@@ -60,8 +61,13 @@ const StyledOption = styled.option``;
  
 const AttachmentsTab = (allIntakes) =>{
   const {nodes} = allIntakes;
+  const mockDate = cookie.get('mocks.mocked_timestamp');
+  const dateValue = mockDate ? 1000* parseInt(mockDate, 10) : DateTime.now().valueOf();
+  const today = DateTime.fromMillis(dateValue);
+
   const filtered = nodes
-    .filter(x => DateTime.fromISO(x.closeTimestamp) <= DateTime.now());
+    .filter(x => DateTime.fromISO(x.closeTimestamp) <= today);
+
   const lastIntake = filtered && filtered.length > 0 ? filtered[0].ccbcIntakeNumber : '1';
 
   const [intake, setIntake] = useState(lastIntake);
