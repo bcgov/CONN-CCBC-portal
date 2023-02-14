@@ -62,7 +62,7 @@ const StyledOption = styled.option``;
 const AttachmentsTab = (allIntakes) =>{
   const {nodes} = allIntakes;
   const mockDate = cookie.get('mocks.mocked_timestamp');
-  const dateValue = mockDate ? 1000* parseInt(mockDate) : DateTime.now().valueOf();
+  const dateValue = mockDate ? 1000* parseInt(mockDate, 10) : DateTime.now().valueOf();
   const today = DateTime.fromMillis(dateValue);
 
   const filtered = nodes
