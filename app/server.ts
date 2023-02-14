@@ -36,7 +36,7 @@ const bodyParserLimit = '5mb';
 app.prepare().then(async () => {
   const server = express();
 
-  const lightship = createLightship({ detectKubernetes: false });
+  const lightship = createLightship();
 
   lightship.registerShutdownHandler(async () => {
     // Allow the server to send any in-flight requests before shutting down
