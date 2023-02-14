@@ -62,7 +62,7 @@ exports.handler = async(event, context, callback) => {
             size_s3: 0,
             type_s3: 'N/A',
             created:  'N/A', 
-            timestamp: (new Date()).toLocaleString(), 
+            timestamp: currentDateTime(), 
             details: 'File excluded due to possible virus infection'
           });
         }
@@ -82,7 +82,7 @@ exports.handler = async(event, context, callback) => {
                 size_s3: 0,
                 type_s3: 'N/A',
                 created:  'N/A', 
-                timestamp: (new Date()).toLocaleString(), 
+                timestamp: currentDateTime(), 
                 details: JSON.stringify(err)
               });
             });
@@ -100,8 +100,8 @@ exports.handler = async(event, context, callback) => {
                 type: record.type,
                 size_s3: objectSrc.ContentLength,
                 type_s3: objectSrc.ContentType,
-                created: objectSrc.LastModified.toLocaleString(), 
-                timestamp: (new Date()).toLocaleString(), 
+                created: objectSrc.LastModified.toGMTString().substring(5), 
+                timestamp: currentDateTime(), 
                 details: 'Size mismatch'
               });
             }
@@ -111,12 +111,12 @@ exports.handler = async(event, context, callback) => {
       let summary = '';
       if (issues.length>0) {
         summary += 'Errors detected - please send this file to meherzad.romer@gov.bc.ca \r\n';
-        summary += (new Date()).toLocaleString() + '\r\n\r\n';
-        summary += 'These files were not included in the downloaded zip file due to errors:\r\n';
+        summary += currentDateTime() + '\r\n\r\n';
+        summary += 'These files were not included in the downloaded zip file due to errors:\r\n\r\n';
         issues.forEach(x => {
           const line =`${x.status} - ${x.uuid} - ${x.name} - ${x.type} - ${x.size} - ${x.type_s3} - ${x.size_s3} - ${x.created} - ${x.timestamp}`;
           summary += line + '\r\n';
-          summary += 'Details: ' + x.details + '\r\n';
+          summary += 'Details: ' + x.details + '\r\n\r\n';
         });
       }
       else {
@@ -140,7 +140,9 @@ exports.handler = async(event, context, callback) => {
   }
   return;
 };
-
+function currentDateTime() {
+  return (new Date().toGMTString()).substring(5);
+}
 async function uploadFileToS3(params)
 {
     try {
