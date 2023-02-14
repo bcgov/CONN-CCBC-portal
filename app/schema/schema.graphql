@@ -6266,6 +6266,9 @@ input ApplicationFilter {
   """Filter by the object’s `statusOrder` field."""
   statusOrder: IntFilter
 
+  """Filter by the object’s `statusSortFilter` field."""
+  statusSortFilter: StringFilter
+
   """Filter by the object’s `applicationStatusesByApplicationId` relation."""
   applicationStatusesByApplicationId: ApplicationToManyApplicationStatusFilter
 
@@ -8570,6 +8573,11 @@ type Application implements Node {
 
   """Computed column to return the order of the status"""
   statusOrder: Int
+
+  """
+  Computed column to return the status order with the status name appended for sorting and filtering
+  """
+  statusSortFilter: String
 
   """Reads and enables pagination through a set of `ApplicationStatusType`."""
   applicationStatusTypesByApplicationStatusApplicationIdAndStatus(
