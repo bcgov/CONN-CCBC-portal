@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
+import readinessTest from './backend/lib/readinessTests';
 import { pgPool } from './backend/lib/setup-pg';
 import config from './config';
 import session from './backend/lib/session';
@@ -35,7 +36,7 @@ const bodyParserLimit = '5mb';
 app.prepare().then(async () => {
   const server = express();
 
-  const lightship = createLightship();
+  const lightship = createLightship({ detectKubernetes: false });
 
   lightship.registerShutdownHandler(async () => {
     // Allow the server to send any in-flight requests before shutting down
@@ -77,9 +78,9 @@ app.prepare().then(async () => {
 
   http
     .createServer(server)
-    .listen(port, () => {
-      lightship.signalReady();
+    .listen(port, async () => {
       console.log(`> Ready on http://localhost:${port}`);
+      await readinessTest(pgPool, lightship);
     })
     .on('error', (err) => {
       console.error(err);
