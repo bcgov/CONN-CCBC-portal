@@ -4,8 +4,8 @@ begin;
 
 create or replace function ccbc_public.application_analyst_lead(application ccbc_public.application) returns varchar as
 $$
-select nullif(concat_ws(' ', given_name, family_name), '') AS name from ccbc_public.application_analyst_lead as al
-    left join ccbc_public.analyst a on a.id = al.analyst_id
+select concat_ws(' ', given_name, family_name) AS name from ccbc_public.application_analyst_lead as al
+    inner join ccbc_public.analyst a on a.id = al.analyst_id
     where al.application_id = application.id
     order by al.id desc limit 1;
 $$ language sql stable;

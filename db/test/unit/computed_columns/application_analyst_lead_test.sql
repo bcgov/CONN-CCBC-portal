@@ -72,7 +72,7 @@ select is (
       (select row(application.*)::ccbc_public.application from ccbc_public.application where id = 1)
     )
   ),
-  '',
+  NULL,
   'ccbc_public.application_analyst_lead returns correct value when analyst_id is null'
 );
 
