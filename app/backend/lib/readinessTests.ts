@@ -27,7 +27,8 @@ async function readinessTest(pgPool: Pool, lightship: Lightship) {
     }
     // rethrow so we don't silently fail without finding out the issue
     console.error(e);
-    throw e;
+    // throw e;
+    lightship.signalNotReady();
   } finally {
     // release the client so it becomes available again to the pool
     if (client) {
