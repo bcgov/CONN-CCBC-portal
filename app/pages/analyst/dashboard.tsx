@@ -25,16 +25,16 @@ const tableFilters = [
 const getDashboardAnalystQuery = graphql`
   query dashboardAnalystQuery(
     $offset: Int
-    $pageSize: Int
+    # commenting out since we do not want the pagesize to be taken from the query
+    # $pageSize: Int
     $orderBy: [ApplicationsOrderBy!]
   ) {
     session {
       sub
       ...DashboardTabs_query
     }
-    # ...AnalystTable_query
     ...AnalystRow_query
-    allApplications(first: $pageSize, offset: $offset, orderBy: $orderBy) {
+    allApplications(first: 500, offset: $offset, orderBy: $orderBy) {
       totalCount
       edges {
         node {
