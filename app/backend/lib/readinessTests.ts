@@ -1,5 +1,6 @@
 import type { Pool, PoolClient } from 'pg';
 import type { Lightship } from 'lightship';
+import * as Sentry from '@sentry/nextjs';
 import s3Client from './s3client';
 import config from '../../config';
 
@@ -26,7 +27,7 @@ async function readinessTest(pgPool: Pool, lightship: Lightship) {
       await client.query('rollback');
     }
     lightship.signalNotReady();
-    console.error(e);
+    Sentry.captureException(e);
     // rethrow so we don't silently fail without finding out the issue
     throw e;
   } finally {
