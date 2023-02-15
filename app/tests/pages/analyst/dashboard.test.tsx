@@ -88,7 +88,6 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
   defaultQueryVariables: {
     offset: null,
     orderBy: null,
-    pageSize: null,
   },
 });
 
