@@ -126,6 +126,12 @@ const config = convict({
     default: 'mocks.auth_role',
     env: 'MOCK_ROLE_COOKIE_NAME',
   },
+  AWS_CLAM_S3_BUCKET: {
+    doc: 'AWS S3 bucket for ClamAV',
+    format: String,
+    default: '',
+    env: 'AWS_CLAM_S3_BUCKET',
+  },
   AWS_S3_BUCKET: {
     doc: 'AWS S3 bucket name',
     format: String,

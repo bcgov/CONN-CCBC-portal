@@ -37,6 +37,7 @@ jest.mock('lightship', () => {
     createLightship: () => {
       return {
         signalReady: jest.fn(),
+        signalNotReady: jest.fn(),
       } as unknown as Lightship;
     },
   };
@@ -61,5 +62,6 @@ describe('Readiness Tests', () => {
     };
     await expect(readinessTests(asdf as unknown as Pool, lightship)).toReject();
     expect(lightship.signalReady).toHaveBeenCalledTimes(0);
+    expect(lightship.signalNotReady).toHaveBeenCalledOnce();
   });
 });
