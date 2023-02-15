@@ -168,3 +168,4 @@ mutations/create_package 2023-02-03T19:14:34Z Marcel Mueller <marcel@button.is> 
 computed_columns/application_package 2023-02-06T22:21:00Z Marcel Mueller <marcel@button.is> # add computed column application_package
 @1.39.0 2023-02-07T19:28:09Z Marcel Mueller <marcel@button.is> # release v1.39.0
 @1.40.0 2023-02-14T15:32:05Z Marcel Mueller <marcel@button.is> # release v1.40.0
+@1.41.0 2023-02-14T23:42:00Z Marcel Mueller <marcel@button.is> # release v1.41.0

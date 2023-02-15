@@ -1,3 +1,20 @@
+# [1.41.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.39.0...v1.41.0) (2023-02-14)
+
+### Bug Fixes
+
+- archive structure ([b2cd265](https://github.com/bcgov/CONN-CCBC-portal/commit/b2cd26566757d9c793a1f76561cea231af4b5feb))
+- updated json ([2884628](https://github.com/bcgov/CONN-CCBC-portal/commit/288462808e7602f1c5ce506e23adbfbc0e5c0b24))
+- updated text in the file ([3f73c6c](https://github.com/bcgov/CONN-CCBC-portal/commit/3f73c6c5d809af7b6392be07cf37f04d33856d6a))
+- use radix in parseInt ([df09c21](https://github.com/bcgov/CONN-CCBC-portal/commit/df09c211750fbf3b7a523aebaa4d985f89cdefc0))
+- yarn.lock updated ([81ef867](https://github.com/bcgov/CONN-CCBC-portal/commit/81ef867660d9ea9c08121b6c22ba50242ab7a4df))
+
+### Features
+
+- add labels to application header dropdowns ([a03ba87](https://github.com/bcgov/CONN-CCBC-portal/commit/a03ba87d9928a6cb09d48cbfc864ce50cd917457))
+- add sentry custom spans for file uploads ([153ffcf](https://github.com/bcgov/CONN-CCBC-portal/commit/153ffcf972a65cc10c820f73dcab9c92ed61ad3b))
+- added sentry logging on pod shutdown ([ccc2470](https://github.com/bcgov/CONN-CCBC-portal/commit/ccc2470cd8cda143025b43725f6f377abea0f712))
+- enable TimeMachine ([48ac2d4](https://github.com/bcgov/CONN-CCBC-portal/commit/48ac2d45f66a72f8f40b449921e171e891706d38))
+
 # [1.40.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.39.0...v1.40.0) (2023-02-14)
 
 ### Bug Fixes
