@@ -1,4 +1,4 @@
-import { Button } from '@button-inc/bcgov-theme';
+// import { Button } from '@button-inc/bcgov-theme';
 import React, { useEffect, useState } from 'react';
 import { TableFilter, FilterArgs } from './Filters';
 
@@ -28,10 +28,10 @@ const FilterRow: React.FunctionComponent<Props> = ({
     }));
   };
 
-  const clearForm = () => {
-    setSearchFilters({});
-    onSubmit({});
-  };
+  // const clearForm = () => {
+  //   setSearchFilters({});
+  //   onSubmit({});
+  // };
 
   const handleKeyDown: React.KeyboardEventHandler = (e) => {
     if (e.key === 'Enter') {
@@ -49,7 +49,7 @@ const FilterRow: React.FunctionComponent<Props> = ({
           onChange={handleFilterChange}
         />
       ))}
-      <td>
+      {/* <td>
         <div className="flex">
           <Button
             variant="secondary"
@@ -69,7 +69,7 @@ const FilterRow: React.FunctionComponent<Props> = ({
             Apply
           </Button>
         </div>
-      </td>
+      </td> */}
       <style jsx>{`
         .flex {
           display: flex;

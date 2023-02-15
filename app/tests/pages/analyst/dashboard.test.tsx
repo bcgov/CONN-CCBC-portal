@@ -92,6 +92,12 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
   defaultQueryVariables: {
     offset: null,
     orderBy: null,
+    ccbcNumber: null,
+    projectName: null,
+    organizationName: null,
+    analystLead: null,
+    package: null,
+    statusSortFilter: null,
   },
 });
 
