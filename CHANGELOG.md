@@ -1,3 +1,10 @@
+## [1.41.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.41.0...v1.41.1) (2023-02-16)
+
+### Bug Fixes
+
+- add large initial pagesize ([1d9dd7d](https://github.com/bcgov/CONN-CCBC-portal/commit/1d9dd7d2b3a18c53e23d47eda724004f5a6cbb68))
+- add nullif when the concated string is empty ([bbaf455](https://github.com/bcgov/CONN-CCBC-portal/commit/bbaf4555fa1525353a67b7e4d67bc86c9c9322a0))
+
 # [1.41.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.39.0...v1.41.0) (2023-02-14)
 
 ### Bug Fixes
