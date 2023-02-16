@@ -25,10 +25,12 @@ const StyledStatusPill = styled.div<StatusPillProps>`
   color: ${(props) => props.styles?.primary};
   background-color: ${(props) => props.styles?.backgroundColor};
   border: ${(props) => props.styles?.border || 'none'};
-  border-radius: 16px;
+  border-radius: 30px;
   padding: 4px 12px;
-  white-space: nowrap;
+  max-width: 157.46px;
+  text-align: center;
   width: fit-content;
+  overflow-wrap: break-word;
 `;
 
 const StatusPill: React.FC<Props> = ({ status, styles }) => {

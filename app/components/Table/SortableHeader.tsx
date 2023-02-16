@@ -9,15 +9,9 @@ import styled from 'styled-components';
 import SortArrows from './SortArrows';
 
 const StyledTableHeadCell = styled('th')`
-  padding: 12px;
-
   border-top: 1px solid hsla(0, 0%, 0%, 0.12);
 
-  &:first-child {
-    padding: 12px;
-  }
   &:last-child {
-    padding: 12px;
     box-shadow: none;
   }
   font-weight: bold;

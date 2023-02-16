@@ -58,6 +58,11 @@
           sortable: true,
         },
       },
+      'ccbc_public.application_intake_number': {
+        tags: {
+          sortable: true,
+        },
+      },
     },
   },
 }

@@ -12,7 +12,7 @@ interface Props {
 }
 
 const StyledRow = styled('tr')`
-  max-width: 1170px;
+  max-width: 1216px;
   padding: 16px 8px;
 
   &:hover {
@@ -25,32 +25,37 @@ const StyledBaseCell = styled('td')`
   padding: 16px 8px;
 `;
 
+const StyledIntakeNumberCell = styled('td')`
+  width: 7.31%;
+`;
+
 const StyledCcbdIdCell = styled(StyledBaseCell)`
-  width: 9.7%;
+  width: 10.54%;
   padding-left: 12px !important;
   white-space: nowrap;
 `;
 
 const StyledStatusCell = styled(StyledBaseCell)`
-  width: 16.24%;
+  width: 14.31%;
+  max-width: 14.31%;
 `;
 
 const StyledProjectNameCell = styled(StyledBaseCell)`
-  width: 21.03%;
+  width: 23.49%;
 `;
 
 const StyledOrganizationNameCell = styled(StyledBaseCell)`
-  width: 16.76%;
+  width: 18.72%;
 `;
 
 const StyledLeadCell = styled(StyledBaseCell)`
-  width: 11.97%;
-  max-width: 11.97%;
+  width: 17.07%;
+  max-width: 17.07%;
   cursor: default;
 `;
 
 const StyledPackageCell = styled(StyledBaseCell)`
-  width: 5.81%;
+  width: 8.55%;
 `;
 
 const AnalystRow: React.FC<Props> = ({ query, application }) => {
@@ -71,6 +76,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
     projectName,
     ccbcNumber,
     organizationName,
+    intakeNumber,
   } = useFragment(
     graphql`
       fragment AnalystRow_application on Application {
@@ -81,6 +87,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
         projectName
         ccbcNumber
         organizationName
+        intakeNumber
       }
     `,
     application
@@ -94,6 +101,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
 
   return (
     <StyledRow onClick={handleOnClick}>
+      <StyledIntakeNumberCell>{intakeNumber}</StyledIntakeNumberCell>
       <StyledCcbdIdCell>{ccbcNumber}</StyledCcbdIdCell>
       <StyledStatusCell>
         <StatusPill status={status} styles={statusStyles} />
