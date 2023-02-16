@@ -6,7 +6,7 @@
     "dev": "nodemon",
     "build": "yarn run build:server && yarn run build:schema && yarn run build:relay && yarn run build:next",
     "build:next": "next build",
-    "build:relay": "mkdir -p __generated__ && relay-compiler",
+    "build:relay": "mkdir -p __generated__ && relay-compiler && mkdir -p .persisted_operations && node utils/addToPersistedOperations.js",
     "build:server": "tsc --project tsconfig.server.json",
     "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
     "start": "NODE_ENV=production node --unhandled-rejections=strict dist/server.js",
@@ -33,6 +33,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@graphile-contrib/pg-many-to-many": "^1.0.1",
+    "@graphile/persisted-operations": "^0.1.1",
     "@growthbook/growthbook-react": "^0.9.0",
     "@mui/base": "^5.0.0-alpha.115",
     "@rjsf/core": "^4.2.0",
@@ -142,8 +143,12 @@
       "**/.next/**",
       "**/node_modules/**",
       "**/__generated__/**",
-      "**/server/**"
-    ]
+      "**/server/**",
+      "**/.persisted_operations/**"
+    ],
+    "persistConfig": {
+      "file": "./schema/queryMap.json"
+    }
   },
   "graphql": {
     "schema": "./schema/schema.graphql"
