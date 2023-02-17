@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 const DEFAULT_SORT = 'PRIMARY_KEY_ASC';
 
 const tableFilters = [
+  new NumberFilter('Intake', 'intakeNumber'),
   new TextFilter('CCBC ID', 'ccbcNumber'),
   new TextFilter('Status', 'statusOrder'),
   new TextFilter('Project title', 'projectName'),
