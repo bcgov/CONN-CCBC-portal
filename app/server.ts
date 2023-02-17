@@ -6,6 +6,7 @@ import http from 'http';
 import { createLightship } from 'lightship';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import { pgPool } from './backend/lib/setup-pg';
@@ -82,6 +83,9 @@ app.prepare().then(async () => {
     })
     .on('error', (err) => {
       console.error(err);
+      if (config.get('SENTRY_ENVIRONMENT')) {
+        Sentry.captureException(err);
+      }
       lightship.shutdown();
     });
 });

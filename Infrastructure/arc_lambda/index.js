@@ -88,7 +88,9 @@ exports.handler = async(event, context, callback) => {
             });
           if (objectSrc && objectSrc.Body) {
             console.log(`downloaded ${record.name} from s3, key: ${record.uuid}`);
-            archive.addFile(record.name, objectSrc.Body);
+            // remove leading slash which breaks zip file for Windows Explorer
+            const filepath = record.name.indexOf('/') === 0 ? record.name.substring(1) : record.name; 
+            archive.addFile(filepath, objectSrc.Body);
             if (objectSrc.ContentLength !== record.size){
               issues.push({
                 status: 400,
@@ -108,6 +110,9 @@ exports.handler = async(event, context, callback) => {
       }
       let summary = '';
       if (issues.length>0) {
+        summary += 'Errors detected - please send this file to meherzad.romer@gov.bc.ca \r\n';
+        summary += (new Date()).toLocaleString() + '\r\n\r\n';
+        summary += 'These files were not included in the downloaded zip file due to errors:\r\n';
         issues.forEach(x => {
           const line =`${x.status} - ${x.uuid} - ${x.name} - ${x.type} - ${x.size} - ${x.type_s3} - ${x.size_s3} - ${x.created} - ${x.timestamp}`;
           summary += line + '\r\n';

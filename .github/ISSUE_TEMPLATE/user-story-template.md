@@ -9,28 +9,58 @@ assignees: ''
 
 As a 
 I want 
-so that 
+So that 
 
-## Acceptance Criteria:
+**Description:**
+_if needed_
 
-- [ ] Scenario: ...
-    Given
-    When
-    Then
-#
-- [ ] Scenario: ...
-    Given
-    When
-    Then
-#
+# Acceptance Criteria:
 
-## Not included:
--
--
+## {Page Name}
 
-## Technical Analysis
-- [ ] .
-- [ ] . 
+**Screen**
+
+[wireframe 1]
+[wireframe 2]
+
 - [ ] .
 
-## Wireframes
+**Page Behaviours**
+
+- [ ] .
+- [ ] .
+- [ ] .
+
+**Validations**
+
+- [ ] .
+- [ ] .
+- [ ] .
+
+**Actions**
+
+- [ ] .
+- [ ] .
+- [ ] .
+
+### Not included:
+- .
+- .
+
+
+## Implementation Details
+- **DB:**
+  - .
+  - .
+- **Middleware:**
+  - .
+  - .
+- **Frontend:**
+  - .
+  - .
+- **Tests:**
+  - .
+  - .
+- **Documentation:**
+  - .
+  - .

@@ -27,6 +27,7 @@ const mockQueryPayload = {
               projectName: 'Test Proj Name',
               ccbcNumber: 'CCBC-010001',
               organizationName: 'Test Org Name',
+              intakeNumber: 1,
             },
           },
           {
@@ -37,6 +38,7 @@ const mockQueryPayload = {
               projectName: 'Test Proj Name 2',
               ccbcNumber: 'CCBC-010002',
               organizationName: 'Test Org Name 2',
+              intakeNumber: 2189,
             },
           },
           {
@@ -47,6 +49,7 @@ const mockQueryPayload = {
               projectName: 'Test Proj Name 3',
               ccbcNumber: 'CCBC-010003',
               organizationName: 'Test Org Name 3',
+              intakeNumber: 1,
             },
           },
           {
@@ -57,6 +60,7 @@ const mockQueryPayload = {
               projectName: 'Test Proj Name 4',
               ccbcNumber: 'CCBC-010004',
               organizationName: 'Test Org Name 4',
+              intakeNumber: 3,
             },
           },
         ],
@@ -88,7 +92,6 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
   defaultQueryVariables: {
     offset: null,
     orderBy: null,
-    pageSize: null,
   },
 });
 
@@ -263,6 +266,15 @@ describe('The index page', () => {
 
     expect(statusName).toHaveStyle('color: #003366');
     expect(statusName).toHaveStyle('background-color: #DBE6F0;');
+  });
+
+  it('displays the intake number', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const intakeIdCell = screen.getByText('2189');
+
+    expect(intakeIdCell).toBeInTheDocument();
   });
 
   afterEach(() => {

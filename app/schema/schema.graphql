@@ -5282,11 +5282,12 @@ type Application implements Node {
 
   """Computed column to return whether the rfi is open"""
   hasRfiOpen: Boolean
+  intakeNumber: Int
 
   """Computed column to display organization name from json data"""
   organizationName: String
 
-  """Computed column to return the package number for an application"""
+  """Computed column to return the intake number for an application"""
   package: Int
 
   """Computed column to display the project name"""
@@ -6286,6 +6287,8 @@ enum ApplicationsOrderBy {
   ARCHIVED_AT_DESC
   ANALYST_LEAD_ASC
   ANALYST_LEAD_DESC
+  INTAKE_NUMBER_ASC
+  INTAKE_NUMBER_DESC
   ORGANIZATION_NAME_ASC
   ORGANIZATION_NAME_DESC
   PACKAGE_ASC
