@@ -2,7 +2,7 @@ const { promises: fsp } = require('fs');
 const map = require('../schema/queryMap.json');
 
 // Util to split query map that Relay generates into individual queries for Postgraphile to use
-async function main() {
+const addToPersistedOperations = async () => {
   await Promise.all(
     Object.entries(map).map(([hash, query]) =>
       fsp.writeFile(
@@ -11,9 +11,10 @@ async function main() {
       )
     )
   );
-}
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+  return 'Finished';
+};
+
+addToPersistedOperations();
+
+module.exports = { addToPersistedOperations };

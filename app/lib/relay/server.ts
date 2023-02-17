@@ -1,11 +1,13 @@
 import { Network, Environment, Store, RecordSource } from 'relay-runtime';
-import config from '../../config';
+import getConfig from 'next/config';
 
-const PORT = config.get('PORT');
+const {
+  serverRuntimeConfig: { PORT },
+} = getConfig();
 
 export function createServerNetwork({ cookieHeader }: any) {
   return Network.create(async (params, variables) => {
-    const response = await fetch(`http://localhost:${PORT}/graphql`, {
+    const response = await fetch(`http://localhost:3000/graphql`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -13,15 +15,15 @@ export function createServerNetwork({ cookieHeader }: any) {
         cookie: cookieHeader,
       },
       body: JSON.stringify({
-        documentId: params.id,
+        id: params.id,
         variables,
       }),
     });
 
     try {
-      return response.json();
+      return await response.json();
     } catch (e) {
-      return console.error(e);
+      console.error(e);
     }
   });
 }

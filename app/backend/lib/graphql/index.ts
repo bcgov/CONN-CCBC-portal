@@ -43,7 +43,7 @@ let postgraphileOptions: PostGraphileOptions = {
     // FormChangeValidationPlugin,
   ],
   persistedOperationsDirectory: `${__dirname}/../../../.persisted_operations/`,
-  hashFromPayload: (request: any) => request?.documentId || request?.id,
+  hashFromPayload: (request: any) => request?.id,
   classicIds: true,
   enableQueryBatching: true,
   dynamicJson: true,
@@ -109,11 +109,7 @@ const postgraphileSchema = async () => {
   return postgraphileSchemaSingleton;
 };
 
-export async function performQuery(
-  documentId: any,
-  variables: any,
-  request: any
-) {
+export async function performQuery(id: any, variables: any, request: any) {
   const settings = pgSettings(request);
   return withPostGraphileContext(
     {
@@ -124,12 +120,6 @@ export async function performQuery(
       // Execute your GraphQL query in this function with the provided
       // `context` object, which should NOT be used outside of this
       // function.
-      graphql(
-        await postgraphileSchema(),
-        documentId,
-        null,
-        { ...context },
-        variables
-      )
+      graphql(await postgraphileSchema(), id, null, { ...context }, variables)
   );
 }
