@@ -42,7 +42,7 @@ let postgraphileOptions: PostGraphileOptions = {
     // PgOrderByRelatedPlugin,
     // FormChangeValidationPlugin,
   ],
-  persistedOperationsDirectory: `${__dirname}/../../../.persisted_operations/`,
+  persistedOperationsDirectory: `./.persisted_operations/`,
   hashFromPayload: (request: any) => request?.id,
   classicIds: true,
   enableQueryBatching: true,
