@@ -48,3 +48,4 @@ yalc.lock
 
 # Persisted queries
 .persisted_operations
+/schema/queryMap.json
