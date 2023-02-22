@@ -8,6 +8,9 @@ select has_function(
 
 -- Test setup - user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
+insert into ccbc_public.ccbc_user
+  (given_name, family_name, email_address, session_sub) values
+  ('foo1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111111');
 
 delete from ccbc_public.intake;
 delete from ccbc_public.application;
