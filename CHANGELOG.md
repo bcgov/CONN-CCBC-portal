@@ -1,3 +1,10 @@
+# [1.42.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.41.1...v1.42.0) (2023-02-22)
+
+### Features
+
+- add intake number as computed column ([45e5004](https://github.com/bcgov/CONN-CCBC-portal/commit/45e500493e15e8f4fb941c7ede8f96bebaa39c5f))
+- css changes and intake column added ([1000444](https://github.com/bcgov/CONN-CCBC-portal/commit/10004447a00eaa3b615d1646a59e9ffb471ced21))
+
 ## [1.41.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.41.0...v1.41.1) (2023-02-16)
 
 ### Bug Fixes
