@@ -17,6 +17,15 @@ select has_column('ccbc_public', 'application_status', 'change_reason','The tabl
 
 -- Test setup - first user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
+insert into ccbc_public.ccbc_user
+  (given_name, family_name, email_address, session_sub) values
+  ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111112');
+insert into ccbc_public.ccbc_user
+  (given_name, family_name, email_address, session_sub) values
+  ('foo3', 'bar', 'foo3@bar.com', '11111111-1111-1111-1111-111111111113');
+insert into ccbc_public.ccbc_user
+  (given_name, family_name, email_address, session_sub) values
+  ('foo4', 'bar', 'foo4@bar.com', '11111111-1111-1111-1111-111111111114');
 
 insert into ccbc_public.application
   (id, ccbc_number, owner) overriding system value

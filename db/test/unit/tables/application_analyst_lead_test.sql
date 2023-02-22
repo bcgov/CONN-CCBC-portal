@@ -1,5 +1,5 @@
 begin;
-select plan(16);
+select plan(17);
 
 select has_table('ccbc_public', 'application_analyst_lead', 'table ccbc_public.application_analyst_lead exists');
 select has_column('ccbc_public', 'application_analyst_lead', 'id', 'table ccbc_public.application_analyst_lead has id column');
@@ -41,6 +41,7 @@ select throws_like(
 -- ccbc_auth_user
 set role ccbc_auth_user;
 set jwt.claims.sub to 'testCcbcAuthUser';
+
 insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
   ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
@@ -75,7 +76,22 @@ reset role;
 
 -- ccbc_admin
 set role ccbc_admin;
+
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
+insert into ccbc_public.ccbc_user
+  (given_name, family_name, email_address, session_sub) values
+  ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111111');
+  
+ select results_eq(
+  $$
+    select count(*) status from ccbc_public.application;
+  $$,
+  $$
+    values (1::bigint)
+  $$,
+  'ccbc_admin can select application'
+);
+
 
 insert into ccbc_public.application_analyst_lead
   (application_id, analyst_id) overriding system value

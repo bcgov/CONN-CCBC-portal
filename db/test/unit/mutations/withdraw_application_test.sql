@@ -7,7 +7,11 @@ select has_function(
   'Function withdraw_application should exist'
 );
 
-set jwt.claims.sub to '00000000-0000-0000-0000-000000000000';
+set jwt.claims.sub to 'testCcbcAuthUser';
+insert into ccbc_public.ccbc_user
+  (given_name, family_name, email_address, session_sub) values
+  ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
+
 insert into ccbc_public.application(id, owner) overriding system value
 values
   (2, '00000000-0000-0000-0000-000000000000'),
