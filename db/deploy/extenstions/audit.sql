@@ -15,6 +15,7 @@ BEGIN;
         to enable indexed linear time lookup of a primary key's version history
 */
 
+create extension if not exists "uuid-ossp";
 
 -- Namespace to "audit"
 create schema if not exists audit;

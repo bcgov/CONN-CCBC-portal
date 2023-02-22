@@ -40,7 +40,10 @@ select throws_like(
 
 -- ccbc_auth_user
 set role ccbc_auth_user;
-set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
+set jwt.claims.sub to 'testCcbcAuthUser';
+insert into ccbc_public.ccbc_user
+  (given_name, family_name, email_address, session_sub) values
+  ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
 
 select ccbc_public.create_application();
 

@@ -20,6 +20,9 @@ values
 select mocks.set_mocked_time_in_transaction('2022-08-20 09:00:00 America/Vancouver'::timestamptz);
 
 set jwt.claims.sub to 'testCcbcAuthUser';
+insert into ccbc_public.ccbc_user
+  (given_name, family_name, email_address, session_sub) values
+  ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
 set role ccbc_auth_user;
 
 select ccbc_public.create_application();
