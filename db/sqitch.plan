@@ -173,3 +173,4 @@ computed_columns/application_analyst_lead [computed_columns/application_analyst_
 @1.41.1 2023-02-16T16:57:53Z Marcel Mueller <marcel@button.is> # release v1.41.1
 computed_columns/application_intake_number 2023-02-16T15:26:28Z Anthony Bushara <anthony@button.is> # computed column to get intake number for sorting and filtering
 @1.42.0 2023-02-22T17:51:40Z Anthony Bushara <anthony@button.is> # release v1.42.0
+extenstions/audit 2023-02-22T00:25:20Z ,,, Vladimir <vladimir@button.is> # add audit extension
