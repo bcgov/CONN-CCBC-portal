@@ -11,11 +11,14 @@ select application_id into received_application_status_id
 from ccbc_public.application_status where status = 'received';
 
 perform mocks.set_mocked_time_in_transaction((select open_timestamp + interval '1 minute' from ccbc_public.intake where ccbc_intake_number = 1));
+
+delete from ccbc_public.ccbc_user cascade;
+
 set jwt.claims.sub to 'mockUser@ccbc_auth_user';
 insert into ccbc_public.ccbc_user
   (id, given_name, family_name, email_address, session_sub) overriding system value values
   (1, 'foo1', 'bar', 'foo1@bar.com', 'mockUser@ccbc_auth_user');
-  
+
 if received_application_status_id is not null then
  return;
 end if;
