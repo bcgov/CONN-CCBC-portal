@@ -512,6 +512,35 @@ type Query implements Node {
     condition: IntakeCondition
   ): IntakesConnection
 
+  """Reads and enables pagination through a set of `RecordVersion`."""
+  allRecordVersions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RecordVersion`."""
+    orderBy: [RecordVersionsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RecordVersionCondition
+  ): RecordVersionsConnection
+
   """Reads and enables pagination through a set of `RfiData`."""
   allRfiData(
     """Only read the first `n` values of the set."""
@@ -590,6 +619,7 @@ type Query implements Node {
   intakeByRowId(rowId: Int!): Intake
   intakeByCcbcIntakeNumber(ccbcIntakeNumber: Int!): Intake
   intakeByApplicationNumberSeqName(applicationNumberSeqName: String!): Intake
+  recordVersionByRowId(rowId: BigInt!): RecordVersion
   rfiDataByRowId(rowId: Int!): RfiData
   rfiDataStatusTypeByName(name: String!): RfiDataStatusType
 
@@ -725,6 +755,14 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `Intake`."""
     id: ID!
   ): Intake
+
+  """Reads a single `RecordVersion` using its globally unique `ID`."""
+  recordVersion(
+    """
+    The globally unique `ID` to be used in selecting a single `RecordVersion`.
+    """
+    id: ID!
+  ): RecordVersion
 
   """Reads a single `RfiData` using its globally unique `ID`."""
   rfiData(
@@ -1921,6 +1959,35 @@ type CcbcUser implements Node {
     """
     condition: ApplicationPackageCondition
   ): ApplicationPackagesConnection!
+
+  """Reads and enables pagination through a set of `RecordVersion`."""
+  recordVersionsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RecordVersion`."""
+    orderBy: [RecordVersionsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RecordVersionCondition
+  ): RecordVersionsConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
@@ -10912,6 +10979,146 @@ input IntakeCondition {
   archivedAt: Datetime
 }
 
+"""A connection to a list of `RecordVersion` values."""
+type RecordVersionsConnection {
+  """A list of `RecordVersion` objects."""
+  nodes: [RecordVersion]!
+
+  """
+  A list of edges which contains the `RecordVersion` and cursor to aid in pagination.
+  """
+  edges: [RecordVersionsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `RecordVersion` you could get from the connection."""
+  totalCount: Int!
+}
+
+type RecordVersion implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  rowId: BigInt!
+  recordId: UUID
+  oldRecordId: UUID
+  op: Operation!
+  ts: Datetime!
+  tableOid: BigFloat!
+  tableSchema: String!
+  tableName: String!
+  createdBy: Int
+  createdAt: Datetime!
+  record: JSON
+  oldRecord: JSON
+
+  """Reads a single `CcbcUser` that is related to this `RecordVersion`."""
+  ccbcUserByCreatedBy: CcbcUser
+}
+
+"""
+A signed eight-byte integer. The upper big integer values are greater than the
+max value for a JavaScript number. Therefore all big integers will be output as
+strings and not numbers.
+"""
+scalar BigInt
+
+enum Operation {
+  INSERT
+  UPDATE
+  DELETE
+  TRUNCATE
+}
+
+"""
+A floating point number that requires more precision than IEEE 754 binary 64
+"""
+scalar BigFloat
+
+"""A `RecordVersion` edge in the connection."""
+type RecordVersionsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `RecordVersion` at the end of the edge."""
+  node: RecordVersion
+}
+
+"""Methods to use when ordering `RecordVersion`."""
+enum RecordVersionsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  RECORD_ID_ASC
+  RECORD_ID_DESC
+  OLD_RECORD_ID_ASC
+  OLD_RECORD_ID_DESC
+  OP_ASC
+  OP_DESC
+  TS_ASC
+  TS_DESC
+  TABLE_OID_ASC
+  TABLE_OID_DESC
+  TABLE_SCHEMA_ASC
+  TABLE_SCHEMA_DESC
+  TABLE_NAME_ASC
+  TABLE_NAME_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  RECORD_ASC
+  RECORD_DESC
+  OLD_RECORD_ASC
+  OLD_RECORD_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `RecordVersion` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input RecordVersionCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: BigInt
+
+  """Checks for equality with the object’s `recordId` field."""
+  recordId: UUID
+
+  """Checks for equality with the object’s `oldRecordId` field."""
+  oldRecordId: UUID
+
+  """Checks for equality with the object’s `op` field."""
+  op: Operation
+
+  """Checks for equality with the object’s `ts` field."""
+  ts: Datetime
+
+  """Checks for equality with the object’s `tableOid` field."""
+  tableOid: BigFloat
+
+  """Checks for equality with the object’s `tableSchema` field."""
+  tableSchema: String
+
+  """Checks for equality with the object’s `tableName` field."""
+  tableName: String
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `record` field."""
+  record: JSON
+
+  """Checks for equality with the object’s `oldRecord` field."""
+  oldRecord: JSON
+}
+
 """
 A connection to a list of `CcbcUser` values, with data from `CcbcUser`.
 """
@@ -17151,6 +17358,14 @@ type Mutation {
     input: CreateIntakeInput!
   ): CreateIntakePayload
 
+  """Creates a single `RecordVersion`."""
+  createRecordVersion(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateRecordVersionInput!
+  ): CreateRecordVersionPayload
+
   """Creates a single `RfiData`."""
   createRfiData(
     """
@@ -17499,6 +17714,24 @@ type Mutation {
     input: UpdateIntakeByApplicationNumberSeqNameInput!
   ): UpdateIntakePayload
 
+  """
+  Updates a single `RecordVersion` using its globally unique id and a patch.
+  """
+  updateRecordVersion(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRecordVersionInput!
+  ): UpdateRecordVersionPayload
+
+  """Updates a single `RecordVersion` using a unique key and a patch."""
+  updateRecordVersionByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRecordVersionByRowIdInput!
+  ): UpdateRecordVersionPayload
+
   """Updates a single `RfiData` using its globally unique id and a patch."""
   updateRfiData(
     """
@@ -17822,6 +18055,22 @@ type Mutation {
     """
     input: DeleteIntakeByApplicationNumberSeqNameInput!
   ): DeleteIntakePayload
+
+  """Deletes a single `RecordVersion` using its globally unique id."""
+  deleteRecordVersion(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRecordVersionInput!
+  ): DeleteRecordVersionPayload
+
+  """Deletes a single `RecordVersion` using a unique key."""
+  deleteRecordVersionByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRecordVersionByRowIdInput!
+  ): DeleteRecordVersionPayload
 
   """Deletes a single `RfiData` using its globally unique id."""
   deleteRfiData(
@@ -18991,6 +19240,60 @@ input IntakeInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+}
+
+"""The output of our create `RecordVersion` mutation."""
+type CreateRecordVersionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RecordVersion` that was created by this mutation."""
+  recordVersion: RecordVersion
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `RecordVersion`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """An edge for our `RecordVersion`. May be used by Relay 1."""
+  recordVersionEdge(
+    """The method to use when ordering `RecordVersion`."""
+    orderBy: [RecordVersionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RecordVersionsEdge
+}
+
+"""All input for the create `RecordVersion` mutation."""
+input CreateRecordVersionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `RecordVersion` to be created by this mutation."""
+  recordVersion: RecordVersionInput!
+}
+
+"""An input for mutations affecting `RecordVersion`"""
+input RecordVersionInput {
+  rowId: BigInt
+  recordId: UUID
+  oldRecordId: UUID
+  op: Operation!
+  ts: Datetime
+  tableOid: BigFloat!
+  tableSchema: String!
+  tableName: String!
+  createdBy: Int
+  createdAt: Datetime!
+  record: JSON
+  oldRecord: JSON
 }
 
 """The output of our create `RfiData` mutation."""
@@ -20768,6 +21071,84 @@ input UpdateIntakeByApplicationNumberSeqNameInput {
   applicationNumberSeqName: String!
 }
 
+"""The output of our update `RecordVersion` mutation."""
+type UpdateRecordVersionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RecordVersion` that was updated by this mutation."""
+  recordVersion: RecordVersion
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `RecordVersion`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """An edge for our `RecordVersion`. May be used by Relay 1."""
+  recordVersionEdge(
+    """The method to use when ordering `RecordVersion`."""
+    orderBy: [RecordVersionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RecordVersionsEdge
+}
+
+"""All input for the `updateRecordVersion` mutation."""
+input UpdateRecordVersionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `RecordVersion` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `RecordVersion` being updated.
+  """
+  recordVersionPatch: RecordVersionPatch!
+}
+
+"""
+Represents an update to a `RecordVersion`. Fields that are set will be updated.
+"""
+input RecordVersionPatch {
+  rowId: BigInt
+  recordId: UUID
+  oldRecordId: UUID
+  op: Operation
+  ts: Datetime
+  tableOid: BigFloat
+  tableSchema: String
+  tableName: String
+  createdBy: Int
+  createdAt: Datetime
+  record: JSON
+  oldRecord: JSON
+}
+
+"""All input for the `updateRecordVersionByRowId` mutation."""
+input UpdateRecordVersionByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `RecordVersion` being updated.
+  """
+  recordVersionPatch: RecordVersionPatch!
+  rowId: BigInt!
+}
+
 """The output of our update `RfiData` mutation."""
 type UpdateRfiDataPayload {
   """
@@ -21952,6 +22333,57 @@ input DeleteIntakeByApplicationNumberSeqNameInput {
   The name of the sequence used to generate CCBC ids. It is added via a trigger
   """
   applicationNumberSeqName: String!
+}
+
+"""The output of our delete `RecordVersion` mutation."""
+type DeleteRecordVersionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RecordVersion` that was deleted by this mutation."""
+  recordVersion: RecordVersion
+  deletedRecordVersionId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `RecordVersion`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """An edge for our `RecordVersion`. May be used by Relay 1."""
+  recordVersionEdge(
+    """The method to use when ordering `RecordVersion`."""
+    orderBy: [RecordVersionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RecordVersionsEdge
+}
+
+"""All input for the `deleteRecordVersion` mutation."""
+input DeleteRecordVersionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `RecordVersion` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteRecordVersionByRowId` mutation."""
+input DeleteRecordVersionByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  rowId: BigInt!
 }
 
 """The output of our delete `RfiData` mutation."""

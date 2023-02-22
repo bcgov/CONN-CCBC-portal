@@ -32,7 +32,11 @@ insert into ccbc_public.form (slug, json_schema) values ('intake1schema',
   }
 }'::jsonb) on conflict (slug) do update set json_schema=excluded.json_schema, slug=excluded.slug;
 
-set jwt.claims.sub to '00000000-0000-0000-0000-000000000000';
+set jwt.claims.sub to 'testCcbcAuthUser';
+insert into ccbc_public.ccbc_user
+  (given_name, family_name, email_address, session_sub) values
+  ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
+
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
 values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1),
       ('2022-05-01 09:00:01-07', '2022-06-01 09:00:00-07', 2);

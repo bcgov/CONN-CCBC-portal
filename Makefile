@@ -101,7 +101,8 @@ create_test_db:
 	@$(PSQL) -d postgres -tc "SELECT count(*) FROM pg_database WHERE datname = '$(DB_NAME)_test'" | \
 		grep -q 1 || \
 		$(PSQL) -d postgres -c "CREATE DATABASE $(DB_NAME)_test"; \
-		$(PSQL) -d $(DB_NAME)_test -c "create extension if not exists pgtap";
+		$(PSQL) -d $(DB_NAME)_test -c "create extension if not exists pgtap"; \
+		$(PSQL) -d $(DB_NAME)_test -c "create extension if not exists \"uuid-ossp\"";
 
 .PHONY: drop_test_db
 drop_test_db: ## Drop the $(DB_NAME)_test database if it exists

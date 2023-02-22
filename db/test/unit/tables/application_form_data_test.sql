@@ -32,6 +32,13 @@ select has_column('ccbc_public', 'application_form_data', 'application_id','The 
 
 -- Row level security tests --
 
+-- Test users
+insert into ccbc_public.ccbc_user
+  (given_name, family_name, email_address, session_sub) values
+  ('foo1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111112'),
+  ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111113'),
+  ('foo3', 'bar', 'foo3@bar.com', '11111111-1111-1111-1111-111111111114');
+  
 -- Test setup - first user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 

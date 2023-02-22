@@ -6,12 +6,15 @@ select has_function(
   'Function receive_applications should exist'
 );
 
+delete from ccbc_public.intake;
+delete from ccbc_public.application cascade;
+delete from ccbc_public.application_status;
+
 -- Test setup - user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
-
-delete from ccbc_public.intake;
-delete from ccbc_public.application;
-delete from ccbc_public.application_status;
+insert into ccbc_public.ccbc_user
+  (id, given_name, family_name, email_address, session_sub) overriding system value values
+  (1, 'foo1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111111');
 
 insert into
   ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number)
@@ -20,13 +23,15 @@ values
   (1, '2021-08-19 09:00:00 America/Vancouver','2021-11-06 09:00:00 America/Vancouver', 1),
   (2, '2022-08-19 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver', 2);
 
+set role ccbc_auth_user;
+
 insert into ccbc_public.application
   (id, ccbc_number, owner, intake_id) overriding system value
    values
   (1,'CCBC-010001', '11111111-1111-1111-1111-111111111111', 1),
-  (2,'CCBC-010001', '11111111-1111-1111-1111-111111111112', 2),
-  (3,'CCBC-010001', '11111111-1111-1111-1111-111111111113', 2),
-  (4,'CCBC-010001', '11111111-1111-1111-1111-111111111113', 2);
+  (2,'CCBC-010001', '11111111-1111-1111-1111-111111111111', 2),
+  (3,'CCBC-010001', '11111111-1111-1111-1111-111111111111', 2),
+  (4,'CCBC-010001', '11111111-1111-1111-1111-111111111111', 2);
 
 
 insert into ccbc_public.application_status (application_id, status, created_at) VALUES
