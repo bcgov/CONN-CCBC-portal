@@ -1,4 +1,3 @@
-import type { Request } from 'express';
 import * as Sentry from '@sentry/nextjs';
 import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
 import {
@@ -6,9 +5,12 @@ import {
   createPostGraphileSchema,
   withPostGraphileContext,
   PostGraphileOptions,
+  makePluginHook,
 } from 'postgraphile';
+import type { Request } from 'express';
 import { graphql, GraphQLSchema } from 'graphql';
 import { TagsFilePlugin } from 'postgraphile/plugins';
+import PersistedOperationsPlugin from '@graphile/persisted-operations';
 import PostgraphileRc from '../../../.postgraphilerc';
 
 import { pgPool, getDatabaseUrl } from '../setup-pg';
@@ -27,7 +29,10 @@ export const pgSettings: any = (req: Request) => {
   return opts;
 };
 
+const pluginHook = makePluginHook([PersistedOperationsPlugin]);
+
 let postgraphileOptions: PostGraphileOptions = {
+  pluginHook,
   appendPlugins: [
     PgManyToManyPlugin,
     // ConnectionFilterPlugin,
@@ -37,6 +42,8 @@ let postgraphileOptions: PostGraphileOptions = {
     // PgOrderByRelatedPlugin,
     // FormChangeValidationPlugin,
   ],
+  persistedOperationsDirectory: `./.persisted_operations/`,
+  hashFromPayload: (request: any) => request?.id,
   classicIds: true,
   enableQueryBatching: true,
   dynamicJson: true,
@@ -102,11 +109,7 @@ const postgraphileSchema = async () => {
   return postgraphileSchemaSingleton;
 };
 
-export async function performQuery(
-  query: any,
-  variables: any,
-  request: Request
-) {
+export async function performQuery(id: any, variables: any, request: any) {
   const settings = pgSettings(request);
   return withPostGraphileContext(
     {
@@ -117,12 +120,6 @@ export async function performQuery(
       // Execute your GraphQL query in this function with the provided
       // `context` object, which should NOT be used outside of this
       // function.
-      graphql(
-        await postgraphileSchema(),
-        query,
-        null,
-        { ...context },
-        variables
-      )
+      graphql(await postgraphileSchema(), id, null, { ...context }, variables)
   );
 }

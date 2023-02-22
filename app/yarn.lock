@@ -2194,6 +2194,11 @@
   dependencies:
     tslib "^2.0.1"
 
+"@graphile/persisted-operations@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@graphile/persisted-operations/-/persisted-operations-0.1.1.tgz#9a753a5fc46f7935d97620e3bf5a703202304ffb"
+  integrity sha512-9GDVvGXCmg7Vo8Zbbpx083nHTgM8nPXV13K+IoS9qX5d1HyDcWDXvI+fj2Bb122dFOyhfCeGyhiYpWvMrABBgA==
+
 "@growthbook/growthbook-react@^0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@growthbook/growthbook-react/-/growthbook-react-0.9.0.tgz#c0f3b71349addb04225fa5524a8a2fce3059bfb1"

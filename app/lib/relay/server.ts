@@ -1,5 +1,6 @@
 import { Network, Environment, Store, RecordSource } from 'relay-runtime';
 import getConfig from 'next/config';
+
 const {
   serverRuntimeConfig: { PORT },
 } = getConfig();
@@ -14,7 +15,7 @@ export function createServerNetwork({ cookieHeader }: any) {
         cookie: cookieHeader,
       },
       body: JSON.stringify({
-        query: params.text,
+        id: params.id,
         variables,
       }),
     });

@@ -29,6 +29,7 @@ yarn-error.log*
 # local env files
 .env*.local
 development.json
+
 # vercel
 .vercel
 
@@ -41,5 +42,10 @@ yalc.lock
 
 # Cypress
 /cypress/screenshots
+
 # Sentry
 .sentryclirc
+
+# Persisted queries
+.persisted_operations
+/schema/queryMap.json
