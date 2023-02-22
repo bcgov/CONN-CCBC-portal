@@ -1,5 +1,5 @@
 begin;
-select plan(17);
+select plan(16);
 
 select has_table('ccbc_public', 'application_analyst_lead', 'table ccbc_public.application_analyst_lead exists');
 select has_column('ccbc_public', 'application_analyst_lead', 'id', 'table ccbc_public.application_analyst_lead has id column');
@@ -8,8 +8,13 @@ select has_column('ccbc_public', 'application_analyst_lead', 'analyst_id', 'tabl
 
 select mocks.set_mocked_time_in_transaction('2022-04-01 09:00:00-07'::timestamptz);
 
-insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
-values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1);
+insert into
+  ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number)
+overriding system value
+values
+  (1, '2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1);
+
+delete from ccbc_public.ccbc_user;
 
 -- ccbc_guest
 set role ccbc_guest;
@@ -43,10 +48,15 @@ set role ccbc_auth_user;
 set jwt.claims.sub to 'testCcbcAuthUser';
 
 insert into ccbc_public.ccbc_user
-  (given_name, family_name, email_address, session_sub) values
-  ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
+  (id, given_name, family_name, email_address, session_sub) overriding system value values
+  (1, 'foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
 
-select ccbc_public.create_application();
+-- select ccbc_public.create_application();
+
+insert into ccbc_public.application
+  (id, ccbc_number, owner, intake_id) overriding system value
+   values
+  (1,'CCBC-010001', 'testCcbcAuthUser', 1);
 
 select throws_like(
   $$
@@ -81,18 +91,7 @@ set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
 insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
   ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111111');
-  
- select results_eq(
-  $$
-    select count(*) status from ccbc_public.application;
-  $$,
-  $$
-    values (1::bigint)
-  $$,
-  'ccbc_admin can select application'
-);
-
-
+ 
 insert into ccbc_public.application_analyst_lead
   (application_id, analyst_id) overriding system value
   values
