@@ -6251,6 +6251,9 @@ input ApplicationFilter {
   """Filter by the object’s `hasRfiOpen` field."""
   hasRfiOpen: BooleanFilter
 
+  """Filter by the object’s `intakeNumber` field."""
+  intakeNumber: IntFilter
+
   """Filter by the object’s `organizationName` field."""
   organizationName: StringFilter
 
