@@ -1,11 +1,5 @@
 begin;
 
-insert into
-  ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number)
-overriding system value
-values
-  (1, '2022-03-01 09:00:00-07', '2023-05-01 09:00:00-07', 1);
-
 select mocks.set_mocked_time_in_transaction('2022-10-09 09:00:00-07'::timestamptz);
 
 insert into ccbc_public.ccbc_user
