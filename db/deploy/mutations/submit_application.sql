@@ -55,25 +55,31 @@ begin
     raise 'The application cannot be submitted as there are unchecked acknowledgements';
   end if;
 
-  select id, ccbc_intake_number, application_number_seq_name from ccbc_public.open_intake()
+  select id, ccbc_intake_number, counter_id from ccbc_public.open_intake()
   into current_intake_id, current_intake_number, seq_name;
 
   if current_intake_id is null then
     raise 'There is no open intake, the application cannot be submitted';
   end if;
 
-  select nextval(seq_name) into reference_number;
+  -- select nextval(seq_name) into reference_number;
 
   insert into ccbc_public.application_status
     (application_id, status) values (application_row_id, 'submitted');
 
-  update ccbc_public.application set
-    intake_id = current_intake_id,
-    ccbc_number = format(
+  -- update ccbc_public.application set
+  --   intake_id = current_intake_id,
+  --   ccbc_number = format(
+  --     'CCBC-%s%s', lpad(current_intake_number::text , 2, '0'),
+  --     lpad(reference_number::text, 4, '0')
+  --   )
+  -- where id = application_row_id;
+
+  insert into ccbc_public.application (id, ccbc_number) values (application_row_id, '') on conflict (id) do update set
+  ccbc_number=format(
       'CCBC-%s%s', lpad(current_intake_number::text , 2, '0'),
-      lpad(reference_number::text, 4, '0')
-    )
-  where id = application_row_id;
+      lpad((update ccbc_public.gapless_counter set counter = counter + 1 returning counter)::text, 4, '0')
+    );
 
   update ccbc_public.form_data set
     form_data_status_type_id = 'committed'

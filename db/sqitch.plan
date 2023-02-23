@@ -210,3 +210,5 @@ import/rfi_data [import/rfi_data@1.48.0] 2023-03-06T22:02:52Z ,,, Vladimir <vlad
 backfill_history [backfill_history@1.48.0] 2023-03-06T22:08:20Z ,,, Vladimir <vladimir@button.is> # fix backfill issues
 @1.48.1 2023-03-06T22:44:08Z Marcel Mueller <marcel@m2> # release v1.48.1
 tables/gapless_counter 2023-02-17T16:03:16Z Anthony Bushara <anthony@button.is> # Table used to generate gapless sequences
+tables/intake_002_add_reference_to_counter 2023-02-21T16:10:57Z Anthony Bushara <anthony@button.is> # Adds a fk to the counter table for gapless sequence
+mutations/submit_application [mutations/submit_application@1.41.1] 2023-02-21T16:24:39Z Anthony Bushara <anthony@button.is> # Rework submit applications to use gapless counter
