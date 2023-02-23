@@ -5,6 +5,7 @@ db:
       drop schema if exists mocks cascade;
       drop schema if exists ccbc_public cascade;
       drop schema if exists ccbc_private cascade;
+      drop schema if exists audit cascade;
     EOF
 
   postMigrationCommand: |
