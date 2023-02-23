@@ -451,15 +451,15 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
+        fileTypes:
+          '.pdf, .png, .jpg, .jpeg, .vsd, .vsdx, .doc, .docx, .ppt, .pptx',
       },
     },
     logicalNetworkDiagramRfi: {
       'ui:widget': 'hidden',
       'ui:options': {
         label: false,
-        allowMultipleFiles: true,
-        fileTypes:
-          '.pdf, .png, .jpg, .jpeg, .vsd, .vsdx, .doc, .docx, .ppt, .pptx',
       },
     },
     projectSchedule: {
