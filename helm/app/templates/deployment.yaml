@@ -85,6 +85,7 @@ spec:
               psql -d $(DATABASE_NAME) <<EOF
                 grant pg_read_all_data to $(PGUSER_READONLY);
                 alter role $(PGUSER_READONLY) BYPASSRLS;
+                create extension if not exists "uuid-ossp";
               EOF
         - env:
           - name: SQITCH_TARGET
