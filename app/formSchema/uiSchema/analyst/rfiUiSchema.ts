@@ -1,3 +1,5 @@
+import { EXCEL_FILE_EXTENSIONS } from '../constants';
+
 const rfiUiSchema = {
   'ui:order': [
     'rfiType',
@@ -423,6 +425,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     copiesOfRegistrationRfi: {
@@ -435,6 +438,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     preparedFinancialStatementsRfi: {
@@ -453,12 +457,17 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'hidden',
       'ui:options': {
         label: false,
+        allowMultipleFiles: true,
+        fileTypes:
+          '.pdf, .png, .jpg, .jpeg, .vsd, .vsdx, .doc, .docx, .ppt, .pptx',
       },
     },
     projectSchedule: {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
+        fileTypes: `${EXCEL_FILE_EXTENSIONS}, .mpp`,
       },
     },
     projectScheduleRfi: {
@@ -471,6 +480,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     communityRuralDevelopmentBenefitsRfi: {
@@ -483,6 +493,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     otherSupportingMaterialsRfi: {
@@ -519,6 +530,8 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
+        fileTypes: '.kml, .kmz',
       },
     },
     currentNetworkInfastructureRfi: {
@@ -531,6 +544,8 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
+        fileTypes: '.kml, .kmz',
       },
     },
     upgradedNetworkInfrastructureRfi: {
