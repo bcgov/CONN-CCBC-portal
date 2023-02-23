@@ -11,13 +11,13 @@ do
 $grant$
 begin
 
-perform ccbc_private.grant_permissions('select', 'form', 'ccbc_analyst');
-perform ccbc_private.grant_permissions('select', 'form', 'ccbc_auth_user');
-perform ccbc_private.grant_permissions('select', 'form', 'ccbc_admin');
-perform ccbc_private.grant_permissions('insert', 'form', 'ccbc_admin');
-perform ccbc_private.grant_permissions('update', 'form', 'ccbc_analyst');
-perform ccbc_private.grant_permissions('update', 'form', 'ccbc_auth_user');
-perform ccbc_private.grant_permissions('update', 'form', 'ccbc_admin');
+perform ccbc_private.grant_permissions('select', 'gapless_counter', 'ccbc_analyst');
+perform ccbc_private.grant_permissions('select', 'gapless_counter', 'ccbc_auth_user');
+perform ccbc_private.grant_permissions('select', 'gapless_counter', 'ccbc_admin');
+perform ccbc_private.grant_permissions('insert', 'gapless_counter', 'ccbc_admin');
+perform ccbc_private.grant_permissions('update', 'gapless_counter', 'ccbc_analyst');
+perform ccbc_private.grant_permissions('update', 'gapless_counter', 'ccbc_auth_user');
+perform ccbc_private.grant_permissions('update', 'gapless_counter', 'ccbc_admin');
 
 end
 $grant$;
