@@ -11,6 +11,11 @@ execute format('set role to %I',(select tableowner from pg_tables where tablenam
 end
 $$;
 
+truncate table
+  ccbc_public.record_version,
+  ccbc_public.ccbc_user
+restart identity cascade;
+
 insert into
   ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number)
 overriding system value

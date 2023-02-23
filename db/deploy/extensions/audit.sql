@@ -255,9 +255,6 @@ GRANT USAGE ON SCHEMA audit TO ccbc_auth_user, ccbc_analyst, ccbc_admin;
 GRANT ALL ON ALL TABLES IN SCHEMA audit TO ccbc_auth_user, ccbc_analyst, ccbc_admin;
 GRANT ALL ON ALL ROUTINES IN SCHEMA audit TO ccbc_auth_user, ccbc_analyst, ccbc_admin;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA audit TO ccbc_auth_user, ccbc_analyst, ccbc_admin;
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA audit GRANT ALL ON TABLES TO ccbc_auth_user, ccbc_analyst, ccbc_admin;
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA audit GRANT ALL ON ROUTINES TO ccbc_auth_user, ccbc_analyst, ccbc_admin;
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA audit GRANT ALL ON SEQUENCES TO ccbc_auth_user, ccbc_analyst, ccbc_admin;
 
 do
 $grant$
