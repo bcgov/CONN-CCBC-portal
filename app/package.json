@@ -64,6 +64,7 @@
     "path-to-regexp": "^6.2.1",
     "pluralize": "^7.0.0",
     "postgraphile": "^4.12.9",
+    "postgraphile-plugin-connection-filter": "^2.3.0",
     "postinstall-postinstall": "^2.1.0",
     "react": "^18.0.0",
     "react-currency-input-field": "^3.6.4",

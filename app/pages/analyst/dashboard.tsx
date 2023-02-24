@@ -15,13 +15,12 @@ const DEFAULT_SORT = 'PRIMARY_KEY_ASC';
 const tableFilters = [
   new NumberFilter('Intake', 'intakeNumber'),
   new TextFilter('CCBC ID', 'ccbcNumber'),
-  new TextFilter('Status', 'statusOrder'),
+  new TextFilter('Status', 'statusSortFilter'),
   new TextFilter('Project title', 'projectName'),
   new TextFilter('Organization', 'organizationName'),
   new TextFilter('Lead', 'analystLead'),
   new NumberFilter('Package', 'package'),
 ];
-
 // will probably have to change to cursor for pagination/infinte scroll
 const getDashboardAnalystQuery = graphql`
   query dashboardAnalystQuery(
@@ -29,17 +28,36 @@ const getDashboardAnalystQuery = graphql`
     # commenting out since we do not want the pagesize to be taken from the query
     # $pageSize: Int
     $orderBy: [ApplicationsOrderBy!]
+    $ccbcNumber: String
+    $projectName: String
+    $organizationName: String
+    $analystLead: String
+    $package: Int
+    $statusSortFilter: String
   ) {
     session {
       sub
       ...DashboardTabs_query
     }
     ...AnalystRow_query
-    allApplications(first: 500, offset: $offset, orderBy: $orderBy) {
+    allApplications(
+      first: 500
+      offset: $offset
+      orderBy: $orderBy
+      filter: {
+        ccbcNumber: { includesInsensitive: $ccbcNumber }
+        status: { includesInsensitive: $statusSortFilter }
+        projectName: { includesInsensitive: $projectName }
+        organizationName: { includesInsensitive: $organizationName }
+        analystLead: { includesInsensitive: $analystLead }
+        package: { equalTo: $package }
+      }
+    ) {
       totalCount
       edges {
         node {
           id
+          rowId
           ...AnalystRow_application
         }
       }
@@ -92,7 +110,6 @@ const AnalystDashboard = ({
           paginated={false}
           filters={tableFilters}
           totalRowCount={allApplications.totalCount}
-          disableFiltering
         >
           {allApplications.edges.map(({ node }) => (
             <AnalystRow key={node.id} query={query} application={node} />

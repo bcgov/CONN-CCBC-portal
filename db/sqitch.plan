@@ -176,3 +176,4 @@ computed_columns/application_intake_number 2023-02-16T15:26:28Z Anthony Bushara 
 extensions/uuid 2023-02-22T02:17:14Z ,,, Vladimir <vladimir@button.is> # add uuid-ossp
 extensions/audit 2023-02-22T00:25:20Z ,,, Vladimir <vladimir@button.is> # add audit extension
 @1.43.0 2023-02-23T21:53:09Z Marcel Mueller <marcel@button.is> # release v1.43.0
+computed_columns/application_status_sort_filter 2023-02-14T21:37:47Z Marcel Mueller <marcel@button.is> # computed column to return string with status order with status name appended

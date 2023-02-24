@@ -11,11 +11,10 @@ import type { Request } from 'express';
 import { graphql, GraphQLSchema } from 'graphql';
 import { TagsFilePlugin } from 'postgraphile/plugins';
 import PersistedOperationsPlugin from '@graphile/persisted-operations';
+import ConnectionFilterPlugin from 'postgraphile-plugin-connection-filter';
 import PostgraphileRc from '../../../.postgraphilerc';
-
 import { pgPool, getDatabaseUrl } from '../setup-pg';
 import authenticationPgSettings from './authenticationPgSettings';
-
 import { generateDatabaseMockOptions } from './helpers';
 import config from '../../../config';
 import resolveFileUpload from './resolveFileUpload';
@@ -35,7 +34,7 @@ let postgraphileOptions: PostGraphileOptions = {
   pluginHook,
   appendPlugins: [
     PgManyToManyPlugin,
-    // ConnectionFilterPlugin,
+    ConnectionFilterPlugin,
     TagsFilePlugin,
     PostGraphileUploadFieldPlugin,
     // PgOmitArchived,

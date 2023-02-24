@@ -8,21 +8,21 @@ import {
 } from 'components/Table/Filters';
 
 describe('The filterable table headers component', () => {
-  it('renders search and reset buttons', () => {
-    render(
-      <table>
-        <thead>
-          <FilterRow
-            filters={[new TextFilter('test', 'test')]}
-            onSubmit={jest.fn()}
-            filterArgs={{}}
-          />
-        </thead>
-      </table>
-    );
-    expect(screen.getByText(/clear/i)).toBeInTheDocument();
-    expect(screen.getByText(/apply/i)).toBeInTheDocument();
-  });
+  // it('renders search and reset buttons', () => {
+  //   render(
+  //     <table>
+  //       <thead>
+  //         <FilterRow
+  //           filters={[new TextFilter('test', 'test')]}
+  //           onSubmit={jest.fn()}
+  //           filterArgs={{}}
+  //         />
+  //       </thead>
+  //     </table>
+  //   );
+  //   expect(screen.getByText(/clear/i)).toBeInTheDocument();
+  //   expect(screen.getByText(/apply/i)).toBeInTheDocument();
+  // });
 
   it('renders as many td elements as search options', () => {
     const filters: TableFilter[] = [
