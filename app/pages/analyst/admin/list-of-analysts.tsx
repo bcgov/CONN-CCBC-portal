@@ -19,6 +19,7 @@ const getListOfAnalystsQuery = graphql`
         familyName
         givenName
         active
+        id
       }
     }
   }

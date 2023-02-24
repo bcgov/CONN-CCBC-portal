@@ -11,12 +11,27 @@ const StyledContainer = styled.div`
   margin-left: 2rem;
 `;
 interface Props {
-  analystName: any;
-  active: boolean;
+  analyst: any;
+  updateAnalyst: any;
 }
 
-const AnalystListRow: React.FC<Props> = ({ active, analystName }) => {
+const AnalystListRow: React.FC<Props> = ({ analyst, updateAnalyst }) => {
+  const { active, familyName, givenName, id } = analyst;
+  const analystName = `${familyName} ${givenName}`;
+
   const [checked, setChecked] = useState(active);
+
+  const handleUpdateAnalyst = (isActive: boolean, analystId) => {
+    updateAnalyst({
+      variables: {
+        input: { id: analystId, analystPatch: { active: isActive } },
+      },
+      onCompleted: () => {
+        setChecked(!active);
+      },
+    });
+  };
+
   return (
     <tr key={analystName}>
       <StyledTd>{analystName}</StyledTd>
@@ -25,6 +40,7 @@ const AnalystListRow: React.FC<Props> = ({ active, analystName }) => {
           <Checkbox
             checked={checked}
             onChange={() => {
+              handleUpdateAnalyst(!active, id);
               setChecked(!checked);
             }}
           />

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useUpdateAnalystMutation } from 'schema/mutations/analyst/updateAnalyst';
 import AnalystListRow from './AnalystListRow';
 
 interface Props {
@@ -58,6 +59,8 @@ const StyledTh = styled.th`
 `;
 
 const AnalystList: React.FC<Props> = ({ analysts }) => {
+  const [updateAnalyst] = useUpdateAnalystMutation();
+
   return (
     <StyledTable>
       <tr>
@@ -66,13 +69,13 @@ const AnalystList: React.FC<Props> = ({ analysts }) => {
       </tr>
       {analysts &&
         analysts.map((analyst) => {
-          const { active, familyName, givenName } = analyst;
-          const analystName = `${familyName} ${givenName}`;
+          const { familyName, givenName } = analyst;
+
           return (
             <AnalystListRow
-              active={active}
-              analystName={analystName}
-              key={analystName}
+              analyst={analyst}
+              updateAnalyst={updateAnalyst}
+              key={`${familyName} ${givenName}`}
             />
           );
         })}
