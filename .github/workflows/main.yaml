@@ -45,3 +45,4 @@ jobs:
       AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
       CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
       CERTBOT_SERVER: ${{ secrets.CERTBOT_SERVER }}
+      AWS_CLAM_S3_BUCKET: ${{ secrets.AWS_CLAM_S3_BUCKET }}

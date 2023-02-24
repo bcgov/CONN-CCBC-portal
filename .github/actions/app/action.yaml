@@ -75,6 +75,7 @@ runs:
         aws_s3_key: ${{ inputs.aws_s3_key }}
         aws_s3_secret_key: ${{ inputs.aws_s3_secret_key }}
         aws_role_arn: ${{ inputs.aws_role_arn }}
+        aws_clam_s3_bucket: ${{ inputs.aws_clam_s3_bucket }}
 
         insecure_skip_tls_verify: true
     - run: |
