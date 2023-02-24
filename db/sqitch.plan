@@ -213,3 +213,4 @@ tables/gapless_counter 2023-02-17T16:03:16Z Anthony Bushara <anthony@button.is> 
 tables/intake_002_add_reference_to_counter 2023-02-21T16:10:57Z Anthony Bushara <anthony@button.is> # Adds a fk to the counter table for gapless sequence
 util_functions/increment_counter 2023-02-23T20:14:42Z Anthony Bushara <anthony@button.is> # Function to increment counter
 mutations/submit_application [mutations/submit_application@1.41.1] 2023-02-21T16:24:39Z Anthony Bushara <anthony@button.is> # Rework submit applications to use gapless counter
+mutations/create_intake 2023-02-24T16:15:43Z Anthony Bushara <anthony@button.is> # Function to create an intake
