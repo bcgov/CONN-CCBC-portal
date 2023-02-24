@@ -3,7 +3,7 @@ import { Upload } from '@aws-sdk/lib-storage';
 import * as Sentry from '@sentry/nextjs';
 import { CompleteMultipartUploadCommandOutput } from '@aws-sdk/client-s3';
 import fs from 'fs';
-import { Readable } from 'node:stream';
+import { Readable, EventEmitter } from 'node:stream';
 import { s3ClientV3 } from '../s3client';
 import config from '../../../config';
 
@@ -74,6 +74,10 @@ export const saveRemoteFile = async (stream) => {
       transaction.setMeasurement('memoryUsed', uploadProgressInMB, 'megabtye');
     });
 
+    (parallelUploads3 as EventEmitter).on('uncaughtException', (error) => {
+      Sentry.captureException(error);
+      throw error;
+    });
     const data = await parallelUploads3.done();
 
     const key = (data as CompleteMultipartUploadCommandOutput)?.Key;
