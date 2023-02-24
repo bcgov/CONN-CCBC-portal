@@ -87,6 +87,9 @@ if (config.get('NODE_ENV') === 'production') {
     graphiql: true,
     enhanceGraphiql: true,
     allowExplain: true,
+    allowUnpersistedOperation(req) {
+      return req.headers.referer?.endsWith("/graphiql");
+    },
   };
 }
 
