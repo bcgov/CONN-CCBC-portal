@@ -22,6 +22,11 @@
           omit: ['create', 'delete'],
         },
       },
+      'ccbc_public.intake': {
+        tags: {
+          omit: ['create', 'delete'],
+        },
+      },
     },
     procedure: {
       'ccbc_public.application_analyst_lead': {
