@@ -54,5 +54,5 @@ as $function$
     return query select cnt as result_id; 
 end;
 $function$ language plpgsql volatile;
-grant execute on function ccbc_public.import_assessment_data to ccbc;
+-- grant execute on function ccbc_public.import_assessment_data to ccbc;
 COMMIT;
