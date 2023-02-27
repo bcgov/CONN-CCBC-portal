@@ -42,7 +42,7 @@ const StyledTransition = styled.div<TransistionProps>`
   max-height: ${(props) => (props.show ? '120px' : '0px')};
 `;
 
-const StyledSection = styled.section`
+const StyledSection = styled.form`
   width: 100%;
   margin-top: 16px;
 `;
@@ -53,7 +53,8 @@ const AddAnalyst: React.FC<Props> = ({ relayConnectionId }) => {
   const [givenName, setGivenName] = useState('');
   const [createAnalyst] = useCreateAnalystMutation();
 
-  const handleClick = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (showInputs) {
       createAnalyst({
         variables: {
@@ -75,11 +76,13 @@ const AddAnalyst: React.FC<Props> = ({ relayConnectionId }) => {
         <h4>New analyst</h4>
         <StyledInputs>
           <Input
+            name="givenName"
             type="text"
             value={givenName}
             onChange={(e) => setGivenName(e.target.value)}
           />
           <Input
+            name="familyName"
             type="text"
             value={familyName}
             onChange={(e) => setFamilyName(e.target.value)}
@@ -89,9 +92,9 @@ const AddAnalyst: React.FC<Props> = ({ relayConnectionId }) => {
       <StyledButtons>
         <Button
           variant={showInputs ? 'primary' : 'secondary'}
-          onClick={handleClick}
+          onClick={handleSubmit}
         >
-          Add analyst
+          {showInputs ? 'Add' : 'Add analyst'}
         </Button>
         {showInputs && (
           <Button variant="secondary" onClick={() => setShowInputs(false)}>

@@ -39,6 +39,7 @@ const AnalystListRow: React.FC<Props> = ({ analyst, updateAnalyst }) => {
         <StyledContainer>
           <Checkbox
             checked={checked}
+            value={checked}
             onChange={() => {
               handleUpdateAnalyst(!active, id);
               setChecked(!checked);
