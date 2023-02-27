@@ -34,8 +34,11 @@ const StyledInputs = styled.div`
 `;
 
 const StyledTransition = styled.div<TransistionProps>`
-  overflow: hidden;
-  transition: max-height 0.5s ease-out;
+  overflow: ${(props) => (props.show ? 'visible' : 'hidden')};
+  transition: max-height 0.5s, opacity 0.3s ease-in-out;
+  transition-delay: 0.1s;
+  opacity: ${(props) => (props.show ? 1 : 0)};
+
   max-height: ${(props) => (props.show ? '120px' : '0px')};
 `;
 

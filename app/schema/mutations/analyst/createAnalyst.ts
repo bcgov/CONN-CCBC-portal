@@ -14,6 +14,7 @@ const mutation = graphql`
           id
           givenName
           familyName
+          active
         }
       }
     }
