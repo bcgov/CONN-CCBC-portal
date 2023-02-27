@@ -17,7 +17,7 @@ interface Props {
 
 const AnalystListRow: React.FC<Props> = ({ analyst, updateAnalyst }) => {
   const { active, familyName, givenName, id } = analyst;
-  const analystName = `${familyName} ${givenName}`;
+  const analystName = `${givenName} ${familyName}`;
 
   const [checked, setChecked] = useState(active);
 

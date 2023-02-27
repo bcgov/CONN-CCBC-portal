@@ -3,10 +3,18 @@ import { createAnalystMutation } from '__generated__/createAnalystMutation.graph
 import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`
-  mutation createAnalystMutation($input: CreateAnalystInput!) {
+  mutation createAnalystMutation(
+    $connections: [ID!]!
+    $input: CreateAnalystInput!
+  ) {
     createAnalyst(input: $input) {
-      analyst {
-        rowId
+      analystEdge @appendEdge(connections: $connections) {
+        cursor
+        node {
+          id
+          givenName
+          familyName
+        }
       }
     }
   }

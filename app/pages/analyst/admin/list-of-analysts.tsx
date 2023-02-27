@@ -2,7 +2,7 @@ import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import { DashboardTabs } from 'components/AnalystDashboard';
-import { AdminTabs, AnalystList } from 'components/Admin';
+import { AddAnalyst, AdminTabs, AnalystList } from 'components/Admin';
 import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { Layout } from 'components';
@@ -14,12 +14,16 @@ const getListOfAnalystsQuery = graphql`
       sub
       ...DashboardTabs_query
     }
-    allAnalysts(orderBy: GIVEN_NAME_ASC) {
-      nodes {
-        familyName
-        givenName
-        active
-        id
+    allAnalysts(first: 1000, orderBy: GIVEN_NAME_ASC)
+      @connection(key: "ListOfAnalysts_allAnalysts") {
+      __id
+      edges {
+        node {
+          familyName
+          givenName
+          active
+          id
+        }
       }
     }
   }
@@ -35,6 +39,8 @@ const ListOfAnalysts = ({
   const query = usePreloadedQuery(getListOfAnalystsQuery, preloadedQuery);
   const { allAnalysts, session } = query;
 
+  // eslint-disable-next-line no-underscore-dangle
+  const relayConnectionId = allAnalysts.__id;
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
@@ -47,7 +53,10 @@ const ListOfAnalysts = ({
             such as assign lead, but the name will remain visible everywhere
             they are already assigned.
           </p>
-          <AnalystList analysts={allAnalysts.nodes} />
+          <AnalystList
+            analysts={allAnalysts.edges.map((analyst) => analyst.node)}
+          />
+          <AddAnalyst relayConnectionId={relayConnectionId} />
         </div>
       </StyledContainer>
     </Layout>
