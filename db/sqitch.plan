@@ -214,3 +214,5 @@ tables/intake_002_add_reference_to_counter 2023-02-21T16:10:57Z Anthony Bushara 
 util_functions/increment_counter 2023-02-23T20:14:42Z Anthony Bushara <anthony@button.is> # Function to increment counter
 mutations/submit_application [mutations/submit_application@1.41.1] 2023-02-21T16:24:39Z Anthony Bushara <anthony@button.is> # Rework submit applications to use gapless counter
 mutations/create_intake 2023-02-24T16:15:43Z Anthony Bushara <anthony@button.is> # Function to create an intake
+tables/intake_003_add_insert_permissions 2023-02-27T15:20:58Z Anthony Bushara <anthony@button.is> # Adds insert and update on intakes
+tables/intake_004_drop_trigger 2023-02-27T16:38:34Z Anthony Bushara <anthony@button.is> # Removes trigger from intake table
