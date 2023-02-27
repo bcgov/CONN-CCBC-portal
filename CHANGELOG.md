@@ -1,3 +1,17 @@
+# [1.44.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.43.0...v1.44.0) (2023-02-27)
+
+### Bug Fixes
+
+- broken test due to history rebase ([4673f20](https://github.com/bcgov/CONN-CCBC-portal/commit/4673f20fddddcf2e35396a2484a65534182cf7fa))
+- enable graphiql in dev ([20795db](https://github.com/bcgov/CONN-CCBC-portal/commit/20795db724d41c06eb7399a081499657ebf06949))
+- move multiple file from rfi to FileWidget ([8e72012](https://github.com/bcgov/CONN-CCBC-portal/commit/8e720123983979d3bd6b96434b3afd31f89e6fdf))
+
+### Features
+
+- add application_status_sort_filter computed column ([1762fb1](https://github.com/bcgov/CONN-CCBC-portal/commit/1762fb1374e5118251495a41a46fa6430724bdc6))
+- enable analyst dashboard filtering ([a49e20b](https://github.com/bcgov/CONN-CCBC-portal/commit/a49e20beb8962d3b25f3ec7f3573441c020d8f20))
+- enable graphql connection filter plugin ([e25ea2a](https://github.com/bcgov/CONN-CCBC-portal/commit/e25ea2ac06c6b97456102113e97410810dba91f3))
+
 # [1.43.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.42.0...v1.43.0) (2023-02-23)
 
 ### Bug Fixes
