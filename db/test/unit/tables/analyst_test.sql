@@ -95,7 +95,8 @@ select results_eq(
       ('Hélène'::varchar, 'Payette'::varchar),
       ('Karl'::varchar, 'Lu'::varchar),
       ('Carreen'::varchar, 'Unguran'::varchar),
-      ('Lia'::varchar, 'Pittappillil'::varchar);
+      ('Lia'::varchar, 'Pittappillil'::varchar),
+      ('Karina'::varchar, 'Boarato'::varchar);
   $$,
   'ccbc_admin can only select all users'
 );
@@ -152,7 +153,8 @@ select results_eq(
       ('Hélène'::varchar, 'Payette'::varchar),
       ('Karl'::varchar, 'Lu'::varchar),
       ('Carreen'::varchar, 'Unguran'::varchar),
-      ('Lia'::varchar, 'Pittappillil'::varchar);
+      ('Lia'::varchar, 'Pittappillil'::varchar),
+      ('Karina'::varchar, 'Boarato'::varchar);
   $$,
   'ccbc_analyst can only select all users'
 );
