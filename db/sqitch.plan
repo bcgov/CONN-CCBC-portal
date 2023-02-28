@@ -185,3 +185,4 @@ import/attachment 2023-02-24T02:28:53Z ,,, Vladimir <vladimir@button.is> # add a
 import/assessment_data 2023-02-24T02:29:22Z ,,, Vladimir <vladimir@button.is> # add assesstment import
 import/import_once 2023-02-24T02:30:52Z ,,, Vladimir <vladimir@button.is> # run import once
 backfill_history 2023-02-24T21:31:50Z ,,, Vladimir <vladimir@button.is> # backfill history once
+tables/analyst_003_permissions 2023-02-24T19:05:15Z Marcel Mueller <marcel@button.is> # add update and insert permissions on analyst table

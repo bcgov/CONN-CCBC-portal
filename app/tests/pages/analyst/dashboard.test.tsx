@@ -93,6 +93,7 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
     offset: null,
     orderBy: null,
     ccbcNumber: null,
+    intakeNumber: null,
     projectName: null,
     organizationName: null,
     analystLead: null,
