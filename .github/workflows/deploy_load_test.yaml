@@ -30,7 +30,7 @@ jobs:
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
-          aws_clam_s3_bucket: ${{ secrets.aws_clam_s3_bucket }}
+          aws_clam_s3_bucket: ${{ secrets.AWS_CLAM_S3_BUCKET }}
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
           certbot_email: ${{ secrets.CERTBOT_EMAIL }}
           certbot_server: ${{ secrets.CERTBOT_SERVER }}
