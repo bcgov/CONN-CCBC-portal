@@ -5,6 +5,7 @@ pluralize.addSingularRule(/data$/i, 'data');
 module.exports = {
   options: {
     appendPlugins: [
+      'postgraphile-plugin-connection-filter',
       `${process.cwd()}/backend/lib/graphql/uploadFieldPlugin.js`,
       '@graphile-contrib/pg-many-to-many',
     ],

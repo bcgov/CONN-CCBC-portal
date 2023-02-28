@@ -1,3 +1,51 @@
+# [1.44.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.43.0...v1.44.0) (2023-02-27)
+
+### Bug Fixes
+
+- broken test due to history rebase ([4673f20](https://github.com/bcgov/CONN-CCBC-portal/commit/4673f20fddddcf2e35396a2484a65534182cf7fa))
+- enable graphiql in dev ([20795db](https://github.com/bcgov/CONN-CCBC-portal/commit/20795db724d41c06eb7399a081499657ebf06949))
+- move multiple file from rfi to FileWidget ([8e72012](https://github.com/bcgov/CONN-CCBC-portal/commit/8e720123983979d3bd6b96434b3afd31f89e6fdf))
+
+### Features
+
+- add application_status_sort_filter computed column ([1762fb1](https://github.com/bcgov/CONN-CCBC-portal/commit/1762fb1374e5118251495a41a46fa6430724bdc6))
+- enable analyst dashboard filtering ([a49e20b](https://github.com/bcgov/CONN-CCBC-portal/commit/a49e20beb8962d3b25f3ec7f3573441c020d8f20))
+- enable graphql connection filter plugin ([e25ea2a](https://github.com/bcgov/CONN-CCBC-portal/commit/e25ea2ac06c6b97456102113e97410810dba91f3))
+
+# [1.43.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.42.0...v1.43.0) (2023-02-23)
+
+### Bug Fixes
+
+- add flag for multiple uploads on widgets ([27aec83](https://github.com/bcgov/CONN-CCBC-portal/commit/27aec83c8ddfc3711c3612145d09612d32f4e84a))
+- added uuid extension ([a3fe358](https://github.com/bcgov/CONN-CCBC-portal/commit/a3fe3587832b9f721077d085545644d697bf9437))
+- duplicate intake in e2e ([3999f15](https://github.com/bcgov/CONN-CCBC-portal/commit/3999f154f2f0db4b31ba229b9974be0aab98c196))
+- e2e ([15ff9f6](https://github.com/bcgov/CONN-CCBC-portal/commit/15ff9f6792da5639cd41a22c42a0557121196533))
+- e2e ([68e181b](https://github.com/bcgov/CONN-CCBC-portal/commit/68e181b7c63f6b19588a969889782d8d878c5f8e))
+- e2e ([a8a8c92](https://github.com/bcgov/CONN-CCBC-portal/commit/a8a8c9249cffece9df771644258bf72b484c2047))
+- e2e sql ([8bb9805](https://github.com/bcgov/CONN-CCBC-portal/commit/8bb98051e21ccd06ca6c921125f651abae656d7b))
+- extension ([daa5f8b](https://github.com/bcgov/CONN-CCBC-portal/commit/daa5f8bb7f7392c65d41d120cabd9aa145c59023))
+- more e2e fixes ([794c231](https://github.com/bcgov/CONN-CCBC-portal/commit/794c2314f262a14ece967637c85554889af7da2f))
+- more tests ([eaf0863](https://github.com/bcgov/CONN-CCBC-portal/commit/eaf08632274c05183c6bff6948c037cb32e8583e))
+- more tests fixes ([c9e2bea](https://github.com/bcgov/CONN-CCBC-portal/commit/c9e2bea666c08036f30d566d5b18b7a4ff94fec4))
+- patch relay modern upload middleware for persisted queries ([e03f191](https://github.com/bcgov/CONN-CCBC-portal/commit/e03f191b92c4bf9bb42f0fad733648c64eedb1b3))
+- relay middleware persisted operations directory path ([aed6485](https://github.com/bcgov/CONN-CCBC-portal/commit/aed6485d294e676c520f60f1cb238730090dee00))
+- unit test fixes ([60814ad](https://github.com/bcgov/CONN-CCBC-portal/commit/60814ad8782a3e1d2003b4de5263ea9b581fd7ad))
+- updated test data ([5173ac7](https://github.com/bcgov/CONN-CCBC-portal/commit/5173ac7d844f3fe4e9883336f249748a596d8950))
+- updated unit tests ([5709291](https://github.com/bcgov/CONN-CCBC-portal/commit/57092915d529e9a5d2dc5c000dc3745df33999b0))
+- yet another e2e test ([f4f3e0c](https://github.com/bcgov/CONN-CCBC-portal/commit/f4f3e0ce1810b58bf35e653aa58a38748c2e5e17))
+
+### Features
+
+- audit extension ([eb80a24](https://github.com/bcgov/CONN-CCBC-portal/commit/eb80a248894e3eee7e6f770dcf72941e09b54583))
+- enable graphql persisted operations ([8b926cf](https://github.com/bcgov/CONN-CCBC-portal/commit/8b926cff7613cb381c7b84e1b6712a0e619aea95))
+
+# [1.42.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.41.1...v1.42.0) (2023-02-22)
+
+### Features
+
+- add intake number as computed column ([45e5004](https://github.com/bcgov/CONN-CCBC-portal/commit/45e500493e15e8f4fb941c7ede8f96bebaa39c5f))
+- css changes and intake column added ([1000444](https://github.com/bcgov/CONN-CCBC-portal/commit/10004447a00eaa3b615d1646a59e9ffb471ced21))
+
 ## [1.41.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.41.0...v1.41.1) (2023-02-16)
 
 ### Bug Fixes

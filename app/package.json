@@ -6,9 +6,10 @@
     "dev": "nodemon",
     "build": "yarn run build:server && yarn run build:schema && yarn run build:relay && yarn run build:next",
     "build:next": "next build",
-    "build:relay": "mkdir -p __generated__ && relay-compiler",
+    "build:relay": "touch schema/queryMap.json && mkdir -p __generated__ && relay-compiler && yarn run build:persisted-operations",
     "build:server": "tsc --project tsconfig.server.json",
     "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
+    "build:persisted-operations": "mkdir -p .persisted_operations && node utils/addToPersistedOperations.js",
     "start": "NODE_ENV=production node --unhandled-rejections=strict dist/server.js",
     "lint": "next lint",
     "relay": "mkdir -p __generated__ && relay-compiler",
@@ -33,6 +34,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@graphile-contrib/pg-many-to-many": "^1.0.1",
+    "@graphile/persisted-operations": "^0.1.1",
     "@growthbook/growthbook-react": "^0.9.0",
     "@mui/base": "^5.0.0-alpha.115",
     "@rjsf/core": "^4.2.0",
@@ -62,6 +64,7 @@
     "path-to-regexp": "^6.2.1",
     "pluralize": "^7.0.0",
     "postgraphile": "^4.12.9",
+    "postgraphile-plugin-connection-filter": "^2.3.0",
     "postinstall-postinstall": "^2.1.0",
     "react": "^18.0.0",
     "react-currency-input-field": "^3.6.4",
@@ -131,7 +134,9 @@
     "wait-on": "^6.0.1"
   },
   "resolutions": {
-    "json5": "2.2.3"
+    "@sideway/formula" : "3.0.1",
+    "json5": "2.2.3",
+    "jsonwebtoken" : "9.0.0"
   },
   "relay": {
     "src": "./",
@@ -142,8 +147,12 @@
       "**/.next/**",
       "**/node_modules/**",
       "**/__generated__/**",
-      "**/server/**"
-    ]
+      "**/server/**",
+      "**/.persisted_operations/**"
+    ],
+    "persistConfig": {
+      "file": "./schema/queryMap.json"
+    }
   },
   "graphql": {
     "schema": "./schema/schema.graphql"

@@ -2,7 +2,7 @@ describe('The applicant landing page', () => {
   beforeEach(() => {
     cy.useMockedTime(new Date('2022-10-10'));
     cy.sqlFixture('e2e/reset_db');
-    cy.sqlFixture('dev/001_intake');
+    cy.sqlFixture('e2e/001_intake');
     cy.visit('/applicantportal');
   });
 

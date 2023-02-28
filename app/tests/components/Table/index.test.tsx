@@ -86,8 +86,8 @@ describe('The Table Component', () => {
           paginated
           totalRowCount={50}
         >
-          {new Array(50).map((_, index) => (
-            <tr key={index}>
+          {new Array(50).map((_) => (
+            <tr key={_}>
               <td>A 1</td>
               <td>B 1</td>
             </tr>
@@ -119,8 +119,8 @@ describe('The Table Component', () => {
             new DisplayOnlyFilter('col B'),
           ]}
         >
-          {new Array(50).map((_, index) => (
-            <tr key={index}>
+          {new Array(50).map((_) => (
+            <tr key={_}>
               <td>A 1</td>
               <td>B 1</td>
             </tr>
@@ -134,7 +134,14 @@ describe('The Table Component', () => {
         target: { value: 'A' },
       });
     });
-    fireEvent.click(screen.getByText(/apply/i));
+
+    act(() => {
+      fireEvent.keyDown(screen.getByPlaceholderText(/filter/i), {
+        key: 'Enter',
+        code: 13,
+        charCode: 13,
+      });
+    });
 
     const expectedRoute = {
       pathname: '/',
@@ -159,8 +166,8 @@ describe('The Table Component', () => {
             new DisplayOnlyFilter('col B'),
           ]}
         >
-          {new Array(50).map((_, index) => (
-            <tr key={index}>
+          {new Array(50).map((_) => (
+            <tr key={_}>
               <td>A 1</td>
               <td>B 1</td>
             </tr>
@@ -174,10 +181,15 @@ describe('The Table Component', () => {
         target: { value: 'A' },
       });
     });
-    fireEvent.click(screen.getByText(/apply/i));
 
+    act(() => {
+      fireEvent.keyDown(screen.getByPlaceholderText(/filter/i), {
+        key: 'Enter',
+        code: 13,
+        charCode: 13,
+      });
+    });
     expect(screen.getByPlaceholderText(/filter/i)).toBeDisabled();
-    expect(screen.getByText(/apply/i)).toBeDisabled();
 
     expect(routerPush).not.toHaveBeenCalled();
     act(() => {
@@ -187,7 +199,6 @@ describe('The Table Component', () => {
     });
 
     expect(screen.getByPlaceholderText(/filter/i)).toBeEnabled();
-    expect(screen.getByText(/apply/i)).toBeEnabled();
 
     const expectedRoute = {
       pathname: '/',

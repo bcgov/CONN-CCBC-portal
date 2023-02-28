@@ -1,4 +1,3 @@
-import type { Request } from 'express';
 import * as Sentry from '@sentry/nextjs';
 import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
 import {
@@ -6,14 +5,16 @@ import {
   createPostGraphileSchema,
   withPostGraphileContext,
   PostGraphileOptions,
+  makePluginHook,
 } from 'postgraphile';
+import type { Request } from 'express';
 import { graphql, GraphQLSchema } from 'graphql';
 import { TagsFilePlugin } from 'postgraphile/plugins';
+import PersistedOperationsPlugin from '@graphile/persisted-operations';
+import ConnectionFilterPlugin from 'postgraphile-plugin-connection-filter';
 import PostgraphileRc from '../../../.postgraphilerc';
-
 import { pgPool, getDatabaseUrl } from '../setup-pg';
 import authenticationPgSettings from './authenticationPgSettings';
-
 import { generateDatabaseMockOptions } from './helpers';
 import config from '../../../config';
 import resolveFileUpload from './resolveFileUpload';
@@ -27,16 +28,21 @@ export const pgSettings: any = (req: Request) => {
   return opts;
 };
 
+const pluginHook = makePluginHook([PersistedOperationsPlugin]);
+
 let postgraphileOptions: PostGraphileOptions = {
+  pluginHook,
   appendPlugins: [
     PgManyToManyPlugin,
-    // ConnectionFilterPlugin,
+    ConnectionFilterPlugin,
     TagsFilePlugin,
     PostGraphileUploadFieldPlugin,
     // PgOmitArchived,
     // PgOrderByRelatedPlugin,
     // FormChangeValidationPlugin,
   ],
+  persistedOperationsDirectory: `./.persisted_operations/`,
+  hashFromPayload: (request: any) => request?.id,
   classicIds: true,
   enableQueryBatching: true,
   dynamicJson: true,
@@ -80,6 +86,9 @@ if (config.get('NODE_ENV') === 'production') {
     graphiql: true,
     enhanceGraphiql: true,
     allowExplain: true,
+    allowUnpersistedOperation(req) {
+      return req.headers.referer?.endsWith("/graphiql");
+    },
   };
 }
 
@@ -102,11 +111,7 @@ const postgraphileSchema = async () => {
   return postgraphileSchemaSingleton;
 };
 
-export async function performQuery(
-  query: any,
-  variables: any,
-  request: Request
-) {
+export async function performQuery(id: any, variables: any, request: any) {
   const settings = pgSettings(request);
   return withPostGraphileContext(
     {
@@ -117,12 +122,6 @@ export async function performQuery(
       // Execute your GraphQL query in this function with the provided
       // `context` object, which should NOT be used outside of this
       // function.
-      graphql(
-        await postgraphileSchema(),
-        query,
-        null,
-        { ...context },
-        variables
-      )
+      graphql(await postgraphileSchema(), id, null, { ...context }, variables)
   );
 }

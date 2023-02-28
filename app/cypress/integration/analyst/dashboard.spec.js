@@ -4,7 +4,7 @@ describe('The analyst dashboard', () => {
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
     cy.sqlFixture('e2e/reset_db');
-    cy.sqlFixture('dev/001_intake');
+    cy.sqlFixture('e2e/001_intake');
     cy.sqlFixture('e2e/001_received_applications');
     cy.mockLogin('ccbc_analyst');
   });
