@@ -28,6 +28,7 @@ const getDashboardAnalystQuery = graphql`
     # commenting out since we do not want the pagesize to be taken from the query
     # $pageSize: Int
     $orderBy: [ApplicationsOrderBy!]
+    $intakeNumber: Int
     $ccbcNumber: String
     $projectName: String
     $organizationName: String
@@ -45,6 +46,7 @@ const getDashboardAnalystQuery = graphql`
       offset: $offset
       orderBy: $orderBy
       filter: {
+        intakeNumber: { equalTo: $intakeNumber }
         ccbcNumber: { includesInsensitive: $ccbcNumber }
         status: { includesInsensitive: $statusSortFilter }
         projectName: { includesInsensitive: $projectName }

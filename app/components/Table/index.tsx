@@ -7,6 +7,7 @@ import {
   GraphQLTaggedNode,
   useRelayEnvironment,
 } from 'react-relay';
+import removeFalseyValuesFromObject from 'utils/removeFalseValuesFromObject';
 import safeJsonParse from 'lib/helpers/safeJsonParse';
 import FilterRow from './FilterRow';
 import { FilterArgs, PageArgs, TableFilter } from './Filters';
@@ -104,14 +105,17 @@ const Table: React.FC<Props> = ({
   );
 
   const applyFilterArgs = (newFilterArgs: FilterArgs) => {
+    // Remove falsey values since empty string was causing filtering bugs
+    const nonFalseyNewFilterArgs = removeFalseyValuesFromObject(newFilterArgs);
+
     const newQuery = {
       // copy the vars from the query string, so that the args coming from extraFilters are not overriden
       ...filterArgs,
-      ...newFilterArgs,
+      ...nonFalseyNewFilterArgs,
     };
     filters.forEach((filter) => {
       filter.argNames.forEach((argName) => {
-        newQuery[argName] = newFilterArgs[argName] ?? undefined;
+        newQuery[argName] = nonFalseyNewFilterArgs[argName] ?? undefined;
       });
     });
 
