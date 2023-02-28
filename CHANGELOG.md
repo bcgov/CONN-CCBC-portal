@@ -1,3 +1,22 @@
+# [1.45.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.44.0...v1.45.0) (2023-02-28)
+
+### Bug Fixes
+
+- dependencies ([cb9264a](https://github.com/bcgov/CONN-CCBC-portal/commit/cb9264a6735ac62b1520d3e4917030f3c553e8e3))
+- invalid role ccbc ([c819c12](https://github.com/bcgov/CONN-CCBC-portal/commit/c819c12ac2c73d4fb442f80d76c71a77933e7f49))
+- remove empty filter args ([ea19c4a](https://github.com/bcgov/CONN-CCBC-portal/commit/ea19c4afc09faa35eb143e4e4f508069b88247b8))
+- return active column from mutation ([caae568](https://github.com/bcgov/CONN-CCBC-portal/commit/caae568c8847c965f5d0a868dabd2acdc6170915))
+- schema ([972a7ef](https://github.com/bcgov/CONN-CCBC-portal/commit/972a7ef641b2d2f0516c250cc2f33e0f2d32e182))
+
+### Features
+
+- add create and update analyst mutations ([fe4fa65](https://github.com/bcgov/CONN-CCBC-portal/commit/fe4fa65855e6a3b1541dc9bbd9c2f32097c92770))
+- add insert and update permissions for analyst table ([66239b8](https://github.com/bcgov/CONN-CCBC-portal/commit/66239b8d7f554e8f6935a7bd5ccc33b11eb33be4))
+- add list of analysts to admin dashboard ([e2f664f](https://github.com/bcgov/CONN-CCBC-portal/commit/e2f664f7a8efdb4edbe7658d19bdabb2d1ae47ac))
+- add new analyst component ([282da10](https://github.com/bcgov/CONN-CCBC-portal/commit/282da1004037daf5c0d21c9d79b099f034fd6afb))
+- backfill history ([f58d8b8](https://github.com/bcgov/CONN-CCBC-portal/commit/f58d8b8927f713571c12c91ae4308dc9b52c50d7))
+- enable intake column filtering ([067c38f](https://github.com/bcgov/CONN-CCBC-portal/commit/067c38f9e6dbcebc87520cd4e5af4be2dc05351e))
+
 # [1.44.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.43.0...v1.44.0) (2023-02-27)
 
 ### Bug Fixes
