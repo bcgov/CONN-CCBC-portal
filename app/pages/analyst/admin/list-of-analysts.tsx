@@ -38,7 +38,7 @@ const ListOfAnalysts = ({
 }: RelayProps<Record<string, unknown>, listOfAnalystsQuery>) => {
   const query = usePreloadedQuery(getListOfAnalystsQuery, preloadedQuery);
   const { allAnalysts, session } = query;
-  console.log(query);
+
   // eslint-disable-next-line no-underscore-dangle
   const relayConnectionId = allAnalysts.__id;
   return (
