@@ -178,3 +178,10 @@ extensions/audit 2023-02-22T00:25:20Z ,,, Vladimir <vladimir@button.is> # add au
 @1.43.0 2023-02-23T21:53:09Z Marcel Mueller <marcel@button.is> # release v1.43.0
 computed_columns/application_status_sort_filter 2023-02-14T21:37:47Z Marcel Mueller <marcel@button.is> # computed column to return string with status order with status name appended
 @1.44.0 2023-02-27T17:27:37Z Marcel Mueller <marcel@m2> # release v1.44.0
+import/application 2023-02-24T02:26:52Z ,,, Vladimir <vladimir@button.is> # add application import
+import/application_status 2023-02-24T02:27:50Z ,,, Vladimir <vladimir@button.is> # add application_status import
+import/rfi_data 2023-02-24T02:28:29Z ,,, Vladimir <vladimir@button.is> # add rfi_data import
+import/attachment 2023-02-24T02:28:53Z ,,, Vladimir <vladimir@button.is> # add attachment import
+import/assessment_data 2023-02-24T02:29:22Z ,,, Vladimir <vladimir@button.is> # add assesstment import
+import/import_once 2023-02-24T02:30:52Z ,,, Vladimir <vladimir@button.is> # run import once
+backfill_history 2023-02-24T21:31:50Z ,,, Vladimir <vladimir@button.is> # backfill history once
