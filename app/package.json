@@ -134,7 +134,9 @@
     "wait-on": "^6.0.1"
   },
   "resolutions": {
-    "json5": "2.2.3"
+    "@sideway/formula" : "3.0.1",
+    "json5": "2.2.3",
+    "jsonwebtoken" : "9.0.0"
   },
   "relay": {
     "src": "./",
