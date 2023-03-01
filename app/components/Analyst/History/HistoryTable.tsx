@@ -12,6 +12,9 @@ const StyledTable = styled.table`
   }
 
   & tr:last-child {
+    & td:first-child {
+      border: none;
+    }
     td {
       padding-bottom: 0px;
     }
