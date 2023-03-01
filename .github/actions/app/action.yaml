@@ -32,6 +32,9 @@ inputs:
   aws_s3_bucket:
     description: 'AWS S3 bucket name'
     required: true
+  aws_clam_s3_bucket:
+    description: 'AWS Clam AV Bucket Name'
+    required: true
   aws_s3_region:
     description: 'AWS S3 region'
     required: true
@@ -75,6 +78,7 @@ runs:
         aws_s3_key: ${{ inputs.aws_s3_key }}
         aws_s3_secret_key: ${{ inputs.aws_s3_secret_key }}
         aws_role_arn: ${{ inputs.aws_role_arn }}
+        aws_clam_s3_bucket: ${{ inputs.aws_clam_s3_bucket }}
 
         insecure_skip_tls_verify: true
     - run: |
@@ -89,6 +93,7 @@ runs:
           --set secureRoute.host=${{ inputs.secure_route }} \
           --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
           --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }} \
+          --set objectStorage.awsClamS3Bucket=${{ inputs.aws_clam_s3_bucket }} \
           --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }} \
           --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }} \
           --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }} \

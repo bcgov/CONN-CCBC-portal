@@ -190,6 +190,8 @@ spec:
                   name: {{ template "ccbc.fullname" . }}-sso-express
             - name: AWS_S3_BUCKET
               value: {{ .Values.objectStorage.awsS3Bucket }}
+            - name: AWS_CLAM_S3_BUCKET
+              value: {{ .Values.objectStorage.awsClamS3Bucket }}
             - name: AWS_S3_REGION
               value: {{ .Values.objectStorage.awsS3Region }}
             - name: AWS_S3_KEY
