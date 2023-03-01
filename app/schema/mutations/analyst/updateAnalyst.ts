@@ -7,6 +7,9 @@ const mutation = graphql`
     updateAnalyst(input: $input) {
       analyst {
         id
+        givenName
+        familyName
+        active
       }
     }
   }
