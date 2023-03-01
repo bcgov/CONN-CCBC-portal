@@ -56,6 +56,13 @@ const AssignLead: React.FC<Props> = ({
   };
 
   const analystList = Object.keys(allAnalysts.nodes);
+  // if the lead is inactive, then it won't be returned from the query
+  const isInactiveOption =
+    allAnalysts.nodes.findIndex(
+      // return true if an analyst matches or no assigned lead
+      (analyst) =>
+        `${analyst.givenName} ${analyst.familyName}` === lead || !lead
+    ) === -1;
 
   return (
     <StyledDropdown
@@ -80,6 +87,11 @@ const AssignLead: React.FC<Props> = ({
           </StyledOption>
         );
       })}
+      {isInactiveOption && (
+        <StyledOption style={{ display: 'none' }} selected>
+          {lead}
+        </StyledOption>
+      )}
     </StyledDropdown>
   );
 };
