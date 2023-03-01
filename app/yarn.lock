@@ -1951,14 +1951,6 @@
   resolved "https://registry.yarnpkg.com/@bcgov-cas/sso-express/-/sso-express-3.2.0.tgz#1f857d9590539b23d082e1ec1300ac9fac4865e3"
   integrity sha512-DXL201txrrTG9mf8Qpn9/S8GlbqMHR2Mf55UWiNE3jCxLX+/gxGIX8Vt1i2xppVMrh+zSVlRDP8qZndK2iVDLw==
 
-"@bcgov-cas/sso-react@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@bcgov-cas/sso-react/-/sso-react-2.0.0.tgz#057c626da53f432b9898a5c2550c36333555b9d9"
-  integrity sha512-4YXk+GcuYnI4tpU2aAo9l9YDSU/onlaRNMRvG7VWfG8x+4vJZSWMEQdDvVN2rSntp14Hyo83ewxT1BFppYchLg==
-  dependencies:
-    "@button-inc/bcgov-theme" "^1.0.1"
-    lodash.throttle "^4.1.1"
-
 "@bcgov/bc-sans@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@bcgov/bc-sans/-/bc-sans-1.0.1.tgz#8b622032465463934319771ea92fa3df74e6c9d3"

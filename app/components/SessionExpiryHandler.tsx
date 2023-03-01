@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { graphql, fetchQuery, useRelayEnvironment } from 'react-relay';
 import config from 'config';
-import { SessionTimeoutHandler } from '@bcgov-cas/sso-react';
+import { graphql, fetchQuery, useRelayEnvironment } from 'react-relay';
+import { SessionTimeoutHandler } from './ssoReact';
 import type { SessionExpiryHandlerQuery } from '../__generated__/SessionExpiryHandlerQuery.graphql';
 
 const sessionQuery = graphql`
