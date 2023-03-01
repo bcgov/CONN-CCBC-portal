@@ -4,6 +4,7 @@ import { graphql } from 'react-relay';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
+import HistoryTable from 'components/Analyst/History/HistoryTable';
 import { historyQuery } from '__generated__/historyQuery.graphql';
 
 const getHistoryQuery = graphql`
@@ -23,7 +24,8 @@ const History = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
-        <h2>History placeholder</h2>
+        <h2>History</h2>
+        <HistoryTable />
       </AnalystLayout>
     </Layout>
   );
