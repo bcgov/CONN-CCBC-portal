@@ -62,6 +62,7 @@ const SessionExpiryHandler: React.FC = () => {
         <SessionTimeoutHandler
           modalDisplaySecondsBeforeLogout={120}
           onSessionExpired={handleSessionExpired}
+          resetOnChange={[router]}
           extendSessionOnEvents={{
             enabled: true,
             throttleTime: 200000,
