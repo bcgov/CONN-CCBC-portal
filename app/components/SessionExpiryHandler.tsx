@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { graphql, fetchQuery, useRelayEnvironment } from 'react-relay';
+import config from 'config';
 import { SessionTimeoutHandler } from '@bcgov-cas/sso-react';
 import type { SessionExpiryHandlerQuery } from '../__generated__/SessionExpiryHandlerQuery.graphql';
-import config from '../config/index.js';
 
 const sessionQuery = graphql`
   query SessionExpiryHandlerQuery {
@@ -64,8 +64,8 @@ const SessionExpiryHandler: React.FC = () => {
           onSessionExpired={handleSessionExpired}
           extendSessionOnEvents={{
             enabled: true,
-            throttleTime: 300000,
-            events: ['keydown', 'scroll'],
+            throttleTime: 200000,
+            events: ['keydown', 'mousedown', 'scroll'],
           }}
         />
       );

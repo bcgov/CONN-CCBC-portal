@@ -63,8 +63,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const component = appMounted ? (
     <Suspense fallback={<div>Loading...</div>}>
-      {typeof window !== 'undefined' && <SessionExpiryHandler />}
-
       <Component {...pageProps} {...relayProps} />
     </Suspense>
   ) : (
@@ -78,6 +76,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <BCGovTypography />
         <Sentry.ErrorBoundary fallback={<Error500 />}>
           <RelayEnvironmentProvider environment={env}>
+            {typeof window !== 'undefined' && <SessionExpiryHandler />}
             {component}
           </RelayEnvironmentProvider>
         </Sentry.ErrorBoundary>
