@@ -31,7 +31,7 @@ BEGIN
     from ccbc_public.record_version as v 
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='INSERT' and v.table_name='application_status' 
-        and v.record->>'id'=application.id::varchar(10);
+        and v.record->>'application_id'=application.id::varchar(10);
 
     insert into tmp_history
     select v.created_at, v.op, v.table_name, v.record_id, v.record, v.record->>'file_name' as item,
@@ -39,7 +39,7 @@ BEGIN
     from ccbc_public.record_version as v 
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='INSERT' and v.table_name='attachment' 
-        and v.record->>'id'=application.id::varchar(10) and v.record->>'archived_by' is null;
+        and v.record->>'application_id'=application.id::varchar(10) and v.record->>'archived_by' is null;
 
     insert into tmp_history
     select v.created_at, v.op, v.table_name, v.record_id, v.record, v.record->>'assessment_data_type' as item,
@@ -47,7 +47,7 @@ BEGIN
     from ccbc_public.record_version as v 
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='INSERT' and v.table_name='assessment_data' 
-        and v.record->>'id'=application.id::varchar(10) and v.record->>'archived_by' is null;
+        and v.record->>'application_id'=application.id::varchar(10) and v.record->>'archived_by' is null;
 
 
     -- now get double-removed (rfi)
