@@ -29,6 +29,11 @@ const AnalystListRow: React.FC<Props> = ({ analyst, updateAnalyst }) => {
       onCompleted: () => {
         setChecked(!active);
       },
+      updater: (store, data) => {
+        store
+          .get(id)
+          .setLinkedRecord(store.get(data.updateAnalyst.analyst.id), 'analyst');
+      },
     });
   };
 
