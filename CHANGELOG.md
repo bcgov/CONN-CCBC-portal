@@ -1,3 +1,19 @@
+# [1.46.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.45.0...v1.46.0) (2023-03-01)
+
+### Bug Fixes
+
+- add uncaughtException handler with sentry ([71bbe9c](https://github.com/bcgov/CONN-CCBC-portal/commit/71bbe9c96d89f82be1233741f66f516d299af760))
+- inactive analyst is shown for select ([ff576e4](https://github.com/bcgov/CONN-CCBC-portal/commit/ff576e430dbd66beb54d208f1f1889a528d4c0b9))
+- update relay store on analyst update ([87734b8](https://github.com/bcgov/CONN-CCBC-portal/commit/87734b873d14487809c84a1999686f881e96c40e))
+- use proper casing for yaml files ([3c8bdf3](https://github.com/bcgov/CONN-CCBC-portal/commit/3c8bdf35d555e25e5f915173d03d2be19328e764))
+
+### Features
+
+- add config vars and check for openshift env ([7da0e0b](https://github.com/bcgov/CONN-CCBC-portal/commit/7da0e0b2fda352c73695f6cd9c0cb8ba457ac260))
+- add env variables for deployment ([6cc5ff4](https://github.com/bcgov/CONN-CCBC-portal/commit/6cc5ff4ab5a2c7987baa5f3c11e7cc92899f0514))
+- add readiness tests before signalling ready ([7fcdf8f](https://github.com/bcgov/CONN-CCBC-portal/commit/7fcdf8f41fedc85db941a84c977256bd07a4212b))
+- have sentry capture exception instead of console ([b7796a1](https://github.com/bcgov/CONN-CCBC-portal/commit/b7796a14fd2bd925c7e08f16e90500f3d9463fd7))
+
 # [1.45.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.44.0...v1.45.0) (2023-02-28)
 
 ### Bug Fixes
