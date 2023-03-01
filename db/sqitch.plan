@@ -187,3 +187,4 @@ import/import_once 2023-02-24T02:30:52Z ,,, Vladimir <vladimir@button.is> # run 
 backfill_history 2023-02-24T21:31:50Z ,,, Vladimir <vladimir@button.is> # backfill history once
 tables/analyst_003_permissions 2023-02-24T19:05:15Z Marcel Mueller <marcel@button.is> # add update and insert permissions on analyst table
 @1.45.0 2023-02-28T18:53:10Z Marcel Mueller <marcel@m2> # release v1.45.0
+@1.46.0 2023-03-01T20:32:23Z Anthony Bushara <anthony@button.is> # release v1.46.0
