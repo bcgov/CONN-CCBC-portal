@@ -10,7 +10,7 @@ import { Layout } from 'components';
 import { dashboardAnalystQuery } from '__generated__/dashboardAnalystQuery.graphql';
 import { useRouter } from 'next/router';
 
-const DEFAULT_SORT = 'PRIMARY_KEY_ASC';
+const DEFAULT_SORT = 'CCBC_NUMBER_ASC';
 
 const tableFilters = [
   new NumberFilter('Intake', 'intakeNumber'),
@@ -84,15 +84,14 @@ const AnalystDashboard = ({
   const router = useRouter();
   const { session, allApplications } = query;
 
-  const hasSort =
-    router.query?.orderBy && router.query?.orderBy !== DEFAULT_SORT;
+  const hasSort = router.query?.orderBy;
 
   const handleClearSorting = () => {
     const url = {
       pathname: router.pathname,
       query: {
         ...router.query,
-        orderBy: DEFAULT_SORT,
+        orderBy: null,
       },
     };
     router.replace(url, url, { shallow: true });
@@ -122,8 +121,14 @@ const AnalystDashboard = ({
   );
 };
 
-export default withRelay(
-  AnalystDashboard,
-  getDashboardAnalystQuery,
-  defaultRelayOptions
-);
+export default withRelay(AnalystDashboard, getDashboardAnalystQuery, {
+  ...defaultRelayOptions,
+  variablesFromContext: (ctx) => {
+    const variables = defaultRelayOptions.variablesFromContext(ctx);
+    const orderBy = variables?.orderBy || DEFAULT_SORT;
+    return {
+      ...variables,
+      orderBy,
+    };
+  },
+});
