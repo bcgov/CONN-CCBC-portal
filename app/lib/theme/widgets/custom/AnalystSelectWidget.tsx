@@ -1,19 +1,14 @@
 import { WidgetProps } from '@rjsf/core';
 import { useFragment, graphql } from 'react-relay';
 import { AnalystSelectWidget_query$key } from '__generated__/AnalystSelectWidget_query.graphql';
-import StyledSelect from '../../components/StyledDropdown';
+import SelectWidget from '../SelectWidget';
 
-const AnalystSelectWidget: React.FC<WidgetProps> = (props) => {
-  const {
-    id,
-    disabled,
-    onChange,
-    label,
-    value,
-    required,
-    placeholder,
-    formContext,
-  } = props;
+interface AnalaystSelectWidgetProps extends WidgetProps {
+  children: React.ReactNode;
+}
+
+const AnalystSelectWidget: React.FC<AnalaystSelectWidgetProps> = (props) => {
+  const { schema, value, formContext } = props;
   const { allAnalysts } = useFragment<AnalystSelectWidget_query$key>(
     graphql`
       fragment AnalystSelectWidget_query on Query {
@@ -39,34 +34,18 @@ const AnalystSelectWidget: React.FC<WidgetProps> = (props) => {
       (analyst) => analyst === value || !value
     ) === -1;
 
+  const customOption = isInactiveOption && (
+    <option style={{ display: 'none' }} value={value}>
+      {value}
+    </option>
+  );
+
   return (
-    <StyledSelect
-      id={id}
-      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-        onChange(e.target.value || undefined)
-      }
-      disabled={disabled}
-      placeholder={placeholder}
-      size="medium"
-      required={required}
-      value={value}
-      aria-label={label}
-    >
-      <option key={`option-placeholder-${id}`} value={undefined}>
-        {placeholder}
-      </option>
-      {options &&
-        options.map((opt) => (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
-        ))}
-      {isInactiveOption && (
-        <option style={{ display: 'none' }} value={value}>
-          {value}
-        </option>
-      )}
-    </StyledSelect>
+    <SelectWidget
+      {...props}
+      schema={{ ...schema, enum: options }}
+      customOption={customOption}
+    />
   );
 };
 
