@@ -40,6 +40,44 @@ const mockQueryPayload = {
   },
 };
 
+const mockQueryPayloadWithFormData = {
+  Query() {
+    return {
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+      applicationByRowId: {
+        rowId: 1,
+        assessmentForm: {
+          jsonData: {
+            assignedTo: 'Test 3',
+            decision: 'No decision',
+            nextStep: 'Not started',
+          },
+        },
+        status: 'received',
+      },
+      allApplicationStatusTypes: {
+        ...allApplicationStatusTypes,
+      },
+      allAnalysts: {
+        nodes: [
+          {
+            rowId: 1,
+            givenName: 'Test',
+            familyName: '1',
+          },
+          {
+            rowId: 2,
+            givenName: 'Test',
+            familyName: '2',
+          },
+        ],
+      },
+    };
+  },
+};
+
 const pageTestingHelper = new PageTestingHelper<screeningAssessmentQuery>({
   pageComponent: ScreeningAssessment,
   compiledQuery: compiledScreeningAssessmentsQuery,
@@ -116,6 +154,13 @@ describe('The index page', () => {
         _assessmentType: 'screening',
       },
     });
+  });
+
+  it('Displays unavailable Assigned To value for lead', () => {
+    pageTestingHelper.loadQuery(mockQueryPayloadWithFormData);
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByLabelText('Assigned to')).toHaveTextContent('Test 3');
   });
 
   sharedAssessmentTests(pageTestingHelper);
