@@ -13437,8 +13437,11 @@ type HistoryItem {
   """
   recordId: UUID
 
-  """Record in Json format."""
+  """New record in Json format."""
   record: JSON
+
+  """Old record in Json format."""
+  oldRecord: JSON
 
   """
   Main object affected by the operation (i.e. status, or file name or RFI type).
@@ -13485,6 +13488,9 @@ input HistoryItemFilter {
 
   """Filter by the object’s `record` field."""
   record: JSONFilter
+
+  """Filter by the object’s `oldRecord` field."""
+  oldRecord: JSONFilter
 
   """Filter by the object’s `item` field."""
   item: StringFilter
@@ -21578,6 +21584,8 @@ enum HistoryItemsOrderBy {
   RECORD_ID_DESC
   RECORD_ASC
   RECORD_DESC
+  OLD_RECORD_ASC
+  OLD_RECORD_DESC
   ITEM_ASC
   ITEM_DESC
   FAMILY_NAME_ASC
@@ -21610,6 +21618,9 @@ input HistoryItemCondition {
 
   """Checks for equality with the object’s `record` field."""
   record: JSON
+
+  """Checks for equality with the object’s `oldRecord` field."""
+  oldRecord: JSON
 
   """Checks for equality with the object’s `item` field."""
   item: String
@@ -23860,8 +23871,11 @@ input HistoryItemInput {
   """
   recordId: UUID
 
-  """Record in Json format."""
+  """New record in Json format."""
   record: JSON
+
+  """Old record in Json format."""
+  oldRecord: JSON
 
   """
   Main object affected by the operation (i.e. status, or file name or RFI type).

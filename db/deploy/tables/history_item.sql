@@ -9,6 +9,7 @@ create table if not exists ccbc_public.history_item (
     table_name name,  
     record_id uuid,  
     record jsonb,  
+    old_record jsonb,
     item varchar,  
     family_name varchar,  
     given_name varchar,  
@@ -39,7 +40,9 @@ comment on column ccbc_public.history_item.table_name is
 comment on column ccbc_public.history_item.record_id is
   'Identifier that uniquely identifies a record by primary key [primary key + table_oid].';
 comment on column ccbc_public.history_item.record is
-  'Record in Json format.';
+  'New record in Json format.';
+comment on column ccbc_public.history_item.old_record is
+  'Old record in Json format.';
 comment on column ccbc_public.history_item.item is
   'Main object affected by the operation (i.e. status, or file name or RFI type).';
 comment on column ccbc_public.history_item.family_name is
