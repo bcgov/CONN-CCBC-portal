@@ -12,6 +12,7 @@ const getHistoryQuery = graphql`
     session {
       sub
     }
+    ...HistoryTable_query
     ...AnalystLayout_query
   }
 `;
@@ -25,7 +26,7 @@ const History = ({
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <h2>History</h2>
-        <HistoryTable />
+        <HistoryTable query={query} />
       </AnalystLayout>
     </Layout>
   );

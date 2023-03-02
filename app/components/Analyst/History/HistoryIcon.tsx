@@ -24,14 +24,15 @@ const StyledIcon = styled.div`
 `;
 
 const iconMap = {
-  status: faDotCircle,
+  application_status: faDotCircle,
   application: faClipboardList,
-  rfi: faEnvelope,
+  rfi_data: faEnvelope,
   rfiApplication: faPaperclip,
-  assessments: faCheckDouble,
-  lead: faUser,
-  package: faBox,
+  assessment_data: faCheckDouble,
+  application_analyst_lead: faUser,
+  application_package: faBox,
 };
+
 interface Props {
   type: string;
 }

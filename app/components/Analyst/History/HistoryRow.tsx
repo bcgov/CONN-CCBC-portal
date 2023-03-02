@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import HistoryContent from './HistoryContent';
 import HistoryIcon from './HistoryIcon';
 
 const StyledIconCell = styled.td`
@@ -16,15 +17,23 @@ const StyledIconCell = styled.td`
 
 const StyledCell = styled.td`
   border-bottom: none;
+
+  & b {
+    text-transform: capitalize;
+  }
 `;
 
-const HistoryRow = () => {
+const HistoryRow = ({ historyItem }) => {
+  const { tableName } = historyItem;
+
   return (
     <tr>
       <StyledIconCell>
-        <HistoryIcon type="status" />
+        <HistoryIcon type={tableName} />
       </StyledIconCell>
-      <StyledCell>column 2</StyledCell>
+      <StyledCell>
+        <HistoryContent historyItem={historyItem} />
+      </StyledCell>
     </tr>
   );
 };
