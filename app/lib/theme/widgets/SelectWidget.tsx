@@ -26,12 +26,15 @@ const StyledSelect = styled(Dropdown)`
     border: ${(props) => props.disabled && ' 1px solid rgba(96, 96, 96, 0.3)'};
   }
 `;
-
 const StyledDiv = styled('div')`
   margin-bottom: 32px;
 `;
 
-const SelectWidget: React.FC<WidgetProps> = ({
+interface SelectWidgetProps extends WidgetProps {
+  customOption?: React.ReactNode;
+}
+
+const SelectWidget: React.FC<SelectWidgetProps> = ({
   id,
   disabled,
   onChange,
@@ -41,6 +44,7 @@ const SelectWidget: React.FC<WidgetProps> = ({
   placeholder,
   schema,
   uiSchema,
+  customOption,
 }) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -70,6 +74,7 @@ const SelectWidget: React.FC<WidgetProps> = ({
               {opt}
             </option>
           ))}
+        {customOption ?? customOption}
         {description && <Label>{description}</Label>}
       </StyledSelect>
     </StyledDiv>
