@@ -9,6 +9,7 @@ import {
 } from 'react-relay';
 import removeFalseyValuesFromObject from 'utils/removeFalseValuesFromObject';
 import safeJsonParse from 'lib/helpers/safeJsonParse';
+import cookie from 'js-cookie';
 import FilterRow from './FilterRow';
 import { FilterArgs, PageArgs, TableFilter } from './Filters';
 import Pagination from './Pagination';
@@ -71,6 +72,9 @@ const Table: React.FC<Props> = ({
         // so we can update the route and re-render without suspending
         if (mode === 'replace') router.replace(url, url, { shallow: true });
         else router.push(url, url, { shallow: true });
+
+        // The .split('&')[0] is to remove the filter args since we only want to save sorting
+        cookie.set('analyst.sort', router.asPath?.split('&')[0]);
       };
 
       if (!pageQuery) {

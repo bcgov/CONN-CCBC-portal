@@ -21,6 +21,7 @@ logout.post('/api/logout', async (req: any, res) => {
     )}`;
 
     req.session.destroy(() => {
+      res.clearCookie('analyst.sort');
       res.clearCookie('connect.sid');
       res.redirect(logoutUrl);
     });
