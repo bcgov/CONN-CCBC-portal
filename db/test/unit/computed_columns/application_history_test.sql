@@ -39,9 +39,9 @@ select results_eq (
   select count(*) from  ccbc_public.record_version 
   $$,
   $$
-    values(2::bigint)
+    values(3::bigint)
   $$,
-  'Should have two records in record_version'
+  'Should have three records in record_version (application, application_status, form_data)'
 ); 
 
 set role ccbc_analyst;
@@ -71,9 +71,9 @@ select results_eq (
   ) as test
   $$,
   $$
-    values(3::bigint)
+    values(4::bigint)
   $$,
-  'Should have three records: application created,  status set to draft and then status set to received'
+  'Should have three records: application created, form_data inserted, status set to draft and then status set to received'
 );
 
 -- RFI always saves rfiAdditionalFiles object even when no files were selected
@@ -86,9 +86,9 @@ select results_eq (
   ) as test
   $$,
   $$
-    values(4::bigint)
+    values(5::bigint)
   $$,
-  'Should have four records: application created,  status set to draft, status set to received, rfi created'
+  'Should have four records: application created, form_data inserted, status set to draft, status set to received, rfi created'
 );
 
 set role ccbc_auth_user;
@@ -104,9 +104,9 @@ select results_eq (
   ) as test
   $$,
   $$
-    values(5::bigint)
+    values(6::bigint)
   $$,
-  'Should have five records: application created,  status set to draft, status set to received, rfi created, attachment added'
+  'Should have five records: application created, form_data inserted, status set to draft, status set to received, rfi created, attachment added'
 );
 
 
