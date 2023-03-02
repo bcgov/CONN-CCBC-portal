@@ -3,73 +3,52 @@
 begin;
 
 create or replace function ccbc_public.application_history(application ccbc_public.application) 
-RETURNS SETOF ccbc_public.history_item
-AS $function$
-DECLARE
-        current_rfi ccbc_public.rfi_data%ROWTYPE;
-	    rfi_entries refcursor;
-        item_row ccbc_public.history_item;
-        
-BEGIN
-    delete from ccbc_public.history_item where application_id=application.id;
+returns setof ccbc_public.history_item as $$
 
-    -- first get all simple inserts
-    insert into ccbc_public.history_item
-    select application.id, v.created_at, v.op, v.table_name, v.record_id, v.record, 'application' as item,
-        u.family_name, u.given_name, u.session_sub
+  select application.id, v.created_at, v.op, v.table_name, v.record_id, v.record, 'application' as item,
+      u.family_name, u.given_name, u.session_sub
+  from ccbc_public.record_version as v 
+      inner join ccbc_public.ccbc_user u on v.created_by=u.id
+  where v.op='INSERT' and v.table_name='application' and v.record->>'id'=application.id::varchar(10) 
+  union all
+
+  select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.record->>'status' as item,
+      u.family_name, u.given_name, u.session_sub
+  from ccbc_public.record_version as v 
+      inner join ccbc_public.ccbc_user u on v.created_by=u.id
+  where v.op='INSERT' and v.table_name='application_status' 
+      and v.record->>'application_id'=application.id::varchar(10)
+  union all
+
+  select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.record->>'file_name' as item,
+      u.family_name, u.given_name, u.session_sub
+  from ccbc_public.record_version as v 
+      inner join ccbc_public.ccbc_user u on v.created_by=u.id
+  where v.op='INSERT' and v.table_name='attachment' 
+      and v.record->>'application_id'=application.id::varchar(10) and v.record->>'archived_by' is null
+
+  union all
+
+  select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.record->>'assessment_data_type' as item,
+      u.family_name, u.given_name, u.session_sub
+  from ccbc_public.record_version as v 
+      inner join ccbc_public.ccbc_user u on v.created_by=u.id
+  where v.op='INSERT' and v.table_name='assessment_data' 
+      and v.record->>'application_id'=application.id::varchar(10) and v.record->>'archived_by' is null
+
+  union all
+    select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, 
+        v.record-> 'json_data' ->>'rfiType' as item,
+        u.family_name, u.given_name, u.session_sub    
     from ccbc_public.record_version as v 
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
-    where v.op='INSERT' and v.table_name='application' and v.record->>'id'=application.id::varchar(10) ;
-
-    insert into ccbc_public.history_item
-    select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.record->>'status' as item,
-        u.family_name, u.given_name, u.session_sub
-    from ccbc_public.record_version as v 
-        inner join ccbc_public.ccbc_user u on v.created_by=u.id
-    where v.op='INSERT' and v.table_name='application_status' 
-        and v.record->>'application_id'=application.id::varchar(10);
-
-    insert into ccbc_public.history_item
-    select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.record->>'file_name' as item,
-        u.family_name, u.given_name, u.session_sub
-    from ccbc_public.record_version as v 
-        inner join ccbc_public.ccbc_user u on v.created_by=u.id
-    where v.op='INSERT' and v.table_name='attachment' 
-        and v.record->>'application_id'=application.id::varchar(10) and v.record->>'archived_by' is null;
-
-    insert into ccbc_public.history_item
-    select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.record->>'assessment_data_type' as item,
-        u.family_name, u.given_name, u.session_sub
-    from ccbc_public.record_version as v 
-        inner join ccbc_public.ccbc_user u on v.created_by=u.id
-    where v.op='INSERT' and v.table_name='assessment_data' 
-        and v.record->>'application_id'=application.id::varchar(10) and v.record->>'archived_by' is null;
-
-    -- now get double-removed (rfi)
-    open rfi_entries for 
-        select rd.id from ccbc_public.rfi_data as rd
+    where v.op='INSERT' and v.table_name='rfi_data' and v.record->>'archived_by' is null
+        and v.record->>'id' in (select rd.id::varchar(10) from ccbc_public.rfi_data as rd
         inner join ccbc_public.application_rfi_data arf
         on arf.rfi_data_id = rd.id
-        where arf.application_id = application.id;
+        where arf.application_id = application.id);
 
-    loop
-        fetch rfi_entries into current_rfi;
-        exit when not found;
-    
-        insert into ccbc_public.history_item
-        select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, 
-            v.record-> 'json_data' ->>'rfiType' as item,
-            u.family_name, u.given_name, u.session_sub    
-        from ccbc_public.record_version as v 
-            inner join ccbc_public.ccbc_user u on v.created_by=u.id
-        where v.op='INSERT' and v.table_name='rfi_data' 
-            and v.record->>'id'=current_rfi.id::varchar(10) and v.record->>'archived_by' is null;
-        end loop;
-
-    return query select * from ccbc_public.history_item where application_id=application.id order by created_at asc;
-
-END;
-$function$ language plpgsql;
+$$ language sql stable;
 
 grant execute on function ccbc_public.application_history to ccbc_admin;
 grant execute on function ccbc_public.application_history to ccbc_analyst;

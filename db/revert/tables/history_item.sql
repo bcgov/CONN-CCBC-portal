@@ -2,6 +2,6 @@
 
 BEGIN;
 
-drop type ccbc_public.history_item;
+drop table ccbc_public.history_item;
 
 COMMIT;

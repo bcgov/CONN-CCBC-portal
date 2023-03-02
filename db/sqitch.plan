@@ -190,3 +190,4 @@ tables/analyst_003_permissions 2023-02-24T19:05:15Z Marcel Mueller <marcel@butto
 @1.46.0 2023-03-01T20:32:23Z Anthony Bushara <anthony@button.is> # release v1.46.0
 tables/history_item 2023-03-01T20:14:20Z ,,,  Vladimir <vladimir@button.is> # add ccbc_public.history_item
 computed_columns/application_history 2023-02-28T12:50:04Z ,,, Vladimir <vladimir@button.is> # add computed_columns/application_history
+extensions/audit_form_data 2023-03-02T18:55:44Z ,,, Vladimir <vladimir@button.is> # add form_data auditing.

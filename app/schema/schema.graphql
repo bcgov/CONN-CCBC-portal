@@ -8828,6 +8828,32 @@ type Application implements Node {
 
   """Computed column to return whether the rfi is open"""
   hasRfiOpen: Boolean
+
+  """Computed column that returns list of audit records for application"""
+  history(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: HistoryItemFilter
+  ): HistoryItemsConnection!
   intakeNumber: Int
 
   """Computed column to display organization name from json data"""
@@ -13374,6 +13400,112 @@ input ApplicationPackageCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+}
+
+"""A connection to a list of `HistoryItem` values."""
+type HistoryItemsConnection {
+  """A list of `HistoryItem` objects."""
+  nodes: [HistoryItem]!
+
+  """
+  A list of edges which contains the `HistoryItem` and cursor to aid in pagination.
+  """
+  edges: [HistoryItemsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `HistoryItem` you could get from the connection."""
+  totalCount: Int!
+}
+
+type HistoryItem {
+  """Application Id."""
+  applicationId: Int
+
+  """Timestamp of the operation recorded."""
+  createdAt: Datetime
+
+  """Type of operation: INSERT/UPDATE/DELETE/TRUNCATE/SNAPSHOT."""
+  op: Operation
+
+  """Table name."""
+  tableName: String
+
+  """
+  Identifier that uniquely identifies a record by primary key [primary key + table_oid].
+  """
+  recordId: UUID
+
+  """Record in Json format."""
+  record: JSON
+
+  """
+  Main object affected by the operation (i.e. status, or file name or RFI type).
+  """
+  item: String
+
+  """First Name of the user who performed the operation."""
+  familyName: String
+
+  """Last Name of the user who performed the operation."""
+  givenName: String
+
+  """Session sub of the user who performed the operation."""
+  sessionSub: String
+}
+
+"""A `HistoryItem` edge in the connection."""
+type HistoryItemsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `HistoryItem` at the end of the edge."""
+  node: HistoryItem
+}
+
+"""
+A filter to be used against `HistoryItem` object types. All fields are combined with a logical ‘and.’
+"""
+input HistoryItemFilter {
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `op` field."""
+  op: OperationFilter
+
+  """Filter by the object’s `tableName` field."""
+  tableName: StringFilter
+
+  """Filter by the object’s `recordId` field."""
+  recordId: UUIDFilter
+
+  """Filter by the object’s `record` field."""
+  record: JSONFilter
+
+  """Filter by the object’s `item` field."""
+  item: StringFilter
+
+  """Filter by the object’s `familyName` field."""
+  familyName: StringFilter
+
+  """Filter by the object’s `givenName` field."""
+  givenName: StringFilter
+
+  """Filter by the object’s `sessionSub` field."""
+  sessionSub: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [HistoryItemFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [HistoryItemFilter!]
+
+  """Negates the expression."""
+  not: HistoryItemFilter
 }
 
 """
@@ -21431,68 +21563,6 @@ input FormTypeCondition {
   description: String
 }
 
-"""A connection to a list of `HistoryItem` values."""
-type HistoryItemsConnection {
-  """A list of `HistoryItem` objects."""
-  nodes: [HistoryItem]!
-
-  """
-  A list of edges which contains the `HistoryItem` and cursor to aid in pagination.
-  """
-  edges: [HistoryItemsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `HistoryItem` you could get from the connection."""
-  totalCount: Int!
-}
-
-type HistoryItem {
-  """Application Id."""
-  applicationId: Int
-
-  """Timestamp of the operation recorded."""
-  createdAt: Datetime
-
-  """Type of operation: INSERT/UPDATE/DELETE/TRUNCATE/SNAPSHOT."""
-  op: Operation
-
-  """Table name."""
-  tableName: String
-
-  """
-  Identifier that uniquely identifies a record by primary key [primary key + table_oid].
-  """
-  recordId: UUID
-
-  """Record in Json format."""
-  record: JSON
-
-  """
-  Main object affected by the operation (i.e. status, or file name or RFI type).
-  """
-  item: String
-
-  """First Name of the user who performed the operation."""
-  familyName: String
-
-  """Last Name of the user who performed the operation."""
-  givenName: String
-
-  """Session sub of the user who performed the operation."""
-  sessionSub: String
-}
-
-"""A `HistoryItem` edge in the connection."""
-type HistoryItemsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `HistoryItem` at the end of the edge."""
-  node: HistoryItem
-}
-
 """Methods to use when ordering `HistoryItem`."""
 enum HistoryItemsOrderBy {
   NATURAL
@@ -21552,50 +21622,6 @@ input HistoryItemCondition {
 
   """Checks for equality with the object’s `sessionSub` field."""
   sessionSub: String
-}
-
-"""
-A filter to be used against `HistoryItem` object types. All fields are combined with a logical ‘and.’
-"""
-input HistoryItemFilter {
-  """Filter by the object’s `applicationId` field."""
-  applicationId: IntFilter
-
-  """Filter by the object’s `createdAt` field."""
-  createdAt: DatetimeFilter
-
-  """Filter by the object’s `op` field."""
-  op: OperationFilter
-
-  """Filter by the object’s `tableName` field."""
-  tableName: StringFilter
-
-  """Filter by the object’s `recordId` field."""
-  recordId: UUIDFilter
-
-  """Filter by the object’s `record` field."""
-  record: JSONFilter
-
-  """Filter by the object’s `item` field."""
-  item: StringFilter
-
-  """Filter by the object’s `familyName` field."""
-  familyName: StringFilter
-
-  """Filter by the object’s `givenName` field."""
-  givenName: StringFilter
-
-  """Filter by the object’s `sessionSub` field."""
-  sessionSub: StringFilter
-
-  """Checks for all expressions in this list."""
-  and: [HistoryItemFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [HistoryItemFilter!]
-
-  """Negates the expression."""
-  not: HistoryItemFilter
 }
 
 """A connection to a list of `RfiDataStatusType` values."""
@@ -22690,14 +22716,6 @@ type Mutation {
     """
     input: DeleteRfiDataStatusTypeByNameInput!
   ): DeleteRfiDataStatusTypePayload
-
-  """Computed column that returns list of audit records for application"""
-  applicationHistory(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: ApplicationHistoryInput!
-  ): ApplicationHistoryPayload
   createApplication(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -27193,61 +27211,6 @@ input DeleteRfiDataStatusTypeByNameInput {
 
   """The name of the status type"""
   name: String!
-}
-
-"""The output of our `applicationHistory` mutation."""
-type ApplicationHistoryPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-  historyItems: [HistoryItem]
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-}
-
-"""All input for the `applicationHistory` mutation."""
-input ApplicationHistoryInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  application: ApplicationInput!
-}
-
-"""An input for mutations affecting `Application`"""
-input ApplicationInput {
-  """Reference number assigned to the application"""
-  ccbcNumber: String
-
-  """The owner of the application, identified by its JWT sub"""
-  owner: String!
-
-  """The intake associated with the application, set when it is submitted"""
-  intakeId: Int
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
 }
 
 """The output of our `createApplication` mutation."""
