@@ -563,6 +563,40 @@ type Query implements Node {
     filter: FormTypeFilter
   ): FormTypesConnection
 
+  """Reads and enables pagination through a set of `HistoryItem`."""
+  allHistoryItems(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `HistoryItem`."""
+    orderBy: [HistoryItemsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: HistoryItemCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: HistoryItemFilter
+  ): HistoryItemsConnection
+
   """Reads and enables pagination through a set of `Intake`."""
   allIntakes(
     """Only read the first `n` values of the set."""
@@ -8794,6 +8828,32 @@ type Application implements Node {
 
   """Computed column to return whether the rfi is open"""
   hasRfiOpen: Boolean
+
+  """Computed column that returns list of audit records for application"""
+  history(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: HistoryItemFilter
+  ): HistoryItemsConnection!
   intakeNumber: Int
 
   """Computed column to display organization name from json data"""
@@ -13340,6 +13400,118 @@ input ApplicationPackageCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+}
+
+"""A connection to a list of `HistoryItem` values."""
+type HistoryItemsConnection {
+  """A list of `HistoryItem` objects."""
+  nodes: [HistoryItem]!
+
+  """
+  A list of edges which contains the `HistoryItem` and cursor to aid in pagination.
+  """
+  edges: [HistoryItemsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `HistoryItem` you could get from the connection."""
+  totalCount: Int!
+}
+
+type HistoryItem {
+  """Application Id."""
+  applicationId: Int
+
+  """Timestamp of the operation recorded."""
+  createdAt: Datetime
+
+  """Type of operation: INSERT/UPDATE/DELETE/TRUNCATE/SNAPSHOT."""
+  op: Operation
+
+  """Table name."""
+  tableName: String
+
+  """
+  Identifier that uniquely identifies a record by primary key [primary key + table_oid].
+  """
+  recordId: UUID
+
+  """New record in Json format."""
+  record: JSON
+
+  """Old record in Json format."""
+  oldRecord: JSON
+
+  """
+  Main object affected by the operation (i.e. status, or file name or RFI type).
+  """
+  item: String
+
+  """First Name of the user who performed the operation."""
+  familyName: String
+
+  """Last Name of the user who performed the operation."""
+  givenName: String
+
+  """Session sub of the user who performed the operation."""
+  sessionSub: String
+}
+
+"""A `HistoryItem` edge in the connection."""
+type HistoryItemsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `HistoryItem` at the end of the edge."""
+  node: HistoryItem
+}
+
+"""
+A filter to be used against `HistoryItem` object types. All fields are combined with a logical ‘and.’
+"""
+input HistoryItemFilter {
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `op` field."""
+  op: OperationFilter
+
+  """Filter by the object’s `tableName` field."""
+  tableName: StringFilter
+
+  """Filter by the object’s `recordId` field."""
+  recordId: UUIDFilter
+
+  """Filter by the object’s `record` field."""
+  record: JSONFilter
+
+  """Filter by the object’s `oldRecord` field."""
+  oldRecord: JSONFilter
+
+  """Filter by the object’s `item` field."""
+  item: StringFilter
+
+  """Filter by the object’s `familyName` field."""
+  familyName: StringFilter
+
+  """Filter by the object’s `givenName` field."""
+  givenName: StringFilter
+
+  """Filter by the object’s `sessionSub` field."""
+  sessionSub: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [HistoryItemFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [HistoryItemFilter!]
+
+  """Negates the expression."""
+  not: HistoryItemFilter
 }
 
 """
@@ -21397,6 +21569,72 @@ input FormTypeCondition {
   description: String
 }
 
+"""Methods to use when ordering `HistoryItem`."""
+enum HistoryItemsOrderBy {
+  NATURAL
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  OP_ASC
+  OP_DESC
+  TABLE_NAME_ASC
+  TABLE_NAME_DESC
+  RECORD_ID_ASC
+  RECORD_ID_DESC
+  RECORD_ASC
+  RECORD_DESC
+  OLD_RECORD_ASC
+  OLD_RECORD_DESC
+  ITEM_ASC
+  ITEM_DESC
+  FAMILY_NAME_ASC
+  FAMILY_NAME_DESC
+  GIVEN_NAME_ASC
+  GIVEN_NAME_DESC
+  SESSION_SUB_ASC
+  SESSION_SUB_DESC
+}
+
+"""
+A condition to be used against `HistoryItem` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input HistoryItemCondition {
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `op` field."""
+  op: Operation
+
+  """Checks for equality with the object’s `tableName` field."""
+  tableName: String
+
+  """Checks for equality with the object’s `recordId` field."""
+  recordId: UUID
+
+  """Checks for equality with the object’s `record` field."""
+  record: JSON
+
+  """Checks for equality with the object’s `oldRecord` field."""
+  oldRecord: JSON
+
+  """Checks for equality with the object’s `item` field."""
+  item: String
+
+  """Checks for equality with the object’s `familyName` field."""
+  familyName: String
+
+  """Checks for equality with the object’s `givenName` field."""
+  givenName: String
+
+  """Checks for equality with the object’s `sessionSub` field."""
+  sessionSub: String
+}
+
 """A connection to a list of `RfiDataStatusType` values."""
 type RfiDataStatusTypesConnection {
   """A list of `RfiDataStatusType` objects."""
@@ -21727,6 +21965,14 @@ type Mutation {
     """
     input: CreateFormTypeInput!
   ): CreateFormTypePayload
+
+  """Creates a single `HistoryItem`."""
+  createHistoryItem(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateHistoryItemInput!
+  ): CreateHistoryItemPayload
 
   """Creates a single `Intake`."""
   createIntake(
@@ -23569,6 +23815,81 @@ input FormTypeInput {
 
   """Description of the type of form"""
   description: String
+}
+
+"""The output of our create `HistoryItem` mutation."""
+type CreateHistoryItemPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `HistoryItem` that was created by this mutation."""
+  historyItem: HistoryItem
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `HistoryItem`. May be used by Relay 1."""
+  historyItemEdge(
+    """The method to use when ordering `HistoryItem`."""
+    orderBy: [HistoryItemsOrderBy!] = [NATURAL]
+  ): HistoryItemsEdge
+}
+
+"""All input for the create `HistoryItem` mutation."""
+input CreateHistoryItemInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `HistoryItem` to be created by this mutation."""
+  historyItem: HistoryItemInput!
+}
+
+"""An input for mutations affecting `HistoryItem`"""
+input HistoryItemInput {
+  """Application Id."""
+  applicationId: Int
+
+  """Timestamp of the operation recorded."""
+  createdAt: Datetime
+
+  """Type of operation: INSERT/UPDATE/DELETE/TRUNCATE/SNAPSHOT."""
+  op: Operation
+
+  """Table name."""
+  tableName: String
+
+  """
+  Identifier that uniquely identifies a record by primary key [primary key + table_oid].
+  """
+  recordId: UUID
+
+  """New record in Json format."""
+  record: JSON
+
+  """Old record in Json format."""
+  oldRecord: JSON
+
+  """
+  Main object affected by the operation (i.e. status, or file name or RFI type).
+  """
+  item: String
+
+  """First Name of the user who performed the operation."""
+  familyName: String
+
+  """Last Name of the user who performed the operation."""
+  givenName: String
+
+  """Session sub of the user who performed the operation."""
+  sessionSub: String
 }
 
 """The output of our create `Intake` mutation."""
