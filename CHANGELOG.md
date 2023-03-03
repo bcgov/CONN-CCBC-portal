@@ -1,3 +1,9 @@
+## [1.47.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.47.0...v1.47.1) (2023-03-03)
+
+### Bug Fixes
+
+- use url query param instead of next router ([6b79d04](https://github.com/bcgov/CONN-CCBC-portal/commit/6b79d043aced2ea056e4245111a89766a6da3c0a))
+
 # [1.47.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.46.0...v1.47.0) (2023-03-03)
 
 ### Bug Fixes
