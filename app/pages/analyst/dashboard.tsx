@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
+import cookie from 'js-cookie';
 import { DashboardTabs, AnalystRow } from 'components/AnalystDashboard';
 import { TextFilter, NumberFilter } from 'components/Table/Filters';
 import Table from 'components/Table';
@@ -94,8 +96,17 @@ const AnalystDashboard = ({
         orderBy: null,
       },
     };
+    cookie.remove('analyst.sort');
     router.replace(url, url, { shallow: true });
   };
+
+  useEffect(() => {
+    const orderByParam = cookie.get('analyst.sort');
+    if (orderByParam)
+      router.replace({
+        query: { ...router.query, orderBy: orderByParam },
+      });
+  }, []);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
