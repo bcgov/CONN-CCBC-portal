@@ -101,8 +101,11 @@ const AnalystDashboard = ({
   };
 
   useEffect(() => {
-    const url = cookie.get('analyst.sort');
-    if (url) router.replace(url, url, { shallow: true });
+    const orderByParam = cookie.get('analyst.sort');
+    if (orderByParam)
+      router.replace({
+        query: { ...router.query, orderBy: orderByParam },
+      });
   }, []);
 
   return (

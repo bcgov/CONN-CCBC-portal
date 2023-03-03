@@ -73,8 +73,7 @@ const Table: React.FC<Props> = ({
         if (mode === 'replace') router.replace(url, url, { shallow: true });
         else router.push(url, url, { shallow: true });
 
-        // The .split('&')[0] is to remove the filter args since we only want to save sorting
-        cookie.set('analyst.sort', router.asPath?.split('&')[0]);
+        cookie.set('analyst.sort', router.query.orderBy);
       };
 
       if (!pageQuery) {
