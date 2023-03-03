@@ -55,10 +55,17 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
     applicationByRowId: { history },
   } = queryFragment;
 
-  const applicationHistory = [...history.nodes]?.sort((a, b) => {
-    // will have to also sort by updated_at once that is implemented
-    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-  });
+  const applicationHistory = [...history.nodes]
+    ?.sort((a, b) => {
+      // We may also have to sort by updatedAt in the future
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    })
+    .filter((historyItem) => {
+      // Remove draft and submitted status from history
+      const { item } = historyItem;
+      const isDraftOrSubmitted = item === 'draft' || item === 'submitted';
+      return !isDraftOrSubmitted;
+    });
 
   return (
     <StyledTable cellSpacing="0" cellPadding="0">

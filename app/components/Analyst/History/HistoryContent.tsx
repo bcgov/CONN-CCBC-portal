@@ -28,19 +28,34 @@ const ChangeReason = ({ reason }) => {
 };
 
 const HistoryContent = ({ historyItem }) => {
-  const { givenName, familyName, tableName, createdAt, updatedAt, record } =
-    historyItem;
+  const { givenName, familyName, tableName, createdAt, record } = historyItem;
   const fullName = `${givenName} ${familyName}`;
+  const reasonForChange = record.reason_for_change || record.change_reason;
+
   const createdAtFormatted = DateTime.fromJSDate(
     new Date(createdAt)
   ).toLocaleString(DateTime.DATETIME_MED);
-  const reasonForChange = record.reason_for_change || record.change_reason;
 
-  const updatedAtFormatted =
-    updatedAt &&
-    DateTime.fromJSDate(new Date(updatedAt)).toLocaleString(
-      DateTime.DATETIME_MED
+  if (tableName === 'rfi_data') {
+    const rfiNumber = record.rfi_number;
+
+    return (
+      <StyledContent>
+        <span>{fullName} saved</span> <b>RFI-{rfiNumber}</b>
+        <span>on {createdAtFormatted}</span>
+      </StyledContent>
     );
+  }
+
+  if (tableName === 'attachment') {
+    return (
+      <StyledContent>
+        <span>
+          {fullName} uploaded a file on {createdAtFormatted}
+        </span>
+      </StyledContent>
+    );
+  }
 
   if (tableName === 'rfi_data') {
     const rfiNumber = record.rfi_number;
@@ -123,7 +138,7 @@ const HistoryContent = ({ historyItem }) => {
       <StyledContent>
         <span>{fullName} saved the</span>
         <b>{formatAssessment(assessmentType)} Assessment</b>
-        <span>on {updatedAtFormatted || createdAtFormatted}</span>
+        <span>on {createdAtFormatted}</span>
       </StyledContent>
     );
   }

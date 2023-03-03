@@ -28,7 +28,7 @@ const iconMap = {
   application: faClipboardList,
   form_data: faClipboardList,
   rfi_data: faEnvelope,
-  rfiApplication: faPaperclip,
+  attachment: faPaperclip,
   assessment_data: faCheckDouble,
   application_analyst_lead: faUser,
   application_package: faBox,
