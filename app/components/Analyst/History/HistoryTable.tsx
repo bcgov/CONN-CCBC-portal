@@ -57,7 +57,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
 
   const applicationHistory = [...history.nodes]?.sort((a, b) => {
     // will have to also sort by updated_at once that is implemented
-    return a.created_at - b.created_at;
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
 
   return (
