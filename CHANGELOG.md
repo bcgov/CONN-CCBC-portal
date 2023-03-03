@@ -1,3 +1,26 @@
+# [1.47.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.46.0...v1.47.0) (2023-03-03)
+
+### Bug Fixes
+
+- add next router to session expiry handler resetOnChange ([175633e](https://github.com/bcgov/CONN-CCBC-portal/commit/175633e24cc60ee2fce1edccb2ba540ec4c4ce99))
+- added missing files ([1bc22a3](https://github.com/bcgov/CONN-CCBC-portal/commit/1bc22a3bc4dec4c4473d3d0bec71a352b0d6ee03))
+- adding old_record in case we need handle UPDATE ([b6af2eb](https://github.com/bcgov/CONN-CCBC-portal/commit/b6af2ebb50bd6eba55d1ca726097bdbc61ef5dff))
+- conditionally save orderBy cookie ([3e463a5](https://github.com/bcgov/CONN-CCBC-portal/commit/3e463a57701fe38af80daef417c8f45480543309))
+- make status_sort_filter column sortable by postgraphile ([8c33814](https://github.com/bcgov/CONN-CCBC-portal/commit/8c3381490d714e98748bebbd18f5148f22abae29))
+- save query param to maintain sort order ([392e587](https://github.com/bcgov/CONN-CCBC-portal/commit/392e5878d0f34a3ce3de067cd0bd3b855b63021a))
+- updated function and added tests ([c675967](https://github.com/bcgov/CONN-CCBC-portal/commit/c6759678bcaf962912761905298cef847da6e062))
+- updated pgtap test to handle form_data audit records ([f448a1a](https://github.com/bcgov/CONN-CCBC-portal/commit/f448a1a19172869c25e02ff18959d80c863ca44a))
+- using table ([1fe2e5d](https://github.com/bcgov/CONN-CCBC-portal/commit/1fe2e5d5f7c2b1a6aa899c4005f159a8b9540064))
+
+### Features
+
+- add default sorting from query context ([4162afb](https://github.com/bcgov/CONN-CCBC-portal/commit/4162afbf3d7f3a7348bbee48fd842b2576d52047))
+- add on mousedown event to session expiry handler ([58e5ede](https://github.com/bcgov/CONN-CCBC-portal/commit/58e5ede8bd994734058ed13a0afb77a82cf695ee))
+- added audit for form_data and fixed application_history function ([534ff39](https://github.com/bcgov/CONN-CCBC-portal/commit/534ff39278258e3df243995719176b822e95f4a0))
+- analyst shows up in select on forms ([7183285](https://github.com/bcgov/CONN-CCBC-portal/commit/718328570e2a1a00264a650b6aced9914582954c))
+- computed function for application history ([9e16479](https://github.com/bcgov/CONN-CCBC-portal/commit/9e16479a66f121aef3288d4e547f4b43bdd218ce))
+- save sort order on analyst dashboard ([b7c2a2c](https://github.com/bcgov/CONN-CCBC-portal/commit/b7c2a2c50314f35ae261d4f80e0d0f05a36238cc))
+
 # [1.46.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.45.0...v1.46.0) (2023-03-01)
 
 ### Bug Fixes
