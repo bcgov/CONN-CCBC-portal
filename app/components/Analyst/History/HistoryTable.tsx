@@ -55,6 +55,10 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
     applicationByRowId: { history },
   } = queryFragment;
 
+  const receivedCreatedAt = [...history.nodes].find((historyItem) => {
+    return historyItem.item === 'received';
+  })?.createdAt;
+
   const applicationHistory = [...history.nodes]
     ?.sort((a, b) => {
       // We may also have to sort by updatedAt in the future
@@ -62,9 +66,16 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
     })
     .filter((historyItem) => {
       // Remove draft and submitted status from history
-      const { item } = historyItem;
+      const { createdAt, item, tableName } = historyItem;
       const isDraftOrSubmitted = item === 'draft' || item === 'submitted';
-      return !isDraftOrSubmitted;
+      const isAttachment = tableName === 'attachment';
+
+      // Remove all applicant application attachments from before application was received
+      const isApplicationAttachment = isAttachment
+        ? new Date(createdAt).getTime() < new Date(receivedCreatedAt).getTime()
+        : false;
+
+      return !isDraftOrSubmitted && !isApplicationAttachment;
     });
 
   return (

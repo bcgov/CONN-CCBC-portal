@@ -28,10 +28,20 @@ const ChangeReason = ({ reason }) => {
 };
 
 const HistoryContent = ({ historyItem }) => {
-  const { givenName, familyName, tableName, createdAt, record } = historyItem;
-  const fullName = `${givenName} ${familyName}`;
-  const reasonForChange = record.reason_for_change || record.change_reason;
+  const {
+    givenName,
+    familyName,
+    tableName,
+    createdAt,
+    item,
+    record,
+    sessionSub,
+  } = historyItem;
 
+  const isAnalyst = sessionSub.includes('idir');
+  const fullName = `${givenName} ${familyName}`;
+  const displayName = isAnalyst ? fullName : 'The applicant';
+  const reasonForChange = record.reason_for_change || record.change_reason;
   const createdAtFormatted = DateTime.fromJSDate(
     new Date(createdAt)
   ).toLocaleString(DateTime.DATETIME_MED);
@@ -41,7 +51,7 @@ const HistoryContent = ({ historyItem }) => {
 
     return (
       <StyledContent>
-        <span>{fullName} saved</span> <b>RFI-{rfiNumber}</b>
+        <span>{displayName} saved</span> <b>RFI-{rfiNumber}</b>
         <span>on {createdAtFormatted}</span>
       </StyledContent>
     );
@@ -51,7 +61,7 @@ const HistoryContent = ({ historyItem }) => {
     return (
       <StyledContent>
         <span>
-          {fullName} uploaded a file on {createdAtFormatted}
+          {displayName} uploaded a file on {createdAtFormatted}
         </span>
       </StyledContent>
     );
@@ -62,7 +72,7 @@ const HistoryContent = ({ historyItem }) => {
 
     return (
       <StyledContent>
-        <span>{fullName} saved</span> <b>{rfiNumber}</b>
+        <span>{displayName} saved</span> <b>{rfiNumber}</b>
         <span>on {createdAtFormatted}</span>
       </StyledContent>
     );
@@ -104,13 +114,20 @@ const HistoryContent = ({ historyItem }) => {
   }
 
   if (tableName === 'application_status') {
+    const isReceived = item === 'received';
     return (
       <div>
         <StyledContent>
-          <span>
-            {fullName} changed the <b>status</b> to
-          </span>
-          <StatusPill status={historyItem.item} styles={statusStyles} />
+          {isReceived ? (
+            <span>
+              The <b>status</b> was set to
+            </span>
+          ) : (
+            <span>
+              {displayName} changed the <b>status</b> to
+            </span>
+          )}
+          <StatusPill status={item} styles={statusStyles} />
           <span>on {createdAtFormatted}</span>
         </StyledContent>
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
