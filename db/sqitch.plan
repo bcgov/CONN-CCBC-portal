@@ -193,3 +193,8 @@ computed_columns/application_history 2023-02-28T12:50:04Z ,,, Vladimir <vladimir
 extensions/audit_form_data 2023-03-02T18:55:44Z ,,, Vladimir <vladimir@button.is> # add form_data auditing.
 @1.47.0 2023-03-03T16:44:09Z Anthony Bushara <anthony@button.is> # release v1.47.0
 @1.47.1 2023-03-03T18:27:21Z Marcel Mueller <marcel@m2.local> # release v1.47.1
+extensions/analyst_lead 2023-03-03T18:30:34Z ,,, Vladimir <vladimir@button.is> # enable audit for more tables
+import/application_analyst_lead 2023-03-03T18:34:38Z ,,, Vladimir <vladimir@button.is> # add backfill for application_analyst_lead table
+import/application_package 2023-03-03T18:35:15Z ,,, Vladimir <vladimir@button.is> # add backfill for application_package table
+import/form_data 2023-03-03T18:35:16Z ,,, Vladimir <vladimir@button.is> # add backfill for form_data table 
+backfill_history [backfill_history@1.47.0] 2023-03-03T18:46:15Z ,,, Vladimir <vladimir@button.is> # add auditing for more tables
