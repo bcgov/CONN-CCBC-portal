@@ -26,6 +26,7 @@ const StyledIcon = styled.div`
 const iconMap = {
   application_status: faDotCircle,
   application: faClipboardList,
+  form_data: faClipboardList,
   rfi_data: faEnvelope,
   rfiApplication: faPaperclip,
   assessment_data: faCheckDouble,

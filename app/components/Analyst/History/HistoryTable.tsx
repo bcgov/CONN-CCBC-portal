@@ -55,7 +55,10 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
     applicationByRowId: { history },
   } = queryFragment;
 
-  const applicationHistory = history?.nodes;
+  const applicationHistory = [...history.nodes]?.sort((a, b) => {
+    // will have to also sort by updated_at once that is implemented
+    return a.created_at - b.created_at;
+  });
 
   return (
     <StyledTable cellSpacing="0" cellPadding="0">
