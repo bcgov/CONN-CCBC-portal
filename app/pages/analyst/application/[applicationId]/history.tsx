@@ -35,7 +35,6 @@ const History = ({
     </Layout>
   );
 };
-
 export const withRelayOptions = {
   ...defaultRelayOptions,
 

@@ -50,16 +50,16 @@ const HistoryContent = ({ historyItem }) => {
     const rfiNumber = record.rfi_number;
 
     return (
-      <StyledContent>
+      <StyledContent data-testid="history-content-rfi">
         <span>{displayName} saved</span> <b>RFI-{rfiNumber}</b>
-        <span>on {createdAtFormatted}</span>
+        <span> on {createdAtFormatted}</span>
       </StyledContent>
     );
   }
 
   if (tableName === 'attachment') {
     return (
-      <StyledContent>
+      <StyledContent data-testid="history-content-attachment">
         <span>
           {displayName} uploaded a file on {createdAtFormatted}
         </span>
@@ -67,19 +67,9 @@ const HistoryContent = ({ historyItem }) => {
     );
   }
 
-  if (tableName === 'rfi_data') {
-    const rfiNumber = record.rfi_number;
-
-    return (
-      <StyledContent>
-        <span>{displayName} saved</span> <b>{rfiNumber}</b>
-        <span>on {createdAtFormatted}</span>
-      </StyledContent>
-    );
-  }
   if (tableName === 'application_analyst_lead') {
     return (
-      <StyledContent>
+      <StyledContent data-testid="history-content-analyst-lead">
         {fullName}
         <span>
           {' '}
@@ -88,9 +78,10 @@ const HistoryContent = ({ historyItem }) => {
       </StyledContent>
     );
   }
+
   if (tableName === 'application') {
     return (
-      <StyledContent>
+      <StyledContent data-testid="history-content-application">
         <span>
           The applicant created the <b>Application</b>
         </span>{' '}
@@ -102,9 +93,9 @@ const HistoryContent = ({ historyItem }) => {
   if (tableName === 'form_data') {
     return (
       <div>
-        <StyledContent>
+        <StyledContent data-testid="history-content-form-data">
           <span>
-            {fullName} edited the <b>Application</b>
+            {fullName} edited the <b>Application </b>
           </span>
           on {createdAtFormatted}
         </StyledContent>
@@ -117,7 +108,7 @@ const HistoryContent = ({ historyItem }) => {
     const isReceived = item === 'received';
     return (
       <div>
-        <StyledContent>
+        <StyledContent data-testid="history-content-status">
           {isReceived ? (
             <span>
               The <b>status</b> was set to
@@ -126,22 +117,24 @@ const HistoryContent = ({ historyItem }) => {
             <span>
               {displayName} changed the <b>status</b> to
             </span>
-          )}
-          <StatusPill status={item} styles={statusStyles} />
+          )}{' '}
+          <StatusPill status={item} styles={statusStyles} />{' '}
           <span>on {createdAtFormatted}</span>
         </StyledContent>
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
       </div>
     );
   }
+
   if (tableName === 'application_package') {
     return (
-      <StyledContent>
+      <StyledContent data-testid="history-content-package">
         {fullName} added the application to a <b>Package</b> on{' '}
         {createdAtFormatted}
       </StyledContent>
     );
   }
+
   if (tableName === 'assessment_data') {
     const assessmentType = historyItem.item;
 
@@ -152,13 +145,14 @@ const HistoryContent = ({ historyItem }) => {
     };
 
     return (
-      <StyledContent>
-        <span>{fullName} saved the</span>
+      <StyledContent data-testid="history-content-assessment">
+        <span>{fullName} saved the </span>
         <b>{formatAssessment(assessmentType)} Assessment</b>
-        <span>on {createdAtFormatted}</span>
+        <span> on {createdAtFormatted}</span>
       </StyledContent>
     );
   }
+
   return null;
 };
 export default HistoryContent;

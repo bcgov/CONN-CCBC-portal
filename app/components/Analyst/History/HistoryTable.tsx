@@ -68,9 +68,9 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
       // Remove draft and submitted status from history
       const { createdAt, item, tableName } = historyItem;
       const isDraftOrSubmitted = item === 'draft' || item === 'submitted';
-      const isAttachment = tableName === 'attachment';
 
       // Remove all applicant application attachments from before application was received
+      const isAttachment = tableName === 'attachment';
       const isApplicationAttachment = isAttachment
         ? new Date(createdAt).getTime() < new Date(receivedCreatedAt).getTime()
         : false;
