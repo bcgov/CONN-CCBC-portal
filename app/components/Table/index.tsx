@@ -73,8 +73,8 @@ const Table: React.FC<Props> = ({
         if (mode === 'replace') router.replace(url, url, { shallow: true });
         else router.push(url, url, { shallow: true });
 
-        if (router.query.orderBy) {
-          cookie.set('analyst.sort', router.query.orderBy);
+        if (url.query?.orderBy) {
+          cookie.set('analyst.sort', url.query?.orderBy);
         }
       };
 
