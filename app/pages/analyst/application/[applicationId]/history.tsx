@@ -1,6 +1,7 @@
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
+import { useFeature } from '@growthbook/growthbook-react';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
@@ -22,11 +23,14 @@ const History = ({
 }: RelayProps<Record<string, unknown>, historyQuery>) => {
   const query = usePreloadedQuery(getHistoryQuery, preloadedQuery);
   const { session } = query;
+
+  const showHistory = useFeature('show_history').value;
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <h2>History</h2>
-        <HistoryTable query={query} />
+        {showHistory && <HistoryTable query={query} />}
       </AnalystLayout>
     </Layout>
   );
