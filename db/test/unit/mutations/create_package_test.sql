@@ -9,7 +9,8 @@ truncate table
   ccbc_public.form_data,
   ccbc_public.application_form_data,
   ccbc_public.intake,
-  ccbc_public.application_package
+  ccbc_public.application_package,
+  ccbc_public.ccbc_user
 restart identity cascade;
 
 select has_function('ccbc_public', 'create_package',
