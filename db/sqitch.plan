@@ -196,5 +196,6 @@ extensions/audit_form_data 2023-03-02T18:55:44Z ,,, Vladimir <vladimir@button.is
 extensions/analyst_lead 2023-03-03T18:30:34Z ,,, Vladimir <vladimir@button.is> # enable audit for more tables
 import/application_analyst_lead 2023-03-03T18:34:38Z ,,, Vladimir <vladimir@button.is> # add backfill for application_analyst_lead table
 import/application_package 2023-03-03T18:35:15Z ,,, Vladimir <vladimir@button.is> # add backfill for application_package table
-import/form_data 2023-03-03T18:35:16Z ,,, Vladimir <vladimir@button.is> # add backfill for form_data table 
+import/form_data 2023-03-03T18:35:16Z ,,, Vladimir <vladimir@button.is> # add backfill for form_data table
 backfill_history [backfill_history@1.47.0] 2023-03-03T18:46:15Z ,,, Vladimir <vladimir@button.is> # add auditing for more tables
+computed_columns/application_history [computed_columns/application_history@1.47.0] 2023-03-03T19:49:34Z ,,, Vladimir <vladimir@button.is> # add history for more tables
