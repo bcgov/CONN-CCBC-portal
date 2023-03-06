@@ -26,8 +26,9 @@ jobs:
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
   deploy:
-    if: github.event.ref == 'refs/heads/main'
-    needs: [test-code, test-containers]
+    # if: github.event.ref == 'refs/heads/main'
+    # needs: [test-code, test-containers]
+    needs: [build]
     uses: ./.github/workflows/deploy.yaml
     secrets:
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}

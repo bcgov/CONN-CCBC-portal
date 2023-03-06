@@ -4,25 +4,27 @@ import passport from 'passport';
 import delay from 'delay';
 import http from 'http';
 import { createLightship } from 'lightship';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
+// import bodyParser from 'body-parser';
+// import cookieParser from 'cookie-parser';
 import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
-import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
+// import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import readinessTest from './backend/lib/readinessTests';
 import { pgPool } from './backend/lib/setup-pg';
 import config from './config';
-import session from './backend/lib/session';
-import ssoMiddleware from './backend/lib/sso-middleware';
+// import session from './backend/lib/session';
+// import ssoMiddleware from './backend/lib/sso-middleware';
 import headersMiddleware from './backend/lib/headers';
-import graphQlMiddleware from './backend/lib/graphql';
-import s3archive from './backend/lib/s3archive';
-import s3download from './backend/lib/s3download';
-import logout from './backend/lib/logout';
-import login from './backend/lib/login';
-import s3adminArchive from './backend/lib/s3admin-archive';
+// import graphQlMiddleware from './backend/lib/graphql';
+// import s3archive from './backend/lib/s3archive';
+// import s3download from './backend/lib/s3download';
+// import logout from './backend/lib/logout';
+// import login from './backend/lib/login';
+// import s3adminArchive from './backend/lib/s3admin-archive';
 import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
+import s3Client from './backend/lib/s3client';
 
+const CLAM_BUCKET = config.get('AWS_CLAM_S3_BUCKET');
 importJsonSchemasToDb();
 
 const port = config.get('PORT');
@@ -37,8 +39,8 @@ const isDeployedToOpenShift =
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const { json, urlencoded } = bodyParser;
-const bodyParserLimit = '5mb';
+// const { json, urlencoded } = bodyParser;
+// const bodyParserLimit = '5mb';
 app.prepare().then(async () => {
   const server = express();
 
@@ -51,11 +53,11 @@ app.prepare().then(async () => {
     await pgPool.end();
   });
 
-  server.use(json({ limit: bodyParserLimit }));
+  // server.use(json({ limit: bodyParserLimit }));
 
-  server.use(urlencoded({ extended: false, limit: bodyParserLimit }));
+  // server.use(urlencoded({ extended: false, limit: bodyParserLimit }));
 
-  server.use(cookieParser());
+  // server.use(cookieParser());
 
   server.disable('x-powered-by'); // at minimum, disable x-powered-by header
   server.set('trust proxy', 1); // trust first proxy
@@ -63,22 +65,22 @@ app.prepare().then(async () => {
   // passport needed to use req.logout() and req.session.destroy() in login.ts and logout.ts
   server.use(passport.initialize());
 
-  const { middleware: sessionMiddleware } = session();
+  // const { middleware: sessionMiddleware } = session();
 
-  server.use(sessionMiddleware);
+  // server.use(sessionMiddleware);
 
-  server.use(await ssoMiddleware());
+  // server.use(await ssoMiddleware());
 
-  server.use(graphqlUploadExpress());
+  // server.use(graphqlUploadExpress());
 
-  server.use(graphQlMiddleware());
+  // server.use(graphQlMiddleware());
   server.use(headersMiddleware());
 
-  server.use('/', s3adminArchive);
-  server.use('/', s3archive);
-  server.use('/', s3download);
-  server.use('/', login);
-  server.use('/', logout);
+  // server.use('/', s3adminArchive);
+  // server.use('/', s3archive);
+  // server.use('/', s3download);
+  // server.use('/', login);
+  // server.use('/', logout);
 
   server.all('*', async (req, res) => handle(req, res));
 
@@ -87,6 +89,12 @@ app.prepare().then(async () => {
     .listen(port, async () => {
       console.log(`> Ready on http://localhost:${port}`);
       if (!isDeployedToOpenShift) {
+        await s3Client.getSignedUrlPromise('getObject', {
+          Bucket: CLAM_BUCKET,
+          Key: 'bytecode.cvd',
+          Expires: 60,
+          ResponseContentDisposition: `attachment; filename="bytecode.cvd"`,
+        });
         lightship.signalReady();
       } else {
         await readinessTest(pgPool, lightship);
