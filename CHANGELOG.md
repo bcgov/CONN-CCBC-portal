@@ -1,3 +1,9 @@
+## [1.48.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.48.0...v1.48.1) (2023-03-06)
+
+### Bug Fixes
+
+- updated history backfill ([a19d04b](https://github.com/bcgov/CONN-CCBC-portal/commit/a19d04b42b84e761252d3fdfccdeb44c203ae763))
+
 # [1.48.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.47.1...v1.48.0) (2023-03-06)
 
 ### Bug Fixes
