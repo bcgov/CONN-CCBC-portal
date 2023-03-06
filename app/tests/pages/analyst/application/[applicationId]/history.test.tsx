@@ -237,60 +237,7 @@ const mockQueryPayload = {
               sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@bceidbasic',
               tableName: 'attachment',
             },
-            {
-              applicationId: 6,
-              createdAt: '2023-03-03T08:05:14.479352-08:00',
-              familyName: '',
-              item: 'file_10M.bin',
-              givenName: '',
-              op: 'INSERT',
-              record: {
-                id: 2,
-                file: 'f979dd0b-c61f-4261-b5ac-b73c3e16ba85',
-                file_name: 'file_10M.bin',
-                file_size: '9.54 MB',
-                file_type: 'application/macbinary',
-                created_at: '2023-03-03T08:05:14.479352-08:00',
-                created_by: 3,
-                updated_at: '2023-03-03T08:05:14.479352-08:00',
-                updated_by: 3,
-                archived_at: null,
-                archived_by: null,
-                description: null,
-                application_id: 6,
-                application_status_id: null,
-              },
-              recordId: '276ca06c-d64b-5765-8038-eabf96ea6a10',
-              sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@bceidbasic',
-              tableName: 'attachment',
-            },
-            {
-              applicationId: 6,
-              createdAt: '2023-03-03T08:12:24.839117-08:00',
-              familyName: 'Bar',
-              item: 'file_10M.bin',
-              givenName: 'Foo',
-              op: 'INSERT',
-              record: {
-                id: 3,
-                file: '8917f636-b27b-4ba4-976e-500d84a9a3f0',
-                file_name: 'file_10M.bin',
-                file_size: '9.54 MB',
-                file_type: 'application/macbinary',
-                created_at: '2023-03-03T08:12:24.839117-08:00',
-                created_by: 2,
-                updated_at: '2023-03-03T08:12:24.839117-08:00',
-                updated_by: 2,
-                archived_at: null,
-                archived_by: null,
-                description: null,
-                application_id: 6,
-                application_status_id: null,
-              },
-              recordId: '27dc74e1-eb1d-5bbf-b1e8-d6f5b9abe0fc',
-              sessionSub: 'test-session-sub@idir',
-              tableName: 'attachment',
-            },
+
             {
               applicationId: 6,
               createdAt: '2023-03-03T08:03:09.197851-08:00',
@@ -300,11 +247,7 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 7,
-                json_data: {
-                  decision: 'No decision',
-                  nextStep: 'Needs 2nd review',
-                  assignedTo: '',
-                },
+                json_data: {},
                 created_at: '2023-03-03T08:03:09.197851-08:00',
                 created_by: 2,
                 updated_at: '2023-03-03T08:03:09.197851-08:00',
@@ -327,10 +270,7 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 8,
-                json_data: {
-                  decision: 'No decision',
-                  nextStep: 'Needs RFI',
-                },
+                json_data: {},
                 created_at: '2023-03-03T08:03:14.904313-08:00',
                 created_by: 2,
                 updated_at: '2023-03-03T08:03:14.904313-08:00',
@@ -353,9 +293,7 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 9,
-                json_data: {
-                  nextStep: 'Needs 2nd review',
-                },
+                json_data: {},
                 created_at: '2023-03-03T08:03:21.365441-08:00',
                 created_by: 2,
                 updated_at: '2023-03-03T08:03:21.365441-08:00',
@@ -378,20 +316,7 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 12,
-                json_data: {
-                  decision: 'No decision',
-                  nextStep: 'Needs 2nd review',
-                  assignedTo: '',
-                  otherFiles: [
-                    {
-                      id: 3,
-                      name: 'file_10M.bin',
-                      size: 10000000,
-                      type: 'application/macbinary',
-                      uuid: '8917f636-b27b-4ba4-976e-500d84a9a3f0',
-                    },
-                  ],
-                },
+                json_data: {},
                 created_at: '2023-03-03T08:12:35.285551-08:00',
                 created_by: 2,
                 updated_at: '2023-03-03T08:12:35.285551-08:00',
@@ -414,11 +339,7 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 10,
-                json_data: {
-                  decision: 'No decision',
-                  nextStep: 'Assessment complete',
-                  assignedTo: '',
-                },
+                json_data: {},
                 created_at: '2023-03-03T08:06:24.621672-08:00',
                 created_by: 2,
                 updated_at: '2023-03-03T08:06:24.621672-08:00',
@@ -441,10 +362,7 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 11,
-                json_data: {
-                  decision: ['Permits will likely delay project timeline'],
-                  assignedTo: '',
-                },
+                json_data: {},
                 created_at: '2023-03-03T08:06:31.298479-08:00',
                 created_by: 2,
                 updated_at: '2023-03-03T08:06:31.298479-08:00',
@@ -467,20 +385,7 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 13,
-                json_data: {
-                  decision: 'Incomplete',
-                  nextStep: 'Needs 2nd review',
-                  assignedTo: '',
-                  otherFiles: [
-                    {
-                      id: 3,
-                      name: 'file_10M.bin',
-                      size: 10000000,
-                      type: 'application/macbinary',
-                      uuid: '8917f636-b27b-4ba4-976e-500d84a9a3f0',
-                    },
-                  ],
-                },
+                json_data: {},
                 created_at: '2023-03-03T09:50:51.15027-08:00',
                 created_by: 2,
                 updated_at: '2023-03-03T09:50:51.15027-08:00',
@@ -503,14 +408,7 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 2,
-                json_data: {
-                  rfiType: ['Missing files or information'],
-                  rfiDueBy: '2023-03-25',
-                  rfiAdditionalFiles: {
-                    lastMileIspOfferingRfi: true,
-                    geographicCoverageMapRfi: true,
-                  },
-                },
+                json_data: {},
                 created_at: '2023-03-03T08:03:36.184206-08:00',
                 created_by: 2,
                 rfi_number: 'CCBC-020001-1',
@@ -619,6 +517,50 @@ const mockQueryPayload = {
               sessionSub: 'test-session-sub@idir',
               tableName: 'form_data',
             },
+            {
+              applicationId: 6,
+              createdAt: '2023-03-06T09:24:53.482996-08:00',
+              familyName: 'Bar',
+              item: '6',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 6,
+                package: 6,
+                created_at: '2023-03-06T09:24:53.482996-08:00',
+                created_by: 2,
+                updated_at: '2023-03-06T09:24:53.482996-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+                application_id: 6,
+              },
+              recordId: '47fa0d90-8d4e-554e-858d-5133495e2508',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_package',
+            },
+            {
+              applicationId: 6,
+              createdAt: '2023-03-06T09:24:44.034951-08:00',
+              familyName: 'Bar',
+              item: 'Bar, Foo',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 10,
+                analyst_id: 1,
+                created_at: '2023-03-06T09:24:44.034951-08:00',
+                created_by: 2,
+                updated_at: '2023-03-06T09:24:44.034951-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+                application_id: 6,
+              },
+              recordId: 'a0075805-9cf3-5ae0-b047-8ba47ffbf40f',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_analyst_lead',
+            },
           ],
         },
       },
@@ -675,7 +617,7 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-status')[0]
     ).toHaveTextContent(
-      'The status was set to Received on Mar 3, 2023, 8:02 a.m.'
+      'The application was Received on Mar 3, 2023, 8:02 a.m.'
     );
   });
 
@@ -746,6 +688,26 @@ describe('The index page', () => {
     ).toHaveTextContent(
       'Foo Bar edited the Application on Mar 3, 2023, 8:22 a.m.'
     );
+  });
+
+  it('shows the correct history for assign package', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-content-package')[0]
+    ).toHaveTextContent(
+      'Foo Bar added the application to a Package on Mar 6, 2023, 9:24 a.m.'
+    );
+  });
+
+  it('shows the correct history for assign lead', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-content-analyst-lead')[0]
+    ).toHaveTextContent('Foo Bar assigned Lead on Mar 6, 2023, 9:24 a.m.');
   });
 
   afterEach(() => {
