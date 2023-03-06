@@ -110,9 +110,7 @@ const HistoryContent = ({ historyItem }) => {
       <div>
         <StyledContent data-testid="history-content-status">
           {isReceived ? (
-            <span>
-              The <b>status</b> was set to
-            </span>
+            <span>The application was</span>
           ) : (
             <span>
               {displayName} changed the <b>status</b> to
