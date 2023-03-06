@@ -70,10 +70,8 @@ const HistoryContent = ({ historyItem }) => {
   if (tableName === 'application_analyst_lead') {
     return (
       <StyledContent data-testid="history-content-analyst-lead">
-        {fullName}
         <span>
-          {' '}
-          assigned <b>Lead</b> on {createdAtFormatted}
+          {fullName} assigned <b>Lead</b> on {createdAtFormatted}
         </span>
       </StyledContent>
     );
@@ -127,8 +125,10 @@ const HistoryContent = ({ historyItem }) => {
   if (tableName === 'application_package') {
     return (
       <StyledContent data-testid="history-content-package">
-        {fullName} added the application to a <b>Package</b> on{' '}
-        {createdAtFormatted}
+        <span>
+          {fullName} added the application to a <b>Package</b> on{' '}
+          {createdAtFormatted}
+        </span>
       </StyledContent>
     );
   }
