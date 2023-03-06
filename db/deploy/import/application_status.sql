@@ -42,8 +42,8 @@ as $function$
                 created_by,
                 created_at,
                 record_jsonb from ccbc_public.application_status 
-            where record_jsonb not in 
-                (select record_jsonb from ccbc_public.record_version 
+            where record_id not in 
+                (select record_version.record_id from ccbc_public.record_version 
                 where table_name='application_status' and op = 'INSERT');
         
     end loop;
