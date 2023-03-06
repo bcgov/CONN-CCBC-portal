@@ -543,7 +543,7 @@ const mockQueryPayload = {
               applicationId: 6,
               createdAt: '2023-03-06T09:24:44.034951-08:00',
               familyName: 'Bar',
-              item: 'Bar, Foo',
+              item: 'Foo Bar',
               givenName: 'Foo',
               op: 'INSERT',
               record: {
@@ -707,7 +707,9 @@ describe('The index page', () => {
 
     expect(
       screen.getAllByTestId('history-content-analyst-lead')[0]
-    ).toHaveTextContent('Foo Bar assigned Lead on Mar 6, 2023, 9:24 a.m.');
+    ).toHaveTextContent(
+      'Foo Bar assigned Lead to Foo Bar on Mar 6, 2023, 9:24 a.m.'
+    );
   });
 
   afterEach(() => {

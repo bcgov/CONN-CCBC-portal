@@ -71,7 +71,7 @@ const HistoryContent = ({ historyItem }) => {
     return (
       <StyledContent data-testid="history-content-analyst-lead">
         <span>
-          {fullName} assigned <b>Lead</b> on {createdAtFormatted}
+          {fullName} assigned <b>Lead</b> to {item} on {createdAtFormatted}
         </span>
       </StyledContent>
     );
