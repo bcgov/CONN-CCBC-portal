@@ -13,7 +13,7 @@ begin
         perform ccbc_public.import_rfi_data();
         perform ccbc_public.import_form_data();
         perform ccbc_public.import_application_analyst_lead();
-        perform ccbc_public.import_application_packages();
+        perform ccbc_public.import_application_package();
 
     end if;
     

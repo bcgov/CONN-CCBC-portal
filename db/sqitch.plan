@@ -200,3 +200,11 @@ import/form_data 2023-03-03T18:35:16Z ,,, Vladimir <vladimir@button.is> # add ba
 backfill_history [backfill_history@1.47.0] 2023-03-03T18:46:15Z ,,, Vladimir <vladimir@button.is> # add auditing for more tables
 computed_columns/application_history [computed_columns/application_history@1.47.0] 2023-03-03T19:49:34Z ,,, Vladimir <vladimir@button.is> # add history for more tables
 @1.48.0 2023-03-06T20:33:13Z Marcel Mueller <marcel@m2> # release v1.48.0
+import/application [import/application@1.48.0] 2023-03-06T22:00:03Z ,,, Vladimir <vladimir@button.is> # fix error in deduplication clause
+import/application_status [import/application_status@1.48.0] 2023-03-06T22:01:50Z ,,, Vladimir <vladimir@button.is> # fix error in deduplication clause
+import/application_package [import/application_package@1.48.0] 2023-03-06T22:02:10Z ,,, Vladimir <vladimir@button.is> # fix error in deduplication clause
+import/application_analyst_lead [import/application_analyst_lead@1.48.0] 2023-03-06T22:02:20Z ,,, Vladimir <vladimir@button.is> # fix error in deduplication clause
+import/assessment_data [import/assessment_data@1.48.0] 2023-03-06T22:02:39Z ,,, Vladimir <vladimir@button.is> # fix error in deduplication clause
+import/form_data [import/form_data@1.48.0] 2023-03-06T22:02:46Z ,,, Vladimir <vladimir@button.is> # fix error in deduplication clause
+import/rfi_data [import/rfi_data@1.48.0] 2023-03-06T22:02:52Z ,,, Vladimir <vladimir@button.is> # fix error in deduplication clause
+backfill_history [backfill_history@1.48.0] 2023-03-06T22:08:20Z ,,, Vladimir <vladimir@button.is> # fix backfill issues
