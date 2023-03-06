@@ -50,38 +50,12 @@ returns setof ccbc_public.history_item as $$
 
   union all
     select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record, 
-        concat(a.family_name, ', ', a.given_name) as item,
-        u.family_name, u.given_name, u.session_sub    
-    from ccbc_public.record_version as v 
-        inner join ccbc_public.ccbc_user u on v.created_by=u.id
-        inner join ccbc_public.analyst a on v.record->>'analyst_id' = a.id::varchar(10)
-    where v.op='INSERT' and v.table_name='application_analyst_lead' and v.record->>'archived_by' is null
-        and v.record->>'application_id'=application.id::varchar(10)
-  
-  union all
-    select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record, 
-        v.record->>'package' as item,
-        u.family_name, u.given_name, u.session_sub    
-    from ccbc_public.record_version as v 
-        inner join ccbc_public.ccbc_user u on v.created_by=u.id
-    where v.op='INSERT' and v.table_name='application_package' and v.record->>'archived_by' is null
-        and v.record->>'application_id'=application.id::varchar(10)
-
-  union all
-    select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record, 
         v.record-> 'json_data' ->>'reason_for_change' as item,
         u.family_name, u.given_name, u.session_sub    
     from ccbc_public.record_version as v 
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='INSERT' and v.table_name='form_data' and v.record->>'archived_by' is null
-        and v.record->>'id' in (
-            select fd.id::varchar(10) from ccbc_public.form_data as fd, 
-                ccbc_public.form as f, ccbc_public.application_form_data as af
-            where
-                fd.form_schema_id = f.id and
-                f.form_type = 'intake' and
-                af.application_id = application.id and
-                fd.id = af.form_data_id );
+        and v.record->>'id' in (select id::varchar(10) from ccbc_public.application_form_data(application));
 
 $$ language sql stable;
 
