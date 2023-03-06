@@ -1,3 +1,26 @@
+# [1.48.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.47.1...v1.48.0) (2023-03-06)
+
+### Bug Fixes
+
+- crate_package unit test ([6735bf3](https://github.com/bcgov/CONN-CCBC-portal/commit/6735bf34f7a5cea30533b00c49cfd1fe07c7b3b0))
+- created_at history sorting ([cde7e0f](https://github.com/bcgov/CONN-CCBC-portal/commit/cde7e0fb88e85c7f8ed78b40cfa715a7a1113933))
+- history last child border ([062cfb9](https://github.com/bcgov/CONN-CCBC-portal/commit/062cfb90910b743177d7e163db761c38fefa037d))
+- package and lead history content formatting ([278ed93](https://github.com/bcgov/CONN-CCBC-portal/commit/278ed937e286abacdfd2dc88a0c9f6b05372719c))
+- schema ([bbc3be5](https://github.com/bcgov/CONN-CCBC-portal/commit/bbc3be51d4b86f6e695563b7b60a3bde35d13b37))
+- updated application_history function ([cc826c0](https://github.com/bcgov/CONN-CCBC-portal/commit/cc826c04bb88efe5b28f20e6cfd1abe5dbfe8a94))
+
+### Features
+
+- add basic history table and icons ([1e42db3](https://github.com/bcgov/CONN-CCBC-portal/commit/1e42db31e57a49dbbf6bf9491e910f3361025d50))
+- add history content ([ffc32c5](https://github.com/bcgov/CONN-CCBC-portal/commit/ffc32c5b970956bae8ca91c72df18aa70da3894c))
+- add history table growthbook feature flag ([793926f](https://github.com/bcgov/CONN-CCBC-portal/commit/793926ff69c77d49f6cd36b011c246e60948e243))
+- add lead name to history content ([a14c2f1](https://github.com/bcgov/CONN-CCBC-portal/commit/a14c2f147d3bcdd0589e8befe83066d738387e6d))
+- add more application history content types ([c044eef](https://github.com/bcgov/CONN-CCBC-portal/commit/c044eefe77913c08a315b9173d8ca1dc4515f86f))
+- added backfill for new tables ([4c0a5ab](https://github.com/bcgov/CONN-CCBC-portal/commit/4c0a5ab0465e12a278f0444d9d6ba09cd2651458))
+- filter draft and submitted status from history table ([4b07c93](https://github.com/bcgov/CONN-CCBC-portal/commit/4b07c93e005b2ea55282eae1b4de09b4fb9d6ecd))
+- filter history applicant attachments from before application was received ([445dbd3](https://github.com/bcgov/CONN-CCBC-portal/commit/445dbd355dbc6f62a93fe9edf74f4870feaa7708))
+- update received application history text ([00ec9e8](https://github.com/bcgov/CONN-CCBC-portal/commit/00ec9e8c9ec140e3d12647af09f3f90b9be86df1))
+
 ## [1.47.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.47.0...v1.47.1) (2023-03-03)
 
 ### Bug Fixes
