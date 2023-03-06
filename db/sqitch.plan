@@ -199,3 +199,4 @@ import/application_package 2023-03-03T18:35:15Z ,,, Vladimir <vladimir@button.is
 import/form_data 2023-03-03T18:35:16Z ,,, Vladimir <vladimir@button.is> # add backfill for form_data table
 backfill_history [backfill_history@1.47.0] 2023-03-03T18:46:15Z ,,, Vladimir <vladimir@button.is> # add auditing for more tables
 computed_columns/application_history [computed_columns/application_history@1.47.0] 2023-03-03T19:49:34Z ,,, Vladimir <vladimir@button.is> # add history for more tables
+@1.48.0 2023-03-06T20:33:13Z Marcel Mueller <marcel@m2> # release v1.48.0
