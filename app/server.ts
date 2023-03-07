@@ -9,7 +9,6 @@ import { createLightship } from 'lightship';
 import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 // import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
-import readinessTest from './backend/lib/readinessTests';
 import { pgPool } from './backend/lib/setup-pg';
 import config from './config';
 // import session from './backend/lib/session';
@@ -22,19 +21,19 @@ import headersMiddleware from './backend/lib/headers';
 // import login from './backend/lib/login';
 // import s3adminArchive from './backend/lib/s3admin-archive';
 import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
-import s3Client from './backend/lib/s3client';
+import { saveRemoteFile } from './backend/lib/graphql/resolveFileUpload';
 
-const CLAM_BUCKET = config.get('AWS_CLAM_S3_BUCKET');
+// const CLAM_BUCKET = config.get('AWS_CLAM_S3_BUCKET');
 importJsonSchemasToDb();
 
 const port = config.get('PORT');
 const dev = config.get('NODE_ENV') !== 'production';
-const OPENSHIFT_APP_NAMESPACE = config.get('OPENSHIFT_APP_NAMESPACE');
+// const OPENSHIFT_APP_NAMESPACE = config.get('OPENSHIFT_APP_NAMESPACE');
 
-const isDeployedToOpenShift =
-  OPENSHIFT_APP_NAMESPACE.endsWith('-dev') ||
-  OPENSHIFT_APP_NAMESPACE.endsWith('-test') ||
-  OPENSHIFT_APP_NAMESPACE.endsWith('-prod');
+// // const isDeployedToOpenShift =
+// //   OPENSHIFT_APP_NAMESPACE.endsWith('-dev') ||
+// //   OPENSHIFT_APP_NAMESPACE.endsWith('-test') ||
+// //   OPENSHIFT_APP_NAMESPACE.endsWith('-prod');
 
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -88,16 +87,15 @@ app.prepare().then(async () => {
     .createServer(server)
     .listen(port, async () => {
       console.log(`> Ready on http://localhost:${port}`);
-      if (!isDeployedToOpenShift) {
-        await s3Client.getSignedUrlPromise('getObject', {
-          Bucket: CLAM_BUCKET,
-          Key: 'bytecode.cvd',
-          Expires: 60,
-          ResponseContentDisposition: `attachment; filename="bytecode.cvd"`,
-        });
-        lightship.signalReady();
-      } else {
-        await readinessTest(pgPool, lightship);
+      // if (!isDeployedToOpenShift) {
+      //   lightship.signalReady();
+      // } else {
+      //   await readinessTest(pgPool, lightship);
+      // }
+      while (true) {
+        setTimeout(() => {
+          saveRemoteFile();
+        }, 10 * 1000); // wait for ten seconds between uploads
       }
     })
     .on('error', (err) => {

@@ -1,9 +1,9 @@
-import crypto from 'crypto';
+import crypto, { randomBytes } from 'crypto';
 import { Upload } from '@aws-sdk/lib-storage';
 import * as Sentry from '@sentry/nextjs';
 import { CompleteMultipartUploadCommandOutput } from '@aws-sdk/client-s3';
 import fs from 'fs';
-import { Readable, EventEmitter } from 'node:stream';
+import { EventEmitter } from 'node:stream';
 import { s3ClientV3 } from '../s3client';
 import config from '../../../config';
 
@@ -37,7 +37,7 @@ if (!isDeployedToOpenShift) {
   );
 }
 
-export const saveRemoteFile = async (stream) => {
+export const saveRemoteFile = async () => {
   const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
   const span = transaction.startChild({
     op: 'resolve-file-upload',
@@ -48,8 +48,18 @@ export const saveRemoteFile = async (stream) => {
   try {
     console.time('saveRemoteFile');
 
-    if (!stream || !(stream instanceof Readable)) {
-      throw new Error('Choose a file to upload first.');
+    // if (!stream || !(stream instanceof Readable)) {
+    //   throw new Error('Choose a file to upload first.');
+    // }
+
+    const fileSize = 10 * 1024 * 1024; // 10MB in bytes
+    const chunkSize = 1024 * 1024; // 1MB chunks
+
+    const buffer = Buffer.alloc(fileSize);
+
+    for (let i = 0; i < fileSize; i += chunkSize) {
+      const chunk = randomBytes(chunkSize);
+      chunk.copy(buffer, i);
     }
 
     const uuid = crypto.randomUUID();
@@ -57,7 +67,7 @@ export const saveRemoteFile = async (stream) => {
     const uploadParams = {
       Bucket: AWS_S3_BUCKET,
       Key: uuid,
-      Body: stream,
+      Body: buffer,
     };
 
     const parallelUploads3 = new Upload({
@@ -136,9 +146,9 @@ export default async function resolveFileUpload(upload) {
   if (isLocalDevelopment) {
     return saveLocalFile(upload);
   }
-  const { createReadStream } = upload;
-  const stream = createReadStream();
-  const uuid = await saveRemoteFile(stream);
+  // const { createReadStream } = upload;
+  // const stream = createReadStream();
+  const uuid = await saveRemoteFile();
 
   return uuid;
 }
