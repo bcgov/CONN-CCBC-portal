@@ -23456,38 +23456,6 @@ type Mutation {
     input: DeleteGaplessCounterByRowIdInput!
   ): DeleteGaplessCounterPayload
 
-  """Deletes a single `Intake` using its globally unique id."""
-  deleteIntake(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteIntakeInput!
-  ): DeleteIntakePayload
-
-  """Deletes a single `Intake` using a unique key."""
-  deleteIntakeByRowId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteIntakeByRowIdInput!
-  ): DeleteIntakePayload
-
-  """Deletes a single `Intake` using a unique key."""
-  deleteIntakeByCcbcIntakeNumber(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteIntakeByCcbcIntakeNumberInput!
-  ): DeleteIntakePayload
-
-  """Deletes a single `Intake` using a unique key."""
-  deleteIntakeByApplicationNumberSeqName(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteIntakeByApplicationNumberSeqNameInput!
-  ): DeleteIntakePayload
-
   """Deletes a single `RecordVersion` using its globally unique id."""
   deleteRecordVersion(
     """
@@ -27902,94 +27870,6 @@ input DeleteGaplessCounterByRowIdInput {
 
   """Primary key for the gapless counter"""
   rowId: Int!
-}
-
-"""The output of our delete `Intake` mutation."""
-type DeleteIntakePayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Intake` that was deleted by this mutation."""
-  intake: Intake
-  deletedIntakeId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `CcbcUser` that is related to this `Intake`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Intake`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Intake`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """Reads a single `GaplessCounter` that is related to this `Intake`."""
-  gaplessCounterByCounterId: GaplessCounter
-
-  """An edge for our `Intake`. May be used by Relay 1."""
-  intakeEdge(
-    """The method to use when ordering `Intake`."""
-    orderBy: [IntakesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): IntakesEdge
-}
-
-"""All input for the `deleteIntake` mutation."""
-input DeleteIntakeInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Intake` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteIntakeByRowId` mutation."""
-input DeleteIntakeByRowIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """Unique ID for each intake number"""
-  rowId: Int!
-}
-
-"""All input for the `deleteIntakeByCcbcIntakeNumber` mutation."""
-input DeleteIntakeByCcbcIntakeNumberInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """Unique intake number for a set of CCBC IDs"""
-  ccbcIntakeNumber: Int!
-}
-
-"""All input for the `deleteIntakeByApplicationNumberSeqName` mutation."""
-input DeleteIntakeByApplicationNumberSeqNameInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The name of the sequence used to generate CCBC ids. It is added via a trigger
-  """
-  applicationNumberSeqName: String!
 }
 
 """The output of our delete `RecordVersion` mutation."""
