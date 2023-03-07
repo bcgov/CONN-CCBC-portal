@@ -67,6 +67,13 @@ export const saveRemoteFile = async (stream) => {
       leavePartsOnError: false, // optional manually handle dropped parts
     });
 
+    (parallelUploads3 as EventEmitter).on('uncaughtException', (error) => {
+      if (error instanceof Error) {
+        Sentry.captureException(error);
+        throw error;
+      }
+    });
+
     parallelUploads3.on('httpUploadProgress', (progress) => {
       const uploadProgressInMB =
         Math.round((progress.loaded / 1000000) * 10) / 10;
@@ -74,10 +81,6 @@ export const saveRemoteFile = async (stream) => {
       transaction.setMeasurement('memoryUsed', uploadProgressInMB, 'megabtye');
     });
 
-    (parallelUploads3 as EventEmitter).on('uncaughtException', (error) => {
-      Sentry.captureException(error);
-      throw error;
-    });
     const data = await parallelUploads3.done();
 
     const key = (data as CompleteMultipartUploadCommandOutput)?.Key;
