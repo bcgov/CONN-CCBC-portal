@@ -4,6 +4,8 @@ metadata:
   name: {{ template "ccbc.fullname" . }}
 spec:
   minAvailable: {{ sub .Values.replicaCount 1 }}
+  maxUnavailable: 1
+  maxSurge: {{ sub .Values.autoscaling.maxReplicas .Values.replicaCount}}
   selector:
     matchLabels:
       app: {{ template "ccbc.fullname" . }}
