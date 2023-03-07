@@ -17,7 +17,8 @@ truncate table
 restart identity cascade;
 
 insert into ccbc_public.gapless_counter(id, counter) overriding system value
- values (1, 0), (2, 0);
+ values (1, 0), (2, 0) on conflict (id) do update set
+ counter= excluded.counter;
 
 insert into
   ccbc_public.intake(id, open_timestamp, close_timestamp, ccbc_intake_number, counter_id)
