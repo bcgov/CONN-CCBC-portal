@@ -216,3 +216,4 @@ mutations/submit_application [mutations/submit_application@1.41.1] 2023-02-21T16
 mutations/create_intake 2023-02-24T16:15:43Z Anthony Bushara <anthony@button.is> # Function to create an intake
 tables/intake_003_add_insert_permissions 2023-02-27T15:20:58Z Anthony Bushara <anthony@button.is> # Adds insert and update on intakes
 tables/intake_004_drop_trigger 2023-02-27T16:38:34Z Anthony Bushara <anthony@button.is> # Removes trigger from intake table
+@1.49.0 2023-03-07T22:02:11Z Marcel Mueller <marcel@m2> # release v1.49.0

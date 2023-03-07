@@ -1,3 +1,18 @@
+# [1.49.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.48.1...v1.49.0) (2023-03-07)
+
+### Bug Fixes
+
+- add same on conflict as e2e tests ([4aa3b25](https://github.com/bcgov/CONN-CCBC-portal/commit/4aa3b256685a3097b4e8a98ed22b8623a164c9cb))
+- check if what is passed is error before rethrowing ([ba159ca](https://github.com/bcgov/CONN-CCBC-portal/commit/ba159ca484045ec019ab9fb9430f0fc1ab538266))
+
+### Features
+
+- add counter in intake table ([60af7be](https://github.com/bcgov/CONN-CCBC-portal/commit/60af7be9ea5fa347db3c025aea7386d6055acdc4))
+- create counter table ([8bca637](https://github.com/bcgov/CONN-CCBC-portal/commit/8bca6375d395b89b88c4577aff1b4a01fbce26ff))
+- create intake mutation ([9b64c24](https://github.com/bcgov/CONN-CCBC-portal/commit/9b64c246bdf05f54669563a3457ac5ed953ca4e0))
+- submit uses gapless counter ([5b4cdc7](https://github.com/bcgov/CONN-CCBC-portal/commit/5b4cdc73ca75acce75cb0e77f99282f088bdcbd6))
+- updated tests and remove trigger ([ef432a2](https://github.com/bcgov/CONN-CCBC-portal/commit/ef432a27435b314c629c2893959cdde6817836f2))
+
 ## [1.48.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.48.0...v1.48.1) (2023-03-06)
 
 ### Bug Fixes
