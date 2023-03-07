@@ -37,9 +37,8 @@ insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
   ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
 
-insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
-values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1),
-      ('2022-05-01 09:00:01-07', '2022-06-01 09:00:00-07', 2);
+select ccbc_public.create_intake('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1);
+select ccbc_public.create_intake('2022-05-01 09:00:01-07', '2022-06-01 09:00:00-07', 2);
 select mocks.set_mocked_time_in_transaction((select open_timestamp from ccbc_public.intake limit 1));
 
 do
