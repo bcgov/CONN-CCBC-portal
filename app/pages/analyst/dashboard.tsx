@@ -100,12 +100,29 @@ const AnalystDashboard = ({
     router.replace(url, url, { shallow: true });
   };
 
+  const scrollHandler = () => {
+    sessionStorage.setItem('dashboard_scroll_position', String(window.scrollY));
+  };
+
   useEffect(() => {
+    // Scroll to saved scroll position
+    const scrollPosition = sessionStorage.getItem('dashboard_scroll_position');
+    if (scrollPosition) {
+      window.scrollTo({
+        top: Number(scrollPosition),
+        behavior: 'smooth',
+      });
+    }
+    window.addEventListener('scroll', scrollHandler);
+
+    // Set saved sort order
     const orderByParam = cookie.get('analyst.sort');
     if (orderByParam)
       router.replace({
         query: { ...router.query, orderBy: orderByParam },
       });
+
+    return () => window.removeEventListener('scroll', scrollHandler);
   }, []);
 
   return (
