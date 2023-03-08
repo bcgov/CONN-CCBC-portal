@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -xeuo pipefail;
 
-version="8.15.3";
-releases_api="https://api.github.com/repos/zricethezav/gitleaks/releases/tags/v${version}";
+version="8.16.0";
+releases_api="https://api.github.com/repositories/119190187/releases/tags/v${version}";
 releases_json="$(curl -s ${releases_api})";
 
 case "$OSTYPE" in
