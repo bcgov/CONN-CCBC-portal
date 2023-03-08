@@ -84,6 +84,7 @@ const mockQueryPayload = {
 };
 
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
+window.scrollTo = jest.fn();
 
 const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
   pageComponent: Dashboard,
@@ -282,6 +283,29 @@ describe('The index page', () => {
     const intakeIdCell = screen.getByText('2189');
 
     expect(intakeIdCell).toBeInTheDocument();
+  });
+
+  it('save the scroll position on page scroll', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    fireEvent.scroll(window, { target: { scrollY: 300 } });
+
+    const sesstionStorage = window.sessionStorage.getItem(
+      'dashboard_scroll_position'
+    );
+
+    expect(sesstionStorage).toBe('300');
+  });
+
+  it('scroll to previous location if session storage item exists', () => {
+    window.sessionStorage.setItem('dashboard_scroll_position', '300');
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(window.scrollTo).toHaveBeenCalled();
+    expect(window.scrollY).toBe(300);
   });
 
   afterEach(() => {

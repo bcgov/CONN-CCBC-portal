@@ -23,6 +23,7 @@ const tableFilters = [
   new TextFilter('Lead', 'analystLead'),
   new NumberFilter('Package', 'package'),
 ];
+
 // will probably have to change to cursor for pagination/infinte scroll
 const getDashboardAnalystQuery = graphql`
   query dashboardAnalystQuery(
