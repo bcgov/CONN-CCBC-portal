@@ -110,7 +110,7 @@ const AnalystDashboard = ({
     if (scrollPosition) {
       window.scrollTo({
         top: Number(scrollPosition),
-        behavior: 'smooth',
+        behavior: 'auto',
       });
     }
     window.addEventListener('scroll', scrollHandler);
@@ -123,6 +123,8 @@ const AnalystDashboard = ({
       });
 
     return () => window.removeEventListener('scroll', scrollHandler);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
