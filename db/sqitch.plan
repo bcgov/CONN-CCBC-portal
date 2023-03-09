@@ -217,3 +217,13 @@ mutations/create_intake 2023-02-24T16:15:43Z Anthony Bushara <anthony@button.is>
 tables/intake_003_add_insert_permissions 2023-02-27T15:20:58Z Anthony Bushara <anthony@button.is> # Adds insert and update on intakes
 tables/intake_004_drop_trigger 2023-02-27T16:38:34Z Anthony Bushara <anthony@button.is> # Removes trigger from intake table
 @1.49.0 2023-03-07T22:02:11Z Marcel Mueller <marcel@m2> # release v1.49.0
+import/application [import/application@1.49.0] 2023-03-08T21:53:17Z ,,, Vladimir <vladimir@button.is> # fix import script
+import/application_status [import/application_status@1.49.0] 2023-03-08T21:53:18Z ,,, Vladimir <vladimir@button.is> # fix import script
+import/application_package [import/application_package@1.49.0] 2023-03-08T21:53:19Z ,,, Vladimir <vladimir@button.is> # fix import script
+import/application_analyst_lead [import/application_analyst_lead@1.49.0] 2023-03-08T21:53:19Z ,,, Vladimir <vladimir@button.is> # fix import script
+import/assessment_data [import/assessment_data@1.49.0] 2023-03-08T21:53:20Z ,,, Vladimir <vladimir@button.is> # fix import script
+import/form_data [import/form_data@1.49.0] 2023-03-08T21:53:21Z ,,, Vladimir <vladimir@button.is> # fix import script
+import/rfi_data [import/rfi_data@1.49.0] 2023-03-08T21:53:21Z ,,, Vladimir <vladimir@button.is> # fix import script
+import/attachment [import/attachment@1.49.0] 2023-03-08T21:53:22Z ,,, Vladimir <vladimir@button.is> # fix import script
+backfill_history [backfill_history@1.49.0] 2023-03-08T21:53:23Z ,,, Vladimir <vladimir@button.is> # fix import script
+computed_columns/application_history [computed_columns/application_history@1.49.0] 2023-03-08T23:37:07Z ,,, <vb@vbpro> # fix application_status change history
