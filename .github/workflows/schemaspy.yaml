@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - 933-install-schemaspy
 
 env:
   NODE_ENV: test
