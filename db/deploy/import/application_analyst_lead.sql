@@ -13,11 +13,14 @@ as $function$
         record_jsonb    jsonb; 
         record_id       uuid;  
     begin
+    delete from ccbc_public.record_version where table_name='application_analyst_lead' and op='INSERT';
     select count(*) into cnt from ccbc_public.application_analyst_lead;
     select oid into table_oid from  pg_class where relname='application_analyst_lead';
     pkey_cols := audit.primary_key_columns(table_oid);
     open application_analyst_leads for select *
-		    from ccbc_public.application_analyst_lead;
+		    from ccbc_public.application_analyst_lead lead 
+            inner join (select max(id) as id, application_id from ccbc_public.application_analyst_lead lead
+            group by application_id) lastrec on lead.id=lastrec.id;
 
     loop
         fetch application_analyst_leads into current_app;
@@ -43,7 +46,7 @@ as $function$
                 created_by,
                 created_at,
                 record_jsonb from ccbc_public.application_analyst_lead 
-            where record_id not in 
+            where id = current_app.id and record_id not in 
                 (select record_version.record_id from ccbc_public.record_version 
                 where table_name='application_analyst_lead' and op = 'INSERT');
         

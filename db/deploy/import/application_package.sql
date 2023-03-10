@@ -13,11 +13,12 @@ as $function$
         record_jsonb    jsonb; 
         record_id       uuid;  
     begin
+    delete from ccbc_public.record_version where table_name='application_package' and op='INSERT';
     select count(*) into cnt from ccbc_public.application_package;
     select oid into table_oid from  pg_class where relname='application_package';
     pkey_cols := audit.primary_key_columns(table_oid);
     open application_packages for select *
-		    from ccbc_public.application_package;
+		    from ccbc_public.application_package where archived_by is null;
 
     loop
         fetch application_packages into current_app;
@@ -43,7 +44,7 @@ as $function$
                 created_by,
                 created_at,
                 record_jsonb from ccbc_public.application_package 
-            where record_id not in 
+            where id = current_app.id and record_id not in 
                 (select record_version.record_id from ccbc_public.record_version 
                 where table_name='application_package' and op = 'INSERT');
         
