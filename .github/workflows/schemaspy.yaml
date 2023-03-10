@@ -12,14 +12,22 @@ env:
   PGDATABASE: ccbc
 
 jobs:
+  install-test-env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - run: make install_dev_tools
+      - run: make stop_pg # cleanly stop the database, otherwise it will complain in the subsequent jobs
+      - run: yarn install --frozen-lockfile --check-files
+        working-directory: ./app
+
   generate_schemaspy:
     needs: [install-test-env]
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
       - name: deploy db migrations
         run: make start_pg && make drop_db && make deploy_db_migrations
       - name: Create Output Folder
