@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?><database name="ccbc" schema="ccbc_public" type="PostgreSQL - 14.1">
+   <sequences>
+      <sequence increment="1" name="record_version_id_seq" startValue="1"/>
+   </sequences>
+   <tables>
+      <table name="analyst" remarks="Table containing list of analysts" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the analyst" size="10" type="int4" typeCode="4">
+            <child column="analyst_id" foreignKey="application_analyst_lead_analyst_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_analyst_lead"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="given_name" nullable="true" remarks="Analyst's first name" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="family_name" nullable="true" remarks="Analyst's last name" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="analyst_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="analyst_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="analyst_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="true" digits="0" id="9" name="active" nullable="true" remarks="" size="1" type="bool" typeCode="-7"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="analyst_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_analyst_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_analyst_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_analyst_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="application" remarks="Table containing the data associated with the CCBC respondents application" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Primary key ID for the application" size="10" type="int4" typeCode="4">
+            <child column="application_id" foreignKey="application_analyst_lead_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_analyst_lead"/>
+            <child column="application_id" foreignKey="application_form_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_data"/>
+            <child column="application_id" foreignKey="application_package_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
+            <child column="application_id" foreignKey="application_rfi_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_rfi_data"/>
+            <child column="application_id" foreignKey="application_status_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_status"/>
+            <child column="application_id" foreignKey="assessment_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="assessment_data"/>
+            <child column="application_id" foreignKey="attachment_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="attachment"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="ccbc_number" nullable="true" remarks="Reference number assigned to the application" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="owner" nullable="false" remarks="The owner of the application, identified by its JWT sub" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="intake_id" nullable="true" remarks="The intake associated with the application, set when it is submitted" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_intake_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="7" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="9" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="application_intake_id" unique="false">
+            <column ascending="true" name="intake_id"/>
+         </index>
+         <index name="ccbc_owner" unique="false">
+            <column ascending="true" name="owner"/>
+         </index>
+         <index name="ccbc_public_application_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_application_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_application_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="application_analyst_lead" remarks="Table containing the analyst lead for the given application" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the application_analyst_lead" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="ID of the application this analyst lead belongs to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_analyst_lead_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="analyst_id" nullable="true" remarks="ID of the analyst this analyst lead belongs to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_analyst_lead_analyst_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="analyst"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_analyst_lead_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_analyst_lead_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_analyst_lead_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_analyst_lead_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="application_analyst_lead_application_id_index" unique="false">
+            <column ascending="true" name="application_id"/>
+         </index>
+         <index name="ccbc_public_application_analyst_lead_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_application_analyst_lead_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_application_analyst_lead_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="application_form_data" remarks="Table to pair an application to form data" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="form_data_id" nullable="false" remarks="The foreign key of a form" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_form_data_form_data_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="false" remarks="The foreign key of an application" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_form_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <primaryKey column="form_data_id" sequenceNumberInPK="1"/>
+         <primaryKey column="application_id" sequenceNumberInPK="2"/>
+         <index name="application_form_data_pkey" unique="true">
+            <column ascending="true" name="form_data_id"/>
+            <column ascending="true" name="application_id"/>
+         </index>
+         <index name="application_form_data_application_id_idx" unique="false">
+            <column ascending="true" name="application_id"/>
+         </index>
+         <index name="application_form_data_form_data_id_idx" unique="false">
+            <column ascending="true" name="form_data_id"/>
+         </index>
+      </table>
+      <table name="application_package" remarks="Table containing the package the application is assigned to" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the application_package" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="Column containing the package number the application is assigned to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_package_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="package" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_package_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_package_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_package_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_package_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_application_package_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_application_package_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_application_package_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+         <checkConstraint constraint="((package &gt; 0))" name="application_package_package_check"/>
+      </table>
+      <table name="application_rfi_data" remarks="Table to pair an application to RFI data" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="rfi_data_id" nullable="false" remarks="The foreign key of a form" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_rfi_data_rfi_data_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="rfi_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="false" remarks="The foreign key of an application" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_rfi_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <primaryKey column="rfi_data_id" sequenceNumberInPK="1"/>
+         <primaryKey column="application_id" sequenceNumberInPK="2"/>
+         <index name="application_rfi_data_pkey" unique="true">
+            <column ascending="true" name="rfi_data_id"/>
+            <column ascending="true" name="application_id"/>
+         </index>
+         <index name="application_rfi_data_application_id_idx" unique="false">
+            <column ascending="true" name="application_id"/>
+         </index>
+         <index name="application_rfi_data_rfi_data_id_idx" unique="false">
+            <column ascending="true" name="rfi_data_id"/>
+         </index>
+      </table>
+      <table name="application_status" remarks="Table containing information about possible application statuses" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the application_status" size="10" type="int4" typeCode="4">
+            <child column="application_status_id" foreignKey="attachment_application_status_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="attachment"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="ID of the application this status belongs to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_status_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="status" nullable="true" remarks="" size="1000" type="varchar" typeCode="12">
+            <parent column="name" foreignKey="application_status_status_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_status_type"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_status_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="change_reason" nullable="true" remarks="Change reason for analyst status change" size="1000" type="varchar" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_status_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="application_status_application_id_index" unique="false">
+            <column ascending="true" name="application_id"/>
+         </index>
+         <index name="ccbc_public_application_status_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+      </table>
+      <table name="application_status_type" numRows="13" remarks="Table containing the different statuses that can be assigned to an application" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="name" nullable="false" remarks="Name of and primary key of the status of an application" size="1000" type="varchar" typeCode="12">
+            <child column="status" foreignKey="application_status_status_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_status"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="description" nullable="true" remarks="Description of the status type" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="true" digits="0" id="2" name="visible_by_applicant" nullable="true" remarks="" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="status_order" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <primaryKey column="name" sequenceNumberInPK="1"/>
+         <index name="application_status_type_pkey" unique="true">
+            <column ascending="true" name="name"/>
+         </index>
+         <index name="application_status_type_order_is_unique" unique="true">
+            <column ascending="true" name="status_order"/>
+         </index>
+      </table>
+      <table name="assessment_data" remarks="" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="assessment_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="assessment_data_type" nullable="true" remarks="" size="1000" type="varchar" typeCode="12">
+            <parent column="name" foreignKey="assessment_data_assessment_data_type_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="assessment_type"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="assessment_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="assessment_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="7" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="assessment_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="9" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="assessment_data_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_assessment_data_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_assessment_data_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_assessment_data_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="assessment_type" remarks="Table containing the different assessment types that can be assigned to an assessment" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="name" nullable="false" remarks="Name of and primary key of the type of an assessment" size="1000" type="varchar" typeCode="12">
+            <child column="assessment_data_type" foreignKey="assessment_data_assessment_data_type_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="assessment_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="description" nullable="true" remarks="Description of the assessment type" size="1000" type="varchar" typeCode="12"/>
+         <primaryKey column="name" sequenceNumberInPK="1"/>
+         <index name="assessment_type_pkey" unique="true">
+            <column ascending="true" name="name"/>
+         </index>
+      </table>
+      <table name="attachment" remarks="Table containing information about uploaded attachments" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the attachment" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="file" nullable="true" remarks="Universally Unique ID for the attachment, created by the fastapi storage micro-service" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="description" nullable="true" remarks="Description of the attachment" size="10000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="file_name" nullable="true" remarks="Original uploaded file name" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="file_type" nullable="true" remarks="Original uploaded file type" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="file_size" nullable="true" remarks="Original uploaded file size" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="application_id" nullable="false" remarks="The id of the project (ccbc_public.application.id) that the attachment was uploaded to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="attachment_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="application_status_id" nullable="true" remarks="The id of the application_status (ccbc_public.application_status.id) that the attachment references" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="attachment_application_status_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_status"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="attachment_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="9" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="attachment_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="11" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="attachment_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="13" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="attachment_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="attachment_file" unique="true">
+            <column ascending="true" name="file"/>
+         </index>
+         <index name="ccbc_public_attachment_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_attachment_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_attachment_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="ccbc_user" remarks="Table containing information about the application's users, this is business contact information not personally identifiable information" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the user" size="10" type="int4" typeCode="4">
+            <child column="archived_by" foreignKey="analyst_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="analyst"/>
+            <child column="created_by" foreignKey="analyst_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="analyst"/>
+            <child column="updated_by" foreignKey="analyst_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="analyst"/>
+            <child column="archived_by" foreignKey="application_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+            <child column="created_by" foreignKey="application_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+            <child column="updated_by" foreignKey="application_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+            <child column="archived_by" foreignKey="application_analyst_lead_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_analyst_lead"/>
+            <child column="created_by" foreignKey="application_analyst_lead_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_analyst_lead"/>
+            <child column="updated_by" foreignKey="application_analyst_lead_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_analyst_lead"/>
+            <child column="archived_by" foreignKey="application_package_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
+            <child column="created_by" foreignKey="application_package_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
+            <child column="updated_by" foreignKey="application_package_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
+            <child column="created_by" foreignKey="application_status_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_status"/>
+            <child column="archived_by" foreignKey="assessment_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="assessment_data"/>
+            <child column="created_by" foreignKey="assessment_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="assessment_data"/>
+            <child column="updated_by" foreignKey="assessment_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="assessment_data"/>
+            <child column="archived_by" foreignKey="attachment_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="attachment"/>
+            <child column="created_by" foreignKey="attachment_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="attachment"/>
+            <child column="updated_by" foreignKey="attachment_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="attachment"/>
+            <child column="archived_by" foreignKey="ccbc_user_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+            <child column="created_by" foreignKey="ccbc_user_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+            <child column="updated_by" foreignKey="ccbc_user_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+            <child column="archived_by" foreignKey="form_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
+            <child column="created_by" foreignKey="form_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
+            <child column="updated_by" foreignKey="form_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
+            <child column="archived_by" foreignKey="intake_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
+            <child column="created_by" foreignKey="intake_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
+            <child column="updated_by" foreignKey="intake_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
+            <child column="created_by" foreignKey="record_version_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="record_version"/>
+            <child column="archived_by" foreignKey="rfi_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="rfi_data"/>
+            <child column="created_by" foreignKey="rfi_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="rfi_data"/>
+            <child column="updated_by" foreignKey="rfi_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="rfi_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="session_sub" nullable="true" remarks="Universally Unique ID for the user, defined by the single sign-on provider" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="given_name" nullable="true" remarks="User's first name" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="family_name" nullable="true" remarks="User's last name" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="email_address" nullable="true" remarks="User's email address" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="ccbc_user_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="ccbc_user_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="8" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="ccbc_user_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="10" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="ccbc_user_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_ccbc_user_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_ccbc_user_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_ccbc_user_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+         <index name="ccbc_user_session_sub" unique="true">
+            <column ascending="true" name="session_sub"/>
+         </index>
+      </table>
+      <table name="form" remarks="Table to hold the json_schema for forms" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Primary key on form" size="10" type="int4" typeCode="4">
+            <child column="form_schema_id" foreignKey="form_data_form_schema_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="slug" nullable="true" remarks="The end url for the form data" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_schema" nullable="false" remarks="The JSON schema for the respective form" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="description" nullable="true" remarks="Description of the form" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="form_type" nullable="true" remarks="" size="1000" type="varchar" typeCode="12">
+            <parent column="name" foreignKey="form_form_type_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_type"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="form_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="form_slug_key" unique="true">
+            <column ascending="true" name="slug"/>
+         </index>
+      </table>
+      <table name="form_data" remarks="Table to hold applicant form data" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="The unique id of the form data" size="10" type="int4" typeCode="4">
+            <child column="form_data_id" foreignKey="application_form_data_form_data_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="1" name="json_data" nullable="false" remarks="The data entered into the form by the respondent" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="last_edited_page" nullable="true" remarks="Column saving the key of the last edited form page" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'pending'::character varying" digits="0" id="3" name="form_data_status_type_id" nullable="true" remarks="Column referencing the form data status type, defaults to draft" size="1000" type="varchar" typeCode="12">
+            <parent column="name" foreignKey="form_data_form_data_status_type_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data_status_type"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="form_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="form_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="7" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="form_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="9" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="form_schema_id" nullable="true" remarks="Schema for the respective form_data" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="form_data_form_schema_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="reason_for_change" nullable="true" remarks="Column to track analysts reason for changing form data" size="1000" type="varchar" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="form_data_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_form_data_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_form_data_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_form_data_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="form_data_status_type" remarks="The statuses applicable to a form" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="name" nullable="false" remarks="The name of the status type" size="1000" type="varchar" typeCode="12">
+            <child column="form_data_status_type_id" foreignKey="form_data_form_data_status_type_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="description" nullable="true" remarks="The description of the status type" size="1000" type="varchar" typeCode="12"/>
+         <primaryKey column="name" sequenceNumberInPK="1"/>
+         <index name="form_data_status_type_pkey" unique="true">
+            <column ascending="true" name="name"/>
+         </index>
+      </table>
+      <table name="form_type" remarks="Table containing the different types of forms used in the application" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="name" nullable="false" remarks="Primary key and unique identifier of the type of form" size="1000" type="varchar" typeCode="12">
+            <child column="form_type" foreignKey="form_form_type_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="description" nullable="true" remarks="Description of the type of form" size="1000" type="varchar" typeCode="12"/>
+         <primaryKey column="name" sequenceNumberInPK="1"/>
+         <index name="form_type_pkey" unique="true">
+            <column ascending="true" name="name"/>
+         </index>
+      </table>
+      <table name="gapless_counter" remarks="Table to hold counter for creating gapless sequences" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Primary key for the gapless counter" size="10" type="int4" typeCode="4">
+            <child column="counter_id" foreignKey="intake_counter_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
+         </column>
+         <column autoUpdated="false" defaultValue="0" digits="0" id="1" name="counter" nullable="false" remarks="Primary key for the gapless counter" size="10" type="int4" typeCode="4"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="gapless_counter_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="history_item" remarks="" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="application_id" nullable="true" remarks="Application Id." size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="1" name="created_at" nullable="true" remarks="Timestamp of the operation recorded." size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="op" nullable="true" remarks="Type of operation: INSERT/UPDATE/DELETE/TRUNCATE/SNAPSHOT." size="2147483647" type="&quot;audit&quot;.&quot;operation&quot;" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="table_name" nullable="true" remarks="Table name." size="2147483647" type="name" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="record_id" nullable="true" remarks="Identifier that uniquely identifies a record by primary key [primary key + table_oid]." size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="record" nullable="true" remarks="New record in Json format." size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="old_record" nullable="true" remarks="Old record in Json format." size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="item" nullable="true" remarks="Main object affected by the operation (i.e. status, or file name or RFI type)." size="2147483647" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="family_name" nullable="true" remarks="First Name of the user who performed the operation." size="2147483647" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="given_name" nullable="true" remarks="Last Name of the user who performed the operation." size="2147483647" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="session_sub" nullable="true" remarks="Session sub of the user who performed the operation." size="2147483647" type="varchar" typeCode="12"/>
+      </table>
+      <table name="intake" remarks="Table containing intake numbers and their respective open and closing dates" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for each intake number" size="10" type="int4" typeCode="4">
+            <child column="intake_id" foreignKey="application_intake_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="1" name="open_timestamp" nullable="false" remarks="Open date and time for an intake number" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="2" name="close_timestamp" nullable="false" remarks="Close date and time for an intake number" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="ccbc_intake_number" nullable="false" remarks="Unique intake number for a set of CCBC IDs" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="application_number_seq_name" nullable="true" remarks="The name of the sequence used to generate CCBC ids. It is added via a trigger" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="intake_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="intake_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="8" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="intake_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="10" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="counter_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="intake_counter_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="gapless_counter"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="intake_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_intake_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_intake_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_intake_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+         <index name="intake_application_number_seq_name_key" unique="true">
+            <column ascending="true" name="application_number_seq_name"/>
+         </index>
+         <index name="intake_ccbc_intake_number_key" unique="true">
+            <column ascending="true" name="ccbc_intake_number"/>
+         </index>
+      </table>
+      <table name="record_version" remarks="" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('ccbc_public.record_version_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="19" type="bigserial" typeCode="-5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="record_id" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="old_record_id" nullable="true" remarks="" size="2147483647" type="uuid" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="op" nullable="false" remarks="" size="2147483647" type="&quot;audit&quot;.&quot;operation&quot;" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="ts" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="table_oid" nullable="false" remarks="" size="10" type="oid" typeCode="-5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="table_schema" nullable="false" remarks="" size="2147483647" type="name" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="table_name" nullable="false" remarks="" size="2147483647" type="name" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="created_by" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="record_version_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="9" name="created_at" nullable="false" remarks="" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="record" nullable="true" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="old_record" nullable="true" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="record_version_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="record_version_old_record_id" unique="false">
+            <column ascending="true" name="old_record_id"/>
+         </index>
+         <index name="record_version_record_id" unique="false">
+            <column ascending="true" name="record_id"/>
+         </index>
+         <index name="record_version_table_oid" unique="false">
+            <column ascending="true" name="table_oid"/>
+         </index>
+         <index name="record_version_ts" unique="false">
+            <column ascending="true" name="ts"/>
+         </index>
+         <checkConstraint constraint="(((COALESCE(record_id, old_record_id) IS NOT NULL) OR (op = 'TRUNCATE'::audit.operation)))" name="record_version_check"/>
+         <checkConstraint constraint="(((op = ANY (ARRAY['INSERT'::audit.operation, 'UPDATE'::audit.operation])) = (record_id IS NOT NULL)))" name="record_version_check1"/>
+         <checkConstraint constraint="(((op = ANY (ARRAY['INSERT'::audit.operation, 'UPDATE'::audit.operation])) = (record IS NOT NULL)))" name="record_version_check2"/>
+         <checkConstraint constraint="(((op = ANY (ARRAY['UPDATE'::audit.operation, 'DELETE'::audit.operation])) = (old_record_id IS NOT NULL)))" name="record_version_check3"/>
+         <checkConstraint constraint="(((op = ANY (ARRAY['UPDATE'::audit.operation, 'DELETE'::audit.operation])) = (old_record IS NOT NULL)))" name="record_version_check4"/>
+      </table>
+      <table name="rfi_data" remarks="Table to hold RFI form data" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="The unique id of the form data" size="10" type="int4" typeCode="4">
+            <child column="rfi_data_id" foreignKey="application_rfi_data_rfi_data_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_rfi_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="rfi_number" nullable="true" remarks="Reference number assigned to the RFI" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data entered into the form by the respondent" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'draft'::character varying" digits="0" id="3" name="rfi_data_status_type_id" nullable="true" remarks="Column referencing the form data status type, defaults to draft" size="1000" type="varchar" typeCode="12">
+            <parent column="name" foreignKey="rfi_data_rfi_data_status_type_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="rfi_data_status_type"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="rfi_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="rfi_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="7" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="rfi_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="9" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="rfi_data_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_rfi_data_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_rfi_data_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_rfi_data_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+         <index name="rfi_data_rfi_number_idx" unique="false">
+            <column ascending="true" name="rfi_number"/>
+         </index>
+      </table>
+      <table name="rfi_data_status_type" remarks="The statuses applicable to an RFI" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="name" nullable="false" remarks="The name of the status type" size="1000" type="varchar" typeCode="12">
+            <child column="rfi_data_status_type_id" foreignKey="rfi_data_rfi_data_status_type_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="rfi_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="description" nullable="true" remarks="The description of the status type" size="1000" type="varchar" typeCode="12"/>
+         <primaryKey column="name" sequenceNumberInPK="1"/>
+         <index name="rfi_data_status_type_pkey" unique="true">
+            <column ascending="true" name="name"/>
+         </index>
+      </table>
+   </tables>
+</database>
