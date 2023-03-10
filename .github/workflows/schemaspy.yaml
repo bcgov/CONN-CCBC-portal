@@ -1,0 +1,35 @@
+name: Generate Schemaspy Docs
+on:
+  push:
+    branches:
+      - main
+      - 933-install-schemaspy
+
+env:
+  NODE_ENV: test
+  PGPASSWORD: postgres
+  PGUSER: postgres
+  PGDATABASE: ccbc
+
+jobs:
+  generate_schemaspy:
+    needs: [install-test-env]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: deploy db migrations
+        run: make start_pg && make drop_db && make deploy_db_migrations
+      - name: Create Output Folder
+        run: |
+          mkdir output
+          chmod a+rwx -R output
+      - name: Run Schemaspy
+        run: docker run --network host -v "$PWD/output:/output" schemaspy/schemaspy:snapshot -t pgsql -db postgres -host 127.0.0.1 -port 5432 -u postgres -p postgres -schemas ccbc,audit
+      - name: Deploy to Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: output
+          target-folder: schemaspy
