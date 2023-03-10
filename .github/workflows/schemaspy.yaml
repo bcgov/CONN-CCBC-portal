@@ -28,6 +28,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
       - name: deploy db migrations
         run: make start_pg && make drop_db && make deploy_db_migrations
       - name: Create Output Folder
