@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import {
+  faChartGantt,
   faCheckDouble,
   faChevronLeft,
   faClipboardList,
@@ -57,6 +58,12 @@ const NavigationSidebar = () => {
             href={`/analyst/application/${applicationId}/rfi`}
             icon={faEnvelope}
             label="RFI"
+          />
+          <NavItem
+            currentPath={asPath}
+            href={`/analyst/application/${applicationId}/tracking`}
+            icon={faChartGantt}
+            label="Tracking"
           />
           <NavItem
             currentPath={asPath}
