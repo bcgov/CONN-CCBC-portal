@@ -1,10 +1,10 @@
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { BaseAccordion } from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { faMinus, faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import AlertIcon from './AlertIcon';
 
 export function getToggledState(
@@ -58,36 +58,6 @@ const StyledButton = styled.button`
   appearance: none;
 `;
 
-const Minus = () => (
-  <svg
-    width="20"
-    height="6"
-    viewBox="0 0 20 6"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M19.7891 0.160156V5.0625H0.296875V0.160156H19.7891Z"
-      fill="#2D2D2D"
-    />
-  </svg>
-);
-
-const Plus = () => (
-  <svg
-    width="20"
-    height="22"
-    viewBox="0 0 20 22"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M19.7891 8.16016V13.0625H0.296875V8.16016H19.7891ZM12.7188 0.445312V21.1484H7.38672V0.445312H12.7188Z"
-      fill="#2D2D2D"
-    />
-  </svg>
-);
-
 const Accordion = ({
   allowAnalystEdit,
   children,
@@ -136,7 +106,11 @@ const Accordion = ({
             </StyledAlert>
           )}
           <button type="button" onClick={handleToggle}>
-            {isToggled ? <Minus /> : <Plus />}
+            {isToggled ? (
+              <FontAwesomeIcon icon={faMinus} fixedWidth />
+            ) : (
+              <FontAwesomeIcon icon={faPlus} fixedWidth />
+            )}
           </button>
         </StyledToggleRight>
       </header>
