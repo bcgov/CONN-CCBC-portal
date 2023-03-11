@@ -7,6 +7,7 @@
 - [Contributing](docs/CONTRIBUTING.md)
 - [Authentication and authorization](docs/auth.md)
 - [Release process](#release-process)
+- [SchemaSpy Database documentation](https://bcgov.github.io/CONN-CCBC-portal/schemaspy/)
 
 #### Local development
 
