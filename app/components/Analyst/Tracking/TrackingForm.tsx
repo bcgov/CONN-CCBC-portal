@@ -22,6 +22,7 @@ const ToggleRight = styled.div`
 const StyledBaseAccordion = styled(BaseAccordion)`
   border: none;
   border-bottom: 1px solid #d6d6d6;
+
   h2 {
     margin-bottom: 0;
     display: flex;
@@ -30,7 +31,20 @@ const StyledBaseAccordion = styled(BaseAccordion)`
   }
 
   header {
-    padding-bottom: 12.5px;
+    padding-bottom: 8px;
+  }
+
+  & div > div {
+    margin: 0px;
+  }
+
+  .pg-select-wrapper {
+    width: 100%;
+    margin: 8px 0 !important;
+  }
+
+  .file-widget {
+    margin-bottom: 8px;
   }
 `;
 
@@ -47,7 +61,7 @@ const TrackingForm: React.FC<Props> = ({
   const handleSubmit = async () => {};
 
   return (
-    <StyledBaseAccordion onToggle={() => {}} {...rest}>
+    <StyledBaseAccordion onToggle={() => {}} {...rest} defaultToggled>
       <BaseAccordion.Header>
         <h2>{title}</h2>
         <StyledToggleRight>
@@ -67,6 +81,8 @@ const TrackingForm: React.FC<Props> = ({
           theme={TrackingTheme}
           omitExtraData={false}
           onSubmit={handleSubmit}
+          // eslint-disable-next-line react/no-children-prop
+          children
         />
       </BaseAccordion.Content>
     </StyledBaseAccordion>

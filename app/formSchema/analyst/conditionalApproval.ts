@@ -8,19 +8,12 @@ const conditionalApproval: JSONSchema7 = {
     decision: {
       title: `Minister's decision`,
       type: 'object',
-      required: [
-        'ministerDecision',
-        'ministerDate',
-        'ministerAnnouncement',
-        'isedDecision',
-        'isedDate',
-        'isedAnnouncement',
-      ],
-
+      required: ['ministerDecision', 'ministerDate', 'ministerAnnouncement'],
       properties: {
         ministerDecision: {
           title: ' ',
           type: 'string',
+          enum: ['Approved', 'Not approved', 'Hold'],
         },
         ministerDate: {
           title: ' ',
@@ -29,31 +22,42 @@ const conditionalApproval: JSONSchema7 = {
         ministerAnnouncement: {
           title: ' ',
           type: 'string',
+          enum: ['Announce immediately', 'Hold announcement'],
         },
+      },
+    },
+    isedDecision: {
+      title: ' ',
+      type: 'object',
+      required: ['isedDecision', 'isedDate', 'isedAnnouncement'],
+      properties: {
         isedDecision: {
           title: ' ',
           type: 'string',
+          enum: ['Approved', 'Not approved', 'Hold'],
         },
         isedDate: {
           title: ' ',
           type: 'string',
         },
         isedAnnouncement: {
-          title: 'Project description',
+          title: ' ',
           type: 'string',
+          enum: ['Announce immediately', 'Hold announcement'],
         },
       },
     },
     letterOfApproval: {
       title: 'Letter of conditional approval',
       type: 'object',
+      required: ['letterOfApprovalUpload', 'letterOfApprovalDateSent'],
       properties: {
         letterOfApprovalUpload: {
-          title: '',
+          title: ' ',
           type: 'string',
         },
         letterOfApprovalDateSent: {
-          title: '',
+          title: ' ',
           type: 'string',
         },
       },
@@ -61,14 +65,17 @@ const conditionalApproval: JSONSchema7 = {
     response: {
       title: 'Letter of conditional approval',
       type: 'object',
+      required: ['applicantResponse', 'statusApplicantSees'],
       properties: {
         applicantResponse: {
-          title: '',
+          title: ' ',
           type: 'string',
+          enum: ['Accepted', 'Rejected'],
         },
         statusApplicantSees: {
-          title: '',
+          title: ' ',
           type: 'string',
+          enum: ['Conditionally Approved'],
         },
       },
     },

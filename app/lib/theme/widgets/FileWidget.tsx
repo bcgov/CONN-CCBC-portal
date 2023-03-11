@@ -129,6 +129,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const allowMultipleFiles = uiSchema['ui:options']?.allowMultipleFiles;
   const acceptedFileTypes = uiSchema['ui:options']?.fileTypes;
+  const buttonVariant = uiSchema['ui:options']?.buttonVariant || 'primary';
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment;
 
@@ -297,7 +298,10 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   };
 
   return (
-    <StyledContainer style={{ border: error && '1px solid #E71F1F' }}>
+    <StyledContainer
+      className="file-widget"
+      style={{ border: error && '1px solid #E71F1F' }}
+    >
       <StyledDetails>
         <StyledH4>{label}</StyledH4>
         {isFiles &&
@@ -333,6 +337,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
             e.preventDefault();
             handleClick();
           }}
+          variant={buttonVariant}
           disabled={isCreatingAttachment || disabled}
         >
           {loading ? <LoadingSpinner /> : buttonLabel()}

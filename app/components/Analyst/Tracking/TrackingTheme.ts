@@ -1,12 +1,18 @@
 import { ThemeProps, utils } from '@rjsf/core';
+import {
+  CheckboxWidget,
+  CheckboxesWidget,
+  DatePickerWidget,
+  FileWidget,
+  SelectWidget,
+} from 'lib/theme/widgets';
 import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
 import FieldTemplate from 'lib/theme/FieldTemplate';
-import * as widgets from 'lib/theme/widgets';
 import TrackingObjectFieldTemplate from './fields/TrackingObjectFieldTemplate';
 
 import { TrackingSectionField } from './fields';
 
-const { fields, widgets: defaultWidgets } = utils.getDefaultRegistry();
+const { fields } = utils.getDefaultRegistry();
 
 const TrackingTheme: ThemeProps = {
   fields: {
@@ -14,8 +20,12 @@ const TrackingTheme: ThemeProps = {
     SectionField: TrackingSectionField,
   },
   widgets: {
-    ...defaultWidgets,
-    ...widgets,
+    // ...defaultWidgets,
+    CheckboxWidget,
+    CheckboxesWidget,
+    DatePickerWidget,
+    FileWidget,
+    SelectWidget,
   },
   ObjectFieldTemplate: TrackingObjectFieldTemplate,
   FieldTemplate,

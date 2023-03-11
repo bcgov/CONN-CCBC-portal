@@ -3,7 +3,14 @@ import { Dropdown } from '@button-inc/bcgov-theme';
 import styled from 'styled-components';
 import { Label } from '../../../components/Form';
 
-const StyledSelect = styled(Dropdown)`
+interface SelectWidgetProps extends WidgetProps {
+  customOption?: React.ReactNode;
+}
+
+interface SelectProps {
+  isPlaceholder: boolean;
+}
+const StyledSelect = styled(Dropdown)<SelectProps>`
   .pg-select-wrapper {
     margin: 12px 0;
     width: ${(props) => props.theme.width.inputWidthSmall};
@@ -12,6 +19,7 @@ const StyledSelect = styled(Dropdown)`
     margin: 0.3em 0;
   }
   & select {
+    color: ${(props) => (props.isPlaceholder ? '#cccccc' : 'inherit')};
     margin: 0.25em 0;
   }
 
@@ -26,13 +34,10 @@ const StyledSelect = styled(Dropdown)`
     border: ${(props) => props.disabled && ' 1px solid rgba(96, 96, 96, 0.3)'};
   }
 `;
+
 const StyledDiv = styled('div')`
   margin-bottom: 32px;
 `;
-
-interface SelectWidgetProps extends WidgetProps {
-  customOption?: React.ReactNode;
-}
 
 const SelectWidget: React.FC<SelectWidgetProps> = ({
   id,
@@ -59,6 +64,7 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
           onChange(e.target.value || undefined)
         }
         disabled={disabled}
+        isPlaceholder={!value}
         placeholder={placeholder}
         size="medium"
         required={required}

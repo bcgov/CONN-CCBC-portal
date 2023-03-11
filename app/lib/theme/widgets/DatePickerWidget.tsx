@@ -6,6 +6,12 @@ import styled from 'styled-components';
 import { dateTimeFormat, fixDate } from '../functions/formatDates';
 
 const StyledContainer = styled('div')`
+  width: ${(props) => props.theme.width.inputWidthSmall};
+  position: relative;
+  div {
+    margin: 0px !important;
+  }
+
   margin-top: 12px;
   margin-bottom: 32px;
 `;
@@ -15,11 +21,10 @@ const StyledDatePicker = styled(DatePicker)`
   border-radius: 0.25rem;
   padding: 0.5rem 0.6rem;
   width: 100%;
-`;
 
-const StyledDiv = styled('div')`
-  width: ${(props) => props.theme.width.inputWidthSmall};
-  position: relative;
+  ::placeholder {
+    color: #cccccc;
+  }
 `;
 
 function getDateString(date: Date | undefined) {
@@ -93,15 +98,16 @@ const CalendarIcon = ({ onClick }: any) => {
 };
 
 const CustomInput = ({ value, onClick, ...rest }: any) => (
-  <StyledDiv>
+  <>
     <StyledDatePicker
       showPopperArrow={false}
       value={value}
+      placeholderText="YYYY-MM-DD"
       onClick={onClick}
       {...rest}
     />
     <CalendarIcon onClick={onClick} />
-  </StyledDiv>
+  </>
 );
 
 const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
