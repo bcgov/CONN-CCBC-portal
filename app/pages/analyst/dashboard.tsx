@@ -23,6 +23,7 @@ const tableFilters = [
   new TextFilter('Lead', 'analystLead'),
   new NumberFilter('Package', 'package'),
 ];
+
 // will probably have to change to cursor for pagination/infinte scroll
 const getDashboardAnalystQuery = graphql`
   query dashboardAnalystQuery(
@@ -100,12 +101,31 @@ const AnalystDashboard = ({
     router.replace(url, url, { shallow: true });
   };
 
+  const scrollHandler = () => {
+    sessionStorage.setItem('dashboard_scroll_position', String(window.scrollY));
+  };
+
   useEffect(() => {
+    // Scroll to saved scroll position
+    const scrollPosition = sessionStorage.getItem('dashboard_scroll_position');
+    if (scrollPosition) {
+      window.scrollTo({
+        top: Number(scrollPosition),
+        behavior: 'auto',
+      });
+    }
+    window.addEventListener('scroll', scrollHandler);
+
+    // Set saved sort order
     const orderByParam = cookie.get('analyst.sort');
     if (orderByParam)
       router.replace({
         query: { ...router.query, orderBy: orderByParam },
       });
+
+    return () => window.removeEventListener('scroll', scrollHandler);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

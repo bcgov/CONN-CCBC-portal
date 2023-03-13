@@ -25,7 +25,12 @@ type Props = {
 
 const LoginForm: React.FC<Props> = ({ linkText, action }) => (
   <StyledForm action={action} method="POST">
-    <StyledButton type="submit">{linkText}</StyledButton>
+    <StyledButton
+      type="submit"
+      onClick={() => sessionStorage.removeItem('dashboard_scroll_position')}
+    >
+      {linkText}
+    </StyledButton>
   </StyledForm>
 );
 
