@@ -65,6 +65,9 @@ const conditionalApprovalUiSchema = {
     },
     letterOfApprovalUpload: {
       'ui:widget': 'FileWidget',
+      'ui:options': {
+        buttonVariant: 'secondary',
+      },
     },
     letterOfApprovalDateSent: {
       'ui:title': 'Date sent',
