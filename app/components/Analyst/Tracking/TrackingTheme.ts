@@ -19,7 +19,6 @@ const TrackingTheme: ThemeProps = {
     SectionField: TrackingSectionField,
   },
   widgets: {
-    // ...defaultWidgets,
     CheckboxWidget,
     CheckboxesWidget,
     DatePickerWidget,

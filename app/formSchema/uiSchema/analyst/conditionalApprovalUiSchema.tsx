@@ -3,12 +3,13 @@ import {
   ISEDHeader,
 } from 'components/Analyst/Tracking/ConditionalApproval';
 
-const assessmentsUiSchema = {
+const conditionalApprovalUiSchema = {
   'ui:order': [
     'decision',
     'ministerDecision',
     'ministerDate',
     'ministerAnnouncement',
+    'isedDecisionObj',
     'isedDecision',
     'isedDate',
     'isedAnnouncement',
@@ -36,7 +37,7 @@ const assessmentsUiSchema = {
       'ui:placeholder': 'No recommendation',
     },
   },
-  isedDecision: {
+  isedDecisionObj: {
     'ui:title': '‎',
     'ui:options': {
       flexDirection: 'column',
@@ -90,4 +91,4 @@ const assessmentsUiSchema = {
   },
 };
 
-export default assessmentsUiSchema;
+export default conditionalApprovalUiSchema;

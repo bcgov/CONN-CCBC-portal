@@ -26,7 +26,7 @@ const conditionalApproval: JSONSchema7 = {
         },
       },
     },
-    isedDecision: {
+    isedDecisionObj: {
       title: ' ',
       type: 'object',
       required: ['isedDecision', 'isedDate', 'isedAnnouncement'],

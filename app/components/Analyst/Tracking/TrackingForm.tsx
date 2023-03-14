@@ -14,6 +14,7 @@ interface Props {
   schema: JSONSchema7;
   isFormEditMode: boolean;
   setIsFormEditMode: any;
+  theme?: any;
   title: string;
   uiSchema?: any;
 }
@@ -51,6 +52,7 @@ const StyledBaseAccordion = styled(BaseAccordion)`
 
   .pg-select-wrapper {
     width: 100%;
+    min-width: 196px;
     margin: 8px 0 !important;
   }
 
@@ -86,6 +88,7 @@ const TrackingForm: React.FC<Props> = ({
   onSubmit,
   schema,
   setIsFormEditMode,
+  theme,
   title,
   uiSchema,
   ...rest
@@ -127,7 +130,7 @@ const TrackingForm: React.FC<Props> = ({
           uiSchema={uiSchema}
           noValidate
           formData={formData}
-          theme={TrackingTheme}
+          theme={theme || TrackingTheme}
           omitExtraData={false}
           onChange={handleChange}
           // eslint-disable-next-line react/no-children-prop

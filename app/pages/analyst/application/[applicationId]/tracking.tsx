@@ -9,6 +9,8 @@ import { trackingQuery } from '__generated__/trackingQuery.graphql';
 import TrackingForm from 'components/Analyst/Tracking/TrackingForm';
 import conditionalApprovalSchema from 'formSchema/analyst/conditionalApproval';
 import conditionalApprovalUiSchema from 'formSchema/uiSchema/analyst/conditionalApprovalUiSchema';
+import conditionalApprovalReadOnlyUiSchema from 'formSchema/uiSchema/analyst/conditionalApprovalReadOnlyUiSchema';
+import ConditionalApprovalReadOnlyTheme from 'components/Analyst/Tracking/ConditionalApproval/ConditionalApprovalReadOnlyTheme';
 import { useCreateConditionalApprovalMutation } from 'schema/mutations/tracking/createConditionalApproval';
 
 const getTrackingQuery = graphql`
@@ -64,7 +66,12 @@ const Tracking = ({
           isFormEditMode={isFormEditMode}
           title="Conditional approval"
           schema={conditionalApprovalSchema}
-          uiSchema={conditionalApprovalUiSchema}
+          theme={!isFormEditMode && ConditionalApprovalReadOnlyTheme}
+          uiSchema={
+            isFormEditMode
+              ? conditionalApprovalUiSchema
+              : conditionalApprovalReadOnlyUiSchema
+          }
           onSubmit={handleSubmit}
           setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
         />
