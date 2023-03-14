@@ -1,7 +1,7 @@
 -- Revert ccbc:mutations/create_conditional_approval from pg
 
-BEGIN;
+begin;
 
--- XXX Add DDLs here.
+drop function ccbc_public.create_conditional_approval;
 
-COMMIT;
+commit;

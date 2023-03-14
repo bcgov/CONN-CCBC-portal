@@ -15,8 +15,10 @@ begin
 
 perform ccbc_private.grant_permissions('select', 'conditional_approval_data', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('insert', 'conditional_approval_data', 'ccbc_analyst');
+perform ccbc_private.grant_permissions('update', 'conditional_approval_data', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('select', 'conditional_approval_data', 'ccbc_admin');
 perform ccbc_private.grant_permissions('insert', 'conditional_approval_data', 'ccbc_admin');
+perform ccbc_private.grant_permissions('update', 'conditional_approval_data', 'ccbc_admin');
 
 end
 $grant$;
