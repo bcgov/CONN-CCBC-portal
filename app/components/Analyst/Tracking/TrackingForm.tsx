@@ -1,15 +1,19 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { BaseAccordion } from '@button-inc/bcgov-theme/Accordion';
 import { FormBase } from 'components/Form';
 import type { JSONSchema7 } from 'json-schema';
 import TrackingTheme from './TrackingTheme';
 
 interface Props {
+  formData: any;
+  onSubmit: any;
+  handleChange: any;
   schema: JSONSchema7;
+  isFormEditMode: boolean;
+  setIsFormEditMode: any;
   title: string;
   uiSchema?: any;
 }
@@ -57,7 +61,14 @@ const StyledBaseAccordion = styled(BaseAccordion)`
 
   .datepicker-widget {
     width: 100%;
+    max-width: 196px;
   }
+`;
+
+const StyledIconBtn = styled.button`
+  border-radius: 0;
+  appearance: none;
+  margin-right: 8px;
 `;
 
 const StyledToggleRight = styled(ToggleRight)`
@@ -69,22 +80,39 @@ const StyledBtn = styled(Button)`
 `;
 
 const TrackingForm: React.FC<Props> = ({
+  formData,
+  handleChange,
+  isFormEditMode,
+  onSubmit,
   schema,
+  setIsFormEditMode,
   title,
   uiSchema,
   ...rest
 }) => {
-  const [newFormData, setNewFormData] = useState({});
-
   return (
     <StyledBaseAccordion onToggle={() => {}} {...rest} defaultToggled>
       <StyledHeader>
         <h2>{title}</h2>
         <StyledToggleRight>
-          <StyledBtn size="small">Save</StyledBtn>
-          <StyledBtn size="small" variant="secondary">
-            Cancel
-          </StyledBtn>
+          {isFormEditMode ? (
+            <>
+              <StyledBtn size="small" onClick={onSubmit}>
+                Save
+              </StyledBtn>
+              <StyledBtn
+                size="small"
+                variant="secondary"
+                onClick={() => setIsFormEditMode(false)}
+              >
+                Cancel
+              </StyledBtn>
+            </>
+          ) : (
+            <StyledIconBtn onClick={() => setIsFormEditMode(true)}>
+              <FontAwesomeIcon icon={faPen} size="xs" />
+            </StyledIconBtn>
+          )}
           <BaseAccordion.ToggleOff>
             <FontAwesomeIcon icon={faPlus} fixedWidth />
           </BaseAccordion.ToggleOff>
@@ -98,12 +126,10 @@ const TrackingForm: React.FC<Props> = ({
           schema={schema}
           uiSchema={uiSchema}
           noValidate
-          formData={newFormData}
+          formData={formData}
           theme={TrackingTheme}
           omitExtraData={false}
-          onChange={(e) => {
-            setNewFormData({ ...e.formData });
-          }}
+          onChange={handleChange}
           // eslint-disable-next-line react/no-children-prop
           children
         />
