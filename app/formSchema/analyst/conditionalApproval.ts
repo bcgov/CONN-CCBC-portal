@@ -48,7 +48,6 @@ const conditionalApproval: JSONSchema7 = {
       },
     },
     letterOfApproval: {
-      title: 'Letter of conditional approval',
       type: 'object',
       required: ['letterOfApprovalUpload', 'letterOfApprovalDateSent'],
       properties: {
@@ -63,7 +62,6 @@ const conditionalApproval: JSONSchema7 = {
       },
     },
     response: {
-      title: 'Letter of conditional approval',
       type: 'object',
       required: ['applicantResponse', 'statusApplicantSees'],
       properties: {

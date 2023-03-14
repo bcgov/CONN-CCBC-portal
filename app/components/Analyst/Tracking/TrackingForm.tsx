@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import Button from '@button-inc/bcgov-theme/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { BaseAccordion } from '@button-inc/bcgov-theme/Accordion';
@@ -19,9 +21,13 @@ const ToggleRight = styled.div`
   font-size: 2em;
 `;
 
+const StyledHeader = styled(BaseAccordion.Header)`
+  border-bottom: 1px solid #d6d6d6;
+  margin-bottom: 16px;
+`;
+
 const StyledBaseAccordion = styled(BaseAccordion)`
   border: none;
-  border-bottom: 1px solid #d6d6d6;
 
   h2 {
     margin-bottom: 0;
@@ -31,9 +37,10 @@ const StyledBaseAccordion = styled(BaseAccordion)`
   }
 
   header {
-    padding-bottom: 8px;
+    padding-bottom: 0px;
   }
 
+  // Some overrides for widget styles
   & div > div {
     margin: 0px;
   }
@@ -45,11 +52,20 @@ const StyledBaseAccordion = styled(BaseAccordion)`
 
   .file-widget {
     margin-bottom: 8px;
+    min-width: 340px;
+  }
+
+  .datepicker-widget {
+    width: 100%;
   }
 `;
 
 const StyledToggleRight = styled(ToggleRight)`
   display: flex;
+`;
+
+const StyledBtn = styled(Button)`
+  margin: 8px;
 `;
 
 const TrackingForm: React.FC<Props> = ({
@@ -58,13 +74,17 @@ const TrackingForm: React.FC<Props> = ({
   uiSchema,
   ...rest
 }) => {
-  const handleSubmit = async () => {};
+  const [newFormData, setNewFormData] = useState({});
 
   return (
     <StyledBaseAccordion onToggle={() => {}} {...rest} defaultToggled>
-      <BaseAccordion.Header>
+      <StyledHeader>
         <h2>{title}</h2>
         <StyledToggleRight>
+          <StyledBtn size="small">Save</StyledBtn>
+          <StyledBtn size="small" variant="secondary">
+            Cancel
+          </StyledBtn>
           <BaseAccordion.ToggleOff>
             <FontAwesomeIcon icon={faPlus} fixedWidth />
           </BaseAccordion.ToggleOff>
@@ -72,15 +92,18 @@ const TrackingForm: React.FC<Props> = ({
             <FontAwesomeIcon icon={faMinus} fixedWidth />
           </BaseAccordion.ToggleOn>
         </StyledToggleRight>
-      </BaseAccordion.Header>
+      </StyledHeader>
       <BaseAccordion.Content>
         <FormBase
           schema={schema}
           uiSchema={uiSchema}
           noValidate
+          formData={newFormData}
           theme={TrackingTheme}
           omitExtraData={false}
-          onSubmit={handleSubmit}
+          onChange={(e) => {
+            setNewFormData({ ...e.formData });
+          }}
           // eslint-disable-next-line react/no-children-prop
           children
         />

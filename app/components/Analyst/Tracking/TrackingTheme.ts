@@ -7,9 +7,8 @@ import {
   SelectWidget,
 } from 'lib/theme/widgets';
 import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
-import FieldTemplate from 'lib/theme/FieldTemplate';
+import TrackingFieldTemplate from './fields/TrackingFieldTemplate';
 import TrackingObjectFieldTemplate from './fields/TrackingObjectFieldTemplate';
-
 import { TrackingSectionField } from './fields';
 
 const { fields } = utils.getDefaultRegistry();
@@ -28,7 +27,7 @@ const TrackingTheme: ThemeProps = {
     SelectWidget,
   },
   ObjectFieldTemplate: TrackingObjectFieldTemplate,
-  FieldTemplate,
+  FieldTemplate: TrackingFieldTemplate,
   ArrayFieldTemplate,
 };
 

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Image from 'next/image';
 
 const StyledFlex = styled.div`
   display: flex;
@@ -34,7 +35,13 @@ const assessmentsUiSchema = {
     },
     'ui:before': (
       <StyledFlex>
-        <span>BC</span>
+        <Image
+          width={24}
+          height={24}
+          src="/icons/bcid-favicon-32x32.png"
+          alt="bc-gov-logo"
+        />
+        <span style={{ marginLeft: '8px' }}>BC</span>
       </StyledFlex>
     ),
     ministerDecision: {
@@ -69,7 +76,6 @@ const assessmentsUiSchema = {
             d="m-90 2030 45-863a95 95 0 0 0-111-98l-859 151 116-320a65 65 0 0 0-20-73l-941-762 212-99a65 65 0 0 0 34-79l-186-572 542 115a65 65 0 0 0 73-38l105-247 423 454a65 65 0 0 0 111-57l-204-1052 327 189a65 65 0 0 0 91-27l332-652 332 652a65 65 0 0 0 91 27l327-189-204 1052a65 65 0 0 0 111 57l423-454 105 247a65 65 0 0 0 73 38l542-115-186 572a65 65 0 0 0 34 79l212 99-941 762a65 65 0 0 0-20 73l116 320-859-151a95 95 0 0 0-111 98l45 863z"
           />
         </svg>
-
         <span>ISED</span>
       </StyledFlex>
     ),
@@ -87,7 +93,7 @@ const assessmentsUiSchema = {
   },
 
   letterOfApproval: {
-    'ui:title': 'Letter of conditional approval',
+    'ui:title': 'Letter of conditiona approval',
     'ui:options': {
       buttonVariant: 'secondary',
       flexDirection: 'column',
@@ -98,6 +104,7 @@ const assessmentsUiSchema = {
       'ui:widget': 'FileWidget',
     },
     letterOfApprovalDateSent: {
+      'ui:title': 'Date sent',
       'ui:widget': 'DatePickerWidget',
     },
   },
@@ -111,6 +118,7 @@ const assessmentsUiSchema = {
       'ui:placeholder': 'Not Received',
     },
     statusApplicantSees: {
+      'ui:title': 'Status that applicant sees',
       'ui:widget': 'SelectWidget',
       'ui:placeholder': 'Received',
     },
