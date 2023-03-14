@@ -38,29 +38,31 @@ const AssessmentsForm: React.FC<Props> = ({
   const [isFormSaved, setIsFormSaved] = useState(false);
 
   const handleSubmit = async (e: ISubmitEvent<any>) => {
-    createAssessment({
-      variables: {
-        input: {
-          _applicationId: queryFragment.rowId,
-          _jsonData: e.formData,
-          _assessmentType: slug,
+    if (!isFormSaved) {
+      createAssessment({
+        variables: {
+          input: {
+            _applicationId: queryFragment.rowId,
+            _jsonData: e.formData,
+            _assessmentType: slug,
+          },
         },
-      },
-      onCompleted: () => {
-        setIsFormSaved(true);
-      },
-      optimisticResponse: {
-        jsonData: e.formData,
-      },
-      updater: (store, data) => {
-        const application = store.get(queryFragment.id);
-        application.setLinkedRecord(
-          store.get(data.createAssessmentForm.assessmentData.id),
-          'assessmentForm',
-          { _assessmentDataType: slug }
-        );
-      },
-    });
+        onCompleted: () => {
+          setIsFormSaved(true);
+        },
+        optimisticResponse: {
+          jsonData: e.formData,
+        },
+        updater: (store, data) => {
+          const application = store.get(queryFragment.id);
+          application.setLinkedRecord(
+            store.get(data.createAssessmentForm.assessmentData.id),
+            'assessmentForm',
+            { _assessmentDataType: slug }
+          );
+        },
+      });
+    }
   };
 
   return (
