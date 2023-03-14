@@ -4,21 +4,23 @@ import styled from 'styled-components';
 interface FlexProps {
   direction: string;
   maxWidth: string;
-  isDivider: any;
+  isDividers: any;
 }
 
 const StyledFlex = styled.div<FlexProps>`
   display: flex;
   flex-direction: ${(props) => props.direction};
   max-width: ${(props) => (props.maxWidth ? props.maxWidth : '100%')};
-  padding-right: ${(props) => (props.isDivider ? '16px' : '8px')};
+  padding-right: ${(props) => (props.isDividers ? '16px' : '8px')};
   height: 100%;
 
-  & > div:not(:last-of-type),
-  & > div:not(:first-of-type) {
-    padding-left: 16px;
+  // CSS for conditional approval dividers.
+  // May want to move these out of the general tracking template for future sections.
+  & > div:not(:nth-child(1)),
+  & > div:not(:nth-last-child(1)) {
+    padding-left: ${(props) => (props.isDividers ? '8px' : 'none')};
     border-right: ${(props) =>
-      props.isDivider ? '1px solid #d6d6d6;' : 'none'};
+      props.isDividers ? '1px solid #d6d6d6;' : 'none'};
   }
 
   & > div:nth-child(1),
@@ -43,13 +45,14 @@ const TrackingObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   const isDividers = uiOptions?.dividers;
   const maxWidth = uiOptions?.maxWidth;
   const before = uiSchema?.['ui:before'];
+
   return (
     <StyledFlex
       style={{
         marginRight: isDividers ? '16px' : '0px',
       }}
       direction={String(flexDirection)}
-      isDivider={isDividers}
+      isDividers={isDividers}
       maxWidth={String(maxWidth)}
     >
       {before}

@@ -44,7 +44,6 @@ const conditionalApprovalUiSchema = {
     'ui:options': {
       flexDirection: 'column',
       maxWidth: '220px',
-      divider: true,
     },
     'ui:before': <ISEDHeader />,
     isedDecision: {
@@ -61,12 +60,11 @@ const conditionalApprovalUiSchema = {
   },
 
   letterOfApproval: {
-    'ui:title': 'Letter of conditiona approval',
+    'ui:title': 'Letter of conditional approval',
     'ui:options': {
       buttonVariant: 'secondary',
       flexDirection: 'column',
       maxWidth: '500px',
-      divider: true,
     },
     letterOfApprovalUpload: {
       'ui:widget': 'FileWidget',

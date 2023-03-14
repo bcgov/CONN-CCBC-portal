@@ -3,6 +3,7 @@ import {
   ReadOnlyDecisionWidget,
   ReadOnlyFileWidget,
   ReadOnlyResponseWidget,
+  ReadOnlyStatusWidget,
   ReadOnlyWidget,
 } from './widgets';
 import TrackingTheme from '../TrackingTheme';
@@ -17,6 +18,7 @@ const ConditionalApprovalReadOnlyTheme: ThemeProps = {
     SelectWidget: ReadOnlyWidget,
     ReadOnlyDecisionWidget,
     ReadOnlyResponseWidget,
+    ReadOnlyStatusWidget,
   },
 };
 

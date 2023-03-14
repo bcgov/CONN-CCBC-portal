@@ -8,7 +8,7 @@ const conditionalApprovalReadOnlyUiSchema = {
       'ui:widget': 'ReadOnlyDecisionWidget',
     },
   },
-  isedDecision: {
+  isedDecisionObj: {
     ...conditionalApprovalUiSchema.isedDecisionObj,
     isedDecision: {
       'ui:widget': 'ReadOnlyDecisionWidget',
@@ -18,6 +18,10 @@ const conditionalApprovalReadOnlyUiSchema = {
     ...conditionalApprovalUiSchema.response,
     applicantResponse: {
       'ui:widget': 'ReadOnlyResponseWidget',
+    },
+    statusApplicantSees: {
+      'ui:title': 'Status that applicant sees',
+      'ui:widget': 'ReadOnlyStatusWidget',
     },
   },
 };
