@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay/hooks';
@@ -32,6 +32,9 @@ const Application = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, ApplicationIdQuery>) => {
   const query = usePreloadedQuery(getApplicationQuery, preloadedQuery);
+  const [toggleOverride, setToggleExpandOrCollapseAll] = useState<
+    boolean | undefined
+  >(undefined);
   const { applicationByRowId, session } = query;
   const {
     formData: {
@@ -45,6 +48,24 @@ const Application = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
+        <div>
+          <button
+            onClick={async () => {
+              setToggleExpandOrCollapseAll(true);
+            }}
+            type="button"
+          >
+            Expand all
+          </button>
+          <button
+            onClick={() => {
+              setToggleExpandOrCollapseAll(false);
+            }}
+            type="button"
+          >
+            Collapse all
+          </button>
+        </div>
         <FormBase
           theme={ReviewTheme}
           schema={jsonSchema}
@@ -53,6 +74,7 @@ const Application = ({
           formContext={{
             // validate errors and pass through formContext for review checkbox section
             errors: formErrorSchema,
+            toggleOverride,
           }}
           formData={jsonData}
           tagName="div"

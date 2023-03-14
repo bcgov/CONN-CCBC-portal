@@ -4,7 +4,18 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 import AlertIcon from './AlertIcon';
+
+export function getToggledState(
+  toggled: boolean | null | undefined,
+  defaultToggle: boolean
+) {
+  if (toggled === null || toggled === undefined) {
+    return defaultToggle;
+  }
+  return toggled;
+}
 
 const ToggleRight = styled.div`
   margin-left: auto;
@@ -77,8 +88,6 @@ const Plus = () => (
   </svg>
 );
 
-const noop = () => {};
-
 const Accordion = ({
   allowAnalystEdit,
   children,
@@ -86,19 +95,22 @@ const Accordion = ({
   error,
   name,
   onToggle,
+  toggled,
   title,
   ...rest
 }: any) => {
+  const [isToggled, setIsToggled] = useState(
+    getToggledState(toggled, defaultToggled)
+  );
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
-
+  const handleToggle = (event) => {
+    setIsToggled((toggle) => !toggle);
+    if (onToggle) onToggle(event);
+  };
   return (
-    <StyledBaseAccordion
-      {...rest}
-      onToggle={onToggle || noop}
-      defaultToggled={defaultToggled}
-    >
-      <BaseAccordion.Header>
+    <StyledBaseAccordion {...rest} onToggle={handleToggle}>
+      <header>
         <h2>{title}</h2>
         <StyledToggleRight>
           {allowAnalystEdit && (
@@ -124,8 +136,8 @@ const Accordion = ({
             <Minus />
           </BaseAccordion.ToggleOn>
         </StyledToggleRight>
-      </BaseAccordion.Header>
-      <BaseAccordion.Content>{children}</BaseAccordion.Content>
+      </header>
+      {isToggled && <div>{children}</div>}
     </StyledBaseAccordion>
   );
 };

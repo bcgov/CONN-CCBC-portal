@@ -3,7 +3,15 @@ import { Accordion } from 'components/Review';
 import { useMemo } from 'react';
 
 const ReviewSectionField: React.FC<FieldProps> = (props) => {
-  const { idSchema, name, uiSchema, registry, schema, errorSchema } = props;
+  const {
+    idSchema,
+    name,
+    uiSchema,
+    registry,
+    schema,
+    errorSchema,
+    formContext,
+  } = props;
   const uiOptions = uiSchema['ui:options'] || {};
   const hasErrors = useMemo(
     () => Object.keys(errorSchema || {}).length > 0,
@@ -16,6 +24,7 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
       id={idSchema.$id}
       name={name}
       defaultToggled={uiOptions.defaultExpanded || hasErrors}
+      toggled={formContext.toggleOverride}
       error={hasErrors}
       title={schema.title}
       allowAnalystEdit={allowAnalystEdit}
