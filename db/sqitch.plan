@@ -234,3 +234,4 @@ computed_columns/application_history [computed_columns/application_history@1.50.
 @1.52.0 2023-03-20T16:33:20Z Anthony Bushara <anthony@button.is> # release v1.52.0
 @1.53.0 2023-03-21T18:11:27Z Anthony Bushara <anthony@button.is> # release v1.53.0
 @1.54.0 2023-03-24T20:37:51Z Marcel Mueller <marcel@m2.local> # release v1.54.0
+tables/conditional_approval_data 2023-03-14T15:29:41Z Marcel Mueller <marcel@m2> # add conditional_approval_data table
