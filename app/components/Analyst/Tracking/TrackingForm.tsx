@@ -130,7 +130,7 @@ const TrackingForm: React.FC<Props> = ({
           uiSchema={uiSchema}
           noValidate
           formData={formData}
-          formContext={{ formData }}
+          formContext={{ formData: { ...formData } }}
           theme={theme || TrackingTheme}
           omitExtraData={false}
           onChange={handleChange}

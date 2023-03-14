@@ -10,9 +10,9 @@ const StatusSelectWidget: React.FC<SelectWidgetProps> = (props) => {
     formContext?.formData?.decision?.ministerDecision === 'Approved';
   const isApplicantAccepted =
     formContext?.formData?.response?.applicantResponse === 'Accepted';
-  const isDisabled = !isMinisterApproved && !isApplicantAccepted;
+  const isAccepted = isMinisterApproved && isApplicantAccepted;
 
-  return <SelectWidget {...props} disabled={isDisabled} />;
+  return <SelectWidget {...props} disabled={!isAccepted} />;
 };
 
 export default StatusSelectWidget;
