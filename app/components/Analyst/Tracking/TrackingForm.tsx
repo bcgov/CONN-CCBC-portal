@@ -52,7 +52,7 @@ const StyledBaseAccordion = styled(BaseAccordion)`
 
   .pg-select-wrapper {
     width: 100%;
-    min-width: 196px;
+    min-width: 212px;
     margin: 8px 0 !important;
   }
 
@@ -63,7 +63,7 @@ const StyledBaseAccordion = styled(BaseAccordion)`
 
   .datepicker-widget {
     width: 100%;
-    max-width: 196px;
+    max-width: 212px;
   }
 `;
 
@@ -130,6 +130,7 @@ const TrackingForm: React.FC<Props> = ({
           uiSchema={uiSchema}
           noValidate
           formData={formData}
+          formContext={{ formData }}
           theme={theme || TrackingTheme}
           omitExtraData={false}
           onChange={handleChange}

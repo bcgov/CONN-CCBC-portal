@@ -24,7 +24,6 @@ const conditionalApprovalUiSchema = {
     'ui:title': `Minister's decision`,
     'ui:options': {
       flexDirection: 'column',
-      maxWidth: '220px',
     },
     'ui:before': <BCHeader />,
     ministerDecision: {
@@ -43,7 +42,6 @@ const conditionalApprovalUiSchema = {
     'ui:title': '‎',
     'ui:options': {
       flexDirection: 'column',
-      maxWidth: '220px',
     },
     'ui:before': <ISEDHeader />,
     isedDecision: {
@@ -64,7 +62,6 @@ const conditionalApprovalUiSchema = {
     'ui:options': {
       buttonVariant: 'secondary',
       flexDirection: 'column',
-      maxWidth: '500px',
     },
     letterOfApprovalUpload: {
       'ui:widget': 'FileWidget',
@@ -85,7 +82,7 @@ const conditionalApprovalUiSchema = {
     },
     statusApplicantSees: {
       'ui:title': 'Status that applicant sees',
-      'ui:widget': 'SelectWidget',
+      'ui:widget': 'StatusSelectWidget',
       'ui:placeholder': 'Received',
     },
   },

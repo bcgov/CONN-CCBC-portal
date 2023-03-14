@@ -1,4 +1,5 @@
 import { ThemeProps, utils } from '@rjsf/core';
+import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
 import {
   CheckboxWidget,
   CheckboxesWidget,
@@ -6,7 +7,7 @@ import {
   FileWidget,
   SelectWidget,
 } from 'lib/theme/widgets';
-import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
+import { StatusSelectWidget } from './ConditionalApproval/widgets';
 import TrackingFieldTemplate from './fields/TrackingFieldTemplate';
 import TrackingObjectFieldTemplate from './fields/TrackingObjectFieldTemplate';
 import { TrackingSectionField } from './fields';
@@ -24,6 +25,7 @@ const TrackingTheme: ThemeProps = {
     DatePickerWidget,
     FileWidget,
     SelectWidget,
+    StatusSelectWidget,
   },
   ObjectFieldTemplate: TrackingObjectFieldTemplate,
   FieldTemplate: TrackingFieldTemplate,

@@ -24,13 +24,14 @@ const StyledSelect = styled(Dropdown)<SelectProps>`
   }
 
   select:disabled {
-    background: inherit;
+    background: ${(props) =>
+      props.disabled ? props.theme.color.backgroundGrey : 'inherit'};
     border: 1px solid rgba(96, 96, 96, 0.3);
-    opacity: 0;
   }
 
   & div:first-child {
-    background: ${(props) => props.disabled && 'rgba(196, 196, 196, 0.3)'};
+    background: ${(props) =>
+      props.disabled ? props.theme.color.backgroundGrey : 'inherit'};
     border: ${(props) => props.disabled && ' 1px solid rgba(96, 96, 96, 0.3)'};
   }
 `;

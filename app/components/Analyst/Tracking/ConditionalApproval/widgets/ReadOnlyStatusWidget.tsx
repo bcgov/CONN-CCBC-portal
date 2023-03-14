@@ -21,7 +21,7 @@ const ReadOnlyStatusWidget: React.FC<WidgetProps> = ({ value }) => {
     <StyledValue>
       {value ? (
         <StyledStatus statusType="approved">
-          Conditionally approved
+          Conditionally Approved
         </StyledStatus>
       ) : (
         <StyledStatus statusType="received">Received</StyledStatus>

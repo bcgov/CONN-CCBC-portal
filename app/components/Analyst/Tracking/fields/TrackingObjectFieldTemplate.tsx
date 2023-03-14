@@ -3,14 +3,12 @@ import styled from 'styled-components';
 
 interface FlexProps {
   direction: string;
-  maxWidth: string;
   isDividers: any;
 }
 
 const StyledFlex = styled.div<FlexProps>`
   display: flex;
   flex-direction: ${(props) => props.direction};
-  max-width: ${(props) => (props.maxWidth ? props.maxWidth : '100%')};
   padding-right: ${(props) => (props.isDividers ? '16px' : '8px')};
   height: 100%;
 

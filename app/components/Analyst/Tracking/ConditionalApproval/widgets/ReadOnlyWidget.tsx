@@ -7,8 +7,9 @@ export const StyledValue = styled('div')`
   min-height: 22px;
 `;
 
-const ReadOnlyWidget: React.FC<WidgetProps> = ({ value }) => (
-  <StyledValue>{value}</StyledValue>
-);
+const ReadOnlyWidget: React.FC<WidgetProps> = ({ value }) => {
+  if (!value) return null;
+  return <StyledValue>{value}</StyledValue>;
+};
 
 export default ReadOnlyWidget;
