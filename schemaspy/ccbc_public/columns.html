@@ -111,18 +111,18 @@
                 <script>
                     var tableData = [
     {
-        "tableName": "rfi_data",
-        "tableFileName": "rfi_data",
+        "tableName": "application_package",
+        "tableFileName": "application_package",
         "tableType": "Table",
-        "keyClass": "indexedColumn",
-        "keyTitle": "Indexed",
-        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>rfi_number",
-        "type": "varchar",
-        "length": 1000,
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>application_id",
+        "type": "int4",
+        "length": 10,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>Reference number assigned to the RFI<\/p>"
+        "comments": "<p>Column containing the package number the application is assigned to<\/p>"
     },
     {
         "tableName": "intake",
@@ -130,13 +130,13 @@
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "updated_at",
+        "name": "archived_at",
         "type": "timestamptz",
         "length": 35,
-        "nullable": "",
+        "nullable": "√",
         "autoUpdated": "",
-        "defaultValue": "now()",
-        "comments": "<p>updated at timestamp<\/p>"
+        "defaultValue": "null",
+        "comments": "<p>archived at timestamp<\/p>"
     },
     {
         "tableName": "application_status",
@@ -153,8 +153,8 @@
         "comments": ""
     },
     {
-        "tableName": "application_package",
-        "tableFileName": "application_package",
+        "tableName": "form_data",
+        "tableFileName": "form_data",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
@@ -242,41 +242,41 @@
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "json_data",
-        "type": "jsonb",
-        "length": 2147483647,
-        "nullable": "",
-        "autoUpdated": "",
-        "defaultValue": "'{}'::jsonb",
-        "comments": "<p>The data entered into the form by the respondent<\/p>"
-    },
-    {
-        "tableName": "rfi_data",
-        "tableFileName": "rfi_data",
-        "tableType": "Table",
-        "keyClass": "foreignKey",
-        "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>rfi_data_status_type_id",
+        "name": "reason_for_change",
         "type": "varchar",
         "length": 1000,
         "nullable": "√",
         "autoUpdated": "",
-        "defaultValue": "'draft'::character varying",
-        "comments": "<p>Column referencing the form data status type, defaults to draft<\/p>"
+        "defaultValue": "null",
+        "comments": "<p>Column to track analysts reason for changing form data<\/p>"
+    },
+    {
+        "tableName": "application_package",
+        "tableFileName": "application_package",
+        "tableType": "Table",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>created_by",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>created by user id<\/p>"
     },
     {
         "tableName": "intake",
         "tableFileName": "intake",
         "tableType": "Table",
-        "keyClass": "indexedColumn",
-        "keyTitle": "Indexed",
-        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>ccbc_intake_number",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>created_by",
         "type": "int4",
         "length": 10,
-        "nullable": "",
+        "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>Unique intake number for a set of CCBC IDs<\/p>"
+        "comments": "<p>created by user id<\/p>"
     },
     {
         "tableName": "record_version",
@@ -419,18 +419,18 @@
         "comments": "<p>created at timestamp<\/p>"
     },
     {
-        "tableName": "intake",
-        "tableFileName": "intake",
+        "tableName": "rfi_data_status_type",
+        "tableFileName": "rfi_data_status_type",
         "tableType": "Table",
-        "keyClass": "foreignKey",
-        "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>counter_id",
-        "type": "int4",
-        "length": 10,
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "description",
+        "type": "varchar",
+        "length": 1000,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>The description of the status type<\/p>"
     },
     {
         "tableName": "application_analyst_lead",
@@ -450,15 +450,15 @@
         "tableName": "intake",
         "tableFileName": "intake",
         "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "open_timestamp",
-        "type": "timestamptz",
-        "length": 35,
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>ccbc_intake_number",
+        "type": "int4",
+        "length": 10,
         "nullable": "",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>Open date and time for an intake number<\/p>"
+        "comments": "<p>Unique intake number for a set of CCBC IDs<\/p>"
     },
     {
         "tableName": "analyst",
@@ -478,15 +478,15 @@
         "tableName": "intake",
         "tableFileName": "intake",
         "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "close_timestamp",
-        "type": "timestamptz",
-        "length": 35,
-        "nullable": "",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>application_number_seq_name",
+        "type": "varchar",
+        "length": 1000,
+        "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>Close date and time for an intake number<\/p>"
+        "comments": "<p>The name of the sequence used to generate CCBC ids. It is added via a trigger<\/p>"
     },
     {
         "tableName": "application_analyst_lead",
@@ -587,18 +587,18 @@
         "comments": "<p>updated at timestamp<\/p>"
     },
     {
-        "tableName": "application_package",
-        "tableFileName": "application_package",
+        "tableName": "form_data",
+        "tableFileName": "form_data",
         "tableType": "Table",
-        "keyClass": "foreignKey",
-        "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>application_id",
-        "type": "int4",
-        "length": 10,
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "last_edited_page",
+        "type": "varchar",
+        "length": 100,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>Column containing the package number the application is assigned to<\/p>"
+        "comments": "<p>Column saving the key of the last edited form page<\/p>"
     },
     {
         "tableName": "record_version",
@@ -615,8 +615,8 @@
         "comments": ""
     },
     {
-        "tableName": "application_package",
-        "tableFileName": "application_package",
+        "tableName": "form_data",
+        "tableFileName": "form_data",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
@@ -632,15 +632,15 @@
         "tableName": "intake",
         "tableFileName": "intake",
         "tableType": "Table",
-        "keyClass": "primaryKey",
-        "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
-        "type": "int4",
-        "length": 10,
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "close_timestamp",
+        "type": "timestamptz",
+        "length": 35,
         "nullable": "",
-        "autoUpdated": "√",
+        "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>Unique ID for each intake number<\/p>"
+        "comments": "<p>Close date and time for an intake number<\/p>"
     },
     {
         "tableName": "gapless_counter",
@@ -662,27 +662,27 @@
         "tableType": "Table",
         "keyClass": "foreignKey",
         "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>created_by",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>updated_by",
         "type": "int4",
         "length": 10,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>created by user id<\/p>"
+        "comments": "<p>updated by user id<\/p>"
     },
     {
-        "tableName": "form_data",
-        "tableFileName": "form_data",
+        "tableName": "rfi_data",
+        "tableFileName": "rfi_data",
         "tableType": "Table",
-        "keyClass": "foreignKey",
-        "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>form_data_status_type_id",
+        "keyClass": "indexedColumn",
+        "keyTitle": "Indexed",
+        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>rfi_number",
         "type": "varchar",
         "length": 1000,
         "nullable": "√",
         "autoUpdated": "",
-        "defaultValue": "'pending'::character varying",
-        "comments": "<p>Column referencing the form data status type, defaults to draft<\/p>"
+        "defaultValue": "null",
+        "comments": "<p>Reference number assigned to the RFI<\/p>"
     },
     {
         "tableName": "history_item",
@@ -699,48 +699,6 @@
         "comments": "<p>Table name.<\/p>"
     },
     {
-        "tableName": "form_data",
-        "tableFileName": "form_data",
-        "tableType": "Table",
-        "keyClass": "foreignKey",
-        "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>updated_by",
-        "type": "int4",
-        "length": 10,
-        "nullable": "√",
-        "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": "<p>updated by user id<\/p>"
-    },
-    {
-        "tableName": "form_data",
-        "tableFileName": "form_data",
-        "tableType": "Table",
-        "keyClass": "foreignKey",
-        "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>form_schema_id",
-        "type": "int4",
-        "length": 10,
-        "nullable": "√",
-        "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": "<p>Schema for the respective form_data<\/p>"
-    },
-    {
-        "tableName": "intake",
-        "tableFileName": "intake",
-        "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "created_at",
-        "type": "timestamptz",
-        "length": 35,
-        "nullable": "",
-        "autoUpdated": "",
-        "defaultValue": "now()",
-        "comments": "<p>created at timestamp<\/p>"
-    },
-    {
         "tableName": "rfi_data",
         "tableFileName": "rfi_data",
         "tableType": "Table",
@@ -753,6 +711,48 @@
         "autoUpdated": "",
         "defaultValue": "null",
         "comments": "<p>created by user id<\/p>"
+    },
+    {
+        "tableName": "rfi_data",
+        "tableFileName": "rfi_data",
+        "tableType": "Table",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>archived_by",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>archived by user id<\/p>"
+    },
+    {
+        "tableName": "intake",
+        "tableFileName": "intake",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "updated_at",
+        "type": "timestamptz",
+        "length": 35,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "now()",
+        "comments": "<p>updated at timestamp<\/p>"
+    },
+    {
+        "tableName": "application_package",
+        "tableFileName": "application_package",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "created_at",
+        "type": "timestamptz",
+        "length": 35,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "now()",
+        "comments": "<p>created at timestamp<\/p>"
     },
     {
         "tableName": "analyst",
@@ -769,18 +769,18 @@
         "comments": "<p>created by user id<\/p>"
     },
     {
-        "tableName": "form_data",
-        "tableFileName": "form_data",
+        "tableName": "rfi_data",
+        "tableFileName": "rfi_data",
         "tableType": "Table",
-        "keyClass": "foreignKey",
-        "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>created_by",
-        "type": "int4",
-        "length": 10,
-        "nullable": "√",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "json_data",
+        "type": "jsonb",
+        "length": 2147483647,
+        "nullable": "",
         "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": "<p>created by user id<\/p>"
+        "defaultValue": "'{}'::jsonb",
+        "comments": "<p>The data entered into the form by the respondent<\/p>"
     },
     {
         "tableName": "application",
@@ -797,8 +797,8 @@
         "comments": "<p>created at timestamp<\/p>"
     },
     {
-        "tableName": "application_package",
-        "tableFileName": "application_package",
+        "tableName": "form_data",
+        "tableFileName": "form_data",
         "tableType": "Table",
         "keyClass": "foreignKey",
         "keyTitle": "Foreign Key",
@@ -872,17 +872,17 @@
         "tableType": "Table",
         "keyClass": "foreignKey",
         "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>updated_by",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>archived_by",
         "type": "int4",
         "length": 10,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>updated by user id<\/p>"
+        "comments": "<p>archived by user id<\/p>"
     },
     {
-        "tableName": "application_package",
-        "tableFileName": "application_package",
+        "tableName": "form_data",
+        "tableFileName": "form_data",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
@@ -940,15 +940,15 @@
         "tableName": "intake",
         "tableFileName": "intake",
         "tableType": "Table",
-        "keyClass": "indexedColumn",
-        "keyTitle": "Indexed",
-        "name": "<i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'><\/i>application_number_seq_name",
-        "type": "varchar",
-        "length": 1000,
-        "nullable": "√",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "created_at",
+        "type": "timestamptz",
+        "length": 35,
+        "nullable": "",
         "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": "<p>The name of the sequence used to generate CCBC ids. It is added via a trigger<\/p>"
+        "defaultValue": "now()",
+        "comments": "<p>created at timestamp<\/p>"
     },
     {
         "tableName": "attachment",
@@ -1147,18 +1147,18 @@
         "comments": "<p>Description of the assessment type<\/p>"
     },
     {
-        "tableName": "rfi_data_status_type",
-        "tableFileName": "rfi_data_status_type",
+        "tableName": "intake",
+        "tableFileName": "intake",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "description",
-        "type": "varchar",
-        "length": 1000,
-        "nullable": "√",
+        "name": "open_timestamp",
+        "type": "timestamptz",
+        "length": 35,
+        "nullable": "",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>The description of the status type<\/p>"
+        "comments": "<p>Open date and time for an intake number<\/p>"
     },
     {
         "tableName": "history_item",
@@ -1208,13 +1208,13 @@
         "tableType": "Table",
         "keyClass": "foreignKey",
         "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>archived_by",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>counter_id",
         "type": "int4",
         "length": 10,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>archived by user id<\/p>"
+        "comments": ""
     },
     {
         "tableName": "application",
@@ -1371,18 +1371,18 @@
         "comments": "<p>updated by user id<\/p>"
     },
     {
-        "tableName": "form_data",
-        "tableFileName": "form_data",
+        "tableName": "rfi_data",
+        "tableFileName": "rfi_data",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "reason_for_change",
-        "type": "varchar",
-        "length": 1000,
+        "name": "archived_at",
+        "type": "timestamptz",
+        "length": 35,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>Column to track analysts reason for changing form data<\/p>"
+        "comments": "<p>archived at timestamp<\/p>"
     },
     {
         "tableName": "form",
@@ -1427,18 +1427,18 @@
         "comments": "<p>created at timestamp<\/p>"
     },
     {
-        "tableName": "rfi_data",
-        "tableFileName": "rfi_data",
+        "tableName": "application_package",
+        "tableFileName": "application_package",
         "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "updated_at",
-        "type": "timestamptz",
-        "length": 35,
-        "nullable": "",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>archived_by",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
         "autoUpdated": "",
-        "defaultValue": "now()",
-        "comments": "<p>updated at timestamp<\/p>"
+        "defaultValue": "null",
+        "comments": "<p>archived by user id<\/p>"
     },
     {
         "tableName": "record_version",
@@ -1497,18 +1497,18 @@
         "comments": "<p>archived by user id<\/p>"
     },
     {
-        "tableName": "rfi_data",
-        "tableFileName": "rfi_data",
+        "tableName": "application_package",
+        "tableFileName": "application_package",
         "tableType": "Table",
-        "keyClass": "foreignKey",
-        "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>updated_by",
-        "type": "int4",
-        "length": 10,
-        "nullable": "√",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "updated_at",
+        "type": "timestamptz",
+        "length": 35,
+        "nullable": "",
         "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": "<p>updated by user id<\/p>"
+        "defaultValue": "now()",
+        "comments": "<p>updated at timestamp<\/p>"
     },
     {
         "tableName": "history_item",
@@ -1525,22 +1525,8 @@
         "comments": "<p>Last Name of the user who performed the operation.<\/p>"
     },
     {
-        "tableName": "rfi_data",
-        "tableFileName": "rfi_data",
-        "tableType": "Table",
-        "keyClass": "foreignKey",
-        "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>archived_by",
-        "type": "int4",
-        "length": 10,
-        "nullable": "√",
-        "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": "<p>archived by user id<\/p>"
-    },
-    {
-        "tableName": "rfi_data",
-        "tableFileName": "rfi_data",
+        "tableName": "application_package",
+        "tableFileName": "application_package",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
@@ -1556,15 +1542,29 @@
         "tableName": "form_data",
         "tableFileName": "form_data",
         "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "last_edited_page",
-        "type": "varchar",
-        "length": 100,
-        "nullable": "√",
-        "autoUpdated": "",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "√",
         "defaultValue": "null",
-        "comments": "<p>Column saving the key of the last edited form page<\/p>"
+        "comments": "<p>The unique id of the form data<\/p>"
+    },
+    {
+        "tableName": "rfi_data",
+        "tableFileName": "rfi_data",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "√",
+        "defaultValue": "null",
+        "comments": "<p>The unique id of the form data<\/p>"
     },
     {
         "tableName": "analyst",
@@ -1581,18 +1581,18 @@
         "comments": "<p>archived at timestamp<\/p>"
     },
     {
-        "tableName": "rfi_data_status_type",
-        "tableFileName": "rfi_data_status_type",
+        "tableName": "intake",
+        "tableFileName": "intake",
         "tableType": "Table",
         "keyClass": "primaryKey",
         "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>name",
-        "type": "varchar",
-        "length": 1000,
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "type": "int4",
+        "length": 10,
         "nullable": "",
-        "autoUpdated": "",
+        "autoUpdated": "√",
         "defaultValue": "null",
-        "comments": "<p>The name of the status type<\/p>"
+        "comments": "<p>Unique ID for each intake number<\/p>"
     },
     {
         "tableName": "record_version",
@@ -1623,18 +1623,18 @@
         "comments": "<p>created at timestamp<\/p>"
     },
     {
-        "tableName": "form_data",
-        "tableFileName": "form_data",
+        "tableName": "rfi_data",
+        "tableFileName": "rfi_data",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "updated_at",
+        "name": "created_at",
         "type": "timestamptz",
         "length": 35,
         "nullable": "",
         "autoUpdated": "",
         "defaultValue": "now()",
-        "comments": "<p>updated at timestamp<\/p>"
+        "comments": "<p>created at timestamp<\/p>"
     },
     {
         "tableName": "attachment",
@@ -1665,8 +1665,8 @@
         "comments": "<p>archived at timestamp<\/p>"
     },
     {
-        "tableName": "rfi_data",
-        "tableFileName": "rfi_data",
+        "tableName": "application_package",
+        "tableFileName": "application_package",
         "tableType": "Table",
         "keyClass": "primaryKey",
         "keyTitle": "Primary Key",
@@ -1676,7 +1676,7 @@
         "nullable": "",
         "autoUpdated": "√",
         "defaultValue": "null",
-        "comments": "<p>The unique id of the form data<\/p>"
+        "comments": "<p>Unique ID for the application_package<\/p>"
     },
     {
         "tableName": "ccbc_user",
@@ -1696,15 +1696,15 @@
         "tableName": "form_data",
         "tableFileName": "form_data",
         "tableType": "Table",
-        "keyClass": "primaryKey",
-        "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>form_schema_id",
         "type": "int4",
         "length": 10,
-        "nullable": "",
-        "autoUpdated": "√",
+        "nullable": "√",
+        "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>The unique id of the form data<\/p>"
+        "comments": "<p>Schema for the respective form_data<\/p>"
     },
     {
         "tableName": "attachment",
@@ -1749,18 +1749,18 @@
         "comments": ""
     },
     {
-        "tableName": "application_package",
-        "tableFileName": "application_package",
+        "tableName": "form_data",
+        "tableFileName": "form_data",
         "tableType": "Table",
-        "keyClass": "primaryKey",
-        "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>id",
-        "type": "int4",
-        "length": 10,
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "json_data",
+        "type": "jsonb",
+        "length": 2147483647,
         "nullable": "",
-        "autoUpdated": "√",
-        "defaultValue": "null",
-        "comments": "<p>Unique ID for the application_package<\/p>"
+        "autoUpdated": "",
+        "defaultValue": "'{}'::jsonb",
+        "comments": "<p>The data entered into the form by the respondent<\/p>"
     },
     {
         "tableName": "ccbc_user",
@@ -1819,18 +1819,18 @@
         "comments": "<p>ID of the analyst this analyst lead belongs to<\/p>"
     },
     {
-        "tableName": "application_package",
-        "tableFileName": "application_package",
+        "tableName": "form_data",
+        "tableFileName": "form_data",
         "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "package",
-        "type": "int4",
-        "length": 10,
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>form_data_status_type_id",
+        "type": "varchar",
+        "length": 1000,
         "nullable": "√",
         "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": ""
+        "defaultValue": "'pending'::character varying",
+        "comments": "<p>Column referencing the form data status type, defaults to draft<\/p>"
     },
     {
         "tableName": "analyst",
@@ -1875,18 +1875,18 @@
         "comments": "<p>archived at timestamp<\/p>"
     },
     {
-        "tableName": "form_data",
-        "tableFileName": "form_data",
+        "tableName": "rfi_data",
+        "tableFileName": "rfi_data",
         "tableType": "Table",
         "keyClass": "foreignKey",
         "keyTitle": "Foreign Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>archived_by",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>updated_by",
         "type": "int4",
         "length": 10,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>archived by user id<\/p>"
+        "comments": "<p>updated by user id<\/p>"
     },
     {
         "tableName": "application_form_data",
@@ -1945,8 +1945,8 @@
         "comments": "<p>Main object affected by the operation (i.e. status, or file name or RFI type).<\/p>"
     },
     {
-        "tableName": "application_package",
-        "tableFileName": "application_package",
+        "tableName": "form_data",
+        "tableFileName": "form_data",
         "tableType": "Table",
         "keyClass": "foreignKey",
         "keyTitle": "Foreign Key",
@@ -1959,18 +1959,18 @@
         "comments": "<p>updated by user id<\/p>"
     },
     {
-        "tableName": "form_data",
-        "tableFileName": "form_data",
+        "tableName": "rfi_data",
+        "tableFileName": "rfi_data",
         "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "created_at",
-        "type": "timestamptz",
-        "length": 35,
-        "nullable": "",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>rfi_data_status_type_id",
+        "type": "varchar",
+        "length": 1000,
+        "nullable": "√",
         "autoUpdated": "",
-        "defaultValue": "now()",
-        "comments": "<p>created at timestamp<\/p>"
+        "defaultValue": "'draft'::character varying",
+        "comments": "<p>Column referencing the form data status type, defaults to draft<\/p>"
     },
     {
         "tableName": "form_type",
@@ -2155,18 +2155,18 @@
         "comments": "<p>updated at timestamp<\/p>"
     },
     {
-        "tableName": "form_data",
-        "tableFileName": "form_data",
+        "tableName": "rfi_data",
+        "tableFileName": "rfi_data",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "archived_at",
+        "name": "updated_at",
         "type": "timestamptz",
         "length": 35,
-        "nullable": "√",
+        "nullable": "",
         "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": "<p>archived at timestamp<\/p>"
+        "defaultValue": "now()",
+        "comments": "<p>updated at timestamp<\/p>"
     },
     {
         "tableName": "application_rfi_data",
@@ -2225,32 +2225,32 @@
         "comments": ""
     },
     {
-        "tableName": "intake",
-        "tableFileName": "intake",
+        "tableName": "rfi_data_status_type",
+        "tableFileName": "rfi_data_status_type",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>name",
+        "type": "varchar",
+        "length": 1000,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>The name of the status type<\/p>"
+    },
+    {
+        "tableName": "application_package",
+        "tableFileName": "application_package",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "archived_at",
-        "type": "timestamptz",
-        "length": 35,
+        "name": "package",
+        "type": "int4",
+        "length": 10,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>archived at timestamp<\/p>"
-    },
-    {
-        "tableName": "rfi_data",
-        "tableFileName": "rfi_data",
-        "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "json_data",
-        "type": "jsonb",
-        "length": 2147483647,
-        "nullable": "",
-        "autoUpdated": "",
-        "defaultValue": "'{}'::jsonb",
-        "comments": "<p>The data entered into the form by the respondent<\/p>"
+        "comments": ""
     },
     {
         "tableName": "assessment_type",
@@ -2281,18 +2281,18 @@
         "comments": "<p>updated by user id<\/p>"
     },
     {
-        "tableName": "rfi_data",
-        "tableFileName": "rfi_data",
+        "tableName": "application_package",
+        "tableFileName": "application_package",
         "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "created_at",
-        "type": "timestamptz",
-        "length": 35,
-        "nullable": "",
+        "keyClass": "foreignKey",
+        "keyTitle": "Foreign Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>updated_by",
+        "type": "int4",
+        "length": 10,
+        "nullable": "√",
         "autoUpdated": "",
-        "defaultValue": "now()",
-        "comments": "<p>created at timestamp<\/p>"
+        "defaultValue": "null",
+        "comments": "<p>updated by user id<\/p>"
     },
     {
         "tableName": "analyst",
@@ -2323,8 +2323,8 @@
         "comments": "<p>archived by user id<\/p>"
     },
     {
-        "tableName": "application_package",
-        "tableFileName": "application_package",
+        "tableName": "form_data",
+        "tableFileName": "form_data",
         "tableType": "Table",
         "keyClass": "foreignKey",
         "keyTitle": "Foreign Key",
