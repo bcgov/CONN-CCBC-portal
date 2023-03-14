@@ -12,8 +12,19 @@ const StyledFlex = styled.div<FlexProps>`
   flex-direction: ${(props) => props.direction};
   max-width: ${(props) => (props.maxWidth ? props.maxWidth : '100%')};
   padding-right: ${(props) => (props.isDivider ? '16px' : '8px')};
-  border-right: ${(props) => (props.isDivider ? '1px solid #d6d6d6;' : 'none')};
   height: 100%;
+
+  & > div:not(:last-of-type),
+  & > div:not(:first-of-type) {
+    padding-left: 16px;
+    border-right: ${(props) =>
+      props.isDivider ? '1px solid #d6d6d6;' : 'none'};
+  }
+
+  & > div:nth-child(1),
+  & > div:nth-last-child(1) {
+    border: none;
+  }
 
   // Set margin top for custom field titles
   & div > div > div:not(:first-child) {
@@ -29,17 +40,16 @@ const TrackingObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
 }) => {
   const uiOptions = uiSchema['ui:options'];
   const flexDirection = uiOptions?.flexDirection;
-  const isDivider = uiOptions?.divider;
+  const isDividers = uiOptions?.dividers;
   const maxWidth = uiOptions?.maxWidth;
   const before = uiSchema?.['ui:before'];
-
   return (
     <StyledFlex
       style={{
-        marginRight: isDivider ? '16px' : '0px',
+        marginRight: isDividers ? '16px' : '0px',
       }}
       direction={String(flexDirection)}
-      isDivider={isDivider}
+      isDivider={isDividers}
       maxWidth={String(maxWidth)}
     >
       {before}

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledValue = styled('div')`
   padding: 8px 0;
-  min-width: 196px;
+  min-width: 296px;
 `;
 
 const StyledFileDiv = styled('div')`

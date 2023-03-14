@@ -17,7 +17,9 @@ const conditionalApprovalUiSchema = {
     'response',
   ],
   'ui:field': 'SectionField',
-
+  'ui:options': {
+    dividers: true,
+  },
   decision: {
     'ui:title': `Minister's decision`,
     'ui:options': {
