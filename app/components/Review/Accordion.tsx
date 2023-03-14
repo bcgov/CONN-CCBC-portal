@@ -143,7 +143,12 @@ const Accordion = ({
           </BaseAccordion.ToggleOn>
         </StyledToggleRight>
       </header>
-      <div style={!isToggled ? { display: 'none' } : undefined}>{children}</div>
+      <section
+        aria-hidden={!isToggled}
+        style={!isToggled ? { display: 'none' } : undefined}
+      >
+        {children}
+      </section>
     </StyledBaseAccordion>
   );
 };

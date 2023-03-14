@@ -1,4 +1,4 @@
-import { screen, within } from '@testing-library/react';
+import { screen, within, fireEvent, act } from '@testing-library/react';
 import mockFormData from 'tests/utils/mockFormData';
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 import sharedReviewThemeTests from 'tests/components/Review/ReviewTheme';
@@ -280,5 +280,30 @@ describe('The analyst view application page', () => {
         name: 'Collapse all',
       })
     ).toBeInTheDocument();
+  });
+
+  it('collapse all makes all accordion elements collapse', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const collapseButton = screen.getByRole('button', {
+      name: 'Collapse all',
+    });
+    act(() => {
+      fireEvent.click(collapseButton);
+    });
+    // All accordions contain a table, so to find every collapsed portion we select them all
+    const allHiddenDivs = screen
+      .getAllByRole('table', {
+        hidden: true,
+      })
+      .map((tableElement) => tableElement.parentElement);
+
+    // attempt to find a div that would not be hidden
+    const isAllHidden = allHiddenDivs.find((section) => {
+      return section.style.display !== 'none';
+    });
+    // expect not to find one
+    expect(isAllHidden).toBeUndefined();
   });
 });
