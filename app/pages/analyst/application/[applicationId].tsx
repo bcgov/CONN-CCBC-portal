@@ -9,6 +9,15 @@ import Layout from 'components/Layout';
 import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
+import styled from 'styled-components';
+
+const StyledButton = styled('button')`
+  color: ${(props) => props.theme.color.links};
+`;
+
+const RightAlignText = styled('div')`
+  text-align: right;
+`;
 
 const getApplicationQuery = graphql`
   query ApplicationIdQuery($rowId: Int!) {
@@ -48,24 +57,25 @@ const Application = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
-        <div>
-          <button
+        <RightAlignText>
+          <StyledButton
             onClick={() => {
               setToggleExpandOrCollapseAll(true);
             }}
             type="button"
           >
             Expand all
-          </button>
-          <button
+          </StyledButton>
+          {' | '}
+          <StyledButton
             onClick={() => {
               setToggleExpandOrCollapseAll(false);
             }}
             type="button"
           >
             Collapse all
-          </button>
-        </div>
+          </StyledButton>
+        </RightAlignText>
         <FormBase
           theme={ReviewTheme}
           schema={jsonSchema}
