@@ -1,3 +1,26 @@
+# [1.50.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.49.0...v1.50.0) (2023-03-14)
+
+### Bug Fixes
+
+- add sentry related configs for project move ([da84cdf](https://github.com/bcgov/CONN-CCBC-portal/commit/da84cdf32e757af87211c0b6b43e7f253e619212))
+- added intsall job ([3c835e7](https://github.com/bcgov/CONN-CCBC-portal/commit/3c835e7cce5955f406caa10a436df46d21758119))
+- added link to readme ([367612a](https://github.com/bcgov/CONN-CCBC-portal/commit/367612acf1353c08d3132ded70723101929dc812))
+- correct db and schema ([8ffcc47](https://github.com/bcgov/CONN-CCBC-portal/commit/8ffcc478d40c72aa4b3b193a33ecfab8b924ea7c))
+- missing files ([c2db622](https://github.com/bcgov/CONN-CCBC-portal/commit/c2db622982c2c9fcf250ad7adab700617e27695c))
+- more steps ([fc4f368](https://github.com/bcgov/CONN-CCBC-portal/commit/fc4f368f9637c3c47ea0e264d3b851bce9f98f1c))
+- remove audit schema and added missing index ([9610a17](https://github.com/bcgov/CONN-CCBC-portal/commit/9610a17cbe407765ad814fc08f9f01a629f27694))
+- remove unneeded files ([13052ee](https://github.com/bcgov/CONN-CCBC-portal/commit/13052ee424c17966fc65b8e8e5e75aa5b0fc8fe1))
+- schema rebuilt ([e451bd0](https://github.com/bcgov/CONN-CCBC-portal/commit/e451bd015b9154c98213ea6150cc2ab500460c57))
+- update action to watch main branch only ([556080b](https://github.com/bcgov/CONN-CCBC-portal/commit/556080bd5f5067bdc0f9afd279b2826a4af30c9b))
+- updates to backfill and application_history ([5b99b9d](https://github.com/bcgov/CONN-CCBC-portal/commit/5b99b9df3ad8a8e5d5e28db63b75ab1278b94a26))
+
+### Features
+
+- added schemaspy github action ([1ab908b](https://github.com/bcgov/CONN-CCBC-portal/commit/1ab908b090d6c4e9cabff7b90061843c34ed038b))
+- clear scroll position session storage on logout ([277c7d9](https://github.com/bcgov/CONN-CCBC-portal/commit/277c7d904b0e8d6da7da984fa42e02119d7831f3))
+- disable submit if form is already saved ([a13b512](https://github.com/bcgov/CONN-CCBC-portal/commit/a13b5126d5710b6af551206bdffb23c12aa8bd6b))
+- save and set analyst dashboard scroll position ([7251e88](https://github.com/bcgov/CONN-CCBC-portal/commit/7251e88cdfe5831a35c33ba135fdc98cf57de3ac))
+
 # [1.49.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.48.1...v1.49.0) (2023-03-07)
 
 ### Bug Fixes
