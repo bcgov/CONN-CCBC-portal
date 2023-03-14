@@ -50,7 +50,7 @@ const Application = ({
       <AnalystLayout query={query}>
         <div>
           <button
-            onClick={async () => {
+            onClick={() => {
               setToggleExpandOrCollapseAll(true);
             }}
             type="button"

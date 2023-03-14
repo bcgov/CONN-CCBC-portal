@@ -18,7 +18,6 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
     [errorSchema]
   );
   const allowAnalystEdit = uiOptions?.allowAnalystEdit;
-
   return (
     <Accordion
       id={idSchema.$id}

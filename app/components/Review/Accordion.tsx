@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AlertIcon from './AlertIcon';
 
 export function getToggledState(
@@ -108,6 +108,12 @@ const Accordion = ({
     setIsToggled((toggle) => !toggle);
     if (onToggle) onToggle(event);
   };
+
+  // ugly and I don't like it
+  useEffect(() => {
+    setIsToggled(getToggledState(toggled, defaultToggled));
+  }, [toggled]);
+
   return (
     <StyledBaseAccordion {...rest} onToggle={handleToggle}>
       <header>
