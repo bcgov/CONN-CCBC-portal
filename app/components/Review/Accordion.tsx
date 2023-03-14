@@ -112,7 +112,7 @@ const Accordion = ({
   // ugly and I don't like it
   useEffect(() => {
     setIsToggled(getToggledState(toggled, defaultToggled));
-  }, [toggled]);
+  }, [toggled, defaultToggled]);
 
   return (
     <StyledBaseAccordion {...rest} onToggle={handleToggle}>
