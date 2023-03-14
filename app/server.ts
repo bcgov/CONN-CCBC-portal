@@ -95,7 +95,7 @@ app.prepare().then(async () => {
       while (true) {
         setTimeout(() => {
           saveRemoteFile();
-        }, 10 * 1000); // wait for ten seconds between uploads
+        }, 120 * 1000); // wait for ten seconds between uploads
       }
     })
     .on('error', (err) => {
