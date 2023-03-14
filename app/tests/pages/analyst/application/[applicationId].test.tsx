@@ -259,4 +259,26 @@ describe('The analyst view application page', () => {
       screen.getAllByRole('option', { name: 'Test 2' })[0]
     ).toBeInTheDocument();
   });
+
+  it('expand all is visible on this page', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Expand all',
+      })
+    ).toBeInTheDocument();
+  });
+
+  it('collapse all is visible on this page', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Collapse all',
+      })
+    ).toBeInTheDocument();
+  });
 });
