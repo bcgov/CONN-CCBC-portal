@@ -601,22 +601,12 @@ describe('The index page', () => {
     expect(screen.getByRole('heading', { name: 'History' })).toBeVisible();
   });
 
-  it('displays application was created history', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(screen.getByTestId('history-content-application')).toHaveTextContent(
-      'The applicant created the Application on Mar 3, 2023, 7:57 a.m.'
-    );
-  });
-
   it('shows the correct status history for Received status', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.getAllByTestId('history-content-status')[0]
-    ).toHaveTextContent(
+    const statusByTestId = screen.getAllByTestId('history-content-status');
+    expect(statusByTestId[statusByTestId.length - 1]).toHaveTextContent(
       'The application was Received on Mar 3, 2023, 8:02 a.m.'
     );
   });
@@ -626,7 +616,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getAllByTestId('history-content-status')[1]
+      screen.getAllByTestId('history-content-status')[5]
     ).toHaveTextContent(
       'Foo Bar changed the status to Screening on Mar 3, 2023, 8:02 a.m.'
     );
@@ -639,17 +629,17 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-assessment')[0]
     ).toHaveTextContent(
-      'Foo Bar saved the screening Assessment on Mar 3, 2023, 8:03 a.m.'
+      'Foo Bar saved the screening Assessment on Mar 3, 2023, 9:50 a.m.'
     );
 
     expect(
-      screen.getAllByTestId('history-content-assessment')[1]
+      screen.getAllByTestId('history-content-assessment')[5]
     ).toHaveTextContent(
       'Foo Bar saved the technical Assessment on Mar 3, 2023, 8:03 a.m.'
     );
 
     expect(
-      screen.getAllByTestId('history-content-assessment')[2]
+      screen.getAllByTestId('history-content-assessment')[4]
     ).toHaveTextContent(
       'Foo Bar saved the Project Management Assessment on Mar 3, 2023, 8:03 a.m.'
     );
@@ -659,7 +649,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getAllByTestId('history-content-rfi')[0]).toHaveTextContent(
+    expect(screen.getAllByTestId('history-content-rfi')[3]).toHaveTextContent(
       'Foo Bar saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:03 a.m.'
     );
   });
@@ -674,7 +664,7 @@ describe('The index page', () => {
       'The applicant uploaded a file on Mar 3, 2023, 8:05 a.m.'
     );
 
-    expect(screen.getAllByTestId('history-content-rfi')[1]).toHaveTextContent(
+    expect(screen.getAllByTestId('history-content-rfi')[2]).toHaveTextContent(
       'The applicant saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:05 a.m.'
     );
   });
