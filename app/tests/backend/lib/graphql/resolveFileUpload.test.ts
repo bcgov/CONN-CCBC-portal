@@ -52,6 +52,7 @@ const sentryMocked = jest
         return {
           setStatus: jest.fn(() => ({})),
           finish: jest.fn(() => ({})),
+          setData: jest.fn(() => ({})),
         };
       }),
     };
@@ -102,6 +103,7 @@ describe('The saveRemoteFile function', () => {
             return {
               setStatus: jest.fn(() => 'ok'),
               finish: jest.fn(() => ({})),
+              setData: jest.fn(() => ({})),
             };
           }),
         };
