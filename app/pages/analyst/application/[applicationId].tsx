@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay/hooks';
@@ -9,6 +9,15 @@ import Layout from 'components/Layout';
 import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
+import styled from 'styled-components';
+
+const StyledButton = styled('button')`
+  color: ${(props) => props.theme.color.links};
+`;
+
+const RightAlignText = styled('div')`
+  text-align: right;
+`;
 
 const getApplicationQuery = graphql`
   query ApplicationIdQuery($rowId: Int!) {
@@ -32,6 +41,9 @@ const Application = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, ApplicationIdQuery>) => {
   const query = usePreloadedQuery(getApplicationQuery, preloadedQuery);
+  const [toggleOverride, setToggleExpandOrCollapseAll] = useState<
+    boolean | undefined
+  >(undefined);
   const { applicationByRowId, session } = query;
   const {
     formData: {
@@ -45,6 +57,25 @@ const Application = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
+        <RightAlignText>
+          <StyledButton
+            onClick={() => {
+              setToggleExpandOrCollapseAll(true);
+            }}
+            type="button"
+          >
+            Expand all
+          </StyledButton>
+          {' | '}
+          <StyledButton
+            onClick={() => {
+              setToggleExpandOrCollapseAll(false);
+            }}
+            type="button"
+          >
+            Collapse all
+          </StyledButton>
+        </RightAlignText>
         <FormBase
           theme={ReviewTheme}
           schema={jsonSchema}
@@ -53,6 +84,7 @@ const Application = ({
           formContext={{
             // validate errors and pass through formContext for review checkbox section
             errors: formErrorSchema,
+            toggleOverride,
           }}
           formData={jsonData}
           tagName="div"
