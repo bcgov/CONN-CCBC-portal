@@ -55,33 +55,21 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
     applicationByRowId: { history },
   } = queryFragment;
 
-  const receivedCreatedAt = [...history.nodes].find((historyItem) => {
-    return historyItem.item === 'received';
-  })?.createdAt;
+  const applicationHistory = [...history.nodes]?.sort((a, b) => {
+    // We may also have to sort by updatedAt in the future
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  });
 
-  const applicationHistory = [...history.nodes]
-    ?.sort((a, b) => {
-      // We may also have to sort by updatedAt in the future
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-    })
-    .filter((historyItem) => {
-      // Remove draft and submitted status from history
-      const { createdAt, item, tableName } = historyItem;
-      const isDraftOrSubmitted = item === 'draft' || item === 'submitted';
+  const receivedIndex = applicationHistory
+    .map((historyItem) => historyItem.item)
+    .indexOf('received');
 
-      // Remove all applicant application attachments from before application was received
-      const isAttachment = tableName === 'attachment';
-      const isApplicationAttachment = isAttachment
-        ? new Date(createdAt).getTime() < new Date(receivedCreatedAt).getTime()
-        : false;
-
-      return !isDraftOrSubmitted && !isApplicationAttachment;
-    });
+  const filteredHistory = applicationHistory.slice(receivedIndex).reverse();
 
   return (
     <StyledTable cellSpacing="0" cellPadding="0">
-      {applicationHistory &&
-        applicationHistory.map((historyItem) => {
+      {filteredHistory &&
+        filteredHistory.map((historyItem) => {
           const { recordId } = historyItem;
           return <HistoryRow key={recordId} historyItem={historyItem} />;
         })}
