@@ -68,10 +68,12 @@ const HistoryContent = ({ historyItem }) => {
   }
 
   if (tableName === 'application_analyst_lead') {
+    // check to see if the lead has been unassigned (results in empty string)
+    const leadName = item === '' ? 'Unassigned' : item;
     return (
       <StyledContent data-testid="history-content-analyst-lead">
         <span>
-          {displayName} assigned <b>Lead</b> to {item} on {createdAtFormatted}
+          {displayName} assigned <b>Lead</b> to {leadName} on {createdAtFormatted}
         </span>
       </StyledContent>
     );
