@@ -46,8 +46,6 @@ export const saveRemoteFile = async () => {
   span.setData('start-of-funciton-call', new Date().toISOString());
 
   try {
-    console.time('saveRemoteFile');
-
     // if (!stream || !(stream instanceof Readable)) {
     //   throw new Error('Choose a file to upload first.');
     // }
@@ -63,6 +61,7 @@ export const saveRemoteFile = async () => {
     }
 
     const uuid = crypto.randomUUID();
+    console.time(`'saveRemoteFile': ${uuid}`);
 
     const uploadParams = {
       Bucket: AWS_S3_BUCKET,
