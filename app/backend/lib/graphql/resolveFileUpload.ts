@@ -45,8 +45,6 @@ export const saveRemoteFile = async () => {
   });
 
   try {
-    console.time('saveRemoteFile');
-
     // if (!stream || !(stream instanceof Readable)) {
     //   throw new Error('Choose a file to upload first.');
     // }
@@ -62,6 +60,7 @@ export const saveRemoteFile = async () => {
     }
 
     const uuid = crypto.randomUUID();
+    console.time(`'saveRemoteFile': ${uuid}`);
 
     const uploadParams = {
       Bucket: AWS_S3_BUCKET,
