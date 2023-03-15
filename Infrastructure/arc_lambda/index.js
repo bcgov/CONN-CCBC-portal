@@ -4,7 +4,8 @@ const AdmZip = require('adm-zip');
 const AWS = require("aws-sdk");
 
 const INFECTED_FILE_PREFIX = 'BROKEN';
-const AWS_S3_BUCKET = process.env.AWS_S3_BUCKET; // || 'fapi7b-dev-ccbc-data';
+const AWS_S3_BUCKET = process.env.AWS_S3_BUCKET; // || 'fapi7b-dev-ccbc-clamav';
+const AWS_S3_TARGET = process.env.AWS_S3_TARGET; // || 'fapi7b-dev-ccbc-data';
 const s3 = new AWS.S3();
 
 exports.handler = async(event, context, callback) => {
@@ -129,7 +130,7 @@ exports.handler = async(event, context, callback) => {
       const fileSizeInBytes = stats.size;
       const blob = readFileSync(`/tmp/${fileName}`);
       var params = {
-        Bucket: AWS_S3_BUCKET,  
+        Bucket: AWS_S3_TARGET,  
         Key:  key,
         Body: blob
       };
