@@ -7,6 +7,7 @@ import getAttachmentList from './attachments';
 import getLastIntakeId from './lastIntake';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
+const AWS_S3_LIST_BUCKET = config.get('AWS_CLAM_S3_BUCKET');
 const AWS_S3_SECRET_KEY = config.get('AWS_S3_SECRET_KEY');
 
 const s3adminArchive = Router();
@@ -54,7 +55,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
 
   const fileName = `${s3Key}.json`;
   const params = {
-    Bucket: AWS_S3_BUCKET,  
+    Bucket: AWS_S3_LIST_BUCKET,  
     Key:  fileName,
     Body: JSON.stringify(attachments)
   };

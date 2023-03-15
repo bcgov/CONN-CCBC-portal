@@ -71,24 +71,25 @@ resource "aws_lambda_function" "export-files" {
 
     environment {
         variables = {
-          AWS_S3_BUCKET = "${var.bucket_name}" 
+          AWS_S3_TARGET = "${var.bucket_name}"
+          AWS_S3_BUCKET = "${var.clamav-definitions-bucket}" 
         }
     }
 }
 
 // Allow the lambda function to access the S3 bucket
 resource "aws_lambda_permission" "allow_data_bucket" {
-    statement_id = "AllowExecutionFromS3Bucket-${var.bucket_name}"
+    statement_id = "AllowExecutionFromS3Bucket-${var.clamav-definitions-bucket}"
     action = "lambda:InvokeFunction"
     function_name = "${aws_lambda_function.export-files.arn}"
     principal = "s3.amazonaws.com"
-    source_arn = "arn:aws:s3:::${var.bucket_name}"
+    source_arn = "arn:aws:s3:::${var.clamav-definitions-bucket}"
 }
 
 // Allow the S3 bucket to send notifications to the lambda function
 resource "aws_s3_bucket_notification" "file-notification" {
-    count = "${length(var.buckets-to-scan)}"
-    bucket = "${element(var.buckets-to-scan, count.index)}"
+    count = 1
+    bucket = "${var.clamav-definitions-bucket}"
 
     lambda_function {
         lambda_function_arn = "${aws_lambda_function.export-files.arn}"
