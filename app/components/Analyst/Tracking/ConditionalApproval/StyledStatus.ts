@@ -12,6 +12,7 @@ const StyledStatus = styled.div<StatusProps>`
       ? props.theme.color.success
       : props.theme.color.primaryBlue};
   width: fit-content;
+  cursor: default;
 `;
 
 export default StyledStatus;

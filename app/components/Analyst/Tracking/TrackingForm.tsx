@@ -61,6 +61,14 @@ const StyledIconBtn = styled.button`
   border-radius: 0;
   appearance: none;
   margin-right: 8px;
+
+  & svg {
+    color: ${(props) => props.theme.color.links};
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const StyledToggleRight = styled(ToggleRight)`
