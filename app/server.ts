@@ -93,9 +93,14 @@ app.prepare().then(async () => {
       //   await readinessTest(pgPool, lightship);
       // }
       while (true) {
-        setTimeout(() => {
-          saveRemoteFile();
-        }, 120 * 1000); // wait for ten seconds between uploads
+        const uploads = Array(5).fill(saveRemoteFile);
+
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          await Promise.all(uploads.map((upload) => upload()));
+        } catch (err) {
+          console.error(`Failed to upload: ${err}`);
+        }
       }
     })
     .on('error', (err) => {
