@@ -1,3 +1,16 @@
+# [1.51.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.50.0...v1.51.0) (2023-03-15)
+
+### Bug Fixes
+
+- use css to hide untoggled accordion content ([c6b4261](https://github.com/bcgov/CONN-CCBC-portal/commit/c6b4261ed0e16f6d92d1e3f4ef414813e9d60a26))
+
+### Features
+
+- add logic for dynamic toggling in according ([7ff9150](https://github.com/bcgov/CONN-CCBC-portal/commit/7ff9150aab9107427e7c999b5fc02f3161caae9b))
+- add styles ([493a050](https://github.com/bcgov/CONN-CCBC-portal/commit/493a05090c2f5fc047a81a73ddcaa38dd1140123))
+- add useEffect for accordion to manage it's local state ([fb2becf](https://github.com/bcgov/CONN-CCBC-portal/commit/fb2becf0adeaf564aaa66dc80c449622d1bc8f56))
+- remove all history items before received and reverse history order ([009410d](https://github.com/bcgov/CONN-CCBC-portal/commit/009410d7557fd4ee65d0c6759c587625192ec86a))
+
 # [1.50.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.49.0...v1.50.0) (2023-03-14)
 
 ### Bug Fixes
