@@ -153,6 +153,16 @@ const HistoryContent = ({ historyItem }) => {
     );
   }
 
+  if (tableName === 'conditional_approval_data') {
+    return (
+      <StyledContent data-testid="history-content-conditional-approval">
+        <span>{displayName} saved the </span>
+        <b>Conditional Approval</b>
+        <span> on {createdAtFormatted}</span>
+      </StyledContent>
+    );
+  }
+
   return null;
 };
 export default HistoryContent;
