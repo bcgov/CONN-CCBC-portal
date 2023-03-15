@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useFeature } from '@growthbook/growthbook-react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
@@ -40,6 +41,8 @@ const Tracking = ({
     applicationByRowId: { rowId, conditionalApproval },
     session,
   } = query;
+
+  const showConditionalApproval = useFeature('show_conditional_approval').value;
 
   const jsonData = conditionalApproval?.jsonData;
 
@@ -90,24 +93,26 @@ const Tracking = ({
           setIsFormEditMode={() => setIsFormEditMode(false)}
           resetFormData={handleResetFormData}
         />
-        <TrackingForm
-          formData={newFormData}
-          handleChange={(e) => {
-            setNewFormData({ ...e.formData });
-          }}
-          isFormEditMode={isFormEditMode}
-          title="Conditional approval"
-          schema={conditionalApprovalSchema}
-          theme={!isFormEditMode && ConditionalApprovalReadOnlyTheme}
-          uiSchema={
-            isFormEditMode
-              ? conditionalApprovalUiSchema
-              : conditionalApprovalReadOnlyUiSchema
-          }
-          resetFormData={handleResetFormData}
-          onSubmit={handleSubmit}
-          setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-        />
+        {showConditionalApproval && (
+          <TrackingForm
+            formData={newFormData}
+            handleChange={(e) => {
+              setNewFormData({ ...e.formData });
+            }}
+            isFormEditMode={isFormEditMode}
+            title="Conditional approval"
+            schema={conditionalApprovalSchema}
+            theme={!isFormEditMode && ConditionalApprovalReadOnlyTheme}
+            uiSchema={
+              isFormEditMode
+                ? conditionalApprovalUiSchema
+                : conditionalApprovalReadOnlyUiSchema
+            }
+            resetFormData={handleResetFormData}
+            onSubmit={handleSubmit}
+            setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+          />
+        )}
       </AnalystLayout>
     </Layout>
   );
