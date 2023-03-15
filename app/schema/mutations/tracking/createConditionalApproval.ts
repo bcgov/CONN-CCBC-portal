@@ -8,6 +8,7 @@ const mutation = graphql`
   ) {
     createConditionalApproval(input: $input) {
       conditionalApprovalData {
+        id
         jsonData
         rowId
       }

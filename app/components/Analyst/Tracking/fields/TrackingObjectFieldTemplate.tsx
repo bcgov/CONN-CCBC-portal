@@ -9,16 +9,32 @@ interface FlexProps {
 const StyledFlex = styled.div<FlexProps>`
   display: flex;
   flex-direction: ${(props) => props.direction};
-  padding-right: ${(props) => (props.isDividers ? '16px' : '8px')};
   height: 100%;
+  flex-wrap: wrap;
+  padding-bottom: 32px;
 
-  // CSS for conditional approval dividers.
-  // May want to move these out of the general tracking template for future sections.
+  ${(props) => props.theme.breakpoint.largeUp} {
+    padding-bottom: 0px;
+    padding-right: ${(props) => (props.isDividers ? '16px' : '8px')};
+
+    // CSS for conditional approval dividers
+    // May want to move these to a conditional approval specific object field template in the future
+    & > div:not(:nth-child(1)),
+    & > div:not(:nth-last-child(1)) {
+      padding-left: ${(props) => (props.isDividers ? '8px' : 'none')};
+      border-right: ${(props) =>
+        props.isDividers ? '1px solid #d6d6d6;' : 'none'};
+    }
+  }
+
+  ${(props) => props.theme.breakpoint.largeUp} {
+    flex-wrap: nowrap;
+  }
+
+  // CSS for conditional approval dividers
   & > div:not(:nth-child(1)),
   & > div:not(:nth-last-child(1)) {
     padding-left: ${(props) => (props.isDividers ? '8px' : 'none')};
-    border-right: ${(props) =>
-      props.isDividers ? '1px solid #d6d6d6;' : 'none'};
   }
 
   & > div:nth-child(1),
@@ -41,7 +57,6 @@ const TrackingObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   const uiOptions = uiSchema['ui:options'];
   const flexDirection = uiOptions?.flexDirection;
   const isDividers = uiOptions?.dividers;
-  const maxWidth = uiOptions?.maxWidth;
   const before = uiSchema?.['ui:before'];
 
   return (
@@ -51,7 +66,6 @@ const TrackingObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
       }}
       direction={String(flexDirection)}
       isDividers={isDividers}
-      maxWidth={String(maxWidth)}
     >
       {before}
       {properties.map((prop) => prop.content)}

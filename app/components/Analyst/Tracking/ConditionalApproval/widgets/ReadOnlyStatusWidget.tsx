@@ -1,30 +1,16 @@
-import styled from 'styled-components';
 import { WidgetProps } from '@rjsf/core';
 import { StyledValue } from './ReadOnlyWidget';
-
-interface StatusProps {
-  statusType: string;
-}
-const StyledStatus = styled.div<StatusProps>`
-  border-radius: 4px;
-  padding: 4px 16px;
-  color: ${(props) => props.theme.color.white};
-  background-color: ${(props) =>
-    props.statusType === 'approved'
-      ? props.theme.color.success
-      : props.theme.color.primaryBlue};
-  width: fit-content;
-`;
+import StyledStatus from '../StyledStatus';
 
 const ReadOnlyStatusWidget: React.FC<WidgetProps> = ({ value }) => {
+  const isConditionallyApproved = value === 'Conditionally Approved';
+
   return (
     <StyledValue>
-      {value ? (
-        <StyledStatus statusType="approved">
-          Conditionally Approved
-        </StyledStatus>
+      {isConditionallyApproved ? (
+        <StyledStatus statusType={value}>Conditionally Approved</StyledStatus>
       ) : (
-        <StyledStatus statusType="received">Received</StyledStatus>
+        <StyledStatus statusType={value}>Received</StyledStatus>
       )}
     </StyledValue>
   );

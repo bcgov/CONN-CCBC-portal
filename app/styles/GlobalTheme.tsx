@@ -41,6 +41,7 @@ export const theme = {
     smallUp: '@media (min-width: 600px)',
     mediumUp: '@media (min-width: 768px)',
     largeUp: '@media (min-width: 1007px)',
+    extraLargeUp: '@media (min-width: 1200px)',
   },
 };
 

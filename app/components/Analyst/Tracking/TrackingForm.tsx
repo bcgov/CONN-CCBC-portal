@@ -7,19 +7,9 @@ import { FormBase } from 'components/Form';
 import type { JSONSchema7 } from 'json-schema';
 import TrackingTheme from './TrackingTheme';
 
-interface Props {
-  formData: any;
-  onSubmit: any;
-  handleChange: any;
-  schema: JSONSchema7;
-  isFormEditMode: boolean;
-  setIsFormEditMode: any;
-  theme?: any;
-  title: string;
-  uiSchema?: any;
-}
-
 const ToggleRight = styled.div`
+  display: flex;
+  align-items: center;
   margin-left: auto;
   margin-top: auto;
   margin-bottom: auto;
@@ -78,14 +68,28 @@ const StyledToggleRight = styled(ToggleRight)`
 `;
 
 const StyledBtn = styled(Button)`
-  margin: 8px;
+  margin: 0 8px;
 `;
+
+interface Props {
+  formData: any;
+  handleChange: any;
+  isFormEditMode: boolean;
+  onSubmit: any;
+  resetFormData: any;
+  schema: JSONSchema7;
+  setIsFormEditMode: any;
+  theme?: any;
+  title: string;
+  uiSchema?: any;
+}
 
 const TrackingForm: React.FC<Props> = ({
   formData,
   handleChange,
   isFormEditMode,
   onSubmit,
+  resetFormData,
   schema,
   setIsFormEditMode,
   theme,
@@ -106,7 +110,10 @@ const TrackingForm: React.FC<Props> = ({
               <StyledBtn
                 size="small"
                 variant="secondary"
-                onClick={() => setIsFormEditMode(false)}
+                onClick={() => {
+                  resetFormData();
+                  setIsFormEditMode(false);
+                }}
               >
                 Cancel
               </StyledBtn>
