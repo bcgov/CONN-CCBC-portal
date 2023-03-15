@@ -229,3 +229,4 @@ backfill_history [backfill_history@1.49.0] 2023-03-08T21:53:23Z ,,, Vladimir <vl
 computed_columns/application_history [computed_columns/application_history@1.49.0] 2023-03-08T23:37:07Z ,,, Vladimir <vladimir@button.is> # fix application_status change history
 tables/history_item [tables/history_item@1.49.0] 2023-03-10T20:03:50Z ,,, Vladimir <vladimir@button.is> # add index
 @1.50.0 2023-03-14T18:28:42Z Marcel Mueller <marcel@m2> # release v1.50.0
+@1.51.0 2023-03-15T19:25:12Z Marcel Mueller <marcel@m2.local> # release v1.51.0
