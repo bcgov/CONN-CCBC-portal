@@ -8,6 +8,7 @@ create table ccbc_public.conditional_approval_data(
   json_data jsonb not null default '{}'::jsonb);
 
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'conditional_approval_data');
+select audit.enable_tracking('ccbc_public.conditional_approval_data'::regclass);
 
 do
 $grant$
