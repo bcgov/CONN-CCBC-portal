@@ -71,7 +71,7 @@ const HistoryContent = ({ historyItem }) => {
     return (
       <StyledContent data-testid="history-content-analyst-lead">
         <span>
-          {fullName} assigned <b>Lead</b> to {item} on {createdAtFormatted}
+          {displayName} assigned <b>Lead</b> to {item} on {createdAtFormatted}
         </span>
       </StyledContent>
     );
@@ -93,7 +93,7 @@ const HistoryContent = ({ historyItem }) => {
       <div>
         <StyledContent data-testid="history-content-form-data">
           <span>
-            {fullName} edited the <b>Application </b>
+            {displayName} edited the <b>Application </b>
           </span>
           on {createdAtFormatted}
         </StyledContent>
@@ -126,7 +126,7 @@ const HistoryContent = ({ historyItem }) => {
     return (
       <StyledContent data-testid="history-content-package">
         <span>
-          {fullName} added the application to a <b>Package</b> on{' '}
+          {displayName} added the application to a <b>Package</b> on{' '}
           {createdAtFormatted}
         </span>
       </StyledContent>
@@ -144,7 +144,7 @@ const HistoryContent = ({ historyItem }) => {
 
     return (
       <StyledContent data-testid="history-content-assessment">
-        <span>{fullName} saved the </span>
+        <span>{displayName} saved the </span>
         <b>{formatAssessment(assessmentType)} Assessment</b>
         <span> on {createdAtFormatted}</span>
       </StyledContent>
