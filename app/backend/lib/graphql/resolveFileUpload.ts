@@ -43,6 +43,7 @@ export const saveRemoteFile = async (stream) => {
     op: 'resolve-file-upload',
     description: 'resolveFileUpload saveRemoteFile function',
   });
+  span.setData('start-of-funciton-call', new Date().toISOString());
 
   try {
     console.time('saveRemoteFile');
@@ -80,14 +81,11 @@ export const saveRemoteFile = async (stream) => {
       console.log(`Uploaded ${uploadProgressInMB}MB`);
       transaction.setMeasurement('memoryUsed', uploadProgressInMB, 'megabtye');
     });
-
+    span.setData('upload-start', new Date().toISOString());
     const data = await parallelUploads3.done();
+    span.setData('upload-finish', new Date().toISOString());
 
     const key = (data as CompleteMultipartUploadCommandOutput)?.Key;
-
-    span.setStatus('ok');
-    span.finish();
-    transaction.finish();
 
     if (!key) {
       throw new Error('Data does not contain a key');
@@ -99,6 +97,7 @@ export const saveRemoteFile = async (stream) => {
 
     return key;
   } catch (err) {
+    span.setData('error-obj', err);
     span.setStatus('unknown_error');
     span.finish();
     transaction.finish();
