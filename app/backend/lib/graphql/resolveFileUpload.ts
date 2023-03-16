@@ -49,7 +49,7 @@ export const saveRemoteFile = async () => {
     //   throw new Error('Choose a file to upload first.');
     // }
 
-    const fileSize = 10 * 1024 * 1024; // 10MB in bytes
+    const fileSize = 4 * 1024 * 1024; // 10MB in bytes
     const chunkSize = 1024 * 1024; // 1MB chunks
 
     const buffer = Buffer.alloc(fileSize);
