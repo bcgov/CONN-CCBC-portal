@@ -7,6 +7,7 @@ import {
   ReadOnlyWidget,
 } from './widgets';
 import ProjectTheme from '../ProjectTheme';
+import ConditionalApprovalObjectFieldTemplate from './ConditionalApprovalObjectFieldTemplate';
 
 const ConditionalApprovalReadOnlyTheme: ThemeProps = {
   ...ProjectTheme,
@@ -20,6 +21,7 @@ const ConditionalApprovalReadOnlyTheme: ThemeProps = {
     ReadOnlyResponseWidget,
     ReadOnlyStatusWidget,
   },
+  ObjectFieldTemplate: ConditionalApprovalObjectFieldTemplate,
 };
 
 export default ConditionalApprovalReadOnlyTheme;
