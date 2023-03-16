@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ template "ccbc.fullname" . }}-receive-applications
+  name: {{ template "ccbc.fullname" . }}-prepare-download
   labels: {{ include "ccbc.labels" . | nindent 4 }}
 spec:
   suspend: false
