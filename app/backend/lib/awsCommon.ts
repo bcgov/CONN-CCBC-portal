@@ -16,16 +16,26 @@ console.log('is this working');
 
 class CustomHtttpAgent extends http.Agent {
   createConnection(options, callback) {
-    console.log('a connection has been made');
+    let asdf;
     const start = Date.now();
     // @ts-ignore
-    const conn = super.createConnection(options, (error, socket: Socket) => {
-      const end = Date.now();
+    const conn: Socket = super.createConnection(
+      options,
+      (error, socket: Socket) => {
+        const end = Date.now();
+        console.log(
+          `Connection failed with AWS to: ${options.host} with IP: ${socket.remoteAddress} jojimbobob`
+        );
+        console.log(`Connection failed qwerghyt ${asdf}`);
+        console.log(`Connection failed with time: ${end - start}ms`);
+        callback(error, socket);
+      }
+    );
+    conn.on('lookup', (err, address, fam, host) => {
       console.log(
-        `Connection failed with AWS to: ${options.host} with IP: ${socket.remoteAddress}`
+        `Currently trying to connect to: ${address} for host: ${host}`
       );
-      console.log(`Connectil failed with time: ${end - start}ms`);
-      callback(error, socket);
+      asdf = address;
     });
     conn.on('error', () => {
       console.log(
@@ -33,11 +43,8 @@ class CustomHtttpAgent extends http.Agent {
       );
       const end = Date.now();
       console.log(`Connection failed with time: ${end - start}ms`);
+      console.log(`Connection failed qwerghyt ${asdf}`);
     });
-    console.log(
-      `asdfzxcvqawer: ${conn.remoteAddress} or just ${Object.keys(conn)}`
-    );
-    console.log(conn);
     return conn;
   }
 }
@@ -71,11 +78,8 @@ class CustomHtttpsAgent extends https.Agent {
       );
       const end = Date.now();
       console.log(`Connection failed with time: ${end - start}ms`);
+      console.log(`Connection failed qwerghyt ${asdf}`);
     });
-    console.log(
-      `asdfzxcvqawer: ${conn.remoteAddress} or just ${Object.keys(conn)}`
-    );
-    console.log(`jkluio: ${conn.address()}`);
     return conn;
   }
 }
