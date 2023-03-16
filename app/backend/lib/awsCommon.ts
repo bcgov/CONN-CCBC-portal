@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-classes-per-file */
 import https from 'https';
 import http from 'http';
@@ -46,7 +47,7 @@ class CustomHtttpsAgent extends https.Agent {
     let asdf;
     const start = Date.now();
     // @ts-ignore
-    const conn: TLSSocket = super.createConnection(
+    const conn: Socket = super.createConnection(
       options,
       (error, socket: Socket) => {
         const end = Date.now();
@@ -58,10 +59,11 @@ class CustomHtttpsAgent extends https.Agent {
         callback(error, socket);
       }
     );
-    conn.on('secureConnect', () => {
-      console.log(`Addy: ${conn.address()}`);
-      console.log(`Adderress: ${conn.remoteAddress}`);
-      asdf = conn.remoteAddress;
+    conn.on('lookup', (err, address, fam, host) => {
+      console.log(
+        `Currently trying to connect to: ${address} for host: ${host}`
+      );
+      asdf = address;
     });
     conn.on('error', () => {
       console.log(
