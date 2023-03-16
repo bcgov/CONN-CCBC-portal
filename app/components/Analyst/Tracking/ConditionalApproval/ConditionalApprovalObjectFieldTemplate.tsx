@@ -20,38 +20,44 @@ const StyledFlex = styled.div<FlexProps>`
 
   .pg-select-wrapper {
     width: 100%;
-    min-width: 330px;
+    min-width: 284px;
     margin: 8px 0 !important;
   }
 
   .file-widget {
-    min-width: 330px;
+    min-width: 284px;
     margin-bottom: 8px;
   }
 
   .datepicker-widget {
-    min-width: 330px;
+    min-width: 284px;
     width: 100%;
+  }
+
+  ${(props) => props.theme.breakpoint.smallUp} {
+    .pg-select-wrapper {
+      min-width: 330px;
+    }
+
+    .file-widget {
+      min-width: 330px;
+    }
+
+    .datepicker-widget {
+      min-width: 330px;
+    }
   }
 
   ${(props) => props.theme.breakpoint.mediumUp} {
     padding-right: ${(props) => (props.isDividers ? '16px' : '8px')};
-
-    // CSS for conditional approval dividers
   }
 
   ${(props) => props.theme.breakpoint.largeUp} {
     padding-right: ${(props) => (props.isDividers ? '16px' : '8px')};
-
-    // CSS for conditional approval dividers
   }
 
   ${(props) => props.theme.breakpoint.extraLargeUp} {
     .pg-select-wrapper {
-      min-width: 212px;
-    }
-
-    .datepicker-widget {
       min-width: 212px;
     }
 
@@ -67,6 +73,7 @@ const StyledFlex = styled.div<FlexProps>`
 
     flex-wrap: nowrap;
 
+    // CSS for conditional approval dividers
     & > div:not(:nth-child(1)),
     & > div:not(:nth-last-child(1)) {
       padding-left: ${(props) => (props.isDividers ? '8px' : 'none')};

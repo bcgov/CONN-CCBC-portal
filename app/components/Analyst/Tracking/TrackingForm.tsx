@@ -62,6 +62,7 @@ const StyledToggleRight = styled(ToggleRight)`
 
 const StyledBtn = styled(Button)`
   margin: 0 8px;
+  padding: 8px 16px;
 `;
 
 interface Props {
