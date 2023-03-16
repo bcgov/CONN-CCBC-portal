@@ -6,8 +6,8 @@ import { graphql } from 'react-relay';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
-import { trackingQuery } from '__generated__/trackingQuery.graphql';
-import TrackingForm from 'components/Analyst/Tracking/TrackingForm';
+import { projectQuery } from '__generated__/projectQuery.graphql';
+import ProjectForm from 'components/Analyst/Project/ProjectForm';
 import conditionalApprovalSchema from 'formSchema/analyst/conditionalApproval';
 import conditionalApprovalUiSchema from 'formSchema/uiSchema/analyst/conditionalApprovalUiSchema';
 import conditionalApprovalReadOnlyUiSchema from 'formSchema/uiSchema/analyst/conditionalApprovalReadOnlyUiSchema';
@@ -15,11 +15,11 @@ import {
   ConditionalApprovalModal,
   ConditionalApprovalTheme,
   ConditionalApprovalReadOnlyTheme,
-} from 'components/Analyst/Tracking/ConditionalApproval';
-import { useCreateConditionalApprovalMutation } from 'schema/mutations/tracking/createConditionalApproval';
+} from 'components/Analyst/Project/ConditionalApproval';
+import { useCreateConditionalApprovalMutation } from 'schema/mutations/project/createConditionalApproval';
 
-const getTrackingQuery = graphql`
-  query trackingQuery($rowId: Int!) {
+const getProjectQuery = graphql`
+  query projectQuery($rowId: Int!) {
     session {
       sub
     }
@@ -34,10 +34,10 @@ const getTrackingQuery = graphql`
   }
 `;
 
-const Tracking = ({
+const Project = ({
   preloadedQuery,
-}: RelayProps<Record<string, unknown>, trackingQuery>) => {
-  const query = usePreloadedQuery(getTrackingQuery, preloadedQuery);
+}: RelayProps<Record<string, unknown>, projectQuery>) => {
+  const query = usePreloadedQuery(getProjectQuery, preloadedQuery);
   const {
     applicationByRowId: { rowId, conditionalApproval },
     session,
@@ -95,7 +95,7 @@ const Tracking = ({
           resetFormData={handleResetFormData}
         />
         {showConditionalApproval && (
-          <TrackingForm
+          <ProjectForm
             formData={newFormData}
             handleChange={(e) => {
               setNewFormData({ ...e.formData });
@@ -132,4 +132,4 @@ export const withRelayOptions = {
   },
 };
 
-export default withRelay(Tracking, getTrackingQuery, withRelayOptions);
+export default withRelay(Project, getProjectQuery, withRelayOptions);

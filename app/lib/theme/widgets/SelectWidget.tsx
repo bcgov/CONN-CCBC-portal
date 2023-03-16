@@ -64,6 +64,7 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           onChange(e.target.value || undefined)
         }
+        data-testid={id}
         disabled={disabled}
         isPlaceholder={!value}
         placeholder={placeholder}

@@ -61,9 +61,9 @@ const NavigationSidebar = () => {
           />
           <NavItem
             currentPath={asPath}
-            href={`/analyst/application/${applicationId}/tracking`}
+            href={`/analyst/application/${applicationId}/project`}
             icon={faChartGantt}
-            label="Tracking"
+            label="Project"
           />
           <NavItem
             currentPath={asPath}

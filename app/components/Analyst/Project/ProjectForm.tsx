@@ -5,7 +5,7 @@ import { faMinus, faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { BaseAccordion } from '@button-inc/bcgov-theme/Accordion';
 import { FormBase } from 'components/Form';
 import type { JSONSchema7 } from 'json-schema';
-import TrackingTheme from './TrackingTheme';
+import ProjectTheme from './ProjectTheme';
 
 const ToggleRight = styled.div`
   display: flex;
@@ -78,7 +78,7 @@ interface Props {
   uiSchema?: any;
 }
 
-const TrackingForm: React.FC<Props> = ({
+const ProjectForm: React.FC<Props> = ({
   formData,
   handleChange,
   isFormEditMode,
@@ -132,7 +132,7 @@ const TrackingForm: React.FC<Props> = ({
           noValidate
           formData={formData}
           formContext={{ formData: { ...formData } }}
-          theme={theme || TrackingTheme}
+          theme={theme || ProjectTheme}
           omitExtraData={false}
           onChange={handleChange}
           // eslint-disable-next-line react/no-children-prop
@@ -142,4 +142,4 @@ const TrackingForm: React.FC<Props> = ({
     </StyledBaseAccordion>
   );
 };
-export default TrackingForm;
+export default ProjectForm;

@@ -1,9 +1,9 @@
 import { ThemeProps } from '@rjsf/core';
-import TrackingTheme from '../TrackingTheme';
+import ProjectTheme from '../ProjectTheme';
 import ConditionalApprovalObjectFieldTemplate from './ConditionalApprovalObjectFieldTemplate';
 
 const ConditionalApprovalReadOnlyTheme: ThemeProps = {
-  ...TrackingTheme,
+  ...ProjectTheme,
   ObjectFieldTemplate: ConditionalApprovalObjectFieldTemplate,
 };
 

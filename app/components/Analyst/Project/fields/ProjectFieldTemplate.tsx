@@ -8,7 +8,7 @@ const StyledH4 = styled.h4`
   margin-bottom: 8px;
 `;
 
-const TrackingFieldTemplate: React.FC<FieldTemplateProps> = ({
+const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   uiSchema,
 }) => {
@@ -22,4 +22,4 @@ const TrackingFieldTemplate: React.FC<FieldTemplateProps> = ({
   );
 };
 
-export default TrackingFieldTemplate;
+export default ProjectFieldTemplate;

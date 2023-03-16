@@ -1,7 +1,7 @@
 import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
-import { useCreateConditionalApprovalMutation } from 'schema/mutations/tracking/createConditionalApproval';
+import { useCreateConditionalApprovalMutation } from 'schema/mutations/project/createConditionalApproval';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import StyledStatus from './StyledStatus';

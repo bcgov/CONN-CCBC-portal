@@ -27,6 +27,13 @@ const StyledDatePicker = styled(DatePicker)`
   }
 `;
 
+const StyledSpan = styled('span')`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+`;
+
 function getDateString(date: Date | undefined) {
   if (date) {
     return dateTimeFormat(date, 'date_year_first');
@@ -35,12 +42,6 @@ function getDateString(date: Date | undefined) {
 }
 
 const CalendarIcon = ({ onClick }: any) => {
-  const StyledSpan = styled('span')`
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-  `;
   return (
     <StyledSpan onClick={onClick}>
       <svg

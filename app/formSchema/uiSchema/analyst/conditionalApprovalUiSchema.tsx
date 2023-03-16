@@ -1,7 +1,7 @@
 import {
   BCHeader,
   ISEDHeader,
-} from 'components/Analyst/Tracking/ConditionalApproval';
+} from 'components/Analyst/Project/ConditionalApproval';
 
 const conditionalApprovalUiSchema = {
   'ui:order': [

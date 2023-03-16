@@ -8,16 +8,16 @@ import {
   SelectWidget,
 } from 'lib/theme/widgets';
 import { StatusSelectWidget } from './ConditionalApproval/widgets';
-import TrackingFieldTemplate from './fields/TrackingFieldTemplate';
-import TrackingObjectFieldTemplate from './fields/TrackingObjectFieldTemplate';
-import { TrackingSectionField } from './fields';
+import ProjectFieldTemplate from './fields/ProjectFieldTemplate';
+import ProjectObjectFieldTemplate from './fields/ProjectObjectFieldTemplate';
+import { ProjectSectionField } from './fields';
 
 const { fields } = utils.getDefaultRegistry();
 
-const TrackingTheme: ThemeProps = {
+const ProjectTheme: ThemeProps = {
   fields: {
     ...fields,
-    SectionField: TrackingSectionField,
+    SectionField: ProjectSectionField,
   },
   widgets: {
     CheckboxWidget,
@@ -27,9 +27,9 @@ const TrackingTheme: ThemeProps = {
     SelectWidget,
     StatusSelectWidget,
   },
-  ObjectFieldTemplate: TrackingObjectFieldTemplate,
-  FieldTemplate: TrackingFieldTemplate,
+  ObjectFieldTemplate: ProjectObjectFieldTemplate,
+  FieldTemplate: ProjectFieldTemplate,
   ArrayFieldTemplate,
 };
 
-export default TrackingTheme;
+export default ProjectTheme;

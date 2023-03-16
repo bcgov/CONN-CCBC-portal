@@ -6,10 +6,10 @@ import {
   ReadOnlyStatusWidget,
   ReadOnlyWidget,
 } from './widgets';
-import TrackingTheme from '../TrackingTheme';
+import ProjectTheme from '../ProjectTheme';
 
 const ConditionalApprovalReadOnlyTheme: ThemeProps = {
-  ...TrackingTheme,
+  ...ProjectTheme,
   widgets: {
     CheckboxWidget: ReadOnlyWidget,
     CheckboxesWidget: ReadOnlyWidget,
