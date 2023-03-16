@@ -28,6 +28,7 @@ class CustomHtttpAgent extends http.Agent {
       const end = Date.now();
       console.log(`Connection failed with time: ${end - start}ms`);
     });
+    console.log(`asdfzxcvqawer: ${conn.remoteAddress}`);
     return conn;
   }
 }
@@ -54,6 +55,7 @@ class CustomHtttpsAgent extends https.Agent {
       const end = Date.now();
       console.log(`Connection failed with time: ${end - start}ms`);
     });
+    console.log(`asdfzxcvqawer: ${conn.remoteAddress}`);
     return conn;
   }
 }
