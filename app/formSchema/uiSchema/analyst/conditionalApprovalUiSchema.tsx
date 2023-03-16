@@ -75,7 +75,7 @@ const conditionalApprovalUiSchema = {
     },
   },
   response: {
-    'ui:title': `Applicant’s response`,
+    'ui:title': `Applicant's response`,
     'ui:options': {
       flexDirection: 'column',
     },
