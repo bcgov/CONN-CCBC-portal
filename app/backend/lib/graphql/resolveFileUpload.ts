@@ -45,6 +45,7 @@ export const saveRemoteFile = async () => {
   });
   span.setData('start-of-funciton-call', new Date().toISOString());
 
+  const uuid = crypto.randomUUID();
   try {
     // if (!stream || !(stream instanceof Readable)) {
     //   throw new Error('Choose a file to upload first.');
@@ -60,7 +61,6 @@ export const saveRemoteFile = async () => {
       chunk.copy(buffer, i);
     }
 
-    const uuid = crypto.randomUUID();
     console.time(`'saveRemoteFile': ${uuid}`);
 
     const uploadParams = {
@@ -114,7 +114,7 @@ export const saveRemoteFile = async () => {
     console.log('Error', err);
     throw new Error(err);
   } finally {
-    console.timeEnd('saveRemoteFile');
+    console.timeEnd(`'saveRemoteFile': ${uuid}`);
   }
 };
 
