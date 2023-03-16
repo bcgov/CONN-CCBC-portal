@@ -21,6 +21,13 @@ class CustomHtttpAgent extends http.Agent {
       console.log(`Connectil failed with time: ${end - start}ms`);
       callback(error, socket);
     });
+    conn.on('error', () => {
+      console.log(
+        `Connection failed with AWS to: ${options.host} with IP: ${conn.remoteAddress}`
+      );
+      const end = Date.now();
+      console.log(`Connection failed with time: ${end - start}ms`);
+    });
     return conn;
   }
 }
@@ -29,13 +36,23 @@ class CustomHtttpsAgent extends https.Agent {
   createConnection(options, callback) {
     const start = Date.now();
     // @ts-ignore
-    const conn = super.createConnection(options, (error, socket: Socket) => {
-      const end = Date.now();
+    const conn: Socket = super.createConnection(
+      options,
+      (error, socket: Socket) => {
+        const end = Date.now();
+        console.log(
+          `Connection failed with AWS to: ${options.host} with IP: ${socket.remoteAddress}`
+        );
+        console.log(`Connection failed with time: ${end - start}ms`);
+        callback(error, socket);
+      }
+    );
+    conn.on('error', () => {
       console.log(
-        `Connection failed with AWS to: ${options.host} with IP: ${socket.remoteAddress}`
+        `Connection failed with AWS to: ${options.host} with IP: ${conn.remoteAddress}`
       );
+      const end = Date.now();
       console.log(`Connection failed with time: ${end - start}ms`);
-      callback(error, socket);
     });
     return conn;
   }
