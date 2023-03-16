@@ -28,32 +28,17 @@ const StyledBaseAccordion = styled(BaseAccordion)`
     margin-bottom: 0;
     display: flex;
     align-items: center;
-    font-size: 24px;
+    font-size: 16px;
+  }
+
+  ${(props) => props.theme.breakpoint.smallUp} {
+    h2 {
+      font-size: 24px;
+    }
   }
 
   header {
     padding-bottom: 0px;
-  }
-
-  // Some overrides for widget styles
-  & div > div {
-    margin: 0px;
-  }
-
-  .pg-select-wrapper {
-    width: 100%;
-    min-width: 212px;
-    margin: 8px 0 !important;
-  }
-
-  .file-widget {
-    margin-bottom: 8px;
-    min-width: 340px;
-  }
-
-  .datepicker-widget {
-    width: 100%;
-    max-width: 212px;
   }
 `;
 

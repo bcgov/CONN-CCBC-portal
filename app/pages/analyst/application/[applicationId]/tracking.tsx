@@ -13,6 +13,7 @@ import conditionalApprovalUiSchema from 'formSchema/uiSchema/analyst/conditional
 import conditionalApprovalReadOnlyUiSchema from 'formSchema/uiSchema/analyst/conditionalApprovalReadOnlyUiSchema';
 import {
   ConditionalApprovalModal,
+  ConditionalApprovalTheme,
   ConditionalApprovalReadOnlyTheme,
 } from 'components/Analyst/Tracking/ConditionalApproval';
 import { useCreateConditionalApprovalMutation } from 'schema/mutations/tracking/createConditionalApproval';
@@ -102,7 +103,11 @@ const Tracking = ({
             isFormEditMode={isFormEditMode}
             title="Conditional approval"
             schema={conditionalApprovalSchema}
-            theme={!isFormEditMode && ConditionalApprovalReadOnlyTheme}
+            theme={
+              isFormEditMode
+                ? ConditionalApprovalTheme
+                : ConditionalApprovalReadOnlyTheme
+            }
             uiSchema={
               isFormEditMode
                 ? conditionalApprovalUiSchema
