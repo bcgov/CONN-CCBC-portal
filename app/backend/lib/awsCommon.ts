@@ -43,6 +43,7 @@ class CustomHtttpAgent extends http.Agent {
 
 class CustomHtttpsAgent extends https.Agent {
   createConnection(options, callback) {
+    let asdf;
     const start = Date.now();
     // @ts-ignore
     const conn: TLSSocket = super.createConnection(
@@ -52,10 +53,16 @@ class CustomHtttpsAgent extends https.Agent {
         console.log(
           `Connection failed with AWS to: ${options.host} with IP: ${socket.remoteAddress} jojimbobob`
         );
+        console.log(`Connection failed qwerghyt ${asdf}`);
         console.log(`Connection failed with time: ${end - start}ms`);
         callback(error, socket);
       }
     );
+    conn.on('secureConnect', () => {
+      console.log(`Addy: ${conn.address()}`);
+      console.log(`Adderress: ${conn.remoteAddress}`);
+      asdf = conn.remoteAddress;
+    });
     conn.on('error', () => {
       console.log(
         `Connection failed with AWS to: ${options.host} with IP: ${conn.remoteAddress}`
