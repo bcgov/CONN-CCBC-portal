@@ -19,31 +19,19 @@ class CustomHtttpAgent extends http.Agent {
     let asdf;
     const start = Date.now();
     // @ts-ignore
-    const conn: Socket = super.createConnection(
-      options,
-      (error, socket: Socket) => {
-        const end = Date.now();
-        console.log(
-          `Connection failed with AWS to: ${options.host} with IP: ${socket.remoteAddress} jojimbobob`
-        );
-        console.log(`Connection failed qwerghyt ${asdf}`);
-        console.log(`Connection failed with time: ${end - start}ms`);
-        callback(error, socket);
-      }
-    );
-    conn.on('lookup', (err, address, fam, host) => {
+    const conn: Socket = super.createConnection(options, callback);
+    conn.on('lookup', (_err, address, _fam, host) => {
       console.log(
         `Currently trying to connect to: ${address} for host: ${host}`
       );
       asdf = address;
     });
     conn.on('error', () => {
-      console.log(
-        `Connection failed with AWS to: ${options.host} with IP: ${conn.remoteAddress}`
-      );
       const end = Date.now();
       console.log(`Connection failed with time: ${end - start}ms`);
-      console.log(`Connection failed qwerghyt ${asdf}`);
+      console.log(
+        `Connection failed to connect to ${asdf} for host ${options.host}`
+      );
     });
     return conn;
   }
@@ -54,31 +42,19 @@ class CustomHtttpsAgent extends https.Agent {
     let asdf;
     const start = Date.now();
     // @ts-ignore
-    const conn: Socket = super.createConnection(
-      options,
-      (error, socket: Socket) => {
-        const end = Date.now();
-        console.log(
-          `Connection failed with AWS to: ${options.host} with IP: ${socket.remoteAddress} jojimbobob`
-        );
-        console.log(`Connection failed qwerghyt ${asdf}`);
-        console.log(`Connection failed with time: ${end - start}ms`);
-        callback(error, socket);
-      }
-    );
-    conn.on('lookup', (err, address, fam, host) => {
+    const conn: Socket = super.createConnection(options, callback);
+    conn.on('lookup', (_err, address, _fam, host) => {
       console.log(
         `Currently trying to connect to: ${address} for host: ${host}`
       );
       asdf = address;
     });
     conn.on('error', () => {
-      console.log(
-        `Connection failed with AWS to: ${options.host} with IP: ${conn.remoteAddress}`
-      );
       const end = Date.now();
       console.log(`Connection failed with time: ${end - start}ms`);
-      console.log(`Connection failed qwerghyt ${asdf}`);
+      console.log(
+        `Connection failed to connect to ${asdf} for host ${options.host}`
+      );
     });
     return conn;
   }
