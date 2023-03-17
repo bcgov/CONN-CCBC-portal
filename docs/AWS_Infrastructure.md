@@ -18,7 +18,7 @@ See [CCBC AWS Infrustructure automated setup](../Infrastructure/README.md) for d
 To be able to run terraform scripts, please run `terraform login` and generate token (see [Cloud Login](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started/cloud-login)). 
 CCBC workspace set up to use specific role `BCGOV_XXX_Automation_Admin_Role` which has limited set of permissions, restricted to use of S3 and Lambda only. No IAM or network management operations are allowed. 
 
-If project need to be set up not as a part of BC Gov infrastructure, `Infrastructure\main.tf` file can be modified to use [local backend](https://developer.hashicorp.com/terraform/language/settings/backends/local) instead of remote, and set provider configuration to use AWS user credentials instead of role. See [Provider Configuration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) for more details.   
+If project need to be set up not as a part of BC Gov infrastructure, see section [How to use in any AWS account](AWS_Infrastructure.md#how-to-setup-in-any-aws-account).
 
 ## S3 Buckets
 
@@ -68,3 +68,20 @@ Terraform script provisions SNS topic `clamav-notification` to be used by `scan-
 
 Optional `clamav-on-demand-scan` topic was created to trigger virus scanning for the files that were uploaded to the bucket before lambda was deployed. 
 
+## How to setup in any AWS account
+
+To be able to run Terraform scripts , `Infrastructure\main.tf` file should be modified to use [local backend](https://developer.hashicorp.com/terraform/language/settings/backends/local) instead of remote, and set provider configuration to use AWS user credentials instead of the role. See [Provider Configuration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#provider-configuration) for more details. 
+
+Steps are:
+- login to your AWS account and create access key. (IAM -> Security Credentials -> Access Keys);
+- save new keys into the file `credentials` in specific location: Linux and macOS: `~/.aws/credentials`, Widnows: `%USERPROFILE%\.aws\credentials`);
+- copy files from `Infrastructure\demo\` folder into `Infrastructure\`, overwriting `main.tf` and `variable.tf`;
+- if present - delete `Infrastructure\.terraform` folder and `Infrastructure\.terraform.lock.hcl` file;
+- run 'terraform init'
+- run 'terraform plan'
+- run 'terraform apply -auto-approve'
+- confirm that all AWS services are created as expected
+
+If 'terraform apply' command fails with error "The requested bucket name is not available' or similar, review file `variable.tf` to ensure unique names for the resources and re-try again.
+
+If you need to destroy infrastructure, please note that 'terraform destroy' will leave S3 buckets. To remove all resources, please edit file `Infrastructure\modules\s3_bucket\main.tf`, set `prevent_destroy = false` in line 19, and run 'terraform destroy' again.
