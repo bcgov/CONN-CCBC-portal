@@ -1,3 +1,14 @@
+# [1.52.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.51.0...v1.52.0) (2023-03-20)
+
+### Features
+
+- add logic for unassigned ([b0d6ac0](https://github.com/bcgov/CONN-CCBC-portal/commit/b0d6ac09e83a3b10dcac7d6ff4ab51c6a384262b))
+- add sentry data tags to get clearer picture ([408c038](https://github.com/bcgov/CONN-CCBC-portal/commit/408c038f988074d90740459a623262a4c474c28b))
+- added high-level doc ([179a8e6](https://github.com/bcgov/CONN-CCBC-portal/commit/179a8e60ec85c037f3e733a212523a04927e7255))
+- added steps and demo tf files for any AWS account ([77ac17c](https://github.com/bcgov/CONN-CCBC-portal/commit/77ac17c1dfe4ce0cc586cfc1dc76651a62a3ffbf))
+- changed bucket for list of attachments ([6649956](https://github.com/bcgov/CONN-CCBC-portal/commit/664995699c2bdc1a50938c1e38d88ffa727f0f8e))
+- have icons be inline with state for accordion ([0bc816e](https://github.com/bcgov/CONN-CCBC-portal/commit/0bc816ee7881bed289bb59c4a7084d7fe3f4bbd6))
+
 # [1.51.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.50.0...v1.51.0) (2023-03-15)
 
 ### Bug Fixes
