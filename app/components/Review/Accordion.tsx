@@ -135,12 +135,9 @@ const Accordion = ({
               <AlertIcon />
             </StyledAlert>
           )}
-          <BaseAccordion.ToggleOff>
-            <Plus />
-          </BaseAccordion.ToggleOff>
-          <BaseAccordion.ToggleOn>
-            <Minus />
-          </BaseAccordion.ToggleOn>
+          <button type="button" onClick={handleToggle}>
+            {isToggled ? <Minus /> : <Plus />}
+          </button>
         </StyledToggleRight>
       </header>
       <section
