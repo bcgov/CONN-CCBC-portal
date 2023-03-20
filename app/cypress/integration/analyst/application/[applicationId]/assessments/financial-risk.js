@@ -12,4 +12,18 @@ describe('The analyst financial risk assessment page', () => {
       component: 'Analyst financial risk assessment page',
     });
   });
+
+  it('Filled page and saved', () => {
+    cy.visit('/analyst/application/1/assessments/financial-risk');
+    cy.contains('a', 'Financial Risk');
+    cy.get('select[id="root_assignedTo"]').select('Meherzad Romer');
+    cy.get('input[id="root_targetDate"]').type('2023-03-10');
+    cy.get('input[id="root_nextStep-1"]').click();
+    cy.get('input[id="root_decision-1"]').click();
+    cy.contains('button', 'Save').click();
+    cy.contains('button', 'Saved');
+    cy.get('body').happoScreenshot({
+      component: 'Filled Analyst Financial Risk Assessment Page',
+    });
+  });
 });

@@ -1,3 +1,4 @@
+/// <reference types="Cypress" />
 import assessmentsSetup from './setup.js';
 
 describe('The analyst screening assessment page', () => {
@@ -10,6 +11,21 @@ describe('The analyst screening assessment page', () => {
     cy.contains('a', 'Screening');
     cy.get('body').happoScreenshot({
       component: 'Analyst screening assessment page',
+    });
+  });
+
+  it('Filled Screening Page', () => {
+    cy.visit('/analyst/application/1/assessments/screening');
+    cy.contains('a', 'Screening');
+    cy.get('select[id="root_assignedTo"]').select('Meherzad Romer');
+    cy.get('input[id="root_targetDate"]').type('2023-03-10');
+    cy.get('input[id="root_nextStep-1"]').click();
+    cy.get('input[id="root_decision-1"]').click();
+    cy.get('input[id="root_contestingMap-0"]').click();
+    cy.contains('button', 'Save').click();
+    cy.contains('button', 'Saved');
+    cy.get('body').happoScreenshot({
+      component: 'Filled Analyst screening assessment page',
     });
   });
 });
