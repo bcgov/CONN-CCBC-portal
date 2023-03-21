@@ -8,6 +8,7 @@ const assessmentsSetup = () => {
   cy.sqlFixture('e2e/001_application');
   cy.sqlFixture('e2e/001_application_received');
   cy.sqlFixture('e2e/001_analyst');
+  cy.intercept('POST', '/graphql').as('graphql');
 };
 
 export default assessmentsSetup;

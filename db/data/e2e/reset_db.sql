@@ -1,11 +1,13 @@
 begin;
 
-delete from ccbc_public.application_form_data;
-delete from ccbc_public.form_data;
-delete from ccbc_public.attachment;
-delete from ccbc_public.application_status;
-delete from ccbc_public.application;
-delete from ccbc_public.intake;
-delete from ccbc_public.analyst;
+truncate table
+  ccbc_public.application,
+  ccbc_public.application_status,
+  ccbc_public.attachment,
+  ccbc_public.form_data,
+  ccbc_public.application_form_data,
+  ccbc_public.application_analyst_lead,
+  ccbc_public.analyst
+restart identity cascade;
 
 commit;
