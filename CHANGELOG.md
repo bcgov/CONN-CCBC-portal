@@ -1,3 +1,14 @@
+# [1.53.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.52.0...v1.53.0) (2023-03-21)
+
+### Bug Fixes
+
+- intial state on Assessment form ([10f9dfa](https://github.com/bcgov/CONN-CCBC-portal/commit/10f9dfa1b601435b669fbc642cfcccb1d185fbe4))
+- unneeded file in commit ([735c368](https://github.com/bcgov/CONN-CCBC-portal/commit/735c3686c7819877e7c2cd42b51dcb76cb845fca))
+
+### Features
+
+- added db dev doc ([c9cf3fa](https://github.com/bcgov/CONN-CCBC-portal/commit/c9cf3fa2c89eec98b6786ffa4d0aefc278bdc209))
+
 # [1.52.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.51.0...v1.52.0) (2023-03-20)
 
 ### Features
