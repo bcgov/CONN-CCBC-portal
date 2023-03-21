@@ -35,7 +35,7 @@ const AssessmentsForm: React.FC<Props> = ({
 
   const [createAssessment, isCreating] = useCreateAssessmentMutation();
   const [newFormData, setNewFormData] = useState(formData);
-  const [isFormSaved, setIsFormSaved] = useState(false);
+  const [isFormSaved, setIsFormSaved] = useState(true);
 
   const handleSubmit = async (e: ISubmitEvent<any>) => {
     if (!isFormSaved) {
