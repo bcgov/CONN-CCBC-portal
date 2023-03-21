@@ -232,3 +232,4 @@ tables/history_item [tables/history_item@1.49.0] 2023-03-10T20:03:50Z ,,, Vladim
 @1.51.0 2023-03-15T19:25:12Z Marcel Mueller <marcel@m2.local> # release v1.51.0
 computed_columns/application_history [computed_columns/application_history@1.50.0] 2023-03-15T15:14:14Z Anthony Bushara <anthony@button.is> # fix history to include unassigning an analyst
 @1.52.0 2023-03-20T16:33:20Z Anthony Bushara <anthony@button.is> # release v1.52.0
+@1.53.0 2023-03-21T18:11:27Z Anthony Bushara <anthony@button.is> # release v1.53.0
