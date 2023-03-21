@@ -25,7 +25,7 @@ describe('The analyst technical assessment page', () => {
     cy.contains('button', 'Saved');
     cy.visit('/analyst/application/1/assessments/technical');
     cy.get('body').happoScreenshot({
-      component: 'Filled Analyst Financial Risk Assessment Page',
+      component: 'Filled Analyst Technical Assessment Page',
     });
   });
 });
