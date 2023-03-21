@@ -27,6 +27,7 @@ describe('The analyst permitting assessment page', () => {
     );
     cy.contains('button', /^Save$/).click();
     cy.contains('button', 'Saved');
+    cy.visit('/analyst/application/1/assessments/permitting');
     cy.get('body').happoScreenshot({
       component: 'Filled Analyst permitting assessment page',
     });

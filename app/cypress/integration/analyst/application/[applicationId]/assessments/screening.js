@@ -24,6 +24,7 @@ describe('The analyst screening assessment page', () => {
     cy.get('input[id="root_contestingMap-0"]').parent().click();
     cy.contains('button', /^Save$/).click();
     cy.contains('button', 'Saved');
+    cy.visit('/analyst/application/1/assessments/screening');
     cy.get('body').happoScreenshot({
       component: 'Filled Analyst screening assessment page',
     });

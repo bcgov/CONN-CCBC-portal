@@ -23,6 +23,7 @@ describe('The analyst technical assessment page', () => {
     cy.get('input[id="root_decision-1"]').parent().click();
     cy.contains('button', /^Save$/).click();
     cy.contains('button', 'Saved');
+    cy.visit('/analyst/application/1/assessments/technical');
     cy.get('body').happoScreenshot({
       component: 'Filled Analyst Financial Risk Assessment Page',
     });
