@@ -6,6 +6,7 @@ describe('The analyst dashboard', () => {
     cy.sqlFixture('e2e/reset_db');
     cy.sqlFixture('e2e/001_intake');
     cy.sqlFixture('e2e/001_received_applications');
+    cy.sqlFixture('e2e/001_analyst');
     cy.mockLogin('ccbc_analyst');
   });
 
