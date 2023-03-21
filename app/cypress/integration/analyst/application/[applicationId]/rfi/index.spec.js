@@ -1,4 +1,3 @@
-/// <reference types="Cypress" />
 import rfiSetup from './setup.js';
 
 describe('The RFI index page', () => {
@@ -33,6 +32,7 @@ describe('The RFI index page', () => {
       component: 'Saved Rfi Index Page',
     });
     cy.get('svg[data-icon="pen"]').click();
+    cy.get('[data-testid=file-test]').should('exist');
     cy.get('body').happoScreenshot({
       component: 'Saved Rfi Page',
     });
