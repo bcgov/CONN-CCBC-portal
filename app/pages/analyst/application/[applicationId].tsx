@@ -17,6 +17,7 @@ const StyledButton = styled('button')`
 
 const RightAlignText = styled('div')`
   text-align: right;
+  padding-bottom: 4px;
 `;
 
 const getApplicationQuery = graphql`
