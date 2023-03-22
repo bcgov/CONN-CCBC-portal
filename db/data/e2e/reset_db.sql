@@ -7,7 +7,8 @@ truncate table
   ccbc_public.form_data,
   ccbc_public.application_form_data,
   ccbc_public.application_analyst_lead,
-  ccbc_public.analyst
+  ccbc_public.analyst,
+  ccbc_public.rfi_data
 restart identity cascade;
 
 commit;
