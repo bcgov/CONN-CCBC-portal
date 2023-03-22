@@ -35,7 +35,7 @@ Sqitch manages changes and dependencies via a plan file (`db\sqitch.plan`), empl
 When a new database object (table, mutation, role etc.) need to be added, please run next command (see more at [Sqitch changes](../db/README.md#sqitch-changes))
 
 ```
-sqitch add <object_type>/<object_name> --without verify
+sqitch add <object_type>/<object_name> --without verify  -m "<some message>"
 ```
 
 Sqitch will generate necessary file placeholders in `deploy`,`revert` folders, and add references to new files into `sqitch.plan`. Now we can fill in the blanks and implement necessary SQL scripts that create new table, function or grant necessary permissions and access etc.
@@ -43,7 +43,7 @@ Sqitch will generate necessary file placeholders in `deploy`,`revert` folders, a
 When there is a need to update existing database object, special Sqitch command [revert](https://sqitch.org/docs/manual/sqitch-revert/) should be used:
 
 ```
-sqitch rework <object_type>/<object_name>
+sqitch rework <object_type>/<object_name>  -m "<some message>"
 ```
 
 Sqitch will save existing scripts in `deploy` and `revert` folders with new name which includes latest release label (i.e. `deploy\tables\existing_table_name@1.0.0.sql`), and add necessary entries into `sqitch.plan`.
