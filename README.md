@@ -8,6 +8,7 @@
 - [Authentication and authorization](docs/auth.md)
 - [Release process](#release-process)
 - [AWS Infrastructure](docs/AWS_Infrastructure.md)
+- [Database Development](docs/Database_Development.md)
 - [SchemaSpy Database documentation](https://bcgov.github.io/CONN-CCBC-portal/schemaspy/)
 
 #### Local development
@@ -165,7 +166,7 @@ As mentioned above, the critical part of the release process is to tag the sqitc
 
 We developed some guardrails (i.e. GitHub actions) to:
 
-- ensure that changes that are part of a release are immutable: [immutable-sqitch-change.yml}(.github/workflows/immutable-sqitch-change.yml)
+- ensure that changes that are part of a release are immutable: [immutable-sqitch-change.yml](.github/workflows/immutable-sqitch-change.yml)
 - ensure that the sqitch plan ends with a tag on the `main` branch, preventing deployments if it is not the case. Our release command automatically sets this tag: [pre-release.yml](.github/workflows/pre-release.yml)
 
 #### Pre-Commit Hooks

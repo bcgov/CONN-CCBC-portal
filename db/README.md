@@ -18,6 +18,7 @@ When adding a sqitch change to create an object, we follow the `<object_type>/<o
 - `mutations`: for [custom mutations](https://www.graphile.org/postgraphile/custom-mutations/)
 - `trigger_functions`: for any function returning a trigger
 - `util_functions`: for any function used primarily to increase code reuse, either in the public or private schema
+- `import`: one-time scripts to populate history (ccbc_public.record_version) table with historical data
 - `views`: all views go in there
 
 ### No verify scripts
