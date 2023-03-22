@@ -810,4 +810,13 @@ describe('The applicant dashboard', () => {
 
     cy.url().should('contain', '/dashboard');
   });
+
+  it('should see dashboard and have option to view upload', () => {
+    cy.sqlFixture('e2e/001_application');
+    cy.sqlFixture('e2e/001_application_received');
+    cy.sqlFixture('e2e/001_rfi');
+    cy.visit('/applicantportal/dashboard');
+    cy.wait(1000);
+    cy.get('body').happoScreenshot({ component: 'Dashboard with RFI' });
+  });
 });
