@@ -113,7 +113,10 @@ const ProjectForm: React.FC<Props> = ({
               </StyledBtn>
             </>
           ) : (
-            <StyledIconBtn onClick={() => setIsFormEditMode(true)}>
+            <StyledIconBtn
+              onClick={() => setIsFormEditMode(true)}
+              data-testid="project-form-edit-button"
+            >
               <FontAwesomeIcon icon={faPen} size="xs" />
             </StyledIconBtn>
           )}

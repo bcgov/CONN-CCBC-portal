@@ -8,9 +8,13 @@ const ReadOnlyStatusWidget: React.FC<WidgetProps> = ({ value }) => {
   return (
     <StyledValue>
       {isConditionallyApproved ? (
-        <StyledStatus statusType={value}>Conditionally Approved</StyledStatus>
+        <StyledStatus data-testid="read-only-status-widget" statusType={value}>
+          Conditionally Approved
+        </StyledStatus>
       ) : (
-        <StyledStatus statusType={value}>Received</StyledStatus>
+        <StyledStatus data-testid="read-only-status-widget" statusType={value}>
+          Received
+        </StyledStatus>
       )}
     </StyledValue>
   );

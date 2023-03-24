@@ -36,8 +36,11 @@ const StyledFlex = styled.div`
 `;
 
 const StyledHeader = styled(Modal.Header)`
-  font-size: 24px;
-  font-weight: 700;
+  padding: 16px;
+
+  & h2 {
+    margin: 0;
+  }
 `;
 
 interface Props {
@@ -75,17 +78,25 @@ const ConditionalApprovalModal: React.FC<Props> = ({
 
   return (
     <StyledModal id="conditional-approval-modal">
-      <StyledHeader>Applicant Status</StyledHeader>
+      <StyledHeader>
+        <h2>Applicant Status</h2>
+      </StyledHeader>
       <StyledContent>
         <p>
           This will change what the <b>Applicant</b> sees from
         </p>
         <StyledFlex>
-          <StyledStatus statusType={oldFormStatus}>
+          <StyledStatus
+            statusType={oldFormStatus}
+            data-testid="old-form-status"
+          >
             {oldFormStatus}
           </StyledStatus>
           <FontAwesomeIcon icon={faArrowRight} />
-          <StyledStatus statusType={newFormStatus}>
+          <StyledStatus
+            statusType={newFormStatus}
+            data-testid="new-form-status"
+          >
             {newFormStatus}
           </StyledStatus>
         </StyledFlex>
