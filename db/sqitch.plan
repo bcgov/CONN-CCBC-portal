@@ -237,3 +237,4 @@ computed_columns/application_history [computed_columns/application_history@1.50.
 tables/conditional_approval_data 2023-03-14T15:29:41Z Marcel Mueller <marcel@m2> # add conditional_approval_data table
 mutations/create_conditional_approval 2023-03-14T16:19:19Z Marcel Mueller <marcel@m2> # add create_conditional_approval mutation
 computed_columns/application_conditional_approval 2023-03-14T16:19:04Z Marcel Mueller <marcel@m2> # add conditional_approval computed column
+computed_columns/application_history [computed_columns/application_history@1.52.0] 2023-03-24T21:58:49Z Marcel Mueller <marcel@m2.local> # add support for conditional_approval_data
