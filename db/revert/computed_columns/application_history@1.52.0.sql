@@ -50,11 +50,11 @@ returns setof ccbc_public.history_item as $$
 
   union all
     select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
-        concat_ws(' ', a.given_name, a.family_name) as item,
+        concat(a.given_name, ' ', a.family_name) as item,
         u.family_name, u.given_name, u.session_sub
     from ccbc_public.record_version as v
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
-        left join ccbc_public.analyst a on v.record->>'analyst_id' = a.id::varchar(10)
+        inner join ccbc_public.analyst a on v.record->>'analyst_id' = a.id::varchar(10)
     where v.op='INSERT' and v.table_name='application_analyst_lead' and v.record->>'archived_by' is null
         and v.record->>'application_id'=application.id::varchar(10)
 

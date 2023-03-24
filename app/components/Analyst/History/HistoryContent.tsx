@@ -73,7 +73,8 @@ const HistoryContent = ({ historyItem }) => {
     return (
       <StyledContent data-testid="history-content-analyst-lead">
         <span>
-          {displayName} assigned <b>Lead</b> to {leadName} on {createdAtFormatted}
+          {displayName} assigned <b>Lead</b> to {leadName} on{' '}
+          {createdAtFormatted}
         </span>
       </StyledContent>
     );
@@ -148,6 +149,16 @@ const HistoryContent = ({ historyItem }) => {
       <StyledContent data-testid="history-content-assessment">
         <span>{displayName} saved the </span>
         <b>{formatAssessment(assessmentType)} Assessment</b>
+        <span> on {createdAtFormatted}</span>
+      </StyledContent>
+    );
+  }
+
+  if (tableName === 'conditional_approval_data') {
+    return (
+      <StyledContent data-testid="history-content-conditional-approval">
+        <span>{displayName} updated the </span>
+        <b>Conditional approval</b>
         <span> on {createdAtFormatted}</span>
       </StyledContent>
     );

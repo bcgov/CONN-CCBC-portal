@@ -7,6 +7,7 @@ import {
   faClipboardList,
   faEnvelope,
   faPaperclip,
+  faStamp,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -32,6 +33,7 @@ const iconMap = {
   assessment_data: faCheckDouble,
   application_analyst_lead: faUser,
   application_package: faBox,
+  conditional_approval_data: faStamp,
 };
 
 interface Props {

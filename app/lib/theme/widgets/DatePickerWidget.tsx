@@ -6,6 +6,12 @@ import styled from 'styled-components';
 import { dateTimeFormat, fixDate } from '../functions/formatDates';
 
 const StyledContainer = styled('div')`
+  width: ${(props) => props.theme.width.inputWidthSmall};
+  position: relative;
+  div {
+    margin: 0px !important;
+  }
+
   margin-top: 12px;
   margin-bottom: 32px;
 `;
@@ -15,11 +21,17 @@ const StyledDatePicker = styled(DatePicker)`
   border-radius: 0.25rem;
   padding: 0.5rem 0.6rem;
   width: 100%;
+
+  ::placeholder {
+    color: #cccccc;
+  }
 `;
 
-const StyledDiv = styled('div')`
-  width: ${(props) => props.theme.width.inputWidthSmall};
-  position: relative;
+const StyledSpan = styled('span')`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 `;
 
 function getDateString(date: Date | undefined) {
@@ -30,12 +42,6 @@ function getDateString(date: Date | undefined) {
 }
 
 const CalendarIcon = ({ onClick }: any) => {
-  const StyledSpan = styled('span')`
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-  `;
   return (
     <StyledSpan onClick={onClick}>
       <svg
@@ -93,15 +99,16 @@ const CalendarIcon = ({ onClick }: any) => {
 };
 
 const CustomInput = ({ value, onClick, ...rest }: any) => (
-  <StyledDiv>
+  <>
     <StyledDatePicker
       showPopperArrow={false}
       value={value}
+      placeholderText="YYYY-MM-DD"
       onClick={onClick}
       {...rest}
     />
     <CalendarIcon onClick={onClick} />
-  </StyledDiv>
+  </>
 );
 
 const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
@@ -130,7 +137,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   };
 
   return (
-    <StyledContainer>
+    <StyledContainer className="datepicker-widget">
       <DatePicker
         id={id}
         disabled={disabled}
