@@ -4,7 +4,7 @@ interface StatusProps {
   statusType: string;
 }
 const StyledStatus = styled.div<StatusProps>`
-  border-radius: 4px;
+  border-radius: 30px;
   padding: 4px 16px;
   color: ${(props) => props.theme.color.white};
   background-color: ${(props) =>

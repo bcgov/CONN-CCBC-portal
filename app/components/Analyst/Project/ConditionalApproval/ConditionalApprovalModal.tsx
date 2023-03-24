@@ -54,7 +54,7 @@ const ConditionalApprovalModal: React.FC<Props> = ({
   rowId,
   formData,
   newFormStatus,
-  oldFormStatus,
+  oldFormStatus = 'Received',
   resetFormData,
   setIsFormEditMode,
   setOldFormData,

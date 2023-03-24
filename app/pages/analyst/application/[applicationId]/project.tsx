@@ -63,6 +63,8 @@ const Project = ({
     const showStatusModal = oldFormStatus !== newFormStatus;
 
     if (showStatusModal) {
+      // clear history before opening modal to prevent bug where modal doesn't open when the anchor hash is in the url already
+      window.history.replaceState(null, null, ' ');
       window.location.hash = 'conditional-approval-modal';
     } else {
       window.history.replaceState(null, null, ' ');

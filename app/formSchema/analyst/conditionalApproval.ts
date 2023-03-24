@@ -11,37 +11,31 @@ const conditionalApproval: JSONSchema7 = {
       required: ['ministerDecision', 'ministerDate', 'ministerAnnouncement'],
       properties: {
         ministerDecision: {
-          title: ' ',
           type: 'string',
           enum: ['Approved', 'Not approved', 'Hold'],
         },
         ministerDate: {
-          title: ' ',
           type: 'string',
         },
         ministerAnnouncement: {
-          title: ' ',
           type: 'string',
           enum: ['Announce immediately', 'Hold announcement'],
         },
       },
     },
     isedDecisionObj: {
-      title: ' ',
+      title: '',
       type: 'object',
       required: ['isedDecision', 'isedDate', 'isedAnnouncement'],
       properties: {
         isedDecision: {
-          title: ' ',
           type: 'string',
           enum: ['Approved', 'Not approved', 'Hold'],
         },
         isedDate: {
-          title: ' ',
           type: 'string',
         },
         isedAnnouncement: {
-          title: ' ',
           type: 'string',
           enum: ['Announce immediately', 'Hold announcement'],
         },
@@ -56,7 +50,6 @@ const conditionalApproval: JSONSchema7 = {
           type: 'string',
         },
         letterOfApprovalDateSent: {
-          title: ' ',
           type: 'string',
         },
       },
@@ -66,12 +59,10 @@ const conditionalApproval: JSONSchema7 = {
       required: ['applicantResponse', 'statusApplicantSees'],
       properties: {
         applicantResponse: {
-          title: ' ',
           type: 'string',
           enum: ['Accepted', 'Rejected'],
         },
         statusApplicantSees: {
-          title: ' ',
           type: 'string',
           enum: ['Conditionally Approved'],
         },
