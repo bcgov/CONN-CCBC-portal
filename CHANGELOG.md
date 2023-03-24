@@ -1,3 +1,16 @@
+# [1.54.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.53.0...v1.54.0) (2023-03-24)
+
+### Bug Fixes
+
+- updated based on PR comments ([084797d](https://github.com/bcgov/CONN-CCBC-portal/commit/084797d3c0bbf526d78adf72ea2eb439c8f78efc))
+
+### Features
+
+- add nextStep options to permitting form ([fe492aa](https://github.com/bcgov/CONN-CCBC-portal/commit/fe492aa05d182db20c18ba2292bd5e2aac9e2b32))
+- add padding on expand all and collapse all ([c1889b4](https://github.com/bcgov/CONN-CCBC-portal/commit/c1889b4d203992d7648a4e307b07080a5f32ff8c))
+- ensure that the page has rendered before taking screenshot ([64d9678](https://github.com/bcgov/CONN-CCBC-portal/commit/64d96783635d6c6fba29f415228959b91027b00a))
+- permitting row in assessment table shows all steps in progress ([318a708](https://github.com/bcgov/CONN-CCBC-portal/commit/318a708a0d859948e6b9c7b1ba4e7d33413be7fe))
+
 # [1.53.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.52.0...v1.53.0) (2023-03-21)
 
 ### Bug Fixes
