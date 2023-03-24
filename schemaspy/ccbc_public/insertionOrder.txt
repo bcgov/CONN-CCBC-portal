@@ -16,6 +16,7 @@ record_version
 application_form_data
 application_rfi_data
 application_package
+conditional_approval_data
 application_analyst_lead
 assessment_data
 attachment

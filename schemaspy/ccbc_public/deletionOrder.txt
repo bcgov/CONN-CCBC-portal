@@ -2,6 +2,7 @@ history_item
 attachment
 assessment_data
 application_analyst_lead
+conditional_approval_data
 application_package
 application_rfi_data
 application_form_data
