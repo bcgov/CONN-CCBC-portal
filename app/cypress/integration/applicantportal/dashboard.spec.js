@@ -819,4 +819,41 @@ describe('The applicant dashboard', () => {
     cy.wait(1000);
     cy.get('body').happoScreenshot({ component: 'Dashboard with RFI' });
   });
+
+  it('should see status change after analyst changes status', () => {
+    // Setup for analyst side and fake status
+    cy.sqlFixture('e2e/001_application');
+    cy.sqlFixture('e2e/001_application_received');
+    cy.sqlFixture('e2e/001_fake_status');
+    cy.mockLogin('ccbc_analyst');
+    cy.intercept('POST', '/graphql').as('graphql');
+    cy.visit('/analyst/application/1');
+    // Wait until fake status and select has been loaded
+    cy.get('select[data-testid="change-status"');
+    cy.contains('option', 'Fake Status').should('exist');
+    cy.wait('@graphql');
+    cy.get('select[data-testid="change-status"')
+      .should('be.visible')
+      .select('Fake Status');
+    // When modal shows up, confirm status change
+    cy.url().should('include', '#change-status-modal');
+    cy.get('button[data-testid="withdraw-yes-btn"]')
+      .should('be.visible')
+      .click();
+    cy.wait('@graphql');
+    cy.get('select[data-testid="change-status"')
+      .invoke('val')
+      .should('eq', 'fake_status');
+    cy.contains('select', 'Fake Status').should('be.visible');
+    cy.get('select[data-testid="change-status"').should('be.visible');
+    cy.get('body').happoScreenshot({
+      component: 'Changed status to fake status visible on applicant side',
+    });
+    cy.mockLogin('ccbc_auth_user');
+    cy.visit('/applicantportal/dashboard');
+    cy.contains('span', 'fake_status').should('be.visible');
+    cy.get('body').happoScreenshot({
+      component: 'Dashboard with fake visible status',
+    });
+  });
 });
