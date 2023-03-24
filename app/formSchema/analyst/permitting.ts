@@ -1,4 +1,5 @@
 import { JSONSchema7 } from 'json-schema';
+import sharedAssessmentFields from './sharedAssessmentFields';
 
 const permitting: JSONSchema7 = {
   title: ' ',
@@ -10,16 +11,10 @@ const permitting: JSONSchema7 = {
     'decision',
     'notesAndConsiderations',
     'otherFiles',
+    'nextStep',
   ],
   properties: {
-    assignedTo: {
-      title: 'Assigned to',
-      type: 'string',
-    },
-    targetDate: {
-      title: 'Target date',
-      type: 'string',
-    },
+    ...sharedAssessmentFields.properties,
     decision: {
       title: 'Flags',
       type: 'array',
@@ -35,10 +30,6 @@ const permitting: JSONSchema7 = {
     },
     notesAndConsiderations: {
       title: 'Notes & Considerations',
-      type: 'string',
-    },
-    otherFiles: {
-      title: 'Other files',
       type: 'string',
     },
   },
