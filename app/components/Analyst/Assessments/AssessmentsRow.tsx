@@ -55,12 +55,14 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
   const applicationId = router.query.applicationId as string;
   const date = jsonData?.targetDate;
   const progress = jsonData?.nextStep;
+  // check if no decision has been made (default option)
+  // or in the case of permitting if it's an empty array (same as no decision)
   const decision =
-    jsonData?.decision === 'No decision' ? null : jsonData?.decision;
+    jsonData?.decision === 'No decision' || jsonData?.decision?.length === 0
+      ? null
+      : jsonData?.decision;
   const isPermitting = name === 'Permitting';
-  const isPermittingComplete = isPermitting && decision && decision.length > 0;
-  const isComplete =
-    (progress === 'Assessment complete' && decision) || isPermittingComplete;
+  const isComplete = progress === 'Assessment complete' && decision;
   const assignedTo = jsonData?.assignedTo;
 
   const dateString =

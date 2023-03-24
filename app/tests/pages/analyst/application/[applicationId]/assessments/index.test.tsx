@@ -167,9 +167,10 @@ describe('The index page', () => {
     expect(status).toHaveStyle('background-color: #345FA9;');
   });
 
-  it('any permitting flags are checked then show progress as Complete', async () => {
+  it('any permitting flags are checked then show progress as Complete only if nextStep is Assessment complete', async () => {
     const mockPayload = customAssessmentQueryPayload({
       jsonData: {
+        nextStep: 'Assessment complete',
         decision: ['Major permit approval issues anticipate'],
       },
       assessmentDataType: 'permitting',
@@ -182,6 +183,24 @@ describe('The index page', () => {
 
     expect(status).toHaveStyle('color: #FFFFFF');
     expect(status).toHaveStyle('background-color: #345FA9;');
+  });
+
+  it('shows assessment complete if decision array is empty', async () => {
+    const mockPayload = customAssessmentQueryPayload({
+      jsonData: {
+        nextStep: 'Assessment complete',
+        decision: [],
+      },
+      assessmentDataType: 'permitting',
+    });
+
+    pageTestingHelper.loadQuery(mockPayload);
+    pageTestingHelper.renderPage();
+
+    const status = screen.getByText('Assessment complete');
+
+    expect(status).toHaveStyle('color: #FFFFFF');
+    expect(status).toHaveStyle('background-color: #2E8540;');
   });
 
   it('can display multiple status pills for permitting assessment', async () => {
