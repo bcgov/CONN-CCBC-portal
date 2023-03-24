@@ -101,6 +101,7 @@ describe('The index page', () => {
       input: {
         _applicationId: 1,
         _jsonData: {
+          nextStep: 'Not started',
           decision: ['No obvious flags identified at this stage'],
         },
         _assessmentType: 'permitting',
