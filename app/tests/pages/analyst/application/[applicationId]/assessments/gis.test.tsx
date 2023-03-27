@@ -15,7 +15,10 @@ const mockQueryPayload = {
       },
       applicationByRowId: {
         rowId: 1,
-        assessmentForm: null,
+        assessmentForm: {
+          jsonData: {},
+          createdAt: '2023-03-27T12:44:09.882871-07:00',
+        },
         status: 'received',
       },
       allApplicationStatusTypes: {
@@ -124,6 +127,15 @@ describe('The index page', () => {
         _assessmentType: 'gis',
       },
     });
+  });
+
+  it('Displays the last updated datetime', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByTestId('last-updated')).toHaveTextContent(
+      'Last updated: Mar 27, 2023, 12:44 p.m.'
+    );
   });
 
   afterEach(() => {

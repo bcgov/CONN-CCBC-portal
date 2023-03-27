@@ -9,6 +9,7 @@ const mutation = graphql`
         id
         rowId
         jsonData
+        createdAt
       }
     }
   }

@@ -10,6 +10,7 @@ import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createA
 import assessmentsUiSchema from 'formSchema/uiSchema/analyst/assessmentsUiSchema';
 
 interface Props {
+  addedContext?: any;
   query: any;
   schema: JSONSchema7;
   slug: string;
@@ -33,6 +34,7 @@ const StyledFormBase = styled(FormBase)`
 `;
 
 const AssessmentsForm: React.FC<Props> = ({
+  addedContext,
   formData,
   query,
   schema,
@@ -92,7 +94,10 @@ const AssessmentsForm: React.FC<Props> = ({
         setNewFormData({ ...e.formData });
       }}
       omitExtraData={false}
-      formContext={{ query }}
+      formContext={{
+        ...addedContext,
+        query,
+      }}
       onSubmit={handleSubmit}
     >
       <Button variant="primary" disabled={isCreating}>
