@@ -30,6 +30,7 @@ export const theme = {
     stepperHover: 'rgba(196, 196, 196, 0.06)',
     stepperBlue: 'rgb(229, 239, 249)',
     disabledGrey: '#939393',
+    placeholder: '#cccccc',
   },
   spacing: {
     small: '8px',

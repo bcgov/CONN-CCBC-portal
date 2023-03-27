@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 import { FormBase } from 'components/Form';
 import Button from '@button-inc/bcgov-theme/Button';
 import { graphql, useFragment } from 'react-relay';
@@ -15,6 +16,16 @@ interface Props {
   formData: any;
   uiSchema?: any;
 }
+const StyledFormBase = styled(FormBase)`
+  .pg-select-wrapper,
+  .datepicker-widget {
+    width: 240px;
+  }
+
+  .pg-textarea {
+    max-width: 460px;
+  }
+`;
 
 const AssessmentsForm: React.FC<Props> = ({
   formData,
@@ -66,7 +77,7 @@ const AssessmentsForm: React.FC<Props> = ({
   };
 
   return (
-    <FormBase
+    <StyledFormBase
       schema={schema}
       uiSchema={uiSchema || assessmentsUiSchema}
       noValidate
@@ -83,7 +94,7 @@ const AssessmentsForm: React.FC<Props> = ({
         {!isFormSaved ? 'Save' : 'Saved'}
       </Button>
       {isCreating && <LoadingSpinner />}
-    </FormBase>
+    </StyledFormBase>
   );
 };
 export default AssessmentsForm;

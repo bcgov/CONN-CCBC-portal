@@ -43,6 +43,11 @@ const AssessmentsTabs = () => {
           Screening
         </StyledAnchor>
       </Link>
+      <Link passHref href={`${baseUrl}/gis`}>
+        <StyledAnchor selected={`${baseUrl}/gis` === router.asPath}>
+          GIS
+        </StyledAnchor>
+      </Link>
       <Link passHref href={`${baseUrl}/technical`}>
         <StyledAnchor selected={`${baseUrl}/technical` === router.asPath}>
           Technical
