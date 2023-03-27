@@ -1,3 +1,37 @@
+# [1.55.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.54.0...v1.55.0) (2023-03-27)
+
+### Bug Fixes
+
+- conditional approval divider styles ([da4517b](https://github.com/bcgov/CONN-CCBC-portal/commit/da4517b0ec8c6e36a14028af31c1566976032ef4))
+- conditional approval edit button colour ([0a535ed](https://github.com/bcgov/CONN-CCBC-portal/commit/0a535ed46ef709cc4deb26a99463b3069afecee5))
+- conditional approval file widget button styling ([cb0d642](https://github.com/bcgov/CONN-CCBC-portal/commit/cb0d642a0d0f5f3f9614b211ae1a6ff841bbb83c))
+- conditional approval media query improvements ([3d143bd](https://github.com/bcgov/CONN-CCBC-portal/commit/3d143bdc93ca623ef21dd46ac28b88526e565b91))
+- conditional approval modal bugs ([1470842](https://github.com/bcgov/CONN-CCBC-portal/commit/147084218f14ad64ec82f86e290e4131f744cab7))
+- conditional approval status select ([cc14b6d](https://github.com/bcgov/CONN-CCBC-portal/commit/cc14b6da7114e5b9f1e81cd672edb55caa67005b))
+- condtional approval read only object field template ([8eee9a6](https://github.com/bcgov/CONN-CCBC-portal/commit/8eee9a6279cfc99fa28536a034ec6967e52482f0))
+- use sqitch rework on application_history computed column ([6a95b38](https://github.com/bcgov/CONN-CCBC-portal/commit/6a95b3854cec3e8303ce7a74f81fd333432b5707))
+
+### Features
+
+- add application_conditional_approval computed column ([f1bd430](https://github.com/bcgov/CONN-CCBC-portal/commit/f1bd43046f3d6562a8a0a95ea335fac81793d129))
+- add conditional approval form schema ([028a584](https://github.com/bcgov/CONN-CCBC-portal/commit/028a584be483681356f42b09962e6eb846695bff))
+- add conditional approval form widgets and add style improvements ([dcc6181](https://github.com/bcgov/CONN-CCBC-portal/commit/dcc618144a7b6095d1b1ac5882cffa4f0065b228))
+- add conditional approval history front end ([8fa9ccb](https://github.com/bcgov/CONN-CCBC-portal/commit/8fa9ccbf80b278be0eff290a5ad4d57431f66fbf))
+- add conditional approval read only theme ([d80eefd](https://github.com/bcgov/CONN-CCBC-portal/commit/d80eefd4ed4779e144fa0f802ced92324f9cd46c))
+- add conditional approve modal for status change ([c947dfd](https://github.com/bcgov/CONN-CCBC-portal/commit/c947dfd6ae766b2536fe325284d57d2a23f8022d))
+- add conditional_approval_data table ([3e9a050](https://github.com/bcgov/CONN-CCBC-portal/commit/3e9a0506018e55a893638a92cc29585a91d3291d))
+- add create_conditional_approval mutation ([de03b63](https://github.com/bcgov/CONN-CCBC-portal/commit/de03b6379e547c6e32090064d94191f73fe8d646))
+- add feature flag for conditional approval form ([97a7f21](https://github.com/bcgov/CONN-CCBC-portal/commit/97a7f2197a665f0cde5f1c184225b64bb37d1d54))
+- add read only conditional approval status widget ([80b675d](https://github.com/bcgov/CONN-CCBC-portal/commit/80b675d2dac0c5fa9c62a4adff04ebb1600fb267))
+- add tracking field template ([9656d9a](https://github.com/bcgov/CONN-CCBC-portal/commit/9656d9aa03d61fd320b786e27873c9f841d6153f))
+- add tracking page ([1b146c7](https://github.com/bcgov/CONN-CCBC-portal/commit/1b146c77a48674b58eac03f964612660c2c864fb))
+- add tracking theme and form component ([e8016cb](https://github.com/bcgov/CONN-CCBC-portal/commit/e8016cb1a787ea5c15a64cdc2d5aacb446c84b1a))
+- add tracking to navigation sidebar ([4197bd1](https://github.com/bcgov/CONN-CCBC-portal/commit/4197bd110e3473aa024157dfd279e4b8d149cb15))
+- conditionally disable applicant status select ([2468bbe](https://github.com/bcgov/CONN-CCBC-portal/commit/2468bbe683208b7e83082bcccb172823d1ca2aa0))
+- enable history tracking for conditional approval ([a03009f](https://github.com/bcgov/CONN-CCBC-portal/commit/a03009f652ace1d95564bc595458aaad27d9a099))
+- save conditional approval form data ([6ed1d1f](https://github.com/bcgov/CONN-CCBC-portal/commit/6ed1d1f9a64373d86ee47be1b7d5e5d3ea3000c3))
+- update conditional approval history message ([fcf533d](https://github.com/bcgov/CONN-CCBC-portal/commit/fcf533d07af8d6fd664ed0f5262ed3478360f97e))
+
 # [1.54.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.53.0...v1.54.0) (2023-03-24)
 
 ### Bug Fixes
