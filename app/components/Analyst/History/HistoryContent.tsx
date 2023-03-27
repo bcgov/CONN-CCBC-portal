@@ -141,6 +141,7 @@ const HistoryContent = ({ historyItem }) => {
 
     const formatAssessment = (assessmentName) => {
       if (assessmentType === 'projectManagement') return 'Project Management';
+      if (assessmentType === 'gis') return 'GIS';
       if (assessmentType === 'financialRisk') return 'Financial Risk';
       return assessmentName;
     };
