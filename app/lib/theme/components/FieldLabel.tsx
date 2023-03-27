@@ -57,7 +57,7 @@ const FieldLabel: React.FC<Props> = ({
   const createdAtFormatted =
     createdAt &&
     DateTime.fromISO(createdAt).toLocaleString(DateTime.DATETIME_MED);
-  if (showCreatedAt)
+  if (showCreatedAt && createdAt)
     return (
       <StyledFlex>
         <StyledLabel htmlFor={htmlFor} bold={bold}>
