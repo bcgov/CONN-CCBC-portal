@@ -17,6 +17,7 @@ interface Props {
   uiSchema?: any;
 }
 const StyledFormBase = styled(FormBase)`
+  // widget overrides
   .pg-select-wrapper,
   .datepicker-widget {
     width: 240px;
@@ -24,6 +25,10 @@ const StyledFormBase = styled(FormBase)`
 
   .pg-textarea {
     max-width: 460px;
+  }
+
+  .textarea-widget {
+    margin-bottom: 8px;
   }
 `;
 

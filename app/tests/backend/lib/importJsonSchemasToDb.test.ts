@@ -33,7 +33,7 @@ describe('Json  importer', () => {
     const client = await pgPool.connect();
     expect(client.query).toHaveBeenCalledWith('begin');
     expect(client.query).toHaveBeenCalledWith('commit');
-    expect(client.query).toHaveBeenCalledTimes(9);
+    expect(client.query).toHaveBeenCalledTimes(10);
     expect(client.release).toHaveBeenCalledOnce();
   });
 });

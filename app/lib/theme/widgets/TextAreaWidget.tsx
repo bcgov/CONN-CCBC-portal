@@ -42,6 +42,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
     <StyledDiv className="textarea-widget">
       <StyledTextArea
         id={id}
+        data-testid={id}
         disabled={disabled}
         onChange={(e: { target: { value: string } }) =>
           onChange(e.target.value || undefined)
