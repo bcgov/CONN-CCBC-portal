@@ -62,6 +62,14 @@ const DashboardTabs = ({ session }) => {
           </StyledA>
         </Link>
       )}
+      <Link href="/analyst/gis" passHref>
+        <StyledA
+          isAdmin={isAdmin}
+          selected={router?.pathname.startsWith('/analyst/gis')}
+        >
+          GIS
+        </StyledA>
+      </Link>
     </StyledNav>
   );
 };
