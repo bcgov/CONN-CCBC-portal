@@ -132,6 +132,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const buttonVariant = uiSchema['ui:options']?.buttonVariant || 'primary';
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment;
+  const isSecondary = buttonVariant === 'secondary';
 
   // 104857600 bytes = 100mb
   const maxFileSizeInBytes = 104857600;
@@ -340,7 +341,11 @@ const FileWidget: React.FC<FileWidgetProps> = ({
           variant={buttonVariant}
           disabled={isCreatingAttachment || disabled}
         >
-          {loading ? <LoadingSpinner /> : buttonLabel()}
+          {loading ? (
+            <LoadingSpinner color={isSecondary ? '#000000' : '#fff'} />
+          ) : (
+            buttonLabel()
+          )}
         </StyledButton>
       </div>
       <input
