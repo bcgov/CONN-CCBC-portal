@@ -63,6 +63,13 @@ Our work is tracked in GitHub issues, located in this repository. We use Zenhub 
 - Branches are automatically deleted on Github when a PR is merged. Each teammate should set git config fetch.prune true to mirror this behaviour to their local workstation.
 - Squash merge has been disabled to increase the efficiency of git bisect.
 
+## Signing commits
+
+Signed commits are a requirement to merge code into this project to give the team confidence of the origin of a change that has been made. This is enforced so that all commits in a pull request must have verified signatures before they are merged into main.
+
+[About commit signature verification](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)
+[Signing commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits)
+
 ## Commit Message Guidelines
 
 Similar to [Angular's guidelines](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines), we follow the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) format for our commit messages. This leads to more readable messages that are easy to follow when looking through the project history. We use the git commit messages to generate the change log upon releasing.

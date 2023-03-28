@@ -23,7 +23,7 @@
 - [Modifying the database](db/README.md)
 - [Database style rules](db/test/style/README.md)
 - [Process to manipulate data in production](docs/process_to_manipulate_data.md)
-- [Database backup with pg_dump](docs/Data_Dump_With_Pg_D)
+- [Database backup with pg_dump](docs/Data_Dump_With_Pg_Dump)
 
 ##### Infrastructure
 
