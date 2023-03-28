@@ -108,20 +108,29 @@ const AnalystDashboard = ({
   useEffect(() => {
     // Scroll to saved scroll position
     const scrollPosition = sessionStorage.getItem('dashboard_scroll_position');
-    if (scrollPosition) {
+
+    const scrollTo = () => {
       window.scrollTo({
         top: Number(scrollPosition),
         behavior: 'auto',
       });
-    }
-    window.addEventListener('scroll', scrollHandler);
+    };
 
     // Set saved sort order
     const orderByParam = cookie.get('analyst.sort');
-    if (orderByParam)
-      router.replace({
-        query: { ...router.query, orderBy: orderByParam },
-      });
+    if (orderByParam) {
+      router
+        .replace({
+          query: { ...router.query, orderBy: orderByParam },
+        })
+        .then(() => {
+          if (scrollPosition) scrollTo();
+        });
+    } else if (scrollPosition) {
+      scrollTo();
+    }
+
+    window.addEventListener('scroll', scrollHandler);
 
     return () => window.removeEventListener('scroll', scrollHandler);
 
