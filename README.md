@@ -120,6 +120,10 @@ Once that is running in a second terminal run:
 
 `yarn test:e2e`
 
+### Happo screenshot testing
+
+This project uses [Happo](https://happo.io/) for screenshot testing. Everyone who has contributor access to this repository has access to the Happo tests. If you require admin access needed to modify the project or testing thresholds contact a developer from this project or the [CAS](https://github.com/bcgov/cas-cif) team for access.
+
 ### Object storage:
 
 The `resolveFileUpload` middleware is set up to use AWS S3 storage. If no namespace is set and any AWS environment variables are missing the uploads will save to the local system in the `/app/uploads` folder.
