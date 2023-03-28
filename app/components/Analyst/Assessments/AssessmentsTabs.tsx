@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 const StyledNav = styled.nav`
+  display: flex;
+  flex-wrap: wrap;
   padding-bottom: 16px;
   margin: 4px 0 16px 0;
   border-bottom: 1px solid #d6d6d6;
@@ -41,6 +43,11 @@ const AssessmentsTabs = () => {
       <Link passHref href={`${baseUrl}/screening`}>
         <StyledAnchor selected={`${baseUrl}/screening` === router.asPath}>
           Screening
+        </StyledAnchor>
+      </Link>
+      <Link passHref href={`${baseUrl}/gis`}>
+        <StyledAnchor selected={`${baseUrl}/gis` === router.asPath}>
+          GIS
         </StyledAnchor>
       </Link>
       <Link passHref href={`${baseUrl}/technical`}>

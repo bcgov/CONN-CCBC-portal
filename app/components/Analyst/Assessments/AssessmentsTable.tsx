@@ -63,6 +63,10 @@ const AssessmentsTable: React.FC<Props> = ({ query }) => {
           assessment={findAssessment(assessments, 'screening')}
         />
         <AssessmentsRow
+          name="GIS"
+          assessment={findAssessment(assessments, 'gis')}
+        />
+        <AssessmentsRow
           name="Technical"
           assessment={findAssessment(assessments, 'technical')}
         />

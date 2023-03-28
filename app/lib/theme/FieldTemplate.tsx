@@ -14,6 +14,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   rawErrors,
   label,
   displayLabel,
+  formContext,
   required,
   uiSchema,
   rawDescription,
@@ -22,17 +23,21 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
 }) => {
   const hideOptional = uiSchema['ui:options']?.hideOptional;
   const boldTitle = uiSchema['ui:options']?.boldTitle as boolean;
+  const showCreatedAt = Boolean(uiSchema['ui:options']?.showCreatedAt);
   const altOptionalText = uiSchema['ui:options']?.altOptionalText;
   const customTitle = uiSchema['ui:options']?.customTitle as JSX.Element;
   const isAddHorizontalLine = uiSchema['ui:options']
     ?.addHorizontalLine as boolean;
   const showLabel = displayLabel && !customTitle;
+  const createdAt = formContext?.createdAt;
 
   return (
     <div>
       {showLabel && (
         <FieldLabel
           bold={boldTitle}
+          createdAt={createdAt}
+          showCreatedAt={showCreatedAt}
           label={label}
           altOptionalText={altOptionalText && String(altOptionalText)}
           hideOptional={hideOptional && true}

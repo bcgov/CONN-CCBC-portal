@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 import { FormBase } from 'components/Form';
 import Button from '@button-inc/bcgov-theme/Button';
 import { graphql, useFragment } from 'react-relay';
@@ -9,14 +10,31 @@ import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createA
 import assessmentsUiSchema from 'formSchema/uiSchema/analyst/assessmentsUiSchema';
 
 interface Props {
+  addedContext?: any;
   query: any;
   schema: JSONSchema7;
   slug: string;
   formData: any;
   uiSchema?: any;
 }
+const StyledFormBase = styled(FormBase)`
+  // widget overrides
+  .pg-select-wrapper,
+  .datepicker-widget {
+    width: 240px;
+  }
+
+  .pg-textarea {
+    max-width: 460px;
+  }
+
+  .textarea-widget {
+    margin-bottom: 8px;
+  }
+`;
 
 const AssessmentsForm: React.FC<Props> = ({
+  addedContext,
   formData,
   query,
   schema,
@@ -66,7 +84,7 @@ const AssessmentsForm: React.FC<Props> = ({
   };
 
   return (
-    <FormBase
+    <StyledFormBase
       schema={schema}
       uiSchema={uiSchema || assessmentsUiSchema}
       noValidate
@@ -76,14 +94,17 @@ const AssessmentsForm: React.FC<Props> = ({
         setNewFormData({ ...e.formData });
       }}
       omitExtraData={false}
-      formContext={{ query }}
+      formContext={{
+        ...addedContext,
+        query,
+      }}
       onSubmit={handleSubmit}
     >
       <Button variant="primary" disabled={isCreating}>
         {!isFormSaved ? 'Save' : 'Saved'}
       </Button>
       {isCreating && <LoadingSpinner />}
-    </FormBase>
+    </StyledFormBase>
   );
 };
 export default AssessmentsForm;

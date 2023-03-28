@@ -16,6 +16,9 @@ const StyledTextArea = styled(Textarea)`
     background: rgba(196, 196, 196, 0.3);
     border: 1px solid rgba(96, 96, 96, 0.3);
   }
+  textarea::placeholder {
+    color: ${(props) => props.theme.color.placeholder};
+  }
 `;
 
 const StyledDiv = styled('div')`
@@ -36,9 +39,10 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
   const help = uiSchema['ui:help'];
 
   return (
-    <StyledDiv>
+    <StyledDiv className="textarea-widget">
       <StyledTextArea
         id={id}
+        data-testid={id}
         disabled={disabled}
         onChange={(e: { target: { value: string } }) =>
           onChange(e.target.value || undefined)

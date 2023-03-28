@@ -11,6 +11,10 @@ const assessmentsUiSchema = {
     'assessmentTemplate',
     'completedAssessment',
     'otherFiles',
+    'commentsOnCoverageData',
+    'commentsOnHouseholdCounts',
+    'commentsOnOverbuild',
+    'commentsOnOverlap',
   ],
   assignedTo: {
     'ui:widget': 'AnalystSelectWidget',
@@ -68,6 +72,38 @@ const assessmentsUiSchema = {
   },
   notesAndConsiderations: {
     'ui:widget': 'TextAreaWidget',
+    'ui:options': {
+      boldTitle: true,
+      maxLength: 1000,
+    },
+  },
+  commentsOnCoverageData: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:placeholder': 'Try to keep your responses brief and objective.',
+    'ui:options': {
+      boldTitle: true,
+      maxLength: 1000,
+    },
+  },
+  commentsOnHouseholdCounts: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:placeholder': 'Try to keep your responses brief and objective.',
+    'ui:options': {
+      boldTitle: true,
+      maxLength: 1000,
+    },
+  },
+  commentsOnOverbuild: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:placeholder': 'Try to keep your responses brief and objective.',
+    'ui:options': {
+      boldTitle: true,
+      maxLength: 1000,
+    },
+  },
+  commentsOnOverlap: {
+    'ui:widget': 'TextAreaWidget',
+    'ui:placeholder': 'Try to keep your responses brief and objective.',
     'ui:options': {
       boldTitle: true,
       maxLength: 1000,
