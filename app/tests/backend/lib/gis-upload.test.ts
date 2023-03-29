@@ -119,8 +119,12 @@ describe('The GIS import', () => {
       .expect(400);
 
     expect(response.status).toBe(400); 
-    expect(response.body.length).toBe(2);
-    const first = response.body[0];
+    
+    const {errors} = response.body;
+    expect(errors).toBeTruthy();
+
+    expect(errors.length).toBe(2);
+    const first = errors[0];
     expect(first.line).toBe(1);
     expect(first.ccbc_number).toBe('CCBC-010001');
     expect(first.message).toBe('GIS_TOTAL_HH must be number');

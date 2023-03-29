@@ -240,3 +240,8 @@ computed_columns/application_conditional_approval 2023-03-14T16:19:04Z Marcel Mu
 computed_columns/application_history [computed_columns/application_history@1.52.0] 2023-03-24T21:58:49Z Marcel Mueller <marcel@m2.local> # add support for conditional_approval_data
 @1.55.0 2023-03-27T17:01:16Z Marcel Mueller <marcel@m2.local> # release v1.55.0
 @1.56.0 2023-03-28T23:13:22Z Marcel Mueller <marcel@m2> # release v1.56.0
+tables/gis_data 2023-03-29T20:05:35Z ,,, Vladimir <vladimir@button.is> # add gis_data
+types/gis_data_item 2023-03-29T20:06:00Z ,,, Vladimir <vladimir@button.is> # add gis_data_item type 
+computed_columns/application_gis_data 2023-03-29T20:16:18Z ,,, Vladimir <vladimir@button.is> # add application_gis_data function
+mutations/save_gis_data 2023-03-29T21:14:07Z ,,, Vladimir <vladimir@button.is> # add save_gis_data mutation
+
