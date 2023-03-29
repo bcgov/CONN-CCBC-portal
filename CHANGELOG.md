@@ -1,3 +1,18 @@
+# [1.56.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.55.0...v1.56.0) (2023-03-28)
+
+### Bug Fixes
+
+- analyst dashboard scroll position when table is sorted ([4c58e76](https://github.com/bcgov/CONN-CCBC-portal/commit/4c58e762ef067a35b29fe24e3b9d6eb08363b992))
+- conditionally show last updated date on gis page ([1e7770e](https://github.com/bcgov/CONN-CCBC-portal/commit/1e7770e0a392b89e3c8f38190ea9b11bcec5b0e5))
+- gis assessment history capitalization ([517eb4c](https://github.com/bcgov/CONN-CCBC-portal/commit/517eb4c619031459e3863beb5bc88bcc8694189c))
+- invisible filewidget loading spinner on secondary button variant ([413fe40](https://github.com/bcgov/CONN-CCBC-portal/commit/413fe40d0889cd875b9d4299e7d56676e2937d37))
+
+### Features
+
+- add gis assessment page ([fb67637](https://github.com/bcgov/CONN-CCBC-portal/commit/fb676371c6fd74a521443b158a71281f9916c211))
+- make conditional approval date fields clearable ([729e258](https://github.com/bcgov/CONN-CCBC-portal/commit/729e258130dfbf440d76816a62a300f0752a7677))
+- show last updated date on gis page ([8ec278e](https://github.com/bcgov/CONN-CCBC-portal/commit/8ec278e88dc987952fec2fc13984a71c8b4f5409))
+
 # [1.55.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.54.0...v1.55.0) (2023-03-27)
 
 ### Bug Fixes
