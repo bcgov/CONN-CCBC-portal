@@ -8,6 +8,8 @@ spec:
   team:
     description: The Sysdig Team for the OpenShift Project Set {{ .Values.namespacePrefix }}
     users:
+    - name: rafael.solorzano@gov.bc.ca
+      role: ROLE_TEAM_EDIT
     - name: vladimir@button.is
       role: ROLE_TEAM_EDIT
     - name: alec@button.is
@@ -18,3 +20,4 @@ spec:
       role: ROLE_TEAM_EDIT
     - name: meherzad.romer@gov.bc.ca
       role: ROLE_TEAM_EDIT
+
