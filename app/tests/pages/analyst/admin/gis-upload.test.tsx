@@ -187,7 +187,7 @@ describe('The Gis upload admin page', () => {
     
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        json: () => Promise.reject('oops'),
+        json: () => Promise.reject(new Error('oops')),
       }),
     ) as jest.Mock;
     global.alert = jest.fn() as jest.Mock;
@@ -210,7 +210,7 @@ describe('The Gis upload admin page', () => {
       await userEvent.click(button); 
     });
     expect(global.alert).toHaveBeenCalledTimes(1); 
-    expect(global.alert).toHaveBeenCalledWith('oops');
+    expect(global.alert).toHaveBeenCalledWith(Error('oops'));
 
   });
 
