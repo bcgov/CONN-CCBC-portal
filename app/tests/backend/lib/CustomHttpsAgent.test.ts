@@ -208,9 +208,13 @@ describe('Custom https agent', () => {
       () => ({}) // callback
     );
 
-    spy.mock.results[0].value.on('lookup', () => {
-      expect(spyConsole).toHaveBeenCalledTimes(1);
-    });
+    spy.mock.results[0].value.emit('lookup');
+
+    expect(spyConsole).toHaveBeenCalledTimes(1);
+
+    expect(spyConsole).toHaveBeenCalledWith(
+      'Currently trying to connect to: undefined for host: undefined'
+    );
   });
 
   it('should call console.log on error', async () => {
@@ -239,8 +243,18 @@ describe('Custom https agent', () => {
       () => ({}) // callback
     );
 
-    spy.mock.results[0].value.on('error', () => {
-      expect(spyConsole).toHaveBeenCalledTimes(2);
-    });
+    spy.mock.results[0].value.emit('error');
+
+    expect(spyConsole).toHaveBeenCalledTimes(2);
+
+    expect(spyConsole).toHaveBeenNthCalledWith(
+      1,
+      'Connection failed with time: 0ms'
+    );
+
+    expect(spyConsole).toHaveBeenNthCalledWith(
+      2,
+      'Connection failed to connect to undefined for host host'
+    );
   });
 });
