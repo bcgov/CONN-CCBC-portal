@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable max-classes-per-file */
-
 import http from 'https';
 import { NodeHttpHandler } from '@aws-sdk/node-http-handler';
 import {
