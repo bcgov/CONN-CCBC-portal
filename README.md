@@ -23,7 +23,7 @@
 - [Modifying the database](db/README.md)
 - [Database style rules](db/test/style/README.md)
 - [Process to manipulate data in production](docs/process_to_manipulate_data.md)
-- [Database backup with pg_dump](docs/Data_Dump_With_Pg_D)
+- [Database backup with pg_dump](docs/Data_Dump_With_Pg_Dump)
 
 ##### Infrastructure
 
@@ -119,6 +119,10 @@ To run the end to end tests we need to run our development server in one termina
 Once that is running in a second terminal run:
 
 `yarn test:e2e`
+
+### Happo screenshot testing
+
+This project uses [Happo](https://happo.io/) for screenshot testing. Everyone who has contributor access to this repository has access to the Happo tests. If you require admin access needed to modify the project or testing thresholds contact a developer from this project or the [CAS](https://github.com/bcgov/cas-cif) team for access.
 
 ### Object storage:
 
