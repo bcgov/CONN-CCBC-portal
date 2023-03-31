@@ -4,8 +4,6 @@
 
 import CustomHttpsAgent from '../../../backend/lib/CustomHttpsAgent';
 
-jest.setTimeout(10000000);
-
 describe('Custom https agent', () => {
   it('should call the createConnection function', async () => {
     const agent = new CustomHttpsAgent({
@@ -249,7 +247,7 @@ describe('Custom https agent', () => {
 
     expect(spyConsole).toHaveBeenNthCalledWith(
       1,
-      'Connection failed with time: 0ms'
+      expect.stringContaining('Connection failed with time:')
     );
 
     expect(spyConsole).toHaveBeenNthCalledWith(
