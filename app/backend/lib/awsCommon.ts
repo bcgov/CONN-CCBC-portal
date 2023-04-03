@@ -19,20 +19,12 @@ const httpAgent = new http.Agent({
 const nodeHandler = new NodeHttpHandler({
   httpAgent,
   httpsAgent,
+  connectionTimeout: 30000,
 });
 
 const awsConfig = {
   region: AWS_S3_REGION,
   logger: console,
-  httpOptions: {
-    timeout: 30000,
-    connectTimeout: 30000,
-    agent: httpsAgent,
-  },
-  maxRetries: 10,
-  retryDelayOptions: {
-    base: 500,
-  },
   requestHandler: nodeHandler,
   credentials: fromTemporaryCredentials({
     masterCredentials: fromEnv(),

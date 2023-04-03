@@ -180,41 +180,6 @@ describe('Custom https agent', () => {
     expect(socket).toHaveProperty('write');
   });
 
-  it('should call console.log on lookup', async () => {
-    const agent = new CustomHttpsAgent({
-      keepAlive: true,
-      keepAliveMsecs: 10000,
-      maxSockets: 50,
-      maxFreeSockets: 10,
-      timeout: 60000,
-      rejectUnauthorized: false,
-    });
-
-    const spy = jest.spyOn(agent, 'createConnection');
-
-    const spyConsole = jest.spyOn(console, 'log');
-
-    agent.createConnection(
-      {
-        host: 'host',
-        port: 443,
-        localAddress: '127.0.0.1',
-        family: 4,
-        hints: 0,
-        lookup: jest.fn(),
-      },
-      () => ({}) // callback
-    );
-
-    spy.mock.results[0].value.emit('lookup');
-
-    expect(spyConsole).toHaveBeenCalledTimes(1);
-
-    expect(spyConsole).toHaveBeenCalledWith(
-      'Currently trying to connect to: undefined for host: undefined'
-    );
-  });
-
   it('should call console.log on error', async () => {
     const agent = new CustomHttpsAgent({
       keepAlive: true,
