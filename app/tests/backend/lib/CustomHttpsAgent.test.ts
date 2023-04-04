@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 
+import * as Sentry from '@sentry/nextjs';
 import CustomHttpsAgent from '../../../backend/lib/CustomHttpsAgent';
 
 describe('Custom https agent', () => {
@@ -192,8 +193,9 @@ describe('Custom https agent', () => {
 
     const spy = jest.spyOn(agent, 'createConnection');
 
-    const spyConsole = jest.spyOn(console, 'log');
-
+    const spySentry = jest
+      .spyOn(Sentry, 'captureException')
+      .mockImplementation();
     agent.createConnection(
       {
         host: 'host',
@@ -208,16 +210,6 @@ describe('Custom https agent', () => {
 
     spy.mock.results[0].value.emit('error');
 
-    expect(spyConsole).toHaveBeenCalledTimes(2);
-
-    expect(spyConsole).toHaveBeenNthCalledWith(
-      1,
-      expect.stringContaining('Connection failed with time:')
-    );
-
-    expect(spyConsole).toHaveBeenNthCalledWith(
-      2,
-      'Connection failed to connect to undefined for host host'
-    );
+    expect(spySentry).toHaveBeenCalledTimes(1);
   });
 });
