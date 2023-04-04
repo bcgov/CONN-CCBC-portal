@@ -1,3 +1,20 @@
+# [1.57.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.56.0...v1.57.0) (2023-04-04)
+
+### Bug Fixes
+
+- added feature flag and tests ([7b00620](https://github.com/bcgov/CONN-CCBC-portal/commit/7b00620a6da53e57dcd5bc1084bf811bb10fdeae))
+- conditional colour on select option first child ([12487c7](https://github.com/bcgov/CONN-CCBC-portal/commit/12487c72ae7bca416e31f869c89287a5f41cdc21))
+- error in promise.reject ([97e2654](https://github.com/bcgov/CONN-CCBC-portal/commit/97e2654823317b1aba7e4ed44eab9e0b19f245d3))
+- http agent lookup and error tests ([f44df27](https://github.com/bcgov/CONN-CCBC-portal/commit/f44df2723ebdf0b2e50e4f5c648f10acff2c9845))
+- revert testing placeholder ([83b84b5](https://github.com/bcgov/CONN-CCBC-portal/commit/83b84b5e53821172cd2a7119bb553ebf014c5582))
+- select dropdown showing grey ([16ca025](https://github.com/bcgov/CONN-CCBC-portal/commit/16ca0251557fccdc7ed80ac44e74b59e04f5d74b))
+- updated setDay to ignore time ([5827911](https://github.com/bcgov/CONN-CCBC-portal/commit/582791163d5841dd375672a731f0150c3959c7c0))
+
+### Features
+
+- add custom https agent ([6de2742](https://github.com/bcgov/CONN-CCBC-portal/commit/6de27424e88610532bc5cd6ed39302f6e941b12d))
+- added JSON file validation and tests ([e2611ac](https://github.com/bcgov/CONN-CCBC-portal/commit/e2611ac809e07d4b3c4b15def8981634ccdb347e))
+
 # [1.56.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.55.0...v1.56.0) (2023-03-28)
 
 ### Bug Fixes
