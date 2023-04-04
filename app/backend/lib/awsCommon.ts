@@ -4,6 +4,7 @@ import {
   fromTemporaryCredentials,
   fromEnv,
 } from '@aws-sdk/credential-providers';
+import { S3ClientConfig } from '@aws-sdk/client-s3';
 import config from '../../config';
 import CustomHttpsAgent from './CustomHttpsAgent';
 
@@ -22,7 +23,7 @@ const nodeHandler = new NodeHttpHandler({
   connectionTimeout: 30000,
 });
 
-const awsConfig = {
+const awsConfig: S3ClientConfig = {
   region: AWS_S3_REGION,
   logger: console,
   requestHandler: nodeHandler,

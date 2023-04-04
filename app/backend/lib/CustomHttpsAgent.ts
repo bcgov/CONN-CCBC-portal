@@ -1,5 +1,6 @@
 import https from 'https';
 import { Socket } from 'net';
+import * as Sentry from '@sentry/nextjs';
 
 class CustomHttpsAgent extends https.Agent {
   createConnection(options, callback) {
@@ -12,9 +13,12 @@ class CustomHttpsAgent extends https.Agent {
     });
     conn.on('error', () => {
       const end = Date.now();
-      console.log(`Connection failed with time: ${end - start}ms`);
-      console.log(
-        `Connection failed to connect to ${ipAddress} for host ${options.host}`
+      Sentry.captureException(
+        new Error(
+          `Connection failed to connect to ${ipAddress} for host ${
+            options.host
+          } after waiting ${end - start}ms `
+        )
       );
     });
     return conn;
