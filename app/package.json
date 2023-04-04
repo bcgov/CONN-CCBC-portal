@@ -39,6 +39,7 @@
     "@mui/base": "^5.0.0-alpha.115",
     "@rjsf/core": "^4.2.0",
     "@sentry/nextjs": "^7.36.0",
+    "ajv": "^8.12.0",
     "archiver": "^5.3.1",
     "aws-sdk": "^2.1170.0",
     "body-parser": "^1.20.0",
@@ -49,7 +50,9 @@
     "delay": "^5.0.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "express-rate-limit": "^6.7.0",
     "express-session": "^1.17.2",
+    "formidable": "^2.1.1",
     "graphql": "^15.6.1",
     "graphql-upload": "^15.0.2",
     "helmet": "^6.0.0",
@@ -135,9 +138,9 @@
     "wait-on": "^6.0.1"
   },
   "resolutions": {
-    "@sideway/formula" : "3.0.1",
+    "@sideway/formula": "3.0.1",
     "json5": "2.2.3",
-    "jsonwebtoken" : "9.0.0"
+    "jsonwebtoken": "9.0.0"
   },
   "relay": {
     "src": "./",

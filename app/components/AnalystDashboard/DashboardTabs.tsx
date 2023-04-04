@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import { useFeature } from '@growthbook/growthbook-react';
 
 interface LinkProps {
   isAdmin: boolean;
@@ -41,7 +42,7 @@ const DashboardTabs = ({ session }) => {
   const { authRole } = queryFragment;
   const isAdmin = authRole === 'ccbc_admin';
   const router = useRouter();
-
+  const showGisUpload = useFeature('show_gis_upload').value;
   return (
     <StyledNav>
       <Link href="/analyst/dashboard" passHref>
@@ -61,6 +62,16 @@ const DashboardTabs = ({ session }) => {
             Administrative
           </StyledA>
         </Link>
+      )}
+      {showGisUpload && (
+      <Link href="/analyst/gis" passHref>
+        <StyledA
+          isAdmin={isAdmin}
+          selected={router?.pathname.startsWith('/analyst/gis')}
+        >
+          GIS
+        </StyledA>
+      </Link>
       )}
     </StyledNav>
   );

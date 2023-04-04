@@ -1,0 +1,52 @@
+{
+  "type": "array",
+  "items": {
+      "type": "object",
+      "properties": {
+        "ccbc_number": {
+          "type": "string"
+        },
+        "number_of_households": {
+          "type": "number"
+        },
+        "households_impacted_indigenous": {
+          "type": "number"
+        },
+        "GIS_TOTAL_HH": {
+          "type": "number"
+        },
+        "GIS_TOTAL_ELIGIBLE_HH": {
+          "type": "number"
+        },
+        "GIS_TOTAL_INELIGIBLE_HH": {
+          "type": "number"
+        },
+        "GIS_TOTAL_INDIG_HH": {
+          "type": "number"
+        },
+        "GIS_TOTAL_ELIGIBLE_INDIG_HH": {
+          "type": "number"
+        },
+        "GIS PERCENT_OVERBUILD": {
+          "type": "number"
+        },
+        "GIS_PERCENT_OVERLAP": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "ccbc_number",
+        "number_of_households",
+        "households_impacted_indigenous",
+        "GIS_TOTAL_HH",
+        "GIS_TOTAL_ELIGIBLE_HH",
+        "GIS_TOTAL_INELIGIBLE_HH",
+        "GIS_TOTAL_INDIG_HH",
+        "GIS_TOTAL_ELIGIBLE_INDIG_HH",
+        "GIS PERCENT_OVERBUILD",
+        "GIS_PERCENT_OVERLAP"
+      ]
+  },
+  "minItems": 1,
+  "maxItems": 1000
+}

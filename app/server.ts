@@ -18,10 +18,21 @@ import headersMiddleware from './backend/lib/headers';
 import graphQlMiddleware from './backend/lib/graphql';
 import s3archive from './backend/lib/s3archive';
 import s3download from './backend/lib/s3download';
+import gisUpload from './backend/lib/gis-upload';
 import logout from './backend/lib/logout';
 import login from './backend/lib/login';
 import s3adminArchive from './backend/lib/s3admin-archive';
 import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
+
+const unless = (path, middleware) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  return (req, res, nexthandler) => {
+    if (path === req.path) {
+      return nexthandler();
+    }
+    return middleware(req, res, nexthandler);
+  };
+};
 
 importJsonSchemasToDb();
 
@@ -69,7 +80,7 @@ app.prepare().then(async () => {
 
   server.use(await ssoMiddleware());
 
-  server.use(graphqlUploadExpress());
+  server.use(unless('/api/analyst/gis', graphqlUploadExpress()));
 
   server.use(graphQlMiddleware());
   server.use(headersMiddleware());
@@ -77,6 +88,7 @@ app.prepare().then(async () => {
   server.use('/', s3adminArchive);
   server.use('/', s3archive);
   server.use('/', s3download);
+  server.use('/', gisUpload);
   server.use('/', login);
   server.use('/', logout);
 
