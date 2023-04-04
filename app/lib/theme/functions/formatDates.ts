@@ -80,7 +80,7 @@ export const dateTimeFormat = (
  * @returns Date
  */
 export const fixDate = (originalDate: Date) => {
-  const offset = 1000 * (new Date()).getTimezoneOffset() * 60;
+  const offset = 1000 * (new Date(originalDate)).getTimezoneOffset() * 60;
   const adjusted = (new Date(originalDate)).getTime() + offset;
   const format = new Date(adjusted);
   return format;

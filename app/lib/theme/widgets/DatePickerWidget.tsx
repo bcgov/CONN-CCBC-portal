@@ -124,8 +124,10 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   const [day, setDay] = useState(value ? fixDate(value) : undefined);
 
   const handleChange = (d: Date) => {
-    setDay(d);
-    onChange(getDateString(d));
+    const originalDate = new Date(d);
+    const realDate = new Date(originalDate.toDateString());
+    setDay(realDate);
+    onChange(getDateString(realDate));
   };
 
   const handleBlur = () => {
