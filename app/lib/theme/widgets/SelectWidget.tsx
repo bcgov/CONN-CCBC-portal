@@ -23,6 +23,14 @@ const StyledSelect = styled(Dropdown)<SelectProps>`
     margin: 0.25em 0;
   }
 
+  select option:first-child{
+    color: ${(props) => (props.isPlaceholder ? '#cccccc' : 'inherit')};
+  }
+
+  select option {
+    color: #000000;
+  }
+
   select:disabled {
     background: ${(props) =>
       props.disabled ? props.theme.color.backgroundGrey : 'inherit'};
@@ -66,7 +74,7 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
         }
         data-testid={id}
         disabled={disabled}
-        isPlaceholder={!value}
+        isPlaceholder={!value || value === placeholder}
         placeholder={placeholder}
         size="medium"
         required={required}
