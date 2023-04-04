@@ -43,7 +43,6 @@ const AnalystSelectWidget: React.FC<AnalaystSelectWidgetProps> = (props) => {
   return (
     <SelectWidget
       {...props}
-      placeholder="Something to go here"
       schema={{ ...schema, enum: options }}
       customOption={customOption}
     />
