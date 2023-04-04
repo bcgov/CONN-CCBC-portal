@@ -4,6 +4,7 @@ assessment_data
 application_analyst_lead
 conditional_approval_data
 application_package
+gis_data
 application_rfi_data
 application_form_data
 record_version

@@ -15,6 +15,7 @@ form_data
 record_version
 application_form_data
 application_rfi_data
+gis_data
 application_package
 conditional_approval_data
 application_analyst_lead
