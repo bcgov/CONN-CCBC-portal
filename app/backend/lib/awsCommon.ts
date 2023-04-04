@@ -1,31 +1,32 @@
-import https from 'https'; 
+import http from 'https';
+import { NodeHttpHandler } from '@aws-sdk/node-http-handler';
 import {
   fromTemporaryCredentials,
   fromEnv,
 } from '@aws-sdk/credential-providers';
-
+import { S3ClientConfig } from '@aws-sdk/client-s3';
 import config from '../../config';
+import CustomHttpsAgent from './CustomHttpsAgent';
 
-const AWS_S3_REGION = config.get('AWS_S3_REGION'); 
-const AWS_ROLE_ARN = config.get('AWS_ROLE_ARN'); 
+const AWS_S3_REGION = config.get('AWS_S3_REGION');
+const AWS_ROLE_ARN = config.get('AWS_ROLE_ARN');
 
-const agent = new https.Agent({
+const httpsAgent = new CustomHttpsAgent();
+const httpAgent = new http.Agent({
   maxSockets: 300,
-  keepAlive: true
- });
+  keepAlive: true,
+});
 
-const awsConfig = {
+const nodeHandler = new NodeHttpHandler({
+  httpAgent,
+  httpsAgent,
+  connectionTimeout: 30000,
+});
+
+const awsConfig: S3ClientConfig = {
   region: AWS_S3_REGION,
   logger: console,
-  httpOptions: {
-    timeout: 45000,
-    connectTimeout: 45000,
-    agent
-  },
-  maxRetries: 10,
-  retryDelayOptions: {
-    base: 500
-  },
+  requestHandler: nodeHandler,
   credentials: fromTemporaryCredentials({
     masterCredentials: fromEnv(),
     params: {
@@ -35,8 +36,7 @@ const awsConfig = {
       DurationSeconds: 3600,
     },
     clientConfig: { region: AWS_S3_REGION },
-  }
-  ),
+  }),
 };
 
 export default awsConfig;
