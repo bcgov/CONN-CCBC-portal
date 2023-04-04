@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import formidable from 'formidable';
-import Ajv from 'ajv';
+import Ajv, { ErrorObject } from 'ajv';
 import fs from 'fs'; 
 import RateLimit from 'express-rate-limit';
 import schema from './gis-schema.json'; 
@@ -23,18 +23,23 @@ const saveGisDataMutation = `
 const gisUpload = Router();
 const ajv = new Ajv({ allErrors: true, removeAdditional: true });
 
-const formatAjv = (data, errors) => {
+const MIN_PATH_DEPTH = 2;       // instancePath: JSON Pointer to the location in the data instance. For array we need 2.
+const LINE_NUMBER_POSITION = 1; // instancePath for array element looks like /LINE_NUMBER/FIELD_NAME 
+const FIELD_NAME_POSITION = 2;
+
+const formatAjv =  (data: Record<string, any>, errors: ErrorObject[]) => {
   const reply = [];
   errors.forEach((e) => {
     const parts = e.instancePath.split('/');
-    if (parts.length > 2) {
+    if (parts.length > MIN_PATH_DEPTH) {
       const item = {
-        line: parseInt(parts[1], 10) + 1,
-        ccbc_number: data[parts[1]].ccbc_number,
-        message: `${parts[2]} ${e.message}`,
+        line: parseInt(parts[LINE_NUMBER_POSITION], 10) + 1,
+        ccbc_number: data[parts[LINE_NUMBER_POSITION]].ccbc_number,
+        message: `${parts[FIELD_NAME_POSITION]} ${e.message}`,
       };
       reply.push(item);
     } else {
+      // errors on root level
       const item = {
         line: 1,
         message: e.message,
@@ -63,8 +68,7 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   if (!isRoleAuthorized) {
     return res.status(404).end();
   } 
-  const form = new formidable.IncomingForm();
-  form.maxFileSize = 8000000; 
+  const form = new formidable.IncomingForm({maxFileSize:8000000});
 
   const files = await parseForm(form, req).catch((err) => { 
     return res.status(400).json({ error: err }).end();
@@ -75,15 +79,15 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
 
   const file = fs.readFileSync(uploaded.filepath, 'utf8');
   const data = JSON.parse(file); 
-  let results;
+  let isValid: boolean;
 
   try {
-    results = ajv.validate(schema, data);
+    isValid = ajv.validate(schema, data);
   } catch (e) { 
     return res.status(400).json({ error: e }).end();
   }
  
-  if (!results) {  
+  if (!isValid) {  
     return res.status(400).json(formatAjv(data, ajv.errors)).end();
   }
    

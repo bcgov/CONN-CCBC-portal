@@ -60,6 +60,8 @@ const StyledBtnContainer = styled.div`
   justify-content: left;
 `;
 
+const acceptedFileTypes = ['.json'];
+
 const UploadError = ({ error }) => {
   if (error === 'uploadFailed') {
     return <StyledError>File failed to upload, please try again</StyledError>;
@@ -76,28 +78,27 @@ const UploadError = ({ error }) => {
   return null;
 };
 
+const checkFileType = (file: string, fileTypes: string[]) => {
+  const extension = path.extname(file)?.toLowerCase();
+
+  return fileTypes.includes(extension);
+};
+
+const validateFile = (file: globalThis.File) => {
+  if (!file) return { isValid: false, error: '' };
+
+  if (!checkFileType(file.name, acceptedFileTypes)) {
+    return { isValid: false, error: 'fileType' };
+  }
+
+  return { isValid: true, error: null };
+};
+
 const GisTab = () => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const [selectedFile, setSelectedFile] = useState(); 
   const [error, setError] = useState('');
-  const acceptedFileTypes = ['.json'];
 
-  const checkFileType = (file, fileTypes) => {
-    const extension = path.extname(file)?.toLowerCase();
-
-    return fileTypes.includes(extension);
-  };
-
-  const validateFile = (file: globalThis.File) => {
-    if (!file) return { isValid: false, error: '' };
-
-    if (!checkFileType(file.name, acceptedFileTypes)) {
-      return { isValid: false, error: 'fileType' };
-    }
-
-    return { isValid: true, error: null };
-  };
-  
   const changeHandler = (event) => {
     const file = event.target.files?.[0];
 
