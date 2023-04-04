@@ -24,7 +24,7 @@ const StyledSelect = styled(Dropdown)<SelectProps>`
   }
 
   select option:first-child{
-    color: #cccccc;
+    color: ${(props) => (props.isPlaceholder ? '#cccccc' : 'inherit')};
   }
 
   select option {
