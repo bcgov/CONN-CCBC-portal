@@ -1,3 +1,9 @@
+## [1.57.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.57.0...v1.57.1) (2023-04-05)
+
+### Bug Fixes
+
+- follow up on PR comments ([35497f8](https://github.com/bcgov/CONN-CCBC-portal/commit/35497f8ac315f849284d2bbe029f4e7de79f7379))
+
 # [1.57.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.56.0...v1.57.0) (2023-04-04)
 
 ### Bug Fixes
