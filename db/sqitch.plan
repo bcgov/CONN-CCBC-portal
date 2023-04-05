@@ -245,4 +245,4 @@ types/gis_data_item 2023-03-29T20:06:00Z ,,, Vladimir <vladimir@button.is> # add
 computed_columns/application_gis_data 2023-03-29T20:16:18Z ,,, Vladimir <vladimir@button.is> # add application_gis_data function
 mutations/save_gis_data 2023-03-29T21:14:07Z ,,, Vladimir <vladimir@button.is> # add save_gis_data mutation
 @1.57.0 2023-04-04T23:13:20Z Anthony Bushara <anthony@button.is> # release v1.57.0
-
+@1.57.1 2023-04-05T15:44:41Z Anthony Bushara <anthony@button.is> # release v1.57.1
