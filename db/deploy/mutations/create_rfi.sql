@@ -9,16 +9,17 @@ declare
   result ccbc_public.rfi_data;
   new_rfi_id int;
   new_application_rfi_id int;
-  new_rfi_number varchar(1000); 
+  new_rfi_number varchar(1000);
 begin
-  select 1 + count(*) into new_rfi_id from ccbc_public.application_rfi_data where application_id=application_row_id;
+  select 1 + count(*) into new_rfi_id from ccbc_public.application_rfi_data as ard, ccbc_public.rfi_data as rd
+   where ard.application_id=application_row_id and ard.rfi_data_id = rd.id and rd.archived_at is null ;
   select CONCAT(ccbc_number,'-',new_rfi_id) into new_rfi_number from ccbc_public.application where id=application_row_id;
 
 
   -- using nextval instead of returning id on insert to prevent triggering select RLS,
   -- which requires the rfi_data record
   new_rfi_id := nextval(pg_get_serial_sequence('ccbc_public.rfi_data','id'));
-  
+
   insert into ccbc_public.rfi_data (id, rfi_number, json_data, rfi_data_status_type_id) overriding system value
     values (new_rfi_id, new_rfi_number, json_data, 'draft');
 
