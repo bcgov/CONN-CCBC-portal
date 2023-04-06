@@ -70,7 +70,6 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
   const { applicationByRowId } = queryFragment;
   const { analystLead, ccbcNumber, organizationName, projectName, rowId, externalStatus } =
     applicationByRowId;
-  console.log(externalStatus)
   return (
     <StyledCallout>
       <div>
