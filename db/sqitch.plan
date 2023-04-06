@@ -254,3 +254,4 @@ backfill_archived_statuses 2023-04-12T13:53:23Z ,,, Vladimir <vladimir@button.is
 trigger_functions/set_archived 2023-04-12T13:55:02Z ,,, Vladimir <vladimir@button.is> # add set_archived trigger
 util_functions/upsert_archive_trigger 2023-04-12T14:36:44Z ,,, Vladimir <vladimir@button.is> # add upsert_archive_trigger
 tables/application_status_003_archive_trigger 2023-04-12T14:40:32Z ,,, Vladimir <vladimir@button.is> # add changes to application_status table
+tables/application_status_type_004_analyst_visible 2023-04-06T14:20:04Z Anthony Bushara <anthony@button.is> # Adds a column that will prevent analysts from seeing a status type
