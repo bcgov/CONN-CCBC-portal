@@ -84,7 +84,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           <ChangeStatus query={queryFragment} />
         </StyledItem>
         <StyledItem>
-          <StyledLabel>External Status</StyledLabel>
+          <StyledLabel id="status-pill">External Status</StyledLabel>
           <StatusPill status={externalStatus} styles={statusStyles}/>
         </StyledItem>
         <StyledPackage>

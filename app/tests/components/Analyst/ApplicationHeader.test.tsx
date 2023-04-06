@@ -173,11 +173,12 @@ describe('The application header component', () => {
     });
   });
 
-  it('displays the dropdown labels', () => {
+  it('displays the header labels', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
-    expect(screen.getByLabelText('Status')).toBeVisible();
+    expect(screen.getByLabelText('Internal Status')).toBeVisible();
+    expect(screen.getByLabelText('External Status')).toBeVisible();
     expect(screen.getByLabelText('Package')).toBeVisible();
     expect(screen.getByLabelText('Lead')).toBeVisible();
   });
