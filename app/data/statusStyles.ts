@@ -35,6 +35,12 @@ const statusStyles = {
     pillWidth: '212px',
     description: 'Conditionally approved',
   },
+  applicant_conditionally_approved: {
+    primary: '#FFFFFF',
+    backgroundColor: '#1F8234',
+    pillWidth: '212px',
+    description: 'Conditionally approved',
+  },
   on_hold: {
     primary: '#A37000',
     backgroundColor: '#FFECC2',
@@ -42,6 +48,12 @@ const statusStyles = {
     description: 'On hold',
   },
   received: {
+    primary: '#FFFFFF',
+    backgroundColor: '#345FA9',
+    pillWidth: '116px',
+    description: 'Received',
+  },
+  applicant_received: {
     primary: '#FFFFFF',
     backgroundColor: '#345FA9',
     pillWidth: '116px',

@@ -76,7 +76,10 @@ const ChangeStatus = ({ query }) => {
           id
           status
         }
-        allApplicationStatusTypes(orderBy: STATUS_ORDER_ASC) {
+        allApplicationStatusTypes(
+          orderBy: STATUS_ORDER_ASC
+          condition: { visibleByAnalyst: true }
+        ) {
           nodes {
             name
             description
