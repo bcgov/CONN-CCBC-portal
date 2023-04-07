@@ -7716,6 +7716,9 @@ input ApplicationFilter {
   """Filter by the object’s `analystLead` field."""
   analystLead: StringFilter
 
+  """Filter by the object’s `analystStatus` field."""
+  analystStatus: StringFilter
+
   """Filter by the object’s `hasRfiOpen` field."""
   hasRfiOpen: BooleanFilter
 
@@ -10943,6 +10946,9 @@ type Application implements Node {
 
   """Computed column to return analyst lead of an application"""
   analystLead: String
+
+  """Computed column to return the analyst-visible status of an application"""
+  analystStatus: String
 
   """Computed column that takes the slug to return an assessment form"""
   assessmentForm(_assessmentDataType: String!): AssessmentData

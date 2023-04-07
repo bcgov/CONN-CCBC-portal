@@ -74,7 +74,7 @@ const ChangeStatus = ({ query }) => {
       fragment ChangeStatus_query on Query {
         applicationByRowId(rowId: $rowId) {
           id
-          status
+          analystStatus
         }
         allApplicationStatusTypes(
           orderBy: STATUS_ORDER_ASC
@@ -92,7 +92,7 @@ const ChangeStatus = ({ query }) => {
   );
 
   const { allApplicationStatusTypes, applicationByRowId } = queryFragment;
-  const { status } = applicationByRowId;
+  const { analystStatus } = applicationByRowId;
   const router = useRouter();
   const applicationId = Number(router.query.applicationId);
   const [createStatus] = useCreateApplicationStatusMutation();
@@ -107,10 +107,10 @@ const ChangeStatus = ({ query }) => {
   const [changeReason, setChangeReason] = useState('');
 
   const [currentStatus, setcurrentStatus] = useState(
-    getStatus(status, statusTypes)
+    getStatus(analystStatus, statusTypes)
   );
   const [draftStatus, setDraftStatus] = useState(
-    getStatus(status, statusTypes)
+    getStatus(analystStatus, statusTypes)
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -120,7 +120,7 @@ const ChangeStatus = ({ query }) => {
     window.location.hash = '#change-status-modal';
   };
 
-  if (status === 'withdrawn') {
+  if (analystStatus === 'withdrawn') {
     return <StyledWithdrawn>Withdrawn</StyledWithdrawn>;
   }
 
