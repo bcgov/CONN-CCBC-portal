@@ -225,7 +225,7 @@ describe('The Project page', () => {
     });
 
     pageTestingHelper.expectMutationToBeCalled(
-      'createConditionalApprovalMutation',
+      'submitConditionalApprovalMutation',
       {
         input: {
           _applicationId: 1,
@@ -240,6 +240,7 @@ describe('The Project page', () => {
               statusApplicantSees: 'Conditionally Approved',
             },
           },
+          newApplicationStatus: 'Conditionally Approved',
         },
       }
     );
