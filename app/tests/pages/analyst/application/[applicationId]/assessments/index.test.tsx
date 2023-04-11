@@ -207,9 +207,9 @@ describe('The index page', () => {
     const mockPayload = customAssessmentQueryPayload({
       jsonData: {
         decision: [
-          'Major permit approval issues anticipated',
-          'Permits will likely delay project timeline',
-          'No obvious flags identified at this stage',
+          'Major permit approval issues anticipated. Likely to influence timeline.',
+          'Minor permit approval issues anticipated. Could influence timeline.',
+          'Normal permitting requirements and timelines anticipated.',
         ],
       },
       assessmentDataType: 'permitting',
