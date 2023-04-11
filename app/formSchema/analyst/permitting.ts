@@ -21,9 +21,9 @@ const permitting: JSONSchema7 = {
       items: {
         type: 'string',
         enum: [
-          'Major permit approval issues anticipated',
-          'Permits will likely delay project timeline',
-          'No obvious flags identified at this stage',
+          'Major permit approval issues anticipated. Likely to influence timeline.',
+          'Minor permit approval issues anticipated. Could influence timeline.',
+          'Normal permitting requirements and timelines anticipated.',
         ],
       },
       uniqueItems: true,

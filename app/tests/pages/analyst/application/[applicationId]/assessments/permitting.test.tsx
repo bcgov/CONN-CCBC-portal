@@ -75,13 +75,19 @@ describe('The index page', () => {
     expect(screen.getByLabelText('Target date')).toBeInTheDocument();
     expect(screen.getByText('Flags')).toBeInTheDocument();
     expect(
-      screen.getByText('Major permit approval issues anticipated')
+      screen.getByText(
+        'Major permit approval issues anticipated. Likely to influence timeline.'
+      )
     ).toBeInTheDocument();
     expect(
-      screen.getByText('Permits will likely delay project timeline')
+      screen.getByText(
+        'Minor permit approval issues anticipated. Could influence timeline.'
+      )
     ).toBeInTheDocument();
     expect(
-      screen.getByText('No obvious flags identified at this stage')
+      screen.getByText(
+        'Normal permitting requirements and timelines anticipated.'
+      )
     ).toBeInTheDocument();
   });
 
@@ -102,7 +108,9 @@ describe('The index page', () => {
         _applicationId: 1,
         _jsonData: {
           nextStep: 'Not started',
-          decision: ['No obvious flags identified at this stage'],
+          decision: [
+            'Normal permitting requirements and timelines anticipated.',
+          ],
         },
         _assessmentType: 'permitting',
       },
