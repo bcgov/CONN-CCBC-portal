@@ -252,4 +252,5 @@ mutations/create_rfi [mutations/create_rfi@1.57.0] 2023-04-05T14:33:20Z Anthony 
 import/application_status_archived 2023-04-12T13:46:04Z ,,, Vladimir <vladimir@button.is> # backfill archived_at and archived_by columns in application_status table
 backfill_archived_statuses 2023-04-12T13:53:23Z ,,, Vladimir <vladimir@button.is> # add archived_at and archived_by columns to application_status table and backfill them
 trigger_functions/set_archived 2023-04-12T13:55:02Z ,,, Vladimir <vladimir@button.is> # add set_archived trigger
-
+util_functions/upsert_archive_trigger 2023-04-12T14:36:44Z ,,, Vladimir <vladimir@button.is> # add upsert_archive_trigger
+tables/application_status_003_archive_trigger 2023-04-12T14:40:32Z ,,, Vladimir <vladimir@button.is> # add changes to application_status table

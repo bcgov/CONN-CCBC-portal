@@ -1,5 +1,5 @@
 begin;
-SELECT plan(12);
+SELECT plan(13);
 
 -- Table exists
 select has_table(
@@ -109,6 +109,28 @@ select lives_ok(
    insert into ccbc_public.application_status (application_id,status) VALUES (1, 'submitted')
   $$,
   'ccbc_auth_user can insert application_status with allowed status type'
+);
+
+select results_eq(
+  $$
+    select created_by  
+    from ccbc_public.application_status where application_id=1 and status='draft';
+  $$,
+  $$
+    values (1);
+  $$,
+  'Should correctly set user'
+);
+
+select results_eq(
+  $$
+    select archived_by, archived_at is null as has_archived_at 
+    from ccbc_public.application_status where application_id=1 and status='draft';
+  $$,
+  $$
+    values (1, true);
+  $$,
+  'Should archive old statuses'
 );
 
 select throws_ok(
