@@ -27,7 +27,7 @@ const StyledStatusPill = styled.div<StatusPillProps>`
   border: ${(props) => props.styles?.border || 'none'};
   border-radius: 30px;
   padding: 4px 12px;
-  max-width: 157.46px;
+  max-width: 212px;
   text-align: center;
   width: fit-content;
   overflow-wrap: break-word;
