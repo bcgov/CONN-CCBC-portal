@@ -15,25 +15,18 @@ begin
   user_sub := (select sub from ccbc_public.session());
   user_id := (select id from ccbc_public.ccbc_user where ccbc_user.session_sub = user_sub);
   user_role := (select current_role);
+
   RAISE NOTICE 'user_role is currently %', user_role; 
   if exists (SELECT 1 FROM information_schema.columns 
     WHERE table_schema = TG_TABLE_SCHEMA AND table_name=TG_TABLE_NAME AND column_name='application_id')
     and tg_op = 'INSERT' then
     if to_jsonb(new) ? 'created_at' then
-      if user_role = 'ccbc_auth_user' then
-        -- user can archive only own records
-        EXECUTE 'UPDATE ' || quote_ident(TG_TABLE_SCHEMA)
-                      || '.' || quote_ident(TG_TABLE_NAME)
-                      || ' SET archived_at=now(), archived_by=$1 where application_id=$2 and created_by=$1 and id <> $3'
+      set role postgres;
+      EXECUTE 'UPDATE ' || quote_ident(TG_TABLE_SCHEMA)
+        || '.' || quote_ident(TG_TABLE_NAME)
+        || ' SET archived_at=now(), archived_by=$1 where application_id=$2 and archived_at is null and id <> $3'
         using user_id, new.application_id, new.id;
-      end if;
-      -- if user_role = 'ccbc_admin' or user_role = 'ccbc_analyst' then
-      --   -- admin or analyst can archive any records
-      --   EXECUTE 'UPDATE ' || quote_ident(TG_TABLE_SCHEMA)
-      --                 || '.' || quote_ident(TG_TABLE_NAME)
-      --                 || ' SET archived_at=now() , archived_by=$1 where application_id=$2'
-      --   using user_id, new.application_id;
-      -- end if;
+      execute 'set role '|| quote_ident(user_role);
     end if;    
   end if;
   return new;
