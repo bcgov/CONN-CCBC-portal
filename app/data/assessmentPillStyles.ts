@@ -69,17 +69,17 @@ const assessmentPillStyles = {
     primary: '#FFFFFF;',
     backgroundColor: '#2E8540',
   },
-  'Major permit approval issues anticipated': {
+  'Major permit approval issues anticipated. Likely to influence timeline.': {
     primary: '#FFFFFF;',
     backgroundColor: '#D8292F',
     description: 'Major issues',
   },
-  'Permits will likely delay project timeline': {
+  'Minor permit approval issues anticipated. Could influence timeline.': {
     primary: '#FFFFFF;',
     backgroundColor: '#C38A00',
     description: 'Delays anticipated',
   },
-  'No obvious flags identified at this stage': {
+  'Normal permitting requirements and timelines anticipated.': {
     primary: '#FFFFFF;',
     backgroundColor: '#2E8540',
     description: 'No obvious flags',
