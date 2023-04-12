@@ -243,6 +243,84 @@
                                     </td>
                                     <td><p>Change reason for analyst status change</p></td>
                                 </tr>
+                                <tr>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="archived_by">archived_by</span></td>
+                                    <td>int4</td>
+                                    <td>10</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="application_status.archived_by references ccbc_user.id via application_status_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_status_archived_by_fkey</td>
+                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td><p>archived by user id</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="archived_at">archived_at</span></td>
+                                    <td>timestamptz</td>
+                                    <td>35,6</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>archived at timestamp</p></td>
+                                </tr>
+                                <tr>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="updated_by">updated_by</span></td>
+                                    <td>int4</td>
+                                    <td>10</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="application_status.updated_by references ccbc_user.id via application_status_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_status_updated_by_fkey</td>
+                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td><p>updated by user id</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="updated_at">updated_at</span></td>
+                                    <td>timestamptz</td>
+                                    <td>35,6</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>now()</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>updated at timestamp</p></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -286,10 +364,22 @@
                                     <td>application_id</td>
                                 </tr>
                                 <tr>
+                                    <td title='Indexed'>ccbc_public_application_status_archived_by_foreign_key</td>
+                                    <td>Performance</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>archived_by</td>
+                                </tr>
+                                <tr>
                                     <td title='Indexed'>ccbc_public_application_status_created_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>created_by</td>
+                                </tr>
+                                <tr>
+                                    <td title='Indexed'>ccbc_public_application_status_updated_by_foreign_key</td>
+                                    <td>Performance</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>updated_by</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -315,32 +405,32 @@
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
 <area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="261,5,431,269">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,411,168,645">
-<area shape="rect" id="node3" href="application_status.html" target="_top" title="application_status" alt="" coords="524,224,857,469">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,447,168,681">
+<area shape="rect" id="node3" href="application_status.html" target="_top" title="application_status" alt="" coords="524,179,857,541">
 <area shape="rect" id="node4" href="application_status_type.html" target="_top" title="application_status_type" alt="" coords="212,287,480,433">
-<area shape="rect" id="node5" href="attachment.html" target="_top" title="attachment" alt="" coords="901,329,1117,623">
+<area shape="rect" id="node5" href="attachment.html" target="_top" title="attachment" alt="" coords="901,401,1117,695">
 </map>
                                         <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/application_status.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="511,120,650,208">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,469,161,557">
-<area shape="rect" id="node3" href="application.html" target="_top" title="application" alt="" coords="496,383,665,471">
-<area shape="rect" id="node4" href="intake.html" target="_top" title="intake" alt="" coords="239,383,369,471">
+<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="511,113,650,201">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,552,161,640">
+<area shape="rect" id="node3" href="application.html" target="_top" title="application" alt="" coords="496,363,665,451">
+<area shape="rect" id="node4" href="intake.html" target="_top" title="intake" alt="" coords="239,376,369,464">
 <area shape="rect" id="node5" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="788,5,1063,93">
 <area shape="rect" id="node6" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="797,111,1054,199">
-<area shape="rect" id="node7" href="form_data.html" target="_top" title="form_data" alt="" coords="223,209,385,297">
+<area shape="rect" id="node7" href="form_data.html" target="_top" title="form_data" alt="" coords="223,203,385,291">
 <area shape="rect" id="node8" href="application_package.html" target="_top" title="application_package" alt="" coords="805,216,1046,304">
 <area shape="rect" id="node9" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="807,357,1044,445">
-<area shape="rect" id="node10" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="234,556,374,644">
-<area shape="rect" id="node11" href="application_status.html" target="_top" title="application_status" alt="" coords="759,463,1092,708">
-<area shape="rect" id="node12" href="application_status_type.html" target="_top" title="application_status_type" alt="" coords="447,524,715,671">
-<area shape="rect" id="node13" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="817,725,1033,813">
-<area shape="rect" id="node14" href="attachment.html" target="_top" title="attachment" alt="" coords="1136,812,1309,900">
-<area shape="rect" id="node15" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="780,899,1071,987">
-<area shape="rect" id="node16" href="gis_data.html" target="_top" title="gis_data" alt="" coords="232,928,376,1016">
-<area shape="rect" id="node17" href="record_version.html" target="_top" title="record_version" alt="" coords="205,1033,403,1121">
+<area shape="rect" id="node10" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="234,549,374,637">
+<area shape="rect" id="node11" href="application_status.html" target="_top" title="application_status" alt="" coords="759,463,1092,825">
+<area shape="rect" id="node12" href="application_status_type.html" target="_top" title="application_status_type" alt="" coords="447,504,715,651">
+<area shape="rect" id="node13" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="817,843,1033,931">
+<area shape="rect" id="node14" href="attachment.html" target="_top" title="attachment" alt="" coords="1136,929,1309,1017">
+<area shape="rect" id="node15" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="780,1016,1071,1104">
+<area shape="rect" id="node16" href="gis_data.html" target="_top" title="gis_data" alt="" coords="232,980,376,1068">
+<area shape="rect" id="node17" href="record_version.html" target="_top" title="record_version" alt="" coords="205,1085,403,1173">
 </map>
                                         <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/application_status.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>

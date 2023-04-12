@@ -9,8 +9,8 @@ application_rfi_data
 application_form_data
 record_version
 form_data
-rfi_data
 application_status
+rfi_data
 analyst
 application
 intake

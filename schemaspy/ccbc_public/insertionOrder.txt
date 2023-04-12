@@ -9,8 +9,8 @@ ccbc_user
 intake
 application
 analyst
-application_status
 rfi_data
+application_status
 form_data
 record_version
 application_form_data

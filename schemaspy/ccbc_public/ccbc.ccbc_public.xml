@@ -209,6 +209,14 @@
          </column>
          <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="change_reason" nullable="true" remarks="Change reason for analyst status change" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_status_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="7" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_status_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="9" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="application_status_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -216,8 +224,14 @@
          <index name="application_status_application_id_index" unique="false">
             <column ascending="true" name="application_id"/>
          </index>
+         <index name="ccbc_public_application_status_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
          <index name="ccbc_public_application_status_created_by_foreign_key" unique="false">
             <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_application_status_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
          </index>
       </table>
       <table name="application_status_type" numRows="13" remarks="Table containing the different statuses that can be assigned to an application" schema="ccbc_public" type="TABLE">
@@ -336,7 +350,9 @@
             <child column="archived_by" foreignKey="application_package_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
             <child column="created_by" foreignKey="application_package_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
             <child column="updated_by" foreignKey="application_package_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
+            <child column="archived_by" foreignKey="application_status_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_status"/>
             <child column="created_by" foreignKey="application_status_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_status"/>
+            <child column="updated_by" foreignKey="application_status_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_status"/>
             <child column="archived_by" foreignKey="assessment_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="assessment_data"/>
             <child column="created_by" foreignKey="assessment_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="assessment_data"/>
             <child column="updated_by" foreignKey="assessment_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="assessment_data"/>
