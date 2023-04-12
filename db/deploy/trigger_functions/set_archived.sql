@@ -21,6 +21,7 @@ begin
     WHERE table_schema = TG_TABLE_SCHEMA AND table_name=TG_TABLE_NAME AND column_name='application_id')
     and tg_op = 'INSERT' then
     if to_jsonb(new) ? 'created_at' then
+      --  using `postgres` role to bypass RLS that prevents edit of the application created by another ccbc_auth_user
       set role postgres;
       EXECUTE 'UPDATE ' || quote_ident(TG_TABLE_SCHEMA)
         || '.' || quote_ident(TG_TABLE_NAME)

@@ -1686,7 +1686,7 @@ type CcbcUser implements Node {
   ): ApplicationStatusesConnection!
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByArchivedBy(
+  applicationStatusesByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -1720,7 +1720,7 @@ type CcbcUser implements Node {
   ): ApplicationStatusesConnection!
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByUpdatedBy(
+  applicationStatusesByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3602,40 +3602,6 @@ type CcbcUser implements Node {
   ): CcbcUserApplicationStatusTypesByApplicationStatusCreatedByAndStatusManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationStatusCreatedByAndArchivedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcUser`."""
-    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcUserCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcUserFilter
-  ): CcbcUserCcbcUsersByApplicationStatusCreatedByAndArchivedByManyToManyConnection!
-
-  """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByApplicationStatusCreatedByAndUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -3669,76 +3635,8 @@ type CcbcUser implements Node {
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByApplicationStatusCreatedByAndUpdatedByManyToManyConnection!
 
-  """Reads and enables pagination through a set of `Application`."""
-  applicationsByApplicationStatusArchivedByAndApplicationId(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Application`."""
-    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ApplicationCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: ApplicationFilter
-  ): CcbcUserApplicationsByApplicationStatusArchivedByAndApplicationIdManyToManyConnection!
-
-  """Reads and enables pagination through a set of `ApplicationStatusType`."""
-  applicationStatusTypesByApplicationStatusArchivedByAndStatus(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `ApplicationStatusType`."""
-    orderBy: [ApplicationStatusTypesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ApplicationStatusTypeCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: ApplicationStatusTypeFilter
-  ): CcbcUserApplicationStatusTypesByApplicationStatusArchivedByAndStatusManyToManyConnection!
-
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationStatusArchivedByAndCreatedBy(
+  ccbcUsersByApplicationStatusCreatedByAndArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -3769,41 +3667,7 @@ type CcbcUser implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: CcbcUserFilter
-  ): CcbcUserCcbcUsersByApplicationStatusArchivedByAndCreatedByManyToManyConnection!
-
-  """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationStatusArchivedByAndUpdatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcUser`."""
-    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcUserCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcUserFilter
-  ): CcbcUserCcbcUsersByApplicationStatusArchivedByAndUpdatedByManyToManyConnection!
+  ): CcbcUserCcbcUsersByApplicationStatusCreatedByAndArchivedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `Application`."""
   applicationsByApplicationStatusUpdatedByAndApplicationId(
@@ -3940,6 +3804,142 @@ type CcbcUser implements Node {
     """
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByApplicationStatusUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationStatusArchivedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationStatusArchivedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `ApplicationStatusType`."""
+  applicationStatusTypesByApplicationStatusArchivedByAndStatus(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationStatusType`."""
+    orderBy: [ApplicationStatusTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationStatusTypeCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationStatusTypeFilter
+  ): CcbcUserApplicationStatusTypesByApplicationStatusArchivedByAndStatusManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationStatusArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationStatusArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationStatusArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationStatusArchivedByAndUpdatedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `Application`."""
   applicationsByAttachmentCreatedByAndApplicationId(
@@ -7109,17 +7109,17 @@ input CcbcUserFilter {
   """Some related `applicationStatusesByCreatedBy` exist."""
   applicationStatusesByCreatedByExist: Boolean
 
-  """Filter by the object’s `applicationStatusesByArchivedBy` relation."""
-  applicationStatusesByArchivedBy: CcbcUserToManyApplicationStatusFilter
-
-  """Some related `applicationStatusesByArchivedBy` exist."""
-  applicationStatusesByArchivedByExist: Boolean
-
   """Filter by the object’s `applicationStatusesByUpdatedBy` relation."""
   applicationStatusesByUpdatedBy: CcbcUserToManyApplicationStatusFilter
 
   """Some related `applicationStatusesByUpdatedBy` exist."""
   applicationStatusesByUpdatedByExist: Boolean
+
+  """Filter by the object’s `applicationStatusesByArchivedBy` relation."""
+  applicationStatusesByArchivedBy: CcbcUserToManyApplicationStatusFilter
+
+  """Some related `applicationStatusesByArchivedBy` exist."""
+  applicationStatusesByArchivedByExist: Boolean
 
   """Filter by the object’s `attachmentsByCreatedBy` relation."""
   attachmentsByCreatedBy: CcbcUserToManyAttachmentFilter
@@ -7907,8 +7907,11 @@ input ApplicationStatusFilter {
   """Filter by the object’s `createdAt` field."""
   createdAt: DatetimeFilter
 
-  """Filter by the object’s `changeReason` field."""
-  changeReason: StringFilter
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
 
   """Filter by the object’s `archivedBy` field."""
   archivedBy: IntFilter
@@ -7916,11 +7919,8 @@ input ApplicationStatusFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
-  """Filter by the object’s `updatedBy` field."""
-  updatedBy: IntFilter
-
-  """Filter by the object’s `updatedAt` field."""
-  updatedAt: DatetimeFilter
+  """Filter by the object’s `changeReason` field."""
+  changeReason: StringFilter
 
   """Filter by the object’s `attachmentsByApplicationStatusId` relation."""
   attachmentsByApplicationStatusId: ApplicationStatusToManyAttachmentFilter
@@ -7946,17 +7946,17 @@ input ApplicationStatusFilter {
   """A related `ccbcUserByCreatedBy` exists."""
   ccbcUserByCreatedByExists: Boolean
 
-  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
-  ccbcUserByArchivedBy: CcbcUserFilter
-
-  """A related `ccbcUserByArchivedBy` exists."""
-  ccbcUserByArchivedByExists: Boolean
-
   """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
   ccbcUserByUpdatedBy: CcbcUserFilter
 
   """A related `ccbcUserByUpdatedBy` exists."""
   ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
 
   """Checks for all expressions in this list."""
   and: [ApplicationStatusFilter!]
@@ -11075,40 +11075,6 @@ type Application implements Node {
   ): ApplicationCcbcUsersByApplicationStatusApplicationIdAndCreatedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationStatusApplicationIdAndArchivedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcUser`."""
-    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcUserCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcUserFilter
-  ): ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToManyConnection!
-
-  """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByApplicationStatusApplicationIdAndUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -11141,6 +11107,40 @@ type Application implements Node {
     """
     filter: CcbcUserFilter
   ): ApplicationCcbcUsersByApplicationStatusApplicationIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationStatusApplicationIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
   applicationStatusesByAttachmentApplicationIdAndApplicationStatusId(
@@ -11862,8 +11862,11 @@ type ApplicationStatus implements Node {
   """created at timestamp"""
   createdAt: Datetime!
 
-  """Change reason for analyst status change"""
-  changeReason: String
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
 
   """archived by user id"""
   archivedBy: Int
@@ -11871,11 +11874,8 @@ type ApplicationStatus implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime!
+  """Change reason for analyst status change"""
+  changeReason: String
 
   """
   Reads a single `Application` that is related to this `ApplicationStatus`.
@@ -11891,10 +11891,10 @@ type ApplicationStatus implements Node {
   ccbcUserByCreatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByArchivedBy: CcbcUser
+  ccbcUserByUpdatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByUpdatedBy: CcbcUser
+  ccbcUserByArchivedBy: CcbcUser
 
   """Reads and enables pagination through a set of `Attachment`."""
   attachmentsByApplicationStatusId(
@@ -12187,40 +12187,6 @@ type ApplicationStatusType implements Node {
   ): ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndCreatedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationStatusStatusAndArchivedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcUser`."""
-    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcUserCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcUserFilter
-  ): ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToManyConnection!
-
-  """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByApplicationStatusStatusAndUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -12253,6 +12219,40 @@ type ApplicationStatusType implements Node {
     """
     filter: CcbcUserFilter
   ): ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationStatusStatusAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToManyConnection!
 }
 
 """Methods to use when ordering `ApplicationStatus`."""
@@ -12268,16 +12268,16 @@ enum ApplicationStatusesOrderBy {
   CREATED_BY_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
-  CHANGE_REASON_ASC
-  CHANGE_REASON_DESC
-  ARCHIVED_BY_ASC
-  ARCHIVED_BY_DESC
-  ARCHIVED_AT_ASC
-  ARCHIVED_AT_DESC
   UPDATED_BY_ASC
   UPDATED_BY_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  CHANGE_REASON_ASC
+  CHANGE_REASON_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -12302,8 +12302,11 @@ input ApplicationStatusCondition {
   """Checks for equality with the object’s `createdAt` field."""
   createdAt: Datetime
 
-  """Checks for equality with the object’s `changeReason` field."""
-  changeReason: String
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
 
   """Checks for equality with the object’s `archivedBy` field."""
   archivedBy: Int
@@ -12311,11 +12314,8 @@ input ApplicationStatusCondition {
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
 
-  """Checks for equality with the object’s `updatedBy` field."""
-  updatedBy: Int
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
+  """Checks for equality with the object’s `changeReason` field."""
+  changeReason: String
 }
 
 """
@@ -12528,14 +12528,14 @@ type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndCreatedByManyToMa
 """
 A connection to a list of `CcbcUser` values, with data from `ApplicationStatus`.
 """
-type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToManyConnection {
+type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndUpdatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
   A list of edges which contains the `CcbcUser`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
   """
-  edges: [ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToManyEdge!]!
+  edges: [ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndUpdatedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -12547,7 +12547,7 @@ type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToM
 """
 A `CcbcUser` edge in the connection, with data from `ApplicationStatus`.
 """
-type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToManyEdge {
+type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndUpdatedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -12555,7 +12555,7 @@ type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToM
   node: CcbcUser
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByArchivedBy(
+  applicationStatusesByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -12592,14 +12592,14 @@ type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToM
 """
 A connection to a list of `CcbcUser` values, with data from `ApplicationStatus`.
 """
-type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndUpdatedByManyToManyConnection {
+type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
   A list of edges which contains the `CcbcUser`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
   """
-  edges: [ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndUpdatedByManyToManyEdge!]!
+  edges: [ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -12611,7 +12611,7 @@ type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndUpdatedByManyToMa
 """
 A `CcbcUser` edge in the connection, with data from `ApplicationStatus`.
 """
-type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndUpdatedByManyToManyEdge {
+type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndArchivedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -12619,7 +12619,7 @@ type ApplicationStatusTypeCcbcUsersByApplicationStatusStatusAndUpdatedByManyToMa
   node: CcbcUser
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByUpdatedBy(
+  applicationStatusesByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -16356,14 +16356,14 @@ type ApplicationCcbcUsersByApplicationStatusApplicationIdAndCreatedByManyToManyE
 """
 A connection to a list of `CcbcUser` values, with data from `ApplicationStatus`.
 """
-type ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToManyConnection {
+type ApplicationCcbcUsersByApplicationStatusApplicationIdAndUpdatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
   A list of edges which contains the `CcbcUser`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
   """
-  edges: [ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToManyEdge!]!
+  edges: [ApplicationCcbcUsersByApplicationStatusApplicationIdAndUpdatedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -16375,7 +16375,7 @@ type ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToMany
 """
 A `CcbcUser` edge in the connection, with data from `ApplicationStatus`.
 """
-type ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToManyEdge {
+type ApplicationCcbcUsersByApplicationStatusApplicationIdAndUpdatedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -16383,7 +16383,7 @@ type ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToMany
   node: CcbcUser
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByArchivedBy(
+  applicationStatusesByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -16420,14 +16420,14 @@ type ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToMany
 """
 A connection to a list of `CcbcUser` values, with data from `ApplicationStatus`.
 """
-type ApplicationCcbcUsersByApplicationStatusApplicationIdAndUpdatedByManyToManyConnection {
+type ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
   A list of edges which contains the `CcbcUser`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
   """
-  edges: [ApplicationCcbcUsersByApplicationStatusApplicationIdAndUpdatedByManyToManyEdge!]!
+  edges: [ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -16439,7 +16439,7 @@ type ApplicationCcbcUsersByApplicationStatusApplicationIdAndUpdatedByManyToManyC
 """
 A `CcbcUser` edge in the connection, with data from `ApplicationStatus`.
 """
-type ApplicationCcbcUsersByApplicationStatusApplicationIdAndUpdatedByManyToManyEdge {
+type ApplicationCcbcUsersByApplicationStatusApplicationIdAndArchivedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -16447,7 +16447,7 @@ type ApplicationCcbcUsersByApplicationStatusApplicationIdAndUpdatedByManyToManyE
   node: CcbcUser
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByUpdatedBy(
+  applicationStatusesByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -19855,70 +19855,6 @@ type CcbcUserApplicationStatusTypesByApplicationStatusCreatedByAndStatusManyToMa
 """
 A connection to a list of `CcbcUser` values, with data from `ApplicationStatus`.
 """
-type CcbcUserCcbcUsersByApplicationStatusCreatedByAndArchivedByManyToManyConnection {
-  """A list of `CcbcUser` objects."""
-  nodes: [CcbcUser]!
-
-  """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
-  """
-  edges: [CcbcUserCcbcUsersByApplicationStatusCreatedByAndArchivedByManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `CcbcUser` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""
-A `CcbcUser` edge in the connection, with data from `ApplicationStatus`.
-"""
-type CcbcUserCcbcUsersByApplicationStatusCreatedByAndArchivedByManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `CcbcUser` at the end of the edge."""
-  node: CcbcUser
-
-  """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByArchivedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `ApplicationStatus`."""
-    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ApplicationStatusCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: ApplicationStatusFilter
-  ): ApplicationStatusesConnection!
-}
-
-"""
-A connection to a list of `CcbcUser` values, with data from `ApplicationStatus`.
-"""
 type CcbcUserCcbcUsersByApplicationStatusCreatedByAndUpdatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
@@ -19981,146 +19917,16 @@ type CcbcUserCcbcUsersByApplicationStatusCreatedByAndUpdatedByManyToManyEdge {
 }
 
 """
-A connection to a list of `Application` values, with data from `ApplicationStatus`.
-"""
-type CcbcUserApplicationsByApplicationStatusArchivedByAndApplicationIdManyToManyConnection {
-  """A list of `Application` objects."""
-  nodes: [Application]!
-
-  """
-  A list of edges which contains the `Application`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
-  """
-  edges: [CcbcUserApplicationsByApplicationStatusArchivedByAndApplicationIdManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Application` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""
-A `Application` edge in the connection, with data from `ApplicationStatus`.
-"""
-type CcbcUserApplicationsByApplicationStatusArchivedByAndApplicationIdManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Application` at the end of the edge."""
-  node: Application
-
-  """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByApplicationId(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `ApplicationStatus`."""
-    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ApplicationStatusCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: ApplicationStatusFilter
-  ): ApplicationStatusesConnection!
-}
-
-"""
-A connection to a list of `ApplicationStatusType` values, with data from `ApplicationStatus`.
-"""
-type CcbcUserApplicationStatusTypesByApplicationStatusArchivedByAndStatusManyToManyConnection {
-  """A list of `ApplicationStatusType` objects."""
-  nodes: [ApplicationStatusType]!
-
-  """
-  A list of edges which contains the `ApplicationStatusType`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
-  """
-  edges: [CcbcUserApplicationStatusTypesByApplicationStatusArchivedByAndStatusManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """
-  The count of *all* `ApplicationStatusType` you could get from the connection.
-  """
-  totalCount: Int!
-}
-
-"""
-A `ApplicationStatusType` edge in the connection, with data from `ApplicationStatus`.
-"""
-type CcbcUserApplicationStatusTypesByApplicationStatusArchivedByAndStatusManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `ApplicationStatusType` at the end of the edge."""
-  node: ApplicationStatusType
-
-  """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByStatus(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `ApplicationStatus`."""
-    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ApplicationStatusCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: ApplicationStatusFilter
-  ): ApplicationStatusesConnection!
-}
-
-"""
 A connection to a list of `CcbcUser` values, with data from `ApplicationStatus`.
 """
-type CcbcUserCcbcUsersByApplicationStatusArchivedByAndCreatedByManyToManyConnection {
+type CcbcUserCcbcUsersByApplicationStatusCreatedByAndArchivedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
   A list of edges which contains the `CcbcUser`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
   """
-  edges: [CcbcUserCcbcUsersByApplicationStatusArchivedByAndCreatedByManyToManyEdge!]!
+  edges: [CcbcUserCcbcUsersByApplicationStatusCreatedByAndArchivedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -20132,7 +19938,7 @@ type CcbcUserCcbcUsersByApplicationStatusArchivedByAndCreatedByManyToManyConnect
 """
 A `CcbcUser` edge in the connection, with data from `ApplicationStatus`.
 """
-type CcbcUserCcbcUsersByApplicationStatusArchivedByAndCreatedByManyToManyEdge {
+type CcbcUserCcbcUsersByApplicationStatusCreatedByAndArchivedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -20140,71 +19946,7 @@ type CcbcUserCcbcUsersByApplicationStatusArchivedByAndCreatedByManyToManyEdge {
   node: CcbcUser
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByCreatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `ApplicationStatus`."""
-    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: ApplicationStatusCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: ApplicationStatusFilter
-  ): ApplicationStatusesConnection!
-}
-
-"""
-A connection to a list of `CcbcUser` values, with data from `ApplicationStatus`.
-"""
-type CcbcUserCcbcUsersByApplicationStatusArchivedByAndUpdatedByManyToManyConnection {
-  """A list of `CcbcUser` objects."""
-  nodes: [CcbcUser]!
-
-  """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
-  """
-  edges: [CcbcUserCcbcUsersByApplicationStatusArchivedByAndUpdatedByManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `CcbcUser` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""
-A `CcbcUser` edge in the connection, with data from `ApplicationStatus`.
-"""
-type CcbcUserCcbcUsersByApplicationStatusArchivedByAndUpdatedByManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `CcbcUser` at the end of the edge."""
-  node: CcbcUser
-
-  """Reads and enables pagination through a set of `ApplicationStatus`."""
-  applicationStatusesByUpdatedBy(
+  applicationStatusesByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -20463,6 +20205,264 @@ type CcbcUserCcbcUsersByApplicationStatusUpdatedByAndArchivedByManyToManyEdge {
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
   applicationStatusesByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationStatus`."""
+    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationStatusCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationStatusFilter
+  ): ApplicationStatusesConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationStatus`.
+"""
+type CcbcUserApplicationsByApplicationStatusArchivedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationStatusArchivedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationStatus`.
+"""
+type CcbcUserApplicationsByApplicationStatusArchivedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ApplicationStatus`."""
+  applicationStatusesByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationStatus`."""
+    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationStatusCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationStatusFilter
+  ): ApplicationStatusesConnection!
+}
+
+"""
+A connection to a list of `ApplicationStatusType` values, with data from `ApplicationStatus`.
+"""
+type CcbcUserApplicationStatusTypesByApplicationStatusArchivedByAndStatusManyToManyConnection {
+  """A list of `ApplicationStatusType` objects."""
+  nodes: [ApplicationStatusType]!
+
+  """
+  A list of edges which contains the `ApplicationStatusType`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationStatusTypesByApplicationStatusArchivedByAndStatusManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationStatusType` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""
+A `ApplicationStatusType` edge in the connection, with data from `ApplicationStatus`.
+"""
+type CcbcUserApplicationStatusTypesByApplicationStatusArchivedByAndStatusManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationStatusType` at the end of the edge."""
+  node: ApplicationStatusType
+
+  """Reads and enables pagination through a set of `ApplicationStatus`."""
+  applicationStatusesByStatus(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationStatus`."""
+    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationStatusCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationStatusFilter
+  ): ApplicationStatusesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationStatus`.
+"""
+type CcbcUserCcbcUsersByApplicationStatusArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationStatusArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationStatus`.
+"""
+type CcbcUserCcbcUsersByApplicationStatusArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationStatus`."""
+  applicationStatusesByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationStatus`."""
+    orderBy: [ApplicationStatusesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationStatusCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationStatusFilter
+  ): ApplicationStatusesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationStatus`.
+"""
+type CcbcUserCcbcUsersByApplicationStatusArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationStatus`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationStatusArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationStatus`.
+"""
+type CcbcUserCcbcUsersByApplicationStatusArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationStatus`."""
+  applicationStatusesByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -28234,10 +28234,10 @@ type CreateApplicationStatusPayload {
   ccbcUserByCreatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByArchivedBy: CcbcUser
+  ccbcUserByUpdatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByUpdatedBy: CcbcUser
+  ccbcUserByArchivedBy: CcbcUser
 
   """An edge for our `ApplicationStatus`. May be used by Relay 1."""
   applicationStatusEdge(
@@ -28270,8 +28270,11 @@ input ApplicationStatusInput {
   """created at timestamp"""
   createdAt: Datetime
 
-  """Change reason for analyst status change"""
-  changeReason: String
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
 
   """archived by user id"""
   archivedBy: Int
@@ -28279,11 +28282,8 @@ input ApplicationStatusInput {
   """archived at timestamp"""
   archivedAt: Datetime
 
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
+  """Change reason for analyst status change"""
+  changeReason: String
 }
 
 """The output of our create `ApplicationStatusType` mutation."""
@@ -29918,10 +29918,10 @@ type UpdateApplicationStatusPayload {
   ccbcUserByCreatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByArchivedBy: CcbcUser
+  ccbcUserByUpdatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByUpdatedBy: CcbcUser
+  ccbcUserByArchivedBy: CcbcUser
 
   """An edge for our `ApplicationStatus`. May be used by Relay 1."""
   applicationStatusEdge(
@@ -29963,8 +29963,11 @@ input ApplicationStatusPatch {
   """created at timestamp"""
   createdAt: Datetime
 
-  """Change reason for analyst status change"""
-  changeReason: String
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
 
   """archived by user id"""
   archivedBy: Int
@@ -29972,11 +29975,8 @@ input ApplicationStatusPatch {
   """archived at timestamp"""
   archivedAt: Datetime
 
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
+  """Change reason for analyst status change"""
+  changeReason: String
 }
 
 """All input for the `updateApplicationStatusByRowId` mutation."""
@@ -31857,10 +31857,10 @@ type DeleteApplicationStatusPayload {
   ccbcUserByCreatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByArchivedBy: CcbcUser
+  ccbcUserByUpdatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `ApplicationStatus`."""
-  ccbcUserByUpdatedBy: CcbcUser
+  ccbcUserByArchivedBy: CcbcUser
 
   """An edge for our `ApplicationStatus`. May be used by Relay 1."""
   applicationStatusEdge(
