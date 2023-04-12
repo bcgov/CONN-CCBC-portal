@@ -1,3 +1,15 @@
+# [1.58.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.57.2...v1.58.0) (2023-04-12)
+
+### Bug Fixes
+
+- **test:** use mocks for creating rfi ([abd017e](https://github.com/bcgov/CONN-CCBC-portal/commit/abd017e879f1768ffc50d254b16bb4a9b2ae5f9a))
+
+### Features
+
+- change enum wording ([1f81789](https://github.com/bcgov/CONN-CCBC-portal/commit/1f81789460368beead7014b7d397505fe7ed8797))
+- filter out archived RFI IDs ([1df5c9b](https://github.com/bcgov/CONN-CCBC-portal/commit/1df5c9b35896b4fd908abafb75cc81b11ec7b7a4))
+- use new enum text for key ([3641a21](https://github.com/bcgov/CONN-CCBC-portal/commit/3641a21413d561bcbb2577fcc96d7068dfa8569b))
+
 ## [1.57.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.57.1...v1.57.2) (2023-04-05)
 
 ## [1.57.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.57.0...v1.57.1) (2023-04-05)

@@ -248,3 +248,4 @@ mutations/save_gis_data 2023-03-29T21:14:07Z ,,, Vladimir <vladimir@button.is> #
 @1.57.1 2023-04-05T15:44:41Z Anthony Bushara <anthony@button.is> # release v1.57.1
 @1.57.2 2023-04-05T18:15:50Z Anthony Bushara <anthony@button.is> # release v1.57.2
 mutations/create_rfi [mutations/create_rfi@1.57.0] 2023-04-05T14:33:20Z Anthony Bushara <anthony@button.is> # Rework to fix error where an RFI is counting the number of archived RFIs
+@1.58.0 2023-04-12T13:13:45Z Anthony Bushara <anthony@button.is> # release v1.58.0
