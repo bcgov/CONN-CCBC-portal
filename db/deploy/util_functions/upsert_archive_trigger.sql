@@ -10,9 +10,6 @@ create or replace function ccbc_private.upsert_archive_trigger(
 returns void as $$
 
 declare
-  column_string text;
-  index_string text;
-  comment_string text;
   trigger_string text;
 
 begin
