@@ -2,7 +2,7 @@
 
 BEGIN;
 
-    
+    select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_status');
     select ccbc_private.upsert_archive_trigger('ccbc_public', 'application_status');
     select ccbc_private.upsert_policy('ccbc_auth_user_update_application_status', 'application_status', 'update', 'ccbc_auth_user', 'application_id in (select id from ccbc_public.application where owner=(select sub from ccbc_public.session()))');
 
