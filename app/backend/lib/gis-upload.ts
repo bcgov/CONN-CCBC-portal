@@ -76,41 +76,6 @@ const parseForm = (form, req) => {
   });
 };
 
-const persistRowsOld = async (batchId, json_data, req) => {
-  const error_list = [];
-  for (const row of json_data) {
-    try {
-      const { ccbc_number } = row;
-      const applicationId = ccbc_number ? parseInt(ccbc_number.substring(7),10) : null;
-      await performQuery(saveApplicationGisDataMutation, {applicationId, batchId, input: req}, req)
-      .catch((e) => {
-        error_list.push(e);
-      });
-    }
-    catch(e){
-      error_list.push(e);
-    };
-  }
-  return Promise.resolve(error_list);
-};
-
-const persistRows = async (batchId, json_data, req) => {
-  const error_list = [];
-  await json_data.reduce(async (promise, row) => {
-    // This line will wait for the last async function to finish.
-    // The first iteration uses an already resolved Promise
-    // so, it will immediately continue.
-    await promise;
-    const { ccbc_number } = row;
-    const applicationId = ccbc_number ? parseInt(ccbc_number.substring(7),10) : null;
-    console.log(`got applicationid: ${applicationId} and batchId ${batchId}`);
-    await performQuery(saveApplicationGisDataMutation, {applicationId, batchId, input: req}, req)
-      .catch((e) => {
-        error_list.push(e);
-      });
-  }, Promise.resolve(error_list));
-};
-
 // eslint-disable-next-line consistent-return
 gisUpload.post('/api/analyst/gis', limiter, async (req, res) => { 
   const authRole = getAuthRole(req);
@@ -148,15 +113,11 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   });
   
   const newRow = JSON.parse(JSON.stringify(result));
-  //const { data: { gisData } = {} } = newRow;
-  console.log('==================================');
-  console.log(newRow);
-
   const gisData = newRow?.data?.createGisData?.gisData;
-  console.log(gisData);
+
   if (gisData) {
-    const rowErrors = await persistRows(gisData.rowId, data, req);
-    console.log(rowErrors);
+    // now we can persist rows using batchId = gisData.rowId
+    console.log(gisData);
   }
   return res.status(200).json('done').end();
 });
