@@ -16,7 +16,7 @@ begin
   user_id := (select id from ccbc_public.ccbc_user where ccbc_user.session_sub = user_sub);
   user_role := (select current_role);
 
-  RAISE NOTICE 'user_role is currently %', user_role; 
+  -- RAISE NOTICE 'user_role is currently %', user_role; 
   if exists (SELECT 1 FROM information_schema.columns 
     WHERE table_schema = TG_TABLE_SCHEMA AND table_name=TG_TABLE_NAME AND column_name='application_id')
     and tg_op = 'INSERT' then
