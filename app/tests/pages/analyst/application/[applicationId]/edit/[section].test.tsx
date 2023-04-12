@@ -137,7 +137,7 @@ describe('The analyst edit application page', () => {
 
     fireEvent.change(textarea, { target: { value: 'test text' } });
 
-    const saveButton = screen.getByTestId('hidden-submit');
+    const saveButton = screen.getAllByTestId('withdraw-yes-btn')[1];
 
     await act(async () => {
       fireEvent.click(saveButton);
