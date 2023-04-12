@@ -2,6 +2,6 @@
 
 BEGIN;
 
-drop function upsert_archive_trigger(text, text, text, text);
+drop function upsert_archive_trigger(text, text);
 
 COMMIT;

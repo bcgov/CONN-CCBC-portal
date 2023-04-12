@@ -5,9 +5,7 @@ begin;
 
 create or replace function ccbc_private.upsert_archive_trigger(
   table_schema_name text,
-  table_name text,
-  user_table_schema_name text default 'ccbc_public',
-  user_table_name text default 'ccbc_user'
+  table_name text
 )
 returns void as $$
 
@@ -36,7 +34,7 @@ begin
 end;
 $$ language plpgsql;
 
-comment on function ccbc_private.upsert_archive_trigger(text, text, text, text)
+comment on function ccbc_private.upsert_archive_trigger(text, text)
   is $$
   an internal function that applies the _300_archive trigger
 
