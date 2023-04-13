@@ -87,6 +87,19 @@ describe('The analyst edit application page', () => {
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
   });
 
+  it('should go back on cancel button', async() => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const cancelButton = screen.getByRole('button', { name: 'Cancel' })
+
+    await act(async () => {
+      fireEvent.click(cancelButton);
+    });
+
+    expect(window.location.hash).toBe("")
+  })
+
   it('should calculate values on estimatedProjectEmployment page', async () => {
     pageTestingHelper.setMockRouterValues({
       query: { applicationId: '1', section: 'estimatedProjectEmployment' },
