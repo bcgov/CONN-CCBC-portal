@@ -100,9 +100,8 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   .catch((e) => {
     return res.status(400).json({ error: e }).end();
   });
-  
-  const newRow = JSON.parse(JSON.stringify(result));
-  const gisData = newRow?.data?.createGisData?.gisData;
+
+  const gisData = (result as any)?.data?.createGisData?.gisData;
 
   if (gisData) {
     return res.status(200).json({batchId: gisData?.rowId}).end();
