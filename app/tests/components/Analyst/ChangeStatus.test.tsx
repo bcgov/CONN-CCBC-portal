@@ -18,7 +18,7 @@ const mockQueryPayload = {
     return {
       applicationByRowId: {
         id: 'WyJhcHBsaWNhdGlvbnMiLDFd',
-        status: 'received',
+        analystStatus: 'received',
       },
       allApplicationStatusTypes: {
         ...allApplicationStatusTypes,

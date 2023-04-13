@@ -254,3 +254,7 @@ backfill_archived_statuses 2023-04-12T13:53:23Z ,,, Vladimir <vladimir@button.is
 trigger_functions/set_archived 2023-04-12T13:55:02Z ,,, Vladimir <vladimir@button.is> # add set_archived trigger
 util_functions/upsert_archive_trigger 2023-04-12T14:36:44Z ,,, Vladimir <vladimir@button.is> # add upsert_archive_trigger
 tables/application_status_003_archive_trigger 2023-04-12T14:40:32Z ,,, Vladimir <vladimir@button.is> # add changes to application_status table
+tables/application_status_type_004_analyst_visible 2023-04-06T14:20:04Z Anthony Bushara <anthony@button.is> # Adds a column that will prevent analysts from seeing a status type
+tables/application_status_type_005_add_applicant_conditionally_approved 2023-04-06T19:23:17Z Anthony Bushara <anthony@button.is> # Add a conditionally approved that is visible to the applicant but not visible to analysts
+mutations/submit_conditionally_approved 2023-04-05T19:09:21Z Anthony Bushara <anthony@button.is> # Mutation to both submit the conditional approval and change the status of an application to Conditionally Approved
+computed_columns/application_analyst_status 2023-04-07T18:49:51Z Anthony Bushara <anthony@button.is> # Computed column to display only the most recent visible status for an analyst
