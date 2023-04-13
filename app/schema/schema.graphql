@@ -7719,6 +7719,9 @@ input ApplicationFilter {
   """Filter by the object’s `analystStatus` field."""
   analystStatus: StringFilter
 
+  """Filter by the object’s `externalStatus` field."""
+  externalStatus: StringFilter
+
   """Filter by the object’s `hasRfiOpen` field."""
   hasRfiOpen: BooleanFilter
 
@@ -10955,6 +10958,9 @@ type Application implements Node {
 
   """Computed column to return conditional approval data"""
   conditionalApproval: ConditionalApprovalData
+
+  """Computed column to return external status of an application"""
+  externalStatus: String
 
   """Computed column to display form_data"""
   formData: FormData

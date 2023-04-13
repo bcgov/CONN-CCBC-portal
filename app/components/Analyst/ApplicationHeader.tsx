@@ -3,6 +3,8 @@ import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
 import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
+import statusStyles from 'data/statusStyles';
+import StatusPill from './StatusPill';
 
 const StyledCallout = styled.div`
   margin-bottom: 40px;
@@ -26,8 +28,10 @@ const StyledDiv = styled.div`
 `;
 
 const StyledLabel = styled.label`
-  min-width: 74px;
+  min-width: 130px;
   color: ${(props) => props.theme.color.components};
+  padding-right: 1rem;
+  direction: rtl;
 `;
 
 const StyledItem = styled.div`
@@ -53,6 +57,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           ccbcNumber
           projectName
           rowId
+          externalStatus
           ...AssignPackage_query
         }
         ...AssignLead_query
@@ -63,9 +68,8 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
   );
 
   const { applicationByRowId } = queryFragment;
-  const { analystLead, ccbcNumber, organizationName, projectName, rowId } =
+  const { analystLead, ccbcNumber, organizationName, projectName, rowId, externalStatus } =
     applicationByRowId;
-
   return (
     <StyledCallout>
       <div>
@@ -74,9 +78,13 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
         <StyledH2>{organizationName}</StyledH2>
       </div>
       <StyledDiv>
-        <StyledItem>
-          <StyledLabel htmlFor="change-status">Status</StyledLabel>
+        <StyledItem style={{marginBottom: "0.3rem"}}>
+          <StyledLabel htmlFor="change-status">Internal Status</StyledLabel>
           <ChangeStatus query={queryFragment} />
+        </StyledItem>
+        <StyledItem>
+          <StyledLabel id="status-pill">External Status</StyledLabel>
+          <StatusPill status={externalStatus} styles={statusStyles}/>
         </StyledItem>
         <StyledPackage>
           <StyledLabel htmlFor="assign-package">Package</StyledLabel>

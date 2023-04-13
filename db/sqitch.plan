@@ -258,3 +258,4 @@ tables/application_status_type_004_analyst_visible 2023-04-06T14:20:04Z Anthony 
 tables/application_status_type_005_add_applicant_conditionally_approved 2023-04-06T19:23:17Z Anthony Bushara <anthony@button.is> # Add a conditionally approved that is visible to the applicant but not visible to analysts
 mutations/submit_conditionally_approved 2023-04-05T19:09:21Z Anthony Bushara <anthony@button.is> # Mutation to both submit the conditional approval and change the status of an application to Conditionally Approved
 computed_columns/application_analyst_status 2023-04-07T18:49:51Z Anthony Bushara <anthony@button.is> # Computed column to display only the most recent visible status for an analyst
+computed_columns/application_external_status 2023-04-06T20:02:51Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # Computed column to return external status of an application
