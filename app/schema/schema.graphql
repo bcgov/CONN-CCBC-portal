@@ -155,6 +155,40 @@ type Query implements Node {
     filter: ApplicationFormDataFilter
   ): ApplicationFormDataConnection
 
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  allApplicationGisData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection
+
   """Reads and enables pagination through a set of `ApplicationPackage`."""
   allApplicationPackages(
     """Only read the first `n` values of the set."""
@@ -840,6 +874,7 @@ type Query implements Node {
   applicationByRowId(rowId: Int!): Application
   applicationAnalystLeadByRowId(rowId: Int!): ApplicationAnalystLead
   applicationFormDataByFormDataIdAndApplicationId(formDataId: Int!, applicationId: Int!): ApplicationFormData
+  applicationGisDataByRowId(rowId: Int!): ApplicationGisData
   applicationPackageByRowId(rowId: Int!): ApplicationPackage
   applicationRfiDataByRfiDataIdAndApplicationId(rfiDataId: Int!, applicationId: Int!): ApplicationRfiData
   applicationStatusByRowId(rowId: Int!): ApplicationStatus
@@ -902,6 +937,14 @@ type Query implements Node {
     """
     id: ID!
   ): ApplicationFormData
+
+  """Reads a single `ApplicationGisData` using its globally unique `ID`."""
+  applicationGisData(
+    """
+    The globally unique `ID` to be used in selecting a single `ApplicationGisData`.
+    """
+    id: ID!
+  ): ApplicationGisData
 
   """Reads a single `ApplicationPackage` using its globally unique `ID`."""
   applicationPackage(
@@ -2716,6 +2759,108 @@ type CcbcUser implements Node {
     """
     filter: GisDataFilter
   ): GisDataConnection!
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
@@ -6898,6 +7043,414 @@ type CcbcUser implements Node {
     """
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByGisDataArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `GisData`."""
+  gisDataByApplicationGisDataCreatedByAndBatchId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `GisData`."""
+    orderBy: [GisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: GisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: GisDataFilter
+  ): CcbcUserGisDataByApplicationGisDataCreatedByAndBatchIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationGisDataCreatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationGisDataCreatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisDataCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisDataCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `GisData`."""
+  gisDataByApplicationGisDataUpdatedByAndBatchId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `GisData`."""
+    orderBy: [GisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: GisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: GisDataFilter
+  ): CcbcUserGisDataByApplicationGisDataUpdatedByAndBatchIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationGisDataUpdatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationGisDataUpdatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisDataUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisDataUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `GisData`."""
+  gisDataByApplicationGisDataArchivedByAndBatchId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `GisData`."""
+    orderBy: [GisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: GisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: GisDataFilter
+  ): CcbcUserGisDataByApplicationGisDataArchivedByAndBatchIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationGisDataArchivedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationGisDataArchivedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisDataArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisDataArchivedByAndUpdatedByManyToManyConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -7288,6 +7841,24 @@ input CcbcUserFilter {
 
   """Some related `gisDataByArchivedBy` exist."""
   gisDataByArchivedByExist: Boolean
+
+  """Filter by the object’s `applicationGisDataByCreatedBy` relation."""
+  applicationGisDataByCreatedBy: CcbcUserToManyApplicationGisDataFilter
+
+  """Some related `applicationGisDataByCreatedBy` exist."""
+  applicationGisDataByCreatedByExist: Boolean
+
+  """Filter by the object’s `applicationGisDataByUpdatedBy` relation."""
+  applicationGisDataByUpdatedBy: CcbcUserToManyApplicationGisDataFilter
+
+  """Some related `applicationGisDataByUpdatedBy` exist."""
+  applicationGisDataByUpdatedByExist: Boolean
+
+  """Filter by the object’s `applicationGisDataByArchivedBy` relation."""
+  applicationGisDataByArchivedBy: CcbcUserToManyApplicationGisDataFilter
+
+  """Some related `applicationGisDataByArchivedBy` exist."""
+  applicationGisDataByArchivedByExist: Boolean
 
   """Filter by the object’s `keycloakJwtsBySub` relation."""
   keycloakJwtsBySub: CcbcUserToManyKeycloakJwtFilter
@@ -7797,6 +8368,12 @@ input ApplicationFilter {
 
   """Some related `conditionalApprovalDataByApplicationId` exist."""
   conditionalApprovalDataByApplicationIdExist: Boolean
+
+  """Filter by the object’s `applicationGisDataByApplicationId` relation."""
+  applicationGisDataByApplicationId: ApplicationToManyApplicationGisDataFilter
+
+  """Some related `applicationGisDataByApplicationId` exist."""
+  applicationGisDataByApplicationIdExist: Boolean
 
   """Filter by the object’s `intakeByIntakeId` relation."""
   intakeByIntakeId: IntakeFilter
@@ -9248,6 +9825,182 @@ input ConditionalApprovalDataFilter {
 }
 
 """
+A filter to be used against many `ApplicationGisData` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationToManyApplicationGisDataFilter {
+  """
+  Every related `ApplicationGisData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationGisDataFilter
+
+  """
+  Some related `ApplicationGisData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationGisDataFilter
+
+  """
+  No related `ApplicationGisData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationGisDataFilter
+}
+
+"""
+A filter to be used against `ApplicationGisData` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationGisDataFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `batchId` field."""
+  batchId: IntFilter
+
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `jsonData` field."""
+  jsonData: JSONFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """Filter by the object’s `gisDataByBatchId` relation."""
+  gisDataByBatchId: GisDataFilter
+
+  """A related `gisDataByBatchId` exists."""
+  gisDataByBatchIdExists: Boolean
+
+  """Filter by the object’s `applicationByApplicationId` relation."""
+  applicationByApplicationId: ApplicationFilter
+
+  """A related `applicationByApplicationId` exists."""
+  applicationByApplicationIdExists: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [ApplicationGisDataFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ApplicationGisDataFilter!]
+
+  """Negates the expression."""
+  not: ApplicationGisDataFilter
+}
+
+"""
+A filter to be used against `GisData` object types. All fields are combined with a logical ‘and.’
+"""
+input GisDataFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `jsonData` field."""
+  jsonData: JSONFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """Filter by the object’s `applicationGisDataByBatchId` relation."""
+  applicationGisDataByBatchId: GisDataToManyApplicationGisDataFilter
+
+  """Some related `applicationGisDataByBatchId` exist."""
+  applicationGisDataByBatchIdExist: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [GisDataFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [GisDataFilter!]
+
+  """Negates the expression."""
+  not: GisDataFilter
+}
+
+"""
+A filter to be used against many `ApplicationGisData` object types. All fields are combined with a logical ‘and.’
+"""
+input GisDataToManyApplicationGisDataFilter {
+  """
+  Every related `ApplicationGisData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationGisDataFilter
+
+  """
+  Some related `ApplicationGisData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationGisDataFilter
+
+  """
+  No related `ApplicationGisData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationGisDataFilter
+}
+
+"""
 A filter to be used against `GaplessCounter` object types. All fields are combined with a logical ‘and.’
 """
 input GaplessCounterFilter {
@@ -9735,59 +10488,23 @@ input CcbcUserToManyGisDataFilter {
 }
 
 """
-A filter to be used against `GisData` object types. All fields are combined with a logical ‘and.’
+A filter to be used against many `ApplicationGisData` object types. All fields are combined with a logical ‘and.’
 """
-input GisDataFilter {
-  """Filter by the object’s `rowId` field."""
-  rowId: IntFilter
+input CcbcUserToManyApplicationGisDataFilter {
+  """
+  Every related `ApplicationGisData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationGisDataFilter
 
-  """Filter by the object’s `jsonData` field."""
-  jsonData: JSONFilter
+  """
+  Some related `ApplicationGisData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationGisDataFilter
 
-  """Filter by the object’s `createdBy` field."""
-  createdBy: IntFilter
-
-  """Filter by the object’s `createdAt` field."""
-  createdAt: DatetimeFilter
-
-  """Filter by the object’s `updatedBy` field."""
-  updatedBy: IntFilter
-
-  """Filter by the object’s `updatedAt` field."""
-  updatedAt: DatetimeFilter
-
-  """Filter by the object’s `archivedBy` field."""
-  archivedBy: IntFilter
-
-  """Filter by the object’s `archivedAt` field."""
-  archivedAt: DatetimeFilter
-
-  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
-  ccbcUserByCreatedBy: CcbcUserFilter
-
-  """A related `ccbcUserByCreatedBy` exists."""
-  ccbcUserByCreatedByExists: Boolean
-
-  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
-  ccbcUserByUpdatedBy: CcbcUserFilter
-
-  """A related `ccbcUserByUpdatedBy` exists."""
-  ccbcUserByUpdatedByExists: Boolean
-
-  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
-  ccbcUserByArchivedBy: CcbcUserFilter
-
-  """A related `ccbcUserByArchivedBy` exists."""
-  ccbcUserByArchivedByExists: Boolean
-
-  """Checks for all expressions in this list."""
-  and: [GisDataFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [GisDataFilter!]
-
-  """Negates the expression."""
-  not: GisDataFilter
+  """
+  No related `ApplicationGisData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationGisDataFilter
 }
 
 """
@@ -10921,6 +11638,40 @@ type Application implements Node {
     filter: ConditionalApprovalDataFilter
   ): ConditionalApprovalDataConnection!
 
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+
   """Reads and enables pagination through a set of `AssessmentData`."""
   allAssessments(
     """Only read the first `n` values of the set."""
@@ -11836,6 +12587,142 @@ type Application implements Node {
     """
     filter: CcbcUserFilter
   ): ApplicationCcbcUsersByConditionalApprovalDataApplicationIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `GisData`."""
+  gisDataByApplicationGisDataApplicationIdAndBatchId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `GisData`."""
+    orderBy: [GisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: GisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: GisDataFilter
+  ): ApplicationGisDataByApplicationGisDataApplicationIdAndBatchIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataApplicationIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationGisDataApplicationIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataApplicationIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationGisDataApplicationIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataApplicationIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationGisDataApplicationIdAndArchivedByManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -16090,6 +16977,613 @@ input ConditionalApprovalDataCondition {
   archivedAt: Datetime
 }
 
+"""A connection to a list of `ApplicationGisData` values."""
+type ApplicationGisDataConnection {
+  """A list of `ApplicationGisData` objects."""
+  nodes: [ApplicationGisData]!
+
+  """
+  A list of edges which contains the `ApplicationGisData` and cursor to aid in pagination.
+  """
+  edges: [ApplicationGisDataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationGisData` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type ApplicationGisData implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  rowId: Int!
+  batchId: Int
+  applicationId: Int
+  jsonData: JSON!
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `GisData` that is related to this `ApplicationGisData`."""
+  gisDataByBatchId: GisData
+
+  """
+  Reads a single `Application` that is related to this `ApplicationGisData`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+}
+
+type GisData implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  rowId: Int!
+
+  """content of the uploaded GIS data file"""
+  jsonData: JSON!
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `CcbcUser` that is related to this `GisData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `GisData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `GisData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByBatchId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationGisDataBatchIdAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): GisDataApplicationsByApplicationGisDataBatchIdAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataBatchIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): GisDataCcbcUsersByApplicationGisDataBatchIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataBatchIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): GisDataCcbcUsersByApplicationGisDataBatchIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisDataBatchIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): GisDataCcbcUsersByApplicationGisDataBatchIdAndArchivedByManyToManyConnection!
+}
+
+"""Methods to use when ordering `ApplicationGisData`."""
+enum ApplicationGisDataOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  BATCH_ID_ASC
+  BATCH_ID_DESC
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ApplicationGisData` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input ApplicationGisDataCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `batchId` field."""
+  batchId: Int
+
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationGisData`.
+"""
+type GisDataApplicationsByApplicationGisDataBatchIdAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [GisDataApplicationsByApplicationGisDataBatchIdAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationGisData`.
+"""
+type GisDataApplicationsByApplicationGisDataBatchIdAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type GisDataCcbcUsersByApplicationGisDataBatchIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [GisDataCcbcUsersByApplicationGisDataBatchIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type GisDataCcbcUsersByApplicationGisDataBatchIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type GisDataCcbcUsersByApplicationGisDataBatchIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [GisDataCcbcUsersByApplicationGisDataBatchIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type GisDataCcbcUsersByApplicationGisDataBatchIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type GisDataCcbcUsersByApplicationGisDataBatchIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [GisDataCcbcUsersByApplicationGisDataBatchIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type GisDataCcbcUsersByApplicationGisDataBatchIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""A `ApplicationGisData` edge in the connection."""
+type ApplicationGisDataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationGisData` at the end of the edge."""
+  node: ApplicationGisData
+}
+
 type GisDataItem {
   jsonData: JSON
 }
@@ -17803,6 +19297,314 @@ type ApplicationCcbcUsersByConditionalApprovalDataApplicationIdAndArchivedByMany
   ): ConditionalApprovalDataConnection!
 }
 
+"""
+A connection to a list of `GisData` values, with data from `ApplicationGisData`.
+"""
+type ApplicationGisDataByApplicationGisDataApplicationIdAndBatchIdManyToManyConnection {
+  """A list of `GisData` objects."""
+  nodes: [GisData]!
+
+  """
+  A list of edges which contains the `GisData`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationGisDataByApplicationGisDataApplicationIdAndBatchIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `GisData` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `GisData` edge in the connection, with data from `ApplicationGisData`.
+"""
+type ApplicationGisDataByApplicationGisDataApplicationIdAndBatchIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `GisData` at the end of the edge."""
+  node: GisData
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByBatchId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""Methods to use when ordering `GisData`."""
+enum GisDataOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `GisData` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input GisDataCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type ApplicationCcbcUsersByApplicationGisDataApplicationIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationGisDataApplicationIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type ApplicationCcbcUsersByApplicationGisDataApplicationIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type ApplicationCcbcUsersByApplicationGisDataApplicationIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationGisDataApplicationIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type ApplicationCcbcUsersByApplicationGisDataApplicationIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type ApplicationCcbcUsersByApplicationGisDataApplicationIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationGisDataApplicationIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type ApplicationCcbcUsersByApplicationGisDataApplicationIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
 """A `Application` edge in the connection."""
 type ApplicationsEdge {
   """A cursor for use in pagination."""
@@ -18145,44 +19947,6 @@ type GisDataConnection {
   totalCount: Int!
 }
 
-type GisData implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-  rowId: Int!
-
-  """content of the uploaded GIS data file"""
-  jsonData: JSON!
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime!
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime!
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
-
-  """Reads a single `CcbcUser` that is related to this `GisData`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `GisData`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `GisData`."""
-  ccbcUserByArchivedBy: CcbcUser
-}
-
 """A `GisData` edge in the connection."""
 type GisDataEdge {
   """A cursor for use in pagination."""
@@ -18190,58 +19954,6 @@ type GisDataEdge {
 
   """The `GisData` at the end of the edge."""
   node: GisData
-}
-
-"""Methods to use when ordering `GisData`."""
-enum GisDataOrderBy {
-  NATURAL
-  ID_ASC
-  ID_DESC
-  JSON_DATA_ASC
-  JSON_DATA_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_BY_ASC
-  UPDATED_BY_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  ARCHIVED_BY_ASC
-  ARCHIVED_BY_DESC
-  ARCHIVED_AT_ASC
-  ARCHIVED_AT_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `GisData` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input GisDataCondition {
-  """Checks for equality with the object’s `rowId` field."""
-  rowId: Int
-
-  """Checks for equality with the object’s `jsonData` field."""
-  jsonData: JSON
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: Int
-
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedBy` field."""
-  updatedBy: Int
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `archivedBy` field."""
-  archivedBy: Int
-
-  """Checks for equality with the object’s `archivedAt` field."""
-  archivedAt: Datetime
 }
 
 """
@@ -26043,6 +27755,774 @@ type CcbcUserCcbcUsersByGisDataArchivedByAndUpdatedByManyToManyEdge {
 }
 
 """
+A connection to a list of `GisData` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserGisDataByApplicationGisDataCreatedByAndBatchIdManyToManyConnection {
+  """A list of `GisData` objects."""
+  nodes: [GisData]!
+
+  """
+  A list of edges which contains the `GisData`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserGisDataByApplicationGisDataCreatedByAndBatchIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `GisData` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `GisData` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserGisDataByApplicationGisDataCreatedByAndBatchIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `GisData` at the end of the edge."""
+  node: GisData
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByBatchId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserApplicationsByApplicationGisDataCreatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationGisDataCreatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserApplicationsByApplicationGisDataCreatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisDataCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisDataCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `GisData` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserGisDataByApplicationGisDataUpdatedByAndBatchIdManyToManyConnection {
+  """A list of `GisData` objects."""
+  nodes: [GisData]!
+
+  """
+  A list of edges which contains the `GisData`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserGisDataByApplicationGisDataUpdatedByAndBatchIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `GisData` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `GisData` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserGisDataByApplicationGisDataUpdatedByAndBatchIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `GisData` at the end of the edge."""
+  node: GisData
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByBatchId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserApplicationsByApplicationGisDataUpdatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationGisDataUpdatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserApplicationsByApplicationGisDataUpdatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisDataUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisDataUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `GisData` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserGisDataByApplicationGisDataArchivedByAndBatchIdManyToManyConnection {
+  """A list of `GisData` objects."""
+  nodes: [GisData]!
+
+  """
+  A list of edges which contains the `GisData`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserGisDataByApplicationGisDataArchivedByAndBatchIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `GisData` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `GisData` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserGisDataByApplicationGisDataArchivedByAndBatchIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `GisData` at the end of the edge."""
+  node: GisData
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByBatchId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserApplicationsByApplicationGisDataArchivedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationGisDataArchivedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserApplicationsByApplicationGisDataArchivedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisDataArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisDataArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisData`.
+"""
+type CcbcUserCcbcUsersByApplicationGisDataArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationGisData`."""
+  applicationGisDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationAnalystLead`.
 """
 type AnalystApplicationsByApplicationAnalystLeadAnalystIdAndApplicationIdManyToManyConnection {
@@ -26773,6 +29253,14 @@ type Mutation {
     input: CreateApplicationFormDataInput!
   ): CreateApplicationFormDataPayload
 
+  """Creates a single `ApplicationGisData`."""
+  createApplicationGisData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationGisDataInput!
+  ): CreateApplicationGisDataPayload
+
   """Creates a single `ApplicationPackage`."""
   createApplicationPackage(
     """
@@ -26996,6 +29484,24 @@ type Mutation {
     """
     input: UpdateApplicationFormDataByFormDataIdAndApplicationIdInput!
   ): UpdateApplicationFormDataPayload
+
+  """
+  Updates a single `ApplicationGisData` using its globally unique id and a patch.
+  """
+  updateApplicationGisData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationGisDataInput!
+  ): UpdateApplicationGisDataPayload
+
+  """Updates a single `ApplicationGisData` using a unique key and a patch."""
+  updateApplicationGisDataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationGisDataByRowIdInput!
+  ): UpdateApplicationGisDataPayload
 
   """
   Updates a single `ApplicationPackage` using its globally unique id and a patch.
@@ -27413,6 +29919,22 @@ type Mutation {
     input: DeleteApplicationFormDataByFormDataIdAndApplicationIdInput!
   ): DeleteApplicationFormDataPayload
 
+  """Deletes a single `ApplicationGisData` using its globally unique id."""
+  deleteApplicationGisData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationGisDataInput!
+  ): DeleteApplicationGisDataPayload
+
+  """Deletes a single `ApplicationGisData` using a unique key."""
+  deleteApplicationGisDataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationGisDataByRowIdInput!
+  ): DeleteApplicationGisDataPayload
+
   """Deletes a single `ApplicationPackage` using its globally unique id."""
   deleteApplicationPackage(
     """
@@ -27824,6 +30346,12 @@ type Mutation {
     """
     input: IncrementCounterInput!
   ): IncrementCounterPayload
+  parseGisData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: ParseGisDataInput!
+  ): ParseGisDataPayload
 
   """Detects closed intake and marks all submitted applications as Received"""
   receiveApplications(
@@ -28097,6 +30625,89 @@ input ApplicationFormDataInput {
 
   """The foreign key of an application"""
   applicationId: Int!
+}
+
+"""The output of our create `ApplicationGisData` mutation."""
+type CreateApplicationGisDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationGisData` that was created by this mutation."""
+  applicationGisData: ApplicationGisData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `GisData` that is related to this `ApplicationGisData`."""
+  gisDataByBatchId: GisData
+
+  """
+  Reads a single `Application` that is related to this `ApplicationGisData`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationGisData`. May be used by Relay 1."""
+  applicationGisDataEdge(
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationGisDataEdge
+}
+
+"""All input for the create `ApplicationGisData` mutation."""
+input CreateApplicationGisDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ApplicationGisData` to be created by this mutation."""
+  applicationGisData: ApplicationGisDataInput!
+}
+
+"""An input for mutations affecting `ApplicationGisData`"""
+input ApplicationGisDataInput {
+  batchId: Int
+  applicationId: Int
+  jsonData: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """The output of our create `ApplicationPackage` mutation."""
@@ -29725,6 +32336,113 @@ input UpdateApplicationFormDataByFormDataIdAndApplicationIdInput {
 
   """The foreign key of an application"""
   applicationId: Int!
+}
+
+"""The output of our update `ApplicationGisData` mutation."""
+type UpdateApplicationGisDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationGisData` that was updated by this mutation."""
+  applicationGisData: ApplicationGisData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `GisData` that is related to this `ApplicationGisData`."""
+  gisDataByBatchId: GisData
+
+  """
+  Reads a single `Application` that is related to this `ApplicationGisData`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationGisData`. May be used by Relay 1."""
+  applicationGisDataEdge(
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationGisDataEdge
+}
+
+"""All input for the `updateApplicationGisData` mutation."""
+input UpdateApplicationGisDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationGisData` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `ApplicationGisData` being updated.
+  """
+  applicationGisDataPatch: ApplicationGisDataPatch!
+}
+
+"""
+Represents an update to a `ApplicationGisData`. Fields that are set will be updated.
+"""
+input ApplicationGisDataPatch {
+  batchId: Int
+  applicationId: Int
+  jsonData: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""All input for the `updateApplicationGisDataByRowId` mutation."""
+input UpdateApplicationGisDataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ApplicationGisData` being updated.
+  """
+  applicationGisDataPatch: ApplicationGisDataPatch!
+  rowId: Int!
 }
 
 """The output of our update `ApplicationPackage` mutation."""
@@ -31722,6 +34440,77 @@ input DeleteApplicationFormDataByFormDataIdAndApplicationIdInput {
   applicationId: Int!
 }
 
+"""The output of our delete `ApplicationGisData` mutation."""
+type DeleteApplicationGisDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationGisData` that was deleted by this mutation."""
+  applicationGisData: ApplicationGisData
+  deletedApplicationGisDataId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `GisData` that is related to this `ApplicationGisData`."""
+  gisDataByBatchId: GisData
+
+  """
+  Reads a single `Application` that is related to this `ApplicationGisData`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisData`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationGisData`. May be used by Relay 1."""
+  applicationGisDataEdge(
+    """The method to use when ordering `ApplicationGisData`."""
+    orderBy: [ApplicationGisDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationGisDataEdge
+}
+
+"""All input for the `deleteApplicationGisData` mutation."""
+input DeleteApplicationGisDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationGisData` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteApplicationGisDataByRowId` mutation."""
+input DeleteApplicationGisDataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  rowId: Int!
+}
+
 """The output of our delete `ApplicationPackage` mutation."""
 type DeleteApplicationPackagePayload {
   """
@@ -33387,6 +36176,31 @@ input IncrementCounterInput {
   """
   clientMutationId: String
   counterId: Int!
+}
+
+"""The output of our `parseGisData` mutation."""
+type ParseGisDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  string: String
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+"""All input for the `parseGisData` mutation."""
+input ParseGisDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  batchid: Int!
 }
 
 """The output of our `receiveApplications` mutation."""
