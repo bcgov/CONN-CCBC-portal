@@ -24,17 +24,6 @@ const saveGisDataMutation = `
   }
 `;
 
-const saveApplicationGisDataMutation = `
-  mutation gisUploadApplicationGisData($applicationId: Int, $batchId: Int, $input: JSON) {
-    createApplicationGisData(
-      input: {applicationGisData: {applicationId: $applicationId, batchId: $batchId, jsonData: $input}}
-    ) {
-      clientMutationId
-    }
-  }
-`;
-
-
 const gisUpload = Router();
 const ajv = new Ajv({ allErrors: true, removeAdditional: true });
 
@@ -116,10 +105,10 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   const gisData = newRow?.data?.createGisData?.gisData;
 
   if (gisData) {
-    // now we can persist rows using batchId = gisData.rowId
-    console.log(gisData);
-  }
-  return res.status(200).json('done').end();
+    return res.status(200).json({batchId: gisData?.rowId}).end();
+  } 
+  
+  return res.status(400).json({error: 'failed to save Gis data in DB'}).end();
 });
 
 export const config = {
