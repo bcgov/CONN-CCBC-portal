@@ -136,6 +136,22 @@ describe('The analyst edit application page', () => {
     ).toHaveValue('$15');
   });
 
+  it('shows modal on enter key', async() => {
+    pageTestingHelper.setMockRouterValues({
+      query: { applicationId: '1', section: 'estimatedProjectEmployment' },
+    });
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const people = screen.getAllByLabelText(/Number of people/)[0];
+
+    await userEvent.type(people, '{enter}')
+
+    expect(window.location.hash).toBe("#change-modal")
+
+    window.location.hash = ""
+  })
+
   it('displays the confirmation modal and calls the mutation on save', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
