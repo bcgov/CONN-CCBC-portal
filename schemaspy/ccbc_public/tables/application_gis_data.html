@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>attachment - ccbc.ccbc_public</title>
+        <title>application_gis_data - ccbc.ccbc_public</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,20 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>attachment</h1><p><span id="recordNumber">-1</span> rows</p><br />
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <i class="fa fa-file-text-o"></i>
-                            <h3 id="Description" class="box-title">Description</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div><!-- /.box-header -->
-                        <div class="box-body clearfix">
-                            <p>Table containing information about uploaded attachments</p>
-                        </div><!-- /.box-body -->
-                    </div>
+                    <h1>application_gis_data</h1><p><span id="recordNumber">-1</span> rows</p><br />
                 </section>
                 <!-- Main content -->
                 <section class="content">
@@ -136,12 +123,12 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Unique ID for the attachment</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td class='indexedColumn' title='Indexed'><i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i><span id="file">file</span></td>
-                                    <td>uuid</td>
-                                    <td>2147483647</td>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="batch_id">batch_id</span></td>
+                                    <td>int4</td>
+                                    <td>10</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
                                     <td>null</td>
@@ -151,104 +138,19 @@
                                     </td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="application_gis_data.batch_id references gis_data.id via application_gis_data_batch_id_fkey"><a href='gis_data.html'>gis_data</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_gis_data_batch_id_fkey</td>
+                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
                                         </table>
                                     </td>
-                                    <td><p>Universally Unique ID for the attachment, created by the fastapi storage micro-service</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="description">description</span></td>
-                                    <td>varchar</td>
-                                    <td>10000</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Description of the attachment</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="file_name">file_name</span></td>
-                                    <td>varchar</td>
-                                    <td>1000</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Original uploaded file name</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="file_type">file_type</span></td>
-                                    <td>varchar</td>
-                                    <td>100</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Original uploaded file type</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="file_size">file_size</span></td>
-                                    <td>varchar</td>
-                                    <td>100</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Original uploaded file size</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="application_id">application_id</span></td>
                                     <td>int4</td>
                                     <td>10</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                            <tr>
-                                                <td title="attachment.application_id references application.id via attachment_application_id_fkey"><a href='application.html'>application</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">attachment_application_id_fkey</td>
-                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                    <td><p>The id of the project (ccbc_public.application.id) that the attachment was uploaded to</p></td>
-                                </tr>
-                                <tr>
-                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="application_status_id">application_status_id</span></td>
-                                    <td>int4</td>
-                                    <td>10</td>
                                     <td title='nullable'>√</td>
                                     <td title=''></td>
                                     <td>null</td>
@@ -259,13 +161,30 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="attachment.application_status_id references application_status.id via attachment_application_status_id_fkey"><a href='application_status.html'>application_status</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">attachment_application_status_id_fkey</td>
+                                                <td title="application_gis_data.application_id references application.id via application_gis_data_application_id_fkey"><a href='application.html'>application</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_gis_data_application_id_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td><p>The id of the application_status (ccbc_public.application_status.id) that the attachment references</p></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="json_data">json_data</span></td>
+                                    <td>jsonb</td>
+                                    <td>2147483647</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>&#39;{}&#39;::jsonb</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="created_by">created_by</span></td>
@@ -281,8 +200,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="attachment.created_by references ccbc_user.id via attachment_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">attachment_created_by_fkey</td>
+                                                <td title="application_gis_data.created_by references ccbc_user.id via application_gis_data_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_gis_data_created_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -320,8 +239,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="attachment.updated_by references ccbc_user.id via attachment_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">attachment_updated_by_fkey</td>
+                                                <td title="application_gis_data.updated_by references ccbc_user.id via application_gis_data_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_gis_data_updated_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -359,8 +278,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="attachment.archived_by references ccbc_user.id via attachment_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">attachment_archived_by_fkey</td>
+                                                <td title="application_gis_data.archived_by references ccbc_user.id via application_gis_data_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_gis_data_archived_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -415,31 +334,25 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> attachment_pkey</td>
+                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> application_gis_data_pkey</td>
                                     <td>Primary key</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>id</td>
                                 </tr>
                                 <tr>
-                                    <td class='uniqueKey' title='Unique Key'><i class='icon ion-key iconkey'></i> attachment_file</td>
-                                    <td>Must be unique</td>
-                                    <td><span title='Ascending'>Asc</span></td>
-                                    <td>file</td>
-                                </tr>
-                                <tr>
-                                    <td title='Indexed'>ccbc_public_attachment_archived_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_application_gis_data_archived_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>archived_by</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_attachment_created_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_application_gis_data_created_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>created_by</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_attachment_updated_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_application_gis_data_updated_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>updated_by</td>
@@ -467,35 +380,34 @@
                                 <div class="tab-content no-padding">
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="212,5,381,269">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,283,168,517">
-<area shape="rect" id="node3" href="application_status.html" target="_top" title="application_status" alt="" coords="425,113,651,377">
-<area shape="rect" id="node4" href="attachment.html" target="_top" title="attachment" alt="" coords="695,72,1049,552">
+<area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="212,228,381,492">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,345,168,580">
+<area shape="rect" id="node3" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="425,304,777,667">
+<area shape="rect" id="node4" href="gis_data.html" target="_top" title="gis_data" alt="" coords="225,5,369,211">
 </map>
-                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/attachment.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/application_gis_data.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="511,5,650,93">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,507,161,595">
-<area shape="rect" id="node3" href="application.html" target="_top" title="application" alt="" coords="496,525,665,613">
-<area shape="rect" id="node4" href="intake.html" target="_top" title="intake" alt="" coords="239,593,369,681">
-<area shape="rect" id="node5" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="767,89,1041,177">
-<area shape="rect" id="node6" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="775,195,1033,283">
-<area shape="rect" id="node7" href="form_data.html" target="_top" title="form_data" alt="" coords="223,179,385,267">
-<area shape="rect" id="node8" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="784,300,1024,388">
-<area shape="rect" id="node9" href="gis_data.html" target="_top" title="gis_data" alt="" coords="232,352,376,440">
-<area shape="rect" id="node10" href="application_package.html" target="_top" title="application_package" alt="" coords="783,436,1025,524">
-<area shape="rect" id="node11" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="785,585,1023,673">
-<area shape="rect" id="node12" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="234,699,374,787">
-<area shape="rect" id="node13" href="application_status.html" target="_top" title="application_status" alt="" coords="791,691,1017,779">
-<area shape="rect" id="node14" href="application_status_type.html" target="_top" title="application_status_type" alt="" coords="447,767,715,855">
-<area shape="rect" id="node15" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="796,813,1012,901">
-<area shape="rect" id="node16" href="attachment.html" target="_top" title="attachment" alt="" coords="1093,641,1448,1121">
-<area shape="rect" id="node17" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="759,955,1049,1043">
-<area shape="rect" id="node18" href="record_version.html" target="_top" title="record_version" alt="" coords="205,1132,403,1220">
+<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="462,5,601,93">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,567,161,655">
+<area shape="rect" id="node3" href="application.html" target="_top" title="application" alt="" coords="447,740,616,828">
+<area shape="rect" id="node4" href="intake.html" target="_top" title="intake" alt="" coords="239,827,369,915">
+<area shape="rect" id="node5" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="699,5,973,93">
+<area shape="rect" id="node6" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="707,179,965,267">
+<area shape="rect" id="node7" href="form_data.html" target="_top" title="form_data" alt="" coords="223,267,385,355">
+<area shape="rect" id="node8" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="660,284,1012,647">
+<area shape="rect" id="node9" href="gis_data.html" target="_top" title="gis_data" alt="" coords="232,372,376,460">
+<area shape="rect" id="node10" href="application_package.html" target="_top" title="application_package" alt="" coords="715,664,957,752">
+<area shape="rect" id="node11" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="717,769,955,857">
+<area shape="rect" id="node12" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="234,653,374,741">
+<area shape="rect" id="node13" href="application_status.html" target="_top" title="application_status" alt="" coords="723,1016,949,1104">
+<area shape="rect" id="node14" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="728,911,944,999">
+<area shape="rect" id="node15" href="attachment.html" target="_top" title="attachment" alt="" coords="1056,89,1229,177">
+<area shape="rect" id="node16" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="691,1121,981,1209">
+<area shape="rect" id="node17" href="record_version.html" target="_top" title="record_version" alt="" coords="205,1136,403,1224">
 </map>
-                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/attachment.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/application_gis_data.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                 </div>
                             </div>
