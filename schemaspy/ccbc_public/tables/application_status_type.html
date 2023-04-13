@@ -194,6 +194,23 @@
                                     </td>
                                     <td></td>
                                 </tr>
+                                <tr>
+                                    <td><span id="visible_by_analyst">visible_by_analyst</span></td>
+                                    <td>bool</td>
+                                    <td>1</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>true</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -242,6 +259,38 @@
                     </div>
                     <div class="box box-primary">
                         <div class="box-header with-border">
+                            <i class="fa fa-sitemap"></i>
+                            <h3 class="box-title">Check Constraints</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table
+                                    id="check_table"
+                                    class="table table-bordered table-striped dataTable"
+                                    role="grid"
+                                    data-paging="true"
+                                    data-page-length="10"
+                                    data-length-change="false">
+                                <thead align='left'>
+                                <tr>
+                                    <th>Constraint Name</th>
+                                    <th>Constraint</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>no_invisible_status</td>
+                                    <td>((visible_by_analyst OR visible_by_applicant))</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
                             <i class="fa fa-code-fork"></i>
                             <h3 id="Relationships" class="box-title">Relationships</h3>
                             <div class="box-tools pull-right">
@@ -260,17 +309,17 @@
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
 <area shape="rect" id="node1" href="application_status.html" target="_top" title="application_status" alt="" coords="393,5,619,269">
-<area shape="rect" id="node2" href="application_status_type.html" target="_top" title="application_status_type" alt="" coords="5,61,349,248">
+<area shape="rect" id="node2" href="application_status_type.html" target="_top" title="application_status_type" alt="" coords="5,61,349,277">
 </map>
                                         <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/application_status_type.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
 <area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="293,5,462,93">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,313,161,401">
-<area shape="rect" id="node3" href="application_status.html" target="_top" title="application_status" alt="" coords="593,141,819,405">
-<area shape="rect" id="node4" href="application_status_type.html" target="_top" title="application_status_type" alt="" coords="205,111,549,297">
-<area shape="rect" id="node5" href="attachment.html" target="_top" title="attachment" alt="" coords="863,401,1036,489">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,343,161,431">
+<area shape="rect" id="node3" href="application_status.html" target="_top" title="application_status" alt="" coords="593,171,819,435">
+<area shape="rect" id="node4" href="application_status_type.html" target="_top" title="application_status_type" alt="" coords="205,111,549,327">
+<area shape="rect" id="node5" href="attachment.html" target="_top" title="attachment" alt="" coords="863,431,1036,519">
 </map>
                                         <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/application_status_type.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>

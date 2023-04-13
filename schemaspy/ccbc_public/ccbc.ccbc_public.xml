@@ -241,6 +241,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="description" nullable="true" remarks="Description of the status type" size="1000" type="varchar" typeCode="12"/>
          <column autoUpdated="false" defaultValue="true" digits="0" id="2" name="visible_by_applicant" nullable="true" remarks="" size="1" type="bool" typeCode="-7"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="status_order" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="true" digits="0" id="4" name="visible_by_analyst" nullable="true" remarks="" size="1" type="bool" typeCode="-7"/>
          <primaryKey column="name" sequenceNumberInPK="1"/>
          <index name="application_status_type_pkey" unique="true">
             <column ascending="true" name="name"/>
@@ -248,6 +249,7 @@
          <index name="application_status_type_order_is_unique" unique="true">
             <column ascending="true" name="status_order"/>
          </index>
+         <checkConstraint constraint="((visible_by_analyst OR visible_by_applicant))" name="no_invisible_status"/>
       </table>
       <table name="assessment_data" remarks="" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>

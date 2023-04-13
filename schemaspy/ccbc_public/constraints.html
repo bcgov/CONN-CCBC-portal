@@ -1218,6 +1218,11 @@
                                         <td>((package &gt; 0))</td>
                                     </tr>
                                     <tr>
+                                        <td><a href='tables/application_status_type.html'>application_status_type</a></td>
+                                        <td>no_invisible_status</td>
+                                        <td>((visible_by_analyst OR visible_by_applicant))</td>
+                                    </tr>
+                                    <tr>
                                         <td><a href='tables/record_version.html'>record_version</a></td>
                                         <td>record_version_check</td>
                                         <td>(((COALESCE(record_id, old_record_id) IS NOT NULL) OR (op &#61; &#39;TRUNCATE&#39;::audit.operation)))</td>
