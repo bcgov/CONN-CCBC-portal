@@ -1,3 +1,9 @@
+## [1.59.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.59.0...v1.59.1) (2023-04-14)
+
+### Bug Fixes
+
+- history_item index migration error ([4eafa7e](https://github.com/bcgov/CONN-CCBC-portal/commit/4eafa7e5128a91c0730e96a3c526d43147ab6206))
+
 # [1.59.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.58.0...v1.59.0) (2023-04-14)
 
 ### Bug Fixes
