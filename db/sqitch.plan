@@ -259,5 +259,6 @@ tables/application_status_type_005_add_applicant_conditionally_approved 2023-04-
 mutations/submit_conditionally_approved 2023-04-05T19:09:21Z Anthony Bushara <anthony@button.is> # Mutation to both submit the conditional approval and change the status of an application to Conditionally Approved
 computed_columns/application_analyst_status 2023-04-07T18:49:51Z Anthony Bushara <anthony@button.is> # Computed column to display only the most recent visible status for an analyst
 computed_columns/application_external_status 2023-04-06T20:02:51Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # Computed column to return external status of an application
-tables/application_gis_data 2023-04-09T10:07:08Z ,,, Vladimir <vladimir@button.is> # add application_gis_data table 
+tables/application_gis_data 2023-04-09T10:07:08Z ,,, Vladimir <vladimir@button.is> # add application_gis_data table
 mutations/parse_gis_data 2023-04-12T21:46:04Z ,,, Vladimir <vladimir@button.is> # add parse_gis_data mutation
+@1.59.0 2023-04-14T18:07:03Z Marcel Mueller <marcel@m2.local> # release v1.59.0
