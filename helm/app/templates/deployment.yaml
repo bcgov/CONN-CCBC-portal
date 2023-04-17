@@ -129,7 +129,7 @@ spec:
             - -c
             - |
               set -euox pipefail;
-              sqitch deploy;
+              sqitch deploy --mode change;
 
 {{- if .Values.db.postMigrationCommand }}
         - env: {{ include "ccbc.postgresPgEnv" . | nindent 8 }}
