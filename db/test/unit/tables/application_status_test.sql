@@ -1,5 +1,24 @@
 begin;
-SELECT plan(12);
+SELECT plan(14);
+
+truncate table
+  ccbc_public.application,
+  ccbc_public.application_status,
+  ccbc_public.attachment,
+  ccbc_public.form_data,
+  ccbc_public.application_form_data,
+  ccbc_public.intake,
+  ccbc_public.application_analyst_lead,
+  ccbc_public.application_rfi_data,
+  ccbc_public.rfi_data,
+  ccbc_public.ccbc_user
+restart identity cascade;
+
+
+insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
+values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1),
+      ('2022-05-01 09:00:01-07', '2022-06-01 09:00:00-07', 2);
+select mocks.set_mocked_time_in_transaction((select open_timestamp from ccbc_public.intake limit 1));
 
 -- Table exists
 select has_table(
@@ -77,6 +96,30 @@ insert into ccbc_public.application_status (application_id, status) VALUES (1, '
 insert into ccbc_public.application_status (application_id, status) VALUES (1, 'received');
 insert into ccbc_public.application_status (application_id, status) VALUES (1, 'on_hold');
 insert into ccbc_public.application_status (application_id, status) VALUES (1, 'approved');
+
+-- Test archive trigger
+
+select results_eq(
+  $$
+    select archived_by, archived_at is null as has_archived_at 
+    from ccbc_public.application_status where application_id=1 and status='draft';
+  $$,
+  $$
+    values (3, false);
+  $$,
+  'Should archive old status records'
+);
+
+select results_eq(
+  $$
+    select archived_by is null as has_archived_by, archived_at is null as has_archived_at 
+    from ccbc_public.application_status where application_id=1 and status='approved';
+  $$,
+  $$
+    values (true, true);
+  $$,
+  'Should not archive new status record'
+);
 
 -- Test setup - first user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
