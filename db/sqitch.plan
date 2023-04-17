@@ -259,3 +259,4 @@ mutations/parse_gis_data 2023-04-12T21:46:04Z ,,, Vladimir <vladimir@button.is> 
 @1.59.0 2023-04-14T18:07:03Z Marcel Mueller <marcel@m2.local> # release v1.59.0
 tables/history_item [tables/history_item@1.59.0] 2023-04-14T22:42:36Z Marcel Mueller <marcel@m2.local> # fix history index migration error
 @1.59.1 2023-04-14T22:58:16Z Marcel Mueller <marcel@m2.local> # release v1.59.1
+@1.59.2 2023-04-17T22:21:41Z Marcel Mueller <marcel@m2.local> # release v1.59.2

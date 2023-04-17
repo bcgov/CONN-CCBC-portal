@@ -1,3 +1,13 @@
+## [1.59.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.59.1...v1.59.2) (2023-04-17)
+
+### Bug Fixes
+
+- omit archive_status DB changes ([65eca53](https://github.com/bcgov/CONN-CCBC-portal/commit/65eca53305253beca0dd16a26c2ae71e9e0a34c3))
+- remove unneded test ([f9c54bf](https://github.com/bcgov/CONN-CCBC-portal/commit/f9c54bf2172b566681f47439e30bcb28d06b8606))
+- rollback deploy for all branches ([9bf4145](https://github.com/bcgov/CONN-CCBC-portal/commit/9bf4145d0b36b47fdba153b732a33d45cff9362e))
+- updated schema ([aa30fa0](https://github.com/bcgov/CONN-CCBC-portal/commit/aa30fa070d3eba900f0c302dfefa9d2cf41dfc8a))
+- updated test ([aabe089](https://github.com/bcgov/CONN-CCBC-portal/commit/aabe08993f5e01ce30c35bdb428c0877154a7a5d))
+
 ## [1.59.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.59.0...v1.59.1) (2023-04-14)
 
 ### Bug Fixes
