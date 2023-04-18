@@ -2,6 +2,6 @@
 
 BEGIN;
 
-drop function ccbc_private.set_archived;
+drop function if exists ccbc_private.set_archived cascade;
 
 COMMIT;

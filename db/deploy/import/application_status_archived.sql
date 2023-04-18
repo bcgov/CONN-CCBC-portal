@@ -44,9 +44,6 @@ as $function$
     end;
 $function$ language plpgsql volatile;
 
-ALTER FUNCTION ccbc_public.set_application_status_archived()
-    OWNER TO postgres;
-
 COMMENT ON FUNCTION ccbc_public.set_application_status_archived()
     IS 'populates archived columns for existing application_status records';
 

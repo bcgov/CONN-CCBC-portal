@@ -260,3 +260,8 @@ mutations/parse_gis_data 2023-04-12T21:46:04Z ,,, Vladimir <vladimir@button.is> 
 tables/history_item [tables/history_item@1.59.0] 2023-04-14T22:42:36Z Marcel Mueller <marcel@m2.local> # fix history index migration error
 @1.59.1 2023-04-14T22:58:16Z Marcel Mueller <marcel@m2.local> # release v1.59.1
 @1.59.2 2023-04-17T22:21:41Z Marcel Mueller <marcel@m2.local> # release v1.59.2
+import/application_status_archived 2023-04-17T23:46:04Z ,,, Vladimir <vladimir@button.is> # backfill archived_at and archived_by columns in application_status table
+backfill_archived_statuses 2023-04-17T23:53:23Z ,,, Vladimir <vladimir@button.is> # add archived_at and archived_by columns to application_status table and backfill them
+trigger_functions/set_archived 2023-04-17T23:55:02Z ,,, Vladimir <vladimir@button.is> # add set_archived trigger
+util_functions/upsert_archive_trigger 2023-04-17T23:56:44Z ,,, Vladimir <vladimir@button.is> # add upsert_archive_trigger
+tables/application_status_003_archive_trigger 2023-04-17T23:57:32Z ,,, Vladimir <vladimir@button.is> # add changes to application_status table
