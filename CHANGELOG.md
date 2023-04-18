@@ -1,3 +1,16 @@
+# [1.60.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.59.2...v1.60.0) (2023-04-18)
+
+### Bug Fixes
+
+- new line in the end of sqitch.plan ([b18e252](https://github.com/bcgov/CONN-CCBC-portal/commit/b18e2527256780ad04966f3142a17280610c6a6d))
+- refactor how to get largest rfi number ([855abfb](https://github.com/bcgov/CONN-CCBC-portal/commit/855abfbb28ab94951905412e34b71e9be5f742df))
+- reset deploy to main branch only ([bc0af76](https://github.com/bcgov/CONN-CCBC-portal/commit/bc0af761eaf9acbfa46128a79af7a2018d19e448))
+- updated dependency ([055df0f](https://github.com/bcgov/CONN-CCBC-portal/commit/055df0f4730a256e99439d2e77e6a74c2d29e6e8))
+
+### Features
+
+- archive application status ([a80f357](https://github.com/bcgov/CONN-CCBC-portal/commit/a80f357b866baaf34e361374e3dafbf6a00e4baa))
+
 ## [1.59.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.59.1...v1.59.2) (2023-04-17)
 
 ### Bug Fixes
