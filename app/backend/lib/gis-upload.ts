@@ -15,6 +15,10 @@ const limiter = RateLimit({
 const saveGisDataMutation = `
   mutation gisUploadMutation($input: JSON) {
     createGisData(input: {gisData: {jsonData:$input}}) {
+      gisData {
+        id,
+        rowId
+      },
       clientMutationId
     }
   }
@@ -92,12 +96,18 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   }
    
   // time to persist in DB
-  await performQuery(saveGisDataMutation, {input: data}, req)
+  const result = await performQuery(saveGisDataMutation, {input: data}, req)
   .catch((e) => {
     return res.status(400).json({ error: e }).end();
   });
 
-  return res.status(200).json('done').end();
+  const gisData = (result as any)?.data?.createGisData?.gisData;
+
+  if (gisData) {
+    return res.status(200).json({batchId: gisData?.rowId}).end();
+  } 
+  
+  return res.status(400).json({error: 'failed to save Gis data in DB'}).end();
 });
 
 export const config = {

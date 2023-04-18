@@ -1,7 +1,7 @@
 import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
-import { useCreateConditionalApprovalMutation } from 'schema/mutations/project/createConditionalApproval';
+import { useSubmitConditionalApprovalMutation } from 'schema/mutations/project/submitConditionalApproval';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import StyledStatus from './StyledStatus';
@@ -62,12 +62,16 @@ const ConditionalApprovalModal: React.FC<Props> = ({
   setIsFormEditMode,
   setOldFormData,
 }) => {
-  const [createConditionalApproval] = useCreateConditionalApprovalMutation();
+  const [submitConditionalApproval] = useSubmitConditionalApprovalMutation();
 
   const handleSave = async () => {
-    createConditionalApproval({
+    submitConditionalApproval({
       variables: {
-        input: { _applicationId: rowId, _jsonData: formData },
+        input: {
+          _applicationId: rowId,
+          _jsonData: formData,
+          newApplicationStatus: newFormStatus,
+        },
       },
       onCompleted: () => {
         setOldFormData();

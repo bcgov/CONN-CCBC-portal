@@ -55,7 +55,7 @@ describe('The GIS import', () => {
 
     mocked(performQuery).mockImplementation(async () => {
       return {
-        data: {},
+        data: { createGisData: {gisData:{rowId:1}}}
       };
     });
 
@@ -80,7 +80,7 @@ describe('The GIS import', () => {
 
     mocked(performQuery).mockImplementation(async () => {
       return {
-        data: {},
+        data: { createGisData: {gisData:{rowId:1}}}
       };
     });
 
@@ -106,7 +106,7 @@ describe('The GIS import', () => {
 
     mocked(performQuery).mockImplementation(async () => {
       return {
-        data: {},
+        data: { createGisData: {gisData:{rowId:1}}}
       };
     });
 

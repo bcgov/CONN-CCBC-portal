@@ -11,9 +11,7 @@ declare
   new_application_rfi_id int;
   new_rfi_number varchar(1000);
 begin
--- use regexp to isolate the final digits of the RFI, and get the max unless there are none then it's 0
-  select 1 + coalesce(max(cast(substring(rd.rfi_number from '^.*-(\d+)$') as integer)),0) into new_rfi_id from ccbc_public.application_rfi_data as ard, ccbc_public.rfi_data as rd
-   where ard.application_id=application_row_id and ard.rfi_data_id = rd.id and rd.archived_at is null ;
+  select 1 + count(*) into new_rfi_id from ccbc_public.application_rfi_data where application_id=application_row_id;
   select CONCAT(ccbc_number,'-',new_rfi_id) into new_rfi_number from ccbc_public.application where id=application_row_id;
 
 

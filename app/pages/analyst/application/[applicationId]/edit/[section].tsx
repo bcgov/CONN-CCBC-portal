@@ -94,6 +94,11 @@ const EditApplication = ({
       },
     });
   };
+
+  const triggerModal = () => {
+    window.location.hash = '#change-modal';
+  };
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
@@ -105,7 +110,7 @@ const EditApplication = ({
           onChange={handleChange}
           schema={sectionSchema}
           uiSchema={uiSchema[sectionName]}
-          onSubmit={handleSubmit}
+          onSubmit={triggerModal}
           noValidate
         >
           <button
@@ -136,7 +141,7 @@ const EditApplication = ({
         </FormBase>
 
         <ChangeModal
-          onSave={() => hiddenSubmitRef.current.click()}
+          onSave={handleSubmit}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setChangeReason(e.target.value)
           }

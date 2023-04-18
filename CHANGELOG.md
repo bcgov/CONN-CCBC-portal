@@ -1,3 +1,82 @@
+# [1.60.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.59.2...v1.60.0) (2023-04-18)
+
+### Bug Fixes
+
+- new line in the end of sqitch.plan ([b18e252](https://github.com/bcgov/CONN-CCBC-portal/commit/b18e2527256780ad04966f3142a17280610c6a6d))
+- refactor how to get largest rfi number ([855abfb](https://github.com/bcgov/CONN-CCBC-portal/commit/855abfbb28ab94951905412e34b71e9be5f742df))
+- reset deploy to main branch only ([bc0af76](https://github.com/bcgov/CONN-CCBC-portal/commit/bc0af761eaf9acbfa46128a79af7a2018d19e448))
+- updated dependency ([055df0f](https://github.com/bcgov/CONN-CCBC-portal/commit/055df0f4730a256e99439d2e77e6a74c2d29e6e8))
+
+### Features
+
+- archive application status ([a80f357](https://github.com/bcgov/CONN-CCBC-portal/commit/a80f357b866baaf34e361374e3dafbf6a00e4baa))
+
+## [1.59.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.59.1...v1.59.2) (2023-04-17)
+
+### Bug Fixes
+
+- omit archive_status DB changes ([65eca53](https://github.com/bcgov/CONN-CCBC-portal/commit/65eca53305253beca0dd16a26c2ae71e9e0a34c3))
+- remove unneded test ([f9c54bf](https://github.com/bcgov/CONN-CCBC-portal/commit/f9c54bf2172b566681f47439e30bcb28d06b8606))
+- rollback deploy for all branches ([9bf4145](https://github.com/bcgov/CONN-CCBC-portal/commit/9bf4145d0b36b47fdba153b732a33d45cff9362e))
+- updated schema ([aa30fa0](https://github.com/bcgov/CONN-CCBC-portal/commit/aa30fa070d3eba900f0c302dfefa9d2cf41dfc8a))
+- updated test ([aabe089](https://github.com/bcgov/CONN-CCBC-portal/commit/aabe08993f5e01ce30c35bdb428c0877154a7a5d))
+
+## [1.59.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.59.0...v1.59.1) (2023-04-14)
+
+### Bug Fixes
+
+- history_item index migration error ([4eafa7e](https://github.com/bcgov/CONN-CCBC-portal/commit/4eafa7e5128a91c0730e96a3c526d43147ab6206))
+
+# [1.59.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.58.0...v1.59.0) (2023-04-14)
+
+### Bug Fixes
+
+- added more tests ([f5e3a6e](https://github.com/bcgov/CONN-CCBC-portal/commit/f5e3a6ed3b326455d582548126e5d1e82f45944d))
+- build schema ([abc21b8](https://github.com/bcgov/CONN-CCBC-portal/commit/abc21b8610d89771f7cc651b0d97ccb3d3feb478))
+- code cleanup ([0626190](https://github.com/bcgov/CONN-CCBC-portal/commit/06261909b681d9d3ee77b8c67ab1e71f964de5e9))
+- duplicate sqitch record ([ddbf724](https://github.com/bcgov/CONN-CCBC-portal/commit/ddbf724ed434c96b1171ee901318c86c6b49f005))
+- minor cleanup ([9c48ae3](https://github.com/bcgov/CONN-CCBC-portal/commit/9c48ae3ae85b492949c9278e173738738c093305))
+- refactor upsert_archive_trigger ([875a64f](https://github.com/bcgov/CONN-CCBC-portal/commit/875a64f924a51bd6921f759c490944242061be5e))
+- remove console.log ([08d6da4](https://github.com/bcgov/CONN-CCBC-portal/commit/08d6da451eac618fa1f9c0c13deff603607e14e2))
+- removed stringify/parse hack ([bdab55d](https://github.com/bcgov/CONN-CCBC-portal/commit/bdab55d6dc05c7ad7a3f17e3793d071aaa6738eb))
+- rollback unneeded changes ([d2d82ba](https://github.com/bcgov/CONN-CCBC-portal/commit/d2d82baa75b8591b97d20d0445d86e76a0bea716))
+- **test:** change from status to analystStatus for tests ([d8530ff](https://github.com/bcgov/CONN-CCBC-portal/commit/d8530ff8aec8c203d19fdbd50548268e029d45cd))
+- **test:** update test for project.test.tsx ([6154931](https://github.com/bcgov/CONN-CCBC-portal/commit/6154931f66ce626fa8f7c598aa3c164f9f234c6f))
+- trigger modal on default submit ([ef03c66](https://github.com/bcgov/CONN-CCBC-portal/commit/ef03c66e86046032a61740db8b894d8694339168))
+- updated parse_gis_data to return list of missing ccbc_numbers ([01b4f9c](https://github.com/bcgov/CONN-CCBC-portal/commit/01b4f9c97e609f9d34bd48010881893eb893922e))
+- updated pgtap tests ([7242c07](https://github.com/bcgov/CONN-CCBC-portal/commit/7242c076c34ec26ebdb7b8323de8a82e1a5accfb))
+- updated schema ([0b957af](https://github.com/bcgov/CONN-CCBC-portal/commit/0b957afc1465fd49eb7cd7092eba714387bf556b))
+- updated schema ([38fd58f](https://github.com/bcgov/CONN-CCBC-portal/commit/38fd58f9e56838ebde7680570da67da177d6ccc2))
+- updated schema after rebase ([3b35cbf](https://github.com/bcgov/CONN-CCBC-portal/commit/3b35cbfbc32112b343d9a8100259e88630560da7))
+- updated schema after rebase ([919b9f9](https://github.com/bcgov/CONN-CCBC-portal/commit/919b9f9ec1e669b80b0fcc351112b1d5a0f0bd72))
+- updated tests ([9364a5e](https://github.com/bcgov/CONN-CCBC-portal/commit/9364a5efa81efe945cce13379d72f64ed8483fab))
+
+### Features
+
+- add visible_by_analyst to application status type ([5c9a292](https://github.com/bcgov/CONN-CCBC-portal/commit/5c9a292e36aece45a4ccbdb8f3a8dd46f5a5cb41))
+- added application_gis_data table ([2601cd3](https://github.com/bcgov/CONN-CCBC-portal/commit/2601cd3a39a55e65b869701edf9c0004ed2d0421))
+- added archive columns and backfill ([54edbc9](https://github.com/bcgov/CONN-CCBC-portal/commit/54edbc9aff1494000832ffa8465bb5591c2692ef))
+- added parse_gis_data mutation ([8df1bfa](https://github.com/bcgov/CONN-CCBC-portal/commit/8df1bfafc00ae70d8ed7643367c8e3f5db7d318d))
+- added trigger on insert to archive old records ([7dc26e9](https://github.com/bcgov/CONN-CCBC-portal/commit/7dc26e9c597c333a1e25575898b35dcae691b169))
+- added trigger set_archived ([a12495e](https://github.com/bcgov/CONN-CCBC-portal/commit/a12495ef6704bd0c13cc6bb952aca5d09337421c))
+- computed column for external status ([5b5cc62](https://github.com/bcgov/CONN-CCBC-portal/commit/5b5cc623cd15e041694d3d1aaf10aa5863d1fc86))
+- custom submit for conditional approval ([12ae879](https://github.com/bcgov/CONN-CCBC-portal/commit/12ae879fe42f3fa4abde45550e246e58e98d462a))
+- frontend logic for saving ([6a36c18](https://github.com/bcgov/CONN-CCBC-portal/commit/6a36c1868775975ec8e78345f6c6b2958a186923))
+- on analyst side view only analyst status ([1edd442](https://github.com/bcgov/CONN-CCBC-portal/commit/1edd442b128fc4f53f06968feb260bde7b3e3328))
+- show external status ([fa285cd](https://github.com/bcgov/CONN-CCBC-portal/commit/fa285cd31f63d34dae52d5aef4ec61148303ca2a))
+
+# [1.58.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.57.2...v1.58.0) (2023-04-12)
+
+### Bug Fixes
+
+- **test:** use mocks for creating rfi ([abd017e](https://github.com/bcgov/CONN-CCBC-portal/commit/abd017e879f1768ffc50d254b16bb4a9b2ae5f9a))
+
+### Features
+
+- change enum wording ([1f81789](https://github.com/bcgov/CONN-CCBC-portal/commit/1f81789460368beead7014b7d397505fe7ed8797))
+- filter out archived RFI IDs ([1df5c9b](https://github.com/bcgov/CONN-CCBC-portal/commit/1df5c9b35896b4fd908abafb75cc81b11ec7b7a4))
+- use new enum text for key ([3641a21](https://github.com/bcgov/CONN-CCBC-portal/commit/3641a21413d561bcbb2577fcc96d7068dfa8569b))
+
 ## [1.57.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.57.1...v1.57.2) (2023-04-05)
 
 ## [1.57.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.57.0...v1.57.1) (2023-04-05)
