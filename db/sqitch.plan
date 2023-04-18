@@ -265,3 +265,4 @@ backfill_archived_statuses 2023-04-17T23:53:23Z ,,, Vladimir <vladimir@button.is
 trigger_functions/set_archived 2023-04-17T23:55:02Z ,,, Vladimir <vladimir@button.is> # add set_archived trigger
 util_functions/upsert_archive_trigger 2023-04-17T23:56:44Z ,,, Vladimir <vladimir@button.is> # add upsert_archive_trigger
 tables/application_status_003_archive_trigger 2023-04-17T23:57:32Z ,,, Vladimir <vladimir@button.is> # add changes to application_status table
+mutations/create_rfi [mutations/create_rfi@1.59.1] 2023-04-17T22:32:48Z Anthony Bushara <anthony@button.is> # Rework to no longer use the count
