@@ -278,3 +278,7 @@ tables/ccbc_user_004_add_external_analyst 2023-04-19T23:06:12Z Marcel Mueller <m
 mutations/create_user_from_session [mutations/create_user_from_session@1.61.0] 2023-04-19T23:13:17Z Marcel Mueller <marcel@m2.local> # update for external_analyst
 tables/history_item_001_add_external_analyst 2023-04-19T23:15:09Z Marcel Mueller <marcel@m2.local> # add external_analyst column
 computed_columns/application_history [computed_columns/application_history@1.61.0] 2023-04-19T23:19:30Z Marcel Mueller <marcel@m2.local> # add support for external_analyst
+tables/announcement 2023-04-20T21:39:01Z ,,, Vladimir <vladimir@button.is> # add table announcement
+tables/application_announcement 2023-04-20T21:39:28Z ,,, Vladimir <vladimir@button.is> # add table application_announcement
+mutations/create_announcement 2023-04-20T21:41:18Z ,,, Vladimir <vladimir@button.is> # add mutation create_announcement
+
