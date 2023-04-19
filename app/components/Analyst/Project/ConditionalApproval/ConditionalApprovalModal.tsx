@@ -1,6 +1,7 @@
 import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
+import formatStatus from 'utils/formatStatus';
 import { useSubmitConditionalApprovalMutation } from 'schema/mutations/project/submitConditionalApproval';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -44,6 +45,7 @@ const StyledHeader = styled(Modal.Header)`
 `;
 
 interface Props {
+  applicationStoreId: string;
   rowId: number;
   formData: any;
   newFormStatus: string;
@@ -54,6 +56,7 @@ interface Props {
 }
 
 const ConditionalApprovalModal: React.FC<Props> = ({
+  applicationStoreId,
   rowId,
   formData,
   newFormStatus,
@@ -76,6 +79,11 @@ const ConditionalApprovalModal: React.FC<Props> = ({
       onCompleted: () => {
         setOldFormData();
         setIsFormEditMode();
+      },
+      updater: (store) => {
+        store
+          .get(applicationStoreId)
+          .setValue(formatStatus(newFormStatus), 'externalStatus');
       },
     });
   };

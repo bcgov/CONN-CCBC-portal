@@ -24,6 +24,7 @@ const getProjectQuery = graphql`
       sub
     }
     applicationByRowId(rowId: $rowId) {
+      id
       rowId
       conditionalApproval {
         id
@@ -39,7 +40,7 @@ const Project = ({
 }: RelayProps<Record<string, unknown>, projectQuery>) => {
   const query = usePreloadedQuery(getProjectQuery, preloadedQuery);
   const {
-    applicationByRowId: { rowId, conditionalApproval },
+    applicationByRowId: { id, rowId, conditionalApproval },
     session,
   } = query;
 
@@ -88,6 +89,7 @@ const Project = ({
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <ConditionalApprovalModal
+          applicationStoreId={id}
           rowId={rowId}
           formData={newFormData}
           newFormStatus={newFormStatus}
