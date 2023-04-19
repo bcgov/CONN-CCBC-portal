@@ -13,7 +13,7 @@ $$;
 select ccbc_private.upsert_policy('ccbc_archiver_update_application_status',
   'application_status', 'update', 'ccbc_archiver', '(true)');
 
-select ccbc_private.upsert_policy('ccbc_archiver_update_application_status',
+select ccbc_private.upsert_policy('ccbc_archiver_select_application_status',
   'application_status', 'select', 'ccbc_archiver', '(true)');
 
 commit;
