@@ -89,8 +89,7 @@ const Project = ({
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <ConditionalApprovalModal
-          applicationByRowId={query.applicationByRowId}
-          applicationId={id}
+          applicationStoreId={id}
           rowId={rowId}
           formData={newFormData}
           newFormStatus={newFormStatus}

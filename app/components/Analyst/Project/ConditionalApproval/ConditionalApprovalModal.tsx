@@ -45,7 +45,7 @@ const StyledHeader = styled(Modal.Header)`
 `;
 
 interface Props {
-  applicationId: string;
+  applicationStoreId: string;
   rowId: number;
   formData: any;
   newFormStatus: string;
@@ -56,7 +56,7 @@ interface Props {
 }
 
 const ConditionalApprovalModal: React.FC<Props> = ({
-  applicationId,
+  applicationStoreId,
   rowId,
   formData,
   newFormStatus,
@@ -82,7 +82,7 @@ const ConditionalApprovalModal: React.FC<Props> = ({
       },
       updater: (store) => {
         store
-          .get(applicationId)
+          .get(applicationStoreId)
           .setValue(formatStatus(newFormStatus), 'externalStatus');
       },
     });
