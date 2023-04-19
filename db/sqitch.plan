@@ -276,3 +276,4 @@ tables/ccbc_user_003_grant_archiver_select_permission 2023-04-19T15:15:38Z Antho
 @1.61.0 2023-04-19T17:42:53Z Anthony Bushara <anthony@button.is> # release v1.61.0
 tables/ccbc_user_004_add_external_analyst 2023-04-19T23:06:12Z Marcel Mueller <marcel@m2.local> # Add column external_analyst
 mutations/create_user_from_session [mutations/create_user_from_session@1.61.0] 2023-04-19T23:13:17Z Marcel Mueller <marcel@m2.local> # update for external_analyst
+tables/history_item_001_add_external_analyst 2023-04-19T23:15:09Z Marcel Mueller <marcel@m2.local> # add external_analyst column
