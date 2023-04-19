@@ -1,3 +1,17 @@
+# [1.61.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.60.0...v1.61.0) (2023-04-19)
+
+### Bug Fixes
+
+- replace schemaspy snapshot tag with latest ([a3b7e50](https://github.com/bcgov/CONN-CCBC-portal/commit/a3b7e502ad70147cae31e5b4fbecded753354bbf))
+
+### Features
+
+- add archiver to public schema ([9858c97](https://github.com/bcgov/CONN-CCBC-portal/commit/9858c9797fd38b300be181e38d172bc27f7a550a))
+- add policy for application_status with archiver ([bed52ab](https://github.com/bcgov/CONN-CCBC-portal/commit/bed52ab4535ef40822fc2386b8b0a724059af794))
+- change trigger to use archiver ([8ba86af](https://github.com/bcgov/CONN-CCBC-portal/commit/8ba86af955bbc2538f0c67f29065e6ca09e5edd5))
+- create role for archiver ([73b9a68](https://github.com/bcgov/CONN-CCBC-portal/commit/73b9a681ead138177d4a41963ac0696e94639688))
+- update relay store for external status change ([71a7af7](https://github.com/bcgov/CONN-CCBC-portal/commit/71a7af7c59591c5bea55f8520bb3b43c47ab09ca))
+
 # [1.60.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.59.2...v1.60.0) (2023-04-18)
 
 ### Bug Fixes
