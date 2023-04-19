@@ -27,6 +27,7 @@ const getAuthRole = (req: Request) => {
   const roles = req.claims.client_roles as any;
   const isAdmin = roles?.includes('admin');
   const isAnalyst = roles?.includes('analyst');
+
   if (idp === 'idir') {
     if (isAdmin) {
       return {
@@ -45,6 +46,14 @@ const getAuthRole = (req: Request) => {
       landingRoute: '/analyst/request-access',
     };
   }
+
+  if (idp === 'bceidbusiness' && isAnalyst) {
+    return {
+      pgRole: 'ccbc_analyst',
+      landingRoute: defaultLandingRoutes.ccbc_analyst,
+    };
+  }
+
   return {
     pgRole: 'ccbc_auth_user',
     landingRoute: defaultLandingRoutes.ccbc_auth_user,
