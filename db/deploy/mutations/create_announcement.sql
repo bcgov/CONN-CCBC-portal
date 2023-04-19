@@ -1,8 +1,9 @@
--- Deploy ccbc:mutations/create_announcement to pg
-
+-- Deploy ccbc:mutations/create_announcement_record to pg
+-- named create_announcement_record to avoid GraphQL error
+-- A type naming conflict has occurred - two entities have tried to define the same type 'CreateAnnouncementPayload'
 begin;
 
-create or replace function ccbc_public.create_announcement(project_numbers varchar, json_data jsonb, old_row_id int)
+create or replace function ccbc_public.create_announcement_record(project_numbers varchar, json_data jsonb, old_row_id int)
 returns ccbc_public.announcement
 as $function$
 declare
@@ -33,7 +34,7 @@ begin
 end;
 $function$ language plpgsql strict volatile;
 
-grant execute on function ccbc_public.create_announcement to ccbc_analyst;
-grant execute on function ccbc_public.create_announcement to ccbc_admin;
+grant execute on function ccbc_public.create_announcement_record to ccbc_analyst;
+grant execute on function ccbc_public.create_announcement_record to ccbc_admin;
 
 commit;
