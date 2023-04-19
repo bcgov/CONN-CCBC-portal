@@ -23,7 +23,7 @@ const mockQueryPayload = {
             node: {
               id: '1',
               rowId: 1,
-              status: 'received',
+              analystStatus: 'received',
               projectName: 'Test Proj Name',
               ccbcNumber: 'CCBC-010001',
               organizationName: 'Test Org Name',
@@ -34,7 +34,7 @@ const mockQueryPayload = {
             node: {
               id: '2',
               rowId: 2,
-              status: 'approved',
+              analystStatus: 'approved',
               projectName: 'Test Proj Name 2',
               ccbcNumber: 'CCBC-010002',
               organizationName: 'Test Org Name 2',
@@ -45,7 +45,7 @@ const mockQueryPayload = {
             node: {
               id: '3',
               rowId: 3,
-              status: 'cancelled',
+              analystStatus: 'cancelled',
               projectName: 'Test Proj Name 3',
               ccbcNumber: 'CCBC-010003',
               organizationName: 'Test Org Name 3',
@@ -56,7 +56,7 @@ const mockQueryPayload = {
             node: {
               id: '4',
               rowId: 4,
-              status: 'assessment',
+              analystStatus: 'assessment',
               projectName: 'Test Proj Name 4',
               ccbcNumber: 'CCBC-010004',
               organizationName: 'Test Org Name 4',

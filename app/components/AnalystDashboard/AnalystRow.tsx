@@ -71,7 +71,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
   const {
     analystLead,
     rowId,
-    status,
+    analystStatus,
     package: applicationPackage,
     projectName,
     ccbcNumber,
@@ -81,7 +81,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
     graphql`
       fragment AnalystRow_application on Application {
         rowId
-        status
+        analystStatus
         analystLead
         package
         projectName
@@ -104,7 +104,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
       <StyledIntakeNumberCell>{intakeNumber}</StyledIntakeNumberCell>
       <StyledCcbdIdCell>{ccbcNumber}</StyledCcbdIdCell>
       <StyledStatusCell>
-        <StatusPill status={status} styles={statusStyles} />
+        <StatusPill status={analystStatus} styles={statusStyles} />
       </StyledStatusCell>
       <StyledProjectNameCell>{projectName}</StyledProjectNameCell>
       <StyledOrganizationNameCell>
