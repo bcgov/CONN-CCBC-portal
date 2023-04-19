@@ -12,6 +12,8 @@ create index application_announcement_announcement_id_idx on ccbc_public.applica
 
 create index application_announcement_application_id_idx on ccbc_public.application_announcement(application_id);
 
+select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_announcement');
+
 -- Enable row-level security
 alter table ccbc_public.application_announcement force row level security;
 alter table ccbc_public.application_announcement enable row level security;

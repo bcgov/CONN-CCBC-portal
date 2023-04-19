@@ -8,6 +8,10 @@ create table ccbc_public.announcement(
   json_data jsonb not null default '{}'::jsonb
 );
 
+select ccbc_private.upsert_timestamp_columns('ccbc_public', 'announcement');
+grant usage, select on sequence ccbc_public.announcement_id_seq to ccbc_analyst;
+grant usage, select on sequence ccbc_public.announcement_id_seq to ccbc_admin;
+
 -- Enable row-level security
 alter table ccbc_public.announcement force row level security;
 alter table ccbc_public.announcement enable row level security;
