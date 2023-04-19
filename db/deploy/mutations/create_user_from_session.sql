@@ -8,14 +8,19 @@ as $function$
 declare
   jwt ccbc_public.keycloak_jwt;
   result ccbc_public.ccbc_user;
+  is_external_analyst boolean;
 begin
   select * from ccbc_public.session() into jwt;
 
-  if ((select count(*) from ccbc_public.ccbc_user where session_sub = jwt.sub) = 0) then
-    insert into ccbc_public.ccbc_user(session_sub, given_name, family_name, email_address)
-    values (jwt.sub, jwt.given_name, jwt.family_name, jwt.email);
-  end if;
+  select true into is_external_analyst
+  where jwt.identity_provider = 'bceidbusiness' and jwt.auth_role = 'ccbc_analyst';
 
+  if ((select count(*) from ccbc_public.ccbc_user where session_sub = jwt.sub) = 0) then
+    insert into ccbc_public.ccbc_user(session_sub, given_name, family_name, email_address, external_analyst)
+    values (jwt.sub, jwt.given_name, jwt.family_name, jwt.email, is_external_analyst);
+  elseif is_external_analyst = true then
+    update ccbc_public.ccbc_user set external_analyst = true where session_sub = jwt.sub;
+  end if;
 
   select * from ccbc_public.ccbc_user where session_sub = jwt.sub into result;
   return result;
