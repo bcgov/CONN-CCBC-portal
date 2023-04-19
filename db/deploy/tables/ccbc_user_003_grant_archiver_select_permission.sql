@@ -8,7 +8,7 @@ $$
 begin
 
 perform ccbc_private.grant_permissions('select', 'ccbc_user', 'ccbc_archiver');
--- perform ccbc_private.grant_permissions('select', 'application_status', 'ccbc_admin');
+perform ccbc_private.upsert_policy('ccbc_archiver_select_ccbc_user', 'ccbc_user', 'select', 'ccbc_archiver', '(true)');
 
 end
 $$;
