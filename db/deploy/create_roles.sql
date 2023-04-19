@@ -54,8 +54,16 @@ begin
     create user ccbc_app;
   end if;
 
+  if not exists (
+    select true
+    from pg_catalog.pg_roles
+    where rolname = 'ccbc_archiver') then
 
-  grant ccbc_guest, ccbc_auth_user, ccbc_job_executor, ccbc_analyst, ccbc_admin to ccbc_app;
+    create user ccbc_archiver;
+  end if;
+
+
+  grant ccbc_guest, ccbc_auth_user, ccbc_job_executor, ccbc_analyst, ccbc_admin, ccbc_archiver to ccbc_app;
   execute format('grant create, connect on database %I to ccbc_app', current_database());
 
 end

@@ -267,3 +267,9 @@ util_functions/upsert_archive_trigger 2023-04-17T23:56:44Z ,,, Vladimir <vladimi
 tables/application_status_003_archive_trigger 2023-04-17T23:57:32Z ,,, Vladimir <vladimir@button.is> # add changes to application_status table
 mutations/create_rfi [mutations/create_rfi@1.59.1] 2023-04-17T22:32:48Z Anthony Bushara <anthony@button.is> # Rework to no longer use the count
 @1.60.0 2023-04-18T16:11:47Z Anthony Bushara <anthony@button.is> # release v1.60.0
+create_roles [create_roles@1.60.0] 2023-04-19T12:35:54Z Anthony Bushara <anthony@button.is> # Add role for trigger function that gives it update permission on all statuses
+tables/application_status_004_archiver_role_permissions 2023-04-19T13:00:16Z Anthony Bushara <anthony@button.is> # give archiver role permissions for the application_status stable
+schemas/public [schemas/public@1.60.0] 2023-04-19T13:25:08Z Anthony Bushara <anthony@button.is> # Add ccbc_archiver to schema
+trigger_functions/set_archived [trigger_functions/set_archived@1.60.0] 2023-04-19T13:15:14Z Anthony Bushara <anthony@button.is> # Use new archiver role rather than postgres
+functions/session [functions/session@1.60.0] 2023-04-19T15:08:12Z Anthony Bushara <anthony@button.is> # Add ccbc_archiver to use session function
+tables/ccbc_user_003_grant_archiver_select_permission 2023-04-19T15:15:38Z Anthony Bushara <anthony@button.is> # grants the archiver select permission to ccbc_archiver

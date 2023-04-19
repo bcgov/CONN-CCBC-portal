@@ -4,7 +4,7 @@ select plan(6);
 
 truncate table
   ccbc_public.application,
-  ccbc_public.intake, 
+  ccbc_public.intake,
   ccbc_public.ccbc_user
 restart identity cascade;
 
@@ -40,10 +40,14 @@ create table ccbc_public.test_table_all (
   archived_by int references ccbc_public.ccbc_user
 );
 
+grant select, update on ccbc_public.test_table_all to ccbc_archiver;
+
 create table ccbc_public.test_table_no_app_id (
   id integer primary key generated always as identity,
   test_name varchar(1000)
 );
+
+grant select, update on ccbc_public.test_table_no_app_id to ccbc_archiver;
 
 select ccbc_private.upsert_timestamp_columns(
   table_schema_name => 'ccbc_public',
