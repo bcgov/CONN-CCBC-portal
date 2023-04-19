@@ -1,6 +1,38 @@
 import { JSONSchema7 } from 'json-schema';
 import { useMemo } from 'react';
+import styled from 'styled-components';
 import gisSchema from '../../../backend/lib/gis-schema.json';
+
+const Table = styled.table`
+  border-collapse: collapse;
+`;
+
+const TableRow = styled.tr`
+  border: 1px solid #d6d6d6;
+`;
+
+const TableCell = styled.td`
+  border: 1px solid #d6d6d6;
+
+  &:first-child {
+    padding-left: ${(props) => props.theme.spacing.small};
+  }
+  &:last-child {
+    padding-right: ${(props) => props.theme.spacing.small};
+  }
+`;
+
+const TableHeader = styled.th`
+  border: 1px solid #d6d6d6;
+
+  &:first-child {
+    padding-left: ${(props) => props.theme.spacing.small};
+  }
+
+  &:last-child {
+    padding-right: ${(props) => props.theme.spacing.small};
+  }
+`;
 
 export function getKeysFromSchema(jsonSchema: JSONSchema7) {
   const items = jsonSchema.items as JSONSchema7;
@@ -20,24 +52,28 @@ const GisTable: React.FunctionComponent<GisTableProps> = ({
     return getKeysFromSchema(gisSchema as JSONSchema7);
   }, []);
   return (
-    <table>
+    <Table>
       <thead>
         {columns.map((cellHeader) => (
-          <th key={cellHeader}>{cellHeader}</th>
+          <TableHeader key={cellHeader}>{cellHeader}</TableHeader>
         ))}
       </thead>
       <tbody>
         {data.slice(0, numPreview).map((row) => {
           return (
-            <tr key={row.ccbc_id}>
+            <TableRow key={row.ccbc_id}>
               {columns.map((column) => {
-                return <td key={`${row.ccbc_id}_${column}`}>{row[column]}</td>;
+                return (
+                  <TableCell key={`${row.ccbc_id}_${column}`}>
+                    {row[column]}
+                  </TableCell>
+                );
               })}
-            </tr>
+            </TableRow>
           );
         })}
       </tbody>
-    </table>
+    </Table>
   );
 };
 

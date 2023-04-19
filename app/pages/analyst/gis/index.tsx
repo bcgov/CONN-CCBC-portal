@@ -96,7 +96,7 @@ const validateFile = (file: globalThis.File) => {
 
 const GisTab = () => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
-  const [selectedFile, setSelectedFile] = useState(); 
+  const [selectedFile, setSelectedFile] = useState();
   const [error, setError] = useState('');
 
   const changeHandler = (event) => {
@@ -108,7 +108,7 @@ const GisTab = () => {
       return;
     }
     setError('');
-    setSelectedFile(event.target.files[0]); 
+    setSelectedFile(event.target.files[0]);
   };
 
   const handleClick = () => {
@@ -119,24 +119,37 @@ const GisTab = () => {
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-    await fetch('/api/analyst/gis', {
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        if (result === 'done') {
-          // [TODO] change to proper handling
-          alert('This is a valid file. You can proceed.'); 
-        }
-        if (result.errors) {
-          // [TODO] change to proper handling
-          alert(`Validation failed: ${JSON.stringify(result.errors)}`);
-        }
-      })
-      .catch((fetch_error) => {
-        alert(fetch_error);
+    try {
+      const response = await fetch('/api/analyst/gis', {
+        method: 'POST',
+        body: formData,
       });
+      const result = await response.json();
+      if (result !== 'done') {
+        setError(result.errors);
+      } else {
+        // some code to move to preview
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      // move to anarchy
+    }
+
+    // .then((response) => response.json())
+    // .then((result) => {
+    //   if (result === 'done') {
+    //     // [TODO] change to proper handling
+    //     alert('This is a valid file. You can proceed.');
+    //   }
+    //   if (result.errors) {
+    //     // [TODO] change to proper handling
+    //     alert(`Validation failed: ${JSON.stringify(result.errors)}`);
+    //   }
+    // })
+    // .catch((fetch_error) => {
+    //   alert(fetch_error);
+    // });
   };
 
   return (
@@ -146,11 +159,9 @@ const GisTab = () => {
         Import a JSON of the GIS analysis for one or more applications
       </strong>
       <StyledFileDiv>
-        <strong>
-          JSON of GIS analysis
-        </strong>
+        <strong>JSON of GIS analysis</strong>
         <StyledButton
-          id='json-upload-btn'
+          id="json-upload-btn"
           onClick={(e: React.MouseEvent<HTMLInputElement>) => {
             e.preventDefault();
             handleClick();
@@ -178,7 +189,6 @@ const GisTab = () => {
     </div>
   );
 };
-
 
 const UploadJSON = ({
   preloadedQuery,
