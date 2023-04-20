@@ -25,10 +25,11 @@ begin
   -- split project_numbers into ccbc_numbers and insert into ccbc_public.application_announcement
   insert into  ccbc_public.application_announcement (announcement_id, application_id)
   select new_row_id, id from ccbc_public.application where ccbc_number 
-    in (select ccbc_number from unnest(string_to_array(project_numbers, ',')) ccbc_number);
+    in (select ccbc_number from unnest(string_to_array(project_numbers, ',')) ccbc_number group by ccbc_number);
 
   if old_row_id <> -1 then
     update ccbc_public.announcement set archived_at = now(), archived_by = user_id where id = old_row_id;
+    update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id where announcement_id = old_row_id;
   end if;
 
   select * from ccbc_public.announcement where id=new_row_id into result;

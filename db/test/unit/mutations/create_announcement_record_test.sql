@@ -1,6 +1,6 @@
 begin;
 
-select plan(6);
+select plan(7);
 
 truncate table
   ccbc_public.application,
@@ -78,8 +78,8 @@ select results_eq(
   'Should not be any archived records in announcement table'
 );
 
--- update announcement
-select ccbc_public.create_announcement_record('CCBC-010001,CCBC-010002','{}'::jsonb, 1);
+-- update announcement with same project numbers
+select ccbc_public.create_announcement_record('CCBC-010001,CCBC-010002,CCBC-010001','{}'::jsonb, 1);
 
 select results_eq(
   $$
@@ -100,6 +100,17 @@ select results_eq(
   $$,
   'Updated application should have archived_at = null in announcement table'
 );
+
+select results_eq(
+  $$
+    select count(*) from ccbc_public.application_announcement where archived_at is not null and application_id=1;
+  $$,
+  $$
+    values(1::bigint);
+  $$,
+  'Only one record should be added if same ccbc number submitted twice'
+);
+
 
 select finish();
 rollback;

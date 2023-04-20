@@ -26,8 +26,10 @@ $grant$
 begin
 perform ccbc_private.grant_permissions('select', 'application_announcement', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('insert', 'application_announcement', 'ccbc_analyst');
+perform ccbc_private.grant_permissions('update', 'application_announcement', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('select', 'application_announcement', 'ccbc_admin');
 perform ccbc_private.grant_permissions('insert', 'application_announcement', 'ccbc_admin'); 
+perform ccbc_private.grant_permissions('update', 'application_announcement', 'ccbc_admin');
 
 end
 $grant$;
@@ -41,6 +43,8 @@ perform ccbc_private.upsert_policy('ccbc_analyst_insert_application_announcement
   'application_announcement', 'insert', 'ccbc_analyst', 'true');
 perform ccbc_private.upsert_policy('ccbc_analyst_select_application_announcement', 
   'application_announcement', 'select', 'ccbc_analyst', 'true');
+perform ccbc_private.upsert_policy('ccbc_analyst_update_application_announcement', 
+  'application_announcement', 'update', 'ccbc_analyst', 'true');
 
 -- same for admin
 
@@ -48,6 +52,8 @@ perform ccbc_private.upsert_policy('ccbc_admin_insert_application_announcement',
   'application_announcement', 'insert', 'ccbc_admin', 'true');
 perform ccbc_private.upsert_policy('ccbc_admin_select_application_announcement', 
   'application_announcement', 'select', 'ccbc_admin', 'true');
+perform ccbc_private.upsert_policy('ccbc_admin_update_application_announcement', 
+  'application_announcement', 'update', 'ccbc_admin', 'true');
 
 end
 $policy$;
