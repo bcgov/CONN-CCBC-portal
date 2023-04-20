@@ -5,6 +5,7 @@ import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import {
+  ApplicationGisData,
   AssessmentsTabs,
   AssessmentsForm,
 } from 'components/Analyst/Assessments';
@@ -19,6 +20,9 @@ const getGisAssessmentQuery = graphql`
       assessmentForm(_assessmentDataType: "gis") {
         jsonData
         createdAt
+      }
+      gisData {
+        jsonData
       }
     }
     session {
@@ -52,6 +56,9 @@ const GisAssessment = ({
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <AssessmentsTabs />
+        <ApplicationGisData
+          gisData={query.applicationByRowId.gisData?.jsonData}
+        />
         <AssessmentsForm
           addedContext={{ createdAt }}
           formData={applicationByRowId.assessmentForm?.jsonData}

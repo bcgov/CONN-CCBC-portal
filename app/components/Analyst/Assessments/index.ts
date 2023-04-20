@@ -1,3 +1,4 @@
+export { default as ApplicationGisData } from './ApplicationGisData';
 export { default as AssessmentsRow } from './AssessmentsRow';
 export { default as AssessmentsForm } from './AssessmentsForm';
 export { default as AssessmentsTable } from './AssessmentsTable';
