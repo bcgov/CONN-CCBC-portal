@@ -18,7 +18,9 @@ begin
   if ((select count(*) from ccbc_public.ccbc_user where session_sub = jwt.sub) = 0) then
     insert into ccbc_public.ccbc_user(session_sub, given_name, family_name, email_address, external_analyst)
     values (jwt.sub, jwt.given_name, jwt.family_name, jwt.email, is_external_analyst);
-  elseif is_external_analyst = true then
+  elseif
+    ((select external_analyst from ccbc_public.ccbc_user where session_sub = jwt.sub) is null)
+    and is_external_analyst = true then
     update ccbc_public.ccbc_user set external_analyst = true where session_sub = jwt.sub;
   end if;
 
