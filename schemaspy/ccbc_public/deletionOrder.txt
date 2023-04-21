@@ -2,6 +2,7 @@ history_item
 attachment
 assessment_data
 application_gis_data
+application_announcement
 application_analyst_lead
 conditional_approval_data
 application_package
@@ -12,6 +13,7 @@ form_data
 application_status
 rfi_data
 gis_data
+announcement
 analyst
 application
 intake

@@ -9,6 +9,7 @@ ccbc_user
 intake
 application
 analyst
+announcement
 gis_data
 rfi_data
 application_status
@@ -19,6 +20,7 @@ application_rfi_data
 application_package
 conditional_approval_data
 application_analyst_lead
+application_announcement
 application_gis_data
 assessment_data
 attachment
