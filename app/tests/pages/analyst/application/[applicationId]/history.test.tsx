@@ -38,6 +38,7 @@ const mockQueryPayload = {
               recordId: '5074afcc-87be-5d86-b3da-f0df836635b2',
               sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@bceidbasic',
               tableName: 'application',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -57,6 +58,7 @@ const mockQueryPayload = {
               recordId: '14777180-f013-5613-b413-a11c4fa67cad',
               sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@bceidbasic',
               tableName: 'application_status',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -76,6 +78,7 @@ const mockQueryPayload = {
               recordId: '174e38d8-646d-5fef-acad-8d08f8cad09c',
               sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@bceidbasic',
               tableName: 'application_status',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -95,6 +98,7 @@ const mockQueryPayload = {
               recordId: 'd96f936e-a01a-5a9a-b3bf-77f902847857',
               sessionSub: 'mockUser@ccbc_auth_user',
               tableName: 'application_status',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -114,6 +118,7 @@ const mockQueryPayload = {
               recordId: '7162d64b-6b89-505a-b9bc-29a047dcb26a',
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_status',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -133,6 +138,7 @@ const mockQueryPayload = {
               recordId: '667cf30e-51a5-5348-97ce-a78e8786edf0',
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_status',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -152,6 +158,7 @@ const mockQueryPayload = {
               recordId: '00b9677c-0d5f-5fc1-8481-1b2203b6e6d3',
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_status',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -171,6 +178,7 @@ const mockQueryPayload = {
               recordId: '3aed5763-8464-51ab-b686-28e0f32097f1',
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_status',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -190,6 +198,7 @@ const mockQueryPayload = {
               recordId: 'a3586616-c84c-5e36-b085-373d77817070',
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_status',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -209,6 +218,7 @@ const mockQueryPayload = {
               recordId: '38dbd2b8-7265-5a95-9d0a-ab654eac4492',
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_status',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -236,6 +246,7 @@ const mockQueryPayload = {
               recordId: 'cfe82d9a-fdfc-5ac6-9433-36d0c912c35c',
               sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@bceidbasic',
               tableName: 'attachment',
+              externalAnalyst: null,
             },
 
             {
@@ -260,6 +271,7 @@ const mockQueryPayload = {
               recordId: '5f47db93-e373-578e-97c7-e29b7c564c38',
               sessionSub: 'test-session-sub@idir',
               tableName: 'assessment_data',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -283,6 +295,7 @@ const mockQueryPayload = {
               recordId: 'ee151855-7281-53a5-a030-cd9a9e8c22b5',
               sessionSub: 'test-session-sub@idir',
               tableName: 'assessment_data',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -306,6 +319,7 @@ const mockQueryPayload = {
               recordId: 'b700cdce-1b3e-5a1b-a8f8-b2596395c84c',
               sessionSub: 'test-session-sub@idir',
               tableName: 'assessment_data',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -329,6 +343,7 @@ const mockQueryPayload = {
               recordId: 'f5926fb2-25e7-5c1c-b200-350af964cbbf',
               sessionSub: 'test-session-sub@idir',
               tableName: 'assessment_data',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -352,6 +367,7 @@ const mockQueryPayload = {
               recordId: '2d439cdb-ee31-5b91-b6db-cc8bc3fb0f63',
               sessionSub: 'test-session-sub@idir',
               tableName: 'assessment_data',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -375,6 +391,7 @@ const mockQueryPayload = {
               recordId: 'be57537b-1bcd-5620-b2ea-21f910cbb27e',
               sessionSub: 'test-session-sub@idir',
               tableName: 'assessment_data',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -398,6 +415,7 @@ const mockQueryPayload = {
               recordId: '25efae40-f000-591c-a43d-7ba95b807c06',
               sessionSub: 'test-session-sub@idir',
               tableName: 'assessment_data',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -421,6 +439,7 @@ const mockQueryPayload = {
               recordId: '7fac1fe1-27e6-5e03-a79a-f48208afd8f4',
               sessionSub: 'test-session-sub@idir',
               tableName: 'rfi_data',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -444,8 +463,8 @@ const mockQueryPayload = {
               recordId: '9a5795e4-ee20-591c-90b4-b795bb2b9cff',
               sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@bceidbasic',
               tableName: 'rfi_data',
+              externalAnalyst: null,
             },
-
             {
               applicationId: 6,
               createdAt: '2023-03-03T08:06:16.628756-08:00',
@@ -491,6 +510,7 @@ const mockQueryPayload = {
               recordId: '1410a060-5616-50cc-8792-5aa220a3346f',
               sessionSub: 'test-session-sub@idir',
               tableName: 'rfi_data',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -516,6 +536,7 @@ const mockQueryPayload = {
               recordId: 'a9702e4f-37b7-5915-998f-63449d26c500',
               sessionSub: 'test-session-sub@idir',
               tableName: 'form_data',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -538,6 +559,7 @@ const mockQueryPayload = {
               recordId: '47fa0d90-8d4e-554e-858d-5133495e2508',
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_package',
+              externalAnalyst: null,
             },
             {
               applicationId: 6,
@@ -560,6 +582,30 @@ const mockQueryPayload = {
               recordId: 'a0075805-9cf3-5ae0-b047-8ba47ffbf40f',
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_analyst_lead',
+              externalAnalyst: null,
+            },
+            {
+              applicationId: 6,
+              createdAt: '2023-03-06T09:24:44.034951-08:00',
+              familyName: 'Analyst',
+              item: 'External Analyst',
+              givenName: 'External',
+              op: 'INSERT',
+              record: {
+                id: 10,
+                analyst_id: 1,
+                created_at: '2023-03-06T09:24:44.034951-08:00',
+                created_by: 2,
+                updated_at: '2023-03-06T09:24:44.034951-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+                application_id: 6,
+              },
+              recordId: 'a0075805-9cf3-5ae0-b047-8ba47ffbf40f',
+              sessionSub: 'test-session-sub@bceidbusiness',
+              tableName: 'application_analyst_lead',
+              externalAnalyst: true,
             },
           ],
         },
@@ -696,9 +742,20 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getAllByTestId('history-content-analyst-lead')[0]
+      screen.getAllByTestId('history-content-analyst-lead')[1]
     ).toHaveTextContent(
       'Foo Bar assigned Lead to Foo Bar on Mar 6, 2023, 9:24 a.m.'
+    );
+  });
+
+  it('shows the users full name when externalAnalyst is true', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-content-analyst-lead')[0]
+    ).toHaveTextContent(
+      'External Analyst assigned Lead to External Analyst on Mar 6, 2023, 9:24 a.m.'
     );
   });
 

@@ -36,9 +36,10 @@ const HistoryContent = ({ historyItem }) => {
     item,
     record,
     sessionSub,
+    externalAnalyst,
   } = historyItem;
 
-  const isAnalyst = sessionSub.includes('idir');
+  const isAnalyst = sessionSub.includes('idir') || externalAnalyst;
   const fullName = `${givenName} ${familyName}`;
   const displayName = isAnalyst ? fullName : 'The applicant';
   const reasonForChange = record.reason_for_change || record.change_reason;

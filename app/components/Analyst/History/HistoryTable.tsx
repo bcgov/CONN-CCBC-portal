@@ -35,6 +35,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
             nodes {
               applicationId
               createdAt
+              externalAnalyst
               familyName
               item
               givenName

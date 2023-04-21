@@ -1,5 +1,5 @@
 begin;
-select plan(33);
+select plan(34);
 
 select has_table('ccbc_public', 'ccbc_user', 'table ccbc_public.ccbc_user exists');
 select has_column('ccbc_public', 'ccbc_user', 'id', 'table ccbc_public.ccbc_user has id column');
@@ -13,7 +13,7 @@ select has_column('ccbc_public', 'ccbc_user', 'archived_at', 'table ccbc_public.
 select has_column('ccbc_public', 'ccbc_user', 'created_by', 'table ccbc_public.ccbc_user has created_by column');
 select has_column('ccbc_public', 'ccbc_user', 'updated_by', 'table ccbc_public.ccbc_user has updated_by column');
 select has_column('ccbc_public', 'ccbc_user', 'archived_by', 'table ccbc_public.ccbc_user has archived_by column');
-
+select has_column('ccbc_public', 'ccbc_user', 'external_analyst', 'table ccbc_public.ccbc_user has external_analyst column');
 
 insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values

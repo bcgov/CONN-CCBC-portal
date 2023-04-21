@@ -1379,6 +1379,9 @@ type CcbcUser implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
+  """User is an external analyst"""
+  externalAnalyst: Boolean
+
   """Reads a single `CcbcUser` that is related to this `CcbcUser`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -7522,6 +7525,8 @@ enum CcbcUsersOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  EXTERNAL_ANALYST_ASC
+  EXTERNAL_ANALYST_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -7563,6 +7568,9 @@ input CcbcUserCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `externalAnalyst` field."""
+  externalAnalyst: Boolean
 }
 
 """
@@ -7601,6 +7609,9 @@ input CcbcUserFilter {
 
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
+
+  """Filter by the object’s `externalAnalyst` field."""
+  externalAnalyst: BooleanFilter
 
   """Filter by the object’s `ccbcUsersByCreatedBy` relation."""
   ccbcUsersByCreatedBy: CcbcUserToManyCcbcUserFilter
@@ -8111,6 +8122,48 @@ input DatetimeFilter {
 }
 
 """
+A filter to be used against Boolean fields. All fields are combined with a logical ‘and.’
+"""
+input BooleanFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Boolean
+
+  """Not equal to the specified value."""
+  notEqualTo: Boolean
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Boolean
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Boolean
+
+  """Included in the specified list."""
+  in: [Boolean!]
+
+  """Not included in the specified list."""
+  notIn: [Boolean!]
+
+  """Less than the specified value."""
+  lessThan: Boolean
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Boolean
+
+  """Greater than the specified value."""
+  greaterThan: Boolean
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Boolean
+}
+
+"""
 A filter to be used against many `CcbcUser` object types. All fields are combined with a logical ‘and.’
 """
 input CcbcUserToManyCcbcUserFilter {
@@ -8407,48 +8460,6 @@ input ApplicationFilter {
 
   """Negates the expression."""
   not: ApplicationFilter
-}
-
-"""
-A filter to be used against Boolean fields. All fields are combined with a logical ‘and.’
-"""
-input BooleanFilter {
-  """
-  Is null (if `true` is specified) or is not null (if `false` is specified).
-  """
-  isNull: Boolean
-
-  """Equal to the specified value."""
-  equalTo: Boolean
-
-  """Not equal to the specified value."""
-  notEqualTo: Boolean
-
-  """
-  Not equal to the specified value, treating null like an ordinary value.
-  """
-  distinctFrom: Boolean
-
-  """Equal to the specified value, treating null like an ordinary value."""
-  notDistinctFrom: Boolean
-
-  """Included in the specified list."""
-  in: [Boolean!]
-
-  """Not included in the specified list."""
-  notIn: [Boolean!]
-
-  """Less than the specified value."""
-  lessThan: Boolean
-
-  """Less than or equal to the specified value."""
-  lessThanOrEqualTo: Boolean
-
-  """Greater than the specified value."""
-  greaterThan: Boolean
-
-  """Greater than or equal to the specified value."""
-  greaterThanOrEqualTo: Boolean
 }
 
 """
@@ -17642,6 +17653,9 @@ type HistoryItem {
 
   """Session sub of the user who performed the operation."""
   sessionSub: String
+
+  """User is an external analyst"""
+  externalAnalyst: Boolean
 }
 
 """A `HistoryItem` edge in the connection."""
@@ -17689,6 +17703,9 @@ input HistoryItemFilter {
 
   """Filter by the object’s `sessionSub` field."""
   sessionSub: StringFilter
+
+  """Filter by the object’s `externalAnalyst` field."""
+  externalAnalyst: BooleanFilter
 
   """Checks for all expressions in this list."""
   and: [HistoryItemFilter!]
@@ -28977,6 +28994,8 @@ enum HistoryItemsOrderBy {
   GIVEN_NAME_DESC
   SESSION_SUB_ASC
   SESSION_SUB_DESC
+  EXTERNAL_ANALYST_ASC
+  EXTERNAL_ANALYST_DESC
 }
 
 """
@@ -29016,6 +29035,9 @@ input HistoryItemCondition {
 
   """Checks for equality with the object’s `sessionSub` field."""
   sessionSub: String
+
+  """Checks for equality with the object’s `externalAnalyst` field."""
+  externalAnalyst: Boolean
 }
 
 """A connection to a list of `RfiDataStatusType` values."""
@@ -31269,6 +31291,9 @@ input CcbcUserInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """User is an external analyst"""
+  externalAnalyst: Boolean
 }
 
 """The output of our create `ConditionalApprovalData` mutation."""
@@ -31762,6 +31787,9 @@ input HistoryItemInput {
 
   """Session sub of the user who performed the operation."""
   sessionSub: String
+
+  """User is an external analyst"""
+  externalAnalyst: Boolean
 }
 
 """The output of our create `RecordVersion` mutation."""
@@ -33213,6 +33241,9 @@ input CcbcUserPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """User is an external analyst"""
+  externalAnalyst: Boolean
 }
 
 """All input for the `updateCcbcUserByRowId` mutation."""
