@@ -123,6 +123,14 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
     query.applicationByRowId
   );
 
+  const formatNumber = (value) => {
+    // format to 2 decimal places if a number has decimals, if not return whole number
+    if (value % 1 !== 0) {
+      return value.toFixed(2);
+    }
+    return value;
+  };
+
   const [eligible, setEligible] = useState(null);
   const [eligibleIndigenous, setEligibleIndigenous] = useState(null);
 
@@ -166,11 +174,13 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         </StyledTHead>
         <tr>
           <td>GIS Analysis</td>
-          <td>{GIS_TOTAL_ELIGIBLE_HH && GIS_TOTAL_ELIGIBLE_HH.toFixed(2)}</td>
           <td>
-            {GIS_TOTAL_INELIGIBLE_HH && GIS_TOTAL_INELIGIBLE_HH.toFixed(2)}
+            {GIS_TOTAL_ELIGIBLE_HH && formatNumber(GIS_TOTAL_ELIGIBLE_HH)}
           </td>
-          <td>{GIS_TOTAL_HH && GIS_TOTAL_HH.toFixed(2)}</td>
+          <td>
+            {GIS_TOTAL_INELIGIBLE_HH && formatNumber(GIS_TOTAL_INELIGIBLE_HH)}
+          </td>
+          <td>{GIS_TOTAL_HH && formatNumber(GIS_TOTAL_HH)}</td>
         </tr>
         <tr>
           <td>In application</td>
@@ -188,7 +198,9 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
                 color="#FFFFFF"
               />
             </span>
-            <span>{numberOfHouseholds}</span>
+            <span>
+              {numberOfHouseholds && formatNumber(numberOfHouseholds)}
+            </span>
           </td>
           <td />
           <td />
@@ -230,7 +242,10 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         <tr>
           <td className="breakpoint-labels">In application</td>
           <td />
-          <td>{householdsImpactedIndigenous}</td>
+          <td>
+            {householdsImpactedIndigenous &&
+              formatNumber(householdsImpactedIndigenous)}
+          </td>
           <td />
           <td />
         </tr>
