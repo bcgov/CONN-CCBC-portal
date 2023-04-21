@@ -1,8 +1,9 @@
-import { faExclamation, faMap } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import { faExclamation, faMap } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip } from 'app/components';
 
 const StyledContainer = styled.section`
   background: ${(props) => props.theme.color.backgroundGrey};
@@ -185,8 +186,9 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         <tr>
           <td>In application</td>
           <td>
-            <span
+            <Tooltip
               className="fa-layers fa-fw"
+              message=" According to eligibility screening, the applicant is contesting the map."
               style={{ marginRight: '16px' }}
               title="Applicant is contesting map"
             >
@@ -197,7 +199,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
                 transform="right-1"
                 color="#FFFFFF"
               />
-            </span>
+            </Tooltip>
             <span>
               {numberOfHouseholds && formatNumber(numberOfHouseholds)}
             </span>
