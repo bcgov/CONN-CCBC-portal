@@ -1,3 +1,4 @@
 helm/**/templates/**/*.yaml
 *.env
 .github/ISSUE_TEMPLATE/
+app/schema/schema.graphql
