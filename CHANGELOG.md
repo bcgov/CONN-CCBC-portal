@@ -1,3 +1,32 @@
+# [1.62.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.60.0...v1.62.0) (2023-04-21)
+
+### Bug Fixes
+
+- correct revert ([6a783c4](https://github.com/bcgov/CONN-CCBC-portal/commit/6a783c4dc1c82e58bfbce50e879f74a784f3cfc8))
+- naming conflict resolved ([7490609](https://github.com/bcgov/CONN-CCBC-portal/commit/7490609f6bc18f19b7741f4bd0316f1fb9491a16))
+- replace schemaspy snapshot tag with latest ([a3b7e50](https://github.com/bcgov/CONN-CCBC-portal/commit/a3b7e502ad70147cae31e5b4fbecded753354bbf))
+- sqitch end of file space ([098b531](https://github.com/bcgov/CONN-CCBC-portal/commit/098b531146ad790ef929696361c6a99b670f3c92))
+- updated schema after rebase ([9329af2](https://github.com/bcgov/CONN-CCBC-portal/commit/9329af296ef8e250abaceea4a9519f3905948c1b))
+- use analyst status on analyst dashboard ([14875e0](https://github.com/bcgov/CONN-CCBC-portal/commit/14875e059cf1ae1e8c0ef911f7dbac5d8f9809b5))
+
+### Features
+
+- add archiver to public schema ([9858c97](https://github.com/bcgov/CONN-CCBC-portal/commit/9858c9797fd38b300be181e38d172bc27f7a550a))
+- add external_analyst column to ccbc_user table ([759c0a0](https://github.com/bcgov/CONN-CCBC-portal/commit/759c0a0446afca6feeee6f6cc1913e304fb1b81f))
+- add external_analyst column to history_item ([61b41f1](https://github.com/bcgov/CONN-CCBC-portal/commit/61b41f1c3195ce8f6f5ecdb6ebe7aa5b6b6e6fd6))
+- add extra condition for update external_analyst ([830ff36](https://github.com/bcgov/CONN-CCBC-portal/commit/830ff3697c2af13d09c66b5dc33ee9267420a65f))
+- add policy for application_status with archiver ([bed52ab](https://github.com/bcgov/CONN-CCBC-portal/commit/bed52ab4535ef40822fc2386b8b0a724059af794))
+- added create_announcement mutation ([60a0e37](https://github.com/bcgov/CONN-CCBC-portal/commit/60a0e37dbf2f0ed2c6d04b85765282df61b0d08f))
+- added tables for announcements ([5c83418](https://github.com/bcgov/CONN-CCBC-portal/commit/5c83418de7d512265cdbfea22a4c5441d2143f6d))
+- bceidbusiness can have analyst pgrole ([857a3ac](https://github.com/bcgov/CONN-CCBC-portal/commit/857a3acb9e47a142cacc0d9ab5d8ff30782f64a9))
+- change trigger to use archiver ([8ba86af](https://github.com/bcgov/CONN-CCBC-portal/commit/8ba86af955bbc2538f0c67f29065e6ca09e5edd5))
+- create role for archiver ([73b9a68](https://github.com/bcgov/CONN-CCBC-portal/commit/73b9a681ead138177d4a41963ac0696e94639688))
+- handle duplicate project numbers ([13ab36d](https://github.com/bcgov/CONN-CCBC-portal/commit/13ab36d7b1be090b997c91ce7b4cbd2da2e3387c))
+- update application_history for external_analyst ([0c36f1b](https://github.com/bcgov/CONN-CCBC-portal/commit/0c36f1be08bc6c8e9eeb8142291bcbacd87ec406))
+- update create_user_from_session mutation for external_analyst ([0739c27](https://github.com/bcgov/CONN-CCBC-portal/commit/0739c27dd1c0d52bf08226f3b517f560b0c947b7))
+- update relay store for external status change ([71a7af7](https://github.com/bcgov/CONN-CCBC-portal/commit/71a7af7c59591c5bea55f8520bb3b43c47ab09ca))
+- use external_analyst for history page ([443eb61](https://github.com/bcgov/CONN-CCBC-portal/commit/443eb611d0e7d83e312347e6f02b7e7d359292d9))
+
 # [1.61.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.60.0...v1.61.0) (2023-04-19)
 
 ### Bug Fixes

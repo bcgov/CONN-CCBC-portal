@@ -281,3 +281,4 @@ computed_columns/application_history [computed_columns/application_history@1.61.
 tables/announcement 2023-04-20T21:39:01Z ,,, Vladimir <vladimir@button.is> # add table announcement
 tables/application_announcement 2023-04-20T21:39:28Z ,,, Vladimir <vladimir@button.is> # add table application_announcement
 mutations/create_announcement 2023-04-20T21:41:18Z ,,, Vladimir <vladimir@button.is> # add mutation create_announcement
+@1.62.0 2023-04-21T16:03:56Z Marcel Mueller <marcel@m2.local> # release v1.62.0
