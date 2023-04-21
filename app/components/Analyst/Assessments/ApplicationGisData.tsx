@@ -1,3 +1,5 @@
+import { faExclamation, faMap } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 
 const StyledContainer = styled.section`
@@ -9,12 +11,12 @@ const StyledContainer = styled.section`
   overflow-x: scroll;
   width: 100%;
   position: relative;
-  padding-top: 32px;
-
+  padding-top: 64px;
   display: flex;
   flex-direction: column;
 
   ${(props) => props.theme.breakpoint.largeUp} {
+    padding-top: 32px;
     flex-direction: row;
     padding-right: 128px;
 
@@ -69,7 +71,11 @@ const StyledSecondTHead = styled.thead`
 const StyledLastUpdated = styled.div`
   position: absolute;
   top: 8px;
-  right: 8px;
+
+  ${(props) => props.theme.breakpoint.smallUp} {
+    left: none;
+    right: 8px;
+  }
 `;
 
 interface Props {
@@ -117,8 +123,23 @@ const ApplicationGisData: React.FC<Props> = ({ gisData }) => {
           <td />
         </tr>
         <tr>
-          <td>placeholder</td>
-          <td />
+          <td>Assessment HH</td>
+          <td>
+            <span
+              className="fa-layers fa-fw"
+              style={{ marginRight: '16px' }}
+              title="Applicant is contesting map"
+            >
+              <FontAwesomeIcon icon={faMap} size="lg" color="#C38A00" />
+              <FontAwesomeIcon
+                icon={faExclamation}
+                size="sm"
+                transform="right-1"
+                color="#FFFFFF"
+              />
+            </span>
+            <span>0</span>
+          </td>
           <td />
           <td />
         </tr>
