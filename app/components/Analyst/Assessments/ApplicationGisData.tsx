@@ -9,12 +9,14 @@ const StyledContainer = styled.section`
   overflow-x: scroll;
   width: 100%;
   position: relative;
+  padding-top: 32px;
 
   display: flex;
   flex-direction: column;
 
   ${(props) => props.theme.breakpoint.largeUp} {
     flex-direction: row;
+    padding-right: 128px;
 
     & table:first-child {
       margin-right: 16px;
@@ -36,17 +38,23 @@ const StyledTable = styled.table`
   td {
     text-align: right;
     border-bottom: 0;
+    white-space: nowrap;
+  }
+
+  th,
+  td {
+    padding: 4px 8px;
   }
 `;
 
 const StyledFirstTHead = styled.thead`
+  white-space: nowrap;
   th {
     text-align: right;
     border-bottom: 1px solid #757575;
   }
 
   & th:first-child {
-    width: 26%;
     border-bottom: none;
   }
 `;
@@ -56,10 +64,12 @@ const StyledSecondTHead = styled.thead`
     text-align: center;
     border-bottom: 1px solid #757575;
   }
+`;
 
-  th:nth-child(3) {
-    // margin-left: 16px;
-  }
+const StyledLastUpdated = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
 `;
 
 interface Props {
@@ -117,24 +127,18 @@ const ApplicationGisData: React.FC<Props> = ({ gisData }) => {
         <StyledSecondTHead>
           <th>Eligible Indigenous</th>
           <th>Total Indigenous</th>
-          <th aria-hidden style={{ borderBottom: 0 }} />
           <th>Overbuild</th>
-          <th aria-hidden style={{ borderBottom: 0 }} />
           <th>Overlap</th>
         </StyledSecondTHead>
         <tr>
           <td>{GIS_TOTAL_ELIGIBLE_INDIG_HH}</td>
           <td>{GIS_TOTAL_INDIG_HH}</td>
-          <td> </td>
           <td>{GIS_PERCENT_OVERBUILD}</td>
-          <td> </td>
           <td>{GIS_PERCENT_OVERLAP}</td>
         </tr>
         <tr>
           <td />
           <td>placeholder</td>
-          <td />
-          <td />
           <td />
           <td />
         </tr>
@@ -145,6 +149,10 @@ const ApplicationGisData: React.FC<Props> = ({ gisData }) => {
           <td />
         </tr>
       </StyledTable>
+      <StyledLastUpdated>
+        GIS analysis last updated: <br />
+        2023-03-01 12:00:00
+      </StyledLastUpdated>
     </StyledContainer>
   );
 };
