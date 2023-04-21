@@ -436,6 +436,7 @@
             <parent column="id" foreignKey="ccbc_user_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="10" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="external_analyst" nullable="true" remarks="User is an external analyst" size="1" type="bool" typeCode="-7"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="ccbc_user_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -615,6 +616,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="family_name" nullable="true" remarks="First Name of the user who performed the operation." size="2147483647" type="varchar" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="given_name" nullable="true" remarks="Last Name of the user who performed the operation." size="2147483647" type="varchar" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="session_sub" nullable="true" remarks="Session sub of the user who performed the operation." size="2147483647" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="external_analyst" nullable="true" remarks="User is an external analyst" size="1" type="bool" typeCode="-7"/>
          <index name="history_item_index" unique="false">
             <column ascending="true" name="application_id"/>
          </index>
