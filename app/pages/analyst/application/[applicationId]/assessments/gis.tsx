@@ -54,10 +54,7 @@ const GisAssessment = ({
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <AssessmentsTabs />
-        <ApplicationGisData
-          query={query}
-          gisData={query.applicationByRowId.gisData?.jsonData}
-        />
+        <ApplicationGisData query={query} />
         <AssessmentsForm
           addedContext={{ createdAt }}
           formData={applicationByRowId.assessmentForm?.jsonData}

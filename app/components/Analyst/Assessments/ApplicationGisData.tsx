@@ -12,7 +12,6 @@ const StyledContainer = styled.section`
   border-radius: 8px;
   padding: 16px;
   padding-top: 56px;
-
   overflow-x: scroll;
   position: relative;
   width: 100%;
@@ -27,6 +26,7 @@ const StyledContainer = styled.section`
     flex-direction: row;
     padding-top: 40px;
     padding-right: 32px;
+    overflow-x: visible;
 
     & table:first-child {
       margin-right: 16px;
@@ -186,23 +186,25 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         <tr>
           <td>In application</td>
           <td>
-            <Tooltip
-              className="fa-layers fa-fw"
-              message=" According to eligibility screening, the applicant is contesting the map."
-              style={{ marginRight: '16px' }}
-              title="Applicant is contesting map"
-            >
-              <FontAwesomeIcon icon={faMap} size="lg" color="#C38A00" />
-              <FontAwesomeIcon
-                icon={faExclamation}
-                size="sm"
-                transform="right-1"
-                color="#FFFFFF"
-              />
-            </Tooltip>
-            <span>
-              {numberOfHouseholds && formatNumber(numberOfHouseholds)}
-            </span>
+            {numberOfHouseholds && (
+              <>
+                <Tooltip
+                  className="fa-layers fa-fw"
+                  message=" According to eligibility screening, the applicant is contesting the map."
+                  style={{ marginRight: '16px' }}
+                  title="Applicant is contesting map"
+                >
+                  <FontAwesomeIcon icon={faMap} size="lg" color="#C38A00" />
+                  <FontAwesomeIcon
+                    icon={faExclamation}
+                    size="sm"
+                    transform="right-1"
+                    color="#FFFFFF"
+                  />
+                </Tooltip>
+                <span>{formatNumber(numberOfHouseholds)}</span>
+              </>
+            )}
           </td>
           <td />
           <td />
