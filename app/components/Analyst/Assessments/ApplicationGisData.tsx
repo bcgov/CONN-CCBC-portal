@@ -1,5 +1,7 @@
 import { faExclamation, faMap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
+import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 
 const StyledContainer = styled.section`
@@ -60,6 +62,7 @@ const StyledTable = styled.table`
   th,
   td {
     padding: 4px 8px;
+    min-height: 24px;
   }
 `;
 
@@ -102,21 +105,51 @@ const StyledInput = styled.input`
 `;
 
 interface Props {
-  gisData: any;
+  query: any;
 }
 
-const ApplicationGisData: React.FC<Props> = ({ gisData }) => {
-  // const [eligible, setEligible] = useState();
-  // const [eligibleIndigenous, setEligibleIndigenous] = useState();
+const ApplicationGisData: React.FC<Props> = ({ query }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment ApplicationGisData_query on Application {
+        gisData {
+          jsonData
+        }
+        formData {
+          jsonData
+        }
+      }
+    `,
+    query.applicationByRowId
+  );
+
+  const [eligible, setEligible] = useState(null);
+  const [eligibleIndigenous, setEligibleIndigenous] = useState(null);
+
+  const handleChange = (value, setValue) => {
+    const pattern = '^-?[0-9]+(?:.[0-9]{1,2})?$';
+
+    if (value.match(pattern)) {
+      setValue(value);
+    }
+  };
+
+  const { gisData, formData } = queryFragment;
+  const gisJsonData = gisData?.jsonData || {};
+  const formJsonData = formData?.jsonData?.benefits || {};
+
+  const { numberOfHouseholds = null, householdsImpactedIndigenous = null } =
+    formJsonData;
+
   const {
-    GIS_PERCENT_OVERBUILD,
-    GIS_PERCENT_OVERLAP,
-    GIS_TOTAL_ELIGIBLE_HH,
-    GIS_TOTAL_ELIGIBLE_INDIG_HH,
-    GIS_TOTAL_HH,
-    GIS_TOTAL_INDIG_HH,
-    GIS_TOTAL_INELIGIBLE_HH,
-  } = gisData;
+    GIS_PERCENT_OVERBUILD = null,
+    GIS_PERCENT_OVERLAP = null,
+    GIS_TOTAL_ELIGIBLE_HH = null,
+    GIS_TOTAL_ELIGIBLE_INDIG_HH = null,
+    GIS_TOTAL_HH = null,
+    GIS_TOTAL_INDIG_HH = null,
+    GIS_TOTAL_INELIGIBLE_HH = null,
+  } = gisJsonData;
 
   return (
     <StyledContainer>
@@ -155,7 +188,7 @@ const ApplicationGisData: React.FC<Props> = ({ gisData }) => {
                 color="#FFFFFF"
               />
             </span>
-            <span>0</span>
+            <span>{numberOfHouseholds}</span>
           </td>
           <td />
           <td />
@@ -163,7 +196,11 @@ const ApplicationGisData: React.FC<Props> = ({ gisData }) => {
         <tr>
           <td>Assessment HH</td>
           <td>
-            <StyledInput type="text" />
+            <StyledInput
+              type="number"
+              value={eligible}
+              onChange={(e) => handleChange(e.target.value, setEligible)}
+            />
           </td>
           <td />
           <td />
@@ -193,14 +230,20 @@ const ApplicationGisData: React.FC<Props> = ({ gisData }) => {
         <tr>
           <td className="breakpoint-labels">In application</td>
           <td />
-          <td>placeholder</td>
+          <td>{householdsImpactedIndigenous}</td>
           <td />
           <td />
         </tr>
         <tr>
           <td className="breakpoint-labels">Assessment HH</td>
           <td>
-            <StyledInput type="text" />
+            <StyledInput
+              type="number"
+              value={eligibleIndigenous}
+              onChange={(e) =>
+                handleChange(e.target.value, setEligibleIndigenous)
+              }
+            />
           </td>
           <td />
           <td />

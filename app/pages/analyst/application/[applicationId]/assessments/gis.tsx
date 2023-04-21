@@ -17,12 +17,10 @@ const getGisAssessmentQuery = graphql`
   query gisAssessmentQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
       ...AssessmentsForm_query
+      ...ApplicationGisData_query
       assessmentForm(_assessmentDataType: "gis") {
         jsonData
         createdAt
-      }
-      gisData {
-        jsonData
       }
     }
     session {
@@ -57,6 +55,7 @@ const GisAssessment = ({
       <AnalystLayout query={query}>
         <AssessmentsTabs />
         <ApplicationGisData
+          query={query}
           gisData={query.applicationByRowId.gisData?.jsonData}
         />
         <AssessmentsForm
