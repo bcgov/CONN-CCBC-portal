@@ -2955,6 +2955,216 @@ type CcbcUser implements Node {
     filter: ApplicationGisDataFilter
   ): ApplicationGisDataConnection!
 
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): AnnouncementsConnection!
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): AnnouncementsConnection!
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): AnnouncementsConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
     """Only read the first `n` values of the set."""
@@ -7544,6 +7754,618 @@ type CcbcUser implements Node {
     """
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByApplicationGisDataArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAnnouncementCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByAnnouncementCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAnnouncementCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByAnnouncementCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAnnouncementUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByAnnouncementUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAnnouncementUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByAnnouncementUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAnnouncementArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByAnnouncementArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByAnnouncementArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByAnnouncementArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByApplicationAnnouncementCreatedByAndAnnouncementId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): CcbcUserAnnouncementsByApplicationAnnouncementCreatedByAndAnnouncementIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationAnnouncementCreatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationAnnouncementCreatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationAnnouncementCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationAnnouncementCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByApplicationAnnouncementUpdatedByAndAnnouncementId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): CcbcUserAnnouncementsByApplicationAnnouncementUpdatedByAndAnnouncementIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationAnnouncementUpdatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationAnnouncementUpdatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationAnnouncementUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationAnnouncementUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByApplicationAnnouncementArchivedByAndAnnouncementId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): CcbcUserAnnouncementsByApplicationAnnouncementArchivedByAndAnnouncementIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationAnnouncementArchivedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationAnnouncementArchivedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationAnnouncementArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationAnnouncementArchivedByAndUpdatedByManyToManyConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -7960,6 +8782,44 @@ input CcbcUserFilter {
 
   """Some related `applicationGisDataByArchivedBy` exist."""
   applicationGisDataByArchivedByExist: Boolean
+
+  """Filter by the object’s `announcementsByCreatedBy` relation."""
+  announcementsByCreatedBy: CcbcUserToManyAnnouncementFilter
+
+  """Some related `announcementsByCreatedBy` exist."""
+  announcementsByCreatedByExist: Boolean
+
+  """Filter by the object’s `announcementsByUpdatedBy` relation."""
+  announcementsByUpdatedBy: CcbcUserToManyAnnouncementFilter
+
+  """Some related `announcementsByUpdatedBy` exist."""
+  announcementsByUpdatedByExist: Boolean
+
+  """Filter by the object’s `announcementsByArchivedBy` relation."""
+  announcementsByArchivedBy: CcbcUserToManyAnnouncementFilter
+
+  """Some related `announcementsByArchivedBy` exist."""
+  announcementsByArchivedByExist: Boolean
+
+  """Filter by the object’s `applicationAnnouncementsByCreatedBy` relation."""
+  applicationAnnouncementsByCreatedBy: CcbcUserToManyApplicationAnnouncementFilter
+
+  """Some related `applicationAnnouncementsByCreatedBy` exist."""
+  applicationAnnouncementsByCreatedByExist: Boolean
+
+  """Filter by the object’s `applicationAnnouncementsByUpdatedBy` relation."""
+  applicationAnnouncementsByUpdatedBy: CcbcUserToManyApplicationAnnouncementFilter
+
+  """Some related `applicationAnnouncementsByUpdatedBy` exist."""
+  applicationAnnouncementsByUpdatedByExist: Boolean
+
+  """
+  Filter by the object’s `applicationAnnouncementsByArchivedBy` relation.
+  """
+  applicationAnnouncementsByArchivedBy: CcbcUserToManyApplicationAnnouncementFilter
+
+  """Some related `applicationAnnouncementsByArchivedBy` exist."""
+  applicationAnnouncementsByArchivedByExist: Boolean
 
   """Filter by the object’s `keycloakJwtsBySub` relation."""
   keycloakJwtsBySub: CcbcUserToManyKeycloakJwtFilter
@@ -10139,11 +10999,47 @@ input ApplicationAnnouncementFilter {
   """Filter by the object’s `applicationId` field."""
   applicationId: IntFilter
 
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
   """Filter by the object’s `announcementByAnnouncementId` relation."""
   announcementByAnnouncementId: AnnouncementFilter
 
   """Filter by the object’s `applicationByApplicationId` relation."""
   applicationByApplicationId: ApplicationFilter
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
 
   """Checks for all expressions in this list."""
   and: [ApplicationAnnouncementFilter!]
@@ -10168,6 +11064,24 @@ input AnnouncementFilter {
   """Filter by the object’s `jsonData` field."""
   jsonData: JSONFilter
 
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
   """
   Filter by the object’s `applicationAnnouncementsByAnnouncementId` relation.
   """
@@ -10175,6 +11089,24 @@ input AnnouncementFilter {
 
   """Some related `applicationAnnouncementsByAnnouncementId` exist."""
   applicationAnnouncementsByAnnouncementIdExist: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
 
   """Checks for all expressions in this list."""
   and: [AnnouncementFilter!]
@@ -10711,6 +11643,46 @@ input CcbcUserToManyApplicationGisDataFilter {
   No related `ApplicationGisData` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
   none: ApplicationGisDataFilter
+}
+
+"""
+A filter to be used against many `Announcement` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcUserToManyAnnouncementFilter {
+  """
+  Every related `Announcement` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: AnnouncementFilter
+
+  """
+  Some related `Announcement` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: AnnouncementFilter
+
+  """
+  No related `Announcement` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: AnnouncementFilter
+}
+
+"""
+A filter to be used against many `ApplicationAnnouncement` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcUserToManyApplicationAnnouncementFilter {
+  """
+  Every related `ApplicationAnnouncement` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationAnnouncementFilter
+
+  """
+  Some related `ApplicationAnnouncement` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationAnnouncementFilter
+
+  """
+  No related `ApplicationAnnouncement` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationAnnouncementFilter
 }
 
 """
@@ -12999,6 +13971,108 @@ type Application implements Node {
     """
     filter: AnnouncementFilter
   ): ApplicationAnnouncementsByApplicationAnnouncementApplicationIdAndAnnouncementIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementApplicationIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementApplicationIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementApplicationIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndArchivedByManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -17892,6 +18966,24 @@ type ApplicationAnnouncement implements Node {
   """The foreign key of an application"""
   applicationId: Int!
 
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
   """
   Reads a single `Announcement` that is related to this `ApplicationAnnouncement`.
   """
@@ -17901,6 +18993,21 @@ type ApplicationAnnouncement implements Node {
   Reads a single `Application` that is related to this `ApplicationAnnouncement`.
   """
   applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
 }
 
 """Table to  hold the announcement data"""
@@ -17918,6 +19025,33 @@ type Announcement implements Node {
 
   """The data entered into the announcement by the analyst or admin"""
   jsonData: JSON!
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByArchivedBy: CcbcUser
 
   """
   Reads and enables pagination through a set of `ApplicationAnnouncement`.
@@ -17988,6 +19122,108 @@ type Announcement implements Node {
     """
     filter: ApplicationFilter
   ): AnnouncementApplicationsByApplicationAnnouncementAnnouncementIdAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementAnnouncementIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementAnnouncementIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationAnnouncementAnnouncementIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndArchivedByManyToManyConnection!
 }
 
 """Methods to use when ordering `ApplicationAnnouncement`."""
@@ -17997,6 +19233,18 @@ enum ApplicationAnnouncementsOrderBy {
   ANNOUNCEMENT_ID_DESC
   APPLICATION_ID_ASC
   APPLICATION_ID_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -18011,6 +19259,24 @@ input ApplicationAnnouncementCondition {
 
   """Checks for equality with the object’s `applicationId` field."""
   applicationId: Int
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
 }
 
 """
@@ -18041,6 +19307,222 @@ type AnnouncementApplicationsByApplicationAnnouncementAnnouncementIdAndApplicati
 
   """The `Application` at the end of the edge."""
   node: Application
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type AnnouncementCcbcUsersByApplicationAnnouncementAnnouncementIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
 }
 
 """A `ApplicationAnnouncement` edge in the connection."""
@@ -20107,6 +21589,24 @@ type ApplicationAnnouncementsByApplicationAnnouncementApplicationIdAndAnnounceme
 
   """The `Announcement` at the end of the edge."""
   node: Announcement
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """Methods to use when ordering `Announcement`."""
@@ -20118,6 +21618,18 @@ enum AnnouncementsOrderBy {
   CCBC_NUMBERS_DESC
   JSON_DATA_ASC
   JSON_DATA_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -20135,6 +21647,222 @@ input AnnouncementCondition {
 
   """Checks for equality with the object’s `jsonData` field."""
   jsonData: JSON
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
 }
 
 """A `Application` edge in the connection."""
@@ -20486,6 +22214,32 @@ type GisDataEdge {
 
   """The `GisData` at the end of the edge."""
   node: GisData
+}
+
+"""A connection to a list of `Announcement` values."""
+type AnnouncementsConnection {
+  """A list of `Announcement` objects."""
+  nodes: [Announcement]!
+
+  """
+  A list of edges which contains the `Announcement` and cursor to aid in pagination.
+  """
+  edges: [AnnouncementsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Announcement` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Announcement` edge in the connection."""
+type AnnouncementsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Announcement` at the end of the edge."""
+  node: Announcement
 }
 
 """
@@ -29055,6 +30809,1170 @@ type CcbcUserCcbcUsersByApplicationGisDataArchivedByAndUpdatedByManyToManyEdge {
 }
 
 """
+A connection to a list of `CcbcUser` values, with data from `Announcement`.
+"""
+type CcbcUserCcbcUsersByAnnouncementCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Announcement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAnnouncementCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Announcement`."""
+type CcbcUserCcbcUsersByAnnouncementCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): AnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Announcement`.
+"""
+type CcbcUserCcbcUsersByAnnouncementCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Announcement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAnnouncementCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Announcement`."""
+type CcbcUserCcbcUsersByAnnouncementCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): AnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Announcement`.
+"""
+type CcbcUserCcbcUsersByAnnouncementUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Announcement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAnnouncementUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Announcement`."""
+type CcbcUserCcbcUsersByAnnouncementUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): AnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Announcement`.
+"""
+type CcbcUserCcbcUsersByAnnouncementUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Announcement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAnnouncementUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Announcement`."""
+type CcbcUserCcbcUsersByAnnouncementUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): AnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Announcement`.
+"""
+type CcbcUserCcbcUsersByAnnouncementArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Announcement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAnnouncementArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Announcement`."""
+type CcbcUserCcbcUsersByAnnouncementArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): AnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Announcement`.
+"""
+type CcbcUserCcbcUsersByAnnouncementArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Announcement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByAnnouncementArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Announcement`."""
+type CcbcUserCcbcUsersByAnnouncementArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Announcement`."""
+  announcementsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AnnouncementFilter
+  ): AnnouncementsConnection!
+}
+
+"""
+A connection to a list of `Announcement` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserAnnouncementsByApplicationAnnouncementCreatedByAndAnnouncementIdManyToManyConnection {
+  """A list of `Announcement` objects."""
+  nodes: [Announcement]!
+
+  """
+  A list of edges which contains the `Announcement`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserAnnouncementsByApplicationAnnouncementCreatedByAndAnnouncementIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Announcement` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Announcement` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserAnnouncementsByApplicationAnnouncementCreatedByAndAnnouncementIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Announcement` at the end of the edge."""
+  node: Announcement
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByAnnouncementId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserApplicationsByApplicationAnnouncementCreatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationAnnouncementCreatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserApplicationsByApplicationAnnouncementCreatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationAnnouncementCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationAnnouncementCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `Announcement` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserAnnouncementsByApplicationAnnouncementUpdatedByAndAnnouncementIdManyToManyConnection {
+  """A list of `Announcement` objects."""
+  nodes: [Announcement]!
+
+  """
+  A list of edges which contains the `Announcement`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserAnnouncementsByApplicationAnnouncementUpdatedByAndAnnouncementIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Announcement` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Announcement` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserAnnouncementsByApplicationAnnouncementUpdatedByAndAnnouncementIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Announcement` at the end of the edge."""
+  node: Announcement
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByAnnouncementId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserApplicationsByApplicationAnnouncementUpdatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationAnnouncementUpdatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserApplicationsByApplicationAnnouncementUpdatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationAnnouncementUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationAnnouncementUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `Announcement` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserAnnouncementsByApplicationAnnouncementArchivedByAndAnnouncementIdManyToManyConnection {
+  """A list of `Announcement` objects."""
+  nodes: [Announcement]!
+
+  """
+  A list of edges which contains the `Announcement`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserAnnouncementsByApplicationAnnouncementArchivedByAndAnnouncementIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Announcement` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Announcement` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserAnnouncementsByApplicationAnnouncementArchivedByAndAnnouncementIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Announcement` at the end of the edge."""
+  node: Announcement
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByAnnouncementId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserApplicationsByApplicationAnnouncementArchivedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationAnnouncementArchivedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserApplicationsByApplicationAnnouncementArchivedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationAnnouncementArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationAnnouncement`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationAnnouncementArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationAnnouncement`.
+"""
+type CcbcUserCcbcUsersByApplicationAnnouncementArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationAnnouncement`.
+  """
+  applicationAnnouncementsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationAnnouncement`."""
+    orderBy: [ApplicationAnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationAnnouncementCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationAnnouncementFilter
+  ): ApplicationAnnouncementsConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationAnalystLead`.
 """
 type AnalystApplicationsByApplicationAnalystLeadAnalystIdAndApplicationIdManyToManyConnection {
@@ -29325,32 +32243,6 @@ type AnalystsEdge {
 
   """The `Analyst` at the end of the edge."""
   node: Analyst
-}
-
-"""A connection to a list of `Announcement` values."""
-type AnnouncementsConnection {
-  """A list of `Announcement` objects."""
-  nodes: [Announcement]!
-
-  """
-  A list of edges which contains the `Announcement` and cursor to aid in pagination.
-  """
-  edges: [AnnouncementsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Announcement` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Announcement` edge in the connection."""
-type AnnouncementsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Announcement` at the end of the edge."""
-  node: Announcement
 }
 
 """A connection to a list of `ApplicationStatusType` values."""
@@ -30891,12 +33783,6 @@ type Mutation {
     """
     input: DeleteRfiDataStatusTypeByNameInput!
   ): DeleteRfiDataStatusTypePayload
-  createAnnouncementRecord(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateAnnouncementRecordInput!
-  ): CreateAnnouncementRecordPayload
   createApplication(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -31159,6 +34045,15 @@ type CreateAnnouncementPayload {
   """
   query: Query
 
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByArchivedBy: CcbcUser
+
   """An edge for our `Announcement`. May be used by Relay 1."""
   announcementEdge(
     """The method to use when ordering `Announcement`."""
@@ -31185,6 +34080,24 @@ input AnnouncementInput {
 
   """The data entered into the announcement by the analyst or admin"""
   jsonData: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """The output of our create `ApplicationAnalystLead` mutation."""
@@ -31300,6 +34213,21 @@ type CreateApplicationAnnouncementPayload {
   """
   applicationByApplicationId: Application
 
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
   """An edge for our `ApplicationAnnouncement`. May be used by Relay 1."""
   applicationAnnouncementEdge(
     """The method to use when ordering `ApplicationAnnouncement`."""
@@ -31326,6 +34254,24 @@ input ApplicationAnnouncementInput {
 
   """The foreign key of an application"""
   applicationId: Int!
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """The output of our create `ApplicationFormData` mutation."""
@@ -32814,6 +35760,15 @@ type UpdateAnnouncementPayload {
   """
   query: Query
 
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByArchivedBy: CcbcUser
+
   """An edge for our `Announcement`. May be used by Relay 1."""
   announcementEdge(
     """The method to use when ordering `Announcement`."""
@@ -32849,6 +35804,24 @@ input AnnouncementPatch {
 
   """The data entered into the announcement by the analyst or admin"""
   jsonData: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """All input for the `updateAnnouncementByRowId` mutation."""
@@ -33110,6 +36083,21 @@ type UpdateApplicationAnnouncementPayload {
   """
   applicationByApplicationId: Application
 
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
   """An edge for our `ApplicationAnnouncement`. May be used by Relay 1."""
   applicationAnnouncementEdge(
     """The method to use when ordering `ApplicationAnnouncement`."""
@@ -33145,6 +36133,24 @@ input ApplicationAnnouncementPatch {
 
   """The foreign key of an application"""
   applicationId: Int
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """
@@ -35236,6 +38242,15 @@ type DeleteAnnouncementPayload {
   """
   query: Query
 
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByArchivedBy: CcbcUser
+
   """An edge for our `Announcement`. May be used by Relay 1."""
   announcementEdge(
     """The method to use when ordering `Announcement`."""
@@ -35370,6 +38385,21 @@ type DeleteApplicationAnnouncementPayload {
   Reads a single `Application` that is related to this `ApplicationAnnouncement`.
   """
   applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationAnnouncement`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
 
   """An edge for our `ApplicationAnnouncement`. May be used by Relay 1."""
   applicationAnnouncementEdge(
@@ -36618,39 +39648,6 @@ input DeleteRfiDataStatusTypeByNameInput {
 
   """The name of the status type"""
   name: String!
-}
-
-"""The output of our `createAnnouncementRecord` mutation."""
-type CreateAnnouncementRecordPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-  announcement: Announcement
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `Announcement`. May be used by Relay 1."""
-  announcementEdge(
-    """The method to use when ordering `Announcement`."""
-    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AnnouncementsEdge
-}
-
-"""All input for the `createAnnouncementRecord` mutation."""
-input CreateAnnouncementRecordInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  projectNumbers: String!
-  jsonData: JSON!
-  oldRowId: Int!
 }
 
 """The output of our `createApplication` mutation."""
