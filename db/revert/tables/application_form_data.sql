@@ -2,6 +2,6 @@
 
 begin;
 
-drop table ccbc_public.application_form_data;
+drop table if exists ccbc_public.application_form_data cascade;
 
 commit;

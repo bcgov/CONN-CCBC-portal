@@ -2,6 +2,6 @@
 
 begin;
 
-drop table ccbc_public.application;
+drop table ccbc_public.application cascade;
 
 commit;

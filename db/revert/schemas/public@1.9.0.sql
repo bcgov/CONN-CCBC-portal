@@ -2,6 +2,6 @@
 
 begin;
 
-drop schema ccbc_public;
+drop schema ccbc_public cascade;
 
 commit;

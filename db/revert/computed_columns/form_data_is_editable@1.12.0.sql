@@ -2,6 +2,6 @@
 
 begin;
 
-drop function ccbc_public.form_data_is_editable;
+drop function if exists ccbc_public.form_data_is_editable cascade;
 
 commit;

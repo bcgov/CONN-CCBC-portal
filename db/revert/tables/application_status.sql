@@ -2,6 +2,6 @@
 
 BEGIN;
 
-drop table ccbc_public.application_status;
+drop table if exists ccbc_public.application_status cascade;
 
 COMMIT;
