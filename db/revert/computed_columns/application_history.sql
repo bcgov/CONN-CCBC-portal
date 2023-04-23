@@ -2,6 +2,8 @@
 
 begin;
 
+alter table ccbc_public.history_item drop column if exists external_analyst;
+
 create or replace function ccbc_public.application_history(application ccbc_public.application)
 returns setof ccbc_public.history_item as $$
 

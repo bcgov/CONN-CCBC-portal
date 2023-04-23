@@ -2,6 +2,6 @@
 
 BEGIN;
 
-drop function ccbc_public.application_history(ccbc_public.application);
+drop function if exists ccbc_public.application_history(ccbc_public.application);
 
 COMMIT;

@@ -2,6 +2,7 @@
 
 begin;
 
+drop function if exists ccbc_public.application_all_assessments(ccbc_public.application);
 create or replace function ccbc_public.application_all_assessments(application ccbc_public.application) returns setof ccbc_public.form_data as $$
 
   select row(fd.*) from ccbc_public.form_data as fd

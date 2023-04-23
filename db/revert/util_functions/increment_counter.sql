@@ -2,6 +2,6 @@
 
 begin;
 
-drop function ccbc_public.increment_counter(regclass, int);
+drop function if exists ccbc_public.increment_counter(regclass, int);
 
 commit;
