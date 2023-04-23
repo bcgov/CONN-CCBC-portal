@@ -2,6 +2,6 @@
 
 begin;
 
-drop function ccbc_public.create_form_data;
+drop function if exists ccbc_public.create_form_data;
 
 commit;
