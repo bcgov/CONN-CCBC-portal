@@ -9,6 +9,8 @@ db:
     EOF
 
   postMigrationCommand: |
+    sqitch revert;
+    sqitch deploy;
     sqitch --chdir mocks_schema deploy;
     for file in data/dev/*.sql; do
       psql -v "ON_ERROR_STOP=1" -f "${file}";
