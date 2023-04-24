@@ -283,3 +283,4 @@ tables/application_announcement 2023-04-20T21:39:28Z ,,, Vladimir <vladimir@butt
 mutations/create_announcement 2023-04-20T21:41:18Z ,,, Vladimir <vladimir@button.is> # add mutation create_announcement
 @1.62.0 2023-04-21T16:03:56Z Marcel Mueller <marcel@m2.local> # release v1.62.0
 computed_columns/application_gis_data [computed_columns/application_gis_data@1.62.0] 2023-04-24T16:19:26Z Marcel Mueller <marcel@m2.local> # update to return application_gis_data row
+tables/application_gis_assessment_hh 2023-04-24T20:24:07Z Marcel Mueller <marcel@m2> # add new table application_gis_assessment_hh
