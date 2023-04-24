@@ -2,7 +2,7 @@
 
 begin;
 
-create or replace function ccbc_public.save_gis_assessment_hh(_application_id int, _eligible int default null, _eligible_indigenous int default null) returns ccbc_public.application_gis_assessment_hh as $$
+create or replace function ccbc_public.save_gis_assessment_hh(_application_id int, _eligible float(2) default null, _eligible_indigenous float(2) default null) returns ccbc_public.application_gis_assessment_hh as $$
 declare
 application_gis_assessment_hh_id int;
 begin

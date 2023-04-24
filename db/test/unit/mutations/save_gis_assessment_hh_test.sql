@@ -29,7 +29,7 @@ select ccbc_public.create_application();
 
 -- set role to analyst and save gis assessment hh
 set role ccbc_analyst;
-select ccbc_public.save_gis_assessment_hh(1::int , 10::int, 20::int);
+select ccbc_public.save_gis_assessment_hh(1::int , 10::float(2), 20::float(2));
 
 select results_eq(
   $$
@@ -46,12 +46,12 @@ select results_eq(
     select application_id, eligible, eligible_indigenous from ccbc_public.application_gis_assessment_hh where application_id = 1;
   $$,
   $$
-    values (1, 10, 20);
+    values (1, 10::float(2), 20::float(2));
   $$,
   'Should return the correct values for application_id, eligible, eligible_indigenous'
 );
 
-select ccbc_public.save_gis_assessment_hh(1::int , 20::int, 30::int);
+select ccbc_public.save_gis_assessment_hh(1::int , 20::float(2), 30::float(2));
 
 select results_eq(
   $$
@@ -68,7 +68,7 @@ select results_eq(
     select application_id, eligible, eligible_indigenous from ccbc_public.application_gis_assessment_hh where application_id = 1;
   $$,
   $$
-    values (1, 20, 30);
+    values (1, 20::float(2), 30::float(2));
   $$,
   'Should return the correct values for application_id, eligible, eligible_indigenous'
 );

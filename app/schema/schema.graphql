@@ -11224,10 +11224,10 @@ input ApplicationGisAssessmentHhFilter {
   applicationId: IntFilter
 
   """Filter by the object’s `eligible` field."""
-  eligible: IntFilter
+  eligible: FloatFilter
 
   """Filter by the object’s `eligibleIndigenous` field."""
-  eligibleIndigenous: IntFilter
+  eligibleIndigenous: FloatFilter
 
   """Filter by the object’s `applicationByApplicationId` relation."""
   applicationByApplicationId: ApplicationFilter
@@ -11240,6 +11240,48 @@ input ApplicationGisAssessmentHhFilter {
 
   """Negates the expression."""
   not: ApplicationGisAssessmentHhFilter
+}
+
+"""
+A filter to be used against Float fields. All fields are combined with a logical ‘and.’
+"""
+input FloatFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Float
+
+  """Not equal to the specified value."""
+  notEqualTo: Float
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Float
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Float
+
+  """Included in the specified list."""
+  in: [Float!]
+
+  """Not included in the specified list."""
+  notIn: [Float!]
+
+  """Less than the specified value."""
+  lessThan: Float
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Float
+
+  """Greater than the specified value."""
+  greaterThan: Float
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Float
 }
 
 """
@@ -19710,10 +19752,10 @@ type ApplicationGisAssessmentHh implements Node {
   applicationId: Int!
 
   """The number of eligible households"""
-  eligible: Int
+  eligible: Float
 
   """The number of eligible indigenous households"""
-  eligibleIndigenous: Int
+  eligibleIndigenous: Float
 
   """
   Reads a single `Application` that is related to this `ApplicationGisAssessmentHh`.
@@ -19757,10 +19799,10 @@ input ApplicationGisAssessmentHhCondition {
   applicationId: Int
 
   """Checks for equality with the object’s `eligible` field."""
-  eligible: Int
+  eligible: Float
 
   """Checks for equality with the object’s `eligibleIndigenous` field."""
-  eligibleIndigenous: Int
+  eligibleIndigenous: Float
 }
 
 """A connection to a list of `HistoryItem` values."""
@@ -34651,10 +34693,10 @@ input ApplicationGisAssessmentHhInput {
   applicationId: Int!
 
   """The number of eligible households"""
-  eligible: Int
+  eligible: Float
 
   """The number of eligible indigenous households"""
-  eligibleIndigenous: Int
+  eligibleIndigenous: Float
 }
 
 """The output of our create `ApplicationGisData` mutation."""
@@ -36644,10 +36686,10 @@ input ApplicationGisAssessmentHhPatch {
   applicationId: Int
 
   """The number of eligible households"""
-  eligible: Int
+  eligible: Float
 
   """The number of eligible indigenous households"""
-  eligibleIndigenous: Int
+  eligibleIndigenous: Float
 }
 
 """All input for the `updateApplicationGisAssessmentHhByRowId` mutation."""
@@ -40787,8 +40829,8 @@ input SaveGisAssessmentHhInput {
   """
   clientMutationId: String
   _applicationId: Int!
-  _eligible: Int
-  _eligibleIndigenous: Int
+  _eligible: Float
+  _eligibleIndigenous: Float
 }
 
 """The output of our `saveGisData` mutation."""

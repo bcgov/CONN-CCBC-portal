@@ -5,8 +5,8 @@ begin;
 create table ccbc_public.application_gis_assessment_hh(
   id integer primary key generated always as identity,
   application_id integer not null references ccbc_public.application(id),
-  eligible integer default null,
-  eligible_indigenous integer default null
+  eligible float(2) default null,
+  eligible_indigenous float(2) default null
 );
 
 do

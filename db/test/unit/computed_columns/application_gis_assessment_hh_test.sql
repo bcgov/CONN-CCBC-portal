@@ -42,7 +42,7 @@ set jwt.claims.sub to 'testCcbcAdminUser';
 
 -- set role to analyst and save gis assessment hh
 set role ccbc_analyst;
-select ccbc_public.save_gis_assessment_hh(1::int , 10::int, 20::int);
+select ccbc_public.save_gis_assessment_hh(1::int , 10::float(2), 20::float(2));
 
 select results_eq(
   $$
@@ -51,9 +51,9 @@ select results_eq(
        from ccbc_public.application where id=1));
   $$,
   $$
-    values(1, 10, 20);
+    values(1, 10::float(2), 20::float(2));
   $$,
-  'Should return the newly created assessment form'
+  'Should return the correct values'
 );
 
 select results_eq(
@@ -65,7 +65,7 @@ select results_eq(
   $$
     values(null::integer);
   $$,
-  'Should return the newly created assessment form'
+  'Should return null'
 );
 
 
