@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import { useSaveGisAssessmentHhMutation } from 'schema/mutations/assessment/saveGisAssessmentHh';
 import { DateTime } from 'luxon';
 import { faExclamation, faMap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -106,6 +107,14 @@ const StyledInput = styled.input`
   border-radius: 4px;
 `;
 
+const formatNumber = (value) => {
+  // format to 2 decimal places if a number has decimals, if not return whole number
+  if (value % 1 !== 0) {
+    return value.toFixed(2);
+  }
+  return value;
+};
+
 interface Props {
   query: any;
 }
@@ -114,6 +123,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
       fragment ApplicationGisData_query on Application {
+        rowId
         gisData {
           jsonData
           createdAt
@@ -121,26 +131,42 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         formData {
           jsonData
         }
+        gisAssessmentHh {
+          eligible
+          eligibleIndigenous
+        }
       }
     `,
     query.applicationByRowId
   );
 
-  const formatNumber = (value) => {
-    // format to 2 decimal places if a number has decimals, if not return whole number
-    if (value % 1 !== 0) {
-      return value.toFixed(2);
-    }
-    return value;
-  };
+  const { rowId: applicationRowId, gisAssessmentHh } = queryFragment;
 
-  const [eligible, setEligible] = useState(null);
-  const [eligibleIndigenous, setEligibleIndigenous] = useState(null);
+  const [saveGisAssessmentHh] = useSaveGisAssessmentHhMutation();
 
-  const handleChange = (value, setValue) => {
+  const [eligible, setEligible] = useState(gisAssessmentHh?.eligible);
+  const [eligibleIndigenous, setEligibleIndigenous] = useState(
+    gisAssessmentHh?.eligibleIndigenous
+  );
+
+  useEffect(() => {
+    saveGisAssessmentHh({
+      variables: {
+        input: {
+          _applicationId: applicationRowId,
+          _eligible: Number(eligible),
+          _eligibleIndigenous: Number(eligibleIndigenous),
+        },
+      },
+      debounceKey: 'test',
+    });
+    console.log(eligible, eligibleIndigenous);
+  }, [eligible, eligibleIndigenous]);
+
+  const handleChange = async (value, setValue) => {
     const pattern = '^-?[0-9]+(?:.[0-9]{1,2})?$';
 
-    if (value.match(pattern)) {
+    if (value.match(pattern) || !value) {
       setValue(value);
     }
   };
