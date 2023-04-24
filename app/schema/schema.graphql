@@ -13070,6 +13070,9 @@ type Application implements Node {
   """Computed column to display form_data"""
   formData: FormData
 
+  """Computed column to return the GIS assessment household counts"""
+  gisAssessmentHh: ApplicationGisAssessmentHh
+
   """Computed column to return last GIS data for an application"""
   gisData: ApplicationGisData
 
