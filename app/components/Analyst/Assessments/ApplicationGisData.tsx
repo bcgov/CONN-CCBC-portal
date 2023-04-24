@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import { DateTime } from 'luxon';
 import { faExclamation, faMap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'app/components';
@@ -115,6 +116,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
       fragment ApplicationGisData_query on Application {
         gisData {
           jsonData
+          createdAt
         }
         formData {
           jsonData
@@ -146,7 +148,10 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
   const { gisData, formData } = queryFragment;
   const gisJsonData = gisData?.jsonData || {};
   const formJsonData = formData?.jsonData?.benefits || {};
-
+  const createdAt = gisData?.createdAt;
+  const createdAtFormatted =
+    createdAt &&
+    DateTime.fromISO(createdAt).toLocaleString(DateTime.DATETIME_MED);
   const { numberOfHouseholds = null, householdsImpactedIndigenous = null } =
     formJsonData;
 
@@ -190,6 +195,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
               <>
                 <Tooltip
                   className="fa-layers fa-fw"
+                  id="tooltip-contesting-map"
                   message=" According to eligibility screening, the applicant is contesting the map."
                   style={{ marginRight: '16px' }}
                   title="Applicant is contesting map"
@@ -269,10 +275,12 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
           <td />
         </tr>
       </StyledTable>
-      <StyledLastUpdated>
-        GIS analysis last updated: <br />
-        2023-03-01 12:00:00
-      </StyledLastUpdated>
+      {createdAtFormatted && (
+        <StyledLastUpdated>
+          GIS analysis last updated: <br />
+          {createdAtFormatted}
+        </StyledLastUpdated>
+      )}
     </StyledContainer>
   );
 };
