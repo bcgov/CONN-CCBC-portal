@@ -23,7 +23,7 @@ const StyledCell = styled.td`
   }
 `;
 
-const HistoryRow = ({ historyItem }) => {
+const HistoryRow = ({ historyItem, prevHistoryItem }) => {
   const { tableName } = historyItem;
 
   return (
@@ -32,7 +32,10 @@ const HistoryRow = ({ historyItem }) => {
         <HistoryIcon type={tableName} />
       </StyledIconCell>
       <StyledCell>
-        <HistoryContent historyItem={historyItem} />
+        <HistoryContent
+          historyItem={historyItem}
+          prevHistoryItem={prevHistoryItem}
+        />
       </StyledCell>
     </tr>
   );
