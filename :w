@@ -1,6 +1,6 @@
 begin;
 
-select plan(6);
+select plan(5);
 
 truncate table
   ccbc_public.application,
@@ -46,31 +46,17 @@ insert into ccbc_public.gis_data (json_data)
 
 select ccbc_public.parse_gis_data(1);
 
-select results_eq(
+select results_eq (
   $$
-    select id, json_data from ccbc_public.application_gis_data(
-      (select row(application.*)::ccbc_public.application
-       from ccbc_public.application where id=1));
+    select ccbc_public.application_gis_data(
+      (select row(application.*)::ccbc_public.application from ccbc_public.application where id=1)
+    );
   $$,
   $$
-    values(1, '{"ccbc_number":"CCBC-01001"}'::jsonb);
+    values(1::integer, 1::integer, 1::integer, '[{"ccbc_number":"CCBC-01001"},{"ccbc_number":"CCBC-01003"}]'::jsonb, null::int, '2022-04-01 09:00:00-07'::varchar, null::int, '2022-04-01 09:00:00-07'::varchar, null::int, null::varchar)
   $$,
-  'Should return the newly created assessment form'
+  'ccbc_public.application_gis_data retrieves the correct application_gist_data'
 );
-
-select results_eq(
-  $$
-    select id from ccbc_public.application_gis_data(
-      (select row(application.*)::ccbc_public.application
-       from ccbc_public.application where id=10));
-  $$,
-  $$
-    values(null::integer);
-  $$,
-  'Should return the newly created assessment form'
-);
-
-
 select function_privs_are(
   'ccbc_public', 'application_gis_data', ARRAY['ccbc_public.application'], 'ccbc_admin', ARRAY['EXECUTE'],
   'ccbc_auth_user can execute ccbc_public.application_gis_data(ccbc_public.application)'

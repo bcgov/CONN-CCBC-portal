@@ -12931,7 +12931,30 @@ type Application implements Node {
   formData: FormData
 
   """Computed column to return last GIS data for an application"""
-  gisData: GisDataItem
+  gisData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisDataFilter
+  ): ApplicationGisDataConnection!
 
   """Computed column to return whether the rfi is open"""
   hasRfiOpen: Boolean
@@ -19532,10 +19555,6 @@ type ApplicationAnnouncementsEdge {
 
   """The `ApplicationAnnouncement` at the end of the edge."""
   node: ApplicationAnnouncement
-}
-
-type GisDataItem {
-  jsonData: JSON
 }
 
 """A connection to a list of `HistoryItem` values."""
