@@ -2,6 +2,7 @@
 
 begin;
 
-drop function ccbc_public.application_assessment_form;
+drop function if exists ccbc_public.application_assessment_form(ccbc_public.application,character varying);
+drop function if exists ccbc_public.application_assessment_form;
 
 commit;

@@ -1,6 +1,8 @@
 -- Deploy ccbc:computed_columns/application_rfi to pg
 begin;
 
+DROP FUNCTION if exists ccbc_public.application_rfi(ccbc_public.application);
+
 create or replace function ccbc_public.application_rfi(application ccbc_public.application) returns varchar as
 $$
 select rd.rfi_number from ccbc_public.rfi_data as rd

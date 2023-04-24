@@ -2,6 +2,6 @@
 
 begin;
 
-drop function ccbc_private.upsert_timestamp_columns(text, text, boolean, boolean, boolean, text, text); 
+drop function if exists ccbc_private.upsert_timestamp_columns(text, text, boolean, boolean, boolean, text, text); 
 
 commit;

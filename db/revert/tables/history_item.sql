@@ -30,7 +30,7 @@ end
 $policy$;
 
 
-create index history_item_index on ccbc_public.history_item(application_id);
+create index if not exists history_item_index on ccbc_public.history_item(application_id);
 
 comment on column ccbc_public.history_item.application_id is
   'Application Id.';

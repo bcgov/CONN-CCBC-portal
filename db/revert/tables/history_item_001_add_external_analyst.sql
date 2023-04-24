@@ -2,6 +2,6 @@
 
 begin;
 
-alter table ccbc_public.history_item drop column external_analyst;
+alter table ccbc_public.history_item drop column if exists external_analyst;
 
 commit;

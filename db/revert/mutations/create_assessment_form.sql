@@ -2,6 +2,8 @@
 
 begin;
 
+DROP FUNCTION ccbc_public.create_assessment_form(character varying,jsonb,integer);
+
 create or replace function ccbc_public.create_assessment_form(schema_slug varchar, _json_data jsonb, _application_id int) returns ccbc_public.form_data as $$
 declare
 _form_schema_id  int;

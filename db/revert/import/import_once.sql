@@ -2,6 +2,6 @@
 
 BEGIN;
 
-drop function ccbc_public.import_once();
+drop function if exists ccbc_public.import_once();
 
 COMMIT;

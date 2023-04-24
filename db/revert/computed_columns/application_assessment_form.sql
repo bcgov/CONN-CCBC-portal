@@ -2,6 +2,8 @@
 
 begin;
 
+DROP FUNCTION if exists ccbc_public.application_assessment_form(ccbc_public.application,character varying);
+
 create or replace function ccbc_public.application_assessment_form(application ccbc_public.application, _slug varchar) returns ccbc_public.form_data as $$
 
 select row(fd.*) from ccbc_public.form_data as fd, ccbc_public.form as f,
