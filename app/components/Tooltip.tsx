@@ -5,7 +5,7 @@ const StyledTooltip = styled.span<TooltipProps>`
   position: relative;
   text-align: left;
 
-  .${(props) => (props.customClass ? props.customClass : 'tooltip')} {
+  #${(props) => props.tooltipId} {
     min-width: 200px;
     top: 24px;
     left: 50%;
@@ -25,13 +25,13 @@ const StyledTooltip = styled.span<TooltipProps>`
   }
 
   &:hover
-    .${(props) => (props.customClass ? props.customClass : 'tooltip')},
+    #${(props) => props.tooltipId},
     &:focus
-    .${(props) => (props.customClass ? props.customClass : 'tooltip')} {
+    #${(props) => props.tooltipId} {
     display: block;
   }
 
-  .${(props) => (props.customClass ? props.customClass : 'tooltip')} i {
+  #${(props) => props.tooltipId} i {
     position: absolute;
     bottom: 100%;
     left: 50%;
@@ -41,7 +41,7 @@ const StyledTooltip = styled.span<TooltipProps>`
     overflow: hidden;
   }
 
-  .${(props) => (props.customClass ? props.customClass : 'tooltip')} i::after {
+  #${(props) => props.tooltipId} i::after {
     content: '';
     position: absolute;
     width: 12px;
@@ -56,17 +56,17 @@ const StyledTooltip = styled.span<TooltipProps>`
 
 interface TooltipProps {
   children: React.ReactNode;
-  customClass?: string;
+  tooltipId: string;
   [otherOptions: string]: unknown;
 }
 
 const Tooptip = (props) => {
-  const { children, customClass, message } = props;
+  const { children, customId, message } = props;
+  const idName = customId || 'tooltip';
   return (
-    <StyledTooltip {...props} tabIndex={0}>
+    <StyledTooltip {...props} tabIndex={0} tooltipId={idName}>
       {children}
-
-      <div className={customClass || 'tooltip'}>
+      <div id={idName}>
         {message}
         <i />
       </div>

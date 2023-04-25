@@ -171,6 +171,8 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
     return false;
   };
 
+  const tooltipId = 'gis-assessment-hh-tooltip';
+
   const handleChangeEligible = async (e) => {
     setIsSavingEligible(true);
     if (isAcceptedNumber(e.target.value)) {
@@ -261,10 +263,11 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
               <>
                 <Tooltip
                   className="fa-layers fa-fw"
-                  id="tooltip-contesting-map"
                   message=" According to eligibility screening, the applicant is contesting the map."
                   style={{ marginRight: '16px' }}
                   title="Applicant is contesting map"
+                  customId={tooltipId}
+                  aria-describedby={tooltipId}
                 >
                   <FontAwesomeIcon icon={faMap} size="lg" color="#C38A00" />
                   <FontAwesomeIcon
