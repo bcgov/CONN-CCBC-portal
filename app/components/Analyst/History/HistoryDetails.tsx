@@ -62,6 +62,12 @@ const estimatedContractorLabour = {
   headingKey: 'estimatedContractorLabour',
 };
 
+const mailingAddress = {
+  requiresHeading: true,
+  heading: 'Mailing address',
+  headingKey: 'mailingAddress',
+};
+
 const diffSchema = {
   acknowledgements: { ...acknowledgements.acknowledgements },
   alternateContact: { ...alternateContact.alternateContact },
@@ -115,7 +121,54 @@ const diffSchema = {
   existingNetworkCoverage: {
     ...existingNetworkCoverage.existingNetworkCoverage,
   },
-  organizationLocation: { ...organizationLocation.organizationLocation },
+  organizationLocation: {
+    ...organizationLocation.organizationLocation,
+    properties: {
+      ...organizationLocation.organizationLocation.properties,
+      unitNumberMailing: {
+        ...(organizationLocation.organizationLocation.dependencies
+          .isMailingAddress['oneOf'][1]!.properties.mailingAddress.properties
+          .unitNumberMailing as Object),
+        ...mailingAddress,
+      },
+      streetNumberMailing: {
+        ...(organizationLocation.organizationLocation.dependencies
+          .isMailingAddress['oneOf'][1]!.properties.mailingAddress.properties
+          .streetNumberMailing as Object),
+        ...mailingAddress,
+      },
+      streetNameMailing: {
+        ...(organizationLocation.organizationLocation.dependencies
+          .isMailingAddress['oneOf'][1]!.properties.mailingAddress.properties
+          .streetNameMailing as Object),
+        ...mailingAddress,
+      },
+      POBoxMailing: {
+        ...(organizationLocation.organizationLocation.dependencies
+          .isMailingAddress['oneOf'][1]!.properties.mailingAddress.properties
+          .POBoxMailing as Object),
+        ...mailingAddress,
+      },
+      cityMailing: {
+        ...(organizationLocation.organizationLocation.dependencies
+          .isMailingAddress['oneOf'][1]!.properties.mailingAddress.properties
+          .cityMailing as Object),
+        ...mailingAddress,
+      },
+      provinceMailing: {
+        ...(organizationLocation.organizationLocation.dependencies
+          .isMailingAddress['oneOf'][1]!.properties.mailingAddress.properties
+          .provinceMailing as Object),
+        ...mailingAddress,
+      },
+      postalCodeMailing: {
+        ...(organizationLocation.organizationLocation.dependencies
+          .isMailingAddress['oneOf'][1]!.properties.mailingAddress.properties
+          .postalCodeMailing as Object),
+        ...mailingAddress,
+      },
+    },
+  },
   organizationProfile: { ...organizationProfile.organizationProfile },
   otherFundingSources: {
     ...otherFundingSources.otherFundingSources,
@@ -260,7 +313,6 @@ const diffSchema = {
 
 const HistoryDetails = ({ json, prevJson }) => {
   const changes = diff(prevJson, json, { keepUnchangedValues: true });
-
   return (
     <DiffTable
       changes={changes}
