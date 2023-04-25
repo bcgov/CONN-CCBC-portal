@@ -5,7 +5,7 @@ import { useSaveGisAssessmentHhMutation } from 'schema/mutations/assessment/save
 import { DateTime } from 'luxon';
 import { faExclamation, faMap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { LoadingCheck, Tooltip } from 'app/components';
+import { LoadingCheck, Tooltip } from 'components';
 import formatNumber from 'utils/formatNumber';
 import isAcceptedNumber from 'utils/isAcceptedNumber';
 
