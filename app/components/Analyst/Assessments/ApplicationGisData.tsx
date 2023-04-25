@@ -115,7 +115,7 @@ const StyledFlex = styled.div`
 const formatNumber = (value) => {
   // format to 2 decimal places if a number has decimals, if not return whole number
   if (value && value % 1 !== 0) {
-    return value;
+    return value.toFixed(2);
   }
   return value;
 };
@@ -164,18 +164,20 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
     useState(false);
 
   const isAcceptedNumber = (number) => {
-    const pattern = '^-?[0-9]+(?:.[0-9]{1, 2})?$';
+    const pattern = '^-?[0-9]+(?:.[0-9]{1,2})?$';
     if (number.match(pattern) || !number) {
+      console.log('matched', number);
       return true;
     }
+    console.log('not matched', number);
     return false;
   };
 
   const tooltipId = 'gis-assessment-hh-tooltip';
 
   const handleChangeEligible = async (e) => {
-    setIsSavingEligible(true);
     if (isAcceptedNumber(e.target.value)) {
+      setIsSavingEligible(true);
       setEligible(e.target.value);
       setIsSavedEligible(true);
       saveGisAssessmentHh({
@@ -189,13 +191,17 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         onCompleted: () => {
           setIsSavingEligible(false);
         },
+        onError: () => {
+          setIsSavingEligible(false);
+          setIsSavedEligible(false);
+        },
       });
     }
   };
 
   const handleChangeEligibleIndigenous = async (e) => {
-    setIsSavingEligibleIndigenous(true);
     if (isAcceptedNumber(e.target.value)) {
+      setIsSavingEligibleIndigenous(true);
       setEligibleIndigenous(e.target.value);
       setIsSavedEligibleIndigenous(true);
       saveGisAssessmentHh({
@@ -208,6 +214,10 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         debounceKey: 'save-gis-assessment-hh-indigenous',
         onCompleted: () => {
           setIsSavingEligibleIndigenous(false);
+        },
+        onError: () => {
+          setIsSavingEligibleIndigenous(false);
+          setIsSavedEligibleIndigenous(false);
         },
       });
     }
