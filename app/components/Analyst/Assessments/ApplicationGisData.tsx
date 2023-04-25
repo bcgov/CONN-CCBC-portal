@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { useSaveGisAssessmentHhMutation } from 'schema/mutations/assessment/saveGisAssessmentHh';
 import { DateTime } from 'luxon';
 import { faExclamation, faMap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Tooltip } from 'app/components';
+import { LoadingCheck, Tooltip } from 'app/components';
 
 const StyledContainer = styled.section`
   background: ${(props) => props.theme.color.backgroundGrey};
@@ -105,6 +105,11 @@ const StyledInput = styled.input`
   background: #ffffff;
   border: 2px solid #606060;
   border-radius: 4px;
+  margin-right: 4px;
+`;
+
+const StyledFlex = styled.div`
+  display: flex;
 `;
 
 const formatNumber = (value) => {
@@ -149,25 +154,60 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
     gisAssessmentHh?.eligibleIndigenous || null
   );
 
-  useEffect(() => {
-    saveGisAssessmentHh({
-      variables: {
-        input: {
-          _applicationId: applicationRowId,
-          _eligible: Number(eligible),
-          _eligibleIndigenous: Number(eligibleIndigenous),
+  // Separate isSaving state instead of using isSaving from the mutation
+  // so that we can set the checkmarks separately
+  const [isSavedEligible, setIsSavedEligible] = useState(false);
+  const [isSavingEligible, setIsSavingEligible] = useState(false);
+  const [isSavedEligibleIndigenous, setIsSavedEligibleIndigenous] =
+    useState(false);
+  const [isSavingEligibleIndigenous, setIsSavingEligibleIndigenous] =
+    useState(false);
+
+  const isAcceptedNumber = (number) => {
+    const pattern = '^-?[0-9]+(?:.[0-9]{1, 2})?$';
+    if (number.match(pattern) || !number) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleChangeEligible = async (e) => {
+    setIsSavingEligible(true);
+    if (isAcceptedNumber(e.target.value)) {
+      setEligible(e.target.value);
+      setIsSavedEligible(true);
+      saveGisAssessmentHh({
+        variables: {
+          input: {
+            _applicationId: applicationRowId,
+            _eligible: Number(eligible),
+          },
         },
-      },
-      debounceKey: 'test',
-    });
-    console.log(eligible, eligibleIndigenous);
-  }, [eligible, eligibleIndigenous]);
+        debounceKey: 'save-gis-assessment-hh',
+        onCompleted: () => {
+          setIsSavingEligible(false);
+        },
+      });
+    }
+  };
 
-  const handleChange = async (value, setValue) => {
-    const pattern = '^-?[0-9]+(?:.[0-9]{1,2})?$';
-
-    if (value.match(pattern) || !value) {
-      setValue(value);
+  const handleChangeEligibleIndigenous = async (e) => {
+    setIsSavingEligibleIndigenous(true);
+    if (isAcceptedNumber(e.target.value)) {
+      setEligibleIndigenous(e.target.value);
+      setIsSavedEligibleIndigenous(true);
+      saveGisAssessmentHh({
+        variables: {
+          input: {
+            _applicationId: applicationRowId,
+            _eligibleIndigenous: Number(eligibleIndigenous),
+          },
+        },
+        debounceKey: 'save-gis-assessment-hh-indigenous',
+        onCompleted: () => {
+          setIsSavingEligibleIndigenous(false);
+        },
+      });
     }
   };
 
@@ -244,11 +284,14 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         <tr>
           <td>Assessment HH</td>
           <td>
-            <StyledInput
-              type="number"
-              value={eligible}
-              onChange={(e) => handleChange(e.target.value, setEligible)}
-            />
+            <StyledFlex>
+              <StyledInput
+                type="number"
+                value={eligible}
+                onChange={handleChangeEligible}
+              />
+              {isSavedEligible && <LoadingCheck checked={!isSavingEligible} />}
+            </StyledFlex>
           </td>
           <td />
           <td />
@@ -288,13 +331,17 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         <tr>
           <td className="breakpoint-labels">Assessment HH</td>
           <td>
-            <StyledInput
-              type="number"
-              value={eligibleIndigenous}
-              onChange={(e) =>
-                handleChange(e.target.value, setEligibleIndigenous)
-              }
-            />
+            <StyledFlex>
+              <StyledInput
+                type="number"
+                value={eligibleIndigenous}
+                onChange={handleChangeEligibleIndigenous}
+              />
+
+              {isSavedEligibleIndigenous && (
+                <LoadingCheck checked={!isSavingEligibleIndigenous} />
+              )}
+            </StyledFlex>
           </td>
           <td />
           <td />

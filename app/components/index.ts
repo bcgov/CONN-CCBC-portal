@@ -7,6 +7,7 @@ export { default as IntakeAlert } from './IntakeAlert';
 export { default as DynamicAlert } from './DynamicAlert';
 export { default as Layout } from './Layout';
 export { default as LoadingSpinner } from './LoadingSpinner';
+export { default as LoadingCheck } from './LoadingCheck';
 export { default as LoginForm } from './LoginForm';
 export { default as Navigation } from './Navigation';
 export { default as NavLoginForm } from './NavLoginForm';
