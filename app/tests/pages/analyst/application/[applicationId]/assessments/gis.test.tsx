@@ -20,7 +20,28 @@ const mockQueryPayload = {
           createdAt: '2023-03-27T12:44:09.882871-07:00',
         },
         status: 'received',
+        gisData: {
+          jsonData: {
+            ccbc_number: 'CCBC-010001',
+            GIS_TOTAL_HH: 10.01,
+            GIS_TOTAL_INDIG_HH: 20.1,
+            GIS_PERCENT_OVERLAP: 30.2,
+            GIS_PERCENT_OVERBUILD: 40.3,
+            GIS_TOTAL_ELIGIBLE_HH: 50.4,
+            GIS_TOTAL_INELIGIBLE_HH: 60.5,
+            GIS_TOTAL_ELIGIBLE_INDIG_HH: 70.6,
+          },
+          createdAt: '2023-04-25T12:38:16.342915-07:00',
+        },
+        formData: {
+          jsonData: {},
+        },
+        gisAssessmentHh: {
+          eligible: 2.12,
+          eligibleIndigenous: 212,
+        },
       },
+
       allApplicationStatusTypes: {
         ...allApplicationStatusTypes,
       },
@@ -138,6 +159,84 @@ describe('The index page', () => {
     );
   });
 
+  it('Displays the last updated GIS datetime', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText('GIS analysis last updated: Apr 25, 2023, 12:38 p.m.')
+    ).toBeInTheDocument();
+  });
+
+  it('Displays the GIS data', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('10.01')).toBeInTheDocument();
+    expect(screen.getByText('20.1')).toBeInTheDocument();
+    expect(screen.getByText('30.2')).toBeInTheDocument();
+    expect(screen.getByText('40.3')).toBeInTheDocument();
+    expect(screen.getByText('50.4')).toBeInTheDocument();
+    expect(screen.getByText('60.5')).toBeInTheDocument();
+    expect(screen.getByText('70.6')).toBeInTheDocument();
+  });
+
+  it('Displays the GIS assessment HH data', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const eligibleInput = screen.getByTestId('eligible-input');
+    const eligibleIndigenousInput = screen.getByTestId(
+      'eligible-indigenous-input'
+    );
+
+    expect(eligibleInput).toHaveValue(2.12);
+    expect(eligibleIndigenousInput).toHaveValue(212);
+  });
+
+  it('Calls the saveGisAssessmentHh mutation on change for eligible hh', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const eligibleInput = screen.getByTestId('eligible-input');
+
+    await act(async () => {
+      fireEvent.change(eligibleInput, {
+        target: { value: '3.17' },
+      });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('saveGisAssessmentHhMutation', {
+      input: {
+        _applicationId: 1,
+        _eligible: 3.17,
+        _eligibleIndigenous: 212,
+      },
+    });
+  });
+
+  it('Calls the saveGisAssessmentHh mutation on change for eligible indigenous hh', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const eligibleIndigenousInput = screen.getByTestId(
+      'eligible-indigenous-input'
+    );
+
+    await act(async () => {
+      fireEvent.change(eligibleIndigenousInput, {
+        target: { value: '50.5' },
+      });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('saveGisAssessmentHhMutation', {
+      input: {
+        _applicationId: 1,
+        _eligible: 2.12,
+        _eligibleIndigenous: 50.5,
+      },
+    });
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });
