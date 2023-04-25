@@ -180,7 +180,15 @@ const diffSchema = {
       },
     },
   },
-  projectArea: { ...projectArea.projectArea },
+  projectArea: {
+    ...projectArea.projectArea,
+    properties: {
+      ...projectArea.projectArea.dependencies.projectSpanMultipleLocations[
+        'oneOf'
+      ][1]!.properties,
+      ...projectArea.projectArea.properties,
+    },
+  },
   projectFunding: {
     ...projectFunding.projectFunding,
     properties: {
