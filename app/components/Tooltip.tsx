@@ -24,7 +24,10 @@ const StyledTooltip = styled.span<TooltipProps>`
     display: none;
   }
 
-  &:hover .${(props) => (props.customClass ? props.customClass : 'tooltip')} {
+  &:hover
+    .${(props) => (props.customClass ? props.customClass : 'tooltip')},
+    &:focus
+    .${(props) => (props.customClass ? props.customClass : 'tooltip')} {
     display: block;
   }
 
@@ -60,7 +63,7 @@ interface TooltipProps {
 const Tooptip = (props) => {
   const { children, customClass, message } = props;
   return (
-    <StyledTooltip {...props}>
+    <StyledTooltip {...props} tabIndex={0}>
       {children}
 
       <div className={customClass || 'tooltip'}>
