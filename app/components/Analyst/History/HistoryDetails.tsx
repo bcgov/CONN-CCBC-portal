@@ -169,7 +169,27 @@ const diffSchema = {
       },
     },
   },
-  organizationProfile: { ...organizationProfile.organizationProfile },
+  organizationProfile: {
+    ...organizationProfile.organizationProfile,
+    properties: {
+      ...organizationProfile.organizationProfile.dependencies
+        .typeOfOrganization['oneOf'][1]!.properties,
+      ...organizationProfile.organizationProfile.dependencies
+        .typeOfOrganization['oneOf'][2]!.properties,
+      ...organizationProfile.organizationProfile.dependencies.isNameLegalName[
+        'oneOf'
+      ][1]!.properties,
+      ...organizationProfile.organizationProfile.dependencies.isSubsidiary[
+        'oneOf'
+      ][1]!.properties,
+      ...organizationProfile.organizationProfile.dependencies
+        .isIndigenousEntity['oneOf'][1]!.properties,
+      ...organizationProfile.organizationProfile.properties,
+      isIndigenousEntity: {
+        title: 'Is this Applicant organization an Indigenous identity?',
+      },
+    },
+  },
   otherFundingSources: {
     ...otherFundingSources.otherFundingSources,
     properties: {
