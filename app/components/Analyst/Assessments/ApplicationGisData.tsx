@@ -109,8 +109,8 @@ const StyledInput = styled.input`
 
 const formatNumber = (value) => {
   // format to 2 decimal places if a number has decimals, if not return whole number
-  if (value % 1 !== 0) {
-    return value.toFixed(2);
+  if (value && value % 1 !== 0) {
+    return value;
   }
   return value;
 };
@@ -144,9 +144,9 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
 
   const [saveGisAssessmentHh] = useSaveGisAssessmentHhMutation();
 
-  const [eligible, setEligible] = useState(gisAssessmentHh?.eligible);
+  const [eligible, setEligible] = useState(gisAssessmentHh?.eligible || null);
   const [eligibleIndigenous, setEligibleIndigenous] = useState(
-    gisAssessmentHh?.eligibleIndigenous
+    gisAssessmentHh?.eligibleIndigenous || null
   );
 
   useEffect(() => {
