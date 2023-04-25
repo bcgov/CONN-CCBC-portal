@@ -14,9 +14,9 @@ const createRow = (title, newValue, oldValue, objectName, key) => {
   return (
     <tr key={`${objectName}-${key}-${newValue}-${oldValue}`}>
       <td>{title}</td>
-      <td>{newValue}</td>
+      <td>{`${newValue}`}</td>
       <td>
-        <s>{oldValue}</s>
+        <s>{`${oldValue}`}</s>
       </td>
     </tr>
   );
