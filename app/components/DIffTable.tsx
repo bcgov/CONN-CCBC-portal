@@ -47,7 +47,7 @@ const handleRow = (
   }
   rows.push(
     createRow(
-      schema[parentObject].properties[key]?.title,
+      schema[parentObject].properties[key]?.title || key,
       newValue,
       oldValue,
       parentObject,
@@ -187,6 +187,23 @@ const generateDiffTable = (
                     );
                   });
                 }
+              });
+            } else if (
+              !Array.isArray(newValue) &&
+              typeof newValue === 'object'
+            ) {
+              const a = Object.values(newValue);
+              a.forEach((b, j) => {
+                rows.push(
+                  handleRow(
+                    schema,
+                    parent,
+                    Object.keys(newValue)[j],
+                    b,
+                    'N/A',
+                    addedHeadings
+                  )
+                );
               });
             } else {
               rows.push(
