@@ -47,7 +47,7 @@ const handleRow = (
   }
   rows.push(
     createRow(
-      schema[parentObject].properties[key].title,
+      schema[parentObject].properties[key]?.title,
       newValue,
       oldValue,
       parentObject,
