@@ -6,6 +6,8 @@ import { DateTime } from 'luxon';
 import { faExclamation, faMap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LoadingCheck, Tooltip } from 'app/components';
+import formatNumber from 'utils/formatNumber';
+import isAcceptedNumber from 'utils/isAcceptedNumber';
 
 const StyledContainer = styled.section`
   background: ${(props) => props.theme.color.backgroundGrey};
@@ -112,14 +114,6 @@ const StyledFlex = styled.div`
   display: flex;
 `;
 
-const formatNumber = (value) => {
-  // format to 2 decimal places if a number has decimals, if not return whole number
-  if (value && value % 1 !== 0) {
-    return value.toFixed(2);
-  }
-  return value;
-};
-
 interface Props {
   query: any;
 }
@@ -163,28 +157,19 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
   const [isSavingEligibleIndigenous, setIsSavingEligibleIndigenous] =
     useState(false);
 
-  const isAcceptedNumber = (number) => {
-    const pattern = '^-?[0-9]+(?:.[0-9]{1,2})?$';
-    if (number.match(pattern) || !number) {
-      console.log('matched', number);
-      return true;
-    }
-    console.log('not matched', number);
-    return false;
-  };
-
   const tooltipId = 'gis-assessment-hh-tooltip';
 
   const handleChangeEligible = async (e) => {
     if (isAcceptedNumber(e.target.value)) {
-      setIsSavingEligible(true);
       setEligible(e.target.value);
+      setIsSavingEligible(true);
       setIsSavedEligible(true);
       saveGisAssessmentHh({
         variables: {
           input: {
             _applicationId: applicationRowId,
-            _eligible: Number(eligible),
+            _eligible: Number(e.target.value),
+            _eligibleIndigenous: Number(eligibleIndigenous),
           },
         },
         debounceKey: 'save-gis-assessment-hh',
@@ -201,14 +186,15 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
 
   const handleChangeEligibleIndigenous = async (e) => {
     if (isAcceptedNumber(e.target.value)) {
-      setIsSavingEligibleIndigenous(true);
       setEligibleIndigenous(e.target.value);
+      setIsSavingEligibleIndigenous(true);
       setIsSavedEligibleIndigenous(true);
       saveGisAssessmentHh({
         variables: {
           input: {
             _applicationId: applicationRowId,
-            _eligibleIndigenous: Number(eligibleIndigenous),
+            _eligible: Number(eligible),
+            _eligibleIndigenous: Number(e.target.value),
           },
         },
         debounceKey: 'save-gis-assessment-hh-indigenous',
