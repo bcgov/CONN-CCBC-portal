@@ -288,7 +288,6 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
                 type="number"
                 value={eligible}
                 onChange={handleChangeEligible}
-                data-testid="eligible-input"
               />
               {isSavedEligible && <LoadingCheck checked={!isSavingEligible} />}
             </StyledFlex>
@@ -336,7 +335,6 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
                 type="number"
                 value={eligibleIndigenous}
                 onChange={handleChangeEligibleIndigenous}
-                data-testid="eligible-indigenous-input"
               />
 
               {isSavedEligibleIndigenous && (

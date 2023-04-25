@@ -185,10 +185,8 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const eligibleInput = screen.getByTestId('eligible-input');
-    const eligibleIndigenousInput = screen.getByTestId(
-      'eligible-indigenous-input'
-    );
+    const eligibleInput = screen.getByDisplayValue(2.12);
+    const eligibleIndigenousInput = screen.getByDisplayValue(212);
 
     expect(eligibleInput).toHaveValue(2.12);
     expect(eligibleIndigenousInput).toHaveValue(212);
@@ -198,8 +196,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const eligibleInput = screen.getByTestId('eligible-input');
-
+    const eligibleInput = screen.getByDisplayValue(2.12);
     await act(async () => {
       fireEvent.change(eligibleInput, {
         target: { value: '3.17' },
@@ -219,9 +216,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const eligibleIndigenousInput = screen.getByTestId(
-      'eligible-indigenous-input'
-    );
+    const eligibleIndigenousInput = screen.getByDisplayValue(212);
 
     await act(async () => {
       fireEvent.change(eligibleIndigenousInput, {
