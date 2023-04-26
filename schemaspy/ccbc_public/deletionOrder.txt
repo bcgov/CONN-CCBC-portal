@@ -9,6 +9,7 @@ application_package
 application_rfi_data
 application_form_data
 record_version
+application_gis_assessment_hh
 form_data
 application_status
 rfi_data

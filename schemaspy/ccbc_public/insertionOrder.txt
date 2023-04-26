@@ -14,6 +14,7 @@ gis_data
 rfi_data
 application_status
 form_data
+application_gis_assessment_hh
 record_version
 application_form_data
 application_rfi_data
