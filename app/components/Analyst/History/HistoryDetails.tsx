@@ -24,7 +24,7 @@ import {
   techSolution,
   templateUploads,
 } from 'formSchema/pages';
-import DiffTable from 'components/DIffTable';
+import DiffTable from 'components/DiffTable';
 
 const amountRequestedUnderCCBC = {
   requiresHeading: true,
@@ -66,6 +66,39 @@ const mailingAddress = {
   requiresHeading: true,
   heading: 'Mailing address',
   headingKey: 'mailingAddress',
+};
+
+const otherFundingSourcesArray = {
+  requestedFundingPartner2223: {
+    ...(otherFundingSources.otherFundingSources.dependencies
+      .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
+      .items.properties.requestedFundingPartner2223 as Object),
+    ...amountRequestedUnderSource,
+  },
+  requestedFundingPartner2324: {
+    ...(otherFundingSources.otherFundingSources.dependencies
+      .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
+      .items.properties.requestedFundingPartner2324 as Object),
+    ...amountRequestedUnderSource,
+  },
+  requestedFundingPartner2425: {
+    ...(otherFundingSources.otherFundingSources.dependencies
+      .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
+      .items.properties.requestedFundingPartner2425 as Object),
+    ...amountRequestedUnderSource,
+  },
+  requestedFundingPartner2526: {
+    ...(otherFundingSources.otherFundingSources.dependencies
+      .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
+      .items.properties.requestedFundingPartner2526 as Object),
+    ...amountRequestedUnderSource,
+  },
+  requestedFundingPartner2627: {
+    ...(otherFundingSources.otherFundingSources.dependencies
+      .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
+      .items.properties.requestedFundingPartner2627 as Object),
+    ...amountRequestedUnderSource,
+  },
 };
 
 const diffSchema = {
@@ -197,6 +230,7 @@ const diffSchema = {
       ...otherFundingSources.otherFundingSources.dependencies
         .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
         .items.properties,
+      ...otherFundingSourcesArray,
       infrastructureBankFunding2223: {
         ...(otherFundingSources.otherFundingSources.properties
           .infrastructureBankFunding2223 as Object),
@@ -217,40 +251,18 @@ const diffSchema = {
           .infrastructureBankFunding2223 as Object),
         ...amountRequestedUnderCIB,
       },
-      requestedFundingPartner2223: {
-        ...(otherFundingSources.otherFundingSources.dependencies
-          .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
-          .items.properties.requestedFundingPartner2223 as Object),
-        ...amountRequestedUnderSource,
-      },
-      requestedFundingPartner2324: {
-        ...(otherFundingSources.otherFundingSources.dependencies
-          .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
-          .items.properties.requestedFundingPartner2324 as Object),
-        ...amountRequestedUnderSource,
-      },
-      requestedFundingPartner2425: {
-        ...(otherFundingSources.otherFundingSources.dependencies
-          .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
-          .items.properties.requestedFundingPartner2425 as Object),
-        ...amountRequestedUnderSource,
-      },
-      requestedFundingPartner2526: {
-        ...(otherFundingSources.otherFundingSources.dependencies
-          .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
-          .items.properties.requestedFundingPartner2526 as Object),
-        ...amountRequestedUnderSource,
-      },
-      requestedFundingPartner2627: {
-        ...(otherFundingSources.otherFundingSources.dependencies
-          .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
-          .items.properties.requestedFundingPartner2627 as Object),
-        ...amountRequestedUnderSource,
-      },
       otherFundingSourcesArray: {
         requiresHeading: true,
         heading: 'Funding Source',
       },
+    },
+  },
+  otherFundingSourcesArray: {
+    properties: {
+      ...otherFundingSources.otherFundingSources.dependencies
+        .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
+        .items.properties,
+      ...otherFundingSourcesArray,
     },
   },
   projectArea: {
@@ -333,6 +345,8 @@ const diffSchema = {
 
 const HistoryDetails = ({ json, prevJson }) => {
   const changes = diff(prevJson, json, { keepUnchangedValues: true });
+  console.log(changes);
+  console.log(diffSchema);
   return (
     <DiffTable
       changes={changes}
