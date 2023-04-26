@@ -37,7 +37,7 @@ jobs:
         id: tagVersion
         # Check if one of the commits is associated with a tag
         run: |
-          echo ::set-output name=tagVersion::$( git tag --merged ${{ github.sha  }} --no-merged ${{ github.event.before }} | grep v*)
+          echo "tagVersion=$( git tag --merged ${{ github.sha  }} --no-merged ${{ github.event.before }} | grep v*)" >>$GITHUB_OUTPUT
 
   deploy-to-openshift-development:
     runs-on: ubuntu-latest
