@@ -7,7 +7,7 @@ returns text as
 $function$
 
 declare
-  application_id int;
+  application_row_id int;
   ccbc_id text;
   json_row jsonb;
   json_file jsonb;
@@ -25,16 +25,20 @@ begin
         ccbc_id := json_row->>'ccbc_number'; 
 
         -- Look up the application_id based on the ccbc_number value
-        select id into application_id from ccbc_public.application where ccbc_number = ccbc_id;
+        select id into application_row_id from ccbc_public.application where ccbc_number = ccbc_id; 
         -- If no row was found, add to list 
         if not found then
-            result := coalesce(result || ',','') || ccbc_id; 
+            result := coalesce(result || ',','') || ccbc_id;  
             -- RAISE EXCEPTION 'No matching row in ccbc_public.application for ccbc_number %', ccbc_id;
         else 
-            new_row_id := nextval(pg_get_serial_sequence('ccbc_public.application_gis_data','id'));
+            insert into ccbc_public.application_gis_data (batch_id, application_id, json_data) 
+            select batchId, application_row_id, json_row
+            WHERE
+              NOT EXISTS (
+                SELECT id FROM ccbc_public.application_gis_data t 
+                WHERE t.application_id = application_row_id and t.json_data = json_row
+              );
 
-            insert into ccbc_public.application_gis_data (id, batch_id, application_id, json_data) overriding system value
-            values (new_row_id, batchId, application_id, json_row);
         end if;
     end loop;
   return result;
