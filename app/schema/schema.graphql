@@ -1008,6 +1008,34 @@ type Query implements Node {
   rfiDataByRowId(rowId: Int!): RfiData
   rfiDataStatusTypeByName(name: String!): RfiDataStatusType
 
+  """Reads and enables pagination through a set of `GisDataCount`."""
+  gisDataCounts(
+    batchid: Int!
+
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: GisDataCountFilter
+  ): GisDataCountsConnection
+
   """Returns the next intake if any"""
   nextIntake: Intake
 
@@ -32768,6 +32796,66 @@ type RfiDataStatusTypesEdge {
   node: RfiDataStatusType
 }
 
+"""A connection to a list of `GisDataCount` values."""
+type GisDataCountsConnection {
+  """A list of `GisDataCount` objects."""
+  nodes: [GisDataCount]!
+
+  """
+  A list of edges which contains the `GisDataCount` and cursor to aid in pagination.
+  """
+  edges: [GisDataCountsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `GisDataCount` you could get from the connection."""
+  totalCount: Int!
+}
+
+type GisDataCount {
+  """number of records that fit specofoc criteria"""
+  total: Int
+
+  """type of the counter (one of "new", "updated","total")"""
+  countType: String
+
+  """list of ccbc_number of the applications included in counter"""
+  ccbcNumbers: String
+}
+
+"""A `GisDataCount` edge in the connection."""
+type GisDataCountsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `GisDataCount` at the end of the edge."""
+  node: GisDataCount
+}
+
+"""
+A filter to be used against `GisDataCount` object types. All fields are combined with a logical ‘and.’
+"""
+input GisDataCountFilter {
+  """Filter by the object’s `total` field."""
+  total: IntFilter
+
+  """Filter by the object’s `countType` field."""
+  countType: StringFilter
+
+  """Filter by the object’s `ccbcNumbers` field."""
+  ccbcNumbers: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [GisDataCountFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [GisDataCountFilter!]
+
+  """Negates the expression."""
+  not: GisDataCountFilter
+}
+
 type KeycloakJwt {
   """
   OPTIONAL - The "jti" (JWT ID) claim provides a unique identifier for the JWT.
@@ -34146,12 +34234,6 @@ type Mutation {
     """
     input: CreateUserFromSessionInput!
   ): CreateUserFromSessionPayload
-  gisDataCounts(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: GisDataCountsInput!
-  ): GisDataCountsPayload
   importApplicationAnalystLead(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -40533,42 +40615,6 @@ input CreateUserFromSessionInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-}
-
-"""The output of our `gisDataCounts` mutation."""
-type GisDataCountsPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-  gisDataCounts: [GisDataCount]
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-}
-
-type GisDataCount {
-  """number of records that fit specofoc criteria"""
-  total: Int
-
-  """type of the counter (one of "new", "updated","total")"""
-  countType: String
-
-  """list of ccbc_number of the applications included in counter"""
-  ccbcNumbers: String
-}
-
-"""All input for the `gisDataCounts` mutation."""
-input GisDataCountsInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  batchid: Int!
 }
 
 """The output of our `importApplicationAnalystLead` mutation."""
