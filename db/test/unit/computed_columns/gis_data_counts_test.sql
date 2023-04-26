@@ -180,5 +180,5 @@ select results_eq (
 \unset test_data_2
 select finish();
 
---rollback;
-commit;
+rollback;
+
