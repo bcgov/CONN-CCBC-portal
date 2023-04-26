@@ -194,7 +194,8 @@ const generateDiffTable = (
               });
             } else if (
               !Array.isArray(newValue) &&
-              typeof newValue === 'object'
+              typeof newValue === 'object' &&
+              newValue
             ) {
               const a = Object.values(newValue);
               a.forEach((b, j) => {
