@@ -125,7 +125,7 @@ const generateDiffTable = (
         if (
           Array.isArray(value) &&
           Array.isArray(value[0]) &&
-          ['+', '-', '~', ''].includes(value[0][0])
+          ['+', '-', '~', '', ' '].includes(value[0][0])
         ) {
           const [newValueArr, oldValueArr] = value.reduce(
             ([newArr, oldArr], [prefix, diffValue]) => {
