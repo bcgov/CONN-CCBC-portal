@@ -17,7 +17,7 @@ jobs:
   install-test-env:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - run: make install_dev_tools
@@ -59,7 +59,7 @@ jobs:
         os: ['linux']
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
@@ -100,7 +100,7 @@ jobs:
     needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
@@ -120,7 +120,7 @@ jobs:
     needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - run: yarn run eslint -f @microsoft/eslint-formatter-sarif -o results.sarif . || true
@@ -133,7 +133,7 @@ jobs:
     needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - name: deploy db migrations
@@ -147,7 +147,7 @@ jobs:
     needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: dev env setup
@@ -171,7 +171,7 @@ jobs:
       name: tools
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Authenticate to OpenShift Linter namespace
         uses: redhat-actions/oc-login@v1
         with:
