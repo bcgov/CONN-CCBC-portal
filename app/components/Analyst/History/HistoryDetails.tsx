@@ -346,11 +346,17 @@ const diffSchema = {
 const HistoryDetails = ({ json, prevJson }) => {
   const changes = diff(prevJson, json, { keepUnchangedValues: true });
   return (
-    <DiffTable
-      changes={changes}
-      diffSchema={diffSchema}
-      excludedKeys={['acknowledgements']}
-    />
+    <>
+      {changes ? (
+        <DiffTable
+          changes={changes}
+          diffSchema={diffSchema}
+          excludedKeys={['acknowledgements']}
+        />
+      ) : (
+        <div>No changes found.</div>
+      )}
+    </>
   );
 };
 
