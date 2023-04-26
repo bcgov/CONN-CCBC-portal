@@ -31,7 +31,7 @@ const handleRow = (
   addedHeadings
 ) => {
   const rows = [];
-  if (schema[parentObject].properties[key]?.requiresHeading) {
+  if (schema[parentObject]?.properties[key]?.requiresHeading) {
     if (
       !addedHeadings.includes(schema[parentObject].properties[key]?.headingKey)
     ) {
@@ -47,7 +47,7 @@ const handleRow = (
   }
   rows.push(
     createRow(
-      schema[parentObject].properties[key]?.title || key,
+      schema[parentObject]?.properties[key]?.title || key,
       newValue,
       oldValue,
       parentObject,
