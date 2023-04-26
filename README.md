@@ -93,14 +93,15 @@ $ psql -c 'CREATE EXTENSION pgtap;'
 
 ##### Run tests:
 
-In the project root run:
+To run the database tests run this command in the project root:
 
-```bash
-# Run database unit tests
-$ pg_prove --username postgres --dbname ccbc db/test/unit/**/*_test.sql
-# Run database style tests
-$ pg_prove --username postgres --dbname ccbc db/test/style/*_test.sql --set schemas_to_test=ccbc_public,ccbc_private
-```
+`make db_unit_tests`
+
+Alternatively you can run single tests with `pg_prove`. A test database is required to run which is installed with `make db_unit_tests` or by running `make create_test_db`.
+
+Once the test database is created you can test a single file by running:
+
+`pg_prove -d ccbc_test <path to file>`
 
 ### Running Jest and end to end tests locally
 
