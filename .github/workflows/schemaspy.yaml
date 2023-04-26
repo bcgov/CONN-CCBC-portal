@@ -14,7 +14,7 @@ jobs:
   install-test-env:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - run: make install_dev_tools
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - name: deploy db migrations
