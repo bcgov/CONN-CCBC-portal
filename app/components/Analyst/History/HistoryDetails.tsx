@@ -345,8 +345,6 @@ const diffSchema = {
 
 const HistoryDetails = ({ json, prevJson }) => {
   const changes = diff(prevJson, json, { keepUnchangedValues: true });
-  console.log(changes);
-  console.log(diffSchema);
   return (
     <DiffTable
       changes={changes}
