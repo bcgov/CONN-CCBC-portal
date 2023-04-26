@@ -2,13 +2,14 @@
 
 begin;
 
-create or replace function ccbc_public.application_gis_data(application ccbc_public.application) 
-returns ccbc_public.gis_data_item as
+drop function ccbc_public.application_gis_data(ccbc_public.application);
+
+create or replace function ccbc_public.application_gis_data(application ccbc_public.application)
+returns ccbc_public.application_gis_data as
 $$
-    select arr.item_object as json_data from ccbc_public.gis_data as gd,
-    jsonb_array_elements(gd.json_data) with ordinality arr(item_object, position)
-    where arr.item_object->>'ccbc_number' = application.ccbc_number
-    and gd.archived_at is null order by gd.created_at desc limit 1;
+    select row(agd.*) from ccbc_public.application_gis_data agd
+    where application_id = application.id
+    and agd.archived_at is null order by agd.created_at desc limit 1;
 
 $$ language sql stable;
 

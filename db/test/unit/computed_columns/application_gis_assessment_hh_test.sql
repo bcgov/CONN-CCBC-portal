@@ -15,10 +15,11 @@ truncate table
 restart identity cascade;
 
 select has_function(
-  'ccbc_public', 'application_gis_data',
-  'Function application_gis_data should exist'
+  'ccbc_public', 'application_gis_assessment_hh',
+  'Function application_gis_assessment_hh should exist'
 );
 
+-- Test setup
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
 values('2022-03-01 09:00:00-07', '2028-05-01 09:00:00-07', 1);
 
@@ -39,52 +40,49 @@ insert into ccbc_public.application_status
 
 set jwt.claims.sub to 'testCcbcAdminUser';
 
-set role to ccbc_admin;
-
-insert into ccbc_public.gis_data (json_data)
-  values ('[{"ccbc_number":"CCBC-01001"},{"ccbc_number":"CCBC-01002"}]'::jsonb);
-
-select ccbc_public.parse_gis_data(1);
+-- set role to analyst and save gis assessment hh
+set role ccbc_analyst;
+select ccbc_public.save_gis_assessment_hh(1::int , 10::float(2), 20::float(2));
 
 select results_eq(
   $$
-    select id, json_data from ccbc_public.application_gis_data(
+    select id, eligible, eligible_indigenous from ccbc_public.application_gis_assessment_hh(
       (select row(application.*)::ccbc_public.application
        from ccbc_public.application where id=1));
   $$,
   $$
-    values(1, '{"ccbc_number":"CCBC-01001"}'::jsonb);
+    values(1, 10::float(2), 20::float(2));
   $$,
-  'Should return the newly created assessment form'
+  'Should return the correct values'
 );
 
 select results_eq(
   $$
-    select id from ccbc_public.application_gis_data(
+    select id from ccbc_public.application_gis_assessment_hh(
       (select row(application.*)::ccbc_public.application
        from ccbc_public.application where id=10));
   $$,
   $$
     values(null::integer);
   $$,
-  'Should return the newly created assessment form'
+  'Should return null'
 );
 
 
 select function_privs_are(
-  'ccbc_public', 'application_gis_data', ARRAY['ccbc_public.application'], 'ccbc_admin', ARRAY['EXECUTE'],
-  'ccbc_auth_user can execute ccbc_public.application_gis_data(ccbc_public.application)'
+  'ccbc_public', 'application_gis_assessment_hh', ARRAY['ccbc_public.application'], 'ccbc_admin', ARRAY['EXECUTE'],
+  'ccbc_auth_user can execute ccbc_public.application_gis_assessment_hh(ccbc_public.application)'
 );
 
 
 select function_privs_are(
-  'ccbc_public', 'application_gis_data', ARRAY['ccbc_public.application'], 'ccbc_auth_user', ARRAY['EXECUTE'],
-  'ccbc_auth_user can execute ccbc_public.application_gis_data(ccbc_public.application)'
+  'ccbc_public', 'application_gis_assessment_hh', ARRAY['ccbc_public.application'], 'ccbc_auth_user', ARRAY[]::text[],
+  'ccbc_auth_user can execute ccbc_public.application_gis_assessment_hh(ccbc_public.application)'
 );
 
 select function_privs_are(
-  'ccbc_public', 'application_gis_data', ARRAY['ccbc_public.application'], 'ccbc_guest', ARRAY[]::text[],
-  'ccbc_guest cannot execute ccbc_public.application_gis_data(ccbc_public.application)'
+  'ccbc_public', 'application_gis_assessment_hh', ARRAY['ccbc_public.application'], 'ccbc_guest', ARRAY[]::text[],
+  'ccbc_guest cannot execute ccbc_public.application_gis_assessment_hh(ccbc_public.application)'
 );
 select finish();
 
