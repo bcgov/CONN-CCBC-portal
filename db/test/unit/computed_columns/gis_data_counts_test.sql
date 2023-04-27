@@ -125,8 +125,8 @@ select results_eq (
 -- new GIS data  
 select * from ccbc_public.save_gis_data(:'test_data_2'::jsonb);
 
--- do not parse GIS data
--- select * from ccbc_public.parse_gis_data(2);
+-- need to parse GIS data for first batch to be able to get correct updated/new count
+select * from ccbc_public.parse_gis_data(1);
 
 select results_eq (
   $$
