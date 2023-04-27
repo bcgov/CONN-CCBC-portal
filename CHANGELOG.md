@@ -1,3 +1,48 @@
+# [1.63.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.62.0...v1.63.0) (2023-04-27)
+
+### Bug Fixes
+
+- add prettierignore path to pre-commit command ([f5d4c44](https://github.com/bcgov/CONN-CCBC-portal/commit/f5d4c441e22fb0c975c5fb23f14fa44068c61516))
+- change eligible and eligible_indigenous column types to float ([7f94d2a](https://github.com/bcgov/CONN-CCBC-portal/commit/7f94d2af4c32e02eff1f94e053c422cd3a04afd6))
+- complete revert ([c549b40](https://github.com/bcgov/CONN-CCBC-portal/commit/c549b40791cd43e38256fe8cd76be37742f1ed74))
+- delete unused file ([05044d2](https://github.com/bcgov/CONN-CCBC-portal/commit/05044d219c1ee41fcf5fed45046b1a078c35fb5a))
+- gis hh auto save issue ([c45c7ef](https://github.com/bcgov/CONN-CCBC-portal/commit/c45c7ef8b3068efc672676c00ce02da5c1c13e37))
+- gis-schema and gis-data naming error ([6c8d7ab](https://github.com/bcgov/CONN-CCBC-portal/commit/6c8d7ab0195758222d365647985081e08629d7ef))
+- import error ([feb2162](https://github.com/bcgov/CONN-CCBC-portal/commit/feb216230a81d8709b64a7e10993c48dfd691768))
+- null values showing as 0 for gis assessment hh inputs ([185235e](https://github.com/bcgov/CONN-CCBC-portal/commit/185235e6a58f9b6b22a90ec0c13dc82f2608c6f5))
+- revert test code ([742c63b](https://github.com/bcgov/CONN-CCBC-portal/commit/742c63be89816a5111343e47232a60ff1eb6affa))
+- revert to [@1](https://github.com/1).20.0 ([953f656](https://github.com/bcgov/CONN-CCBC-portal/commit/953f656081cb4eb13fc473a78b771bcc21d6a14b))
+- revert to 1.60.0 ([de2748e](https://github.com/bcgov/CONN-CCBC-portal/commit/de2748e90a49e8a694d82d8c834080dab77260bf))
+- sqitch plan whitespace ([1be811f](https://github.com/bcgov/CONN-CCBC-portal/commit/1be811fda3fa5420fa154214e8d7b1fe76004eaa))
+- tooltip overflow issue ([f7d9ff4](https://github.com/bcgov/CONN-CCBC-portal/commit/f7d9ff4bd656173b26fae6e5938890f0de2df98d))
+- update schema ([707cecc](https://github.com/bcgov/CONN-CCBC-portal/commit/707cecc2c26288ff54abc49da333b55521ddcf12))
+- updated parse_gis_data and added tests ([ed92816](https://github.com/bcgov/CONN-CCBC-portal/commit/ed92816c94f7ec7c0d3addabc45ca00142902e0d))
+- updated schema after rebase ([9a72765](https://github.com/bcgov/CONN-CCBC-portal/commit/9a727650196f2c6394017c4aab97333f34cc040c))
+- updated test to rollback ([8b5703f](https://github.com/bcgov/CONN-CCBC-portal/commit/8b5703f4e6b6265f535eb7dff004a553d6df7d97))
+
+### Features
+
+- add application gis data component ([0f21886](https://github.com/bcgov/CONN-CCBC-portal/commit/0f21886b3db8dc8211f8cca79f4988b5c53a1a26))
+- add application_gis_assessment_hh computed column ([82ffa13](https://github.com/bcgov/CONN-CCBC-portal/commit/82ffa137ae21e16a3c8599413dcc1c100e465352))
+- add gis input onchange ([e30e65e](https://github.com/bcgov/CONN-CCBC-portal/commit/e30e65ed7f99a8b37a11bcdd86bf4a5e767aec7c))
+- add gis last updated section ([36d1819](https://github.com/bcgov/CONN-CCBC-portal/commit/36d18199a74dc34835992950260f09d8b905f3fc))
+- add gis map icon ([4924512](https://github.com/bcgov/CONN-CCBC-portal/commit/49245124dbeaf2e3e9397d7772ffef927076d989))
+- add graphql schema to prettierignore ([819aa83](https://github.com/bcgov/CONN-CCBC-portal/commit/819aa834c53d64f669e7f6986673b620de654db9))
+- add loading check for gis assessment hh fields ([60da0bd](https://github.com/bcgov/CONN-CCBC-portal/commit/60da0bdf68c811e14dc2ecd0a1fae44fccf90f69))
+- add revert step in dev deployment ([dc66469](https://github.com/bcgov/CONN-CCBC-portal/commit/dc66469f1c1bbc0f460f4f8835e71d7b4a64622d))
+- add save gis assessment hh graphql mutation ([dc22d74](https://github.com/bcgov/CONN-CCBC-portal/commit/dc22d7417aeb0add3210314a8d47d454cd5d5472))
+- add save_gis_assessment_hh postgres mutation ([64df70f](https://github.com/bcgov/CONN-CCBC-portal/commit/64df70fdc624b18be2e967fee69fa20d9c06a942))
+- add show application gis data feature flag ([def7a60](https://github.com/bcgov/CONN-CCBC-portal/commit/def7a604f035133cc518504ad9d521b8691ebc5d))
+- add tabbable icon ([a7a800f](https://github.com/bcgov/CONN-CCBC-portal/commit/a7a800f74dccd297a67249ad0b73cdea89435f17))
+- add table application_gis_assessment_hh ([1dca8c6](https://github.com/bcgov/CONN-CCBC-portal/commit/1dca8c696f00b107d213548c2b6025f45927fd74))
+- add tooltip component ([fa83ae8](https://github.com/bcgov/CONN-CCBC-portal/commit/fa83ae8e36e0d815682b99b03fd93647c6f6ba22))
+- added type and function gis_data_counts ([8781749](https://github.com/bcgov/CONN-CCBC-portal/commit/87817497645d31c8478a032901d1bbbf8c493ce4))
+- format numbers with decimals only if they are floats ([d0c24d6](https://github.com/bcgov/CONN-CCBC-portal/commit/d0c24d6c9dd53fd3c9e1f6e29575c9e78f20b4fd))
+- save eligible and eligibleIndigenous on change ([d14f098](https://github.com/bcgov/CONN-CCBC-portal/commit/d14f09830e9497648a9c430acc323cd94f0dd517))
+- update application gis data breakpoints ([d79841c](https://github.com/bcgov/CONN-CCBC-portal/commit/d79841c0d93eec86b99973ed08d27127dc2e0eb3))
+- use computed_column update to show last updated time ([3def5a3](https://github.com/bcgov/CONN-CCBC-portal/commit/3def5a340ca029ebdec6220e260e844a030bff77))
+- using temp table to allow gis_data_count to be used before parse_gis_data ([79f6dee](https://github.com/bcgov/CONN-CCBC-portal/commit/79f6dee0b8fd2e25fece1f38616969731b077e89))
+
 # [1.62.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.60.0...v1.62.0) (2023-04-21)
 
 ### Bug Fixes

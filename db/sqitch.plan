@@ -286,7 +286,7 @@ computed_columns/application_gis_data [computed_columns/application_gis_data@1.6
 tables/application_gis_assessment_hh 2023-04-24T20:24:07Z Marcel Mueller <marcel@m2> # add new table application_gis_assessment_hh
 mutations/save_gis_assessment_hh 2023-04-24T21:11:50Z Marcel Mueller <marcel@m2> # add mutation save_gis_assessment_hh
 computed_columns/application_gis_assessment_hh 2023-04-24T22:36:59Z Marcel Mueller <marcel@m2> # add computed_column application_gis_assessment_hh
-types/gis_data_count 2023-04-25T17:28:56Z ,,, Vladimir <vladimir@button.is> # add type gis_data_count  
+types/gis_data_count 2023-04-25T17:28:56Z ,,, Vladimir <vladimir@button.is> # add type gis_data_count
 computed_columns/gis_data_counts 2023-04-25T17:38:30Z ,,, Vladimir <vladimir@button.is> # add function gis_data_counts
-mutations/parse_gis_data [mutations/parse_gis_data@1.62.0] 2023-04-25T19:05:31Z ,,, Vladimir <vladimir@button.is> # updated mutations/parse_gis_data 
-
+mutations/parse_gis_data [mutations/parse_gis_data@1.62.0] 2023-04-25T19:05:31Z ,,, Vladimir <vladimir@button.is> # updated mutations/parse_gis_data
+@1.63.0 2023-04-27T21:09:29Z Marcel Mueller <marcel@m2> # release v1.63.0
