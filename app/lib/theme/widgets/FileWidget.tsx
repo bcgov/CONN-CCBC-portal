@@ -200,8 +200,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   return (
     <FileComponent
       allowMultipleFiles={allowMultipleFiles as boolean}
-      isCreatingAttachment={isCreatingAttachment}
-      isDeletingAttachment={isDeletingAttachment}
+      loading={isCreatingAttachment || isDeletingAttachment}
       error={error}
       buttonVariant={buttonVariant}
       handleDelete={handleDelete}

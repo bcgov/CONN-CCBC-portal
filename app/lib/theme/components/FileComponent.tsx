@@ -76,11 +76,10 @@ interface FileComponentProps {
   allowMultipleFiles: boolean;
   fileTypes: string;
   buttonVariant: string;
-  isCreatingAttachment: boolean;
-  isDeletingAttachment: boolean;
   error: string;
   id: string;
   disabled: boolean;
+  loading: boolean;
   required: boolean;
   label: string;
   handleDownload(uuid: string, fileName: string): Promise<void>;
@@ -121,14 +120,12 @@ const FileComponent: React.FC<FileComponentProps> = ({
   allowMultipleFiles,
   buttonVariant,
   handleDelete,
-  isCreatingAttachment,
-  isDeletingAttachment,
+  loading,
   error,
   handleDownload,
 }) => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
-  const loading = isCreatingAttachment || isDeletingAttachment;
   const isSecondary = buttonVariant === 'secondary';
 
   const handleClick = () => {
@@ -173,7 +170,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
                   e.preventDefault();
                   handleDelete(file.id);
                 }}
-                disabled={isDeletingAttachment}
+                disabled={loading || disabled}
               >
                 <CancelIcon />
               </StyledDeleteBtn>
@@ -189,7 +186,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
             handleClick();
           }}
           variant={buttonVariant}
-          disabled={isCreatingAttachment || disabled}
+          disabled={loading || disabled}
         >
           {loading ? (
             <LoadingSpinner color={isSecondary ? '#000000' : '#fff'} />
