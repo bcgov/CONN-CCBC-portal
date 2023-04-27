@@ -1,12 +1,6 @@
 import { ThemeProps, utils } from '@rjsf/core';
 import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
-import {
-  CheckboxWidget,
-  CheckboxesWidget,
-  DatePickerWidget,
-  FileWidget,
-  SelectWidget,
-} from 'lib/theme/widgets';
+import * as widgets from 'lib/theme/widgets';
 import { StatusSelectWidget } from './ConditionalApproval/widgets';
 import ProjectFieldTemplate from './fields/ProjectFieldTemplate';
 import ProjectObjectFieldTemplate from './fields/ProjectObjectFieldTemplate';
@@ -20,11 +14,7 @@ const ProjectTheme: ThemeProps = {
     SectionField: ProjectSectionField,
   },
   widgets: {
-    CheckboxWidget,
-    CheckboxesWidget,
-    DatePickerWidget,
-    FileWidget,
-    SelectWidget,
+    ...widgets,
     StatusSelectWidget,
   },
   ObjectFieldTemplate: ProjectObjectFieldTemplate,

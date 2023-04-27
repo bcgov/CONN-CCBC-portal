@@ -7,6 +7,7 @@ import AnalystLayout from 'components/Analyst/AnalystLayout';
 import { projectQuery } from '__generated__/projectQuery.graphql';
 import { useFeature } from '@growthbook/growthbook-react';
 import ConditionalApprovalForm from 'components/Analyst/Project/ConditionalApproval/ConditionalApprovalForm';
+import AnnouncementsForm from 'components/Analyst/Project/Announcements/AnnouncementsForm';
 
 const getProjectQuery = graphql`
   query projectQuery($rowId: Int!) {
@@ -17,6 +18,7 @@ const getProjectQuery = graphql`
       ...ConditionalApprovalForm_application
     }
     ...AnalystLayout_query
+    ...AnnouncementsForm_query
   }
 `;
 
@@ -34,6 +36,7 @@ const Project = ({
         {showConditionalApproval && (
           <ConditionalApprovalForm application={applicationByRowId} />
         )}
+        <AnnouncementsForm query={query} />
       </AnalystLayout>
     </Layout>
   );
