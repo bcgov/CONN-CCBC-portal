@@ -1,5 +1,7 @@
 import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as moduleApi from '@growthbook/growthbook-react';
+import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import GISAssessment from 'pages/analyst/application/[applicationId]/assessments/gis';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
@@ -72,6 +74,14 @@ const pageTestingHelper = new PageTestingHelper<gisAssessmentQuery>({
   },
 });
 
+const mockShowApplicationGisData: FeatureResult<JSONValue> = {
+  value: true,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_application_gis_data',
+};
+
 describe('The index page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
@@ -79,6 +89,9 @@ describe('The index page', () => {
       asPath: '/analyst/application/1/assessments/gis',
       query: { applicationId: '1' },
     });
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowApplicationGisData);
   });
 
   it('highlights the correct nav tab', async () => {
