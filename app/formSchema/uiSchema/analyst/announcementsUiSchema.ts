@@ -8,7 +8,7 @@ const sharedItems = {
   },
   announcementDate: {
     'ui:title': 'Announcement date',
-    'ui:widget': 'DateWidget',
+    'ui:widget': 'DatePickerWidget',
     'ui:options': {
       boldTitle: true,
     },
@@ -22,24 +22,38 @@ const sharedItems = {
   },
   'ui:inline': [
     {
-      title: 'Placeholder',
       columns: 3,
       announcementUrl: 1,
       announcementDate: 2,
       otherProjectsInAnnouncement: 3,
     },
   ],
+  'ui:array-buttons': {
+    addBtnLabel: 'Add announcement',
+    removeBtnLabel: 'Remove',
+  },
 };
 
 const announcementsUiSchema = {
-  primary: {
-    items: {
-      ...sharedItems,
-    },
+  'ui:options': {
+    flexDirection: 'column',
   },
-  secondary: {
-    items: {
-      ...sharedItems,
+  announcements: {
+    primary: {
+      items: {
+        ...sharedItems,
+        'ui:options': {
+          flexDirection: 'row',
+        },
+      },
+    },
+    secondary: {
+      items: {
+        ...sharedItems,
+        'ui:options': {
+          flexDirection: 'row',
+        },
+      },
     },
   },
 };
