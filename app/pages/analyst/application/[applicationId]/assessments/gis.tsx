@@ -4,6 +4,7 @@ import { graphql } from 'react-relay';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
+import { useFeature } from '@growthbook/growthbook-react';
 import {
   ApplicationGisData,
   AssessmentsTabs,
@@ -50,11 +51,13 @@ const GisAssessment = ({
   const { applicationByRowId, session } = query;
   const createdAt = applicationByRowId?.assessmentForm?.createdAt;
 
+  const showApplicationGisData = useFeature('show_application_gis_data').value;
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <AssessmentsTabs />
-        <ApplicationGisData query={query} />
+        {showApplicationGisData && <ApplicationGisData query={query} />}
         <AssessmentsForm
           addedContext={{ createdAt }}
           formData={applicationByRowId.assessmentForm?.jsonData}
