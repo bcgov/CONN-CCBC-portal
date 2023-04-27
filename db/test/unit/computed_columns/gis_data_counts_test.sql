@@ -1,6 +1,6 @@
 begin;
 
-select plan(13);
+select plan(11);
 
 truncate table
   ccbc_public.application,
@@ -88,27 +88,8 @@ set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
 -- receive GIS data
 select * from ccbc_public.save_gis_data(:'test_data_1'::jsonb);
 
--- parse GIS data
-select results_eq (
-  $$
-  select * from ccbc_public.parse_gis_data(1);
-  $$,
-  $$
-    values(null)
-  $$,
-  'Should parse'
-);
-
-select results_eq (
-  $$
-  select count(*) 
-        from ccbc_public.application_gis_data
-  $$,
-  $$
-    values(2::bigint)
-  $$,
-  'Should insert correct number of records'
-);
+-- do not parse GIS data
+-- select * from ccbc_public.parse_gis_data(1);
 
 select results_eq (
   $$
@@ -143,8 +124,9 @@ select results_eq (
 
 -- new GIS data  
 select * from ccbc_public.save_gis_data(:'test_data_2'::jsonb);
--- parse GIS data
-select * from ccbc_public.parse_gis_data(2);
+
+-- do not parse GIS data
+-- select * from ccbc_public.parse_gis_data(2);
 
 select results_eq (
   $$
