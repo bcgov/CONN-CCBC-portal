@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
+import formatMoney from 'utils/formatMoney';
 
 const StyledTable = styled.table`
   table-layout: auto;
@@ -10,13 +11,23 @@ const StyledTable = styled.table`
   }
 `;
 
+const format = (value) => {
+  if (typeof value === 'number') {
+    return formatMoney(value);
+  }
+  if (typeof value === 'boolean') {
+    return value ? 'Yes' : 'No';
+  }
+  return value;
+};
+
 const createRow = (title, newValue, oldValue, objectName, key) => {
   return (
     <tr key={`${objectName}-${key}-${newValue}-${oldValue}`}>
       <td>{title}</td>
-      <td>{`${newValue}`}</td>
+      <td>{`${format(newValue)}`}</td>
       <td>
-        <s>{`${oldValue}`}</s>
+        <s>{`${format(oldValue)}`}</s>
       </td>
     </tr>
   );
@@ -300,7 +311,13 @@ interface Props {
 }
 
 const DiffTable: React.FC<Props> = ({ changes, diffSchema, excludedKeys }) => {
-  return generateDiffTable(changes, diffSchema, excludedKeys);
+  let diffTable;
+  try {
+    diffTable = generateDiffTable(changes, diffSchema, excludedKeys);
+  } catch (error) {
+    diffTable = <>An error occurred while generating the change table.</>;
+  }
+  return diffTable;
 };
 
 export default DiffTable;
