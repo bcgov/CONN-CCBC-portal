@@ -85,7 +85,7 @@ interface FileComponentProps {
   handleDownload(uuid: string, fileName: string): Promise<void>;
 }
 
-const Error = ({ error, fileTypes }) => {
+const ErrorMessage = ({ error, fileTypes }) => {
   if (error === 'uploadFailed') {
     return <StyledError>File failed to upload, please try again</StyledError>;
   }
@@ -176,7 +176,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
               </StyledDeleteBtn>
             </StyledFileDiv>
           ))}
-        {error && <Error error={error} fileTypes={fileTypes} />}
+        {error && <ErrorMessage error={error} fileTypes={fileTypes} />}
       </StyledDetails>
       <div>
         <StyledButton
