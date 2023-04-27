@@ -354,7 +354,7 @@ const HistoryDetails = ({ json, prevJson }) => {
           excludedKeys={['acknowledgements']}
         />
       ) : (
-        <div data-testid="no-diff-message">No changes found.</div>
+        <div data-testid="no-diff-message">No changes made.</div>
       )}
     </>
   );
