@@ -315,7 +315,12 @@ const DiffTable: React.FC<Props> = ({ changes, diffSchema, excludedKeys }) => {
   try {
     diffTable = generateDiffTable(changes, diffSchema, excludedKeys);
   } catch (error) {
-    diffTable = <>An error occurred while generating the change table.</>;
+    diffTable = (
+      <div>
+        An error occurred and the edits could not be determined. If this
+        continues, please contact the administrator of the CCBC portal.
+      </div>
+    );
   }
   return diffTable;
 };
