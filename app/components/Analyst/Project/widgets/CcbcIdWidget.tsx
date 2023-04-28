@@ -17,9 +17,13 @@ const styles = {
     borderRadius: '0.25rem',
   },
   '& .Mui-focused': {
+    color: 'transparent',
+  },
+  '& .Mui-focused::placeholder': {
     outline: '4px solid #3b99fc',
     'outline-offset': '1px',
   },
+
   '& .MuiOutlinedInput-notchedOutline': {
     border: 'none',
   },
@@ -40,15 +44,17 @@ const UrlWidget: React.FC<WidgetProps> = ({ id, formContext, onChange }) => {
       filterSelectedOptions
       renderTags={(tagValue, getTagProps) =>
         tagValue.map((option: any, index) => {
-          const { ccbcNumber } = option;
+          const { ccbcNumber, rowId } = option;
           return (
             <Chip
               key={ccbcNumber}
               label={ccbcNumber}
-              // component="a"
-              // clickable
-              // target="_blank"
-              // href={`/analyst/application/${rowId}/`}
+              clickable
+              onClick={() => {
+                // using the chip url to open the application in a new tab
+                // broke the delete button so we are opening link with onclick.
+                window.open(`/analyst/application/${rowId}/`, '_blank');
+              }}
               {...getTagProps({ index })}
             />
           );

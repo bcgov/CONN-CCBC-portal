@@ -13,6 +13,9 @@ const AnnouncementsForm = ({ query }) => {
         announcement(id: "1") {
           jsonData
         }
+        applicationByRowId(rowId: $rowId) {
+          ccbcNumber
+        }
         allApplications {
           nodes {
             ccbcNumber
@@ -24,7 +27,10 @@ const AnnouncementsForm = ({ query }) => {
     query
   );
 
-  const { announcement } = queryFragment;
+  const {
+    announcement,
+    applicationByRowId: { ccbcNumber },
+  } = queryFragment;
 
   const jsonData = announcement?.jsonData;
   const [newFormData, setNewFormData] = useState({});
@@ -39,9 +45,16 @@ const AnnouncementsForm = ({ query }) => {
     setNewFormData(oldFormData);
   };
 
+  // Filter out this application CCBC ID
+  const ccbcIdList = queryFragment.allApplications.nodes.filter(
+    (application) => {
+      return application.ccbcNumber !== ccbcNumber;
+    }
+  );
+
   return (
     <ProjectForm
-      additionalContext={{ ccbcIdList: queryFragment.allApplications.nodes }}
+      additionalContext={{ ccbcIdList }}
       formData={newFormData}
       handleChange={() => {}}
       isFormEditMode={isFormEditMode}
