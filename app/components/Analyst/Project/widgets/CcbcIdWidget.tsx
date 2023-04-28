@@ -7,37 +7,53 @@ import Chip from '@mui/material/Chip';
 const StyledAutocomplete = styled(Autocomplete)`
   margin-bottom: 16px;
   width: 100%;
+
+  ${(props) => props.theme.breakpoint.largeUp} {
+    & input {
+      min-width: 340px;
+    }
+  }
 `;
 
-const styles = {
-  padding: '0',
-  '& .MuiInputBase-root': {
-    padding: '0px',
-    border: '2px solid #606060',
-    borderRadius: '0.25rem',
-  },
-  '& .Mui-focused': {
-    color: 'transparent',
-  },
-  '& .Mui-focused::placeholder': {
-    outline: '4px solid #3b99fc',
-    'outline-offset': '1px',
-  },
-
-  '& .MuiOutlinedInput-notchedOutline': {
-    border: 'none',
-  },
-};
-
-const UrlWidget: React.FC<WidgetProps> = ({ id, formContext, onChange }) => {
+const UrlWidget: React.FC<WidgetProps> = ({
+  id,
+  formContext,
+  onChange,
+  value,
+}) => {
   const { ccbcIdList } = formContext;
+  const isValue = value && value.length > 0;
+
+  const styles = {
+    padding: '0',
+    '& .MuiInputBase-root': {
+      'margin-top': '4px',
+      padding: '0px',
+      border: '2px solid #606060',
+      borderRadius: '0.25rem',
+    },
+    '& .MuiAutocomplete-inputRoot': {
+      // 'min-width': '100%',
+    },
+    '& .Mui-focused': {
+      color: isValue ? 'transparent' : 'inherit',
+    },
+    '& .Mui-focused::placeholder': {
+      outline: '4px solid #3b99fc',
+      'outline-offset': '1px',
+    },
+
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: 'none',
+    },
+  };
 
   return (
     <StyledAutocomplete
       multiple
       id={id}
-      onChange={(e, value) => {
-        onChange(value);
+      onChange={(e, val) => {
+        onChange(val);
       }}
       options={ccbcIdList}
       getOptionLabel={(option: any) => option.ccbcNumber}
