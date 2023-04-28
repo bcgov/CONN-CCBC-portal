@@ -16,6 +16,9 @@ const StyledFlex = styled.div<FlexProps>`
       props.direction ? props.direction : 'column'};
   }
 
+.datepicker-widget {
+   margin-bottom: 16px;
+  }
 
 `;
 
