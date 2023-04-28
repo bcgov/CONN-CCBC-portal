@@ -13,6 +13,12 @@ const AnnouncementsForm = ({ query }) => {
         announcement(id: "1") {
           jsonData
         }
+        allApplications {
+          nodes {
+            ccbcNumber
+            rowId
+          }
+        }
       }
     `,
     query
@@ -35,6 +41,7 @@ const AnnouncementsForm = ({ query }) => {
 
   return (
     <ProjectForm
+      additionalContext={{ ccbcIdList: queryFragment.allApplications.nodes }}
       formData={newFormData}
       handleChange={() => {}}
       isFormEditMode={isFormEditMode}

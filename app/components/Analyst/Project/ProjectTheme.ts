@@ -5,6 +5,7 @@ import { StatusSelectWidget } from './ConditionalApproval/widgets';
 import ProjectFieldTemplate from './fields/ProjectFieldTemplate';
 import ProjectObjectFieldTemplate from './fields/ProjectObjectFieldTemplate';
 import { ProjectSectionField } from './fields';
+import CcbcIdWidget from './widgets/CcbcIdWidget';
 
 const { fields } = utils.getDefaultRegistry();
 
@@ -16,6 +17,7 @@ const ProjectTheme: ThemeProps = {
   widgets: {
     ...widgets,
     StatusSelectWidget,
+    CcbcIdWidget,
   },
   ObjectFieldTemplate: ProjectObjectFieldTemplate,
   FieldTemplate: ProjectFieldTemplate,

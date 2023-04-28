@@ -25,6 +25,11 @@ const StyledDatePicker = styled(DatePicker)`
   ::placeholder {
     color: #cccccc;
   }
+
+  &:focus {
+    outline: 4px solid #3b99fc;
+    outline-offset: 1px;
+  }
 `;
 
 const StyledSpan = styled('span')`
