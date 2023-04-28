@@ -1,50 +1,42 @@
-import Button from '@button-inc/bcgov-theme/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import { ArrayFieldTemplateProps } from '@rjsf/core';
-
-const StyledDiv = styled('div')`
-  display: flex;
-  justify-content: flex-end;
-  min-width: 100%;
-`;
 
 const StyledButton = styled('button')`
   border: none;
   background: none;
   cursor: pointer;
-  text-decoration: underline;
   color: ${(props) => props.theme.color.links};
+  margin-bottom: 16px;
+
+  & svg {
+    margin-left: 16px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const ArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
-  // Todo: unlikely needed for this project but we could look at better customization
-  // options if we bring this into the toolkit.
   const { canAdd, items, onAddClick, title, uiSchema } = props;
-  console.log(props);
   const uiArrayButtons = uiSchema?.items?.['ui:array-buttons'];
+  const before = uiSchema?.['ui:before'];
 
   return (
     <div>
+      {before}
       {title && <h2>{title}</h2>}
-      {items.map((item, i: number) => (
-        <div key={item.key}>
-          {i !== 0 && (
-            <StyledDiv>
-              <StyledButton onClick={item.onDropIndexClick(item.index)}>
-                {uiArrayButtons?.removeBtnLabel || 'Remove'}
-              </StyledButton>
-            </StyledDiv>
-          )}
-
-          {item.children}
-          <hr />
-        </div>
+      {items.map((item) => (
+        <div key={item.key}>{item.children}</div>
       ))}
 
       {canAdd && (
-        <Button onClick={onAddClick}>
+        <StyledButton onClick={onAddClick}>
           {uiArrayButtons?.addBtnLabel || 'Add'}
-        </Button>
+          <FontAwesomeIcon icon={faPlus} />
+        </StyledButton>
       )}
     </div>
   );

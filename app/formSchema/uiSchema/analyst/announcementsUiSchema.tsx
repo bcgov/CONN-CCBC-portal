@@ -1,7 +1,9 @@
+import AnnouncementsHeader from 'components/Analyst/Project/Announcements/AnnouncementsHeader';
+
 const sharedItems = {
   announcementUrl: {
     'ui:title': 'Announcement URL',
-    'ui:widget': 'TextWidget',
+    'ui:widget': 'UrlWidget',
     'ui:options': {
       boldTitle: true,
     },
@@ -40,6 +42,7 @@ const announcementsUiSchema = {
   },
   announcements: {
     primary: {
+      'ui:before': <AnnouncementsHeader title="Primary news release" />,
       items: {
         ...sharedItems,
         'ui:options': {
@@ -48,6 +51,7 @@ const announcementsUiSchema = {
       },
     },
     secondary: {
+      'ui:before': <AnnouncementsHeader title="Secondary news release" />,
       items: {
         ...sharedItems,
         'ui:options': {

@@ -3,12 +3,17 @@ import { JSONSchema7 } from 'json-schema';
 const announcements: JSONSchema7 = {
   description: '',
   type: 'object',
+  required: [
+    'announcementsUrl',
+    'announcementsDate',
+    'otherProjectsInAnnouncement',
+  ],
   properties: {
     announcements: {
       type: 'object',
       properties: {
         primary: {
-          title: 'Primary news release',
+          title: ' ',
           type: 'array',
           items: {
             type: 'object',
@@ -29,7 +34,7 @@ const announcements: JSONSchema7 = {
           },
         },
         secondary: {
-          title: 'Secondary news releases',
+          title: ' ',
           type: 'array',
           items: {
             type: 'object',
