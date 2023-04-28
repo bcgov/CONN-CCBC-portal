@@ -36,9 +36,7 @@ const AnnouncementsForm = ({ query }) => {
   return (
     <ProjectForm
       formData={newFormData}
-      handleChange={(e) => {
-        setNewFormData({ ...e.formData });
-      }}
+      handleChange={() => {}}
       isFormEditMode={isFormEditMode}
       title="Announcements"
       schema={announcementsSchema}

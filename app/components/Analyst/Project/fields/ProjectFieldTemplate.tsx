@@ -8,6 +8,12 @@ const StyledH4 = styled.h4`
   margin-bottom: 8px;
 `;
 
+const StyledContainer = styled.div`
+  .datepicker-widget {
+    min-width: 184px;
+  }
+`;
+
 const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   uiSchema,
@@ -15,10 +21,10 @@ const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
   const uiTitle = uiSchema['ui:title'];
 
   return (
-    <div>
+    <StyledContainer>
       {uiTitle && <StyledH4>{uiTitle}</StyledH4>}
       {children}
-    </div>
+    </StyledContainer>
   );
 };
 

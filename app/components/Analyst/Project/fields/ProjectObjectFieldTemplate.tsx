@@ -7,7 +7,16 @@ interface FlexProps {
 
 const StyledFlex = styled.div<FlexProps>`
   display: flex;
-  flex-direction: ${(props) => (props.direction ? props.direction : 'column')};
+  flex-direction: column;
+  & input {
+    width: margin-right: 16px;
+  }
+  ${(props) => props.theme.breakpoint.mediumUp} {
+    flex-direction: ${(props) =>
+      props.direction ? props.direction : 'column'};
+  }
+
+
 `;
 
 const ProjectObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
@@ -17,7 +26,7 @@ const ProjectObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   const uiOptions = uiSchema['ui:options'];
   const flexDirection = uiOptions?.flexDirection || 'column';
   const before = uiSchema?.['ui:before'];
-  console.log(flexDirection);
+
   return (
     <StyledFlex direction={String(flexDirection)}>
       {before}
