@@ -36,6 +36,7 @@ const StyledSpan = styled('span')`
 
 function getDateString(date: Date | undefined) {
   if (date) {
+    if (date.valueOf() <= 0) return undefined;
     return dateTimeFormat(date, 'date_year_first');
   }
   return undefined;
@@ -126,7 +127,12 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   const handleChange = (d: Date) => {
     const originalDate = new Date(d);
     const realDate = new Date(originalDate.toDateString());
-    setDay(realDate);
+    if (realDate.valueOf() <= 0) {
+      setDay(undefined);
+    }
+    else {
+      setDay(realDate);
+    }
     onChange(getDateString(realDate));
   };
 
