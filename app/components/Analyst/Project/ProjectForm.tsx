@@ -66,6 +66,7 @@ const StyledBtn = styled(Button)`
 `;
 
 interface Props {
+  additionalContext?: any;
   formData: any;
   handleChange: any;
   isFormEditMode: boolean;
@@ -79,6 +80,7 @@ interface Props {
 }
 
 const ProjectForm: React.FC<Props> = ({
+  additionalContext,
   formData,
   handleChange,
   isFormEditMode,
@@ -134,7 +136,7 @@ const ProjectForm: React.FC<Props> = ({
           uiSchema={uiSchema}
           noValidate
           formData={formData}
-          formContext={{ formData: { ...formData } }}
+          formContext={{ formData: { ...formData }, ...additionalContext }}
           theme={theme || ProjectTheme}
           omitExtraData={false}
           onChange={handleChange}

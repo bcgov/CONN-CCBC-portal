@@ -17,7 +17,7 @@ const sharedItems = {
   },
   otherProjectsInAnnouncement: {
     'ui:title': 'Other projects in announcement',
-    'ui:widget': 'TextWidget',
+    'ui:widget': 'CcbcIdWidget',
     'ui:options': {
       boldTitle: true,
     },
