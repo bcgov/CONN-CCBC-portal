@@ -18,7 +18,7 @@ begin
   user_id := (select id from ccbc_public.ccbc_user where ccbc_user.session_sub = user_sub);
   new_row_id := nextval(pg_get_serial_sequence('ccbc_public.announcement','id'));
   announcement_type := json_data->>'announcementType';
-  primary_flag := (select case announcement_type when '' then true else false end);
+  primary_flag := (select case announcement_type when 'Primary' then true else false end);
 
   -- insert into ccbc_public.announcement table
   insert into ccbc_public.announcement (id, ccbc_numbers, json_data)
