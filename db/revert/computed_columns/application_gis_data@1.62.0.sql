@@ -2,6 +2,6 @@
 
 BEGIN;
 
-drop function ccbc_public.application_gis_data(ccbc_public.application);
+drop function if exists ccbc_public.application_gis_data(ccbc_public.application);
 
 COMMIT;

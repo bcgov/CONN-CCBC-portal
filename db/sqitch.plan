@@ -293,4 +293,6 @@ mutations/parse_gis_data [mutations/parse_gis_data@1.62.0] 2023-04-25T19:05:31Z 
 @1.64.0 2023-05-02T18:26:07Z Marcel Mueller <marcel@m2> # release v1.64.0
 tables/application_announcement [tables/application_announcement@1.63.0] 2023-05-01T18:48:07Z ,,, Vladimir <vladimir@button.is> # add primary/secondary flag to application_announcement
 computed_columns/application_all_announcements 2023-05-01T18:48:50Z ,,, Vladimir <vladimir@button.is> # add application_all_announcements computed column 
+tables/application_announcement_add_primary 2023-05-01T21:08:27Z ,,, Vladimir <vladimir@button.is> # add primary/secondary flag to application_announcement
+computed_columns/application_announcements 2023-05-01T18:48:50Z ,,, Vladimir <vladimir@button.is> # add application_all_announcements computed column
 

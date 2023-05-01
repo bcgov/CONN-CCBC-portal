@@ -2,6 +2,6 @@
 
 begin;
 
-drop table ccbc_public.application_gis_assessment_hh;
+drop table ccbc_public.application_gis_assessment_hh cascade;
 
 commit;

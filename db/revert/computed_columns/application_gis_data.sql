@@ -2,6 +2,8 @@
 
 begin;
 
+drop function if exists ccbc_public.application_gis_data(ccbc_public.application);
+
 create or replace function ccbc_public.application_gis_data(application ccbc_public.application)
 returns ccbc_public.gis_data_item as
 $$

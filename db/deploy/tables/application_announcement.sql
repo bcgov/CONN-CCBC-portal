@@ -2,17 +2,15 @@
 
 begin;
 
-create table if not exists ccbc_public.application_announcement(
+create table ccbc_public.application_announcement(
   announcement_id integer references ccbc_public.announcement(id),
   application_id integer references ccbc_public.application(id),
   primary key(announcement_id, application_id)
 );
 
-alter table ccbc_public.application_status add column if not exists is_primary  bool DEFAULT 'f';
+create index application_announcement_announcement_id_idx on ccbc_public.application_announcement(announcement_id);
 
-create index if not exists application_announcement_announcement_id_idx on ccbc_public.application_announcement(announcement_id);
-
-create index if not exists application_announcement_application_id_idx on ccbc_public.application_announcement(application_id);
+create index application_announcement_application_id_idx on ccbc_public.application_announcement(application_id);
 
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_announcement');
 
@@ -61,13 +59,10 @@ end
 $policy$;
 
 
-comment on table ccbc_public.application_announcement is 'Table to pair an application to announcement data';
+comment on table ccbc_public.application_announcement is 'Table to pair an application to RFI data';
 
 comment on column ccbc_public.application_announcement.announcement_id is 'The foreign key of a form';
 
 comment on column ccbc_public.application_announcement.application_id is 'The foreign key of an application';
-
--- comment on column ccbc_public.application_announcement.is_primary is 'Flag to identify eother announcement is primary or secondary';
-
 
 commit;
