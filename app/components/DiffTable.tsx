@@ -5,9 +5,18 @@ import formatMoney from 'utils/formatMoney';
 const StyledTable = styled.table`
   table-layout: auto;
 
+  th,
+  td {
+    padding: 8px;
+  }
+
   thead tr th:first-child,
   tbody tr td:first-child {
     width: 304px;
+  }
+
+  tr:last-child td:first-child {
+    border-bottom: 1px solid hsla(0, 0%, 0%, 0.12) !important;
   }
 `;
 
