@@ -86,7 +86,8 @@
     "relay-nextjs": "^0.8.0",
     "relay-runtime": "^13.2.0",
     "styled-components": "^5.3.5",
-    "typography": "^0.16.21"
+    "typography": "^0.16.21",
+    "validator": "^13.9.0"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.226.0",

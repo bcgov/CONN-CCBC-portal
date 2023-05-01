@@ -1,6 +1,12 @@
+import { useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import Input from '@button-inc/bcgov-theme/Input';
 import styled from 'styled-components';
+import validator from 'validator';
+
+interface ErrorProps {
+  error: boolean | string;
+}
 
 const StyledInput = styled(Input)`
   & input {
@@ -15,7 +21,7 @@ const StyledInput = styled(Input)`
     }
   }
 
-  &input: focus {
+  input: focus {
     outline: ${(props) =>
       props.error ? '4px solid #E71F1F' : '4px solid #3B99FC'};
   }
@@ -25,42 +31,49 @@ const StyledInput = styled(Input)`
   }
 `;
 
-const StyledDiv = styled('div')`
-  margin-bottom: 8px;
+const StyledDiv = styled.div`
+  margin: 8px 0;
+`;
 
-  .url-error {
-    display: none;
-    color: #e70f1f;
-    &::after {
-      content: '.';
-      visibility: hidden;
-    }
-  }
-
-  & input:invalid + .url-error {
-    display: block;
-  }
+const StyledError = styled.div<ErrorProps>`
+  color: #e70f1f;
+  max-height: ${(props) => (props.error ? '20px' : '0px')};
+  };
+  transition: max-height 0.5s ease-in-out;
+  overflow: hidden;
 `;
 
 const UrlWidget: React.FC<WidgetProps> = (props) => {
-  const { id, placeholder, disabled, onChange, label, value, required } = props;
+  const { id, placeholder, disabled, error, onChange, label, value, required } =
+    props;
+
+  const [urlError, setUrlError] = useState(value && validator.isURL(value));
+
+  const handleChange = (e) => {
+    if (validator.isURL(e.target.value)) {
+      setUrlError(false);
+    } else {
+      setUrlError('Invalid URL. Please copy and paste from your browser');
+    }
+    onChange(e.target.value);
+  };
 
   return (
     <StyledDiv>
       <StyledInput
         type="url"
+        error={urlError || error}
         id={id}
         disabled={disabled}
         data-testid={id}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={handleChange}
         placeholder={placeholder}
         value={value ?? ''}
-        min={0}
         size="medium"
         required={required}
         aria-label={label}
       />
-      <div className="url-error">Invalid URL</div>
+      <StyledError error={urlError || error}>{urlError || '‎'}</StyledError>
     </StyledDiv>
   );
 };
