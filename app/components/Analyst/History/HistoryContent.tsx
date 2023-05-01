@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import statusStyles from 'data/statusStyles';
+import { useFeature } from '@growthbook/growthbook-react';
 import StatusPill from '../StatusPill';
+import HistoryDetails from './HistoryDetails';
 
 const StyledContent = styled.span`
   display: flex;
@@ -24,10 +26,14 @@ const StyledChange = styled.div`
 `;
 
 const ChangeReason = ({ reason }) => {
-  return <StyledChange>Reason for change: {reason}</StyledChange>;
+  return (
+    <StyledChange>
+      <b>Reason for change:</b> {reason}
+    </StyledChange>
+  );
 };
 
-const HistoryContent = ({ historyItem }) => {
+const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   const {
     givenName,
     familyName,
@@ -39,6 +45,7 @@ const HistoryContent = ({ historyItem }) => {
     externalAnalyst,
   } = historyItem;
 
+  const showHistoryDetails = useFeature('show_history_details').value;
   const isAnalyst = sessionSub.includes('idir') || externalAnalyst;
   const fullName = `${givenName} ${familyName}`;
   const displayName = isAnalyst ? fullName : 'The applicant';
@@ -101,6 +108,12 @@ const HistoryContent = ({ historyItem }) => {
           </span>
           on {createdAtFormatted}
         </StyledContent>
+        {showHistoryDetails && prevHistoryItem && (
+          <HistoryDetails
+            json={record.json_data}
+            prevJson={prevHistoryItem?.record.json_data}
+          />
+        )}
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
       </div>
     );
