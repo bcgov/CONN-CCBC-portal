@@ -20,10 +20,10 @@ const StyledSelect = styled(Dropdown)<SelectProps>`
   }
   & select {
     color: ${(props) => (props.isPlaceholder ? '#cccccc' : 'inherit')};
-    margin: 0.25em 0;
+    margin: 0.2em 0;
   }
 
-  select option:first-child{
+  select option:first-child {
     color: ${(props) => (props.isPlaceholder ? '#cccccc' : 'inherit')};
   }
 

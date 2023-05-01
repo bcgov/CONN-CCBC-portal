@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { ProjectForm } from 'components/Analyst/Project';
+import ViewAnnouncements from 'components/Analyst/Project/Announcements/ViewAnnouncements';
 import announcementsSchema from 'formSchema/analyst/announcements';
 import announcementsUiSchema from 'formSchema/uiSchema/analyst/announcementsUiSchema';
-import AnnouncementsArrayFieldTemplate from './AnnouncementsArrayFieldTemplate';
 import ProjectTheme from '../ProjectTheme';
 
 const AnnouncementsForm = ({ query }) => {
@@ -59,16 +59,15 @@ const AnnouncementsForm = ({ query }) => {
       handleChange={() => {}}
       isFormEditMode={isFormEditMode}
       title="Announcements"
-      schema={announcementsSchema}
-      uiSchema={announcementsUiSchema}
-      theme={{
-        ...ProjectTheme,
-        ArrayFieldTemplate: AnnouncementsArrayFieldTemplate,
-      }}
+      schema={isFormEditMode ? announcementsSchema : {}}
+      uiSchema={isFormEditMode ? announcementsUiSchema : {}}
+      theme={ProjectTheme}
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-    />
+    >
+      <ViewAnnouncements />
+    </ProjectForm>
   );
 };
 

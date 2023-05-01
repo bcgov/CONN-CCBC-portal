@@ -67,6 +67,7 @@ const StyledBtn = styled(Button)`
 
 interface Props {
   additionalContext?: any;
+  children?: React.ReactNode;
   formData: any;
   handleChange: any;
   isFormEditMode: boolean;
@@ -81,6 +82,7 @@ interface Props {
 
 const ProjectForm: React.FC<Props> = ({
   additionalContext,
+  children,
   formData,
   handleChange,
   isFormEditMode,
@@ -131,18 +133,33 @@ const ProjectForm: React.FC<Props> = ({
         </StyledToggleRight>
       </StyledHeader>
       <BaseAccordion.Content>
-        <FormBase
-          schema={schema}
-          uiSchema={uiSchema}
-          noValidate
-          formData={formData}
-          formContext={{ formData: { ...formData }, ...additionalContext }}
-          theme={theme || ProjectTheme}
-          omitExtraData={false}
-          onChange={handleChange}
-          // eslint-disable-next-line react/no-children-prop
-          children
-        />
+        {children && !isFormEditMode ? (
+          <FormBase
+            schema={schema}
+            uiSchema={uiSchema}
+            noValidate
+            formData={formData}
+            formContext={{ formData: { ...formData }, ...additionalContext }}
+            theme={theme || ProjectTheme}
+            omitExtraData={false}
+            onChange={handleChange}
+          >
+            {children}
+          </FormBase>
+        ) : (
+          <FormBase
+            schema={schema}
+            uiSchema={uiSchema}
+            noValidate
+            formData={formData}
+            formContext={{ formData: { ...formData }, ...additionalContext }}
+            theme={theme || ProjectTheme}
+            omitExtraData={false}
+            onChange={handleChange}
+            // eslint-disable-next-line react/no-children-prop
+            children
+          />
+        )}
       </BaseAccordion.Content>
     </StyledBaseAccordion>
   );

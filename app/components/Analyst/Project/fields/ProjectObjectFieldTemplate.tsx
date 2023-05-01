@@ -11,15 +11,18 @@ const StyledFlex = styled.div<FlexProps>`
   & input {
     width: margin-right: 16px;
   }
-  ${(props) => props.theme.breakpoint.mediumUp} {
-    flex-direction: ${(props) =>
-      props.direction ? props.direction : 'column'};
+
+${(props) => props.theme.breakpoint.mediumUp} {
+  flex-direction: ${(props) => (props.direction ? props.direction : 'column')};
+   gap: 8px;
+  .pg-select-wrapper {
+    width: 100%;
   }
+}
 
 .datepicker-widget {
    margin-bottom: 16px;
   }
-
 `;
 
 const ProjectObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({

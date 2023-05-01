@@ -11,8 +11,7 @@ const StyledInput = styled(Input)`
 
   ${(props) => props.theme.breakpoint.largeUp} {
     & input {
-      min-width: 340px;
-      margin-right: 16px;
+      min-width: 240px;
     }
   }
 

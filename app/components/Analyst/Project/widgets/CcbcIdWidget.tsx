@@ -9,9 +9,7 @@ const StyledAutocomplete = styled(Autocomplete)`
   width: 100%;
 
   ${(props) => props.theme.breakpoint.largeUp} {
-    & input {
-      min-width: 340px;
-    }
+    min-width: 440px;
   }
 `;
 
@@ -34,6 +32,9 @@ const UrlWidget: React.FC<WidgetProps> = ({
     },
     '& .MuiAutocomplete-inputRoot': {
       // 'min-width': '100%',
+    },
+    '& .MuiAutocomplete-input': {
+      padding: '7px 4px',
     },
     '& .Mui-focused': {
       color: isValue ? 'transparent' : 'inherit',

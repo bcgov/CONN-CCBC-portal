@@ -4,57 +4,27 @@ const announcements: JSONSchema7 = {
   description: '',
   type: 'object',
   required: [
-    'announcementsUrl',
-    'announcementsDate',
+    'announcementType',
+    'announcementUrl',
+    'announcementDate',
     'otherProjectsInAnnouncement',
   ],
   properties: {
-    announcements: {
-      type: 'object',
-      properties: {
-        primary: {
-          title: ' ',
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              announcementUrl: {
-                type: 'string',
-                title: 'Announcement URL',
-              },
-              announcementDate: {
-                type: 'string',
-                title: 'Announcement date',
-              },
-              otherProjectsInAnnouncement: {
-                type: 'string',
-                title: 'Other projects in announcement',
-              },
-            },
-          },
-        },
-        secondary: {
-          title: ' ',
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              announcementUrl: {
-                type: 'string',
-                title: 'Announcement URL',
-              },
-              announcementDate: {
-                type: 'string',
-                title: 'Announcement date',
-              },
-              otherProjectsInAnnouncement: {
-                type: 'string',
-                title: 'Other projects in announcement',
-              },
-            },
-          },
-        },
-      },
+    announcementType: {
+      type: 'string',
+      enum: ['Primary', 'Secondary'],
+    },
+    announcementUrl: {
+      type: 'string',
+      title: 'Announcement URL',
+    },
+    announcementDate: {
+      type: 'string',
+      title: 'Announcement date',
+    },
+    otherProjectsInAnnouncement: {
+      type: 'string',
+      title: 'Other projects in announcement',
     },
   },
 };

@@ -10,7 +10,7 @@ const StyledH4 = styled.h4`
 
 const StyledContainer = styled.div`
   .datepicker-widget {
-    min-width: 184px;
+    min-width: 212px;
   }
 `;
 
