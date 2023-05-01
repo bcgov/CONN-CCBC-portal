@@ -9,9 +9,6 @@ import isRouteAuthorized from '../../utils/isRouteAuthorized';
 
 const withRelayOptions: WiredOptions<any> = {
   fallback: <div>Loading...</div>,
-  ErrorComponent: (props) => {
-    throw props.error;
-  },
   createClientEnvironment: () => getClientEnvironment()!,
   createServerEnvironment: async (ctx: NextPageContext) => {
     const { createServerEnvironment } = await import('./server');

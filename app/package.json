@@ -79,7 +79,7 @@
     "react-relay": "^13.2.0",
     "react-relay-network-modern": "^6.2.1",
     "react-typography": "^0.16.20",
-    "relay-nextjs": "^0.8.0",
+    "relay-nextjs": "0.10.0",
     "relay-runtime": "^13.2.0",
     "styled-components": "^5.3.5",
     "typography": "^0.16.21"
