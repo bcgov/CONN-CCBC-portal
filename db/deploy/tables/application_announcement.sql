@@ -5,6 +5,7 @@ begin;
 create table ccbc_public.application_announcement(
   announcement_id integer references ccbc_public.announcement(id),
   application_id integer references ccbc_public.application(id),
+  is_primary  bool DEFAULT 'f',
   primary key(announcement_id, application_id)
 );
 
@@ -59,10 +60,13 @@ end
 $policy$;
 
 
-comment on table ccbc_public.application_announcement is 'Table to pair an application to RFI data';
+comment on table ccbc_public.application_announcement is 'Table to pair an application to announcement data';
 
 comment on column ccbc_public.application_announcement.announcement_id is 'The foreign key of a form';
 
 comment on column ccbc_public.application_announcement.application_id is 'The foreign key of an application';
+
+comment on column ccbc_public.application_announcement.is_primary is 'Flag to identify eother announcement is primary or secondary';
+
 
 commit;
