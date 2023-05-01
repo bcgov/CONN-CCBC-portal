@@ -1,5 +1,5 @@
 begin;
-select plan(11);
+select plan(12);
 
 truncate table
   ccbc_public.application,
@@ -24,6 +24,7 @@ select has_table(
 -- Columns
 select has_column('ccbc_public', 'application_announcement', 'announcement_id','The table application has column announcement_id');
 select has_column('ccbc_public', 'application_announcement', 'application_id','The table application has column application_id');
+select has_column('ccbc_public', 'application_announcement', 'is_primary','The table application has column is_primary');
 
 -- Row level security tests --
 
