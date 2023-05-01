@@ -11,14 +11,11 @@ declare
   new_row_id int;  
   user_sub varchar;
   user_id int; 
-  announcement_type varchar;
-  primary_flag bool;
+
 begin
   user_sub := (select sub from ccbc_public.session());
   user_id := (select id from ccbc_public.ccbc_user where ccbc_user.session_sub = user_sub);
   new_row_id := nextval(pg_get_serial_sequence('ccbc_public.announcement','id'));
-  announcement_type := json_data->>'announcementType';
-  primary_flag := (select case announcement_type when '' then true else false end);
 
   -- insert into ccbc_public.announcement table
   insert into ccbc_public.announcement (id, ccbc_numbers, json_data)
@@ -26,8 +23,8 @@ begin
     values (new_row_id, project_numbers, json_data);
 
   -- split project_numbers into ccbc_numbers and insert into ccbc_public.application_announcement
-  insert into  ccbc_public.application_announcement (announcement_id, application_id, is_primary)
-  select new_row_id, id, primary_flag from ccbc_public.application where ccbc_number 
+  insert into  ccbc_public.application_announcement (announcement_id, application_id)
+  select new_row_id, id from ccbc_public.application where ccbc_number 
     in (select ccbc_number from unnest(string_to_array(project_numbers, ',')) ccbc_number group by ccbc_number);
 
   if old_row_id <> -1 then
