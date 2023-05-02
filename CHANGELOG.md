@@ -1,3 +1,33 @@
+# [1.64.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.63.0...v1.64.0) (2023-05-02)
+
+### Bug Fixes
+
+- add handler for non array objects ([7568cd9](https://github.com/bcgov/CONN-CCBC-portal/commit/7568cd9fce3f88221ef06dedf70abc4118de49d4))
+- add null check for added on non array ([5e1d365](https://github.com/bcgov/CONN-CCBC-portal/commit/5e1d365398a6e432da17a84dd82f94326a7d576a))
+- add space between application gis data columns ([00dc2b3](https://github.com/bcgov/CONN-CCBC-portal/commit/00dc2b395094963da9440c7ce3389ddb2080f5bc))
+- diff schema org location ([e069fe0](https://github.com/bcgov/CONN-CCBC-portal/commit/e069fe053fab993104da2bd6de1390e24645f24c))
+- diff schema org profile ([53efcf7](https://github.com/bcgov/CONN-CCBC-portal/commit/53efcf7535bd40ab2265f346345bab3490c6d7d7))
+- file casing, update diffSchema ([e82048d](https://github.com/bcgov/CONN-CCBC-portal/commit/e82048d4d3daab427a91b237c913f8e8d5127d03))
+- prevent empty table cells from collapsing ([f221a52](https://github.com/bcgov/CONN-CCBC-portal/commit/f221a52346bcf0ade6baa51a9e157864fd5d90fc))
+- project area diff schema ([24ddc3b](https://github.com/bcgov/CONN-CCBC-portal/commit/24ddc3b3c8bb3b5b4e7f65e9d7a9b2bb9364f3f5))
+- remove console log ([1739eea](https://github.com/bcgov/CONN-CCBC-portal/commit/1739eea701d89e9dc9dba5c967875ea9173215d9))
+- show map icon if applicant is contesting map ([4d1ff35](https://github.com/bcgov/CONN-CCBC-portal/commit/4d1ff352cfe8a85600bc95b9f52b22ad32c3dd82))
+- update array diff logic ([d51e950](https://github.com/bcgov/CONN-CCBC-portal/commit/d51e9506552cc72f5e55dda2370b055ce11509b0))
+- update array diff prefix options ([5998a86](https://github.com/bcgov/CONN-CCBC-portal/commit/5998a867db7d966e11e311b54a8d05c5391d35ac))
+- update error message ([373a2e4](https://github.com/bcgov/CONN-CCBC-portal/commit/373a2e44520427c8c54e6d5882daa0ebf571ca4a))
+- update no diff message ([ae3418b](https://github.com/bcgov/CONN-CCBC-portal/commit/ae3418ba8a1a9fca2311329cfb76a66754974e2a))
+- update optional chaining ([cb35a46](https://github.com/bcgov/CONN-CCBC-portal/commit/cb35a46f5d9e6988218e1bc515651ef930bda3a7))
+- update padding, show bottom border ([0fb8e1e](https://github.com/bcgov/CONN-CCBC-portal/commit/0fb8e1e0e9b088bdce6828f2000a18065490e831))
+- use optional chaining on create row ([071bf14](https://github.com/bcgov/CONN-CCBC-portal/commit/071bf1451a1c0ded0d4432881b319b73d10075f4))
+- use template literal on row ([53a806f](https://github.com/bcgov/CONN-CCBC-portal/commit/53a806f62d98af1423ecfff5de761842f95442f5))
+
+### Features
+
+- add diff table on application history ([85f7b93](https://github.com/bcgov/CONN-CCBC-portal/commit/85f7b93d3ba7fcbf5d919fac84e22abea38624d0))
+- format types, error handler ([6c9e264](https://github.com/bcgov/CONN-CCBC-portal/commit/6c9e264f413d873814e1bbb9c0cc78e738d7d451))
+- handle datepicker clear ([4a0b6f1](https://github.com/bcgov/CONN-CCBC-portal/commit/4a0b6f116778c3536f6dfa75162693ada28d177c))
+- show message when no changes found ([d3e9c21](https://github.com/bcgov/CONN-CCBC-portal/commit/d3e9c213c02e8bb973cbdd84dcbd880a1e0feaf8))
+
 # [1.63.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.62.0...v1.63.0) (2023-04-27)
 
 ### Bug Fixes
