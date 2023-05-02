@@ -69,6 +69,11 @@ const StyledTable = styled.table`
     padding: 4px 8px;
     min-height: 24px;
   }
+
+  // prevent empty cells from collapsing
+  td:empty::after {
+    content: '‎';
+  }
 `;
 
 const StyledTHead = styled.thead`
@@ -87,6 +92,7 @@ const StyledTHead = styled.thead`
 const StyledSecondTHead = styled(StyledTHead)`
   th {
     text-align: center;
+    position: relative;
   }
 `;
 
@@ -114,6 +120,17 @@ const StyledFlex = styled.div`
   display: flex;
 `;
 
+// Purely optical - used to create break in the border between table cells
+// since table styling options are slim
+const StyledSpace = styled.div`
+  position: absolute;
+  background: ${(props) => props.theme.color.backgroundGrey};
+  min-width: 16px;
+  min-height: 8px;
+  left: -4px;
+  bottom: -4px;
+`;
+
 interface Props {
   query: any;
 }
@@ -134,12 +151,27 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
           eligible
           eligibleIndigenous
         }
+        assessmentDataByApplicationId(
+          filter: {
+            assessmentDataType: { equalTo: "screening" }
+            archivedAt: { isNull: true }
+          }
+        ) {
+          nodes {
+            jsonData
+            assessmentDataType
+          }
+        }
       }
     `,
     query.applicationByRowId
   );
 
-  const { rowId: applicationRowId, gisAssessmentHh } = queryFragment;
+  const {
+    rowId: applicationRowId,
+    gisAssessmentHh,
+    assessmentDataByApplicationId,
+  } = queryFragment;
 
   const [saveGisAssessmentHh] = useSaveGisAssessmentHhMutation();
 
@@ -159,7 +191,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
 
   const tooltipId = 'gis-assessment-hh-tooltip';
 
-  const handleChangeEligible = async (e) => {
+  const handleChangeEligible = (e) => {
     if (isAcceptedNumber(e.target.value)) {
       setEligible(e.target.value);
       setIsSavingEligible(true);
@@ -184,7 +216,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
     }
   };
 
-  const handleChangeEligibleIndigenous = async (e) => {
+  const handleChangeEligibleIndigenous = (e) => {
     if (isAcceptedNumber(e.target.value)) {
       setEligibleIndigenous(e.target.value);
       setIsSavingEligibleIndigenous(true);
@@ -229,6 +261,14 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
     GIS_TOTAL_INELIGIBLE_HH = null,
   } = gisJsonData;
 
+  // Querying and filtering screening assessment data using assessmentDataByApplicationId since relay won't let us query two assessmentForm with different arguments
+  const screeningAssessmentData =
+    assessmentDataByApplicationId.nodes &&
+    assessmentDataByApplicationId.nodes[0];
+  const isContestingMap =
+    screeningAssessmentData?.jsonData?.contestingMap?.length > 0;
+  const showMapIcon = isContestingMap && numberOfHouseholds;
+
   return (
     <StyledContainer>
       <StyledTable>
@@ -255,7 +295,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         <tr>
           <td>In application</td>
           <td>
-            {numberOfHouseholds && (
+            {showMapIcon && (
               <>
                 <Tooltip
                   className="fa-layers fa-fw"
@@ -307,8 +347,14 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
             Total <br />
             Indigenous
           </th>
-          <th>Overbuild</th>
-          <th>Overlap</th>
+          <th>
+            Overbuild
+            <StyledSpace />
+          </th>
+          <th>
+            Overlap
+            <StyledSpace />
+          </th>
         </StyledSecondTHead>
         <tr>
           <td className="breakpoint-labels">GIS Analysis</td>
