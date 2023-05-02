@@ -191,7 +191,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
 
   const tooltipId = 'gis-assessment-hh-tooltip';
 
-  const handleChangeEligible = async (e) => {
+  const handleChangeEligible = (e) => {
     if (isAcceptedNumber(e.target.value)) {
       setEligible(e.target.value);
       setIsSavingEligible(true);
@@ -216,7 +216,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
     }
   };
 
-  const handleChangeEligibleIndigenous = async (e) => {
+  const handleChangeEligibleIndigenous = (e) => {
     if (isAcceptedNumber(e.target.value)) {
       setEligibleIndigenous(e.target.value);
       setIsSavingEligibleIndigenous(true);
