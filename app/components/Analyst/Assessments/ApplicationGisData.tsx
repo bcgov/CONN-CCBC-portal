@@ -87,6 +87,7 @@ const StyledTHead = styled.thead`
 const StyledSecondTHead = styled(StyledTHead)`
   th {
     text-align: center;
+    position: relative;
   }
 `;
 
@@ -112,6 +113,17 @@ const StyledInput = styled.input`
 
 const StyledFlex = styled.div`
   display: flex;
+`;
+
+// Purely optical - used to create break in the border between table cells
+// since table styling options are slim
+const StyledSpace = styled.div`
+  position: absolute;
+  background: ${(props) => props.theme.color.backgroundGrey};
+  min-width: 16px;
+  min-height: 8px;
+  left: -4px;
+  bottom: -4px;
 `;
 
 interface Props {
@@ -335,8 +347,14 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
             Total <br />
             Indigenous
           </th>
-          <th>Overbuild</th>
-          <th>Overlap</th>
+          <th>
+            Overbuild
+            <StyledSpace />
+          </th>
+          <th>
+            Overlap
+            <StyledSpace />
+          </th>
         </StyledSecondTHead>
         <tr>
           <td className="breakpoint-labels">GIS Analysis</td>
