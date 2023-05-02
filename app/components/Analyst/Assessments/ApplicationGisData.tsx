@@ -69,6 +69,11 @@ const StyledTable = styled.table`
     padding: 4px 8px;
     min-height: 24px;
   }
+
+  // prevent empty cells from collapsing
+  td:empty::after {
+    content: '‎';
+  }
 `;
 
 const StyledTHead = styled.thead`
