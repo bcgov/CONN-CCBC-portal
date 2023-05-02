@@ -41,6 +41,7 @@ const ViewAnnouncements: React.FC<Props> = ({ announcements }) => {
 
   const isPrimary = primaryAnnouncements.length > 0;
   const isSecondary = secondaryAnnouncements.length > 0;
+
   return (
     <div>
       <AnnouncementsHeader title="Primary news release" />

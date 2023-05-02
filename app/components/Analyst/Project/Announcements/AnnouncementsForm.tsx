@@ -39,9 +39,15 @@ const AnnouncementsForm = ({ query }) => {
     applicationByRowId: { announcements, ccbcNumber },
   } = queryFragment;
 
+  const announcementsList = announcements.edges.map((announcement) => {
+    return announcement.node.jsonData;
+  });
+
   const [newFormData, setNewFormData] = useState({} as any);
   const [oldFormData] = useState({});
-  const [isFormEditMode, setIsFormEditMode] = useState(true);
+  const [isFormEditMode, setIsFormEditMode] = useState(
+    announcementsList.length === 0
+  );
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
 
@@ -87,10 +93,6 @@ const AnnouncementsForm = ({ query }) => {
       return application.ccbcNumber !== ccbcNumber;
     }
   );
-
-  const announcementsList = announcements.edges.map((announcement) => {
-    return announcement.node.jsonData;
-  });
 
   return (
     <ProjectForm
