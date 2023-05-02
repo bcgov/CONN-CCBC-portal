@@ -39,7 +39,7 @@ const StyledError = styled.div<ErrorProps>`
   color: #e70f1f;
   max-height: ${(props) => (props.error ? '20px' : '0px')};
   };
-  transition: max-height 0.5s ease-in-out;
+  transition: max-height 0.3s ease-in-out;
   overflow: hidden;
 `;
 
@@ -53,7 +53,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
     if (validator.isURL(e.target.value)) {
       setUrlError(false);
     } else {
-      setUrlError('Invalid URL. Please copy and paste from your browser');
+      setUrlError(true);
     }
     onChange(e.target.value);
   };
@@ -73,7 +73,11 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
         required={required}
         aria-label={label}
       />
-      <StyledError error={urlError || error}>{urlError || '‎'}</StyledError>
+      <StyledError error={urlError || error}>
+        {urlError
+          ? 'Invalid URL. Please copy and paste from your browser'
+          : '‎'}
+      </StyledError>
     </StyledDiv>
   );
 };
