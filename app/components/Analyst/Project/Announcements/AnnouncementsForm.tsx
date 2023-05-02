@@ -4,15 +4,13 @@ import { ProjectForm } from 'components/Analyst/Project';
 import ViewAnnouncements from 'components/Analyst/Project/Announcements/ViewAnnouncements';
 import announcementsSchema from 'formSchema/analyst/announcements';
 import announcementsUiSchema from 'formSchema/uiSchema/analyst/announcementsUiSchema';
+import { useCreateAnnouncementMutation } from 'schema/mutations/project/createAnnouncement';
 import ProjectTheme from '../ProjectTheme';
 
 const AnnouncementsForm = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
       fragment AnnouncementsForm_query on Query {
-        announcement(id: "1") {
-          jsonData
-        }
         applicationByRowId(rowId: $rowId) {
           ccbcNumber
         }
@@ -37,8 +35,31 @@ const AnnouncementsForm = ({ query }) => {
   const [oldFormData] = useState(jsonData);
   const [isFormEditMode, setIsFormEditMode] = useState(true);
 
+  const [createAnnouncement] = useCreateAnnouncementMutation();
+
+  const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
+    if (ccbcNumberList.length === 0) return currentCcbcNumber;
+    let projectNumbers = '';
+    ccbcNumberList.forEach((application) => {
+      projectNumbers += `${application.ccbcNumber},`;
+    });
+    return `${currentCcbcNumber},${projectNumbers}`;
+  };
+
   const handleSubmit = (e) => {
+    const ccbcList = newFormData?.otherProjectsInAnnouncement;
+
+    const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
+
     e.preventDefault();
+    createAnnouncement({
+      variables: {
+        input: {
+          jsonData: newFormData,
+          projectNumbers,
+        },
+      },
+    });
   };
 
   const handleResetFormData = () => {
@@ -56,7 +77,9 @@ const AnnouncementsForm = ({ query }) => {
     <ProjectForm
       additionalContext={{ ccbcIdList }}
       formData={newFormData}
-      handleChange={() => {}}
+      handleChange={(e) => {
+        setNewFormData({ ...e.formData });
+      }}
       isFormEditMode={isFormEditMode}
       title="Announcements"
       schema={isFormEditMode ? announcementsSchema : {}}
