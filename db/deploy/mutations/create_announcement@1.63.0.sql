@@ -3,9 +3,6 @@
 -- A type naming conflict has occurred - two entities have tried to define the same type 'CreateAnnouncementPayload'
 begin;
 
-drop function if exists ccbc_public.create_announcement_record(project_numbers varchar, json_data jsonb, old_row_id int);
-drop function if exists ccbc_public.create_announcement_record(project_numbers varchar, json_data jsonb);
-
 create or replace function ccbc_public.create_announcement_record(project_numbers varchar, json_data jsonb, old_row_id int)
 returns ccbc_public.announcement
 as $function$
