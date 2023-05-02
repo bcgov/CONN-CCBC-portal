@@ -290,3 +290,4 @@ types/gis_data_count 2023-04-25T17:28:56Z ,,, Vladimir <vladimir@button.is> # ad
 computed_columns/gis_data_counts 2023-04-25T17:38:30Z ,,, Vladimir <vladimir@button.is> # add function gis_data_counts
 mutations/parse_gis_data [mutations/parse_gis_data@1.62.0] 2023-04-25T19:05:31Z ,,, Vladimir <vladimir@button.is> # updated mutations/parse_gis_data
 @1.63.0 2023-04-27T21:09:29Z Marcel Mueller <marcel@m2> # release v1.63.0
+@1.64.0 2023-05-02T18:26:07Z Marcel Mueller <marcel@m2> # release v1.64.0
