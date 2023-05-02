@@ -33002,14 +33002,6 @@ type Mutation {
     input: CreateAnalystInput!
   ): CreateAnalystPayload
 
-  """Creates a single `Announcement`."""
-  createAnnouncement(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateAnnouncementInput!
-  ): CreateAnnouncementPayload
-
   """Creates a single `ApplicationAnalystLead`."""
   createApplicationAnalystLead(
     """
@@ -33217,24 +33209,6 @@ type Mutation {
     """
     input: UpdateAnalystByRowIdInput!
   ): UpdateAnalystPayload
-
-  """
-  Updates a single `Announcement` using its globally unique id and a patch.
-  """
-  updateAnnouncement(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateAnnouncementInput!
-  ): UpdateAnnouncementPayload
-
-  """Updates a single `Announcement` using a unique key and a patch."""
-  updateAnnouncementByRowId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateAnnouncementByRowIdInput!
-  ): UpdateAnnouncementPayload
 
   """
   Updates a single `Application` using its globally unique id and a patch.
@@ -34139,6 +34113,12 @@ type Mutation {
     """
     input: DeleteRfiDataStatusTypeByNameInput!
   ): DeleteRfiDataStatusTypePayload
+  createAnnouncement(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateAnnouncementInput!
+  ): CreateAnnouncementPayload
   createApplication(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -34297,6 +34277,12 @@ type Mutation {
     """
     input: SubmitConditionallyApprovedInput!
   ): SubmitConditionallyApprovedPayload
+  updateAnnouncement(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateAnnouncementInput!
+  ): UpdateAnnouncementPayload
 
   """
   Mutation to update the "application" form.
@@ -34395,77 +34381,6 @@ input AnalystInput {
   """archived at timestamp"""
   archivedAt: Datetime
   active: Boolean
-}
-
-"""The output of our create `Announcement` mutation."""
-type CreateAnnouncementPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Announcement` that was created by this mutation."""
-  announcement: Announcement
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `CcbcUser` that is related to this `Announcement`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Announcement`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Announcement`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `Announcement`. May be used by Relay 1."""
-  announcementEdge(
-    """The method to use when ordering `Announcement`."""
-    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AnnouncementsEdge
-}
-
-"""All input for the create `Announcement` mutation."""
-input CreateAnnouncementInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `Announcement` to be created by this mutation."""
-  announcement: AnnouncementInput!
-}
-
-"""An input for mutations affecting `Announcement`"""
-input AnnouncementInput {
-  """List of CCBC number of the projects included in announcement"""
-  ccbcNumbers: String
-
-  """The data entered into the announcement by the analyst or admin"""
-  jsonData: JSON
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
 }
 
 """The output of our create `ApplicationAnalystLead` mutation."""
@@ -36164,103 +36079,6 @@ input UpdateAnalystByRowIdInput {
   analystPatch: AnalystPatch!
 
   """Unique ID for the analyst"""
-  rowId: Int!
-}
-
-"""The output of our update `Announcement` mutation."""
-type UpdateAnnouncementPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Announcement` that was updated by this mutation."""
-  announcement: Announcement
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `CcbcUser` that is related to this `Announcement`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Announcement`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Announcement`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `Announcement`. May be used by Relay 1."""
-  announcementEdge(
-    """The method to use when ordering `Announcement`."""
-    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AnnouncementsEdge
-}
-
-"""All input for the `updateAnnouncement` mutation."""
-input UpdateAnnouncementInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Announcement` to be updated.
-  """
-  id: ID!
-
-  """
-  An object where the defined keys will be set on the `Announcement` being updated.
-  """
-  announcementPatch: AnnouncementPatch!
-}
-
-"""
-Represents an update to a `Announcement`. Fields that are set will be updated.
-"""
-input AnnouncementPatch {
-  """List of CCBC number of the projects included in announcement"""
-  ccbcNumbers: String
-
-  """The data entered into the announcement by the analyst or admin"""
-  jsonData: JSON
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
-}
-
-"""All input for the `updateAnnouncementByRowId` mutation."""
-input UpdateAnnouncementByRowIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `Announcement` being updated.
-  """
-  announcementPatch: AnnouncementPatch!
-
-  """The unique id of the announcement data"""
   rowId: Int!
 }
 
@@ -40209,6 +40027,47 @@ input DeleteRfiDataStatusTypeByNameInput {
   name: String!
 }
 
+"""The output of our `createAnnouncement` mutation."""
+type CreateAnnouncementPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  announcement: Announcement
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `Announcement`. May be used by Relay 1."""
+  announcementEdge(
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AnnouncementsEdge
+}
+
+"""All input for the `createAnnouncement` mutation."""
+input CreateAnnouncementInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  projectNumbers: String!
+  jsonData: JSON!
+}
+
 """The output of our `createApplication` mutation."""
 type CreateApplicationPayload {
   """
@@ -41082,6 +40941,48 @@ input SubmitConditionallyApprovedInput {
   _applicationId: Int!
   _jsonData: JSON!
   newApplicationStatus: String!
+}
+
+"""The output of our `updateAnnouncement` mutation."""
+type UpdateAnnouncementPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  announcement: Announcement
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `Announcement`. May be used by Relay 1."""
+  announcementEdge(
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AnnouncementsEdge
+}
+
+"""All input for the `updateAnnouncement` mutation."""
+input UpdateAnnouncementInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  projectNumbers: String!
+  jsonData: JSON!
+  oldRowId: Int!
 }
 
 """The output of our `updateApplicationForm` mutation."""

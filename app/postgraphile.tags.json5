@@ -22,6 +22,11 @@
           omit: ['create', 'delete'],
         },
       },
+      'ccbc_public.announcement': {
+        tags: {
+          omit: ['create', 'update'],
+        },
+      },
       'ccbc_public.intake': {
         tags: {
           omit: ['create', 'delete'],

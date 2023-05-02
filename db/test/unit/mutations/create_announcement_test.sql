@@ -9,8 +9,8 @@ truncate table
   ccbc_public.intake
 restart identity cascade;
 
-select has_function('ccbc_public', 'create_assessment_form',
-'Function create_assessment_form should exist');
+select has_function('ccbc_public', 'create_announcement',
+'Function create_announcement should exist');
 
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
 values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1),
@@ -46,7 +46,7 @@ insert into ccbc_public.application_status
 set role ccbc_analyst;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
 
-select ccbc_public.create_announcement_record('CCBC-010001','{"announcementType":"Primary"}'::jsonb);
+select ccbc_public.create_announcement('CCBC-010001','{"announcementType":"Primary"}'::jsonb);
 
 select results_eq(
   $$
@@ -89,7 +89,7 @@ select results_eq(
 );
 
 -- update announcement with same project numbers
-select ccbc_public.create_announcement_record('CCBC-010001,CCBC-010002,CCBC-010001','{"announcementType":"Secondary"}'::jsonb, 1);
+select ccbc_public.update_announcement('CCBC-010001,CCBC-010002,CCBC-010001','{"announcementType":"Secondary"}'::jsonb, 1);
 
 select results_eq(
   $$
