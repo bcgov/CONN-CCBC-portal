@@ -134,12 +134,27 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
           eligible
           eligibleIndigenous
         }
+        assessmentDataByApplicationId(
+          filter: {
+            assessmentDataType: { equalTo: "screening" }
+            archivedAt: { isNull: true }
+          }
+        ) {
+          nodes {
+            jsonData
+            assessmentDataType
+          }
+        }
       }
     `,
     query.applicationByRowId
   );
 
-  const { rowId: applicationRowId, gisAssessmentHh } = queryFragment;
+  const {
+    rowId: applicationRowId,
+    gisAssessmentHh,
+    assessmentDataByApplicationId,
+  } = queryFragment;
 
   const [saveGisAssessmentHh] = useSaveGisAssessmentHhMutation();
 
@@ -229,6 +244,19 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
     GIS_TOTAL_INELIGIBLE_HH = null,
   } = gisJsonData;
 
+  // Not a big fan of this though relay won't let me query assessmentForm twice with
+  // different arguments
+  const screeningAssessmentData = assessmentDataByApplicationId.nodes.find(
+    (node) => {
+      return node.assessmentDataType === 'screening';
+    }
+  );
+
+  const isContestingMap =
+    screeningAssessmentData?.jsonData?.contestingMap?.length > 0;
+
+  const showMapIcon = isContestingMap && numberOfHouseholds;
+
   return (
     <StyledContainer>
       <StyledTable>
@@ -255,7 +283,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         <tr>
           <td>In application</td>
           <td>
-            {numberOfHouseholds && (
+            {showMapIcon && (
               <>
                 <Tooltip
                   className="fa-layers fa-fw"
