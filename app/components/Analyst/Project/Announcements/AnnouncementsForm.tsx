@@ -13,6 +13,16 @@ const AnnouncementsForm = ({ query }) => {
       fragment AnnouncementsForm_query on Query {
         applicationByRowId(rowId: $rowId) {
           ccbcNumber
+          announcements(first: 1000)
+            @connection(key: "AnnouncementsForm_announcements") {
+            __id
+            edges {
+              node {
+                id
+                jsonData
+              }
+            }
+          }
         }
         allApplications {
           nodes {
@@ -26,19 +36,18 @@ const AnnouncementsForm = ({ query }) => {
   );
 
   const {
-    announcement,
-    applicationByRowId: { ccbcNumber },
+    applicationByRowId: { announcements, ccbcNumber },
   } = queryFragment;
 
-  const jsonData = announcement?.jsonData;
-  const [newFormData, setNewFormData] = useState({});
-  const [oldFormData] = useState(jsonData);
+  const [newFormData, setNewFormData] = useState({} as any);
+  const [oldFormData] = useState({});
   const [isFormEditMode, setIsFormEditMode] = useState(true);
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
 
   const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
-    if (ccbcNumberList.length === 0) return currentCcbcNumber;
+    if (!ccbcNumberList || ccbcNumberList?.length === 0)
+      return currentCcbcNumber;
     let projectNumbers = '';
     ccbcNumberList.forEach((application) => {
       projectNumbers += `${application.ccbcNumber},`;
@@ -50,14 +59,20 @@ const AnnouncementsForm = ({ query }) => {
     const ccbcList = newFormData?.otherProjectsInAnnouncement;
 
     const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
+    // eslint-disable-next-line no-underscore-dangle
+    const relayConnectionId = announcements.__id;
 
     e.preventDefault();
     createAnnouncement({
       variables: {
+        connections: [relayConnectionId],
         input: {
           jsonData: newFormData,
           projectNumbers,
         },
+      },
+      onCompleted: () => {
+        setIsFormEditMode(false);
       },
     });
   };
@@ -72,6 +87,10 @@ const AnnouncementsForm = ({ query }) => {
       return application.ccbcNumber !== ccbcNumber;
     }
   );
+
+  const announcementsList = announcements.edges.map((announcement) => {
+    return announcement.node.jsonData;
+  });
 
   return (
     <ProjectForm
@@ -89,7 +108,7 @@ const AnnouncementsForm = ({ query }) => {
       onSubmit={handleSubmit}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
     >
-      <ViewAnnouncements />
+      <ViewAnnouncements announcements={announcementsList} />
     </ProjectForm>
   );
 };

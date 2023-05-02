@@ -3,12 +3,18 @@ import { createAnnouncementMutation } from '__generated__/createAnnouncementMuta
 import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`
-  mutation createAnnouncementMutation($input: CreateAnnouncementInput!) {
+  mutation createAnnouncementMutation(
+    $connections: [ID!]!
+    $input: CreateAnnouncementInput!
+  ) {
     createAnnouncement(input: $input) {
-      announcement {
-        id
-        jsonData
-        rowId
+      announcementEdge @appendEdge(connections: $connections) {
+        cursor
+        node {
+          id
+          jsonData
+          rowId
+        }
       }
     }
   }
