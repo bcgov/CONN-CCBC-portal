@@ -267,7 +267,6 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
     assessmentDataByApplicationId.nodes[0];
   const isContestingMap =
     screeningAssessmentData?.jsonData?.contestingMap?.length > 0;
-  const showMapIcon = isContestingMap && numberOfHouseholds;
 
   return (
     <StyledContainer>
@@ -295,26 +294,26 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         <tr>
           <td>In application</td>
           <td>
-            {showMapIcon && (
-              <>
-                <Tooltip
-                  className="fa-layers fa-fw"
-                  message=" According to eligibility screening, the applicant is contesting the map."
-                  style={{ marginRight: '16px' }}
-                  title="Applicant is contesting map"
-                  customId={tooltipId}
-                  aria-describedby={tooltipId}
-                >
-                  <FontAwesomeIcon icon={faMap} size="lg" color="#C38A00" />
-                  <FontAwesomeIcon
-                    icon={faExclamation}
-                    size="sm"
-                    transform="right-1"
-                    color="#FFFFFF"
-                  />
-                </Tooltip>
-                <span>{formatNumber(numberOfHouseholds)}</span>
-              </>
+            {isContestingMap && (
+              <Tooltip
+                className="fa-layers fa-fw"
+                message=" According to eligibility screening, the applicant is contesting the map."
+                style={{ marginRight: '16px' }}
+                title="Applicant is contesting map"
+                customId={tooltipId}
+                aria-describedby={tooltipId}
+              >
+                <FontAwesomeIcon icon={faMap} size="lg" color="#C38A00" />
+                <FontAwesomeIcon
+                  icon={faExclamation}
+                  size="sm"
+                  transform="right-1"
+                  color="#FFFFFF"
+                />
+              </Tooltip>
+            )}
+            {numberOfHouseholds && (
+              <span>{formatNumber(numberOfHouseholds)}</span>
             )}
           </td>
           <td />
