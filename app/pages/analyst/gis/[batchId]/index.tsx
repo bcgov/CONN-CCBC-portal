@@ -78,12 +78,12 @@ const BatchIdPage: React.FC<
           batchid: Number(router.query.batchId),
         },
       },
-      async onCompleted() {
-        try {
-          router.push(`/analyst/gis/${router.query.batchId}/success`);
-        } catch (e) {
-          Sentry.captureException(e);
-        }
+      onCompleted() {
+        router
+          .push(`/analyst/gis/${router.query.batchId}/success`)
+          .catch((e) => {
+            Sentry.captureException(e);
+          });
       },
     });
   };

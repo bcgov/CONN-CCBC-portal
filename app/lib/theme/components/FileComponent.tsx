@@ -82,7 +82,7 @@ interface FileComponentProps {
   loading?: boolean;
   required?: boolean;
   label: string;
-  handleDownload?(uuid: string, fileName: string): Promise<void>;
+  handleDownload?(uuid: string, fileName: string): void;
 }
 
 const ErrorMessage = ({ error, fileTypes }) => {
@@ -157,10 +157,10 @@ const FileComponent: React.FC<FileComponentProps> = ({
             <StyledFileDiv key={file.uuid}>
               <StyledLink
                 data-testid="file-download-link"
-                onClick={async (e) => {
+                onClick={(e) => {
                   e.preventDefault();
                   if (handleDownload) {
-                    await handleDownload(file.uuid, file.name);
+                    handleDownload(file.uuid, file.name);
                   }
                 }}
               >
@@ -168,10 +168,10 @@ const FileComponent: React.FC<FileComponentProps> = ({
               </StyledLink>
               <StyledDeleteBtn
                 data-testid="file-delete-btn"
-                onClick={async (e: React.MouseEvent<HTMLInputElement>) => {
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => {
                   e.preventDefault();
                   if (handleDelete) {
-                    await handleDelete(file.id);
+                    handleDelete(file.id);
                   }
                 }}
                 disabled={loading || disabled}
