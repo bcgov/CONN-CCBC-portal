@@ -1,3 +1,26 @@
+# [1.65.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.64.0...v1.65.0) (2023-05-03)
+
+### Bug Fixes
+
+- if not exists ([27f1723](https://github.com/bcgov/CONN-CCBC-portal/commit/27f17232a22429d73398320aeb41524bb2f3bb0a))
+- rename and revert fixes ([a28df1e](https://github.com/bcgov/CONN-CCBC-portal/commit/a28df1efb2751bbcc968928f69a25b5383b2538b))
+- typo ([7e7fe79](https://github.com/bcgov/CONN-CCBC-portal/commit/7e7fe79e77cbefcdd0314f98283e5bef571c3e4b))
+- update shitch.plan after rebase ([989dbae](https://github.com/bcgov/CONN-CCBC-portal/commit/989dbaef0e622595a3f14824d018060a2d37e0af))
+- updated create_announcement mutation ([0c5c7ff](https://github.com/bcgov/CONN-CCBC-portal/commit/0c5c7ffed727fd67aebfdb495d74b0e85e84d4dc))
+- updated schema ([59f4ecd](https://github.com/bcgov/CONN-CCBC-portal/commit/59f4ecda9185ca16060ff76de681dc0fba5a7fc5))
+- updated unit tests ([304aced](https://github.com/bcgov/CONN-CCBC-portal/commit/304aced36d50a9c99004c723b0b4e7c4c23c810b))
+
+### Features
+
+- add success page test ([5617e6e](https://github.com/bcgov/CONN-CCBC-portal/commit/5617e6ea9984eede6a743d318eb4da8107509575))
+- added update_announcement mutation ([2bd636d](https://github.com/bcgov/CONN-CCBC-portal/commit/2bd636d11d060d3610de27d061a8246dbffa9eb7))
+- gis table ([27928ab](https://github.com/bcgov/CONN-CCBC-portal/commit/27928ab1eb87c8350a776708708f06bfa22f6597))
+- json preview table after upload ([bbff7e6](https://github.com/bcgov/CONN-CCBC-portal/commit/bbff7e6a8910351705d0172d6334f7f20aeb8b4a))
+- provide support for primary/secondary annpouncement ([cb894eb](https://github.com/bcgov/CONN-CCBC-portal/commit/cb894eb7d20fe431cd99bfa67c6f7e7b67307537))
+- successfully import gis data ([bcf4bab](https://github.com/bcgov/CONN-CCBC-portal/commit/bcf4babc771426fc4351b1a391668d57dc09ba12))
+- use CTE and make gis_data_counts function stable ([31b2e53](https://github.com/bcgov/CONN-CCBC-portal/commit/31b2e5314923696ce317a14becaefa5ad8cf0cd8))
+- use reusable file component ([f3427ac](https://github.com/bcgov/CONN-CCBC-portal/commit/f3427ace11292fa76687ce5772ecb90552195548))
+
 # [1.64.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.63.0...v1.64.0) (2023-05-02)
 
 ### Bug Fixes
