@@ -1,4 +1,4 @@
-import { MutableRefObject, useRef, useState } from 'react';
+import { useState } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
@@ -6,10 +6,12 @@ import styled from 'styled-components';
 import path from 'path';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
-import { Button } from '@button-inc/bcgov-theme';
-
 import { ButtonLink, Layout } from 'components';
 import { gisUploadedJsonQuery } from '__generated__/gisUploadedJsonQuery.graphql';
+import FileComponent from 'lib/theme/components/FileComponent';
+import { useRouter } from 'next/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 const getUploadedJsonQuery = graphql`
   query gisUploadedJsonQuery {
@@ -26,28 +28,6 @@ const StyledContainer = styled.div`
 const StyledError = styled('div')`
   color: #e71f1f;
   margin-top: 10px;
-`;
-
-const StyledFileDiv = styled('div')`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 1.2em;
-  border: 1px solid #c0c0c0;
-
-  margin-top: 10px;
-  & svg {
-    margin: 0 8px;
-  }
-`;
-
-const StyledButton = styled(Button)`
-  min-width: 160px;
-  white-space: nowrap;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-left: 50%;
 `;
 
 const StyledBtnContainer = styled.div`
@@ -95,12 +75,22 @@ const validateFile = (file: globalThis.File) => {
 };
 
 const GisTab = () => {
-  const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
-  const [selectedFile, setSelectedFile] = useState();
-  const [error, setError] = useState('');
+  const router = useRouter();
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const fileComponentValue = [
+    {
+      id: '',
+      name: selectedFile?.name,
+      size: selectedFile?.size,
+      type: '.json',
+      uuid: '',
+    },
+  ];
+  const [error, setError] = useState<Array<any> | string>([]);
+  const hasUploadErrors = error?.length > 0 && Array.isArray(error);
 
   const changeHandler = (event) => {
-    const file = event.target.files?.[0];
+    const file: File = event.target.files?.[0];
 
     const { isValid, error: newError } = validateFile(file);
     if (!isValid) {
@@ -108,11 +98,7 @@ const GisTab = () => {
       return;
     }
     setError('');
-    setSelectedFile(event.target.files[0]);
-  };
-
-  const handleClick = () => {
-    hiddenFileInput.current.click();
+    setSelectedFile(file);
   };
 
   const handleUpload = async () => {
@@ -125,67 +111,56 @@ const GisTab = () => {
         body: formData,
       });
       const result = await response.json();
-      if (result !== 'done') {
+      if (result.errors) {
         setError(result.errors);
       } else {
-        // some code to move to preview
+        router.push(`/analyst/gis/${result?.batchId}/`);
       }
     } catch (e) {
       console.error(e);
-    } finally {
-      // move to anarchy
     }
-
-    // .then((response) => response.json())
-    // .then((result) => {
-    //   if (result === 'done') {
-    //     // [TODO] change to proper handling
-    //     alert('This is a valid file. You can proceed.');
-    //   }
-    //   if (result.errors) {
-    //     // [TODO] change to proper handling
-    //     alert(`Validation failed: ${JSON.stringify(result.errors)}`);
-    //   }
-    // })
-    // .catch((fetch_error) => {
-    //   alert(fetch_error);
-    // });
   };
 
   return (
     <div>
       <h2>GIS Input</h2>
+
       <strong>
         Import a JSON of the GIS analysis for one or more applications
       </strong>
-      <StyledFileDiv>
-        <strong>JSON of GIS analysis</strong>
-        <StyledButton
-          id="json-upload-btn"
-          onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-            e.preventDefault();
-            handleClick();
-          }}
-        >
-          Upload
-        </StyledButton>
-      </StyledFileDiv>
-
-      <input
-        data-testid="file-select-test"
-        ref={hiddenFileInput}
+      <FileComponent
+        allowMultipleFiles={false}
+        buttonVariant="primary"
+        fileTypes=".json"
+        label="JSON of GIS analysis"
+        id="json-upload"
         onChange={changeHandler}
-        style={{ display: 'none' }}
-        type="file"
-        accept={acceptedFileTypes && acceptedFileTypes.toString()}
+        handleDelete={() => setSelectedFile(null)}
+        value={selectedFile ? fileComponentValue : []}
       />
-
-      {error && <UploadError error={error} />}
       <StyledBtnContainer>
         <ButtonLink onClick={handleUpload} href="#">
           Continue
         </ButtonLink>
       </StyledBtnContainer>
+      {error && <UploadError error={error} />}
+      {hasUploadErrors && (
+        <>
+          <p>
+            {' '}
+            <FontAwesomeIcon icon={faCircleXmark} color="#D8292F" /> Error
+            importing the file. Errors occured at:{' '}
+          </p>
+          <ul>
+            {error.map((err, index) => {
+              return (
+                // eslint-disable-next-line react/no-array-index-key
+                <li key={index}>{`Line: ${err?.line}, ${err?.message}`}</li>
+              );
+            })}
+          </ul>
+        </>
+      )}
     </div>
   );
 };

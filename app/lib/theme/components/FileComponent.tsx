@@ -70,19 +70,19 @@ type File = {
 };
 
 interface FileComponentProps {
-  value: Array<File>;
-  handleDelete: (fileId: number | string) => void;
+  value?: Array<File>;
+  handleDelete?: (fileId: number | string) => void;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
-  allowMultipleFiles: boolean;
-  fileTypes: string;
-  buttonVariant: string;
-  error: string;
+  allowMultipleFiles?: boolean;
+  fileTypes?: string;
+  buttonVariant?: string;
+  error?: string;
   id: string;
-  disabled: boolean;
-  loading: boolean;
-  required: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+  required?: boolean;
   label: string;
-  handleDownload(uuid: string, fileName: string): Promise<void>;
+  handleDownload?(uuid: string, fileName: string): Promise<void>;
 }
 
 const ErrorMessage = ({ error, fileTypes }) => {
@@ -159,7 +159,9 @@ const FileComponent: React.FC<FileComponentProps> = ({
                 data-testid="file-download-link"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleDownload(file.uuid, file.name);
+                  if (handleDownload) {
+                    handleDownload(file.uuid, file.name);
+                  }
                 }}
               >
                 {file.name}
@@ -168,7 +170,9 @@ const FileComponent: React.FC<FileComponentProps> = ({
                 data-testid="file-delete-btn"
                 onClick={(e: React.MouseEvent<HTMLInputElement>) => {
                   e.preventDefault();
-                  handleDelete(file.id);
+                  if (handleDelete) {
+                    handleDelete(file.id);
+                  }
                 }}
                 disabled={loading || disabled}
               >
