@@ -10,7 +10,7 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 const StyledContainer = styled.div``;
 
 const getGisUploadSuccessQuery = graphql`
-  query successQuery($batchId: Int!) {
+  query successGisUploadQuery($batchId: Int!) {
     gisDataCounts(batchid: $batchId) {
       nodes {
         total
