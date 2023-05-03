@@ -34,15 +34,23 @@ const StyledInput = styled(Input)`
 `;
 
 const StyledDiv = styled.div`
+  position: relative;
   margin: 8px 0;
 `;
 
 const StyledError = styled.div<ErrorProps>`
   color: #e70f1f;
   max-height: ${(props) => (props.isError ? '20px' : '0px')};
-  };
-  transition: max-height 0.3s ease-in-out;
+
+  transition: max-height 0.5s ease-in-out;
   overflow: hidden;
+
+  ${(props) => props.theme.breakpoint.largeUp} {
+    position: absolute;
+    max-height: 40px;
+    white-space: nowrap;
+    overflow: visible;
+  }
 `;
 
 const UrlWidget: React.FC<WidgetProps> = (props) => {
