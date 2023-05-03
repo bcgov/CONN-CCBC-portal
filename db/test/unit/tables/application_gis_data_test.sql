@@ -10,7 +10,7 @@ truncate table
   ccbc_public.application_form_data,
   ccbc_public.application_gis_data,
   ccbc_public.application,
-  ccbc_public.intake, 
+  ccbc_public.intake,
   ccbc_public.gis_data
 restart identity cascade;
 
@@ -64,8 +64,6 @@ insert into ccbc_public.application
    values
   (1,'CCBC-010001', '11111111-1111-1111-1111-111111111112');
 
-
-set jwt.claims.sub to 'testCcbcAdminUser';
 
 set role to ccbc_admin;
 select ccbc_public.save_gis_data('[{}]'::jsonb);
