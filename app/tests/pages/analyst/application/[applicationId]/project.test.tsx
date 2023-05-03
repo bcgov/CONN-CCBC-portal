@@ -294,7 +294,7 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
     pageTestingHelper.renderPage();
 
-    const editButton = screen.getByTestId('project-form-edit-button');
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
 
     expect(
       screen.queryByTestId('root_response_applicantResponse')
@@ -321,20 +321,22 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
     pageTestingHelper.renderPage();
 
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+
     await act(async () => {
-      fireEvent.click(screen.getByTestId('project-form-edit-button'));
+      fireEvent.click(editButton);
     });
 
-    expect(
-      screen.queryByTestId('project-form-edit-button')
-    ).not.toBeInTheDocument();
+    expect(editButton).not.toBeInTheDocument();
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
 
     await act(async () => {
       fireEvent.click(cancelButton);
     });
 
-    expect(screen.getByTestId('project-form-edit-button')).toBeInTheDocument();
+    expect(
+      screen.getAllByTestId('project-form-edit-button')[0]
+    ).toBeInTheDocument();
     expect(
       screen.getAllByTestId('read-only-decision-widget')[0]
     ).toHaveTextContent('Approved');
@@ -345,7 +347,7 @@ describe('The Project page', () => {
     pageTestingHelper.renderPage();
 
     await act(async () => {
-      fireEvent.click(screen.getByTestId('project-form-edit-button'));
+      fireEvent.click(screen.getAllByTestId('project-form-edit-button')[0]);
     });
 
     const statusApplicantSees = screen.getByTestId(
@@ -370,7 +372,9 @@ describe('The Project page', () => {
       fireEvent.click(modalSaveButton);
     });
 
-    expect(screen.getByTestId('project-form-edit-button')).toBeInTheDocument();
+    expect(
+      screen.getAllByTestId('project-form-edit-button')[0]
+    ).toBeInTheDocument();
     expect(
       screen.getAllByTestId('read-only-decision-widget')[0]
     ).toHaveTextContent('Approved');
