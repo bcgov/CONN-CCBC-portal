@@ -298,3 +298,5 @@ mutations/create_announcement [mutations/create_announcement@1.63.0] 2023-05-01T
 computed_columns/gis_data_counts [computed_columns/gis_data_counts@1.63.0] 2023-04-28T19:19:49Z Anthony Bushara <anthony@button.is> # rework to set as stable rather than volatile
 @1.65.0 2023-05-03T17:17:51Z Anthony Bushara <anthony@button.is> # release v1.65.0
 @1.65.1 2023-05-04T21:56:33Z Marcel Mueller <marcel@m2.local> # release v1.65.1
+extensions/application_gis_data.sql 2023-05-02T23:37:03Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # enable audit on application gis data table
+import/application_gis_data 2023-05-03T15:18:01Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # application gis data import
