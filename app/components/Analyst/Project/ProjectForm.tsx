@@ -133,33 +133,17 @@ const ProjectForm: React.FC<Props> = ({
         </StyledToggleRight>
       </StyledHeader>
       <BaseAccordion.Content>
-        {children && !isFormEditMode ? (
-          <FormBase
-            schema={schema}
-            uiSchema={uiSchema}
-            noValidate
-            formData={formData}
-            formContext={{ formData: { ...formData }, ...additionalContext }}
-            theme={theme || ProjectTheme}
-            omitExtraData={false}
-            onChange={handleChange}
-          >
-            {children}
-          </FormBase>
-        ) : (
-          <FormBase
-            schema={schema}
-            uiSchema={uiSchema}
-            formData={formData}
-            formContext={{ formData: { ...formData }, ...additionalContext }}
-            theme={theme || ProjectTheme}
-            omitExtraData={false}
-            onChange={handleChange}
-            // eslint-disable-next-line react/no-children-prop
-          >
-            <button type="submit">Submit</button>
-          </FormBase>
-        )}
+        <FormBase
+          schema={schema}
+          uiSchema={uiSchema}
+          formData={formData}
+          formContext={{ formData: { ...formData }, ...additionalContext }}
+          theme={theme || ProjectTheme}
+          omitExtraData={false}
+          onChange={handleChange}
+        >
+          {children}
+        </FormBase>
       </BaseAccordion.Content>
     </StyledBaseAccordion>
   );

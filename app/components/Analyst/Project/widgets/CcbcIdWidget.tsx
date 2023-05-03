@@ -51,7 +51,7 @@ const UrlWidget: React.FC<WidgetProps> = ({
       multiple
       id={id}
       onChange={(e, val) => {
-        onChange(val);
+        if (e) onChange(val);
       }}
       options={ccbcIdList}
       getOptionLabel={(option: any) => option.ccbcNumber}

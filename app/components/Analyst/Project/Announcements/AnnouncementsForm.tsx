@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { ProjectForm } from 'components/Analyst/Project';
+import validateFormData from '@rjsf/core/dist/cjs/validate';
+import validator from 'validator';
 import ViewAnnouncements from 'components/Analyst/Project/Announcements/ViewAnnouncements';
 import announcementsSchema from 'formSchema/analyst/announcements';
 import announcementsUiSchema from 'formSchema/uiSchema/analyst/announcementsUiSchema';
@@ -50,6 +52,15 @@ const AnnouncementsForm = ({ query }) => {
   );
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
+  const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+
+  const isErrors = useMemo(() => {
+    const isFormValid =
+      validateFormData(newFormData, announcementsSchema)?.errors?.length <= 0;
+    const url = newFormData?.announcementUrl;
+    const isUrlValid = url && validator.isURL(url);
+    return !isUrlValid || !isFormValid;
+  }, [newFormData]);
 
   const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
     if (!ccbcNumberList || ccbcNumberList?.length === 0)
@@ -61,26 +72,28 @@ const AnnouncementsForm = ({ query }) => {
     return `${currentCcbcNumber},${projectNumbers}`;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
+    hiddenSubmitRef.current.click();
     const ccbcList = newFormData?.otherProjectsInAnnouncement;
 
     const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
     // eslint-disable-next-line no-underscore-dangle
     const relayConnectionId = announcements.__id;
 
-    e.preventDefault();
-    createAnnouncement({
-      variables: {
-        connections: [relayConnectionId],
-        input: {
-          jsonData: newFormData,
-          projectNumbers,
+    if (!isErrors) {
+      createAnnouncement({
+        variables: {
+          connections: [relayConnectionId],
+          input: {
+            jsonData: newFormData,
+            projectNumbers,
+          },
         },
-      },
-      onCompleted: () => {
-        setIsFormEditMode(false);
-      },
-    });
+        onCompleted: () => {
+          setIsFormEditMode(false);
+        },
+      });
+    }
   };
 
   const handleResetFormData = () => {
@@ -110,7 +123,13 @@ const AnnouncementsForm = ({ query }) => {
       onSubmit={handleSubmit}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
     >
-      <ViewAnnouncements announcements={announcementsList} />
+      <button type="submit" ref={hiddenSubmitRef} style={{ display: 'none' }}>
+        Submit
+      </button>
+
+      {!isFormEditMode && (
+        <ViewAnnouncements announcements={announcementsList} />
+      )}
     </ProjectForm>
   );
 };

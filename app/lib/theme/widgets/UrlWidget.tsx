@@ -73,7 +73,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
     <StyledDiv>
       <StyledInput
         type="url"
-        isError={isError}
+        isError={isError || urlError}
         id={id}
         disabled={disabled}
         data-testid={id}
@@ -84,7 +84,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
         required={required}
         aria-label={label}
       />
-      <StyledError isError={urlError || isError}>
+      <StyledError isError={urlError}>
         {urlError
           ? 'Invalid URL. Please copy and paste from your browser'
           : '‎'}
