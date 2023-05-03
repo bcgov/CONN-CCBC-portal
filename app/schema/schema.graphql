@@ -34263,6 +34263,12 @@ type Mutation {
     """
     input: ImportApplicationAnalystLeadInput!
   ): ImportApplicationAnalystLeadPayload
+  importApplicationGisData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: ImportApplicationGisDataInput!
+  ): ImportApplicationGisDataPayload
   importApplicationPackages(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -40542,6 +40548,30 @@ type ImportApplicationAnalystLeadPayload {
 
 """All input for the `importApplicationAnalystLead` mutation."""
 input ImportApplicationAnalystLeadInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+}
+
+"""The output of our `importApplicationGisData` mutation."""
+type ImportApplicationGisDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  resultIds: [Int]
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+"""All input for the `importApplicationGisData` mutation."""
+input ImportApplicationGisDataInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
