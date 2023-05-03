@@ -13,7 +13,10 @@ const StyledAnnouncement = styled.div`
   ${(props) => props.theme.breakpoint.smallUp} {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+  }
+
+  & div {
+    margin-left: 16px;
   }
 `;
 
@@ -21,7 +24,7 @@ const Announcement = ({ announcement }) => {
   return (
     <StyledAnnouncement>
       <div>{announcement.announcementUrl}</div>
-      <div> {announcement.announcementDate}</div>
+      <div>{announcement.announcementDate}</div>
     </StyledAnnouncement>
   );
 };

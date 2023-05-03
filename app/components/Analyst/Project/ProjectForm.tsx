@@ -142,7 +142,7 @@ const ProjectForm: React.FC<Props> = ({
           omitExtraData={false}
           onChange={handleChange}
         >
-          {children}
+          {children || true}
         </FormBase>
       </BaseAccordion.Content>
     </StyledBaseAccordion>
