@@ -150,15 +150,15 @@ const ProjectForm: React.FC<Props> = ({
           <FormBase
             schema={schema}
             uiSchema={uiSchema}
-            noValidate
             formData={formData}
             formContext={{ formData: { ...formData }, ...additionalContext }}
             theme={theme || ProjectTheme}
             omitExtraData={false}
             onChange={handleChange}
             // eslint-disable-next-line react/no-children-prop
-            children
-          />
+          >
+            <button type="submit">Submit</button>
+          </FormBase>
         )}
       </BaseAccordion.Content>
     </StyledBaseAccordion>

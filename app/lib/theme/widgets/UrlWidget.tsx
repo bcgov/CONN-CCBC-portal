@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import validator from 'validator';
 
 interface ErrorProps {
-  error: boolean | string;
+  isError: boolean | string;
 }
 
 const StyledInput = styled(Input)`
@@ -13,6 +13,8 @@ const StyledInput = styled(Input)`
     margin-top: 12px;
     margin-bottom: 4px;
     min-width: 50%;
+    border: ${(props) =>
+      props.isError ? '2px solid #E71F1F' : '2px solid #606060'};
   }
 
   ${(props) => props.theme.breakpoint.largeUp} {
@@ -23,7 +25,7 @@ const StyledInput = styled(Input)`
 
   input: focus {
     outline: ${(props) =>
-      props.error ? '4px solid #E71F1F' : '4px solid #3B99FC'};
+      props.isError ? '4px solid #E71F1F' : '4px solid #3B99FC'};
   }
   input:disabled {
     background: rgba(196, 196, 196, 0.3);
@@ -37,17 +39,26 @@ const StyledDiv = styled.div`
 
 const StyledError = styled.div<ErrorProps>`
   color: #e70f1f;
-  max-height: ${(props) => (props.error ? '20px' : '0px')};
+  max-height: ${(props) => (props.isError ? '20px' : '0px')};
   };
   transition: max-height 0.3s ease-in-out;
   overflow: hidden;
 `;
 
 const UrlWidget: React.FC<WidgetProps> = (props) => {
-  const { id, placeholder, disabled, error, onChange, label, value, required } =
-    props;
+  const {
+    id,
+    placeholder,
+    disabled,
+    rawErrors,
+    onChange,
+    label,
+    value,
+    required,
+  } = props;
 
   const [urlError, setUrlError] = useState(value && validator.isURL(value));
+  const isError = rawErrors && rawErrors.length > 0;
 
   const handleChange = (e) => {
     if (validator.isURL(e.target.value)) {
@@ -62,7 +73,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
     <StyledDiv>
       <StyledInput
         type="url"
-        error={urlError || error}
+        isError={isError}
         id={id}
         disabled={disabled}
         data-testid={id}
@@ -73,7 +84,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
         required={required}
         aria-label={label}
       />
-      <StyledError error={urlError || error}>
+      <StyledError isError={urlError || isError}>
         {urlError
           ? 'Invalid URL. Please copy and paste from your browser'
           : '‎'}

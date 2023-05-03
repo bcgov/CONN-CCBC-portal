@@ -17,6 +17,7 @@ ${(props) => props.theme.breakpoint.mediumUp} {
    gap: 8px;
   .pg-select-wrapper {
     width: 100%;
+    min-width: 180px;
   }
 }
 

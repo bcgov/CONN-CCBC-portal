@@ -3,12 +3,7 @@ import { JSONSchema7 } from 'json-schema';
 const announcements: JSONSchema7 = {
   description: '',
   type: 'object',
-  required: [
-    'announcementType',
-    'announcementUrl',
-    'announcementDate',
-    'otherProjectsInAnnouncement',
-  ],
+  required: ['announcementType', 'announcementUrl', 'announcementDate'],
   properties: {
     announcementType: {
       type: 'string',
