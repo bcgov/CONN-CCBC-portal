@@ -69,7 +69,7 @@ describe('The Gis upload admin page', () => {
       })
     ) as jest.Mock;
 
-    expect(screen.getByTestId('file-select-test')).toBeInTheDocument();
+    expect(screen.getByTestId('file-test')).toBeInTheDocument();
 
     const button = screen.getByRole('button', { name: 'Continue' });
     expect(button).toHaveAttribute('href', '/#');
@@ -90,7 +90,7 @@ describe('The Gis upload admin page', () => {
       type: 'application/json',
     });
 
-    const inputFile = screen.getAllByTestId('file-select-test')[0];
+    const inputFile = screen.getAllByTestId('file-test')[0];
     const uploadBtn = screen.getByRole('button', { name: 'Upload' });
 
     fireEvent.change(inputFile, { target: { files: [badfile] } });
@@ -131,7 +131,7 @@ describe('The Gis upload admin page', () => {
       type: 'application/json',
     });
 
-    const inputFile = screen.getAllByTestId('file-select-test')[0];
+    const inputFile = screen.getAllByTestId('file-test')[0];
 
     fireEvent.change(inputFile, { target: { files: [goodfile] } });
 
@@ -168,7 +168,7 @@ describe('The Gis upload admin page', () => {
       type: 'application/json',
     });
 
-    const inputFile = screen.getAllByTestId('file-select-test')[0];
+    const inputFile = screen.getAllByTestId('file-test')[0];
 
     fireEvent.change(inputFile, { target: { files: [goodfile] } });
 
@@ -198,7 +198,7 @@ describe('The Gis upload admin page', () => {
       type: 'application/json',
     });
 
-    const inputFile = screen.getAllByTestId('file-select-test')[0];
+    const inputFile = screen.getAllByTestId('file-test')[0];
 
     fireEvent.change(inputFile, { target: { files: [goodfile] } });
 
