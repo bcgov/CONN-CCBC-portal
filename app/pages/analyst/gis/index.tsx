@@ -12,6 +12,7 @@ import FileComponent from 'lib/theme/components/FileComponent';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import * as Sentry from '@sentry/nextjs';
 
 const getUploadedJsonQuery = graphql`
   query gisUploadedJsonQuery {
@@ -114,10 +115,14 @@ const GisTab = () => {
       if (result.errors) {
         setError(result.errors);
       } else {
-        router.push(`/analyst/gis/${result?.batchId}/`);
+        try {
+          await router.push(`/analyst/gis/${result?.batchId}/`);
+        } catch (e) {
+          Sentry.captureException(e);
+        }
       }
     } catch (e) {
-      console.error(e);
+      Sentry.captureException(e);
     }
   };
 

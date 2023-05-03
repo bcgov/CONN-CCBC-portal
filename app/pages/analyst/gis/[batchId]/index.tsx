@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
 import { useRouter } from 'next/router';
 import { useParseGisAnalysisMutation } from 'schema/mutations/gis/parseGisAnalysis';
+import * as Sentry from '@sentry/nextjs';
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -70,15 +71,19 @@ const BatchIdPage: React.FC<
   const [parseGisAnalysis, isParsingGisAnalysis] =
     useParseGisAnalysisMutation();
 
-  const handleImport = async () => {
+  const handleImport = () => {
     parseGisAnalysis({
       variables: {
         input: {
           batchid: Number(router.query.batchId),
         },
       },
-      onCompleted() {
-        router.push(`/analyst/gis/${router.query.batchId}/success`);
+      async onCompleted() {
+        try {
+          router.push(`/analyst/gis/${router.query.batchId}/success`);
+        } catch (e) {
+          Sentry.captureException(e);
+        }
       },
     });
   };

@@ -157,10 +157,10 @@ const FileComponent: React.FC<FileComponentProps> = ({
             <StyledFileDiv key={file.uuid}>
               <StyledLink
                 data-testid="file-download-link"
-                onClick={(e) => {
+                onClick={async (e) => {
                   e.preventDefault();
                   if (handleDownload) {
-                    handleDownload(file.uuid, file.name);
+                    await handleDownload(file.uuid, file.name);
                   }
                 }}
               >
@@ -168,10 +168,10 @@ const FileComponent: React.FC<FileComponentProps> = ({
               </StyledLink>
               <StyledDeleteBtn
                 data-testid="file-delete-btn"
-                onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+                onClick={async (e: React.MouseEvent<HTMLInputElement>) => {
                   e.preventDefault();
                   if (handleDelete) {
-                    handleDelete(file.id);
+                    await handleDelete(file.id);
                   }
                 }}
                 disabled={loading || disabled}
