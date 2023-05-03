@@ -82,7 +82,7 @@ interface FileComponentProps {
   loading?: boolean;
   required?: boolean;
   label: string;
-  handleDownload?(uuid: string, fileName: string): void;
+  handleDownload?: Function;
 }
 
 const ErrorMessage = ({ error, fileTypes }) => {
