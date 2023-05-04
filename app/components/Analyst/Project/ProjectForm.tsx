@@ -71,6 +71,7 @@ interface Props {
   formData: any;
   handleChange: any;
   showEditBtn?: boolean;
+  hiddenSubmitRef?: any;
   isFormEditMode: boolean;
   onSubmit: any;
   resetFormData: any;
@@ -86,6 +87,7 @@ const ProjectForm: React.FC<Props> = ({
   children,
   formData,
   handleChange,
+  hiddenSubmitRef,
   showEditBtn = true,
   isFormEditMode,
   onSubmit,
@@ -149,9 +151,17 @@ const ProjectForm: React.FC<Props> = ({
             theme={theme || ProjectTheme}
             omitExtraData={false}
             onChange={handleChange}
-            // eslint-disable-next-line react/no-children-prop
-            children
-          />
+          >
+            {hiddenSubmitRef && (
+              <button
+                type="submit"
+                ref={hiddenSubmitRef}
+                style={{ display: 'none' }}
+              >
+                Submit
+              </button>
+            )}
+          </FormBase>
         </div>
       </BaseAccordion.Content>
     </StyledBaseAccordion>

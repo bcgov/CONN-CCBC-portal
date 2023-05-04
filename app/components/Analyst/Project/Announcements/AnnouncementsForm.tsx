@@ -32,7 +32,8 @@ const StyledAddButton = styled.button<EditProps>`
 
 interface EditProps {
   isFormEditMode: boolean;
-  overflow: string;
+  overflow?: string;
+  onClick?: () => void;
 }
 
 const StyledProjectForm = styled(ProjectForm)<EditProps>`
@@ -153,9 +154,10 @@ const AnnouncementsForm = ({ query }) => {
   const [overflow, setOverflow] = useState(
     isFormEditMode ? 'visible' : 'hidden'
   );
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   useEffect(() => {
-    if (overflow === 'hidden') {
+    if (overflow === 'hidden' && !isFirstRender) {
       setTimeout(() => {
         setOverflow('visible');
       }, 1000);
@@ -163,6 +165,7 @@ const AnnouncementsForm = ({ query }) => {
     } else {
       setOverflow('hidden');
     }
+    setIsFirstRender(false);
   }, [isFormEditMode]);
 
   return (
@@ -174,6 +177,7 @@ const AnnouncementsForm = ({ query }) => {
         handleChange={(e) => {
           setFormData({ ...e.formData });
         }}
+        hiddenSubmitRef={hiddenSubmitRef}
         isFormEditMode={isFormEditMode}
         showEditBtn={false}
         title="Announcements"
@@ -184,9 +188,6 @@ const AnnouncementsForm = ({ query }) => {
         onSubmit={handleSubmit}
         setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
       >
-        <button type="submit" ref={hiddenSubmitRef} style={{ display: 'none' }}>
-          Submit
-        </button>
         <StyledAddButton
           isFormEditMode={isFormEditMode}
           onClick={() => setIsFormEditMode(true)}
