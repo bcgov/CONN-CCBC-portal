@@ -45,8 +45,7 @@ const AnnouncementsForm = ({ query }) => {
     return announcement.node.jsonData;
   });
 
-  const [newFormData, setNewFormData] = useState({} as any);
-  const [oldFormData] = useState({});
+  const [formData, setFormData] = useState({} as any);
   const [isFormEditMode, setIsFormEditMode] = useState(
     announcementsList.length === 0
   );
@@ -56,11 +55,11 @@ const AnnouncementsForm = ({ query }) => {
 
   const isErrors = useMemo(() => {
     const isFormValid =
-      validateFormData(newFormData, announcementsSchema)?.errors?.length <= 0;
-    const url = newFormData?.announcementUrl;
+      validateFormData(formData, announcementsSchema)?.errors?.length <= 0;
+    const url = formData?.announcementUrl;
     const isUrlValid = url && validator.isURL(url);
     return !isUrlValid || !isFormValid;
-  }, [newFormData]);
+  }, [formData]);
 
   const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
     if (!ccbcNumberList || ccbcNumberList?.length === 0)
@@ -74,7 +73,7 @@ const AnnouncementsForm = ({ query }) => {
 
   const handleSubmit = () => {
     hiddenSubmitRef.current.click();
-    const ccbcList = newFormData?.otherProjectsInAnnouncement;
+    const ccbcList = formData?.otherProjectsInAnnouncement;
 
     const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
     // eslint-disable-next-line no-underscore-dangle
@@ -85,7 +84,7 @@ const AnnouncementsForm = ({ query }) => {
         variables: {
           connections: [relayConnectionId],
           input: {
-            jsonData: newFormData,
+            jsonData: formData,
             projectNumbers,
           },
         },
@@ -97,7 +96,7 @@ const AnnouncementsForm = ({ query }) => {
   };
 
   const handleResetFormData = () => {
-    setNewFormData(oldFormData);
+    setFormData({});
   };
 
   // Filter out this application CCBC ID
@@ -110,9 +109,9 @@ const AnnouncementsForm = ({ query }) => {
   return (
     <ProjectForm
       additionalContext={{ ccbcIdList }}
-      formData={newFormData}
+      formData={formData}
       handleChange={(e) => {
-        setNewFormData({ ...e.formData });
+        setFormData({ ...e.formData });
       }}
       isFormEditMode={isFormEditMode}
       title="Announcements"
