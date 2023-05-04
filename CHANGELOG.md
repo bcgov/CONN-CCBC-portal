@@ -1,3 +1,9 @@
+## [1.65.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.65.0...v1.65.1) (2023-05-04)
+
+### Bug Fixes
+
+- separate conditional for gis contesting map and household data ([61bf749](https://github.com/bcgov/CONN-CCBC-portal/commit/61bf7497c0eddc7c1e371fb1f3a09271d84b1da0))
+
 # [1.65.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.64.0...v1.65.0) (2023-05-03)
 
 ### Bug Fixes
