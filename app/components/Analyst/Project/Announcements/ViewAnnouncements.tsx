@@ -5,19 +5,24 @@ const StyledEmpty = styled.div`
   margin: 8px 0;
 `;
 
+const StyledContainer = styled.div`
+  background: #ffffff;
+  position: relative;
+`;
+
 const StyledAnnouncement = styled.div`
   display: flex;
-  flex-direction: column;
+  flex - direction: column;
   margin: 8px 0;
 
   ${(props) => props.theme.breakpoint.smallUp} {
-    flex-direction: row;
-    align-items: center;
-  }
+  flex - direction: row;
+  align - items: center;
+}
 
   & div {
-    margin-left: 16px;
-  }
+  margin - left: 16px;
+}
 `;
 
 const Announcement = ({ announcement }) => {
@@ -31,9 +36,10 @@ const Announcement = ({ announcement }) => {
 
 interface Props {
   announcements: any;
+  style?: any;
 }
 
-const ViewAnnouncements: React.FC<Props> = ({ announcements }) => {
+const ViewAnnouncements: React.FC<Props> = ({ announcements, style }) => {
   const primaryAnnouncements = announcements.filter(
     (announcement) => announcement.announcementType === 'Primary'
   );
@@ -46,7 +52,7 @@ const ViewAnnouncements: React.FC<Props> = ({ announcements }) => {
   const isSecondary = secondaryAnnouncements.length > 0;
 
   return (
-    <div>
+    <StyledContainer style={style}>
       <AnnouncementsHeader title="Primary news release" />
       {isPrimary ? (
         primaryAnnouncements.map((announcement) => {
@@ -67,7 +73,7 @@ const ViewAnnouncements: React.FC<Props> = ({ announcements }) => {
       ) : (
         <StyledEmpty>None</StyledEmpty>
       )}
-    </div>
+    </StyledContainer>
   );
 };
 

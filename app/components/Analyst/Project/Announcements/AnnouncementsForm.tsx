@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { ProjectForm } from 'components/Analyst/Project';
@@ -19,7 +19,6 @@ const StyledAddButton = styled.button<EditProps>`
   margin-bottom: ${(props) => (props.isFormEditMode ? '0px' : '16px')};
   overflow: hidden;
   max-height: ${(props) => (props.isFormEditMode ? '0px' : '30px')};
-
   transition: all 0.5s;
 
   & svg {
@@ -33,6 +32,7 @@ const StyledAddButton = styled.button<EditProps>`
 
 interface EditProps {
   isFormEditMode: boolean;
+  overflow: string;
 }
 
 const StyledProjectForm = styled(ProjectForm)<EditProps>`
@@ -41,10 +41,12 @@ const StyledProjectForm = styled(ProjectForm)<EditProps>`
   }
 
   .project-form {
-    overflow: hidden;
+    position: relative;
+    z-index: ${(props) => (props.isFormEditMode ? 100 : 1)};
+    overflow: ${(props) => props.overflow};
     max-height: ${(props) => (props.isFormEditMode ? '400px' : '30px')};
 
-    transition: max-height 0.5s;
+    transition: max-height 0.5s ease-in-out;
   }
 `;
 
@@ -145,9 +147,28 @@ const AnnouncementsForm = ({ query }) => {
     }
   );
 
+  // Overflow hidden is needed for animated edit transition though
+  // visible is needed for the datepicker so we needed to set it on a
+  // timeout to prevent buggy visual transition
+  const [overflow, setOverflow] = useState(
+    isFormEditMode ? 'visible' : 'hidden'
+  );
+
+  useEffect(() => {
+    if (overflow === 'hidden') {
+      setTimeout(() => {
+        setOverflow('visible');
+      }, 1000);
+      clearTimeout();
+    } else {
+      setOverflow('hidden');
+    }
+  }, [isFormEditMode]);
+
   return (
     <>
       <StyledProjectForm
+        overflow={overflow}
         additionalContext={{ ccbcIdList }}
         formData={formData}
         handleChange={(e) => {
@@ -174,7 +195,12 @@ const AnnouncementsForm = ({ query }) => {
           <FontAwesomeIcon icon={faPlus} />
         </StyledAddButton>
       </StyledProjectForm>
-      <ViewAnnouncements announcements={announcementsList} />
+      <ViewAnnouncements
+        announcements={announcementsList}
+        style={{
+          zIndex: isFormEditMode ? 0 : 1,
+        }}
+      />
     </>
   );
 };

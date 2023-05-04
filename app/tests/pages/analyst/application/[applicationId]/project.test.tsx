@@ -12,9 +12,26 @@ const mockQueryPayload = {
     return {
       applicationByRowId: {
         rowId: 1,
+        ccbcNumber: 'CCBC-010003',
         conditionalApproval: {
           id: 'test-id',
           jsonData: null,
+        },
+        allApplications: {
+          nodes: [
+            {
+              ccbcNumber: 'CCBC-010001',
+              rowId: 1,
+            },
+            {
+              ccbcNumber: 'CCBC-010002',
+              rowId: 2,
+            },
+            {
+              ccbcNumber: 'CCBC-010003',
+              rowId: 3,
+            },
+          ],
         },
       },
       session: {
@@ -29,6 +46,36 @@ const mockJsonDataQueryPayload = {
     return {
       applicationByRowId: {
         rowId: 1,
+        ccbcNumber: 'CCBC-010003',
+        announcements: {
+          edges: [
+            {
+              node: {
+                id: 'WyJhbm5vdW5jZW1lbnRzIiwxNF0=',
+                jsonData: {
+                  announcementUrl: 'www.test.com',
+                  announcementDate: '2023-05-01',
+                  announcementType: 'Primary',
+                },
+              },
+            },
+            {
+              node: {
+                id: 'WyJhbm5vdW5jZW1lbnRzIiwxNF0=',
+                jsonData: {
+                  announcementUrl: 'www.test-2.com',
+                  announcementDate: '2023-05-01',
+                  announcementType: 'Secondary',
+                },
+              },
+            },
+          ],
+          pageInfo: {
+            endCursor: null,
+            hasNextPage: false,
+          },
+          __id: 'client:WyJhcHBsaWNhdGlvbnMiLDZd:__AnnouncementsForm_announcements_connection',
+        },
         conditionalApproval: {
           id: 'test-id',
           jsonData: {
@@ -378,5 +425,62 @@ describe('The Project page', () => {
     expect(
       screen.getAllByTestId('read-only-decision-widget')[0]
     ).toHaveTextContent('Approved');
+  });
+
+  // it('should fill and save the announcements form', async () => {
+  //   pageTestingHelper.loadQuery();
+  //   pageTestingHelper.renderPage();
+  //
+  //   const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+  //
+  //   await act(async () => {
+  //     fireEvent.click(editButton);
+  //   });
+  //
+  //   const announcementType = screen.getByTestId('root_announcementType');
+  //   const announcementUrl = screen.getByTestId('root_announcementUrl');
+  //   const announcementDate =
+  //     screen.getAllByTestId('datepicker-widget')[3].children[0].children[0]
+  //       .children[0].children[0].children[0];
+  //   const otherProjects = screen.getByTestId('root_otherProjectsInAnnouncement')
+  //     .children[0].children[0].children[0];
+  //
+  //   await act(async () => {
+  //     announcementDate.click();
+  //   });
+  //
+  //   await act(async () => {
+  //     fireEvent.change(announcementType, { target: { value: 'Primary' } });
+  //     fireEvent.change(announcementUrl, {
+  //       target: { value: 'www.google.com' },
+  //     });
+  //     fireEvent.change(otherProjects, {
+  //       target: {
+  //         value: [
+  //           {
+  //             ccbcNumber: 'CCBC-010009',
+  //             rowId: 9,
+  //           },
+  //         ],
+  //       },
+  //     });
+  //   });
+  //
+  //   const saveButton = screen.getAllByText('Save')[1];
+  //
+  //   await act(async () => {
+  //     fireEvent.click(saveButton);
+  //   });
+  // });
+
+  it('should show the announcements', async () => {
+    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('Primary news release')).toBeInTheDocument();
+    expect(screen.getByText('Secondary news releases')).toBeInTheDocument();
+
+    expect(screen.getByText('www.test.com')).toBeInTheDocument();
+    expect(screen.getByText('www.test-2.com')).toBeInTheDocument();
   });
 });
