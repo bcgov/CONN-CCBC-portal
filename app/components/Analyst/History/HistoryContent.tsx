@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import statusStyles from 'data/statusStyles';
 import { useFeature } from '@growthbook/growthbook-react';
+import applicationDiffSchema from 'formSchema/uiSchema/history/application';
 import StatusPill from '../StatusPill';
 import HistoryDetails from './HistoryDetails';
 
@@ -112,6 +113,17 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record.json_data}
+            excludedKeys={[
+              'id',
+              'createdAt',
+              'updatedAt',
+              'applicationId',
+              'acknowledgements',
+              'supportingDocuments',
+              'coverage',
+              'templateUploads',
+            ]}
+            diffSchema={applicationDiffSchema}
           />
         )}
         {reasonForChange && <ChangeReason reason={reasonForChange} />}

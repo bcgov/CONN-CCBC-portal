@@ -514,7 +514,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:22:59.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -627,7 +627,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:23:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -676,7 +676,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:24:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -740,7 +740,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:25:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -815,7 +815,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:26:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -897,7 +897,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:27:59.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -1003,7 +1003,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:28:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -1109,7 +1109,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:29:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -1215,7 +1215,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:30:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -1321,7 +1321,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:31:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -1427,7 +1427,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:32:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -1537,7 +1537,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:33:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -1646,7 +1646,7 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:22:06.589845-08:00',
+              createdAt: '2023-03-03T08:34:06.589845-08:00',
               familyName: 'Bar',
               item: null,
               givenName: 'Foo',
@@ -1903,7 +1903,7 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-form-data')[0]
     ).toHaveTextContent(
-      'Foo Bar edited the Application on Mar 3, 2023, 8:22 a.m.'
+      'Foo Bar edited the Application on Mar 3, 2023, 8:34 a.m.'
     );
   });
 
@@ -1946,7 +1946,7 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(12);
+    expect(diffTables.length).toBe(11);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();

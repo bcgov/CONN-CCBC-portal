@@ -70,10 +70,13 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
   return (
     <StyledTable cellSpacing="0" cellPadding="0">
       {filteredHistory &&
-        filteredHistory.map((historyItem, index) => {
+        filteredHistory.map((historyItem, index, array) => {
           const { recordId } = historyItem;
-          const prevHistoryItem =
-            index < filteredHistory.length ? filteredHistory[index + 1] : null;
+          const a = array.slice(index + 1);
+          const prevItems = a.filter(
+            (item) => item.tableName === historyItem.tableName
+          );
+          const prevHistoryItem = prevItems.length > 0 ? prevItems[0] : null;
           return (
             <HistoryRow
               key={recordId}
