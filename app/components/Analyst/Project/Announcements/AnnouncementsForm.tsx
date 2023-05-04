@@ -132,6 +132,7 @@ const AnnouncementsForm = ({ query }) => {
         },
         onCompleted: () => {
           setIsFormEditMode(false);
+          setFormData({});
         },
       });
     }

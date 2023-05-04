@@ -144,6 +144,8 @@ const ProjectForm: React.FC<Props> = ({
         <div className="project-form">
           {children}
           <FormBase
+            // setting a key here will reset the form
+            key={isFormEditMode ? 'edit' : 'view'}
             schema={schema}
             uiSchema={uiSchema}
             formData={formData}
