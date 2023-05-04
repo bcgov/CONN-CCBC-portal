@@ -53,6 +53,7 @@ const UrlWidget: React.FC<WidgetProps> = ({
       onChange={(e, val) => {
         if (e) onChange(val);
       }}
+      data-testid={id}
       options={ccbcIdList}
       getOptionLabel={(option: any) => option.ccbcNumber}
       filterSelectedOptions

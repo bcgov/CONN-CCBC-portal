@@ -1,13 +1,52 @@
 import { useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
+import styled from 'styled-components';
 import { ProjectForm } from 'components/Analyst/Project';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import validator from 'validator';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import ViewAnnouncements from 'components/Analyst/Project/Announcements/ViewAnnouncements';
 import announcementsSchema from 'formSchema/analyst/announcements';
 import announcementsUiSchema from 'formSchema/uiSchema/analyst/announcementsUiSchema';
 import { useCreateAnnouncementMutation } from 'schema/mutations/project/createAnnouncement';
 import ProjectTheme from '../ProjectTheme';
+
+const StyledAddButton = styled.button<EditProps>`
+  display: flex;
+  align-items: center;
+  color: ${(props) => props.theme.color.links};
+  margin-bottom: ${(props) => (props.isFormEditMode ? '0px' : '16px')};
+  overflow: hidden;
+  max-height: ${(props) => (props.isFormEditMode ? '0px' : '30px')};
+
+  transition: all 0.5s;
+
+  & svg {
+    margin-left: 16px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+interface EditProps {
+  isFormEditMode: boolean;
+}
+
+const StyledProjectForm = styled(ProjectForm)<EditProps>`
+  .pg-card-content {
+    min-height: 0;
+  }
+
+  .project-form {
+    overflow: hidden;
+    max-height: ${(props) => (props.isFormEditMode ? '400px' : '30px')};
+
+    transition: max-height 0.5s;
+  }
+`;
 
 const AnnouncementsForm = ({ query }) => {
   const queryFragment = useFragment(
@@ -107,29 +146,36 @@ const AnnouncementsForm = ({ query }) => {
   );
 
   return (
-    <ProjectForm
-      additionalContext={{ ccbcIdList }}
-      formData={formData}
-      handleChange={(e) => {
-        setFormData({ ...e.formData });
-      }}
-      isFormEditMode={isFormEditMode}
-      title="Announcements"
-      schema={isFormEditMode ? announcementsSchema : {}}
-      uiSchema={isFormEditMode ? announcementsUiSchema : {}}
-      theme={ProjectTheme}
-      resetFormData={handleResetFormData}
-      onSubmit={handleSubmit}
-      setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-    >
-      <button type="submit" ref={hiddenSubmitRef} style={{ display: 'none' }}>
-        Submit
-      </button>
-
-      {!isFormEditMode && (
-        <ViewAnnouncements announcements={announcementsList} />
-      )}
-    </ProjectForm>
+    <>
+      <StyledProjectForm
+        additionalContext={{ ccbcIdList }}
+        formData={formData}
+        handleChange={(e) => {
+          setFormData({ ...e.formData });
+        }}
+        isFormEditMode={isFormEditMode}
+        showEditBtn={false}
+        title="Announcements"
+        schema={announcementsSchema}
+        uiSchema={announcementsUiSchema}
+        theme={ProjectTheme}
+        resetFormData={handleResetFormData}
+        onSubmit={handleSubmit}
+        setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+      >
+        <button type="submit" ref={hiddenSubmitRef} style={{ display: 'none' }}>
+          Submit
+        </button>
+        <StyledAddButton
+          isFormEditMode={isFormEditMode}
+          onClick={() => setIsFormEditMode(true)}
+        >
+          <span>Add Announcement</span>
+          <FontAwesomeIcon icon={faPlus} />
+        </StyledAddButton>
+      </StyledProjectForm>
+      <ViewAnnouncements announcements={announcementsList} />
+    </>
   );
 };
 

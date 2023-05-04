@@ -70,6 +70,7 @@ interface Props {
   children?: React.ReactNode;
   formData: any;
   handleChange: any;
+  showEditBtn?: boolean;
   isFormEditMode: boolean;
   onSubmit: any;
   resetFormData: any;
@@ -85,6 +86,7 @@ const ProjectForm: React.FC<Props> = ({
   children,
   formData,
   handleChange,
+  showEditBtn = true,
   isFormEditMode,
   onSubmit,
   resetFormData,
@@ -117,12 +119,16 @@ const ProjectForm: React.FC<Props> = ({
               </StyledBtn>
             </>
           ) : (
-            <StyledIconBtn
-              onClick={() => setIsFormEditMode(true)}
-              data-testid="project-form-edit-button"
-            >
-              <FontAwesomeIcon icon={faPen} size="xs" />
-            </StyledIconBtn>
+            <>
+              {showEditBtn && (
+                <StyledIconBtn
+                  onClick={() => setIsFormEditMode(true)}
+                  data-testid="project-form-edit-button"
+                >
+                  <FontAwesomeIcon icon={faPen} size="xs" />
+                </StyledIconBtn>
+              )}
+            </>
           )}
           <BaseAccordion.ToggleOff>
             <FontAwesomeIcon icon={faPlus} fixedWidth />
@@ -133,17 +139,20 @@ const ProjectForm: React.FC<Props> = ({
         </StyledToggleRight>
       </StyledHeader>
       <BaseAccordion.Content>
-        <FormBase
-          schema={schema}
-          uiSchema={uiSchema}
-          formData={formData}
-          formContext={{ formData: { ...formData }, ...additionalContext }}
-          theme={theme || ProjectTheme}
-          omitExtraData={false}
-          onChange={handleChange}
-        >
-          {children || true}
-        </FormBase>
+        <div className="project-form">
+          {children}
+          <FormBase
+            schema={schema}
+            uiSchema={uiSchema}
+            formData={formData}
+            formContext={{ formData: { ...formData }, ...additionalContext }}
+            theme={theme || ProjectTheme}
+            omitExtraData={false}
+            onChange={handleChange}
+            // eslint-disable-next-line react/no-children-prop
+            children
+          />
+        </div>
       </BaseAccordion.Content>
     </StyledBaseAccordion>
   );
