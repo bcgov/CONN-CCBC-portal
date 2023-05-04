@@ -198,7 +198,7 @@ const AnnouncementsForm = ({ query }) => {
       <ViewAnnouncements
         announcements={announcementsList}
         style={{
-          zIndex: isFormEditMode ? 0 : 1,
+          zIndex: isFormEditMode ? -1 : 1,
         }}
       />
     </>
