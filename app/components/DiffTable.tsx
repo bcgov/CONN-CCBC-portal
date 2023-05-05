@@ -133,7 +133,8 @@ const handleArrays = (arr1, arr2, schema, objectName, key) => {
 const generateDiffTable = (
   data: Record<string, any>,
   schema: any,
-  excludedKeys: Array<string>
+  excludedKeys: Array<string>,
+  overrideParent: string | null
 ): React.ReactElement => {
   const rows = [];
   const addedHeadings: Array<string> = [];
@@ -197,7 +198,8 @@ const generateDiffTable = (
         } else if (key.endsWith('__added') || key === '__new') {
           const added = Object.values(value);
           added.forEach((newValue: string | Array<any>, index) => {
-            const parent = key.replace(/(__added|__deleted)/g, '');
+            const parent =
+              overrideParent || key.replace(/(__added|__deleted)/g, '');
             if (Array.isArray(newValue) && typeof newValue[0] === 'object') {
               newValue.forEach((n) => {
                 if (typeof n === 'object') {
@@ -250,7 +252,9 @@ const generateDiffTable = (
         } else if (key.endsWith('__deleted')) {
           const deleted = Object.values(value);
           deleted.forEach((oldValue: string, index) => {
-            const parent = [key.replace(/(__added|__deleted)/g, '')];
+            const parent = overrideParent || [
+              key.replace(/(__added|__deleted)/g, ''),
+            ];
             rows.push(
               handleRow(
                 schema,
@@ -271,7 +275,9 @@ const generateDiffTable = (
         typeof value === 'number' ||
         value === null
       ) {
-        const parent = Object.keys(data)[0].replace(/(__added|__deleted)/g, '');
+        const parent =
+          overrideParent ||
+          Object.keys(data)[0].replace(/(__added|__deleted)/g, '');
         if (key === '__old') {
           const oldValue = value;
           const newValue = object.__new;
@@ -322,12 +328,23 @@ interface Props {
   changes: any;
   diffSchema: any;
   excludedKeys: Array<string>;
+  overrideParent?: string | null;
 }
 
-const DiffTable: React.FC<Props> = ({ changes, diffSchema, excludedKeys }) => {
+const DiffTable: React.FC<Props> = ({
+  changes,
+  diffSchema,
+  excludedKeys,
+  overrideParent = null,
+}) => {
   let diffTable;
   try {
-    diffTable = generateDiffTable(changes, diffSchema, excludedKeys);
+    diffTable = generateDiffTable(
+      changes,
+      diffSchema,
+      excludedKeys,
+      overrideParent
+    );
   } catch (error) {
     diffTable = (
       <div>
