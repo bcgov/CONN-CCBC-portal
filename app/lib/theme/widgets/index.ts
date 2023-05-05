@@ -11,3 +11,4 @@ export { default as ReadOnlyWidget } from './ReadOnlyWidget';
 export { default as TextAreaWidget } from './TextAreaWidget';
 export { default as TextWidget } from './TextWidget';
 export { default as SelectWidget } from './SelectWidget';
+export { default as UrlWidget } from './UrlWidget';

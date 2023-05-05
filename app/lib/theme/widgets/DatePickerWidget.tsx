@@ -5,6 +5,10 @@ import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import { dateTimeFormat, fixDate } from '../functions/formatDates';
 
+interface StyleProps {
+  isError?: boolean;
+}
+
 const StyledContainer = styled('div')`
   width: ${(props) => props.theme.width.inputWidthSmall};
   position: relative;
@@ -16,14 +20,23 @@ const StyledContainer = styled('div')`
   margin-bottom: 32px;
 `;
 
-const StyledDatePicker = styled(DatePicker)`
+const StyledDatePicker = styled(DatePicker)<StyleProps>`
   border: 2px solid #606060;
+  border: ${(props) =>
+    props.isError ? '2px solid #E71F1F' : '2px solid #606060'};
+
   border-radius: 0.25rem;
   padding: 0.5rem 0.6rem;
   width: 100%;
 
   ::placeholder {
     color: #cccccc;
+  }
+
+  &:focus {
+    outline: ${(props) =>
+      props.isError ? '4px solid #E71F1F' : '4px solid #3B99FC'};
+    outline-offset: 1px;
   }
 `;
 
@@ -99,9 +112,10 @@ const CalendarIcon = ({ onClick }: any) => {
   );
 };
 
-const CustomInput = ({ value, onClick, ...rest }: any) => (
+const CustomInput = ({ value, onClick, isError, ...rest }: any) => (
   <>
     <StyledDatePicker
+      isError={isError}
       showPopperArrow={false}
       value={value}
       placeholderText="YYYY-MM-DD"
@@ -113,6 +127,7 @@ const CustomInput = ({ value, onClick, ...rest }: any) => (
 );
 
 const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
+  rawErrors,
   id,
   value,
   disabled,
@@ -124,13 +139,14 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
 }) => {
   const [day, setDay] = useState(value ? fixDate(value) : undefined);
 
+  const isError = rawErrors && rawErrors.length > 0;
+
   const handleChange = (d: Date) => {
     const originalDate = new Date(d);
     const realDate = new Date(originalDate.toDateString());
     if (realDate.valueOf() <= 0) {
       setDay(undefined);
-    }
-    else {
+    } else {
       setDay(realDate);
     }
     onChange(getDateString(realDate));
@@ -145,7 +161,10 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   };
 
   return (
-    <StyledContainer className="datepicker-widget">
+    <StyledContainer
+      className="datepicker-widget"
+      data-testid="datepicker-widget"
+    >
       <DatePicker
         id={id}
         disabled={disabled}
@@ -162,7 +181,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
         dropdownMode="select"
         isClearable={options.isClearable as boolean}
         showPopperArrow={false}
-        customInput={<CustomInput />}
+        customInput={<CustomInput isError={isError} />}
       />
     </StyledContainer>
   );

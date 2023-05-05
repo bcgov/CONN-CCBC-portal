@@ -12,9 +12,26 @@ const mockQueryPayload = {
     return {
       applicationByRowId: {
         rowId: 1,
+        ccbcNumber: 'CCBC-010003',
         conditionalApproval: {
           id: 'test-id',
           jsonData: null,
+        },
+        allApplications: {
+          nodes: [
+            {
+              ccbcNumber: 'CCBC-010001',
+              rowId: 1,
+            },
+            {
+              ccbcNumber: 'CCBC-010002',
+              rowId: 2,
+            },
+            {
+              ccbcNumber: 'CCBC-010003',
+              rowId: 3,
+            },
+          ],
         },
       },
       session: {
@@ -29,6 +46,36 @@ const mockJsonDataQueryPayload = {
     return {
       applicationByRowId: {
         rowId: 1,
+        ccbcNumber: 'CCBC-010003',
+        announcements: {
+          edges: [
+            {
+              node: {
+                id: 'WyJhbm5vdW5jZE1lbnRzIiwrNF2=',
+                jsonData: {
+                  announcementUrl: 'www.test.com',
+                  announcementDate: '2023-05-01',
+                  announcementType: 'Primary',
+                },
+              },
+            },
+            {
+              node: {
+                id: 'WyJhbm5vdW5jZW1lbnRzIiwxNF0=',
+                jsonData: {
+                  announcementUrl: 'www.test-2.com',
+                  announcementDate: '2023-05-02',
+                  announcementType: 'Secondary',
+                },
+              },
+            },
+          ],
+          pageInfo: {
+            endCursor: null,
+            hasNextPage: false,
+          },
+          __id: 'client:WyJhcHBsaWNhdGlvbnMiLDZd:__AnnouncementsForm_announcements_connection',
+        },
         conditionalApproval: {
           id: 'test-id',
           jsonData: {
@@ -294,7 +341,7 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
     pageTestingHelper.renderPage();
 
-    const editButton = screen.getByTestId('project-form-edit-button');
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
 
     expect(
       screen.queryByTestId('root_response_applicantResponse')
@@ -321,20 +368,22 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
     pageTestingHelper.renderPage();
 
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+
     await act(async () => {
-      fireEvent.click(screen.getByTestId('project-form-edit-button'));
+      fireEvent.click(editButton);
     });
 
-    expect(
-      screen.queryByTestId('project-form-edit-button')
-    ).not.toBeInTheDocument();
+    expect(editButton).not.toBeInTheDocument();
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
 
     await act(async () => {
       fireEvent.click(cancelButton);
     });
 
-    expect(screen.getByTestId('project-form-edit-button')).toBeInTheDocument();
+    expect(
+      screen.getAllByTestId('project-form-edit-button')[0]
+    ).toBeInTheDocument();
     expect(
       screen.getAllByTestId('read-only-decision-widget')[0]
     ).toHaveTextContent('Approved');
@@ -345,7 +394,7 @@ describe('The Project page', () => {
     pageTestingHelper.renderPage();
 
     await act(async () => {
-      fireEvent.click(screen.getByTestId('project-form-edit-button'));
+      fireEvent.click(screen.getAllByTestId('project-form-edit-button')[0]);
     });
 
     const statusApplicantSees = screen.getByTestId(
@@ -370,9 +419,81 @@ describe('The Project page', () => {
       fireEvent.click(modalSaveButton);
     });
 
-    expect(screen.getByTestId('project-form-edit-button')).toBeInTheDocument();
+    expect(
+      screen.getAllByTestId('project-form-edit-button')[0]
+    ).toBeInTheDocument();
     expect(
       screen.getAllByTestId('read-only-decision-widget')[0]
     ).toHaveTextContent('Approved');
+  });
+
+  it('should show the announcements', async () => {
+    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('Primary news release')).toBeInTheDocument();
+    expect(screen.getByText('Secondary news releases')).toBeInTheDocument();
+
+    expect(screen.getByText('www.test.com')).toBeInTheDocument();
+    expect(screen.getByText('www.test-2.com')).toBeInTheDocument();
+
+    expect(screen.getByText('2023-05-01')).toBeInTheDocument();
+    expect(screen.getByText('2023-05-02')).toBeInTheDocument();
+  });
+
+  it('should show the error message for invalid url', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getByText('Add announcement');
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const announcementUrl = screen.getByTestId('root_announcementUrl');
+
+    expect(announcementUrl).toHaveStyle('border: 2px solid #606060;');
+
+    await act(async () => {
+      fireEvent.change(announcementUrl, {
+        target: { value: 'invalid url' },
+      });
+    });
+
+    expect(
+      screen.getByText('Invalid URL. Please copy and paste from your browser.')
+    ).toBeInTheDocument();
+
+    expect(announcementUrl).toHaveStyle('border: 2px solid #E71F1F;');
+  });
+
+  it('should highlight the missing form fields', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getByText('Add announcement');
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const saveButton = screen.getAllByText('Save')[1];
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    const announcementUrl = screen.getByTestId('root_announcementUrl');
+    const announcementType = screen
+      .getByTestId('root_announcementType')
+      .closest('div');
+    const announcementDate =
+      screen.getAllByTestId('datepicker-widget')[3].children[0].children[0]
+        .children[0].children[0].children[0];
+
+    expect(announcementUrl).toHaveStyle('border: 2px solid #E71F1F;');
+    expect(announcementType).toHaveStyle('border: 2px solid #E71F1F;');
+    expect(announcementDate).toHaveStyle('border: 2px solid #E71F1F;');
   });
 });

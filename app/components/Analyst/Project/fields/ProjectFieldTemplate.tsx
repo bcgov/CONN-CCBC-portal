@@ -8,6 +8,29 @@ const StyledH4 = styled.h4`
   margin-bottom: 8px;
 `;
 
+const StyledContainer = styled.div`
+  .pg-select-wrapper,
+  .datepicker-widget,
+  .url-widget-wrapper,
+  .ccbcid-widget-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  ${(props) => props.theme.breakpoint.smallUp} {
+    .pg-select-wrapper,
+    .datepicker-widget,
+    .url-widget-wrapper,
+    .ccbcid-widget-wrapper {
+      max-width: 340px;
+      width: 100%;
+    }
+  }
+  .select-widget-wrapper {
+    margin-bottom: 0px;
+  }
+`;
+
 const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   uiSchema,
@@ -15,10 +38,10 @@ const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
   const uiTitle = uiSchema['ui:title'];
 
   return (
-    <div>
+    <StyledContainer>
       {uiTitle && <StyledH4>{uiTitle}</StyledH4>}
       {children}
-    </div>
+    </StyledContainer>
   );
 };
 

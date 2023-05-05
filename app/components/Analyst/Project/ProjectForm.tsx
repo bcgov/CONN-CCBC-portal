@@ -66,8 +66,13 @@ const StyledBtn = styled(Button)`
 `;
 
 interface Props {
+  additionalContext?: any;
+  before?: React.ReactNode;
+  children?: React.ReactNode;
   formData: any;
   handleChange: any;
+  showEditBtn?: boolean;
+  hiddenSubmitRef?: any;
   isFormEditMode: boolean;
   onSubmit: any;
   resetFormData: any;
@@ -79,8 +84,13 @@ interface Props {
 }
 
 const ProjectForm: React.FC<Props> = ({
+  additionalContext,
+  before,
+  children,
   formData,
   handleChange,
+  hiddenSubmitRef,
+  showEditBtn = true,
   isFormEditMode,
   onSubmit,
   resetFormData,
@@ -113,12 +123,16 @@ const ProjectForm: React.FC<Props> = ({
               </StyledBtn>
             </>
           ) : (
-            <StyledIconBtn
-              onClick={() => setIsFormEditMode(true)}
-              data-testid="project-form-edit-button"
-            >
-              <FontAwesomeIcon icon={faPen} size="xs" />
-            </StyledIconBtn>
+            <>
+              {showEditBtn && (
+                <StyledIconBtn
+                  onClick={() => setIsFormEditMode(true)}
+                  data-testid="project-form-edit-button"
+                >
+                  <FontAwesomeIcon icon={faPen} size="xs" />
+                </StyledIconBtn>
+              )}
+            </>
           )}
           <BaseAccordion.ToggleOff>
             <FontAwesomeIcon icon={faPlus} fixedWidth />
@@ -129,18 +143,33 @@ const ProjectForm: React.FC<Props> = ({
         </StyledToggleRight>
       </StyledHeader>
       <BaseAccordion.Content>
-        <FormBase
-          schema={schema}
-          uiSchema={uiSchema}
-          noValidate
-          formData={formData}
-          formContext={{ formData: { ...formData } }}
-          theme={theme || ProjectTheme}
-          omitExtraData={false}
-          onChange={handleChange}
-          // eslint-disable-next-line react/no-children-prop
-          children
-        />
+        <div className="project-form">
+          {before}
+          <FormBase
+            // setting a key here will reset the form
+            key={isFormEditMode ? 'edit' : 'view'}
+            schema={schema}
+            uiSchema={uiSchema}
+            formData={formData}
+            formContext={{ formData: { ...formData }, ...additionalContext }}
+            theme={theme || ProjectTheme}
+            omitExtraData={false}
+            onChange={handleChange}
+          >
+            {hiddenSubmitRef ? (
+              <button
+                type="submit"
+                ref={hiddenSubmitRef}
+                style={{ display: 'none' }}
+              >
+                Submit
+              </button>
+            ) : (
+              true
+            )}
+          </FormBase>
+        </div>
+        {children}
       </BaseAccordion.Content>
     </StyledBaseAccordion>
   );

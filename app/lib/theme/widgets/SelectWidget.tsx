@@ -9,9 +9,13 @@ interface SelectWidgetProps extends WidgetProps {
 
 interface SelectProps {
   isPlaceholder: boolean;
+  isError: boolean;
 }
+
 const StyledSelect = styled(Dropdown)<SelectProps>`
   .pg-select-wrapper {
+    border: ${(props) =>
+      props.isError ? '2px solid #E71F1F' : '2px solid #606060'};
     margin: 12px 0;
     width: ${(props) => props.theme.width.inputWidthSmall};
   }
@@ -23,7 +27,7 @@ const StyledSelect = styled(Dropdown)<SelectProps>`
     margin: 0.25em 0;
   }
 
-  select option:first-child{
+  select option:first-child {
     color: ${(props) => (props.isPlaceholder ? '#cccccc' : 'inherit')};
   }
 
@@ -59,19 +63,22 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
   schema,
   uiSchema,
   customOption,
+  rawErrors,
 }) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const options = schema.enum as Array<string>;
   const description = uiSchema ? uiSchema['ui:description'] : null;
+  const isError = rawErrors && rawErrors.length > 0;
 
   return (
-    <StyledDiv>
+    <StyledDiv className="select-widget-wrapper">
       <StyledSelect
         id={id}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           onChange(e.target.value || undefined)
         }
+        isError={isError}
         data-testid={id}
         disabled={disabled}
         isPlaceholder={!value || value === placeholder}
