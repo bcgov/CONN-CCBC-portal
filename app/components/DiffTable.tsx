@@ -20,23 +20,26 @@ const StyledTable = styled.table`
   }
 `;
 
-const format = (value) => {
-  if (typeof value === 'number') {
+const format = (value, type) => {
+  if (typeof value === 'number' && type === 'number') {
     return formatMoney(value);
   }
   if (typeof value === 'boolean') {
     return value ? 'Yes' : 'No';
   }
+  if (typeof value === 'undefined' || value === null) {
+    return 'N/A';
+  }
   return value;
 };
 
-const createRow = (title, newValue, oldValue, objectName, key) => {
+const createRow = (title, newValue, oldValue, objectName, key, type) => {
   return (
     <tr key={`${objectName}-${key}-${newValue}-${oldValue}`}>
       <td>{title}</td>
-      <td>{`${format(newValue)}`}</td>
+      <td>{`${format(newValue, type)}`}</td>
       <td>
-        <s>{`${format(oldValue)}`}</s>
+        <s>{`${format(oldValue, type)}`}</s>
       </td>
     </tr>
   );
@@ -71,7 +74,8 @@ const handleRow = (
       newValue,
       oldValue,
       parentObject,
-      key
+      key,
+      schema[parentObject]?.properties[key]?.type || 'string'
     )
   );
   return rows;
@@ -141,7 +145,7 @@ const generateDiffTable = (
       if (excludedKeys.some((e) => key.includes(e))) {
         return;
       }
-      if (typeof value === 'object') {
+      if (typeof value === 'object' && value !== null) {
         if (
           Array.isArray(value) &&
           Array.isArray(value[0]) &&
@@ -264,7 +268,8 @@ const generateDiffTable = (
       } else if (
         typeof value === 'string' ||
         typeof value === 'boolean' ||
-        typeof value === 'number'
+        typeof value === 'number' ||
+        value === null
       ) {
         const parent = Object.keys(data)[0].replace(/(__added|__deleted)/g, '');
         if (key === '__old') {
