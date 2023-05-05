@@ -16,7 +16,7 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
         run: |
-          echo "${GPG_PRIVATE_KEY}" | base64 --decode | gpg --import
+          echo "${GPG_PRIVATE_KEY}" | gpg --import
           git config user.name "CCBC Service Account"
           git config user.email "ccbc@button.is"
           git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
