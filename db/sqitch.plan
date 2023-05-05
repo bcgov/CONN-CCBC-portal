@@ -300,3 +300,9 @@ computed_columns/gis_data_counts [computed_columns/gis_data_counts@1.63.0] 2023-
 @1.65.1 2023-05-04T21:56:33Z Marcel Mueller <marcel@m2.local> # release v1.65.1
 extensions/application_gis_data.sql 2023-05-02T23:37:03Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # enable audit on application gis data table
 import/application_gis_data 2023-05-03T15:18:01Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # application gis data import
+tables/application_sow_data 2023-05-03T11:18:20Z ,,, Vladimir <vladimir@button.is> # add table application_sow_data (summary)
+tables/sow_community_impacts 2023-05-03T11:20:31Z ,,, Vladimir <vladimir@button.is> # add table sow_community_impacts (step 1)
+tables/sow_project_sites 2023-05-03T11:23:30Z ,,, Vladimir <vladimir@button.is> # add table sow_project_sites (step 2)
+tables/sow_pop_sites 2023-05-03T11:24:00Z ,,, Vladimir <vladimir@button.is> # add table pop_sites (step 3)
+tables/sow_detailed_budget 2023-05-03T11:24:36Z ,,, Vladimir <vladimir@button.is> # add table sow_detailed_budget (step 8) 
+

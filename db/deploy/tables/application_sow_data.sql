@@ -34,6 +34,5 @@ $grant$;
 comment on table ccbc_public.application_sow_data is 'Table containing the SoW data for the given application';
 comment on column ccbc_public.application_sow_data.id is 'Unique ID for the  SoW';
 comment on column ccbc_public.application_sow_data.application_id is 'ID of the application this SoW belongs to';
-comment on column ccbc_public.application_sow_data.analyst_id is 'ID of the analyst this analyst lead belongs to';
 
 commit;
