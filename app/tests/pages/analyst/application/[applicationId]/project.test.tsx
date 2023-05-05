@@ -51,7 +51,7 @@ const mockJsonDataQueryPayload = {
           edges: [
             {
               node: {
-                id: 'WyJhbm5vdW5jZW1lbnRzIiwxNF0=',
+                id: 'WyJhbm5vdW5jZE1lbnRzIiwrNF2=',
                 jsonData: {
                   announcementUrl: 'www.test.com',
                   announcementDate: '2023-05-01',
@@ -64,7 +64,7 @@ const mockJsonDataQueryPayload = {
                 id: 'WyJhbm5vdW5jZW1lbnRzIiwxNF0=',
                 jsonData: {
                   announcementUrl: 'www.test-2.com',
-                  announcementDate: '2023-05-01',
+                  announcementDate: '2023-05-02',
                   announcementType: 'Secondary',
                 },
               },
@@ -427,52 +427,6 @@ describe('The Project page', () => {
     ).toHaveTextContent('Approved');
   });
 
-  // it('should fill and save the announcements form', async () => {
-  //   pageTestingHelper.loadQuery();
-  //   pageTestingHelper.renderPage();
-  //
-  //   const editButton = screen.getAllByTestId('project-form-edit-button')[0];
-  //
-  //   await act(async () => {
-  //     fireEvent.click(editButton);
-  //   });
-  //
-  //   const announcementType = screen.getByTestId('root_announcementType');
-  //   const announcementUrl = screen.getByTestId('root_announcementUrl');
-  //   const announcementDate =
-  //     screen.getAllByTestId('datepicker-widget')[3].children[0].children[0]
-  //       .children[0].children[0].children[0];
-  //   const otherProjects = screen.getByTestId('root_otherProjectsInAnnouncement')
-  //     .children[0].children[0].children[0];
-  //
-  //   await act(async () => {
-  //     announcementDate.click();
-  //   });
-  //
-  //   await act(async () => {
-  //     fireEvent.change(announcementType, { target: { value: 'Primary' } });
-  //     fireEvent.change(announcementUrl, {
-  //       target: { value: 'www.google.com' },
-  //     });
-  //     fireEvent.change(otherProjects, {
-  //       target: {
-  //         value: [
-  //           {
-  //             ccbcNumber: 'CCBC-010009',
-  //             rowId: 9,
-  //           },
-  //         ],
-  //       },
-  //     });
-  //   });
-  //
-  //   const saveButton = screen.getAllByText('Save')[1];
-  //
-  //   await act(async () => {
-  //     fireEvent.click(saveButton);
-  //   });
-  // });
-
   it('should show the announcements', async () => {
     pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
     pageTestingHelper.renderPage();
@@ -482,5 +436,64 @@ describe('The Project page', () => {
 
     expect(screen.getByText('www.test.com')).toBeInTheDocument();
     expect(screen.getByText('www.test-2.com')).toBeInTheDocument();
+
+    expect(screen.getByText('2023-05-01')).toBeInTheDocument();
+    expect(screen.getByText('2023-05-02')).toBeInTheDocument();
+  });
+
+  it('should show the error message for invalid url', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getByText('Add announcement');
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const announcementUrl = screen.getByTestId('root_announcementUrl');
+
+    expect(announcementUrl).toHaveStyle('border: 2px solid #606060;');
+
+    await act(async () => {
+      fireEvent.change(announcementUrl, {
+        target: { value: 'invalid url' },
+      });
+    });
+
+    expect(
+      screen.getByText('Invalid URL. Please copy and paste from your browser.')
+    ).toBeInTheDocument();
+
+    expect(announcementUrl).toHaveStyle('border: 2px solid #E71F1F;');
+  });
+
+  it('should highlight the missing form fields', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getByText('Add announcement');
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const saveButton = screen.getAllByText('Save')[1];
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    const announcementUrl = screen.getByTestId('root_announcementUrl');
+    const announcementType = screen
+      .getByTestId('root_announcementType')
+      .closest('div');
+    const announcementDate =
+      screen.getAllByTestId('datepicker-widget')[3].children[0].children[0]
+        .children[0].children[0].children[0];
+
+    expect(announcementUrl).toHaveStyle('border: 2px solid #E71F1F;');
+    expect(announcementType).toHaveStyle('border: 2px solid #E71F1F;');
+    expect(announcementDate).toHaveStyle('border: 2px solid #E71F1F;');
   });
 });
