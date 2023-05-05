@@ -13,10 +13,19 @@ const StyledContainer = styled.div`
   .datepicker-widget,
   .url-widget-wrapper,
   .ccbcid-widget-wrapper {
-    max-width: 340px;
+    max-width: 100%;
     width: 100%;
   }
 
+  ${(props) => props.theme.breakpoint.smallUp} {
+    .pg-select-wrapper,
+    .datepicker-widget,
+    .url-widget-wrapper,
+    .ccbcid-widget-wrapper {
+      max-width: 340px;
+      width: 100%;
+    }
+  }
   .select-widget-wrapper {
     margin-bottom: 0px;
   }
