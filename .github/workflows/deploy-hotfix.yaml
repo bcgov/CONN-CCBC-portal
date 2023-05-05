@@ -5,6 +5,9 @@ on:
     branches:
       - hotfix
 
+env:
+  TAG: sha-${{ github.sha }}
+
 jobs:
   merged_to_hotfix:
     runs-on: ubuntu-latest
