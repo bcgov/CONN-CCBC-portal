@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
+// import { ConnectionHandler } from 'relay-runtime';
 import styled from 'styled-components';
 import { ProjectForm } from 'components/Analyst/Project';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
@@ -10,6 +11,7 @@ import ViewAnnouncements from 'components/Analyst/Project/Announcements/ViewAnno
 import announcementsSchema from 'formSchema/analyst/announcements';
 import announcementsUiSchema from 'formSchema/uiSchema/analyst/announcementsUiSchema';
 import { useCreateAnnouncementMutation } from 'schema/mutations/project/createAnnouncement';
+import { useUpdateAnnouncementMutation } from 'schema/mutations/project/updateAnnouncement';
 import ProjectTheme from '../ProjectTheme';
 
 const StyledAddButton = styled.button<EditProps>`
@@ -62,6 +64,7 @@ const AnnouncementsForm = ({ query }) => {
             edges {
               node {
                 id
+                rowId
                 jsonData
               }
             }
@@ -88,9 +91,10 @@ const AnnouncementsForm = ({ query }) => {
 
   const [formData, setFormData] = useState({} as any);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
-  const [announcementId, setAnnouncementId] = useState(null);
+  const [announcementData, setAnnouncementData] = useState({} as any);
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
+  const [updateAnnouncement] = useUpdateAnnouncementMutation();
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
   const isErrors = useMemo(() => {
@@ -114,6 +118,12 @@ const AnnouncementsForm = ({ query }) => {
     return `${currentCcbcNumber},${projectNumbers}`;
   };
 
+  const handleResetFormData = () => {
+    setIsFormEditMode(false);
+    setFormData({});
+    setAnnouncementData(null);
+  };
+
   const handleSubmit = () => {
     hiddenSubmitRef.current.click();
     const ccbcList = formData?.otherProjectsInAnnouncement;
@@ -121,8 +131,8 @@ const AnnouncementsForm = ({ query }) => {
     const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
     // eslint-disable-next-line no-underscore-dangle
     const relayConnectionId = announcements.__id;
-
-    if (!isErrors) {
+    if (isErrors) return;
+    if (!announcementData?.rowId) {
       createAnnouncement({
         variables: {
           connections: [relayConnectionId],
@@ -131,16 +141,41 @@ const AnnouncementsForm = ({ query }) => {
             projectNumbers,
           },
         },
-        onCompleted: () => {
-          setIsFormEditMode(false);
-          setFormData({});
+        onCompleted: () => handleResetFormData(),
+      });
+    } else {
+      updateAnnouncement({
+        variables: {
+          input: {
+            jsonData: formData,
+            projectNumbers,
+            oldRowId: announcementData.rowId,
+          },
+        },
+        onCompleted: () => handleResetFormData(),
+        updater: (store, data) => {
+          /*   const announcements = store.get(relayConnectionId); */
+
+          store
+            .get(announcementData.id)
+            .setLinkedRecord(
+              store.get(data.updateAnnouncement.announcement.id),
+              'announcement'
+            );
+          // https://relay.dev/docs/v13.0.0/guided-tour/list-data/updating-connections
+          // const announcementsRecord = store.get(relayConnectionId);
+          //
+          // const connectionRecord = ConnectionHandler.getConnection(
+          //   announcementsRecord,
+          //   'AnnouncementsForm_announcements'
+          // );
+          //
+          // console.log(connectionRecord);
+          //
+          // ConnectionHandler.deleteNode(connectionRecord, announcementData.id);
         },
       });
     }
-  };
-
-  const handleResetFormData = () => {
-    setFormData({});
   };
 
   // Filter out this application CCBC ID
@@ -201,7 +236,7 @@ const AnnouncementsForm = ({ query }) => {
       <ViewAnnouncements
         announcements={announcementsList}
         isFormEditMode={isFormEditMode}
-        setAnnouncementId={setAnnouncementId}
+        setAnnouncementData={setAnnouncementData}
         setFormData={setFormData}
         setIsFormEditMode={setIsFormEditMode}
         style={{

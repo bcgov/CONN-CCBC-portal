@@ -43,7 +43,7 @@ const StyledIconBtn = styled.button`
 const Announcement = ({
   announcement,
   isFormEditMode,
-  setAnnouncementId,
+  setAnnouncementData,
   setFormData,
   setIsFormEditMode,
 }) => {
@@ -58,7 +58,10 @@ const Announcement = ({
         <StyledIconBtn
           onClick={() => {
             setIsFormEditMode(true);
-            setAnnouncementId(announcement.id);
+            setAnnouncementData({
+              id: announcement.id,
+              rowId: announcement.rowId,
+            });
             setFormData(announcement.jsonData);
           }}
           data-testid="project-form-edit-button"
@@ -74,7 +77,7 @@ interface Props {
   announcements: any;
   style?: any;
   isFormEditMode: boolean;
-  setAnnouncementId: (announcementId: string) => void;
+  setAnnouncementData: (announcementId: string) => void;
   setFormData: (formData: JSONSchema7) => void;
   setIsFormEditMode: (isFormEditMode: boolean) => void;
 }
@@ -82,7 +85,7 @@ interface Props {
 const ViewAnnouncements: React.FC<Props> = ({
   announcements,
   isFormEditMode,
-  setAnnouncementId,
+  setAnnouncementData,
   setFormData,
   setIsFormEditMode,
   style,
@@ -108,7 +111,7 @@ const ViewAnnouncements: React.FC<Props> = ({
               key={announcement.id}
               announcement={announcement}
               isFormEditMode={isFormEditMode}
-              setAnnouncementId={setAnnouncementId}
+              setAnnouncementData={setAnnouncementData}
               setFormData={setFormData}
               setIsFormEditMode={setIsFormEditMode}
             />
@@ -125,7 +128,7 @@ const ViewAnnouncements: React.FC<Props> = ({
               key={announcement.id}
               announcement={announcement}
               isFormEditMode={isFormEditMode}
-              setAnnouncementId={setAnnouncementId}
+              setAnnouncementData={setAnnouncementData}
               setFormData={setFormData}
               setIsFormEditMode={setIsFormEditMode}
             />
