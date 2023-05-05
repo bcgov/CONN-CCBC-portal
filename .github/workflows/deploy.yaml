@@ -151,6 +151,7 @@ jobs:
           environment: prod
 
   create-release:
+    needs: ['deploy-to-openshift-production']
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
