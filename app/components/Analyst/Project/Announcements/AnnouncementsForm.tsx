@@ -87,9 +87,7 @@ const AnnouncementsForm = ({ query }) => {
   });
 
   const [formData, setFormData] = useState({} as any);
-  const [isFormEditMode, setIsFormEditMode] = useState(
-    announcementsList.length === 0
-  );
+  const [isFormEditMode, setIsFormEditMode] = useState(false);
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
