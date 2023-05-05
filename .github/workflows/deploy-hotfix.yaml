@@ -9,7 +9,23 @@ env:
   TAG: sha-${{ github.sha }}
 
 jobs:
-  merged_to_hotfix:
+  build:
+    uses: ./.github/workflows/build.yaml
+
+  test-code:
+    uses: ./.github/workflows/test-code.yaml
+    secrets: inherit
+
+  test-containers:
+    needs: [build]
+    uses: ./.github/workflows/test-containers.yaml
+    secrets:
+      HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+      HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+      RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+      RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+
+  deploy_hotfix:
     runs-on: ubuntu-latest
     if: startsWith(github.event.head_commit.message, 'Merge')
     environment:
