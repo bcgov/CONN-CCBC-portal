@@ -83,11 +83,12 @@ const AnnouncementsForm = ({ query }) => {
   } = queryFragment;
 
   const announcementsList = announcements.edges.map((announcement) => {
-    return announcement.node.jsonData;
+    return announcement.node;
   });
 
   const [formData, setFormData] = useState({} as any);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
+  const [announcementId, setAnnouncementId] = useState(null);
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
@@ -199,6 +200,10 @@ const AnnouncementsForm = ({ query }) => {
     >
       <ViewAnnouncements
         announcements={announcementsList}
+        isFormEditMode={isFormEditMode}
+        setAnnouncementId={setAnnouncementId}
+        setFormData={setFormData}
+        setIsFormEditMode={setIsFormEditMode}
         style={{
           zIndex: isFormEditMode ? -1 : 1,
         }}
