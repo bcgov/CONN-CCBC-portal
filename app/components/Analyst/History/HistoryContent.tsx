@@ -109,10 +109,10 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           </span>
           on {createdAtFormatted}
         </StyledContent>
-        {showHistoryDetails && prevHistoryItem && (
+        {showHistoryDetails && prevHistoryItem?.record && (
           <HistoryDetails
             json={record.json_data}
-            prevJson={prevHistoryItem?.record.json_data}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
             excludedKeys={[
               'id',
               'createdAt',
