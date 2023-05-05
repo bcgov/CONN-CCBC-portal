@@ -194,7 +194,7 @@ const generateDiffTable = (
               );
             }
           }
-        } else if (key.endsWith('__added')) {
+        } else if (key.endsWith('__added') || key === '__new') {
           const added = Object.values(value);
           added.forEach((newValue: string | Array<any>, index) => {
             const parent = key.replace(/(__added|__deleted)/g, '');
