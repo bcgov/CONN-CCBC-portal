@@ -12,7 +12,7 @@ const StyledInput = styled(Input)`
   & input {
     margin-top: 12px;
     margin-bottom: 4px;
-    min-width: 50%;
+    min-width: 100%;
     border: ${(props) =>
       props.isError ? '2px solid #E71F1F' : '2px solid #606060'};
   }
@@ -23,10 +23,11 @@ const StyledInput = styled(Input)`
     }
   }
 
-  input: focus {
+  input:focus {
     outline: ${(props) =>
       props.isError ? '4px solid #E71F1F' : '4px solid #3B99FC'};
   }
+
   input:disabled {
     background: rgba(196, 196, 196, 0.3);
     border: 1px solid rgba(96, 96, 96, 0.3);
@@ -65,7 +66,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
     required,
   } = props;
 
-  const [urlError, setUrlError] = useState(value && validator.isURL(value));
+  const [urlError, setUrlError] = useState(false);
   const isError = rawErrors && rawErrors.length > 0;
 
   const handleChange = (e) => {
@@ -78,7 +79,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
   };
 
   return (
-    <StyledDiv>
+    <StyledDiv className="url-widget-wrapper">
       <StyledInput
         type="url"
         isError={isError || urlError}
@@ -94,7 +95,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
       />
       <StyledError isError={urlError}>
         {urlError
-          ? 'Invalid URL. Please copy and paste from your browser'
+          ? 'Invalid URL. Please copy and paste from your browser.'
           : '‎'}
       </StyledError>
     </StyledDiv>

@@ -19,7 +19,7 @@ const StyledAddButton = styled.button<EditProps>`
   margin-bottom: ${(props) => (props.isFormEditMode ? '0px' : '16px')};
   overflow: hidden;
   max-height: ${(props) => (props.isFormEditMode ? '0px' : '30px')};
-  transition: all 0.5s;
+  transition: max-height 0.5s;
 
   & svg {
     margin-left: 16px;
@@ -46,8 +46,7 @@ const StyledProjectForm = styled(ProjectForm)<EditProps>`
     z-index: ${(props) => (props.isFormEditMode ? 100 : 1)};
     overflow: ${(props) => props.overflow};
     max-height: ${(props) => (props.isFormEditMode ? '400px' : '30px')};
-
-    transition: max-height 0.5s ease-in-out;
+    transition: max-height 0.7s;
   }
 `;
 
@@ -96,8 +95,11 @@ const AnnouncementsForm = ({ query }) => {
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
   const isErrors = useMemo(() => {
-    const isFormValid =
-      validateFormData(formData, announcementsSchema)?.errors?.length <= 0;
+    const formErrors = validateFormData(formData, announcementsSchema)?.errors;
+    const filteredErrors = formErrors?.filter((error) => {
+      return error.message !== 'should be string';
+    });
+    const isFormValid = filteredErrors.length <= 0;
     const url = formData?.announcementUrl;
     const isUrlValid = url && validator.isURL(url);
     return !isUrlValid || !isFormValid;
@@ -158,52 +160,52 @@ const AnnouncementsForm = ({ query }) => {
   const [isFirstRender, setIsFirstRender] = useState(true);
 
   useEffect(() => {
-    if (overflow === 'hidden' && !isFirstRender) {
-      setTimeout(() => {
+    const timer = setTimeout(() => {
+      if (isFormEditMode && !isFirstRender) {
         setOverflow('visible');
-      }, 1000);
-      clearTimeout();
-    } else {
-      setOverflow('hidden');
-    }
-    setIsFirstRender(false);
+      } else {
+        setOverflow('hidden');
+      }
+      setIsFirstRender(false);
+    }, 300);
+    return () => clearTimeout(timer);
   }, [isFormEditMode]);
 
   return (
-    <>
-      <StyledProjectForm
-        overflow={overflow}
-        additionalContext={{ ccbcIdList }}
-        formData={formData}
-        handleChange={(e) => {
-          setFormData({ ...e.formData });
-        }}
-        hiddenSubmitRef={hiddenSubmitRef}
-        isFormEditMode={isFormEditMode}
-        showEditBtn={false}
-        title="Announcements"
-        schema={announcementsSchema}
-        uiSchema={announcementsUiSchema}
-        theme={ProjectTheme}
-        resetFormData={handleResetFormData}
-        onSubmit={handleSubmit}
-        setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-      >
+    <StyledProjectForm
+      before={
         <StyledAddButton
           isFormEditMode={isFormEditMode}
           onClick={() => setIsFormEditMode(true)}
         >
-          <span>Add Announcement</span>
+          <span>Add announcement</span>
           <FontAwesomeIcon icon={faPlus} />
         </StyledAddButton>
-      </StyledProjectForm>
+      }
+      overflow={overflow}
+      additionalContext={{ ccbcIdList }}
+      formData={formData}
+      handleChange={(e) => {
+        setFormData({ ...e.formData });
+      }}
+      hiddenSubmitRef={hiddenSubmitRef}
+      isFormEditMode={isFormEditMode}
+      showEditBtn={false}
+      title="Announcements"
+      schema={announcementsSchema}
+      uiSchema={announcementsUiSchema}
+      theme={ProjectTheme}
+      resetFormData={handleResetFormData}
+      onSubmit={handleSubmit}
+      setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+    >
       <ViewAnnouncements
         announcements={announcementsList}
         style={{
           zIndex: isFormEditMode ? -1 : 1,
         }}
       />
-    </>
+    </StyledProjectForm>
   );
 };
 

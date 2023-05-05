@@ -67,6 +67,7 @@ const StyledBtn = styled(Button)`
 
 interface Props {
   additionalContext?: any;
+  before?: React.ReactNode;
   children?: React.ReactNode;
   formData: any;
   handleChange: any;
@@ -84,6 +85,7 @@ interface Props {
 
 const ProjectForm: React.FC<Props> = ({
   additionalContext,
+  before,
   children,
   formData,
   handleChange,
@@ -142,7 +144,7 @@ const ProjectForm: React.FC<Props> = ({
       </StyledHeader>
       <BaseAccordion.Content>
         <div className="project-form">
-          {children}
+          {before}
           <FormBase
             // setting a key here will reset the form
             key={isFormEditMode ? 'edit' : 'view'}
@@ -154,7 +156,7 @@ const ProjectForm: React.FC<Props> = ({
             omitExtraData={false}
             onChange={handleChange}
           >
-            {hiddenSubmitRef && (
+            {hiddenSubmitRef ? (
               <button
                 type="submit"
                 ref={hiddenSubmitRef}
@@ -162,9 +164,12 @@ const ProjectForm: React.FC<Props> = ({
               >
                 Submit
               </button>
+            ) : (
+              true
             )}
           </FormBase>
         </div>
+        {children}
       </BaseAccordion.Content>
     </StyledBaseAccordion>
   );

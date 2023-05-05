@@ -7,9 +7,10 @@ import Chip from '@mui/material/Chip';
 const StyledAutocomplete = styled(Autocomplete)`
   margin-bottom: 16px;
   width: 100%;
+  min-width: 240px;
 
   ${(props) => props.theme.breakpoint.largeUp} {
-    min-width: 440px;
+    min-width: 380px;
   }
 
   input {
@@ -48,6 +49,7 @@ const UrlWidget: React.FC<WidgetProps> = ({
 
   return (
     <StyledAutocomplete
+      className="ccbcid-widget-wrapper"
       multiple
       id={id}
       onChange={(e, val) => {

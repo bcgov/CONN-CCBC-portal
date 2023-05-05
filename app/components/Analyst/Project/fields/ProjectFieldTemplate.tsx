@@ -9,8 +9,12 @@ const StyledH4 = styled.h4`
 `;
 
 const StyledContainer = styled.div`
-  .datepicker-widget {
-    min-width: 212px;
+  .pg-select-wrapper,
+  .datepicker-widget,
+  .url-widget-wrapper,
+  .ccbcid-widget-wrapper {
+    max-width: 340px;
+    width: 100%;
   }
 `;
 

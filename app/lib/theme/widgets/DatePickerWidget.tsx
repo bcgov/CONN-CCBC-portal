@@ -161,7 +161,10 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   };
 
   return (
-    <StyledContainer className="datepicker-widget">
+    <StyledContainer
+      className="datepicker-widget"
+      data-testid="datepicker-widget"
+    >
       <DatePicker
         id={id}
         disabled={disabled}
