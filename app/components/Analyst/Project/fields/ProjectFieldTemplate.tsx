@@ -16,6 +16,10 @@ const StyledContainer = styled.div`
     max-width: 340px;
     width: 100%;
   }
+
+  .select-widget-wrapper {
+    margin-bottom: 0px;
+  }
 `;
 
 const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({

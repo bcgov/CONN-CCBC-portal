@@ -24,7 +24,7 @@ const StyledSelect = styled(Dropdown)<SelectProps>`
   }
   & select {
     color: ${(props) => (props.isPlaceholder ? '#cccccc' : 'inherit')};
-    margin: 0.2em 0;
+    margin: 0.25em 0;
   }
 
   select option:first-child {
@@ -48,6 +48,10 @@ const StyledSelect = styled(Dropdown)<SelectProps>`
   }
 `;
 
+const StyledDiv = styled('div')`
+  margin-bottom: 32px;
+`;
+
 const SelectWidget: React.FC<SelectWidgetProps> = ({
   id,
   disabled,
@@ -68,33 +72,35 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
   const isError = rawErrors && rawErrors.length > 0;
 
   return (
-    <StyledSelect
-      id={id}
-      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-        onChange(e.target.value || undefined)
-      }
-      isError={isError}
-      data-testid={id}
-      disabled={disabled}
-      isPlaceholder={!value || value === placeholder}
-      placeholder={placeholder}
-      size="medium"
-      required={required}
-      value={value}
-      aria-label={label}
-    >
-      <option key={`option-placeholder-${id}`} value={undefined}>
-        {placeholder}
-      </option>
-      {options &&
-        options.map((opt) => (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
-        ))}
-      {customOption ?? customOption}
-      {description && <Label>{description}</Label>}
-    </StyledSelect>
+    <StyledDiv className="select-widget-wrapper">
+      <StyledSelect
+        id={id}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          onChange(e.target.value || undefined)
+        }
+        isError={isError}
+        data-testid={id}
+        disabled={disabled}
+        isPlaceholder={!value || value === placeholder}
+        placeholder={placeholder}
+        size="medium"
+        required={required}
+        value={value}
+        aria-label={label}
+      >
+        <option key={`option-placeholder-${id}`} value={undefined}>
+          {placeholder}
+        </option>
+        {options &&
+          options.map((opt) => (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          ))}
+        {customOption ?? customOption}
+        {description && <Label>{description}</Label>}
+      </StyledSelect>
+    </StyledDiv>
   );
 };
 
