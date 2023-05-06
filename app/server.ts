@@ -19,6 +19,7 @@ import graphQlMiddleware from './backend/lib/graphql';
 import s3archive from './backend/lib/s3archive';
 import s3download from './backend/lib/s3download';
 import gisUpload from './backend/lib/gis-upload';
+import sowUpload from './backend/lib/sow-upload';
 import logout from './backend/lib/logout';
 import login from './backend/lib/login';
 import s3adminArchive from './backend/lib/s3admin-archive';
@@ -89,6 +90,7 @@ app.prepare().then(async () => {
   server.use('/', s3archive);
   server.use('/', s3download);
   server.use('/', gisUpload);
+  server.use('/', sowUpload);
   server.use('/', login);
   server.use('/', logout);
 
