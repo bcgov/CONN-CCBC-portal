@@ -2,9 +2,12 @@ import { Router } from 'express';
 import formidable from 'formidable';
 import fs from 'fs'; 
 import RateLimit from 'express-rate-limit'; 
-import { read, utils } from "xlsx/xlsx.mjs";
+import * as XLSX from 'xlsx';
 import { performQuery } from './graphql';
 import getAuthRole from '../../utils/getAuthRole';
+
+// see https://docs.sheetjs.com/docs/getting-started/installation/nodejs/#installation
+XLSX.set_fs(fs);
 
 const sheet_names = ['Summary_Sommaire','1','2','3','4','5','6','7','8'];
 
@@ -114,7 +117,7 @@ sowUpload.post('/api/analyst/sow', limiter, async (req, res) => {
   // const data = JSON.parse(file); 
   
   const buf = fs.readFileSync('UBF_SoW2.xlsx');
-  const wb = read(buf); 
+  const wb = XLSX.read(buf); 
 
   /*
   steps:
@@ -128,8 +131,8 @@ sowUpload.post('/api/analyst/sow', limiter, async (req, res) => {
   });
 
   // - read SoW summary-level data and insert into `application_sow_data` table
-  const main = utils.sheet_to_json(wb.Sheets[sheet_names[0]], { header: "A" });
-  const budget = utils.sheet_to_json(wb.Sheets[sheet_names[8]], { header: "A" });
+  const main = XLSX.utils.sheet_to_json(wb.Sheets[sheet_names[0]], { header: "A" });
+  const budget = XLSX.utils.sheet_to_json(wb.Sheets[sheet_names[8]], { header: "A" });
   const data = await readSummary(main, budget);
    
   // time to persist in DB
@@ -138,7 +141,7 @@ sowUpload.post('/api/analyst/sow', limiter, async (req, res) => {
     return res.status(400).json({ error: e }).end();
   });
 
-  const sowData = (result as any)?.data?.applicationSowData?;
+  const sowData = (result as any)?.data?.applicationSowData;
 
   if (sowData) {
     return res.status(200).json(sowData).end();
