@@ -19,3 +19,4 @@ export { default as SubHeader } from './SubHeader';
 export { default as SubHeaderNavbarLinks } from './NavbarLinks';
 export { default as TimeTravel } from './TimeTravel';
 export { default as Tooltip } from './Tooltip';
+export { default as Toast } from './Toast';
