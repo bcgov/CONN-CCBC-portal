@@ -2106,7 +2106,7 @@
     lodash "^4.17.14"
     utf8 "^3.0.0"
 
-"@mui/base@5.0.0-alpha.128", "@mui/base@^5.0.0-alpha.115":
+"@mui/base@5.0.0-alpha.128", "@mui/base@^5.0.0-alpha.128":
   version "5.0.0-alpha.128"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.128.tgz#8ce4beb971ac989df0b1d3b2bd3e9274dbfa604f"
   integrity sha512-wub3wxNN+hUp8hzilMlXX3sZrPo75vsy1cXEQpqdTfIFlE9HprP1jlulFiPg5tfPst2OKmygXr2hhmgvAKRrzQ==

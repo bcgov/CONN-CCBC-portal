@@ -2,6 +2,6 @@
 
 BEGIN;
 
--- XXX Add DDLs here.
+drop table if exists ccbc_public.sow_detailed_budget;
 
 COMMIT;
