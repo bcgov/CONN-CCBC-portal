@@ -7,7 +7,7 @@ import {
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { theme } from 'dist/styles/GlobalTheme';
+import { theme } from 'styles/GlobalTheme';
 
 type ToastType = 'success' | 'warning' | 'error';
 
