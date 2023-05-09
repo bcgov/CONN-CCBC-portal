@@ -24,7 +24,7 @@
       },
       'ccbc_public.announcement': {
         tags: {
-          omit: ['create', 'update'],
+          omit: ['create', 'update', 'delete'],
         },
       },
       'ccbc_public.intake': {
