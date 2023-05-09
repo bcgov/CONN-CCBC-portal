@@ -114,15 +114,27 @@ const mockShowConditonalApproval: FeatureResult<JSONValue> = {
   ruleId: 'show_conditional_approval',
 };
 
+const mockShowAnnouncement: FeatureResult<JSONValue> = {
+  value: true,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_announcement',
+};
+
 describe('The Project page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
     pageTestingHelper.setMockRouterValues({
       query: { applicationId: '1' },
     });
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowConditonalApproval);
+    jest.spyOn(moduleApi, 'useFeature').mockImplementation((id) => {
+      if (id === 'show_conditional_approval') {
+        return mockShowConditonalApproval;
+      }
+      return mockShowAnnouncement;
+    });
+    // .mockReturnValue(mockShowConditonalApproval);
   });
 
   it('displays the title', async () => {

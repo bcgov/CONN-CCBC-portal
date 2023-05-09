@@ -29,6 +29,7 @@ const Project = ({
   const { applicationByRowId, session } = query;
 
   const showConditionalApproval = useFeature('show_conditional_approval').value;
+  const showAnnouncement = useFeature('show_announcement').value;
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -36,7 +37,7 @@ const Project = ({
         {showConditionalApproval && (
           <ConditionalApprovalForm application={applicationByRowId} />
         )}
-        <AnnouncementsForm query={query} />
+        {showAnnouncement && <AnnouncementsForm query={query} />}
       </AnalystLayout>
     </Layout>
   );
