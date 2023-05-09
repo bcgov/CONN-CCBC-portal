@@ -1,3 +1,41 @@
+# [1.66.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.65.1...v1.66.0) (2023-05-09)
+
+### Bug Fixes
+
+- add file type for coverage map ([c2db0a3](https://github.com/bcgov/CONN-CCBC-portal/commit/c2db0a3d7cac1862b46df4c0d8a0459a10f680e4))
+- announcement datepicker z-index ([6d9566a](https://github.com/bcgov/CONN-CCBC-portal/commit/6d9566ae950e3e80fc374cdda5e67f7fa35aea0c))
+- announcement form edit mode transition ([401d59b](https://github.com/bcgov/CONN-CCBC-portal/commit/401d59b4ae14e79515c1c3251f3e249062f61010))
+- announcement submit button ([5543ba1](https://github.com/bcgov/CONN-CCBC-portal/commit/5543ba1fbbb2b86c235d250720d13224b6039d80))
+- announcements small breakpoint ([cae6504](https://github.com/bcgov/CONN-CCBC-portal/commit/cae6504bb94473b2de814910f542fe11e114ad98))
+- broken project page tests ([f4089d1](https://github.com/bcgov/CONN-CCBC-portal/commit/f4089d1f0cd92d4acd88508e0c0186c9f35e835e))
+- get the correct prev history item ([4082dcf](https://github.com/bcgov/CONN-CCBC-portal/commit/4082dcf9da5f2b91ad90b3a0dfda771f5fd64401))
+- project form submit button displaying when no children ([a7893ef](https://github.com/bcgov/CONN-CCBC-portal/commit/a7893ef2c65eeedb539cfb57a89f4a368f753d57))
+- select widget style regression ([d18de32](https://github.com/bcgov/CONN-CCBC-portal/commit/d18de32a7717ff651859108f3eeaf33e3141544e))
+- z-index issue ([6a2b4d5](https://github.com/bcgov/CONN-CCBC-portal/commit/6a2b4d507464091bcc702a16122ceb8e1b72e6dc))
+
+### Features
+
+- add announcement url validation ([2d4f3b0](https://github.com/bcgov/CONN-CCBC-portal/commit/2d4f3b03fbab6daf3e85cff201289cef965b0e47))
+- add announcements form ([26a0b15](https://github.com/bcgov/CONN-CCBC-portal/commit/26a0b15ded04cfbed1fb8a429efe6202b5eda60b))
+- add ccbc id select widget ([26ec1cd](https://github.com/bcgov/CONN-CCBC-portal/commit/26ec1cd8defcc4ce179f4f731b70076e94208e4b))
+- add deploy to prod as need ([358f74c](https://github.com/bcgov/CONN-CCBC-portal/commit/358f74c6fa24a139efb20cd04a6d738322d7a759))
+- add error borders to announcement widgets ([4874c99](https://github.com/bcgov/CONN-CCBC-portal/commit/4874c9947e097879456e2da041d72f003121491e))
+- add form schema and ui schema for announcements ([ea28103](https://github.com/bcgov/CONN-CCBC-portal/commit/ea281038a00b631dfebe0f2045c0413410b34fa3))
+- add graphql mutation create announcement ([bac5df5](https://github.com/bcgov/CONN-CCBC-portal/commit/bac5df56fd5cc17d1aabe92551b0e468a801c823))
+- add transition for announcements form edit mode ([b174879](https://github.com/bcgov/CONN-CCBC-portal/commit/b174879ab4237d972e1d5153a182507a96b53e88))
+- announcements style improvements ([8fbef95](https://github.com/bcgov/CONN-CCBC-portal/commit/8fbef955b4622149d6f72d3a77305bfd9a98f8a0))
+- audit and import on application gis data ([02dca0f](https://github.com/bcgov/CONN-CCBC-portal/commit/02dca0f3a4346366ea1d51d67b0d0069b414952e))
+- clear announcement form when exiting edit mode ([6b1e2f7](https://github.com/bcgov/CONN-CCBC-portal/commit/6b1e2f7a7a8fcd5c53c6455dbf912044462677cf))
+- create action to deploy github release after push to prod ([a781458](https://github.com/bcgov/CONN-CCBC-portal/commit/a781458e0554ac504cd6ae544f96bc49bccaa408))
+- improve announcement styling and add headers ([53bc280](https://github.com/bcgov/CONN-CCBC-portal/commit/53bc2808b0b74b18b69b9560e61222a8e04d31d1))
+- make announcement ccbc id chips clickable ([e50b96d](https://github.com/bcgov/CONN-CCBC-portal/commit/e50b96df83ae1beb8ae5ab233809ca1a06946a26))
+- save announcement ([cce1c8a](https://github.com/bcgov/CONN-CCBC-portal/commit/cce1c8a791e185bd0bb3b4f3ba532c12ade2bc8e))
+- show basic announcement on save ([4c19bfa](https://github.com/bcgov/CONN-CCBC-portal/commit/4c19bfa75cf529a9051b074348d46f844e8b879e))
+- start announcements in edit mode when no announcements ([5d7f614](https://github.com/bcgov/CONN-CCBC-portal/commit/5d7f614b629f1ad955ea77461276a5fdc2ec0452))
+- update announcements schema ([fa39028](https://github.com/bcgov/CONN-CCBC-portal/commit/fa39028e8369813f7930dd0f2313c180104f918f))
+- update url widget error styles ([496813c](https://github.com/bcgov/CONN-CCBC-portal/commit/496813c83a319e19da50260c207c8593155d83f2))
+- validate announcements form before saving ([3fecd0e](https://github.com/bcgov/CONN-CCBC-portal/commit/3fecd0eaee27a864b5fc73c575edab0c40c8fb46))
+
 ## [1.65.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.65.0...v1.65.1) (2023-05-04)
 
 ### Bug Fixes
