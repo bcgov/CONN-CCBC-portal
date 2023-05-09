@@ -506,6 +506,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        fileTypes: '.kmz',
       },
     },
     geographicCoverageMapRfi: {
