@@ -18,6 +18,10 @@ const StyledAutocomplete = styled(Autocomplete)`
   }
 `;
 
+const optionChecker = (option: any, val: any) => {
+  return option.rowId === val.rowId && option.ccbcNumber === val.ccbcNumber;
+};
+
 const UrlWidget: React.FC<WidgetProps> = ({
   id,
   formContext,
@@ -55,8 +59,11 @@ const UrlWidget: React.FC<WidgetProps> = ({
       onChange={(e, val) => {
         if (e) onChange(val);
       }}
+      value={value ?? []}
       data-testid={id}
       options={ccbcIdList}
+      // To prevent a warning when comparing the previous value to the current
+      isOptionEqualToValue={optionChecker}
       getOptionLabel={(option: any) => option.ccbcNumber}
       filterSelectedOptions
       renderTags={(tagValue, getTagProps) =>
