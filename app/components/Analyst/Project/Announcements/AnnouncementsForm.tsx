@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { graphql, useFragment } from 'react-relay';
+import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 // import { ConnectionHandler } from 'relay-runtime';
 import styled from 'styled-components';
 import { ProjectForm } from 'components/Analyst/Project';
@@ -153,26 +153,25 @@ const AnnouncementsForm = ({ query }) => {
           },
         },
         onCompleted: () => handleResetFormData(),
-        updater: (store, data) => {
-          /*   const announcements = store.get(relayConnectionId); */
+        updater: (store) => {
+          const newAnnouncement = store
+            .getRootField('updateAnnouncement')
+            .getLinkedRecord('announcement');
 
-          store
-            .get(announcementData.id)
-            .setLinkedRecord(
-              store.get(data.updateAnnouncement.announcement.id),
-              'announcement'
-            );
-          // https://relay.dev/docs/v13.0.0/guided-tour/list-data/updating-connections
-          // const announcementsRecord = store.get(relayConnectionId);
-          //
-          // const connectionRecord = ConnectionHandler.getConnection(
-          //   announcementsRecord,
-          //   'AnnouncementsForm_announcements'
-          // );
-          //
-          // console.log(connectionRecord);
-          //
-          // ConnectionHandler.deleteNode(connectionRecord, announcementData.id);
+          // Get the connection from the store
+          const connection = store.get(relayConnectionId);
+
+          // Remove the old announcement from the connection
+          ConnectionHandler.deleteNode(connection, announcementData.id);
+
+          // Insert the new announcement at the beginning of the connection
+          const edge = ConnectionHandler.createEdge(
+            store,
+            connection,
+            newAnnouncement,
+            'AnnouncementEdge'
+          );
+          ConnectionHandler.insertEdgeBefore(connection, edge);
         },
       });
     }
