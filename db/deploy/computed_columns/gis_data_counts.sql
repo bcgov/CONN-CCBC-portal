@@ -16,7 +16,7 @@ return query
         select json_row
         from jsonb_array_elements(json_file) as json_row
     ),
-    application_gis_data as (
+    new_gis as (
         select
             (json_row->>'ccbc_number') as ccbc_number,
             a.id as application_id,
@@ -26,21 +26,56 @@ return query
         and not exists (
             select 1
             from ccbc_public.application_gis_data agd
-            where agd.application_id = a.id and agd.json_data = json_row
+            where (agd.created_at < (select created_at from ccbc_public.application_gis_data where application_id = a.id order by id asc limit 1)) or
+            (agd.created_at < (select created_at from ccbc_public.gis_data where id = batchId order by id asc limit 1))
         )
+    ),
+    updated as (
+        select
+            (json_row->>'ccbc_number') as ccbc_number,
+            a.id as application_id,
+            json_row as json_data
+        from json_rows, ccbc_public.application a
+        where a.ccbc_number = (json_row->>'ccbc_number')
+        and exists (
+            select 1
+            from ccbc_public.application_gis_data agd
+            where (agd.created_at < (select created_at from ccbc_public.application_gis_data where batch_id=batchId and application_id = a.id))
+        )
+    ),
+    unchanged as (
+        select
+            (json_row->>'ccbc_number') as ccbc_number,
+            a.id as application_id,
+            json_row as json_data
+        from json_rows, ccbc_public.application a
+        where a.ccbc_number = (json_row->>'ccbc_number')
+        and not exists (
+            select 1
+            from ccbc_public.application_gis_data agd
+            where batch_id=batchId and application_id = a.id
+        )
+    ),
+    unmatched as (
+        select
+            (json_row->>'ccbc_number') as ccbc_number
+        from json_rows
+        where (json_row->>'ccbc_number') not in (select ccbc_number from ccbc_public.application where ccbc_number is not null)
     )
     select count(*)::int as total, 'new' as data_type, string_agg(ccbc_number, ', ') AS ccbc_numbers
-    from application_gis_data agd
-    where agd.application_id not in
-        (select application_id from ccbc_public.application_gis_data group by application_id)
+    from new_gis agd
     union all
     select count(*)::int as total, 'updated' as data_type, string_agg(ccbc_number, ', ') AS ccbc_numbers
-    from application_gis_data agd
-    where agd.application_id in
-        (select application_id from ccbc_public.application_gis_data group by application_id)
+    from updated agd
     union all
-    select jsonb_array_length(json_data) as total, 'total' as data_type, null as ccbc_numbers
-    from ccbc_public.gis_data where id=batchId;
+    select count(*)::int as total, 'unmatched' as data_type, string_agg(ccbc_number, ', ') AS ccbc_numbers
+    from unmatched
+    union all
+    select count(*)::int as total, 'unchanged' as data_type, string_agg(ccbc_number, ', ') AS ccbc_numbers
+    from unchanged
+    union all
+    select jsonb_array_length(json_data) as total, 'total' as data_type, string_agg(json_data->>'ccbc_number', ', ') AS ccbc_numbers
+    from ccbc_public.gis_data where id=batchId GROUP BY  gis_data.id,  json_data,  data_type;
 end;
 $$ language plpgsql stable;
 
