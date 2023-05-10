@@ -64,6 +64,7 @@ const Announcement = ({
             });
             setFormData(announcement.jsonData);
           }}
+          aria-label="Edit announcement"
           data-testid="project-form-edit-button"
         >
           <FontAwesomeIcon icon={faPen} size="xs" />
