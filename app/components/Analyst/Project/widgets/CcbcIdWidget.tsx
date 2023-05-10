@@ -18,7 +18,24 @@ const StyledAutocomplete = styled(Autocomplete)`
   }
 `;
 
-const optionChecker = (option: any, val: any) => {
+export const renderTags = (tagValue: any[], getTagProps: (any) => any) => {
+  return tagValue.map((option: any, index) => {
+    const { ccbcNumber, rowId } = option;
+    return (
+      <Chip
+        key={ccbcNumber}
+        label={ccbcNumber}
+        clickable
+        onClick={() => {
+          window.open(`/analyst/application/${rowId}/project`, '_blank');
+        }}
+        {...getTagProps({ index })}
+      />
+    );
+  });
+};
+
+export const optionChecker = (option: any, val: any) => {
   return option.rowId === val.rowId && option.ccbcNumber === val.ccbcNumber;
 };
 
@@ -66,22 +83,7 @@ const UrlWidget: React.FC<WidgetProps> = ({
       isOptionEqualToValue={optionChecker}
       getOptionLabel={(option: any) => option.ccbcNumber}
       filterSelectedOptions
-      renderTags={(tagValue, getTagProps) =>
-        tagValue.map((option: any, index) => {
-          const { ccbcNumber, rowId } = option;
-          return (
-            <Chip
-              key={ccbcNumber}
-              label={ccbcNumber}
-              clickable
-              onClick={() => {
-                window.open(`/analyst/application/${rowId}/project`, '_blank');
-              }}
-              {...getTagProps({ index })}
-            />
-          );
-        })
-      }
+      renderTags={renderTags}
       renderInput={(params) => (
         <TextField {...params} sx={styles} placeholder="Search by CCBC ID" />
       )}
