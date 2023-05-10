@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
-// import { ConnectionHandler } from 'relay-runtime';
 import styled from 'styled-components';
 import { ProjectForm } from 'components/Analyst/Project';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
@@ -231,6 +230,7 @@ const AnnouncementsForm = ({ query }) => {
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+      saveDataTestId="save-announcement"
     >
       <ViewAnnouncements
         announcements={announcementsList}
