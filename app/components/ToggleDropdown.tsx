@@ -42,7 +42,11 @@ const DropdownList = ({ items, hideText, showText }) => {
 
   return (
     <div>
-      <StyledToggleButton onClick={toggleDropdown} isOpen={isOpen}>
+      <StyledToggleButton
+        data-testid="toggle-button"
+        onClick={toggleDropdown}
+        isOpen={isOpen}
+      >
         {isOpen ? (
           <FontAwesomeIcon icon={faChevronDown} />
         ) : (

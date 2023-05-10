@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import getGisUploadSuccessQuery, {
   BatchIdQuery,
 } from '__generated__/BatchIdQuery.graphql';
@@ -11,19 +11,29 @@ const mockQueryPayload = {
       gisDataCounts: {
         nodes: [
           {
-            total: 25,
-            countType: 'type1',
+            total: 15,
+            countType: 'new',
             ccbcNumbers: 'CCBC-010001',
           },
           {
             total: 30,
-            countType: 'type2',
+            countType: 'updated',
             ccbcNumbers: 'CCBC-010002',
           },
           {
-            total: 55,
-            countType: 'type3',
+            total: 6,
+            countType: 'unmatched',
             ccbcNumbers: 'CCBC-010003',
+          },
+          {
+            total: 5,
+            countType: 'unchanged',
+            ccbcNumbers: 'CCBC-010004',
+          },
+          {
+            total: 56,
+            countType: 'total',
+            ccbcNumbers: 'CCBC-010005',
           },
         ],
       },
@@ -51,13 +61,63 @@ describe('BatchIdPage', () => {
     });
   });
 
-  it('displays the success message with the correct number of projects', () => {
+  it('displays the added message with the correct number of projects', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getByText('GIS information successfully added to 55 projects')
+      screen.getByText('GIS analysis added to 15 projects for the first time')
     ).toBeVisible();
+  });
+
+  it('displays the updated message with the correct number of projects', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText('GIS analysis updated for 30 projects')
+    ).toBeVisible();
+  });
+
+  it('displays the unchanged message with the correct number of projects', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(
+        'GIS analysis unchanged for 5 projects and was not updated'
+      )
+    ).toBeVisible();
+  });
+
+  it('displays the unmatched message with the correct number of projects', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(
+        'GIS analysis found for 6 CCBC numbers that are not in the portal'
+      )
+    ).toBeVisible();
+  });
+
+  it('displays the total message with the correct number', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('Total processed 56')).toBeVisible();
+  });
+
+  it('displays the correct label and ccbc numbers on added toggle', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const toggleButton = screen.getAllByTestId('toggle-button')[0];
+
+    fireEvent.click(toggleButton);
+
+    expect(screen.getByText('Hide Projects')).toBeVisible();
+    expect(screen.getByText('CCBC-010001')).toBeVisible();
   });
 
   it('renders the return to dashboard button', () => {
