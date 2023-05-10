@@ -51,6 +51,40 @@ const StyledProjectForm = styled(ProjectForm)<EditProps>`
   }
 `;
 
+export const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
+  if (!ccbcNumberList || ccbcNumberList?.length === 0) return currentCcbcNumber;
+  let projectNumbers = '';
+  ccbcNumberList.forEach((application) => {
+    projectNumbers += `${application.ccbcNumber},`;
+  });
+  return `${currentCcbcNumber},${projectNumbers}`;
+};
+
+export const updateStoreAfterMutation = (
+  store,
+  relayConnectionId,
+  announcementData
+) => {
+  const newAnnouncement = store
+    .getRootField('updateAnnouncement')
+    .getLinkedRecord('announcement');
+
+  // Get the connection from the store
+  const connection = store.get(relayConnectionId);
+
+  // Remove the old announcement from the connection
+  ConnectionHandler.deleteNode(connection, announcementData.id);
+
+  // Insert the new announcement at the beginning of the connection
+  const edge = ConnectionHandler.createEdge(
+    store,
+    connection,
+    newAnnouncement,
+    'AnnouncementEdge'
+  );
+  ConnectionHandler.insertEdgeBefore(connection, edge);
+};
+
 const AnnouncementsForm = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
@@ -107,16 +141,6 @@ const AnnouncementsForm = ({ query }) => {
     return !isUrlValid || !isFormValid;
   }, [formData]);
 
-  const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
-    if (!ccbcNumberList || ccbcNumberList?.length === 0)
-      return currentCcbcNumber;
-    let projectNumbers = '';
-    ccbcNumberList.forEach((application) => {
-      projectNumbers += `${application.ccbcNumber},`;
-    });
-    return `${currentCcbcNumber},${projectNumbers}`;
-  };
-
   const handleResetFormData = () => {
     setIsFormEditMode(false);
     setFormData({});
@@ -153,24 +177,7 @@ const AnnouncementsForm = ({ query }) => {
         },
         onCompleted: () => handleResetFormData(),
         updater: (store) => {
-          const newAnnouncement = store
-            .getRootField('updateAnnouncement')
-            .getLinkedRecord('announcement');
-
-          // Get the connection from the store
-          const connection = store.get(relayConnectionId);
-
-          // Remove the old announcement from the connection
-          ConnectionHandler.deleteNode(connection, announcementData.id);
-
-          // Insert the new announcement at the beginning of the connection
-          const edge = ConnectionHandler.createEdge(
-            store,
-            connection,
-            newAnnouncement,
-            'AnnouncementEdge'
-          );
-          ConnectionHandler.insertEdgeBefore(connection, edge);
+          updateStoreAfterMutation(store, relayConnectionId, announcementData);
         },
       });
     }
