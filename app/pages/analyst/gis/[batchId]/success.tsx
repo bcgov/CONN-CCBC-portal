@@ -68,7 +68,8 @@ const BatchIdPage: React.FC<
           showText="View Projects"
         />
         <StyledContainer>
-          GIS analysis unmatched for {gisDataCounts.nodes[2].total} projects
+          GIS analysis found for {gisDataCounts.nodes[2].total} CCBC numbers
+          that are not in the portal
         </StyledContainer>
         <ToggleDropdown
           items={gisDataCounts.nodes[2]?.ccbcNumbers?.split(',') || []}
