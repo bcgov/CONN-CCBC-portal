@@ -81,6 +81,7 @@ interface Props {
   theme?: any;
   title: string;
   uiSchema?: any;
+  saveDataTestId?: string;
 }
 
 const ProjectForm: React.FC<Props> = ({
@@ -99,6 +100,7 @@ const ProjectForm: React.FC<Props> = ({
   theme,
   title,
   uiSchema,
+  saveDataTestId = 'save',
   ...rest
 }) => {
   return (
@@ -108,7 +110,11 @@ const ProjectForm: React.FC<Props> = ({
         <StyledToggleRight>
           {isFormEditMode ? (
             <>
-              <StyledBtn size="small" onClick={onSubmit}>
+              <StyledBtn
+                data-testid={saveDataTestId}
+                size="small"
+                onClick={onSubmit}
+              >
                 Save
               </StyledBtn>
               <StyledBtn

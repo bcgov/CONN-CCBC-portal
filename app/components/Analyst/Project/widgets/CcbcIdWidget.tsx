@@ -18,6 +18,27 @@ const StyledAutocomplete = styled(Autocomplete)`
   }
 `;
 
+export const renderTags = (tagValue: any[], getTagProps: (any) => any) => {
+  return tagValue.map((option: any, index) => {
+    const { ccbcNumber, rowId } = option;
+    return (
+      <Chip
+        key={ccbcNumber}
+        label={ccbcNumber}
+        clickable
+        onClick={() => {
+          window.open(`/analyst/application/${rowId}/project`, '_blank');
+        }}
+        {...getTagProps({ index })}
+      />
+    );
+  });
+};
+
+export const optionChecker = (option: any, val: any) => {
+  return option.rowId === val.rowId && option.ccbcNumber === val.ccbcNumber;
+};
+
 const UrlWidget: React.FC<WidgetProps> = ({
   id,
   formContext,
@@ -55,26 +76,14 @@ const UrlWidget: React.FC<WidgetProps> = ({
       onChange={(e, val) => {
         if (e) onChange(val);
       }}
+      value={value ?? []}
       data-testid={id}
       options={ccbcIdList}
+      // To prevent a warning when comparing the previous value to the current
+      isOptionEqualToValue={optionChecker}
       getOptionLabel={(option: any) => option.ccbcNumber}
       filterSelectedOptions
-      renderTags={(tagValue, getTagProps) =>
-        tagValue.map((option: any, index) => {
-          const { ccbcNumber, rowId } = option;
-          return (
-            <Chip
-              key={ccbcNumber}
-              label={ccbcNumber}
-              clickable
-              onClick={() => {
-                window.open(`/analyst/application/${rowId}/project`, '_blank');
-              }}
-              {...getTagProps({ index })}
-            />
-          );
-        })
-      }
+      renderTags={renderTags}
       renderInput={(params) => (
         <TextField {...params} sx={styles} placeholder="Search by CCBC ID" />
       )}

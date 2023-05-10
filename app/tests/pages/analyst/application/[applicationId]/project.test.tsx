@@ -57,6 +57,7 @@ const mockJsonDataQueryPayload = {
                   announcementDate: '2023-05-01',
                   announcementType: 'Primary',
                 },
+                rowId: 1,
               },
             },
             {
@@ -67,6 +68,7 @@ const mockJsonDataQueryPayload = {
                   announcementDate: '2023-05-02',
                   announcementType: 'Secondary',
                 },
+                rowId: 2,
               },
             },
           ],
@@ -507,5 +509,45 @@ describe('The Project page', () => {
     expect(announcementUrl).toHaveStyle('border: 2px solid #E71F1F;');
     expect(announcementType).toHaveStyle('border: 2px solid #E71F1F;');
     expect(announcementDate).toHaveStyle('border: 2px solid #E71F1F;');
+  });
+
+  it('should send the updateAnnouncement mutation instead of createAnnouncement when updating an existing announcement', async () => {
+    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    // Click on the edit button to open the form for the first announcement
+    const editButton = screen.getAllByTestId('project-form-edit-button')[1];
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    // Change the announcement URL
+    const announcementUrl = screen.getByTestId('root_announcementUrl');
+    await act(async () => {
+      fireEvent.change(announcementUrl, {
+        target: { value: 'https://www.bc.com' },
+      });
+    });
+
+    // Save the announcement
+    const saveButton = screen.getByTestId('save-announcement');
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    // Check if the updateAnnouncement mutation has been sent instead of createAnnouncement
+    pageTestingHelper.expectMutationToBeCalled('updateAnnouncementMutation', {
+      input: {
+        // Add the expected input parameters for the updateAnnouncement mutation
+        jsonData: {
+          announcementUrl: 'https://www.bc.com',
+          announcementDate: '2023-05-01',
+          announcementType: 'Primary',
+        },
+        oldRowId: 1,
+        projectNumbers: 'CCBC-010003',
+      },
+    });
   });
 });

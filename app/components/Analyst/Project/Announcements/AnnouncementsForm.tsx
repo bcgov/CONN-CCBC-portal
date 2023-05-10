@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { graphql, useFragment } from 'react-relay';
+import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { ProjectForm } from 'components/Analyst/Project';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
@@ -10,6 +10,7 @@ import ViewAnnouncements from 'components/Analyst/Project/Announcements/ViewAnno
 import announcementsSchema from 'formSchema/analyst/announcements';
 import announcementsUiSchema from 'formSchema/uiSchema/analyst/announcementsUiSchema';
 import { useCreateAnnouncementMutation } from 'schema/mutations/project/createAnnouncement';
+import { useUpdateAnnouncementMutation } from 'schema/mutations/project/updateAnnouncement';
 import ProjectTheme from '../ProjectTheme';
 
 const StyledAddButton = styled.button<EditProps>`
@@ -50,6 +51,40 @@ const StyledProjectForm = styled(ProjectForm)<EditProps>`
   }
 `;
 
+export const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
+  if (!ccbcNumberList || ccbcNumberList?.length === 0) return currentCcbcNumber;
+  let projectNumbers = '';
+  ccbcNumberList.forEach((application) => {
+    projectNumbers += `${application.ccbcNumber},`;
+  });
+  return `${currentCcbcNumber},${projectNumbers}`;
+};
+
+export const updateStoreAfterMutation = (
+  store,
+  relayConnectionId,
+  announcementData
+) => {
+  const newAnnouncement = store
+    .getRootField('updateAnnouncement')
+    .getLinkedRecord('announcement');
+
+  // Get the connection from the store
+  const connection = store.get(relayConnectionId);
+
+  // Remove the old announcement from the connection
+  ConnectionHandler.deleteNode(connection, announcementData.id);
+
+  // Insert the new announcement at the beginning of the connection
+  const edge = ConnectionHandler.createEdge(
+    store,
+    connection,
+    newAnnouncement,
+    'AnnouncementEdge'
+  );
+  ConnectionHandler.insertEdgeBefore(connection, edge);
+};
+
 const AnnouncementsForm = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
@@ -62,6 +97,7 @@ const AnnouncementsForm = ({ query }) => {
             edges {
               node {
                 id
+                rowId
                 jsonData
               }
             }
@@ -83,13 +119,15 @@ const AnnouncementsForm = ({ query }) => {
   } = queryFragment;
 
   const announcementsList = announcements.edges.map((announcement) => {
-    return announcement.node.jsonData;
+    return announcement.node;
   });
 
   const [formData, setFormData] = useState({} as any);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
+  const [announcementData, setAnnouncementData] = useState({} as any);
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
+  const [updateAnnouncement] = useUpdateAnnouncementMutation();
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
   const isErrors = useMemo(() => {
@@ -103,14 +141,10 @@ const AnnouncementsForm = ({ query }) => {
     return !isUrlValid || !isFormValid;
   }, [formData]);
 
-  const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
-    if (!ccbcNumberList || ccbcNumberList?.length === 0)
-      return currentCcbcNumber;
-    let projectNumbers = '';
-    ccbcNumberList.forEach((application) => {
-      projectNumbers += `${application.ccbcNumber},`;
-    });
-    return `${currentCcbcNumber},${projectNumbers}`;
+  const handleResetFormData = () => {
+    setIsFormEditMode(false);
+    setFormData({});
+    setAnnouncementData(null);
   };
 
   const handleSubmit = () => {
@@ -120,8 +154,8 @@ const AnnouncementsForm = ({ query }) => {
     const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
     // eslint-disable-next-line no-underscore-dangle
     const relayConnectionId = announcements.__id;
-
-    if (!isErrors) {
+    if (isErrors) return;
+    if (!announcementData?.rowId) {
       createAnnouncement({
         variables: {
           connections: [relayConnectionId],
@@ -130,16 +164,23 @@ const AnnouncementsForm = ({ query }) => {
             projectNumbers,
           },
         },
-        onCompleted: () => {
-          setIsFormEditMode(false);
-          setFormData({});
+        onCompleted: () => handleResetFormData(),
+      });
+    } else {
+      updateAnnouncement({
+        variables: {
+          input: {
+            jsonData: formData,
+            projectNumbers,
+            oldRowId: announcementData.rowId,
+          },
+        },
+        onCompleted: () => handleResetFormData(),
+        updater: (store) => {
+          updateStoreAfterMutation(store, relayConnectionId, announcementData);
         },
       });
     }
-  };
-
-  const handleResetFormData = () => {
-    setFormData({});
   };
 
   // Filter out this application CCBC ID
@@ -196,9 +237,14 @@ const AnnouncementsForm = ({ query }) => {
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+      saveDataTestId="save-announcement"
     >
       <ViewAnnouncements
         announcements={announcementsList}
+        isFormEditMode={isFormEditMode}
+        setAnnouncementData={setAnnouncementData}
+        setFormData={setFormData}
+        setIsFormEditMode={setIsFormEditMode}
         style={{
           zIndex: isFormEditMode ? -1 : 1,
         }}
