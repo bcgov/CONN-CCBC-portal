@@ -131,6 +131,7 @@ const AnnouncementsForm = ({ query }) => {
     graphql`
       fragment AnnouncementsForm_query on Query {
         applicationByRowId(rowId: $rowId) {
+          rowId
           ccbcNumber
           announcements(first: 1000)
             @connection(key: "AnnouncementsForm_announcements") {
@@ -156,7 +157,7 @@ const AnnouncementsForm = ({ query }) => {
   );
 
   const {
-    applicationByRowId: { announcements, ccbcNumber },
+    applicationByRowId: { announcements, ccbcNumber, rowId },
   } = queryFragment;
 
   const announcementsList = announcements.edges.map((announcement) => {
@@ -190,6 +191,9 @@ const AnnouncementsForm = ({ query }) => {
     setFormData({});
     setAnnouncementData(null);
   };
+  const removeSelfReference = (ccbcList: Array<any>) => {
+    return ccbcList.filter((ccbcId) => ccbcId.ccbcNumber !== ccbcNumber);
+  };
 
   const handleSubmit = () => {
     hiddenSubmitRef.current.click();
@@ -213,7 +217,7 @@ const AnnouncementsForm = ({ query }) => {
           const ccbcItems =
             response.createAnnouncement.announcementEdge.node.jsonData
               .otherProjectsInAnnouncement;
-          setUpdatedCcbcItems(toastContent(ccbcItems));
+          setUpdatedCcbcItems(toastContent(removeSelfReference(ccbcItems)));
         },
       });
     } else {
@@ -230,7 +234,7 @@ const AnnouncementsForm = ({ query }) => {
           const ccbcItems =
             response.updateAnnouncement.announcement.jsonData
               .otherProjectsInAnnouncement;
-          setUpdatedCcbcItems(toastContent(ccbcItems));
+          setUpdatedCcbcItems(toastContent(removeSelfReference(ccbcItems)));
         },
         updater: (store) => {
           updateStoreAfterMutation(store, relayConnectionId, announcementData);
@@ -240,11 +244,7 @@ const AnnouncementsForm = ({ query }) => {
   };
 
   // Filter out this application CCBC ID
-  const ccbcIdList = queryFragment.allApplications.nodes.filter(
-    (application) => {
-      return application.ccbcNumber !== ccbcNumber;
-    }
-  );
+  const ccbcIdList = queryFragment.allApplications.nodes;
 
   // Overflow hidden is needed for animated edit transition though
   // visible is needed for the datepicker so we needed to set it on a
@@ -278,7 +278,7 @@ const AnnouncementsForm = ({ query }) => {
         </StyledAddButton>
       }
       overflow={overflow}
-      additionalContext={{ ccbcIdList }}
+      additionalContext={{ ccbcIdList, ccbcNumber, rowId }}
       formData={formData}
       handleChange={(e) => {
         setFormData({ ...e.formData });

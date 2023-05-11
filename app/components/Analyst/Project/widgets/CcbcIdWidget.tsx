@@ -18,9 +18,16 @@ const StyledAutocomplete = styled(Autocomplete)`
   }
 `;
 
-export const renderTags = (tagValue: any[], getTagProps: (any) => any) => {
+export const renderTags = (
+  tagValue: any[],
+  getTagProps: (any) => any,
+  preSelectedCcbcNumber: string
+) => {
   return tagValue.map((option: any, index) => {
     const { ccbcNumber, rowId } = option;
+    if (preSelectedCcbcNumber === ccbcNumber) {
+      return null;
+    }
     return (
       <Chip
         key={ccbcNumber}
@@ -45,7 +52,7 @@ const UrlWidget: React.FC<WidgetProps> = ({
   onChange,
   value,
 }) => {
-  const { ccbcIdList } = formContext;
+  const { ccbcIdList, ccbcNumber, rowId } = formContext;
   const isValue = value && value.length > 0;
 
   const styles = {
@@ -76,14 +83,16 @@ const UrlWidget: React.FC<WidgetProps> = ({
       onChange={(e, val) => {
         if (e) onChange(val);
       }}
-      value={value ?? []}
+      value={value ?? [{ ccbcNumber, rowId }]}
       data-testid={id}
       options={ccbcIdList}
       // To prevent a warning when comparing the previous value to the current
       isOptionEqualToValue={optionChecker}
       getOptionLabel={(option: any) => option.ccbcNumber}
       filterSelectedOptions
-      renderTags={renderTags}
+      renderTags={(val, getTagProps) =>
+        renderTags(val, getTagProps, ccbcNumber)
+      }
       renderInput={(params) => (
         <TextField {...params} sx={styles} placeholder="Search by CCBC ID" />
       )}

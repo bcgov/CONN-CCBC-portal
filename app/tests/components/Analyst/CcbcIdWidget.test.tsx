@@ -5,6 +5,26 @@ import {
 } from 'components/Analyst/Project/widgets/CcbcIdWidget';
 
 describe('UrlWidget', () => {
+  it('should not render tag if ccbcNumber matches', () => {
+    // Sample tag data
+    const tagValue = [
+      { ccbcNumber: '123', rowId: '1' },
+      { ccbcNumber: '456', rowId: '2' },
+    ];
+
+    // Sample getTagProps function
+    const getTagProps = ({ index }) => ({ 'data-testid': `tag-${index}` });
+
+    // Render tags using the extracted renderTags function
+    const { getByTestId, queryByTestId } = render(
+      <div>{renderTags(tagValue, getTagProps, '123')}</div>
+    );
+
+    // Assert the tags are rendered
+    expect(queryByTestId('tag-0')).not.toBeInTheDocument();
+    expect(getByTestId('tag-1')).toHaveTextContent('456');
+  });
+
   it('renders tags and handles click events', () => {
     // Mock the window.open function
     const windowOpenSpy = jest
@@ -22,7 +42,7 @@ describe('UrlWidget', () => {
 
     // Render tags using the extracted renderTags function
     const { getByTestId } = render(
-      <div>{renderTags(tagValue, getTagProps)}</div>
+      <div>{renderTags(tagValue, getTagProps, '')}</div>
     );
 
     // Assert the tags are rendered
