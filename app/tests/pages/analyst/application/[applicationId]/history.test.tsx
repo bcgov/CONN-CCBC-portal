@@ -1779,6 +1779,117 @@ const mockQueryPayload = {
               tableName: 'form_data',
               externalAnalyst: null,
             },
+            {
+              applicationId: 6,
+              createdAt: '2023-03-03T08:35:06.589845-08:00',
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 23,
+                json_data: {
+                  ccbc_number: 'CCBC-010001',
+                  GIS_TOTAL_HH: 20,
+                  GIS_TOTAL_INDIG_HH: 20,
+                  GIS_PERCENT_OVERLAP: 0,
+                  number_of_households: 62,
+                  GIS_PERCENT_OVERBUILD: 0,
+                  GIS_TOTAL_ELIGIBLE_HH: 33,
+                  GIS_TOTAL_INELIGIBLE_HH: 0,
+                  GIS_TOTAL_ELIGIBLE_INDIG_HH: 20,
+                  households_impacted_indigenous: 52,
+                },
+                created_at: '2023-03-03T08:22:06.589845-08:00',
+                created_by: 2,
+                updated_at: '2023-03-03T08:22:06.589845-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+                form_schema_id: 1,
+                last_edited_page: null,
+                reason_for_change: 'my change reason',
+                form_data_status_type_id: 'pending',
+              },
+              recordId: '3a96de8d-b588-5c88-9ad0-f61edc116335',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_gis_data',
+              externalAnalyst: null,
+            },
+            {
+              applicationId: 6,
+              createdAt: '2023-03-03T08:36:06.589845-08:00',
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 24,
+                json_data: {
+                  ccbc_number: 'CCBC-010001',
+                  GIS_TOTAL_HH: 22,
+                  GIS_TOTAL_INDIG_HH: 22,
+                  GIS_PERCENT_OVERLAP: 2,
+                  number_of_households: 63,
+                  GIS_PERCENT_OVERBUILD: 2,
+                  GIS_TOTAL_ELIGIBLE_HH: 22,
+                  GIS_TOTAL_INELIGIBLE_HH: 2,
+                  GIS_TOTAL_ELIGIBLE_INDIG_HH: 22,
+                  households_impacted_indigenous: 53,
+                },
+                created_at: '2023-03-03T08:22:06.589845-08:00',
+                created_by: 2,
+                updated_at: '2023-03-03T08:22:06.589845-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+                form_schema_id: 1,
+                last_edited_page: null,
+                reason_for_change: 'my change reason',
+                form_data_status_type_id: 'pending',
+              },
+              recordId: '917748b2-db03-523e-a4d8-9376bf9ca660',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_gis_data',
+              externalAnalyst: null,
+            },
+            {
+              applicationId: 6,
+              createdAt: '2023-03-03T08:37:06.589845-08:00',
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 25,
+                json_data: {
+                  ccbc_number: 'CCBC-010001',
+                  GIS_TOTAL_HH: 22,
+                  GIS_TOTAL_INDIG_HH: 22,
+                  GIS_PERCENT_OVERLAP: 2,
+                  number_of_households: 64,
+                  GIS_PERCENT_OVERBUILD: 2,
+                  GIS_TOTAL_ELIGIBLE_HH: 22,
+                  GIS_TOTAL_INELIGIBLE_HH: 2,
+                  GIS_TOTAL_ELIGIBLE_INDIG_HH: 22,
+                  households_impacted_indigenous: 53,
+                },
+                created_at: '2023-03-03T08:22:06.589845-08:00',
+                created_by: 2,
+                updated_at: '2023-03-03T08:22:06.589845-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+                form_schema_id: 1,
+                last_edited_page: null,
+                reason_for_change: 'my change reason',
+                form_data_status_type_id: 'pending',
+              },
+              recordId: '6d625077-eafe-52f1-8379-2a23c53775b5',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_gis_data',
+              externalAnalyst: null,
+            },
           ],
         },
       },
@@ -1901,7 +2012,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getAllByTestId('history-content-form-data')[0]
+      screen.getAllByTestId('history-content-form-data')[3]
     ).toHaveTextContent(
       'Foo Bar edited the Application on Mar 3, 2023, 8:34 a.m.'
     );
@@ -1940,17 +2051,39 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 12 diff tables', async () => {
+  it('shows all 14 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(11);
+    expect(diffTables.length).toBe(14);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
     });
+  });
+
+  it('shows the correct history for uploading gis analysis', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-content-form-data')[2]
+    ).toHaveTextContent(
+      'Foo Bar uploaded the GIS Analysis on Mar 3, 2023, 8:35 a.m.'
+    );
+  });
+
+  it('shows the correct history for updating gis analysis', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-content-form-data')[0]
+    ).toHaveTextContent(
+      'Foo Bar updated the GIS Analysis on Mar 3, 2023, 8:37 a.m.'
+    );
   });
 
   it('shows one no diff message', async () => {
