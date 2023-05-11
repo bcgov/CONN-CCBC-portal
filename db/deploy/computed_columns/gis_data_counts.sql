@@ -26,8 +26,8 @@ return query
         and not exists (
             select 1
             from ccbc_public.application_gis_data agd
-            where (agd.created_at < (select created_at from ccbc_public.application_gis_data where application_id = a.id order by id asc limit 1)) or
-            (agd.created_at < (select created_at from ccbc_public.gis_data where id = batchId order by id asc limit 1))
+            where ((agd.created_at < (select created_at from ccbc_public.application_gis_data where application_id = a.id order by id asc limit 1)) or
+            (agd.created_at < (select created_at from ccbc_public.gis_data where id = batchId order by id asc limit 1))) and application_id = a.id
         )
     ),
     updated as (
@@ -40,7 +40,8 @@ return query
         and exists (
             select 1
             from ccbc_public.application_gis_data agd
-            where (agd.created_at < (select created_at from ccbc_public.application_gis_data where batch_id=batchId and application_id = a.id))
+            where (agd.created_at < (select created_at from ccbc_public.application_gis_data where batch_id=batchId and application_id = a.id)) and
+            application_id = a.id
         )
     ),
     unchanged as (
