@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState, ReactNode } from 'react';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { ProjectForm } from 'components/Analyst/Project';
@@ -11,6 +11,9 @@ import announcementsSchema from 'formSchema/analyst/announcements';
 import announcementsUiSchema from 'formSchema/uiSchema/analyst/announcementsUiSchema';
 import { useCreateAnnouncementMutation } from 'schema/mutations/project/createAnnouncement';
 import { useUpdateAnnouncementMutation } from 'schema/mutations/project/updateAnnouncement';
+import Link from 'next/link';
+import Toast from 'components/Toast';
+import { Tooltip } from 'components';
 import ProjectTheme from '../ProjectTheme';
 
 const StyledAddButton = styled.button<EditProps>`
@@ -85,6 +88,40 @@ export const updateStoreAfterMutation = (
   ConnectionHandler.insertEdgeBefore(connection, edge);
 };
 
+export const buildCcbcLinks = (ccbcIds: Array<any>) => {
+  const firstThreeCcbcIds = ccbcIds.slice(0, 3);
+  const addComma = (index: number, array: Array<any>) => {
+    if (index < array.length - 1) {
+      return ', ';
+    }
+    return '';
+  };
+  const linkBuilder = (ccbcId: any, index: number, array: Array<any>) => (
+    <>
+      <Tooltip message="Opens a new tab">
+        <Link
+          key={ccbcId.ccbcNumber}
+          href={`/analyst/application/${ccbcId.rowId}/project`}
+          passHref
+        >
+          <a target="_blank">{ccbcId.ccbcNumber}</a>
+        </Link>
+      </Tooltip>
+      {addComma(index, array)}
+    </>
+  );
+
+  if (ccbcIds.length < 3) {
+    return <>Announcement successfully added to {ccbcIds.map(linkBuilder)} </>;
+  }
+  return (
+    <>
+      Announcement successfully added to {firstThreeCcbcIds.map(linkBuilder)}{' '}
+      and more
+    </>
+  );
+};
+
 const AnnouncementsForm = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
@@ -125,6 +162,9 @@ const AnnouncementsForm = ({ query }) => {
   const [formData, setFormData] = useState({} as any);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [announcementData, setAnnouncementData] = useState({} as any);
+  const [updatedCcbcItems, setUpdatedCcbcItems] = useState<null | ReactNode>(
+    null
+  );
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
   const [updateAnnouncement] = useUpdateAnnouncementMutation();
@@ -164,7 +204,13 @@ const AnnouncementsForm = ({ query }) => {
             projectNumbers,
           },
         },
-        onCompleted: () => handleResetFormData(),
+        onCompleted: (response) => {
+          handleResetFormData();
+          const ccbcItems =
+            response.createAnnouncement.announcementEdge.node.jsonData
+              .otherProjectsInAnnouncement;
+          setUpdatedCcbcItems(buildCcbcLinks(ccbcItems));
+        },
       });
     } else {
       updateAnnouncement({
@@ -175,7 +221,13 @@ const AnnouncementsForm = ({ query }) => {
             oldRowId: announcementData.rowId,
           },
         },
-        onCompleted: () => handleResetFormData(),
+        onCompleted: (response) => {
+          handleResetFormData();
+          const ccbcItems =
+            response.updateAnnouncement.announcement.jsonData
+              .otherProjectsInAnnouncement;
+          setUpdatedCcbcItems(buildCcbcLinks(ccbcItems));
+        },
         updater: (store) => {
           updateStoreAfterMutation(store, relayConnectionId, announcementData);
         },
@@ -249,6 +301,7 @@ const AnnouncementsForm = ({ query }) => {
           zIndex: isFormEditMode ? -1 : 1,
         }}
       />
+      {updatedCcbcItems && <Toast>{updatedCcbcItems}</Toast>}
     </StyledProjectForm>
   );
 };
