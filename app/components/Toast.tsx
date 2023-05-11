@@ -111,11 +111,15 @@ const Toast: React.FC<ToastProps> = ({
 }) => {
   const [visible, setVisible] = useState(true);
   const [shouldRender, setShouldRender] = useState(true);
+  const [closing, setClosing] = useState(false);
 
   const handleClose = useCallback(() => {
-    setVisible(false);
-    if (onClose) onClose();
-  }, [setVisible, onClose]);
+    if (!closing) {
+      setClosing(true);
+      setVisible(false);
+      if (onClose) onClose();
+    }
+  }, [setVisible, onClose, closing]);
 
   useEffect(() => {
     const timer = setTimeout(() => {

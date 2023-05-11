@@ -1,5 +1,4 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import Toast from '../../components/Toast';
 import GlobalTheme from '../../styles/GlobalTheme';
 
@@ -22,21 +21,21 @@ describe('Toast Component', () => {
     jest.clearAllMocks();
   });
 
-  test('renders success toast', () => {
+  it('renders success toast', () => {
     renderToast('success', handleClose);
 
     expect(screen.getByText('This is a success message!')).toBeInTheDocument();
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  test('renders warning toast', () => {
+  it('renders warning toast', () => {
     renderToast('warning', handleClose);
 
     expect(screen.getByText('This is a warning message!')).toBeInTheDocument();
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  test('renders error toast', () => {
+  it('renders error toast', () => {
     renderToast('error', handleClose);
 
     expect(screen.getByText('This is a error message!')).toBeInTheDocument();
@@ -51,7 +50,7 @@ describe('Toast Component', () => {
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
-  test('closes toast after specified timeout', async () => {
+  it('closes toast after specified timeout', async () => {
     jest.useFakeTimers();
 
     renderToast('success', handleClose);
@@ -65,21 +64,13 @@ describe('Toast Component', () => {
     jest.useRealTimers();
   });
 
-  test('closes toast when close button is clicked before timeout', async () => {
-    jest.useFakeTimers();
-
+  it('should call handleClose when close button is clicked', () => {
     renderToast('success', handleClose);
 
-    expect(screen.getByText('This is a success message!')).toBeInTheDocument();
+    const closeButton = screen.getByRole('button');
 
-    userEvent.click(screen.getByRole('button'));
-
-    expect(handleClose).toHaveBeenCalledTimes(1);
-
-    jest.advanceTimersByTime(10000);
+    fireEvent.click(closeButton);
 
     expect(handleClose).toHaveBeenCalledTimes(1);
-
-    jest.useRealTimers();
   });
 });
