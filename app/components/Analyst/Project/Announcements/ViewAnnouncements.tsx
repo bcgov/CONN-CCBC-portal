@@ -3,6 +3,7 @@ import { JSONSchema7 } from 'json-schema';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import AnnouncementsHeader from './AnnouncementsHeader';
+import { useDeleteAnnouncementMutation } from 'schema/mutations/project/deleteAnnouncement';
 
 const StyledEmpty = styled.div`
   margin: 8px 0;
@@ -28,32 +29,29 @@ const StyledAnnouncement = styled.div`
 }
 `;
 
-const StyledIconBtn = styled.button`
-  margin-left: 8px;
+const StyledButton = styled.button`
+  display: flex;
+  align-items: center;
+  color: ${(props) => props.theme.color.links};
+  margin-bottom: '0px';
+  overflow: hidden;
+  max-height: '30px';
+  transition: max-height 0.5s;
 
   & svg {
-    color: ${(props) => props.theme.color.links};
+    margin-left: 16px;
   }
 
   &:hover {
     opacity: 0.7;
   }
 `;
-
-const Announcement = ({
-  announcement,
-  isFormEditMode,
-  setAnnouncementData,
-  setFormData,
-  setIsFormEditMode,
-}) => {
-  const {
-    jsonData: { announcementUrl, announcementDate },
-  } = announcement;
+const Announcement = ({ announcement }) => {
   return (
     <StyledAnnouncement>
       <div>{announcementUrl}</div>
       <div>{announcementDate}</div>
+      <div>&nbsp;</div>
       {!isFormEditMode && (
         <StyledIconBtn
           onClick={() => {
@@ -70,6 +68,8 @@ const Announcement = ({
           <FontAwesomeIcon icon={faPen} size="xs" />
         </StyledIconBtn>
       )}
+      <div>&nbsp;</div>
+      <div>{announcement.rowId}</div>
     </StyledAnnouncement>
   );
 };
@@ -91,23 +91,42 @@ const ViewAnnouncements: React.FC<Props> = ({
   setIsFormEditMode,
   style,
 }) => {
+  const [deleteAnnouncement, isDeletingAnnouncement] = useDeleteAnnouncementMutation();
   const primaryAnnouncements = announcements.filter(
-    (announcement) => announcement.jsonData.announcementType === 'Primary'
+    (announcement) => announcement.jsonData.jsonData.announcementType === 'Primary'
   );
 
   const secondaryAnnouncements = announcements.filter(
-    (announcement) => announcement.jsonData.announcementType === 'Secondary'
+    (announcement) => announcement.jsonData.jsonData.announcementType === 'Secondary'
   );
 
   const isPrimary = primaryAnnouncements.length > 0;
   const isSecondary = secondaryAnnouncements.length > 0;
 
+  const handleDelete = (id: number) => {
+    const variables = {
+      input: { 
+        _announcementId: id,
+      },
+    };
+    deleteAnnouncement({
+      variables,
+      onError: (res) => {
+        console.log(res);
+      },
+      onCompleted: (res) => {
+        // refresh?
+        console.log('success'); 
+        console.log(res);
+      },
+    });
+  };
   return (
     <StyledContainer style={style}>
       <AnnouncementsHeader title="Primary news release" />
       {isPrimary ? (
         primaryAnnouncements.map((announcement) => {
-          return (
+          return (<>
             <Announcement
               key={announcement.id}
               announcement={announcement}
@@ -116,6 +135,12 @@ const ViewAnnouncements: React.FC<Props> = ({
               setFormData={setFormData}
               setIsFormEditMode={setIsFormEditMode}
             />
+            <StyledButton 
+              onClick={() => handleDelete(announcement.rowId)}
+            >
+          <span>x</span> 
+        </StyledButton>
+            </>
           );
         })
       ) : (
@@ -125,14 +150,21 @@ const ViewAnnouncements: React.FC<Props> = ({
       {isSecondary ? (
         secondaryAnnouncements.map((announcement) => {
           return (
+            <>
             <Announcement
               key={announcement.id}
-              announcement={announcement}
+              announcement={announcement.jsonData}
               isFormEditMode={isFormEditMode}
               setAnnouncementData={setAnnouncementData}
               setFormData={setFormData}
               setIsFormEditMode={setIsFormEditMode}
             />
+            <StyledButton 
+              onClick={() => handleDelete(announcement.rowId)}
+            >
+            <span>x</span> 
+            </StyledButton>
+            </>
           );
         })
       ) : (
