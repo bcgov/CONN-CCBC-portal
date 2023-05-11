@@ -2,20 +2,18 @@
 
 begin;
 
-alter table ccbc_public.history_item drop column if exists external_analyst;
-
 create or replace function ccbc_public.application_history(application ccbc_public.application)
 returns setof ccbc_public.history_item as $$
 
   select application.id, v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record, 'application' as item,
-      u.family_name, u.given_name, u.session_sub
+      u.family_name, u.given_name, u.session_sub, u.external_analyst
   from ccbc_public.record_version as v
       inner join ccbc_public.ccbc_user u on v.created_by=u.id
   where v.op='INSERT' and v.table_name='application' and v.record->>'id'=application.id::varchar(10)
   union all
 
   select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record, v.record->>'status' as item,
-      COALESCE(u.family_name,'Automated process'), COALESCE(u.given_name,''), COALESCE(u.session_sub,'robot@idir')
+      COALESCE(u.family_name,'Automated process'), COALESCE(u.given_name,''), COALESCE(u.session_sub,'robot@idir'), COALESCE(u.external_analyst,null)
   from ccbc_public.record_version as v
       left join ccbc_public.ccbc_user u on v.created_by=u.id
   where v.op='INSERT' and v.table_name='application_status'
@@ -23,7 +21,7 @@ returns setof ccbc_public.history_item as $$
   union all
 
   select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record, v.record->>'file_name' as item,
-      u.family_name, u.given_name, u.session_sub
+      u.family_name, u.given_name, u.session_sub, u.external_analyst
   from ccbc_public.record_version as v
       inner join ccbc_public.ccbc_user u on v.created_by=u.id
   where v.op='INSERT' and v.table_name='attachment'
@@ -32,7 +30,7 @@ returns setof ccbc_public.history_item as $$
   union all
 
   select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record, v.record->>'assessment_data_type' as item,
-      u.family_name, u.given_name, u.session_sub
+      u.family_name, u.given_name, u.session_sub, u.external_analyst
   from ccbc_public.record_version as v
       inner join ccbc_public.ccbc_user u on v.created_by=u.id
   where v.op='INSERT' and v.table_name='assessment_data'
@@ -41,7 +39,7 @@ returns setof ccbc_public.history_item as $$
   union all
     select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
         v.record-> 'json_data' ->>'rfiType' as item,
-        u.family_name, u.given_name, u.session_sub
+        u.family_name, u.given_name, u.session_sub, u.external_analyst
     from ccbc_public.record_version as v
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='INSERT' and v.table_name='rfi_data' and v.record->>'archived_by' is null
@@ -53,7 +51,7 @@ returns setof ccbc_public.history_item as $$
   union all
     select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
         concat_ws(' ', a.given_name, a.family_name) as item,
-        u.family_name, u.given_name, u.session_sub
+        u.family_name, u.given_name, u.session_sub, u.external_analyst
     from ccbc_public.record_version as v
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
         left join ccbc_public.analyst a on v.record->>'analyst_id' = a.id::varchar(10)
@@ -63,7 +61,7 @@ returns setof ccbc_public.history_item as $$
   union all
     select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
         v.record->>'package' as item,
-        u.family_name, u.given_name, u.session_sub
+        u.family_name, u.given_name, u.session_sub, u.external_analyst
     from ccbc_public.record_version as v
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='INSERT' and v.table_name='application_package' and v.record->>'archived_by' is null
@@ -72,7 +70,7 @@ returns setof ccbc_public.history_item as $$
   union all
     select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
         v.record->>'conditional_approval_data' as item,
-        u.family_name, u.given_name, u.session_sub
+        u.family_name, u.given_name, u.session_sub, u.external_analyst
     from ccbc_public.record_version as v
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='INSERT' and v.table_name='conditional_approval_data' and v.record->>'archived_by' is null
@@ -81,7 +79,7 @@ returns setof ccbc_public.history_item as $$
   union all
     select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
         v.record-> 'json_data' ->>'reason_for_change' as item,
-        u.family_name, u.given_name, u.session_sub
+        u.family_name, u.given_name, u.session_sub, u.external_analyst
     from ccbc_public.record_version as v
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='INSERT' and v.table_name='form_data' and v.record->>'archived_by' is null
@@ -92,7 +90,16 @@ returns setof ccbc_public.history_item as $$
                 fd.form_schema_id = f.id and
                 f.form_type = 'intake' and
                 af.application_id = application.id and
-                fd.id = af.form_data_id );
+                fd.id = af.form_data_id )
+
+  union all
+    select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
+        v.record->>'conditional_approval_data' as item,
+        u.family_name, u.given_name, u.session_sub, u.external_analyst
+    from ccbc_public.record_version as v
+        inner join ccbc_public.ccbc_user u on v.created_by=u.id
+    where v.op='INSERT' and v.table_name='application_gis_data' and v.record->>'archived_by' is null
+        and v.record->>'application_id'=application.id::varchar(10);
 
 $$ language sql stable;
 

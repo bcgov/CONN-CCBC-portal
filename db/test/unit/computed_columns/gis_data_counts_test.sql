@@ -1,6 +1,6 @@
 begin;
 
-select plan(11);
+select plan(20);
 
 truncate table
   ccbc_public.application,
@@ -43,9 +43,9 @@ select function_privs_are(
   'ccbc_guest cannot execute ccbc_public.gis_data_counts()'
 );
 
-\set test_data_1 '[{"ccbc_number":"CCBC-010001","number_of_households":100},{"ccbc_number":"CCBC-010002","number_of_households":200}]'
+\set test_data_1 '[{"ccbc_number":"CCBC-010001","number_of_households":100},{"ccbc_number":"CCBC-010002","number_of_households":200},{"ccbc_number":"CCBC-010004","number_of_households":1}]'
 \set test_data_2 '[{"ccbc_number":"CCBC-010001","number_of_households":100},{"ccbc_number":"CCBC-010002","number_of_households":250},{"ccbc_number":"CCBC-010003","number_of_households":300}]'
- 
+
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
 values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1),
       ('2022-05-01 09:00:01-07', '2022-06-01 09:00:00-07', 2);
@@ -57,7 +57,7 @@ insert into ccbc_public.ccbc_user
   ('foo1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111111'),
   ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111112'),
   ('foo3', 'bar', 'foo3@bar.com', '11111111-1111-1111-1111-111111111113');
-  
+
 
 set role ccbc_auth_user;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
@@ -80,16 +80,50 @@ insert into ccbc_public.application
 -- set all applications to received
 insert into ccbc_public.application_status
  (application_id, status) values (1,'received'), (2, 'received'), (3, 'received');
- 
--- set role to analyst and create announcement 
+
+-- set role to analyst and create announcement
 set role ccbc_analyst;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
 
 -- receive GIS data
 select * from ccbc_public.save_gis_data(:'test_data_1'::jsonb);
+update ccbc_public.gis_data set created_at = '2023-05-01 08:00:00+00' where id = 1;
 
--- do not parse GIS data
--- select * from ccbc_public.parse_gis_data(1);
+-- parse GIS data
+select * from ccbc_public.parse_gis_data(1);
+
+update ccbc_public.application_gis_data set created_at = '2023-05-01 09:00:00+00' where batch_id = 1;
+-- update ccbc_public.application_gis_data set created_at = '2023-05-01 09:00:00+00' where application_id = 2;
+
+  select results_eq (
+    $$
+    select created_at from ccbc_public.application_gis_data where application_id = 1 and batch_id = 1;
+    $$,
+    $$
+      values('2023-05-01 09:00:00+00'::timestamp with time zone)
+    $$,
+    'Should have proper created_at for app id 1'
+  );
+
+  select results_eq (
+    $$
+    select created_at from ccbc_public.application_gis_data where application_id = 2 and batch_id = 1;
+    $$,
+    $$
+      values('2023-05-01 09:00:00+00'::timestamp with time zone)
+    $$,
+    'Should have proper created_at for app id 2'
+  );
+
+  select results_eq (
+    $$
+    select count(*)::int from ccbc_public.application_gis_data where batch_id = 1;
+    $$,
+    $$
+      values(2::int)
+    $$,
+    'Should have 2 app GIS data record with  batch_id 1'
+  );
 
 select results_eq (
   $$
@@ -99,6 +133,16 @@ select results_eq (
     values(2::int)
   $$,
   'Should have two new records'
+);
+
+select results_eq (
+  $$
+  select ccbc_numbers from ccbc_public.gis_data_counts(1) where count_type='new'
+  $$,
+  $$
+    values('CCBC-010001, CCBC-010002'::text)
+  $$,
+  'Should have proper CCBC numbers for new records'
 );
 
 select results_eq (
@@ -113,20 +157,53 @@ select results_eq (
 
 select results_eq (
   $$
+  select total from ccbc_public.gis_data_counts(1) where count_type='unchanged'
+  $$,
+  $$
+    values(0::int)
+  $$,
+  'Should have no unchanged records'
+);
+
+select results_eq (
+  $$
+  select total from ccbc_public.gis_data_counts(1) where count_type='unmatched'
+  $$,
+  $$
+    values(1::int)
+  $$,
+  'Should have one unmatched records'
+);
+
+select results_eq (
+  $$
+  select ccbc_numbers from ccbc_public.gis_data_counts(1) where count_type='unmatched'
+  $$,
+  $$
+    values('CCBC-010004'::text)
+  $$,
+  'Should have proper CCBC numbers for unmatched records'
+);
+
+select results_eq (
+  $$
   select total from ccbc_public.gis_data_counts(1) where count_type='total'
   $$,
   $$
-    values(2::int)
+    values(3::int)
   $$,
-  'Should return total number of imported records'
+  'Should return total number of processed records'
 );
 
 
--- new GIS data  
+-- new GIS data
 select * from ccbc_public.save_gis_data(:'test_data_2'::jsonb);
+update ccbc_public.gis_data set created_at = '2023-05-01 10:09:00+00' where id = 2;
 
 -- need to parse GIS data for first batch to be able to get correct updated/new count
-select * from ccbc_public.parse_gis_data(1);
+select * from ccbc_public.parse_gis_data(2);
+
+update ccbc_public.application_gis_data set created_at = '2023-05-01 10:10:00+00' where batch_id = 2;
 
 select results_eq (
   $$
@@ -140,12 +217,32 @@ select results_eq (
 
 select results_eq (
   $$
+  select ccbc_numbers from ccbc_public.gis_data_counts(2) where count_type='new'
+  $$,
+  $$
+    values('CCBC-010003'::text)
+  $$,
+  'Should have proper CCBC numbers for new records'
+);
+
+select results_eq (
+  $$
   select total from ccbc_public.gis_data_counts(2) where count_type='updated'
   $$,
   $$
     values(1::int)
   $$,
   'Should have one updated records'
+);
+
+select results_eq (
+  $$
+  select ccbc_numbers from ccbc_public.gis_data_counts(2) where count_type='updated'
+  $$,
+  $$
+    values('CCBC-010002'::text)
+  $$,
+  'Should have proper CCBC numbers for updated records'
 );
 
 select results_eq (
@@ -163,4 +260,3 @@ select results_eq (
 select finish();
 
 rollback;
-

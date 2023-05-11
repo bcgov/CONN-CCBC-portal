@@ -76,7 +76,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
           const prevItems = a.filter(
             (item) => item.tableName === historyItem.tableName
           );
-          const prevHistoryItem = prevItems.length > 0 ? prevItems[0] : null;
+          const prevHistoryItem = prevItems.length > 0 ? prevItems[0] : {};
           return (
             <HistoryRow
               key={recordId}

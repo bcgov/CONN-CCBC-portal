@@ -52,12 +52,14 @@ const estimatedDirectEmployees = {
   requiresHeading: true,
   heading: 'Estimated direct employees',
   headingKey: 'estimatedDirectEmployees',
+  type: 'string',
 };
 
 const estimatedContractorLabour = {
   requiresHeading: true,
   heading: 'Estimated contractor labour',
   headingKey: 'estimatedContractorLabour',
+  type: 'string',
 };
 
 const mailingAddress = {
@@ -112,6 +114,11 @@ const applicationDiffSchema = {
     ...estimatedProjectEmployment.estimatedProjectEmployment,
     properties: {
       ...estimatedProjectEmployment.estimatedProjectEmployment.properties,
+      currentEmployment: {
+        ...(estimatedProjectEmployment.estimatedProjectEmployment.properties
+          .currentEmployment as Object),
+        type: 'string',
+      },
       numberOfEmployeesToWork: {
         ...(estimatedProjectEmployment.estimatedProjectEmployment.properties
           .numberOfEmployeesToWork as Object),
@@ -131,6 +138,8 @@ const applicationDiffSchema = {
         ...(estimatedProjectEmployment.estimatedProjectEmployment.properties
           .estimatedFTECreation as Object),
         ...estimatedDirectEmployees,
+        title:
+          'Total estimated full-time equivalent (FTE) Job Creation (Direct)',
       },
       numberOfContractorsToWork: {
         ...(estimatedProjectEmployment.estimatedProjectEmployment.properties
@@ -146,6 +155,13 @@ const applicationDiffSchema = {
         ...(estimatedProjectEmployment.estimatedProjectEmployment.properties
           .contractorPersonMonthsToBeCreated as Object),
         ...estimatedContractorLabour,
+      },
+      estimatedFTEContractorCreation: {
+        ...(estimatedProjectEmployment.estimatedProjectEmployment.properties
+          .estimatedFTEContractorCreation as Object),
+        ...estimatedContractorLabour,
+        title:
+          'Total estimated full-time equivalent (FTE) Job Creation (Contractor)',
       },
     },
   },

@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import statusStyles from 'data/statusStyles';
 import { useFeature } from '@growthbook/growthbook-react';
 import applicationDiffSchema from 'formSchema/uiSchema/history/application';
+import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
 import StatusPill from '../StatusPill';
 import HistoryDetails from './HistoryDetails';
 
@@ -109,10 +110,10 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           </span>
           on {createdAtFormatted}
         </StyledContent>
-        {showHistoryDetails && prevHistoryItem && (
+        {showHistoryDetails && prevHistoryItem?.record && (
           <HistoryDetails
             json={record.json_data}
-            prevJson={prevHistoryItem?.record.json_data}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
             excludedKeys={[
               'id',
               'createdAt',
@@ -188,6 +189,31 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         <b>Conditional approval</b>
         <span> on {createdAtFormatted}</span>
       </StyledContent>
+    );
+  }
+
+  if (tableName === 'application_gis_data') {
+    return (
+      <div>
+        <StyledContent data-testid="history-content-form-data">
+          <span>
+            {displayName}{' '}
+            {prevHistoryItem?.record?.json_data ? 'updated' : 'uploaded'} the{' '}
+            <b>GIS Analysis </b>
+          </span>
+          on {createdAtFormatted}
+        </StyledContent>
+        {showHistoryDetails && (
+          <HistoryDetails
+            json={record.json_data}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
+            excludedKeys={['ccbc_number']}
+            diffSchema={applicationGisDataSchema}
+            overrideParent="gis"
+          />
+        )}
+        {reasonForChange && <ChangeReason reason={reasonForChange} />}
+      </div>
     );
   }
 

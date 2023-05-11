@@ -9,6 +9,7 @@ import {
   faPaperclip,
   faStamp,
   faUser,
+  faMap,
 } from '@fortawesome/free-solid-svg-icons';
 
 const StyledIcon = styled.div`
@@ -34,6 +35,7 @@ const iconMap = {
   application_analyst_lead: faUser,
   application_package: faBox,
   conditional_approval_data: faStamp,
+  application_gis_data: faMap,
 };
 
 interface Props {
