@@ -88,7 +88,11 @@ export const updateStoreAfterMutation = (
   ConnectionHandler.insertEdgeBefore(connection, edge);
 };
 
-export const buildCcbcLinks = (ccbcIds: Array<any>) => {
+export const toastContent = (ccbcIds: Array<any>) => {
+  if (!ccbcIds || ccbcIds.length === 0) {
+    return 'Announcement successfully added';
+  }
+
   const firstThreeCcbcIds = ccbcIds.slice(0, 3);
   const addComma = (index: number, array: Array<any>) => {
     if (index < array.length - 1) {
@@ -209,7 +213,7 @@ const AnnouncementsForm = ({ query }) => {
           const ccbcItems =
             response.createAnnouncement.announcementEdge.node.jsonData
               .otherProjectsInAnnouncement;
-          setUpdatedCcbcItems(buildCcbcLinks(ccbcItems));
+          setUpdatedCcbcItems(toastContent(ccbcItems));
         },
       });
     } else {
@@ -226,7 +230,7 @@ const AnnouncementsForm = ({ query }) => {
           const ccbcItems =
             response.updateAnnouncement.announcement.jsonData
               .otherProjectsInAnnouncement;
-          setUpdatedCcbcItems(buildCcbcLinks(ccbcItems));
+          setUpdatedCcbcItems(toastContent(ccbcItems));
         },
         updater: (store) => {
           updateStoreAfterMutation(store, relayConnectionId, announcementData);

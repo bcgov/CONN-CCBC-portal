@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import {
-  buildCcbcLinks,
+  toastContent,
   concatCCBCNumbers,
 } from 'components/Analyst/Project/Announcements/AnnouncementsForm';
 import GlobalTheme from 'styles/GlobalTheme';
@@ -37,7 +37,7 @@ describe('Test pure functions in AnnouncementsForm', () => {
       { ccbcNumber: '123', rowId: '1' },
       { ccbcNumber: '456', rowId: '2' },
     ];
-    render(<GlobalTheme>{buildCcbcLinks(ccbcIds)}</GlobalTheme>);
+    render(<GlobalTheme>{toastContent(ccbcIds)}</GlobalTheme>);
 
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(ccbcIds.length);
@@ -58,7 +58,7 @@ describe('Test pure functions in AnnouncementsForm', () => {
       { ccbcNumber: '789', rowId: '3' },
       { ccbcNumber: '321', rowId: '3' },
     ];
-    render(<GlobalTheme>{buildCcbcLinks(ccbcIds)}</GlobalTheme>);
+    render(<GlobalTheme>{toastContent(ccbcIds)}</GlobalTheme>);
 
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(3);
@@ -72,5 +72,23 @@ describe('Test pure functions in AnnouncementsForm', () => {
     });
 
     expect(screen.getByText(/and more/)).toBeInTheDocument();
+  });
+
+  it('renders announcement with empty ccbcIds', () => {
+    const ccbcIds = [];
+    render(<GlobalTheme>{toastContent(ccbcIds)}</GlobalTheme>);
+
+    expect(
+      screen.getByText('Announcement successfully added')
+    ).toBeInTheDocument();
+  });
+
+  it('renders announcement with undefined ccbcIds', () => {
+    const ccbcIds = undefined;
+    render(<GlobalTheme>{toastContent(ccbcIds)}</GlobalTheme>);
+
+    expect(
+      screen.getByText('Announcement successfully added')
+    ).toBeInTheDocument();
   });
 });
