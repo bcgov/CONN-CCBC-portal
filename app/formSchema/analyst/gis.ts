@@ -29,7 +29,7 @@ const gis: JSONSchema7 = {
         'Not started',
         'Needs RFI',
         'Needs 2nd review',
-        'No obvious flags identified at this stage',
+        'Assessment complete',
       ],
       default: 'Not started',
     },
