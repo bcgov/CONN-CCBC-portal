@@ -1,3 +1,32 @@
+# [1.67.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.66.0...v1.67.0) (2023-05-12)
+
+### Bug Fixes
+
+- handle \_\_new in object ([0ee60c4](https://github.com/bcgov/CONN-CCBC-portal/commit/0ee60c40edeff5ef0bd887f4bd9652f5a4819b38))
+- handle for null, money format logic ([74829af](https://github.com/bcgov/CONN-CCBC-portal/commit/74829af82deebdbbe64cfa658ef83aaf4bb61580))
+- logic for new and updated ([b4fd028](https://github.com/bcgov/CONN-CCBC-portal/commit/b4fd028619b98450381da2ec1d0a4c160b262f2c))
+- set prev history item as {} ([9bd0a3c](https://github.com/bcgov/CONN-CCBC-portal/commit/9bd0a3cdc935ddd1861063532e0c6e86de8bb511))
+- set type for labour, diff title for fte ([78d490d](https://github.com/bcgov/CONN-CCBC-portal/commit/78d490dcdefe5b4568a06c3d4b1647c3bf71fc40))
+- update unmatched wording ([2783075](https://github.com/bcgov/CONN-CCBC-portal/commit/2783075b8390a7e0203021c2958c6314da8d7541))
+- value is populated for ccbc id on edit and no error on save ([d563af6](https://github.com/bcgov/CONN-CCBC-portal/commit/d563af67eebf90c8f7aee1fce4bdccf5949a9264))
+
+### Features
+
+- add application gis data history record ([41f663e](https://github.com/bcgov/CONN-CCBC-portal/commit/41f663eed53803e633eb4c842955b615b92b67e5))
+- add aria label to edit pen ([aa729f0](https://github.com/bcgov/CONN-CCBC-portal/commit/aa729f0be06a9ebbea29a93b57b9e4b1a8951cdf))
+- add condition for announcement without any other projects ([de7e931](https://github.com/bcgov/CONN-CCBC-portal/commit/de7e931519b618a180e1c19d109337428b2ad81c))
+- add relay updater ([af4b76d](https://github.com/bcgov/CONN-CCBC-portal/commit/af4b76d6477b59a80d98164cf7cc5321e9035d35))
+- change to assessment complete in ui ([c733623](https://github.com/bcgov/CONN-CCBC-portal/commit/c7336237888eb3c936bab34940e454fe423d1380))
+- create toast component ([d4a2a5f](https://github.com/bcgov/CONN-CCBC-portal/commit/d4a2a5fccb285eee404c31676b452d951d53445c))
+- do not include the ccbc id of your own application ([a8c84ea](https://github.com/bcgov/CONN-CCBC-portal/commit/a8c84ead33226e44ad5bda77de420a87e4a12e75))
+- edit announcements ([fcdd6ba](https://github.com/bcgov/CONN-CCBC-portal/commit/fcdd6ba4bbe768a7667eb3046e7df1dba9a6075f))
+- gis analysis history diff ([2760756](https://github.com/bcgov/CONN-CCBC-portal/commit/276075600d8ebe89069d80b24485a3a2a7bf2f74))
+- gis analysis import success summary ([9ff295b](https://github.com/bcgov/CONN-CCBC-portal/commit/9ff295b3767681e19a5aac1cfeac5fb1cce349a2))
+- override parent object schema ([5866b06](https://github.com/bcgov/CONN-CCBC-portal/commit/5866b061b1c2ced9c979d6e90a4066fbf4165345))
+- relay store updates on update ([2bedb49](https://github.com/bcgov/CONN-CCBC-portal/commit/2bedb49605db3912f468eecb90c393008b477c66))
+- rework logic for gis counts, add unchanged and unmatched ([166be06](https://github.com/bcgov/CONN-CCBC-portal/commit/166be06fedd5e2631d52dc0db6da385583c6d728))
+- use the toast to display success of announcement ([c023c23](https://github.com/bcgov/CONN-CCBC-portal/commit/c023c232ebdb79b7ec69db9faf01d4f9b72af5c9))
+
 # [1.66.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.65.1...v1.66.0) (2023-05-09)
 
 ### Bug Fixes
