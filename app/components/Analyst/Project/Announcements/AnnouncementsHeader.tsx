@@ -7,6 +7,7 @@ interface Props {
 }
 
 const StyledAnnouncement = styled.div`
+  clear:both;
   display: flex;
   flex-direction: row;
   align-items: center;
