@@ -113,9 +113,7 @@ describe('The index page', () => {
     expect(screen.getByText('Not started')).toBeInTheDocument();
     expect(screen.getByText('Needs RFI')).toBeInTheDocument();
     expect(screen.getByText('Needs 2nd review')).toBeInTheDocument();
-    expect(
-      screen.getByText('No obvious flags identified at this stage')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Assessment complete')).toBeInTheDocument();
   });
 
   it('fills the form and calls the create assessment mutation when saved', async () => {
