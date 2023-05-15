@@ -44,8 +44,11 @@ const DeleteModal = ({ id, rowId, applicationId, resetFormData }) => {
         console.log(res);
       },
       onCompleted: (res) => {
-        resetFormData(res);
+        console.log(res);
       },
+      updater: (store) => {
+        resetFormData(store);
+      }
     });
   };
 
