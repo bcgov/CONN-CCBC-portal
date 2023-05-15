@@ -71,3 +71,33 @@ Landing route: `/applicantportal/dashboard`
 #### Client side routing
 
 Client side routing will not go through the page redirection login so keep that in mind when using `next/link` as it could cause bugs. In many cases it will be preferrable to trigger a page reload.
+
+### Role Based Access
+
+Access control is based on row-level security, where the user is held in the session. Each request is given that level of permissions for each of their queries. These apply to our functions that access these tables as well.
+
+#### Role based access per user
+
+##### Analyst User
+
+The analyst user general has full access control onto each of the applications, assuming that they have been submitted and their respective intakes have closed.
+
+#### Admin User
+
+Generally the admin and analyst roles have the same level of access, save for these specific tasks: creating and updating intakes, editing analyst lists, and downloading applications.
+
+#### Applicant User
+
+This is one of the least permissions available, this is the client-facing role that is provided to anyone that signs up for fill in an application. These users can only create and fill in applications, along with any RFIs.
+
+#### Guest User
+
+This is a user that has yet to sign in, they are given the least access to the database, only given exactly what is needed to render the landing page.
+
+#### Job Executor User
+
+This is a user that has permissions to do specific tasks. It has access to applicaiton and statuses, and is used to trigger an update on application status once the intake has closed. This is an internal only role.
+
+#### CCBC Archiver Role
+
+This is the user that is in charge of setting a row as archived. This is an internal only role.
