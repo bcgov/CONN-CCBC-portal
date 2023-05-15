@@ -136,9 +136,8 @@ const Announcement = ({
 interface Props {
   ccbcNumber: any,
   announcements: any;
-  style?: any;
-  startEdit?: ()=>void;
-  resetFormData?: ()=>void;
+  style?: any; 
+  resetFormData?: (store: any)=>void;
   isFormEditMode: boolean;
   setAnnouncementData: (announcementId: string) => void;
   setFormData: (formData: JSONSchema7) => void;
@@ -152,7 +151,7 @@ const ViewAnnouncements: React.FC<Props> = ({
   setAnnouncementData,
   setFormData,
   setIsFormEditMode,
-  style, startEdit, resetFormData,
+  style, resetFormData,
 }) => {
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
@@ -169,8 +168,7 @@ const ViewAnnouncements: React.FC<Props> = ({
   const isSecondary = secondaryAnnouncements.length > 0;
 
   const handleDelete = (id: number) => {
-    setToBeDeleted(id);
-    startEdit();
+    setToBeDeleted(id); 
     window.history.replaceState(null, null, ' ');
     window.location.hash = 'delete-announcement';
   };

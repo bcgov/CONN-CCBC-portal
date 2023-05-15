@@ -92,6 +92,18 @@ export const updateStoreAfterMutation = (
   ConnectionHandler.insertEdgeBefore(connection, edge);
 };
 
+export const updateStoreAfterDelete = (
+  store,
+  relayConnectionId,
+  announcementData
+) => {
+  // Get the connection from the store
+  const connection = store.get(relayConnectionId);
+
+  // Remove the old announcement from the connection
+  ConnectionHandler.deleteNode(connection, announcementData.id);
+};
+
 export const toastContent = (ccbcIds: Array<any>) => {
   if (!ccbcIds || ccbcIds.length === 0) {
     return 'Announcement successfully added';
@@ -247,15 +259,11 @@ const AnnouncementsForm = ({ query }) => {
     }
   };
 
-  const handleStartEdit = () => {
-    // if we need 
-  };
-  const handleReloadData = (response) => {
+  const handleReloadData = (store) => {
     handleResetFormData();
-    const ccbcItems =
-      response.updateAnnouncement.announcement.jsonData
-        .otherProjectsInAnnouncement;
-    setUpdatedCcbcItems(toastContent(removeSelfReference(ccbcItems)));
+    // eslint-disable-next-line no-underscore-dangle
+    const relayConnectionId = announcements.__id;
+    updateStoreAfterDelete(store, relayConnectionId, announcementData);
   };
 
   // Filter out this application CCBC ID
@@ -310,8 +318,7 @@ const AnnouncementsForm = ({ query }) => {
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
       saveDataTestId="save-announcement"
     >
-      <ViewAnnouncements
-        startEdit = {handleStartEdit}
+      <ViewAnnouncements 
         resetFormData = {handleReloadData}
         ccbcNumber = {ccbcNumber}
         announcements={announcementsList}
