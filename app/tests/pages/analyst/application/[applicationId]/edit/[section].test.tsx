@@ -83,22 +83,22 @@ describe('The analyst edit application page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Saved' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
   });
 
-  it('should go back on cancel button', async() => {
+  it('should go back on cancel button', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const cancelButton = screen.getByRole('button', { name: 'Cancel' })
+    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
 
     await act(async () => {
       fireEvent.click(cancelButton);
     });
 
-    expect(window.location.hash).toBe("")
-  })
+    expect(window.location.hash).toBe('');
+  });
 
   it('should calculate values on estimatedProjectEmployment page', async () => {
     pageTestingHelper.setMockRouterValues({
@@ -136,7 +136,7 @@ describe('The analyst edit application page', () => {
     ).toHaveValue('$15');
   });
 
-  it('shows modal on enter key', async() => {
+  it('shows modal on enter key', async () => {
     pageTestingHelper.setMockRouterValues({
       query: { applicationId: '1', section: 'estimatedProjectEmployment' },
     });
@@ -145,16 +145,35 @@ describe('The analyst edit application page', () => {
 
     const people = screen.getAllByLabelText(/Number of people/)[0];
 
-    await userEvent.type(people, '{enter}')
+    await userEvent.type(people, '{enter}');
 
-    expect(window.location.hash).toBe("#change-modal")
+    expect(window.location.hash).toBe('#change-modal');
 
-    window.location.hash = ""
-  })
+    window.location.hash = '';
+  });
+
+  it('changes the save button text on form change', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByRole('button', { name: 'Saved' })).toBeInTheDocument();
+
+    await userEvent.type(
+      screen.getByTestId('root_projectTitle'),
+      'test project'
+    );
+
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+  });
 
   it('displays the confirmation modal and calls the mutation on save', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
+
+    await userEvent.type(
+      screen.getByTestId('root_projectTitle'),
+      'test project'
+    );
 
     const formSaveButton = screen.getByRole('button', { name: 'Save' });
 
@@ -176,7 +195,9 @@ describe('The analyst edit application page', () => {
       input: {
         applicationRowId: 1,
         jsonData: {
-          projectInformation: {},
+          projectInformation: {
+            projectTitle: 'test project',
+          },
         },
         reasonForChange: 'test text',
         formSchemaId: 1,
