@@ -170,6 +170,7 @@ const AnnouncementsForm = ({ query }) => {
   const [updatedCcbcItems, setUpdatedCcbcItems] = useState<null | ReactNode>(
     null
   );
+  const [toastKey, setToastKey] = useState(0);
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
   const [updateAnnouncement] = useUpdateAnnouncementMutation();
@@ -196,6 +197,7 @@ const AnnouncementsForm = ({ query }) => {
   };
 
   const handleSubmit = () => {
+    setToastKey((key) => key + 1);
     hiddenSubmitRef.current.click();
     const ccbcList = formData?.otherProjectsInAnnouncement;
 
@@ -305,7 +307,7 @@ const AnnouncementsForm = ({ query }) => {
           zIndex: isFormEditMode ? -1 : 1,
         }}
       />
-      {updatedCcbcItems && <Toast>{updatedCcbcItems}</Toast>}
+      {updatedCcbcItems && <Toast key={toastKey}>{updatedCcbcItems}</Toast>}
     </StyledProjectForm>
   );
 };
