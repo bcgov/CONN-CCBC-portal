@@ -62,8 +62,9 @@ const EditApplication = ({
   // Save and update form data in state due to RJSF setState bug
   const [sectionFormData, setSectionFormData] = useState(jsonData[sectionName]);
   const [changeReason, setChangeReason] = useState('');
-
+  const [isFormSaved, setIsFormSaved] = useState(true);
   const handleChange = (e: IChangeEvent) => {
+    setIsFormSaved(false);
     const newFormSectionData = { ...e.formData };
     const calculatedSectionData = calculate(newFormSectionData, sectionName);
     setSectionFormData(calculatedSectionData);
@@ -123,10 +124,12 @@ const EditApplication = ({
           <Button
             onClick={(e: React.MouseEvent<HTMLInputElement>) => {
               e.preventDefault();
-              window.location.hash = '#change-modal';
+              if (!isFormSaved) {
+                window.location.hash = '#change-modal';
+              }
             }}
           >
-            Save
+            {isFormSaved ? 'Saved' : 'Save'}
           </Button>
           <Button
             variant="secondary"
