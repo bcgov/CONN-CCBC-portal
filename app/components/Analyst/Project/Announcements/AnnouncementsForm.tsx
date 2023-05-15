@@ -170,7 +170,6 @@ const AnnouncementsForm = ({ query }) => {
   const [updatedCcbcItems, setUpdatedCcbcItems] = useState<null | ReactNode>(
     null
   );
-  const [toastKey, setToastKey] = useState(0);
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
   const [updateAnnouncement] = useUpdateAnnouncementMutation();
@@ -193,13 +192,10 @@ const AnnouncementsForm = ({ query }) => {
     setAnnouncementData(null);
   };
   const removeSelfReference = (ccbcList: Array<any>) => {
-    return ccbcList.filter((ccbcId) => ccbcId.ccbcNumber !== ccbcNumber);
+    return ccbcList?.filter((ccbcId) => ccbcId.ccbcNumber !== ccbcNumber);
   };
-  const handleUpdateToastKey = () => {
-    setToastKey((key) => key + 1);
-  };
-
   const handleSubmit = () => {
+    setUpdatedCcbcItems(null);
     hiddenSubmitRef.current.click();
     const ccbcList = formData?.otherProjectsInAnnouncement;
 
@@ -217,7 +213,6 @@ const AnnouncementsForm = ({ query }) => {
           },
         },
         onCompleted: (response) => {
-          handleUpdateToastKey();
           handleResetFormData();
           const ccbcItems =
             response.createAnnouncement.announcementEdge.node.jsonData
@@ -235,7 +230,6 @@ const AnnouncementsForm = ({ query }) => {
           },
         },
         onCompleted: (response) => {
-          handleUpdateToastKey();
           handleResetFormData();
           const ccbcItems =
             response.updateAnnouncement.announcement.jsonData
@@ -311,7 +305,7 @@ const AnnouncementsForm = ({ query }) => {
           zIndex: isFormEditMode ? -1 : 1,
         }}
       />
-      {updatedCcbcItems && <Toast key={toastKey}>{updatedCcbcItems}</Toast>}
+      {updatedCcbcItems && <Toast>{updatedCcbcItems}</Toast>}
     </StyledProjectForm>
   );
 };
