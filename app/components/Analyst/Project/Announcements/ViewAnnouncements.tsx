@@ -39,6 +39,17 @@ const StyledIcon = styled.div`
   min-width: 100px;
   margin-left:1em;
 `;
+const StyledIconBtn = styled.button`
+  margin-left: 8px;
+  & svg {
+    color: ${(props) => props.theme.color.links};
+    margin-left: 16px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
 const StyledText = styled.div`
   float:left;
   min-width: 300px;
@@ -73,16 +84,33 @@ const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
   return `${currentCcbcNumber},${projectNumbers}`;
 };
 
-const Announcement = ({ ccbcNumber, announcement, handleDelete }) => {
+const Announcement = ({ 
+  ccbcNumber, 
+  handleDelete,
+  announcement,
+  isFormEditMode,
+  setAnnouncementData,
+  setFormData,
+  setIsFormEditMode
+ }) => {
   const goTo = () => {window.open(announcement.jsonData?.announcementUrl, '_blank', 'width=800,scrollbars=yes,height=600,resizable = yes');}
   const ccbcList = announcement.jsonData?.otherProjectsInAnnouncement;  
   const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
 
   return (
+    <>
     <StyledAnnouncement>
-      <div>{announcementUrl}</div>
-      <div>{announcementDate}</div>
-      <div>&nbsp;</div>
+      <StyledDate>{announcement.jsonData?.announcementDate}</StyledDate>
+      <StyledIcon>
+        <img src='/icons/bcid-apple-icon.svg'
+        width={100} height={100} onClick={goTo} alt=''></img>
+        </StyledIcon>
+      <StyledText>Canada and British Columbia invest over $20 million 
+        in infrastructure projects across the province to build more resilient, greener communities.</StyledText>
+      <StyledText>
+        {projectNumbers}
+      </StyledText>
+      <StyledButton key={`rm_${announcement.id}`} onClick={() => handleDelete(announcement.rowId)}>X</StyledButton>
       {!isFormEditMode && (
         <StyledIconBtn
           onClick={() => {
@@ -98,12 +126,12 @@ const Announcement = ({ ccbcNumber, announcement, handleDelete }) => {
         >
           <FontAwesomeIcon icon={faPen} size="xs" />
         </StyledIconBtn>
-      )}
-      <div>&nbsp;</div>
-      <div>{announcement.rowId}</div>
+      )} 
     </StyledAnnouncement>
+    </>
   );
 };
+
 
 interface Props {
   ccbcNumber: any,
@@ -117,7 +145,8 @@ interface Props {
   setIsFormEditMode: (isFormEditMode: boolean) => void;
 }
 
-const ViewAnnouncements: React.FC<Props> = ({ ccbcNumber,
+const ViewAnnouncements: React.FC<Props> = ({ 
+  ccbcNumber,
   announcements,
   isFormEditMode,
   setAnnouncementData,
@@ -154,21 +183,13 @@ const ViewAnnouncements: React.FC<Props> = ({ ccbcNumber,
             <Announcement
               key={announcement.id}
               announcement={announcement}
+              ccbcNumber={ ccbcNumber}
               isFormEditMode={isFormEditMode}
               setAnnouncementData={setAnnouncementData}
               setFormData={setFormData}
               setIsFormEditMode={setIsFormEditMode}
-            />
-            <StyledButton key={`rm_${announcement.id}`}
-              onClick={() => handleDelete(announcement.rowId)}
-            >
-            <FontAwesomeIcon
-                  icon={faXmark}
-                  size="sm"
-                  transform="right-1"
-                  color="#FFFFFF"
-                /> 
-        </StyledButton>
+              handleDelete = {handleDelete}
+            /> 
             </div>
           );
         })
@@ -182,22 +203,14 @@ const ViewAnnouncements: React.FC<Props> = ({ ccbcNumber,
             <div key={`w_${announcement.id}`}>
             <Announcement
               key={announcement.id}
-              announcement={announcement.jsonData}
+              announcement={announcement}
+              ccbcNumber={ ccbcNumber}
               isFormEditMode={isFormEditMode}
               setAnnouncementData={setAnnouncementData}
               setFormData={setFormData}
               setIsFormEditMode={setIsFormEditMode}
+              handleDelete = {handleDelete}
             />
-            <StyledButton key={`rm_${announcement.id}`}
-              onClick={() => handleDelete(announcement.rowId)}
-            >
-            <FontAwesomeIcon
-                  icon={faXmark}
-                  size="sm"
-                  transform="right-1"
-                  color="#FFFFFF"
-                /> 
-            </StyledButton>
             </div>
           );
         })
