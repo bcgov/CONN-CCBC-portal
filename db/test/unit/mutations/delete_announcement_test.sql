@@ -1,6 +1,6 @@
 begin;
 
-select plan(7);
+select plan(9);
 
 truncate table
   ccbc_public.application,
@@ -69,9 +69,9 @@ select results_eq(
 
 select lives_ok(
   $$
-    select ccbc_public.delete_announcement(1)
+    select ccbc_public.delete_announcement(1, -1);
   $$,
-  'Handles an already withdrawn application'
+  'Delete announcement for all applications'
 );
 
 select results_eq(
@@ -102,6 +102,31 @@ select results_eq(
     values(0::bigint);
   $$,
   'Should not see any record in application_announcement table for application 1 after delete'
+);
+
+-- test selective delete
+select ccbc_public.create_announcement('CCBC-010001,CCBC-010002','{"announcementType":"Secondary"}'::jsonb);
+
+select ccbc_public.delete_announcement(2, 1);
+
+select results_eq(
+  $$
+    select count(*) from ccbc_public.application_announcement where application_id = 1 and announcement_id = 2 and archived_at is null;
+  $$,
+  $$
+    values(0::bigint);
+  $$,
+  'Should not see any record in application_announcement table for application 1 after delete announcement 2'
+);
+
+select results_eq(
+  $$
+    select count(*) from ccbc_public.application_announcement where application_id = 2 and announcement_id = 2 and archived_at is null;
+  $$,
+  $$
+    values(1::bigint);
+  $$,
+  'Should still see a record in application_announcement table for application 2 after delete announcement 2'
 );
 
 select finish();

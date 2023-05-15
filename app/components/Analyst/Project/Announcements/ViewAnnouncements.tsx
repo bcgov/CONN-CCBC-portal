@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/router'; 
 import { JSONSchema7 } from 'json-schema';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import AnnouncementsHeader from './AnnouncementsHeader';
-import DeleteModal from './DeleteModal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DeleteModal from './DeleteModal'; 
 
 const StyledEmpty = styled.div`
   margin: 8px 0;
@@ -34,16 +32,16 @@ const StyledAnnouncement = styled.div`
 `;
 const StyledDate = styled.div`
   float:left;
-  min-width:100px;
+  min-width: 100px;
 `;
 const StyledIcon = styled.div`
   float:left;
-  min-width:100px;
+  min-width: 100px;
   margin-left:1em;
 `;
 const StyledText = styled.div`
   float:left;
-  min-width:300px;
+  min-width: 300px;
   margin-left:1em;
 `;
 
@@ -53,7 +51,8 @@ const StyledButton = styled.button`
   color: ${(props) => props.theme.color.links};
   margin-bottom: '0px';
   overflow: hidden;
-  max-height: '30px';
+  max-height: 30px;
+  min-width: 2em;
   transition: max-height 0.5s;
 
   & svg {
@@ -64,7 +63,21 @@ const StyledButton = styled.button`
     opacity: 0.7;
   }
 `;
-const Announcement = ({ announcement }) => {
+const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
+  if (!ccbcNumberList || ccbcNumberList?.length === 0)
+    return currentCcbcNumber;
+  let projectNumbers = '';
+  ccbcNumberList.forEach((application) => {
+    projectNumbers += `${application.ccbcNumber},`;
+  });
+  return `${currentCcbcNumber},${projectNumbers}`;
+};
+
+const Announcement = ({ ccbcNumber, announcement, handleDelete }) => {
+  const goTo = () => {window.open(announcement.jsonData?.announcementUrl, '_blank', 'width=800,scrollbars=yes,height=600,resizable = yes');}
+  const ccbcList = announcement.jsonData?.otherProjectsInAnnouncement;  
+  const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
+
   return (
     <StyledAnnouncement>
       <div>{announcementUrl}</div>
@@ -93,21 +106,24 @@ const Announcement = ({ announcement }) => {
 };
 
 interface Props {
+  ccbcNumber: any,
   announcements: any;
   style?: any;
+  startEdit?: ()=>void;
+  resetFormData?: ()=>void;
   isFormEditMode: boolean;
   setAnnouncementData: (announcementId: string) => void;
   setFormData: (formData: JSONSchema7) => void;
   setIsFormEditMode: (isFormEditMode: boolean) => void;
 }
 
-const ViewAnnouncements: React.FC<Props> = ({
+const ViewAnnouncements: React.FC<Props> = ({ ccbcNumber,
   announcements,
   isFormEditMode,
   setAnnouncementData,
   setFormData,
   setIsFormEditMode,
-  style,
+  style, startEdit, resetFormData,
 }) => {
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
@@ -125,6 +141,7 @@ const ViewAnnouncements: React.FC<Props> = ({
 
   const handleDelete = (id: number) => {
     setToBeDeleted(id);
+    startEdit();
     window.history.replaceState(null, null, ' ');
     window.location.hash = 'delete-announcement';
   };
@@ -187,7 +204,7 @@ const ViewAnnouncements: React.FC<Props> = ({
       ) : (
         <StyledEmpty>None</StyledEmpty>
       )}
-      <DeleteModal id='delete-announcement' rowId={toBeDeleted} applicationId={applicationId}/>
+      <DeleteModal id='delete-announcement' rowId={toBeDeleted} applicationId={applicationId} resetFormData={resetFormData}/>
     </StyledContainer>
   );
 };
