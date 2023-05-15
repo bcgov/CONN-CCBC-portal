@@ -192,10 +192,10 @@ const AnnouncementsForm = ({ query }) => {
     setAnnouncementData(null);
   };
   const removeSelfReference = (ccbcList: Array<any>) => {
-    return ccbcList.filter((ccbcId) => ccbcId.ccbcNumber !== ccbcNumber);
+    return ccbcList?.filter((ccbcId) => ccbcId.ccbcNumber !== ccbcNumber);
   };
-
   const handleSubmit = () => {
+    setUpdatedCcbcItems(null);
     hiddenSubmitRef.current.click();
     const ccbcList = formData?.otherProjectsInAnnouncement;
 

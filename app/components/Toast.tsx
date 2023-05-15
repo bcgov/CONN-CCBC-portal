@@ -75,6 +75,7 @@ const ToastContainer = styled.div<{
       animation-fill-mode: forwards;
     `}
   transition: transform 0.3s ease;
+  z-index: 1000;
 `;
 
 const IconContainer = styled.div`
