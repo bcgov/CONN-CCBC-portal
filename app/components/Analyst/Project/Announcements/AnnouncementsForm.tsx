@@ -247,12 +247,6 @@ const AnnouncementsForm = ({ query }) => {
     }
   };
 
-<<<<<<< HEAD
-=======
-  const handleResetFormData = () => {
-    setFormData({});
-  };
-
   const handleStartEdit = () => {
     setIsFormEditMode(true);
   };
@@ -261,7 +255,6 @@ const AnnouncementsForm = ({ query }) => {
     // refetchQueries ?
   };
 
->>>>>>> 13cd47c5 (feat: delete announcement)
   // Filter out this application CCBC ID
   const ccbcIdList = queryFragment.allApplications.nodes;
 
