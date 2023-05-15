@@ -1,5 +1,5 @@
 begin;
-select plan(12);
+select plan(13);
 
 truncate table
   ccbc_public.application,
@@ -25,6 +25,7 @@ select has_table(
 select has_column('ccbc_public', 'application_announcement', 'announcement_id','The table application has column announcement_id');
 select has_column('ccbc_public', 'application_announcement', 'application_id','The table application has column application_id');
 select has_column('ccbc_public', 'application_announcement', 'is_primary','The table application has column is_primary');
+select has_column('ccbc_public', 'application_announcement', 'history_operation','The table application has column history_operation');
 
 -- Row level security tests --
 
@@ -34,7 +35,7 @@ insert into ccbc_public.ccbc_user
   ('foo1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111111'),
   ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111112'),
   ('foo3', 'bar', 'foo3@bar.com', '11111111-1111-1111-1111-111111111113');
-  
+
 
 -- Test data setup
 set role ccbc_auth_user;

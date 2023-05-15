@@ -304,3 +304,8 @@ import/application_gis_data 2023-05-03T15:18:01Z Rafael Solorzano <61289255+rafa
 computed_columns/application_history [computed_columns/application_history@1.65.0] 2023-05-05T20:17:01Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add application_gis_data table to history
 computed_columns/gis_data_counts [computed_columns/gis_data_counts@1.66.0] 2023-05-09T21:24:49Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # rework logic for gis counts and add unchanged and unmatched
 @1.67.0 2023-05-12T16:49:45Z Anthony Bushara <anthony@button.is> # release v1.67.0
+
+extensions/audit_announcement 2023-05-15T17:58:18Z Marcel Mueller <marcel@m2.local> # enable history tracking for announcement table
+tables/application_announcement_001_operation 2023-05-15T18:59:55Z Marcel Mueller <marcel@m2.local> # add column history_operation
+mutations/update_announcement [mutations/update_announcement@1.67.0] 2023-05-15T19:21:35Z Marcel Mueller <marcel@m2.local> # add support for history_operation column
+computed_columns/application_history [computed_columns/application_history@1.67.0] 2023-05-15T19:27:02Z Marcel Mueller <marcel@m2.local> # add support for announcement history
