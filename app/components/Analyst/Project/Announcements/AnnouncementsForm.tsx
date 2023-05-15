@@ -248,11 +248,14 @@ const AnnouncementsForm = ({ query }) => {
   };
 
   const handleStartEdit = () => {
-    setIsFormEditMode(true);
+    // if we need 
   };
-  const handleReloadData = () => {
-    setFormData({});
-    // refetchQueries ?
+  const handleReloadData = (response) => {
+    handleResetFormData();
+    const ccbcItems =
+      response.updateAnnouncement.announcement.jsonData
+        .otherProjectsInAnnouncement;
+    setUpdatedCcbcItems(toastContent(removeSelfReference(ccbcItems)));
   };
 
   // Filter out this application CCBC ID

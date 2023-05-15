@@ -158,11 +158,11 @@ const ViewAnnouncements: React.FC<Props> = ({
   const applicationId = router.query.applicationId as string;
   const [toBeDeleted, setToBeDeleted] = useState(-1);
   const primaryAnnouncements = announcements.filter(
-    (announcement) => announcement.jsonData.jsonData.announcementType === 'Primary'
+    (announcement) => announcement.jsonData.announcementType === 'Primary'
   );
 
   const secondaryAnnouncements = announcements.filter(
-    (announcement) => announcement.jsonData.jsonData.announcementType === 'Secondary'
+    (announcement) => announcement.jsonData.announcementType === 'Secondary'
   );
 
   const isPrimary = primaryAnnouncements.length > 0;
