@@ -20,6 +20,7 @@ begin
   announcement_type := json_data->>'announcementType';
   primary_flag := (select case announcement_type when 'Primary' then true else false end);
 
+  -- set operation for history tracking
   if old_row_id <> -1 then
     operation := 'updated';
   else
