@@ -77,6 +77,18 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     );
   }
 
+  if (tableName === 'application_announcement') {
+    const operation = historyItem.record?.history_operation;
+
+    return (
+      <StyledContent data-testid="history-content-attachment">
+        <span>
+          {displayName} {operation} an announcement on {createdAtFormatted}
+        </span>
+      </StyledContent>
+    );
+  }
+
   if (tableName === 'application_analyst_lead') {
     // check to see if the lead has been unassigned (results in empty string)
     const leadName = item === '' ? 'Unassigned' : item;
