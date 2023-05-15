@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
@@ -16,25 +15,6 @@ const ModalButtons = styled('div')`
   }
 `;
 
-const StyledConfirmBox = styled('div')`
-  position: absolute;
-  left: 40px;
-  bottom: 3.5em;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  background: #1a5a96;
-  border-radius: 4px;
-  color: #ffffff;
-  padding: 16px 24px;
-
-  & div:first-child {
-    margin-right: 1em;
-  }
-`;
-
 const XIcon = () => (
   <svg
     width="18"
@@ -48,15 +28,14 @@ const XIcon = () => (
   </svg>
 );
 
-const DeleteModal = ({ id, rowId, applicationId }) => {
-  const [successModal, setSuccessModal] = useState(false);
-
+const DeleteModal = ({ id, rowId, applicationId, resetFormData }) => {
   const [DeleteAnnouncement] = useDeleteAnnouncementMutation();
 
   const handleDeleteAll = async () => {
     const variables = {
       input: { 
-        _announcementId: rowId,
+        announcementRowId: rowId,
+        applicationRowId : -1
       },
     };
     DeleteAnnouncement({
@@ -67,16 +46,18 @@ const DeleteModal = ({ id, rowId, applicationId }) => {
       onCompleted: (res) => {
         // refresh?
         console.log('success'); 
-        console.log(res);
-        setSuccessModal(true)
+        console.log(res); 
+        resetFormData();
       },
     });
   };
 
   const handleDeleteOne = async () => {
+    const applicationRowId = parseInt(applicationId, 10);
     const variables = {
       input: { 
-        _announcementId: id,
+        announcementRowId: rowId,
+        applicationRowId
       },
     };
     DeleteAnnouncement({
@@ -87,8 +68,8 @@ const DeleteModal = ({ id, rowId, applicationId }) => {
       onCompleted: (res) => {
         // refresh?
         console.log('success'); 
-        console.log(res);
-        setSuccessModal(true)
+        console.log(res); 
+        resetFormData();
       },
     });
   };
@@ -125,14 +106,6 @@ const DeleteModal = ({ id, rowId, applicationId }) => {
           </ModalButtons>
         </Modal.Content>
       </StyledModal>
-      {/* {successModal && (
-        <StyledConfirmBox>
-          <div>Announcement Deleted</div>
-          <button type="button" onClick={() => setSuccessModal(false)}>
-            <XIcon />
-          </button>
-        </StyledConfirmBox>
-      )} */}
     </>
   );
 };

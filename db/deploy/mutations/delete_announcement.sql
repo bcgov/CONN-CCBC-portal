@@ -2,7 +2,7 @@
 
 begin;
 
-create or replace function ccbc_public.delete_announcement(_announcement_id int) returns ccbc_public.announcement as $$
+create or replace function ccbc_public.delete_announcement(announcement_row_id int, application_row_id int) returns ccbc_public.announcement as $$
 declare
     user_sub varchar;
     user_id int; 
@@ -10,11 +10,15 @@ begin
     user_sub := (select sub from ccbc_public.session());
     user_id := (select id from ccbc_public.ccbc_user where ccbc_user.session_sub = user_sub);
     update ccbc_public.announcement set archived_at = now(), archived_by = user_id 
-        where id = _announcement_id;
-    update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id 
-        where announcement_id = _announcement_id;
-
-    return (select row(ccbc_public.announcement.*) from ccbc_public.announcement where id = _announcement_id);
+        where id = announcement_row_id;
+    if (application_row_id = -1) then
+        update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id 
+            where announcement_id = announcement_row_id;
+    else
+        update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id 
+            where announcement_id = announcement_row_id and application_id = application_row_id;
+    end if;
+    return (select row(ccbc_public.announcement.*) from ccbc_public.announcement where id = announcement_row_id);
 end;
 $$ language plpgsql volatile;
 

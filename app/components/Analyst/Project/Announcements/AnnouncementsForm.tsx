@@ -247,6 +247,21 @@ const AnnouncementsForm = ({ query }) => {
     }
   };
 
+<<<<<<< HEAD
+=======
+  const handleResetFormData = () => {
+    setFormData({});
+  };
+
+  const handleStartEdit = () => {
+    setIsFormEditMode(true);
+  };
+  const handleReloadData = () => {
+    setFormData({});
+    // refetchQueries ?
+  };
+
+>>>>>>> 13cd47c5 (feat: delete announcement)
   // Filter out this application CCBC ID
   const ccbcIdList = queryFragment.allApplications.nodes;
 
@@ -300,6 +315,9 @@ const AnnouncementsForm = ({ query }) => {
       saveDataTestId="save-announcement"
     >
       <ViewAnnouncements
+        startEdit = {handleStartEdit}
+        resetFormData = {handleReloadData}
+        ccbcNumber = {ccbcNumber}
         announcements={announcementsList}
         isFormEditMode={isFormEditMode}
         setAnnouncementData={setAnnouncementData}
