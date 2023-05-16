@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
 import { CancelIcon, LoadingSpinner } from '../../../components';
 
-const StyledContainer = styled('div')`
+const StyledContainer = styled.div<{
+  wrap?: boolean;
+}>`
   margin-top: 16px;
   margin-bottom: 32px;
   width: 100%;
@@ -12,6 +14,7 @@ const StyledContainer = styled('div')`
   border: 1px solid rgba(0, 0, 0, 0.16);
   border-radius: 4px;
   padding: 16px;
+  flex-direction: ${({ wrap }) => (wrap ? 'column-reverse' : 'row')};
 `;
 
 const StyledDetails = styled('div')`
@@ -29,13 +32,16 @@ const StyledLink = styled.button`
   text-decoration-line: underline;
 `;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(Button)<{
+  addBottomMargin?: boolean;
+}>`
   min-width: 160px;
   white-space: nowrap;
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-left: 8px;
+  ${({ addBottomMargin }) => addBottomMargin && `margin-bottom: 8px`};
 `;
 
 const StyledError = styled('div')`
@@ -47,6 +53,7 @@ const StyledFileDiv = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
+  word-break: break-word;
 
   margin-left: 16px;
   margin-top: 10px;
@@ -83,6 +90,7 @@ interface FileComponentProps {
   required?: boolean;
   label: string;
   handleDownload?: Function;
+  wrap?: boolean;
 }
 
 const ErrorMessage = ({ error, fileTypes }) => {
@@ -123,6 +131,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
   loading,
   error,
   handleDownload,
+  wrap,
 }) => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
@@ -147,6 +156,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
 
   return (
     <StyledContainer
+      wrap={wrap}
       className="file-widget"
       style={{ border: error && '1px solid #E71F1F' }}
     >
@@ -184,6 +194,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
       </StyledDetails>
       <div>
         <StyledButton
+          addBottomMargin={wrap}
           id={`${id}-btn`}
           onClick={(e: React.MouseEvent<HTMLInputElement>) => {
             e.preventDefault();

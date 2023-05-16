@@ -64,7 +64,7 @@ const conditionalApprovalUiSchema = {
   },
 
   letterOfApproval: {
-    'ui:title': 'Letter of conditional approval',
+    'ui:title': "Minister's decision, letter, and response",
     'ui:options': {
       buttonVariant: 'secondary',
       flexDirection: 'column',
@@ -73,10 +73,12 @@ const conditionalApprovalUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         buttonVariant: 'secondary',
+        allowMultipleFiles: true,
+        wrap: true,
       },
     },
     letterOfApprovalDateSent: {
-      'ui:title': 'Date sent',
+      'ui:title': 'Date letter sent to applicant',
       'ui:widget': 'DatePickerWidget',
       'ui:options': {
         isClearable: true,
