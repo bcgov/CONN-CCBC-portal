@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { JSONSchema7 } from 'json-schema';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
@@ -92,13 +93,6 @@ const Announcement = ({
   setFormData,
   setIsFormEditMode,
 }) => {
-  const goTo = () => {
-    window.open(
-      announcement.jsonData?.announcementUrl,
-      '_blank',
-      'width=800,scrollbars=yes,height=600,resizable = yes'
-    );
-  };
   const ccbcList = announcement.jsonData?.otherProjectsInAnnouncement;
   const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
 
@@ -106,13 +100,12 @@ const Announcement = ({
     <StyledAnnouncement>
       <StyledDate>{announcement.jsonData?.announcementDate}</StyledDate>
       <StyledIcon>
-        <img
+      <Image  
           src="/icons/bcid-apple-icon.svg"
-          width={100}
+          alt="Preview"
           height={100}
-          onClick={goTo}
-          alt=""
-        ></img>
+          width={100}
+        /> 
       </StyledIcon>
       <StyledText>
         Canada and British Columbia invest over $20 million in infrastructure
