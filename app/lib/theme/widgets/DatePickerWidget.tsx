@@ -138,8 +138,8 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   onFocus,
 }) => {
   const [day, setDay] = useState(value ? fixDate(value) : undefined);
-
-  const isError = rawErrors && rawErrors.length > 0;
+  const isRawErrors = rawErrors && rawErrors.length > 0;
+  const isError = isRawErrors && !value;
 
   const handleChange = (d: Date) => {
     const originalDate = new Date(d);
