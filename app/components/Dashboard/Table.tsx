@@ -39,18 +39,6 @@ const Table = ({ applications }: Props) => {
   const formPages = Object.keys(schema.properties);
 
   const reviewPage = formPages.indexOf('review') + 1;
-
-  const getStatusType = (status: string) => {
-    if (status === 'draft') {
-      return 'Draft';
-    }
-    if (status === 'withdrawn') {
-      return 'Withdrawn';
-    }
-
-    return 'Submitted';
-  };
-
   return (
     <>
       <StyledTable>
@@ -70,7 +58,6 @@ const Table = ({ applications }: Props) => {
                 application={application}
                 key={application.owner}
                 formPages={formPages}
-                getStatusType={getStatusType}
                 reviewPage={reviewPage}
                 setWithdrawId={setWithdrawId}
               />

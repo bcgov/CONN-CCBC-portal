@@ -4,7 +4,7 @@ import AssignLead from 'components/Analyst/AssignLead';
 import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
 import statusStyles from 'data/statusStyles';
-import StatusPill from './StatusPill';
+import StatusPill from '../StatusPill';
 
 const StyledCallout = styled.div`
   margin-bottom: 40px;
@@ -68,8 +68,14 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
   );
 
   const { applicationByRowId } = queryFragment;
-  const { analystLead, ccbcNumber, organizationName, projectName, rowId, externalStatus } =
-    applicationByRowId;
+  const {
+    analystLead,
+    ccbcNumber,
+    organizationName,
+    projectName,
+    rowId,
+    externalStatus,
+  } = applicationByRowId;
   return (
     <StyledCallout>
       <div>
@@ -78,13 +84,13 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
         <StyledH2>{organizationName}</StyledH2>
       </div>
       <StyledDiv>
-        <StyledItem style={{marginBottom: "0.3rem"}}>
+        <StyledItem style={{ marginBottom: '0.3rem' }}>
           <StyledLabel htmlFor="change-status">Internal Status</StyledLabel>
           <ChangeStatus query={queryFragment} />
         </StyledItem>
         <StyledItem>
           <StyledLabel id="status-pill">External Status</StyledLabel>
-          <StatusPill status={externalStatus} styles={statusStyles}/>
+          <StatusPill status={externalStatus} styles={statusStyles} />
         </StyledItem>
         <StyledPackage>
           <StyledLabel htmlFor="assign-package">Package</StyledLabel>
