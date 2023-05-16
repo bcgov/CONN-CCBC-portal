@@ -150,7 +150,7 @@ interface Props {
   ccbcNumber: any;
   announcements: any;
   style?: any;
-  resetFormData?: (store: any) => void;
+  resetFormData?: (store: any, announcementData: any) => void;
   isFormEditMode: boolean;
   setAnnouncementData: (announcementId: string) => void;
   setFormData: (formData: JSONSchema7) => void;
