@@ -69,7 +69,7 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
   // @ts-ignore
   const options = schema.enum as Array<string>;
   const description = uiSchema ? uiSchema['ui:description'] : null;
-  const isError = rawErrors && rawErrors.length > 0;
+  const isError = rawErrors && rawErrors.length > 0 && !value;
 
   return (
     <StyledDiv className="select-widget-wrapper">

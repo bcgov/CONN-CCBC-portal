@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import Input from '@button-inc/bcgov-theme/Input';
 import styled from 'styled-components';
@@ -67,13 +67,21 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
   } = props;
 
   const [urlError, setUrlError] = useState(false);
-  const isError = rawErrors && rawErrors.length > 0;
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    if (rawErrors && rawErrors.length > 0) {
+      setIsError(true);
+    }
+  }, [rawErrors]);
 
   const handleChange = (e) => {
     if (validator.isURL(e.target.value)) {
       setUrlError(false);
+      setIsError(false);
     } else {
       setUrlError(true);
+      setIsError(true);
     }
     onChange(e.target.value);
   };
