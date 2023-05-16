@@ -14,7 +14,7 @@ const StyledContainer = styled.div<{
   border: 1px solid rgba(0, 0, 0, 0.16);
   border-radius: 4px;
   padding: 16px;
-  flex-wrap: ${({ wrap }) => (wrap ? 'wrap-reverse' : 'nowrap')};
+  flex-direction: ${({ wrap }) => (wrap ? 'column-reverse' : 'row')};
 `;
 
 const StyledDetails = styled('div')`
@@ -32,13 +32,16 @@ const StyledLink = styled.button`
   text-decoration-line: underline;
 `;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(Button)<{
+  addBottomMargin?: boolean;
+}>`
   min-width: 160px;
   white-space: nowrap;
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-left: 8px;
+  ${({ addBottomMargin }) => addBottomMargin && `margin-bottom: 8px`};
 `;
 
 const StyledError = styled('div')`
@@ -191,6 +194,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
       </StyledDetails>
       <div>
         <StyledButton
+          addBotttomMargin={wrap}
           id={`${id}-btn`}
           onClick={(e: React.MouseEvent<HTMLInputElement>) => {
             e.preventDefault();
