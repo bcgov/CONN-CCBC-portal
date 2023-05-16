@@ -121,6 +121,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - run: yarn run eslint -f @microsoft/eslint-formatter-sarif -o results.sarif . || true
