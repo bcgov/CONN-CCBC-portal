@@ -53,7 +53,6 @@ const UrlWidget: React.FC<WidgetProps> = ({
   value,
 }) => {
   const { ccbcIdList, ccbcNumber, rowId } = formContext;
-  const isValue = value && value.length > 0;
 
   const styles = {
     '& .MuiInputBase-root': {
@@ -61,9 +60,6 @@ const UrlWidget: React.FC<WidgetProps> = ({
       padding: '0px',
       border: '2px solid #606060',
       borderRadius: '0.25rem',
-    },
-    '& .Mui-focused': {
-      color: isValue ? 'transparent' : 'inherit',
     },
     '& .Mui-focused::placeholder': {
       outline: '4px solid #3b99fc',
