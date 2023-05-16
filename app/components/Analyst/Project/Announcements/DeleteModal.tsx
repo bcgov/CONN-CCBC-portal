@@ -33,9 +33,9 @@ const DeleteModal = ({ id, rowId, applicationId, resetFormData }) => {
 
   const handleDeleteAll = async () => {
     const variables = {
-      input: { 
+      input: {
         announcementRowId: rowId,
-        applicationRowId : -1
+        applicationRowId: -1,
       },
     };
     DeleteAnnouncement({
@@ -48,16 +48,16 @@ const DeleteModal = ({ id, rowId, applicationId, resetFormData }) => {
       },
       updater: (store) => {
         resetFormData(store);
-      }
+      },
     });
   };
 
   const handleDeleteOne = async () => {
     const applicationRowId = parseInt(applicationId, 10);
     const variables = {
-      input: { 
+      input: {
         announcementRowId: rowId,
-        applicationRowId
+        applicationRowId,
       },
     };
     DeleteAnnouncement({
@@ -67,46 +67,50 @@ const DeleteModal = ({ id, rowId, applicationId, resetFormData }) => {
       },
       onCompleted: (res) => {
         // refresh?
-        console.log('success'); 
-        console.log(res); 
-        resetFormData();
+        console.log('success');
+        console.log(res);
+        // resetFormData();
       },
+      updater: (store, data) => {
+        resetFormData(store, data.deleteAnnouncement.announcement)
+      }
     });
   };
 
   return (
-    <>
-      <StyledModal id={id}>
-        <Modal.Header>
-          Delete Announcement
+    <StyledModal id={id}>
+      <Modal.Header>
+        Delete Announcement
+        <Modal.Close>
+          <XIcon />
+        </Modal.Close>
+      </Modal.Header>
+      <Modal.Content>
+        <p>
+          Would you like to delete this announcement from all projects that are
+          linked or remove it from just this project?
+        </p>
+        <ModalButtons>
           <Modal.Close>
-            <XIcon />
+            <Button onClick={handleDeleteAll} data-testid="Delete-from-all-btn">
+              Delete from all projects
+            </Button>
           </Modal.Close>
-        </Modal.Header>
-        <Modal.Content>
-          <p>
-            Would you like to delete this announcement from all projects that are linked
-            or remove it from just this project?
-          </p>
-          <ModalButtons>
-            <Modal.Close>
-              <Button onClick={handleDeleteAll} data-testid="Delete-from-all-btn">
-                Delete from all projects
-              </Button>
-            </Modal.Close>
-            <Modal.Close>
-              <Button onClick={handleDeleteOne} data-testid="Delete-from-this-btn">
-                Remove from this project
-              </Button>
-            </Modal.Close>
+          <Modal.Close>
+            <Button
+              onClick={handleDeleteOne}
+              data-testid="Delete-from-this-btn"
+            >
+              Remove from this project
+            </Button>
+          </Modal.Close>
 
-            <Modal.Close>
-              <Button variant="secondary">Cancel</Button>
-            </Modal.Close>
-          </ModalButtons>
-        </Modal.Content>
-      </StyledModal>
-    </>
+          <Modal.Close>
+            <Button variant="secondary">Cancel</Button>
+          </Modal.Close>
+        </ModalButtons>
+      </Modal.Content>
+    </StyledModal>
   );
 };
 

@@ -5,11 +5,13 @@ import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 const mutation = graphql`
   mutation deleteAnnouncementMutation($input: DeleteAnnouncementInput!) {
     deleteAnnouncement(input: $input) {
-    announcement {
-      rowId
+      announcement {
+        rowId
+        id
+        jsonData
+      }
     }
   }
-}
 `;
 
 const useDeleteAnnouncementMutation = () =>
