@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useRouter } from 'next/router'; 
+import { useRouter } from 'next/router';
 import { JSONSchema7 } from 'json-schema';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import AnnouncementsHeader from './AnnouncementsHeader';
-import DeleteModal from './DeleteModal'; 
+import DeleteModal from './DeleteModal';
 
 const StyledEmpty = styled.div`
   margin: 8px 0;
@@ -31,13 +31,13 @@ const StyledAnnouncement = styled.div`
 }
 `;
 const StyledDate = styled.div`
-  float:left;
+  float: left;
   min-width: 100px;
 `;
 const StyledIcon = styled.div`
-  float:left;
+  float: left;
   min-width: 100px;
-  margin-left:1em;
+  margin-left: 1em;
 `;
 const StyledIconBtn = styled.button`
   margin-left: 8px;
@@ -51,9 +51,9 @@ const StyledIconBtn = styled.button`
   }
 `;
 const StyledText = styled.div`
-  float:left;
+  float: left;
   min-width: 300px;
-  margin-left:1em;
+  margin-left: 1em;
 `;
 
 const StyledButton = styled.button`
@@ -75,8 +75,7 @@ const StyledButton = styled.button`
   }
 `;
 const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
-  if (!ccbcNumberList || ccbcNumberList?.length === 0)
-    return currentCcbcNumber;
+  if (!ccbcNumberList || ccbcNumberList?.length === 0) return currentCcbcNumber;
   let projectNumbers = '';
   ccbcNumberList.forEach((application) => {
     projectNumbers += `${application.ccbcNumber},`;
@@ -84,33 +83,49 @@ const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
   return `${currentCcbcNumber},${projectNumbers}`;
 };
 
-const Announcement = ({ 
-  ccbcNumber, 
+const Announcement = ({
+  ccbcNumber,
   handleDelete,
   announcement,
   isFormEditMode,
   setAnnouncementData,
   setFormData,
-  setIsFormEditMode
- }) => {
-  const goTo = () => {window.open(announcement.jsonData?.announcementUrl, '_blank', 'width=800,scrollbars=yes,height=600,resizable = yes');}
-  const ccbcList = announcement.jsonData?.otherProjectsInAnnouncement;  
+  setIsFormEditMode,
+}) => {
+  const goTo = () => {
+    window.open(
+      announcement.jsonData?.announcementUrl,
+      '_blank',
+      'width=800,scrollbars=yes,height=600,resizable = yes'
+    );
+  };
+  const ccbcList = announcement.jsonData?.otherProjectsInAnnouncement;
   const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
 
   return (
-    <>
     <StyledAnnouncement>
       <StyledDate>{announcement.jsonData?.announcementDate}</StyledDate>
       <StyledIcon>
-        <img src='/icons/bcid-apple-icon.svg'
-        width={100} height={100} onClick={goTo} alt=''></img>
-        </StyledIcon>
-      <StyledText>Canada and British Columbia invest over $20 million 
-        in infrastructure projects across the province to build more resilient, greener communities.</StyledText>
+        <img
+          src="/icons/bcid-apple-icon.svg"
+          width={100}
+          height={100}
+          onClick={goTo}
+          alt=""
+        ></img>
+      </StyledIcon>
       <StyledText>
-        {projectNumbers}
+        Canada and British Columbia invest over $20 million in infrastructure
+        projects across the province to build more resilient, greener
+        communities.
       </StyledText>
-      <StyledButton key={`rm_${announcement.id}`} onClick={() => handleDelete(announcement.rowId)}>X</StyledButton>
+      <StyledText>{projectNumbers}</StyledText>
+      <StyledButton
+        key={`rm_${announcement.id}`}
+        onClick={() => handleDelete(announcement.rowId)}
+      >
+        X
+      </StyledButton>
       {!isFormEditMode && (
         <StyledIconBtn
           onClick={() => {
@@ -126,49 +141,48 @@ const Announcement = ({
         >
           <FontAwesomeIcon icon={faPen} size="xs" />
         </StyledIconBtn>
-      )} 
+      )}
     </StyledAnnouncement>
-    </>
   );
 };
 
-
 interface Props {
-  ccbcNumber: any,
+  ccbcNumber: any;
   announcements: any;
-  style?: any; 
-  resetFormData?: (store: any)=>void;
+  style?: any;
+  resetFormData?: (store: any) => void;
   isFormEditMode: boolean;
   setAnnouncementData: (announcementId: string) => void;
   setFormData: (formData: JSONSchema7) => void;
   setIsFormEditMode: (isFormEditMode: boolean) => void;
 }
 
-const ViewAnnouncements: React.FC<Props> = ({ 
+const ViewAnnouncements: React.FC<Props> = ({
   ccbcNumber,
   announcements,
   isFormEditMode,
   setAnnouncementData,
   setFormData,
   setIsFormEditMode,
-  style, resetFormData,
+  style,
+  resetFormData,
 }) => {
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
   const [toBeDeleted, setToBeDeleted] = useState(-1);
   const primaryAnnouncements = announcements.filter(
-    (announcement) => announcement.jsonData.announcementType === 'Primary'
+    (announcement) => announcement?.jsonData.announcementType === 'Primary'
   );
 
   const secondaryAnnouncements = announcements.filter(
-    (announcement) => announcement.jsonData.announcementType === 'Secondary'
+    (announcement) => announcement?.jsonData.announcementType === 'Secondary'
   );
 
   const isPrimary = primaryAnnouncements.length > 0;
   const isSecondary = secondaryAnnouncements.length > 0;
 
   const handleDelete = (id: number) => {
-    setToBeDeleted(id); 
+    setToBeDeleted(id);
     window.history.replaceState(null, null, ' ');
     window.location.hash = 'delete-announcement';
   };
@@ -177,17 +191,18 @@ const ViewAnnouncements: React.FC<Props> = ({
       <AnnouncementsHeader title="Primary news release" />
       {isPrimary ? (
         primaryAnnouncements.map((announcement) => {
-          return (<div key={`w_${announcement.id}`}>
-            <Announcement
-              key={announcement.id}
-              announcement={announcement}
-              ccbcNumber={ ccbcNumber}
-              isFormEditMode={isFormEditMode}
-              setAnnouncementData={setAnnouncementData}
-              setFormData={setFormData}
-              setIsFormEditMode={setIsFormEditMode}
-              handleDelete = {handleDelete}
-            /> 
+          return (
+            <div key={`w_${announcement.id}`}>
+              <Announcement
+                key={announcement.id}
+                announcement={announcement}
+                ccbcNumber={ccbcNumber}
+                isFormEditMode={isFormEditMode}
+                setAnnouncementData={setAnnouncementData}
+                setFormData={setFormData}
+                setIsFormEditMode={setIsFormEditMode}
+                handleDelete={handleDelete}
+              />
             </div>
           );
         })
@@ -199,23 +214,28 @@ const ViewAnnouncements: React.FC<Props> = ({
         secondaryAnnouncements.map((announcement) => {
           return (
             <div key={`w_${announcement.id}`}>
-            <Announcement
-              key={announcement.id}
-              announcement={announcement}
-              ccbcNumber={ ccbcNumber}
-              isFormEditMode={isFormEditMode}
-              setAnnouncementData={setAnnouncementData}
-              setFormData={setFormData}
-              setIsFormEditMode={setIsFormEditMode}
-              handleDelete = {handleDelete}
-            />
+              <Announcement
+                key={announcement.id}
+                announcement={announcement}
+                ccbcNumber={ccbcNumber}
+                isFormEditMode={isFormEditMode}
+                setAnnouncementData={setAnnouncementData}
+                setFormData={setFormData}
+                setIsFormEditMode={setIsFormEditMode}
+                handleDelete={handleDelete}
+              />
             </div>
           );
         })
       ) : (
         <StyledEmpty>None</StyledEmpty>
       )}
-      <DeleteModal id='delete-announcement' rowId={toBeDeleted} applicationId={applicationId} resetFormData={resetFormData}/>
+      <DeleteModal
+        id="delete-announcement"
+        rowId={toBeDeleted}
+        applicationId={applicationId}
+        resetFormData={resetFormData}
+      />
     </StyledContainer>
   );
 };

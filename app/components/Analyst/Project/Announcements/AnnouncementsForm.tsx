@@ -100,6 +100,8 @@ export const updateStoreAfterDelete = (
   // Get the connection from the store
   const connection = store.get(relayConnectionId);
 
+  store.delete(announcementData.id);
+
   // Remove the old announcement from the connection
   ConnectionHandler.deleteNode(connection, announcementData.id);
 };
@@ -259,11 +261,11 @@ const AnnouncementsForm = ({ query }) => {
     }
   };
 
-  const handleReloadData = (store) => {
+  const handleReloadData = (store, deletedAnnouncementData) => {
     handleResetFormData();
     // eslint-disable-next-line no-underscore-dangle
     const relayConnectionId = announcements.__id;
-    updateStoreAfterDelete(store, relayConnectionId, announcementData);
+    updateStoreAfterDelete(store, relayConnectionId, deletedAnnouncementData);
   };
 
   // Filter out this application CCBC ID
@@ -318,9 +320,9 @@ const AnnouncementsForm = ({ query }) => {
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
       saveDataTestId="save-announcement"
     >
-      <ViewAnnouncements 
-        resetFormData = {handleReloadData}
-        ccbcNumber = {ccbcNumber}
+      <ViewAnnouncements
+        resetFormData={handleReloadData}
+        ccbcNumber={ccbcNumber}
         announcements={announcementsList}
         isFormEditMode={isFormEditMode}
         setAnnouncementData={setAnnouncementData}
