@@ -194,7 +194,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
       </StyledDetails>
       <div>
         <StyledButton
-          addBotttomMargin={wrap}
+          addBottomMargin={wrap}
           id={`${id}-btn`}
           onClick={(e: React.MouseEvent<HTMLInputElement>) => {
             e.preventDefault();
