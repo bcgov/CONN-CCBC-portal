@@ -143,6 +143,22 @@ jobs:
       - name: Check for inconsistency between graphql schema and commit schema
         run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/schema/schema.graphql`. Did you forget to \"yarn build:schema\"?' && false)
 
+  reverts:
+    needs: [install-test-env]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: deploy db migrations
+        run: make start_pg && make drop_db && make deploy_db_migrations
+      - name: revert db migrations
+        run: make revert_db_migrations
+      - name: re-deploy db migrations
+        run: make deploy_db_migrations
+
   pgtap:
     needs: [install-test-env]
     runs-on: ubuntu-latest
