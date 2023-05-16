@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import StatusPill from './StatusPill';
+import statusStyles from 'data/statusStyles';
+import StatusPill from '../StatusPill';
 import Withdraw from './Withdraw';
 
 const StyledRow = styled('tr')`
@@ -30,13 +31,7 @@ const StyledBtns = styled('div')`
   }
 `;
 
-const Row = ({
-  application,
-  formPages,
-  getStatusType,
-  reviewPage,
-  setWithdrawId,
-}) => {
+const Row = ({ application, formPages, reviewPage, setWithdrawId }) => {
   const { ccbcNumber, intakeByIntakeId, formData, projectName, rowId, status } =
     application;
 
@@ -74,7 +69,7 @@ const Row = ({
       </StyledTableCell>
       <StyledTableCell>{projectName}</StyledTableCell>
       <StyledTableCell>
-        <StatusPill StatusType={getStatusType(status)}>{status}</StatusPill>
+        <StatusPill styles={statusStyles} status={status} />
       </StyledTableCell>
       <StyledTableCell>
         <StyledBtns>

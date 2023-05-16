@@ -228,7 +228,7 @@ describe('The index page', () => {
     expect(screen.getByText(`Status`)).toBeInTheDocument();
     expect(screen.getByText(`Actions`)).toBeInTheDocument();
     expect(screen.getByText(`CCBC-010001`)).toBeInTheDocument();
-    expect(screen.getByText(`withdrawn`)).toBeInTheDocument();
+    expect(screen.getByText(`Withdrawn`)).toBeInTheDocument();
     expect(screen.getAllByText(`View`)[0]).toBeInTheDocument();
   });
 

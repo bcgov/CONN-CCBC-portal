@@ -77,6 +77,18 @@ const statusStyles = {
     pillWidth: '120px',
     description: 'Withdrawn',
   },
+  draft: {
+    description: 'Draft',
+    backgroundColor: '#606060E6',
+    primary: '#FFFFFF',
+    pillWidth: '116px',
+  },
+  submitted: {
+    pillWidth: '116px',
+    primary: '#FFFFFF',
+    backgroundColor: '#1A5A96',
+    description: 'Submitted',
+  },
 };
 
 export default statusStyles;

@@ -3,7 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import assessmentPillStyles from 'data/assessmentPillStyles';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
-import StatusPill from '../StatusPill';
+import StatusPill from '../../StatusPill';
 
 const StyledRow = styled('tr')`
   max-width: 1170px;

@@ -4,7 +4,7 @@ import statusStyles from 'data/statusStyles';
 import { useFeature } from '@growthbook/growthbook-react';
 import applicationDiffSchema from 'formSchema/uiSchema/history/application';
 import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
-import StatusPill from '../StatusPill';
+import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 
 const StyledContent = styled.span`

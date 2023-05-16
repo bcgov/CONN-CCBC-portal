@@ -148,7 +148,7 @@ describe('The Dashboard', () => {
     componentTestingHelper.loadQuery(payload);
     componentTestingHelper.renderComponent();
     expect(screen.getByText('Unassigned')).toBeInTheDocument();
-    expect(screen.getByText('draft')).toBeInTheDocument();
+    expect(screen.getByText('Draft')).toBeInTheDocument();
     expect(screen.getByText('Edit')).toBeInTheDocument();
     expect(screen.queryByTestId('withdraw-btn-test')).toBeNull();
   });
@@ -185,7 +185,7 @@ describe('The Dashboard', () => {
     componentTestingHelper.renderComponent();
 
     expect(screen.getByText('CCBC-010004')).toBeInTheDocument();
-    expect(screen.getByText('submitted')).toBeInTheDocument();
+    expect(screen.getByText('Submitted')).toBeInTheDocument();
     expect(screen.getByText('Edit')).toBeInTheDocument();
     expect(screen.getByTestId('withdraw-btn-test')).toBeInTheDocument();
   });
@@ -223,7 +223,7 @@ describe('The Dashboard', () => {
 
     componentTestingHelper.renderComponent();
     expect(screen.getByText('CCBC-010005')).toBeInTheDocument();
-    expect(screen.getByText('submitted')).toBeInTheDocument();
+    expect(screen.getByText('Submitted')).toBeInTheDocument();
     expect(screen.getByText('Edit')).toBeInTheDocument();
     expect(screen.getByTestId('withdraw-btn-test')).toBeInTheDocument();
 
@@ -274,7 +274,7 @@ describe('The Dashboard', () => {
     componentTestingHelper.loadQuery(payload);
     componentTestingHelper.renderComponent();
     expect(screen.getByText('CCBC-010005')).toBeInTheDocument();
-    expect(screen.getByText('submitted')).toBeInTheDocument();
+    expect(screen.getByText('Submitted')).toBeInTheDocument();
     expect(screen.getByText('View')).toBeInTheDocument();
     expect(screen.queryByTestId('withdraw-btn-test')).toBeNull();
   });
@@ -310,7 +310,7 @@ describe('The Dashboard', () => {
     componentTestingHelper.loadQuery(payload);
     componentTestingHelper.renderComponent();
     expect(screen.getByText('CCBC-010005')).toBeInTheDocument();
-    expect(screen.getByText('withdrawn')).toBeInTheDocument();
+    expect(screen.getByText('Withdrawn')).toBeInTheDocument();
     expect(screen.getByText('View')).toBeInTheDocument();
     expect(screen.queryByTestId('withdraw-btn-test')).toBeNull();
   });

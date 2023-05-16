@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
 import { AnalystRow_application$key } from '__generated__/AnalystRow_application.graphql';
 import AssignLead from 'components/Analyst/AssignLead';
-import StatusPill from '../Analyst/StatusPill';
+import StatusPill from '../StatusPill';
 
 interface Props {
   application: AnalystRow_application$key;
