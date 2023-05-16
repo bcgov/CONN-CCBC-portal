@@ -156,6 +156,8 @@ jobs:
         run: make start_pg && make drop_db && make deploy_db_migrations
       - name: revert db migrations
         run: make revert_db_migrations
+      - name: re-deploy db migrations
+        run: make deploy_db_migrations
 
   pgtap:
     needs: [install-test-env]
