@@ -12,6 +12,7 @@ const StyledContainer = styled('div')`
   border: 1px solid rgba(0, 0, 0, 0.16);
   border-radius: 4px;
   padding: 16px;
+  flex-wrap: wrap-reverse;
 `;
 
 const StyledDetails = styled('div')`
@@ -47,6 +48,7 @@ const StyledFileDiv = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
+  word-break: break-word;
 
   margin-left: 16px;
   margin-top: 10px;
