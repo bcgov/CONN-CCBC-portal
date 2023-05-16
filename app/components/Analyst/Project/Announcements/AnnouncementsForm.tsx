@@ -219,7 +219,7 @@ const AnnouncementsForm = ({ query }) => {
 
     const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
 
-    /*eslint no-underscore-dangle: ["error", { "allowAfterThis": true }]*/
+    /* eslint-disable no-underscore-dangle */
     const relayConnectionId = announcements.__id;
     if (isErrors) return;
     if (!announcementData?.rowId) {
@@ -264,7 +264,7 @@ const AnnouncementsForm = ({ query }) => {
 
   const handleReloadData = (store, deletedAnnouncementData) => {
     handleResetFormData();
-    /*eslint no-underscore-dangle: ["error", { "allowAfterThis": true }]*/
+    /* eslint-disable no-underscore-dangle */
     const relayConnectionId = announcements.__id;
     updateStoreAfterDelete(store, relayConnectionId, deletedAnnouncementData);
   };
