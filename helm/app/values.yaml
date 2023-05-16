@@ -103,7 +103,7 @@ loadTest:
   enable: false
 
 
-fullnameOverride: crunchy-postgres
+fullnameOverride: ccbc
 
 crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:ubi8-14.7-0
 
