@@ -121,8 +121,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - run: yarn run eslint -f @microsoft/eslint-formatter-sarif -o results.sarif . || true
@@ -150,8 +148,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: dev env setup
-        uses: ./.github/action/dev-env-setup
+        uses: ./.github/actions/dev-env-setup
       - name: deploy db migrations
         run: make start_pg && make drop_db && make deploy_db_migrations
       - name: revert db migrations
