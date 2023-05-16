@@ -848,7 +848,7 @@ describe('The applicant dashboard', () => {
     cy.get('select[data-testid="change-status"').should('be.visible');
     cy.mockLogin('ccbc_auth_user');
     cy.visit('/applicantportal/dashboard');
-    cy.contains('span', 'fake_status').should('be.visible');
+    cy.contains('div', 'fake_status').should('be.visible');
     cy.get('body').happoScreenshot({
       component: 'Dashboard with fake visible status',
     });
