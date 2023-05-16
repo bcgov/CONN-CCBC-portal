@@ -96,7 +96,7 @@ This is a user that has yet to sign in, they are given the least access to the d
 
 #### Job Executor User
 
-This is a user that has permissions to do specific tasks. It has access to applicaiton and statuses, and is used to trigger an update on application status once the intake has closed. This is an internal only role.
+This is a user that has permissions to do specific tasks. It has access to application and statuses, and is used to trigger an update on application status once the intake has closed. This is an internal only role.
 
 #### CCBC Archiver Role
 
