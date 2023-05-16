@@ -39,10 +39,7 @@ const DeleteModal = ({ id, rowId, applicationId, resetFormData }) => {
       },
     };
     DeleteAnnouncement({
-      variables,
-      onError: (res) => {
-        
-      },
+      variables, 
       updater: (store, data) => {
         resetFormData(store, data.deleteAnnouncement.announcement)
       }
@@ -58,10 +55,7 @@ const DeleteModal = ({ id, rowId, applicationId, resetFormData }) => {
       },
     };
     DeleteAnnouncement({
-      variables,
-      onError: (res) => {
-        
-      },
+      variables, 
       updater: (store, data) => {
         resetFormData(store, data.deleteAnnouncement.announcement)
       }
