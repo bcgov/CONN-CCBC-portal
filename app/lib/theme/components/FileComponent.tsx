@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
 import { CancelIcon, LoadingSpinner } from '../../../components';
 
-const StyledContainer = styled('div')`
+const StyledContainer = styled.div<{
+  wrap?: boolean;
+}>`
   margin-top: 16px;
   margin-bottom: 32px;
   width: 100%;
@@ -12,7 +14,7 @@ const StyledContainer = styled('div')`
   border: 1px solid rgba(0, 0, 0, 0.16);
   border-radius: 4px;
   padding: 16px;
-  flex-wrap: wrap-reverse;
+  flex-wrap: ${({ wrap }) => (wrap ? 'wrap-reverse' : 'nowrap')};
 `;
 
 const StyledDetails = styled('div')`
@@ -85,6 +87,7 @@ interface FileComponentProps {
   required?: boolean;
   label: string;
   handleDownload?: Function;
+  wrap?: boolean;
 }
 
 const ErrorMessage = ({ error, fileTypes }) => {
@@ -125,6 +128,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
   loading,
   error,
   handleDownload,
+  wrap,
 }) => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
@@ -149,6 +153,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
 
   return (
     <StyledContainer
+      wrap={wrap}
       className="file-widget"
       style={{ border: error && '1px solid #E71F1F' }}
     >

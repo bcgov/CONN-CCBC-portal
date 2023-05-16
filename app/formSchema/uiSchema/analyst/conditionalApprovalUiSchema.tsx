@@ -74,6 +74,7 @@ const conditionalApprovalUiSchema = {
       'ui:options': {
         buttonVariant: 'secondary',
         allowMultipleFiles: true,
+        wrap: true,
       },
     },
     letterOfApprovalDateSent: {

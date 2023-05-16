@@ -42,6 +42,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
 
+  const wrap = uiSchema['ui:options']?.wrap ?? false;
   const allowMultipleFiles =
     (uiSchema['ui:options']?.allowMultipleFiles as boolean) ?? false;
   const acceptedFileTypes = (uiSchema['ui:options']?.fileTypes as string) ?? '';
@@ -199,6 +200,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
 
   return (
     <FileComponent
+      wrap={wrap as boolean}
       allowMultipleFiles={allowMultipleFiles as boolean}
       loading={isCreatingAttachment || isDeletingAttachment}
       error={error}
