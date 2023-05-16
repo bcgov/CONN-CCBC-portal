@@ -11,23 +11,18 @@ resources:
       cpu: 500m
       memory: '1Gi'
 
-pgBouncer:
-  requests:
-    cpu: 250m
-    memory: 16Mi
-  limits:
-    cpu: 250m
-    memory: 32Mi
+proxy:
+  pgBouncer:
+    requests:
+      cpu: 250m
+      memory: 16Mi
+    limits:
+      cpu: 250m
+      memory: 32Mi
 
 instances:
-  name: hippo-ha
-  replicas: 3
   requests:
     cpu: 100m
-    memory: 512Mi
-  limits:
-    cpu: 1000m
-    memory: 1Gi
 
 autoscaling:
   enabled: true

@@ -1,3 +1,4 @@
+nameOverride: ccbc
 fullnameOverride: ccbc
 
 replicaCount: 3
@@ -102,15 +103,12 @@ loadTest:
   # These settings enable load testing, which is triggered in a separate helm chart
   enable: false
 
-
-fullnameOverride: ccbc
-
 crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:ubi8-14.7-0
 
 postgresVersion: 14
 
 instances:
-  name: hippo-ha # high availability
+  name: ha # high availability
   replicas: 3
   dataVolumeClaimSpec:
     storage: 2Gi
