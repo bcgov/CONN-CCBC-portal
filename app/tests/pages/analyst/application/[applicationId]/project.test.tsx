@@ -156,10 +156,12 @@ describe('The Project page', () => {
     expect(screen.getByText('BC')).toBeInTheDocument();
     expect(screen.getByText('ISED')).toBeInTheDocument();
     expect(
-      screen.getByText('Letter of conditional approval')
+      screen.getByText("Minister's decision, letter, and response")
     ).toBeInTheDocument();
     expect(screen.getByText(`Applicant's response`)).toBeInTheDocument();
-    expect(screen.getByText('Date sent')).toBeInTheDocument();
+    expect(
+      screen.getByText('Date letter sent to applicant')
+    ).toBeInTheDocument();
     expect(screen.getByText('Status that applicant sees')).toBeInTheDocument();
   });
 
