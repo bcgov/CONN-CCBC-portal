@@ -41,6 +41,14 @@ const moduleExports = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  images: {
+    domains: [
+      'live.staticflickr.com',
+      'news.gov.bc.ca',
+      'gov.bc.ca',
+      'www2.gov.bc.ca',
+    ],
+  },
 };
 
 const sentryWebpackPluginOptions = {
