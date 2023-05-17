@@ -10,7 +10,7 @@ import StyledStatus from './StyledStatus';
 const StyledModal = styled(Modal)`
   display: flex;
   align-items: center;
-  z-index: 2;
+  z-index: 999999;
 `;
 
 const ModalButtons = styled('div')`
