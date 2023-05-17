@@ -5,7 +5,7 @@ metadata:
   name: hippo-ha-pdb
   labels: {{ include "ccbc.labels" . | nindent 4 }}
 spec:
-  minAvailable: {{ sub .Values.instances.replicas 1 }}
+  minAvailable: {{ sub (index .Values "crunchy-postgres" "instances" "replicas") 1 }}
   selector:
     matchLabels:
-      postgres-operator.crunchydata.com/instance-set: {{ .Values.instances.name }}
+      postgres-operator.crunchydata.com/instance-set: {{ (index .Values "crunchy-postgres" "instances" "name") }}
