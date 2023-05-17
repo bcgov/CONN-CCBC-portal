@@ -25,6 +25,7 @@ module.exports = {
       },
     ],
     'arrow-body-style': 0,
+    'no-underscore-dangle' : 0,
     'react/jsx-props-no-spreading': 0,
     'react/jsx-no-useless-fragment': [2, { allowExpressions: true }],
     'react/function-component-definition': [
