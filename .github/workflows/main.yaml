@@ -25,6 +25,64 @@ jobs:
       RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
+  create-release-pr:
+    if: github.event.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+      - name: Set up Git and import GPG key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+        run: |
+          echo "${GPG_PRIVATE_KEY}" | gpg --import
+          git config user.name "CCBC Service Account"
+          git config user.email "ccbc@button.is"
+          git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
+          git config commit.gpgsign true
+      - name: Delete Latest Service Account Tag
+        run: |
+          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          TAG_CREATOR=$(git show --quiet --format="%an" $LATEST_TAG)
+          if [ "$TAG_CREATOR" = "your-service-account-name" ]; then
+              git tag -d $LATEST_TAG
+              git push --delete origin $LATEST_TAG
+          fi
+      - name: Delete and Recreate Branch
+        run: |
+          git branch -D chore/release || true
+          git push origin --delete chore/release || true
+          git checkout -b chore/release
+      - name: Close Previous PRs
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo
+            const prs = await github.pulls.list({ owner, repo, state: 'open', head: 'chore/release' })
+            for (const pr of prs.data) {
+              await github.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
+            }
+      - name: Make Release
+        run: |
+          git checkout chore/release
+          git pull
+          echo '--ci' | make release
+      - name: Create PR
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            await github.rest.pulls.create({
+              owner,
+              repo,
+              title: 'Release PR',
+              head: 'chore/release',
+              base: 'main',
+            });
   deploy:
     if: github.event.ref == 'refs/heads/main'
     needs: [test-code, test-containers]
