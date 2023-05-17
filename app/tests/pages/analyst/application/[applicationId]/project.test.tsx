@@ -56,6 +56,10 @@ const mockJsonDataQueryPayload = {
                   announcementUrl: 'www.test.com',
                   announcementDate: '2023-05-01',
                   announcementType: 'Primary',
+                  otherProjectsInAnnouncement:[
+                    {ccbcNumber:'CCBC-010001'},
+                    {ccbcNumber:'CCBC-010002'}
+                  ]
                 },
                 rowId: 1,
               },
@@ -547,9 +551,13 @@ describe('The Project page', () => {
           announcementUrl: 'https://www.bc.com',
           announcementDate: '2023-05-01',
           announcementType: 'Primary',
+          otherProjectsInAnnouncement:[
+            {ccbcNumber:'CCBC-010001'},
+            {ccbcNumber:'CCBC-010002'}
+          ]
         },
         oldRowId: 1,
-        projectNumbers: 'CCBC-010003',
+        projectNumbers: "CCBC-010003,CCBC-010001,CCBC-010002,",
       },
     });
   });
