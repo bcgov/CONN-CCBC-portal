@@ -54,6 +54,10 @@ const StyledProjectForm = styled(ProjectForm)<EditProps>`
   }
 `;
 
+const StyledAnchor = styled.a`
+  color: #ffffff;
+`;
+
 export const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
   if (!ccbcNumberList || ccbcNumberList?.length === 0) return currentCcbcNumber;
   let projectNumbers = '';
@@ -108,7 +112,7 @@ export const toastContent = (ccbcIds: Array<any>) => {
           href={`/analyst/application/${ccbcId.rowId}/project`}
           passHref
         >
-          <a target="_blank">{ccbcId.ccbcNumber}</a>
+          <StyledAnchor target="_blank">{ccbcId.ccbcNumber}</StyledAnchor>
         </Link>
       </Tooltip>
       {addComma(index, array)}
@@ -305,7 +309,9 @@ const AnnouncementsForm = ({ query }) => {
           zIndex: isFormEditMode ? -1 : 1,
         }}
       />
-      {updatedCcbcItems && <Toast>{updatedCcbcItems}</Toast>}
+      {updatedCcbcItems && (
+        <Toast timeout={100000000}>{updatedCcbcItems}</Toast>
+      )}
     </StyledProjectForm>
   );
 };
