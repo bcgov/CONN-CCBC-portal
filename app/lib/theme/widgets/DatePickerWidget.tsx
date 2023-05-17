@@ -12,6 +12,8 @@ interface StyleProps {
 const StyledContainer = styled('div')`
   width: ${(props) => props.theme.width.inputWidthSmall};
   position: relative;
+  z-index: 99;
+
   div {
     margin: 0px !important;
   }
