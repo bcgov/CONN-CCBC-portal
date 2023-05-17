@@ -56,6 +56,16 @@ jobs:
           git branch -D chore/release || true
           git push origin --delete chore/release || true
           git checkout -b chore/release
+      - name: Close Previous PRs
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo
+            const prs = await github.pulls.list({ owner, repo, state: 'open', head: 'chore/release' })
+            for (const pr of prs.data) {
+              await github.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
+            }
       - name: Make Release
         run: |
           git checkout chore/release
