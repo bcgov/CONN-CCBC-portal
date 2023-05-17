@@ -1,8 +1,13 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { JSONSchema7 } from 'json-schema';
-import Announcement from './Announcement';
+// import Announcement from './Announcement';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import * as Sentry from '@sentry/nextjs';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { DateTime } from 'luxon';
 import AnnouncementsHeader from './AnnouncementsHeader';
 import DeleteModal from './DeleteModal';
 
@@ -14,6 +19,147 @@ const StyledContainer = styled.div`
   background: #ffffff;
   position: relative;
 `;
+
+const StyledAnnouncement = styled.div`
+  font-family: 'BC Sans';
+  font-style: normal;
+  display: grid;
+  grid-template-columns: 10% 50% 35% 5%;
+  grid-gap: 16px;
+  padding: 0px 8px;
+  border-radius: 8px;
+  border-width: 0px 4px;
+  border-style: solid;
+  border-color: #dbe6f0;
+  margin-bottom: 12px;
+`;
+
+const StyledPreview = styled.div`
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-gap: 8px;
+  justify-content: space-between;
+  border-radius: 8px;
+  border: 1px solid #d6d6d6;
+  word-break: break-word;
+  min-width: 0;
+  cursor: pointer;
+`;
+
+const StyledPreviewTitleDescription = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 4px;
+`;
+
+const StyledTitle = styled.div`
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+`;
+
+const StyledDescription = styled.div`
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 14px;
+`;
+
+const StyledLink = styled.a`
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  color: #1a5a96;
+`;
+
+const StyledIconBtn = styled.button`
+  & svg {
+    color: ${(props) => props.theme.color.links};
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+const Announcement = ({
+  announcement,
+  preview,
+  isFormEditMode,
+  setAnnouncementData,
+  setFormData,
+  setIsFormEditMode,
+}) => {
+  const {
+    jsonData: { announcementTitle, announcementDate, announcementUrl },
+  } = announcement;
+
+  const formattedDate = DateTime.fromJSDate(
+    new Date(announcementDate)
+  ).toLocaleString(DateTime.DATE_MED);
+
+  const handlePreviewClick = () => {
+    window.open(announcementUrl, '_blank');
+  };
+
+  return (
+    <StyledAnnouncement>
+      <div>{formattedDate}</div>
+      <StyledPreview onClick={handlePreviewClick}>
+        <Image
+          src={preview.image}
+          alt={announcementTitle}
+          width={300}
+          height={300}
+          style={{ marginRight: '8px' }}
+        />
+
+        <StyledPreviewTitleDescription>
+          <StyledTitle>{preview.title}</StyledTitle>
+          <StyledDescription>{preview.description}</StyledDescription>
+        </StyledPreviewTitleDescription>
+      </StyledPreview>
+      <div>
+        <div style={{ fontSize: '14px' }}>
+          Other projects in this announcement
+        </div>
+        <div>
+          {announcement.jsonData.otherProjectsInAnnouncement?.map((project) => {
+            return (
+              <div key={project.id}>
+                <StyledLink
+                  href={`/analyst/application/${project.rowId}`}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {project.ccbcNumber}
+                </StyledLink>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div>
+        {!isFormEditMode && (
+          <StyledIconBtn
+            onClick={() => {
+              setIsFormEditMode(true);
+              setAnnouncementData({
+                id: announcement.id,
+                rowId: announcement.rowId,
+              });
+              setFormData(announcement.jsonData);
+            }}
+            aria-label="Edit announcement"
+            data-testid="project-form-edit-button"
+          >
+            <FontAwesomeIcon icon={faPen} size="xs" />
+          </StyledIconBtn>
+        )}
+      </div>
+    </StyledAnnouncement>
+  );
+};
 
 interface Props {
   ccbcNumber: any;
@@ -43,12 +189,40 @@ const ViewAnnouncements: React.FC<Props> = ({
     jsonData: {},
   });
 
-  const primaryAnnouncements = announcements.filter(
-    (announcement) => announcement?.jsonData.announcementType === 'Primary'
+  const [fullAnnouncements, setFullAnnouncements] = useState([]);
+
+  useEffect(() => {
+    const getLinkPreview = async (a) => {
+      try {
+        const previews = await Promise.all(
+          a.map(async (announcement) => {
+            const url = announcement.jsonData.announcementUrl;
+            const response = await fetch(`/api/announcement/linkPreview`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ url }),
+            });
+            const preview = await response.json();
+            return { ...announcement, preview };
+          })
+        );
+        setFullAnnouncements(previews);
+      } catch (error) {
+        Sentry.captureException(error);
+      }
+    };
+
+    getLinkPreview(announcements);
+  }, [announcements]);
+
+  const primaryAnnouncements = fullAnnouncements.filter(
+    (announcement) => announcement.jsonData.announcementType === 'Primary'
   );
 
-  const secondaryAnnouncements = announcements.filter(
-    (announcement) => announcement?.jsonData.announcementType === 'Secondary'
+  const secondaryAnnouncements = fullAnnouncements.filter(
+    (announcement) => announcement.jsonData.announcementType === 'Secondary'
   );
 
   const isPrimary = primaryAnnouncements.length > 0;
@@ -69,18 +243,15 @@ const ViewAnnouncements: React.FC<Props> = ({
       {isPrimary ? (
         primaryAnnouncements.map((announcement) => {
           return (
-            <div key={`w_${announcement.id}`}>
-              <Announcement
-                key={announcement.id}
-                announcement={announcement}
-                ccbcNumber={ccbcNumber}
-                isFormEditMode={isFormEditMode}
-                setAnnouncementData={setAnnouncementData}
-                setFormData={setFormData}
-                setIsFormEditMode={setIsFormEditMode}
-                handleDelete={handleDelete}
-              />
-            </div>
+            <Announcement
+              key={announcement.id}
+              announcement={announcement}
+              preview={announcement.preview}
+              isFormEditMode={isFormEditMode}
+              setAnnouncementData={setAnnouncementData}
+              setFormData={setFormData}
+              setIsFormEditMode={setIsFormEditMode}
+            />
           );
         })
       ) : (
@@ -90,18 +261,15 @@ const ViewAnnouncements: React.FC<Props> = ({
       {isSecondary ? (
         secondaryAnnouncements.map((announcement) => {
           return (
-            <div key={`w_${announcement.id}`}>
-              <Announcement
-                key={announcement.id}
-                announcement={announcement}
-                ccbcNumber={ccbcNumber}
-                isFormEditMode={isFormEditMode}
-                setAnnouncementData={setAnnouncementData}
-                setFormData={setFormData}
-                setIsFormEditMode={setIsFormEditMode}
-                handleDelete={handleDelete}
-              />
-            </div>
+            <Announcement
+              key={announcement.id}
+              announcement={announcement}
+              preview={announcement.preview}
+              isFormEditMode={isFormEditMode}
+              setAnnouncementData={setAnnouncementData}
+              setFormData={setFormData}
+              setIsFormEditMode={setIsFormEditMode}
+            />
           );
         })
       ) : (

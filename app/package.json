@@ -50,6 +50,7 @@
     "archiver": "^5.3.1",
     "aws-sdk": "2.1358.0",
     "body-parser": "^1.20.0",
+    "cheerio": "^1.0.0-rc.12",
     "connect-pg-simple": "^7.0.0",
     "convict": "^6.2.4",
     "cookie-parser": "^1.4.6",

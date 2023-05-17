@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
+import linkPreview from './backend/lib/linkPreview';
 import readinessTest from './backend/lib/readinessTests';
 import { pgPool } from './backend/lib/setup-pg';
 import config from './config';
@@ -89,6 +90,7 @@ app.prepare().then(async () => {
   server.use('/', s3archive);
   server.use('/', s3download);
   server.use('/', gisUpload);
+  server.use('/', linkPreview);
   server.use('/', login);
   server.use('/', logout);
 
