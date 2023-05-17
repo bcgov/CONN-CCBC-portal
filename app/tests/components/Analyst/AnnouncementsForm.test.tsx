@@ -2,7 +2,9 @@ import { render, screen } from '@testing-library/react';
 import {
   toastContent,
   concatCCBCNumbers,
+  updateStoreAfterDelete
 } from 'components/Analyst/Project/Announcements/AnnouncementsForm';
+
 import GlobalTheme from 'styles/GlobalTheme';
 
 describe('Test pure functions in AnnouncementsForm', () => {
@@ -90,5 +92,31 @@ describe('Test pure functions in AnnouncementsForm', () => {
     expect(
       screen.getByText('Announcement successfully added')
     ).toBeInTheDocument();
+  });
+  
+  it('Test calls made by updateStoreAfterDelete', () => {
+    const relayConnectionId = 'something';
+    const announcement = {id:1};
+    jest.mock('react-relay', () => {
+      return {
+        ConnectionHandler: {
+          deleteNode: jest.fn()
+        }
+      };
+    });
+
+    const mockStore = {
+      get: jest.fn(() =>
+        {
+        return {
+          getLinkedRecords:()=>[]
+        }
+      }), 
+      delete: jest.fn()
+    }
+    updateStoreAfterDelete(mockStore, relayConnectionId, announcement);
+    expect(mockStore.get).toHaveBeenCalledWith(relayConnectionId);
+    expect(mockStore.delete).toHaveBeenCalledWith(announcement.id);
+
   });
 });
