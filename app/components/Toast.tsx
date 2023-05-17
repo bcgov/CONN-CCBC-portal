@@ -60,7 +60,7 @@ const ToastContainer = styled.div<{
   align-items: center;
   padding: 16px;
   position: fixed;
-  bottom: ${(props) => props.theme.spacing.medium};
+  bottom: ${(props) => props.theme.spacing.large};
   ${({ slideDirection }) =>
     slideDirection === 'left' ? 'left' : 'right'}: 24px;
   background-color: ${({ type }) => getBackgroundColor(type)};
