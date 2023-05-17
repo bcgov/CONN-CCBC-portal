@@ -553,4 +553,47 @@ describe('The Project page', () => {
       },
     });
   });
+
+  it('should call the deleteAnnouncement mutation', async () => {
+    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    // Click on the delete button to open the form for the first announcement
+    const deleteButton = screen.getAllByTestId('project-form-delete-button')[1];
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    // observe confirmation dialog
+    expect(screen.getByText('Delete from all projects')).toBeInTheDocument();
+    expect(screen.getByText('Remove from this project')).toBeInTheDocument();
+
+    // delete the announcement
+    const deleteFromAll = screen.getByTestId('delete-from-all-btn');
+    await act(async () => {
+      fireEvent.click(deleteFromAll);
+    });
+
+    // Check if the deleteAnnouncement mutation has been sent
+    pageTestingHelper.expectMutationToBeCalled('deleteAnnouncementMutation', {
+      "input": {
+        "announcementRowId": 2,
+        "applicationRowId": -1
+      }
+    });
+
+    // delete the announcement
+    const deleteFromThis = screen.getByTestId('delete-from-this-btn');
+    await act(async () => {
+      fireEvent.click(deleteFromThis);
+    });
+
+    // Check if the deleteAnnouncement mutation has been sent
+    pageTestingHelper.expectMutationToBeCalled('deleteAnnouncementMutation', {
+      "input": {
+        "announcementRowId": 2,
+        "applicationRowId": 1
+      }
+    });
+  });
 });
