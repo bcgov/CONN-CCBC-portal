@@ -1,3 +1,19 @@
+# [1.68.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.67.0...v1.68.0) (2023-05-17)
+
+### Bug Fixes
+
+- ccbc id widget invisible colour ([9271933](https://github.com/bcgov/CONN-CCBC-portal/commit/9271933af990bd2186f3f77c70dac1b1bc2db6ea))
+- datepicker and select widget error clearing ([185a62a](https://github.com/bcgov/CONN-CCBC-portal/commit/185a62accbfdf50dbb7e201b54d3f53436e30473))
+- toast rerenders after every submit and has high z-index ([985cd9f](https://github.com/bcgov/CONN-CCBC-portal/commit/985cd9f490fccf4c9882a0412c7bfbf5b8b8a4a3))
+- url widget error clearing ([0fb623b](https://github.com/bcgov/CONN-CCBC-portal/commit/0fb623b84cb9f7492e646951de8adc79fa660378))
+
+### Features
+
+- button wraps to top on expand ([1700eee](https://github.com/bcgov/CONN-CCBC-portal/commit/1700eee2005be6d213c6b4b5ecc8d9025b42afe8))
+- change ui element titles and allow multiple ([8d18783](https://github.com/bcgov/CONN-CCBC-portal/commit/8d18783d6e107a2fff046ebf945a4cad5cc26a44))
+- only allow save when edit application data has changed ([27d8688](https://github.com/bcgov/CONN-CCBC-portal/commit/27d8688c088623de1a9b2904ba97a046f77c680e))
+- revert ci check ([1966acb](https://github.com/bcgov/CONN-CCBC-portal/commit/1966acbbb14e90d428808e6d832662f37e20d4aa))
+
 # [1.67.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.66.0...v1.67.0) (2023-05-12)
 
 ### Bug Fixes
