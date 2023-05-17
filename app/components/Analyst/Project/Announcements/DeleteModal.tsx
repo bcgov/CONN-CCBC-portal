@@ -77,14 +77,14 @@ const DeleteModal = ({ id, rowId, applicationId, resetFormData }) => {
         </p>
         <ModalButtons>
           <Modal.Close>
-            <Button onClick={handleDeleteAll} data-testid="Delete-from-all-btn">
+            <Button onClick={handleDeleteAll} data-testid="delete-from-all-btn">
               Delete from all projects
             </Button>
           </Modal.Close>
           <Modal.Close>
             <Button
               onClick={handleDeleteOne}
-              data-testid="Delete-from-this-btn"
+              data-testid="delete-from-this-btn"
             >
               Remove from this project
             </Button>
