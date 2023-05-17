@@ -43,6 +43,7 @@
     "@mui/material": "^5.12.2",
     "@rjsf/core": "^4.2.0",
     "@sentry/nextjs": "^7.36.0",
+    "@snowplow/browser-tracker": "^3.10.1",
     "@types/formidable": "^2.0.5",
     "@types/styled-components": "^5.1.26",
     "@types/validator": "^13.7.15",

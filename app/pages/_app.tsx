@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
+import { newTracker, trackPageView } from '@snowplow/browser-tracker';
 import { Settings } from 'luxon';
 import * as Sentry from '@sentry/nextjs';
 import type { AppProps } from 'next/app';
@@ -41,6 +42,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
   Settings.defaultZone = 'America/Vancouver';
   Settings.defaultLocale = 'en-CA';
+
+  newTracker('fakeTracker', 'spm.apps.gov.bc.ca', {
+    appId: 'CONN-CCBC',
+  });
+
+  trackPageView();
 
   const [appMounted, setAppMounted] = useState(false);
 
