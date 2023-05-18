@@ -74,22 +74,11 @@ db:
   # A bash script to run in a pre-upgrade hook, in a psql container
   # The script will be run by the postgres user,
   # allowing to clean up any objects created in a previous postMigrationCommand
-  preUpgradeCommand: |
-    psql -v "ON_ERROR_STOP=1" <<EOF
-      drop schema if exists sqitch cascade;
-      drop schema if exists mocks cascade;
-      drop schema if exists ccbc_public cascade;
-      drop schema if exists ccbc_private cascade;
-      drop schema if exists audit cascade;
-    EOF
+  preUpgradeCommand: ~
 
   # A bash script to run after the migrations are deployed, in a psql container
   # The script will be run by the postgres user, allowing to deploy test data, bypassing RLS
-  postMigrationCommand: |
-    sqitch --chdir mocks_schema deploy;
-    for file in data/dev/*.sql; do
-      psql -v "ON_ERROR_STOP=1" -f "${file}";
-    done;
+  postMigrationCommand: ~
 
 loadTest:
   # if true, this will start the app with ENABLE_MOCK_AUTH=true, and deploy the data located in `db/data/perf`
