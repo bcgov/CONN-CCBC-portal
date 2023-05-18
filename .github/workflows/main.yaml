@@ -61,15 +61,15 @@ jobs:
       - name: Close Previous PRs
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo
             console.log(owner)
             const prs = await github.pulls.list({ owner, repo, state: 'open', head: 'ccbc-service-account:chore/release' })
             console.log(prs.length)
-            # for (const pr of prs.data) {
-            #   await github.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
-            # }
+          # for (const pr of prs.data) {
+          #   await github.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
+          # }
       - name: Make Release
         run: |
           git checkout chore/release
@@ -79,6 +79,7 @@ jobs:
       - name: Create PR
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo;
             await github.rest.pulls.create({
