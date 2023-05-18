@@ -43,8 +43,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   Settings.defaultZone = 'America/Vancouver';
   Settings.defaultLocale = 'en-CA';
 
-  newTracker('fakeTracker', 'spm.apps.gov.bc.ca', {
-    appId: 'CONN-CCBC',
+  newTracker('ccbcTracker', 'spm.apps.gov.bc.ca', {
+    appId: 'Snowplow_standalone_NWBC',
   });
 
   trackPageView();
