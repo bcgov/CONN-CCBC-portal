@@ -83,6 +83,7 @@ jobs:
             await github.rest.pulls.create({
               owner,
               repo,
+              title: 'chore: release'
               head: 'chore/release',
               base: 'main',
             });
