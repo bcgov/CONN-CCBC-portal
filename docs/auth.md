@@ -78,7 +78,7 @@ Access control is based on row-level security, where the user is held in the ses
 
 #### Role based access per user
 
-##### Analyst User
+#### Analyst User
 
 The analyst user general has full access control onto each of the applications, assuming that they have been submitted and their respective intakes have closed.
 
