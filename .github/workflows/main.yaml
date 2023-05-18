@@ -65,7 +65,7 @@ jobs:
           script: |
             const { owner, repo } = context.repo
             console.log(owner)
-            const prs = await github.pulls.list({ owner, repo, state: 'open', head: 'ccbc-service-account:chore/release' })
+            const prs = await github.rest.pulls.list({ owner, repo, state: 'open', head: 'ccbc-service-account:chore/release' })
             console.log(prs.length)
           # for (const pr of prs.data) {
           #   await github.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
