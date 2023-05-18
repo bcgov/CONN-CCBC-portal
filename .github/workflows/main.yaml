@@ -43,11 +43,14 @@ jobs:
           git config user.email "ccbc@button.is"
           git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
           git config commit.gpgsign true
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
       - name: Delete Latest Service Account Tag
         run: |
           LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
-          TAG_CREATOR=$(git show --quiet --format="%an" $LATEST_TAG)
-          if [ "$TAG_CREATOR" = "your-service-account-name" ]; then
+          COMMIT_HASH=$(git rev-parse $LATEST_TAG)
+          TAG_CREATOR=$(git log -1 --pretty=format:'%an' $COMMIT_HASH)
+          if [ "$TAG_CREATOR" = "CCBC Service Account" ]; then
               git tag -d $LATEST_TAG
               git push --delete origin $LATEST_TAG
           fi
@@ -55,31 +58,34 @@ jobs:
         run: |
           git branch -D chore/release || true
           git push origin --delete chore/release || true
+          git checkout main
           git checkout -b chore/release
       - name: Close Previous PRs
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo
-            const prs = await github.pulls.list({ owner, repo, state: 'open', head: 'chore/release' })
+            const prs = await github.rest.pulls.list({ owner, repo, state: 'open', head: 'bcgov:chore/release' })
             for (const pr of prs.data) {
               await github.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
             }
       - name: Make Release
         run: |
           git checkout chore/release
+          git push --set-upstream origin chore/release
           git pull
           echo '--ci' | make release
       - name: Create PR
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
           script: |
-            const { owner, repo } = context.repo;
+            const { owner, repo } = context.repo
             await github.rest.pulls.create({
               owner,
               repo,
-              title: 'Release PR',
+              title: 'chore: release',
               head: 'chore/release',
               base: 'main',
             });
