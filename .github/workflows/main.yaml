@@ -61,7 +61,7 @@ jobs:
       - name: Close Previous PRs
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo
             console.log(owner)
@@ -79,7 +79,7 @@ jobs:
       - name: Create PR
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo;
             await github.rest.pulls.create({
