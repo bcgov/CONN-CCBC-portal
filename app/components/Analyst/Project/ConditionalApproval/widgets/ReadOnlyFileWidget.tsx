@@ -21,6 +21,7 @@ const StyledFileDiv = styled('div')`
 const StyledLink = styled.button`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
+  word-break: break-word;
 `;
 
 const handleDownload = async (uuid, fileName) => {
