@@ -68,7 +68,7 @@ jobs:
             const { owner, repo } = context.repo
             const prs = await github.rest.pulls.list({ owner, repo, state: 'open', head: 'bcgov:chore/release' })
             for (const pr of prs.data) {
-              await github.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
+              await github.rest.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
             }
       - name: Make Release
         run: |
