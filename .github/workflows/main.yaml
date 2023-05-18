@@ -48,8 +48,9 @@ jobs:
       - name: Delete Latest Service Account Tag
         run: |
           LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
-          TAG_CREATOR=$(git show --quiet --format="%an" $LATEST_TAG)
-          if [ "$TAG_CREATOR" = "ccbc-service-account" ]; then
+          COMMIT_HASH=$(git rev-parse $LATEST_TAG)
+          TAG_CREATOR=$(git log -1 --prettty=format="%an" $COMMIT_HASH)
+          if [ "$TAG_CREATOR" = "CCBC Service Account" ]; then
               git tag -d $LATEST_TAG
               git push --delete origin $LATEST_TAG
           fi
@@ -65,7 +66,7 @@ jobs:
           script: |
             const { owner, repo } = context.repo
             console.log(owner)
-            const prs = await github.rest.pulls.list({ owner, repo, state: 'open', head: 'ccbc-service-account:chore/release' })
+            const prs = await github.rest.pulls.list({ owner, repo, state: 'open', head: 'chore/release' })
             console.log(prs.length)
           # for (const pr of prs.data) {
           #   await github.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
