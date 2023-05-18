@@ -49,7 +49,7 @@ jobs:
         run: |
           LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
           COMMIT_HASH=$(git rev-parse $LATEST_TAG)
-          TAG_CREATOR=$(git log -1 --prettty=format="%an" $COMMIT_HASH)
+          TAG_CREATOR=$(git log -1 --prettty=format='%an' $COMMIT_HASH)
           if [ "$TAG_CREATOR" = "CCBC Service Account" ]; then
               git tag -d $LATEST_TAG
               git push --delete origin $LATEST_TAG
