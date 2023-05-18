@@ -1,0 +1,106 @@
+name: Deploy to OpenShift
+description: 'Login and deploy to OpenShift'
+
+inputs:
+  openshift_server_url:
+    description: 'URL of the OpenShift server'
+    required: true
+  openshift_token:
+    description: 'Unique login token for OpenShift'
+    required: true
+  openshift_app_namespace:
+    description: 'The namespace being deployed to'
+    required: true
+  openshift_metabase_namespace:
+    description: 'The metabase namespace being deployed to'
+    required: false
+  openshift_metabase_prod_namespace:
+    description: 'The metabase prod namespace allowing us to connect dev and test databases'
+    required: false
+  tag:
+    description: 'the sha value from the latest build'
+    required: true
+  client_secret:
+    description: 'Client secret for sso keycloak login'
+    required: true
+  secure_route:
+    description: 'Domain where the application can be accessed securely'
+    required: true
+  next_public_growthbook_api_key:
+    description: 'Growthbook API key'
+    required: true
+  aws_s3_bucket:
+    description: 'AWS S3 bucket name'
+    required: true
+  aws_clam_s3_bucket:
+    description: 'AWS Clam AV Bucket Name'
+    required: true
+  aws_s3_region:
+    description: 'AWS S3 region'
+    required: true
+  aws_s3_key:
+    description: 'AWS S3 key'
+    required: true
+  aws_s3_secret_key:
+    description: 'AWS S3 secret key'
+    required: true
+  aws_role_arn:
+    description: 'AWS role ARN'
+    required: true
+  certbot_email:
+    description: 'Certbot Email for Cert Registration'
+    required: false
+  certbot_server:
+    description: 'Certbot ACME Server URL'
+    required: false
+  environment:
+    description: 'Environment to set specific helm values file'
+    required: true
+  enable_load_test:
+    description: 'Deploy the application in load test mode'
+    required: false
+    default: false
+
+runs:
+  using: composite
+  steps:
+    - name: Authenticate, set context and run deploy script
+      uses: redhat-actions/oc-login@v1
+      with:
+        openshift_server_url: ${{ inputs.openshift_server_url }}
+        openshift_token: ${{ inputs.openshift_token }}
+        openshift_app_namespace: ${{ inputs.openshift_app_namespace }}
+        openshift_metabase_namespace: ${{ inputs.openshift_metabase_namespace }}
+        openshift_metabase_prod_namespace: ${{ inputs.openshift_metabase_prod_namespace }}
+        next_public_growthbook_api_key: ${{ inputs.next_public_growthbook_api_key }}
+        aws_s3_bucket: ${{ inputs.aws_s3_bucket }}
+        aws_s3_region: ${{ inputs.aws_s3_region }}
+        aws_s3_key: ${{ inputs.aws_s3_key }}
+        aws_s3_secret_key: ${{ inputs.aws_s3_secret_key }}
+        aws_role_arn: ${{ inputs.aws_role_arn }}
+        aws_clam_s3_bucket: ${{ inputs.aws_clam_s3_bucket }}
+
+        insecure_skip_tls_verify: true
+    - run: |
+        chmod +x ./lib/app_deploy_hotfix.sh
+        ./lib/app_deploy_hotfix.sh -n ${{ inputs.openshift_app_namespace }} \
+          --set app.namespace=${{ inputs.openshift_app_namespace }} \
+          --set metabase.namespace=${{ inputs.openshift_metabase_namespace }} \
+          --set metabase.prodNamespace=${{ inputs.openshift_metabase_prod_namespace }} \
+          --set image.app.tag=${{ inputs.tag }} \
+          --set image.db.tag=${{ inputs.tag  }} \
+          --set image.app.clientSecret=${{ inputs.client_secret }} \
+          --set secureRoute.host=${{ inputs.secure_route }} \
+          --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
+          --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }} \
+          --set objectStorage.awsClamS3Bucket=${{ inputs.aws_clam_s3_bucket }} \
+          --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }} \
+          --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }} \
+          --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }} \
+          --set objectStorage.awsRoleArn=${{ inputs.aws_role_arn }} \
+          --set certbot.certbot.email=${{ inputs.certbot_email }} \
+          --set certbot.certbot.server=${{ inputs.certbot_server }} \
+          --set loadTest.enable=${{ inputs.enable_load_test }} \
+          --values values-${{ inputs.environment }}.yaml
+
+      shell: bash
