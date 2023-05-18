@@ -85,8 +85,6 @@ runs:
         chmod +x ./lib/app_deploy_hotfix.sh
         ./lib/app_deploy_hotfix.sh -n ${{ inputs.openshift_app_namespace }} \
           --set app.namespace=${{ inputs.openshift_app_namespace }} \
-          --set metabase.namespace=${{ inputs.openshift_metabase_namespace }} \
-          --set metabase.prodNamespace=${{ inputs.openshift_metabase_prod_namespace }} \
           --set image.app.tag=${{ inputs.tag }} \
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
@@ -98,8 +96,6 @@ runs:
           --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }} \
           --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }} \
           --set objectStorage.awsRoleArn=${{ inputs.aws_role_arn }} \
-          --set certbot.certbot.email=${{ inputs.certbot_email }} \
-          --set certbot.certbot.server=${{ inputs.certbot_server }} \
           --set loadTest.enable=${{ inputs.enable_load_test }} \
           --values values-${{ inputs.environment }}.yaml
 
