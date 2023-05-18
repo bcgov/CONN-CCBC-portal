@@ -82,11 +82,11 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { owner, repo } = context.repo;
+            const { owner, repo } = context.repo
             await github.rest.pulls.create({
               owner,
               repo,
-              title: 'chore: release'
+              title: 'chore: release',
               head: 'chore/release',
               base: 'main',
             });
