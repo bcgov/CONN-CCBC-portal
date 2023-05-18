@@ -9,6 +9,7 @@ create or replace function ccbc_public.application_announcements(application ccb
   on app.announcement_id = ad.id 
   where app.application_id = application.id
   and ad.archived_at is null
+  and app.archived_at is null
   order by ad.id;
 
 $$ language sql stable;
