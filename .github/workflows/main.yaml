@@ -43,6 +43,8 @@ jobs:
           git config user.email "ccbc@button.is"
           git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
           git config commit.gpgsign true
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
       - name: Delete Latest Service Account Tag
         run: |
           LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
