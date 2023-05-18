@@ -1,3 +1,17 @@
+# [1.69.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.68.0...v1.69.0) (2023-05-18)
+
+### Bug Fixes
+
+- conditional approval datepicker z-index ([727decf](https://github.com/bcgov/CONN-CCBC-portal/commit/727decf79f206185d7ee041017e27ee6e378a1ca))
+- move toast higher up ([a9f4316](https://github.com/bcgov/CONN-CCBC-portal/commit/a9f43169d76cf25ab3c48427c4ac027dcc73d11d))
+- update release workflow to not close PRs ([33916de](https://github.com/bcgov/CONN-CCBC-portal/commit/33916de9a3f7c8c0ba69c3a19e71b7c769eacfca))
+
+### Features
+
+- add word break on read-only component ([5f62be2](https://github.com/bcgov/CONN-CCBC-portal/commit/5f62be249a4dee48a742af1debe4c6136b8390b7))
+- change link color to white ([6507652](https://github.com/bcgov/CONN-CCBC-portal/commit/6507652bf008ccc7397c55e4f055b2bf9df6d492))
+- workflow to create release PR on merge to main ([8486216](https://github.com/bcgov/CONN-CCBC-portal/commit/8486216b23ec62765bb2cae3c1256e4c515f06ed))
+
 # [1.68.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.67.0...v1.68.0) (2023-05-17)
 
 ### Bug Fixes
