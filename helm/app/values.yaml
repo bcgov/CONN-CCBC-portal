@@ -109,7 +109,7 @@ crunchy-postgres:
   crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:ubi8-14.7-0
   postgresVersion: 14
   instances:
-    name: ha # high availability
+    name: hippo-ha # high availability
     replicas: 3
     dataVolumeClaimSpec:
       storage: 2Gi
@@ -175,7 +175,7 @@ crunchy-postgres:
         cpu: 50m
         memory: 32Mi
   pgmonitor:
-    enabled: false
+    enabled: true
     exporter:
       image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres-exporter:ubi8-5.3.1-0
       requests:
