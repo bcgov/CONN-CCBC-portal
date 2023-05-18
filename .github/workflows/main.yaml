@@ -49,7 +49,7 @@ jobs:
         run: |
           LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
           TAG_CREATOR=$(git show --quiet --format="%an" $LATEST_TAG)
-          if [ "$TAG_CREATOR" = "your-service-account-name" ]; then
+          if [ "$TAG_CREATOR" = "ccbc-service-account" ]; then
               git tag -d $LATEST_TAG
               git push --delete origin $LATEST_TAG
           fi
@@ -65,10 +65,11 @@ jobs:
           script: |
             const { owner, repo } = context.repo
             console.log(owner)
-        # const prs = await github.pulls.list({ owner, repo, state: 'open', head: 'chore/release' })
-        # for (const pr of prs.data) {
-        #   await github.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
-        # }
+            const prs = await github.pulls.list({ owner, repo, state: 'open', head: 'ccbc-service-account:chore/release' })
+            console.log(prs.length)
+            # for (const pr of prs.data) {
+            #   await github.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
+            # }
       - name: Make Release
         run: |
           git checkout chore/release
