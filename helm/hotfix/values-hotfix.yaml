@@ -1,0 +1,15 @@
+db:
+  preUpgradeCommand: |
+    psql -v "ON_ERROR_STOP=1" <<EOF
+      drop schema if exists sqitch cascade;
+      drop schema if exists mocks cascade;
+      drop schema if exists ccbc_public cascade;
+      drop schema if exists ccbc_private cascade;
+      drop schema if exists audit cascade;
+    EOF
+
+  postMigrationCommand: |
+    sqitch --chdir mocks_schema deploy;
+    for file in data/dev/*.sql; do
+      psql -v "ON_ERROR_STOP=1" -f "${file}";
+    done;
