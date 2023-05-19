@@ -11,8 +11,10 @@ interface StyleProps {
 
 const StyledContainer = styled('div')`
   width: ${(props) => props.theme.width.inputWidthSmall};
-  position: relative;
-  z-index: 99;
+
+  .react-datepicker-popper {
+    z-index: 9999;
+  }
 
   div {
     margin: 0px !important;
