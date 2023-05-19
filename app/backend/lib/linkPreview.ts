@@ -2,7 +2,13 @@ import { Router } from 'express';
 import getLinkPreview from '../../utils/getLinkPreview';
 import getAuthRole from '../../utils/getAuthRole';
 
-const allowedHostnames = ['gov.bc.ca', 'canada.ca'];
+const allowedHostnames = [
+  'news.gov.bc.ca',
+  'gov.bc.ca',
+  'canada.ca',
+  'www.canada.ca',
+  'www2.gov.bc.ca',
+];
 
 const linkPreview = Router();
 
@@ -23,8 +29,7 @@ linkPreview.post('/api/announcement/linkPreview', async (req, res) => {
       });
     }
     const preview = await getLinkPreview(
-      `https://${urlObj.hostname}${urlObj.pathname}`,
-      allowedHostnames
+      `https://${urlObj.hostname}${urlObj.pathname}`
     );
     return res.json(preview);
   } catch (e) {
