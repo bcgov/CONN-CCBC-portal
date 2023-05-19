@@ -21,7 +21,7 @@ linkPreview.post('/api/announcement/linkPreview', async (req, res) => {
       image: '/images/noPreview.png',
     });
   }
-  const preview = await getLinkPreview(url, allowedHostnames);
+  const preview = await getLinkPreview(urlObj.toString(), allowedHostnames);
   return res.json(preview);
 });
 

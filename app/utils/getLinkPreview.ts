@@ -32,7 +32,7 @@ async function getLinkPreview(
       image: '/images/noPreview.png',
     };
   }
-  const res = await fetch(url);
+  const res = await fetch(urlObj.toString());
   const html = await res.text();
   const $ = cheerio.load(html);
   const title =
