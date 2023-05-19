@@ -28,21 +28,23 @@ const XIcon = () => (
   </svg>
 );
 
-const DeleteModal = ({ id, rowId, applicationId, resetFormData }) => {
+const DeleteModal = ({ id, announcement, applicationId, resetFormData }) => {
   const [DeleteAnnouncement] = useDeleteAnnouncementMutation();
+  const { rowId, jsonData } = announcement;
 
   const handleDeleteAll = async () => {
     const variables = {
       input: {
         announcementRowId: rowId,
         applicationRowId: -1,
+        formData: jsonData,
       },
     };
     DeleteAnnouncement({
-      variables, 
+      variables,
       updater: (store, data) => {
-        resetFormData(store, data.deleteAnnouncement.announcement)
-      }
+        resetFormData(store, data.deleteAnnouncement.announcement);
+      },
     });
   };
 
@@ -52,13 +54,14 @@ const DeleteModal = ({ id, rowId, applicationId, resetFormData }) => {
       input: {
         announcementRowId: rowId,
         applicationRowId,
+        formData: jsonData,
       },
     };
     DeleteAnnouncement({
-      variables, 
+      variables,
       updater: (store, data) => {
-        resetFormData(store, data.deleteAnnouncement.announcement)
-      }
+        resetFormData(store, data.deleteAnnouncement.announcement);
+      },
     });
   };
 

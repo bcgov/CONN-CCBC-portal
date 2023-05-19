@@ -37,7 +37,11 @@ const ViewAnnouncements: React.FC<Props> = ({
 }) => {
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
-  const [toBeDeleted, setToBeDeleted] = useState(-1);
+  const [toBeDeleted, setToBeDeleted] = useState({
+    rowId: -1,
+    jsonData: {},
+  });
+
   const primaryAnnouncements = announcements.filter(
     (announcement) => announcement?.jsonData.announcementType === 'Primary'
   );
@@ -49,11 +53,15 @@ const ViewAnnouncements: React.FC<Props> = ({
   const isPrimary = primaryAnnouncements.length > 0;
   const isSecondary = secondaryAnnouncements.length > 0;
 
-  const handleDelete = (id: number) => {
-    setToBeDeleted(id);
+  const handleDelete = (announcement) => {
+    setToBeDeleted({
+      rowId: announcement.rowId,
+      jsonData: announcement.jsonData,
+    });
     window.history.replaceState(null, null, ' ');
     window.location.hash = 'delete-announcement';
   };
+
   return (
     <StyledContainer style={style}>
       <AnnouncementsHeader title="Primary news release" />
@@ -98,7 +106,7 @@ const ViewAnnouncements: React.FC<Props> = ({
       )}
       <DeleteModal
         id="delete-announcement"
-        rowId={toBeDeleted}
+        announcement={toBeDeleted}
         applicationId={applicationId}
         resetFormData={resetFormData}
       />

@@ -58,15 +58,6 @@ const StyledAnchor = styled.a`
   color: #ffffff;
 `;
 
-export const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
-  if (!ccbcNumberList || ccbcNumberList?.length === 0) return currentCcbcNumber;
-  let projectNumbers = '';
-  ccbcNumberList.forEach((application) => {
-    projectNumbers += `${application.ccbcNumber},`;
-  });
-  return `${currentCcbcNumber},${projectNumbers}`;
-};
-
 export const updateStoreAfterMutation = (
   store,
   relayConnectionId,
@@ -209,15 +200,19 @@ const AnnouncementsForm = ({ query }) => {
     setFormData({});
     setAnnouncementData(null);
   };
+
   const removeSelfReference = (ccbcList: Array<any>) => {
     return ccbcList?.filter((ccbcId) => ccbcId.ccbcNumber !== ccbcNumber);
   };
+
   const handleSubmit = () => {
     setUpdatedCcbcItems(null);
     hiddenSubmitRef.current.click();
     const ccbcList = formData?.otherProjectsInAnnouncement;
 
-    const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
+    const projectNumbers = ccbcList
+      .map((project) => project.ccbcNumber)
+      .join(', ');
 
     /* eslint-disable no-underscore-dangle */
     const relayConnectionId = announcements.__id;

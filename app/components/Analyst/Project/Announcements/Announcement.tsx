@@ -98,7 +98,7 @@ const Announcement = ({
       <StyledText>{projectNumbers}</StyledText>
       <StyledButton
         key={`rm_${announcement.id}`}
-        onClick={() => handleDelete(announcement.rowId)}
+        onClick={() => handleDelete(announcement)}
         data-testid="project-form-delete-button"
       >
         X
