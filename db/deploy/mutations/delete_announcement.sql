@@ -2,7 +2,7 @@
 
 begin;
 
-create or replace function ccbc_public.delete_announcement(announcement_row_id int, application_row_id int, json_data jsonb) returns ccbc_public.announcement as $$
+create or replace function ccbc_public.delete_announcement(announcement_row_id int, application_row_id int, form_data jsonb) returns ccbc_public.announcement as $$
 declare
     user_sub varchar;
     user_id int;
@@ -16,7 +16,7 @@ begin
         update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id
             where announcement_id = announcement_row_id;
     else
-        update ccbc_public.announcement set json_data = json_data
+        update ccbc_public.announcement set json_data = form_data
             where id = announcement_row_id;
         update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id
             where announcement_id = announcement_row_id and application_id = application_row_id;
