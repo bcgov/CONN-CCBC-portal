@@ -40501,6 +40501,7 @@ input DeleteAnnouncementInput {
   clientMutationId: String
   announcementRowId: Int!
   applicationRowId: Int!
+  jsonData: JSON!
 }
 
 """The output of our `importApplicationAnalystLead` mutation."""
