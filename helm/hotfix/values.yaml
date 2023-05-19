@@ -1,4 +1,4 @@
-fullnameOverride: ccbc-hotfix
+fullnameOverride: hotfix
 
 replicaCount: 3
 
@@ -67,7 +67,7 @@ objectStorage:
   awsRoleArn: '' # The value must be passed in via the deploy script
 
 db:
-  name: ccbc-hotfix
+  name: hotfix
   appUser: ccbc_app
   readonlyUser: ccbc_readonly
 
