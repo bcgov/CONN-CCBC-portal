@@ -68,6 +68,7 @@ const StyledButton = styled.button`
 
 const Announcement = ({
   handleDelete,
+  ccbcNumber,
   announcement,
   isFormEditMode,
   setAnnouncementData,
@@ -75,9 +76,8 @@ const Announcement = ({
   setIsFormEditMode,
 }) => {
   const ccbcList = announcement.jsonData?.otherProjectsInAnnouncement;
-  const projectNumbers = ccbcList
-    .map((project) => project.ccbcNumber)
-    .join(', ');
+  const projectNumbers =
+    ccbcList?.map((project) => project.ccbcNumber).join(', ') || ccbcNumber;
 
   return (
     <StyledAnnouncement>

@@ -28,7 +28,13 @@ const XIcon = () => (
   </svg>
 );
 
-const DeleteModal = ({ id, announcement, applicationId, resetFormData }) => {
+const DeleteModal = ({
+  id,
+  announcement,
+  applicationId,
+  currentApplicationCcbcNumber,
+  resetFormData,
+}) => {
   const [DeleteAnnouncement] = useDeleteAnnouncementMutation();
   const { rowId, jsonData } = announcement;
 
@@ -40,6 +46,7 @@ const DeleteModal = ({ id, announcement, applicationId, resetFormData }) => {
         formData: jsonData,
       },
     };
+
     DeleteAnnouncement({
       variables,
       updater: (store, data) => {
@@ -49,12 +56,23 @@ const DeleteModal = ({ id, announcement, applicationId, resetFormData }) => {
   };
 
   const handleDeleteOne = async () => {
+    // Remove the current application from the list of projects
+    const updatedProjectData = jsonData.otherProjectsInAnnouncement?.filter(
+      (project) => {
+        return project.ccbcNumber !== currentApplicationCcbcNumber;
+      }
+    );
+    const newFormData = {
+      ...jsonData,
+      otherProjectsInAnnouncement: updatedProjectData,
+    };
+
     const applicationRowId = parseInt(applicationId, 10);
     const variables = {
       input: {
         announcementRowId: rowId,
         applicationRowId,
-        formData: jsonData,
+        formData: newFormData,
       },
     };
     DeleteAnnouncement({

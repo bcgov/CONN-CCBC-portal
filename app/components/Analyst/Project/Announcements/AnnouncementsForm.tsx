@@ -210,9 +210,9 @@ const AnnouncementsForm = ({ query }) => {
     hiddenSubmitRef.current.click();
     const ccbcList = formData?.otherProjectsInAnnouncement;
 
-    const projectNumbers = ccbcList
-      .map((project) => project.ccbcNumber)
-      .join(', ');
+    /*   const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList); */
+    const projectNumbers =
+      ccbcList?.map((project) => project.ccbcNumber).join(',') || ccbcNumber;
 
     /* eslint-disable no-underscore-dangle */
     const relayConnectionId = announcements.__id;

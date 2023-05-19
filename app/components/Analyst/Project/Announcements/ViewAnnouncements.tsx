@@ -28,6 +28,7 @@ interface Props {
 
 const ViewAnnouncements: React.FC<Props> = ({
   announcements,
+  ccbcNumber,
   isFormEditMode,
   setAnnouncementData,
   setFormData,
@@ -72,6 +73,7 @@ const ViewAnnouncements: React.FC<Props> = ({
               <Announcement
                 key={announcement.id}
                 announcement={announcement}
+                ccbcNumber={ccbcNumber}
                 isFormEditMode={isFormEditMode}
                 setAnnouncementData={setAnnouncementData}
                 setFormData={setFormData}
@@ -92,6 +94,7 @@ const ViewAnnouncements: React.FC<Props> = ({
               <Announcement
                 key={announcement.id}
                 announcement={announcement}
+                ccbcNumber={ccbcNumber}
                 isFormEditMode={isFormEditMode}
                 setAnnouncementData={setAnnouncementData}
                 setFormData={setFormData}
@@ -106,6 +109,7 @@ const ViewAnnouncements: React.FC<Props> = ({
       )}
       <DeleteModal
         id="delete-announcement"
+        currentApplicationCcbcNumber={ccbcNumber}
         announcement={toBeDeleted}
         applicationId={applicationId}
         resetFormData={resetFormData}
