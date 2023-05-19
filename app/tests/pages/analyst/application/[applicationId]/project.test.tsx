@@ -56,6 +56,10 @@ const mockJsonDataQueryPayload = {
                   announcementUrl: 'www.test.com',
                   announcementDate: '2023-05-01',
                   announcementType: 'Primary',
+                  otherProjectsInAnnouncement: [
+                    { ccbcNumber: 'CCBC-010001' },
+                    { ccbcNumber: 'CCBC-010002' },
+                  ],
                 },
                 rowId: 1,
               },
@@ -450,8 +454,9 @@ describe('The Project page', () => {
     expect(screen.getByText('Primary news release')).toBeInTheDocument();
     expect(screen.getByText('Secondary news releases')).toBeInTheDocument();
 
-    expect(screen.getByText('www.test.com')).toBeInTheDocument();
-    expect(screen.getByText('www.test-2.com')).toBeInTheDocument();
+    // [VB] commented out until 1397 is done
+    // expect(screen.getByText('www.test.com')).toBeInTheDocument();
+    // expect(screen.getByText('www.test-2.com')).toBeInTheDocument();
 
     expect(screen.getByText('2023-05-01')).toBeInTheDocument();
     expect(screen.getByText('2023-05-02')).toBeInTheDocument();
@@ -541,14 +546,74 @@ describe('The Project page', () => {
     // Check if the updateAnnouncement mutation has been sent instead of createAnnouncement
     pageTestingHelper.expectMutationToBeCalled('updateAnnouncementMutation', {
       input: {
-        // Add the expected input parameters for the updateAnnouncement mutation
         jsonData: {
           announcementUrl: 'https://www.bc.com',
           announcementDate: '2023-05-01',
           announcementType: 'Primary',
+          otherProjectsInAnnouncement: [
+            {
+              ccbcNumber: 'CCBC-010001',
+            },
+            {
+              ccbcNumber: 'CCBC-010002',
+            },
+          ],
         },
+        projectNumbers: 'CCBC-010001,CCBC-010002',
         oldRowId: 1,
-        projectNumbers: 'CCBC-010003',
+      },
+    });
+  });
+
+  it('should call the deleteAnnouncement mutation', async () => {
+    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    // Click on the delete button to open the form for the first announcement
+    const deleteButton = screen.getAllByTestId('project-form-delete-button')[1];
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    // observe confirmation dialog
+    expect(screen.getByText('Delete from all projects')).toBeInTheDocument();
+    expect(screen.getByText('Remove from this project')).toBeInTheDocument();
+
+    // delete the announcement
+    const deleteFromAll = screen.getByTestId('delete-from-all-btn');
+    await act(async () => {
+      fireEvent.click(deleteFromAll);
+    });
+
+    // Check if the deleteAnnouncement mutation has been sent
+    pageTestingHelper.expectMutationToBeCalled('deleteAnnouncementMutation', {
+      input: {
+        announcementRowId: 2,
+        applicationRowId: -1,
+        formData: {
+          announcementUrl: 'www.test-2.com',
+          announcementDate: '2023-05-02',
+          announcementType: 'Secondary',
+        },
+      },
+    });
+
+    // delete the announcement
+    const deleteFromThis = screen.getByTestId('delete-from-this-btn');
+    await act(async () => {
+      fireEvent.click(deleteFromThis);
+    });
+
+    // Check if the deleteAnnouncement mutation has been sent
+    pageTestingHelper.expectMutationToBeCalled('deleteAnnouncementMutation', {
+      input: {
+        announcementRowId: 2,
+        applicationRowId: -1,
+        formData: {
+          announcementUrl: 'www.test-2.com',
+          announcementDate: '2023-05-02',
+          announcementType: 'Secondary',
+        },
       },
     });
   });

@@ -1,8 +1,10 @@
 import styled from 'styled-components';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { JSONSchema7 } from 'json-schema';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import Announcement from './Announcement';
 import AnnouncementsHeader from './AnnouncementsHeader';
+import DeleteModal from './DeleteModal';
 
 const StyledEmpty = styled.div`
   margin: 8px 0;
@@ -13,70 +15,11 @@ const StyledContainer = styled.div`
   position: relative;
 `;
 
-const StyledAnnouncement = styled.div`
-  display: flex;
-  flex - direction: column;
-  margin: 8px 0;
-
-  ${(props) => props.theme.breakpoint.smallUp} {
-  flex - direction: row;
-  align - items: center;
-}
-
-  & div {
-  margin - left: 16px;
-}
-`;
-
-const StyledIconBtn = styled.button`
-  margin-left: 8px;
-
-  & svg {
-    color: ${(props) => props.theme.color.links};
-  }
-
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-const Announcement = ({
-  announcement,
-  isFormEditMode,
-  setAnnouncementData,
-  setFormData,
-  setIsFormEditMode,
-}) => {
-  const {
-    jsonData: { announcementUrl, announcementDate },
-  } = announcement;
-  return (
-    <StyledAnnouncement>
-      <div>{announcementUrl}</div>
-      <div>{announcementDate}</div>
-      {!isFormEditMode && (
-        <StyledIconBtn
-          onClick={() => {
-            setIsFormEditMode(true);
-            setAnnouncementData({
-              id: announcement.id,
-              rowId: announcement.rowId,
-            });
-            setFormData(announcement.jsonData);
-          }}
-          aria-label="Edit announcement"
-          data-testid="project-form-edit-button"
-        >
-          <FontAwesomeIcon icon={faPen} size="xs" />
-        </StyledIconBtn>
-      )}
-    </StyledAnnouncement>
-  );
-};
-
 interface Props {
+  ccbcNumber: any;
   announcements: any;
   style?: any;
+  resetFormData?: (store: any, announcementData: any) => void;
   isFormEditMode: boolean;
   setAnnouncementData: (announcementId: string) => void;
   setFormData: (formData: JSONSchema7) => void;
@@ -85,22 +28,40 @@ interface Props {
 
 const ViewAnnouncements: React.FC<Props> = ({
   announcements,
+  ccbcNumber,
   isFormEditMode,
   setAnnouncementData,
   setFormData,
   setIsFormEditMode,
   style,
+  resetFormData,
 }) => {
+  const router = useRouter();
+  const applicationId = router.query.applicationId as string;
+  const [toBeDeleted, setToBeDeleted] = useState({
+    rowId: -1,
+    jsonData: {},
+  });
+
   const primaryAnnouncements = announcements.filter(
-    (announcement) => announcement.jsonData.announcementType === 'Primary'
+    (announcement) => announcement?.jsonData.announcementType === 'Primary'
   );
 
   const secondaryAnnouncements = announcements.filter(
-    (announcement) => announcement.jsonData.announcementType === 'Secondary'
+    (announcement) => announcement?.jsonData.announcementType === 'Secondary'
   );
 
   const isPrimary = primaryAnnouncements.length > 0;
   const isSecondary = secondaryAnnouncements.length > 0;
+
+  const handleDelete = (announcement) => {
+    setToBeDeleted({
+      rowId: announcement.rowId,
+      jsonData: announcement.jsonData,
+    });
+    window.history.replaceState(null, null, ' ');
+    window.location.hash = 'delete-announcement';
+  };
 
   return (
     <StyledContainer style={style}>
@@ -108,14 +69,18 @@ const ViewAnnouncements: React.FC<Props> = ({
       {isPrimary ? (
         primaryAnnouncements.map((announcement) => {
           return (
-            <Announcement
-              key={announcement.id}
-              announcement={announcement}
-              isFormEditMode={isFormEditMode}
-              setAnnouncementData={setAnnouncementData}
-              setFormData={setFormData}
-              setIsFormEditMode={setIsFormEditMode}
-            />
+            <div key={`w_${announcement.id}`}>
+              <Announcement
+                key={announcement.id}
+                announcement={announcement}
+                ccbcNumber={ccbcNumber}
+                isFormEditMode={isFormEditMode}
+                setAnnouncementData={setAnnouncementData}
+                setFormData={setFormData}
+                setIsFormEditMode={setIsFormEditMode}
+                handleDelete={handleDelete}
+              />
+            </div>
           );
         })
       ) : (
@@ -125,19 +90,30 @@ const ViewAnnouncements: React.FC<Props> = ({
       {isSecondary ? (
         secondaryAnnouncements.map((announcement) => {
           return (
-            <Announcement
-              key={announcement.id}
-              announcement={announcement}
-              isFormEditMode={isFormEditMode}
-              setAnnouncementData={setAnnouncementData}
-              setFormData={setFormData}
-              setIsFormEditMode={setIsFormEditMode}
-            />
+            <div key={`w_${announcement.id}`}>
+              <Announcement
+                key={announcement.id}
+                announcement={announcement}
+                ccbcNumber={ccbcNumber}
+                isFormEditMode={isFormEditMode}
+                setAnnouncementData={setAnnouncementData}
+                setFormData={setFormData}
+                setIsFormEditMode={setIsFormEditMode}
+                handleDelete={handleDelete}
+              />
+            </div>
           );
         })
       ) : (
         <StyledEmpty>None</StyledEmpty>
       )}
+      <DeleteModal
+        id="delete-announcement"
+        currentApplicationCcbcNumber={ccbcNumber}
+        announcement={toBeDeleted}
+        applicationId={applicationId}
+        resetFormData={resetFormData}
+      />
     </StyledContainer>
   );
 };

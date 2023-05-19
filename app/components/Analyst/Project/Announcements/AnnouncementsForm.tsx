@@ -58,15 +58,6 @@ const StyledAnchor = styled.a`
   color: #ffffff;
 `;
 
-export const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
-  if (!ccbcNumberList || ccbcNumberList?.length === 0) return currentCcbcNumber;
-  let projectNumbers = '';
-  ccbcNumberList.forEach((application) => {
-    projectNumbers += `${application.ccbcNumber},`;
-  });
-  return `${currentCcbcNumber},${projectNumbers}`;
-};
-
 export const updateStoreAfterMutation = (
   store,
   relayConnectionId,
@@ -90,6 +81,20 @@ export const updateStoreAfterMutation = (
     'AnnouncementEdge'
   );
   ConnectionHandler.insertEdgeBefore(connection, edge);
+};
+
+export const updateStoreAfterDelete = (
+  store,
+  relayConnectionId,
+  announcementData
+) => {
+  // Get the connection from the store
+  const connection = store.get(relayConnectionId);
+
+  store.delete(announcementData.id);
+
+  // Remove the old announcement from the connection
+  ConnectionHandler.deleteNode(connection, announcementData.id);
 };
 
 export const toastContent = (ccbcIds: Array<any>) => {
@@ -195,16 +200,21 @@ const AnnouncementsForm = ({ query }) => {
     setFormData({});
     setAnnouncementData(null);
   };
+
   const removeSelfReference = (ccbcList: Array<any>) => {
     return ccbcList?.filter((ccbcId) => ccbcId.ccbcNumber !== ccbcNumber);
   };
+
   const handleSubmit = () => {
     setUpdatedCcbcItems(null);
     hiddenSubmitRef.current.click();
     const ccbcList = formData?.otherProjectsInAnnouncement;
 
-    const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
-    // eslint-disable-next-line no-underscore-dangle
+    /*   const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList); */
+    const projectNumbers =
+      ccbcList?.map((project) => project.ccbcNumber).join(',') || ccbcNumber;
+
+    /* eslint-disable no-underscore-dangle */
     const relayConnectionId = announcements.__id;
     if (isErrors) return;
     if (!announcementData?.rowId) {
@@ -245,6 +255,13 @@ const AnnouncementsForm = ({ query }) => {
         },
       });
     }
+  };
+
+  const handleReloadData = (store, deletedAnnouncementData) => {
+    handleResetFormData();
+    /* eslint-disable no-underscore-dangle */
+    const relayConnectionId = announcements.__id;
+    updateStoreAfterDelete(store, relayConnectionId, deletedAnnouncementData);
   };
 
   // Filter out this application CCBC ID
@@ -300,6 +317,8 @@ const AnnouncementsForm = ({ query }) => {
       saveDataTestId="save-announcement"
     >
       <ViewAnnouncements
+        resetFormData={handleReloadData}
+        ccbcNumber={ccbcNumber}
         announcements={announcementsList}
         isFormEditMode={isFormEditMode}
         setAnnouncementData={setAnnouncementData}

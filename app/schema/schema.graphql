@@ -33794,22 +33794,6 @@ type Mutation {
     input: DeleteAnalystByRowIdInput!
   ): DeleteAnalystPayload
 
-  """Deletes a single `Announcement` using its globally unique id."""
-  deleteAnnouncement(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAnnouncementInput!
-  ): DeleteAnnouncementPayload
-
-  """Deletes a single `Announcement` using a unique key."""
-  deleteAnnouncementByRowId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteAnnouncementByRowIdInput!
-  ): DeleteAnnouncementPayload
-
   """
   Deletes a single `ApplicationAnalystLead` using its globally unique id.
   """
@@ -34257,6 +34241,12 @@ type Mutation {
     """
     input: CreateUserFromSessionInput!
   ): CreateUserFromSessionPayload
+  deleteAnnouncement(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteAnnouncementInput!
+  ): DeleteAnnouncementPayload
   importApplicationAnalystLead(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -38635,65 +38625,6 @@ input DeleteAnalystByRowIdInput {
   rowId: Int!
 }
 
-"""The output of our delete `Announcement` mutation."""
-type DeleteAnnouncementPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `Announcement` that was deleted by this mutation."""
-  announcement: Announcement
-  deletedAnnouncementId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """Reads a single `CcbcUser` that is related to this `Announcement`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Announcement`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Announcement`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `Announcement`. May be used by Relay 1."""
-  announcementEdge(
-    """The method to use when ordering `Announcement`."""
-    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AnnouncementsEdge
-}
-
-"""All input for the `deleteAnnouncement` mutation."""
-input DeleteAnnouncementInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `Announcement` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteAnnouncementByRowId` mutation."""
-input DeleteAnnouncementByRowIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The unique id of the announcement data"""
-  rowId: Int!
-}
-
 """The output of our delete `ApplicationAnalystLead` mutation."""
 type DeleteApplicationAnalystLeadPayload {
   """
@@ -40529,6 +40460,48 @@ input CreateUserFromSessionInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+}
+
+"""The output of our `deleteAnnouncement` mutation."""
+type DeleteAnnouncementPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  announcement: Announcement
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Announcement`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `Announcement`. May be used by Relay 1."""
+  announcementEdge(
+    """The method to use when ordering `Announcement`."""
+    orderBy: [AnnouncementsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): AnnouncementsEdge
+}
+
+"""All input for the `deleteAnnouncement` mutation."""
+input DeleteAnnouncementInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  announcementRowId: Int!
+  applicationRowId: Int!
+  formData: JSON!
 }
 
 """The output of our `importApplicationAnalystLead` mutation."""
