@@ -14,7 +14,7 @@ begin
         update ccbc_public.announcement set archived_at = now(), archived_by = user_id
             where id = announcement_row_id;
         update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id
-            where announcement_id = announcement_row_id;
+            where announcement_id = announcement_row_id and archived_at is null;
     else
         update ccbc_public.announcement set json_data = form_data
             where id = announcement_row_id;
