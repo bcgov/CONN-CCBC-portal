@@ -6,6 +6,8 @@ interface LinkPreview {
   image: string;
 }
 
+const allowedHostnames = ['gov.bc.ca', 'canada.ca'];
+
 const handleImage = (og: string, twitter: string) => {
   // prefer bc gov hosted images if possible
   if (og && twitter) {
@@ -22,7 +24,7 @@ const handleImage = (og: string, twitter: string) => {
 
 async function getLinkPreview(url: string): Promise<LinkPreview> {
   const urlObj = new URL(url);
-  if (urlObj.hostname !== 'gov.bc.ca' && urlObj.hostname !== 'canada.ca') {
+  if (!allowedHostnames.includes(urlObj.hostname)) {
     return {
       title: 'No preview available',
       description: 'No preview available',
