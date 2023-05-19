@@ -2,6 +2,8 @@ import { Router } from 'express';
 import getLinkPreview from '../../utils/getLinkPreview';
 import getAuthRole from '../../utils/getAuthRole';
 
+const allowedHostnames = ['gov.bc.ca', 'canada.ca'];
+
 const linkPreview = Router();
 
 linkPreview.post('/api/announcement/linkPreview', async (req, res) => {
@@ -11,7 +13,15 @@ linkPreview.post('/api/announcement/linkPreview', async (req, res) => {
     return res.status(404).end();
   }
   const { url } = req.body;
-  const preview = await getLinkPreview(url);
+  const urlObj = new URL(url);
+  if (!allowedHostnames.includes(urlObj.hostname)) {
+    return res.json({
+      title: 'No preview available',
+      description: 'No preview available',
+      image: '/images/noPreview.png',
+    });
+  }
+  const preview = await getLinkPreview(url, allowedHostnames);
   return res.json(preview);
 });
 
