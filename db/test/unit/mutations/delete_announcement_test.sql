@@ -22,7 +22,7 @@ insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
   ('foo1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111111'),
   ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111112');
-  
+
 
 set role ccbc_auth_user;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
@@ -40,8 +40,8 @@ insert into ccbc_public.application
 -- set two applications to received
 insert into ccbc_public.application_status
  (application_id, status) values (1,'received'), (2, 'received');
- 
--- set role to analyst and create announcement 
+
+-- set role to analyst and create announcement
 set role ccbc_analyst;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
 
@@ -69,7 +69,7 @@ select results_eq(
 
 select lives_ok(
   $$
-    select ccbc_public.delete_announcement(1, -1);
+    select ccbc_public.delete_announcement(1, -1, '{}');
   $$,
   'Delete announcement for all applications'
 );
@@ -107,7 +107,7 @@ select results_eq(
 -- test selective delete
 select ccbc_public.create_announcement('CCBC-010001,CCBC-010002','{"announcementType":"Secondary"}'::jsonb);
 
-select ccbc_public.delete_announcement(2, 1);
+select ccbc_public.delete_announcement(2, 1, '{}');
 
 select results_eq(
   $$
