@@ -19,27 +19,30 @@ const StyledContainer = styled.div`
 
 const StyledAnnouncement = styled.div`
   display: flex;
-  flex - direction: column;
+  flex-direction: column;
   margin: 8px 0;
 
   ${(props) => props.theme.breakpoint.smallUp} {
-  flex - direction: row;
-  align - items: center;
-}
+    flex-direction: row;
+    align-items: center;
+  }
 
   & div {
-  margin - left: 16px;
-}
+    margin-left: 16px;
+  }
 `;
+
 const StyledDate = styled.div`
   float: left;
   min-width: 100px;
 `;
+
 const StyledIcon = styled.div`
   float: left;
   min-width: 100px;
   margin-left: 1em;
 `;
+
 const StyledIconBtn = styled.button`
   margin-left: 8px;
   & svg {
@@ -51,6 +54,7 @@ const StyledIconBtn = styled.button`
     opacity: 0.7;
   }
 `;
+
 const StyledText = styled.div`
   float: left;
   min-width: 300px;
@@ -75,17 +79,8 @@ const StyledButton = styled.button`
     opacity: 0.7;
   }
 `;
-const concatCCBCNumbers = (currentCcbcNumber, ccbcNumberList) => {
-  if (!ccbcNumberList || ccbcNumberList?.length === 0) return currentCcbcNumber;
-  let projectNumbers = '';
-  ccbcNumberList.forEach((application) => {
-    projectNumbers += `${application.ccbcNumber},`;
-  });
-  return `${currentCcbcNumber},${projectNumbers}`;
-};
 
 const Announcement = ({
-  ccbcNumber,
   handleDelete,
   announcement,
   isFormEditMode,
@@ -94,18 +89,20 @@ const Announcement = ({
   setIsFormEditMode,
 }) => {
   const ccbcList = announcement.jsonData?.otherProjectsInAnnouncement;
-  const projectNumbers = concatCCBCNumbers(ccbcNumber, ccbcList);
+  const projectNumbers = ccbcList
+    .map((project) => project.ccbcNumber)
+    .join(', ');
 
   return (
     <StyledAnnouncement>
       <StyledDate>{announcement.jsonData?.announcementDate}</StyledDate>
       <StyledIcon>
-      <Image  
+        <Image
           src="/icons/bcid-apple-icon.svg"
           alt="Preview"
           height={100}
           width={100}
-        /> 
+        />
       </StyledIcon>
       <StyledText>
         Canada and British Columbia invest over $20 million in infrastructure
@@ -152,7 +149,6 @@ interface Props {
 }
 
 const ViewAnnouncements: React.FC<Props> = ({
-  ccbcNumber,
   announcements,
   isFormEditMode,
   setAnnouncementData,
@@ -190,7 +186,6 @@ const ViewAnnouncements: React.FC<Props> = ({
               <Announcement
                 key={announcement.id}
                 announcement={announcement}
-                ccbcNumber={ccbcNumber}
                 isFormEditMode={isFormEditMode}
                 setAnnouncementData={setAnnouncementData}
                 setFormData={setFormData}
@@ -211,7 +206,6 @@ const ViewAnnouncements: React.FC<Props> = ({
               <Announcement
                 key={announcement.id}
                 announcement={announcement}
-                ccbcNumber={ccbcNumber}
                 isFormEditMode={isFormEditMode}
                 setAnnouncementData={setAnnouncementData}
                 setFormData={setFormData}
