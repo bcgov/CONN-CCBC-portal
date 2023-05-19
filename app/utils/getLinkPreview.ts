@@ -21,6 +21,14 @@ const handleImage = (og: string, twitter: string) => {
 };
 
 async function getLinkPreview(url: string): Promise<LinkPreview> {
+  const urlObj = new URL(url);
+  if (urlObj.hostname !== 'gov.bc.ca' && urlObj.hostname !== 'canada.ca') {
+    return {
+      title: 'No preview available',
+      description: 'No preview available',
+      image: '/images/noPreview.png',
+    };
+  }
   const res = await fetch(url);
   const html = await res.text();
   const $ = cheerio.load(html);
