@@ -56,10 +56,10 @@ const mockJsonDataQueryPayload = {
                   announcementUrl: 'www.test.com',
                   announcementDate: '2023-05-01',
                   announcementType: 'Primary',
-                  otherProjectsInAnnouncement:[
-                    {ccbcNumber:'CCBC-010001'},
-                    {ccbcNumber:'CCBC-010002'}
-                  ]
+                  otherProjectsInAnnouncement: [
+                    { ccbcNumber: 'CCBC-010001' },
+                    { ccbcNumber: 'CCBC-010002' },
+                  ],
                 },
                 rowId: 1,
               },
@@ -546,18 +546,21 @@ describe('The Project page', () => {
     // Check if the updateAnnouncement mutation has been sent instead of createAnnouncement
     pageTestingHelper.expectMutationToBeCalled('updateAnnouncementMutation', {
       input: {
-        // Add the expected input parameters for the updateAnnouncement mutation
         jsonData: {
           announcementUrl: 'https://www.bc.com',
           announcementDate: '2023-05-01',
           announcementType: 'Primary',
-          otherProjectsInAnnouncement:[
-            {ccbcNumber:'CCBC-010001'},
-            {ccbcNumber:'CCBC-010002'}
-          ]
+          otherProjectsInAnnouncement: [
+            {
+              ccbcNumber: 'CCBC-010001',
+            },
+            {
+              ccbcNumber: 'CCBC-010002',
+            },
+          ],
         },
+        projectNumbers: 'CCBC-010001,CCBC-010002',
         oldRowId: 1,
-        projectNumbers: "CCBC-010003,CCBC-010001,CCBC-010002,",
       },
     });
   });
@@ -584,10 +587,15 @@ describe('The Project page', () => {
 
     // Check if the deleteAnnouncement mutation has been sent
     pageTestingHelper.expectMutationToBeCalled('deleteAnnouncementMutation', {
-      "input": {
-        "announcementRowId": 2,
-        "applicationRowId": -1
-      }
+      input: {
+        announcementRowId: 2,
+        applicationRowId: -1,
+        formData: {
+          announcementUrl: 'www.test-2.com',
+          announcementDate: '2023-05-02',
+          announcementType: 'Secondary',
+        },
+      },
     });
 
     // delete the announcement
@@ -598,10 +606,15 @@ describe('The Project page', () => {
 
     // Check if the deleteAnnouncement mutation has been sent
     pageTestingHelper.expectMutationToBeCalled('deleteAnnouncementMutation', {
-      "input": {
-        "announcementRowId": 2,
-        "applicationRowId": 1
-      }
+      input: {
+        announcementRowId: 2,
+        applicationRowId: -1,
+        formData: {
+          announcementUrl: 'www.test-2.com',
+          announcementDate: '2023-05-02',
+          announcementType: 'Secondary',
+        },
+      },
     });
   });
 });

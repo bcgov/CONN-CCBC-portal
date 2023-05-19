@@ -1,39 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import {
   toastContent,
-  concatCCBCNumbers,
-  updateStoreAfterDelete
+  updateStoreAfterDelete,
 } from 'components/Analyst/Project/Announcements/AnnouncementsForm';
 
 import GlobalTheme from 'styles/GlobalTheme';
 
 describe('Test pure functions in AnnouncementsForm', () => {
-  it('Test result of concatCCBCNumbers with valid data', () => {
-    const currentCcbcNumber = 'CCBC-010004';
-    const ccbcNumberList = [
-      { ccbcNumber: 'CCBC-010003' },
-      { ccbcNumber: 'CCBC-010002' },
-      { ccbcNumber: 'CCBC-010001' },
-    ];
-    const result = concatCCBCNumbers(currentCcbcNumber, ccbcNumberList);
-    expect(result).toBe('CCBC-010004,CCBC-010003,CCBC-010002,CCBC-010001,');
-  });
-  it('Test result of concatCCBCNumbers with empty array', () => {
-    const currentCcbcNumber = 'CCBC-010003';
-    const ccbcNumberList = [];
-    const result = concatCCBCNumbers(currentCcbcNumber, ccbcNumberList);
-    expect(result).toBe('CCBC-010003');
-  });
-  it('Test result of concatCCBCNumbers with empty currenctCcbcNumber', () => {
-    const currentCcbcNumber = '';
-    const ccbcNumberList = [
-      { ccbcNumber: 'CCBC-010003' },
-      { ccbcNumber: 'CCBC-010002' },
-      { ccbcNumber: 'CCBC-010001' },
-    ];
-    const result = concatCCBCNumbers(currentCcbcNumber, ccbcNumberList);
-    expect(result).toBe(',CCBC-010003,CCBC-010002,CCBC-010001,');
-  });
   it('renders all links when there are less than three ccbcIds', () => {
     const ccbcIds = [
       { ccbcNumber: '123', rowId: '1' },
@@ -93,30 +66,28 @@ describe('Test pure functions in AnnouncementsForm', () => {
       screen.getByText('Announcement successfully added')
     ).toBeInTheDocument();
   });
-  
+
   it('Test calls made by updateStoreAfterDelete', () => {
     const relayConnectionId = 'something';
-    const announcement = {id:1};
+    const announcement = { id: 1 };
     jest.mock('react-relay', () => {
       return {
         ConnectionHandler: {
-          deleteNode: jest.fn()
-        }
+          deleteNode: jest.fn(),
+        },
       };
     });
 
     const mockStore = {
-      get: jest.fn(() =>
-        {
+      get: jest.fn(() => {
         return {
-          getLinkedRecords:()=>[]
-        }
-      }), 
-      delete: jest.fn()
-    }
+          getLinkedRecords: () => [],
+        };
+      }),
+      delete: jest.fn(),
+    };
     updateStoreAfterDelete(mockStore, relayConnectionId, announcement);
     expect(mockStore.get).toHaveBeenCalledWith(relayConnectionId);
     expect(mockStore.delete).toHaveBeenCalledWith(announcement.id);
-
   });
 });
