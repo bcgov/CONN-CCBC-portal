@@ -78,7 +78,9 @@ const ViewAnnouncements: React.FC<Props> = ({
       }
     };
 
-    getLinkPreview(announcements);
+    getLinkPreview(announcements).catch((error) => {
+      Sentry.captureException(error);
+    });
 
     return () => {
       controller.abort();
