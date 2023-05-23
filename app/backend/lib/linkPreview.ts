@@ -23,7 +23,7 @@ linkPreview.post('/api/announcement/linkPreview', async (req, res) => {
     const urlObj = new URL(url);
     if (!allowedHostnames.includes(urlObj.hostname)) {
       return res.json({
-        title: 'No preview available',
+        title: null,
         description: 'No preview available',
         image: '/images/noPreview.png',
       });
@@ -34,7 +34,7 @@ linkPreview.post('/api/announcement/linkPreview', async (req, res) => {
     return res.json(preview);
   } catch (e) {
     return res.json({
-      title: 'No preview available',
+      title: null,
       description: 'No preview available',
       image: '/images/noPreview.png',
     });
