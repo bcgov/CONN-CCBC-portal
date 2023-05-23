@@ -219,34 +219,42 @@ const ViewAnnouncements: React.FC<Props> = ({
   const [fullAnnouncements, setFullAnnouncements] = useState([]);
 
   useEffect(() => {
+    // need abort controller to cancel fetches when component unmounts
+    let controller = new AbortController();
+    let { signal } = controller;
+
     const getLinkPreview = async (a) => {
       try {
-        if (!a[0]) {
-          setFullAnnouncements([]);
-        } else {
-          const previews = await Promise.all(
-            a.map(async (announcement) => {
-              const url = announcement?.jsonData?.announcementUrl;
-              const response = await fetch(`/api/announcement/linkPreview`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ url }),
-              });
-              const preview = await response.json();
-              return { ...announcement, preview };
-            })
-          );
-          setFullAnnouncements(previews);
-        }
+        // filter any nulls that might result from deleted announcements
+        const filteredA = a.filter((announcement) => announcement !== null);
+        const previews = await Promise.all(
+          filteredA.map(async (announcement) => {
+            const url = announcement?.jsonData?.announcementUrl;
+            controller = new AbortController();
+            signal = controller.signal;
+            const response = await fetch(`/api/announcement/linkPreview`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ url }),
+              signal,
+            });
+            const preview = await response.json();
+            return { ...announcement, preview };
+          })
+        );
+        setFullAnnouncements(previews);
       } catch (error) {
-        console.log(error);
         Sentry.captureException(error);
       }
     };
 
     getLinkPreview(announcements);
+
+    return () => {
+      controller.abort();
+    };
   }, [announcements]);
 
   const primaryAnnouncements = fullAnnouncements.filter(
