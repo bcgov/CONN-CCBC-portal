@@ -13,12 +13,12 @@ begin
     if (application_row_id = -1) then
         update ccbc_public.announcement set archived_at = now(), archived_by = user_id
             where id = announcement_row_id;
-        update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id
+        update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id, history_operation = 'deleted'
             where announcement_id = announcement_row_id and archived_at is null;
     else
         update ccbc_public.announcement set json_data = form_data
             where id = announcement_row_id;
-        update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id
+        update ccbc_public.application_announcement  set archived_at = now(), archived_by = user_id, history_operation = 'deleted'
             where announcement_id = announcement_row_id and application_id = application_row_id;
     end if;
     return (select row(ccbc_public.announcement.*) from ccbc_public.announcement where id = announcement_row_id);
