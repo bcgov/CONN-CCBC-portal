@@ -16,13 +16,13 @@ linkPreview.post('/api/announcement/linkPreview', async (req, res) => {
   const authRole = getAuthRole(req);
   const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
   if (!isRoleAuthorized) {
-    return res.status(404).end();
+    res.status(404).end();
   }
   const { url } = req.body;
   try {
     const urlObj = new URL(url);
     if (!allowedHostnames.includes(urlObj.hostname)) {
-      return res.json({
+      res.json({
         title: null,
         description: 'No preview available',
         image: '/images/noPreview.png',
@@ -31,9 +31,9 @@ linkPreview.post('/api/announcement/linkPreview', async (req, res) => {
     const preview = await getLinkPreview(
       `https://${urlObj.hostname}${urlObj.pathname}`
     );
-    return res.json(preview);
+    res.json(preview);
   } catch (e) {
-    return res.json({
+    res.json({
       title: null,
       description: 'No preview available',
       image: '/images/noPreview.png',
