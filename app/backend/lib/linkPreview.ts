@@ -30,7 +30,9 @@ linkPreview.post('/api/announcement/linkPreview', async (req, res) => {
       } else {
         const preview = await getLinkPreview(
           `https://${urlObj.hostname}${urlObj.pathname}`
-        );
+        ).catch((e) => {
+          throw new Error(e);
+        });
         res.json(preview);
       }
     } catch (e) {
