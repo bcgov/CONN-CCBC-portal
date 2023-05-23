@@ -82,7 +82,27 @@ const StyledIconBtn = styled.button`
   }
 `;
 
+const StyledButton = styled.button`
+  display: flex;
+  align-items: center;
+  color: ${(props) => props.theme.color.links};
+  margin-bottom: '0px';
+  overflow: hidden;
+  max-height: 30px;
+  min-width: 2em;
+  transition: max-height 0.5s;
+
+  & svg {
+    margin-left: 16px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 const Announcement = ({
+  handleDelete,
   announcement,
   preview,
   isFormEditMode,
@@ -94,9 +114,9 @@ const Announcement = ({
     jsonData: { announcementTitle, announcementDate, announcementUrl },
   } = announcement;
 
-  const formattedDate = DateTime.fromJSDate(
-    new Date(announcementDate)
-  ).toLocaleString(DateTime.DATE_MED);
+  const formattedDate = DateTime.fromJSDate(new Date(announcementDate), {
+    zone: 'utc',
+  }).toFormat('MMMM dd, yyyy');
 
   const handlePreviewClick = () => {
     window.open(announcementUrl, '_blank');
@@ -140,6 +160,13 @@ const Announcement = ({
         </div>
       </div>
       <div>
+        <StyledButton
+          key={`rm_${announcement.id}`}
+          onClick={() => handleDelete(announcement)}
+          data-testid="project-form-delete-button"
+        >
+          X
+        </StyledButton>
         {!isFormEditMode && (
           <StyledIconBtn
             onClick={() => {
@@ -194,22 +221,27 @@ const ViewAnnouncements: React.FC<Props> = ({
   useEffect(() => {
     const getLinkPreview = async (a) => {
       try {
-        const previews = await Promise.all(
-          a.map(async (announcement) => {
-            const url = announcement.jsonData.announcementUrl;
-            const response = await fetch(`/api/announcement/linkPreview`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ url }),
-            });
-            const preview = await response.json();
-            return { ...announcement, preview };
-          })
-        );
-        setFullAnnouncements(previews);
+        if (!a[0]) {
+          setFullAnnouncements([]);
+        } else {
+          const previews = await Promise.all(
+            a.map(async (announcement) => {
+              const url = announcement?.jsonData?.announcementUrl;
+              const response = await fetch(`/api/announcement/linkPreview`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url }),
+              });
+              const preview = await response.json();
+              return { ...announcement, preview };
+            })
+          );
+          setFullAnnouncements(previews);
+        }
       } catch (error) {
+        console.log(error);
         Sentry.captureException(error);
       }
     };
@@ -244,6 +276,7 @@ const ViewAnnouncements: React.FC<Props> = ({
         primaryAnnouncements.map((announcement) => {
           return (
             <Announcement
+              handleDelete={handleDelete}
               key={announcement.id}
               announcement={announcement}
               preview={announcement.preview}
@@ -262,6 +295,7 @@ const ViewAnnouncements: React.FC<Props> = ({
         secondaryAnnouncements.map((announcement) => {
           return (
             <Announcement
+              handleDelete={handleDelete}
               key={announcement.id}
               announcement={announcement}
               preview={announcement.preview}
