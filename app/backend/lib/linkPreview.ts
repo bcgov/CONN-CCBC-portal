@@ -17,27 +17,29 @@ linkPreview.post('/api/announcement/linkPreview', async (req, res) => {
   const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
   if (!isRoleAuthorized) {
     res.status(404).end();
-  }
-  const { url } = req.body;
-  try {
-    const urlObj = new URL(url);
-    if (!allowedHostnames.includes(urlObj.hostname)) {
+  } else {
+    const { url } = req.body;
+    try {
+      const urlObj = new URL(url);
+      if (!allowedHostnames.includes(urlObj.hostname)) {
+        res.json({
+          title: null,
+          description: 'No preview available',
+          image: '/images/noPreview.png',
+        });
+      } else {
+        const preview = await getLinkPreview(
+          `https://${urlObj.hostname}${urlObj.pathname}`
+        );
+        res.json(preview);
+      }
+    } catch (e) {
       res.json({
         title: null,
         description: 'No preview available',
         image: '/images/noPreview.png',
       });
     }
-    const preview = await getLinkPreview(
-      `https://${urlObj.hostname}${urlObj.pathname}`
-    );
-    res.json(preview);
-  } catch (e) {
-    res.json({
-      title: null,
-      description: 'No preview available',
-      image: '/images/noPreview.png',
-    });
   }
 });
 
