@@ -6,6 +6,7 @@ import RateLimit from 'express-rate-limit';
 import schema from './gis-schema.json'; 
 import { performQuery } from './graphql';
 import getAuthRole from '../../utils/getAuthRole';
+import { parseForm } from './express-helper';
 
 const limiter = RateLimit({
   windowMs: 1*60*1000, // 1 minute
@@ -52,17 +53,6 @@ const formatAjv =  (data: Record<string, any>, errors: ErrorObject[]) => {
     }
   });
   return {errors: reply};
-};
-
-const parseForm = (form, req) => {
-  return new Promise((resolve, reject) => {
-    form.parse(req, (err, fields, files) => { 
-      if (err) { 
-        return reject(err);
-      } 
-      return resolve(files);
-    });
-  });
 };
 
 // eslint-disable-next-line consistent-return

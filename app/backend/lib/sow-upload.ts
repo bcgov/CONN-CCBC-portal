@@ -5,8 +5,11 @@ import RateLimit from 'express-rate-limit';
 import * as XLSX from 'xlsx'; 
 import getAuthRole from '../../utils/getAuthRole'; 
 import LoadSummaryData from './sow_import/summary_tab';
+import LoadTab1Data from './sow_import/tab_1';
 import LoadTab2Data from './sow_import/tab_2'
-import { ExpressMiddleware } from './express-wrapper';
+import LoadTab7Data from './sow_import/tab_7';
+import LoadTab8Data from './sow_import/tab_8';
+import { ExpressMiddleware, parseForm } from './express-helper';
 
 // see https://docs.sheetjs.com/docs/getting-started/installation/nodejs/#installation
 XLSX.set_fs(fs);
@@ -19,17 +22,6 @@ const limiter = RateLimit({
 });
 
 const sowUpload = Router();
-
-const parseForm = (form, req) => {
-  return new Promise((resolve, reject) => {
-    form.parse(req, (err, fields, files) => { 
-      if (err) { 
-        return reject(err);
-      } 
-      return resolve(files);
-    });
-  });
-}
 
 const processSow: ExpressMiddleware = async (req, res) => { 
   const authRole = getAuthRole(req);
@@ -73,7 +65,9 @@ const processSow: ExpressMiddleware = async (req, res) => {
     if (exportError) {
       return res.status(400).json({ error: exportError }).end();
     }
-  
+    await LoadTab1Data(sowId, wb, '1', req);
+    await LoadTab7Data(sowId, wb, '7', req);
+    await LoadTab8Data(sowId, wb, '8', req);
     return res.status(200).json({result}).end();
   }
   

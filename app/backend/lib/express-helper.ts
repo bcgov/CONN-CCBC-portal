@@ -13,3 +13,14 @@ export type ExpressMiddleware<ReqBody = AnyObject, Res = AnyObject | string, Que
   | ExpressMiddleware<ReqBody, Res, QueryString>
   | Response<any, Record<string, any>>
   | void
+
+  export const parseForm = (form, req) => {
+    return new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => { 
+        if (err) { 
+          return reject(err);
+        } 
+        return resolve(files);
+      });
+    });
+  }
