@@ -25,25 +25,13 @@ linkPreview.post('/api/announcement/linkPreview', limiter, async (req, res) => {
     return res.status(404).end();
   }
   const { url } = req.body;
+  let urlObj;
   try {
-    const urlObj = new URL(url);
-    if (!allowedHostnames.includes(urlObj.hostname)) {
-      return res
-        .status(200)
-        .json({
-          title: null,
-          description: 'No preview available',
-          image: '/images/noPreview.png',
-        })
-        .end();
-    }
-    const preview = await getLinkPreview(
-      `https://${urlObj.hostname}${urlObj.pathname}`
-    ).catch((e) => {
-      throw new Error(e);
-    });
-    return res.status(200).json(preview).end();
+    urlObj = new URL(url);
   } catch (e) {
+    return res.status(400).json({ error: 'Invalid URL' }).end();
+  }
+  if (!allowedHostnames.includes(urlObj.hostname)) {
     return res
       .status(200)
       .json({
@@ -53,6 +41,22 @@ linkPreview.post('/api/announcement/linkPreview', limiter, async (req, res) => {
       })
       .end();
   }
+  const preview = await getLinkPreview(
+    `https://${urlObj.hostname}${urlObj.pathname}`
+  ).catch((e) => {
+    return res.status(400).json({ error: e }).end();
+  });
+  if (preview) {
+    return res.status(200).json(preview).end();
+  }
+  return res
+    .status(200)
+    .json({
+      title: null,
+      description: 'No preview available',
+      image: '/images/noPreview.png',
+    })
+    .end();
 });
 
 export const config = {
