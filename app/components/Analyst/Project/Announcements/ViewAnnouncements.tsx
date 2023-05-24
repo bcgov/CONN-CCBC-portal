@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { JSONSchema7 } from 'json-schema';
+import * as Sentry from '@sentry/nextjs';
+import { useEffect, useState } from 'react';
 import Announcement from './Announcement';
 import AnnouncementsHeader from './AnnouncementsHeader';
 import DeleteModal from './DeleteModal';
@@ -43,12 +44,55 @@ const ViewAnnouncements: React.FC<Props> = ({
     jsonData: {},
   });
 
-  const primaryAnnouncements = announcements.filter(
-    (announcement) => announcement?.jsonData.announcementType === 'Primary'
+  const [fullAnnouncements, setFullAnnouncements] = useState([]);
+
+  useEffect(() => {
+    // need abort controller to cancel fetches when component unmounts
+    let controller = new AbortController();
+    let { signal } = controller;
+
+    const getLinkPreview = async (a) => {
+      try {
+        // filter any nulls that might result from deleted announcements
+        const filteredA = a.filter((announcement) => announcement !== null);
+        const previews = await Promise.all(
+          filteredA.map(async (announcement) => {
+            const url = announcement?.jsonData?.announcementUrl;
+            controller = new AbortController();
+            signal = controller.signal;
+            const response = await fetch(`/api/announcement/linkPreview`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ url }),
+              signal,
+            });
+            const preview = await response.json();
+            return { ...announcement, preview };
+          })
+        );
+        setFullAnnouncements(previews);
+      } catch (error) {
+        Sentry.captureException(error);
+      }
+    };
+
+    getLinkPreview(announcements).catch((error) => {
+      Sentry.captureException(error);
+    });
+
+    return () => {
+      controller.abort();
+    };
+  }, [announcements]);
+
+  const primaryAnnouncements = fullAnnouncements.filter(
+    (announcement) => announcement.jsonData.announcementType === 'Primary'
   );
 
-  const secondaryAnnouncements = announcements.filter(
-    (announcement) => announcement?.jsonData.announcementType === 'Secondary'
+  const secondaryAnnouncements = fullAnnouncements.filter(
+    (announcement) => announcement.jsonData.announcementType === 'Secondary'
   );
 
   const isPrimary = primaryAnnouncements.length > 0;
@@ -69,18 +113,16 @@ const ViewAnnouncements: React.FC<Props> = ({
       {isPrimary ? (
         primaryAnnouncements.map((announcement) => {
           return (
-            <div key={`w_${announcement.id}`}>
-              <Announcement
-                key={announcement.id}
-                announcement={announcement}
-                ccbcNumber={ccbcNumber}
-                isFormEditMode={isFormEditMode}
-                setAnnouncementData={setAnnouncementData}
-                setFormData={setFormData}
-                setIsFormEditMode={setIsFormEditMode}
-                handleDelete={handleDelete}
-              />
-            </div>
+            <Announcement
+              handleDelete={handleDelete}
+              key={announcement.id}
+              announcement={announcement}
+              preview={announcement.preview}
+              isFormEditMode={isFormEditMode}
+              setAnnouncementData={setAnnouncementData}
+              setFormData={setFormData}
+              setIsFormEditMode={setIsFormEditMode}
+            />
           );
         })
       ) : (
@@ -90,18 +132,16 @@ const ViewAnnouncements: React.FC<Props> = ({
       {isSecondary ? (
         secondaryAnnouncements.map((announcement) => {
           return (
-            <div key={`w_${announcement.id}`}>
-              <Announcement
-                key={announcement.id}
-                announcement={announcement}
-                ccbcNumber={ccbcNumber}
-                isFormEditMode={isFormEditMode}
-                setAnnouncementData={setAnnouncementData}
-                setFormData={setFormData}
-                setIsFormEditMode={setIsFormEditMode}
-                handleDelete={handleDelete}
-              />
-            </div>
+            <Announcement
+              handleDelete={handleDelete}
+              key={announcement.id}
+              announcement={announcement}
+              preview={announcement.preview}
+              isFormEditMode={isFormEditMode}
+              setAnnouncementData={setAnnouncementData}
+              setFormData={setFormData}
+              setIsFormEditMode={setIsFormEditMode}
+            />
           );
         })
       ) : (

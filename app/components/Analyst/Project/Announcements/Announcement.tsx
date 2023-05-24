@@ -2,38 +2,77 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { DateTime } from 'luxon';
 
 const StyledAnnouncement = styled.div`
+  font-style: normal;
+  display: grid;
+  grid-template-columns: 10% 50% 33% 7%;
+  grid-gap: 16px;
+  padding: 0px 8px;
+  border-radius: 8px;
+  border-width: 0px 4px;
+  border-style: solid;
+  border-color: #dbe6f0;
+  margin-bottom: 12px;
+`;
+
+const StyledPreview = styled.div`
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-gap: 8px;
+  justify-content: space-between;
+  border-radius: 8px;
+  border: 1px solid #d6d6d6;
+  word-break: break-word;
+  min-width: 0;
+  cursor: pointer;
+`;
+
+const StyledPreviewTitleDescription = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 8px 0;
-
-  ${(props) => props.theme.breakpoint.smallUp} {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  & div {
-    margin-left: 16px;
-  }
+  padding: 8px;
+  gap: 4px;
 `;
 
-const StyledDate = styled.div`
-  float: left;
-  min-width: 100px;
+const StyledTitle = styled.div`
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
-const StyledIcon = styled.div`
-  float: left;
-  min-width: 100px;
-  margin-left: 1em;
+const StyledDescription = styled.div`
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const StyledLink = styled.a`
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  color: #1a5a96;
 `;
 
 const StyledIconBtn = styled.button`
-  margin-left: 8px;
+  font-size: 16px;
+  margin-right: 8px;
+  cursor: pointer;
   & svg {
     color: ${(props) => props.theme.color.links};
-    margin-left: 16px;
   }
 
   &:hover {
@@ -41,22 +80,10 @@ const StyledIconBtn = styled.button`
   }
 `;
 
-const StyledText = styled.div`
-  float: left;
-  min-width: 300px;
-  margin-left: 1em;
-`;
-
 const StyledButton = styled.button`
-  display: flex;
-  align-items: center;
-  color: ${(props) => props.theme.color.links};
-  margin-bottom: '0px';
-  overflow: hidden;
-  max-height: 30px;
-  min-width: 2em;
-  transition: max-height 0.5s;
-
+  font-size: 16px;
+  font-weight: 900;
+  color: red;
   & svg {
     margin-left: 16px;
   }
@@ -68,57 +95,87 @@ const StyledButton = styled.button`
 
 const Announcement = ({
   handleDelete,
-  ccbcNumber,
   announcement,
+  preview,
   isFormEditMode,
   setAnnouncementData,
   setFormData,
   setIsFormEditMode,
 }) => {
-  const ccbcList = announcement.jsonData?.otherProjectsInAnnouncement;
-  const projectNumbers =
-    ccbcList?.map((project) => project.ccbcNumber).join(', ') || ccbcNumber;
+  const {
+    jsonData: { announcementTitle, announcementDate, announcementUrl },
+  } = announcement;
+
+  const formattedDate = DateTime.fromJSDate(new Date(announcementDate), {
+    zone: 'utc',
+  }).toFormat('MMMM dd, yyyy');
+
+  const handlePreviewClick = () => {
+    window.open(announcementUrl, '_blank');
+  };
 
   return (
     <StyledAnnouncement>
-      <StyledDate>{announcement.jsonData?.announcementDate}</StyledDate>
-      <StyledIcon>
+      <div>{formattedDate}</div>
+      <StyledPreview onClick={handlePreviewClick}>
         <Image
-          src="/icons/bcid-apple-icon.svg"
-          alt="Preview"
-          height={100}
-          width={100}
+          src={preview.image}
+          alt={announcementTitle}
+          width={300}
+          height={300}
+          style={{ marginRight: '8px' }}
         />
-      </StyledIcon>
-      <StyledText>
-        Canada and British Columbia invest over $20 million in infrastructure
-        projects across the province to build more resilient, greener
-        communities.
-      </StyledText>
-      <StyledText>{projectNumbers}</StyledText>
-      <StyledButton
-        key={`rm_${announcement.id}`}
-        onClick={() => handleDelete(announcement)}
-        data-testid="project-form-delete-button"
-      >
-        X
-      </StyledButton>
-      {!isFormEditMode && (
-        <StyledIconBtn
-          onClick={() => {
-            setIsFormEditMode(true);
-            setAnnouncementData({
-              id: announcement.id,
-              rowId: announcement.rowId,
-            });
-            setFormData(announcement.jsonData);
-          }}
-          aria-label="Edit announcement"
-          data-testid="project-form-edit-button"
+
+        <StyledPreviewTitleDescription>
+          <StyledTitle>{preview.title || announcementUrl}</StyledTitle>
+          <StyledDescription>{preview.description}</StyledDescription>
+        </StyledPreviewTitleDescription>
+      </StyledPreview>
+      <div>
+        <div style={{ fontSize: '14px' }}>
+          Other projects in this announcement
+        </div>
+        <div>
+          {announcement.jsonData.otherProjectsInAnnouncement?.map((project) => {
+            return (
+              <div key={project.id}>
+                <StyledLink
+                  href={`/analyst/application/${project.rowId}`}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {project.ccbcNumber}
+                </StyledLink>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div>
+        {!isFormEditMode && (
+          <StyledIconBtn
+            onClick={() => {
+              setIsFormEditMode(true);
+              setAnnouncementData({
+                id: announcement.id,
+                rowId: announcement.rowId,
+              });
+              setFormData(announcement.jsonData);
+            }}
+            aria-label="Edit announcement"
+            data-testid="project-form-edit-button"
+          >
+            <FontAwesomeIcon icon={faPen} size="xs" />
+          </StyledIconBtn>
+        )}
+        <StyledButton
+          key={`rm_${announcement.id}`}
+          onClick={() => handleDelete(announcement)}
+          data-testid="project-form-delete-button"
         >
-          <FontAwesomeIcon icon={faPen} size="xs" />
-        </StyledIconBtn>
-      )}
+          X
+        </StyledButton>
+      </div>
     </StyledAnnouncement>
   );
 };

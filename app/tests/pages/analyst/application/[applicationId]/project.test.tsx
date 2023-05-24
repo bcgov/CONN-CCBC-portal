@@ -103,6 +103,17 @@ const mockJsonDataQueryPayload = {
   },
 };
 
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () =>
+      Promise.resolve({
+        title: null,
+        description: 'No preview available',
+        image: '/images/noPreview.png',
+      }),
+  })
+) as jest.Mock;
+
 const pageTestingHelper = new PageTestingHelper<projectQuery>({
   pageComponent: Project,
   compiledQuery: compiledProjectQuery,
@@ -448,8 +459,10 @@ describe('The Project page', () => {
   });
 
   it('should show the announcements', async () => {
-    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
-    pageTestingHelper.renderPage();
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+      pageTestingHelper.renderPage();
+    });
 
     expect(screen.getByText('Primary news release')).toBeInTheDocument();
     expect(screen.getByText('Secondary news releases')).toBeInTheDocument();
@@ -458,8 +471,8 @@ describe('The Project page', () => {
     // expect(screen.getByText('www.test.com')).toBeInTheDocument();
     // expect(screen.getByText('www.test-2.com')).toBeInTheDocument();
 
-    expect(screen.getByText('2023-05-01')).toBeInTheDocument();
-    expect(screen.getByText('2023-05-02')).toBeInTheDocument();
+    expect(screen.getByText('May 01, 2023')).toBeInTheDocument();
+    expect(screen.getByText('May 02, 2023')).toBeInTheDocument();
   });
 
   it('should show the error message for invalid url', async () => {
@@ -519,8 +532,10 @@ describe('The Project page', () => {
   });
 
   it('should send the updateAnnouncement mutation instead of createAnnouncement when updating an existing announcement', async () => {
-    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
-    pageTestingHelper.renderPage();
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+      pageTestingHelper.renderPage();
+    });
 
     // Click on the edit button to open the form for the first announcement
     const editButton = screen.getAllByTestId('project-form-edit-button')[1];
@@ -566,8 +581,10 @@ describe('The Project page', () => {
   });
 
   it('should call the deleteAnnouncement mutation', async () => {
-    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
-    pageTestingHelper.renderPage();
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+      pageTestingHelper.renderPage();
+    });
 
     // Click on the delete button to open the form for the first announcement
     const deleteButton = screen.getAllByTestId('project-form-delete-button')[1];
