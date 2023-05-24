@@ -198,10 +198,7 @@ describe('The Link Preview', () => {
       .send({
         url: 'i-am-not-a-url',
       })
-      .expect(200);
-    expect(response.body.title).toBe(null);
-    expect(response.body.description).toBe('No preview available');
-    expect(response.body.image).toBe('/images/noPreview.png');
-    expect(response.status).toBe(200);
+      .expect(400);
+    expect(response.body.error).toBe('Invalid URL');
   });
 });
