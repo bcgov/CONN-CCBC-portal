@@ -28,24 +28,30 @@ linkPreview.post('/api/announcement/linkPreview', limiter, async (req, res) => {
   try {
     const urlObj = new URL(url);
     if (!allowedHostnames.includes(urlObj.hostname)) {
-      return res.json({
-        title: null,
-        description: 'No preview available',
-        image: '/images/noPreview.png',
-      });
+      return res
+        .status(200)
+        .json({
+          title: null,
+          description: 'No preview available',
+          image: '/images/noPreview.png',
+        })
+        .end();
     }
     const preview = await getLinkPreview(
       `https://${urlObj.hostname}${urlObj.pathname}`
     ).catch((e) => {
       throw new Error(e);
     });
-    return res.json(preview);
+    return res.status(200).json(preview).end();
   } catch (e) {
-    return res.json({
-      title: null,
-      description: 'No preview available',
-      image: '/images/noPreview.png',
-    });
+    return res
+      .status(200)
+      .json({
+        title: null,
+        description: 'No preview available',
+        image: '/images/noPreview.png',
+      })
+      .end();
   }
 });
 
