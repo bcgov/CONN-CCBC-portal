@@ -19,7 +19,7 @@ const allowedHostnames = [
 const linkPreview = Router();
 
 // eslint-disable-next-line consistent-return
-linkPreview.post('/api/announcement/linkPreview', limiter, async (req, res) => {
+linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
   const authRole = getAuthRole(req);
   const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
   if (!isRoleAuthorized) {
@@ -42,22 +42,18 @@ linkPreview.post('/api/announcement/linkPreview', limiter, async (req, res) => {
       })
       .end();
   }
-  const preview = await getLinkPreview(
-    `https://${urlObj.hostname}${urlObj.pathname}`
-  ).catch((e) => {
-    return res.status(400).json({ error: e }).end();
-  });
-  if (preview) {
-    return res.status(200).json(preview).end();
-  }
-  return res
-    .status(200)
-    .json({
-      title: null,
-      description: 'No preview available',
-      image: '/images/noPreview.png',
-    })
-    .end();
+  let preview;
+  (async () => {
+    preview = await getLinkPreview(
+      `https://${urlObj.hostname}${urlObj.pathname}`
+    ).catch((e) => {
+      return res.status(400).json({ error: e }).end();
+    });
+    if (preview) {
+      return res.status(200).json(preview).end();
+    }
+    return res.status(400).json({ error: 'Failed to get a preview' }).end();
+  })();
 });
 
 export const config = {
