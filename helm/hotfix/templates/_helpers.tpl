@@ -82,5 +82,5 @@ app.kubernetes.io/instance: {{ .Release.Name }}
     valueFrom:
       secretKeyRef:
         key: database-app-password
-        name: ccbc
+        name: {{ template "ccbc.fullname" . }}
 {{- end }}
