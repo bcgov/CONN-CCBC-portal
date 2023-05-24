@@ -308,3 +308,4 @@ mutations/delete_announcement 2023-05-08T13:00:07Z ,,, Vladimir <vladimir@button
 computed_columns/application_announcements [computed_columns/application_announcements@1.67.0] 2023-05-18T00:08:11Z ,,, Vladimir <vladimir@button.is> # update application_announcement to skip archived
 @1.69.0 2023-05-19T22:45:23Z ,,, <runner@fv-az482-816> # release v1.69.0
 @1.70.0 2023-05-24T15:48:59Z Marcel Mueller <marcel@m2> # release v1.70.0
+@1.70.1 2023-05-24T16:10:51Z ,,, <runner@fv-az955-500> # release v1.70.1
