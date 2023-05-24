@@ -5,7 +5,6 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 
 const StyledAnnouncement = styled.div`
-  font-family: 'BC Sans';
   font-style: normal;
   display: grid;
   grid-template-columns: 10% 50% 33% 7%;
