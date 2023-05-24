@@ -26,6 +26,10 @@ module.exports = {
     ],
     'arrow-body-style': 0,
     'no-underscore-dangle' : 0,
+    'no-continue': 0,
+    'no-plusplus': 0, 
+    'dot-notation': 0,
+    '@typescript-eslint/dot-notation': 0,
     'react/jsx-props-no-spreading': 0,
     'react/jsx-no-useless-fragment': [2, { allowExpressions: true }],
     'react/function-component-definition': [
