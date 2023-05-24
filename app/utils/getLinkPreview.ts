@@ -21,7 +21,8 @@ const handleImage = (og: string, twitter: string) => {
 };
 
 async function getLinkPreview(url: string): Promise<LinkPreview> {
-  const res = await fetch(url);
+  const urlObj = new URL(url);
+  const res = await fetch(`https://${urlObj.hostname}${urlObj.pathname}`);
   const html = await res.text();
   const $ = cheerio.load(html);
   const title =
