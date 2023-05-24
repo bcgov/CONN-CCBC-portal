@@ -173,11 +173,6 @@ spec:
           image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}
           imagePullPolicy: {{ .Values.image.app.pullPolicy }}
           env: {{ include "ccbc.ccbcAppUserPgEnv" . | nindent 10 }}
-            - name: PGUSER
-              valueFrom:
-                secretKeyRef:
-                  key: user
-                  name: ccbc-pguser-ccbc
             - name: SESSION_SECRET
               valueFrom:
                 secretKeyRef:
