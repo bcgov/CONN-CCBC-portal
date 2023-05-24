@@ -18,6 +18,7 @@ const allowedHostnames = [
 
 const linkPreview = Router();
 
+// eslint-disable-next-line consistent-return
 linkPreview.post('/api/announcement/linkPreview', limiter, async (req, res) => {
   const authRole = getAuthRole(req);
   const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
