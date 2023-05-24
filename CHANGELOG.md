@@ -1,3 +1,47 @@
+# [1.70.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.68.0...v1.70.0) (2023-05-24)
+
+### Bug Fixes
+
+- added tests to increase coverage ([f7ad433](https://github.com/bcgov/CONN-CCBC-portal/commit/f7ad4333c32fd828d8461ebc464282c739f77545))
+- cleanup console.log ([c97f569](https://github.com/bcgov/CONN-CCBC-portal/commit/c97f5697cc1aaad94766e7514821d7689b780fb7))
+- conditional approval datepicker z-index ([727decf](https://github.com/bcgov/CONN-CCBC-portal/commit/727decf79f206185d7ee041017e27ee6e378a1ca))
+- datepicker z-index on project page ([7a5dc4a](https://github.com/bcgov/CONN-CCBC-portal/commit/7a5dc4abb4d48de5a7932aaa6398d772c0503254))
+- delete all announcements bug ([af7f51d](https://github.com/bcgov/CONN-CCBC-portal/commit/af7f51da60be0b2d6d8814f9895a30caeba6a4c0))
+- eslint ([75f6212](https://github.com/bcgov/CONN-CCBC-portal/commit/75f62129941b8d1b722f777ee8abc4fc5a3f8417))
+- manual merge ([9bb6fbe](https://github.com/bcgov/CONN-CCBC-portal/commit/9bb6fbebc6c5ae4d4da0efe61781c90613746860))
+- missing files ([2a7139c](https://github.com/bcgov/CONN-CCBC-portal/commit/2a7139c8b73476edc415a72c671b063e0e69491d))
+- more tests ([876f96c](https://github.com/bcgov/CONN-CCBC-portal/commit/876f96c8aae7f83accd06edf6ec4065fa743cfc0))
+- more tests added ([b6d6762](https://github.com/bcgov/CONN-CCBC-portal/commit/b6d676256f4700d8abf31c5bbed09d09c75ae1cd))
+- move toast higher up ([a9f4316](https://github.com/bcgov/CONN-CCBC-portal/commit/a9f43169d76cf25ab3c48427c4ac027dcc73d11d))
+- reload after delete ([6b738e2](https://github.com/bcgov/CONN-CCBC-portal/commit/6b738e2e341b5b77cae1fbba39029b5a174e838d))
+- rename delete announcement mutation form data input ([7e28b7a](https://github.com/bcgov/CONN-CCBC-portal/commit/7e28b7a521f901d4b14468462c60977e069f6df4))
+- resetFormData params ([92644a2](https://github.com/bcgov/CONN-CCBC-portal/commit/92644a261b6d771b127967db2c9159106d1d2d9b))
+- unused var ([bb0e498](https://github.com/bcgov/CONN-CCBC-portal/commit/bb0e498769bcdb1653fdebe924772e36bc411f2e))
+- update release workflow to not close PRs ([33916de](https://github.com/bcgov/CONN-CCBC-portal/commit/33916de9a3f7c8c0ba69c3a19e71b7c769eacfca))
+- update test ([8f15c7b](https://github.com/bcgov/CONN-CCBC-portal/commit/8f15c7b4e1244b3a0dfb14eb561e217270a255a0))
+- updated application_announcement mutation ([8456d0a](https://github.com/bcgov/CONN-CCBC-portal/commit/8456d0a043b7173f76741cda4404994e90228bf6))
+- updated code to reload ([71e95d2](https://github.com/bcgov/CONN-CCBC-portal/commit/71e95d279d83be8dcba28e086408ead0238b72a8))
+- updated mutation ([b4e713f](https://github.com/bcgov/CONN-CCBC-portal/commit/b4e713f2b596892218a6682a3730cd97a2fe1855))
+- updated schema ([286787e](https://github.com/bcgov/CONN-CCBC-portal/commit/286787e0f7827859c486331fb5c677886fdbbc17))
+- updated schema ([482b440](https://github.com/bcgov/CONN-CCBC-portal/commit/482b4401d7fbc58ca46607be3e0b12794895fd71))
+- updated schema ([9000b79](https://github.com/bcgov/CONN-CCBC-portal/commit/9000b791063ac8b6e48ca464d7a1327dd8800c13))
+- use github.rest ([09eaff0](https://github.com/bcgov/CONN-CCBC-portal/commit/09eaff0e5433adab76211002740dd886c489e2b1))
+
+### Features
+
+- add snowplow tracking ([4deacd9](https://github.com/bcgov/CONN-CCBC-portal/commit/4deacd924fddd36d7a6855d7219f2391e382614c))
+- add word break on read-only component ([5f62be2](https://github.com/bcgov/CONN-CCBC-portal/commit/5f62be249a4dee48a742af1debe4c6136b8390b7))
+- added delete confirmation modal ([fe2b813](https://github.com/bcgov/CONN-CCBC-portal/commit/fe2b813a4fbe7c7869e7daf3b4697e42b412d78c))
+- added delete_announcement mutation ([7a5f465](https://github.com/bcgov/CONN-CCBC-portal/commit/7a5f4654133fac90eb374aa863da605d57271278))
+- added deleteAnnouncement to view ([56e437c](https://github.com/bcgov/CONN-CCBC-portal/commit/56e437c10c1c3e794b724bd67525e3fd4d1d5625))
+- change link color to white ([6507652](https://github.com/bcgov/CONN-CCBC-portal/commit/6507652bf008ccc7397c55e4f055b2bf9df6d492))
+- delete announcement ([329ea91](https://github.com/bcgov/CONN-CCBC-portal/commit/329ea9178ae8fbe7221be11bae7bd756915249ff))
+- pass json data on delete announcement ([6c108e6](https://github.com/bcgov/CONN-CCBC-portal/commit/6c108e670d4146d27ea7fbe6f92ae9be7900d00d))
+- update delete announcement mutation to accept json data ([88a9354](https://github.com/bcgov/CONN-CCBC-portal/commit/88a93544ed9dbdfbb7ccd2d2025638e7f61ec459))
+- update form data on single announcement delete ([fddb1f6](https://github.com/bcgov/CONN-CCBC-portal/commit/fddb1f6f22634922fdbe6aa0e6024982406bbd86))
+- update store after delete ([d3b4ae4](https://github.com/bcgov/CONN-CCBC-portal/commit/d3b4ae40aae2a819acfd8077635027af93e062c3))
+- workflow to create release PR on merge to main ([8486216](https://github.com/bcgov/CONN-CCBC-portal/commit/8486216b23ec62765bb2cae3c1256e4c515f06ed))
+
 # [1.69.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.68.0...v1.69.0) (2023-05-19)
 
 ### Bug Fixes
