@@ -5,10 +5,7 @@ import RateLimit from 'express-rate-limit';
 import * as XLSX from 'xlsx'; 
 import getAuthRole from '../../utils/getAuthRole'; 
 import LoadSummaryData from './sow_import/summary_tab';
-import LoadTab1Data from './sow_import/tab_1';
 import LoadTab2Data from './sow_import/tab_2'
-import LoadTab7Data from './sow_import/tab_7';
-import LoadTab8Data from './sow_import/tab_8';
 import { ExpressMiddleware } from './express-wrapper';
 
 // see https://docs.sheetjs.com/docs/getting-started/installation/nodejs/#installation
