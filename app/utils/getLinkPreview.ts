@@ -20,8 +20,18 @@ const handleImage = (og: string, twitter: string) => {
   return og || twitter || '/images/noPreview.png';
 };
 
-async function getLinkPreview(url: string): Promise<LinkPreview> {
+async function getLinkPreview(
+  url: string,
+  allowedHostnames: string[]
+): Promise<LinkPreview> {
   const urlObj = new URL(url);
+  if (!allowedHostnames.includes(urlObj.hostname)) {
+    return {
+      title: null,
+      description: 'No preview available',
+      image: '/images/noPreview.png',
+    };
+  }
   const res = await fetch(`https://${urlObj.hostname}${urlObj.pathname}`);
   const html = await res.text();
   const $ = cheerio.load(html);

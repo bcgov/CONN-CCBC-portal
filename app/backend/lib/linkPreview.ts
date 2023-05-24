@@ -45,7 +45,8 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
   let preview;
   (async () => {
     preview = await getLinkPreview(
-      `https://${urlObj.hostname}${urlObj.pathname}`
+      `https://${urlObj.hostname}${urlObj.pathname}`,
+      allowedHostnames
     ).catch((e) => {
       return res.status(400).json({ error: e }).end();
     });
