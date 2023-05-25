@@ -319,3 +319,4 @@ tables/sow_tab_2 2023-05-17T17:26:00Z ,,, Vladimir <vladimir@button.is> # add ta
 @1.71.0 2023-05-30T01:15:12Z Marcel Mueller <marcel@m2.local> # release v1.71.0
 tables/sow_tab_1 2023-05-29T14:44:45Z Anthony Bushara <anthony@button.is> # Table to hold the first sow tab from the excel file
 @1.72.0 2023-05-31T21:28:13Z Marcel Mueller <marcel@m2.local> # release v1.72.0
+tables/project_information_data 2023-05-25T20:56:37Z Marcel Mueller <marcel@m2> # form data for project information form
