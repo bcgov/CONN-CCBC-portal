@@ -1,3 +1,37 @@
+# [1.71.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.70.0...v1.71.0) (2023-05-25)
+
+### Bug Fixes
+
+- add catch to getLinkPreview ([97e9309](https://github.com/bcgov/CONN-CCBC-portal/commit/97e9309dc77195f99b3259906f9e8dca3179139f))
+- add extra hostname check to link peview ([fe9a836](https://github.com/bcgov/CONN-CCBC-portal/commit/fe9a8360438554c92b127c123210b9cc0aa546e0))
+- add extra hostnames, remove extra check ([44b66ea](https://github.com/bcgov/CONN-CCBC-portal/commit/44b66ea38f85aef5f264833bf86d109426ebb0d9))
+- add return, add rate limiter ([b9e5615](https://github.com/bcgov/CONN-CCBC-portal/commit/b9e5615cbcd2785a44adb6cb2587bf8277d35626))
+- additional hostname check ([4d3a9cc](https://github.com/bcgov/CONN-CCBC-portal/commit/4d3a9ccf729aab999db6fd81ef2ded92644743ce))
+- catch and throw error ([8b8d221](https://github.com/bcgov/CONN-CCBC-portal/commit/8b8d22131968de700671f3cb5409b1c8a364f091))
+- check url hostname before fetching ([f51cca4](https://github.com/bcgov/CONN-CCBC-portal/commit/f51cca4c902c528aa3a1a7e1898531c4801bd632))
+- construct url, handle invalid url ([bef3d2a](https://github.com/bcgov/CONN-CCBC-portal/commit/bef3d2ab6e3141788bcbc23d4898e8b7d4068805))
+- date and delete logic ([a7b2f4b](https://github.com/bcgov/CONN-CCBC-portal/commit/a7b2f4bf48195d56f6bd43d6799c275ac48432cd))
+- eslint disable consistent-return ([660bb60](https://github.com/bcgov/CONN-CCBC-portal/commit/660bb60387ca83ca940f05fc8a58eb868fe03355))
+- fetch run condition for deletions ([6a78634](https://github.com/bcgov/CONN-CCBC-portal/commit/6a7863459cbad59458a96631f0ecae37b431510f))
+- handle links without protocol ([efaccfd](https://github.com/bcgov/CONN-CCBC-portal/commit/efaccfde586a74e8686c95081d617fffee31efb7))
+- history content duplicate key bug ([8ef35a3](https://github.com/bcgov/CONN-CCBC-portal/commit/8ef35a3e11a6523157173b413f4910616fe5ea28))
+- if else ([425151d](https://github.com/bcgov/CONN-CCBC-portal/commit/425151dda133a8b89528ad37cfe91bf8c1b26bca))
+- remove BC Sans font family ([cf31edf](https://github.com/bcgov/CONN-CCBC-portal/commit/cf31edff315b2d23605fecd3ecbd18bd51b6641e))
+- return status and end ([48096c9](https://github.com/bcgov/CONN-CCBC-portal/commit/48096c912269259b7e265b8b7a9cf5d1b94af3a1))
+- rework try catch ([eef66ea](https://github.com/bcgov/CONN-CCBC-portal/commit/eef66ea5ae587529c218b016f17366eaaeebef7f))
+- url on fetch ([c70c3d0](https://github.com/bcgov/CONN-CCBC-portal/commit/c70c3d01daa9a4185f82d3d65dba0a6b66c385c2))
+- use urlObj instead of url ([4ce662a](https://github.com/bcgov/CONN-CCBC-portal/commit/4ce662af02f7c762ecba4c5d7ce0a4512f17e835))
+- void return ([2f05f95](https://github.com/bcgov/CONN-CCBC-portal/commit/2f05f959e0803532621cb7cee5f99d47b3247a81))
+
+### Features
+
+- add announcement history to history page ([0b840d9](https://github.com/bcgov/CONN-CCBC-portal/commit/0b840d9410fd377e6cdea8e6b78fd713b66f3a18))
+- add support for delete announcement to application history ([c48e840](https://github.com/bcgov/CONN-CCBC-portal/commit/c48e840267403e4e466a5a745dd8aee71b2391f5))
+- button style, null title, long text ([340d1b4](https://github.com/bcgov/CONN-CCBC-portal/commit/340d1b4f09bb237a6600db19560467946b0852e9))
+- enable history tracking for application_history table ([2e5014a](https://github.com/bcgov/CONN-CCBC-portal/commit/2e5014adb1fd479e638cc2e5ac5ae5672d12503f))
+- link preview for announcements ([8ee1385](https://github.com/bcgov/CONN-CCBC-portal/commit/8ee13854cf1b126b0160ae0322fd62eab9382a4a))
+- update history_operation on delete announcement ([354d059](https://github.com/bcgov/CONN-CCBC-portal/commit/354d05936682b86c2df1ab37bd11bbf4f9277070))
+
 # [1.70.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.68.0...v1.70.0) (2023-05-24)
 
 ### Bug Fixes
