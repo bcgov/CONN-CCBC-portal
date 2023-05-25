@@ -176,6 +176,7 @@
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="7" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
          <column autoUpdated="false" defaultValue="false" digits="0" id="8" name="is_primary" nullable="true" remarks="Flag to identify either announcement is primary or secondary" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="'created'::character varying" digits="0" id="9" name="history_operation" nullable="true" remarks="" size="1000" type="varchar" typeCode="12"/>
          <primaryKey column="announcement_id" sequenceNumberInPK="1"/>
          <primaryKey column="application_id" sequenceNumberInPK="2"/>
          <index name="application_announcement_pkey" unique="true">
