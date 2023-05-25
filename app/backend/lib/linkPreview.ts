@@ -28,7 +28,16 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
   const { url } = req.body;
   let urlObj;
   try {
-    urlObj = new URL(url);
+    // attempt to fix url if it doesn't have http or https
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      urlObj = new URL(`https://${url}`);
+    } else {
+      urlObj = new URL(url);
+    }
+    // check if URL has a domain
+    if (!urlObj.hostname.includes('.')) {
+      return res.status(400).json({ error: 'Invalid URL' }).end();
+    }
   } catch (e) {
     return res.status(400).json({ error: 'Invalid URL' }).end();
   }
