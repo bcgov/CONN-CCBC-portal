@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBox,
+  faBullhorn,
   faDotCircle,
   faCheckDouble,
   faClipboardList,
@@ -26,6 +27,7 @@ const StyledIcon = styled.div`
 `;
 
 const iconMap = {
+  application_announcement: faBullhorn,
   application_status: faDotCircle,
   application: faClipboardList,
   form_data: faClipboardList,

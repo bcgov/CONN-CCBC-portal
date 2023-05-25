@@ -77,9 +77,12 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
             (item) => item.tableName === historyItem.tableName
           );
           const prevHistoryItem = prevItems.length > 0 ? prevItems[0] : {};
+
+          // using index + recordId for key as just recordId was causing strange duplicate record bug for delete history item until page refresh
           return (
             <HistoryRow
-              key={recordId}
+              // eslint-disable-next-line react/no-array-index-key
+              key={index + recordId}
               historyItem={historyItem}
               prevHistoryItem={prevHistoryItem}
             />

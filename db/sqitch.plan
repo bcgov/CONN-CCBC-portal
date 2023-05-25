@@ -308,3 +308,9 @@ mutations/delete_announcement 2023-05-08T13:00:07Z ,,, Vladimir <vladimir@button
 computed_columns/application_announcements [computed_columns/application_announcements@1.67.0] 2023-05-18T00:08:11Z ,,, Vladimir <vladimir@button.is> # update application_announcement to skip archived
 @1.69.0 2023-05-19T22:45:23Z ,,, <runner@fv-az482-816> # release v1.69.0
 @1.70.0 2023-05-24T15:48:59Z Marcel Mueller <marcel@m2> # release v1.70.0
+@1.68.0 2023-05-17T13:26:00Z Anthony Bushara <anthony@button.is> # release v1.68.0
+extensions/audit_announcement 2023-05-15T17:58:18Z Marcel Mueller <marcel@m2.local> # enable history tracking for announcement table
+tables/application_announcement_001_operation 2023-05-15T18:59:55Z Marcel Mueller <marcel@m2.local> # add column history_operation
+mutations/update_announcement [mutations/update_announcement@1.67.0] 2023-05-15T19:21:35Z Marcel Mueller <marcel@m2.local> # add support for history_operation column
+computed_columns/application_history [computed_columns/application_history@1.67.0] 2023-05-15T19:27:02Z Marcel Mueller <marcel@m2.local> # add support for announcement history
+mutations/delete_announcement [mutations/delete_announcement@1.68.0] 2023-05-23T17:29:11Z Marcel Mueller <marcel@m2> # add support for announcement history
