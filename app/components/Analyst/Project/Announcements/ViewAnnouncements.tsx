@@ -69,6 +69,17 @@ const ViewAnnouncements: React.FC<Props> = ({
               signal,
             });
             const preview = await response.json();
+            // set fallback in case preview request fails
+            if (preview.error) {
+              return {
+                ...announcement,
+                preview: {
+                  image: '/images/noPreview.png',
+                  title: null,
+                  description: 'No preview available',
+                },
+              };
+            }
             return { ...announcement, preview };
           })
         );
