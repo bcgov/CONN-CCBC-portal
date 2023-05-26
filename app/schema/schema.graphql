@@ -909,6 +909,42 @@ type Query implements Node {
     filter: IntakeFilter
   ): IntakesConnection
 
+  """
+  Reads and enables pagination through a set of `ProjectInformationData`.
+  """
+  allProjectInformationData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ProjectInformationData`."""
+    orderBy: [ProjectInformationDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ProjectInformationDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ProjectInformationDataFilter
+  ): ProjectInformationDataConnection
+
   """Reads and enables pagination through a set of `RecordVersion`."""
   allRecordVersions(
     """Only read the first `n` values of the set."""
@@ -1107,6 +1143,7 @@ type Query implements Node {
   intakeByRowId(rowId: Int!): Intake
   intakeByCcbcIntakeNumber(ccbcIntakeNumber: Int!): Intake
   intakeByApplicationNumberSeqName(applicationNumberSeqName: String!): Intake
+  projectInformationDataByRowId(rowId: Int!): ProjectInformationData
   recordVersionByRowId(rowId: BigInt!): RecordVersion
   rfiDataByRowId(rowId: Int!): RfiData
   rfiDataStatusTypeByName(name: String!): RfiDataStatusType
@@ -1341,6 +1378,16 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `Intake`."""
     id: ID!
   ): Intake
+
+  """
+  Reads a single `ProjectInformationData` using its globally unique `ID`.
+  """
+  projectInformationData(
+    """
+    The globally unique `ID` to be used in selecting a single `ProjectInformationData`.
+    """
+    id: ID!
+  ): ProjectInformationData
 
   """Reads a single `RecordVersion` using its globally unique `ID`."""
   recordVersion(
@@ -3364,6 +3411,114 @@ type CcbcUser implements Node {
     """
     filter: ApplicationAnnouncementFilter
   ): ApplicationAnnouncementsConnection!
+
+  """
+  Reads and enables pagination through a set of `ProjectInformationData`.
+  """
+  projectInformationDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ProjectInformationData`."""
+    orderBy: [ProjectInformationDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ProjectInformationDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ProjectInformationDataFilter
+  ): ProjectInformationDataConnection!
+
+  """
+  Reads and enables pagination through a set of `ProjectInformationData`.
+  """
+  projectInformationDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ProjectInformationData`."""
+    orderBy: [ProjectInformationDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ProjectInformationDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ProjectInformationDataFilter
+  ): ProjectInformationDataConnection!
+
+  """
+  Reads and enables pagination through a set of `ProjectInformationData`.
+  """
+  projectInformationDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ProjectInformationData`."""
+    orderBy: [ProjectInformationDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ProjectInformationDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ProjectInformationDataFilter
+  ): ProjectInformationDataConnection!
 
   """Reads and enables pagination through a set of `ApplicationSowData`."""
   applicationSowDataByCreatedBy(
@@ -14983,6 +15138,9 @@ type Application implements Node {
 
   """Computed column to return the intake number for an application"""
   package: Int
+
+  """Computed column to return project information data"""
+  projectInformation: ProjectInformationData
 
   """Computed column to display the project name"""
   projectName: String
@@ -38059,6 +38217,14 @@ type Mutation {
     input: CreateHistoryItemInput!
   ): CreateHistoryItemPayload
 
+  """Creates a single `ProjectInformationData`."""
+  createProjectInformationData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateProjectInformationDataInput!
+  ): CreateProjectInformationDataPayload
+
   """Creates a single `RecordVersion`."""
   createRecordVersion(
     """
@@ -38562,6 +38728,26 @@ type Mutation {
   ): UpdateIntakePayload
 
   """
+  Updates a single `ProjectInformationData` using its globally unique id and a patch.
+  """
+  updateProjectInformationData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateProjectInformationDataInput!
+  ): UpdateProjectInformationDataPayload
+
+  """
+  Updates a single `ProjectInformationData` using a unique key and a patch.
+  """
+  updateProjectInformationDataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateProjectInformationDataByRowIdInput!
+  ): UpdateProjectInformationDataPayload
+
+  """
   Updates a single `RecordVersion` using its globally unique id and a patch.
   """
   updateRecordVersion(
@@ -39021,6 +39207,24 @@ type Mutation {
     input: DeleteGisDataByRowIdInput!
   ): DeleteGisDataPayload
 
+  """
+  Deletes a single `ProjectInformationData` using its globally unique id.
+  """
+  deleteProjectInformationData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteProjectInformationDataInput!
+  ): DeleteProjectInformationDataPayload
+
+  """Deletes a single `ProjectInformationData` using a unique key."""
+  deleteProjectInformationDataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteProjectInformationDataByRowIdInput!
+  ): DeleteProjectInformationDataPayload
+
   """Deletes a single `RecordVersion` using its globally unique id."""
   deleteRecordVersion(
     """
@@ -39144,6 +39348,12 @@ type Mutation {
     """
     input: CreatePackageInput!
   ): CreatePackagePayload
+  createProjectInformation(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateProjectInformationInput!
+  ): CreateProjectInformationPayload
   createRfi(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -40883,6 +41093,88 @@ input HistoryItemInput {
 
   """User is an external analyst"""
   externalAnalyst: Boolean
+}
+
+"""The output of our create `ProjectInformationData` mutation."""
+type CreateProjectInformationDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ProjectInformationData` that was created by this mutation."""
+  projectInformationData: ProjectInformationData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ProjectInformationData`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ProjectInformationData`. May be used by Relay 1."""
+  projectInformationDataEdge(
+    """The method to use when ordering `ProjectInformationData`."""
+    orderBy: [ProjectInformationDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ProjectInformationDataEdge
+}
+
+"""All input for the create `ProjectInformationData` mutation."""
+input CreateProjectInformationDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ProjectInformationData` to be created by this mutation."""
+  projectInformationData: ProjectInformationDataInput!
+}
+
+"""An input for mutations affecting `ProjectInformationData`"""
+input ProjectInformationDataInput {
+  """The foreign key of an application"""
+  applicationId: Int
+
+  """The json form data of the project information form"""
+  jsonData: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """The output of our create `RecordVersion` mutation."""
@@ -43567,6 +43859,114 @@ input UpdateIntakeByApplicationNumberSeqNameInput {
   applicationNumberSeqName: String!
 }
 
+"""The output of our update `ProjectInformationData` mutation."""
+type UpdateProjectInformationDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ProjectInformationData` that was updated by this mutation."""
+  projectInformationData: ProjectInformationData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ProjectInformationData`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ProjectInformationData`. May be used by Relay 1."""
+  projectInformationDataEdge(
+    """The method to use when ordering `ProjectInformationData`."""
+    orderBy: [ProjectInformationDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ProjectInformationDataEdge
+}
+
+"""All input for the `updateProjectInformationData` mutation."""
+input UpdateProjectInformationDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ProjectInformationData` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `ProjectInformationData` being updated.
+  """
+  projectInformationDataPatch: ProjectInformationDataPatch!
+}
+
+"""
+Represents an update to a `ProjectInformationData`. Fields that are set will be updated.
+"""
+input ProjectInformationDataPatch {
+  """The foreign key of an application"""
+  applicationId: Int
+
+  """The json form data of the project information form"""
+  jsonData: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""All input for the `updateProjectInformationDataByRowId` mutation."""
+input UpdateProjectInformationDataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ProjectInformationData` being updated.
+  """
+  projectInformationDataPatch: ProjectInformationDataPatch!
+
+  """Unique id for the row"""
+  rowId: Int!
+}
+
 """The output of our update `RecordVersion` mutation."""
 type UpdateRecordVersionPayload {
   """
@@ -45400,6 +45800,76 @@ input DeleteGisDataByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our delete `ProjectInformationData` mutation."""
+type DeleteProjectInformationDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ProjectInformationData` that was deleted by this mutation."""
+  projectInformationData: ProjectInformationData
+  deletedProjectInformationDataId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ProjectInformationData`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ProjectInformationData`. May be used by Relay 1."""
+  projectInformationDataEdge(
+    """The method to use when ordering `ProjectInformationData`."""
+    orderBy: [ProjectInformationDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ProjectInformationDataEdge
+}
+
+"""All input for the `deleteProjectInformationData` mutation."""
+input DeleteProjectInformationDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ProjectInformationData` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteProjectInformationDataByRowId` mutation."""
+input DeleteProjectInformationDataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """Unique id for the row"""
+  rowId: Int!
+}
+
 """The output of our delete `RecordVersion` mutation."""
 type DeleteRecordVersionPayload {
   """
@@ -46016,6 +46486,58 @@ input CreatePackageInput {
   clientMutationId: String
   _applicationId: Int!
   _package: Int
+}
+
+"""The output of our `createProjectInformation` mutation."""
+type CreateProjectInformationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  projectInformationData: ProjectInformationData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ProjectInformationData`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ProjectInformationData`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ProjectInformationData`. May be used by Relay 1."""
+  projectInformationDataEdge(
+    """The method to use when ordering `ProjectInformationData`."""
+    orderBy: [ProjectInformationDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ProjectInformationDataEdge
+}
+
+"""All input for the `createProjectInformation` mutation."""
+input CreateProjectInformationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  _applicationId: Int!
+  _jsonData: JSON!
 }
 
 """The output of our `createRfi` mutation."""
