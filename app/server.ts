@@ -20,15 +20,18 @@ import graphQlMiddleware from './backend/lib/graphql';
 import s3archive from './backend/lib/s3archive';
 import s3download from './backend/lib/s3download';
 import gisUpload from './backend/lib/gis-upload';
+import sowUpload from './backend/lib/sow-upload';
 import logout from './backend/lib/logout';
 import login from './backend/lib/login';
 import s3adminArchive from './backend/lib/s3admin-archive';
 import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
 
-const unless = (path, middleware) => {
+// Function to exclude middleware from certain routes
+// The paths argument takes an array of strings containing routes to exclude from the middleware
+const unless = (paths, middleware) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   return (req, res, nexthandler) => {
-    if (path === req.path) {
+    if (paths.includes(req.path)) {
       return nexthandler();
     }
     return middleware(req, res, nexthandler);
@@ -81,7 +84,9 @@ app.prepare().then(async () => {
 
   server.use(await ssoMiddleware());
 
-  server.use(unless('/api/analyst/gis', graphqlUploadExpress()));
+  server.use(
+    unless(['/api/analyst/sow', '/api/analyst/gis'], graphqlUploadExpress())
+  );
 
   server.use(graphQlMiddleware());
   server.use(headersMiddleware());
@@ -91,6 +96,7 @@ app.prepare().then(async () => {
   server.use('/', s3download);
   server.use('/', gisUpload);
   server.use('/', linkPreview);
+  server.use('/', sowUpload);
   server.use('/', login);
   server.use('/', logout);
 
