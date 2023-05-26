@@ -11,6 +11,7 @@ application
 analyst
 announcement
 gis_data
+application_sow_data
 rfi_data
 application_status
 form_data
@@ -20,6 +21,7 @@ application_form_data
 application_rfi_data
 application_package
 conditional_approval_data
+sow_tab_2
 application_analyst_lead
 application_announcement
 application_gis_data
