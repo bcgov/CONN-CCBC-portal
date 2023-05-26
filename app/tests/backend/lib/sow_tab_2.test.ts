@@ -199,7 +199,7 @@ describe('sow_tab_2', () => {
     const wb = XLSX.read(null); 
 
     await LoadTab2Data(1,wb,'2', request);
-    expect(performQuery).toBeCalledWith( expect.anything(), expectedInput, expect.anything());
+    expect(performQuery).toHaveBeenCalledWith( expect.anything(), expectedInput, expect.anything());
   });
   
   afterEach(() => {
