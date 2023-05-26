@@ -53,7 +53,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
   if (missingSheet.length > 0) {
     return res.status(400).json({ error: `missing required sheet ${missingSheet}. Found ${JSON.stringify(wb.SheetNames)}`}).end();
   }
-  const result = await LoadSummaryData(wb, req);
+  const result = await LoadSummaryData(wb, 'Summary_Sommaire', req);
 
   let exportError;
   if (result) {
