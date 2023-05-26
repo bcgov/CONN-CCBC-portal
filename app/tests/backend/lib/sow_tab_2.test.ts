@@ -24,9 +24,9 @@ describe('sow_tab_2', () => {
       { a: 1, b: 2, c: 3 }
     ]);
     const wb = XLSX.read(null); 
-    // This call will use XLSX mocks
+
     const data = await LoadTab2Data(1,wb,'2', request);
-    console.log(data);  
+
     expect(data).toEqual({error:'no data found for Tab 2'});
   });
   
