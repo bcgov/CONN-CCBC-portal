@@ -7,6 +7,7 @@ import projectInformationUiSchema from 'formSchema/uiSchema/analyst/projectInfor
 import projectInformationReadOnlyUiSchema from 'formSchema/uiSchema/analyst/projectInformationReadOnlyUiSchema';
 import { useCreateProjectInformationMutation } from 'schema/mutations/project/createProjectInformation';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
+import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 
 const ProjectInformationForm = ({ application }) => {
   const queryFragment = useFragment(
@@ -67,8 +68,11 @@ const ProjectInformationForm = ({ application }) => {
       }
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
+      saveBtnText="Save & Import Data"
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-    />
+    >
+      {!isFormEditMode && <MetabaseLink />}
+    </ProjectForm>
   );
 };
 

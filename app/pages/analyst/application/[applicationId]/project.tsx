@@ -8,7 +8,7 @@ import { projectQuery } from '__generated__/projectQuery.graphql';
 import { useFeature } from '@growthbook/growthbook-react';
 import ConditionalApprovalForm from 'components/Analyst/Project/ConditionalApproval/ConditionalApprovalForm';
 import AnnouncementsForm from 'components/Analyst/Project/Announcements/AnnouncementsForm';
-import ProjectInformationForm from 'components/Analyst/Project/ProjectInformationForm';
+import ProjectInformationForm from 'components/Analyst/Project/ProjectInformation/ProjectInformationForm';
 
 const getProjectQuery = graphql`
   query projectQuery($rowId: Int!) {
