@@ -3,11 +3,11 @@ const projectInformationUiSchema = {
     'ui:title': 'Has the funding agreement been signed by the province?',
     'ui:widget': 'RadioWidget',
   },
+  dateFundingAgreementSigned: {
+    'ui:title': 'Date funding agreement signed by the province',
+    'ui:widget': 'DatePickerWidget',
+  },
   main: {
-    dateFundingAgreementSigned: {
-      'ui:title': 'Date funding agreement signed by the province',
-      'ui:widget': 'DatePickerWidget',
-    },
     fundingAgreementUpload: {
       'ui:widget': 'FileWidget',
     },

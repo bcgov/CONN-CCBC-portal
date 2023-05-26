@@ -28,7 +28,8 @@ const projectInformationReadOnlyUiSchema = {
     },
   },
   dateFundingAgreementSigned: {
-    'ui:widget': 'DatePickerWidget',
+    'ui:title': 'Date funding agreement signed by recipient',
+    'ui:widget': 'ReadOnlyWidget',
   },
 };
 

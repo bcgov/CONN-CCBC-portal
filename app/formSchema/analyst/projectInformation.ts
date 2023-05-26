@@ -9,6 +9,9 @@ const projectInformation: JSONSchema7 = {
       title: 'Has the funding agreement been signed?',
       type: 'boolean',
     },
+    dateFundingAgreementSigned: {
+      type: 'string',
+    },
     main: {
       title: '',
       type: 'object',
@@ -18,9 +21,6 @@ const projectInformation: JSONSchema7 = {
         'statementOfWorkUpload',
       ],
       properties: {
-        dateFundingAgreementSigned: {
-          type: 'string',
-        },
         fundingAgreementUpload: {
           title:
             'Upload the Funding Agreement signed by both the Recipient & Province',

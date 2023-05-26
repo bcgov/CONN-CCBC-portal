@@ -1,6 +1,7 @@
 import { ThemeProps, utils } from '@rjsf/core';
 import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
 import * as widgets from 'lib/theme/widgets';
+import ReadOnlyWidget from 'components/Analyst/Project/ConditionalApproval/widgets/ReadOnlyWidget';
 import ReadOnlyFileWidget from 'components/Analyst/Project/ProjectInformation/widgets/ReadOnlyFileWidget';
 import { StatusSelectWidget } from './ConditionalApproval/widgets';
 import ProjectFieldTemplate from './fields/ProjectFieldTemplate';
@@ -17,6 +18,7 @@ const ProjectTheme: ThemeProps = {
   },
   widgets: {
     ...widgets,
+    ReadOnlyWidget,
     ReadOnlyFileWidget,
     StatusSelectWidget,
     CcbcIdWidget,
