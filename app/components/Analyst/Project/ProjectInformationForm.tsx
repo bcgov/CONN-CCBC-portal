@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
 import projectInformationSchema from 'formSchema/analyst/projectInformation';
+import projectInformationReadOnlySchema from 'formSchema/analyst/projectInformationReadOnly';
 import projectInformationUiSchema from 'formSchema/uiSchema/analyst/projectInformationUiSchema';
+import projectInformationReadOnlyUiSchema from 'formSchema/uiSchema/analyst/projectInformationReadOnlyUiSchema';
 import { useCreateProjectInformationMutation } from 'schema/mutations/project/createProjectInformation';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 
@@ -52,9 +54,17 @@ const ProjectInformationForm = ({ application }) => {
       }}
       isFormEditMode={isFormEditMode}
       title="Project information"
-      schema={projectInformationSchema}
+      schema={
+        isFormEditMode
+          ? projectInformationSchema
+          : projectInformationReadOnlySchema
+      }
       theme={ProjectTheme}
-      uiSchema={projectInformationUiSchema}
+      uiSchema={
+        isFormEditMode
+          ? projectInformationUiSchema
+          : projectInformationReadOnlyUiSchema
+      }
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
