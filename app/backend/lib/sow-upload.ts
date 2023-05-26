@@ -45,9 +45,9 @@ const processSow: ExpressMiddleware = async (req, res) => {
 
   // check if we have all needed worksheets
   let missingSheet = '';
-  sheetNames.forEach(x=>{
-      if(wb.SheetNames.indexOf(x) === -1) {
-        missingSheet = x; 
+  sheetNames.forEach(sheet=>{
+      if(wb.SheetNames.indexOf(sheet) === -1) {
+        missingSheet = sheet; 
       } 
   });
   if (missingSheet.length > 0) {
