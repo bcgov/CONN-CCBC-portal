@@ -24,10 +24,10 @@ const readSummary = async(wb, sheet_name) => {
   const sowData = {
       applicationId: 10, 
       jsonData: {
-        applicantName: "",
+        organizationName: "",
         projectTitle: "",
         province: "",
-        applicationNumber: "",
+        ccbc_number: "",
         effectiveStartDate: "", 
         projectStartDate: "", 
         projectCompletionDate: "", 
@@ -53,7 +53,7 @@ const readSummary = async(wb, sheet_name) => {
     if (input === undefined) continue; 
     
     if (value.indexOf('Applicant Name') > -1) { 
-      sowData.jsonData.applicantName = input; 
+      sowData.jsonData.organizationName = input; 
     }
     if (value.indexOf('Project Title') > -1) { 
       sowData.jsonData.projectTitle = input; 
@@ -62,7 +62,7 @@ const readSummary = async(wb, sheet_name) => {
       sowData.jsonData.province = input; 
     }
     if (value.indexOf('Application Number') > -1) { 
-      sowData.jsonData.applicationNumber = input; 
+      sowData.jsonData.ccbc_number = input; 
     }
     if (value.indexOf('Effective Start Date') > -1) {
       sowData.jsonData.effectiveStartDate = ExcelDateToJSDate(input);
