@@ -28,7 +28,9 @@ const ProjectInformationForm = ({ application }) => {
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
-  const [isFormEditMode, setIsFormEditMode] = useState(false);
+  const [isFormEditMode, setIsFormEditMode] = useState(
+    !projectInformation?.jsonData
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
