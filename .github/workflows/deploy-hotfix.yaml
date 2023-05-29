@@ -27,6 +27,7 @@ jobs:
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
   deploy_hotfix:
+    depends-on: [build]
     runs-on: ubuntu-latest
     # if: startsWith(github.event.head_commit.message, 'Merge')
     environment:
