@@ -7,14 +7,14 @@ metadata:
     haproxy.router.openshift.io/timeout: 1800s
 
 spec:
-  host: { { .Values.secureRoute.host } }
+  host: {{ .Values.secureRoute.host }}
   port:
-    targetPort: { { template "ccbc.fullname" . } }
+    targetPort: {{ template "ccbc.fullname" . }}
   tls:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
   to:
     kind: Service
-    name: { { template "ccbc.fullname" . } }
+    name: {{ template "ccbc.fullname" . }}
     weight: 100
   wildcardPolicy: None
