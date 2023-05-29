@@ -68,8 +68,8 @@ objectStorage:
 
 db:
   name: hotfix
-  appUser: hotfix_app
-  readonlyUser: hotfix_readonly
+  appUser: ccbc_app
+  readonlyUser: ccbc_readonly
 
   # A bash script to run in a pre-upgrade hook, in a psql container
   # The script will be run by the postgres user,
