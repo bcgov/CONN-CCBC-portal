@@ -70,7 +70,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 {{- define "ccbc.ccbcAppUserPgEnv" }}
   - name: PGUSER
-    value: ccbc_app
+    value: {{ template "ccbc.fullname" . }}_app
   - name: PGDATABASE
     value: {{ template "ccbc.fullname" . }}
   - name: PGHOST
