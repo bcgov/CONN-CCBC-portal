@@ -34,7 +34,7 @@ resources:
       cpu: 1m
       memory: '256Mi'
     limits:
-      cpu: 100m
+      cpu: 200m
       memory: '512Mi'
   psql:
     requests:
