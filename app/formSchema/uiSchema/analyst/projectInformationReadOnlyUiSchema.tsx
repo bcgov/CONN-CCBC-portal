@@ -10,26 +10,28 @@ const projectInformationReadOnlyUiSchema = {
     'ui:options': {
       flexDirection: 'row',
     },
-    fundingAgreementUpload: {
-      'ui:before': (
-        <FileHeader title="Funding agreement" icon={faFileContract} />
-      ),
-      'ui:widget': 'ReadOnlyFileWidget',
+    upload: {
+      fundingAgreementUpload: {
+        'ui:before': (
+          <FileHeader title="Funding agreement" icon={faFileContract} />
+        ),
+        'ui:widget': 'ReadOnlyFileWidget',
+      },
+      statementOfWorkUpload: {
+        'ui:before': (
+          <FileHeader title="Statement of work table" icon={faFileExcel} />
+        ),
+        'ui:widget': 'ReadOnlyFileWidget',
+      },
+      finalizedMapUpload: {
+        'ui:before': <FileHeader title="Finalized map" icon={faMap} />,
+        'ui:widget': 'ReadOnlyFileWidget',
+      },
     },
-    statementOfWorkUpload: {
-      'ui:before': (
-        <FileHeader title="Statement of work table" icon={faFileExcel} />
-      ),
-      'ui:widget': 'ReadOnlyFileWidget',
+    dateFundingAgreementSigned: {
+      'ui:title': 'Date funding agreement signed by recipient',
+      'ui:widget': 'ReadOnlyWidget',
     },
-    finalizedMapUpload: {
-      'ui:before': <FileHeader title="Finalized map" icon={faMap} />,
-      'ui:widget': 'ReadOnlyFileWidget',
-    },
-  },
-  dateFundingAgreementSigned: {
-    'ui:title': 'Date funding agreement signed by recipient',
-    'ui:widget': 'ReadOnlyWidget',
   },
 };
 

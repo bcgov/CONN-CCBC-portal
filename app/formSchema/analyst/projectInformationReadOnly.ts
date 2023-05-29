@@ -14,23 +14,28 @@ const projectInformation: JSONSchema7 = {
         'statementOfWorkUpload',
       ],
       properties: {
-        fundingAgreementUpload: {
-          title:
-            'Upload the Funding Agreement signed by both the Recipient & Province',
-          type: 'string',
+        upload: {
+          type: 'object',
+          properties: {
+            fundingAgreementUpload: {
+              title:
+                'Upload the Funding Agreement signed by both the Recipient & Province',
+              type: 'string',
+            },
+            statementOfWorkUpload: {
+              title: 'Upload the completed statement of work tables',
+              type: 'string',
+            },
+            finalizedMapUpload: {
+              title: 'Upload the finalized map, if available',
+              type: 'string',
+            },
+          },
         },
-        statementOfWorkUpload: {
-          title: 'Upload the completed statement of work tables',
-          type: 'string',
-        },
-        finalizedMapUpload: {
-          title: 'Upload the finalized map, if available',
+        dateFundingAgreementSigned: {
           type: 'string',
         },
       },
-    },
-    dateFundingAgreementSigned: {
-      type: 'string',
     },
   },
 };

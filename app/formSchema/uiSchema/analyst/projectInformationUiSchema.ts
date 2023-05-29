@@ -3,21 +3,23 @@ const projectInformationUiSchema = {
     'ui:title': 'Has the funding agreement been signed by the province?',
     'ui:widget': 'RadioWidget',
   },
-  dateFundingAgreementSigned: {
-    'ui:title': 'Date funding agreement signed by the province',
-    'ui:widget': 'DatePickerWidget',
-  },
   main: {
-    fundingAgreementUpload: {
-      'ui:widget': 'FileWidget',
+    dateFundingAgreementSigned: {
+      'ui:title': 'Date funding agreement signed by the province',
+      'ui:widget': 'DatePickerWidget',
     },
-    statementOfWorkUpload: {
-      'ui:title':
-        'After pressing Import, key information will be extracted from the Statement of Work Tables to the database such as Dates, Communities & households, and Project costing & funding',
-      'ui:widget': 'FileWidget',
-    },
-    finalizedMapUpload: {
-      'ui:widget': 'FileWidget',
+    upload: {
+      fundingAgreementUpload: {
+        'ui:widget': 'FileWidget',
+      },
+      statementOfWorkUpload: {
+        'ui:title':
+          'After pressing Import, key information will be extracted from the Statement of Work Tables to the database such as Dates, Communities & households, and Project costing & funding',
+        'ui:widget': 'FileWidget',
+      },
+      finalizedMapUpload: {
+        'ui:widget': 'FileWidget',
+      },
     },
   },
 };
