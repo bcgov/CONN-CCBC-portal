@@ -30,14 +30,27 @@ const IS_WIRELESS = 'J';
 const IS_DIRECT_TO_HOME_SATELITE = 'K';
 const IS_IMPACTED_BY_MOBILE_WIRELESS_SERVICE = 'L';
 
-const COLUMN_KEYS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L'];
+export const COLUMN_KEYS = [
+  COMMUNITIES_ID_COLUMN,
+  PROVINCE_COLUMN,
+  COMMUNITY_NAME_COLUMN,
+  LATITUDE_COLUMN,
+  LONGITUDE_COLUMN,
+  IS_INDIGENOUS_COMMUNITY_COLUMN,
+  INDIGENOUS_HOUSEHOLDS_IMPACTED_COLUMN,
+  TOTAL_HOUSEHOLDS_IMPACTED_COLUMN,
+  IS_WIRED,
+  IS_WIRELESS,
+  IS_DIRECT_TO_HOME_SATELITE,
+  IS_IMPACTED_BY_MOBILE_WIRELESS_SERVICE,
+];
 
-const hasDataInRow = (row: Object) =>
+export const hasDataInRow = (row: Object) =>
   COLUMN_KEYS.some(
     (columnKey) => row[columnKey] !== '' && row[columnKey] !== undefined
   );
 
-const readRowData = (row: Object) => {
+export const readRowData = (row: Object) => {
   return {
     communityId: row[COMMUNITIES_ID_COLUMN],
     provincesTerritories: row[PROVINCE_COLUMN],
@@ -60,7 +73,11 @@ const readRowData = (row: Object) => {
   };
 };
 
-const readData = async (sow_id: number, wb: WorkBook, sheet_name: string) => {
+export const readData = async (
+  sow_id: number,
+  wb: WorkBook,
+  sheet_name: string
+) => {
   const sheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
