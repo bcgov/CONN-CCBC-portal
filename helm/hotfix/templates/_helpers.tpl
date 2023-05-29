@@ -70,7 +70,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 {{- define "ccbc.ccbcAppUserPgEnv" }}
   - name: PGUSER
-    value: {{ template "ccbc.fullname" . }}_app
+    value: ccbc_app
   - name: PGDATABASE
     value: {{ template "ccbc.fullname" . }}
   - name: PGHOST
@@ -82,5 +82,5 @@ app.kubernetes.io/instance: {{ .Release.Name }}
     valueFrom:
       secretKeyRef:
         key: database-app-password
-        name: {{ template "ccbc.fullname" . }}
+        name: ccbc
 {{- end }}
