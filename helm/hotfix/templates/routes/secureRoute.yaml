@@ -5,6 +5,7 @@ metadata:
   annotations:
     haproxy.router.openshift.io/balance: roundrobin
     haproxy.router.openshift.io/timeout: 1800s
+
 spec:
   host: { { .Values.secureRoute.host } }
   port:
