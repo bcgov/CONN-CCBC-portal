@@ -7,10 +7,10 @@ import FileHeader from 'components/Analyst/Project/ProjectInformation/FileHeader
 
 const projectInformationReadOnlyUiSchema = {
   main: {
-    'ui:options': {
-      flexDirection: 'row',
-    },
     upload: {
+      'ui:options': {
+        flexDirection: 'row',
+      },
       fundingAgreementUpload: {
         'ui:before': (
           <FileHeader title="Funding agreement" icon={faFileContract} />
