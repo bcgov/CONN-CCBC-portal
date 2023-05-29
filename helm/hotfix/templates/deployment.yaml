@@ -80,8 +80,6 @@ spec:
             - -c
             - |
               set -euox pipefail;
-              create-user-db -d $(DATABASE_NAME) -u $(PGUSER_APP) -p $(PGPASSWORD_APP);
-              create-user-db -d $(DATABASE_NAME) -u $(PGUSER_READONLY) -p $(PGPASSWORD_READONLY);
               psql -d $(DATABASE_NAME) <<EOF
                 grant pg_read_all_data to $(PGUSER_READONLY);
                 alter role $(PGUSER_READONLY) BYPASSRLS;
