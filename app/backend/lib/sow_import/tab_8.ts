@@ -62,7 +62,7 @@ const readData = async(sow_id, wb, sheet_name) => {
     }
     if (typeof(suspect) === 'number' && tableDetected === true) { 
       const completed = sheet[row]['M'];
-      if (typeof(suspect) === 'string' && completed =='Complete') {
+      if (typeof(completed) === 'string' && completed =='Complete') {
         const lineData = {
           projectZone: sheet[row]['A'],
           geoNameId: sheet[row]['B'],
@@ -78,13 +78,13 @@ const readData = async(sow_id, wb, sheet_name) => {
       }
     }
   }
-
+  if (result.errors.length === 0) delete result.errors;
   return result;
 }
 
 const LoadTab8Data = async(sow_id, wb, sheet_name, req) => {
   const data = await readData(sow_id, wb, sheet_name);
-  console.log(data); 
+
   if (data?.errors?.length > 0) {
     return { error: data.errors };
   }
@@ -92,7 +92,8 @@ const LoadTab8Data = async(sow_id, wb, sheet_name, req) => {
     return { error: 'no data found for Tab 8'};
   }
   // time to persist in DB
-  const result = await performQuery(createSomeMutation, {input: data}, req)
+  const input = {input: {sowId: sow_id, jsonData: data}};
+  const result = await performQuery(createSomeMutation, input, req)
   .catch((e) => {
     return { error: e };
   });
