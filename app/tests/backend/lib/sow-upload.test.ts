@@ -58,9 +58,10 @@ describe('The SoW import', () => {
         data: { createApplicationSowData: { applicationSowData: {rowId:1}}}
       };
     });
-
+    const payload = { applicationId: 10, ccbcNumber: 'CCBC-010008'};
     const response = await request(app)
       .post('/api/analyst/sow') 
+      .send(payload)
       .set("Content-Type", "application/json")
       .set('Connection', 'keep-alive')
       .field("data", JSON.stringify({ name: "sow-data" }))
@@ -78,8 +79,10 @@ describe('The SoW import', () => {
       };
     });
 
+    const payload = { applicationId: 10, ccbcNumber: 'CCBC-010008'};
     const response = await request(app)
       .post('/api/analyst/sow') 
+      .send(payload)
       .set("Content-Type", "application/json")
       .set('Connection', 'keep-alive')
       .field("data", JSON.stringify({ name: "sow-data" }))
