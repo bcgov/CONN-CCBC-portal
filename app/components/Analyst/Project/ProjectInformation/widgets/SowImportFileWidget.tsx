@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import * as Sentry from '@sentry/nextjs';
 import { WidgetProps } from '@rjsf/core';
 import {
-  deleteFileFromFormData,
+  handleDelete,
   validateFile,
   handleDownload,
 } from 'lib/theme/functions/fileWidgetFunctions';
@@ -42,33 +42,7 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment || isImporting;
   const maxFileSizeInBytes = 104857600;
-
-  const handleDelete = (attachmentId) => {
-    setError('');
-    const variables = {
-      input: {
-        attachmentPatch: {
-          archivedAt: new Date().toISOString(),
-        },
-        rowId: attachmentId,
-      },
-    };
-
-    deleteAttachment({
-      variables,
-      onError: (res) => {
-        /// Allow files to be deleted from form data if attachment record was already archived
-        if (res.message.includes('Deleted records cannot be modified')) {
-          deleteFileFromFormData(res, value, onChange);
-        } else {
-          setError('deleteFailed');
-        }
-      },
-      onCompleted: (res) => {
-        deleteFileFromFormData(res, value, onChange);
-      },
-    });
-  };
+  const fileId = isFiles && value[0].id;
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsImporting(true);
@@ -98,8 +72,7 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
     const { name, size, type } = file;
 
     if (isFiles) {
-      const fileId = value[0].id;
-      handleDelete(fileId);
+      handleDelete(fileId, deleteAttachment, setError, value, onChange);
     }
 
     const variables = {
@@ -166,7 +139,9 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
     <FileComponent
       loading={loading}
       error={error}
-      handleDelete={handleDelete}
+      handleDelete={() =>
+        handleDelete(fileId, deleteAttachment, setError, value, onChange)
+      }
       handleDownload={handleDownload}
       onChange={handleChange}
       disabled={disabled}

@@ -49,4 +49,43 @@ const handleDownload = async (uuid, fileName) => {
     });
 };
 
-export { checkFileType, deleteFileFromFormData, validateFile, handleDownload };
+const handleDelete = (
+  attachmentId,
+  deleteAttachment,
+  setError,
+  value,
+  onChange
+) => {
+  setError('');
+  const variables = {
+    input: {
+      attachmentPatch: {
+        archivedAt: new Date().toISOString(),
+      },
+      rowId: attachmentId,
+    },
+  };
+
+  deleteAttachment({
+    variables,
+    onError: (res) => {
+      /// Allow files to be deleted from form data if attachment record was already archived
+      if (res.message.includes('Deleted records cannot be modified')) {
+        deleteFileFromFormData(res, value, onChange);
+      } else {
+        setError('deleteFailed');
+      }
+    },
+    onCompleted: (res) => {
+      deleteFileFromFormData(res, value, onChange);
+    },
+  });
+};
+
+export {
+  checkFileType,
+  deleteFileFromFormData,
+  handleDelete,
+  validateFile,
+  handleDownload,
+};

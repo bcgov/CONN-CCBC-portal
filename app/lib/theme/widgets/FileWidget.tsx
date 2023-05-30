@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import * as Sentry from '@sentry/nextjs';
 import { WidgetProps } from '@rjsf/core';
 import {
-  deleteFileFromFormData,
+  handleDelete,
   validateFile,
   handleDownload,
 } from 'lib/theme/functions/fileWidgetFunctions';
@@ -48,33 +48,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const loading = isCreatingAttachment || isDeletingAttachment;
   // 104857600 bytes = 100mb
   const maxFileSizeInBytes = 104857600;
-
-  const handleDelete = (attachmentId) => {
-    setError('');
-    const variables = {
-      input: {
-        attachmentPatch: {
-          archivedAt: new Date().toISOString(),
-        },
-        rowId: attachmentId,
-      },
-    };
-
-    deleteAttachment({
-      variables,
-      onError: (res) => {
-        /// Allow files to be deleted from form data if attachment record was already archived
-        if (res.message.includes('Deleted records cannot be modified')) {
-          deleteFileFromFormData(res, value, onChange);
-        } else {
-          setError('deleteFailed');
-        }
-      },
-      onCompleted: (res) => {
-        deleteFileFromFormData(res, value, onChange);
-      },
-    });
-  };
+  const fileId = isFiles && value[0].id;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
@@ -104,8 +78,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
 
     if (isFiles && !allowMultipleFiles) {
       // Soft delete file if 'Replace' button is used for single file uploads
-      const fileId = value[0].id;
-      handleDelete(fileId);
+      handleDelete(fileId, deleteAttachment, setError, value, onChange);
     }
 
     const variables = {
@@ -163,7 +136,9 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       loading={isCreatingAttachment || isDeletingAttachment}
       error={error}
       buttonVariant={buttonVariant}
-      handleDelete={handleDelete}
+      handleDelete={() =>
+        handleDelete(fileId, deleteAttachment, setError, value, onChange)
+      }
       handleDownload={handleDownload}
       onChange={handleChange}
       disabled={disabled}
