@@ -4,25 +4,12 @@
 import { mocked } from 'jest-mock';
 import request from 'supertest';
 import * as XLSX from 'xlsx'; 
-import fs from 'fs';
 import { performQuery } from '../../../backend/lib/graphql';
 import LoadTab8ata from '../../../backend/lib/sow_import/tab_8'
 
 jest.mock('../../../backend/lib/graphql');
 
 describe('sow_tab_8', () => {
-  // it('Should read file', ()=>{
-  //   const filepath = __dirname + '/UBF_SoW4.xlsx';
-  //   if (fs.existsSync(filepath) === false) {
-  //     console.log('oops');
-  //   }
-  //   const buf = fs.readFileSync(filepath);
-  //   const wbs = XLSX.read(buf); 
-  //   const sheet = XLSX.utils.sheet_to_json(wbs.Sheets['8'], { header: "A" });
-  //   console.log(sheet);
-  //   expect(sheet.length).toBeGreaterThan(100);
-  // });
-
   beforeEach(() => {
     mocked(performQuery).mockImplementation(async () => {
       return {}
@@ -36,8 +23,8 @@ describe('sow_tab_8', () => {
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue([
       { a: 1, b: 2, c: 3 }
     ]);
-    const wb = XLSX.read(null); 
 
+    const wb = XLSX.read(null); 
     const data = await LoadTab8ata(1,wb,'8', request);
 
     expect(data).toEqual(

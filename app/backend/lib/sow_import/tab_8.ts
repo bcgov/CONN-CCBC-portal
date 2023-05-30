@@ -62,7 +62,7 @@ const readData = async(sow_id, wb, sheet_name) => {
     }
     if (typeof(suspect) === 'number' && tableDetected === true) { 
       const completed = sheet[row]['M'];
-      if (typeof(completed) === 'string' && completed =='Complete') {
+      if (typeof(completed) === 'string' && completed === 'Complete') {
         const lineData = {
           projectZone: sheet[row]['A'],
           geoNameId: sheet[row]['B'],
