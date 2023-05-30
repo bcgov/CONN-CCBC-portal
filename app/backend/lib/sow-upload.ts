@@ -51,12 +51,16 @@ const processSow: ExpressMiddleware = async (req, res) => {
       } 
   });
   if (missingSheet.length > 0) {
-    return res.status(400).json({ error: `missing required sheet ${missingSheet}. Found ${JSON.stringify(wb.SheetNames)}`}).end();
+    return res.status(400).json({ error: `missing required sheet(s). Found: ${JSON.stringify(wb.SheetNames)}`}).end();
   }
   const result = await LoadSummaryData(wb, 'Summary_Sommaire', req);
 
   let exportError;
   if (result) {
+    const loadError = (result as any).error;
+    if (loadError) {
+      return res.status(400).json({ error: loadError }).end();
+    }
     const sowData = (result as any)?.data?.createApplicationSowData?.applicationSowData;
     const sowId = sowData?.rowId || 1;
 
@@ -74,7 +78,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
   return res.status(400).json({error: 'failed to save SoW data in DB'}).end();
 }
 
-sowUpload.post('/api/analyst/sow', limiter, (req, res) => {
+sowUpload.post('/api/analyst/sow/:applicationId/:ccbcNumber', limiter, (req, res) => {
   // eslint-disable-next-line no-void
   void (() => processSow(req,res,null))();
 });
