@@ -27,9 +27,6 @@ const handleDownload = async (uuid, fileName) => {
     .then((response) => response.json())
     .then((response) => {
       window.open(response, '_blank');
-    })
-    .catch((error) => {
-      Sentry.captureException(error);
     });
 };
 
@@ -46,7 +43,9 @@ const ReadOnlyFileWidget: React.FC<WidgetProps> = ({ uiSchema, value }) => {
           data-testid="file-download-link"
           onClick={(e) => {
             e.preventDefault();
-            handleDownload(file.uuid, file.name);
+            handleDownload(file.uuid, file.name).catch((error) => {
+              Sentry.captureException(error);
+            });
           }}
         >
           {file.name}
