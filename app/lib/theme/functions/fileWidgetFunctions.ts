@@ -2,7 +2,7 @@ import path from 'path';
 
 const checkFileType = (file, fileTypes) => {
   const extension = path.extname(file)?.toLowerCase();
-  const typesArr = fileTypes && fileTypes.replace(/ /g, '').split(',');
+  const typesArr = fileTypes?.replace(/ /g, '').split(',');
 
   return typesArr.includes(extension);
 };

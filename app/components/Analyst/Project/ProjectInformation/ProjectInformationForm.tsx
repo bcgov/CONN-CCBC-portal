@@ -8,6 +8,7 @@ import projectInformationReadOnlyUiSchema from 'formSchema/uiSchema/analyst/proj
 import { useCreateProjectInformationMutation } from 'schema/mutations/project/createProjectInformation';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
+import Toast from 'components/Toast';
 
 const ProjectInformationForm = ({ application }) => {
   const queryFragment = useFragment(
@@ -28,6 +29,7 @@ const ProjectInformationForm = ({ application }) => {
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
+  const [showToast, setShowToast] = useState(false);
   const [isFormEditMode, setIsFormEditMode] = useState(
     !projectInformation?.jsonData
   );
@@ -41,12 +43,16 @@ const ProjectInformationForm = ({ application }) => {
       },
       onCompleted: () => {
         setIsFormEditMode(false);
+
+        // May need to change when the toast is shown when we add validation
+        setShowToast(true);
       },
     });
   };
 
   const handleResetFormData = () => {
     setFormData({});
+    setShowToast(false);
   };
 
   return (
@@ -74,6 +80,11 @@ const ProjectInformationForm = ({ application }) => {
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
     >
       {!isFormEditMode && <MetabaseLink />}
+      {showToast && (
+        <Toast timeout={100000000}>
+          Statement of Work successfully imported
+        </Toast>
+      )}
     </ProjectForm>
   );
 };

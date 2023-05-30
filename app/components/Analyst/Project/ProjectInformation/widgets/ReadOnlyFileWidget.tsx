@@ -1,5 +1,6 @@
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
+import * as Sentry from '@sentry/nextjs';
 
 const StyledContainer = styled('div')`
   padding: 8px 12px;
@@ -26,6 +27,9 @@ const handleDownload = async (uuid, fileName) => {
     .then((response) => response.json())
     .then((response) => {
       window.open(response, '_blank');
+    })
+    .catch((error) => {
+      Sentry.captureException(error);
     });
 };
 

@@ -116,7 +116,6 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
               size,
               type,
             };
-
             onChange([fileDetails]);
             setIsImporting(false);
             span.setStatus('ok');
