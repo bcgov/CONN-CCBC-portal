@@ -24,29 +24,23 @@ interface FileWidgetProps extends WidgetProps {
   value: Array<File>;
 }
 
-const FileWidget: React.FC<FileWidgetProps> = ({
+const acceptedFileTypes = '.xls, .xlsx, .xlsm';
+
+const SowImportFileWidget: React.FC<FileWidgetProps> = ({
   id,
   disabled,
   onChange,
   value,
   required,
-  uiSchema,
   label,
 }) => {
   const [error, setError] = useState('');
   const router = useRouter();
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
-
-  const wrap = uiSchema['ui:options']?.wrap ?? false;
-  const allowMultipleFiles =
-    (uiSchema['ui:options']?.allowMultipleFiles as boolean) ?? false;
-  const acceptedFileTypes = (uiSchema['ui:options']?.fileTypes as string) ?? '';
-  const buttonVariant = (uiSchema['ui:options']?.buttonVariant ||
-    'primary') as string;
+  const [isImporting, setIsImporting] = useState(false);
   const isFiles = value?.length > 0;
-  const loading = isCreatingAttachment || isDeletingAttachment;
-  // 104857600 bytes = 100mb
+  const loading = isCreatingAttachment || isDeletingAttachment || isImporting;
   const maxFileSizeInBytes = 104857600;
 
   const handleDelete = (attachmentId) => {
@@ -76,7 +70,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsImporting(true);
     const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
     const span = transaction.startChild({
       op: 'file-widget-handle-upload',
@@ -102,8 +97,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
 
     const { name, size, type } = file;
 
-    if (isFiles && !allowMultipleFiles) {
-      // Soft delete file if 'Replace' button is used for single file uploads
+    if (isFiles) {
       const fileId = value[0].id;
       handleDelete(fileId);
     }
@@ -120,49 +114,58 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       },
     };
 
-    createAttachment({
-      variables,
-      onError: () => {
-        setError('uploadFailed');
+    const formData = new FormData();
+    formData.append('file', file);
 
+    await fetch('/api/analyst/sow', {
+      method: 'POST',
+      body: formData,
+    }).then((response) => {
+      const { status } = response;
+      if (status === 200) {
+        createAttachment({
+          variables,
+          onError: () => {
+            setError('uploadFailed');
+
+            span.setStatus('unknown_error');
+            span.finish();
+            transaction.finish();
+          },
+          onCompleted: (res) => {
+            const uuid = res?.createAttachment?.attachment?.file;
+            const attachmentRowId = res?.createAttachment?.attachment?.rowId;
+
+            const fileDetails = {
+              id: attachmentRowId,
+              uuid,
+              name,
+              size,
+              type,
+            };
+
+            onChange([fileDetails]);
+            setIsImporting(false);
+            span.setStatus('ok');
+            span.finish();
+            transaction.finish();
+          },
+        });
+      } else {
+        setError('sowImportFailed');
+        setIsImporting(false);
         span.setStatus('unknown_error');
         span.finish();
         transaction.finish();
-      },
-      onCompleted: (res) => {
-        const uuid = res?.createAttachment?.attachment?.file;
-        const attachmentRowId = res?.createAttachment?.attachment?.rowId;
-
-        const fileDetails = {
-          id: attachmentRowId,
-          uuid,
-          name,
-          size,
-          type,
-        };
-
-        if (allowMultipleFiles) {
-          onChange(value ? [...value, fileDetails] : [fileDetails]);
-        } else {
-          onChange([fileDetails]);
-        }
-
-        span.setStatus('ok');
-        span.finish();
-        transaction.finish();
-      },
+      }
     });
 
     e.target.value = '';
   };
-
   return (
     <FileComponent
-      wrap={wrap as boolean}
-      allowMultipleFiles={allowMultipleFiles as boolean}
-      loading={isCreatingAttachment || isDeletingAttachment}
+      loading={loading}
       error={error}
-      buttonVariant={buttonVariant}
       handleDelete={handleDelete}
       handleDownload={handleDownload}
       onChange={handleChange}
@@ -176,4 +179,4 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   );
 };
 
-export default FileWidget;
+export default SowImportFileWidget;
