@@ -458,9 +458,9 @@ describe('The FileWidget', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         json: () => Promise.resolve({ avstatus: 'dirty' }),
-      }),
+      })
     ) as jest.Mock;
-      
+
     const downloadLink = screen.getByTestId('file-download-link');
 
     await act(async () => {
@@ -476,11 +476,9 @@ describe('The FileWidget', () => {
     await act(async () => {
       fireEvent.click(closeModal);
     });
-    
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
-
 });

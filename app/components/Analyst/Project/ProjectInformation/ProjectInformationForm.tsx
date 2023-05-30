@@ -82,7 +82,7 @@ const ProjectInformationForm = ({ application }) => {
       {!isFormEditMode && <MetabaseLink />}
       {showToast && (
         <Toast timeout={100000000}>
-          Statement of Work successfully imported
+          Statement of work successfully imported
         </Toast>
       )}
     </ProjectForm>

@@ -94,48 +94,44 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
     await fetch('/api/analyst/sow', {
       method: 'POST',
       body: formData,
-    })
-      .then((response) => {
-        const { status } = response;
-        if (status === 200) {
-          createAttachment({
-            variables,
-            onError: () => {
-              setError('uploadFailed');
+    }).then((response) => {
+      const { status } = response;
+      if (status === 200) {
+        createAttachment({
+          variables,
+          onError: () => {
+            setError('uploadFailed');
 
-              span.setStatus('unknown_error');
-              span.finish();
-              transaction.finish();
-            },
-            onCompleted: (res) => {
-              const uuid = res?.createAttachment?.attachment?.file;
-              const attachmentRowId = res?.createAttachment?.attachment?.rowId;
+            span.setStatus('unknown_error');
+            span.finish();
+            transaction.finish();
+          },
+          onCompleted: (res) => {
+            const uuid = res?.createAttachment?.attachment?.file;
+            const attachmentRowId = res?.createAttachment?.attachment?.rowId;
 
-              const fileDetails = {
-                id: attachmentRowId,
-                uuid,
-                name,
-                size,
-                type,
-              };
-              onChange([fileDetails]);
-              setIsImporting(false);
-              span.setStatus('ok');
-              span.finish();
-              transaction.finish();
-            },
-          });
-        } else {
-          setError('sowImportFailed');
-          setIsImporting(false);
-          span.setStatus('unknown_error');
-          span.finish();
-          transaction.finish();
-        }
-      })
-      .catch((err) => {
-        Sentry.captureException(err);
-      });
+            const fileDetails = {
+              id: attachmentRowId,
+              uuid,
+              name,
+              size,
+              type,
+            };
+            onChange([fileDetails]);
+            setIsImporting(false);
+            span.setStatus('ok');
+            span.finish();
+            transaction.finish();
+          },
+        });
+      } else {
+        setError('sowImportFailed');
+        setIsImporting(false);
+        span.setStatus('unknown_error');
+        span.finish();
+        transaction.finish();
+      }
+    });
   };
 
   return (
