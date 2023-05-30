@@ -124,7 +124,7 @@ const readSummary = async(wb, sheet_name, applicationId) => {
   return sowData;
 }
 const LoadSummaryData = async(wb, sheet_name, req) => {
-  const { applicationId, ccbcNumber } = req.body;
+  const { applicationId, ccbcNumber } = req.params;
   const data = await readSummary(wb, sheet_name, applicationId);
   
   const uploadedNumber = data.jsonData.ccbc_number;

@@ -41,7 +41,7 @@ describe('The SoW import', () => {
       };
     });
 
-    const response = await request(app).post('/api/analyst/sow');
+    const response = await request(app).post('/api/analyst/sow/1/CCBC-010010');
     expect(response.status).toBe(404);
   });
 
@@ -58,10 +58,9 @@ describe('The SoW import', () => {
         data: { createApplicationSowData: { applicationSowData: {rowId:1}}}
       };
     });
-    const payload = { applicationId: 10, ccbcNumber: 'CCBC-010008'};
+
     const response = await request(app)
-      .post('/api/analyst/sow') 
-      .send(payload)
+      .post('/api/analyst/sow/10/CCBC-020118') 
       .set("Content-Type", "application/json")
       .set('Connection', 'keep-alive')
       .field("data", JSON.stringify({ name: "sow-data" }))
@@ -79,10 +78,8 @@ describe('The SoW import', () => {
       };
     });
 
-    const payload = { applicationId: 10, ccbcNumber: 'CCBC-010008'};
     const response = await request(app)
-      .post('/api/analyst/sow') 
-      .send(payload)
+      .post('/api/analyst/sow/10/CCBC-010010') 
       .set("Content-Type", "application/json")
       .set('Connection', 'keep-alive')
       .field("data", JSON.stringify({ name: "sow-data" }))
@@ -90,7 +87,39 @@ describe('The SoW import', () => {
       .expect(400);
 
     expect(response.status).toBe(400); 
+    expect(response.body).toEqual({
+      error: 'missing required sheet(s). Found: ["Sheet1"]'});
   });
 
+  it('should return error if ccbc_number in file does not match request', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: { createApplicationSowData: { applicationSowData: {rowId:1}}}
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/sow/10/CCBC-020100') 
+      .set("Content-Type", "application/json")
+      .set('Connection', 'keep-alive')
+      .field("data", JSON.stringify({ name: "sow-data" }))
+      .attach("sow-data", `${__dirname}/sow_200.xlsx`)
+      .expect(400);
+
+    expect(response.status).toBe(400); 
+    expect(response.body).toEqual({
+      error: 'CCBC Number mismatch: expected CCBC-020100, received: CCBC-020118'});
+  });
+
+  afterEach(async () => {
+    await new Promise<void>(resolve => setTimeout(() => resolve(), 500)); // avoid jest open handle error
+  });
   jest.resetAllMocks();
 });
