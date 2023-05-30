@@ -3,18 +3,22 @@ import { performQuery } from '../graphql';
 import convertExcelDropdownToBoolean from './util';
 
 const createSomeMutation = `
-  mutation someMutation($input: someInput!) {
-    createSomeTable(
-      input: {someData: $input
-    )
+  mutation tab1Mutation($input: SowTab1Input!) {
+    createSowTab1(input: { sowTab1: $input }) {
+      sowTab1 {
+        id
+      }
+    }
   }
 `;
 
-const HOUSEHOLDS_IMPACT_COLUMN = 'H';
+// For the summary table
+const TOTALS_COLUMN = 'H';
 const INDIGENOUS_HOUSEHOLDS_IMPACTED_ROW = 13;
 const TOTAL_HOUSEHOLDS_IMPACTED_ROW = 14;
 const TOTAL_COMMUNITIES_IMPACTED_ROW = 15;
 
+// For the community detail table
 const COMMUNITIES_ID_COLUMN = 'A';
 const COMMUNITY_ID_HEADING = 'Community ID';
 const PROVINCE_COLUMN = 'B';
@@ -23,7 +27,6 @@ const LATITUDE_COLUMN = 'D';
 const LONGITUDE_COLUMN = 'E';
 const IS_INDIGENOUS_COMMUNITY_COLUMN = 'F';
 const INDIGENOUS_HOUSEHOLDS_IMPACTED_COLUMN = 'G';
-// essentially a repeat of line 12, not sure how to name this for the table
 const TOTAL_HOUSEHOLDS_IMPACTED_COLUMN = 'H';
 const IS_WIRED = 'I';
 const IS_WIRELESS = 'J';
@@ -60,7 +63,7 @@ export const TAB_ONE_CONSTANTS = {
   IS_DIRECT_TO_HOME_SATELITE,
   IS_IMPACTED_BY_MOBILE_WIRELESS_SERVICE,
   COMMUNITY_ID_HEADING,
-  HOUSEHOLDS_IMPACT_COLUMN,
+  TOTALS_COLUMN,
   INDIGENOUS_HOUSEHOLDS_IMPACTED_ROW,
   TOTAL_HOUSEHOLDS_IMPACTED_ROW,
   TOTAL_COMMUNITIES_IMPACTED_ROW,
@@ -94,22 +97,18 @@ export const readRowData = (row: Object) => {
   };
 };
 
-export const readData = async (
-  sow_id: number,
-  wb: WorkBook,
-  sheet_name: string
-) => {
+export const readData = (sow_id: number, wb: WorkBook, sheet_name: string) => {
   const sheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
   // The values for the total numbers are static, and don't have to be
   // dynamically found
   const indigenousHouseholdsImpacted =
-    sheet[INDIGENOUS_HOUSEHOLDS_IMPACTED_ROW][HOUSEHOLDS_IMPACT_COLUMN];
+    sheet[INDIGENOUS_HOUSEHOLDS_IMPACTED_ROW][TOTALS_COLUMN];
   const totalNumberHouseholdsImpacted =
-    sheet[TOTAL_HOUSEHOLDS_IMPACTED_ROW][HOUSEHOLDS_IMPACT_COLUMN];
+    sheet[TOTAL_HOUSEHOLDS_IMPACTED_ROW][TOTALS_COLUMN];
   const totalNumberCommunitiesImpacted =
-    sheet[TOTAL_COMMUNITIES_IMPACTED_ROW][HOUSEHOLDS_IMPACT_COLUMN];
+    sheet[TOTAL_COMMUNITIES_IMPACTED_ROW][TOTALS_COLUMN];
   let isTableFound = false;
   const result = [];
   for (let rowNum = 1; rowNum < sheet.length; rowNum++) {
@@ -132,16 +131,14 @@ export const readData = async (
 };
 
 const LoadTab1Data = async (sow_id, wb, sheet_name, req) => {
-  const data = await readData(sow_id, wb, sheet_name);
-
+  const data = readData(sow_id, wb, sheet_name);
+  const input = { input: { sowId: sow_id, jsonData: data } };
   // time to persist in DB
-  const result = await performQuery(
-    createSomeMutation,
-    { input: data },
-    req
-  ).catch((e) => {
-    return { error: e };
-  });
+  const result = await performQuery(createSomeMutation, input, req).catch(
+    (e) => {
+      return { error: e };
+    }
+  );
 
   return result;
 };
