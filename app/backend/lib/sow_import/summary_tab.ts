@@ -133,6 +133,9 @@ const LoadSummaryData = async (wb, sheet_name, req) => {
       error: `CCBC Number mismatch: expected ${ccbcNumber}, received: ${uploadedNumber}`,
     };
   }
+  if (validate) {
+    return data;
+  }
   // time to persist in DB
   const result = await performQuery(
     createSowMutation,

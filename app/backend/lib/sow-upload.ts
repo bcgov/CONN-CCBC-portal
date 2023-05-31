@@ -31,7 +31,8 @@ const processSow: ExpressMiddleware = async (req, res) => {
     return res.status(404).end();
   }
 
-  const form = new formidable.IncomingForm({ maxFileSize: 8000000 });
+  const { validate = false } = req.params;
+  const form = new formidable.IncomingForm({maxFileSize:8000000});
 
   const files = await parseForm(form, req).catch((err) => {
     return res.status(400).json({ error: err }).end();
@@ -60,7 +61,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
       })
       .end();
   }
-  const result = await LoadSummaryData(wb, 'Summary_Sommaire', req);
+  const result = await LoadSummaryData(wb, 'Summary_Sommaire', req, validate);
 
   let exportError;
   if (result) {
@@ -72,7 +73,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
       ?.applicationSowData;
     const sowId = sowData?.rowId || 1;
 
-    const tab2 = await LoadTab2Data(sowId, wb, '2', req);
+    const tab2 = await LoadTab2Data(sowId, wb, '2', req, validate);
     exportError = (tab2 as any)?.error;
     if (exportError) {
       return res.status(400).json({ error: exportError }).end();

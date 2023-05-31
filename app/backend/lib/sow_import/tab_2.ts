@@ -58,11 +58,14 @@ const readData = async(wb, sheet_name) => {
   return result;
 }
 
-const LoadTab2Data = async(sow_id, wb, sheet_name, req) => {
+const LoadTab2Data = async(sow_id, wb, sheet_name, req, validate) => {
   const data = await readData(wb, sheet_name);
   
   if (data.length === 0) {
     return { error: 'no data found for Tab 2'};
+  }
+  if (validate) {
+    return data;
   }
   // time to persist in DB
   const input = {input: {sowId: sow_id, jsonData: data}};
@@ -72,7 +75,6 @@ const LoadTab2Data = async(sow_id, wb, sheet_name, req) => {
   });
 
   return result;
-   
 }
 
 export default LoadTab2Data;
