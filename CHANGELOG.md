@@ -1,3 +1,16 @@
+# [1.72.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.71.0...v1.72.0) (2023-05-31)
+
+### Bug Fixes
+
+- receive application attachment spread application bug ([a3ec656](https://github.com/bcgov/CONN-CCBC-portal/commit/a3ec656b834de399ea2d3fa7a0476f08e8c54077))
+- updated sow-upload to accept extra params ([90f9b87](https://github.com/bcgov/CONN-CCBC-portal/commit/90f9b87f0ced2170724342bb5650ffa4dec428a9))
+
+### Features
+
+- db changes for sow tab ([6b8ac23](https://github.com/bcgov/CONN-CCBC-portal/commit/6b8ac23d116bbbf7c52996069dee18a8c5a8394a))
+- read sow data on tab 2 ([9906b87](https://github.com/bcgov/CONN-CCBC-portal/commit/9906b871105f60e50783ddd6bf3406ff3a3202ac))
+- update sow-upload ([6756804](https://github.com/bcgov/CONN-CCBC-portal/commit/6756804a291f11150173917e0919f6cbf7128dce))
+
 # [1.71.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.70.0...v1.71.0) (2023-05-30)
 
 ### Bug Fixes
