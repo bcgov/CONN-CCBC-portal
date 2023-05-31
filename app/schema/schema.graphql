@@ -3616,6 +3616,108 @@ type CcbcUser implements Node {
     filter: SowTab2Filter
   ): SowTab2SConnection!
 
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+
   """
   Reads and enables pagination through a set of `ProjectInformationData`.
   """
@@ -9538,6 +9640,312 @@ type CcbcUser implements Node {
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersBySowTab2ArchivedByAndUpdatedByManyToManyConnection!
 
+  """Reads and enables pagination through a set of `ApplicationSowData`."""
+  applicationSowDataBySowTab1CreatedByAndSowId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationSowData`."""
+    orderBy: [ApplicationSowDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationSowDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationSowDataFilter
+  ): CcbcUserApplicationSowDataBySowTab1CreatedByAndSowIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersBySowTab1CreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersBySowTab1CreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersBySowTab1CreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersBySowTab1CreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `ApplicationSowData`."""
+  applicationSowDataBySowTab1UpdatedByAndSowId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationSowData`."""
+    orderBy: [ApplicationSowDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationSowDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationSowDataFilter
+  ): CcbcUserApplicationSowDataBySowTab1UpdatedByAndSowIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersBySowTab1UpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersBySowTab1UpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersBySowTab1UpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersBySowTab1UpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `ApplicationSowData`."""
+  applicationSowDataBySowTab1ArchivedByAndSowId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationSowData`."""
+    orderBy: [ApplicationSowDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationSowDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationSowDataFilter
+  ): CcbcUserApplicationSowDataBySowTab1ArchivedByAndSowIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersBySowTab1ArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersBySowTab1ArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersBySowTab1ArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersBySowTab1ArchivedByAndUpdatedByManyToManyConnection!
+
   """Reads and enables pagination through a set of `Application`."""
   applicationsByProjectInformationDataCreatedByAndApplicationId(
     """Only read the first `n` values of the set."""
@@ -10333,6 +10741,24 @@ input CcbcUserFilter {
 
   """Some related `sowTab2SByArchivedBy` exist."""
   sowTab2SByArchivedByExist: Boolean
+
+  """Filter by the object’s `sowTab1SByCreatedBy` relation."""
+  sowTab1SByCreatedBy: CcbcUserToManySowTab1Filter
+
+  """Some related `sowTab1SByCreatedBy` exist."""
+  sowTab1SByCreatedByExist: Boolean
+
+  """Filter by the object’s `sowTab1SByUpdatedBy` relation."""
+  sowTab1SByUpdatedBy: CcbcUserToManySowTab1Filter
+
+  """Some related `sowTab1SByUpdatedBy` exist."""
+  sowTab1SByUpdatedByExist: Boolean
+
+  """Filter by the object’s `sowTab1SByArchivedBy` relation."""
+  sowTab1SByArchivedBy: CcbcUserToManySowTab1Filter
+
+  """Some related `sowTab1SByArchivedBy` exist."""
+  sowTab1SByArchivedByExist: Boolean
 
   """Filter by the object’s `projectInformationDataByCreatedBy` relation."""
   projectInformationDataByCreatedBy: CcbcUserToManyProjectInformationDataFilter
@@ -12971,6 +13397,91 @@ input SowTab2Filter {
 }
 
 """
+A filter to be used against many `SowTab1` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationSowDataToManySowTab1Filter {
+  """
+  Every related `SowTab1` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: SowTab1Filter
+
+  """
+  Some related `SowTab1` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: SowTab1Filter
+
+  """
+  No related `SowTab1` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: SowTab1Filter
+}
+
+"""
+A filter to be used against `SowTab1` object types. All fields are combined with a logical ‘and.’
+"""
+input SowTab1Filter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `sowId` field."""
+  sowId: IntFilter
+
+  """Filter by the object’s `jsonData` field."""
+  jsonData: JSONFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """Filter by the object’s `applicationSowDataBySowId` relation."""
+  applicationSowDataBySowId: ApplicationSowDataFilter
+
+  """A related `applicationSowDataBySowId` exists."""
+  applicationSowDataBySowIdExists: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [SowTab1Filter!]
+
+  """Checks for any expressions in this list."""
+  or: [SowTab1Filter!]
+
+  """Negates the expression."""
+  not: SowTab1Filter
+}
+
+"""
 A filter to be used against many `ProjectInformationData` object types. All fields are combined with a logical ‘and.’
 """
 input ApplicationToManyProjectInformationDataFilter {
@@ -13640,6 +14151,26 @@ input CcbcUserToManySowTab2Filter {
   No related `SowTab2` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
   none: SowTab2Filter
+}
+
+"""
+A filter to be used against many `SowTab1` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcUserToManySowTab1Filter {
+  """
+  Every related `SowTab1` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: SowTab1Filter
+
+  """
+  Some related `SowTab1` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: SowTab1Filter
+
+  """
+  No related `SowTab1` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: SowTab1Filter
 }
 
 """
@@ -37084,6 +37615,564 @@ type CcbcUserCcbcUsersBySowTab2ArchivedByAndUpdatedByManyToManyEdge {
     """
     filter: SowTab2Filter
   ): SowTab2SConnection!
+}
+
+"""
+A connection to a list of `ApplicationSowData` values, with data from `SowTab1`.
+"""
+type CcbcUserApplicationSowDataBySowTab1CreatedByAndSowIdManyToManyConnection {
+  """A list of `ApplicationSowData` objects."""
+  nodes: [ApplicationSowData]!
+
+  """
+  A list of edges which contains the `ApplicationSowData`, info from the `SowTab1`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationSowDataBySowTab1CreatedByAndSowIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationSowData` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""
+A `ApplicationSowData` edge in the connection, with data from `SowTab1`.
+"""
+type CcbcUserApplicationSowDataBySowTab1CreatedByAndSowIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationSowData` at the end of the edge."""
+  node: ApplicationSowData
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SBySowId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1CreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `SowTab1`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersBySowTab1CreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1CreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1CreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `SowTab1`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersBySowTab1CreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1CreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+}
+
+"""
+A connection to a list of `ApplicationSowData` values, with data from `SowTab1`.
+"""
+type CcbcUserApplicationSowDataBySowTab1UpdatedByAndSowIdManyToManyConnection {
+  """A list of `ApplicationSowData` objects."""
+  nodes: [ApplicationSowData]!
+
+  """
+  A list of edges which contains the `ApplicationSowData`, info from the `SowTab1`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationSowDataBySowTab1UpdatedByAndSowIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationSowData` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""
+A `ApplicationSowData` edge in the connection, with data from `SowTab1`.
+"""
+type CcbcUserApplicationSowDataBySowTab1UpdatedByAndSowIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationSowData` at the end of the edge."""
+  node: ApplicationSowData
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SBySowId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1UpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `SowTab1`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersBySowTab1UpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1UpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1UpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `SowTab1`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersBySowTab1UpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1UpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+}
+
+"""
+A connection to a list of `ApplicationSowData` values, with data from `SowTab1`.
+"""
+type CcbcUserApplicationSowDataBySowTab1ArchivedByAndSowIdManyToManyConnection {
+  """A list of `ApplicationSowData` objects."""
+  nodes: [ApplicationSowData]!
+
+  """
+  A list of edges which contains the `ApplicationSowData`, info from the `SowTab1`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationSowDataBySowTab1ArchivedByAndSowIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationSowData` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""
+A `ApplicationSowData` edge in the connection, with data from `SowTab1`.
+"""
+type CcbcUserApplicationSowDataBySowTab1ArchivedByAndSowIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationSowData` at the end of the edge."""
+  node: ApplicationSowData
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SBySowId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1ArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `SowTab1`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersBySowTab1ArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1ArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
+}
+
+"""A connection to a list of `CcbcUser` values, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1ArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `SowTab1`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersBySowTab1ArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `SowTab1`."""
+type CcbcUserCcbcUsersBySowTab1ArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `SowTab1`."""
+  sowTab1SByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `SowTab1`."""
+    orderBy: [SowTab1SOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SowTab1Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: SowTab1Filter
+  ): SowTab1SConnection!
 }
 
 """
