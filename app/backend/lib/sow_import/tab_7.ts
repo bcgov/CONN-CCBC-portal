@@ -382,7 +382,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   // -- SUMMARY OF ESTIMATED PROJECT FUNDING --
 
   // one pass only
-  for (let row = 1079; row < 1090; row++) {
+  for (let row = 1079; row < 1095; row++) {
     const suspect = budget[row]['B'];
     let value;
     if (suspect === undefined) continue;
@@ -394,7 +394,6 @@ const readBudget = async (sow_id, wb, sheet_name) => {
 
     // we are on Project funding
     if (value.indexOf('Project Funding') > -1) {
-      console.log('we are on project funding');
       // next 4 rows are present funding sources
       // Federal contribution
       row++;
@@ -471,6 +470,19 @@ const readBudget = async (sow_id, wb, sheet_name) => {
           );
         }
       }
+    }
+    // get totals
+    if (value.indexOf('Total Financial Contributions') > -1) {
+      detailedBudget.summaryOfEstimatedProjectFunding.totalFinancialContribution[2324] =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectFunding.totalFinancialContribution[2425] =
+        budget[row]['H'];
+      detailedBudget.summaryOfEstimatedProjectFunding.totalFinancialContribution[2526] =
+        budget[row]['I'];
+      detailedBudget.summaryOfEstimatedProjectFunding.totalFinancialContribution[2627] =
+        budget[row]['J'];
+      detailedBudget.summaryOfEstimatedProjectFunding.totalFinancialContribution.total =
+        budget[row]['K'];
     }
   }
 
