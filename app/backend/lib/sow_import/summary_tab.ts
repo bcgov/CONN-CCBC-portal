@@ -18,13 +18,13 @@ const ExcelDateToJSDate = (date) => {
   return new Date(Math.round((date - 25569) * 86400 * 1000)).toISOString();
 };
 
-const readSummary = async (wb, sheet_name) => {
+const readSummary = async (wb, sheet_name, applicationId) => {
   const summary = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
 
   const sowData = {
-    applicationId: 1,
+    applicationId,
     jsonData: {
       organizationName: '',
       projectTitle: '',
@@ -124,8 +124,15 @@ const readSummary = async (wb, sheet_name) => {
   return sowData;
 };
 const LoadSummaryData = async (wb, sheet_name, req) => {
-  const data = await readSummary(wb, sheet_name);
+  const { applicationId, ccbcNumber } = req.params;
+  const data = await readSummary(wb, sheet_name, applicationId);
 
+  const uploadedNumber = data.jsonData.ccbc_number;
+  if (uploadedNumber !== ccbcNumber) {
+    return {
+      error: `CCBC Number mismatch: expected ${ccbcNumber}, received: ${uploadedNumber}`,
+    };
+  }
   // time to persist in DB
   const result = await performQuery(
     createSowMutation,
