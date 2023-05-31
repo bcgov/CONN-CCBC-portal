@@ -122,7 +122,10 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
         handleDelete(fileId, deleteAttachment, setError, value, onChange)
       }
       handleDownload={handleDownload}
-      onChange={handleChange}
+      onChange={(e) => {
+        // eslint-disable-next-line no-void
+        void (() => handleChange(e))();
+      }}
       fileTypes={acceptedFileTypes}
       id={id}
       label={label}
