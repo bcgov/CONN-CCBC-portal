@@ -490,6 +490,79 @@ const readBudget = async (sow_id, wb, sheet_name) => {
 
   // -- CURRENT FISCAL PROVINCIAL CONTRIBUTION FORECAST BY QUARTER --
 
+  // one pass only
+  for (let row = 1080; row < budget.length; row++) {
+    const suspect = budget[row]['B'];
+    let value;
+    if (suspect === undefined) continue;
+    if (typeof suspect !== 'string') {
+      value = suspect.toString();
+    } else {
+      value = suspect;
+    }
+
+    if (value.indexOf('April') > -1) {
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.aprilToJune[2324] =
+        budget[row]['G'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.aprilToJune[2425] =
+        budget[row]['H'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.aprilToJune[2526] =
+        budget[row]['I'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.aprilToJune[2627] =
+        budget[row]['J'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.aprilToJune.total =
+        budget[row]['K'];
+    }
+    if (value.indexOf('July') > -1) {
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.julyToSeptember[2324] =
+        budget[row]['G'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.julyToSeptember[2425] =
+        budget[row]['H'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.julyToSeptember[2526] =
+        budget[row]['I'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.julyToSeptember[2627] =
+        budget[row]['J'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.julyToSeptember.total =
+        budget[row]['K'];
+    }
+    if (value.indexOf('October') > -1) {
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.octoberToDecember[2324] =
+        budget[row]['G'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.octoberToDecember[2425] =
+        budget[row]['H'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.octoberToDecember[2526] =
+        budget[row]['I'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.octoberToDecember[2627] =
+        budget[row]['J'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.octoberToDecember.total =
+        budget[row]['K'];
+    }
+    if (value.indexOf('January') > -1) {
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.januaryToMarch[2324] =
+        budget[row]['G'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.januaryToMarch[2425] =
+        budget[row]['H'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.januaryToMarch[2526] =
+        budget[row]['I'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.januaryToMarch[2627] =
+        budget[row]['J'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.januaryToMarch.total =
+        budget[row]['K'];
+    }
+    if (value.indexOf('Fiscal Year Total') > -1) {
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.fiscalYearTotal[2324] =
+        budget[row]['G'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.fiscalYearTotal[2425] =
+        budget[row]['H'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.fiscalYearTotal[2526] =
+        budget[row]['I'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.fiscalYearTotal[2627] =
+        budget[row]['J'];
+      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.fiscalYearTotal.total =
+        budget[row]['K'];
+    }
+  }
+
   // -- END CURRENT FISCAL PROVINCIAL CONTRIBUTION FORECAST BY QUARTER --
   return detailedBudget;
 };
