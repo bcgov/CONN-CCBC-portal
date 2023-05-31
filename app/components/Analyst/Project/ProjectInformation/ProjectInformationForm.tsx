@@ -16,6 +16,7 @@ const ProjectInformationForm = ({ application }) => {
       fragment ProjectInformationForm_application on Application {
         id
         rowId
+        ccbcNumber
         projectInformation {
           id
           jsonData
@@ -25,7 +26,7 @@ const ProjectInformationForm = ({ application }) => {
     application
   );
 
-  const { rowId, projectInformation } = queryFragment;
+  const { ccbcNumber, rowId, projectInformation } = queryFragment;
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
@@ -57,6 +58,10 @@ const ProjectInformationForm = ({ application }) => {
 
   return (
     <ProjectForm
+      additionalContext={{
+        applicationId: rowId,
+        ccbcNumber,
+      }}
       formData={formData}
       handleChange={(e) => {
         setFormData({ ...e.formData });

@@ -29,6 +29,7 @@ const acceptedFileTypes = '.xls, .xlsx, .xlsm';
 const SowImportFileWidget: React.FC<FileWidgetProps> = ({
   id,
   disabled,
+  formContext,
   onChange,
   value,
   required,
@@ -87,11 +88,11 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
         },
       },
     };
-
+    const { applicationId, ccbcNumber } = formContext;
     const formData = new FormData();
     formData.append('file', file);
 
-    await fetch('/api/analyst/sow', {
+    await fetch(`/api/analyst/sow/${applicationId}/${ccbcNumber}`, {
       method: 'POST',
       body: formData,
     }).then((response) => {
