@@ -1,6 +1,6 @@
-import * as Sentry from '@sentry/nextjs'; 
+import * as Sentry from '@sentry/nextjs';
 import config from '../../config';
-import getArchivePath from '../../utils/getArchivePath'; 
+import getArchivePath from '../../utils/getArchivePath';
 import s3Client from './s3client';
 import { performQuery } from './graphql';
 
@@ -22,7 +22,7 @@ query getApplications($intakeId: Int!) {
 }
 `;
 
-const getAttachmentList = async(intake:number, req) => {
+const getAttachmentList = async (intake: number, req) => {
   const infected = [];
   const attachments = [];
   // untility functions
@@ -36,9 +36,9 @@ const getAttachmentList = async(intake:number, req) => {
   };
   const markAllInfected = async (formData) => {
     const attachmentFields = {
+      ...formData?.coverage,
       ...formData?.templateUploads,
       ...formData?.supportingDocuments,
-      ...formData?.coverage,
     };
     /**
      * {
@@ -67,9 +67,9 @@ const getAttachmentList = async(intake:number, req) => {
   };
   const sortAndAppendAttachments = (formData, ccbcNumber, formDataRowId) => {
     const attachmentFields = {
+      ...formData?.coverage,
       ...formData?.templateUploads,
       ...formData?.supportingDocuments,
-      ...formData?.coverage,
     };
 
     // Iterate through fields
@@ -80,9 +80,21 @@ const getAttachmentList = async(intake:number, req) => {
           const { name, uuid, size, type } = attachment;
           const path = getArchivePath(field, ccbcNumber, name);
           if (infected.indexOf(uuid) > -1) {
-            attachments.push({name:`${INFECTED_FILE_PREFIX}_${path}`, uuid, size, type, ccbcId: ccbcNumber});
+            attachments.push({
+              name: `${INFECTED_FILE_PREFIX}_${path}`,
+              uuid,
+              size,
+              type,
+              ccbcId: ccbcNumber,
+            });
           } else {
-            attachments.push({name: path, uuid, size, type, ccbcId: ccbcNumber});
+            attachments.push({
+              name: path,
+              uuid,
+              size,
+              type,
+              ccbcId: ccbcNumber,
+            });
           }
         });
       } else {
@@ -93,7 +105,11 @@ const getAttachmentList = async(intake:number, req) => {
     });
   };
 
-  const allApplications = await performQuery(getApplicationsQuery, {intakeId: intake}, req);
+  const allApplications = await performQuery(
+    getApplicationsQuery,
+    { intakeId: intake },
+    req
+  );
   if (allApplications.errors) {
     throw new Error(
       `Failed to retrieve form data:\n${allApplications.errors.join('\n')}`
@@ -117,6 +133,6 @@ const getAttachmentList = async(intake:number, req) => {
     sortAndAppendAttachments(jsonData, ccbcId, application?.formData?.rowId);
   });
   return attachments;
-}
+};
 
 export default getAttachmentList;
