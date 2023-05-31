@@ -20,13 +20,13 @@ const readBudget = async (sow_id, wb, sheet_name) => {
     targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity: '',
     totalEligibleCosts: '',
     totalIneligibleCosts: '',
-    totalProjectCosts: '',
+    totalProjectCost: '',
     amountRequestedFromFederalGovernment: '',
-    amountApplicantWillContribute: '',
+    totalApplicantContribution: '',
     fundingFromAllOtherSources: '',
     amountRequestedFromProvince: '',
-    amountCIBWillContribute: '',
-    totalRequestedFromCCBCProgram: '',
+    totalInfrastructureBankFunding: '',
+    totalFundingRequestedCCBC: '',
   };
 
   // only need summary table between rows 33 and 44
