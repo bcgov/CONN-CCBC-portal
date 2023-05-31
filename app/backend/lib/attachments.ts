@@ -1,6 +1,6 @@
-import * as Sentry from '@sentry/nextjs'; 
+import * as Sentry from '@sentry/nextjs';
 import config from '../../config';
-import getArchivePath from '../../utils/getArchivePath'; 
+import getArchivePath from '../../utils/getArchivePath';
 import s3Client from './s3client';
 import { performQuery } from './graphql';
 
@@ -22,7 +22,48 @@ query getApplications($intakeId: Int!) {
 }
 `;
 
-const getAttachmentList = async(intake:number, req) => {
+const formatAttachments = (formData) => {
+  return {
+    // We were spreading each form page though some files were going missing so we are spreading each field separately
+
+    // template uploads
+    eligibilityAndImpactsCalculator:
+      formData?.templateUploads?.eligibilityAndImpactsCalculator,
+    detailedBudget: formData?.templateUploads?.detailedBudget,
+    financialForecast: formData?.templateUploads?.financialForecast,
+    lastMileIspOffering: formData?.templateUploads?.lastMileIspOffering,
+    popWholesalePricing: formData?.templateUploads?.popWholesalePricing,
+    communityRuralDevelopmentBenefitsTemplate:
+      formData?.templateUploads?.communityRuralDevelopmentBenefitsTemplate,
+    wirelessAddendum: formData?.templateUploads?.wirelessAddendum,
+    supportingConnectivityEvidence:
+      formData?.templateUploads?.supportingConnectivityEvidence,
+    geographicNames: formData?.templateUploads?.geographicNames,
+    equipmentDetails: formData?.templateUploads?.equipmentDetails,
+
+    // supporting documents
+    copiesOfRegistration: formData?.supportingDocuments?.copiesOfRegistration,
+    preparedFinancialStatements:
+      formData?.supportingDocuments?.preparedFinancialStatements,
+    logicalNetworkDiagram: formData?.supportingDocuments?.logicalNetworkDiagram,
+    projectSchedule: formData?.supportingDocuments?.projectSchedule,
+    communityRuralDevelopmentBenefits:
+      formData?.supportingDocuments?.communityRuralDevelopmentBenefits,
+    otherSupportingMaterials:
+      formData?.supportingDocuments?.otherSupportingMaterials,
+
+    // coverage
+    geographicCoverageMap: formData?.coverage?.geographicCoverageMap,
+    coverageAssessmentStatistics:
+      formData?.coverage?.coverageAssessmentStatistics,
+    currentNetworkInfastructure:
+      formData?.coverage?.currentNetworkInfastructure,
+    upgradedNetworkInfrastructure:
+      formData?.coverage?.upgradedNetworkInfrastructure,
+  };
+};
+
+const getAttachmentList = async (intake: number, req) => {
   const infected = [];
   const attachments = [];
   // untility functions
@@ -35,11 +76,7 @@ const getAttachmentList = async(intake:number, req) => {
     return getTags;
   };
   const markAllInfected = async (formData) => {
-    const attachmentFields = {
-      ...formData?.templateUploads,
-      ...formData?.supportingDocuments,
-      ...formData?.coverage,
-    };
+    const attachmentFields = formatAttachments(formData);
     /**
      * {
      * templateUploads: null
@@ -65,12 +102,9 @@ const getAttachmentList = async(intake:number, req) => {
       }
     });
   };
+
   const sortAndAppendAttachments = (formData, ccbcNumber, formDataRowId) => {
-    const attachmentFields = {
-      ...formData?.templateUploads,
-      ...formData?.supportingDocuments,
-      ...formData?.coverage,
-    };
+    const attachmentFields = formatAttachments(formData);
 
     // Iterate through fields
     Object.keys(attachmentFields)?.forEach((field) => {
@@ -80,9 +114,21 @@ const getAttachmentList = async(intake:number, req) => {
           const { name, uuid, size, type } = attachment;
           const path = getArchivePath(field, ccbcNumber, name);
           if (infected.indexOf(uuid) > -1) {
-            attachments.push({name:`${INFECTED_FILE_PREFIX}_${path}`, uuid, size, type, ccbcId: ccbcNumber});
+            attachments.push({
+              name: `${INFECTED_FILE_PREFIX}_${path}`,
+              uuid,
+              size,
+              type,
+              ccbcId: ccbcNumber,
+            });
           } else {
-            attachments.push({name: path, uuid, size, type, ccbcId: ccbcNumber});
+            attachments.push({
+              name: path,
+              uuid,
+              size,
+              type,
+              ccbcId: ccbcNumber,
+            });
           }
         });
       } else {
@@ -93,7 +139,11 @@ const getAttachmentList = async(intake:number, req) => {
     });
   };
 
-  const allApplications = await performQuery(getApplicationsQuery, {intakeId: intake}, req);
+  const allApplications = await performQuery(
+    getApplicationsQuery,
+    { intakeId: intake },
+    req
+  );
   if (allApplications.errors) {
     throw new Error(
       `Failed to retrieve form data:\n${allApplications.errors.join('\n')}`
@@ -117,6 +167,6 @@ const getAttachmentList = async(intake:number, req) => {
     sortAndAppendAttachments(jsonData, ccbcId, application?.formData?.rowId);
   });
   return attachments;
-}
+};
 
 export default getAttachmentList;
