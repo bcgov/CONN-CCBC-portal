@@ -59,6 +59,11 @@ const ConditionalApprovalForm = ({ application }) => {
           setOldFormData(newFormData);
           setIsFormEditMode(false);
         },
+        updater: (store) => {
+          const payload = store.getRootField('createConditionalApproval');
+          const app = store.get(id);
+          app.setLinkedRecord(payload, 'conditionalApproval');
+        },
       });
     }
   };
