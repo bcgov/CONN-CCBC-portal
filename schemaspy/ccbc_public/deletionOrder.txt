@@ -5,6 +5,7 @@ application_gis_data
 application_announcement
 application_analyst_lead
 sow_tab_2
+sow_tab_1
 conditional_approval_data
 application_package
 application_rfi_data
@@ -14,10 +15,10 @@ application_gis_assessment_hh
 form_data
 application_status
 rfi_data
-application_sow_data
 gis_data
 announcement
 analyst
+application_sow_data
 application
 intake
 ccbc_user

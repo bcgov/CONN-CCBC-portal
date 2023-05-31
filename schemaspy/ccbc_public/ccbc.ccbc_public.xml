@@ -322,6 +322,7 @@
       </table>
       <table name="application_sow_data" remarks="Table containing the SoW data for the given application" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the  SoW" size="10" type="int4" typeCode="4">
+            <child column="sow_id" foreignKey="sow_tab_1_sow_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="sow_tab_1"/>
             <child column="sow_id" foreignKey="sow_tab_2_sow_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="sow_tab_2"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="ID of the application this SoW belongs to" size="10" type="int4" typeCode="4">
@@ -555,6 +556,9 @@
             <child column="archived_by" foreignKey="rfi_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="rfi_data"/>
             <child column="created_by" foreignKey="rfi_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="rfi_data"/>
             <child column="updated_by" foreignKey="rfi_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="rfi_data"/>
+            <child column="archived_by" foreignKey="sow_tab_1_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="sow_tab_1"/>
+            <child column="created_by" foreignKey="sow_tab_1_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="sow_tab_1"/>
+            <child column="updated_by" foreignKey="sow_tab_1_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="sow_tab_1"/>
             <child column="archived_by" foreignKey="sow_tab_2_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="sow_tab_2"/>
             <child column="created_by" foreignKey="sow_tab_2_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="sow_tab_2"/>
             <child column="updated_by" foreignKey="sow_tab_2_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="sow_tab_2"/>
@@ -886,6 +890,41 @@
          <primaryKey column="name" sequenceNumberInPK="1"/>
          <index name="rfi_data_status_type_pkey" unique="true">
             <column ascending="true" name="name"/>
+         </index>
+      </table>
+      <table name="sow_tab_1" remarks="" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="sow_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="sow_tab_1_sow_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_sow_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="sow_tab_1_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="sow_tab_1_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="sow_tab_1_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="sow_tab_1_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_sow_tab_1_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_sow_tab_1_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_sow_tab_1_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+         <index name="sow_tab_1_sow_id_index" unique="false">
+            <column ascending="true" name="sow_id"/>
          </index>
       </table>
       <table name="sow_tab_2" remarks="Table containing the detailed budget data for the given SoW" schema="ccbc_public" type="TABLE">
