@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import * as Sentry from '@sentry/nextjs';
 import { WidgetProps } from '@rjsf/core';
 import {
   handleDelete,
@@ -12,7 +10,7 @@ import { useDeleteAttachment } from 'schema/mutations/attachment/deleteAttachmen
 import bytesToSize from 'utils/bytesToText';
 import FileComponent from 'lib/theme/components/FileComponent';
 
-type File = {
+type FileProps = {
   id: string | number;
   uuid: string;
   name: string;
@@ -20,15 +18,14 @@ type File = {
   type: string;
 };
 
-interface FileWidgetProps extends WidgetProps {
-  value: Array<File>;
+interface SowImportFileWidgetProps extends WidgetProps {
+  value: Array<FileProps>;
 }
 
 const acceptedFileTypes = '.xls, .xlsx, .xlsm';
 
-const SowImportFileWidget: React.FC<FileWidgetProps> = ({
+const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
   id,
-  disabled,
   formContext,
   onChange,
   value,
@@ -36,7 +33,6 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
   label,
 }) => {
   const [error, setError] = useState('');
-  const router = useRouter();
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
   const [isImporting, setIsImporting] = useState(false);
@@ -47,17 +43,10 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsImporting(true);
-    const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
-    const span = transaction.startChild({
-      op: 'file-widget-handle-upload',
-      description: 'FileWidget handleUpload function',
-    });
-
     if (loading) return;
     setError('');
-    const formId =
-      parseInt(router?.query?.id as string, 10) ||
-      parseInt(router?.query?.applicationId as string, 10);
+
+    const { applicationId, ccbcNumber } = formContext;
     const file = e.target.files?.[0];
 
     const { isValid, error: newError } = validateFile(
@@ -84,11 +73,11 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
           fileName: name,
           fileSize: bytesToSize(size),
           fileType: type,
-          applicationId: formId,
+          applicationId,
         },
       },
     };
-    const { applicationId, ccbcNumber } = formContext;
+
     const formData = new FormData();
     formData.append('file', file);
 
@@ -102,10 +91,6 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
           variables,
           onError: () => {
             setError('uploadFailed');
-
-            span.setStatus('unknown_error');
-            span.finish();
-            transaction.finish();
           },
           onCompleted: (res) => {
             const uuid = res?.createAttachment?.attachment?.file;
@@ -120,17 +105,11 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
             };
             onChange([fileDetails]);
             setIsImporting(false);
-            span.setStatus('ok');
-            span.finish();
-            transaction.finish();
           },
         });
       } else {
         setError('sowImportFailed');
         setIsImporting(false);
-        span.setStatus('unknown_error');
-        span.finish();
-        transaction.finish();
       }
     });
   };
@@ -144,7 +123,6 @@ const SowImportFileWidget: React.FC<FileWidgetProps> = ({
       }
       handleDownload={handleDownload}
       onChange={handleChange}
-      disabled={disabled}
       fileTypes={acceptedFileTypes}
       id={id}
       label={label}
