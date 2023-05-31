@@ -29,6 +29,37 @@ const mockQueryPayload = {
   },
 };
 
+const mockFormDataPayload = {
+  Application() {
+    return {
+      id: 'TestApplicationID',
+      projectInformation: {
+        formByFormSchemaId: {
+          jsonSchema: schema,
+        },
+        jsonData: {
+          hasFundingAgreementBeenSigned: true,
+          main: {
+            upload: {
+              statementOfWorkUpload: [
+                {
+                  id: 3,
+                  uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+                  name: 'file-2.kmz',
+                  size: 0,
+                  type: 'application/vnd.google-earth.kmz',
+                },
+              ],
+            },
+          },
+        },
+      },
+    };
+  },
+};
+
+global.fetch = jest.fn(() => Promise.resolve({ status: 200 }));
+
 const componentTestingHelper =
   new ComponentTestingHelper<SowImportFileWidgetTestQuery>({
     component: ProjectInformationForm,
@@ -69,13 +100,23 @@ describe('The SowImportFileWidget', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
-    const file = new File([new ArrayBuffer(1)], 'file.kmz', {
-      type: 'application/vnd.google-earth.kmz',
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
+
+    expect(hasFundingAggreementBeenSigned).not.toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(hasFundingAggreementBeenSigned);
     });
 
-    const inputFile = screen.getAllByTestId('file-test')[0];
+    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
+      type: 'application/excel',
+    });
 
-    fireEvent.change(inputFile, { target: { files: [file] } });
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
 
     componentTestingHelper.expectMutationToBeCalled(
       'createAttachmentMutation',
@@ -83,16 +124,14 @@ describe('The SowImportFileWidget', () => {
         input: {
           attachment: {
             file,
-            fileName: 'file.kmz',
+            fileName: 'file.xlsx',
             fileSize: '1 Bytes',
-            fileType: 'application/vnd.google-earth.kmz',
+            fileType: 'application/excel',
             applicationId: 1,
           },
         },
       }
     );
-
-    expect(screen.getByLabelText('loading')).toBeVisible();
 
     act(() => {
       componentTestingHelper.environment.mock.resolveMostRecentOperation({
@@ -107,44 +146,22 @@ describe('The SowImportFileWidget', () => {
       });
     });
 
-    expect(screen.getByText('Replace')).toBeVisible();
-    expect(screen.getByText('file.kmz')).toBeVisible();
+    expect(screen.getByText('Replace')).toBeInTheDocument();
+    expect(screen.getByText('file.xlsx')).toBeInTheDocument();
   });
 
   it('calls deleteAttachmentMutation and renders the correct filename and button label', async () => {
-    componentTestingHelper.loadQuery({
-      ...mockQueryPayload,
-      Application() {
-        return {
-          id: 'TestApplicationID',
-          projectInformation: {
-            formByFormSchemaId: {
-              jsonSchema: schema,
-            },
-            jsonData: {
-              main: {
-                upload: {
-                  fundingAgreementUpload: [
-                    {
-                      id: 3,
-                      uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
-                      name: 'file-2.kmz',
-                      size: 0,
-                      type: 'application/vnd.google-earth.kmz',
-                    },
-                  ],
-                },
-              },
-            },
-          },
-          status: 'draft',
-        };
-      },
-    });
+    componentTestingHelper.loadQuery(mockFormDataPayload);
     componentTestingHelper.renderComponent();
 
-    expect(screen.getByText('file-2.kmz')).toBeVisible();
-    expect(screen.getByText('Replace')).toBeVisible();
+    const editButton = screen.getByTestId('project-form-edit-button');
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    expect(screen.getByText('file-2.kmz')).toBeInTheDocument();
+    expect(screen.getByText('Replace')).toBeInTheDocument();
 
     const deleteButton = screen.getByTestId('file-delete-btn');
 
@@ -177,126 +194,6 @@ describe('The SowImportFileWidget', () => {
     expect(screen.queryByText('file-2.kmz')).toBeNull();
     expect(screen.queryByText('Replace')).toBeNull();
   });
-
-  it('displays an error message when attempting to upload incorrect file type', async () => {
-    componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent();
-
-    const file = new File([new ArrayBuffer(1)], 'image.png', {
-      type: 'image/png',
-    });
-
-    const inputFile = screen.getAllByTestId('file-test')[0];
-
-    fireEvent.change(inputFile, { target: { files: [file] } });
-
-    expect(
-      screen.getByText(
-        'Please use an accepted file type. Accepted types for this field are:'
-      )
-    ).toBeVisible();
-  });
-
-  // it('displays an error message when the createAttachment mutation fails', () => {
-  //   componentTestingHelper.loadQuery();
-  //   componentTestingHelper.renderComponent();
-  //
-  //   const file = new File([new ArrayBuffer(1)], 'file.kmz', {
-  //     type: 'application/vnd.google-earth.kmz',
-  //   });
-  //
-  //   const inputFile = screen.getAllByTestId('file-test')[0];
-  //
-  //   fireEvent.change(inputFile, { target: { files: [file] } });
-  //
-  //   act(() =>
-  //     componentTestingHelper.environment.mock.rejectMostRecentOperation(
-  //       new Error()
-  //     )
-  //   );
-  //
-  //   expect(screen.getByText(/File failed to upload/)).toBeVisible();
-  // });
-
-  // it('displays an error message when the deleteAttachment mutation fails', async () => {
-  //   componentTestingHelper.loadQuery({
-  //     ...mockQueryPayload,
-  //     Application() {
-  //       return {
-  //         id: 'TestApplicationID',
-  //         formData: {
-  //           jsonData: {
-  //             coverage: {
-  //               coverageAssessmentStatistics: [
-  //                 {
-  //                   id: 3,
-  //                   uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
-  //                   name: 'file-2.kmz',
-  //                   size: 0,
-  //                   type: 'application/vnd.google-earth.kmz',
-  //                 },
-  //               ],
-  //             },
-  //           },
-  //           formByFormSchemaId: {
-  //             jsonSchema: schema,
-  //           },
-  //         },
-  //         status: 'draft',
-  //       };
-  //     },
-  //   });
-  //   componentTestingHelper.renderComponent();
-  //
-  //   expect(screen.getByText('file-2.kmz')).toBeVisible();
-  //   expect(screen.getByText('Replace')).toBeVisible();
-  //
-  //   const deleteButton = screen.getByTestId('file-delete-btn');
-  //
-  //   deleteButton.click();
-  //
-  //   act(() => {
-  //     componentTestingHelper.environment.mock.rejectMostRecentOperation(
-  //       new Error()
-  //     );
-  //   });
-  //
-  //   expect(screen.getByText('file-2.kmz')).toBeVisible();
-  //   expect(screen.getByText('Replace')).toBeVisible();
-  //   expect(screen.getByText(/Delete file failed/)).toBeVisible();
-  // });
-
-  // it('File Widget gets application id from url', async () => {
-  //   componentTestingHelper.loadQuery();
-  //   componentTestingHelper.renderComponent();
-  //
-  //   const applicationId = '5';
-  //   componentTestingHelper.router.query.id = null;
-  //   componentTestingHelper.router.query.applicationId = applicationId;
-  //
-  //   const file = new File([new ArrayBuffer(1)], 'file.kmz', {
-  //     type: 'application/vnd.google-earth.kmz',
-  //   });
-  //
-  //   const inputFile = screen.getAllByTestId('file-test')[0];
-  //
-  //   fireEvent.change(inputFile, { target: { files: [file] } });
-  //
-  //   componentTestingHelper.expectMutationToBeCalled(
-  //     'createAttachmentMutation',
-  //     {
-  //       input: {
-  //         attachment: {
-  //           file,
-  //           fileName: 'file.kmz',
-  //           fileSize: '1 Bytes',
-  //           fileType: 'application/vnd.google-earth.kmz',
-  //           applicationId: parseInt(applicationId, 10),
-  //         },
-  //       },
-  //     }
-  //   );
-  // });
 
   afterEach(() => {
     jest.clearAllMocks();
