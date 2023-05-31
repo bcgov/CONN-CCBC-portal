@@ -15,22 +15,162 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   const budget = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
-
   const detailedBudget = {
-    targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity: '',
-    totalEligibleCosts: '',
-    totalIneligibleCosts: '',
-    totalProjectCost: '',
-    amountRequestedFromFederalGovernment: '',
-    totalApplicantContribution: '',
-    fundingFromAllOtherSources: '',
-    amountRequestedFromProvince: '',
-    totalInfrastructureBankFunding: '',
-    totalFundingRequestedCCBC: '',
+    summaryTable: {
+      targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity: '',
+      totalEligibleCosts: '',
+      totalIneligibleCosts: '',
+      totalProjectCost: '',
+      amountRequestedFromFederalGovernment: '',
+      totalApplicantContribution: '',
+      fundingFromAllOtherSources: '',
+      amountRequestedFromProvince: '',
+      totalInfrastructureBankFunding: '',
+      totalFundingRequestedCCBC: '',
+    },
+    summaryOfEstimatedProjectCosts: {
+      estimatedProjectCosts: {
+        eligibleRuralBroadband: '',
+        eligibleVeryRemoteSatelliteIndigenousBroadband: '',
+        eligibleMobile: '',
+        totalEligibleCosts: '',
+        totalIneligibleCosts: '',
+        totalProjectCost: '',
+      },
+      totalCostsPerCostCategory: {
+        directLabour: {
+          cost: '',
+          percentOfTotalEligibleCosts: '',
+        },
+        directEquipment: {
+          cost: '',
+          percentOfTotalEligibleCosts: '',
+        },
+        directMaterials: {
+          cost: '',
+          percentOfTotalEligibleCosts: '',
+        },
+        directSatellite: {
+          cost: '',
+          percentOfTotalEligibleCosts: '',
+        },
+        directTravel: {
+          cost: '',
+          percentOfTotalEligibleCosts: '',
+        },
+        directOther: {
+          cost: '',
+          percentOfTotalEligibleCosts: '',
+        },
+        totalEligible: {
+          cost: '',
+          percentOfTotalEligibleCosts: '',
+        },
+      },
+      thirtyPercentOfTotalEligibleCosts: '',
+      projectCosts: {
+        totalEligibleCosts: {
+          2324: '',
+          2425: '',
+          2526: '',
+          2627: '',
+          total: '',
+        },
+        totalIneligibleCosts: {
+          2324: '',
+          2425: '',
+          2526: '',
+          2627: '',
+          total: '',
+        },
+        totalProjectCost: {
+          2324: '',
+          2425: '',
+          2526: '',
+          2627: '',
+          total: '',
+        },
+      },
+    },
+    summaryOfEstimatedProjectFunding: {
+      federalContribution: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+      applicationContribution: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+      provincialContribution: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+      infrastructureBankFunding: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+      otherFundingPartners: [],
+      totalFinancialContribution: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+    },
+    currentFiscalProvincialContributionForecastByQuarter: {
+      aprilToJune: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+      julyToSeptember: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+      octoberToDecember: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+      januaryToMarch: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+      fiscalYearTotal: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+    },
   };
 
-  // only need summary table between rows 33 and 44
-  // first pass - column C and D
+  // -- SUMMARY TABLE --
+  // first pass - column B
   for (let row = 1; row < 50; row++) {
     const suspect = budget[row]['C'];
     let value;
@@ -43,7 +183,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
 
     // if (typeof(value) !== 'string') continue;
     if (value.indexOf('Are you targeting a very remote community') > -1) {
-      detailedBudget.targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity =
+      detailedBudget.summaryTable.targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity =
         budget[row]['D'];
       break;
     }
@@ -61,27 +201,191 @@ const readBudget = async (sow_id, wb, sheet_name) => {
     }
     // if (typeof(value) !== 'string') continue;
     if (value.indexOf('*Total Eligible Costs') > -1) {
-      detailedBudget.totalEligibleCosts = budget[row]['H'];
+      detailedBudget.summaryTable.totalEligibleCosts = budget[row]['H'];
     }
     if (value.indexOf('*Total Ineligible Costs') > -1) {
-      detailedBudget.totalIneligibleCosts = budget[row]['H'];
+      detailedBudget.summaryTable.totalIneligibleCosts = budget[row]['H'];
     }
     if (value.indexOf('*Total Project Cost') > -1) {
-      detailedBudget.totalProjectCosts = budget[row]['H'];
+      detailedBudget.summaryTable.totalProjectCost = budget[row]['H'];
     }
     if (value.indexOf('*Amount requested from the Federal Government') > -1) {
-      detailedBudget.amountRequestedFromFederalGovernment = budget[row]['H'];
-      detailedBudget.amountRequestedFromProvince = budget[row]['J'];
+      detailedBudget.summaryTable.amountRequestedFromFederalGovernment =
+        budget[row]['H'];
+      detailedBudget.summaryTable.amountRequestedFromProvince =
+        budget[row]['J'];
     }
     if (value.indexOf('*Amount Applicant will contribute') > -1) {
-      detailedBudget.amountApplicantWillContribute = budget[row]['H'];
-      detailedBudget.amountCIBWillContribute = budget[row]['J'];
+      detailedBudget.summaryTable.totalApplicantContribution = budget[row]['H'];
+      detailedBudget.summaryTable.totalInfrastructureBankFunding =
+        budget[row]['J'];
     }
     if (value.indexOf('*Funding from all other sources') > -1) {
-      detailedBudget.fundingFromAllOtherSources = budget[row]['H'];
-      detailedBudget.totalRequestedFromCCBCProgram = budget[row]['J'];
+      detailedBudget.summaryTable.fundingFromAllOtherSources = budget[row]['H'];
+      detailedBudget.summaryTable.totalFundingRequestedCCBC = budget[row]['J'];
     }
   }
+  // -- END SUMMARY TABLE --
+
+  // -- SUMMARY OF ESTIMATED PROJECT COSTS --
+
+  // first pass - column B
+  for (let row = 900; row < budget.length; row++) {
+    const suspect = budget[row]['B'];
+    let value;
+    if (suspect === undefined) continue;
+    if (typeof suspect !== 'string') {
+      value = suspect.toString();
+    } else {
+      value = suspect;
+    }
+
+    // estimated project costs
+    if (value.indexOf('Eligible - Rural Broadband') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.estimatedProjectCosts.eligibleRuralBroadband =
+        budget[row]['D'];
+    }
+    if (
+      value.indexOf(
+        'Eligible - Very Remote / Satellite / Indigenous Broadband'
+      ) > -1
+    ) {
+      detailedBudget.summaryOfEstimatedProjectCosts.estimatedProjectCosts.eligibleVeryRemoteSatelliteIndigenousBroadband =
+        budget[row]['D'];
+    }
+    if (value.indexOf('Eligible - Mobile') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.estimatedProjectCosts.eligibleMobile =
+        budget[row]['D'];
+    }
+    if (value.indexOf('Total Eligible Costs:') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.estimatedProjectCosts.totalEligibleCosts =
+        budget[row]['D'];
+    }
+    if (value.indexOf('Total Ineligible Costs:') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.estimatedProjectCosts.totalIneligibleCosts =
+        budget[row]['D'];
+    }
+    if (value.indexOf('Total Project Costs:') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.estimatedProjectCosts.totalProjectCost =
+        budget[row]['D'];
+    }
+  }
+
+  // second pass - columns F - J, total costs per cost category and 30% of total eligible costs
+  for (let row = 1000; row < budget.length; row++) {
+    const suspect = budget[row]['F'];
+    let value;
+    if (suspect === undefined) continue;
+    if (typeof suspect !== 'string') {
+      value = suspect.toString();
+    } else {
+      value = suspect;
+    }
+
+    if (value.indexOf('Direct Labour') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directLabour.cost =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directLabour.percentOfTotalEligibleCosts =
+        budget[row]['H'];
+      detailedBudget.summaryOfEstimatedProjectCosts.thirtyPercentOfTotalEligibleCosts =
+        budget[row]['J'];
+    }
+    if (value.indexOf('Direct Equipment') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directEquipment.cost =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directEquipment.percentOfTotalEligibleCosts =
+        budget[row]['H'];
+    }
+    if (value.indexOf('Direct Materials') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directMaterials.cost =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directMaterials.percentOfTotalEligibleCosts =
+        budget[row]['H'];
+    }
+    if (value.indexOf('Direct Satellite') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directSatellite.cost =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directSatellite.percentOfTotalEligibleCosts =
+        budget[row]['H'];
+    }
+    if (value.indexOf('Direct Travel') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directTravel.cost =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directTravel.percentOfTotalEligibleCosts =
+        budget[row]['H'];
+    }
+    if (value.indexOf('Other Direct') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directOther.cost =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.directOther.percentOfTotalEligibleCosts =
+        budget[row]['H'];
+    }
+    if (value.indexOf('Total Eligible Costs:') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.totalEligible.cost =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectCosts.totalCostsPerCostCategory.totalEligible.percentOfTotalEligibleCosts =
+        budget[row]['H'];
+    }
+  }
+
+  // last pass - column B project costs
+  for (let row = 1075; row < budget.length; row++) {
+    const suspect = budget[row]['B'];
+    let value;
+    if (suspect === undefined) continue;
+    if (typeof suspect !== 'string') {
+      value = suspect.toString();
+    } else {
+      value = suspect;
+    }
+
+    if (value.indexOf('Total Eligible Costs') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalEligibleCosts[2324] =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalEligibleCosts[2425] =
+        budget[row]['H'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalEligibleCosts[2526] =
+        budget[row]['I'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalEligibleCosts[2627] =
+        budget[row]['J'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalEligibleCosts.total =
+        budget[row]['K'];
+    }
+    if (value.indexOf('Total Ineligible Costs') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalIneligibleCosts[2324] =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalIneligibleCosts[2425] =
+        budget[row]['H'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalIneligibleCosts[2526] =
+        budget[row]['I'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalIneligibleCosts[2627] =
+        budget[row]['J'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalIneligibleCosts.total =
+        budget[row]['K'];
+    }
+    if (value.indexOf('Total Project Costs') > -1) {
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalProjectCost[2324] =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalProjectCost[2425] =
+        budget[row]['H'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalProjectCost[2526] =
+        budget[row]['I'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalProjectCost[2627] =
+        budget[row]['J'];
+      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalProjectCost.total =
+        budget[row]['K'];
+    }
+  }
+
+  // -- END SUMMARY OF ESTIMATED PROJECT COSTS --
+
+  // -- SUMMARY OF ESTIMATED PROJECT FUNDING --
+
+  // -- END SUMMARY OF ESTIMATED PROJECT FUNDING --
+
+  // -- CURRENT FISCAL PROVINCIAL CONTRIBUTION FORECAST BY QUARTER --
+
+  // -- END CURRENT FISCAL PROVINCIAL CONTRIBUTION FORECAST BY QUARTER --
   return detailedBudget;
 };
 
