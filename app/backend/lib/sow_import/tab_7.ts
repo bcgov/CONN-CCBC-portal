@@ -230,7 +230,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   // -- SUMMARY OF ESTIMATED PROJECT COSTS --
 
   // first pass - column B
-  for (let row = 900; row < budget.length; row++) {
+  for (let row = 1000; row < 1075; row++) {
     const suspect = budget[row]['B'];
     let value;
     if (suspect === undefined) continue;
@@ -272,7 +272,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   }
 
   // second pass - columns F - J, total costs per cost category and 30% of total eligible costs
-  for (let row = 1000; row < budget.length; row++) {
+  for (let row = 1000; row < 1075; row++) {
     const suspect = budget[row]['F'];
     let value;
     if (suspect === undefined) continue;
@@ -329,7 +329,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   }
 
   // last pass - column B project costs
-  for (let row = 1075; row < budget.length; row++) {
+  for (let row = 1075; row < 1080; row++) {
     const suspect = budget[row]['B'];
     let value;
     if (suspect === undefined) continue;
@@ -380,6 +380,99 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   // -- END SUMMARY OF ESTIMATED PROJECT COSTS --
 
   // -- SUMMARY OF ESTIMATED PROJECT FUNDING --
+
+  // one pass only
+  for (let row = 1079; row < 1090; row++) {
+    const suspect = budget[row]['B'];
+    let value;
+    if (suspect === undefined) continue;
+    if (typeof suspect !== 'string') {
+      value = suspect.toString();
+    } else {
+      value = suspect;
+    }
+
+    // we are on Project funding
+    if (value.indexOf('Project Funding') > -1) {
+      console.log('we are on project funding');
+      // next 4 rows are present funding sources
+      // Federal contribution
+      row++;
+      detailedBudget.summaryOfEstimatedProjectFunding.federalContribution[2324] =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectFunding.federalContribution[2425] =
+        budget[row]['H'];
+      detailedBudget.summaryOfEstimatedProjectFunding.federalContribution[2526] =
+        budget[row]['I'];
+      detailedBudget.summaryOfEstimatedProjectFunding.federalContribution[2627] =
+        budget[row]['J'];
+      detailedBudget.summaryOfEstimatedProjectFunding.federalContribution.total =
+        budget[row]['K'];
+      row++;
+      // recipient/application contribution
+      detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution[2324] =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution[2425] =
+        budget[row]['H'];
+      detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution[2526] =
+        budget[row]['I'];
+      detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution[2627] =
+        budget[row]['J'];
+      detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution.total =
+        budget[row]['K'];
+      row++;
+      // provincial contribution
+      detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution[2324] =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution[2425] =
+        budget[row]['H'];
+      detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution[2526] =
+        budget[row]['I'];
+      detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution[2627] =
+        budget[row]['J'];
+      detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution.total =
+        budget[row]['K'];
+      row++;
+      // applicant contribution by CIB/Infrastructure banking
+      detailedBudget.summaryOfEstimatedProjectFunding.infrastructureBankFunding[2324] =
+        budget[row]['G'];
+      detailedBudget.summaryOfEstimatedProjectFunding.infrastructureBankFunding[2425] =
+        budget[row]['H'];
+      detailedBudget.summaryOfEstimatedProjectFunding.infrastructureBankFunding[2526] =
+        budget[row]['I'];
+      detailedBudget.summaryOfEstimatedProjectFunding.infrastructureBankFunding[2627] =
+        budget[row]['J'];
+      detailedBudget.summaryOfEstimatedProjectFunding.infrastructureBankFunding.total =
+        budget[row]['K'];
+      row++;
+      // next 7 are possible other
+      for (let otherRow = row; otherRow < row + 7; otherRow++) {
+        const otherSuspect = budget[otherRow]['B'];
+        let otherValue;
+        if (otherSuspect === undefined) continue;
+        if (typeof otherSuspect !== 'string') {
+          otherValue = otherSuspect.toString();
+        } else {
+          otherValue = otherSuspect;
+        }
+        // if we don't have the predefined phrase, we have a custom other
+        if (
+          otherValue.indexOf('Identify other source of funding by name') === -1
+        ) {
+          detailedBudget.summaryOfEstimatedProjectFunding.otherFundingPartners.push(
+            {
+              fundingPartnersName: budget[otherRow]['B'],
+              2324: budget[otherRow]['G'],
+              2425: budget[otherRow]['H'],
+              2526: budget[otherRow]['I'],
+              2627: budget[otherRow]['J'],
+              total: budget[otherRow]['K'],
+            }
+          );
+        }
+      }
+    }
+  }
 
   // -- END SUMMARY OF ESTIMATED PROJECT FUNDING --
 
