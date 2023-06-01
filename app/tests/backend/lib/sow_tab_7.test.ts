@@ -1783,8 +1783,8 @@ describe('sow tab 7 tests', () => {
               },
               directSatellite: { cost: 0, percentOfTotalEligibleCosts: 0 },
               directTravel: { cost: 0, percentOfTotalEligibleCosts: 0 },
-              directOther: { cost: '', percentOfTotalEligibleCosts: '' },
-              totalEligible: { cost: '', percentOfTotalEligibleCosts: '' },
+              directOther: { cost: 100000, percentOfTotalEligibleCosts: 0.2 },
+              totalEligible: { cost: 500000, percentOfTotalEligibleCosts: 1 },
             },
             thirtyPercentOfTotalEligibleCosts: 150000,
             projectCosts: {
