@@ -31,7 +31,6 @@ const processSow: ExpressMiddleware = async (req, res) => {
     return res.status(404).end();
   }
 
-  const { validate = false } = req.params;
   const errorList = [];
   const form = new formidable.IncomingForm({maxFileSize:8000000});
 
@@ -55,7 +54,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
   if (errorList.length > 0) {
     return res.status(400).json(errorList).end();
   }
-  const result = await LoadSummaryData(wb, 'Summary_Sommaire', req, validate);
+  const result = await LoadSummaryData(wb, 'Summary_Sommaire', req);
 
   let exportError;
   if (result) {
@@ -67,7 +66,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
       const sowData = (result as any)?.data?.createApplicationSowData?.applicationSowData;
       const sowId = sowData?.rowId || 1;
 
-      const tab2 = await LoadTab2Data(sowId, wb, '2', req, validate);
+      const tab2 = await LoadTab2Data(sowId, wb, '2', req);
       exportError = (tab2 as any)?.error;
       if (exportError) {
         errorList.push({level:'tab2', error: exportError});
@@ -78,18 +77,21 @@ const processSow: ExpressMiddleware = async (req, res) => {
         errorList.push({level:'tab1',error: exportError});
       }
       await LoadTab7Data(sowId, wb, '7', req);
-      await LoadTab8Data(sowId, wb, '8', req);
+      const tab7 = await LoadTab7Data(sowId, wb, '7', req);
+      exportError = (tab7 as any)?.error;
+      if (exportError) {
+        errorList.push({level:'tab8', error: exportError});
+      }
+      const tab8 = await LoadTab8Data(sowId, wb, '8', req);
+      exportError = (tab8 as any)?.error;
+      if (exportError) {
+        errorList.push({level:'tab8', error: exportError});
+      }
     }
     if (errorList.length > 0) {
       return res.status(400).json(errorList).end();
     }
-    await LoadTab1Data(sowId, wb, '1', req);
-    await LoadTab7Data(sowId, wb, '7', req);
-    const tab8 = await LoadTab8Data(sowId, wb, '8', req);
-    exportError = (tab8 as any)?.error;
-    if (exportError) {
-      return res.status(400).json({ error: exportError }).end();
-    }
+    
     return res.status(200).json({ result }).end();
   }
 

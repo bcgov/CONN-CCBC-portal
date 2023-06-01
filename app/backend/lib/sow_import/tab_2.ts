@@ -58,7 +58,8 @@ const readData = async(wb, sheet_name) => {
   return result;
 }
 
-const LoadTab2Data = async(sow_id, wb, sheet_name, req, validate) => {
+const LoadTab2Data = async(sow_id, wb, sheet_name, req) => {
+  const { validate = false } = req.query;
   const data = await readData(wb, sheet_name);
   
   if (data.length === 0) {

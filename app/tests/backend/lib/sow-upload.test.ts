@@ -70,6 +70,33 @@ describe('The SoW import', () => {
     expect(response.status).toBe(200);
   });
 
+  it('should validate uploaded file for authorized user', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: { createApplicationSowData: { applicationSowData: {rowId:1}}}
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/sow/10/CCBC-020118?validate=true') 
+      .set("Content-Type", "application/json")
+      .set('Connection', 'keep-alive')
+      .field("data", JSON.stringify({ name: "sow-data" }))
+      .attach("sow-data", `${__dirname}/sow_200.xlsx`)
+      .expect(200);
+ 
+    expect(response.status).toBe(200);
+    
+    expect(performQuery).not.toHaveBeenCalled();
+  });
+
   it('should return error if file does not have expected worksheets', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
@@ -139,6 +166,7 @@ describe('The SoW import', () => {
         level: 'summary',
         error: 'CCBC Number mismatch: expected CCBC-020100, received: CCBC-020118'
       }]);
+    
   });
 
   afterEach(async () => {
