@@ -272,7 +272,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   }
 
   // second pass - columns F - J, total costs per cost category and 30% of total eligible costs
-  for (let row = 1000; row < 1075; row++) {
+  for (let row = 1000; row < 1077; row++) {
     const suspect = budget[row]['F'];
     let value;
     if (suspect === undefined) continue;
