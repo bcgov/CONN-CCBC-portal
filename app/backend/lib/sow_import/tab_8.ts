@@ -86,7 +86,7 @@ const readData = async(sow_id, wb, sheet_name) => {
 }
 
 const LoadTab8Data = async(sow_id, wb, sheet_name, req) => {
-  const { validate = false } = req.query;
+  const { validate = false } = req.query || {};
   const data = await readData(sow_id, wb, sheet_name);
   
   if (validate) {

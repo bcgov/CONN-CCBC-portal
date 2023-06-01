@@ -131,7 +131,7 @@ export const readData = (sow_id: number, wb: WorkBook, sheet_name: string) => {
 };
 
 const LoadTab1Data = async (sow_id, wb, sheet_name, req) => {
-  const { validate = false } = req.query;
+  const { validate = false } = req.query || {};
   const data = readData(sow_id, wb, sheet_name);
   const input = { input: { sowId: sow_id, jsonData: data } };
   // time to persist in DB

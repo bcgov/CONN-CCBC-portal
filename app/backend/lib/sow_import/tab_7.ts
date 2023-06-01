@@ -568,6 +568,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
 };
 
 const LoadTab7Data = async (sow_id, wb, sheet_name, req) => {
+  const { validate = false } = req.query || {};
   const data = await readBudget(sow_id, wb, sheet_name);
   const input = { input: { sowId: sow_id, jsonData: data } };
   // time to persist in DB

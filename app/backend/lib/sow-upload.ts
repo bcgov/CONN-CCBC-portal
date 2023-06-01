@@ -51,9 +51,11 @@ const processSow: ExpressMiddleware = async (req, res) => {
         errorList.push({ level:'workbook', error: `missing required sheet "${sheet}". Found: ${JSON.stringify(wb.SheetNames)}`});
       } 
   });
+
   if (errorList.length > 0) {
     return res.status(400).json(errorList).end();
   }
+
   const result = await LoadSummaryData(wb, 'Summary_Sommaire', req);
 
   let exportError;
@@ -111,7 +113,7 @@ export const config = {
   api: {
     bodyParser: false,
     externalResolver: true,
-  },
+  }
 };
 
 export default sowUpload;
