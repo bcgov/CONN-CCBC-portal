@@ -1999,7 +1999,7 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-attachment')[0]
     ).toHaveTextContent(
-      'The applicant uploaded a file on Mar 3, 2023, 8:05 a.m.'
+      'The applicant uploaded file_10M.bin on Mar 3, 2023, 8:05 a.m.'
     );
 
     expect(screen.getAllByTestId('history-content-rfi')[2]).toHaveTextContent(
