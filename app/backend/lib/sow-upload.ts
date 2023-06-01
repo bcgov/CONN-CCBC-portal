@@ -14,7 +14,7 @@ import { ExpressMiddleware, parseForm } from './express-helper';
 // see https://docs.sheetjs.com/docs/getting-started/installation/nodejs/#installation
 XLSX.set_fs(fs);
 
-const sheetNames = ['Summary_Sommaire', '1', '2', '3', '4', '5', '6', '7', '8'];
+const sheetNames = ['Summary_Sommaire','1','2','7','8'];
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
@@ -32,10 +32,12 @@ const processSow: ExpressMiddleware = async (req, res) => {
   }
 
   const { validate = false } = req.params;
+  const errorList = [];
   const form = new formidable.IncomingForm({maxFileSize:8000000});
 
-  const files = await parseForm(form, req).catch((err) => {
-    return res.status(400).json({ error: err }).end();
+  const files = await parseForm(form, req).catch((err) => { 
+    errorList.push({ level:'file', error: err});
+    return res.status(400).json(errorList).end();
   });
 
   const filename = Object.keys(files)[0];
@@ -45,21 +47,13 @@ const processSow: ExpressMiddleware = async (req, res) => {
   const wb = XLSX.read(buf);
 
   // check if we have all needed worksheets
-  let missingSheet = '';
-  sheetNames.forEach((sheet) => {
-    if (wb.SheetNames.indexOf(sheet) === -1) {
-      missingSheet = sheet;
-    }
+  sheetNames.forEach(sheet=>{
+      if(wb.SheetNames.indexOf(sheet) === -1) {
+        errorList.push({ level:'workbook', error: `missing required sheet "${sheet}". Found: ${JSON.stringify(wb.SheetNames)}`});
+      } 
   });
-  if (missingSheet.length > 0) {
-    return res
-      .status(400)
-      .json({
-        error: `missing required sheet(s). Found: ${JSON.stringify(
-          wb.SheetNames
-        )}`,
-      })
-      .end();
+  if (errorList.length > 0) {
+    return res.status(400).json(errorList).end();
   }
   const result = await LoadSummaryData(wb, 'Summary_Sommaire', req, validate);
 
@@ -67,16 +61,27 @@ const processSow: ExpressMiddleware = async (req, res) => {
   if (result) {
     const loadError = (result as any).error;
     if (loadError) {
-      return res.status(400).json({ error: loadError }).end();
+      errorList.push({level:'summary', error: loadError});
     }
-    const sowData = (result as any)?.data?.createApplicationSowData
-      ?.applicationSowData;
-    const sowId = sowData?.rowId || 1;
+    else {
+      const sowData = (result as any)?.data?.createApplicationSowData?.applicationSowData;
+      const sowId = sowData?.rowId || 1;
 
-    const tab2 = await LoadTab2Data(sowId, wb, '2', req, validate);
-    exportError = (tab2 as any)?.error;
-    if (exportError) {
-      return res.status(400).json({ error: exportError }).end();
+      const tab2 = await LoadTab2Data(sowId, wb, '2', req, validate);
+      exportError = (tab2 as any)?.error;
+      if (exportError) {
+        errorList.push({level:'tab2', error: exportError});
+      }
+      const tab1 = await LoadTab1Data(sowId, wb, '1', req);
+      exportError = (tab1 as any)?.error;
+      if (exportError) {
+        errorList.push({level:'tab1',error: exportError});
+      }
+      await LoadTab7Data(sowId, wb, '7', req);
+      await LoadTab8Data(sowId, wb, '8', req);
+    }
+    if (errorList.length > 0) {
+      return res.status(400).json(errorList).end();
     }
     await LoadTab1Data(sowId, wb, '1', req);
     await LoadTab7Data(sowId, wb, '7', req);

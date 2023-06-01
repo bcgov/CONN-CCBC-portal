@@ -87,8 +87,28 @@ describe('The SoW import', () => {
       .expect(400);
 
     expect(response.status).toBe(400); 
-    expect(response.body).toEqual({
-      error: 'missing required sheet(s). Found: ["Sheet1"]'});
+    expect(response.body).toEqual([
+      {
+        level: 'workbook',
+        error: 'missing required sheet "Summary_Sommaire". Found: ["Sheet1"]'
+      },
+      {
+        level: 'workbook',
+        error: 'missing required sheet "1". Found: ["Sheet1"]'
+      },
+      {
+        level: 'workbook',
+        error: 'missing required sheet "2". Found: ["Sheet1"]'
+      },
+      {
+        level: 'workbook',
+        error: 'missing required sheet "7". Found: ["Sheet1"]'
+      },
+      {
+        level: 'workbook',
+        error: 'missing required sheet "8". Found: ["Sheet1"]'
+      },
+    ]);
   });
 
   it('should return error if ccbc_number in file does not match request', async () => {
@@ -114,8 +134,11 @@ describe('The SoW import', () => {
       .expect(400);
 
     expect(response.status).toBe(400); 
-    expect(response.body).toEqual({
-      error: 'CCBC Number mismatch: expected CCBC-020100, received: CCBC-020118'});
+    expect(response.body).toEqual([
+      {
+        level: 'summary',
+        error: 'CCBC Number mismatch: expected CCBC-020100, received: CCBC-020118'
+      }]);
   });
 
   afterEach(async () => {
