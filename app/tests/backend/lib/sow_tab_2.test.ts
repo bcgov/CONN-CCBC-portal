@@ -25,7 +25,7 @@ describe('sow_tab_2', () => {
     ]);
     const wb = XLSX.read(null); 
 
-    const data = await LoadTab2Data(1,wb,'2', request, false);
+    const data = await LoadTab2Data(1,wb,'2', request);
 
     expect(data).toEqual({error:'no data found for Tab 2'});
   });
@@ -198,7 +198,7 @@ describe('sow_tab_2', () => {
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeTab2);
     const wb = XLSX.read(null); 
 
-    await LoadTab2Data(1,wb,'2', request, false);
+    await LoadTab2Data(1,wb,'2', request);
     expect(performQuery).toHaveBeenCalledWith( expect.anything(), expectedInput, expect.anything());
   });
   

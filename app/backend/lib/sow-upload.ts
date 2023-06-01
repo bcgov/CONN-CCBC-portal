@@ -98,7 +98,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
   }
 
   return res.status(400).json({ error: 'failed to save SoW data in DB' }).end();
-};
+}
 
 sowUpload.post(
   '/api/analyst/sow/:applicationId/:ccbcNumber',
@@ -113,7 +113,7 @@ export const config = {
   api: {
     bodyParser: false,
     externalResolver: true,
-  }
+  },
 };
 
 export default sowUpload;
