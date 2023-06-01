@@ -57,6 +57,8 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     new Date(createdAt)
   ).toLocaleString(DateTime.DATETIME_MED);
 
+  console.log('historyItem', historyItem);
+
   if (tableName === 'rfi_data') {
     const rfiNumber = record.rfi_number;
 
@@ -229,6 +231,16 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         )}
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
       </div>
+    );
+  }
+
+  if (tableName === 'project_information_data') {
+    return (
+      <StyledContent data-testid="history-content-conditional-approval">
+        <span>{displayName} saved the </span>
+        <b>Project information</b>
+        <span> form on {createdAtFormatted}</span>
+      </StyledContent>
     );
   }
 

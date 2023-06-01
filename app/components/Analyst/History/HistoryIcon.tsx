@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBox,
   faBullhorn,
+  faChartGantt,
   faDotCircle,
   faCheckDouble,
   faClipboardList,
@@ -38,6 +39,7 @@ const iconMap = {
   application_package: faBox,
   conditional_approval_data: faStamp,
   application_gis_data: faMap,
+  project_information_data: faChartGantt,
 };
 
 interface Props {
