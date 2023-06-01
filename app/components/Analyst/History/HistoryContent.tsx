@@ -57,8 +57,6 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     new Date(createdAt)
   ).toLocaleString(DateTime.DATETIME_MED);
 
-  console.log('historyItem', historyItem);
-
   if (tableName === 'rfi_data') {
     const rfiNumber = record.rfi_number;
 
