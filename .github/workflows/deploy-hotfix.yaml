@@ -3,8 +3,7 @@ name: Deploy on Merge to Hotfix
 on:
   push:
     branches:
-      # - hotfix
-      - runbook-deploy-to-hotfix-env
+      - hotfix
 
 env:
   TAG: sha-${{ github.sha }}
