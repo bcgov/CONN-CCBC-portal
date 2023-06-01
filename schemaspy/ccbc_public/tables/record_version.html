@@ -406,24 +406,24 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>record_version_check</td>
-                                    <td>(((COALESCE(record_id, old_record_id) IS NOT NULL) OR (op &#61; &#39;TRUNCATE&#39;::audit.operation)))</td>
+                                    <td>record_version_check2</td>
+                                    <td>(((op &#61; ANY (ARRAY[&#39;INSERT&#39;::audit.operation, &#39;UPDATE&#39;::audit.operation])) &#61; (record IS NOT NULL)))</td>
                                 </tr>
                                 <tr>
                                     <td>record_version_check4</td>
                                     <td>(((op &#61; ANY (ARRAY[&#39;UPDATE&#39;::audit.operation, &#39;DELETE&#39;::audit.operation])) &#61; (old_record IS NOT NULL)))</td>
                                 </tr>
                                 <tr>
-                                    <td>record_version_check3</td>
-                                    <td>(((op &#61; ANY (ARRAY[&#39;UPDATE&#39;::audit.operation, &#39;DELETE&#39;::audit.operation])) &#61; (old_record_id IS NOT NULL)))</td>
+                                    <td>record_version_check</td>
+                                    <td>(((COALESCE(record_id, old_record_id) IS NOT NULL) OR (op &#61; &#39;TRUNCATE&#39;::audit.operation)))</td>
                                 </tr>
                                 <tr>
                                     <td>record_version_check1</td>
                                     <td>(((op &#61; ANY (ARRAY[&#39;INSERT&#39;::audit.operation, &#39;UPDATE&#39;::audit.operation])) &#61; (record_id IS NOT NULL)))</td>
                                 </tr>
                                 <tr>
-                                    <td>record_version_check2</td>
-                                    <td>(((op &#61; ANY (ARRAY[&#39;INSERT&#39;::audit.operation, &#39;UPDATE&#39;::audit.operation])) &#61; (record IS NOT NULL)))</td>
+                                    <td>record_version_check3</td>
+                                    <td>(((op &#61; ANY (ARRAY[&#39;UPDATE&#39;::audit.operation, &#39;DELETE&#39;::audit.operation])) &#61; (old_record_id IS NOT NULL)))</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -456,25 +456,26 @@
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
 <area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="691,5,830,93">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,743,187,977">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,705,187,940">
 <area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="331,247,532,335">
-<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="676,593,845,681">
-<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="366,661,497,749">
+<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="676,729,845,817">
+<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="366,797,497,885">
 <area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="901,89,1175,177">
 <area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="889,195,1187,283">
-<area shape="rect" id="node8" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="918,331,1158,419">
+<area shape="rect" id="node8" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="918,467,1158,555">
 <area shape="rect" id="node9" href="gis_data.html" target="_top" title="gis_data" alt="" coords="359,420,503,508">
-<area shape="rect" id="node10" href="application_package.html" target="_top" title="application_package" alt="" coords="917,504,1159,592">
-<area shape="rect" id="node11" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="913,1719,1163,1807">
-<area shape="rect" id="node12" href="application_status.html" target="_top" title="application_status" alt="" coords="925,700,1151,788">
-<area shape="rect" id="node13" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="930,873,1146,961">
-<area shape="rect" id="node14" href="attachment.html" target="_top" title="attachment" alt="" coords="1231,784,1404,872">
-<area shape="rect" id="node15" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="893,1047,1183,1135">
+<area shape="rect" id="node10" href="application_package.html" target="_top" title="application_package" alt="" coords="917,572,1159,660">
+<area shape="rect" id="node11" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="913,1787,1163,1875">
+<area shape="rect" id="node12" href="application_status.html" target="_top" title="application_status" alt="" coords="925,677,1151,765">
+<area shape="rect" id="node13" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="930,865,1146,953">
+<area shape="rect" id="node14" href="attachment.html" target="_top" title="attachment" alt="" coords="1231,331,1404,419">
+<area shape="rect" id="node15" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="893,1039,1183,1127">
 <area shape="rect" id="node16" href="form_data.html" target="_top" title="form_data" alt="" coords="351,1107,512,1195">
-<area shape="rect" id="node17" href="record_version.html" target="_top" title="record_version" alt="" coords="231,1212,632,1633">
-<area shape="rect" id="node18" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="361,1651,501,1739">
-<area shape="rect" id="node19" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1237,957,1397,1045">
-<area shape="rect" id="node20" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1237,1803,1397,1891">
+<area shape="rect" id="node17" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="897,1191,1179,1279">
+<area shape="rect" id="node18" href="record_version.html" target="_top" title="record_version" alt="" coords="231,1280,632,1701">
+<area shape="rect" id="node19" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="361,1719,501,1807">
+<area shape="rect" id="node20" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1237,949,1397,1037">
+<area shape="rect" id="node21" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1237,1871,1397,1959">
 </map>
                                         <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/record_version.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>

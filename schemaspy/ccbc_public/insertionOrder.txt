@@ -21,6 +21,7 @@ application_form_data
 application_rfi_data
 application_package
 conditional_approval_data
+project_information_data
 sow_tab_1
 sow_tab_2
 application_analyst_lead

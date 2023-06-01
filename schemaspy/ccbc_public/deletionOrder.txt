@@ -6,6 +6,7 @@ application_announcement
 application_analyst_lead
 sow_tab_2
 sow_tab_1
+project_information_data
 conditional_approval_data
 application_package
 application_rfi_data
