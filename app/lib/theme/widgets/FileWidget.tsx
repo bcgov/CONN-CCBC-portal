@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import * as Sentry from '@sentry/nextjs';
 import { WidgetProps } from '@rjsf/core';
-import path from 'path';
-import { useCreateAttachment } from '../../../schema/mutations/attachment/createAttachment';
-import { useDeleteAttachment } from '../../../schema/mutations/attachment/deleteAttachment';
-
-import bytesToSize from '../../../utils/bytesToText';
-import FileComponent from '../components/FileComponent';
+import {
+  handleDelete,
+  validateFile,
+  handleDownload,
+} from 'lib/theme/functions/fileWidgetFunctions';
+import { useCreateAttachment } from 'schema/mutations/attachment/createAttachment';
+import { useDeleteAttachment } from 'schema/mutations/attachment/deleteAttachment';
+import bytesToSize from 'utils/bytesToText';
+import FileComponent from 'lib/theme/components/FileComponent';
 
 type File = {
   id: string | number;
@@ -20,13 +23,6 @@ type File = {
 interface FileWidgetProps extends WidgetProps {
   value: Array<File>;
 }
-
-const checkFileType = (file, fileTypes) => {
-  const extension = path.extname(file)?.toLowerCase();
-  const typesArr = fileTypes && fileTypes.replace(/ /g, '').split(',');
-
-  return typesArr.includes(extension);
-};
 
 const FileWidget: React.FC<FileWidgetProps> = ({
   id,
@@ -52,58 +48,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const loading = isCreatingAttachment || isDeletingAttachment;
   // 104857600 bytes = 100mb
   const maxFileSizeInBytes = 104857600;
-
-  const handleDelete = (attachmentId) => {
-    setError('');
-    const variables = {
-      input: {
-        attachmentPatch: {
-          archivedAt: new Date().toISOString(),
-        },
-        rowId: attachmentId,
-      },
-    };
-
-    const deleteFileFromFormData = (res) => {
-      const attachmentRowId = res?.updateAttachmentByRowId?.attachment?.rowId;
-      const indexOfFile = value.findIndex(
-        (object) => object.id === attachmentRowId
-      );
-      const newFileList = [...value];
-      newFileList.splice(indexOfFile, 1);
-      const isFileListEmpty = newFileList.length <= 0;
-      onChange(isFileListEmpty ? null : newFileList);
-    };
-
-    deleteAttachment({
-      variables,
-      onError: (res) => {
-        /// Allow files to be deleted from form data if attachment record was already archived
-        if (res.message.includes('Deleted records cannot be modified')) {
-          deleteFileFromFormData(res);
-        } else {
-          setError('deleteFailed');
-        }
-      },
-      onCompleted: (res) => {
-        deleteFileFromFormData(res);
-      },
-    });
-  };
-
-  const validateFile = (file: globalThis.File) => {
-    if (!file) return { isValid: false, error: '' };
-
-    const { size } = file;
-    if (size > maxFileSizeInBytes) {
-      return { isValid: false, error: 'fileSize' };
-    }
-    if (acceptedFileTypes && !checkFileType(file.name, acceptedFileTypes)) {
-      return { isValid: false, error: 'fileType' };
-    }
-
-    return { isValid: true, error: null };
-  };
+  const fileId = isFiles && value[0].id;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
@@ -119,7 +64,11 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       parseInt(router?.query?.applicationId as string, 10);
     const file = e.target.files?.[0];
 
-    const { isValid, error: newError } = validateFile(file);
+    const { isValid, error: newError } = validateFile(
+      file,
+      maxFileSizeInBytes,
+      acceptedFileTypes
+    );
     if (!isValid) {
       setError(newError);
       return;
@@ -129,8 +78,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
 
     if (isFiles && !allowMultipleFiles) {
       // Soft delete file if 'Replace' button is used for single file uploads
-      const fileId = value[0].id;
-      handleDelete(fileId);
+      handleDelete(fileId, deleteAttachment, setError, value, onChange);
     }
 
     const variables = {
@@ -181,23 +129,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     e.target.value = '';
   };
 
-  const showModal = () => {
-    window.location.hash = 'file-error';
-  };
-
-  const handleDownload = async (uuid, fileName) => {
-    const url = `/api/s3/download/${uuid}/${fileName}`;
-    await fetch(url)
-      .then((response) => response.json())
-      .then((response) => {
-        if (response.avstatus) {
-          showModal();
-        } else {
-          window.open(response, '_blank');
-        }
-      });
-  };
-
   return (
     <FileComponent
       wrap={wrap as boolean}
@@ -205,7 +136,9 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       loading={isCreatingAttachment || isDeletingAttachment}
       error={error}
       buttonVariant={buttonVariant}
-      handleDelete={handleDelete}
+      handleDelete={() =>
+        handleDelete(fileId, deleteAttachment, setError, value, onChange)
+      }
       handleDownload={handleDownload}
       onChange={handleChange}
       disabled={disabled}

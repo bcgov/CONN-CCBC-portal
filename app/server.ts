@@ -31,7 +31,10 @@ import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
 const unless = (paths, middleware) => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   return (req, res, nexthandler) => {
-    if (paths.includes(req.path)) {
+    if (
+      paths.includes(req.path) ||
+      paths.find((path) => req.path.includes(path))
+    ) {
       return nexthandler();
     }
     return middleware(req, res, nexthandler);

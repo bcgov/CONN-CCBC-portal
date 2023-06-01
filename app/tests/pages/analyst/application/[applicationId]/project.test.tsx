@@ -95,6 +95,34 @@ const mockJsonDataQueryPayload = {
             },
           },
         },
+        projectInformation: {
+          jsonData: {
+            main: {
+              upload: {
+                statementOfWorkUpload: [
+                  {
+                    id: 11,
+                    name: 'CCBC-020118 - Statement of Work Tables - 20230517.xlsx',
+                    size: 4230881,
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    uuid: '3529ee52-c2e0-4c65-b1c2-2e3632e77f66',
+                  },
+                ],
+                fundingAgreementUpload: [
+                  {
+                    id: 10,
+                    name: 'test.pdf',
+                    size: 0,
+                    type: 'application/pdf',
+                    uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
+                  },
+                ],
+              },
+              dateFundingAgreementSigned: '2023-05-10',
+            },
+            hasFundingAgreementBeenSigned: true,
+          },
+        },
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -633,5 +661,89 @@ describe('The Project page', () => {
         },
       },
     });
+  });
+
+  it('should open the project information form and upload a file', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    // Click on the edit button to open the form
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
+
+    expect(hasFundingAggreementBeenSigned).not.toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(hasFundingAggreementBeenSigned);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'test.pdf', {
+      type: 'application/pdf',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
+      input: {
+        attachment: {
+          file,
+          fileName: 'test.pdf',
+          fileSize: '1 Bytes',
+          fileType: 'application/pdf',
+          applicationId: 1,
+        },
+      },
+    });
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText('Replace')).toBeInTheDocument();
+    expect(screen.getByText('test.pdf')).toBeInTheDocument();
+  });
+
+  it('should show the read only project information form', async () => {
+    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('Funding agreement')).toBeInTheDocument();
+
+    expect(screen.getByText('test.pdf')).toBeInTheDocument();
+
+    expect(screen.getByText('Statement of work table')).toBeInTheDocument();
+
+    expect(
+      screen.getByText('CCBC-020118 - Statement of Work Tables - 20230517.xlsx')
+    ).toBeInTheDocument();
+
+    expect(screen.getByText('Finalized map')).toBeInTheDocument();
+
+    expect(
+      screen.getByText('Date funding agreement signed by recipient')
+    ).toBeInTheDocument();
+
+    expect(screen.getByText('2023-05-10')).toBeInTheDocument();
+
+    expect(
+      screen.getByText('View project data in Metabase')
+    ).toBeInTheDocument();
   });
 });

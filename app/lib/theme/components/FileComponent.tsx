@@ -102,6 +102,14 @@ const ErrorMessage = ({ error, fileTypes }) => {
     return <StyledError>Delete file failed, please try again</StyledError>;
   }
 
+  if (error === 'sowImportFailed') {
+    return (
+      <StyledError>
+        Statement of Work import failed, please check the file and try again
+      </StyledError>
+    );
+  }
+
   if (error === 'fileType') {
     return (
       <StyledError>

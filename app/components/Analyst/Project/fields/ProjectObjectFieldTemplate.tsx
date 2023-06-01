@@ -8,18 +8,20 @@ interface FlexProps {
 const StyledFlex = styled.div<FlexProps>`
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   & input {
     width: margin-right: 16px;
   }
 
-${(props) => props.theme.breakpoint.mediumUp} {
-  flex-direction: ${(props) => (props.direction ? props.direction : 'column')};
-   gap: 8px;
-  .pg-select-wrapper {
-    width: 100%;
-    min-width: 180px;
+  ${(props) => props.theme.breakpoint.mediumUp} {
+    flex-direction: ${(props) =>
+      props.direction ? props.direction : 'column'};
+     gap: 8px;
+    .pg-select-wrapper {
+      width: 100%;
+      min-width: 180px;
+    }
   }
-}
 
 .datepicker-widget {
    margin-bottom: 16px;

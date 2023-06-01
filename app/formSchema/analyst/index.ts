@@ -1,6 +1,7 @@
 export { default as financialRisk } from './financialRisk';
 export { default as gis } from './gis';
 export { default as permitting } from './permitting';
+export { default as projectInformation } from './projectInformation';
 export { default as projectManagement } from './projectManagement';
 export { default as rfiSchema } from './rfiSchema';
 export { default as screening } from './screening';
