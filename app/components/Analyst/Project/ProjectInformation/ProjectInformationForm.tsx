@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
 import projectInformationSchema from 'formSchema/analyst/projectInformation';
@@ -26,7 +26,7 @@ const ProjectInformationForm = ({ application }) => {
     application
   );
 
-  const { ccbcNumber, rowId, projectInformation } = queryFragment;
+  const { ccbcNumber, id, rowId, projectInformation } = queryFragment;
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
@@ -48,11 +48,21 @@ const ProjectInformationForm = ({ application }) => {
         // May need to change when the toast is shown when we add validation
         setShowToast(true);
       },
+      updater: (store, data) => {
+        store
+          .get(id)
+          .setLinkedRecord(
+            store.get(data.createProjectInformation.projectInformationData.id),
+            'projectInformation'
+          );
+      },
     });
   };
-
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
   const handleResetFormData = () => {
-    setFormData({});
+    setFormData(projectInformation?.jsonData || {});
     setShowToast(false);
   };
 
