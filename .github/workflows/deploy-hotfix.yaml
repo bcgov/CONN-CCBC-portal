@@ -57,7 +57,6 @@ jobs:
   deploy_hotfix_prod:
     needs: [deploy_hotfix]
     runs-on: ubuntu-latest
-    depends-on: deploy_hotfix
     if: startsWith(github.event.head_commit.message, 'Merge')
     environment:
       name: production
