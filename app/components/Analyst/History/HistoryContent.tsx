@@ -6,6 +6,7 @@ import applicationDiffSchema from 'formSchema/uiSchema/history/application';
 import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
+import HistoryAttachment from './HistoryAttachment';
 
 const StyledContent = styled.span`
   display: flex;
@@ -70,9 +71,11 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   if (tableName === 'attachment') {
     return (
       <StyledContent data-testid="history-content-attachment">
-        <span>
-          {displayName} uploaded a file on {createdAtFormatted}
-        </span>
+        <HistoryAttachment
+          displayName={displayName}
+          record={record}
+          createdAtFormatted={createdAtFormatted}
+        />
       </StyledContent>
     );
   }
