@@ -25,6 +25,7 @@ project_information_data
 sow_tab_1
 sow_tab_2
 sow_tab_7
+sow_tab_8
 application_analyst_lead
 application_announcement
 application_gis_data

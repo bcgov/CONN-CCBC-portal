@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>application_status - ccbc.ccbc_public</title>
+        <title>sow_tab_8 - ccbc.ccbc_public</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>application_status</h1><p><span id="recordNumber">-1</span> rows</p><br />
+                    <h1>sow_tab_8</h1><p><span id="recordNumber">-1</span> rows</p><br />
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <i class="fa fa-file-text-o"></i>
@@ -84,7 +84,7 @@
                             </div>
                         </div><!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p>Table containing information about possible application statuses</p>
+                            <p>Table containing the detailed budget data for the given SoW</p>
                         </div><!-- /.box-body -->
                     </div>
                 </section>
@@ -130,21 +130,16 @@
                                     <td>null</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
-                                            <tr>
-                                                <td title="attachment.application_status_id references application_status.id via attachment_application_status_id_fkey"><a href='attachment.html'>attachment</a><span class='relatedKey'>.application_status_id</span></td>
-                                                <td class="constraint detail">attachment_application_status_id_fkey</td>
-                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
                                         </table>
                                     </td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Unique ID for the application_status</p></td>
+                                    <td><p>Unique ID for the SoW Tab 8</p></td>
                                 </tr>
                                 <tr>
-                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="application_id">application_id</span></td>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="sow_id">sow_id</span></td>
                                     <td>int4</td>
                                     <td>10</td>
                                     <td title='nullable'>√</td>
@@ -157,35 +152,30 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_status.application_id references application.id via application_status_application_id_fkey"><a href='application.html'>application</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_status_application_id_fkey</td>
+                                                <td title="sow_tab_8.sow_id references application_sow_data.id via sow_tab_8_sow_id_fkey"><a href='application_sow_data.html'>application_sow_data</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">sow_tab_8_sow_id_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td><p>ID of the application this status belongs to</p></td>
+                                    <td><p>ID of the SoW</p></td>
                                 </tr>
                                 <tr>
-                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="status">status</span></td>
-                                    <td>varchar</td>
-                                    <td>1000</td>
-                                    <td title='nullable'>√</td>
+                                    <td><span id="json_data">json_data</span></td>
+                                    <td>jsonb</td>
+                                    <td>2147483647</td>
                                     <td title=''></td>
-                                    <td>null</td>
+                                    <td title=''></td>
+                                    <td>&#39;{}&#39;::jsonb</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
-                                            <tr>
-                                                <td title="application_status.status references application_status_type.name via application_status_status_fkey"><a href='application_status_type.html'>application_status_type</a><span class='relatedKey'>.name</span></td>
-                                                <td class="constraint detail">application_status_status_fkey</td>
-                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
                                         </table>
                                     </td>
-                                    <td></td>
+                                    <td><p>The data imported from the Excel filled by the respondent</p></td>
                                 </tr>
                                 <tr>
                                     <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="created_by">created_by</span></td>
@@ -201,8 +191,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_status.created_by references ccbc_user.id via application_status_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_status_created_by_fkey</td>
+                                                <td title="sow_tab_8.created_by references ccbc_user.id via sow_tab_8_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">sow_tab_8_created_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -227,62 +217,6 @@
                                     <td><p>created at timestamp</p></td>
                                 </tr>
                                 <tr>
-                                    <td><span id="change_reason">change_reason</span></td>
-                                    <td>varchar</td>
-                                    <td>1000</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>Change reason for analyst status change</p></td>
-                                </tr>
-                                <tr>
-                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="archived_by">archived_by</span></td>
-                                    <td>int4</td>
-                                    <td>10</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                            <tr>
-                                                <td title="application_status.archived_by references ccbc_user.id via application_status_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_status_archived_by_fkey</td>
-                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                    <td><p>archived by user id</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="archived_at">archived_at</span></td>
-                                    <td>timestamptz</td>
-                                    <td>35,6</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>archived at timestamp</p></td>
-                                </tr>
-                                <tr>
                                     <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="updated_by">updated_by</span></td>
                                     <td>int4</td>
                                     <td>10</td>
@@ -296,8 +230,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_status.updated_by references ccbc_user.id via application_status_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_status_updated_by_fkey</td>
+                                                <td title="sow_tab_8.updated_by references ccbc_user.id via sow_tab_8_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">sow_tab_8_updated_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -320,6 +254,45 @@
                                         </table>
                                     </td>
                                     <td><p>updated at timestamp</p></td>
+                                </tr>
+                                <tr>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="archived_by">archived_by</span></td>
+                                    <td>int4</td>
+                                    <td>10</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="sow_tab_8.archived_by references ccbc_user.id via sow_tab_8_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">sow_tab_8_archived_by_fkey</td>
+                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td><p>archived by user id</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="archived_at">archived_at</span></td>
+                                    <td>timestamptz</td>
+                                    <td>35,6</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>archived at timestamp</p></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -352,34 +325,34 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> application_status_pkey</td>
+                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> sow_tab_8_pkey</td>
                                     <td>Primary key</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>id</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>application_status_application_id_index</td>
-                                    <td>Performance</td>
-                                    <td><span title='Ascending'>Asc</span></td>
-                                    <td>application_id</td>
-                                </tr>
-                                <tr>
-                                    <td title='Indexed'>ccbc_public_application_status_archived_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_sow_tab_8_archived_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>archived_by</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_application_status_created_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_sow_tab_8_created_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>created_by</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_application_status_updated_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_sow_tab_8_updated_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>updated_by</td>
+                                </tr>
+                                <tr>
+                                    <td title='Indexed'>sow_tab_8_sow_id_index</td>
+                                    <td>Performance</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>sow_id</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -404,45 +377,39 @@
                                 <div class="tab-content no-padding">
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="280,5,449,269">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,447,187,681">
-<area shape="rect" id="node3" href="application_status.html" target="_top" title="application_status" alt="" coords="543,179,876,541">
-<area shape="rect" id="node4" href="application_status_type.html" target="_top" title="application_status_type" alt="" coords="231,287,499,433">
-<area shape="rect" id="node5" href="attachment.html" target="_top" title="attachment" alt="" coords="920,401,1136,695">
+<area shape="rect" id="node1" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="231,5,481,240">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,171,187,405">
+<area shape="rect" id="node3" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="525,99,812,432">
 </map>
-                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/application_status.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/sow_tab_8.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="515,93,654,181">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,963,161,1051">
-<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="205,335,407,423">
-<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="500,760,669,848">
-<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="241,855,371,943">
-<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="792,5,1067,93">
-<area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="781,111,1078,199">
-<area shape="rect" id="node8" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="801,216,1058,304">
-<area shape="rect" id="node9" href="form_data.html" target="_top" title="form_data" alt="" coords="225,440,387,528">
-<area shape="rect" id="node10" href="application_gis_assessment_hh.html" target="_top" title="application_gis_assessment_hh" alt="" coords="767,532,1092,620">
-<area shape="rect" id="node11" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="809,321,1049,409">
-<area shape="rect" id="node12" href="gis_data.html" target="_top" title="gis_data" alt="" coords="234,613,378,701">
-<area shape="rect" id="node13" href="application_package.html" target="_top" title="application_package" alt="" coords="809,427,1050,515">
-<area shape="rect" id="node14" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="811,673,1048,761">
-<area shape="rect" id="node15" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="236,960,376,1048">
-<area shape="rect" id="node16" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="804,1679,1055,1767">
-<area shape="rect" id="node17" href="application_status.html" target="_top" title="application_status" alt="" coords="763,779,1096,1141">
-<area shape="rect" id="node18" href="application_status_type.html" target="_top" title="application_status_type" alt="" coords="451,901,719,1048">
-<area shape="rect" id="node19" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="821,1159,1037,1247">
-<area shape="rect" id="node20" href="attachment.html" target="_top" title="attachment" alt="" coords="1140,1245,1313,1333">
-<area shape="rect" id="node21" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="784,1332,1075,1420">
-<area shape="rect" id="node22" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="788,1437,1071,1525">
-<area shape="rect" id="node23" href="record_version.html" target="_top" title="record_version" alt="" coords="207,1513,405,1601">
-<area shape="rect" id="node24" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1147,1519,1307,1607">
-<area shape="rect" id="node25" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1147,1624,1307,1712">
-<area shape="rect" id="node26" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1147,1729,1307,1817">
-<area shape="rect" id="node27" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1147,1835,1307,1923">
+<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="466,5,605,93">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,816,161,904">
+<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="205,247,407,335">
+<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="451,661,620,749">
+<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="241,729,371,817">
+<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="675,89,950,177">
+<area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="664,195,961,283">
+<area shape="rect" id="node8" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="693,417,933,505">
+<area shape="rect" id="node9" href="gis_data.html" target="_top" title="gis_data" alt="" coords="234,352,378,440">
+<area shape="rect" id="node10" href="application_package.html" target="_top" title="application_package" alt="" coords="692,523,933,611">
+<area shape="rect" id="node11" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="687,1540,938,1628">
+<area shape="rect" id="node12" href="application_status.html" target="_top" title="application_status" alt="" coords="700,628,925,716">
+<area shape="rect" id="node13" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="705,865,921,953">
+<area shape="rect" id="node14" href="attachment.html" target="_top" title="attachment" alt="" coords="1062,776,1235,864">
+<area shape="rect" id="node15" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="667,1039,958,1127">
+<area shape="rect" id="node16" href="form_data.html" target="_top" title="form_data" alt="" coords="225,1107,387,1195">
+<area shape="rect" id="node17" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="671,1191,954,1279">
+<area shape="rect" id="node18" href="record_version.html" target="_top" title="record_version" alt="" coords="207,1280,405,1368">
+<area shape="rect" id="node19" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="236,1385,376,1473">
+<area shape="rect" id="node20" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1069,949,1229,1037">
+<area shape="rect" id="node21" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1069,1451,1229,1539">
+<area shape="rect" id="node22" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1069,1556,1229,1644">
+<area shape="rect" id="node23" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1005,1661,1292,1995">
 </map>
-                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/application_status.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/sow_tab_8.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                 </div>
                             </div>
