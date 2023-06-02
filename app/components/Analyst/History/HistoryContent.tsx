@@ -232,6 +232,16 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     );
   }
 
+  if (tableName === 'project_information_data') {
+    return (
+      <StyledContent data-testid="history-content-conditional-approval">
+        <span>{displayName} saved the </span>
+        <b>Project information</b>
+        <span> form on {createdAtFormatted}</span>
+      </StyledContent>
+    );
+  }
+
   return null;
 };
 export default HistoryContent;
