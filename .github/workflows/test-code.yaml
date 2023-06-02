@@ -125,6 +125,24 @@ jobs:
         uses: ./.github/actions/dev-env-setup
       - run: yarn run eslint -f @microsoft/eslint-formatter-sarif -o results.sarif . || true
         working-directory: ./app
+      - name: Remove entries with suppressions from SARIF
+        run: |
+          node - <<EOF
+          const fs = require('fs');
+
+          // Read the SARIF file
+          const sarifData = fs.readFileSync('results.sarif', 'utf8');
+          const sarifJson = JSON.parse(sarifData);
+
+          // Remove entries with suppressions
+          sarifJson.runs.forEach(run => {
+            run.results = run.results.filter(result => result.suppressions.length === 0);
+          });
+
+          // Write the modified SARIF file
+          fs.writeFileSync('results.sarif', JSON.stringify(sarifJson, null, 2));
+          EOF
+        working-directory: ./app
       - uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: app/results.sarif
