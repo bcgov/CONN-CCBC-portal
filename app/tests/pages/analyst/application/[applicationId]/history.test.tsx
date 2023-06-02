@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import * as moduleApi from '@growthbook/growthbook-react';
 import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import History from 'pages/analyst/application/[applicationId]/history';
@@ -2095,5 +2095,26 @@ describe('The index page', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('calls the download on the attachment history with proper values', async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({}),
+      })
+    ) as jest.Mock;
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const downloadLink = screen.getByTestId('history-attachment-link');
+    expect(downloadLink).toBeVisible();
+
+    jest.spyOn(window, 'open').mockImplementation(() => window);
+
+    await act(async () => {
+      fireEvent.click(downloadLink);
+    });
+
+    expect(window.open).toHaveBeenCalledWith({}, '_blank');
   });
 });

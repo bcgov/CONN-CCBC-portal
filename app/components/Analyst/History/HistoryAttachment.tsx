@@ -21,6 +21,7 @@ const HistoryAttachment = ({ displayName, record, createdAtFormatted }) => {
     <span>
       {`${displayName} uploaded `}
       <StyledLink
+        data-testid="history-attachment-link"
         onClick={(e) => {
           e.preventDefault();
           handleDownload(record.file, record.file_name).catch((error) => {
