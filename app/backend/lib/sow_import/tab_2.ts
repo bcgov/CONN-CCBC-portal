@@ -68,6 +68,7 @@ const LoadTab2Data = async(sow_id, wb, sheet_name, req) => {
   if (validate) {
     return data;
   }
+  
   // time to persist in DB
   const input = {input: {sowId: sow_id, jsonData: data}};
   const result = await performQuery(createSomeMutation, input, req)

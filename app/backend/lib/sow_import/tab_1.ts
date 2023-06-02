@@ -134,10 +134,12 @@ const LoadTab1Data = async (sow_id, wb, sheet_name, req) => {
   const { validate = false } = req.query || {};
   const data = readData(sow_id, wb, sheet_name);
   const input = { input: { sowId: sow_id, jsonData: data } };
-  // time to persist in DB
+  
   if (validate) {
     return data;
   }
+  
+  // time to persist in DB
   const result = await performQuery(createTab1Mutation, input, req).catch(
     (e) => {
       return { error: e };
