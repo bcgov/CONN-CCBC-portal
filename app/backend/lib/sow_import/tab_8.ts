@@ -52,20 +52,20 @@ const readData = async(sow_id, wb, sheet_name) => {
   }
 
   let tableDetected = false;
-  for (let row = 18; row < sheet.length; row ++) {
-    const suspect = sheet[row]['A'];
+  for (let row = 10; row < sheet.length; row ++) {
+    const suspect = sheet[row]['A']; 
     let value;
-    if (suspect === undefined) continue;
+    if (suspect === undefined) continue; 
     if (typeof(suspect) === 'string' && tableDetected === false) { 
       value = suspect.toString();
-      if (value === 'Project Zone') { 
-        tableDetected = true;
+      if (value.indexOf('Project Zone') === 0) { 
+        tableDetected = true; 
         continue;
       }
     }
     if (typeof(suspect) === 'number' && tableDetected === true) { 
       const completed = sheet[row]['M'];
-      if (typeof(completed) === 'string' && completed === 'Complete') {
+      if (typeof(completed) === 'string' && completed.indexOf('Complete') === 0) {
         const lineData = {
           projectZone: sheet[row]['A'],
           geoNameId: sheet[row]['B'],

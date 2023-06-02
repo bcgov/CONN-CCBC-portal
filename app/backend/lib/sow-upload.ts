@@ -79,7 +79,11 @@ const processSow: ExpressMiddleware = async (req, res) => {
     }
     await LoadTab1Data(sowId, wb, '1', req);
     await LoadTab7Data(sowId, wb, '7', req);
-    await LoadTab8Data(sowId, wb, '8', req);
+    const tab8 = await LoadTab8Data(sowId, wb, '8', req);
+    exportError = (tab8 as any)?.error;
+    if (exportError) {
+      return res.status(400).json({ error: exportError }).end();
+    }
     return res.status(200).json({ result }).end();
   }
 
