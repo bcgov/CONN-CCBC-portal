@@ -25,7 +25,7 @@ const HistoryAttachment = ({ displayName, record, createdAtFormatted }) => {
         data-testid="history-attachment-link"
         onClick={(e) => {
           e.preventDefault();
-          handleDownload(record.file, record.file_name).catch((error) => {
+          handleDownload(record.file, record['file_name']).catch((error) => {
             Sentry.captureException(error);
           });
         }}
