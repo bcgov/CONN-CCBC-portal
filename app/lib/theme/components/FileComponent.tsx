@@ -221,7 +221,11 @@ const FileComponent: React.FC<FileComponentProps> = ({
       <input
         data-testid="file-test"
         ref={hiddenFileInput}
-        onChange={onChange}
+        onChange={(e) => {
+          onChange(e);
+          // set target to null to allow for reupload of file with same name
+          e.currentTarget.value = null;
+        }}
         style={{ display: 'none' }}
         type="file"
         required={required}
