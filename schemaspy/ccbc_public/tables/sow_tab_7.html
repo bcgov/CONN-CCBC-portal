@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>application_sow_data - ccbc.ccbc_public</title>
+        <title>sow_tab_7 - ccbc.ccbc_public</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,20 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>application_sow_data</h1><p><span id="recordNumber">-1</span> rows</p><br />
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <i class="fa fa-file-text-o"></i>
-                            <h3 id="Description" class="box-title">Description</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div><!-- /.box-header -->
-                        <div class="box-body clearfix">
-                            <p>Table containing the SoW data for the given application</p>
-                        </div><!-- /.box-body -->
-                    </div>
+                    <h1>sow_tab_7</h1><p><span id="recordNumber">-1</span> rows</p><br />
                 </section>
                 <!-- Main content -->
                 <section class="content">
@@ -130,31 +117,16 @@
                                     <td>null</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
-                                            <tr>
-                                                <td title="sow_tab_1.sow_id references application_sow_data.id via sow_tab_1_sow_id_fkey"><a href='sow_tab_1.html'>sow_tab_1</a><span class='relatedKey'>.sow_id</span></td>
-                                                <td class="constraint detail">sow_tab_1_sow_id_fkey</td>
-                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td title="sow_tab_2.sow_id references application_sow_data.id via sow_tab_2_sow_id_fkey"><a href='sow_tab_2.html'>sow_tab_2</a><span class='relatedKey'>.sow_id</span></td>
-                                                <td class="constraint detail">sow_tab_2_sow_id_fkey</td>
-                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td title="sow_tab_7.sow_id references application_sow_data.id via sow_tab_7_sow_id_fkey"><a href='sow_tab_7.html'>sow_tab_7</a><span class='relatedKey'>.sow_id</span></td>
-                                                <td class="constraint detail">sow_tab_7_sow_id_fkey</td>
-                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
                                         </table>
                                     </td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Unique ID for the  SoW</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="application_id">application_id</span></td>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="sow_id">sow_id</span></td>
                                     <td>int4</td>
                                     <td>10</td>
                                     <td title='nullable'>√</td>
@@ -167,13 +139,13 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_sow_data.application_id references application.id via application_sow_data_application_id_fkey"><a href='application.html'>application</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_sow_data_application_id_fkey</td>
+                                                <td title="sow_tab_7.sow_id references application_sow_data.id via sow_tab_7_sow_id_fkey"><a href='application_sow_data.html'>application_sow_data</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">sow_tab_7_sow_id_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td><p>ID of the application this SoW belongs to</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td><span id="json_data">json_data</span></td>
@@ -190,7 +162,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>The data imported from the Excel filled by the respondent</p></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="created_by">created_by</span></td>
@@ -206,8 +178,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_sow_data.created_by references ccbc_user.id via application_sow_data_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_sow_data_created_by_fkey</td>
+                                                <td title="sow_tab_7.created_by references ccbc_user.id via sow_tab_7_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">sow_tab_7_created_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -245,8 +217,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_sow_data.updated_by references ccbc_user.id via application_sow_data_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_sow_data_updated_by_fkey</td>
+                                                <td title="sow_tab_7.updated_by references ccbc_user.id via sow_tab_7_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">sow_tab_7_updated_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -284,8 +256,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_sow_data.archived_by references ccbc_user.id via application_sow_data_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_sow_data_archived_by_fkey</td>
+                                                <td title="sow_tab_7.archived_by references ccbc_user.id via sow_tab_7_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">sow_tab_7_archived_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -340,34 +312,34 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> application_sow_data_pkey</td>
+                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> sow_tab_7_pkey</td>
                                     <td>Primary key</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>id</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>application_sow_data_application_id_index</td>
-                                    <td>Performance</td>
-                                    <td><span title='Ascending'>Asc</span></td>
-                                    <td>application_id</td>
-                                </tr>
-                                <tr>
-                                    <td title='Indexed'>ccbc_public_application_sow_data_archived_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_sow_tab_7_archived_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>archived_by</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_application_sow_data_created_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_sow_tab_7_created_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>created_by</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_application_sow_data_updated_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_sow_tab_7_updated_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>updated_by</td>
+                                </tr>
+                                <tr>
+                                    <td title='Indexed'>sow_tab_7_sow_id_index</td>
+                                    <td>Performance</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>sow_id</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -392,44 +364,38 @@
                                 <div class="tab-content no-padding">
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="231,201,400,465">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,479,187,713">
-<area shape="rect" id="node3" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="444,240,807,573">
-<area shape="rect" id="node4" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="851,5,1011,240">
-<area shape="rect" id="node5" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="851,357,1011,592">
-<area shape="rect" id="node6" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="851,609,1011,844">
+<area shape="rect" id="node1" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="231,5,481,240">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,171,187,405">
+<area shape="rect" id="node3" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="525,99,812,432">
 </map>
-                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/application_sow_data.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/sow_tab_7.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="466,98,605,186">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,841,161,929">
-<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="205,166,407,254">
-<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="451,754,620,842">
-<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="241,686,371,774">
-<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="708,9,983,97">
-<area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="697,213,994,301">
-<area shape="rect" id="node8" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="717,318,974,406">
-<area shape="rect" id="node9" href="form_data.html" target="_top" title="form_data" alt="" coords="225,340,387,428">
-<area shape="rect" id="node10" href="application_gis_assessment_hh.html" target="_top" title="application_gis_assessment_hh" alt="" coords="683,634,1008,722">
-<area shape="rect" id="node11" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="725,424,965,512">
-<area shape="rect" id="node12" href="gis_data.html" target="_top" title="gis_data" alt="" coords="234,513,378,601">
-<area shape="rect" id="node13" href="application_package.html" target="_top" title="application_package" alt="" coords="725,529,966,617">
-<area shape="rect" id="node14" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="727,881,964,969">
-<area shape="rect" id="node15" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="236,928,376,1016">
-<area shape="rect" id="node16" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="664,1438,1027,1772">
-<area shape="rect" id="node17" href="application_status.html" target="_top" title="application_status" alt="" coords="733,776,958,864">
-<area shape="rect" id="node18" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="737,1054,953,1142">
-<area shape="rect" id="node19" href="attachment.html" target="_top" title="attachment" alt="" coords="1071,965,1244,1053">
-<area shape="rect" id="node20" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="700,1160,991,1248">
-<area shape="rect" id="node21" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="704,1333,987,1421">
-<area shape="rect" id="node22" href="record_version.html" target="_top" title="record_version" alt="" coords="207,1473,405,1561">
-<area shape="rect" id="node23" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1077,1246,1237,1334">
-<area shape="rect" id="node24" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1077,1733,1237,1821">
-<area shape="rect" id="node25" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1077,1838,1237,1926">
+<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="466,95,605,183">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,800,161,888">
+<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="205,163,407,251">
+<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="451,767,620,855">
+<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="241,713,371,801">
+<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="675,5,950,93">
+<area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="664,231,961,319">
+<area shape="rect" id="node8" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="693,404,933,492">
+<area shape="rect" id="node9" href="gis_data.html" target="_top" title="gis_data" alt="" coords="234,472,378,560">
+<area shape="rect" id="node10" href="application_package.html" target="_top" title="application_package" alt="" coords="692,556,933,644">
+<area shape="rect" id="node11" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="687,1524,938,1612">
+<area shape="rect" id="node12" href="application_status.html" target="_top" title="application_status" alt="" coords="700,661,925,749">
+<area shape="rect" id="node13" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="705,849,921,937">
+<area shape="rect" id="node14" href="attachment.html" target="_top" title="attachment" alt="" coords="1062,315,1235,403">
+<area shape="rect" id="node15" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="667,1023,958,1111">
+<area shape="rect" id="node16" href="form_data.html" target="_top" title="form_data" alt="" coords="225,1091,387,1179">
+<area shape="rect" id="node17" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="671,1175,954,1263">
+<area shape="rect" id="node18" href="record_version.html" target="_top" title="record_version" alt="" coords="207,1264,405,1352">
+<area shape="rect" id="node19" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="236,1369,376,1457">
+<area shape="rect" id="node20" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1069,933,1229,1021">
+<area shape="rect" id="node21" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1069,1424,1229,1512">
+<area shape="rect" id="node22" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1005,1529,1292,1863">
 </map>
-                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/application_sow_data.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/sow_tab_7.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                 </div>
                             </div>
