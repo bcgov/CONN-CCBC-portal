@@ -1,3 +1,49 @@
+# [1.73.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.72.0...v1.73.0) (2023-06-02)
+
+### Bug Fixes
+
+- add catch to download promise ([1ee517d](https://github.com/bcgov/CONN-CCBC-portal/commit/1ee517da8e6b4588615fa148a0a24b5f12c3f274))
+- allow reupload of file with same name ([6e99a20](https://github.com/bcgov/CONN-CCBC-portal/commit/6e99a200a3800e1f29ccb9c63e91bd92fa6de20b))
+- capture missing cost category of part 2 ([c57bcaf](https://github.com/bcgov/CONN-CCBC-portal/commit/c57bcaff98e8d84c9f0141c0f1cbb56cec51164d))
+- cleanup ([a8e5886](https://github.com/bcgov/CONN-CCBC-portal/commit/a8e58868186c404084ed4fbe635cd708ac046463))
+- match form_data names ([581617c](https://github.com/bcgov/CONN-CCBC-portal/commit/581617c4159ce0a9241f5d5341425d3ea2c4af7f))
+- read only project information ui schema flex direction ([033056c](https://github.com/bcgov/CONN-CCBC-portal/commit/033056c36e2b4d7c9ac0217e03c7ca1d16cb8567))
+- remove extra file extension and add missing data ([1b0ce34](https://github.com/bcgov/CONN-CCBC-portal/commit/1b0ce346b5c13e79bff2ef576e2e84d2a34c5ee0))
+- remove unneeded audit tracking ([7a00038](https://github.com/bcgov/CONN-CCBC-portal/commit/7a00038fa59869c4a2648ea8565bcce3e6a03dc0))
+- summary_tab merge conflict ([2322fbb](https://github.com/bcgov/CONN-CCBC-portal/commit/2322fbbea76db512591da10f387eef5cdf6c3984))
+- tab8 reported wrong row index ([a4b9d7a](https://github.com/bcgov/CONN-CCBC-portal/commit/a4b9d7a281d73c2e32fa3a4d135859a956d2c246))
+- unless conditional middleware function bug with updates sow api route ([910dd29](https://github.com/bcgov/CONN-CCBC-portal/commit/910dd29679a963c1f17d150cd00dea4b5e855959))
+- update relay store on conditional approval save ([b505640](https://github.com/bcgov/CONN-CCBC-portal/commit/b505640a96869dc4393dc1b454274f985d417cce))
+- update relay store to fix project information cancel button bug ([3f0523c](https://github.com/bcgov/CONN-CCBC-portal/commit/3f0523c0edb769c2e8efe89f5e03751d253e305b))
+- updated schema ([38a6ba5](https://github.com/bcgov/CONN-CCBC-portal/commit/38a6ba5c562559978c755cfa93cf73b3d876c0c2))
+- updated unit tests ([e3f3cf9](https://github.com/bcgov/CONN-CCBC-portal/commit/e3f3cf9b6ae06c437309a93858616c76ee792cee))
+
+### Features
+
+- add computed column application_project_information ([b9993d9](https://github.com/bcgov/CONN-CCBC-portal/commit/b9993d9e8bb7d090f6d9173d54b361c187885020))
+- add create project information db mutation ([d5de306](https://github.com/bcgov/CONN-CCBC-portal/commit/d5de306b41d88b89648f67cfd33ac828920f3e28))
+- add metabase link to project information form ([8d5281b](https://github.com/bcgov/CONN-CCBC-portal/commit/8d5281bf0d1847653d0127fe5649788f6f7c750e))
+- add project information feature flag ([3ed6ebd](https://github.com/bcgov/CONN-CCBC-portal/commit/3ed6ebd46a12bc4abc5da3933770e4ae1de4ac89))
+- add project information form ([b04b506](https://github.com/bcgov/CONN-CCBC-portal/commit/b04b5061217d833b8bd1bb4f8e3799c4ce698b83))
+- add project information form schema and ui schema ([29bd4ca](https://github.com/bcgov/CONN-CCBC-portal/commit/29bd4ca4bb564377c4497ae0c1b355b03c1c4b6f))
+- add project information graphql mutation ([5fed9dd](https://github.com/bcgov/CONN-CCBC-portal/commit/5fed9dd0f5249af839602c36fedee987541b683d))
+- add project information read only date field ([5e5fb0b](https://github.com/bcgov/CONN-CCBC-portal/commit/5e5fb0baa2e43d405b21d5a03580aa884a3f497f))
+- add project information read only schema and ui schema ([c0c1adc](https://github.com/bcgov/CONN-CCBC-portal/commit/c0c1adca3797b62c5726a5b998da681481f7ca32))
+- add project information updates to history page ([72ae0fd](https://github.com/bcgov/CONN-CCBC-portal/commit/72ae0fd6b8714431f1085d15e3a21657ab20b981))
+- add project_information_data table ([9da5598](https://github.com/bcgov/CONN-CCBC-portal/commit/9da5598a1d629c7932eeca4254dabd6a6dcfbd10))
+- auto import sow tab 7 ([28315d6](https://github.com/bcgov/CONN-CCBC-portal/commit/28315d68bbab87b1cfe8ed7f3fe48893a65047ac))
+- enable history tracking on sow and project information data tables ([8b13be5](https://github.com/bcgov/CONN-CCBC-portal/commit/8b13be5c8faded63b15ef1371f2f086004c5c263))
+- full json object, import part 2 ([3c3c3b6](https://github.com/bcgov/CONN-CCBC-portal/commit/3c3c3b68a3169d90466d54a3192df710a3239f3b))
+- handle void return of promise ([744850d](https://github.com/bcgov/CONN-CCBC-portal/commit/744850df36cf45f0fb0e81ba4ed642aa39cf1418))
+- import part 3 ([2c47ac9](https://github.com/bcgov/CONN-CCBC-portal/commit/2c47ac9bf99c62e5bf4f7891510a276cfd762944))
+- import part 4 ([bc2af5f](https://github.com/bcgov/CONN-CCBC-portal/commit/bc2af5f97578ea15d1228e50dfb3ae7233fb2801))
+- import sow data on project information upload ([d992449](https://github.com/bcgov/CONN-CCBC-portal/commit/d9924499752efc900c0e4651be3389c680ab6a0a))
+- import total on part 3 ([74551bb](https://github.com/bcgov/CONN-CCBC-portal/commit/74551bb7b09648a712ff781d474493d2611471aa))
+- pass application id and ccbc number to sow import api ([dee1807](https://github.com/bcgov/CONN-CCBC-portal/commit/dee18077c710ace5293225f560025b52301eb19b))
+- return project information history in computed column ([592656a](https://github.com/bcgov/CONN-CCBC-portal/commit/592656a407d933564884c5d7b60acfaa0e32a133))
+- show downloadable filename on history ([340da90](https://github.com/bcgov/CONN-CCBC-portal/commit/340da902e75ca8bd47aa7213444bd97597c4f640))
+- tab 8 import (wip) ([a1bf27c](https://github.com/bcgov/CONN-CCBC-portal/commit/a1bf27cb08db7b8a37ad3a5d4dee2148a59d6797))
+
 # [1.72.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.71.0...v1.72.0) (2023-05-31)
 
 ### Bug Fixes
