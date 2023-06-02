@@ -15,8 +15,9 @@ const handleDownload = async (uuid, fileName) => {
       window.open(response, '_blank');
     });
 };
-
 const HistoryAttachment = ({ displayName, record, createdAtFormatted }) => {
+  // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unused-vars
+  const __wrong__ = 'wrong';
   return (
     <span>
       {`${displayName} uploaded `}
