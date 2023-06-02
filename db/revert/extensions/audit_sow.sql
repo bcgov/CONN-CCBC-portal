@@ -3,6 +3,5 @@
 begin;
 
 select audit.disable_tracking('ccbc_public.application_sow_data'::regclass);
-select audit.disable_tracking('ccbc_public.project_information_data'::regclass);
 
 commit;
