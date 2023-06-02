@@ -1,3 +1,9 @@
+## [1.73.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.73.0...v1.73.1) (2023-06-02)
+
+### Bug Fixes
+
+- use parseint on application number in summary tab import ([ab7a9ad](https://github.com/bcgov/CONN-CCBC-portal/commit/ab7a9ad45bc0526157c9554763ad92683e52854d))
+
 # [1.73.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.72.0...v1.73.0) (2023-06-02)
 
 ### Bug Fixes
