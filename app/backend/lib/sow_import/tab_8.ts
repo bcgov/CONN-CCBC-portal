@@ -1,13 +1,16 @@
 import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
 
-const createSomeMutation = `
-  mutation someMutation($input: someInput!) {
-    createSomeTable(
-      input: {someData: $input
-    )
+const createTab8Mutation = `
+  mutation tab8Mutation($input: SowTab8Input!) {
+    createSowTab8(input: { sowTab8: $input }) {
+      sowTab8 {
+        id
+      }
+    }
   }
 `;
+
 
 const readData = async(sow_id, wb, sheet_name) => {
   const sheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], { header: "A" });
@@ -93,7 +96,7 @@ const LoadTab8Data = async(sow_id, wb, sheet_name, req) => {
   }
   // time to persist in DB
   const input = {input: {sowId: sow_id, jsonData: data}};
-  const result = await performQuery(createSomeMutation, input, req)
+  const result = await performQuery(createTab8Mutation, input, req)
   .catch((e) => {
     return { error: e };
   });
