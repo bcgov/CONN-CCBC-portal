@@ -86,14 +86,21 @@ const readData = async(sow_id, wb, sheet_name) => {
 }
 
 const LoadTab8Data = async(sow_id, wb, sheet_name, req) => {
+  const { validate = false } = req.query || {};
   const data = await readData(sow_id, wb, sheet_name);
+  
+  if (validate) {
+    return data;
+  }
 
+  // still need to handle errors
   if (data?.errors?.length > 0) {
     return { error: data.errors };
   }
   if (data.geoNames.length === 0) {
     return { error: 'no data found for Tab 8'};
   }
+  
   // time to persist in DB
   const input = {input: {sowId: sow_id, jsonData: data}};
   const result = await performQuery(createTab8Mutation, input, req)

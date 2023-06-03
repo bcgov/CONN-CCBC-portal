@@ -122,9 +122,11 @@ const readSummary = async (wb, sheet_name, applicationId) => {
   }
 
   return sowData;
-};
-const LoadSummaryData = async (wb, sheet_name, req) => {
+}
+const LoadSummaryData = async(wb, sheet_name, req) => {
   const { applicationId, ccbcNumber } = req.params;
+  const { validate = false } = req.query || {};
+  
   const data = await readSummary(wb, sheet_name, parseInt(applicationId, 10));
 
   const uploadedNumber = data.jsonData.ccbc_number;
@@ -132,6 +134,9 @@ const LoadSummaryData = async (wb, sheet_name, req) => {
     return {
       error: `CCBC Number mismatch: expected ${ccbcNumber}, received: ${uploadedNumber}`,
     };
+  }
+  if (validate) {
+    return data;
   }
   // time to persist in DB
   const result = await performQuery(

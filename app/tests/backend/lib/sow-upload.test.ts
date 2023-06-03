@@ -70,6 +70,33 @@ describe('The SoW import', () => {
     expect(response.status).toBe(200);
   });
 
+  it('should validate uploaded file for authorized user', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: { createApplicationSowData: { applicationSowData: {rowId:1}}}
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/sow/10/CCBC-020118?validate=true') 
+      .set("Content-Type", "application/json")
+      .set('Connection', 'keep-alive')
+      .field("data", JSON.stringify({ name: "sow-data" }))
+      .attach("sow-data", `${__dirname}/sow_200.xlsx`)
+      .expect(200);
+ 
+    expect(response.status).toBe(200);
+    
+    expect(performQuery).not.toHaveBeenCalled();
+  });
+
   it('should return error if file does not have expected worksheets', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
@@ -87,8 +114,28 @@ describe('The SoW import', () => {
       .expect(400);
 
     expect(response.status).toBe(400); 
-    expect(response.body).toEqual({
-      error: 'missing required sheet(s). Found: ["Sheet1"]'});
+    expect(response.body).toEqual([
+      {
+        level: 'workbook',
+        error: 'missing required sheet "Summary_Sommaire". Found: ["Sheet1"]'
+      },
+      {
+        level: 'workbook',
+        error: 'missing required sheet "1". Found: ["Sheet1"]'
+      },
+      {
+        level: 'workbook',
+        error: 'missing required sheet "2". Found: ["Sheet1"]'
+      },
+      {
+        level: 'workbook',
+        error: 'missing required sheet "7". Found: ["Sheet1"]'
+      },
+      {
+        level: 'workbook',
+        error: 'missing required sheet "8". Found: ["Sheet1"]'
+      },
+    ]);
   });
 
   it('should return error if ccbc_number in file does not match request', async () => {
@@ -114,8 +161,12 @@ describe('The SoW import', () => {
       .expect(400);
 
     expect(response.status).toBe(400); 
-    expect(response.body).toEqual({
-      error: 'CCBC Number mismatch: expected CCBC-020100, received: CCBC-020118'});
+    expect(response.body).toEqual([
+      {
+        level: 'summary',
+        error: 'CCBC Number mismatch: expected CCBC-020100, received: CCBC-020118'
+      }]);
+    
   });
 
   afterEach(async () => {
