@@ -16,7 +16,6 @@ const handleDownload = async (uuid, fileName) => {
     });
 };
 const HistoryAttachment = ({ displayName, record, createdAtFormatted }) => {
-  const __wrong__ = 'wrong';
   return (
     <span>
       {`${displayName} uploaded `}
