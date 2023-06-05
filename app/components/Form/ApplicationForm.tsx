@@ -88,6 +88,28 @@ interface SubmissionFieldsJSON {
   submissionTitle?: string;
 }
 
+const verifyFormFields = (formSectionData, formSectionName) => {
+  // verify that the form fields are in the seciton of the schema we are saving
+  // to prevent the bug where fields were being saved in the wrong section
+  const newFormFieldNames = formSectionData && Object.keys(formSectionData);
+  const formSchemaSectionFieldNames = Object.keys(
+    schema.properties[formSectionName]['properties']
+  );
+  const incorrectFormFields = newFormFieldNames?.filter(
+    (fieldName) => !formSchemaSectionFieldNames.includes(fieldName)
+  );
+
+  const verifiedFormSectionData =
+    formSectionData &&
+    Object.fromEntries(
+      Object.entries(formSectionData).filter(
+        ([key]) => !incorrectFormFields.includes(key)
+      )
+    );
+
+  return verifiedFormSectionData;
+};
+
 export const mergeFormSectionData = (
   formData,
   formSectionName,
@@ -104,8 +126,8 @@ export const mergeFormSectionData = (
   } else if (formData[formSectionName]) {
     newFormData = { ...formData };
     newFormData[formSectionName] = {
-      ...formData[formSectionName],
-      ...calculatedSection,
+      ...verifyFormFields(newFormData[formSectionName], formSectionName),
+      ...verifyFormFields(calculatedSection, formSectionName),
     };
   } else {
     newFormData = { ...formData };
