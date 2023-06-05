@@ -100,7 +100,7 @@ export const mergeFormSectionData = (
   const handleError = (error) => {
     Sentry.captureException({
       name: 'Invalid form field error',
-      message: error?.join(', '),
+      message: error,
     });
   };
 

@@ -13,7 +13,7 @@ const verifyFormFields = (formSectionData, schemaSection, handleError) => {
   );
 
   if (incorrectFormFields.length > 0 && handleError) {
-    handleError(incorrectFormFields);
+    handleError(incorrectFormFields?.join(', '));
   }
 
   const verifiedFormSectionData =
