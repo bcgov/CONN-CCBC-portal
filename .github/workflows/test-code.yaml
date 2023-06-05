@@ -136,7 +136,7 @@ jobs:
 
           // Remove entries with suppressions
           sarifJson.runs.forEach(run => {
-            run.results = run.results = run.results.filter(result => !result.suppressions || result.suppressions?.length === 0);
+            run.results = run.results.filter(result => !result.suppressions || result.suppressions?.length === 0);
           });
 
           // Write the modified SARIF file
