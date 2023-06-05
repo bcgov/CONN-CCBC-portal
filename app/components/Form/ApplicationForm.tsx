@@ -94,6 +94,8 @@ export const mergeFormSectionData = (
   formSectionName,
   calculatedSection
 ) => {
+  const schemaSection = schema.properties[formSectionName]['properties'];
+
   // TODO: The code below should be simplified. It is potentially confusing as it only allows
   // deleting field from a section by setting them to undefined.
   // Some of our code potentially relies on this behaviour, and there are related rjsf v4 bugs
@@ -105,13 +107,10 @@ export const mergeFormSectionData = (
   } else if (formData[formSectionName]) {
     newFormData = { ...formData };
     newFormData[formSectionName] = {
-      ...verifyFormFields(
-        newFormData[formSectionName],
-        formSectionName,
-        schema
-      ),
-      ...verifyFormFields(calculatedSection, formSectionName, schema),
+      ...verifyFormFields(newFormData[formSectionName], schemaSection),
+      ...verifyFormFields(calculatedSection, schemaSection),
     };
+    console.log('newFormData', newFormData);
   } else {
     newFormData = { ...formData };
     newFormData[formSectionName] = { ...calculatedSection };
