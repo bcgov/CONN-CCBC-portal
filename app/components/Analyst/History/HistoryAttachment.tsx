@@ -16,7 +16,6 @@ const handleDownload = async (uuid, fileName) => {
     });
 };
 const HistoryAttachment = ({ displayName, record, createdAtFormatted }) => {
-  // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unused-vars -- test justification
   const __wrong__ = 'wrong';
   return (
     <span>
