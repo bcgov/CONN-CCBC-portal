@@ -1,5 +1,6 @@
 import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
+import { convertExcelDropdownToBoolean } from './util';
 
 const tab7Mutation = `
   mutation tab7Mutation($input: SowTab7Input!) {
@@ -17,7 +18,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   });
   const detailedBudget = {
     summaryTable: {
-      targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity: '',
+      targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity: false,
       totalEligibleCosts: '',
       totalIneligibleCosts: '',
       totalProjectCost: '',
@@ -184,7 +185,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
     // if (typeof(value) !== 'string') continue;
     if (value.indexOf('Are you targeting a very remote community') > -1) {
       detailedBudget.summaryTable.targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity =
-        budget[row]['D'];
+        convertExcelDropdownToBoolean(budget[row]['D']);
       break;
     }
   }
@@ -567,11 +568,52 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   return detailedBudget;
 };
 
+const ValidateData = (data) => {
+  const errors = [];
+  if (typeof data.totalEligibleCosts !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Total Eligible Costs'});
+  }  
+  if (typeof data.totalIneligibleCosts !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Total Ineligible Costs'});
+  }  
+  if (typeof data.totalProjectCost !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Total Project Costs'});
+  }
+  if (typeof data.amountRequestedFromFederalGovernment !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Amount Requested from the Federal Government'});
+  }
+  if (typeof data.amountRequestedFromProvince !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Amount Requested from the Province'});
+  }
+  if (typeof data.applicationContribution !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Amount Applicant will contribute'});
+  }
+  if (typeof data.totalInfrastructureBankFunding !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Amount CIB will contribute'});
+  }
+  if (typeof data.fundingFromAllOtherSources !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Funding from all other sources'});
+  }
+  if (typeof data.totalFundingRequestedCCBC !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Total Requested from the CCBC Program'});
+  }
+  
+  if (data.targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity === undefined) {
+    errors.push({level:'table', error: 'Invalid data: Targeting very remote community'});
+  }
+  return errors;
+}
+
 const LoadTab7Data = async (sow_id, wb, sheet_name, req) => {
   const { validate = false } = req.query || {};
   const data = await readBudget(sow_id, wb, sheet_name);
 
-  // time to validate data and collect errors
+  const errorList = ValidateData(data.summaryTable);
+  
+  if (errorList.length > 0) {
+    return { error: errorList };
+  }
+
   if (validate) {
     return data;
   }
@@ -579,7 +621,7 @@ const LoadTab7Data = async (sow_id, wb, sheet_name, req) => {
   const input = { input: { sowId: sow_id, jsonData: data } };
   // time to persist in DB
   const result = await performQuery(tab7Mutation, input, req).catch((e) => {
-    return { error: e };
+    return { error: [{level:'database', error: e}] };
   });
   return result;
 };

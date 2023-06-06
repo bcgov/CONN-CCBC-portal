@@ -1,4 +1,4 @@
-const convertExcelDropdownToBoolean = (excelVal: 'Yes' | 'No') => {
+export const convertExcelDropdownToBoolean = (excelVal: 'Yes' | 'No') => {
   if (excelVal === 'Yes') {
     return true;
   }
@@ -8,4 +8,10 @@ const convertExcelDropdownToBoolean = (excelVal: 'Yes' | 'No') => {
   return undefined;
 };
 
-export default convertExcelDropdownToBoolean;
+
+export const convertExcelDateToJSDate = (date) => {
+  if (typeof date !== 'number') return null;
+  return new Date(Math.round((date - 25569) * 86400 * 1000)).toISOString();
+};
+
+ 

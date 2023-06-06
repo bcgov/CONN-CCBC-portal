@@ -1,5 +1,6 @@
 import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
+import {convertExcelDropdownToBoolean, convertExcelDateToJSDate} from './util';
 
 const createSomeMutation = `
   mutation tab2Mutation($input: SowTab2Input!) {
@@ -43,13 +44,13 @@ const readData = async(wb, sheet_name) => {
               latitude: sheet[row]['E'], 
               longitude: sheet[row]['F'], 
               newOrExisting: sheet[row]['G'], 
-              isSitePop: sheet[row]['H'], 
-              isSiteGateway: sheet[row]['I'], 
+              isSitePop: convertExcelDropdownToBoolean(sheet[row]['H']), 
+              isSiteGateway: convertExcelDropdownToBoolean(sheet[row]['I']), 
               landAccessType: sheet[row]['J'], 
               description: sheet[row]['K'], 
-              milestone1: sheet[row]['L'], 
-              milestone2: sheet[row]['M'], 
-              milestone3: sheet[row]['N']
+              milestone1: convertExcelDateToJSDate(sheet[row]['L']), 
+              milestone2: convertExcelDateToJSDate(sheet[row]['M']), 
+              milestone3: convertExcelDateToJSDate(sheet[row]['N'])
             }  
             result.push(lineData);
           }
@@ -58,13 +59,23 @@ const readData = async(wb, sheet_name) => {
   return result;
 }
 
+const ValidateData = (data) => {
+  const errors = [];
+  if (data.length === 0) { 
+    errors.push({level:'table', error: 'Invalid data: No completed Project Site rows found'});
+  }
+  return errors;
+}
 const LoadTab2Data = async(sow_id, wb, sheet_name, req) => {
   const { validate = false } = req.query || {};
   const data = await readData(wb, sheet_name);
+ 
+  const errorList = ValidateData(data);
   
-  if (data.length === 0) {
-    return { error: 'no data found for Tab 2'};
+  if (errorList.length > 0) {
+    return { error: errorList };
   }
+
   if (validate) {
     return data;
   }
@@ -73,7 +84,7 @@ const LoadTab2Data = async(sow_id, wb, sheet_name, req) => {
   const input = {input: {sowId: sow_id, jsonData: data}};
   const result = await performQuery(createSomeMutation, input, req)
   .catch((e) => {
-    return { error: e };
+    return { error: [{level:'database', error: e}] };
   });
 
   return result;
