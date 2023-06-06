@@ -14,7 +14,7 @@ const verifyFormFields = (formSectionData, schemaSection, handleError) => {
   // read all keys from the schema section
   const formSchemaSectionFieldNames = readAllKeys(schemaSection);
 
-  // find the form fields that are not in the schema section
+  // find any form fields that should be in this section of the form
   const incorrectFormFields = newFormFieldNames?.filter(
     (fieldName) => !formSchemaSectionFieldNames.includes(fieldName)
   );
