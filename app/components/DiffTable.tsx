@@ -178,7 +178,7 @@ const generateDiffTable = (
                   newValueArr,
                   oldValueArr,
                   schema,
-                  objectName,
+                  overrideParent || objectName,
                   key
                 )
               );
@@ -186,7 +186,7 @@ const generateDiffTable = (
               rows.push(
                 ...handleRow(
                   schema,
-                  objectName,
+                  overrideParent || objectName,
                   key,
                   newValueArr.join(','),
                   oldValueArr.join(','),
@@ -241,7 +241,9 @@ const generateDiffTable = (
                 handleRow(
                   schema,
                   parent,
-                  Object.keys(value)[index],
+                  Array.isArray(value)
+                    ? key.replace(/(__added|__deleted)/g, '')
+                    : Object.keys(value)[index],
                   Array.isArray(newValue) ? newValue.join(', ') : newValue,
                   'N/A',
                   addedHeadings
