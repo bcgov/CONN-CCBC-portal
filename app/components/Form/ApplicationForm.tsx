@@ -95,7 +95,10 @@ export const mergeFormSectionData = (
   formSectionName,
   calculatedSection
 ) => {
-  const schemaSection = schema.properties[formSectionName]['properties'];
+  const schemaSection = {
+    ...schema.properties[formSectionName]['properties'],
+    ...schema.properties[formSectionName]?.['dependencies'],
+  };
 
   const handleError = (error) => {
     Sentry.captureException({
