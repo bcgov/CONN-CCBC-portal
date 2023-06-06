@@ -75,7 +75,9 @@ describe('sow_tab_8', () => {
 
     expect(data).toEqual(
       {
-        error: 'no data found for Tab 8'
+        error: [
+          {level: 'table', error: 'Invalid data: No completed Geographic Names rows found'}
+        ]
       }
     );
   });
@@ -110,33 +112,7 @@ describe('sow_tab_8', () => {
         J: 'https://apps.gov.bc.ca/pub/bcgnws/names/1892.html',
         K: 'N',
         M: 'Complete'
-      },
-      // {
-      //   A: 1,
-      //   B: 65680,
-      //   C: 'McDonald Lake 1',
-      //   D: 'Indian Reserve',
-      //   E: 59.733123,
-      //   F: -133.552063,
-      //   G: 'Open Map',
-      //   I: 'Open Map',
-      //   J: 'https://apps.gov.bc.ca/pub/bcgnws/names/65680.html',
-      //   K: 'Y',
-      //   M: 'Complete'
-      // },
-      // {
-      //   A: 1,
-      //   B: 20302,
-      //   C: 'Pleasant Camp',
-      //   D: 'Locality',
-      //   E: 59.505,
-      //   F: -136.463056,
-      //   G: 'Open Map',
-      //   I: 'Open Map',
-      //   J: 'https://apps.gov.bc.ca/pub/bcgnws/names/20302.html',
-      //   K: 'N',
-      //   M: ''
-      // }
+      }
     ];
 
     const expectedInput ={

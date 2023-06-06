@@ -585,7 +585,7 @@ const ValidateData = (data) => {
   if (typeof data.amountRequestedFromProvince !== 'number') {
     errors.push({level:'cell', error: 'Invalid data: Amount Requested from the Province'});
   }
-  if (typeof data.applicationContribution !== 'number') {
+  if (typeof data.totalApplicantContribution !== 'number') {
     errors.push({level:'cell', error: 'Invalid data: Amount Applicant will contribute'});
   }
   if (typeof data.totalInfrastructureBankFunding !== 'number') {
