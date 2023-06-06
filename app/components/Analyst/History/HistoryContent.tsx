@@ -4,6 +4,7 @@ import statusStyles from 'data/statusStyles';
 import { useFeature } from '@growthbook/growthbook-react';
 import applicationDiffSchema from 'formSchema/uiSchema/history/application';
 import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
+import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -64,6 +65,20 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
       <StyledContent data-testid="history-content-rfi">
         <span>{displayName} saved</span> <b>RFI-{rfiNumber}</b>
         <span> on {createdAtFormatted}</span>
+        <HistoryDetails
+          json={record.json_data}
+          prevJson={prevHistoryItem?.record?.json_data || {}}
+          excludedKeys={[
+            'id',
+            'createdAt',
+            'updatedAt',
+            'applicationId',
+            'lastMileIspOffering',
+            'rfiEmailCorrespondance',
+          ]}
+          diffSchema={rfiDiffSchema}
+          overrideParent="rfi"
+        />
       </StyledContent>
     );
   }
