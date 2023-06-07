@@ -32,7 +32,12 @@ async function getLinkPreview(
       image: '/images/noPreview.png',
     };
   }
-  const res = await fetch(`https://${urlObj.hostname}${urlObj.pathname}`);
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+  const res = await fetch(`https://${urlObj.hostname}${urlObj.pathname}`, {
+    signal: controller.signal,
+  });
+  clearTimeout(timeoutId);
   const html = await res.text();
   const $ = cheerio.load(html);
   const title =
