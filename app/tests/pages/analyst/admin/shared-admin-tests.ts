@@ -11,9 +11,9 @@ const checkTabStyles = (subTab) => {
   const applicationIntakesTab = screen.getByRole('link', {
     name: 'Application intakes',
   });
-  const downloadAttachmentsTab = screen.getByRole('link', {
+  const downloadAttachmentsTab = screen.getAllByRole('link', {
     name: 'Download attachments',
-  });
+  })[0];
   const listOfAnalystsTab = screen.getByRole('link', {
     name: 'List of analysts',
   });

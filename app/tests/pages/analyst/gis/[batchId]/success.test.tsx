@@ -126,7 +126,7 @@ describe('BatchIdPage', () => {
 
     const button = screen.getByRole('button', { name: 'Return to dashboard' });
     expect(button).toBeVisible();
-    expect(button).toHaveAttribute('href', '/analyst/dashboard');
+    expect(button.parentElement).toHaveAttribute('href', '/analyst/dashboard');
   });
 
   afterEach(() => {

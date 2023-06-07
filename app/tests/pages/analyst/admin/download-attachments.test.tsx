@@ -16,27 +16,27 @@ const mockQueryPayload = {
         authRole: 'ccbc_admin',
       },
       allIntakes: {
-        nodes: [ 
+        nodes: [
           {
             ccbcIntakeNumber: 1,
             closeTimestamp: '2022-08-09T13:49:23-07:00',
             openTimestamp: '2022-07-25T00:00:00-07:00',
-            rowId: 1
-          }, 
+            rowId: 1,
+          },
           {
             ccbcIntakeNumber: 2,
             openTimestamp: '2022-09-19T09:00:00-07:00',
             closeTimestamp: '2023-01-02T09:00:00-07:00',
-            rowId: 2
-          }, 
+            rowId: 2,
+          },
           {
             ccbcIntakeNumber: 3,
             openTimestamp: '2042-09-19T09:00:00-07:00',
             closeTimestamp: '2043-01-02T09:00:00-07:00',
-            rowId: 2
-          }
-        ]
-      }
+            rowId: 2,
+          },
+        ],
+      },
     };
   },
 };
@@ -44,9 +44,9 @@ const mockQueryPayload = {
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 
 global.fetch = jest.fn(() =>
-Promise.resolve({
-  json: () => Promise.resolve({}),
-}),
+  Promise.resolve({
+    json: () => Promise.resolve({}),
+  })
 ) as jest.Mock;
 
 const pageTestingHelper = new PageTestingHelper<downloadAttachmentsQuery>({
@@ -77,46 +77,52 @@ describe('The Download attachments admin page', () => {
     checkTabStyles(tabName);
 
     expect(
-      screen.getByRole('link', {
+      screen.getAllByRole('link', {
         name: tabName,
-      })
+      })[0]
     ).toBeVisible();
   });
 
-  it('renders list of intakes in dropdown', async() => {
+  it('renders list of intakes in dropdown', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     expect(screen.getByTestId('select-intake-test')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Download attachments' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Download attachments' })
+    ).toBeInTheDocument();
 
     expect(
-      screen.getAllByRole('option', { name: 'Intake 1. July 25, 2022 - August 09, 2022'})[0]
+      screen.getAllByRole('option', {
+        name: 'Intake 1. July 25, 2022 - August 09, 2022',
+      })[0]
     ).toBeInTheDocument();
     expect(
-      screen.getAllByRole('option', { name: 'Intake 2. September 19, 2022 - January 02, 2023' })[0]
+      screen.getAllByRole('option', {
+        name: 'Intake 2. September 19, 2022 - January 02, 2023',
+      })[0]
     ).toBeInTheDocument();
-    expect(
-      screen.getAllByRole('option').length
-    ).toBe(2);
+    expect(screen.getAllByRole('option').length).toBe(2);
   });
 
-  it('produces correct link to the attachment archive', async() => {
+  it('produces correct link to the attachment archive', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     expect(screen.getByTestId('select-intake-test')).toBeInTheDocument();
 
-    const secondIntake =  screen.getAllByRole('option', { name: 'Intake 2. September 19, 2022 - January 02, 2023' })[0];
+    const secondIntake = screen.getAllByRole('option', {
+      name: 'Intake 2. September 19, 2022 - January 02, 2023',
+    })[0];
     await act(async () => {
-      await userEvent.selectOptions(screen.getByTestId('select-intake-test'), secondIntake);
+      await userEvent.selectOptions(
+        screen.getByTestId('select-intake-test'),
+        secondIntake
+      );
     });
- 
+
     const link = screen.getByRole('button', { name: 'Download attachments' });
-    expect(link).toHaveAttribute(
-      'href',
-      '/#'
-    );
+    expect(link.parentElement).toHaveAttribute('href', '/#');
     await act(async () => {
       await userEvent.click(link);
     });

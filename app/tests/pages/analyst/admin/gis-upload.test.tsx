@@ -71,8 +71,10 @@ describe('The Gis upload admin page', () => {
 
     expect(screen.getByTestId('file-test')).toBeInTheDocument();
 
-    const button = screen.getByRole('button', { name: 'Continue' });
-    expect(button).toHaveAttribute('href', '/#');
+    const button = screen.getByRole('button', {
+      name: 'Continue',
+    });
+    expect(button.parentElement).toHaveAttribute('href', '/#');
     await act(async () => {
       await userEvent.click(button);
     });
@@ -136,7 +138,7 @@ describe('The Gis upload admin page', () => {
     fireEvent.change(inputFile, { target: { files: [goodfile] } });
 
     const button = screen.getByRole('button', { name: 'Continue' });
-    expect(button).toHaveAttribute('href', '/#');
+    expect(button.parentElement).toHaveAttribute('href', '/#');
     await act(async () => {
       await userEvent.click(button);
     });
@@ -173,7 +175,7 @@ describe('The Gis upload admin page', () => {
     fireEvent.change(inputFile, { target: { files: [goodfile] } });
 
     const button = screen.getByRole('button', { name: 'Continue' });
-    expect(button).toHaveAttribute('href', '/#');
+    expect(button.parentElement).toHaveAttribute('href', '/#');
     // const expectedMsg =
     //   'Validation failed: [{"line":1,"ccbc_number":"CCBC-010001","message":"GIS_TOTAL_HH must be number"}]';
     await act(async () => {
@@ -203,7 +205,7 @@ describe('The Gis upload admin page', () => {
     fireEvent.change(inputFile, { target: { files: [goodfile] } });
 
     const button = screen.getByRole('button', { name: 'Continue' });
-    expect(button).toHaveAttribute('href', '/#');
+    expect(button.parentElement).toHaveAttribute('href', '/#');
 
     await act(async () => {
       await userEvent.click(button);
