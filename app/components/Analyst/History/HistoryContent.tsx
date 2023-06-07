@@ -8,6 +8,7 @@ import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
+import HistoryFile from './HistoryFile';
 
 const StyledContent = styled.span`
   display: flex;
@@ -37,6 +38,13 @@ const ChangeReason = ({ reason }) => {
   );
 };
 
+const filterArrays = (obj: Record<string, any>): Record<string, any> => {
+  const filteredEntries = Object.entries(obj).filter(([, value]) =>
+    Array.isArray(value)
+  );
+  return Object.fromEntries(filteredEntries);
+};
+
 const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   const {
     givenName,
@@ -47,6 +55,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     record,
     sessionSub,
     externalAnalyst,
+    op,
   } = historyItem;
 
   const showHistoryDetails = useFeature('show_history_details').value;
@@ -54,17 +63,41 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   const fullName = `${givenName} ${familyName}`;
   const displayName = isAnalyst ? fullName : 'The applicant';
   const reasonForChange = record.reason_for_change || record.change_reason;
-  const createdAtFormatted = DateTime.fromJSDate(
-    new Date(createdAt)
-  ).toLocaleString(DateTime.DATETIME_MED);
+  const createdAtFormatted =
+    op === 'UPDATE'
+      ? DateTime.fromJSDate(new Date(record.updated_at)).toLocaleString(
+          DateTime.DATETIME_MED
+        )
+      : DateTime.fromJSDate(new Date(createdAt)).toLocaleString(
+          DateTime.DATETIME_MED
+        );
 
   if (tableName === 'rfi_data') {
     const rfiNumber = record.rfi_number;
-
+    // remove any booleans from additional files, leave behind arrays
+    const additionalFilesArray = filterArrays(
+      record.json_data?.rfiAdditionalFiles
+    );
+    // turn it into only arrays of files
+    const additionalFiles = additionalFilesArray
+      ? Object.values(additionalFilesArray).reduce(
+          (acc: string[], curr: string[]) => acc.concat(curr),
+          []
+        )
+      : [];
     return (
       <StyledContent data-testid="history-content-rfi">
-        <span>{displayName} saved</span> <b>RFI-{rfiNumber}</b>
-        <span> on {createdAtFormatted}</span>
+        {op === 'INSERT' ? (
+          <>
+            <span>{displayName} saved</span> <b>RFI-{rfiNumber}</b>
+            <span> on {createdAtFormatted}</span>
+          </>
+        ) : (
+          <>
+            <span>{displayName} updated</span> <b>RFI-{rfiNumber}</b>
+            <span> on {createdAtFormatted}</span>
+          </>
+        )}
         <HistoryDetails
           json={record.json_data}
           prevJson={prevHistoryItem?.record?.json_data || {}}
@@ -79,6 +112,18 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           diffSchema={rfiDiffSchema}
           overrideParent="rfi"
         />
+        {displayName !== 'The applicant' && (
+          <HistoryFile
+            filesArray={record.json_data?.rfiEmailCorrespondance || []}
+            title="Email files"
+          />
+        )}
+        {displayName === 'The applicant' && (
+          <HistoryFile
+            filesArray={additionalFiles || []}
+            title="Additional files"
+          />
+        )}
       </StyledContent>
     );
   }
