@@ -27,17 +27,19 @@ const HistoryRow = ({ historyItem, prevHistoryItem }) => {
   const { tableName } = historyItem;
 
   return (
-    <tr>
-      <StyledIconCell>
-        <HistoryIcon type={tableName} />
-      </StyledIconCell>
-      <StyledCell>
-        <HistoryContent
-          historyItem={historyItem}
-          prevHistoryItem={prevHistoryItem}
-        />
-      </StyledCell>
-    </tr>
+    tableName !== 'attachment' && (
+      <tr>
+        <StyledIconCell>
+          <HistoryIcon type={tableName} />
+        </StyledIconCell>
+        <StyledCell>
+          <HistoryContent
+            historyItem={historyItem}
+            prevHistoryItem={prevHistoryItem}
+          />
+        </StyledCell>
+      </tr>
+    )
   );
 };
 
