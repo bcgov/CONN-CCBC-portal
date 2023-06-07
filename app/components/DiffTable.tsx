@@ -314,7 +314,7 @@ const generateDiffTable = (
   const heading = Object.keys(data)[0].replace(/(__added|__deleted)/g, '');
   return rows.length > 0 ? (
     <StyledTable data-testid="diff-table">
-      <thead>
+      <thead style={{ borderBottom: '2px solid #CCC' }}>
         <tr>
           <th>{schema[heading]?.title || ' '}</th>
           <th>New</th>
