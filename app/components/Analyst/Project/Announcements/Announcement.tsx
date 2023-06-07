@@ -27,6 +27,11 @@ const StyledPreview = styled.div`
   word-break: break-word;
   min-width: 0;
   cursor: pointer;
+
+  & img {
+    border-radius: 8px;
+    padding: 1px;
+  }
 `;
 
 const StyledPreviewTitleDescription = styled.div`
@@ -121,9 +126,9 @@ const Announcement = ({
         <Image
           src={preview.image}
           alt={announcementTitle}
-          width={300}
-          height={300}
-          style={{ marginRight: '8px' }}
+          width={120}
+          height={100}
+          style={{ marginRight: '8px', marginBottom: 0 }}
         />
 
         <StyledPreviewTitleDescription>

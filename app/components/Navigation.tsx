@@ -54,7 +54,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
           <BaseHeader.Group className="banner">
             <Link passHref href="/">
               <Image
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: 'pointer', marginBottom: 0 }}
                 priority
                 src="/icons/BCID_CC_RGB_rev.svg"
                 alt="Logo for Province of British Columbia Connected Communities"
