@@ -181,4 +181,47 @@ describe('sow_tab_1 parsing tests', () => {
       expect.anything()
     );
   });
+
+  it('readData return expected validation errors', async () => {
+    const {
+      TOTAL_HOUSEHOLDS_IMPACTED_ROW,
+      INDIGENOUS_HOUSEHOLDS_IMPACTED_ROW,
+      TOTAL_COMMUNITIES_IMPACTED_ROW,
+      TOTALS_COLUMN,
+      COMMUNITY_ID_HEADING,
+      COMMUNITIES_ID_COLUMN,
+    } = TAB_ONE_CONSTANTS;
+    jest.spyOn(XLSX.utils, 'sheet_to_json').mockImplementation(() => {
+      const worksheetArray = Array(100).fill({});
+      const GAP_AFTER_SUMMARY_ROWS = TOTAL_COMMUNITIES_IMPACTED_ROW + 10;
+      worksheetArray[INDIGENOUS_HOUSEHOLDS_IMPACTED_ROW] = {
+        [TOTALS_COLUMN]: 'oops',
+      };
+      worksheetArray[TOTAL_COMMUNITIES_IMPACTED_ROW] = {
+        [TOTALS_COLUMN]: 'oops',
+      };
+      worksheetArray[TOTAL_HOUSEHOLDS_IMPACTED_ROW] = {
+        [TOTALS_COLUMN]: 'oops',
+      };
+      // trigger the table found condition
+      worksheetArray[GAP_AFTER_SUMMARY_ROWS] = {
+        [COMMUNITIES_ID_COLUMN]: COMMUNITY_ID_HEADING,
+      };
+
+      return worksheetArray;
+    });
+
+    const wb = XLSX.read(null);  
+    const data = await LoadTab1Data(1,wb,'1', request);
+    const expected = {error:
+      [
+        {"level":"cell","error":"Invalid data: Indigenous Households Impacted"},
+        {"level":"cell","error":"Invalid data: Total Number of Households Impacted"},
+        {"level":"cell","error":"Invalid data: Total Number of Communities Impacted"},        
+        {"level":"table","error":"Invalid data: No completed Community Information rows found"}
+      ]
+    }
+    expect(data).toEqual(expected);
+  });
+
 });

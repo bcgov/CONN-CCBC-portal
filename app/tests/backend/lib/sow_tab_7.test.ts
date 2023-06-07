@@ -1912,13 +1912,30 @@ describe('sow tab 7 tests', () => {
 
   it('should parse the worksheet and return expected errors', async () => {
     const broken = Object.assign({}, tab7);
-    broken[24]['H'] = 'garbage'; // instead of Total Ineligible Costs
-    broken[25]['H'] = 'garbage'; // instead of Total Project Cost
+    broken[23]['H'] = 'garbage'; // Total Eligible Costs
+    broken[24]['H'] = 'garbage'; // Total Ineligible Costs
+    broken[25]['H'] = 'garbage'; // Total Project Cost
+    broken[27]['H'] = 'garbage'; // Amount requested from the Federal Governmentt
+    broken[27]['J'] = 'garbage'; // Amount requested from the Province
+    broken[28]['H'] = 'garbage'; // Amount Applicant will contribute
+    broken[28]['J'] = 'garbage'; // Amount CIB will contribute
+    broken[29]['H'] = 'garbage'; // Funding from all other sources
+    broken[29]['J'] = 'garbage'; // Total requested from the CCBC Program
 
-    const expectedError = {error: [
-      { level: "cell", error: "Invalid data: Total Ineligible Costs" },
-      { level: "cell", error: "Invalid data: Total Project Costs" }
-    ]};
+    const expectedError = {
+      "error":
+      [
+        {"level":"cell","error":"Invalid data: Total Eligible Costs"},
+        {"level":"cell","error":"Invalid data: Total Ineligible Costs"},
+        {"level":"cell","error":"Invalid data: Total Project Costs"},
+        {"level":"cell","error":"Invalid data: Amount Requested from the Federal Government"},
+        {"level":"cell","error":"Invalid data: Amount Requested from the Province"},
+        {"level":"cell","error":"Invalid data: Amount Applicant will contribute"},
+        {"level":"cell","error":"Invalid data: Amount CIB will contribute"},
+        {"level":"cell","error":"Invalid data: Funding from all other sources"},
+        {"level":"cell","error":"Invalid data: Total Requested from the CCBC Program"}
+      ]
+    };
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(broken);
     const wb = XLSX.read(null);
 
