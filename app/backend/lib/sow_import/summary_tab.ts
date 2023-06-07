@@ -14,11 +14,6 @@ const createSowMutation = `
   }
 `;
 
-
-const IsValidYesNo = (value: string) => {
-  return value==='Yes' || value === 'No';
-}
-
 const readSummary = async (wb, sheet_name, applicationId) => {
   const summary = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',

@@ -1,6 +1,5 @@
 import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
-import { error } from 'console';
 
 const createTab8Mutation = `
   mutation tab8Mutation($input: SowTab8Input!) {
