@@ -35,7 +35,6 @@ const handleDownload = async (uuid, fileName) => {
 };
 
 const HistoryFile = ({ filesArray, title }) => {
-  console.log(filesArray);
   return (
     <StyledTable>
       <thead />
