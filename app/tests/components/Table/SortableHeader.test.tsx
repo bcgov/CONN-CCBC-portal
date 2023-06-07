@@ -4,7 +4,9 @@ import React from 'react';
 import SortableHeader from 'components/Table/SortableHeader';
 import { render, screen } from '@testing-library/react';
 
-jest.mock('next/router');
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
 
 mocked(useRouter).mockReturnValue({
   route: '/',
@@ -18,6 +20,7 @@ describe('The sortable table header', () => {
         <thead>
           <tr>
             <SortableHeader
+              onRouteUpdate={jest.fn()}
               sortable
               orderByPrefix="TEST_COLUMN"
               displayName="testdisplay"
@@ -37,7 +40,10 @@ describe('The sortable table header', () => {
       <table>
         <thead>
           <tr>
-            <SortableHeader displayName="testdisplay" />
+            <SortableHeader
+              displayName="testdisplay"
+              onRouteUpdate={jest.fn()}
+            />
           </tr>
         </thead>
       </table>
@@ -60,6 +66,7 @@ describe('The sortable table header', () => {
               sortable
               orderByPrefix="TEST_COLUMN"
               displayName="testdisplay"
+              onRouteUpdate={jest.fn()}
             />
           </tr>
         </thead>

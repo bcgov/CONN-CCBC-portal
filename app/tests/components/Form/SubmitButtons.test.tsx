@@ -3,6 +3,10 @@ import { render, screen } from '@testing-library/react';
 import GlobalTheme from 'styles/GlobalTheme';
 import userEvent from '@testing-library/user-event';
 
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
+
 const renderStaticLayout = ({
   disabled = false,
   isEditable = true,

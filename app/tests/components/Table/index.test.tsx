@@ -9,7 +9,9 @@ import { graphql } from 'relay-runtime';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { createMockEnvironment } from 'relay-test-utils';
 
-jest.mock('next/router');
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
 
 const routerPush = jest.fn();
 mocked(useRouter).mockReturnValue({

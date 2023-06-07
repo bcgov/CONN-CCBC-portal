@@ -2,6 +2,10 @@ import { render, screen, within } from '@testing-library/react';
 import Error500 from 'pages/500';
 import GlobalTheme from 'styles/GlobalTheme';
 
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
+
 const renderStaticLayout = () => {
   return render(
     <GlobalTheme>
