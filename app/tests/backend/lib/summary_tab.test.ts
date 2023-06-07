@@ -161,7 +161,7 @@ describe('sow_summary parsing tests', () => {
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeSummary);
 
     const wb = XLSX.read(null);  
-    const req = Object.assign({},request);
+    const req = {...request};
     req.query = {validate:true};
     req.params = {applicationId:1, ccbcNumber:'CCBC-020118'};
 
@@ -191,7 +191,7 @@ describe('sow_summary parsing tests', () => {
   });
 
   it('return errors for invalid worksheet', async () => {
-    const brokenSummary = Object.assign({},fakeSummary);
+    const brokenSummary = {...fakeSummary};
     // overwrite company info and backbone tecnology
     brokenSummary[6]['D'] = '';
     brokenSummary[6]['G'] = '';
@@ -214,8 +214,8 @@ describe('sow_summary parsing tests', () => {
 
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(brokenSummary);
 
-    const wb = XLSX.read(null);  
-    const req = Object.assign({},request);
+    const wb = XLSX.read(null);      
+    const req = {...request};
     req.query = {validate:true};
     req.params = {applicationId:1, ccbcNumber:'CCBC-020118'};
 

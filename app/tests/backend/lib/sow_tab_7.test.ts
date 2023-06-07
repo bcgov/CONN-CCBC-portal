@@ -1911,7 +1911,7 @@ describe('sow tab 7 tests', () => {
   });
 
   it('should parse the worksheet and return expected errors', async () => {
-    const broken = Object.assign({}, tab7);
+    const broken = {...tab7};
     broken[23]['H'] = 'garbage'; // Total Eligible Costs
     broken[24]['H'] = 'garbage'; // Total Ineligible Costs
     broken[25]['H'] = 'garbage'; // Total Project Cost
