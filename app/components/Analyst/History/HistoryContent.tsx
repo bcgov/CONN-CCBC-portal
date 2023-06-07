@@ -76,7 +76,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     const rfiNumber = record.rfi_number;
     // remove any booleans from additional files, leave behind arrays
     const additionalFilesArray = filterArrays(
-      record.json_data?.rfiAdditionalFiles
+      record.json_data?.rfiAdditionalFiles || {}
     );
     // turn it into only arrays of files
     const additionalFiles = additionalFilesArray
@@ -94,29 +94,33 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           </>
         ) : (
           <>
-            <span>{displayName} updated</span> <b>RFI-{rfiNumber}</b>
+            <span>{displayName} updated the files on </span>{' '}
+            <b>RFI-{rfiNumber}</b>
             <span> on {createdAtFormatted}</span>
           </>
         )}
-        <HistoryDetails
-          json={record.json_data}
-          prevJson={prevHistoryItem?.record?.json_data || {}}
-          excludedKeys={[
-            'id',
-            'createdAt',
-            'updatedAt',
-            'applicationId',
-            'lastMileIspOffering',
-            'rfiEmailCorrespondance',
-          ]}
-          diffSchema={rfiDiffSchema}
-          overrideParent="rfi"
-        />
         {displayName !== 'The applicant' && (
-          <HistoryFile
-            filesArray={record.json_data?.rfiEmailCorrespondance || []}
-            title="Email files"
-          />
+          <>
+            <HistoryDetails
+              json={record.json_data}
+              prevJson={prevHistoryItem?.record?.json_data || {}}
+              excludedKeys={[
+                'id',
+                'createdAt',
+                'updatedAt',
+                'applicationId',
+                'lastMileIspOffering',
+                'rfiEmailCorrespondance',
+              ]}
+              diffSchema={rfiDiffSchema}
+              overrideParent="rfi"
+            />
+
+            <HistoryFile
+              filesArray={record.json_data?.rfiEmailCorrespondance || []}
+              title="Email files"
+            />
+          </>
         )}
         {displayName === 'The applicant' && (
           <HistoryFile
