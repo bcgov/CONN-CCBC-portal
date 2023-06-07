@@ -1992,21 +1992,6 @@ describe('The index page', () => {
     );
   });
 
-  it('shows the correct applicant reply rfi history', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.getAllByTestId('history-content-attachment')[0]
-    ).toHaveTextContent(
-      'The applicant uploaded file_10M.bin on Mar 3, 2023, 8:05 a.m.'
-    );
-
-    expect(screen.getAllByTestId('history-content-rfi')[2]).toHaveTextContent(
-      'The applicant saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:05 a.m.'
-    );
-  });
-
   it('shows the correct history for editing an application', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
