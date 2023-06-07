@@ -9,7 +9,7 @@ interface LinkProps {
   selected: boolean;
 }
 
-const StyledA = styled.a<LinkProps>`
+const StyledLink = styled(Link)<LinkProps>`
   text-decoration: none;
   font-weight: ${(props) => (props.selected ? 700 : 400)};
   font-size: 32px;
@@ -45,33 +45,33 @@ const DashboardTabs = ({ session }) => {
   const showGisUpload = useFeature('show_gis_upload').value;
   return (
     <StyledNav>
-      <Link href="/analyst/dashboard" passHref>
-        <StyledA
-          isAdmin={isAdmin}
-          selected={router?.pathname.startsWith('/analyst/dashboard')}
-        >
-          Dashboard
-        </StyledA>
-      </Link>
+      <StyledLink
+        href="/analyst/dashboard"
+        passHref
+        isAdmin={isAdmin}
+        selected={router?.pathname.startsWith('/analyst/dashboard')}
+      >
+        Dashboard
+      </StyledLink>
       {isAdmin && (
-        <Link href="/analyst/admin/download-attachments" passHref>
-          <StyledA
-            isAdmin={isAdmin}
-            selected={router?.pathname.startsWith('/analyst/admin')}
-          >
-            Administrative
-          </StyledA>
-        </Link>
+        <StyledLink
+          href="/analyst/admin/download-attachments"
+          passHref
+          isAdmin={isAdmin}
+          selected={router?.pathname.startsWith('/analyst/admin')}
+        >
+          Administrative
+        </StyledLink>
       )}
       {showGisUpload && (
-      <Link href="/analyst/gis" passHref>
-        <StyledA
+        <StyledLink
+          href="/analyst/gis"
+          passHref
           isAdmin={isAdmin}
           selected={router?.pathname.startsWith('/analyst/gis')}
         >
           GIS
-        </StyledA>
-      </Link>
+        </StyledLink>
       )}
     </StyledNav>
   );

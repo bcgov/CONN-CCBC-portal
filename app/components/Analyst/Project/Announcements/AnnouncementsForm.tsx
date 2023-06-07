@@ -54,7 +54,7 @@ const StyledProjectForm = styled(ProjectForm)<EditProps>`
   }
 `;
 
-const StyledAnchor = styled.a`
+const StyledLink = styled(Link)`
   color: #ffffff;
 `;
 
@@ -112,13 +112,13 @@ export const toastContent = (ccbcIds: Array<any>) => {
   const linkBuilder = (ccbcId: any, index: number, array: Array<any>) => (
     <>
       <Tooltip message="Opens a new tab">
-        <Link
+        <StyledLink
           key={ccbcId.ccbcNumber}
           href={`/analyst/application/${ccbcId.rowId}/project`}
-          passHref
+          target="_blank"
         >
-          <StyledAnchor target="_blank">{ccbcId.ccbcNumber}</StyledAnchor>
-        </Link>
+          {ccbcId.ccbcNumber}
+        </StyledLink>
       </Tooltip>
       {addComma(index, array)}
     </>

@@ -29,7 +29,7 @@ const StyledNavItem = styled.div<StyledProps>`
   }
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   color: inherit;
   text-decoration: none;
 `;
@@ -45,14 +45,12 @@ const StyledLabelContainer = styled.div`
 
 const NavItem: React.FC<Props> = ({ currentPath, href, icon, label }) => {
   return (
-    <Link href={href} passHref>
-      <StyledLink>
-        <StyledNavItem selected={currentPath === href}>
-          <FontAwesomeIcon icon={icon} fixedWidth aria-hidden="true" />
-          <StyledLabelContainer>{label}</StyledLabelContainer>
-        </StyledNavItem>
-      </StyledLink>
-    </Link>
+    <StyledLink href={href} passHref>
+      <StyledNavItem selected={currentPath === href}>
+        <FontAwesomeIcon icon={icon} fixedWidth aria-hidden="true" />
+        <StyledLabelContainer>{label}</StyledLabelContainer>
+      </StyledNavItem>
+    </StyledLink>
   );
 };
 

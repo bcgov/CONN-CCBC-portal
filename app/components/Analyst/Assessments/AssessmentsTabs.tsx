@@ -15,7 +15,7 @@ interface AnchorProps {
   selected: boolean;
 }
 
-const StyledAnchor = styled.a<AnchorProps>`
+const StyledLink = styled(Link)<AnchorProps>`
   color: ${(props) =>
     props.selected
       ? `${props.theme.color.text}`
@@ -40,38 +40,48 @@ const AssessmentsTabs = () => {
 
   return (
     <StyledNav>
-      <Link passHref href={`${baseUrl}/screening`}>
-        <StyledAnchor selected={`${baseUrl}/screening` === router.asPath}>
-          Screening
-        </StyledAnchor>
-      </Link>
-      <Link passHref href={`${baseUrl}/gis`}>
-        <StyledAnchor selected={`${baseUrl}/gis` === router.asPath}>
-          GIS
-        </StyledAnchor>
-      </Link>
-      <Link passHref href={`${baseUrl}/technical`}>
-        <StyledAnchor selected={`${baseUrl}/technical` === router.asPath}>
-          Technical
-        </StyledAnchor>
-      </Link>
-      <Link passHref href={`${baseUrl}/project-management`}>
-        <StyledAnchor
-          selected={`${baseUrl}/project-management` === router.asPath}
-        >
-          Project Management
-        </StyledAnchor>
-      </Link>
-      <Link passHref href={`${baseUrl}/financial-risk`}>
-        <StyledAnchor selected={`${baseUrl}/financial-risk` === router.asPath}>
-          Financial Risk
-        </StyledAnchor>
-      </Link>
-      <Link passHref href={`${baseUrl}/permitting`}>
-        <StyledAnchor selected={`${baseUrl}/permitting` === router.asPath}>
-          Permitting
-        </StyledAnchor>
-      </Link>
+      <StyledLink
+        passHref
+        href={`${baseUrl}/screening`}
+        selected={`${baseUrl}/screening` === router.asPath}
+      >
+        Screening
+      </StyledLink>
+      <StyledLink
+        passHref
+        href={`${baseUrl}/gis`}
+        selected={`${baseUrl}/gis` === router.asPath}
+      >
+        GIS
+      </StyledLink>
+      <StyledLink
+        passHref
+        href={`${baseUrl}/technical`}
+        selected={`${baseUrl}/technical` === router.asPath}
+      >
+        Technical
+      </StyledLink>
+      <StyledLink
+        passHref
+        href={`${baseUrl}/project-management`}
+        selected={`${baseUrl}/project-management` === router.asPath}
+      >
+        Project Management
+      </StyledLink>
+      <StyledLink
+        passHref
+        href={`${baseUrl}/financial-risk`}
+        selected={`${baseUrl}/financial-risk` === router.asPath}
+      >
+        Financial Risk
+      </StyledLink>
+      <StyledLink
+        passHref
+        href={`${baseUrl}/permitting`}
+        selected={`${baseUrl}/permitting` === router.asPath}
+      >
+        Permitting
+      </StyledLink>
     </StyledNav>
   );
 };

@@ -6,7 +6,7 @@ interface LinkProps {
   selected: boolean;
 }
 
-const StyledA = styled.a<LinkProps>`
+const StyledLink = styled(Link)<LinkProps>`
   text-decoration: none;
   font-weight: ${(props) => (props.selected ? 700 : 400)};
   font-size: 24px;
@@ -43,21 +43,26 @@ const AdminTabs = () => {
 
   return (
     <StyledNav>
-      <Link href={downloadAttachmentsHref} passHref>
-        <StyledA selected={router?.pathname.includes(downloadAttachmentsHref)}>
-          Download attachments
-        </StyledA>
-      </Link>
-      <Link href={applicationIntakesHref} passHref>
-        <StyledA selected={router?.pathname.includes(applicationIntakesHref)}>
-          Application intakes
-        </StyledA>
-      </Link>
-      <Link href={listOfAnalystsHref} passHref>
-        <StyledA selected={router?.pathname.includes(listOfAnalystsHref)}>
-          List of analysts
-        </StyledA>
-      </Link>
+      <StyledLink
+        href={downloadAttachmentsHref}
+        selected={router?.pathname.includes(downloadAttachmentsHref)}
+      >
+        Download attachments
+      </StyledLink>
+      <StyledLink
+        href={applicationIntakesHref}
+        passHref
+        selected={router?.pathname.includes(applicationIntakesHref)}
+      >
+        Application intakes
+      </StyledLink>
+      <StyledLink
+        href={listOfAnalystsHref}
+        passHref
+        selected={router?.pathname.includes(listOfAnalystsHref)}
+      >
+        List of analysts
+      </StyledLink>
     </StyledNav>
   );
 };

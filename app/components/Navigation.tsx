@@ -18,7 +18,7 @@ const StyledRightSideLinks = styled(BaseHeader.Group)`
   margin-top: auto;
 `;
 
-const StyledAnchor = styled.a`
+const StyledLink = styled(Link)`
   color: white;
   margin: 0 10px 0 0;
   font-size: 0.8em;
@@ -53,16 +53,14 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
         <StyledDiv>
           <BaseHeader.Group className="banner">
             <Link passHref href="/">
-              <a>
-                <Image
-                  style={{ cursor: 'pointer' }}
-                  priority
-                  src="/icons/BCID_CC_RGB_rev.svg"
-                  alt="Logo for Province of British Columbia Connected Communities"
-                  height={100}
-                  width={300}
-                />
-              </a>
+              <Image
+                style={{ cursor: 'pointer' }}
+                priority
+                src="/icons/BCID_CC_RGB_rev.svg"
+                alt="Logo for Province of British Columbia Connected Communities"
+                height={100}
+                width={300}
+              />
             </Link>
           </BaseHeader.Group>
           <StyledMainTitle>
@@ -71,11 +69,13 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
           <StyledRightSideLinks>
             {isLoggedIn && isApplicantPortal && (
               <>
-                <Link passHref href="/applicantportal/dashboard">
-                  <StyledAnchor data-testid="dashboard-btn-test">
-                    Dashboard
-                  </StyledAnchor>
-                </Link>
+                <StyledLink
+                  passHref
+                  href="/applicantportal/dashboard"
+                  data-testid="dashboard-btn-test"
+                >
+                  Dashboard
+                </StyledLink>
                 |
               </>
             )}

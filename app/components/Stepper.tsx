@@ -38,7 +38,7 @@ const StyledActive = styled(StyledDiv)`
   }
 `;
 
-const StyledLink = styled('a')`
+const StyledLink = styled(Link)`
   color: ${(props) => props.theme.color.links};
   text-decoration: none;
   padding: 16px 40px;
@@ -65,23 +65,23 @@ const Stepper = () => {
           <>
             {isCurrentPage ? (
               <StyledActive>
-                <Link
+                <StyledLink
                   href={`/applicantportal/form/${rowId}/${pageNumber}`}
                   key={formName}
                   passHref
                 >
-                  <StyledLink>{formSchema.title}</StyledLink>
-                </Link>
+                  {formSchema.title}
+                </StyledLink>
               </StyledActive>
             ) : (
               <StyledDiv>
-                <Link
+                <StyledLink
                   href={`/applicantportal/form/${rowId}/${pageNumber}`}
                   key={formName}
                   passHref
                 >
-                  <StyledLink>{formSchema.title}</StyledLink>
-                </Link>
+                  {formSchema.title}
+                </StyledLink>
               </StyledDiv>
             )}
           </>
