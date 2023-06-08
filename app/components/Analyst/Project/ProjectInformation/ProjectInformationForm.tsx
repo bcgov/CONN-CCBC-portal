@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
+import styled from 'styled-components';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
 import projectInformationSchema from 'formSchema/analyst/projectInformation';
 import projectInformationReadOnlySchema from 'formSchema/analyst/projectInformationReadOnly';
@@ -9,6 +10,12 @@ import { useCreateProjectInformationMutation } from 'schema/mutations/project/cr
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import Toast from 'components/Toast';
+
+const StyledProjectForm = styled(ProjectForm)`
+  .datepicker-widget {
+    max-width: 180px;
+  }
+`;
 
 const ProjectInformationForm = ({ application }) => {
   const queryFragment = useFragment(
@@ -58,16 +65,14 @@ const ProjectInformationForm = ({ application }) => {
       },
     });
   };
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+
   const handleResetFormData = () => {
     setFormData(projectInformation?.jsonData || {});
     setShowToast(false);
   };
 
   return (
-    <ProjectForm
+    <StyledProjectForm
       additionalContext={{
         applicationId: rowId,
         ccbcNumber,
@@ -100,7 +105,7 @@ const ProjectInformationForm = ({ application }) => {
           Statement of work successfully imported
         </Toast>
       )}
-    </ProjectForm>
+    </StyledProjectForm>
   );
 };
 
