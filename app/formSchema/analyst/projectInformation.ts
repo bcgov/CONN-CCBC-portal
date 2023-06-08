@@ -47,7 +47,8 @@ const projectInformation: JSONSchema7 = {
                       type: 'string',
                     },
                     statementOfWorkUpload: {
-                      title: 'Upload the completed statement of work tables',
+                      title:
+                        'Upload the completed statement of work Excel file',
                       type: 'string',
                     },
                     finalizedMapUpload: {
