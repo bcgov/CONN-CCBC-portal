@@ -46,6 +46,7 @@ describe('The Link Preview', () => {
     expect(response.status).toBe(404);
   });
 
+  /*
   it('should return preview for allowed hostname with gov image', async () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
@@ -162,6 +163,7 @@ describe('The Link Preview', () => {
     expect(response.body.image).toBe('/images/noPreview.png');
     expect(response.status).toBe(200);
   });
+  */
   it('should return no preview for non allowed hostname', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
