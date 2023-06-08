@@ -27,7 +27,7 @@ describe('sow_tab_2', () => {
 
     const data = await LoadTab2Data(1,wb,'2', request);
 
-    expect(data).toEqual({error:'no data found for Tab 2'});
+    expect(data).toEqual({error: [{ level: "table", error: "Invalid data: No completed Project Site rows found" }]});
   });
   
   it('should parse worksheet and submit expected mutation', async ()  => { 
@@ -150,13 +150,13 @@ describe('sow_tab_2', () => {
             latitude: 40,
             longitude: -145,
             newOrExisting: 'New',
-            isSitePop: 'No',
-            isSiteGateway: 'No',
+            isSitePop: false,
+            isSiteGateway: false,
             landAccessType: 'Owned',
             description: 'Edge, Interconnected, Linked',
-            milestone1: 45199,
-            milestone2: 45382,
-            milestone3: 45657
+            milestone1: '2023-09-30T00:00:00.000Z',
+            milestone2: '2024-03-31T00:00:00.000Z',
+            milestone3: '2024-12-31T00:00:00.000Z'
           },
           {
             entryNumber: 2,
@@ -166,13 +166,13 @@ describe('sow_tab_2', () => {
             latitude: 40,
             longitude: -145,
             newOrExisting: 'Existing',
-            isSitePop: 'No',
-            isSiteGateway: 'No',
+            isSitePop: false,
+            isSiteGateway: false,
             landAccessType: 'Owned',
             description: 'Edge, Interconnected, Linked',
-            milestone1: 45199,
-            milestone2: 45382,
-            milestone3: 45657
+            milestone1: '2023-09-30T00:00:00.000Z',
+            milestone2: '2024-03-31T00:00:00.000Z',
+            milestone3: '2024-12-31T00:00:00.000Z'
           },
           {
             entryNumber: 3,
@@ -182,13 +182,13 @@ describe('sow_tab_2', () => {
             latitude: 40,
             longitude: -145,
             newOrExisting: 'New',
-            isSitePop: 'No',
-            isSiteGateway: 'No',
+            isSitePop: false,
+            isSiteGateway: false,
             landAccessType: 'Owned',
             description: 'Edge, Interconnected, Linked',
-            milestone1: 45199,
-            milestone2: 45382,
-            milestone3: 45657
+            milestone1: '2023-09-30T00:00:00.000Z',
+            milestone2: '2024-03-31T00:00:00.000Z',
+            milestone3: '2024-12-31T00:00:00.000Z'
           }
         ],
         sowId: 1

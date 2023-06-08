@@ -1,6 +1,6 @@
 import XLSX, { WorkBook } from 'xlsx';
 import { performQuery } from '../graphql';
-import convertExcelDropdownToBoolean from './util';
+import { convertExcelDropdownToBoolean } from './util';
 
 const createTab1Mutation = `
   mutation tab1Mutation($input: SowTab1Input!) {
@@ -130,11 +130,32 @@ export const readData = (sow_id: number, wb: WorkBook, sheet_name: string) => {
   };
 };
 
+const ValidateData = (data) => {
+  const errors = [];
+  if (typeof data.householdsImpactedIndigenous !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Indigenous Households Impacted'});
+  }
+  if (typeof data.numberOfHouseholds !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Total Number of Households Impacted'});
+  }
+  if (typeof data.totalNumberCommunitiesImpacted !== 'number') {
+    errors.push({level:'cell', error: 'Invalid data: Total Number of Communities Impacted'});
+  }
+  if (data.communityData.length === 0) {
+    errors.push({level:'table', error: 'Invalid data: No completed Community Information rows found'});
+  }
+  return errors;
+}
 const LoadTab1Data = async (sow_id, wb, sheet_name, req) => {
   const { validate = false } = req.query || {};
   const data = readData(sow_id, wb, sheet_name);
   const input = { input: { sowId: sow_id, jsonData: data } };
+  const errorList = ValidateData(data);
   
+  if (errorList.length > 0) {
+    return { error: errorList };
+  }
+
   if (validate) {
     return data;
   }
@@ -142,7 +163,7 @@ const LoadTab1Data = async (sow_id, wb, sheet_name, req) => {
   // time to persist in DB
   const result = await performQuery(createTab1Mutation, input, req).catch(
     (e) => {
-      return { error: e };
+      return { error: [{level:'database', error: e}] };
     }
   );
 

@@ -36,17 +36,21 @@ const readData = async(sow_id, wb, sheet_name) => {
       if (value.indexOf('Number of Communities')>-1) {
         const number= sheet[row]['E'];
         if (typeof(number) !== 'number') {
-          result.errors.push('Wrong value for Number of Communities Impacted on Tab 8');
+          result.errors.push({level:'cell', error: 'Invalid data: Number of Communities Impacted'});
         }
-        result.communitiesNumber = number;
+        else {
+          result.communitiesNumber = number;
+        }
       }
       
       if (value.indexOf('Number of Indigenous')>-1) {
         const number= sheet[row]['E'];
         if (typeof(number) !== 'number') {
-          result.errors.push('Wrong value for Number of Indigenous Communities Impacted on Tab 8');
+          result.errors.push({level:'cell', error: 'Invalid data: Number of Indigenous Communities Impacted'});
         }
-        result.indigenousCommunitiesNumber = number;
+        else {
+          result.indigenousCommunitiesNumber = number;
+        }
       }
     }
   }
@@ -81,6 +85,9 @@ const readData = async(sow_id, wb, sheet_name) => {
       }
     }
   }
+  if (result.geoNames.length === 0) {
+    result.errors.push({level:'table', error: 'Invalid data: No completed Geographic Names rows found'});
+  }
   if (result.errors.length === 0) delete result.errors;
   return result;
 }
@@ -89,23 +96,19 @@ const LoadTab8Data = async(sow_id, wb, sheet_name, req) => {
   const { validate = false } = req.query || {};
   const data = await readData(sow_id, wb, sheet_name);
   
-  if (validate) {
-    return data;
-  }
-
-  // still need to handle errors
   if (data?.errors?.length > 0) {
     return { error: data.errors };
   }
-  if (data.geoNames.length === 0) {
-    return { error: 'no data found for Tab 8'};
+
+  if (validate) {
+    return data;
   }
-  
+ 
   // time to persist in DB
   const input = {input: {sowId: sow_id, jsonData: data}};
   const result = await performQuery(createTab8Mutation, input, req)
   .catch((e) => {
-    return { error: e };
+    return { error: [{level:'database', error: e}] };
   });
 
   return result;
