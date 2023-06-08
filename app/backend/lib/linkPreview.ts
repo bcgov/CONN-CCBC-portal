@@ -8,13 +8,7 @@ const limiter = RateLimit({
   max: 2000,
 });
 
-const allowedHostnames = [
-  'news.gov.bc.ca',
-  'gov.bc.ca',
-  'canada.ca',
-  'www.canada.ca',
-  'www2.gov.bc.ca',
-];
+const allowedHostnames = [];
 
 const linkPreview = Router();
 
