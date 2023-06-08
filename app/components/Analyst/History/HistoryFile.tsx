@@ -37,7 +37,11 @@ const handleDownload = async (uuid, fileName) => {
 const HistoryFile = ({ filesArray, title }) => {
   return (
     <StyledTable>
-      <thead />
+      <thead style={{ borderBottom: '2px solid #CCC' }}>
+        <tr>
+          <th>Files</th>
+        </tr>
+      </thead>
       <tbody>
         <tr>
           <td>{title}</td>
