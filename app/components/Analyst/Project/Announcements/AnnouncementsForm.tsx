@@ -236,6 +236,7 @@ const AnnouncementsForm = ({ query }) => {
         },
       });
     } else {
+      formData.previewed = false;
       updateAnnouncement({
         variables: {
           input: {
