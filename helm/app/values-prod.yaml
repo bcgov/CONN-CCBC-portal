@@ -5,7 +5,7 @@ secureRoute:
 resources:
   app:
     requests:
-      cpu: 500m
+      cpu: 1m
       memory: '1Gi'
     limits:
       cpu: 500m
@@ -14,7 +14,7 @@ resources:
 proxy:
   pgBouncer:
     requests:
-      cpu: 250m
+      cpu: 1m
       memory: 16Mi
     limits:
       cpu: 250m
