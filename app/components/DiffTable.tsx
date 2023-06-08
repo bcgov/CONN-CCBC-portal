@@ -20,6 +20,10 @@ const StyledTable = styled.table`
   }
 `;
 
+const StyledTd = styled.td`
+  padding: 8px !important;
+`;
+
 const format = (value, type) => {
   if (typeof value === 'number' && type === 'number') {
     return formatMoney(value);
@@ -36,11 +40,11 @@ const format = (value, type) => {
 const createRow = (title, newValue, oldValue, objectName, key, type) => {
   return (
     <tr key={`${objectName}-${key}-${newValue}-${oldValue}`}>
-      <td>{title}</td>
-      <td>{`${format(newValue, type)}`}</td>
-      <td>
+      <StyledTd>{title}</StyledTd>
+      <StyledTd>{`${format(newValue, type)}`}</StyledTd>
+      <StyledTd>
         <s>{`${format(oldValue, type)}`}</s>
-      </td>
+      </StyledTd>
     </tr>
   );
 };
