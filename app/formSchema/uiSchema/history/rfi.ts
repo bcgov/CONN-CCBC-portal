@@ -1,11 +1,14 @@
-import rfi from 'formSchema/analyst//rfiSchema';
+import rfi from 'formSchema/analyst/rfiSchema';
 
 const updatedRfiAdditionalFiles = {
   properties: {
-    ...rfi.properties.rfiAdditionalFiles,
-    ...Object.entries(rfi.properties.rfiAdditionalFiles.properties).reduce(
+    ...rfi.properties['rfiAdditionalFiles'].properties,
+    ...Object.entries(rfi.properties['rfiAdditionalFiles'].properties).reduce(
       (acc, [key, value]) => {
-        acc[key] = { ...value, title: `${value.title} requested` };
+        acc[key] = {
+          ...(value as Object),
+          title: `${value['title']} requested`,
+        };
         return acc;
       },
       {}
