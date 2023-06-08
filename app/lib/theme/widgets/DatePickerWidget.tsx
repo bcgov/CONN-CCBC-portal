@@ -183,7 +183,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
         showMonthDropdown
         showYearDropdown
         dropdownMode="select"
-        isClearable={options.isClearable as boolean}
+        isClearable={!options.isNotClearable as boolean}
         showPopperArrow={false}
         customInput={<CustomInput isError={isError} />}
       />
@@ -194,7 +194,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
 DatePickerWidget.defaultProps = {
   // eslint-disable-next-line react/default-props-match-prop-types
   options: {
-    isClearable: false,
+    isNotClearable: false,
   },
 };
 

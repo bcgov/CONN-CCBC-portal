@@ -32,9 +32,6 @@ const conditionalApprovalUiSchema = {
     },
     ministerDate: {
       'ui:widget': 'DatePickerWidget',
-      'ui:options': {
-        isClearable: true,
-      },
     },
     ministerAnnouncement: {
       'ui:widget': 'SelectWidget',
@@ -53,9 +50,6 @@ const conditionalApprovalUiSchema = {
     },
     isedDate: {
       'ui:widget': 'DatePickerWidget',
-      'ui:options': {
-        isClearable: true,
-      },
     },
     isedAnnouncement: {
       'ui:widget': 'SelectWidget',
@@ -80,9 +74,6 @@ const conditionalApprovalUiSchema = {
     letterOfApprovalDateSent: {
       'ui:title': 'Date letter sent to applicant',
       'ui:widget': 'DatePickerWidget',
-      'ui:options': {
-        isClearable: true,
-      },
     },
   },
   response: {

@@ -25,7 +25,6 @@ const assessmentsUiSchema = {
   targetDate: {
     'ui:widget': 'DatePickerWidget',
     'ui:options': {
-      isClearable: true,
       boldTitle: true,
       addHorizontalLine: true,
     },
