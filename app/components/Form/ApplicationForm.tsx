@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import * as Sentry from '@sentry/nextjs';
 import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
 import { graphql, useFragment } from 'react-relay';
 import type { JSONSchema7 } from 'json-schema';
@@ -12,6 +13,7 @@ import { useSubmitApplicationMutation } from 'schema/mutations/application/submi
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 import { updateApplicationFormMutation } from '__generated__/updateApplicationFormMutation.graphql';
 import { useUpdateApplicationForm } from 'schema/mutations/application/updateApplicationForm';
+import verifyFormFields from 'utils/verifyFormFields';
 import { ReviewField } from 'components/Review';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
@@ -93,6 +95,15 @@ export const mergeFormSectionData = (
   formSectionName,
   calculatedSection
 ) => {
+  const schemaSection = schema.properties[formSectionName];
+
+  const handleError = (error) => {
+    Sentry.captureException({
+      name: 'Invalid form field error',
+      message: error,
+    });
+  };
+
   // TODO: The code below should be simplified. It is potentially confusing as it only allows
   // deleting field from a section by setting them to undefined.
   // Some of our code potentially relies on this behaviour, and there are related rjsf v4 bugs
@@ -104,8 +115,12 @@ export const mergeFormSectionData = (
   } else if (formData[formSectionName]) {
     newFormData = { ...formData };
     newFormData[formSectionName] = {
-      ...formData[formSectionName],
-      ...calculatedSection,
+      ...verifyFormFields(
+        newFormData[formSectionName],
+        schemaSection,
+        handleError
+      ),
+      ...verifyFormFields(calculatedSection, schemaSection, handleError),
     };
   } else {
     newFormData = { ...formData };
