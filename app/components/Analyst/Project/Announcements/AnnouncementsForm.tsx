@@ -150,6 +150,7 @@ const AnnouncementsForm = ({ query }) => {
                 id
                 rowId
                 jsonData
+                ccbcNumbers
               }
             }
           }

@@ -2,11 +2,24 @@ import { Router } from 'express';
 import RateLimit from 'express-rate-limit';
 import getLinkPreview from '../../utils/getLinkPreview';
 import getAuthRole from '../../utils/getAuthRole';
+import { performQuery } from './graphql';
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 2000,
 });
+
+const saveLinkPreviewMutation = `
+  mutation linkPreviewMutation($input: JSON!, $id: Int!, $ccbcNumbers: String!) {
+    updateAnnouncement(input: {jsonData: $input, oldRowId: $id, projectNumbers: $ccbcNumbers}) {
+      announcement {
+        id,
+        rowId,
+      },
+      clientMutationId
+    }
+  }
+`;
 
 const allowedHostnames = [
   'news.gov.bc.ca',
@@ -25,7 +38,7 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
   if (!isRoleAuthorized) {
     return res.status(404).end();
   }
-  const { url } = req.body;
+  const { url, jsonData, rowId, ccbcNumbers } = req.body;
   let urlObj;
   try {
     // attempt to fix url if it doesn't have http or https
@@ -42,6 +55,22 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
     return res.status(400).json({ error: 'Invalid URL' }).end();
   }
   if (!allowedHostnames.includes(urlObj.hostname)) {
+    // update the db with the preview
+    jsonData.preview = {
+      title: null,
+      description: 'No preview available',
+      image: '/images/noPreview.png',
+    };
+    jsonData.previewed = true;
+    (async () => {
+      await performQuery(
+        saveLinkPreviewMutation,
+        { input: jsonData, id: rowId, ccbcNumbers },
+        req
+      ).catch((e) => {
+        return res.status(400).json({ error: e }).end();
+      });
+    })();
     return res
       .status(200)
       .json({
@@ -60,6 +89,16 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
       return res.status(400).json({ error: e }).end();
     });
     if (preview) {
+      // update the db with the preview
+      jsonData.preview = preview;
+      jsonData.previewed = true;
+      await performQuery(
+        saveLinkPreviewMutation,
+        { input: jsonData, id: rowId, ccbcNumbers },
+        req
+      ).catch((e) => {
+        return res.status(400).json({ error: e }).end();
+      });
       return res.status(200).json(preview).end();
     }
     return res.status(400).json({ error: 'Failed to get a preview' }).end();
