@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import * as Sentry from '@sentry/nextjs';
+import DownloadLink from 'components/DownloadLink';
 
 const StyledTable = styled.table`
   table-layout: auto;
@@ -19,21 +19,6 @@ const StyledTable = styled.table`
   }
 `;
 
-const StyledLink = styled.button`
-  color: ${(props) => props.theme.color.links};
-  text-decoration-line: underline;
-  word-break: break-word;
-`;
-
-const handleDownload = async (uuid, fileName) => {
-  const url = `/api/s3/download/${uuid}/${fileName}`;
-  await fetch(url)
-    .then((response) => response.json())
-    .then((response) => {
-      window.open(response, '_blank');
-    });
-};
-
 const HistoryFile = ({ filesArray, title }) => {
   return (
     <StyledTable>
@@ -50,19 +35,7 @@ const HistoryFile = ({ filesArray, title }) => {
               ? filesArray.map((file) => {
                   return (
                     <>
-                      <StyledLink
-                        data-testid="history-attachment-link"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleDownload(file.uuid, file.name).catch(
-                            (error) => {
-                              Sentry.captureException(error);
-                            }
-                          );
-                        }}
-                      >
-                        {`${file.name}`}
-                      </StyledLink>
+                      <DownloadLink uuid={file.uuid} fileName={file.name} />
                       <br />
                     </>
                   );
