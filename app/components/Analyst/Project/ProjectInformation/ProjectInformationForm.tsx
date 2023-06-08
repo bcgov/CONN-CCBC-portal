@@ -13,7 +13,7 @@ import Toast from 'components/Toast';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
-    max-width: 180px;
+    max-width: 200px;
   }
 `;
 
