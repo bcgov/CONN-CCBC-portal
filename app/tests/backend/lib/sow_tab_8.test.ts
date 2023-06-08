@@ -82,9 +82,6 @@ describe('sow_tab_8', () => {
     );
   });
   
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
   it('should parse worksheet and submit expected mutation', async ()  => { 
     const fakeTab8 = [
       {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
