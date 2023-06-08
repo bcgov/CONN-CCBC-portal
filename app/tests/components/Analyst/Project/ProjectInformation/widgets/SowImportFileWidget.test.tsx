@@ -92,7 +92,7 @@ describe('The SowImportFileWidget', () => {
     });
 
     expect(
-      screen.getByText('Upload the completed statement of work tables')
+      screen.getByText('Upload the completed statement of work Excel file')
     ).toBeInTheDocument();
   });
 
