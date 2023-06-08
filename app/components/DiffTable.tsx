@@ -20,6 +20,10 @@ const StyledTable = styled.table`
   }
 `;
 
+const StyledTd = styled.td`
+  padding: 8px !important;
+`;
+
 const format = (value, type) => {
   if (typeof value === 'number' && type === 'number') {
     return formatMoney(value);
@@ -36,11 +40,11 @@ const format = (value, type) => {
 const createRow = (title, newValue, oldValue, objectName, key, type) => {
   return (
     <tr key={`${objectName}-${key}-${newValue}-${oldValue}`}>
-      <td>{title}</td>
-      <td>{`${format(newValue, type)}`}</td>
-      <td>
+      <StyledTd>{title}</StyledTd>
+      <StyledTd>{`${format(newValue, type)}`}</StyledTd>
+      <StyledTd>
         <s>{`${format(oldValue, type)}`}</s>
-      </td>
+      </StyledTd>
     </tr>
   );
 };
@@ -178,7 +182,7 @@ const generateDiffTable = (
                   newValueArr,
                   oldValueArr,
                   schema,
-                  objectName,
+                  overrideParent || objectName,
                   key
                 )
               );
@@ -186,7 +190,7 @@ const generateDiffTable = (
               rows.push(
                 ...handleRow(
                   schema,
-                  objectName,
+                  overrideParent || objectName,
                   key,
                   newValueArr.join(','),
                   oldValueArr.join(','),
@@ -241,7 +245,9 @@ const generateDiffTable = (
                 handleRow(
                   schema,
                   parent,
-                  Object.keys(value)[index],
+                  Array.isArray(value)
+                    ? key.replace(/(__added|__deleted)/g, '')
+                    : Object.keys(value)[index],
                   Array.isArray(newValue) ? newValue.join(', ') : newValue,
                   'N/A',
                   addedHeadings
@@ -312,7 +318,7 @@ const generateDiffTable = (
   const heading = Object.keys(data)[0].replace(/(__added|__deleted)/g, '');
   return rows.length > 0 ? (
     <StyledTable data-testid="diff-table">
-      <thead>
+      <thead style={{ borderBottom: '2px solid #CCC' }}>
         <tr>
           <th>{schema[heading]?.title || ' '}</th>
           <th>New</th>

@@ -426,7 +426,22 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 2,
-                json_data: {},
+                json_data: {
+                  rfiType: ['Missing files or information'],
+                  rfiDueBy: '2023-06-30',
+                  rfiAdditionalFiles: {
+                    lastMileIspOfferingRfi: true,
+                  },
+                  rfiEmailCorrespondance: [
+                    {
+                      id: 9,
+                      name: 'fake.txt',
+                      size: 0,
+                      type: 'text/plain',
+                      uuid: 'e33df8e1-fdf0-4a15-83e7-cad163549ce1',
+                    },
+                  ],
+                },
                 created_at: '2023-03-03T08:03:36.184206-08:00',
                 created_by: 2,
                 rfi_number: 'CCBC-020001-1',
@@ -450,7 +465,31 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 3,
-                json_data: {},
+                json_data: {
+                  rfiType: ['Missing files or information'],
+                  rfiDueBy: '2023-06-30',
+                  rfiAdditionalFiles: {
+                    lastMileIspOffering: [
+                      {
+                        id: 10,
+                        name: 'hotfix-55d8c6678b-zgdh4-hotfix.log',
+                        size: 2959,
+                        type: '',
+                        uuid: '2204da5c-f855-438d-b1d5-6a44b2afbf09',
+                      },
+                    ],
+                    lastMileIspOfferingRfi: true,
+                  },
+                  rfiEmailCorrespondance: [
+                    {
+                      id: 9,
+                      name: 'fake.txt',
+                      size: 0,
+                      type: 'text/plain',
+                      uuid: 'e33df8e1-fdf0-4a15-83e7-cad163549ce1',
+                    },
+                  ],
+                },
                 created_at: '2023-03-03T08:05:20.645457-08:00',
                 created_by: 3,
                 rfi_number: 'CCBC-020001-1',
@@ -467,48 +506,77 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: '2023-03-03T08:06:16.628756-08:00',
-              familyName: 'Bar',
-              item: '["Technical", "Missing files or information"]',
-              givenName: 'Foo',
+              createdAt: '2023-03-03T08:05:20.645457-08:00',
+              familyName: '',
+              item: '["Missing files or information"]',
+              givenName: '',
               op: 'INSERT',
               record: {
-                id: 7,
-                json_data: {},
-                created_at: '2023-03-03T08:06:16.628756-08:00',
-                created_by: 2,
+                id: 3,
+                json_data: {
+                  rfiType: ['Missing files or information'],
+                  rfiDueBy: '2023-06-30',
+                  rfiAdditionalFiles: {
+                    lastMileIspOffering: [
+                      {
+                        id: 10,
+                        name: 'hotfix-55d8c6678b-zgdh4-hotfix.log',
+                        size: 2959,
+                        type: '',
+                        uuid: '2204da5c-f855-438d-b1d5-6a44b2afbf09',
+                      },
+                    ],
+                    lastMileIspOfferingRfi: true,
+                  },
+                  rfiEmailCorrespondance: [
+                    {
+                      id: 9,
+                      name: 'fake.txt',
+                      size: 0,
+                      type: 'text/plain',
+                      uuid: 'e33df8e1-fdf0-4a15-83e7-cad163549ce1',
+                    },
+                  ],
+                },
+              },
+              oldRecord: {
+                id: 3,
+                json_data: {
+                  rfiType: ['Missing files or information'],
+                  rfiDueBy: '2023-06-30',
+                  rfiAdditionalFiles: {
+                    lastMileIspOffering: [
+                      {
+                        id: 10,
+                        name: 'hotfix-55d8c6678b-zgdh4-hotfix.log',
+                        size: 2959,
+                        type: '',
+                        uuid: '2204da5c-f855-438d-b1d5-6a44b2afbf09',
+                      },
+                    ],
+                    lastMileIspOfferingRfi: true,
+                  },
+                  rfiEmailCorrespondance: [
+                    {
+                      id: 9,
+                      name: 'fake.txt',
+                      size: 0,
+                      type: 'text/plain',
+                      uuid: 'e33df8e1-fdf0-4a15-83e7-cad163549ce1',
+                    },
+                  ],
+                },
+                created_at: '2023-03-03T08:05:20.645457-08:00',
+                created_by: 3,
                 rfi_number: 'CCBC-020001-1',
-                updated_at: '2023-03-03T08:06:16.628756-08:00',
-                updated_by: 2,
+                updated_at: '2023-03-03T08:05:20.645457-08:00',
+                updated_by: 3,
                 archived_at: null,
                 archived_by: null,
                 rfi_data_status_type_id: 'draft',
               },
-              recordId: '668be64e-f279-5c85-baca-e3681f609912',
-              sessionSub: 'test-session-sub@idir',
-              tableName: 'rfi_data',
-            },
-            {
-              applicationId: 6,
-              createdAt: '2023-03-03T08:22:17.13179-08:00',
-              familyName: 'Bar',
-              item: '["Technical", "Missing files or information"]',
-              givenName: 'Foo',
-              op: 'INSERT',
-              record: {
-                id: 8,
-                json_data: {},
-                created_at: '2023-03-03T08:22:17.13179-08:00',
-                created_by: 2,
-                rfi_number: 'CCBC-020001-1',
-                updated_at: '2023-03-03T08:22:17.13179-08:00',
-                updated_by: 2,
-                archived_at: null,
-                archived_by: null,
-                rfi_data_status_type_id: 'draft',
-              },
-              recordId: '1410a060-5616-50cc-8792-5aa220a3346f',
-              sessionSub: 'test-session-sub@idir',
+              recordId: '9a5795e4-ee20-591c-90b4-b795bb2b9cff',
+              sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@bceidbasic',
               tableName: 'rfi_data',
               externalAnalyst: null,
             },
@@ -1987,23 +2055,8 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getAllByTestId('history-content-rfi')[3]).toHaveTextContent(
-      'Foo Bar saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:03 a.m.'
-    );
-  });
-
-  it('shows the correct applicant reply rfi history', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.getAllByTestId('history-content-attachment')[0]
-    ).toHaveTextContent(
-      'The applicant uploaded file_10M.bin on Mar 3, 2023, 8:05 a.m.'
-    );
-
     expect(screen.getAllByTestId('history-content-rfi')[2]).toHaveTextContent(
-      'The applicant saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:05 a.m.'
+      'Foo Bar saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:03 a.m.'
     );
   });
 
@@ -2051,13 +2104,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 14 diff tables', async () => {
+  it('shows all 15 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(14);
+    expect(diffTables.length).toBe(15);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -2106,7 +2159,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const downloadLink = screen.getByTestId('history-attachment-link');
+    const downloadLink = screen.getAllByTestId('history-attachment-link')[0];
     expect(downloadLink).toBeVisible();
 
     jest.spyOn(window, 'open').mockImplementation(() => window);
