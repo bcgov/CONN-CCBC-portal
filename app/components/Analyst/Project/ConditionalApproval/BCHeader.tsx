@@ -8,8 +8,8 @@ const StyledFlex = styled.div`
   font-size: 16px;
   margin: 0;
 
-  & svg {
-    margin-right: 8px;
+  & img {
+    margin-bottom: 0px;
   }
 `;
 

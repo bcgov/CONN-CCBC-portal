@@ -18,9 +18,7 @@ const Back = ({ pageNumber, applicationId }: Props) => {
 
   return (
     <StyledDiv>
-      <Link href={url} passHref>
-        <a>{`< Back`}</a>
-      </Link>
+      <Link href={url}>{`< Back`}</Link>
     </StyledDiv>
   );
 };

@@ -1,6 +1,6 @@
 import { NextRouter } from 'next/router';
 import { createMockEnvironment, RelayMockEnvironment } from 'relay-test-utils';
-import { createMockRouter } from './mockNextRouter';
+import createMockRouter from './mockNextRouter';
 
 class TestingHelper {
   public environment: RelayMockEnvironment;
@@ -19,6 +19,7 @@ class TestingHelper {
 
   public expectMutationToBeCalled(mutationName: string, variables?: any) {
     try {
+      // eslint-disable-next-line jest/no-standalone-expect
       expect(this.environment.mock.getAllOperations()).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
@@ -53,14 +54,15 @@ class TestingHelper {
       }
 
       const actualMutationVariables = mutationsWithExpectedName
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         .map(({ request: { variables } }) => JSON.stringify(variables, null, 2))
         .join('\n\n');
 
-      e.message =
-        `Expected variables for mutation "${mutationName}":\n` +
-        JSON.stringify(variables, null, 2) +
-        `\nActual variables for mutation "${mutationName}":\n` +
-        actualMutationVariables;
+      e.message = `Expected variables for mutation "${mutationName}":\n${JSON.stringify(
+        variables,
+        null,
+        2
+      )}\nActual variables for mutation "${mutationName}":\n${actualMutationVariables}`;
 
       throw e;
     }

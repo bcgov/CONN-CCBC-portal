@@ -58,6 +58,11 @@ const StyledButton = styled.button`
   appearance: none;
 `;
 
+const StyledLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+`;
+
 const Accordion = ({
   allowAnalystEdit,
   children,
@@ -90,14 +95,14 @@ const Accordion = ({
         <h2>{title}</h2>
         <StyledToggleRight>
           {allowAnalystEdit && (
-            <Link
+            <StyledLink
               href={`/analyst/application/${applicationId}/edit/${name}`}
               passHref
             >
               <StyledButton>
                 <FontAwesomeIcon icon={faPen} fixedWidth />
               </StyledButton>
-            </Link>
+            </StyledLink>
           )}
 
           {error && (
