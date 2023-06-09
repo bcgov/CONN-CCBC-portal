@@ -29,6 +29,9 @@ describe('The analyst dashboard', () => {
     cy.wait(2000);
     cy.get('tr > th').first().click();
     cy.url().should('include', 'orderBy');
+
+    // add wait to prevent happo diff from taking a screenshot before the sort is complete
+    cy.wait(2000);
     cy.get('body').happoScreenshot({ component: 'Sorted Analyst Dashboard' });
   });
 });
