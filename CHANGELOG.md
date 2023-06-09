@@ -1,3 +1,51 @@
+# [1.74.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.73.1...v1.74.0) (2023-06-09)
+
+### Bug Fixes
+
+- add requested through reduce ([51fe023](https://github.com/bcgov/CONN-CCBC-portal/commit/51fe023ef4b7a2c588578df5ddd33f47f4381060))
+- add td padding to diff table ([1e7816c](https://github.com/bcgov/CONN-CCBC-portal/commit/1e7816cec7497de2d2b1c530e6cc037deaf6d8a6))
+- added more tests ([efdf4ed](https://github.com/bcgov/CONN-CCBC-portal/commit/efdf4ed0aa8b987f94058227b4d1c460bccd64af))
+- application edit pencil regression ([250e07b](https://github.com/bcgov/CONN-CCBC-portal/commit/250e07baeec2aa89dd6f7bf0d4fb6926178f068a))
+- change notation ([b24ad86](https://github.com/bcgov/CONN-CCBC-portal/commit/b24ad86fa949f07866b5781c9bfff9b5ee70fdea))
+- duplocate afterEach ([68247c4](https://github.com/bcgov/CONN-CCBC-portal/commit/68247c49b58a05136bbc4b67926c879a7376fad5))
+- handle validate ([6d6157a](https://github.com/bcgov/CONN-CCBC-portal/commit/6d6157af000739e534ae24cfeaccdd4a1a3d8e41))
+- increase rate, set timeout ([118147c](https://github.com/bcgov/CONN-CCBC-portal/commit/118147c274f3ee8be3fb7a4bc09a9d589e321280))
+- issue with empty query ([3bbb01c](https://github.com/bcgov/CONN-CCBC-portal/commit/3bbb01c48d9428762b299d04bd9b84c01d97b854))
+- logic for filtering suppressions ([1e6c388](https://github.com/bcgov/CONN-CCBC-portal/commit/1e6c3884a0b608ea34868ae27c69a9e8b3fb2397))
+- merge issue ([fe042f6](https://github.com/bcgov/CONN-CCBC-portal/commit/fe042f6062a880ff0786a55f7e902946ed2a25ad))
+- minor fixes ([d5dfd61](https://github.com/bcgov/CONN-CCBC-portal/commit/d5dfd6157bf87c6c9977ad24456fc432b9e47732))
+- nore unit tests added ([ea54620](https://github.com/bcgov/CONN-CCBC-portal/commit/ea54620cd3305b0059c5a72713dbce3f41fa08ee))
+- optional ([6f26cf1](https://github.com/bcgov/CONN-CCBC-portal/commit/6f26cf14bbebe085eecb593e00b4be20780650bb))
+- override for added or new, array key ([bcc1170](https://github.com/bcgov/CONN-CCBC-portal/commit/bcc11703209fd246fcd12edb60bd7af1561b1319))
+- remove console log ([5224e52](https://github.com/bcgov/CONN-CCBC-portal/commit/5224e52af4fee5358bb19af4ec671bfdb7c840c7))
+- remove extra assignment ([76d9938](https://github.com/bcgov/CONN-CCBC-portal/commit/76d9938a905fd7ed0c121d21970556f26991b2c7))
+- revert to dot notation ([cfafe06](https://github.com/bcgov/CONN-CCBC-portal/commit/cfafe06971903edf154093d78fc8d8e5c07d781d))
+- schema update ([bc47d7b](https://github.com/bcgov/CONN-CCBC-portal/commit/bc47d7b7919049ad79e3bc4b6600b72db7ebff86))
+- set diff table proper border ([6aaca63](https://github.com/bcgov/CONN-CCBC-portal/commit/6aaca6331609329b07932b1ab234d093d4bb55f7))
+- update label, diff and file display ([c65e045](https://github.com/bcgov/CONN-CCBC-portal/commit/c65e04525c0fc26799b84fd73ccd1e50b322d1fe))
+- update mockNextRouter ([e11c978](https://github.com/bcgov/CONN-CCBC-portal/commit/e11c978df743bae5c0dec663e0cb487f6f526fa5))
+- updated schema after rebase ([6d4d085](https://github.com/bcgov/CONN-CCBC-portal/commit/6d4d085266524c32e85c2a5906197cf7398afe7a))
+- using spread ([9e95f02](https://github.com/bcgov/CONN-CCBC-portal/commit/9e95f02c76325478390debd1fd99327407ed986e))
+- verify form fields on save in applicant form ([684fd91](https://github.com/bcgov/CONN-CCBC-portal/commit/684fd9126cac9b7e5d76711124eff72b36631eb6))
+- verify form fields supports nested schemas ([e8cdb14](https://github.com/bcgov/CONN-CCBC-portal/commit/e8cdb14847ac4b15270574d0e9f22d3a61f655b7))
+
+### Features
+
+- add files table header ([7ada30d](https://github.com/bcgov/CONN-CCBC-portal/commit/7ada30df4b1b012ce094edc3a16fd0015e7135ee))
+- add sentry error capture to verify form data function ([69645c2](https://github.com/bcgov/CONN-CCBC-portal/commit/69645c23782880e0a1eb83f0a0744ddd5be09544))
+- added cell-level validations ([38ca183](https://github.com/bcgov/CONN-CCBC-portal/commit/38ca183b7b26c8ccf7a3bed08461359f81b65843))
+- create download link component ([1eead8f](https://github.com/bcgov/CONN-CCBC-portal/commit/1eead8f5639cea652cea0ea62c6e7fd4a8e0b357))
+- disable attachment table history ([a2bcb6b](https://github.com/bcgov/CONN-CCBC-portal/commit/a2bcb6bbb4da6b904814a8f9eaae6959d2ba2750))
+- enable update op for rfi_data ([97b1eb0](https://github.com/bcgov/CONN-CCBC-portal/commit/97b1eb05f3bc98aa5531c35689d8816a9ccf5747))
+- handle files and updates, update schema ([8d01796](https://github.com/bcgov/CONN-CCBC-portal/commit/8d01796573e32c2989b5a0e140b8c507efdc58c2))
+- handle previous for rfi and assessment data ([d14b684](https://github.com/bcgov/CONN-CCBC-portal/commit/d14b6841cb25874d60248d92904991c13a317fb5))
+- initial rfi history ([99004ff](https://github.com/bcgov/CONN-CCBC-portal/commit/99004ff68bb605f0f16a7fd94d9e9024fb4d249e))
+- make datepicker clearable by default ([bad522e](https://github.com/bcgov/CONN-CCBC-portal/commit/bad522e53abf4138487b20e65c7d909128d16e29))
+- remove suppressed errors from sarif ([6bafcb2](https://github.com/bcgov/CONN-CCBC-portal/commit/6bafcb2fb230a9f8bb33c42a580be63437e5671a))
+- support ?validate parameter ([70eea1e](https://github.com/bcgov/CONN-CCBC-portal/commit/70eea1e6c7d871890d5d6c9647f29a61564d6e64))
+- unify error responses ([19ccd61](https://github.com/bcgov/CONN-CCBC-portal/commit/19ccd61bbefb38080c738d4563aa5b55d4c04aa8))
+- validate-only mode for sow-upload ([9169bc1](https://github.com/bcgov/CONN-CCBC-portal/commit/9169bc1d9fba71972a040f56f9267b9fd1fd3bda))
+
 ## [1.73.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.73.0...v1.73.1) (2023-06-02)
 
 ### Bug Fixes
