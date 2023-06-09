@@ -47,6 +47,27 @@ const StyledDropdown = styled.select<DropdownProps>`
   }
 `;
 
+const disabledStatusList = {
+  received: [
+    'assessment',
+    'recommendation',
+    'conditionally_approved',
+    'approved',
+    'complete',
+    'cancelled',
+  ],
+  screening: [
+    'recommendation',
+    'conditionally_approved',
+    'approved',
+    'complete',
+    'cancelled',
+  ],
+  assessment: ['conditionally_approved', 'approved', 'complete', 'cancelled'],
+  recommendation: ['approved', 'complete', 'cancelled'],
+  conditionally_approved: ['complete', 'cancelled'],
+};
+
 const StyledOption = styled.option`
   color: ${(props) => props.theme.color.text};
   background-color: ${(props) => props.theme.color.white};
@@ -98,7 +119,6 @@ const ChangeStatus = ({ query }) => {
   const [createStatus] = useCreateApplicationStatusMutation();
 
   const hiddenStatusTypes = ['draft', 'submitted', 'withdrawn'];
-
   // Filter unwanted status types
   const statusTypes = allApplicationStatusTypes.nodes.filter(
     (statusType) => !hiddenStatusTypes.includes(statusType.name)
@@ -112,6 +132,8 @@ const ChangeStatus = ({ query }) => {
   const [draftStatus, setDraftStatus] = useState(
     getStatus(analystStatus, statusTypes)
   );
+
+  const disabledStatuses = disabledStatusList[currentStatus.name];
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDraftStatus(getStatus(e.target.value, statusTypes));
@@ -172,8 +194,13 @@ const ChangeStatus = ({ query }) => {
         {statusTypes &&
           statusTypes.map((statusType) => {
             const { description, name, id } = statusType;
+
             return (
-              <StyledOption value={name} key={id}>
+              <StyledOption
+                value={name}
+                key={id}
+                disabled={disabledStatuses?.includes(name)}
+              >
                 {description}
               </StyledOption>
             );
