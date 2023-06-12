@@ -6,7 +6,11 @@ interface LinkPreview {
   image: string;
 }
 
-const handleImage = (og: string, twitter: string) => {
+const handleImage = (og: string, twitter: string, hostname: string) => {
+  // if canada.ca, return default preview image
+  if (hostname.includes('canada.ca')) {
+    return '/images/canadaPreview.png';
+  }
   // prefer bc gov hosted images if possible
   if (og && twitter) {
     if (og.includes('gov.bc.ca')) {
@@ -50,7 +54,8 @@ async function getLinkPreview(
     null;
   const image = handleImage(
     $('meta[property="og:image"]').attr('content'),
-    $('meta[name="twitter:image"]').attr('content')
+    $('meta[name="twitter:image"]').attr('content'),
+    urlObj.hostname
   );
   return { title, description, image };
 }
