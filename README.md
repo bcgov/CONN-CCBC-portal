@@ -200,6 +200,12 @@ Hooks are installed with when running `make install_git_hooks`, installing both 
 
 ### Deploying the project
 
+#### Prerequisite
+
+Before you can automate the deployment you will to manually deploy using helm so that the deployer account gets created, refer to the [deployment script](https://github.com/bcgov/CONN-CCBC-portal/blob/main/lib/app_deploy.sh) for the command and to the [app actions](https://github.com/bcgov/CONN-CCBC-portal/blob/main/.github/actions/app/action.yaml) for the environment overrides
+
+#### Deploying
+
 To deploy the project into a a new namespace or to deploy another instance of the project into an existing namespace GitHub Environments along with Helm and GitHub Actions is used. The following steps can be used to as a reference to deploy:
 
 1. Create a new environment on the GitHub repository, set any protection rules as necessary. The environment will be used to hold the secrets needed for GitHub Actions to be passed to Helm.
@@ -234,7 +240,9 @@ Note: there might be additional modifications or steps required to suit your spe
 
 ### Disaster recovery documentation
 
-TBD
+Please refer to [CCBC Disaster Recovery Testing with Patroni](https://github.com/bcgov/CONN-CCBC-portal/blob/main/docs/Disaster_recovery_Patroni.md)
+
+In case of a major disaster in which the database volume has been lost refer to [Restoring Backup volumes on OpenShift](https://docs.developer.gov.bc.ca/netapp-backup-restore/)
 
 ### Cronjobs
 
@@ -256,13 +264,11 @@ As the name implies; a job that uses certbot to keep the TLS certificate up to d
 
 Marks all applications for a specific intake as received on the database. Runs twice a day at 10:00 AM and 10:00PM Pacific time.
 
-ANYTHING ELSE HERE?
+Sets any applications with status of `submitted` to `received`.
 
 #### Prepare download
 
 Prepares attachments for download from the S3 bucket. Runs twice a day at 10:00 AM and 10:00PM Pacific time.
-
-NEEDS MORE INFO.
 
 #### Running a CronJob manually
 
