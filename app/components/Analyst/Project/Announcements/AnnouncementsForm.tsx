@@ -278,7 +278,6 @@ const AnnouncementsForm = ({ query }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setFormData(formData);
       if (isFormEditMode && !isFirstRender) {
         setOverflow('visible');
       } else {
