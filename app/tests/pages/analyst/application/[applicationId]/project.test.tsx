@@ -601,6 +601,7 @@ describe('The Project page', () => {
               ccbcNumber: 'CCBC-010002',
             },
           ],
+          previewed: false,
         },
         projectNumbers: 'CCBC-010001,CCBC-010002',
         oldRowId: 1,
