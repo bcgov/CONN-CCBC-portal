@@ -1,0 +1,244 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "ccbc.fullname" . }}
+  labels:
+{{ include "ccbc.labels" . | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "ccbc.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: {{ template "ccbc.fullname" . }}
+    spec:
+      initContainers:
+        - env:
+          - name: PGDATABASE
+            value: {{ template "ccbc.fullname" . }}
+          - name: PGUSER
+            value: postgres
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: ccbc-pguser-postgres
+          - name: DATABASE_NAME
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGUSER_APP
+            valueFrom:
+              secretKeyRef:
+                key: database-app-user
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGPASSWORD_APP
+            valueFrom:
+              secretKeyRef:
+                key: database-app-password
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGUSER_READONLY
+            valueFrom:
+              secretKeyRef:
+                key: database-readonly-user
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGPASSWORD_READONLY
+            valueFrom:
+              secretKeyRef:
+                key: database-readonly-password
+                name: {{ template "ccbc.fullname" . }}
+          - name: PGPORT
+            valueFrom:
+              secretKeyRef:
+                key: port
+                name: ccbc-pguser-ccbc
+          - name: PGHOST
+            valueFrom:
+              secretKeyRef:
+                key: host
+                name: ccbc-pguser-ccbc
+          name: {{ template "ccbc.fullname" . }}-provision-pg-credentials
+          image: {{ .Values.image.psql.repository }}:{{ .Values.image.psql.tag }}
+          resources:
+            limits:
+              cpu: {{ .Values.resources.psql.limits.cpu }}
+              memory: {{ .Values.resources.psql.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.psql.requests.cpu }}
+              memory: {{ .Values.resources.psql.requests.memory }}
+          command:
+            - /usr/bin/env
+            - bash
+            - -c
+            - |
+              set -euox pipefail;
+              psql -d $(DATABASE_NAME) <<EOF
+                grant pg_read_all_data to $(PGUSER_READONLY);
+                alter role $(PGUSER_READONLY) BYPASSRLS;
+              EOF
+        - env:
+          - name: SQITCH_TARGET
+            value: "db:pg:"
+          - name: PGUSER
+            valueFrom:
+              secretKeyRef:
+                key: user
+                name: ccbc-pguser-ccbc
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: ccbc-pguser-ccbc
+          - name: PGDATABASE
+            value: {{ template "ccbc.fullname" . }}
+          - name: PGPORT
+            valueFrom:
+              secretKeyRef:
+                key: port
+                name: ccbc-pguser-ccbc
+          - name: PGHOST
+            valueFrom:
+              secretKeyRef:
+                key: host
+                name: ccbc-pguser-ccbc
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          name: {{ template "ccbc.fullname" . }}-wait-for-migrations
+          image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
+          imagePullPolicy: {{ .Values.image.db.pullPolicy }}
+          resources:
+            limits:
+              cpu: {{ .Values.resources.psql.limits.cpu }}
+              memory: {{ .Values.resources.psql.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.psql.requests.cpu }}
+              memory: {{ .Values.resources.psql.requests.memory }}
+          command:
+            - /usr/bin/env
+            - bash
+            - -c
+            - |
+              set -euox pipefail;
+              sqitch deploy;
+
+{{- if .Values.db.postMigrationCommand }}
+        - env: {{ include "ccbc.postgresPgEnv" . | nindent 8 }}
+          - name: SQITCH_TARGET
+            value: "db:pg:"
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          name: {{ template "ccbc.fullname" . }}-deploy-data
+          image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
+          imagePullPolicy: {{ .Values.image.db.pullPolicy }}
+          resources:
+            limits:
+              cpu: {{ .Values.resources.psql.limits.cpu }}
+              memory: {{ .Values.resources.psql.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.psql.requests.cpu }}
+              memory: {{ .Values.resources.psql.requests.memory }}
+          command:
+            - /usr/bin/env
+            - bash
+            - -c
+            - |
+              set -euox pipefail;
+{{ .Values.db.postMigrationCommand | indent 14 }}
+
+                {{- if .Values.loadTest.enable }}
+                for file in data/perf/*.sql; do
+                  psql -v "ON_ERROR_STOP=1" -f "${file}";
+                done;
+                {{- end }}
+{{- end }}
+
+      containers:
+        - name: {{ template "ccbc.fullname" . }}
+          image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}
+          imagePullPolicy: {{ .Values.image.app.pullPolicy }}
+          env: {{ include "ccbc.ccbcAppUserPgEnv" . | nindent 10 }}
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: session-secret
+                  name: {{ template "ccbc.fullname" . }}
+            - name: HOST
+              value: {{ .Values.secureRoute.host }}
+            - name: OPENSHIFT_APP_NAMESPACE
+              value: {{ .Values.app.namespace }}
+            - name: NEXT_PUBLIC_GROWTHBOOK_API_KEY
+              value: {{ .Values.growthbook.key }}
+            - name: ENABLE_ANALYTICS
+              value: {{ .Values.app.enableAnalytics | quote }}
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: client-secret
+                  name: {{ template "ccbc.fullname" . }}-sso-express
+            - name: AWS_S3_BUCKET
+              value: {{ .Values.objectStorage.awsS3Bucket }}
+            - name: AWS_CLAM_S3_BUCKET
+              value: {{ .Values.objectStorage.awsClamS3Bucket }}
+            - name: AWS_S3_REGION
+              value: {{ .Values.objectStorage.awsS3Region }}
+            - name: AWS_S3_KEY
+              value: {{ .Values.objectStorage.awsS3Key }}
+            - name: AWS_S3_SECRET_KEY
+              value: {{ .Values.objectStorage.awsS3SecretKey }}
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ .Values.objectStorage.awsS3Key }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ .Values.objectStorage.awsS3SecretKey }}
+            - name: AWS_ROLE_ARN
+              value: {{ .Values.objectStorage.awsRoleArn }}
+            - name: SENTRY_RELEASE
+              value: {{ .Values.image.app.tag }}
+            - name: ENABLE_MOCK_AUTH
+              value: {{ .Values.loadTest.enable | quote }}
+          resources:
+            requests:
+              memory: {{ .Values.resources.app.requests.memory }}
+              cpu: {{ .Values.resources.app.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.app.limits.memory }}
+              cpu: {{ .Values.resources.app.limits.cpu }}
+          ports:
+            - containerPort: {{ .Values.app.port }}
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: {{ .Values.app.probesPort }}
+            # we want the readiness threshold to fail fast,
+            # to prevent any request from going to a pod that is not ready
+            failureThreshold: 1
+            successThreshold: 1
+            periodSeconds: 5
+            timeoutSeconds: 5
+            initialDelaySeconds: 30
+          livenessProbe:
+          # the liveness probe is here to ensure that a pod does not get
+          # stuck in a shutdown state. It needs to allow enough time for
+          # the registered shutdown handler to run to completion.
+            httpGet:
+              path: /live
+              port: {{ .Values.app.probesPort }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+            timeoutSeconds: 5

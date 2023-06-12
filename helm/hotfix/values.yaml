@@ -1,0 +1,86 @@
+fullnameOverride: hotfix
+
+replicaCount: 3
+
+image:
+  app:
+    repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app
+    pullPolicy: IfNotPresent
+    tag: 'sha-d53715434b85fd10f07e9976014e2dfa6166b818' # The tag value must be passed in via the deploy script
+    clientSecret: '' # clientSecret must be passed in via deploy script
+  psql:
+    repository: gcr.io/ggl-cas-storage/cas-postgres
+    pullPolicy: IfNotPresent
+    tag: '0.3.0'
+  db:
+    repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db
+    pullPolicy: IfNotPresent
+    tag: 'sha-d53715434b85fd10f07e9976014e2dfa6166b818' # The tag value must be passed in via the deploy script
+
+app:
+  port: '3000'
+  probesPort: '9000'
+  namespace: ''
+  enableAnalytics: true
+secureRoute:
+  host: '' # The host value must be passed in via the deploy script
+  wwwRoute:
+    enable: false
+growthbook:
+  key: '' # The host value must be passed in via the deploy script
+resources:
+  app:
+    requests:
+      cpu: 1m
+      memory: '256Mi'
+    limits:
+      cpu: 200m
+      memory: '512Mi'
+  psql:
+    requests:
+      cpu: 10m
+      memory: '128Mi'
+    limits:
+      cpu: 100m
+      memory: '256Mi'
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 110
+  # targetMemoryUtilizationPercentage: 80
+
+deployer:
+  namespace: '' # The namespace must be passed in via the deploy script
+  serviceAccount:
+    enabled: true
+
+networkPolicies:
+  enabled: true
+
+objectStorage:
+  awsS3Bucket: '' # The value must be passed in via the deploy script
+  awsS3Region: '' # The value must be passed in via the deploy script
+  awsS3Key: '' # The value must be passed in via the deploy script
+  awsS3SecretKey: '' # The value must be passed in via the deploy script
+  awsRoleArn: '' # The value must be passed in via the deploy script
+
+db:
+  name: hotfix
+  appUser: ccbc_app
+  readonlyUser: ccbc_readonly
+
+  # A bash script to run in a pre-upgrade hook, in a psql container
+  # The script will be run by the postgres user,
+  # allowing to clean up any objects created in a previous postMigrationCommand
+  preUpgradeCommand: ~
+
+  # A bash script to run after the migrations are deployed, in a psql container
+  # The script will be run by the postgres user, allowing to deploy test data, bypassing RLS
+  postMigrationCommand: ~
+
+loadTest:
+  # if true, this will start the app with ENABLE_MOCK_AUTH=true, and deploy the data located in `db/data/perf`
+  # These settings enable load testing, which is triggered in a separate helm chart
+  enable: false
