@@ -165,7 +165,7 @@ const Announcement = ({
                 id: announcement.id,
                 rowId: announcement.rowId,
               });
-              setFormData(announcement.jsonData);
+              setFormData({ ...announcement.jsonData, previewed: false });
             }}
             aria-label="Edit announcement"
             data-testid="project-form-edit-button"

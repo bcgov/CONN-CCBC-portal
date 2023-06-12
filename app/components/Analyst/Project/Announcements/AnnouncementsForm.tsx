@@ -236,7 +236,6 @@ const AnnouncementsForm = ({ query }) => {
         },
       });
     } else {
-      formData.previewed = false;
       updateAnnouncement({
         variables: {
           input: {
@@ -279,6 +278,7 @@ const AnnouncementsForm = ({ query }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      setFormData(formData);
       if (isFormEditMode && !isFirstRender) {
         setOverflow('visible');
       } else {
