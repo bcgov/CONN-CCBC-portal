@@ -1,9 +1,6 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
-import { useCreateApplicationStatusMutation } from 'schema/mutations/assessment/createApplicationStatus';
 import ChangeModal from './ChangeModal';
 
 interface DropdownProps {
@@ -47,27 +44,6 @@ const StyledDropdown = styled.select<DropdownProps>`
   }
 `;
 
-const disabledStatusList = {
-  received: [
-    'assessment',
-    'recommendation',
-    'conditionally_approved',
-    'approved',
-    'complete',
-    'cancelled',
-  ],
-  screening: [
-    'recommendation',
-    'conditionally_approved',
-    'approved',
-    'complete',
-    'cancelled',
-  ],
-  assessment: ['conditionally_approved', 'approved', 'complete', 'cancelled'],
-  recommendation: ['approved', 'complete', 'cancelled'],
-  conditionally_approved: ['complete', 'cancelled'],
-};
-
 const StyledOption = styled.option`
   color: ${(props) => props.theme.color.text};
   background-color: ${(props) => props.theme.color.white};
@@ -89,51 +65,40 @@ const ModalDescription = ({ currentStatus, draftStatus }) => {
   );
 };
 
-const ChangeStatus = ({ query }) => {
-  const queryFragment = useFragment(
-    graphql`
-      fragment ChangeStatus_query on Query {
-        applicationByRowId(rowId: $rowId) {
-          id
-          analystStatus
-        }
-        allApplicationStatusTypes(
-          orderBy: STATUS_ORDER_ASC
-          condition: { visibleByAnalyst: true }
-        ) {
-          nodes {
-            name
-            description
-            id
-          }
-        }
-      }
-    `,
-    query
-  );
+interface Props {
+  applicationId: number;
+  disabledStatusList?: any;
+  hiddenStatusTypes?: any;
+  status: string;
+  statusList: any;
+  statusMutation: any;
+}
 
-  const { allApplicationStatusTypes, applicationByRowId } = queryFragment;
-  const { analystStatus } = applicationByRowId;
-  const router = useRouter();
-  const applicationId = Number(router.query.applicationId);
-  const [createStatus] = useCreateApplicationStatusMutation();
-
-  const hiddenStatusTypes = ['draft', 'submitted', 'withdrawn'];
+const ChangeStatus: React.FC<Props> = ({
+  applicationId,
+  disabledStatusList,
+  hiddenStatusTypes = [],
+  status,
+  statusList,
+  statusMutation,
+}) => {
+  const [createStatus] = statusMutation();
   // Filter unwanted status types
-  const statusTypes = allApplicationStatusTypes.nodes.filter(
+  const statusTypes = statusList.filter(
     (statusType) => !hiddenStatusTypes.includes(statusType.name)
   );
 
   const [changeReason, setChangeReason] = useState('');
 
   const [currentStatus, setcurrentStatus] = useState(
-    getStatus(analystStatus, statusTypes)
+    getStatus(status, statusTypes)
   );
   const [draftStatus, setDraftStatus] = useState(
-    getStatus(analystStatus, statusTypes)
+    getStatus(status, statusTypes)
   );
 
-  const disabledStatuses = disabledStatusList[currentStatus.name];
+  const disabledStatuses =
+    disabledStatusList && disabledStatusList[currentStatus.name];
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDraftStatus(getStatus(e.target.value, statusTypes));
@@ -142,7 +107,7 @@ const ChangeStatus = ({ query }) => {
     window.location.hash = '#change-status-modal';
   };
 
-  if (analystStatus === 'withdrawn') {
+  if (status === 'withdrawn') {
     return <StyledWithdrawn>Withdrawn</StyledWithdrawn>;
   }
 

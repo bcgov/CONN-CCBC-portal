@@ -3,8 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
 import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
-import statusStyles from 'data/statusStyles';
-import StatusPill from '../StatusPill';
+import { useCreateApplicationStatusMutation } from 'schema/mutations/assessment/createApplicationStatus';
 
 const StyledCallout = styled.div`
   margin-bottom: 40px;
@@ -47,12 +46,34 @@ interface Props {
   query: any;
 }
 
+const disabledStatusList = {
+  received: [
+    'assessment',
+    'recommendation',
+    'conditionally_approved',
+    'approved',
+    'complete',
+    'cancelled',
+  ],
+  screening: [
+    'recommendation',
+    'conditionally_approved',
+    'approved',
+    'complete',
+    'cancelled',
+  ],
+  assessment: ['conditionally_approved', 'approved', 'complete', 'cancelled'],
+  recommendation: ['approved', 'complete', 'cancelled'],
+  conditionally_approved: ['complete', 'cancelled'],
+};
+
 const ApplicationHeader: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
       fragment ApplicationHeader_query on Query {
         applicationByRowId(rowId: $rowId) {
           analystLead
+          analystStatus
           organizationName
           ccbcNumber
           projectName
@@ -61,15 +82,25 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           ...AssignPackage_query
         }
         ...AssignLead_query
-        ...ChangeStatus_query
+        allApplicationStatusTypes(
+          orderBy: STATUS_ORDER_ASC
+          condition: { visibleByAnalyst: true }
+        ) {
+          nodes {
+            name
+            description
+            id
+          }
+        }
       }
     `,
     query
   );
 
-  const { applicationByRowId } = queryFragment;
+  const { allApplicationStatusTypes, applicationByRowId } = queryFragment;
   const {
     analystLead,
+    analystStatus,
     ccbcNumber,
     organizationName,
     projectName,
@@ -86,11 +117,31 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
       <StyledDiv>
         <StyledItem style={{ marginBottom: '0.3rem' }}>
           <StyledLabel htmlFor="change-status">Internal Status</StyledLabel>
-          <ChangeStatus query={queryFragment} />
+          <ChangeStatus
+            applicationId={rowId}
+            disabledStatusList={disabledStatusList}
+            hiddenStatusTypes={['draft', 'submitted', 'withdrawn']}
+            status={analystStatus}
+            statusList={allApplicationStatusTypes?.nodes}
+            statusMutation={useCreateApplicationStatusMutation}
+          />
         </StyledItem>
         <StyledItem>
           <StyledLabel id="status-pill">External Status</StyledLabel>
-          <StatusPill status={externalStatus} styles={statusStyles} />
+          <ChangeStatus
+            applicationId={rowId}
+            hiddenStatusTypes={[
+              'assessment',
+              'draft',
+              'recommendation',
+              'screening',
+              'submitted',
+              'withdrawn',
+            ]}
+            status={externalStatus}
+            statusList={allApplicationStatusTypes.nodes}
+            statusMutation={useCreateApplicationStatusMutation}
+          />
         </StyledItem>
         <StyledPackage>
           <StyledLabel htmlFor="assign-package">Package</StyledLabel>

@@ -9,7 +9,27 @@ import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
 const testQuery = graphql`
   query ChangeStatusTestQuery($rowId: Int!) {
-    ...ChangeStatus_query
+    applicationByRowId(rowId: $rowId) {
+      analystLead
+      analystStatus
+      organizationName
+      ccbcNumber
+      projectName
+      rowId
+      externalStatus
+      ...AssignPackage_query
+    }
+    ...AssignLead_query
+    allApplicationStatusTypes(
+      orderBy: STATUS_ORDER_ASC
+      condition: { visibleByAnalyst: true }
+    ) {
+      nodes {
+        name
+        description
+        id
+      }
+    }
   }
 `;
 
