@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
+import { useCreateApplicationStatusMutation } from 'schema/mutations/assessment/createApplicationStatus';
 import ChangeModal from './ChangeModal';
 
 interface DropdownProps {
@@ -68,21 +69,21 @@ const ModalDescription = ({ currentStatus, draftStatus }) => {
 interface Props {
   applicationId: number;
   disabledStatusList?: any;
+  isExternalStatus?: boolean;
   hiddenStatusTypes?: any;
   status: string;
   statusList: any;
-  statusMutation: any;
 }
 
 const ChangeStatus: React.FC<Props> = ({
   applicationId,
   disabledStatusList,
   hiddenStatusTypes = [],
+  isExternalStatus,
   status,
   statusList,
-  statusMutation,
 }) => {
-  const [createStatus] = statusMutation();
+  const [createStatus] = useCreateApplicationStatusMutation();
   // Filter unwanted status types
   const statusTypes = statusList.filter(
     (statusType) => !hiddenStatusTypes.includes(statusType.name)
@@ -96,6 +97,9 @@ const ChangeStatus: React.FC<Props> = ({
   const [draftStatus, setDraftStatus] = useState(
     getStatus(status, statusTypes)
   );
+  const modalId = isExternalStatus
+    ? 'external-change-status-modal'
+    : 'change-status-modal';
 
   const disabledStatuses =
     disabledStatusList && disabledStatusList[currentStatus.name];
@@ -104,12 +108,16 @@ const ChangeStatus: React.FC<Props> = ({
     setDraftStatus(getStatus(e.target.value, statusTypes));
 
     // Open modal using anchor tag
-    window.location.hash = '#change-status-modal';
+    window.location.hash = `#${modalId}`;
   };
 
   if (status === 'withdrawn') {
     return <StyledWithdrawn>Withdrawn</StyledWithdrawn>;
   }
+
+  const statusInputName = isExternalStatus
+    ? `applicant_${draftStatus?.name}`
+    : draftStatus?.name;
 
   const handleSave = async () => {
     createStatus({
@@ -118,7 +126,7 @@ const ChangeStatus: React.FC<Props> = ({
           applicationStatus: {
             applicationId,
             changeReason,
-            status: draftStatus.name,
+            status: statusInputName,
           },
         },
       },
@@ -128,11 +136,10 @@ const ChangeStatus: React.FC<Props> = ({
       },
     });
   };
-
   return (
     <>
       <ChangeModal
-        id="change-status-modal"
+        id={modalId}
         saveLabel="Save change"
         cancelLabel="Cancel change"
         onSave={handleSave}

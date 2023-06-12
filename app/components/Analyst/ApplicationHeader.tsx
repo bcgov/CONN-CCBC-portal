@@ -3,7 +3,6 @@ import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
 import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
-import { useCreateApplicationStatusMutation } from 'schema/mutations/assessment/createApplicationStatus';
 
 const StyledCallout = styled.div`
   margin-bottom: 40px;
@@ -107,6 +106,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
     rowId,
     externalStatus,
   } = applicationByRowId;
+
   return (
     <StyledCallout>
       <div>
@@ -123,7 +123,6 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
             hiddenStatusTypes={['draft', 'submitted', 'withdrawn']}
             status={analystStatus}
             statusList={allApplicationStatusTypes?.nodes}
-            statusMutation={useCreateApplicationStatusMutation}
           />
         </StyledItem>
         <StyledItem>
@@ -138,9 +137,9 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
               'submitted',
               'withdrawn',
             ]}
-            status={externalStatus}
+            isExternalStatus
+            status={externalStatus.replace('applicant_', '')}
             statusList={allApplicationStatusTypes.nodes}
-            statusMutation={useCreateApplicationStatusMutation}
           />
         </StyledItem>
         <StyledPackage>

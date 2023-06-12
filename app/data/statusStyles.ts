@@ -32,7 +32,7 @@ const statusStyles = {
   conditionally_approved: {
     primary: '#FFFFFF',
     backgroundColor: '#1F8234',
-    pillWidth: '212px',
+    pillWidth: '222px',
     description: 'Conditionally approved',
   },
   applicant_conditionally_approved: {
@@ -62,7 +62,7 @@ const statusStyles = {
   recommendation: {
     primary: '#003366',
     backgroundColor: '#DBE6F0',
-    pillWidth: '172px',
+    pillWidth: '180px',
     description: 'Recommendation',
   },
   screening: {
