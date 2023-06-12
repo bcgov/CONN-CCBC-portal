@@ -9,6 +9,7 @@ import crypto from 'crypto';
 import bodyParser from 'body-parser';
 import linkPreview from '../../../backend/lib/linkPreview';
 import getAuthRole from '../../../utils/getAuthRole';
+import { performQuery } from '../../../backend/lib/graphql';
 
 jest.mock('../../../backend/lib/graphql');
 jest.mock('../../../utils/getAuthRole');
@@ -72,12 +73,21 @@ describe('The Link Preview', () => {
       };
     });
 
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: { updateAnnouncement: { announcement: { id: 1, rowId: 1 } } },
+      };
+    });
+
     const response = await request(app)
       .post('/api/announcement/linkPreview')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .send({
         url: 'https://news.gov.bc.ca/test-news',
+        jsonData: {},
+        rowId: 1,
+        ccbcNumbers: 'CCBC-010001',
       })
       .expect(200);
     expect(response.body.title).toBe('Test Title');
@@ -110,12 +120,21 @@ describe('The Link Preview', () => {
       };
     });
 
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: { updateAnnouncement: { announcement: { id: 1, rowId: 1 } } },
+      };
+    });
+
     const response = await request(app)
       .post('/api/announcement/linkPreview')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .send({
         url: 'https://news.gov.bc.ca/test-news',
+        jsonData: {},
+        rowId: 1,
+        ccbcNumbers: 'CCBC-010001',
       })
       .expect(200);
     expect(response.body.title).toBe('Test Title');
@@ -149,12 +168,21 @@ describe('The Link Preview', () => {
       };
     });
 
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: { updateAnnouncement: { announcement: { id: 1, rowId: 1 } } },
+      };
+    });
+
     const response = await request(app)
       .post('/api/announcement/linkPreview')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .send({
         url: 'https://news.gov.bc.ca/test-news',
+        jsonData: {},
+        rowId: 1,
+        ccbcNumbers: 'CCBC-010001',
       })
       .expect(200);
     expect(response.body.title).toBe('Test Title');
@@ -170,12 +198,21 @@ describe('The Link Preview', () => {
       };
     });
 
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: { updateAnnouncement: { announcement: { id: 1, rowId: 1 } } },
+      };
+    });
+
     const response = await request(app)
       .post('/api/announcement/linkPreview')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .send({
         url: 'https://a-news-outlet.ca/test-news',
+        jsonData: {},
+        rowId: 1,
+        ccbcNumbers: 'CCBC-010001',
       })
       .expect(200);
     expect(response.body.title).toBe(null);
@@ -191,12 +228,21 @@ describe('The Link Preview', () => {
       };
     });
 
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: { updateAnnouncement: { announcement: { id: 1, rowId: 1 } } },
+      };
+    });
+
     const response = await request(app)
       .post('/api/announcement/linkPreview')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .send({
         url: 'i-am-not-a-url',
+        jsonData: {},
+        rowId: 1,
+        ccbcNumbers: 'CCBC-010001',
       })
       .expect(400);
     expect(response.body.error).toBe('Invalid URL');
