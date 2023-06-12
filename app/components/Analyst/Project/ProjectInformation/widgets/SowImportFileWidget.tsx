@@ -46,7 +46,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
     if (loading) return;
     setError('');
 
-    const { applicationId, ccbcNumber } = formContext;
+    const { applicationId, validateSow } = formContext;
     const file = e.target.files?.[0];
 
     const { isValid, error: newError } = validateFile(
@@ -78,13 +78,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       },
     };
 
-    const formData = new FormData();
-    formData.append('file', file);
-
-    await fetch(`/api/analyst/sow/${applicationId}/${ccbcNumber}`, {
-      method: 'POST',
-      body: formData,
-    }).then((response) => {
+    await validateSow(file).then((response) => {
       const { status } = response;
       if (status === 200) {
         createAttachment({
