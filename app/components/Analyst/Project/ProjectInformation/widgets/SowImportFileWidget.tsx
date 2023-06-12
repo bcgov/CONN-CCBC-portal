@@ -9,6 +9,35 @@ import { useCreateAttachment } from 'schema/mutations/attachment/createAttachmen
 import { useDeleteAttachment } from 'schema/mutations/attachment/deleteAttachment';
 import bytesToSize from 'utils/bytesToText';
 import FileComponent from 'lib/theme/components/FileComponent';
+import styled, { keyframes } from 'styled-components';
+
+const ellipsisAnimation = keyframes`
+  0% {
+    width: 0;
+    color: #D8292F;
+  }
+  50% {
+    color: #FCBA19;
+  }
+  100% {
+    width: 1.25em;
+    color: #003366;
+  }
+`;
+
+const Loading = styled.div`
+  font-size: 30px;
+  color: #1a5a96;
+
+  &:after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    animation: ${ellipsisAnimation} steps(4, end) 900ms infinite;
+    content: '\\2026'; /* ascii code for the ellipsis character */
+    width: 0px;
+  }
+`;
 
 type FileProps = {
   id: string | number;
@@ -122,7 +151,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       }}
       fileTypes={acceptedFileTypes}
       id={id}
-      label={label}
+      label={loading ? <Loading>Checking the data</Loading> : label}
       required={required}
       value={value}
     />
