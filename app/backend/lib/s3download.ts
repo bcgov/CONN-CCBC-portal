@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import config from '../../config';
 import getAuthRole from '../../utils/getAuthRole';
-import s3Client from './s3client';
+import { getFileTagging, getFileFromS3} from './s3client';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 
@@ -11,7 +11,7 @@ const detectInfected = async (uuid: string) => {
     Bucket: AWS_S3_BUCKET,
     Key: uuid,
   };
-  const getTags = await s3Client.getObjectTagging(params).promise();
+  const getTags = await getFileTagging(params);
   return getTags;
 };
 
@@ -33,20 +33,8 @@ s3download.get('/api/s3/download/:uuid/:fileName', async(req, res) => {
   if (suspect?.Value === 'dirty') {
     return res.json({avstatus:'dirty'});
   } 
-  const signedUrl = s3Client.getSignedUrlPromise('getObject', {
-    Bucket: AWS_S3_BUCKET,
-    Key: uuid,
-    Expires: 60,
-    ResponseContentDisposition: `attachment; filename="${fileName}"`,
-  });
+  return await getFileFromS3(uuid, fileName, res);
 
-  return signedUrl
-    .then((url) => {
-      res.json(url);
-    })
-    .catch(() => {
-      res.status(500).end();
-    }); 
 });
 
 export default s3download;
