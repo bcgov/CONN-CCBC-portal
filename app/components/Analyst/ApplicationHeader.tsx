@@ -127,7 +127,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           />
         </StyledItem>
         <StyledItem>
-          <StyledLabel id="status-pill">External Status</StyledLabel>
+          <StyledLabel htmlFor="change-status">External Status</StyledLabel>
           <ChangeStatus
             application={applicationByRowId}
             hiddenStatusTypes={[
