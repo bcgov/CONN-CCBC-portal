@@ -26,6 +26,10 @@ const projectInformation: JSONSchema7 = {
               title: 'Upload the completed statement of work tables',
               type: 'string',
             },
+            sowWirelessUpload: {
+              title: 'Upload the SOW Wireless Tbl Excel file, if necessary',
+              type: 'string',
+            },
             finalizedMapUpload: {
               title: 'Upload the finalized map, if available',
               type: 'string',

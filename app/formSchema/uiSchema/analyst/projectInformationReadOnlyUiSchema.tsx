@@ -23,6 +23,12 @@ const projectInformationReadOnlyUiSchema = {
         ),
         'ui:widget': 'ReadOnlyFileWidget',
       },
+      sowWirelessUpload: {
+        'ui:before': (
+          <FileHeader title="Statement of work wireless" icon={faFileExcel} />
+        ),
+        'ui:widget': 'ReadOnlyFileWidget',
+      },
       finalizedMapUpload: {
         'ui:before': <FileHeader title="Finalized map" icon={faMap} />,
         'ui:widget': 'ReadOnlyFileWidget',
