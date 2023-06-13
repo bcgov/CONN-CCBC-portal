@@ -171,7 +171,7 @@ const ChangeStatus: React.FC<Props> = ({
     ) {
       window.location.hash = `#external-change-status-modal`;
     } else {
-      handleSave(e.target.value);
+      await handleSave(e.target.value);
     }
   };
 
@@ -205,8 +205,10 @@ const ChangeStatus: React.FC<Props> = ({
 
       <StyledDropdown
         data-testid="change-status"
-        onChange={handleChange}
-        // Use draft status for colour so it changes as user selects it
+        onChange={(e) => {
+          // eslint-disable-next-line no-void
+          void (() => handleChange(e))();
+        }} // Use draft status for colour so it changes as user selects it
         statusStyles={statusStyles[draftStatus?.name]}
         value={draftStatus?.name}
         id="change-status"
