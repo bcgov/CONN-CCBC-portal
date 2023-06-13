@@ -57,6 +57,12 @@ const ViewAnnouncements: React.FC<Props> = ({
         const filteredA = a.filter((announcement) => announcement !== null);
         const previews = await Promise.all(
           filteredA.map(async (announcement) => {
+            if (announcement?.jsonData?.previewed) {
+              return {
+                ...announcement,
+                preview: announcement?.jsonData?.preview,
+              };
+            }
             const url = announcement?.jsonData?.announcementUrl;
             controller = new AbortController();
             signal = controller.signal;
@@ -65,7 +71,12 @@ const ViewAnnouncements: React.FC<Props> = ({
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ url }),
+              body: JSON.stringify({
+                url,
+                jsonData: announcement?.jsonData,
+                rowId: announcement?.rowId,
+                ccbcNumbers: announcement?.ccbcNumbers,
+              }),
               signal,
             });
             const preview = await response.json();

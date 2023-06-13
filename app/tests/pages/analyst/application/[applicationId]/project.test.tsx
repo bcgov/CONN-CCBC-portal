@@ -75,6 +75,23 @@ const mockJsonDataQueryPayload = {
                 rowId: 2,
               },
             },
+            {
+              node: {
+                id: 'WyJhbm5vdW5jZW1lbnRzIiwxNF1=',
+                jsonData: {
+                  announcementUrl: 'www.test-3.com',
+                  announcementDate: '2023-05-03',
+                  announcementType: 'Secondary',
+                  previewed: true,
+                  preview: {
+                    image: '/images/noPreview.png',
+                    title: 'Test title',
+                    description: 'Test description',
+                  },
+                },
+                rowId: 3,
+              },
+            },
           ],
           pageInfo: {
             endCursor: null,
@@ -501,6 +518,7 @@ describe('The Project page', () => {
 
     expect(screen.getByText('May 01, 2023')).toBeInTheDocument();
     expect(screen.getByText('May 02, 2023')).toBeInTheDocument();
+    expect(screen.getByText('May 03, 2023')).toBeInTheDocument();
   });
 
   it('should show the error message for invalid url', async () => {
@@ -601,6 +619,7 @@ describe('The Project page', () => {
               ccbcNumber: 'CCBC-010002',
             },
           ],
+          previewed: false,
         },
         projectNumbers: 'CCBC-010001,CCBC-010002',
         oldRowId: 1,

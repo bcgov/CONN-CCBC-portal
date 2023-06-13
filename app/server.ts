@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
+import morgan from 'morgan';
 import linkPreview from './backend/lib/linkPreview';
 import readinessTest from './backend/lib/readinessTests';
 import { pgPool } from './backend/lib/setup-pg';
@@ -68,6 +69,12 @@ app.prepare().then(async () => {
     await app.close();
     await pgPool.end();
   });
+
+  server.use(
+    morgan(
+      '[:date] :method :url :status :res[content-length] - :remote-addr - :response-time ms'
+    )
+  );
 
   server.use(json({ limit: bodyParserLimit }));
 
