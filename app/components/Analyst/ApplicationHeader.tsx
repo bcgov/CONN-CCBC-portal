@@ -78,6 +78,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           projectName
           rowId
           externalStatus
+          ...ChangeStatus_query
           ...AssignPackage_query
         }
         ...AssignLead_query
@@ -118,7 +119,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
         <StyledItem style={{ marginBottom: '0.3rem' }}>
           <StyledLabel htmlFor="change-status">Internal Status</StyledLabel>
           <ChangeStatus
-            applicationId={rowId}
+            application={applicationByRowId}
             disabledStatusList={disabledStatusList}
             hiddenStatusTypes={['draft', 'submitted', 'withdrawn']}
             status={analystStatus}
@@ -128,7 +129,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
         <StyledItem>
           <StyledLabel id="status-pill">External Status</StyledLabel>
           <ChangeStatus
-            applicationId={rowId}
+            application={applicationByRowId}
             hiddenStatusTypes={[
               'assessment',
               'draft',

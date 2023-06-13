@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
@@ -26,7 +25,8 @@ const StyledTextArea = styled.textarea`
 
 interface Props {
   cancelLabel?: string;
-  description?: string | ReactElement;
+  currentStatus?: any;
+  draftStatus?: any;
   id?: string;
   maxLength?: number;
   onCancel?: Function;
@@ -39,7 +39,8 @@ interface Props {
 
 const ChangeModal: React.FC<Props> = ({
   cancelLabel = 'Cancel',
-  description = 'Please provide a reason for the change.',
+  currentStatus,
+  draftStatus,
   id = 'change-modal',
   maxLength = 1000,
   onCancel = () => {},
@@ -53,7 +54,13 @@ const ChangeModal: React.FC<Props> = ({
     <StyledModal id={id}>
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content>
-        <div>{description}</div>
+        <div>
+          <p>
+            You are about to change the status from {currentStatus?.description}{' '}
+            to {draftStatus?.description}.
+          </p>
+          <div>Please provide a reason for changing the status. (optional)</div>
+        </div>
         <StyledTextArea
           maxLength={maxLength}
           onChange={(e) => onChange(e)}
