@@ -197,7 +197,6 @@ const ChangeStatus: React.FC<Props> = ({
           }
         />
       )}
-
       <StyledDropdown
         data-testid="change-status"
         onChange={(e) => {

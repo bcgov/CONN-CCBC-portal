@@ -86,7 +86,7 @@ const ExternalChangeModal: React.FC<Props> = ({
             <>
               <Modal.Close>
                 <Link href={`/analyst/application/${applicationId}/project`}>
-                  <Button>Take me there</Button>
+                  <Button onClick={() => onCancel()}>Take me there</Button>
                 </Link>
               </Modal.Close>
 
