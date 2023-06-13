@@ -1,3 +1,46 @@
+# [1.75.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.74.0...v1.75.0) (2023-06-13)
+
+### Bug Fixes
+
+- add analyst as authorized for gis upload ([b31ac1d](https://github.com/bcgov/CONN-CCBC-portal/commit/b31ac1d4dbe23c480934621f7cbc032a26ab388a))
+- add cy.wait before analyst dashboard happo screenshot ([29bad74](https://github.com/bcgov/CONN-CCBC-portal/commit/29bad74637fb13a1b5a4b69120c178e823dc8d07))
+- add extra check in cypress dashboard test ([7523970](https://github.com/bcgov/CONN-CCBC-portal/commit/75239702fe6f08b02919326fbc7a2a9152191557))
+- app name ([36f0d9a](https://github.com/bcgov/CONN-CCBC-portal/commit/36f0d9ac41ef94225228a91fb040f31f7337a110))
+- app name ([9852e33](https://github.com/bcgov/CONN-CCBC-portal/commit/9852e337eac999245818c263540dfb27d64c8e77))
+- move db to values-hotfix ([a8fac01](https://github.com/bcgov/CONN-CCBC-portal/commit/a8fac01cfe19ba08a05f0705c7b31162ffb7048d))
+- move db to values-hotfix ([9a75761](https://github.com/bcgov/CONN-CCBC-portal/commit/9a75761bc90ef2e95cba3fd75d8aa9f5c7b498c1))
+- move hotfix action ([c564c73](https://github.com/bcgov/CONN-CCBC-portal/commit/c564c7340a34ff20f31d18366dd3316678793659))
+- move hotfix action ([c00d090](https://github.com/bcgov/CONN-CCBC-portal/commit/c00d0902aab8efd024ea4af2dd0c9188ff327c36))
+- override pguser ([b2d6961](https://github.com/bcgov/CONN-CCBC-portal/commit/b2d6961b95689445c6f52aff39ced3869ccc210e))
+- override pguser ([4db6136](https://github.com/bcgov/CONN-CCBC-portal/commit/4db6136cd936dd9d35ef816c12ee85d89bc8e05b))
+- remove invalid property ([640ae9d](https://github.com/bcgov/CONN-CCBC-portal/commit/640ae9d7dc5dbfa0029d9f640d12245c709bd430))
+- revert change ([1300d02](https://github.com/bcgov/CONN-CCBC-portal/commit/1300d027f71b196634f5d95d09f749d761e8caa9))
+- revert workflow change ([edd4a93](https://github.com/bcgov/CONN-CCBC-portal/commit/edd4a93e113316410ce73dd08edebfef6ebe6b62))
+- set pguser on helper ([da07855](https://github.com/bcgov/CONN-CCBC-portal/commit/da07855b827e7062a830fd654e98e85bf9c025c1))
+- set pguser on helper ([a43a663](https://github.com/bcgov/CONN-CCBC-portal/commit/a43a663c7486adecfe730eb1fea24ea3c9b5bd50))
+- set previewed to false on edit ([de51e00](https://github.com/bcgov/CONN-CCBC-portal/commit/de51e0068fec5f72d08714e22bc8269db5704c6c))
+- set proper secret name ([178cd5b](https://github.com/bcgov/CONN-CCBC-portal/commit/178cd5b58f4d41261ccd3daa76bf979f770e8cdf))
+- set proper secret name ([5ffc14d](https://github.com/bcgov/CONN-CCBC-portal/commit/5ffc14d4e5079f86ddd4e0166fdf4a1b18ced85d))
+- set sqitch pguser ([b474dae](https://github.com/bcgov/CONN-CCBC-portal/commit/b474daeabb7358429c3dbec8281f00b65b77d3fb))
+- set sqitch pguser ([4bd460c](https://github.com/bcgov/CONN-CCBC-portal/commit/4bd460c6ec551794445caddceda95e67f5ea8b07))
+- use startsWith instead of contains ([c40eff7](https://github.com/bcgov/CONN-CCBC-portal/commit/c40eff76cf6af3e3033e9a3a9e9ceb1474d31db6))
+
+### Features
+
+- add code to deploy to hotfix ([db8fc75](https://github.com/bcgov/CONN-CCBC-portal/commit/db8fc75b64500ea1ad9379a3bcd53cf666ddd046))
+- add default preview for canada.ca ([1ed406a](https://github.com/bcgov/CONN-CCBC-portal/commit/1ed406a18ad2c0b1d4f5af0fb0a37f71ca98739a))
+- add morgan http logs ([6e578d4](https://github.com/bcgov/CONN-CCBC-portal/commit/6e578d4e426f93e462ceccb31eec317e15a09714))
+- add route ([e847bab](https://github.com/bcgov/CONN-CCBC-portal/commit/e847bab1b8775b246024593c8fff18b4b16100a1))
+- add route ([264639f](https://github.com/bcgov/CONN-CCBC-portal/commit/264639fba2a3d86988a04c862bc9ef151856b18b))
+- initial hotfix env deployment ([c7f65bb](https://github.com/bcgov/CONN-CCBC-portal/commit/c7f65bb35db186862a09394fd7997321b5944cc0))
+- initial hotfix env deployment ([4a99cfa](https://github.com/bcgov/CONN-CCBC-portal/commit/4a99cfac3cd22cfe8ca269e5bbdc9c122b2fa782))
+- set previewed to false on update ([e31d76b](https://github.com/bcgov/CONN-CCBC-portal/commit/e31d76b46c4e57d0418e46e9828e95d74171e78b))
+- store link preview on db, fetch on need ([5d5e974](https://github.com/bcgov/CONN-CCBC-portal/commit/5d5e974bdfc7421cd435cdf926d91fd548932c9e))
+- use build and test process for deploying hotfix ([7d83316](https://github.com/bcgov/CONN-CCBC-portal/commit/7d83316784c9387c263778ad3ef349990e836fa5))
+- use PAT for recreating hotfix branch ([ab7d835](https://github.com/bcgov/CONN-CCBC-portal/commit/ab7d8357e4aef62bbd96c836f6003c5e39a5acd4))
+- use tag name as ref ([1bac1e1](https://github.com/bcgov/CONN-CCBC-portal/commit/1bac1e1b711481bca27c471a42428e116cd83a7f))
+- workflow to recreate hotfix branch ([4b8d3c4](https://github.com/bcgov/CONN-CCBC-portal/commit/4b8d3c4b5f0455c2bb4f9a996fbfdb327317f26f))
+
 # [1.74.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.73.1...v1.74.0) (2023-06-09)
 
 ### Bug Fixes
