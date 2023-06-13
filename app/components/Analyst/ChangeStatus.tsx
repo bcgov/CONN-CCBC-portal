@@ -181,7 +181,10 @@ const ChangeStatus: React.FC<Props> = ({
         <ExternalChangeModal
           applicationId={rowId}
           id="external-change-status-modal"
-          isNotAllowedConditionalApproval={!isAllowedConditionalApproval}
+          isNotAllowedConditionalApproval={
+            draftStatus.name === 'conditionally_approved' &&
+            !isAllowedConditionalApproval
+          }
           onCancel={() => setDraftStatus(currentStatus)}
         />
       ) : (
