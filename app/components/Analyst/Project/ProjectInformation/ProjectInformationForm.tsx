@@ -190,7 +190,11 @@ const ProjectInformationForm = ({ application }) => {
       }}
       formData={formData}
       handleChange={(e) => {
-        setFormData({ ...e.formData });
+        if (!e.formData.hasFundingAgreementBeenSigned) {
+          setFormData({ hasFundingAgreementBeenSigned: false, main: {} });
+        } else {
+          setFormData({ ...e.formData });
+        }
       }}
       isFormEditMode={isFormEditMode}
       title="Project information"
