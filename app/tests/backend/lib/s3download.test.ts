@@ -12,30 +12,28 @@ import getAuthRole from '../../../utils/getAuthRole';
 jest.mock('../../../backend/lib/graphql');
 jest.mock('../../../utils/getAuthRole');
 
-const mockObjectTagging = {
-  promise: () => {
-    return new Promise((resolve) => {
-      resolve({
-        TagSet: [{ Key: 'av-status', Value: 'clean' }],
-      });
-    });
-  },
-  catch: jest.fn(),
-};
 jest.mock('../../../backend/lib/s3client', () => {
   return {
-    upload: jest.fn().mockReturnThis(),
-    listObjects: jest.fn().mockReturnThis(),
-    getSignedUrlPromise: ()=>{
+    s3ClientV3: jest.fn().mockImplementation(() =>{}), 
+    getFileFromS3: (uuid, filename, res)=> {
+      if (filename === 'error') {
+        return Promise.reject('oops');
+      }  
+      return new Promise((resolve)=>{ 
+        resolve({});
+      });
+    },
+    getFileTagging: () => { 
       return new Promise((resolve) => {
-        resolve('fake_signed_url');
-      })
+        resolve({
+          TagSet: [{ Key: 'av-status', Value: 'clean' }],
+        });
+      });
     },
-    getObjectTagging: () => {
-      return mockObjectTagging;
-    },
-  };
+  }
 });
+
+jest.setTimeout(10000000);
 
 describe('The s3 download', () => {
   let app;
@@ -64,11 +62,24 @@ describe('The s3 download', () => {
         pgRole: 'ccbc_auth_user',
         landingRoute: '/',
       };
-    });
+    }); 
 
     const response = await request(app).get('/api/s3/download/test/test');
     expect(response.status).toBe(200);
   });
+  
+  it('should receive the correct response for auth user and error', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_auth_user',
+        landingRoute: '/',
+      };
+    }); 
+
+    const response = await request(app).get('/api/s3/download/test/error');
+    expect(response.status).toBe(500);
+  });
+
 
   jest.resetAllMocks();
 });

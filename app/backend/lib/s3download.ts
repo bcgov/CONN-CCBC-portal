@@ -33,8 +33,14 @@ s3download.get('/api/s3/download/:uuid/:fileName', async(req, res) => {
   if (suspect?.Value === 'dirty') {
     return res.json({avstatus:'dirty'});
   } 
-  return await getFileFromS3(uuid, fileName, res);
-
+  
+  getFileFromS3(uuid, fileName, res)
+   .then(()=>{
+    res.end();
+   })
+   .catch(()=>{
+    res.status(500).end();
+   })
 });
 
 export default s3download;
