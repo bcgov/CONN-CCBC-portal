@@ -18,6 +18,7 @@ const testQuery = graphql`
       rowId
       externalStatus
       ...AssignPackage_query
+      ...ChangeStatus_query
     }
     ...AssignLead_query
     allApplicationStatusTypes(
@@ -38,7 +39,9 @@ const mockQueryPayload = {
     return {
       applicationByRowId: {
         id: 'WyJhcHBsaWNhdGlvbnMiLDFd',
+        rowId: 1,
         analystStatus: 'received',
+        externalStatus: 'on_hold',
       },
       allApplicationStatusTypes: {
         ...allApplicationStatusTypes,
@@ -54,7 +57,11 @@ const componentTestingHelper =
     compiledQuery,
     defaultQueryResolver: mockQueryPayload,
     getPropsFromTestQuery: (data) => ({
-      query: data,
+      application: data.applicationByRowId,
+      statusList: data.allApplicationStatusTypes.nodes,
+      status: data.applicationByRowId.analystStatus,
+      hiddenStatusTypes: ['draft', 'submitted', 'withdrawn'],
+      isExternal: false,
     }),
   });
 

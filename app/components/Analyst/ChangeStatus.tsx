@@ -118,7 +118,7 @@ const ChangeStatus: React.FC<Props> = ({
     conditionalApprovalData?.response?.applicantResponse === 'Accepted';
 
   const disabledStatuses =
-    disabledStatusList && disabledStatusList[currentStatus.name];
+    disabledStatusList && disabledStatusList[currentStatus?.name];
 
   // No dropdown for withdrawn applications
   if (status === 'withdrawn') {
@@ -182,7 +182,7 @@ const ChangeStatus: React.FC<Props> = ({
           applicationId={rowId}
           id="external-change-status-modal"
           isNotAllowedConditionalApproval={
-            draftStatus.name === 'conditionally_approved' &&
+            draftStatus?.name === 'conditionally_approved' &&
             !isAllowedConditionalApproval
           }
           onCancel={() => setDraftStatus(currentStatus)}
