@@ -1,16 +1,16 @@
 import { Router } from 'express';
 import formidable from 'formidable';
 import Ajv, { ErrorObject } from 'ajv';
-import fs from 'fs'; 
+import fs from 'fs';
 import RateLimit from 'express-rate-limit';
-import schema from './gis-schema.json'; 
+import schema from './gis-schema.json';
 import { performQuery } from './graphql';
 import getAuthRole from '../../utils/getAuthRole';
 import { parseForm } from './express-helper';
 
 const limiter = RateLimit({
-  windowMs: 1*60*1000, // 1 minute
-  max: 5
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 5,
 });
 
 const saveGisDataMutation = `
@@ -28,11 +28,11 @@ const saveGisDataMutation = `
 const gisUpload = Router();
 const ajv = new Ajv({ allErrors: true, removeAdditional: true });
 
-const MIN_PATH_DEPTH = 2;       // instancePath: JSON Pointer to the location in the data instance. For array we need 2.
-const LINE_NUMBER_POSITION = 1; // instancePath for array element looks like /LINE_NUMBER/FIELD_NAME 
+const MIN_PATH_DEPTH = 2; // instancePath: JSON Pointer to the location in the data instance. For array we need 2.
+const LINE_NUMBER_POSITION = 1; // instancePath for array element looks like /LINE_NUMBER/FIELD_NAME
 const FIELD_NAME_POSITION = 2;
 
-const formatAjv =  (data: Record<string, any>, errors: ErrorObject[]) => {
+const formatAjv = (data: Record<string, any>, errors: ErrorObject[]) => {
   const reply = [];
   errors.forEach((e) => {
     const parts = e.instancePath.split('/');
@@ -52,52 +52,56 @@ const formatAjv =  (data: Record<string, any>, errors: ErrorObject[]) => {
       reply.push(item);
     }
   });
-  return {errors: reply};
+  return { errors: reply };
 };
 
 // eslint-disable-next-line consistent-return
-gisUpload.post('/api/analyst/gis', limiter, async (req, res) => { 
+gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   const authRole = getAuthRole(req);
-  const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
+  const isRoleAuthorized =
+    authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'ccbc_analyst';
   if (!isRoleAuthorized) {
     return res.status(404).end();
-  } 
-  const form = new formidable.IncomingForm({maxFileSize:8000000});
+  }
+  const form = new formidable.IncomingForm({ maxFileSize: 8000000 });
 
-  const files = await parseForm(form, req).catch((err) => { 
+  const files = await parseForm(form, req).catch((err) => {
     return res.status(400).json({ error: err }).end();
   });
 
   const filename = Object.keys(files)[0];
-  const uploaded = files[filename]; 
+  const uploaded = files[filename];
 
   const file = fs.readFileSync(uploaded.filepath, 'utf8');
-  const data = JSON.parse(file); 
+  const data = JSON.parse(file);
   let isValid: boolean;
 
   try {
     isValid = ajv.validate(schema, data);
-  } catch (e) { 
+  } catch (e) {
     return res.status(400).json({ error: e }).end();
   }
- 
-  if (!isValid) {  
+
+  if (!isValid) {
     return res.status(400).json(formatAjv(data, ajv.errors)).end();
   }
-   
+
   // time to persist in DB
-  const result = await performQuery(saveGisDataMutation, {input: data}, req)
-  .catch((e) => {
+  const result = await performQuery(
+    saveGisDataMutation,
+    { input: data },
+    req
+  ).catch((e) => {
     return res.status(400).json({ error: e }).end();
   });
 
   const gisData = (result as any)?.data?.createGisData?.gisData;
 
   if (gisData) {
-    return res.status(200).json({batchId: gisData?.rowId}).end();
-  } 
-  
-  return res.status(400).json({error: 'failed to save Gis data in DB'}).end();
+    return res.status(200).json({ batchId: gisData?.rowId }).end();
+  }
+
+  return res.status(400).json({ error: 'failed to save Gis data in DB' }).end();
 });
 
 export const config = {
