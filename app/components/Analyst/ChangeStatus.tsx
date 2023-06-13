@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
@@ -78,7 +78,6 @@ const ChangeStatus: React.FC<Props> = ({
       fragment ChangeStatus_query on Application {
         id
         analystStatus
-        externalStatus
         rowId
         conditionalApproval {
           jsonData
@@ -88,8 +87,7 @@ const ChangeStatus: React.FC<Props> = ({
     application
   );
 
-  const { analystStatus, externalStatus, conditionalApproval, id, rowId } =
-    queryFragment;
+  const { analystStatus, conditionalApproval, id, rowId } = queryFragment;
   const [createStatus] = useCreateApplicationStatusMutation();
   // Filter unwanted status types
   const statusTypes = statusList.filter(
@@ -104,9 +102,6 @@ const ChangeStatus: React.FC<Props> = ({
   const [draftStatus, setDraftStatus] = useState(
     getStatus(status, statusTypes)
   );
-  useEffect(() => {
-    console.log(externalStatus, analystStatus);
-  }, [externalStatus, analystStatus]);
 
   const conditionalApprovalData = conditionalApproval?.jsonData;
 
