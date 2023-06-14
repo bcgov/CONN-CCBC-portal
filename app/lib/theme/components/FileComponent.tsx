@@ -88,7 +88,7 @@ interface FileComponentProps {
   disabled?: boolean;
   loading?: boolean;
   required?: boolean;
-  label: string;
+  label: React.ReactNode;
   handleDownload?: Function;
   wrap?: boolean;
 }
