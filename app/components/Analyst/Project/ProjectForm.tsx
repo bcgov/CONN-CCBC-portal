@@ -72,6 +72,8 @@ interface Props {
   formData: any;
   handleChange: any;
   showEditBtn?: boolean;
+  /** The hidden submit button's ref, used to enforce validation on the form
+   *  (the red-outline we see on widgets) */
   hiddenSubmitRef?: any;
   isFormEditMode: boolean;
   onSubmit: any;
