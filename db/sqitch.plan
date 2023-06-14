@@ -338,3 +338,4 @@ mutations/create_change_request 2023-06-20T21:20:49Z Marcel Mueller <marcel@m2> 
 tables/sow_grant_update 2023-06-14T22:46:52Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant update for archive purposes
 mutations/create_application_sow 2023-06-22T20:36:51Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create application sow data with archive
 mutations/archive_application_sow 2023-06-22T22:50:07Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # archive all sow data based on application id
+tables/sow_grant_update 2023-06-14T22:46:52Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant update for archive purposes
