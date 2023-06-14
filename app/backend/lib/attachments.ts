@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/nextjs';
 import config from '../../config';
 import getArchivePath from '../../utils/getArchivePath';
-import s3Client from './s3client';
+import { getFileTagging } from './s3client';
 import { performQuery } from './graphql';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
@@ -72,7 +72,7 @@ const getAttachmentList = async (intake: number, req) => {
       Bucket: AWS_S3_BUCKET,
       Key: uuid,
     };
-    const getTags = await s3Client.getObjectTagging(params).promise();
+    const getTags = await getFileTagging(params);
     return getTags;
   };
   const markAllInfected = async (formData) => {

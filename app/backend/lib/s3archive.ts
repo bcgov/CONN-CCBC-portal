@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import config from '../../config';
 import getArchivePath from '../../utils/getArchivePath';
 import getAuthRole from '../../utils/getAuthRole';
-import s3Client from './s3client';
+import { getFileTagging, getFileStreamFromS3, getFileFromS3 } from './s3client';
 import { performQuery } from './graphql';
 
 const getApplicationsQuery = `
@@ -53,7 +53,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
       Bucket: AWS_S3_BUCKET,
       Key: uuid,
     };
-    const getTags = await s3Client.getObjectTagging(params).promise();
+    const getTags = await getFileTagging(params);
     return getTags;
   };
   const markAllInfected = async (formData) => {
@@ -98,7 +98,7 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
     Object.keys(attachmentFields)?.forEach((field) => {
       // Even fields single file uploads are stored in an array so we will iterate them
       if (attachmentFields[field] instanceof Array) {
-        attachmentFields[field]?.forEach((attachment) => {
+        attachmentFields[field]?.forEach(async(attachment) => {
           const { name, uuid } = attachment;
           const path = getArchivePath(field, ccbcNumber, name);
           if (infected.indexOf(uuid) > -1) {
@@ -107,13 +107,13 @@ s3archive.get('/api/analyst/archive', async (req, res) => {
             });
           } else {
             // Get object from s3
-            const objectSrc = s3Client
-              .getObject({
-                Bucket: AWS_S3_BUCKET,
-                Key: uuid,
-              })
-              .createReadStream();
+            const fileparams = {
+              Bucket: AWS_S3_BUCKET,
+              Key: uuid,
+            }; 
 
+            const objectSrc = await getFileStreamFromS3(fileparams); 
+ 
             archive.append(objectSrc, {
               name: path,
             });

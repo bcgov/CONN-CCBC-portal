@@ -1,7 +1,7 @@
 import type { Pool, PoolClient } from 'pg';
 import type { Lightship } from 'lightship';
 import * as Sentry from '@sentry/nextjs';
-import s3Client from './s3client';
+import { getSignedUrlPromise } from './s3client';
 import config from '../../config';
 
 const CLAM_BUCKET = config.get('AWS_CLAM_S3_BUCKET');
@@ -16,7 +16,7 @@ async function readinessTest(pgPool: Pool, lightship: Lightship) {
     await client.query('select * from ccbc_public.intake');
     await client.query('commit');
 
-    url = await s3Client.getSignedUrlPromise('getObject', {
+    url = await getSignedUrlPromise({
       Bucket: CLAM_BUCKET,
       Key: 'bytecode.cvd',
       Expires: 60,
