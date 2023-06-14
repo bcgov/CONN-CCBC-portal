@@ -12,55 +12,20 @@ I want
 So that 
 
 **Description:**
-_if needed_
+
+_if needed_  
 
 # Acceptance Criteria:
 
-## {Page Name}
-
-**Screen**
 
 [wireframe 1]
+
+- [ ] Acceptance Criteria 
+
 [wireframe 2]
 
-- [ ] .
-
-**Page Behaviours**
-
-- [ ] .
-- [ ] .
-- [ ] .
-
-**Validations**
-
-- [ ] .
-- [ ] .
-- [ ] .
-
-**Actions**
-
-- [ ] .
-- [ ] .
-- [ ] .
-
-### Not included:
-- .
-- .
+- [ ] Acceptance Criteria
 
 
 ## Implementation Details
-- **DB:**
-  - .
-  - .
-- **Middleware:**
-  - .
-  - .
-- **Frontend:**
-  - .
-  - .
-- **Tests:**
-  - .
-  - .
-- **Documentation:**
-  - .
-  - .
+<!-- DB, Middleware, Frontend, Tests, Documentation -->
