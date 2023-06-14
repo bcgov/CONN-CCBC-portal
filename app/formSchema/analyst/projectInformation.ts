@@ -29,17 +29,14 @@ const projectInformation: JSONSchema7 = {
             },
             main: {
               type: 'object',
-              required: [
-                'dateFundingAgreementSigned',
-                'fundingAgreementUpload',
-                'statementOfWorkUpload',
-              ],
+              required: ['dateFundingAgreementSigned'],
               properties: {
                 dateFundingAgreementSigned: {
                   type: 'string',
                 },
                 upload: {
                   type: 'object',
+                  required: ['fundingAgreementUpload', 'statementOfWorkUpload'],
                   properties: {
                     fundingAgreementUpload: {
                       title:

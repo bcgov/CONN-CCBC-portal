@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import {
   handleDelete,
@@ -60,6 +60,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
   value,
   required,
   label,
+  rawErrors,
 }) => {
   const [error, setError] = useState('');
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
@@ -70,8 +71,13 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
   const maxFileSizeInBytes = 104857600;
   const fileId = isFiles && value[0].id;
 
+  useEffect(() => {
+    if (rawErrors?.length > 0) {
+      setError('rjsf_validation');
+    }
+  }, [rawErrors, setError]);
+
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsImporting(true);
     if (loading) return;
     setError('');
 
@@ -88,6 +94,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       setError(newError);
       return;
     }
+    setIsImporting(true);
 
     const { name, size, type } = file;
 

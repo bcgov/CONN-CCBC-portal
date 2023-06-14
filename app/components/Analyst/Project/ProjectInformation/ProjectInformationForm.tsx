@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
@@ -17,7 +17,7 @@ export const displaySowUploadErrors = (err) => {
   const { level: errorType, error: errorMessage } = err;
   let title =
     'An unknown error has occured while valiation the Statement of Work data';
-  if (errorType.contains('tab')) {
+  if (errorType?.includes('tab')) {
     title = `There was an error importing the Statement of Work data at ${errorType}`;
   }
   if (errorType === 'summary') {
@@ -80,8 +80,26 @@ const ProjectInformationForm = ({ application }) => {
   const [isFormEditMode, setIsFormEditMode] = useState(
     !projectInformation?.jsonData
   );
+  const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
-  validateFormData(formData, projectInformationSchema);
+  const hasFormErrors = useMemo(() => {
+    const formErrors = validateFormData(
+      formData,
+      projectInformationSchema
+    )?.errors;
+
+    // not sure about these enum or oneOf errors, filtering them out as a very hacky solution
+    const filteredErrors = formErrors?.filter((error) => {
+      return (
+        error.message !== 'should be string' &&
+        error.name !== 'enum' &&
+        error.name !== 'oneOf'
+      );
+    });
+
+    const isFormValid = filteredErrors.length <= 0;
+    return !isFormValid;
+  }, [formData]);
 
   const validateSow = useCallback(
     async (file) => {
@@ -104,7 +122,12 @@ const ProjectInformationForm = ({ application }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    return;
+    hiddenSubmitRef.current.click();
+
+    if (hasFormErrors) {
+      return;
+    }
+
     createProjectInformation({
       variables: {
         input: { _applicationId: rowId, _jsonData: formData },
@@ -159,6 +182,7 @@ const ProjectInformationForm = ({ application }) => {
       onSubmit={handleSubmit}
       saveBtnText="Save & Import Data"
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+      hiddenSubmitRef={hiddenSubmitRef}
     >
       {!isFormEditMode && <MetabaseLink />}
       {showToast && (
