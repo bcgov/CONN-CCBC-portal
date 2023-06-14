@@ -1,6 +1,9 @@
 import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
-import {convertExcelDropdownToBoolean, convertExcelDateToJSDate} from './util';
+import {
+  convertExcelDropdownToBoolean,
+  convertExcelDateToJSDate,
+} from './util';
 
 const createSowMutation = `
   mutation sowUploadMutation($input: ApplicationSowDataInput!) {
@@ -20,7 +23,7 @@ const readSummary = async (wb, sheet_name, applicationId) => {
   });
 
   const sowData = {
-    applicationId,
+    applicationId: +applicationId,
     jsonData: {
       organizationName: '',
       projectTitle: '',
@@ -107,10 +110,12 @@ const readSummary = async (wb, sheet_name, applicationId) => {
       sowData.jsonData.lastMileDSL = convertExcelDropdownToBoolean(input);
     }
     if (lastMile && value.indexOf('Mobile') > -1) {
-      sowData.jsonData.lastMileMobileWireless = convertExcelDropdownToBoolean(input);
+      sowData.jsonData.lastMileMobileWireless =
+        convertExcelDropdownToBoolean(input);
     }
     if (lastMile && value.indexOf('Fixed') > -1) {
-      sowData.jsonData.lastMileFixedWireless = convertExcelDropdownToBoolean(input);
+      sowData.jsonData.lastMileFixedWireless =
+        convertExcelDropdownToBoolean(input);
     }
     if (lastMile && value.indexOf('Satellite') > -1) {
       sowData.jsonData.lastMileSatellite = convertExcelDropdownToBoolean(input);
@@ -118,46 +123,76 @@ const readSummary = async (wb, sheet_name, applicationId) => {
   }
 
   return sowData;
-}
+};
 
 const ValidateData = (data) => {
   const errors = [];
-  if (data.backboneFibre === undefined) 
-    errors.push({level:'cell', error: 'Invalid data: Backbone Technologies - Fibre'});
+  if (data.backboneFibre === undefined)
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Backbone Technologies - Fibre',
+    });
   if (data.backboneMicrowave === undefined)
-    errors.push({level:'cell', error: 'Invalid data: Backbone Technologies - Microwave'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Backbone Technologies - Microwave',
+    });
   if (data.backboneSatellite === undefined)
-    errors.push({level:'cell', error: 'Invalid data: Backbone Technologies - Satellite'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Backbone Technologies - Satellite',
+    });
   if (data.lastMileFibre === undefined)
-    errors.push({level:'cell', error: 'Invalid data: Last Mile Technologies - Fibre'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Last Mile Technologies - Fibre',
+    });
   if (data.lastMileCable === undefined)
-    errors.push({level:'cell', error: 'Invalid data: Last Mile Technologies - Cable'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Last Mile Technologies - Cable',
+    });
   if (data.lastMileDSL === undefined)
-    errors.push({level:'cell', error: 'Invalid data: Last Mile Technologies - DSL'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Last Mile Technologies - DSL',
+    });
   if (data.lastMileMobileWireless === undefined)
-    errors.push({level:'cell', error: 'Invalid data: Last Mile Technologies - Mobile Wireless'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Last Mile Technologies - Mobile Wireless',
+    });
   if (data.lastMileFixedWireless === undefined)
-    errors.push({level:'cell', error: 'Invalid data: Last Mile Technologies - Fixed Wireless'});
-  if (data.lastMileSatellite=== undefined)
-    errors.push({level:'cell', error: 'Invalid data: Last Mile Technologies - Satellite'});
-  
-  if (data.effectiveStartDate === null) 
-    errors.push({level:'cell', error: 'Invalid data: Effective Start Date'});
-  if (data.projectStartDate === null) 
-    errors.push({level:'cell', error: 'Invalid data: Project Start Date'});
-  if (data.projectCompletionDate === null) 
-    errors.push({level:'cell', error: 'Invalid data: Project Completion Date'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Last Mile Technologies - Fixed Wireless',
+    });
+  if (data.lastMileSatellite === undefined)
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Last Mile Technologies - Satellite',
+    });
 
-  if (data.organizationName === '') 
-    errors.push({level:'cell', error: 'Invalid data: Applicant Name'});
-  if (data.projectTitle === '') 
-    errors.push({level:'cell', error: 'Invalid data: Project Title'});
-  if (data.province === '') 
-    errors.push({level:'cell', error: 'Invalid data: Province'});
+  if (data.effectiveStartDate === null)
+    errors.push({ level: 'cell', error: 'Invalid data: Effective Start Date' });
+  if (data.projectStartDate === null)
+    errors.push({ level: 'cell', error: 'Invalid data: Project Start Date' });
+  if (data.projectCompletionDate === null)
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Project Completion Date',
+    });
+
+  if (data.organizationName === '')
+    errors.push({ level: 'cell', error: 'Invalid data: Applicant Name' });
+  if (data.projectTitle === '')
+    errors.push({ level: 'cell', error: 'Invalid data: Project Title' });
+  if (data.province === '')
+    errors.push({ level: 'cell', error: 'Invalid data: Province' });
   return errors;
-}
+};
 
-const LoadSummaryData = async(wb, sheet_name, req) => {
+const LoadSummaryData = async (wb, sheet_name, req) => {
   const { applicationId, ccbcNumber } = req.params;
   const { validate = false } = req.query || {};
   const data = await readSummary(wb, sheet_name, applicationId);
@@ -169,7 +204,7 @@ const LoadSummaryData = async(wb, sheet_name, req) => {
     };
   }
   const errorList = ValidateData(data.jsonData);
-  
+
   if (errorList.length > 0) {
     return { error: errorList };
   }
