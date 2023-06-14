@@ -16,7 +16,7 @@ import { Alert } from '@button-inc/bcgov-theme';
 export const displaySowUploadErrors = (err) => {
   const { level: errorType, error: errorMessage } = err;
   let title =
-    'An unknown error has occured while valiation the Statement of Work data';
+    'An unknown error has occured while validating the Statement of Work data';
   if (errorType?.includes('tab')) {
     title = `There was an error importing the Statement of Work data at ${errorType}`;
   }
