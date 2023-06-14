@@ -20,7 +20,6 @@ const StyledWithdrawn = styled.div`
   appearance: none;
   padding: 6px 12px;
   height: 30px;
-  margin-bottom: 16px;
   color: #414141;
   background-color: #e8e8e8;
   cursor: default;
