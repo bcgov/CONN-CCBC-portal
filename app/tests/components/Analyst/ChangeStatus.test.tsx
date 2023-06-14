@@ -50,6 +50,32 @@ const mockQueryPayload = {
   },
 };
 
+const mockConditionalApprovalQueryPayload = {
+  Query() {
+    return {
+      applicationByRowId: {
+        id: 'WyJhcHBsaWNhdGlvbnMiLDFd',
+        rowId: 1,
+        analystStatus: 'conditionally_approved',
+        externalStatus: 'received',
+        conditionalApproval: {
+          jsonData: {
+            decision: {
+              ministerDecision: 'Approved',
+            },
+            response: {
+              applicantResponse: 'Accepted',
+            },
+          },
+        },
+      },
+      allApplicationStatusTypes: {
+        ...allApplicationStatusTypes,
+      },
+    };
+  },
+};
+
 const componentTestingHelper =
   new ComponentTestingHelper<ChangeStatusTestQuery>({
     component: ChangeStatus,
@@ -90,6 +116,7 @@ const externalComponentTestingHelper =
 describe('The application header component', () => {
   beforeEach(() => {
     componentTestingHelper.reinit();
+    externalComponentTestingHelper.reinit();
   });
 
   it('displays the current application status', () => {
@@ -264,5 +291,53 @@ describe('The application header component', () => {
     });
 
     expect(screen.getByTestId('change-status')).toHaveValue('on_hold');
+  });
+
+  it('changes the external status to conditional approval once the correct conditions are met', async () => {
+    externalComponentTestingHelper.loadQuery(
+      mockConditionalApprovalQueryPayload
+    );
+    externalComponentTestingHelper.renderComponent();
+
+    const select = screen.getByTestId('change-status');
+
+    expect(screen.getByTestId('change-status')).toHaveValue('received');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'conditionally_approved' } });
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue(
+      'conditionally_approved'
+    );
+
+    externalComponentTestingHelper.expectMutationToBeCalled(
+      'createApplicationStatusMutation',
+      {
+        input: {
+          applicationStatus: {
+            applicationId: 1,
+            changeReason: '',
+            status: 'applicant_conditionally_approved',
+          },
+        },
+      }
+    );
+
+    act(() => {
+      externalComponentTestingHelper.environment.mock.resolveMostRecentOperation(
+        {
+          data: {
+            applicationStatus: {
+              externalStatus: 'conditionally_approved',
+            },
+          },
+        }
+      );
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue(
+      'conditionally_approved'
+    );
   });
 });
