@@ -29,6 +29,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
   formContext,
   onChange,
   value,
+  rawErrors,
   required,
   label,
 }) => {
@@ -40,7 +41,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
   const loading = isCreatingAttachment || isDeletingAttachment || isImporting;
   const maxFileSizeInBytes = 104857600;
   const fileId = isFiles && value[0].id;
-
+  console.log(rawErrors);
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsImporting(true);
     if (loading) return;

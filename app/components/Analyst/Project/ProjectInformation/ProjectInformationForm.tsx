@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useRef, useMemo, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
+import validateFormData from '@rjsf/core/dist/cjs/validate';
 import styled from 'styled-components';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
 import projectInformationSchema from 'formSchema/analyst/projectInformation';
@@ -42,8 +43,33 @@ const ProjectInformationForm = ({ application }) => {
     !projectInformation?.jsonData
   );
 
+  const isErrors = useMemo(() => {
+    const formErrors = validateFormData(
+      formData,
+      projectInformationSchema
+    )?.errors;
+
+    // not sure about these enum or oneOf errors, filtering them out as a very hacky solution
+    const filteredErrors = formErrors?.filter((error) => {
+      return (
+        error.message !== 'should be string' &&
+        error.name !== 'enum' &&
+        error.name !== 'oneOf'
+      );
+    });
+
+    console.log(filteredErrors);
+    const isFormValid = filteredErrors.length <= 0;
+    return !isFormValid;
+  }, [formData]);
+
+  const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    hiddenSubmitRef.current.click();
+
+    if (isErrors) return;
 
     createProjectInformation({
       variables: {
@@ -82,6 +108,7 @@ const ProjectInformationForm = ({ application }) => {
         setFormData({ ...e.formData });
       }}
       isFormEditMode={isFormEditMode}
+      hiddenSubmitRef={hiddenSubmitRef}
       title="Project information"
       schema={
         isFormEditMode
