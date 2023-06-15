@@ -83,6 +83,9 @@ const ProjectInformationForm = ({ application }) => {
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
   const hasFormErrors = useMemo(() => {
+    if (formData === null) {
+      return false;
+    }
     const formErrors = validateFormData(
       formData,
       projectInformationSchema

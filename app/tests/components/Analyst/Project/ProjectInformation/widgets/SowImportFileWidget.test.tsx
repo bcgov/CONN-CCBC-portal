@@ -58,7 +58,7 @@ const mockFormDataPayload = {
   },
 };
 
-global.fetch = jest.fn(() => Promise.resolve({ status: 200 }));
+global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} }));
 
 const componentTestingHelper =
   new ComponentTestingHelper<SowImportFileWidgetTestQuery>({
