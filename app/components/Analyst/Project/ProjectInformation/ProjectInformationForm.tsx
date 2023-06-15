@@ -96,24 +96,29 @@ const ProjectInformationForm = ({ application }) => {
             applicationSowDataByApplicationId {
               nodes {
                 id
+                archivedAt
                 sowTab1SBySowId {
                   nodes {
                     id
+                    archivedAt
                   }
                 }
                 sowTab2SBySowId {
                   nodes {
                     id
+                    archivedAt
                   }
                 }
                 sowTab7SBySowId {
                   nodes {
                     id
+                    archivedAt
                   }
                 }
                 sowTab8SBySowId {
                   nodes {
                     id
+                    archivedAt
                   }
                 }
               }
@@ -199,6 +204,7 @@ const ProjectInformationForm = ({ application }) => {
       projectInformation.applicationByApplicationId.applicationSowDataByApplicationId.nodes.forEach(
         (node: {
           id: any;
+          archivedAt: string | null;
           sowTab1SBySowId: { nodes: any[] };
           sowTab2SBySowId: { nodes: any[] };
           sowTab7SBySowId: { nodes: any[] };
@@ -209,54 +215,64 @@ const ProjectInformationForm = ({ application }) => {
             id: node.id,
             applicationSowDataPatch: { archivedAt },
           };
-          archiveSowData({
-            variables: {
-              input: applicationSowInput,
-            },
-          });
+          if (node.archivedAt === null) {
+            archiveSowData({
+              variables: {
+                input: applicationSowInput,
+              },
+            });
+          }
           node.sowTab1SBySowId.nodes.forEach((sow) => {
             const sowTab1Input = {
               id: sow.id,
               sowTab1Patch: { archivedAt },
             };
-            archiveSowTab1Data({
-              variables: {
-                input: sowTab1Input,
-              },
-            });
+            if (sow.archivedAt === null) {
+              archiveSowTab1Data({
+                variables: {
+                  input: sowTab1Input,
+                },
+              });
+            }
           });
           node.sowTab2SBySowId.nodes.forEach((sow) => {
             const sowTab2Input = {
               id: sow.id,
               sowTab2Patch: { archivedAt },
             };
-            archiveSowTab2Data({
-              variables: {
-                input: sowTab2Input,
-              },
-            });
+            if (sow.archivedAt === null) {
+              archiveSowTab2Data({
+                variables: {
+                  input: sowTab2Input,
+                },
+              });
+            }
           });
           node.sowTab7SBySowId.nodes.forEach((sow) => {
             const sowTab7Input = {
               id: sow.id,
               sowTab7Patch: { archivedAt },
             };
-            archiveSowTab7Data({
-              variables: {
-                input: sowTab7Input,
-              },
-            });
+            if (sow.archivedAt === null) {
+              archiveSowTab7Data({
+                variables: {
+                  input: sowTab7Input,
+                },
+              });
+            }
           });
           node.sowTab8SBySowId.nodes.forEach((sow) => {
             const sowTab8Input = {
               id: sow.id,
               sowTab8Patch: { archivedAt },
             };
-            archiveSowTab8Data({
-              variables: {
-                input: sowTab8Input,
-              },
-            });
+            if (sow.archivedAt === null) {
+              archiveSowTab8Data({
+                variables: {
+                  input: sowTab8Input,
+                },
+              });
+            }
           });
         }
       );
