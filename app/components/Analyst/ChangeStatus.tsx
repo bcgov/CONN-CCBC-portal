@@ -55,6 +55,18 @@ const getStatus = (statusName, statusList) => {
   return statusList.find((statusType) => statusType.name === statusName);
 };
 
+const ModalDescription = ({ currentStatus, draftStatus }) => {
+  return (
+    <>
+      <p>
+        You are about to change the status from {currentStatus?.description} to{' '}
+        {draftStatus?.description}.
+      </p>
+      <div>Please provide a reason for changing the status. (optional)</div>
+    </>
+  );
+};
+
 interface Props {
   application: any;
   disabledStatusList?: any;
@@ -205,8 +217,12 @@ const ChangeStatus: React.FC<Props> = ({
         />
       ) : (
         <ChangeModal
-          currentStatus={currentStatus}
-          draftStatus={draftStatus}
+          description={
+            <ModalDescription
+              currentStatus={currentStatus}
+              draftStatus={draftStatus}
+            />
+          }
           id="change-status-modal"
           saveLabel="Save change"
           cancelLabel="Cancel change"
