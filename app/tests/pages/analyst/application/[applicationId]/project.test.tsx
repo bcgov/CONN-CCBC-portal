@@ -13,9 +13,15 @@ const mockQueryPayload = {
       applicationByRowId: {
         rowId: 1,
         ccbcNumber: 'CCBC-010003',
-        conditionalApproval: {
-          id: 'test-id',
-          jsonData: null,
+        conditionalApprovalDataByApplicationId: {
+          edges: [
+            {
+              node: {
+                id: 'test-id',
+                jsonData: null,
+              },
+            },
+          ],
         },
         allApplications: {
           nodes: [
@@ -99,18 +105,24 @@ const mockJsonDataQueryPayload = {
           },
           __id: 'client:WyJhcHBsaWNhdGlvbnMiLDZd:__AnnouncementsForm_announcements_connection',
         },
-        conditionalApproval: {
-          id: 'test-id',
-          jsonData: {
-            decision: {
-              ministerDecision: 'Approved',
+        conditionalApprovalDataByApplicationId: {
+          edges: [
+            {
+              node: {
+                id: 'test-id',
+                jsonData: {
+                  decision: {
+                    ministerDecision: 'Approved',
+                  },
+                  isedDecisionObj: {},
+                  letterOfApproval: {},
+                  response: {
+                    applicantResponse: 'Accepted',
+                  },
+                },
+              },
             },
-            isedDecisionObj: {},
-            letterOfApproval: {},
-            response: {
-              applicantResponse: 'Accepted',
-            },
-          },
+          ],
         },
         projectInformation: {
           jsonData: {
@@ -268,7 +280,11 @@ describe('The Project page', () => {
 
     pageTestingHelper.expectMutationToBeCalled(
       'createConditionalApprovalMutation',
+
       {
+        connections: [
+          'client:<Application-mock-id-1>:__ConditionalApprovalForm_conditionalApprovalDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"CREATED_AT_DESC")',
+        ],
         input: {
           _applicationId: 1,
           _jsonData: {

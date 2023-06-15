@@ -58,15 +58,21 @@ const mockConditionalApprovalQueryPayload = {
         rowId: 1,
         analystStatus: 'conditionally_approved',
         externalStatus: 'received',
-        conditionalApproval: {
-          jsonData: {
-            decision: {
-              ministerDecision: 'Approved',
+        conditionalApprovalDataByApplicationId: {
+          edges: [
+            {
+              node: {
+                jsonData: {
+                  decision: {
+                    ministerDecision: 'Approved',
+                  },
+                  response: {
+                    applicantResponse: 'Accepted',
+                  },
+                },
+              },
             },
-            response: {
-              applicantResponse: 'Accepted',
-            },
-          },
+          ],
         },
       },
       allApplicationStatusTypes: {

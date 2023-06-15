@@ -2110,7 +2110,7 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-status')[5]
     ).toHaveTextContent(
-      'Foo Bar changed the status to Screening on Mar 3, 2023, 8:02 a.m.'
+      'Foo Bar changed the Internal status to Screening on Mar 3, 2023, 8:02 a.m.'
     );
   });
 
