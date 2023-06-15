@@ -102,10 +102,10 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
     analystLead,
     analystStatus,
     ccbcNumber,
+    externalStatus,
     organizationName,
     projectName,
     rowId,
-    externalStatus,
   } = applicationByRowId;
 
   return (

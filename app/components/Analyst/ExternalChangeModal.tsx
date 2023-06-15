@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
@@ -68,6 +69,11 @@ const ExternalChangeModal: React.FC<Props> = ({
   isNotAllowedConditionalApproval,
   onCancel = () => {},
 }) => {
+  const router = useRouter();
+  const isProjectPage = router.asPath.includes(
+    `/analyst/application/${applicationId}/project`
+  );
+
   const title = isNotAllowedConditionalApproval
     ? 'Cannot update external status'
     : 'Change internal status first';
@@ -84,12 +90,17 @@ const ExternalChangeModal: React.FC<Props> = ({
         <StyledButtons>
           {isNotAllowedConditionalApproval ? (
             <>
-              <Modal.Close>
-                <Link href={`/analyst/application/${applicationId}/project`}>
+              {isProjectPage ? (
+                <Modal.Close>
                   <Button onClick={() => onCancel()}>Take me there</Button>
-                </Link>
-              </Modal.Close>
-
+                </Modal.Close>
+              ) : (
+                <Modal.Close>
+                  <Link href={`/analyst/application/${applicationId}/project`}>
+                    <Button>Take me there</Button>
+                  </Link>
+                </Modal.Close>
+              )}
               <Modal.Close>
                 <Button variant="secondary" onClick={() => onCancel()}>
                   Close

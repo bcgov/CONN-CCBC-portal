@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
@@ -78,24 +78,40 @@ const ChangeStatus: React.FC<Props> = ({
         id
         analystStatus
         rowId
-        conditionalApproval {
-          jsonData
+        conditionalApprovalDataByApplicationId(
+          filter: { archivedAt: { isNull: true } }
+          orderBy: CREATED_AT_DESC
+          first: 1
+        )
+          @connection(
+            key: "ConditionalApprovalForm_conditionalApprovalDataByApplicationId"
+          ) {
+          __id
+          edges {
+            node {
+              id
+              jsonData
+            }
+          }
         }
       }
     `,
     application
   );
 
-  const { analystStatus, conditionalApproval, id, rowId } = queryFragment;
+  const { analystStatus, conditionalApprovalDataByApplicationId, id, rowId } =
+    queryFragment;
   const [createStatus] = useCreateApplicationStatusMutation();
   // Filter unwanted status types
   const statusTypes = statusList.filter(
     (statusType) => !hiddenStatusTypes.includes(statusType.name)
   );
 
+  const conditionalApproval =
+    conditionalApprovalDataByApplicationId?.edges[0]?.node;
   const [changeReason, setChangeReason] = useState('');
 
-  const [currentStatus, setcurrentStatus] = useState(
+  const [currentStatus, setCurrentStatus] = useState(
     getStatus(status, statusTypes)
   );
   const [draftStatus, setDraftStatus] = useState(
@@ -113,6 +129,12 @@ const ChangeStatus: React.FC<Props> = ({
 
   const disabledStatuses =
     disabledStatusList && disabledStatusList[currentStatus?.name];
+
+  useEffect(() => {
+    // update status when there is a relay store update
+    setCurrentStatus(getStatus(status, statusTypes));
+    setDraftStatus(getStatus(status, statusTypes));
+  }, [status]);
 
   // No dropdown for withdrawn applications
   if (status === 'withdrawn') {
@@ -136,7 +158,7 @@ const ChangeStatus: React.FC<Props> = ({
       },
       onCompleted: () => {
         setChangeReason('');
-        setcurrentStatus(draftStatus);
+        setCurrentStatus(draftStatus);
       },
       updater: (store) => {
         store

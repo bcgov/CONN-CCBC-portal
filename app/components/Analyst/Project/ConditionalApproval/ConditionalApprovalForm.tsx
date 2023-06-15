@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { graphql, useFragment } from 'react-relay';
+import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
 import conditionalApprovalSchema from 'formSchema/analyst/conditionalApproval';
 import conditionalApprovalUiSchema from 'formSchema/uiSchema/analyst/conditionalApprovalUiSchema';
@@ -21,18 +21,36 @@ const ConditionalApprovalForm = ({ application }) => {
           id
           jsonData
         }
+        conditionalApprovalDataByApplicationId(
+          filter: { archivedAt: { isNull: true } }
+          orderBy: CREATED_AT_DESC
+          first: 1
+        )
+          @connection(
+            key: "ConditionalApprovalForm_conditionalApprovalDataByApplicationId"
+          ) {
+          __id
+          edges {
+            node {
+              id
+              jsonData
+            }
+          }
+        }
       }
     `,
     application
   );
 
-  const { id, rowId, conditionalApproval } = queryFragment;
+  const { id, rowId, conditionalApprovalDataByApplicationId } = queryFragment;
 
-  const jsonData = conditionalApproval?.jsonData;
+  const conditionalApproval =
+    conditionalApprovalDataByApplicationId?.edges[0]?.node;
+  const relayConnectionId = conditionalApprovalDataByApplicationId?.__id;
 
   const [createConditionalApproval] = useCreateConditionalApprovalMutation();
   const [newFormData, setNewFormData] = useState(conditionalApproval?.jsonData);
-  const [oldFormData, setOldFormData] = useState(jsonData);
+  const [oldFormData, setOldFormData] = useState(conditionalApproval?.jsonData);
   const [isFormEditMode, setIsFormEditMode] = useState(
     !conditionalApproval?.jsonData
   );
@@ -53,6 +71,7 @@ const ConditionalApprovalForm = ({ application }) => {
       window.history.replaceState(null, null, ' ');
       createConditionalApproval({
         variables: {
+          connections: [relayConnectionId],
           input: { _applicationId: rowId, _jsonData: newFormData },
         },
         onCompleted: () => {
@@ -60,9 +79,11 @@ const ConditionalApprovalForm = ({ application }) => {
           setIsFormEditMode(false);
         },
         updater: (store) => {
-          const payload = store.getRootField('createConditionalApproval');
-          const app = store.get(id);
-          app.setLinkedRecord(payload, 'conditionalApproval');
+          // Get the connection from the store
+          const connection = store.get(relayConnectionId);
+
+          // Remove the old data from the connection
+          ConnectionHandler.deleteNode(connection, conditionalApproval?.id);
         },
       });
     }
@@ -71,6 +92,7 @@ const ConditionalApprovalForm = ({ application }) => {
   const handleResetFormData = () => {
     setNewFormData(oldFormData);
   };
+
   return (
     <>
       <ConditionalApprovalModal

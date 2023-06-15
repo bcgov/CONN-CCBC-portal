@@ -4,13 +4,17 @@ import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`
   mutation createConditionalApprovalMutation(
+    $connections: [ID!]!
     $input: CreateConditionalApprovalInput!
   ) {
     createConditionalApproval(input: $input) {
-      conditionalApprovalData {
-        id
-        jsonData
-        rowId
+      conditionalApprovalDataEdge @appendEdge(connections: $connections) {
+        cursor
+        node {
+          id
+          jsonData
+          rowId
+        }
       }
     }
   }
