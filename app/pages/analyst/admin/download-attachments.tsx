@@ -15,7 +15,7 @@ const getDownloadAttachmentsQuery = graphql`
   query downloadAttachmentsQuery {
     session {
       sub
-      ...DashboardTabs_query  
+      ...DashboardTabs_query
     }
     allIntakes(orderBy: CLOSE_TIMESTAMP_DESC) {
       nodes {
@@ -58,23 +58,27 @@ const StyledDropdown = styled.select`
 `;
 
 const StyledOption = styled.option``;
- 
-const AttachmentsTab = (allIntakes) =>{
-  const {nodes} = allIntakes;
+
+const AttachmentsTab = (allIntakes) => {
+  const { nodes } = allIntakes;
   const mockDate = cookie.get('mocks.mocked_timestamp');
-  const dateValue = mockDate ? 1000* parseInt(mockDate, 10) : DateTime.now().valueOf();
+  const dateValue = mockDate
+    ? 1000 * parseInt(mockDate, 10)
+    : DateTime.now().valueOf();
   const today = DateTime.fromMillis(dateValue);
 
-  const filtered = nodes
-    .filter(x => DateTime.fromISO(x.closeTimestamp) <= today);
+  const filtered = nodes.filter(
+    (x) => DateTime.fromISO(x.closeTimestamp) <= today
+  );
 
-  const lastIntake = filtered && filtered.length > 0 ? filtered[0].ccbcIntakeNumber : '1';
+  const lastIntake =
+    filtered && filtered.length > 0 ? filtered[0].ccbcIntakeNumber : '1';
 
   const [intake, setIntake] = useState(lastIntake);
   const selectIntake = (e: ChangeEvent<HTMLSelectElement>) => {
     const selected = e.target.value;
     setIntake(selected);
-  }
+  };
 
   const handleDownload = async () => {
     const url = `/api/analyst/admin-archive/${intake}`;
@@ -87,48 +91,53 @@ const AttachmentsTab = (allIntakes) =>{
 
   return (
     <div>
-        <h2>Download Attachments</h2>
-        <strong>Which intake would you like to download files from?</strong>
-        <StyledCaption>This downloads everyting applicants uploaded with their applications. 
-          It does not include files received through RFIs.</StyledCaption>
-        {filtered &&
-          <StyledDropdown name="select-intake" data-testid="select-intake-test" onChange={(e) => selectIntake(e)}>
-            {filtered && filtered.map((intakeData) => {
-              const startDate = DateTime.fromISO(intakeData.openTimestamp, {
-                locale: 'en-CA',
-                zone: 'America/Vancouver',
-              }).toFormat('MMMM dd, yyyy');
-              const endDate = DateTime.fromISO(intakeData.closeTimestamp, {
-                locale: 'en-CA',
-                zone: 'America/Vancouver',
-              }).toFormat('MMMM dd, yyyy');
-              const intakeName = `Intake ${intakeData.ccbcIntakeNumber}. ${startDate} - ${endDate}`;
+      <h2>Download Attachments</h2>
+      <strong>Which intake would you like to download files from?</strong>
+      <StyledCaption>
+        This downloads everyting applicants uploaded with their applications. It
+        does not include files received through RFIs.
+      </StyledCaption>
+      {filtered && (
+        <StyledDropdown
+          name="select-intake"
+          data-testid="select-intake-test"
+          onChange={(e) => selectIntake(e)}
+        >
+          {filtered?.map((intakeData) => {
+            const startDate = DateTime.fromISO(intakeData.openTimestamp, {
+              locale: 'en-CA',
+              zone: 'America/Vancouver',
+            }).toFormat('MMMM dd, yyyy');
+            const endDate = DateTime.fromISO(intakeData.closeTimestamp, {
+              locale: 'en-CA',
+              zone: 'America/Vancouver',
+            }).toFormat('MMMM dd, yyyy');
+            const intakeName = `Intake ${intakeData.ccbcIntakeNumber}. ${startDate} - ${endDate}`;
 
-              return (
-                <StyledOption
-                  id = {intakeData.rowId}
-                  key={intakeData.rowId}
-                  value={intakeData.ccbcIntakeNumber}
-                  selected={intakeData.ccbcIntakeNumber === intake}
-                >
-                  {intakeName}
-                </StyledOption>
-              );
-            })}
-          </StyledDropdown>
-        }
-        <StyledBtnContainer>
-          <ButtonLink onClick={handleDownload} href='#' >
-            Download attachments
-          </ButtonLink>
-        </StyledBtnContainer>
+            return (
+              <StyledOption
+                id={intakeData.rowId}
+                key={intakeData.rowId}
+                value={intakeData.ccbcIntakeNumber}
+                selected={intakeData.ccbcIntakeNumber === intake}
+              >
+                {intakeName}
+              </StyledOption>
+            );
+          })}
+        </StyledDropdown>
+      )}
+      <StyledBtnContainer>
+        <ButtonLink onClick={handleDownload} href="#">
+          Download attachments
+        </ButtonLink>
+      </StyledBtnContainer>
     </div>
-  )
-}
+  );
+};
 const DownloadAttachments = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, downloadAttachmentsQuery>) => {
-
   const query = usePreloadedQuery(getDownloadAttachmentsQuery, preloadedQuery);
   const { session, allIntakes } = query;
 
@@ -137,7 +146,7 @@ const DownloadAttachments = ({
       <StyledContainer>
         <DashboardTabs session={session} />
         <AdminTabs />
-        <AttachmentsTab {...allIntakes}/>
+        <AttachmentsTab {...allIntakes} />
       </StyledContainer>
     </Layout>
   );

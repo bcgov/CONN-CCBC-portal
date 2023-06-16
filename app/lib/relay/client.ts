@@ -16,7 +16,7 @@ export function createClientNetwork() {
     cacheMiddleware({
       size: 100, // Max 100 requests
       // Number in milliseconds, how long records stay valid in cache (default: 900000, 15 minutes).
-      // TODO: is one minute enough? How long should records stay valid?
+      // Is one minute enough? How long should records stay valid?
       ttl: oneMinute,
     }),
     urlMiddleware({

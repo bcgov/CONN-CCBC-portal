@@ -262,9 +262,7 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
   } = gisJsonData;
 
   // Querying and filtering screening assessment data using assessmentDataByApplicationId since relay won't let us query two assessmentForm with different arguments
-  const screeningAssessmentData =
-    assessmentDataByApplicationId.nodes &&
-    assessmentDataByApplicationId.nodes[0];
+  const screeningAssessmentData = assessmentDataByApplicationId?.nodes[0];
   const isContestingMap =
     screeningAssessmentData?.jsonData?.contestingMap?.length > 0;
 

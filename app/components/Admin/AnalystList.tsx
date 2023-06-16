@@ -67,18 +67,17 @@ const AnalystList: React.FC<Props> = ({ analysts }) => {
         <StyledTh>Analyst</StyledTh>
         <StyledTh>Active</StyledTh>
       </tr>
-      {analysts &&
-        analysts.map((analyst) => {
-          const { familyName, givenName } = analyst;
+      {analysts?.map((analyst) => {
+        const { familyName, givenName } = analyst;
 
-          return (
-            <AnalystListRow
-              analyst={analyst}
-              updateAnalyst={updateAnalyst}
-              key={`${familyName} ${givenName}`}
-            />
-          );
-        })}
+        return (
+          <AnalystListRow
+            analyst={analyst}
+            updateAnalyst={updateAnalyst}
+            key={`${familyName} ${givenName}`}
+          />
+        );
+      })}
     </StyledTable>
   );
 };

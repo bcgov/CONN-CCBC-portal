@@ -229,7 +229,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
         style={{ display: 'none' }}
         type="file"
         required={required}
-        accept={fileTypes && fileTypes.toString()}
+        accept={fileTypes?.toString()}
       />
     </StyledContainer>
   );

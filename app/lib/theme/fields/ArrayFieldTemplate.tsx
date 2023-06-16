@@ -17,15 +17,13 @@ const StyledButton = styled('button')`
 `;
 
 const ArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
-  // Todo: unlikely needed for this project but we could look at better customization
-  // options if we bring this into the toolkit.
-
-  const uiArrayButtons = props.uiSchema?.items?.['ui:array-buttons'];
+  const { canAdd, items, onAddClick, uiSchema } = props;
+  const uiArrayButtons = uiSchema?.items?.['ui:array-buttons'];
   return (
     <div>
-      {props.items.map((item, i: number) => (
+      {items?.map((item, i: number) => (
         <div key={item.key}>
-          {i != 0 && (
+          {i !== 0 && (
             <StyledDiv>
               <StyledButton onClick={item.onDropIndexClick(item.index)}>
                 {uiArrayButtons?.removeBtnLabel || 'Remove'}
@@ -38,8 +36,8 @@ const ArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
         </div>
       ))}
 
-      {props.canAdd && (
-        <Button onClick={props.onAddClick}>
+      {canAdd && (
+        <Button onClick={onAddClick}>
           {uiArrayButtons?.addBtnLabel || 'Add'}
         </Button>
       )}

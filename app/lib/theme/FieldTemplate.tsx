@@ -21,7 +21,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   schema,
   id,
 }) => {
-  const hideOptional = uiSchema['ui:options']?.hideOptional;
+  const hideOptional: any = uiSchema['ui:options']?.hideOptional;
   const boldTitle = uiSchema['ui:options']?.boldTitle as boolean;
   const showCreatedAt = Boolean(uiSchema['ui:options']?.showCreatedAt);
   const altOptionalText = uiSchema['ui:options']?.altOptionalText;
@@ -40,7 +40,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
           showCreatedAt={showCreatedAt}
           label={label}
           altOptionalText={altOptionalText && String(altOptionalText)}
-          hideOptional={hideOptional && true}
+          hideOptional={hideOptional}
           required={required}
           htmlFor={id}
         />
