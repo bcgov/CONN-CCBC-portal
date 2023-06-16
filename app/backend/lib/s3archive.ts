@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import config from '../../config';
 import getArchivePath from '../../utils/getArchivePath';
 import getAuthRole from '../../utils/getAuthRole';
-import { getFileTagging, getFileStreamFromS3, getFileFromS3 } from './s3client';
+import { getFileTagging, getFileStreamFromS3 } from './s3client';
 import { performQuery } from './graphql';
 
 const getApplicationsQuery = `

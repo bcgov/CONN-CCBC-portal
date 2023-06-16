@@ -15,12 +15,12 @@ jest.mock('../../../utils/getAuthRole');
 jest.mock('../../../backend/lib/s3client', () => {
   return {
     s3ClientV3: jest.fn().mockImplementation(() =>{}), 
-    getFileFromS3: (uuid, filename, res)=> {
+    getFileFromS3: (uuid, filename )=> {
       if (filename === 'error') {
-        return Promise.reject('oops');
+        return Promise.reject(new Error('oops'));
       }  
       return new Promise((resolve)=>{ 
-        resolve({});
+        resolve({uuid});
       });
     },
     getFileTagging: () => { 
