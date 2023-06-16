@@ -1,6 +1,10 @@
 import { FieldProps } from '@rjsf/core';
 import React from 'react';
-import { StyledColLeft, StyledColRight, StyledColError } from '../index';
+import {
+  StyledColLeft,
+  StyledColRight,
+  StyledColError,
+} from 'components/Review/Components';
 
 const ReviewInlineArrayField: React.FC<FieldProps> = ({
   id,
@@ -15,6 +19,7 @@ const ReviewInlineArrayField: React.FC<FieldProps> = ({
     ) : (
       <StyledColRight id={`${id}-value`}>
         {formData?.map((el, index) => (
+          // eslint-disable-next-line react/no-array-index-key
           <React.Fragment key={`${id}_${index}`}>
             {el.toString()}
             {index < formData.length - 1 && (

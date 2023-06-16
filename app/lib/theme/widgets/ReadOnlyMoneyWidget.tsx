@@ -1,7 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input-field';
-import { Label } from '../../../components/Form';
+import Label from 'components/Form/Label';
 
 const StyledContainer = styled('div')`
   margin-bottom: 8px;
@@ -53,7 +53,7 @@ const ReadOnlyWidget: React.FC<WidgetProps> = ({
       allowNegativeValue={false}
       maxLength={14}
       decimalsLimit={2}
-      onValueChange={(value: any) => onChange(value || undefined)}
+      onValueChange={(val: any) => onChange(val || undefined)}
       required={required}
       aria-label={label}
       placeholder={placeholder}

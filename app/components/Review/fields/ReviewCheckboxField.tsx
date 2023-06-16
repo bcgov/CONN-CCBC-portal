@@ -1,6 +1,10 @@
 import React from 'react';
 import { FieldProps } from '@rjsf/core';
-import { StyledColLeft, StyledColRight, StyledColError } from '../index';
+import {
+  StyledColLeft,
+  StyledColRight,
+  StyledColError,
+} from 'components/Review/Components';
 
 const ReviewCheckboxField: React.FC<FieldProps> = ({
   id,

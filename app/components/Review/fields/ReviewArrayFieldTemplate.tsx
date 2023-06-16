@@ -1,6 +1,6 @@
 import { ArrayFieldTemplateProps } from '@rjsf/core';
 import React from 'react';
-import { StyledH4, StyledTitleRow } from '../index';
+import { StyledH4, StyledTitleRow } from 'components/Review/Components';
 
 const ReviewArrayFieldTemplate: React.FC<ArrayFieldTemplateProps> = (props) => {
   const { items, uiSchema } = props;
@@ -8,6 +8,7 @@ const ReviewArrayFieldTemplate: React.FC<ArrayFieldTemplateProps> = (props) => {
   return (
     <>
       {items.map((el, index) => (
+        // eslint-disable-next-line react/no-array-index-key
         <React.Fragment key={index}>
           <tr>
             <StyledTitleRow colSpan={2}>

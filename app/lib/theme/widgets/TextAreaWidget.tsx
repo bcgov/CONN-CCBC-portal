@@ -1,7 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
 import Textarea from '@button-inc/bcgov-theme/Textarea';
 import styled from 'styled-components';
-import { Label } from '../../../components/Form';
+import Label from 'components/Form/Label';
 
 const INPUT_MAX_LENGTH = 32000;
 

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input-field';
@@ -38,6 +37,7 @@ const StyledMessage = styled('div')`
 
 const MoneyWidget: React.FC<WidgetProps> = ({
   disabled,
+  error,
   id,
   placeholder,
   onChange,
@@ -46,7 +46,6 @@ const MoneyWidget: React.FC<WidgetProps> = ({
   required,
   uiSchema,
 }) => {
-  const [error] = useState('');
   const help = uiSchema['ui:help'];
 
   return (

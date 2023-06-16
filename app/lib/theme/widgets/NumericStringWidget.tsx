@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import Input from '@button-inc/bcgov-theme/Input';
 import styled from 'styled-components';
-import { Label } from '../../../components/Form';
-import formatPhone from '../../../utils/formatPhone';
+import Label from 'components/Form/Label';
+import formatPhone from 'utils/formatPhone';
 
 const StyledInput = styled(Input)`
   & input {
@@ -53,13 +53,13 @@ const NumericStringWidget: React.FC<WidgetProps> = ({
   const isPhone = inputType === 'phone';
   const wholeNumRegex = /^[0-9]+$/;
 
-  const handleChange = (value: string) => {
+  const handleChange = (val: string) => {
     if (inputType === 'phone') {
-      const format = formatPhone(value);
+      const format = formatPhone(val);
       onChange(format);
-    } else if (!value || wholeNumRegex.test(value)) {
+    } else if (!val || wholeNumRegex.test(val)) {
       setError('');
-      onChange(value?.slice(0, maxLength));
+      onChange(val?.slice(0, maxLength));
     } else {
       setError('Please enter a valid number');
     }
@@ -72,8 +72,8 @@ const NumericStringWidget: React.FC<WidgetProps> = ({
         type="text"
         id={id}
         onChange={(e: { target: { value: string } }) => {
-          const { value } = e.target;
-          handleChange(value);
+          const val = e.target.value;
+          handleChange(val);
         }}
         disabled={disabled}
         placeholder={placeholder}
