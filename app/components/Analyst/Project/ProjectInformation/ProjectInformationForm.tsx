@@ -314,7 +314,7 @@ const ProjectInformationForm = ({ application }) => {
       formData={formData}
       handleChange={(e) => {
         if (!e.formData.hasFundingAgreementBeenSigned) {
-          setFormData({ hasFundingAgreementBeenSigned: false, main: {} });
+          setFormData({ ...e.formData, main: {} });
         } else {
           setFormData({ ...e.formData });
         }
