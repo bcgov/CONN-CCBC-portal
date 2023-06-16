@@ -169,15 +169,14 @@ const ChangeStatus = ({ query }) => {
         value={draftStatus?.name}
         id="change-status"
       >
-        {statusTypes &&
-          statusTypes.map((statusType) => {
-            const { description, name, id } = statusType;
-            return (
-              <StyledOption value={name} key={id}>
-                {description}
-              </StyledOption>
-            );
-          })}
+        {statusTypes?.map((statusType) => {
+          const { description, name, id } = statusType;
+          return (
+            <StyledOption value={name} key={id}>
+              {description}
+            </StyledOption>
+          );
+        })}
       </StyledDropdown>
     </>
   );

@@ -1,7 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
 import { Dropdown } from '@button-inc/bcgov-theme';
 import styled from 'styled-components';
-import { Label } from '../../../components/Form';
+import Label from 'components/Form/Label';
 
 interface SelectWidgetProps extends WidgetProps {
   customOption?: React.ReactNode;
@@ -91,12 +91,11 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
         <option key={`option-placeholder-${id}`} value={undefined}>
           {placeholder}
         </option>
-        {options &&
-          options.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
-          ))}
+        {options?.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
         {customOption ?? customOption}
         {description && <Label>{description}</Label>}
       </StyledSelect>

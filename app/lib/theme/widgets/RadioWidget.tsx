@@ -38,26 +38,22 @@ const RadioWidget: React.FC<WidgetProps> = ({
   };
   return (
     <StyledContainer>
-      {enumOptions &&
-        enumOptions.map(
-          (option: { value: string; label: string }, i: number) => (
-            <StyledDiv
-              key={option.value}
-              style={{ opacity: disabled && '0.6' }}
-            >
-              <RadioButton
-                {...formProps}
-                value={option.value}
-                id={`${id}-${i}`}
-                name={`${id}-${i}`}
-                checked={option.value === value}
-                required={required}
-                disabled={disabled}
-              />
-              <label htmlFor={`${id}-${i}`}>{option.label}</label>
-            </StyledDiv>
-          )
-        )}
+      {enumOptions?.map(
+        (option: { value: string; label: string }, i: number) => (
+          <StyledDiv key={option.value} style={{ opacity: disabled && '0.6' }}>
+            <RadioButton
+              {...formProps}
+              value={option.value}
+              id={`${id}-${i}`}
+              name={`${id}-${i}`}
+              checked={option.value === value}
+              required={required}
+              disabled={disabled}
+            />
+            <label htmlFor={`${id}-${i}`}>{option.label}</label>
+          </StyledDiv>
+        )
+      )}
     </StyledContainer>
   );
 };
