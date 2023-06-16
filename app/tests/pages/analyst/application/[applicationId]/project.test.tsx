@@ -156,16 +156,16 @@ const mockJsonDataQueryPayload = {
               nodes: [
                 {
                   id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMV0=',
-                  archivedAt: '2023-06-14T22:50:24.207572+00:00',
+                  archivedAt: null,
                   sowTab1SBySowId: {
                     nodes: [
                       {
                         id: 'WyJzb3dfdGFiXzFTIiw4XQ==',
-                        archivedAt: '2023-06-14T22:50:24.217672+00:00',
+                        archivedAt: null,
                       },
                       {
                         id: 'WyJzb3dfdGFiXzFTIiw5XQ==',
-                        archivedAt: '2023-06-14T22:50:24.220765+00:00',
+                        archivedAt: null,
                       },
                     ],
                   },
@@ -173,11 +173,11 @@ const mockJsonDataQueryPayload = {
                     nodes: [
                       {
                         id: 'WyJzb3dfdGFiXzJTIiw4XQ==',
-                        archivedAt: '2023-06-14T22:50:24.221306+00:00',
+                        archivedAt: null,
                       },
                       {
                         id: 'WyJzb3dfdGFiXzJTIiw5XQ==',
-                        archivedAt: '2023-06-14T22:50:24.222124+00:00',
+                        archivedAt: null,
                       },
                     ],
                   },
@@ -185,11 +185,11 @@ const mockJsonDataQueryPayload = {
                     nodes: [
                       {
                         id: 'WyJzb3dfdGFiXzdTIiwxNF0=',
-                        archivedAt: '2023-06-14T22:50:24.267575+00:00',
+                        archivedAt: null,
                       },
                       {
                         id: 'WyJzb3dfdGFiXzdTIiwxNV0=',
-                        archivedAt: '2023-06-14T22:50:24.255223+00:00',
+                        archivedAt: null,
                       },
                     ],
                   },
@@ -197,22 +197,95 @@ const mockJsonDataQueryPayload = {
                     nodes: [
                       {
                         id: 'WyJzb3dfdGFiXzhTIiw3XQ==',
-                        archivedAt: '2023-06-14T22:50:24.271238+00:00',
+                        archivedAt: null,
                       },
                       {
                         id: 'WyJzb3dfdGFiXzhTIiw4XQ==',
-                        archivedAt: '2023-06-14T22:50:24.275043+00:00',
+                        archivedAt: null,
                       },
                     ],
                   },
                 },
+              ],
+            },
+          },
+        },
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+    };
+  },
+};
+
+const mockProjectDataQueryPayload = {
+  Query() {
+    return {
+      applicationByRowId: {
+        rowId: 1,
+        ccbcNumber: 'CCBC-010003',
+        announcements: {
+          edges: [],
+          pageInfo: {
+            endCursor: null,
+            hasNextPage: false,
+          },
+          __id: 'client:WyJhcHBsaWNhdGlvbnMiLDZd:__AnnouncementsForm_announcements_connection',
+        },
+        conditionalApproval: {
+          id: 'test-id',
+          jsonData: {
+            decision: {
+              ministerDecision: 'Approved',
+            },
+            isedDecisionObj: {},
+            letterOfApproval: {},
+            response: {
+              applicantResponse: 'Accepted',
+            },
+          },
+        },
+        projectInformation: {
+          jsonData: {
+            main: {
+              upload: {
+                statementOfWorkUpload: [
+                  {
+                    id: 11,
+                    name: 'CCBC-020118 - Statement of Work Tables - 20230517.xlsx',
+                    size: 4230881,
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    uuid: '3529ee52-c2e0-4c65-b1c2-2e3632e77f66',
+                  },
+                ],
+                fundingAgreementUpload: [
+                  {
+                    id: 10,
+                    name: 'test.pdf',
+                    size: 0,
+                    type: 'application/pdf',
+                    uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
+                  },
+                ],
+              },
+              dateFundingAgreementSigned: '2023-05-10',
+            },
+            hasFundingAgreementBeenSigned: true,
+          },
+          applicationByApplicationId: {
+            applicationSowDataByApplicationId: {
+              nodes: [
                 {
-                  id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMl0=',
+                  id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMV0=',
                   archivedAt: null,
                   sowTab1SBySowId: {
                     nodes: [
                       {
-                        id: 'WyJzb3dfdGFiXzFTIiwxMF0=',
+                        id: 'WyJzb3dfdGFiXzFTIiw4XQ==',
+                        archivedAt: null,
+                      },
+                      {
+                        id: 'WyJzb3dfdGFiXzFTIiw5XQ==',
                         archivedAt: null,
                       },
                     ],
@@ -220,7 +293,11 @@ const mockJsonDataQueryPayload = {
                   sowTab2SBySowId: {
                     nodes: [
                       {
-                        id: 'WyJzb3dfdGFiXzJTIiwxMF0=',
+                        id: 'WyJzb3dfdGFiXzJTIiw4XQ==',
+                        archivedAt: null,
+                      },
+                      {
+                        id: 'WyJzb3dfdGFiXzJTIiw5XQ==',
                         archivedAt: null,
                       },
                     ],
@@ -228,7 +305,11 @@ const mockJsonDataQueryPayload = {
                   sowTab7SBySowId: {
                     nodes: [
                       {
-                        id: 'WyJzb3dfdGFiXzdTIiwxNl0=',
+                        id: 'WyJzb3dfdGFiXzdTIiwxNF0=',
+                        archivedAt: null,
+                      },
+                      {
+                        id: 'WyJzb3dfdGFiXzdTIiwxNV0=',
                         archivedAt: null,
                       },
                     ],
@@ -236,7 +317,11 @@ const mockJsonDataQueryPayload = {
                   sowTab8SBySowId: {
                     nodes: [
                       {
-                        id: 'WyJzb3dfdGFiXzhTIiw5XQ==',
+                        id: 'WyJzb3dfdGFiXzhTIiw3XQ==',
+                        archivedAt: null,
+                      },
+                      {
+                        id: 'WyJzb3dfdGFiXzhTIiw4XQ==',
                         archivedAt: null,
                       },
                     ],
@@ -874,5 +959,78 @@ describe('The Project page', () => {
     expect(
       screen.getByText('View project data in Metabase')
     ).toBeInTheDocument();
+  });
+
+  it('should clear and archive the project and sow information on no', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    // Click on the edit button to open the form
+    const editButton = screen.getAllByTestId('project-form-edit-button');
+    await act(async () => {
+      fireEvent.click(editButton[1]);
+    });
+
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('No');
+
+    expect(hasFundingAggreementBeenSigned).not.toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(hasFundingAggreementBeenSigned);
+    });
+
+    const saveButton = screen.getAllByTestId('save')[0];
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'archiveSowApplicationMutation',
+      {
+        input: {
+          id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMV0=',
+          applicationSowDataPatch: {
+            archivedAt: expect.anything(),
+          },
+        },
+      }
+    );
+
+    pageTestingHelper.expectMutationToBeCalled('archiveSowTab1Mutation', {
+      input: {
+        id: 'WyJzb3dfdGFiXzFTIiw4XQ==',
+        sowTab1Patch: {
+          archivedAt: expect.anything(),
+        },
+      },
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('archiveSowTab2Mutation', {
+      input: {
+        id: 'WyJzb3dfdGFiXzJTIiw5XQ==',
+        sowTab2Patch: {
+          archivedAt: expect.anything(),
+        },
+      },
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('archiveSowTab7Mutation', {
+      input: {
+        id: 'WyJzb3dfdGFiXzdTIiwxNV0=',
+        sowTab7Patch: {
+          archivedAt: expect.anything(),
+        },
+      },
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('archiveSowTab8Mutation', {
+      input: {
+        id: 'WyJzb3dfdGFiXzhTIiw3XQ==',
+        sowTab8Patch: {
+          archivedAt: expect.anything(),
+        },
+      },
+    });
   });
 });
