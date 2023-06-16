@@ -310,7 +310,12 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             <HistoryDetails
               json={record.json_data}
               prevJson={prevHistoryItem?.record?.json_data || {}}
-              excludedKeys={['upload']}
+              excludedKeys={[
+                'upload',
+                'statementOfWorkUpload',
+                'finalizedMapUpload',
+                'fundingAgreementUpload',
+              ]}
               diffSchema={projectInformationSchema}
               overrideParent="projectInformation"
             />
