@@ -19,18 +19,20 @@ const StyledTable = styled.table`
   }
 `;
 
-const HistoryFile = ({ filesArray, title }) => {
+const HistoryFile = ({ filesArray, title, tableTitle = true }) => {
   return (
     <StyledTable>
       <thead style={{ borderBottom: '2px solid #CCC' }}>
-        <tr>
-          <th>Files</th>
-        </tr>
+        {tableTitle && (
+          <tr>
+            <th>Files</th>
+          </tr>
+        )}
       </thead>
       <tbody>
         <tr>
-          <td>{title}</td>
-          <td>
+          <td style={tableTitle ? { paddingTop: '8px' } : {}}>{title}</td>
+          <td style={tableTitle ? { paddingTop: '8px' } : {}}>
             {filesArray.length > 0
               ? filesArray.map((file) => {
                   return (

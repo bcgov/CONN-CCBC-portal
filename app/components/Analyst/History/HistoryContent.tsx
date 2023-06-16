@@ -5,6 +5,7 @@ import { useFeature } from '@growthbook/growthbook-react';
 import applicationDiffSchema from 'formSchema/uiSchema/history/application';
 import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
 import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
+import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -304,6 +305,42 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         <span>{displayName} saved the </span>
         <b>Project information</b>
         <span> form on {createdAtFormatted}</span>
+        {showHistoryDetails && (
+          <>
+            <HistoryDetails
+              json={record.json_data}
+              prevJson={prevHistoryItem?.record?.json_data || {}}
+              excludedKeys={[
+                'upload',
+                'statementOfWorkUpload',
+                'finalizedMapUpload',
+                'fundingAgreementUpload',
+              ]}
+              diffSchema={projectInformationSchema}
+              overrideParent="projectInformation"
+            />
+            <HistoryFile
+              filesArray={
+                record.json_data?.main?.upload?.statementOfWorkUpload || []
+              }
+              title="Statement of Work Excel"
+            />
+            <HistoryFile
+              filesArray={
+                record.json_data?.main?.upload?.fundingAgreementUpload || []
+              }
+              title="Funding agreement"
+              tableTitle={false}
+            />
+            <HistoryFile
+              filesArray={
+                record.json_data?.main?.upload?.finalizedMapUpload || []
+              }
+              title="Finalized map"
+              tableTitle={false}
+            />
+          </>
+        )}
       </StyledContent>
     );
   }

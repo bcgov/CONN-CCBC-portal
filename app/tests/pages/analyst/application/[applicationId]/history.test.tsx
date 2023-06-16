@@ -1958,6 +1958,92 @@ const mockQueryPayload = {
               tableName: 'application_gis_data',
               externalAnalyst: null,
             },
+            {
+              applicationId: 6,
+              createdAt: '2023-04-03T08:37:06.589845-08:00',
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                json_data: {
+                  main: {
+                    upload: {},
+                    dateFundingAgreementSigned: '2023-06-20',
+                  },
+                  hasFundingAgreementBeenSigned: true,
+                },
+                created_at: '2023-04-03T08:22:06.589845-08:00',
+                created_by: 2,
+                updated_at: '2023-04-03T08:22:06.589845-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+                application_id: 6,
+              },
+              recordId: 'f4569f23-6afa-5492-89cf-cd0fc9c9ccb4',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'project_information_data',
+              externalAnalyst: null,
+            },
+            {
+              applicationId: 6,
+              createdAt: '2023-04-03T08:38:06.589845-08:00',
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 2,
+                json_data: {
+                  main: {
+                    upload: {
+                      finalizedMapUpload: [
+                        {
+                          id: 24,
+                          name: 'mapTest.kmz',
+                          size: 2819,
+                          type: '',
+                          uuid: '36c5bb0d-0921-4226-9a97-cfde7dd5a514',
+                        },
+                      ],
+                      statementOfWorkUpload: [
+                        {
+                          id: 7,
+                          name: 'sowTest.xlsx',
+                          size: 4260251,
+                          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                          uuid: '43d7689d-9e27-45eb-aca2-e35c84b315f7',
+                        },
+                      ],
+                      fundingAgreementUpload: [
+                        {
+                          id: 14,
+                          name: 'fundingTest.txt',
+                          size: 0,
+                          type: 'text/plain',
+                          uuid: '8fb4226e-655e-4321-ba45-fe28aea508f1',
+                        },
+                      ],
+                    },
+                    dateFundingAgreementSigned: '2023-06-28',
+                  },
+                  hasFundingAgreementBeenSigned: true,
+                },
+                created_at: '2023-04-03T08:22:06.589845-08:00',
+                created_by: 2,
+                updated_at: '2023-04-03T08:22:06.589845-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+                application_id: 6,
+              },
+              recordId: 'f4569f23-6afa-5492-89cf-cd0fc9c9ccb5',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'project_information_data',
+              externalAnalyst: null,
+            },
           ],
         },
       },
@@ -2104,13 +2190,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 15 diff tables', async () => {
+  it('shows all 17 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(15);
+    expect(diffTables.length).toBe(17);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
