@@ -151,6 +151,100 @@ const mockJsonDataQueryPayload = {
             },
             hasFundingAgreementBeenSigned: true,
           },
+          applicationByApplicationId: {
+            applicationSowDataByApplicationId: {
+              nodes: [
+                {
+                  id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMV0=',
+                  archivedAt: '2023-06-14T18:21:50.874706+00:00',
+                  sowTab1SBySowId: {
+                    nodes: [
+                      {
+                        id: 'WyJzb3dfdGFiXzFTIiw4XQ==',
+                        archivedAt: '2023-06-14T22:50:24.217672+00:00',
+                      },
+                      {
+                        id: 'WyJzb3dfdGFiXzFTIiw5XQ==',
+                        archivedAt: '2023-06-14T22:50:24.220765+00:00',
+                      },
+                    ],
+                  },
+                  sowTab2SBySowId: {
+                    nodes: [
+                      {
+                        id: 'WyJzb3dfdGFiXzJTIiw4XQ==',
+                        archivedAt: '2023-06-14T22:50:24.221306+00:00',
+                      },
+                      {
+                        id: 'WyJzb3dfdGFiXzJTIiw5XQ==',
+                        archivedAt: '2023-06-14T22:50:24.222124+00:00',
+                      },
+                    ],
+                  },
+                  sowTab7SBySowId: {
+                    nodes: [
+                      {
+                        id: 'WyJzb3dfdGFiXzdTIiwxNF0=',
+                        archivedAt: '2023-06-14T22:50:24.267575+00:00',
+                      },
+                      {
+                        id: 'WyJzb3dfdGFiXzdTIiwxNV0=',
+                        archivedAt: '2023-06-14T22:50:24.255223+00:00',
+                      },
+                    ],
+                  },
+                  sowTab8SBySowId: {
+                    nodes: [
+                      {
+                        id: 'WyJzb3dfdGFiXzhTIiw3XQ==',
+                        archivedAt: '2023-06-14T22:50:24.271238+00:00',
+                      },
+                      {
+                        id: 'WyJzb3dfdGFiXzhTIiw4XQ==',
+                        archivedAt: '2023-06-14T22:50:24.275043+00:00',
+                      },
+                    ],
+                  },
+                },
+                {
+                  id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMl0=',
+                  archivedAt: '2023-06-14T19:01:10.804928+00:00',
+                  sowTab1SBySowId: {
+                    nodes: [
+                      {
+                        id: 'WyJzb3dfdGFiXzFTIiwxMF0=',
+                        archivedAt: '2023-06-14T22:50:24.283155+00:00',
+                      },
+                    ],
+                  },
+                  sowTab2SBySowId: {
+                    nodes: [
+                      {
+                        id: 'WyJzb3dfdGFiXzJTIiwxMF0=',
+                        archivedAt: '2023-06-14T22:50:24.285581+00:00',
+                      },
+                    ],
+                  },
+                  sowTab7SBySowId: {
+                    nodes: [
+                      {
+                        id: 'WyJzb3dfdGFiXzdTIiwxNl0=',
+                        archivedAt: '2023-06-14T22:50:24.286467+00:00',
+                      },
+                    ],
+                  },
+                  sowTab8SBySowId: {
+                    nodes: [
+                      {
+                        id: 'WyJzb3dfdGFiXzhTIiw5XQ==',
+                        archivedAt: '2023-06-14T22:50:24.289306+00:00',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
         },
       },
       session: {
