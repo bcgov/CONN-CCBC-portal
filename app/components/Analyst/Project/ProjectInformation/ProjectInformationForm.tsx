@@ -13,6 +13,11 @@ import Toast from 'components/Toast';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import { Alert } from '@button-inc/bcgov-theme';
 
+const StyledAlert = styled(Alert)`
+  margin-bottom: 8px;
+  margin-top: 8px;
+`;
+
 export const displaySowUploadErrors = (err) => {
   const { level: errorType, error: errorMessage } = err;
   let title =
@@ -33,9 +38,26 @@ export const displaySowUploadErrors = (err) => {
     title =
       'The Statement of Work sheet does not appear to contain the correct tabs.';
   }
-
+  // for cell level errors
+  if (typeof errorMessage !== 'string') {
+    return errorMessage.map(({ error: message }) => {
+      return (
+        <StyledAlert
+          key={message}
+          variant="danger"
+          closable={false}
+          content={
+            <>
+              <div> {title}</div>
+              <p>{message}</p>
+            </>
+          }
+        />
+      );
+    });
+  }
   return (
-    <Alert
+    <StyledAlert
       key={errorMessage}
       variant="danger"
       closable={false}
@@ -152,6 +174,8 @@ const ProjectInformationForm = ({ application }) => {
     });
   };
 
+  console.log(sowValidationErrors.map(displaySowUploadErrors));
+
   const handleResetFormData = () => {
     setFormData(projectInformation?.jsonData || {});
     setShowToast(false);
@@ -194,7 +218,7 @@ const ProjectInformationForm = ({ application }) => {
         </Toast>
       )}
       {sowValidationErrors?.length > 0 &&
-        sowValidationErrors.map(displaySowUploadErrors)}
+        sowValidationErrors.flatMap(displaySowUploadErrors)}
     </StyledProjectForm>
   );
 };

@@ -59,4 +59,19 @@ describe('displaySowUploadErrors', () => {
     ).toBeInTheDocument();
     expect(getByText('Workbook error')).toBeInTheDocument();
   });
+  it('should display multiple cell error messages when the errorMessage is an array', () => {
+    const errorMessageArray = [
+      { error: 'Cell error 1' },
+      { error: 'Cell error 2' },
+      { error: 'Cell error 3' },
+    ];
+
+    const { getByText } = render(
+      displaySowUploadErrors({ level: 'cell', error: errorMessageArray })
+    );
+
+    errorMessageArray.forEach(({ error }) => {
+      expect(getByText(error)).toBeInTheDocument();
+    });
+  });
 });
