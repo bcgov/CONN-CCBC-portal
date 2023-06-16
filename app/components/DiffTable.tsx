@@ -37,7 +37,18 @@ const format = (value, type) => {
   return value;
 };
 
-const createRow = (title, newValue, oldValue, objectName, key, type) => {
+const createRow = (
+  title,
+  newValue,
+  oldValue,
+  objectName,
+  key,
+  type,
+  excludedKeys
+) => {
+  if (excludedKeys.some((e) => key.includes(e))) {
+    return null;
+  }
   return (
     <tr key={`${objectName}-${key}-${newValue}-${oldValue}`}>
       <StyledTd>{title}</StyledTd>
@@ -55,9 +66,13 @@ const handleRow = (
   key,
   newValue,
   oldValue,
-  addedHeadings
+  addedHeadings,
+  excludedKeys
 ) => {
   const rows = [];
+  if (excludedKeys.some((e) => key.includes(e))) {
+    return rows;
+  }
   if (schema[parentObject]?.properties[key]?.requiresHeading) {
     if (
       !addedHeadings.includes(schema[parentObject].properties[key]?.headingKey)
@@ -79,13 +94,14 @@ const handleRow = (
       oldValue,
       parentObject,
       key,
-      schema[parentObject]?.properties[key]?.type || 'string'
+      schema[parentObject]?.properties[key]?.type || 'string',
+      excludedKeys
     )
   );
   return rows;
 };
 
-const handleArrays = (arr1, arr2, schema, objectName, key) => {
+const handleArrays = (arr1, arr2, schema, objectName, key, excludedKeys) => {
   const maxLength = Math.max(arr1.length, arr2.length);
   const rows = [];
 
@@ -127,7 +143,15 @@ const handleArrays = (arr1, arr2, schema, objectName, key) => {
         value2 = 'N/A';
       }
       rows.push(
-        ...handleRow(schema, objectName, key1, value1, value2, addedHeadings)
+        ...handleRow(
+          schema,
+          objectName,
+          key1,
+          value1,
+          value2,
+          addedHeadings,
+          excludedKeys
+        )
       );
     }
   }
@@ -183,7 +207,8 @@ const generateDiffTable = (
                   oldValueArr,
                   schema,
                   overrideParent || objectName,
-                  key
+                  key,
+                  excludedKeys
                 )
               );
             } else {
@@ -194,7 +219,8 @@ const generateDiffTable = (
                   key,
                   newValueArr.join(','),
                   oldValueArr.join(','),
-                  addedHeadings
+                  addedHeadings,
+                  excludedKeys
                 )
               );
             }
@@ -216,7 +242,8 @@ const generateDiffTable = (
                         Object.keys(n)[j],
                         b,
                         'N/A',
-                        addedHeadings
+                        addedHeadings,
+                        excludedKeys
                       )
                     );
                   });
@@ -236,7 +263,8 @@ const generateDiffTable = (
                     Object.keys(newValue)[j],
                     b,
                     'N/A',
-                    addedHeadings
+                    addedHeadings,
+                    excludedKeys
                   )
                 );
               });
@@ -250,7 +278,8 @@ const generateDiffTable = (
                     : Object.keys(value)[index],
                   Array.isArray(newValue) ? newValue.join(', ') : newValue,
                   'N/A',
-                  addedHeadings
+                  addedHeadings,
+                  excludedKeys
                 )
               );
             }
@@ -268,7 +297,8 @@ const generateDiffTable = (
                 Object.keys(value)[index],
                 '',
                 oldValue,
-                addedHeadings
+                addedHeadings,
+                excludedKeys
               )
             );
           });
@@ -294,20 +324,37 @@ const generateDiffTable = (
               objectName,
               newValue,
               oldValue,
-              addedHeadings
+              addedHeadings,
+              excludedKeys
             )
           );
         } else if (key.endsWith('__added')) {
           const newValue = value;
           const field = key.replace(/(__added|__deleted)/g, '');
           rows.push(
-            handleRow(schema, parent, field, newValue, 'N/A', addedHeadings)
+            handleRow(
+              schema,
+              parent,
+              field,
+              newValue,
+              'N/A',
+              addedHeadings,
+              excludedKeys
+            )
           );
         } else if (key.endsWith('__deleted')) {
           const oldValue = value;
           const field = key.replace(/(__added|__deleted)/g, '');
           rows.push(
-            handleRow(schema, parent, field, 'N/A', oldValue, addedHeadings)
+            handleRow(
+              schema,
+              parent,
+              field,
+              'N/A',
+              oldValue,
+              addedHeadings,
+              excludedKeys
+            )
           );
         }
       }

@@ -109,7 +109,9 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
                 'createdAt',
                 'updatedAt',
                 'applicationId',
-                'lastMileIspOffering',
+                'name',
+                'size',
+                'type',
                 'rfiEmailCorrespondance',
               ]}
               diffSchema={rfiDiffSchema}
