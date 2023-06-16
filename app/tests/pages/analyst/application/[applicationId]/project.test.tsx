@@ -156,7 +156,7 @@ const mockJsonDataQueryPayload = {
               nodes: [
                 {
                   id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMV0=',
-                  archivedAt: '2023-06-14T18:21:50.874706+00:00',
+                  archivedAt: '2023-06-14T22:50:24.207572+00:00',
                   sowTab1SBySowId: {
                     nodes: [
                       {
@@ -208,12 +208,12 @@ const mockJsonDataQueryPayload = {
                 },
                 {
                   id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMl0=',
-                  archivedAt: '2023-06-14T19:01:10.804928+00:00',
+                  archivedAt: null,
                   sowTab1SBySowId: {
                     nodes: [
                       {
                         id: 'WyJzb3dfdGFiXzFTIiwxMF0=',
-                        archivedAt: '2023-06-14T22:50:24.283155+00:00',
+                        archivedAt: null,
                       },
                     ],
                   },
@@ -221,7 +221,7 @@ const mockJsonDataQueryPayload = {
                     nodes: [
                       {
                         id: 'WyJzb3dfdGFiXzJTIiwxMF0=',
-                        archivedAt: '2023-06-14T22:50:24.285581+00:00',
+                        archivedAt: null,
                       },
                     ],
                   },
@@ -229,7 +229,7 @@ const mockJsonDataQueryPayload = {
                     nodes: [
                       {
                         id: 'WyJzb3dfdGFiXzdTIiwxNl0=',
-                        archivedAt: '2023-06-14T22:50:24.286467+00:00',
+                        archivedAt: null,
                       },
                     ],
                   },
@@ -237,7 +237,7 @@ const mockJsonDataQueryPayload = {
                     nodes: [
                       {
                         id: 'WyJzb3dfdGFiXzhTIiw5XQ==',
-                        archivedAt: '2023-06-14T22:50:24.289306+00:00',
+                        archivedAt: null,
                       },
                     ],
                   },
