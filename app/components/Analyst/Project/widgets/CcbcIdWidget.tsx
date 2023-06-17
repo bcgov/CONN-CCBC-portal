@@ -10,7 +10,7 @@ const StyledAutocomplete = styled(Autocomplete)`
   min-width: 240px;
 
   ${(props) => props.theme.breakpoint.largeUp} {
-    min-width: 380px;
+    min-width: 300px;
   }
 
   input {

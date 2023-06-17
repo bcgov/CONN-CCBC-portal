@@ -13,8 +13,9 @@ const StyledInput = styled(Input)`
     margin-top: 12px;
     margin-bottom: 4px;
     min-width: 100%;
+    padding: 9px;
     border: ${(props) =>
-      props.isError ? '2px solid #E71F1F' : '2px solid #606060'};
+    props.isError ? '2px solid #E71F1F' : '2px solid #606060'};
   }
 
   ${(props) => props.theme.breakpoint.largeUp} {
@@ -25,7 +26,7 @@ const StyledInput = styled(Input)`
 
   input:focus {
     outline: ${(props) =>
-      props.isError ? '4px solid #E71F1F' : '4px solid #3B99FC'};
+    props.isError ? '4px solid #E71F1F' : '4px solid #3B99FC'};
   }
 
   input:disabled {

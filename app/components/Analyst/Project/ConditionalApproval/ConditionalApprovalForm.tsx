@@ -108,6 +108,7 @@ const ConditionalApprovalForm = ({ application }) => {
       <ProjectForm
         formData={newFormData}
         handleChange={(e) => {
+          console.log(e.formData);
           setNewFormData({ ...e.formData });
         }}
         isFormEditMode={isFormEditMode}
