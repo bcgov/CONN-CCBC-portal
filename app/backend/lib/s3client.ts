@@ -1,25 +1,12 @@
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { S3Client, GetObjectCommand, GetObjectTaggingCommand, HeadObjectCommand, PutObjectCommand, GetObjectCommandOutput } from '@aws-sdk/client-s3';
-// import { getApplyMd5BodyChecksumPlugin } from '@aws-sdk/middleware-apply-body-checksum';
 
 import config from '../../config/index';
 import awsConfig from './awsCommon' 
-import { Readable } from 'stream';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 
 const s3ClientV3sdk = new S3Client(awsConfig);
-// s3ClientV3sdk.middlewareStack.use(
-//     getApplyMd5BodyChecksumPlugin(s3ClientV3sdk.config)
-// );
-
-export const streamToBuffer = async(stream) => {
-  const chunks = [];
-  for await (const chunk of stream) {
-      chunks.push(Buffer.from(chunk));
-  }
-  return Buffer.concat(chunks);
-}
 
 export const getSignedUrlPromise = async(params) => {
   const command = new GetObjectCommand(params);
