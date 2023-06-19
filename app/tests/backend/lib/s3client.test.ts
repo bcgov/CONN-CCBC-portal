@@ -4,7 +4,7 @@
 import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';  
-import { uploadFileToS3, getFileFromS3, checkFileExists, getFileTagging } from '../../../backend/lib/s3client';
+import { uploadFileToS3, getFileFromS3, checkFileExists, getFileTagging, getSignedUrlPromise } from '../../../backend/lib/s3client';
 
 jest.mock('@aws-sdk/middleware-apply-body-checksum');
 jest.mock("../../../backend/lib/awsCommon", () => {
@@ -24,6 +24,7 @@ jest.mock("../../../backend/lib/awsCommon", () => {
     }
   }
 });
+
 jest.mock('@aws-sdk/s3-request-presigner',()=> {
   return {
     getSignedUrl: ()=>{
@@ -115,6 +116,17 @@ describe('S3 client', () => {
     const response = await getFileTagging(params);
     expect(response).toEqual(expected);
   });
+
+  it('should receive the correct response for signed url', async () => {
+    const params = {
+      Bucket: 'bucket',
+      Key: 'file',
+      Body:  'filebody',
+    }; 
+    const reply = await getSignedUrlPromise(params);
+    expect(reply).toBe('fake_signed_url'); 
+  });
+
 
   afterAll(()=>{
     jest.resetAllMocks();
