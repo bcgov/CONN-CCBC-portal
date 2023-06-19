@@ -19,6 +19,9 @@ const projectInformationUiSchema = {
       },
       sowWirelessUpload: {
         'ui:widget': 'FileWidget',
+        'ui:options': {
+          fileTypes: '.xlsx, .xls',
+        },
       },
       finalizedMapUpload: {
         'ui:widget': 'FileWidget',
