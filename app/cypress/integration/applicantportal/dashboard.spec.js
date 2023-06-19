@@ -833,6 +833,7 @@ describe('The applicant dashboard', () => {
     cy.contains('option', 'Fake Status').should('exist');
     cy.wait('@graphql');
     cy.get('select[data-testid="change-status"')
+      .eq(0)
       .should('be.visible')
       .select('Fake Status');
     // When modal shows up, confirm status change

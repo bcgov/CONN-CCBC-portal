@@ -9,7 +9,28 @@ import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
 const testQuery = graphql`
   query ChangeStatusTestQuery($rowId: Int!) {
-    ...ChangeStatus_query
+    applicationByRowId(rowId: $rowId) {
+      analystLead
+      analystStatus
+      organizationName
+      ccbcNumber
+      projectName
+      rowId
+      externalStatus
+      ...AssignPackage_query
+      ...ChangeStatus_query
+    }
+    ...AssignLead_query
+    allApplicationStatusTypes(
+      orderBy: STATUS_ORDER_ASC
+      condition: { visibleByAnalyst: true }
+    ) {
+      nodes {
+        name
+        description
+        id
+      }
+    }
   }
 `;
 
@@ -18,7 +39,41 @@ const mockQueryPayload = {
     return {
       applicationByRowId: {
         id: 'WyJhcHBsaWNhdGlvbnMiLDFd',
+        rowId: 1,
         analystStatus: 'received',
+        externalStatus: 'on_hold',
+      },
+      allApplicationStatusTypes: {
+        ...allApplicationStatusTypes,
+      },
+    };
+  },
+};
+
+const mockConditionalApprovalQueryPayload = {
+  Query() {
+    return {
+      applicationByRowId: {
+        id: 'WyJhcHBsaWNhdGlvbnMiLDFd',
+        rowId: 1,
+        analystStatus: 'conditionally_approved',
+        externalStatus: 'received',
+        conditionalApprovalDataByApplicationId: {
+          edges: [
+            {
+              node: {
+                jsonData: {
+                  decision: {
+                    ministerDecision: 'Approved',
+                  },
+                  response: {
+                    applicantResponse: 'Accepted',
+                  },
+                },
+              },
+            },
+          ],
+        },
       },
       allApplicationStatusTypes: {
         ...allApplicationStatusTypes,
@@ -34,13 +89,40 @@ const componentTestingHelper =
     compiledQuery,
     defaultQueryResolver: mockQueryPayload,
     getPropsFromTestQuery: (data) => ({
-      query: data,
+      application: data.applicationByRowId,
+      statusList: data.allApplicationStatusTypes.nodes,
+      status: data.applicationByRowId.analystStatus,
+      hiddenStatusTypes: ['draft', 'submitted', 'withdrawn'],
+      isExternalStatus: false,
+    }),
+  });
+
+const externalComponentTestingHelper =
+  new ComponentTestingHelper<ChangeStatusTestQuery>({
+    component: ChangeStatus,
+    testQuery,
+    compiledQuery,
+    defaultQueryResolver: mockQueryPayload,
+    getPropsFromTestQuery: (data) => ({
+      application: data.applicationByRowId,
+      statusList: data.allApplicationStatusTypes.nodes,
+      status: data.applicationByRowId.externalStatus,
+      hiddenStatusTypes: [
+        'assessment',
+        'draft',
+        'recommendation',
+        'screening',
+        'submitted',
+        'withdrawn',
+      ],
+      isExternalStatus: true,
     }),
   });
 
 describe('The application header component', () => {
   beforeEach(() => {
     componentTestingHelper.reinit();
+    externalComponentTestingHelper.reinit();
   });
 
   it('displays the current application status', () => {
@@ -160,5 +242,108 @@ describe('The application header component', () => {
 
     expect(screen.getByText('Received')).toBeVisible();
     expect(screen.getByTestId('change-status')).toHaveValue('received');
+  });
+
+  it('has the list of external statuses', () => {
+    externalComponentTestingHelper.loadQuery();
+    externalComponentTestingHelper.renderComponent();
+
+    expect(screen.getByText('Approved')).toBeInTheDocument();
+    expect(screen.getByText('Cancelled')).toBeInTheDocument();
+    expect(screen.getByText('Closed')).toBeInTheDocument();
+    expect(screen.getByText('Complete')).toBeInTheDocument();
+    expect(screen.getByText('Conditionally approved')).toBeInTheDocument();
+    expect(screen.getByText('On hold')).toBeInTheDocument();
+    expect(screen.getByText('Received')).toBeInTheDocument();
+
+    expect(screen.queryByText('Assessment')).not.toBeInTheDocument();
+    expect(screen.queryByText('Recommendation')).not.toBeInTheDocument();
+    expect(screen.queryByText('Screening')).not.toBeInTheDocument();
+  });
+
+  it('displays the change internal status first modal', async () => {
+    externalComponentTestingHelper.loadQuery();
+    externalComponentTestingHelper.renderComponent();
+
+    const select = screen.getByTestId('change-status');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'approved' } });
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue('approved');
+
+    const okButton = screen.getByText('Ok');
+    await act(async () => {
+      fireEvent.click(okButton);
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue('on_hold');
+  });
+
+  it('displays the change external status modal', async () => {
+    externalComponentTestingHelper.loadQuery();
+    externalComponentTestingHelper.renderComponent();
+
+    const select = screen.getByTestId('change-status');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'conditionally_approved' } });
+    });
+
+    const closeButton = screen.getByText('Close');
+    await act(async () => {
+      fireEvent.click(closeButton);
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue('on_hold');
+  });
+
+  it('changes the external status to conditional approval once the correct conditions are met', async () => {
+    externalComponentTestingHelper.loadQuery(
+      mockConditionalApprovalQueryPayload
+    );
+    externalComponentTestingHelper.renderComponent();
+
+    const select = screen.getByTestId('change-status');
+
+    expect(screen.getByTestId('change-status')).toHaveValue('received');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'conditionally_approved' } });
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue(
+      'conditionally_approved'
+    );
+
+    externalComponentTestingHelper.expectMutationToBeCalled(
+      'createApplicationStatusMutation',
+      {
+        input: {
+          applicationStatus: {
+            applicationId: 1,
+            changeReason: '',
+            status: 'applicant_conditionally_approved',
+          },
+        },
+      }
+    );
+
+    act(() => {
+      externalComponentTestingHelper.environment.mock.resolveMostRecentOperation(
+        {
+          data: {
+            applicationStatus: {
+              externalStatus: 'conditionally_approved',
+            },
+          },
+        }
+      );
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue(
+      'conditionally_approved'
+    );
   });
 });

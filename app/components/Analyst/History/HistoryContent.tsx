@@ -216,6 +216,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
 
   if (tableName === 'application_status') {
     const isReceived = item === 'received';
+    const isExternal = item.includes('applicant_');
     return (
       <div>
         <StyledContent data-testid="history-content-status">
@@ -223,7 +224,8 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             <span>The application was</span>
           ) : (
             <span>
-              {displayName} changed the <b>status</b> to
+              {displayName} changed the{' '}
+              <b>{isExternal ? 'External ' : 'Internal '}status</b> to
             </span>
           )}{' '}
           <StatusPill status={item} styles={statusStyles} />{' '}

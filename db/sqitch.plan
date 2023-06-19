@@ -331,3 +331,4 @@ tables/sow_tab_8 2023-06-01T20:02:07Z Vladimir <vladimir@button.is> # add table 
 computed_columns/application_history [computed_columns/application_history@1.73.0] 2023-06-07T18:22:26Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # enable updated for rfi data
 @1.74.0 2023-06-09T16:27:00Z Marcel Mueller <marcel@m2.local> # release v1.74.0
 @1.75.0 2023-06-13T21:48:06Z Anthony Bushara <anthony@button.is> # release v1.75.0
+tables/application_status_type_006_add_new_types 2023-06-12T23:08:53Z Marcel Mueller <marcel@m2> # add new status types

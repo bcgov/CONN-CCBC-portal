@@ -3,8 +3,6 @@ import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
 import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
-import statusStyles from 'data/statusStyles';
-import StatusPill from '../StatusPill';
 
 const StyledCallout = styled.div`
   margin-bottom: 40px;
@@ -47,35 +45,69 @@ interface Props {
   query: any;
 }
 
+const disabledStatusList = {
+  received: [
+    'assessment',
+    'recommendation',
+    'conditionally_approved',
+    'approved',
+    'complete',
+    'cancelled',
+  ],
+  screening: [
+    'recommendation',
+    'conditionally_approved',
+    'approved',
+    'complete',
+    'cancelled',
+  ],
+  assessment: ['conditionally_approved', 'approved', 'complete', 'cancelled'],
+  recommendation: ['approved', 'complete', 'cancelled'],
+  conditionally_approved: ['complete', 'cancelled'],
+};
+
 const ApplicationHeader: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
       fragment ApplicationHeader_query on Query {
         applicationByRowId(rowId: $rowId) {
           analystLead
+          analystStatus
           organizationName
           ccbcNumber
           projectName
           rowId
           externalStatus
+          ...ChangeStatus_query
           ...AssignPackage_query
         }
         ...AssignLead_query
-        ...ChangeStatus_query
+        allApplicationStatusTypes(
+          orderBy: STATUS_ORDER_ASC
+          condition: { visibleByAnalyst: true }
+        ) {
+          nodes {
+            name
+            description
+            id
+          }
+        }
       }
     `,
     query
   );
 
-  const { applicationByRowId } = queryFragment;
+  const { allApplicationStatusTypes, applicationByRowId } = queryFragment;
   const {
     analystLead,
+    analystStatus,
     ccbcNumber,
+    externalStatus,
     organizationName,
     projectName,
     rowId,
-    externalStatus,
   } = applicationByRowId;
+
   return (
     <StyledCallout>
       <div>
@@ -86,11 +118,30 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
       <StyledDiv>
         <StyledItem style={{ marginBottom: '0.3rem' }}>
           <StyledLabel htmlFor="change-status">Internal Status</StyledLabel>
-          <ChangeStatus query={queryFragment} />
+          <ChangeStatus
+            application={applicationByRowId}
+            disabledStatusList={disabledStatusList}
+            hiddenStatusTypes={['draft', 'submitted', 'withdrawn']}
+            status={analystStatus}
+            statusList={allApplicationStatusTypes?.nodes}
+          />
         </StyledItem>
         <StyledItem>
-          <StyledLabel id="status-pill">External Status</StyledLabel>
-          <StatusPill status={externalStatus} styles={statusStyles} />
+          <StyledLabel htmlFor="change-status">External Status</StyledLabel>
+          <ChangeStatus
+            application={applicationByRowId}
+            hiddenStatusTypes={[
+              'assessment',
+              'draft',
+              'recommendation',
+              'screening',
+              'submitted',
+              'withdrawn',
+            ]}
+            isExternalStatus
+            status={externalStatus.replace('applicant_', '')}
+            statusList={allApplicationStatusTypes.nodes}
+          />
         </StyledItem>
         <StyledPackage>
           <StyledLabel htmlFor="assign-package">Package</StyledLabel>

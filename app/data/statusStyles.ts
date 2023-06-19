@@ -1,4 +1,4 @@
-const statusStyles = {
+const statusStylesBase = {
   approved: {
     primary: '#FFFFFF',
     backgroundColor: '#1F8234',
@@ -32,7 +32,7 @@ const statusStyles = {
   conditionally_approved: {
     primary: '#FFFFFF',
     backgroundColor: '#1F8234',
-    pillWidth: '212px',
+    pillWidth: '222px',
     description: 'Conditionally approved',
   },
   applicant_conditionally_approved: {
@@ -62,7 +62,7 @@ const statusStyles = {
   recommendation: {
     primary: '#003366',
     backgroundColor: '#DBE6F0',
-    pillWidth: '172px',
+    pillWidth: '180px',
     description: 'Recommendation',
   },
   screening: {
@@ -88,6 +88,50 @@ const statusStyles = {
     primary: '#FFFFFF',
     backgroundColor: '#1A5A96',
     description: 'Submitted',
+  },
+};
+
+// Spread base styles for applicant status styles
+const statusStyles = {
+  ...statusStylesBase,
+  applicant_approved: {
+    ...statusStylesBase.approved,
+  },
+  applicant_assessment: {
+    ...statusStylesBase.assessment,
+  },
+  applicant_cancelled: {
+    ...statusStylesBase.cancelled,
+  },
+  applicant_closed: {
+    ...statusStylesBase.closed,
+  },
+  applicant_complete: {
+    ...statusStylesBase.complete,
+  },
+  applicant_conditionally_approved: {
+    ...statusStylesBase.conditionally_approved,
+  },
+  applicant_on_hold: {
+    ...statusStylesBase.on_hold,
+  },
+  applicant_received: {
+    ...statusStylesBase.received,
+  },
+  applicant_recommendation: {
+    ...statusStylesBase.recommendation,
+  },
+  applicant_screening: {
+    ...statusStylesBase.screening,
+  },
+  applicant_withdrawn: {
+    ...statusStylesBase.withdrawn,
+  },
+  applicant_draft: {
+    ...statusStylesBase.draft,
+  },
+  applicant_submitted: {
+    ...statusStylesBase.submitted,
   },
 };
 

@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import Button from '@button-inc/bcgov-theme/Button';
 import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
@@ -26,7 +25,7 @@ const StyledTextArea = styled.textarea`
 
 interface Props {
   cancelLabel?: string;
-  description?: string | ReactElement;
+  description?: string | React.ReactNode;
   id?: string;
   maxLength?: number;
   onCancel?: Function;
@@ -53,7 +52,7 @@ const ChangeModal: React.FC<Props> = ({
     <StyledModal id={id}>
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content>
-        <div>{description}</div>
+        <div>{description} </div>
         <StyledTextArea
           maxLength={maxLength}
           onChange={(e) => onChange(e)}

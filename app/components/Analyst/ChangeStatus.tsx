@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
 import { useCreateApplicationStatusMutation } from 'schema/mutations/assessment/createApplicationStatus';
 import ChangeModal from './ChangeModal';
+import ExternalChangeModal from './ExternalChangeModal';
 
 interface DropdownProps {
   statusStyles: {
@@ -20,7 +20,6 @@ const StyledWithdrawn = styled.div`
   appearance: none;
   padding: 6px 12px;
   height: 30px;
-  margin-bottom: 16px;
   color: #414141;
   background-color: #e8e8e8;
   cursor: default;
@@ -68,112 +67,195 @@ const ModalDescription = ({ currentStatus, draftStatus }) => {
   );
 };
 
-const ChangeStatus = ({ query }) => {
+interface Props {
+  application: any;
+  disabledStatusList?: any;
+  isExternalStatus?: boolean;
+  hiddenStatusTypes?: any;
+  status: string;
+  statusList: any;
+}
+
+const ChangeStatus: React.FC<Props> = ({
+  application,
+  disabledStatusList,
+  hiddenStatusTypes = [],
+  isExternalStatus,
+  status,
+  statusList,
+}) => {
   const queryFragment = useFragment(
     graphql`
-      fragment ChangeStatus_query on Query {
-        applicationByRowId(rowId: $rowId) {
-          id
-          analystStatus
-        }
-        allApplicationStatusTypes(
-          orderBy: STATUS_ORDER_ASC
-          condition: { visibleByAnalyst: true }
-        ) {
-          nodes {
-            name
-            description
-            id
+      fragment ChangeStatus_query on Application {
+        id
+        analystStatus
+        rowId
+        conditionalApprovalDataByApplicationId(
+          filter: { archivedAt: { isNull: true } }
+          orderBy: CREATED_AT_DESC
+          first: 1
+        )
+          @connection(
+            key: "ConditionalApprovalForm_conditionalApprovalDataByApplicationId"
+          ) {
+          __id
+          edges {
+            node {
+              id
+              jsonData
+            }
           }
         }
       }
     `,
-    query
+    application
   );
 
-  const { allApplicationStatusTypes, applicationByRowId } = queryFragment;
-  const { analystStatus } = applicationByRowId;
-  const router = useRouter();
-  const applicationId = Number(router.query.applicationId);
+  const { analystStatus, conditionalApprovalDataByApplicationId, id, rowId } =
+    queryFragment;
   const [createStatus] = useCreateApplicationStatusMutation();
-
-  const hiddenStatusTypes = ['draft', 'submitted', 'withdrawn'];
-
   // Filter unwanted status types
-  const statusTypes = allApplicationStatusTypes.nodes.filter(
+  const statusTypes = statusList.filter(
     (statusType) => !hiddenStatusTypes.includes(statusType.name)
   );
 
+  const conditionalApproval =
+    conditionalApprovalDataByApplicationId?.edges[0]?.node;
   const [changeReason, setChangeReason] = useState('');
 
-  const [currentStatus, setcurrentStatus] = useState(
-    getStatus(analystStatus, statusTypes)
+  const [currentStatus, setCurrentStatus] = useState(
+    getStatus(status, statusTypes)
   );
   const [draftStatus, setDraftStatus] = useState(
-    getStatus(analystStatus, statusTypes)
+    getStatus(status, statusTypes)
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setDraftStatus(getStatus(e.target.value, statusTypes));
+  const conditionalApprovalData = conditionalApproval?.jsonData;
 
-    // Open modal using anchor tag
-    window.location.hash = '#change-status-modal';
-  };
+  // Check conditional approval requirements are met for external status change
+  const isAllowedConditionalApproval =
+    isExternalStatus &&
+    analystStatus === 'conditionally_approved' &&
+    conditionalApprovalData?.decision?.ministerDecision === 'Approved' &&
+    conditionalApprovalData?.response?.applicantResponse === 'Accepted';
 
-  if (analystStatus === 'withdrawn') {
+  const disabledStatuses =
+    disabledStatusList && disabledStatusList[currentStatus?.name];
+
+  useEffect(() => {
+    // update status when there is a relay store update
+    setCurrentStatus(getStatus(status, statusTypes));
+    setDraftStatus(getStatus(status, statusTypes));
+  }, [status]);
+
+  // No dropdown for withdrawn applications
+  if (status === 'withdrawn') {
     return <StyledWithdrawn>Withdrawn</StyledWithdrawn>;
   }
 
-  const handleSave = async () => {
+  const handleSave = async (value) => {
+    const statusInputName = isExternalStatus
+      ? `applicant_${value || draftStatus?.name}`
+      : draftStatus?.name;
+
     createStatus({
       variables: {
         input: {
           applicationStatus: {
-            applicationId,
+            applicationId: rowId,
             changeReason,
-            status: draftStatus.name,
+            status: statusInputName,
           },
         },
       },
       onCompleted: () => {
         setChangeReason('');
-        setcurrentStatus(draftStatus);
+        setCurrentStatus(draftStatus);
+      },
+      updater: (store) => {
+        store
+          .get(id)
+          .setValue(
+            statusInputName,
+            isExternalStatus ? 'externalStatus' : 'analystStatus'
+          );
       },
     });
+  };
+  const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDraftStatus(getStatus(e.target.value, statusTypes));
+    const isAllowedExternalChange =
+      isExternalStatus && e.target.value === analystStatus;
+    const isInvaliedConditionalApproval =
+      e.target.value === 'conditionally_approved' &&
+      isAllowedExternalChange &&
+      !isAllowedConditionalApproval;
+
+    if (!isExternalStatus) {
+      // open modal for internal status change
+      window.location.hash = `#change-status-modal`;
+    } else if (
+      // open modal for external status change
+      !isAllowedExternalChange ||
+      isInvaliedConditionalApproval
+    ) {
+      window.location.hash = `#external-change-status-modal`;
+    } else {
+      await handleSave(e.target.value);
+    }
   };
 
   return (
     <>
-      <ChangeModal
-        id="change-status-modal"
-        saveLabel="Save change"
-        cancelLabel="Cancel change"
-        onSave={handleSave}
-        value={changeReason}
-        onCancel={() => setDraftStatus(currentStatus)}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-          setChangeReason(e.target.value)
-        }
-        description={
-          <ModalDescription
-            currentStatus={currentStatus}
-            draftStatus={draftStatus}
-          />
-        }
-      />
+      {isExternalStatus ? (
+        <ExternalChangeModal
+          applicationId={rowId}
+          id="external-change-status-modal"
+          isNotAllowedConditionalApproval={
+            draftStatus?.name === 'conditionally_approved' &&
+            !isAllowedConditionalApproval
+          }
+          onCancel={() => setDraftStatus(currentStatus)}
+        />
+      ) : (
+        <ChangeModal
+          description={
+            <ModalDescription
+              currentStatus={currentStatus}
+              draftStatus={draftStatus}
+            />
+          }
+          id="change-status-modal"
+          saveLabel="Save change"
+          cancelLabel="Cancel change"
+          onSave={handleSave}
+          value={changeReason}
+          onCancel={() => setDraftStatus(currentStatus)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+            setChangeReason(e.target.value)
+          }
+        />
+      )}
       <StyledDropdown
         data-testid="change-status"
-        onChange={handleChange}
-        // Use draft status for colour so it changes as user selects it
+        onChange={(e) => {
+          // eslint-disable-next-line no-void
+          void (() => handleChange(e))();
+        }} // Use draft status for colour so it changes as user selects it
         statusStyles={statusStyles[draftStatus?.name]}
         value={draftStatus?.name}
         id="change-status"
       >
         {statusTypes &&
           statusTypes.map((statusType) => {
-            const { description, name, id } = statusType;
+            const { description, name, id: statusId } = statusType;
+
             return (
-              <StyledOption value={name} key={id}>
+              <StyledOption
+                value={name}
+                key={statusId}
+                disabled={disabledStatuses?.includes(name)}
+              >
                 {description}
               </StyledOption>
             );
