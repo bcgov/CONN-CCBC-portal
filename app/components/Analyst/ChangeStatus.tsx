@@ -186,6 +186,10 @@ const ChangeStatus: React.FC<Props> = ({
     setDraftStatus(getStatus(e.target.value, statusTypes));
     const isAllowedExternalChange =
       isExternalStatus && e.target.value === analystStatus;
+    const isInvaliedConditionalApproval =
+      e.target.value === 'conditionally_approved' &&
+      isAllowedExternalChange &&
+      !isAllowedConditionalApproval;
 
     if (!isExternalStatus) {
       // open modal for internal status change
@@ -193,9 +197,7 @@ const ChangeStatus: React.FC<Props> = ({
     } else if (
       // open modal for external status change
       !isAllowedExternalChange ||
-      (e.target.value === 'conditionally_approved' &&
-        isAllowedExternalChange &&
-        !isAllowedConditionalApproval)
+      isInvaliedConditionalApproval
     ) {
       window.location.hash = `#external-change-status-modal`;
     } else {
