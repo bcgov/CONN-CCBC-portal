@@ -329,6 +329,13 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             />
             <HistoryFile
               filesArray={
+                record.json_data?.main?.upload?.sowWirelessUpload || []
+              }
+              title="SOW Wireless Table"
+              tableTitle={false}
+            />
+            <HistoryFile
+              filesArray={
                 record.json_data?.main?.upload?.fundingAgreementUpload || []
               }
               title="Funding agreement"
