@@ -1,18 +1,19 @@
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { S3Client, GetObjectCommand, GetObjectTaggingCommand, HeadObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
-import { getApplyMd5BodyChecksumPlugin } from '@aws-sdk/middleware-apply-body-checksum';
+import { S3Client, GetObjectCommand, GetObjectTaggingCommand, HeadObjectCommand, PutObjectCommand, GetObjectCommandOutput } from '@aws-sdk/client-s3';
+// import { getApplyMd5BodyChecksumPlugin } from '@aws-sdk/middleware-apply-body-checksum';
 
 import config from '../../config/index';
 import awsConfig from './awsCommon' 
+import { Readable } from 'stream';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 
 const s3ClientV3sdk = new S3Client(awsConfig);
-s3ClientV3sdk.middlewareStack.use(
-    getApplyMd5BodyChecksumPlugin(s3ClientV3sdk.config)
-);
+// s3ClientV3sdk.middlewareStack.use(
+//     getApplyMd5BodyChecksumPlugin(s3ClientV3sdk.config)
+// );
 
-async function streamToBuffer(stream) {
+export const streamToBuffer = async(stream) => {
   const chunks = [];
   for await (const chunk of stream) {
       chunks.push(Buffer.from(chunk));
@@ -42,13 +43,6 @@ export const getFileFromS3 = async (uuid, filename, res) => {
     .catch(() => {
       res.status(500).end();
     });
-}
-
-export const getFileStreamFromS3 = async (fileparams) => {
-  const command = new GetObjectCommand(fileparams);
-  const item = await s3ClientV3sdk.send(command);
-  const readableStream: ReadableStream = item.Body!.transformToWebStream();
-  return streamToBuffer(readableStream);
 }
 
 export const checkFileExists = async (params) =>{
