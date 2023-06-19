@@ -2026,6 +2026,15 @@ const mockQueryPayload = {
                           uuid: '8fb4226e-655e-4321-ba45-fe28aea508f1',
                         },
                       ],
+                      sowWirelessUpload: [
+                        {
+                          id: 25,
+                          name: 'sowWireless.xlsx',
+                          size: 1475,
+                          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                          uuid: '7fe78587-5509-4821-bd75-b5414f34c448',
+                        },
+                      ],
                     },
                     dateFundingAgreementSigned: '2023-06-28',
                   },
