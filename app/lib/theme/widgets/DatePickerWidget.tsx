@@ -42,7 +42,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   onChange,
 }) => {
   const isRawErrors = rawErrors && rawErrors.length > 0;
-  const isError = isRawErrors && !value;
+  const isError = isRawErrors;
 
   const handleChange = (d: Date) => {
     if (!d) onChange(null);
@@ -80,7 +80,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   return (
     <StyledContainer
       className="datepicker-widget"
-      data-testid="datepicker-widget"
+      data-testid="datepicker-widget-container"
     >
       <LocalizationProvider
         localeText={
@@ -90,7 +90,6 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
       >
         <StyledDatePicker
           id={id}
-          data-testid="datepicker-widget"
           sx={styles}
           isError={isError}
           disabled={disabled}
@@ -101,6 +100,12 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
           slotProps={{
             actionBar: {
               actions: ['clear', 'cancel'],
+            },
+            textField: {
+              inputProps: {
+                id,
+                'data-testid': 'datepicker-widget',
+              },
             },
           }}
           slots={{
