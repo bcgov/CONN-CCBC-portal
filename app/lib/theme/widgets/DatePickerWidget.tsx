@@ -17,17 +17,14 @@ interface StyleProps {
 const StyledContainer = styled('div')`
   width: ${(props) => props.theme.width.inputWidthSmall};
 
-  div {
-    margin: 0px !important;
-  }
-
   margin-top: 12px;
   margin-bottom: 32px;
 `;
 
-const StyledDatePicker = styled(DesktopDatePicker) <StyleProps>`
+const StyledDatePicker = styled(DesktopDatePicker)<StyleProps >`
   width: 100%;
 `;
+
 const getDateString = (date: Date | undefined) => {
   if (date) {
     if (date.valueOf() <= 0) return undefined;
@@ -42,11 +39,9 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   value,
   disabled,
   readonly,
-  options,
   onChange,
 }) => {
   const isRawErrors = rawErrors && rawErrors.length > 0;
-
   const isError = isRawErrors && !value;
 
   const handleChange = (d: Date) => {
@@ -71,17 +66,17 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
       border: isError ? '2px solid #E71F1F' : '2px solid #606060',
     },
   };
+
+  // Leaving this here as the datepicker won't accept a component with props (onChange)
+  // eslint-disable-next-line react/no-unstable-nested-components
   const ClearableIconButton = () => {
     return (
-      <>
-        {value && (
-          <button type="button" onClick={() => onChange(null)} edge="end">
-            <FontAwesomeIcon icon={faTimesCircle} color="#606060" />
-          </button>
-        )}
-      </>
+      <button type="button" onClick={() => onChange(null)}>
+        <FontAwesomeIcon icon={faTimesCircle} color="#606060" />
+      </button>
     );
   };
+
   return (
     <StyledContainer
       className="datepicker-widget"
@@ -95,6 +90,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
       >
         <StyledDatePicker
           id={id}
+          data-testid="datepicker-widget"
           sx={styles}
           isError={isError}
           disabled={disabled}
@@ -102,7 +98,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
           onChange={handleChange}
           value={value ? dayjs(value) : null}
           defaultValue={null}
-          componentsProps={{
+          slotProps={{
             actionBar: {
               actions: ['clear', 'cancel'],
             },
