@@ -14,6 +14,7 @@
 #### Local development
 
 - [Setting up a local development environment](#setting-up-a-local-development-environment)
+- [Setting up a local development environment in wsl](docs/Getting_started_wsl.md)
 - [Running PGTap database tests locally](#running-pgtap-database-tests-locally)
 - [Running Jest and end to end tests locally](#running-jest-and-end-to-end-tests-locally)
 - [Pre-commit hooks](#pre-commit-hooks)
@@ -68,7 +69,7 @@ The defaults can be overridden using a `.env` file placed in the `/app` director
 
 Required dependencies:
 
-- [Node.js 16.17.0](https://nodejs.org/en/download/)
+- [Node.js 18.16.0](https://nodejs.org/en/download/)
 - [yarn classic](https://classic.yarnpkg.com/lang/en/docs/install)
 
 Run the following commands:
