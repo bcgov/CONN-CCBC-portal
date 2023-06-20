@@ -104,7 +104,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
             textField: {
               inputProps: {
                 id,
-                'data-testid': 'datepicker-widget',
+                'data-testid': 'datepicker-widget-input',
               },
             },
           }}

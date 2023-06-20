@@ -1,8 +1,10 @@
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
-import { FormBase } from '../../components/Form/';
+import { FormBase } from 'components/Form/';
 import type { JSONSchema7 } from 'json-schema';
 import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
-import { getClientEnvironment } from '../../lib/relay/client';
+import { getClientEnvironment } from 'lib/relay/client';
+import defaultTheme from 'lib/theme/DefaultTheme';
+import GlobalTheme from 'styles/GlobalTheme';
 
 type Props = {
   formData: any;
@@ -27,12 +29,15 @@ const FormTestRenderer: React.FC<Props> = ({
 
   return (
     <RelayEnvironmentProvider environment={env}>
-      <FormBase
-        formData={formData}
-        onSubmit={onSubmit}
-        schema={schema as JSONSchema7}
-        uiSchema={uiSchema}
-      />
+      <GlobalTheme>
+        <FormBase
+          theme={defaultTheme}
+          formData={formData}
+          onSubmit={onSubmit}
+          schema={schema as JSONSchema7}
+          uiSchema={uiSchema}
+        />
+      </GlobalTheme>
     </RelayEnvironmentProvider>
   );
 };
