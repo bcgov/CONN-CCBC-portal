@@ -1,6 +1,6 @@
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
-import { Label } from '../../../components/Form';
+import Label from 'components/Form/Label';
 
 const StyledContainer = styled('div')`
   margin-bottom: 8px;

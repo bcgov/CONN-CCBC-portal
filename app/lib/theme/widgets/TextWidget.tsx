@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import Input from '@button-inc/bcgov-theme/Input';
 import styled from 'styled-components';
-import { Label } from '../../../components/Form';
+import Label from 'components/Form/Label';
 import NumberWidget from './NumberWidget';
 
 const INPUT_MAX_LENGTH = 32000;
@@ -76,16 +76,16 @@ const TextWidget: React.FC<WidgetProps> = (props) => {
   const emailRegex =
     /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
 
-  const checkValidations = (onChange: any, value: any) => {
+  const checkValidations = (onChangeFunction: any, val: any) => {
     if (inputType === 'email') {
-      if (value && !emailRegex.test(value)) {
+      if (val && !emailRegex.test(val)) {
         setError('Please enter a valid email address');
       } else {
         setError('');
       }
-      onChange(value || undefined);
+      onChangeFunction(val || undefined);
     } else {
-      onChange(value || undefined);
+      onChangeFunction(val || undefined);
     }
   };
 
@@ -98,8 +98,8 @@ const TextWidget: React.FC<WidgetProps> = (props) => {
         disabled={disabled}
         data-testid={id}
         onChange={(e: { target: { value: string } }) => {
-          const { value } = e.target;
-          checkValidations(onChange, value);
+          const val = e.target.value;
+          checkValidations(onChange, val);
         }}
         placeholder={placeholder}
         value={value ?? ''}

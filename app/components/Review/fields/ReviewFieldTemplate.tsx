@@ -1,6 +1,10 @@
 import { FieldTemplateProps } from '@rjsf/core';
 import React from 'react';
-import { StyledColLeft, StyledColRight, StyledColError } from '../index';
+import {
+  StyledColLeft,
+  StyledColRight,
+  StyledColError,
+} from 'components/Review/Components';
 
 const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   id,

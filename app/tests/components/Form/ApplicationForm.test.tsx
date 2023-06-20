@@ -3,7 +3,7 @@ import { graphql } from 'react-relay';
 import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
-import { fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
@@ -499,5 +499,34 @@ describe('The application form', () => {
         )
       ).toBeNull();
     });
+  });
+
+  it('can click to add more array field in the other funding sources section', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 6,
+      query: data.query,
+    }));
+
+    const radioButton = screen.getByLabelText('Yes');
+
+    await act(async () => {
+      fireEvent.click(radioButton);
+    });
+
+    const addFundingSourceButton = screen.getByRole('button', {
+      name: 'Add another funding source',
+    });
+
+    await act(async () => {
+      fireEvent.click(addFundingSourceButton);
+    });
+
+    const removeButton = screen.getByRole('button', {
+      name: 'Remove',
+    });
+
+    expect(removeButton).toBeInTheDocument();
   });
 });

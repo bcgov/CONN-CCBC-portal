@@ -1,7 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input-field';
-import { Label } from '../../../components/Form';
+import Label from 'components/Form/Label';
 
 const StyledFormattedNumbersInput = styled(CurrencyInput)`
   margin-top: 12px;
@@ -49,8 +49,8 @@ const NumberWidget: React.FC<WidgetProps> = ({
       ? uiSchema['ui:options']?.decimals
       : 0;
 
-  const handleChange = (value: string) => {
-    const numberValue = Number(value);
+  const handleChange = (val: string) => {
+    const numberValue = Number(val);
     if (Number.isNaN(numberValue)) {
       onChange(null);
       return;
@@ -64,7 +64,7 @@ const NumberWidget: React.FC<WidgetProps> = ({
     // send the string value instead of the number so that the period isn't lost when typing a number
     // an input that keeps an internal state and doesn't trigger onChange when typing a number would allow us to
     // call onChange with a number instead of a string
-    onChange(value);
+    onChange(val);
   };
 
   return (

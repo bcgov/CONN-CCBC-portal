@@ -51,21 +51,20 @@ const RFIPage = ({
           New RFI
         </ButtonLink>
         <>
-          {rfiList &&
-            rfiList.map((rfi) => {
-              const { archivedAt } = rfi;
-              // not a fan of this solution, but can't filter through graphql
-              if (archivedAt === null) {
-                return (
-                  <RFI
-                    key={rfi.id}
-                    rfiDataByRfiDataId={rfi}
-                    id={rfi.id as string}
-                  />
-                );
-              }
-              return null;
-            })}
+          {rfiList?.map((rfi) => {
+            const { archivedAt } = rfi;
+            // not a fan of this solution, but can't filter through graphql
+            if (archivedAt === null) {
+              return (
+                <RFI
+                  key={rfi.id}
+                  rfiDataByRfiDataId={rfi}
+                  id={rfi.id as string}
+                />
+              );
+            }
+            return null;
+          })}
         </>
       </AnalystLayout>
     </Layout>

@@ -47,36 +47,35 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
   const { enumOptions }: any = options;
   return (
     <StyledContainer>
-      {enumOptions &&
-        enumOptions.map(
-          (option: { value: string; label: string }, i: number) => {
-            const checked = value.indexOf(option.value) !== -1;
-            return (
-              <StyledDiv
-                key={option.value}
-                style={{ opacity: disabled && '0.6' }}
-              >
-                <Checkbox
-                  id={`${id}-${i}`}
-                  onChange={(event: any) => {
-                    const all = enumOptions.map(({ val }: any) => val);
-                    if (event.target.checked) {
-                      onChange(selectValue(option.value, value, all));
-                    } else {
-                      onChange(deselectValue(option.value, value));
-                    }
-                  }}
-                  checked={checked}
-                  value={value}
-                  required={required}
-                  aria-label={label}
-                  disabled={disabled}
-                />
-                <div>{option.label}</div>
-              </StyledDiv>
-            );
-          }
-        )}
+      {enumOptions?.map(
+        (option: { value: string; label: string }, i: number) => {
+          const checked = value.indexOf(option.value) !== -1;
+          return (
+            <StyledDiv
+              key={option.value}
+              style={{ opacity: disabled && '0.6' }}
+            >
+              <Checkbox
+                id={`${id}-${i}`}
+                onChange={(event: any) => {
+                  const all = enumOptions.map(({ val }: any) => val);
+                  if (event.target.checked) {
+                    onChange(selectValue(option.value, value, all));
+                  } else {
+                    onChange(deselectValue(option.value, value));
+                  }
+                }}
+                checked={checked}
+                value={value}
+                required={required}
+                aria-label={label}
+                disabled={disabled}
+              />
+              <div>{option.label}</div>
+            </StyledDiv>
+          );
+        }
+      )}
     </StyledContainer>
   );
 };

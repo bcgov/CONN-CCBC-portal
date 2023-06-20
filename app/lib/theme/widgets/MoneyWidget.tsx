@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input-field';
-import { Label } from '../../../components/Form';
+import Label from 'components/Form/Label';
 
 const StyledCurrencyInput = styled(CurrencyInput)`
   margin-top: 12px;
@@ -38,6 +37,7 @@ const StyledMessage = styled('div')`
 
 const MoneyWidget: React.FC<WidgetProps> = ({
   disabled,
+  error,
   id,
   placeholder,
   onChange,
@@ -46,7 +46,6 @@ const MoneyWidget: React.FC<WidgetProps> = ({
   required,
   uiSchema,
 }) => {
-  const [error, setError] = useState('');
   const help = uiSchema['ui:help'];
 
   return (
@@ -61,7 +60,7 @@ const MoneyWidget: React.FC<WidgetProps> = ({
         allowNegativeValue={false}
         maxLength={14}
         decimalsLimit={2}
-        onValueChange={(value: any) => onChange(value || undefined)}
+        onValueChange={(val: any) => onChange(val || undefined)}
         required={required}
         aria-label={label}
         placeholder={placeholder}

@@ -183,7 +183,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
         showMonthDropdown
         showYearDropdown
         dropdownMode="select"
-        isClearable={!options.isNotClearable as boolean}
+        isClearable={!options.isNotClearable}
         showPopperArrow={false}
         customInput={<CustomInput isError={isError} />}
       />

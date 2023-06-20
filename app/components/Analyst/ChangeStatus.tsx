@@ -246,20 +246,19 @@ const ChangeStatus: React.FC<Props> = ({
         value={draftStatus?.name}
         id="change-status"
       >
-        {statusTypes &&
-          statusTypes.map((statusType) => {
-            const { description, name, id: statusId } = statusType;
+        {statusTypes?.map((statusType) => {
+          const { description, name, id: statusId } = statusType;
 
-            return (
-              <StyledOption
-                value={name}
-                key={statusId}
-                disabled={disabledStatuses?.includes(name)}
-              >
-                {description}
-              </StyledOption>
-            );
-          })}
+          return (
+            <StyledOption
+              value={name}
+              key={statusId}
+              disabled={disabledStatuses?.includes(name)}
+            >
+              {description}
+            </StyledOption>
+          );
+        })}
       </StyledDropdown>
     </>
   );

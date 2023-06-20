@@ -1,5 +1,5 @@
 import { FieldProps } from '@rjsf/core';
-import { Accordion } from 'components/Review';
+import Accordion from 'components/Review/Accordion';
 import { useMemo } from 'react';
 
 const ReviewSectionField: React.FC<FieldProps> = (props) => {
