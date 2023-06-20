@@ -199,6 +199,56 @@ jobs:
           fetch-depth: 0
       - run: ./.bin/sqitch-check-immutable-files.sh db origin/main
 
+  check_deleted_sqitch_tags:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: |
+          node - <<EOF
+          const { execSync } = require('child_process');
+          let tagError = false
+          // Get the diff
+          const diff = execSync('git diff origin/main -- ./db/sqitch.plan').toString();
+
+          // Split the diff into lines
+          const lines = diff.split('\n');
+
+          // Counters to keep track of lines starting with @
+          const counters = {};
+
+          for (const line of lines) {
+            // If it's a deletion and starts with @
+            if (line.startsWith('-@')) {
+              const content = line.slice(1); // remove the leading -
+              counters[content] = (counters[content] || 0) - 1;
+            }
+            // If it's an addition and starts with @
+            else if (line.startsWith('+@')) {
+              const content = line.slice(1); // remove the leading +
+              counters[content] = (counters[content] || 0) + 1;
+            }
+          }
+
+          // Check if there is any line that was deleted but not added back
+          for (const content in counters) {
+            if (counters[content] < 0) {
+              console.error(`Error: Tag deleted: ${content}`);
+              tagError=true
+            } else if(counters[content] > 1) {
+              console.error(`Error: Tag added multiple times, likely due to merge error: ${content}`)
+              tagError=true
+            }
+          }
+          if(tagError){
+            process.exit(1);
+          }
+          EOF
+
   lint-chart:
     runs-on: ubuntu-latest
     environment:
