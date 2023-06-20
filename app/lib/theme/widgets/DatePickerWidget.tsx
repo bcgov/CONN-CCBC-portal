@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { enUS } from '@mui/x-date-pickers/locales';
@@ -6,8 +8,6 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import { dateTimeFormat } from '../functions/formatDates';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 interface StyleProps {
   id: string;
@@ -21,7 +21,7 @@ const StyledContainer = styled('div')`
   margin-bottom: 32px;
 `;
 
-const StyledDatePicker = styled(DesktopDatePicker)<StyleProps >`
+const StyledDatePicker = styled(DesktopDatePicker)<StyleProps>`
   width: 100%;
 `;
 
