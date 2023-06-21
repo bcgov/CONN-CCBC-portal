@@ -69,7 +69,7 @@ const SuccessContainer = styled.div`
   display: flex;
 `;
 
-const Success = () => (
+export const Success = () => (
   <SuccessContainer>
     <SuccessTextContainer>
       <SuccessTextHeading>
@@ -85,7 +85,7 @@ const Success = () => (
   </SuccessContainer>
 );
 
-const renderStatusLabel = (
+export const renderStatusLabel = (
   loading: boolean,
   success: boolean
 ): React.ReactNode => {
