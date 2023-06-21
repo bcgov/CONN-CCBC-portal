@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -65,6 +66,25 @@ const StyledBtn = styled(Button)`
   padding: 8px 16px;
 `;
 
+interface AnimateFormProps {
+  isAnimated: boolean;
+  isFormExpanded: boolean;
+  overflow: string;
+  onClick?: () => void;
+}
+
+const StyledAnimateForm = styled.div<AnimateFormProps>`
+  ${({ isAnimated, isFormExpanded, overflow }) =>
+    isAnimated &&
+    `
+    position: relative;
+    z-index: ${isFormExpanded ? 100 : 1};
+    overflow: ${overflow};
+    max-height: ${isFormExpanded ? '400px' : '30px'};
+    transition: max-height 0.7s;
+  `}
+`;
+
 interface Props {
   additionalContext?: any;
   before?: React.ReactNode;
@@ -76,6 +96,7 @@ interface Props {
    *  (the red-outline we see on widgets) */
   hiddenSubmitRef?: any;
   isFormEditMode: boolean;
+  isFormAnimated?: boolean;
   onSubmit: any;
   resetFormData: any;
   saveBtnText?: string;
@@ -96,6 +117,7 @@ const ProjectForm: React.FC<Props> = ({
   handleChange,
   hiddenSubmitRef,
   showEditBtn = true,
+  isFormAnimated,
   isFormEditMode,
   onSubmit,
   resetFormData,
@@ -109,6 +131,26 @@ const ProjectForm: React.FC<Props> = ({
   saveDataTestId = 'save',
   ...rest
 }) => {
+  // Overflow hidden is needed for animated edit transition though
+  // visible is needed for the datepicker so we needed to set it on a
+  // timeout to prevent buggy visual transition
+  const [overflow, setOverflow] = useState(
+    isFormEditMode ? 'visible' : 'hidden'
+  );
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isFormEditMode && !isFirstRender) {
+        setOverflow('visible');
+      } else {
+        setOverflow('hidden');
+      }
+      setIsFirstRender(false);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [isFormEditMode]);
+
   return (
     <StyledBaseAccordion onToggle={() => {}} {...rest} defaultToggled>
       <StyledHeader>
@@ -156,7 +198,11 @@ const ProjectForm: React.FC<Props> = ({
         </StyledToggleRight>
       </StyledHeader>
       <BaseAccordion.Content>
-        <div className="project-form">
+        <StyledAnimateForm
+          isAnimated={isFormAnimated}
+          isFormExpanded={isFormEditMode}
+          overflow={overflow}
+        >
           {before}
           <FormBase
             // setting a key here will reset the form
@@ -181,7 +227,7 @@ const ProjectForm: React.FC<Props> = ({
               true
             )}
           </FormBase>
-        </div>
+        </StyledAnimateForm>
         {children}
       </BaseAccordion.Content>
     </StyledBaseAccordion>

@@ -99,16 +99,18 @@ const ChangeRequestForm = ({ application }) => {
       handleChange={(e) => {
         setFormData({ ...e.formData });
       }}
+      isFormAnimated
       isFormEditMode={isFormEditMode}
-      title="Change request"
-      schema={isFormEditMode ? changeRequestSchema : {}}
-      theme={ProjectTheme}
-      uiSchema={changeRequestUiSchema}
-      resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
+      resetFormData={handleResetFormData}
       saveBtnDisabled={!isStatementOfWorkUpload}
       saveBtnText="Save & Import Data"
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+      showEditBtn={false}
+      theme={ProjectTheme}
+      title="Change request"
+      schema={isFormEditMode ? changeRequestSchema : {}}
+      uiSchema={changeRequestUiSchema}
     >
       {showToast && (
         <Toast timeout={100000000}>

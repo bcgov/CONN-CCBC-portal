@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState, ReactNode } from 'react';
+import React, { useMemo, useRef, useState, ReactNode } from 'react';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
@@ -23,14 +23,6 @@ interface EditProps {
 const StyledProjectForm = styled(ProjectForm)<EditProps>`
   .pg-card-content {
     min-height: 0;
-  }
-
-  .project-form {
-    position: relative;
-    z-index: ${(props) => (props.isFormEditMode ? 100 : 1)};
-    overflow: ${(props) => props.overflow};
-    max-height: ${(props) => (props.isFormEditMode ? '400px' : '30px')};
-    transition: max-height 0.7s;
   }
 `;
 
@@ -248,26 +240,6 @@ const AnnouncementsForm = ({ query }) => {
   // Filter out this application CCBC ID
   const ccbcIdList = queryFragment.allApplications.nodes;
 
-  // Overflow hidden is needed for animated edit transition though
-  // visible is needed for the datepicker so we needed to set it on a
-  // timeout to prevent buggy visual transition
-  const [overflow, setOverflow] = useState(
-    isFormEditMode ? 'visible' : 'hidden'
-  );
-  const [isFirstRender, setIsFirstRender] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isFormEditMode && !isFirstRender) {
-        setOverflow('visible');
-      } else {
-        setOverflow('hidden');
-      }
-      setIsFirstRender(false);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [isFormEditMode]);
-
   return (
     <StyledProjectForm
       before={
@@ -277,13 +249,13 @@ const AnnouncementsForm = ({ query }) => {
           title="Add announcement"
         />
       }
-      overflow={overflow}
       additionalContext={{ ccbcIdList, ccbcNumber, rowId }}
       formData={formData}
       handleChange={(e) => {
         setFormData({ ...e.formData });
       }}
       hiddenSubmitRef={hiddenSubmitRef}
+      isFormAnimated
       isFormEditMode={isFormEditMode}
       showEditBtn={false}
       title="Announcements"
