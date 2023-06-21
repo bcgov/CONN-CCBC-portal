@@ -15187,6 +15187,9 @@ input ChangeRequestDataFilter {
   """Filter by the object’s `applicationId` field."""
   applicationId: IntFilter
 
+  """Filter by the object’s `changeRequestNumber` field."""
+  changeRequestNumber: IntFilter
+
   """Filter by the object’s `jsonData` field."""
   jsonData: JSONFilter
 
@@ -26444,6 +26447,9 @@ type ChangeRequestData implements Node {
   """The foreign key of an application"""
   applicationId: Int
 
+  """The change request number for that application"""
+  changeRequestNumber: Int!
+
   """The json form data of the change request form"""
   jsonData: JSON!
 
@@ -26496,6 +26502,8 @@ enum ChangeRequestDataOrderBy {
   ID_DESC
   APPLICATION_ID_ASC
   APPLICATION_ID_DESC
+  CHANGE_REQUEST_NUMBER_ASC
+  CHANGE_REQUEST_NUMBER_DESC
   JSON_DATA_ASC
   JSON_DATA_DESC
   CREATED_BY_ASC
@@ -26524,6 +26532,9 @@ input ChangeRequestDataCondition {
 
   """Checks for equality with the object’s `applicationId` field."""
   applicationId: Int
+
+  """Checks for equality with the object’s `changeRequestNumber` field."""
+  changeRequestNumber: Int
 
   """Checks for equality with the object’s `jsonData` field."""
   jsonData: JSON
@@ -47065,6 +47076,9 @@ input ChangeRequestDataInput {
   """The foreign key of an application"""
   applicationId: Int
 
+  """The change request number for that application"""
+  changeRequestNumber: Int!
+
   """The json form data of the change request form"""
   jsonData: JSON
 
@@ -49796,6 +49810,9 @@ Represents an update to a `ChangeRequestData`. Fields that are set will be updat
 input ChangeRequestDataPatch {
   """The foreign key of an application"""
   applicationId: Int
+
+  """The change request number for that application"""
+  changeRequestNumber: Int
 
   """The json form data of the change request form"""
   jsonData: JSON
@@ -53447,6 +53464,7 @@ input CreateChangeRequestInput {
   """
   clientMutationId: String
   _applicationId: Int!
+  _changeRequestNumber: Int!
   _jsonData: JSON!
 }
 
