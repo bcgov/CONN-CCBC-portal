@@ -1,6 +1,5 @@
 import { act, render, screen, fireEvent } from '@testing-library/react';
 import type { JSONSchema7 } from 'json-schema';
-import { Settings, DateTime } from 'luxon';
 import FormTestRenderer from '../../utils/formTestRenderer';
 
 const mockSchema = {
@@ -32,13 +31,6 @@ const renderStaticLayout = (schema: JSONSchema7, uiSchema) =>
   );
 
 describe('The Datepicker widget', () => {
-  beforeEach(() => {
-    const mockCurrentTime = DateTime.local(2023, 10, 1, 0, {
-      zone: 'America/New_York',
-    });
-    Settings.now = () => mockCurrentTime.toMillis();
-  });
-
   it('should render the radio widget title', () => {
     renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
 
