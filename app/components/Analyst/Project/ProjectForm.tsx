@@ -79,6 +79,7 @@ interface Props {
   onSubmit: any;
   resetFormData: any;
   saveBtnText?: string;
+  saveBtnDisabled?: boolean;
   schema: JSONSchema7;
   setIsFormEditMode: any;
   theme?: any;
@@ -98,6 +99,7 @@ const ProjectForm: React.FC<Props> = ({
   isFormEditMode,
   onSubmit,
   resetFormData,
+  saveBtnDisabled,
   saveBtnText,
   schema,
   setIsFormEditMode,
@@ -117,6 +119,7 @@ const ProjectForm: React.FC<Props> = ({
               <StyledBtn
                 data-testid={saveDataTestId}
                 size="small"
+                disabled={saveBtnDisabled}
                 onClick={onSubmit}
               >
                 {saveBtnText || 'Save'}

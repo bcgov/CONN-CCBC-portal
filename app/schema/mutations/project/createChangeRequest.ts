@@ -1,5 +1,5 @@
 import { graphql } from 'react-relay';
-import { createChangeRequestMutation } from '__generated__/createConditionalApprovalMutation.graphql';
+import { createChangeRequestMutation } from '__generated__/createChangeRequestMutation.graphql';
 import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`

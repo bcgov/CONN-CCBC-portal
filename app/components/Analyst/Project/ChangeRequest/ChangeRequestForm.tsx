@@ -24,7 +24,7 @@ const ChangeRequestForm = ({ application }) => {
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
           orderBy: CREATED_AT_DESC
-          first: 1
+          first: 999
         )
           @connection(
             key: "ChangeRequestForm_changeRequestDataByApplicationId"
@@ -42,38 +42,37 @@ const ChangeRequestForm = ({ application }) => {
     application
   );
 
-  const { ccbcNumber, id, rowId, changeRequestDataByApplicationId } =
-    queryFragment;
+  const { ccbcNumber, rowId, changeRequestDataByApplicationId } = queryFragment;
 
-  const changeRequestData = changeRequestDataByApplicationId?.edges?.[0]?.node;
+  const changeRequestData = changeRequestDataByApplicationId?.edges;
+
+  const connectionId = changeRequestDataByApplicationId?.__id;
+  const changeRequestNumber = changeRequestData.length + 1;
 
   const [createChangeRequest] = useCreateChangeRequestMutation();
-  const [formData, setFormData] = useState(changeRequestData?.jsonData || {});
+  const [formData, setFormData] = useState({} as any);
   const [showToast, setShowToast] = useState(false);
-  const [isFormEditMode, setIsFormEditMode] = useState(
-    !changeRequestData?.jsonData
-  );
+  const [isFormEditMode, setIsFormEditMode] = useState(false);
+
+  const isStatementOfWorkUpload = formData?.statementOfWorkUpload;
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     createChangeRequest({
       variables: {
-        input: { _applicationId: rowId, _jsonData: formData },
+        connections: [connectionId],
+        input: {
+          _applicationId: rowId,
+          _changeRequestNumber: changeRequestNumber,
+          _jsonData: formData,
+        },
       },
       onCompleted: () => {
         setIsFormEditMode(false);
 
         // May need to change when the toast is shown when we add validation
         setShowToast(true);
-      },
-      updater: (store, data) => {
-        store
-          .get(id)
-          .setLinkedRecord(
-            store.get(data.createChangeRequest.changeRequestData.id),
-            'changeRequest'
-          );
       },
     });
   };
@@ -102,11 +101,12 @@ const ChangeRequestForm = ({ application }) => {
       }}
       isFormEditMode={isFormEditMode}
       title="Change request"
-      schema={changeRequestSchema}
+      schema={isFormEditMode ? changeRequestSchema : {}}
       theme={ProjectTheme}
       uiSchema={changeRequestUiSchema}
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
+      saveBtnDisabled={!isStatementOfWorkUpload}
       saveBtnText="Save & Import Data"
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
     >
