@@ -89,6 +89,7 @@ interface FileComponentProps {
   loading?: boolean;
   required?: boolean;
   label: React.ReactNode;
+  statusLabel?: React.ReactNode;
   handleDownload?: Function;
   wrap?: boolean;
 }
@@ -132,6 +133,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
   value,
   required,
   label,
+  statusLabel,
   fileTypes,
   allowMultipleFiles,
   buttonVariant,
@@ -200,6 +202,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
           ))}
         {error && <ErrorMessage error={error} fileTypes={fileTypes} />}
       </StyledDetails>
+      <StyledDetails>{statusLabel}</StyledDetails>
       <div>
         <StyledButton
           addBottomMargin={wrap}

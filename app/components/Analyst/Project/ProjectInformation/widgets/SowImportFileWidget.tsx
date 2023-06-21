@@ -10,6 +10,8 @@ import { useDeleteAttachment } from 'schema/mutations/attachment/deleteAttachmen
 import bytesToSize from 'utils/bytesToText';
 import FileComponent from 'lib/theme/components/FileComponent';
 import styled, { keyframes } from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 const ellipsisAnimation = keyframes`
   0% {
@@ -26,7 +28,6 @@ const ellipsisAnimation = keyframes`
 `;
 
 const Loading = styled.div`
-  font-size: 30px;
   color: #1a5a96;
 
   &:after {
@@ -38,6 +39,66 @@ const Loading = styled.div`
     width: 0px;
   }
 `;
+
+const SuccessTextHeading = styled.div`
+  color: #1a5a96;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+`;
+
+const SuccessTextSubHeading = styled.div`
+  color: #1a5a96;
+  text-align: center;
+`;
+
+const SuccessTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: ${(props) => props.theme.spacing.small};
+`;
+
+const SuccessIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: green;
+`;
+
+const SuccessContainer = styled.div`
+  display: flex;
+`;
+
+const Success = () => (
+  <SuccessContainer>
+    <SuccessTextContainer>
+      <SuccessTextHeading>
+        Statement of Work Data table match database
+      </SuccessTextHeading>
+      <SuccessTextSubHeading>
+        Remember to press Save & Import
+      </SuccessTextSubHeading>
+    </SuccessTextContainer>
+    <SuccessIconContainer>
+      <FontAwesomeIcon icon={faCircleCheck} />
+    </SuccessIconContainer>
+  </SuccessContainer>
+);
+
+const renderStatusLabel = (
+  loading: boolean,
+  success: boolean
+): React.ReactNode => {
+  if (loading) {
+    return <Loading>Checking the data</Loading>;
+  }
+
+  if (!loading && success) {
+    return <Success />;
+  }
+
+  return false;
+};
 
 type FileProps = {
   id: string | number;
@@ -66,6 +127,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
   const [isImporting, setIsImporting] = useState(false);
+  const [isValidSow, setIsValidSow] = useState(false);
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment || isImporting;
   const maxFileSizeInBytes = 104857600;
@@ -135,11 +197,13 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
             };
             onChange([fileDetails]);
             setIsImporting(false);
+            setIsValidSow(true);
           },
         });
       } else {
         setError('sowImportFailed');
         setIsImporting(false);
+        setIsValidSow(false);
       }
     });
   };
@@ -158,7 +222,8 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       }}
       fileTypes={acceptedFileTypes}
       id={id}
-      label={loading ? <Loading>Checking the data</Loading> : label}
+      label={label}
+      statusLabel={renderStatusLabel(isImporting, isValidSow)}
       required={required}
       value={value}
     />

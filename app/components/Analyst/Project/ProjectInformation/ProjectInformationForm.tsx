@@ -49,7 +49,7 @@ export const displaySowUploadErrors = (err) => {
           content={
             <>
               <div> {title}</div>
-              <p>{message}</p>
+              <div>{message}</div>
             </>
           }
         />
@@ -139,6 +139,8 @@ const ProjectInformationForm = ({ application }) => {
       const sowErrorList = await response.json();
       if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
         setSowValidationErrors(sowErrorList);
+      } else {
+        setSowValidationErrors([]);
       }
       return response;
     },
@@ -173,8 +175,6 @@ const ProjectInformationForm = ({ application }) => {
       },
     });
   };
-
-  console.log(sowValidationErrors.map(displaySowUploadErrors));
 
   const handleResetFormData = () => {
     setFormData(projectInformation?.jsonData || {});
