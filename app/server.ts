@@ -18,7 +18,6 @@ import session from './backend/lib/session';
 import ssoMiddleware from './backend/lib/sso-middleware';
 import headersMiddleware from './backend/lib/headers';
 import graphQlMiddleware from './backend/lib/graphql';
-import s3archive from './backend/lib/s3archive';
 import s3download from './backend/lib/s3download';
 import gisUpload from './backend/lib/gis-upload';
 import sowUpload from './backend/lib/sow-upload';
@@ -102,7 +101,6 @@ app.prepare().then(async () => {
   server.use(headersMiddleware());
 
   server.use('/', s3adminArchive);
-  server.use('/', s3archive);
   server.use('/', s3download);
   server.use('/', gisUpload);
   server.use('/', linkPreview);
