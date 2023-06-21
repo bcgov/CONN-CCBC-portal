@@ -64,7 +64,7 @@ export const displaySowUploadErrors = (err) => {
       content={
         <>
           <div> {title}</div>
-          <p>{errorMessage}</p>
+          <div>{errorMessage}</div>
         </>
       }
     />
