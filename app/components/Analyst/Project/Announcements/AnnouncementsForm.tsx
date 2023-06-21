@@ -1,11 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState, ReactNode } from 'react';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
-import { ProjectForm } from 'components/Analyst/Project';
+import { AddButton, ProjectForm } from 'components/Analyst/Project';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import validator from 'validator';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import ViewAnnouncements from 'components/Analyst/Project/Announcements/ViewAnnouncements';
 import announcementsSchema from 'formSchema/analyst/announcements';
 import announcementsUiSchema from 'formSchema/uiSchema/analyst/announcementsUiSchema';
@@ -15,24 +13,6 @@ import Link from 'next/link';
 import Toast from 'components/Toast';
 import { Tooltip } from 'components';
 import ProjectTheme from '../ProjectTheme';
-
-const StyledAddButton = styled.button<EditProps>`
-  display: flex;
-  align-items: center;
-  color: ${(props) => props.theme.color.links};
-  margin-bottom: ${(props) => (props.isFormEditMode ? '0px' : '16px')};
-  overflow: hidden;
-  max-height: ${(props) => (props.isFormEditMode ? '0px' : '30px')};
-  transition: max-height 0.5s;
-
-  & svg {
-    margin-left: 16px;
-  }
-
-  &:hover {
-    opacity: 0.7;
-  }
-`;
 
 interface EditProps {
   isFormEditMode: boolean;
@@ -291,13 +271,11 @@ const AnnouncementsForm = ({ query }) => {
   return (
     <StyledProjectForm
       before={
-        <StyledAddButton
+        <AddButton
           isFormEditMode={isFormEditMode}
           onClick={() => setIsFormEditMode(true)}
-        >
-          <span>Add announcement</span>
-          <FontAwesomeIcon icon={faPlus} />
-        </StyledAddButton>
+          title="Add announcement"
+        />
       }
       overflow={overflow}
       additionalContext={{ ccbcIdList, ccbcNumber, rowId }}
