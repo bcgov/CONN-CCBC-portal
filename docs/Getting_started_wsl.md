@@ -2,6 +2,8 @@
 
 These steps are not for completely setting up all dev steps. For that, checkout the main [README](/README.md#setting-up-a-local-development-environment) for specific steps in setting up the environment once all tools are installed from this guide.
 
+A very important note: WSL will experience significant performance degradation if the clone of the repository is outside of the WSL environment. So make sure to clone the repo within WSL (i.e., anywhere outside of the /mnt directory).
+
 1. Install [asdf](https://asdf-vm.com/guide/getting-started.html) (and all related asdf plugins for this project).
 
 2. Install all the necessary tools using either `make install_asdf_tools` or `asdf install`. Some of these are repeated in `make install_dev_tools`.
