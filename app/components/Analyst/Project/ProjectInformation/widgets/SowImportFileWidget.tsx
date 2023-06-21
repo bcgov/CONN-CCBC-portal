@@ -62,7 +62,7 @@ const SuccessIconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: green;
+  color: ${(props) => props.theme.color.success};
 `;
 
 const SuccessContainer = styled.div`
