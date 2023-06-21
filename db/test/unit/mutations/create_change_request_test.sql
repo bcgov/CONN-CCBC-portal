@@ -1,6 +1,6 @@
 begin;
 
-select plan(5);
+select plan(6);
 
 truncate table
   ccbc_public.application,
@@ -33,7 +33,7 @@ set role ccbc_guest;
 
 select throws_like(
   $$
-    select ccbc_public.create_change_request(1::int , '{}'::jsonb);
+    select ccbc_public.create_change_request(1::int , 1::int, '{}'::jsonb);
   $$,
   'permission denied%',
   'ccbc_guest cannot create change_request'
@@ -45,7 +45,7 @@ set role ccbc_auth_user;
 
 select throws_like(
   $$
-    select ccbc_public.create_change_request(1::int , '{}'::jsonb);
+    select ccbc_public.create_change_request(1::int , 1::int, '{}'::jsonb);
   $$,
   'permission denied%',
   'ccbc_auth_user cannot create change_request'
@@ -55,7 +55,7 @@ select throws_like(
 
 -- set role to analyst and create change request
 set role ccbc_analyst;
-select ccbc_public.create_change_request(1::int , '{}'::jsonb);
+select ccbc_public.create_change_request(1::int , 1::int, '{}'::jsonb);
 
 select results_eq(
   $$
@@ -67,10 +67,21 @@ select results_eq(
   'Should see 1 entry in change_request_data for application 1'
 );
 
+-- throws error if change request number does not match what is expected in db
+
+
+select throws_like(
+  $$
+    select ccbc_public.create_change_request(1::int , 1::int, '{}'::jsonb);
+  $$,
+  'Change request number 1 does not match expected number 2',
+  'ccbc_analyst cannot create change_request'
+);
+
 -- set role to admin and create change request
 
 set role ccbc_admin;
-select ccbc_public.create_change_request(1::int , '{}'::jsonb);
+select ccbc_public.create_change_request(1::int , 2::int, '{}'::jsonb);
 
 select results_eq(
   $$
@@ -81,6 +92,8 @@ select results_eq(
   $$,
   'Should see 2 entries in change_request_data for application 1'
 );
+
+
 
 select finish();
 rollback;

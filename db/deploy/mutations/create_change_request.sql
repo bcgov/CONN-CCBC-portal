@@ -2,22 +2,27 @@
 
 begin;
 
-create or replace function ccbc_public.create_change_request(_application_id int, _json_data jsonb)
+create or replace function ccbc_public.create_change_request(_application_id int, _change_request_number int, _json_data jsonb)
 returns ccbc_public.change_request_data as $$
 declare
 new_change_request_id int;
-old_change_request_id int;
+new_change_request_number int;
 begin
 
-  select cr.id into old_change_request_id from ccbc_public.change_request_data as cr where cr.application_id = _application_id
-  order by cr.id desc limit 1;
+  select count(*) into new_change_request_number from ccbc_public.change_request_data as cr where cr.application_id = _application_id and archived_at is null;
 
-  insert into ccbc_public.change_request_data (application_id, json_data)
-    values (_application_id, _json_data) returning id into new_change_request_id;
-
-  if exists (select * from ccbc_public.change_request_data where id = old_change_request_id)
-    then update ccbc_public.change_request_data set archived_at = now() where id = old_change_request_id;
+  if new_change_request_number = 0 then
+    new_change_request_number := 1;
+  else
+    new_change_request_number := new_change_request_number + 1;
   end if;
+
+  if _change_request_number != new_change_request_number then
+    raise exception 'Change request number % does not match expected number %', _change_request_number, new_change_request_number;
+  end if;
+
+  insert into ccbc_public.change_request_data (application_id, change_request_number, json_data)
+    values (_application_id, new_change_request_number, _json_data) returning id into new_change_request_id;
 
   return (select row(ccbc_public.change_request_data.*) from ccbc_public.change_request_data
     where id = new_change_request_id);
