@@ -3,9 +3,14 @@ import { graphql } from 'react-relay';
 import compiledQuery, {
   SowImportFileWidgetTestQuery,
 } from '__generated__/SowImportFileWidgetTestQuery.graphql';
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, render } from '@testing-library/react';
 import { schema } from 'formSchema';
 import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
+import {
+  Success,
+  renderStatusLabel,
+} from 'components/Analyst/Project/ProjectInformation/widgets/SowImportFileWidget';
+import GlobalTheme from 'styles/GlobalTheme';
 
 const testQuery = graphql`
   query SowImportFileWidgetTestQuery {
@@ -58,7 +63,7 @@ const mockFormDataPayload = {
   },
 };
 
-global.fetch = jest.fn(() => Promise.resolve({ status: 200 }));
+global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} }));
 
 const componentTestingHelper =
   new ComponentTestingHelper<SowImportFileWidgetTestQuery>({
@@ -148,6 +153,12 @@ describe('The SowImportFileWidget', () => {
 
     expect(screen.getByText('Replace')).toBeInTheDocument();
     expect(screen.getByText('file.xlsx')).toBeInTheDocument();
+    expect(
+      screen.getByText('Statement of Work Data table match database')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Remember to press Save & Import')
+    ).toBeInTheDocument();
   });
 
   it('calls deleteAttachmentMutation and renders the correct filename and button label', async () => {
@@ -193,6 +204,73 @@ describe('The SowImportFileWidget', () => {
 
     expect(screen.queryByText('file-2.kmz')).toBeNull();
     expect(screen.queryByText('Replace')).toBeNull();
+  });
+
+  it('renders success text heading and subheading', () => {
+    const { getByText } = render(
+      <GlobalTheme>
+        <Success />
+      </GlobalTheme>
+    );
+    const headingElement = getByText(
+      'Statement of Work Data table match database'
+    );
+    const subheadingElement = getByText('Remember to press Save & Import');
+
+    expect(headingElement).toBeInTheDocument();
+    expect(subheadingElement).toBeInTheDocument();
+  });
+
+  it('renders loading component when loading is true', () => {
+    // Mock dependencies and setup
+    const loading = true;
+    const success = false;
+
+    const { getByText } = render(
+      <GlobalTheme>{renderStatusLabel(loading, success)}</GlobalTheme>
+    );
+
+    // Call the function
+    const text = getByText('Checking the data');
+
+    // Assert
+    expect(text).toBeInTheDocument();
+  });
+
+  it('renders success component when loading is false and success is true', () => {
+    // Mock dependencies and setup
+    const loading = false;
+    const success = true;
+
+    // Call the function
+    const renderedComponent = renderStatusLabel(loading, success);
+
+    const { getByText } = render(
+      <GlobalTheme>{renderStatusLabel(loading, success)}</GlobalTheme>
+    );
+
+    const headingElement = getByText(
+      'Statement of Work Data table match database'
+    );
+    const subheadingElement = getByText('Remember to press Save & Import');
+
+    expect(headingElement).toBeInTheDocument();
+    expect(subheadingElement).toBeInTheDocument();
+
+    // Assert
+    expect(renderedComponent.type).toBe(Success);
+  });
+
+  it('returns false when loading is false and success is false', () => {
+    // Mock dependencies and setup
+    const loading = false;
+    const success = false;
+
+    // Call the function
+    const renderedComponent = renderStatusLabel(loading, success);
+
+    // Assert
+    expect(renderedComponent).toBe(false);
   });
 
   afterEach(() => {

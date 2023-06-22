@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import * as Sentry from '@sentry/nextjs';
 import { WidgetProps } from '@rjsf/core';
@@ -32,12 +32,12 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   required,
   uiSchema,
   label,
+  rawErrors,
 }) => {
   const [error, setError] = useState('');
   const router = useRouter();
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
-
   const wrap = uiSchema['ui:options']?.wrap ?? false;
   const allowMultipleFiles =
     (uiSchema['ui:options']?.allowMultipleFiles as boolean) ?? false;
@@ -49,6 +49,12 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   // 104857600 bytes = 100mb
   const maxFileSizeInBytes = 104857600;
   const fileId = isFiles && value[0].id;
+
+  useEffect(() => {
+    if (rawErrors?.length > 0) {
+      setError('rjsf_validation');
+    }
+  }, [rawErrors, setError]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
