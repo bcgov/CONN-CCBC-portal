@@ -134,7 +134,7 @@ const ChangeRequestForm = ({ application }) => {
       showEditBtn={false}
       theme={ProjectTheme}
       title="Change request"
-      schema={isFormEditMode ? changeRequestSchema : {}}
+      schema={changeRequestSchema}
       uiSchema={changeRequestUiSchema}
     >
       {changeRequestData?.map((changeRequest) => {

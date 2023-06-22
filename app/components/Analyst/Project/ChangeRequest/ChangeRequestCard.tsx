@@ -4,7 +4,7 @@ import DownloadLink from 'components/DownloadLink';
 
 const StyledCard = styled.div`
   padding: 8px 12px;
-  margin: 8px 0;
+  margin: 16px 0;
   background: ${(props) => props.theme.color.navigationLightGrey};
   border-radius: 8px;
   width: 100%;
