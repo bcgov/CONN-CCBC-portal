@@ -124,6 +124,7 @@ const ChangeRequestForm = ({ application }) => {
       handleChange={(e) => {
         setFormData({ ...e.formData });
       }}
+      formAnimationHeight={200}
       isFormAnimated
       isFormEditMode={isFormEditMode}
       onSubmit={handleSubmit}

@@ -67,20 +67,24 @@ const StyledBtn = styled(Button)`
 `;
 
 interface AnimateFormProps {
+  formAnimationHeight: number;
   isAnimated: boolean;
   isFormExpanded: boolean;
   overflow: string;
   onClick?: () => void;
 }
 
+// form animation height is the height of the form when it is expanded.
+// The children of the form (eg the ViewAnnouncements or ChangeRequestCard)
+// may need a z-index of 1 to prevent visual glitches while expanding/retracting
 const StyledAnimateForm = styled.div<AnimateFormProps>`
-  ${({ isAnimated, isFormExpanded, overflow }) =>
+  ${({ formAnimationHeight, isAnimated, isFormExpanded, overflow }) =>
     isAnimated &&
     `
     position: relative;
     z-index: ${isFormExpanded ? 100 : 1};
     overflow: ${overflow};
-    max-height: ${isFormExpanded ? '400px' : '30px'};
+    max-height: ${isFormExpanded ? `${formAnimationHeight}px` : '30px'};
     transition: max-height 0.7s;
   `}
 `;
@@ -89,6 +93,7 @@ interface Props {
   additionalContext?: any;
   before?: React.ReactNode;
   children?: React.ReactNode;
+  formAnimationHeight?: number;
   formData: any;
   handleChange: any;
   showEditBtn?: boolean;
@@ -117,6 +122,7 @@ const ProjectForm: React.FC<Props> = ({
   handleChange,
   hiddenSubmitRef,
   showEditBtn = true,
+  formAnimationHeight = 300,
   isFormAnimated,
   isFormEditMode,
   onSubmit,
@@ -199,6 +205,7 @@ const ProjectForm: React.FC<Props> = ({
       </StyledHeader>
       <BaseAccordion.Content>
         <StyledAnimateForm
+          formAnimationHeight={formAnimationHeight}
           isAnimated={isFormAnimated}
           isFormExpanded={isFormEditMode}
           overflow={overflow}

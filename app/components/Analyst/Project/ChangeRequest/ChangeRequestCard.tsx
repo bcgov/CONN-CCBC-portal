@@ -11,6 +11,7 @@ const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  z-index: 1;
 
   h3 {
     margin-bottom: 8px;

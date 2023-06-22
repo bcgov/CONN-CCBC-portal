@@ -255,6 +255,7 @@ const AnnouncementsForm = ({ query }) => {
         setFormData({ ...e.formData });
       }}
       hiddenSubmitRef={hiddenSubmitRef}
+      formAnimationHeight={400}
       isFormAnimated
       isFormEditMode={isFormEditMode}
       showEditBtn={false}
