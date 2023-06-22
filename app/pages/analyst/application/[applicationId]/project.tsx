@@ -19,6 +19,7 @@ const getProjectQuery = graphql`
     applicationByRowId(rowId: $rowId) {
       ...ConditionalApprovalForm_application
       ...ProjectInformationForm_application
+      ...ChangeRequestForm_application
     }
     ...AnalystLayout_query
     ...AnnouncementsForm_query
