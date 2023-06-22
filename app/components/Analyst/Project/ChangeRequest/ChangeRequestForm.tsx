@@ -135,7 +135,7 @@ const ChangeRequestForm = ({ application }) => {
       showEditBtn={false}
       theme={ProjectTheme}
       title="Change request"
-      schema={changeRequestSchema}
+      schema={isOriginalSowUpload ? changeRequestSchema : {}}
       uiSchema={changeRequestUiSchema}
     >
       {changeRequestData?.map((changeRequest) => {
