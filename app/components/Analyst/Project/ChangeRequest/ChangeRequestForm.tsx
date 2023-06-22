@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
-import styled from 'styled-components';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
 import changeRequestSchema from 'formSchema/analyst/changeRequest';
 import changeRequestUiSchema from 'formSchema/uiSchema/analyst/changeRequestUiSchema';
@@ -8,12 +7,6 @@ import { useCreateChangeRequestMutation } from 'schema/mutations/project/createC
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import Toast from 'components/Toast';
 import ChangeRequestCard from './ChangeRequestCard';
-
-const StyledProjectForm = styled(ProjectForm)`
-  .datepicker-widget {
-    max-width: 200px;
-  }
-`;
 
 const ChangeRequestForm = ({ application }) => {
   const queryFragment = useFragment(
@@ -96,7 +89,7 @@ const ChangeRequestForm = ({ application }) => {
   };
 
   return (
-    <StyledProjectForm
+    <ProjectForm
       additionalContext={{
         applicationId: rowId,
         ccbcNumber,
@@ -156,7 +149,7 @@ const ChangeRequestForm = ({ application }) => {
           Statement of work successfully imported
         </Toast>
       )}
-    </StyledProjectForm>
+    </ProjectForm>
   );
 };
 
