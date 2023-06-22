@@ -45,11 +45,13 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   const isError = isRawErrors;
 
   const handleChange = (d: Date) => {
-    if (!d) onChange(null);
     const originalDate = new Date(d);
     const realDate = new Date(originalDate.toDateString());
+    const newDate = getDateString(realDate);
+    const isDateInvalid = newDate === 'Invalid DateTime';
 
-    onChange(getDateString(realDate));
+    if (isDateInvalid) return null;
+    return onChange(newDate);
   };
 
   const styles = {
