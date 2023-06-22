@@ -22,6 +22,9 @@ const ChangeRequestForm = ({ application }) => {
         id
         rowId
         ccbcNumber
+        projectInformation {
+          jsonData
+        }
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
           orderBy: CHANGE_REQUEST_NUMBER_ASC
@@ -46,11 +49,18 @@ const ChangeRequestForm = ({ application }) => {
     application
   );
 
-  const { ccbcNumber, rowId, changeRequestDataByApplicationId } = queryFragment;
+  const {
+    ccbcNumber,
+    rowId,
+    changeRequestDataByApplicationId,
+    projectInformation,
+  } = queryFragment;
 
   const changeRequestData = changeRequestDataByApplicationId?.edges;
   const connectionId = changeRequestDataByApplicationId?.__id;
   const newChangeRequestNumber = changeRequestData.length + 1;
+  const isOriginalSowUpload =
+    projectInformation?.jsonData?.main?.upload?.statementOfWorkUpload?.[0];
 
   const [createChangeRequest] = useCreateChangeRequestMutation();
   const [formData, setFormData] = useState({} as any);
@@ -92,11 +102,23 @@ const ChangeRequestForm = ({ application }) => {
         ccbcNumber,
       }}
       before={
-        <AddButton
-          isFormEditMode={isFormEditMode}
-          onClick={() => setIsFormEditMode(true)}
-          title="Add change request"
-        />
+        <>
+          {isOriginalSowUpload ? (
+            <AddButton
+              isFormEditMode={isFormEditMode}
+              onClick={() => {
+                setShowToast(false);
+                setIsFormEditMode(true);
+              }}
+              title="Add change request"
+            />
+          ) : (
+            <div>
+              Change requests will be available after a funding agreement has
+              been signed.
+            </div>
+          )}
+        </>
       }
       formData={formData}
       handleChange={(e) => {
