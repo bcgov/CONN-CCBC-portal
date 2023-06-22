@@ -24,7 +24,7 @@ const ChangeRequestForm = ({ application }) => {
         ccbcNumber
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
-          orderBy: CREATED_AT_DESC
+          orderBy: CHANGE_REQUEST_NUMBER_ASC
           first: 999
         )
           @connection(
@@ -49,7 +49,6 @@ const ChangeRequestForm = ({ application }) => {
   const { ccbcNumber, rowId, changeRequestDataByApplicationId } = queryFragment;
 
   const changeRequestData = changeRequestDataByApplicationId?.edges;
-
   const connectionId = changeRequestDataByApplicationId?.__id;
   const newChangeRequestNumber = changeRequestData.length + 1;
 
@@ -74,7 +73,7 @@ const ChangeRequestForm = ({ application }) => {
       },
       onCompleted: () => {
         setIsFormEditMode(false);
-
+        setFormData({});
         // May need to change when the toast is shown when we add validation
         setShowToast(true);
       },
@@ -120,7 +119,6 @@ const ChangeRequestForm = ({ application }) => {
         const { id, changeRequestNumber, createdAt, jsonData, updatedAt } =
           changeRequest.node;
         const sowUpload = jsonData?.statementOfWorkUpload?.[0];
-        console.log(changeRequest);
         return (
           <ChangeRequestCard
             key={id}
