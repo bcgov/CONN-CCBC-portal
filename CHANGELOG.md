@@ -1,3 +1,43 @@
+# [1.76.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.75.0...v1.76.0) (2023-06-22)
+
+### Bug Fixes
+
+- additional cleanup ([1c7ffea](https://github.com/bcgov/CONN-CCBC-portal/commit/1c7ffea5e2812fe48c89767ccaf1598381a3ec5b))
+- change modal regression ([a2abff6](https://github.com/bcgov/CONN-CCBC-portal/commit/a2abff694e43c65f1de4a5eb263ca4d420665783))
+- cypress dashboard test ([30abdae](https://github.com/bcgov/CONN-CCBC-portal/commit/30abdae9ff8294e49fda3a3c613dd7926f97c444))
+- dependency cycle error ([efad86a](https://github.com/bcgov/CONN-CCBC-portal/commit/efad86a752f8798ff398167e36a69620909fb923))
+- enable link preview for analyst ([f9a7354](https://github.com/bcgov/CONN-CCBC-portal/commit/f9a73547c563619b7f58df803666cfecb833be8e))
+- ignore file fields in diff table ([7b61fdf](https://github.com/bcgov/CONN-CCBC-portal/commit/7b61fdf86565f47a0ee7eea20d77d9761748a3a5))
+- ignore upload on diff table ([b15bb1e](https://github.com/bcgov/CONN-CCBC-portal/commit/b15bb1ed11675a1120fe730f5e3b9f2615a0fdad))
+- lint fixes ([9a0bbf0](https://github.com/bcgov/CONN-CCBC-portal/commit/9a0bbf01ecfb73d0b989d14fdfb1404dda133750))
+- more changes ([cd8d407](https://github.com/bcgov/CONN-CCBC-portal/commit/cd8d4075380534f527eb7f81e3365a20bd328322))
+- more cleanup ([f20bf42](https://github.com/bcgov/CONN-CCBC-portal/commit/f20bf427c0df91da147c8bb7b837e394bf542af1))
+- more tests added ([48f6f2d](https://github.com/bcgov/CONN-CCBC-portal/commit/48f6f2d37a445c323659e4c8c91098afacdbe7df))
+- removed unused functionality ([c19b0ac](https://github.com/bcgov/CONN-CCBC-portal/commit/c19b0ac57fcdc51e3f04ca092a73354a76d85e02))
+- use graphql connection edge for conditional approval ([e5cd5cf](https://github.com/bcgov/CONN-CCBC-portal/commit/e5cd5cf431f7bdcabd46eff614e9787e9216f6dc))
+- use void return with promise ([8f2f8f7](https://github.com/bcgov/CONN-CCBC-portal/commit/8f2f8f707d9852bbb7af5978e912c5b813808dc9))
+- withdrawn pill margin ([2675c4f](https://github.com/bcgov/CONN-CCBC-portal/commit/2675c4fbb7bbc4a9612af417260eba1950ed5fbe))
+
+### Features
+
+- add disable list for status dropdown and disable based on current status ([8e07a5d](https://github.com/bcgov/CONN-CCBC-portal/commit/8e07a5d314ebcf5edeff08a033d04e59330a5979))
+- add external change modal ([f743ca1](https://github.com/bcgov/CONN-CCBC-portal/commit/f743ca1efd3cdf1177bce98f0c2cd3294e0e8c8d))
+- add loading text for SoW ([c1266b0](https://github.com/bcgov/CONN-CCBC-portal/commit/c1266b01e82e9cca06aea80cb4f760c84534099c))
+- add new applicant status types ([e0ef1b8](https://github.com/bcgov/CONN-CCBC-portal/commit/e0ef1b81f74496f8f51b4cc3a4168a9e135cc850))
+- add rjsf validation for file widgets ([ed8ea60](https://github.com/bcgov/CONN-CCBC-portal/commit/ed8ea60620a3e8b48189d3643f76625517e01ec9))
+- **ci:** add test to ensure that no sqitch tags are deleted ([ad9a864](https://github.com/bcgov/CONN-CCBC-portal/commit/ad9a864b69c303f0d957f4df69828f9ab723382a))
+- enable external status change modal ([7d3bd4f](https://github.com/bcgov/CONN-CCBC-portal/commit/7d3bd4fdfae64d744b80c508e5d76e672f8df9da))
+- have validation display ([e6575d0](https://github.com/bcgov/CONN-CCBC-portal/commit/e6575d069136d32764edafbe4f4b0781966f2381))
+- make application header external status a dropdown ([973d317](https://github.com/bcgov/CONN-CCBC-portal/commit/973d317bf0f08f899e805ded89d489a310827069))
+- project information history details ([c240bf4](https://github.com/bcgov/CONN-CCBC-portal/commit/c240bf47aff964950d6f297ef72486e4b19d1eee))
+- rewrite s3client to use aws sdk v3 ([087744f](https://github.com/bcgov/CONN-CCBC-portal/commit/087744f31207727a39e1c21337fd78b864134ccc))
+- save external status ([3e8bdf7](https://github.com/bcgov/CONN-CCBC-portal/commit/3e8bdf7b27f58c87b7943c50320ed6bc7c31c8e6))
+- update file components to have a status section ([81b0199](https://github.com/bcgov/CONN-CCBC-portal/commit/81b0199950fc8e5fdda64fcde08b07d1de5cbbe8))
+- update for cell-level errors ([bd3d826](https://github.com/bcgov/CONN-CCBC-portal/commit/bd3d8264976c3d497a619635c2c1edf7a2f454c6))
+- update history page for external status ([bae75ca](https://github.com/bcgov/CONN-CCBC-portal/commit/bae75ca21f68d663b6b1c5b4e62351ef4ad92553))
+- update rust version for pre-message hook ([c549cf4](https://github.com/bcgov/CONN-CCBC-portal/commit/c549cf455076641adf1410d898e14acd0969b407))
+- updated s3download and tests ([9328f82](https://github.com/bcgov/CONN-CCBC-portal/commit/9328f826feb822176ad1a594da66002fa26ad0e7))
+
 # [1.75.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.74.0...v1.75.0) (2023-06-13)
 
 ### Bug Fixes
