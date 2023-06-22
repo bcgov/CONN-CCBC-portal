@@ -22,10 +22,10 @@ interface MetabaseLinkProps {
   width?: number;
 }
 
-const MetabaseLink: React.FC<MetabaseLinkProps> = ({href='', text='', width=326}) => {
+const MetabaseLink: React.FC<MetabaseLinkProps> = ({href='#', text='', width=326}) => {
   const inlineStyle={width};
   return (
-    <StyledFlex href={href} target="_blank" style={inlineStyle}>
+    <StyledFlex data-testid="metabase-link" href={href} target="_blank" style={inlineStyle}>
       <MetabaseIcon />{text} 
     </StyledFlex>
   );

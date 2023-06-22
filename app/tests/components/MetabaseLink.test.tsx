@@ -23,4 +23,9 @@ describe('The SubHeaderNavbarLinks component', () => {
       'linkto:metabase_link_to_sow_dashboard'
     );
   });
+  
+  it('should render empty Metabase link', () => {
+    renderStaticLayout();
+    expect(screen.getByTestId('metabase-link')).toBeInTheDocument();
+  });
 });
