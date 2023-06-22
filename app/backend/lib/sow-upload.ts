@@ -69,7 +69,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
     if (loadError) {
       errorList.push({ level: 'summary', error: loadError });
     } else {
-      const sowData = (result as any)?.data?.createApplicationSowData
+      const sowData = (result as any)?.data?.createApplicationSow
         ?.applicationSowData;
       const sowId = sowData?.rowId || 1;
 

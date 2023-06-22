@@ -6,8 +6,8 @@ import {
 } from './util';
 
 const createSowMutation = `
-  mutation sowUploadMutation($input: ApplicationSowDataInput!) {
-    createApplicationSowData(input: {applicationSowData:  $input}) {
+  mutation sowUploadMutation($input: CreateApplicationSowInput!) {
+    createApplicationSow(input: $input) {
         applicationSowData {
         id
         rowId
@@ -214,7 +214,7 @@ const LoadSummaryData = async (wb, sheet_name, req) => {
   // time to persist in DB
   const result = await performQuery(
     createSowMutation,
-    { input: data },
+    { input: { _applicationId: data.applicationId, _jsonData: data.jsonData } },
     req
   ).catch((e) => {
     return { error: e };
