@@ -155,6 +155,7 @@ const ProjectForm: React.FC<Props> = ({
       setIsFirstRender(false);
     }, 300);
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFormEditMode]);
 
   return (
