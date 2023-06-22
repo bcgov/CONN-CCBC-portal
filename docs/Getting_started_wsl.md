@@ -31,3 +31,4 @@ A very important note: WSL will experience significant performance degradation i
 7. Install Git hooks for running Prettier and other pre-commit hooks by using `make install_git_hooks` or running `pre-commit install`.
 
 8. Using Sqitch, you can deploy all database changes by changing the directory to `/db` and running the command `sqitch deploy` (after creating the database `ccbc`). Alternatively, you can run `make deploy_dev_data` to deploy all changes and seed the database with some data.
+   - Sometimes sqitch has an issue with connecting to your instance of postgres with sqitch (or yarn). For this, the simplest solution is to find your `pg_hba.conf` file (if you're using asdf, it will be where you installed asdf with a path like `.asdf/installs/postgres/14.1/data/pg_hba.conf`) and change the `local` method to `trust` so you don't need to authenticate when connecting to your local instance
