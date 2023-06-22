@@ -7,6 +7,7 @@ import changeRequestUiSchema from 'formSchema/uiSchema/analyst/changeRequestUiSc
 import { useCreateChangeRequestMutation } from 'schema/mutations/project/createChangeRequest';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import Toast from 'components/Toast';
+import ChangeRequestCard from './ChangeRequestCard';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
@@ -33,7 +34,10 @@ const ChangeRequestForm = ({ application }) => {
           edges {
             node {
               id
+              changeRequestNumber
+              createdAt
               jsonData
+              updatedAt
             }
           }
         }
@@ -47,7 +51,7 @@ const ChangeRequestForm = ({ application }) => {
   const changeRequestData = changeRequestDataByApplicationId?.edges;
 
   const connectionId = changeRequestDataByApplicationId?.__id;
-  const changeRequestNumber = changeRequestData.length + 1;
+  const newChangeRequestNumber = changeRequestData.length + 1;
 
   const [createChangeRequest] = useCreateChangeRequestMutation();
   const [formData, setFormData] = useState({} as any);
@@ -64,7 +68,7 @@ const ChangeRequestForm = ({ application }) => {
         connections: [connectionId],
         input: {
           _applicationId: rowId,
-          _changeRequestNumber: changeRequestNumber,
+          _changeRequestNumber: newChangeRequestNumber,
           _jsonData: formData,
         },
       },
@@ -112,6 +116,20 @@ const ChangeRequestForm = ({ application }) => {
       schema={isFormEditMode ? changeRequestSchema : {}}
       uiSchema={changeRequestUiSchema}
     >
+      {changeRequestData?.map((changeRequest) => {
+        const { id, changeRequestNumber, createdAt, jsonData, updatedAt } =
+          changeRequest.node;
+        const sowUpload = jsonData?.statementOfWorkUpload?.[0];
+        console.log(changeRequest);
+        return (
+          <ChangeRequestCard
+            key={id}
+            changeRequestNumber={changeRequestNumber}
+            fileData={sowUpload}
+            date={updatedAt || createdAt}
+          />
+        );
+      })}
       {showToast && (
         <Toast timeout={100000000}>
           Statement of work successfully imported

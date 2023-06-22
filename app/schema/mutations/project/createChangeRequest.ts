@@ -12,6 +12,9 @@ const mutation = graphql`
         cursor
         node {
           id
+          changeRequestNumber
+          createdAt
+          updatedAt
           jsonData
           rowId
         }
