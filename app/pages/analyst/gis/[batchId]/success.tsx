@@ -3,6 +3,7 @@ import { graphql, usePreloadedQuery } from 'react-relay';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { BatchIdQuery } from '__generated__/BatchIdQuery.graphql';
 import { ButtonLink, Layout } from 'components';
+import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
@@ -80,6 +81,13 @@ const BatchIdPage: React.FC<
           Total processed {gisDataCounts.nodes[4].total}
         </StyledContainer>
         <ButtonLink href="/analyst/dashboard">Return to dashboard</ButtonLink>
+      </StyledContainer>
+      <StyledContainer>
+        <MetabaseLink 
+          href='https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses' 
+          text='Visit Metabase to view a dashboard of GIS analysis'
+          width={600}
+        />
       </StyledContainer>
     </Layout>
   );

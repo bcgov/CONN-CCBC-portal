@@ -143,7 +143,7 @@ const GisTab = () => {
       <h2>GIS Input</h2>
       <MetabaseLink 
         href='https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses' 
-        text='Visit Metabase to vew a dashboard of GIS analysis'
+        text='Visit Metabase to view a dashboard of GIS analysis'
         width={600}
       />
       <StyledCard>

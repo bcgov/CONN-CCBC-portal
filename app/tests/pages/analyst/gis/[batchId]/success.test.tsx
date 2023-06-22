@@ -129,6 +129,16 @@ describe('BatchIdPage', () => {
     expect(button.parentElement).toHaveAttribute('href', '/analyst/dashboard');
   });
 
+  it('displays the link to Metabase', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const linkToMetabase = screen.getByText('Visit Metabase to view a dashboard of GIS analysis');
+    
+    expect(linkToMetabase).toBeVisible();
+    expect(linkToMetabase).toHaveAttribute('href', 'https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses');
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
