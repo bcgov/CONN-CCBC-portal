@@ -342,3 +342,4 @@ mutations/archive_application_sow 2023-06-22T22:50:07Z Rafael Solorzano <6128925
 computed_columns/application_history [computed_columns/application_history@1.76.0] 2023-06-23T19:08:54Z Anthony Bushara <anthony@button.is> # Include change_request_data
 @1.78.0 2023-06-26T21:52:30Z CCBC Service Account <ccbc@button.is> # release v1.78.0
 @1.79.0 2023-06-27T16:48:31Z CCBC Service Account <ccbc@button.is> # release v1.79.0
+tables/application_sow_data_001_change_request 2023-06-23T16:58:42Z Marcel Mueller <marcel@m2.local> # add change_request_number and is_change_request columns
