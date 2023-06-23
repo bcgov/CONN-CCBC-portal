@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -65,10 +66,34 @@ const StyledBtn = styled(Button)`
   padding: 8px 16px;
 `;
 
+interface AnimateFormProps {
+  formAnimationHeight: number;
+  isAnimated: boolean;
+  isFormExpanded: boolean;
+  overflow: string;
+  onClick?: () => void;
+}
+
+// form animation height is the height of the form when it is expanded.
+// The children of the form (eg the ViewAnnouncements or ChangeRequestCard)
+// may need a z-index of 1 to prevent visual glitches while expanding/retracting
+const StyledAnimateForm = styled.div<AnimateFormProps>`
+  ${({ formAnimationHeight, isAnimated, isFormExpanded, overflow }) =>
+    isAnimated &&
+    `
+    position: relative;
+    z-index: ${isFormExpanded ? 100 : 1};
+    overflow: ${overflow};
+    max-height: ${isFormExpanded ? `${formAnimationHeight}px` : '30px'};
+    transition: max-height 0.7s;
+  `}
+`;
+
 interface Props {
   additionalContext?: any;
   before?: React.ReactNode;
   children?: React.ReactNode;
+  formAnimationHeight?: number;
   formData: any;
   handleChange: any;
   showEditBtn?: boolean;
@@ -76,9 +101,11 @@ interface Props {
    *  (the red-outline we see on widgets) */
   hiddenSubmitRef?: any;
   isFormEditMode: boolean;
+  isFormAnimated?: boolean;
   onSubmit: any;
   resetFormData: any;
   saveBtnText?: string;
+  saveBtnDisabled?: boolean;
   schema: JSONSchema7;
   setIsFormEditMode: any;
   theme?: any;
@@ -95,9 +122,12 @@ const ProjectForm: React.FC<Props> = ({
   handleChange,
   hiddenSubmitRef,
   showEditBtn = true,
+  formAnimationHeight = 300,
+  isFormAnimated,
   isFormEditMode,
   onSubmit,
   resetFormData,
+  saveBtnDisabled,
   saveBtnText,
   schema,
   setIsFormEditMode,
@@ -107,6 +137,27 @@ const ProjectForm: React.FC<Props> = ({
   saveDataTestId = 'save',
   ...rest
 }) => {
+  // Overflow hidden is needed for animated edit transition though
+  // visible is needed for the datepicker so we needed to set it on a
+  // timeout to prevent buggy visual transition
+  const [overflow, setOverflow] = useState(
+    isFormEditMode ? 'visible' : 'hidden'
+  );
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isFormEditMode && !isFirstRender) {
+        setOverflow('visible');
+      } else {
+        setOverflow('hidden');
+      }
+      setIsFirstRender(false);
+    }, 300);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFormEditMode]);
+
   return (
     <StyledBaseAccordion onToggle={() => {}} {...rest} defaultToggled>
       <StyledHeader>
@@ -117,6 +168,7 @@ const ProjectForm: React.FC<Props> = ({
               <StyledBtn
                 data-testid={saveDataTestId}
                 size="small"
+                disabled={saveBtnDisabled}
                 onClick={onSubmit}
               >
                 {saveBtnText || 'Save'}
@@ -153,7 +205,12 @@ const ProjectForm: React.FC<Props> = ({
         </StyledToggleRight>
       </StyledHeader>
       <BaseAccordion.Content>
-        <div className="project-form">
+        <StyledAnimateForm
+          formAnimationHeight={formAnimationHeight}
+          isAnimated={isFormAnimated}
+          isFormExpanded={isFormEditMode}
+          overflow={overflow}
+        >
           {before}
           <FormBase
             // setting a key here will reset the form
@@ -178,7 +235,7 @@ const ProjectForm: React.FC<Props> = ({
               true
             )}
           </FormBase>
-        </div>
+        </StyledAnimateForm>
         {children}
       </BaseAccordion.Content>
     </StyledBaseAccordion>

@@ -5,6 +5,7 @@ const StyledLink = styled.button`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   word-break: break-word;
+  width: fit-content;
 `;
 
 const handleDownload = async (uuid, fileName) => {

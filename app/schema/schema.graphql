@@ -601,6 +601,40 @@ type Query implements Node {
     filter: CcbcUserFilter
   ): CcbcUsersConnection
 
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  allChangeRequestData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection
+
   """
   Reads and enables pagination through a set of `ConditionalApprovalData`.
   """
@@ -1200,6 +1234,7 @@ type Query implements Node {
   assessmentTypeByName(name: String!): AssessmentType
   attachmentByRowId(rowId: Int!): Attachment
   ccbcUserByRowId(rowId: Int!): CcbcUser
+  changeRequestDataByRowId(rowId: Int!): ChangeRequestData
   conditionalApprovalDataByRowId(rowId: Int!): ConditionalApprovalData
   formByRowId(rowId: Int!): Form
   formBySlug(slug: String!): Form
@@ -1392,6 +1427,14 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `CcbcUser`."""
     id: ID!
   ): CcbcUser
+
+  """Reads a single `ChangeRequestData` using its globally unique `ID`."""
+  changeRequestData(
+    """
+    The globally unique `ID` to be used in selecting a single `ChangeRequestData`.
+    """
+    id: ID!
+  ): ChangeRequestData
 
   """
   Reads a single `ConditionalApprovalData` using its globally unique `ID`.
@@ -4111,6 +4154,108 @@ type CcbcUser implements Node {
     """
     filter: SowTab8Filter
   ): SowTab8SConnection!
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
@@ -11149,6 +11294,312 @@ type CcbcUser implements Node {
     """
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersBySowTab8ArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByChangeRequestDataCreatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByChangeRequestDataCreatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByChangeRequestDataCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByChangeRequestDataCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByChangeRequestDataCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByChangeRequestDataCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByChangeRequestDataUpdatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByChangeRequestDataUpdatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByChangeRequestDataUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByChangeRequestDataUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByChangeRequestDataUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByChangeRequestDataUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByChangeRequestDataArchivedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByChangeRequestDataArchivedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByChangeRequestDataArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByChangeRequestDataArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByChangeRequestDataArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByChangeRequestDataArchivedByAndUpdatedByManyToManyConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -11711,6 +12162,24 @@ input CcbcUserFilter {
 
   """Some related `sowTab8SByArchivedBy` exist."""
   sowTab8SByArchivedByExist: Boolean
+
+  """Filter by the object’s `changeRequestDataByCreatedBy` relation."""
+  changeRequestDataByCreatedBy: CcbcUserToManyChangeRequestDataFilter
+
+  """Some related `changeRequestDataByCreatedBy` exist."""
+  changeRequestDataByCreatedByExist: Boolean
+
+  """Filter by the object’s `changeRequestDataByUpdatedBy` relation."""
+  changeRequestDataByUpdatedBy: CcbcUserToManyChangeRequestDataFilter
+
+  """Some related `changeRequestDataByUpdatedBy` exist."""
+  changeRequestDataByUpdatedByExist: Boolean
+
+  """Filter by the object’s `changeRequestDataByArchivedBy` relation."""
+  changeRequestDataByArchivedBy: CcbcUserToManyChangeRequestDataFilter
+
+  """Some related `changeRequestDataByArchivedBy` exist."""
+  changeRequestDataByArchivedByExist: Boolean
 
   """Filter by the object’s `keycloakJwtsBySub` relation."""
   keycloakJwtsBySub: CcbcUserToManyKeycloakJwtFilter
@@ -12298,6 +12767,12 @@ input ApplicationFilter {
 
   """Some related `projectInformationDataByApplicationId` exist."""
   projectInformationDataByApplicationIdExist: Boolean
+
+  """Filter by the object’s `changeRequestDataByApplicationId` relation."""
+  changeRequestDataByApplicationId: ApplicationToManyChangeRequestDataFilter
+
+  """Some related `changeRequestDataByApplicationId` exist."""
+  changeRequestDataByApplicationIdExist: Boolean
 
   """Filter by the object’s `intakeByIntakeId` relation."""
   intakeByIntakeId: IntakeFilter
@@ -14683,6 +15158,94 @@ input ProjectInformationDataFilter {
 }
 
 """
+A filter to be used against many `ChangeRequestData` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationToManyChangeRequestDataFilter {
+  """
+  Every related `ChangeRequestData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ChangeRequestDataFilter
+
+  """
+  Some related `ChangeRequestData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ChangeRequestDataFilter
+
+  """
+  No related `ChangeRequestData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ChangeRequestDataFilter
+}
+
+"""
+A filter to be used against `ChangeRequestData` object types. All fields are combined with a logical ‘and.’
+"""
+input ChangeRequestDataFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `changeRequestNumber` field."""
+  changeRequestNumber: IntFilter
+
+  """Filter by the object’s `jsonData` field."""
+  jsonData: JSONFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """Filter by the object’s `applicationByApplicationId` relation."""
+  applicationByApplicationId: ApplicationFilter
+
+  """A related `applicationByApplicationId` exists."""
+  applicationByApplicationIdExists: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [ChangeRequestDataFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ChangeRequestDataFilter!]
+
+  """Negates the expression."""
+  not: ChangeRequestDataFilter
+}
+
+"""
 A filter to be used against `GaplessCounter` object types. All fields are combined with a logical ‘and.’
 """
 input GaplessCounterFilter {
@@ -15347,6 +15910,26 @@ input CcbcUserToManySowTab8Filter {
   No related `SowTab8` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
   none: SowTab8Filter
+}
+
+"""
+A filter to be used against many `ChangeRequestData` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcUserToManyChangeRequestDataFilter {
+  """
+  Every related `ChangeRequestData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ChangeRequestDataFilter
+
+  """
+  Some related `ChangeRequestData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ChangeRequestDataFilter
+
+  """
+  No related `ChangeRequestData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ChangeRequestDataFilter
 }
 
 """
@@ -16655,6 +17238,40 @@ type Application implements Node {
     """
     filter: ProjectInformationDataFilter
   ): ProjectInformationDataConnection!
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
 
   """Reads and enables pagination through a set of `AssessmentData`."""
   allAssessments(
@@ -18079,6 +18696,108 @@ type Application implements Node {
     """
     filter: CcbcUserFilter
   ): ApplicationCcbcUsersByProjectInformationDataApplicationIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByChangeRequestDataApplicationIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByChangeRequestDataApplicationIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByChangeRequestDataApplicationIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByChangeRequestDataApplicationIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByChangeRequestDataApplicationIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByChangeRequestDataApplicationIdAndArchivedByManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -25696,6 +26415,149 @@ input ProjectInformationDataCondition {
   archivedAt: Datetime
 }
 
+"""A connection to a list of `ChangeRequestData` values."""
+type ChangeRequestDataConnection {
+  """A list of `ChangeRequestData` objects."""
+  nodes: [ChangeRequestData]!
+
+  """
+  A list of edges which contains the `ChangeRequestData` and cursor to aid in pagination.
+  """
+  edges: [ChangeRequestDataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ChangeRequestData` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""Table to store change request data"""
+type ChangeRequestData implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Unique id for the row"""
+  rowId: Int!
+
+  """The foreign key of an application"""
+  applicationId: Int
+
+  """The change request number for that application"""
+  changeRequestNumber: Int!
+
+  """The json form data of the change request form"""
+  jsonData: JSON!
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """
+  Reads a single `Application` that is related to this `ChangeRequestData`.
+  """
+  applicationByApplicationId: Application
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByArchivedBy: CcbcUser
+}
+
+"""A `ChangeRequestData` edge in the connection."""
+type ChangeRequestDataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ChangeRequestData` at the end of the edge."""
+  node: ChangeRequestData
+}
+
+"""Methods to use when ordering `ChangeRequestData`."""
+enum ChangeRequestDataOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  CHANGE_REQUEST_NUMBER_ASC
+  CHANGE_REQUEST_NUMBER_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ChangeRequestData` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input ChangeRequestDataCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+
+  """Checks for equality with the object’s `changeRequestNumber` field."""
+  changeRequestNumber: Int
+
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
 """A connection to a list of `Announcement` values."""
 type AnnouncementsConnection {
   """A list of `Announcement` objects."""
@@ -28441,6 +29303,198 @@ type ApplicationCcbcUsersByProjectInformationDataApplicationIdAndArchivedByManyT
     """
     filter: ProjectInformationDataFilter
   ): ProjectInformationDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ChangeRequestData`.
+"""
+type ApplicationCcbcUsersByChangeRequestDataApplicationIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByChangeRequestDataApplicationIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ChangeRequestData`.
+"""
+type ApplicationCcbcUsersByChangeRequestDataApplicationIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ChangeRequestData`.
+"""
+type ApplicationCcbcUsersByChangeRequestDataApplicationIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByChangeRequestDataApplicationIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ChangeRequestData`.
+"""
+type ApplicationCcbcUsersByChangeRequestDataApplicationIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ChangeRequestData`.
+"""
+type ApplicationCcbcUsersByChangeRequestDataApplicationIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByChangeRequestDataApplicationIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ChangeRequestData`.
+"""
+type ApplicationCcbcUsersByChangeRequestDataApplicationIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
 }
 
 """A `Application` edge in the connection."""
@@ -41927,6 +42981,582 @@ type CcbcUserCcbcUsersBySowTab8ArchivedByAndUpdatedByManyToManyEdge {
 }
 
 """
+A connection to a list of `Application` values, with data from `ChangeRequestData`.
+"""
+type CcbcUserApplicationsByChangeRequestDataCreatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByChangeRequestDataCreatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ChangeRequestData`.
+"""
+type CcbcUserApplicationsByChangeRequestDataCreatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByChangeRequestDataCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByChangeRequestDataCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ChangeRequestData`.
+"""
+type CcbcUserApplicationsByChangeRequestDataUpdatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByChangeRequestDataUpdatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ChangeRequestData`.
+"""
+type CcbcUserApplicationsByChangeRequestDataUpdatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByChangeRequestDataUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByChangeRequestDataUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ChangeRequestData`.
+"""
+type CcbcUserApplicationsByChangeRequestDataArchivedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByChangeRequestDataArchivedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ChangeRequestData`.
+"""
+type CcbcUserApplicationsByChangeRequestDataArchivedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByChangeRequestDataArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ChangeRequestData`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByChangeRequestDataArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ChangeRequestData`.
+"""
+type CcbcUserCcbcUsersByChangeRequestDataArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ChangeRequestData`."""
+  changeRequestDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ChangeRequestDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeRequestDataFilter
+  ): ChangeRequestDataConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationAnalystLead`.
 """
 type AnalystApplicationsByApplicationAnalystLeadAnalystIdAndApplicationIdManyToManyConnection {
@@ -42818,6 +44448,14 @@ type Mutation {
     input: CreateCcbcUserInput!
   ): CreateCcbcUserPayload
 
+  """Creates a single `ChangeRequestData`."""
+  createChangeRequestData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateChangeRequestDataInput!
+  ): CreateChangeRequestDataPayload
+
   """Creates a single `ConditionalApprovalData`."""
   createConditionalApprovalData(
     """
@@ -43247,6 +44885,24 @@ type Mutation {
     """
     input: UpdateCcbcUserByRowIdInput!
   ): UpdateCcbcUserPayload
+
+  """
+  Updates a single `ChangeRequestData` using its globally unique id and a patch.
+  """
+  updateChangeRequestData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateChangeRequestDataInput!
+  ): UpdateChangeRequestDataPayload
+
+  """Updates a single `ChangeRequestData` using a unique key and a patch."""
+  updateChangeRequestDataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateChangeRequestDataByRowIdInput!
+  ): UpdateChangeRequestDataPayload
 
   """
   Updates a single `ConditionalApprovalData` using its globally unique id and a patch.
@@ -43798,6 +45454,22 @@ type Mutation {
     input: DeleteCcbcUserByRowIdInput!
   ): DeleteCcbcUserPayload
 
+  """Deletes a single `ChangeRequestData` using its globally unique id."""
+  deleteChangeRequestData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteChangeRequestDataInput!
+  ): DeleteChangeRequestDataPayload
+
+  """Deletes a single `ChangeRequestData` using a unique key."""
+  deleteChangeRequestDataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteChangeRequestDataByRowIdInput!
+  ): DeleteChangeRequestDataPayload
+
   """
   Deletes a single `ConditionalApprovalData` using its globally unique id.
   """
@@ -44067,6 +45739,12 @@ type Mutation {
     """
     input: CreateAssessmentFormInput!
   ): CreateAssessmentFormPayload
+  createChangeRequest(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateChangeRequestInput!
+  ): CreateChangeRequestPayload
   createConditionalApproval(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -45342,6 +47020,85 @@ input CcbcUserInput {
 
   """User is an external analyst"""
   externalAnalyst: Boolean
+}
+
+"""The output of our create `ChangeRequestData` mutation."""
+type CreateChangeRequestDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ChangeRequestData` that was created by this mutation."""
+  changeRequestData: ChangeRequestData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ChangeRequestData`.
+  """
+  applicationByApplicationId: Application
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ChangeRequestData`. May be used by Relay 1."""
+  changeRequestDataEdge(
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ChangeRequestDataEdge
+}
+
+"""All input for the create `ChangeRequestData` mutation."""
+input CreateChangeRequestDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ChangeRequestData` to be created by this mutation."""
+  changeRequestData: ChangeRequestDataInput!
+}
+
+"""An input for mutations affecting `ChangeRequestData`"""
+input ChangeRequestDataInput {
+  """The foreign key of an application"""
+  applicationId: Int
+
+  """The change request number for that application"""
+  changeRequestNumber: Int!
+
+  """The json form data of the change request form"""
+  jsonData: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """The output of our create `ConditionalApprovalData` mutation."""
@@ -47991,6 +49748,111 @@ input UpdateCcbcUserByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our update `ChangeRequestData` mutation."""
+type UpdateChangeRequestDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ChangeRequestData` that was updated by this mutation."""
+  changeRequestData: ChangeRequestData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ChangeRequestData`.
+  """
+  applicationByApplicationId: Application
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ChangeRequestData`. May be used by Relay 1."""
+  changeRequestDataEdge(
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ChangeRequestDataEdge
+}
+
+"""All input for the `updateChangeRequestData` mutation."""
+input UpdateChangeRequestDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ChangeRequestData` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `ChangeRequestData` being updated.
+  """
+  changeRequestDataPatch: ChangeRequestDataPatch!
+}
+
+"""
+Represents an update to a `ChangeRequestData`. Fields that are set will be updated.
+"""
+input ChangeRequestDataPatch {
+  """The foreign key of an application"""
+  applicationId: Int
+
+  """The change request number for that application"""
+  changeRequestNumber: Int
+
+  """The json form data of the change request form"""
+  jsonData: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""All input for the `updateChangeRequestDataByRowId` mutation."""
+input UpdateChangeRequestDataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ChangeRequestData` being updated.
+  """
+  changeRequestDataPatch: ChangeRequestDataPatch!
+
+  """Unique id for the row"""
+  rowId: Int!
+}
+
 """The output of our update `ConditionalApprovalData` mutation."""
 type UpdateConditionalApprovalDataPayload {
   """
@@ -50476,6 +52338,70 @@ input DeleteCcbcUserByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our delete `ChangeRequestData` mutation."""
+type DeleteChangeRequestDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ChangeRequestData` that was deleted by this mutation."""
+  changeRequestData: ChangeRequestData
+  deletedChangeRequestDataId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ChangeRequestData`.
+  """
+  applicationByApplicationId: Application
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ChangeRequestData`. May be used by Relay 1."""
+  changeRequestDataEdge(
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ChangeRequestDataEdge
+}
+
+"""All input for the `deleteChangeRequestData` mutation."""
+input DeleteChangeRequestDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ChangeRequestData` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteChangeRequestDataByRowId` mutation."""
+input DeleteChangeRequestDataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """Unique id for the row"""
+  rowId: Int!
+}
+
 """The output of our delete `ConditionalApprovalData` mutation."""
 type DeleteConditionalApprovalDataPayload {
   """
@@ -51493,6 +53419,53 @@ input CreateAssessmentFormInput {
   _assessmentType: String!
   _jsonData: JSON!
   _applicationId: Int!
+}
+
+"""The output of our `createChangeRequest` mutation."""
+type CreateChangeRequestPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  changeRequestData: ChangeRequestData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ChangeRequestData`.
+  """
+  applicationByApplicationId: Application
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ChangeRequestData`. May be used by Relay 1."""
+  changeRequestDataEdge(
+    """The method to use when ordering `ChangeRequestData`."""
+    orderBy: [ChangeRequestDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ChangeRequestDataEdge
+}
+
+"""All input for the `createChangeRequest` mutation."""
+input CreateChangeRequestInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  _applicationId: Int!
+  _changeRequestNumber: Int!
+  _jsonData: JSON!
 }
 
 """The output of our `createConditionalApproval` mutation."""
