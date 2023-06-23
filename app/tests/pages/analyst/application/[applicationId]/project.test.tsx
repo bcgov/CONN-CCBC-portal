@@ -584,9 +584,9 @@ describe('The Project page', () => {
     const announcementType = screen
       .getByTestId('root_announcementType')
       .closest('div');
-    const announcementDate =
-      screen.getAllByTestId('datepicker-widget')[3].children[0].children[0]
-        .children[0].children[0].children[0];
+    const announcementDate = screen.getAllByTestId(
+      'datepicker-widget-container'
+    )[3].children[0].children[0].children[2];
 
     expect(announcementUrl).toHaveStyle('border: 2px solid #E71F1F;');
     expect(announcementType).toHaveStyle('border: 2px solid #E71F1F;');

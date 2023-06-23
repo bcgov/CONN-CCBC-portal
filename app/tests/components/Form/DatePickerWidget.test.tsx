@@ -1,6 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { act, render, screen, fireEvent } from '@testing-library/react';
 import type { JSONSchema7 } from 'json-schema';
-import { Settings, DateTime } from 'luxon';
 import FormTestRenderer from '../../utils/formTestRenderer';
 
 const mockSchema = {
@@ -16,8 +15,8 @@ const mockSchema = {
 };
 
 const mockUiSchema = {
-  radioWidgetTestField: {
-    'ui:widget': 'DatepickerWidget',
+  datepickerTestField: {
+    'ui:widget': 'DatePickerWidget',
   },
 };
 
@@ -32,8 +31,6 @@ const renderStaticLayout = (schema: JSONSchema7, uiSchema) =>
   );
 
 describe('The Datepicker widget', () => {
-  beforeEach(() => {});
-
   it('should render the radio widget title', () => {
     renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
 
@@ -42,42 +39,56 @@ describe('The Datepicker widget', () => {
     expect(screen.getByText('Datepicker test field')).toBeVisible();
   });
 
-  it('should render radio widget options', () => {
+  it('should render radio widget options', async () => {
     renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
 
-    const datepicker = screen.getByTestId('root_datepickerTestField');
+    const datepicker = screen.getByTestId('datepicker-widget-input');
 
-    fireEvent.change(datepicker, { target: { value: '1293-08-23' } });
+    await act(async () => {
+      fireEvent.change(datepicker, { target: { value: '1293-08-23' } });
+    });
 
     expect(datepicker).toHaveValue('1293-08-23');
   });
 
-  it('Should have empty value when cleared', () => {
+  it('Should have empty value when cleared', async () => {
     renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
 
-    const datepicker = screen.getByTestId('root_datepickerTestField');
+    const datepicker = screen.getByTestId('datepicker-widget-input');
 
-    fireEvent.change(datepicker, { target: { value: '1293-08-23' } });
+    await act(async () => {
+      fireEvent.change(datepicker, { target: { value: '1293-08-23' } });
+    });
 
-    fireEvent.change(datepicker, { target: { value: null } });
-
+    await act(async () => {
+      fireEvent.change(datepicker, { target: { value: null } });
+    });
     expect(datepicker).toHaveValue('');
   });
 
-  
-  it('Should display correct date in any timezone', () => {
-    const mockCurrentTime = DateTime.local(2023, 10, 1, 0, {
-      zone: 'America/New_York',
-    });
-    Settings.now = () => mockCurrentTime.toMillis();
-
+  it('Should display correct date in any timezone', async () => {
     renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
 
-    const datepicker = screen.getByTestId('root_datepickerTestField');
+    const datepicker = screen.getByTestId('datepicker-widget-input');
 
-    fireEvent.change(datepicker, { target: { value: '2023-10-01' } });
- 
+    await act(async () => {
+      fireEvent.change(datepicker, { target: { value: '2023-10-01' } });
+    });
     expect(datepicker).toHaveValue('2023-10-01');
   });
 
+  it('Should have the correct style when there is an error', async () => {
+    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+
+    const datepickerFieldset = screen.getByTestId('datepicker-widget-container')
+      .children[0].children[0].children[2];
+
+    const submitButton = screen.getByRole('button', { name: 'Submit' });
+
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+
+    expect(datepickerFieldset).toHaveStyle('border: 2px solid #E71F1F;');
+  });
 });
