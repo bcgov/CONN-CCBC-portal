@@ -18,9 +18,9 @@ const readSummary = async (wb, sheet_name, applicationId) => {
   const summary = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
-
+  const appId = typeof applicationId === 'number' ? applicationId : parseInt(applicationId,10);
   const sowData = {
-    applicationId,
+    applicationId: appId,
     jsonData: {
       organizationName: '',
       projectTitle: '',
