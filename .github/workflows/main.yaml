@@ -25,70 +25,76 @@ jobs:
       RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
-  # create-release-pr:
-  #   if: github.event.ref == 'refs/heads/main'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-  #         token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
-  #     - name: Set up Git and import GPG key
-  #       env:
-  #         GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
-  #       run: |
-  #         echo "${GPG_PRIVATE_KEY}" | gpg --import
-  #         git config user.name "CCBC Service Account"
-  #         git config user.email "ccbc@button.is"
-  #         git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
-  #         git config commit.gpgsign true
-  #     - name: dev env setup
-  #       uses: ./.github/actions/dev-env-setup
-  #     - name: Delete Latest Service Account Tag
-  #       run: |
-  #         LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
-  #         COMMIT_HASH=$(git rev-parse $LATEST_TAG)
-  #         TAG_CREATOR=$(git log -1 --pretty=format:'%an' $COMMIT_HASH)
-  #         if [ "$TAG_CREATOR" = "CCBC Service Account" ]; then
-  #             git tag -d $LATEST_TAG
-  #             git push --delete origin $LATEST_TAG
-  #         fi
-  #     - name: Delete and Recreate Branch
-  #       run: |
-  #         git branch -D chore/release || true
-  #         git push origin --delete chore/release || true
-  #         git checkout main
-  #         git checkout -b chore/release
-  #     - name: Close Previous PRs
-  #       uses: actions/github-script@v6
-  #       with:
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
-  #         script: |
-  #           const { owner, repo } = context.repo
-  #           const prs = await github.rest.pulls.list({ owner, repo, state: 'open', head: 'bcgov:chore/release' })
-  #           for (const pr of prs.data) {
-  #             await github.rest.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
-  #           }
-  #     - name: Make Release
-  #       run: |
-  #         git checkout chore/release
-  #         git push --set-upstream origin chore/release
-  #         git pull
-  #         echo '--ci' | make release
-  #     - name: Create PR
-  #       uses: actions/github-script@v6
-  #       with:
-  #         github-token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
-  #         script: |
-  #           const { owner, repo } = context.repo
-  #           await github.rest.pulls.create({
-  #             owner,
-  #             repo,
-  #             title: 'chore: release',
-  #             head: 'chore/release',
-  #             base: 'main',
-  #           });
+  create-release-pr:
+    # if: github.event.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+      - name: Set up Git and import GPG key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+        run: |
+          echo "${GPG_PRIVATE_KEY}" | gpg --import
+          git config user.name "CCBC Service Account"
+          git config user.email "ccbc@button.is"
+          git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
+          git config commit.gpgsign true
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: Delete Latest Tag If It Already Exists
+        run: |
+          git checkout main
+          yarn
+          NEW_TAG=$(yarn release-it --release-version | awk 'match($0, /^ *([0-9]+\.[0-9]+\.[0-9]+)/, a) { if (NR == 1) next; print "v" a[1]; exit; }')
+          TAG_EXISTS=$(git tag -l $NEW_TAG)
+          echo $NEW_TAG
+          if [ "$TAG_EXISTS" ]; then
+              git tag -d $NEW_TAG
+              git push --delete origin $NEW_TAG
+          fi
+      - name: Delete and Recreate Branch
+        run: |
+          git branch -D chore/release || true
+          git push origin --delete chore/release || true
+          git checkout main
+          git checkout -b chore/release
+      - name: Close Previous PRs
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo
+            const prs = await github.rest.pulls.list({ owner, repo, state: 'open', head: 'bcgov:chore/release' })
+            for (const pr of prs.data) {
+              await github.rest.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
+            }
+      - name: Setup Sqitch User
+        run: |
+          sqitch config --user user.name 'CCBC Service Account'
+          sqitch config --user user.email 'ccbc@button.is'
+      - name: Make Release
+        run: |
+          git checkout chore/release
+          git push --set-upstream origin chore/release
+          git pull
+          echo '--ci' | make release
+      - name: Create PR
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo
+            await github.rest.pulls.create({
+              owner,
+              repo,
+              title: 'chore: release',
+              head: 'chore/release',
+              base: 'main',
+            });
   deploy:
     if: github.event.ref == 'refs/heads/main'
     needs: [test-code, test-containers]
