@@ -2044,6 +2044,60 @@ const mockQueryPayload = {
               tableName: 'project_information_data',
               externalAnalyst: null,
             },
+            {
+              applicationId: 6,
+              createdAt: '2023-06-22T07:57:08.820373-08:00',
+              familyName: '',
+              item: 'application',
+              givenName: '',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                json_data: {
+                  statementOfWorkUpload: [
+                    {
+                      uuid: 'just-about-anything',
+                      name: 'CR Statement of Work.xlsx',
+                    },
+                  ],
+                },
+                updated_by: 3,
+                archived_at: null,
+                archived_by: null,
+                ccbc_number: null,
+              },
+              recordId: '5074afcc-87be-5d86-b3da-f0df836635b2',
+              sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@bceidbasic',
+              tableName: 'change_request_data',
+              externalAnalyst: null,
+            },
+            {
+              applicationId: 6,
+              createdAt: '2023-06-22T07:57:08.820373-08:00',
+              familyName: '',
+              item: 'application',
+              givenName: '',
+              op: 'UPDATE',
+              record: {
+                id: 1,
+                json_data: {
+                  statementOfWorkUpload: [
+                    {
+                      uuid: 'just-about-anything',
+                      name: 'CR Statement of Work.xlsx',
+                    },
+                  ],
+                },
+                updated_by: 3,
+                archived_at: null,
+                archived_by: null,
+                ccbc_number: null,
+              },
+              recordId: '5074afcc-87be-5d86-b3da-f0df836635b2',
+              sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@bceidbasic',
+              tableName: 'change_request_data',
+              externalAnalyst: null,
+            },
           ],
         },
       },
@@ -2196,7 +2250,7 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(17);
+    expect(diffTables.length).toBe(18);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();

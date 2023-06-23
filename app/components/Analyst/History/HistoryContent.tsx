@@ -347,6 +347,21 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     );
   }
 
+  if (tableName === 'change_request_data') {
+    return (
+      <StyledContent data-testid="history-content-change-request">
+        <span>
+          {displayName} {op === 'INSERT' ? 'created' : 'updated'} a{' '}
+        </span>
+        <b>Change Request</b>
+        <span> on {createdAtFormatted}</span>
+        <HistoryFile
+          filesArray={record.json_data?.statementOfWorkUpload}
+          title="Updated Statement of Work Excel"
+        />
+      </StyledContent>
+    );
+  }
   return null;
 };
 export default HistoryContent;
