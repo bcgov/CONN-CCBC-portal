@@ -27,12 +27,12 @@ select table_privs_are(
 );
 
 select table_privs_are(
-  'ccbc_public', 'application_sow_data', 'ccbc_admin', ARRAY['SELECT', 'INSERT'],
+  'ccbc_public', 'application_sow_data', 'ccbc_admin', ARRAY['SELECT', 'INSERT', 'UPDATE'],
   'ccbc_admin can select, insert and update from application_sow_data table'
 );
 
 select table_privs_are(
-  'ccbc_public', 'application_sow_data', 'ccbc_analyst', ARRAY['SELECT', 'INSERT'],
+  'ccbc_public', 'application_sow_data', 'ccbc_analyst', ARRAY['SELECT', 'INSERT', 'UPDATE'],
   'ccbc_analyst can select, insert and update from application_sow_data table'
 );
 

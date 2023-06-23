@@ -8,4 +8,14 @@ alter table ccbc_public.application_sow_data add column is_change_request boolea
 comment on column ccbc_public.application_sow_data.change_request_number is 'The change request number';
 comment on column ccbc_public.application_sow_data.is_change_request is 'Column identifying if the record is a change request';
 
+do
+$$
+begin
+
+perform ccbc_private.grant_permissions('update', 'application_sow_data', 'ccbc_analyst');
+perform ccbc_private.grant_permissions('update', 'application_sow_data', 'ccbc_admin');
+
+end
+$$;
+
 commit;
