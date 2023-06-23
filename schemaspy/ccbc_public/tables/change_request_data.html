@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>application_gis_data - ccbc.ccbc_public</title>
+        <title>change_request_data - ccbc.ccbc_public</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,20 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>application_gis_data</h1><p><span id="recordNumber">-1</span> rows</p><br />
+                    <h1>change_request_data</h1><p><span id="recordNumber">-1</span> rows</p><br />
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <i class="fa fa-file-text-o"></i>
+                            <h3 id="Description" class="box-title">Description</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div><!-- /.box-header -->
+                        <div class="box-body clearfix">
+                            <p>Table to store change request data</p>
+                        </div><!-- /.box-body -->
+                    </div>
                 </section>
                 <!-- Main content -->
                 <section class="content">
@@ -123,29 +136,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="batch_id">batch_id</span></td>
-                                    <td>int4</td>
-                                    <td>10</td>
-                                    <td title='nullable'>√</td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                            <tr>
-                                                <td title="application_gis_data.batch_id references gis_data.id via application_gis_data_batch_id_fkey"><a href='gis_data.html'>gis_data</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_gis_data_batch_id_fkey</td>
-                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                    <td></td>
+                                    <td><p>Unique id for the row</p></td>
                                 </tr>
                                 <tr>
                                     <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="application_id">application_id</span></td>
@@ -161,13 +152,30 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_gis_data.application_id references application.id via application_gis_data_application_id_fkey"><a href='application.html'>application</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_gis_data_application_id_fkey</td>
+                                                <td title="change_request_data.application_id references application.id via change_request_data_application_id_fkey"><a href='application.html'>application</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">change_request_data_application_id_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td></td>
+                                    <td><p>The foreign key of an application</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="change_request_number">change_request_number</span></td>
+                                    <td>int4</td>
+                                    <td>10</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>The change request number for that application</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="json_data">json_data</span></td>
@@ -184,7 +192,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td></td>
+                                    <td><p>The json form data of the change request form</p></td>
                                 </tr>
                                 <tr>
                                     <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="created_by">created_by</span></td>
@@ -200,8 +208,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_gis_data.created_by references ccbc_user.id via application_gis_data_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_gis_data_created_by_fkey</td>
+                                                <td title="change_request_data.created_by references ccbc_user.id via change_request_data_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">change_request_data_created_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -239,8 +247,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_gis_data.updated_by references ccbc_user.id via application_gis_data_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_gis_data_updated_by_fkey</td>
+                                                <td title="change_request_data.updated_by references ccbc_user.id via change_request_data_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">change_request_data_updated_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -278,8 +286,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="application_gis_data.archived_by references ccbc_user.id via application_gis_data_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">application_gis_data_archived_by_fkey</td>
+                                                <td title="change_request_data.archived_by references ccbc_user.id via change_request_data_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">change_request_data_archived_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -334,25 +342,25 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> application_gis_data_pkey</td>
+                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> change_request_data_pkey</td>
                                     <td>Primary key</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>id</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_application_gis_data_archived_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_change_request_data_archived_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>archived_by</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_application_gis_data_created_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_change_request_data_created_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>created_by</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_application_gis_data_updated_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_change_request_data_updated_by_foreign_key</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>updated_by</td>
@@ -380,44 +388,43 @@
                                 <div class="tab-content no-padding">
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="231,228,400,492">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,345,187,580">
-<area shape="rect" id="node3" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="444,304,796,667">
-<area shape="rect" id="node4" href="gis_data.html" target="_top" title="gis_data" alt="" coords="243,5,387,211">
+<area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="231,5,400,269">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,200,187,435">
+<area shape="rect" id="node3" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="444,99,831,461">
 </map>
-                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/application_gis_data.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/change_request_data.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="466,184,605,272">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,1077,161,1165">
-<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="205,273,407,361">
-<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="451,988,620,1076">
-<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="241,1075,371,1163">
-<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="703,5,977,93">
-<area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="691,111,989,199">
-<area shape="rect" id="node8" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="711,284,969,372">
-<area shape="rect" id="node9" href="form_data.html" target="_top" title="form_data" alt="" coords="225,515,387,603">
-<area shape="rect" id="node10" href="application_gis_assessment_hh.html" target="_top" title="application_gis_assessment_hh" alt="" coords="677,1016,1003,1104">
-<area shape="rect" id="node11" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="664,389,1016,752">
-<area shape="rect" id="node12" href="gis_data.html" target="_top" title="gis_data" alt="" coords="234,620,378,708">
-<area shape="rect" id="node13" href="application_package.html" target="_top" title="application_package" alt="" coords="719,769,961,857">
-<area shape="rect" id="node14" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="721,875,959,963">
-<area shape="rect" id="node15" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="236,901,376,989">
-<area shape="rect" id="node16" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="715,1784,965,1872">
-<area shape="rect" id="node17" href="application_status.html" target="_top" title="application_status" alt="" coords="727,1121,953,1209">
-<area shape="rect" id="node18" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="732,1227,948,1315">
-<area shape="rect" id="node19" href="attachment.html" target="_top" title="attachment" alt="" coords="1060,195,1233,283">
-<area shape="rect" id="node20" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="716,1400,964,1488">
-<area shape="rect" id="node21" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="695,1505,985,1593">
-<area shape="rect" id="node22" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="699,1611,981,1699">
-<area shape="rect" id="node23" href="record_version.html" target="_top" title="record_version" alt="" coords="207,1604,405,1692">
-<area shape="rect" id="node24" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1067,1311,1227,1399">
-<area shape="rect" id="node25" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1067,1695,1227,1783">
-<area shape="rect" id="node26" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1067,1831,1227,1919">
-<area shape="rect" id="node27" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1067,1936,1227,2024">
+<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="466,101,605,189">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,933,161,1021">
+<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="205,169,407,257">
+<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="451,843,620,931">
+<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="241,930,371,1018">
+<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="720,11,995,99">
+<area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="709,225,1006,313">
+<area shape="rect" id="node8" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="729,398,986,486">
+<area shape="rect" id="node9" href="form_data.html" target="_top" title="form_data" alt="" coords="225,410,387,498">
+<area shape="rect" id="node10" href="application_gis_assessment_hh.html" target="_top" title="application_gis_assessment_hh" alt="" coords="695,855,1020,943">
+<area shape="rect" id="node11" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="737,503,977,591">
+<area shape="rect" id="node12" href="gis_data.html" target="_top" title="gis_data" alt="" coords="234,583,378,671">
+<area shape="rect" id="node13" href="application_package.html" target="_top" title="application_package" alt="" coords="737,609,978,697">
+<area shape="rect" id="node14" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="739,714,976,802">
+<area shape="rect" id="node15" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="236,757,376,845">
+<area shape="rect" id="node16" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="732,1830,983,1918">
+<area shape="rect" id="node17" href="application_status.html" target="_top" title="application_status" alt="" coords="745,961,970,1049">
+<area shape="rect" id="node18" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="749,1066,965,1154">
+<area shape="rect" id="node19" href="attachment.html" target="_top" title="attachment" alt="" coords="1095,309,1268,397">
+<area shape="rect" id="node20" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="664,1239,1051,1602">
+<area shape="rect" id="node21" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="712,1619,1003,1707">
+<area shape="rect" id="node22" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="716,1725,999,1813">
+<area shape="rect" id="node23" href="record_version.html" target="_top" title="record_version" alt="" coords="207,1483,405,1571">
+<area shape="rect" id="node24" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1101,1150,1261,1238">
+<area shape="rect" id="node25" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1101,1867,1261,1955">
+<area shape="rect" id="node26" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1101,1973,1261,2061">
+<area shape="rect" id="node27" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1101,2078,1261,2166">
 </map>
-                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/application_gis_data.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/change_request_data.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                 </div>
                             </div>

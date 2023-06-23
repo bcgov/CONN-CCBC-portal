@@ -20,6 +20,7 @@ record_version
 application_form_data
 application_rfi_data
 application_package
+change_request_data
 conditional_approval_data
 project_information_data
 sow_tab_1
