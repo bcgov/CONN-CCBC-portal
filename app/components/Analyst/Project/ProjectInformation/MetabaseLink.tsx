@@ -6,7 +6,6 @@ const StyledFlex = styled.a`
   flex-direction: row;
   align-items: center;
   padding: 8px 16px;
-  width: 326px;
   border: 1px solid #d6d6d6;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
@@ -17,10 +16,17 @@ const StyledFlex = styled.a`
   }
 `;
 
-const MetabaseLink = () => {
+interface MetabaseLinkProps { 
+  href?: string; 
+  text?: string;
+  width?: number;
+}
+
+const MetabaseLink: React.FC<MetabaseLinkProps> = ({href='#', text='', width=326}) => {
+  const inlineStyle={width};
   return (
-    <StyledFlex href="" target="_blank">
-      <MetabaseIcon /> View project data in Metabase
+    <StyledFlex data-testid="metabase-link" href={href} target="_blank" style={inlineStyle}>
+      <MetabaseIcon />{text} 
     </StyledFlex>
   );
 };

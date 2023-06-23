@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import path from 'path';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
+import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import { ButtonLink, Layout } from 'components';
 import { gisUploadedJsonQuery } from '__generated__/gisUploadedJsonQuery.graphql';
 import FileComponent from 'lib/theme/components/FileComponent';
@@ -39,6 +40,17 @@ const StyledBtnContainer = styled.div`
   margin-top: 2rem;
   flex-direction: row;
   justify-content: left;
+`;
+
+const StyledCard = styled.div`
+  align-items: center;
+  padding: 8px 16px;
+  width: 600px;
+  border: 1px solid #d6d6d6;
+  box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1em;
 `;
 
 const acceptedFileTypes = ['.json'];
@@ -129,25 +141,31 @@ const GisTab = () => {
   return (
     <div>
       <h2>GIS Input</h2>
-
-      <strong>
-        Import a JSON of the GIS analysis for one or more applications
-      </strong>
-      <FileComponent
-        allowMultipleFiles={false}
-        buttonVariant="primary"
-        fileTypes=".json"
-        label="JSON of GIS analysis"
-        id="json-upload"
-        onChange={changeHandler}
-        handleDelete={() => setSelectedFile(null)}
-        value={selectedFile ? fileComponentValue : []}
+      <MetabaseLink 
+        href='https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses' 
+        text='Visit Metabase to view a dashboard of GIS analysis'
+        width={600}
       />
-      <StyledBtnContainer>
-        <ButtonLink onClick={handleUpload} href="#">
-          Continue
-        </ButtonLink>
-      </StyledBtnContainer>
+      <StyledCard>
+        <strong>
+          Import a JSON of the GIS analysis for one or more applications
+        </strong>
+        <FileComponent
+          allowMultipleFiles={false}
+          buttonVariant="primary"
+          fileTypes=".json"
+          label="JSON of GIS analysis"
+          id="json-upload"
+          onChange={changeHandler}
+          handleDelete={() => setSelectedFile(null)}
+          value={selectedFile ? fileComponentValue : []}
+        />
+        <StyledBtnContainer>
+          <ButtonLink onClick={handleUpload} href="#">
+            Continue
+          </ButtonLink>
+        </StyledBtnContainer>
+      </StyledCard>
       {error && <UploadError error={error} />}
       {hasUploadErrors && (
         <>

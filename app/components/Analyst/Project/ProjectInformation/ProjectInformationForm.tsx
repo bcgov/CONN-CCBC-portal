@@ -211,7 +211,7 @@ const ProjectInformationForm = ({ application }) => {
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
       hiddenSubmitRef={hiddenSubmitRef}
     >
-      {!isFormEditMode && <MetabaseLink />}
+      {!isFormEditMode && <MetabaseLink href='#' text='View project data in Metabase' width={326} />}
       {showToast && (
         <Toast timeout={100000000}>
           Statement of work successfully imported
