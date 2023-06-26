@@ -7,11 +7,7 @@ import projectInformationReadOnlySchema from 'formSchema/analyst/projectInformat
 import projectInformationUiSchema from 'formSchema/uiSchema/analyst/projectInformationUiSchema';
 import projectInformationReadOnlyUiSchema from 'formSchema/uiSchema/analyst/projectInformationReadOnlyUiSchema';
 import { useCreateProjectInformationMutation } from 'schema/mutations/project/createProjectInformation';
-import { useArchiveSowApplicationMutation } from 'schema/mutations/project/archiveSowApplication';
-import { useArchiveSowTab1Mutation } from 'schema/mutations/project/archiveSowTab1';
-import { useArchiveSowTab2Mutation } from 'schema/mutations/project/archiveSowTab2';
-import { useArchiveSowTab7Mutation } from 'schema/mutations/project/archiveSowTab7';
-import { useArchiveSowTab8Mutation } from 'schema/mutations/project/archiveSowTab8';
+import { useArchiveApplicationSowMutation } from 'schema/mutations/project/archiveApplicationSow';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import Toast from 'components/Toast';
@@ -92,38 +88,6 @@ const ProjectInformationForm = ({ application }) => {
         projectInformation {
           id
           jsonData
-          applicationByApplicationId {
-            applicationSowDataByApplicationId {
-              nodes {
-                id
-                archivedAt
-                sowTab1SBySowId {
-                  nodes {
-                    id
-                    archivedAt
-                  }
-                }
-                sowTab2SBySowId {
-                  nodes {
-                    id
-                    archivedAt
-                  }
-                }
-                sowTab7SBySowId {
-                  nodes {
-                    id
-                    archivedAt
-                  }
-                }
-                sowTab8SBySowId {
-                  nodes {
-                    id
-                    archivedAt
-                  }
-                }
-              }
-            }
-          }
         }
       }
     `,
@@ -133,11 +97,7 @@ const ProjectInformationForm = ({ application }) => {
   const { ccbcNumber, id, rowId, projectInformation } = queryFragment;
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
-  const [archiveSowData] = useArchiveSowApplicationMutation();
-  const [archiveSowTab1Data] = useArchiveSowTab1Mutation();
-  const [archiveSowTab2Data] = useArchiveSowTab2Mutation();
-  const [archiveSowTab7Data] = useArchiveSowTab7Mutation();
-  const [archiveSowTab8Data] = useArchiveSowTab8Mutation();
+  const [archiveApplicationSow] = useArchiveApplicationSowMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
   const [sowValidationErrors, setSowValidationErrors] = useState([]);
@@ -196,86 +156,13 @@ const ProjectInformationForm = ({ application }) => {
     if (hasFormErrors) {
       return;
     }
-    if (
-      !formData.hasFundingAgreementBeenSigned &&
-      projectInformation.applicationByApplicationId
-    ) {
-      // archive sows
-      projectInformation.applicationByApplicationId.applicationSowDataByApplicationId.nodes.forEach(
-        (node: {
-          id: any;
-          archivedAt: string | null;
-          sowTab1SBySowId: { nodes: any[] };
-          sowTab2SBySowId: { nodes: any[] };
-          sowTab7SBySowId: { nodes: any[] };
-          sowTab8SBySowId: { nodes: any[] };
-        }) => {
-          const archivedAt = new Date().toISOString();
-          const applicationSowInput = {
-            id: node.id,
-            applicationSowDataPatch: { archivedAt },
-          };
-          if (node.archivedAt === null) {
-            archiveSowData({
-              variables: {
-                input: applicationSowInput,
-              },
-            });
-          }
-          node.sowTab1SBySowId.nodes.forEach((sow) => {
-            const sowTab1Input = {
-              id: sow.id,
-              sowTab1Patch: { archivedAt },
-            };
-            if (sow.archivedAt === null) {
-              archiveSowTab1Data({
-                variables: {
-                  input: sowTab1Input,
-                },
-              });
-            }
-          });
-          node.sowTab2SBySowId.nodes.forEach((sow) => {
-            const sowTab2Input = {
-              id: sow.id,
-              sowTab2Patch: { archivedAt },
-            };
-            if (sow.archivedAt === null) {
-              archiveSowTab2Data({
-                variables: {
-                  input: sowTab2Input,
-                },
-              });
-            }
-          });
-          node.sowTab7SBySowId.nodes.forEach((sow) => {
-            const sowTab7Input = {
-              id: sow.id,
-              sowTab7Patch: { archivedAt },
-            };
-            if (sow.archivedAt === null) {
-              archiveSowTab7Data({
-                variables: {
-                  input: sowTab7Input,
-                },
-              });
-            }
-          });
-          node.sowTab8SBySowId.nodes.forEach((sow) => {
-            const sowTab8Input = {
-              id: sow.id,
-              sowTab8Patch: { archivedAt },
-            };
-            if (sow.archivedAt === null) {
-              archiveSowTab8Data({
-                variables: {
-                  input: sowTab8Input,
-                },
-              });
-            }
-          });
-        }
-      );
+    if (!formData.hasFundingAgreementBeenSigned) {
+      // archive by application id
+      archiveApplicationSow({
+        variables: {
+          input: { _applicationId: rowId },
+        },
+      });
     }
 
     createProjectInformation({

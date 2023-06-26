@@ -11,38 +11,6 @@ const mutation = graphql`
         id
         jsonData
         rowId
-        applicationByApplicationId {
-          applicationSowDataByApplicationId {
-            nodes {
-              id
-              archivedAt
-              sowTab1SBySowId {
-                nodes {
-                  id
-                  archivedAt
-                }
-              }
-              sowTab2SBySowId {
-                nodes {
-                  id
-                  archivedAt
-                }
-              }
-              sowTab7SBySowId {
-                nodes {
-                  id
-                  archivedAt
-                }
-              }
-              sowTab8SBySowId {
-                nodes {
-                  id
-                  archivedAt
-                }
-              }
-            }
-          }
-        }
       }
     }
   }

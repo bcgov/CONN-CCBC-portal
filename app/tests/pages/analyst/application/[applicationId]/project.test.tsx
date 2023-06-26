@@ -151,64 +151,6 @@ const mockJsonDataQueryPayload = {
             },
             hasFundingAgreementBeenSigned: true,
           },
-          applicationByApplicationId: {
-            applicationSowDataByApplicationId: {
-              nodes: [
-                {
-                  id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMV0=',
-                  archivedAt: null,
-                  sowTab1SBySowId: {
-                    nodes: [
-                      {
-                        id: 'WyJzb3dfdGFiXzFTIiw4XQ==',
-                        archivedAt: null,
-                      },
-                      {
-                        id: 'WyJzb3dfdGFiXzFTIiw5XQ==',
-                        archivedAt: null,
-                      },
-                    ],
-                  },
-                  sowTab2SBySowId: {
-                    nodes: [
-                      {
-                        id: 'WyJzb3dfdGFiXzJTIiw4XQ==',
-                        archivedAt: null,
-                      },
-                      {
-                        id: 'WyJzb3dfdGFiXzJTIiw5XQ==',
-                        archivedAt: null,
-                      },
-                    ],
-                  },
-                  sowTab7SBySowId: {
-                    nodes: [
-                      {
-                        id: 'WyJzb3dfdGFiXzdTIiwxNF0=',
-                        archivedAt: null,
-                      },
-                      {
-                        id: 'WyJzb3dfdGFiXzdTIiwxNV0=',
-                        archivedAt: null,
-                      },
-                    ],
-                  },
-                  sowTab8SBySowId: {
-                    nodes: [
-                      {
-                        id: 'WyJzb3dfdGFiXzhTIiw3XQ==',
-                        archivedAt: null,
-                      },
-                      {
-                        id: 'WyJzb3dfdGFiXzhTIiw4XQ==',
-                        archivedAt: null,
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
         },
       },
       session: {
@@ -271,64 +213,6 @@ const mockProjectDataQueryPayload = {
               dateFundingAgreementSigned: '2023-05-10',
             },
             hasFundingAgreementBeenSigned: true,
-          },
-          applicationByApplicationId: {
-            applicationSowDataByApplicationId: {
-              nodes: [
-                {
-                  id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMV0=',
-                  archivedAt: null,
-                  sowTab1SBySowId: {
-                    nodes: [
-                      {
-                        id: 'WyJzb3dfdGFiXzFTIiw4XQ==',
-                        archivedAt: null,
-                      },
-                      {
-                        id: 'WyJzb3dfdGFiXzFTIiw5XQ==',
-                        archivedAt: null,
-                      },
-                    ],
-                  },
-                  sowTab2SBySowId: {
-                    nodes: [
-                      {
-                        id: 'WyJzb3dfdGFiXzJTIiw4XQ==',
-                        archivedAt: null,
-                      },
-                      {
-                        id: 'WyJzb3dfdGFiXzJTIiw5XQ==',
-                        archivedAt: null,
-                      },
-                    ],
-                  },
-                  sowTab7SBySowId: {
-                    nodes: [
-                      {
-                        id: 'WyJzb3dfdGFiXzdTIiwxNF0=',
-                        archivedAt: null,
-                      },
-                      {
-                        id: 'WyJzb3dfdGFiXzdTIiwxNV0=',
-                        archivedAt: null,
-                      },
-                    ],
-                  },
-                  sowTab8SBySowId: {
-                    nodes: [
-                      {
-                        id: 'WyJzb3dfdGFiXzhTIiw3XQ==',
-                        archivedAt: null,
-                      },
-                      {
-                        id: 'WyJzb3dfdGFiXzhTIiw4XQ==',
-                        archivedAt: null,
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
           },
         },
       },
@@ -986,51 +870,12 @@ describe('The Project page', () => {
     });
 
     pageTestingHelper.expectMutationToBeCalled(
-      'archiveSowApplicationMutation',
+      'archiveApplicationSowMutation',
       {
         input: {
-          id: 'WyJhcHBsaWNhdGlvbl9zb3dfZGF0YSIsMV0=',
-          applicationSowDataPatch: {
-            archivedAt: expect.anything(),
-          },
+          _applicationId: 1,
         },
       }
     );
-
-    pageTestingHelper.expectMutationToBeCalled('archiveSowTab1Mutation', {
-      input: {
-        id: 'WyJzb3dfdGFiXzFTIiw4XQ==',
-        sowTab1Patch: {
-          archivedAt: expect.anything(),
-        },
-      },
-    });
-
-    pageTestingHelper.expectMutationToBeCalled('archiveSowTab2Mutation', {
-      input: {
-        id: 'WyJzb3dfdGFiXzJTIiw5XQ==',
-        sowTab2Patch: {
-          archivedAt: expect.anything(),
-        },
-      },
-    });
-
-    pageTestingHelper.expectMutationToBeCalled('archiveSowTab7Mutation', {
-      input: {
-        id: 'WyJzb3dfdGFiXzdTIiwxNV0=',
-        sowTab7Patch: {
-          archivedAt: expect.anything(),
-        },
-      },
-    });
-
-    pageTestingHelper.expectMutationToBeCalled('archiveSowTab8Mutation', {
-      input: {
-        id: 'WyJzb3dfdGFiXzhTIiw3XQ==',
-        sowTab8Patch: {
-          archivedAt: expect.anything(),
-        },
-      },
-    });
   });
 });
