@@ -14674,11 +14674,11 @@ input ApplicationSowDataFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
-  """Filter by the object’s `changeRequestNumber` field."""
-  changeRequestNumber: IntFilter
+  """Filter by the object’s `amendmentNumber` field."""
+  amendmentNumber: IntFilter
 
-  """Filter by the object’s `isChangeRequest` field."""
-  isChangeRequest: BooleanFilter
+  """Filter by the object’s `isAmendment` field."""
+  isAmendment: BooleanFilter
 
   """Filter by the object’s `sowTab2SBySowId` relation."""
   sowTab2SBySowId: ApplicationSowDataToManySowTab2Filter
@@ -24422,11 +24422,11 @@ type ApplicationSowData implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
-  """The change request number"""
-  changeRequestNumber: Int
+  """The amendment number"""
+  amendmentNumber: Int
 
-  """Column identifying if the record is a change request"""
-  isChangeRequest: Boolean
+  """Column identifying if the record is an amendment"""
+  isAmendment: Boolean
 
   """
   Reads a single `Application` that is related to this `ApplicationSowData`.
@@ -26249,10 +26249,10 @@ enum ApplicationSowDataOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
-  CHANGE_REQUEST_NUMBER_ASC
-  CHANGE_REQUEST_NUMBER_DESC
-  IS_CHANGE_REQUEST_ASC
-  IS_CHANGE_REQUEST_DESC
+  AMENDMENT_NUMBER_ASC
+  AMENDMENT_NUMBER_DESC
+  IS_AMENDMENT_ASC
+  IS_AMENDMENT_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -26289,11 +26289,11 @@ input ApplicationSowDataCondition {
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
 
-  """Checks for equality with the object’s `changeRequestNumber` field."""
-  changeRequestNumber: Int
+  """Checks for equality with the object’s `amendmentNumber` field."""
+  amendmentNumber: Int
 
-  """Checks for equality with the object’s `isChangeRequest` field."""
-  isChangeRequest: Boolean
+  """Checks for equality with the object’s `isAmendment` field."""
+  isAmendment: Boolean
 }
 
 """A connection to a list of `ProjectInformationData` values."""
@@ -49063,11 +49063,11 @@ input ApplicationSowDataPatch {
   """archived at timestamp"""
   archivedAt: Datetime
 
-  """The change request number"""
-  changeRequestNumber: Int
+  """The amendment number"""
+  amendmentNumber: Int
 
-  """Column identifying if the record is a change request"""
-  isChangeRequest: Boolean
+  """Column identifying if the record is an amendment"""
+  isAmendment: Boolean
 }
 
 """All input for the `updateApplicationSowDataByRowId` mutation."""
@@ -53367,7 +53367,7 @@ input CreateApplicationSowDataInput {
   clientMutationId: String
   _applicationId: Int!
   _jsonData: JSON!
-  _changeRequestNumber: Int!
+  _amendmentNumber: Int!
 }
 
 """The output of our `createAssessmentForm` mutation."""
