@@ -1,8 +1,10 @@
 -- Deploy ccbc:mutations/archive_application_sow to pg
 
-BEGIN;
+begin;
 
-create or replace function ccbc_public.archive_application_sow(_application_id int)
+drop function if exists ccbc_public.archive_application_sow;
+
+create or replace function ccbc_public.archive_application_sow(_amendment_number int)
 returns void as $$
 declare
     sow_data_ids int[];
@@ -12,13 +14,13 @@ begin
     sow_data_ids := array(
         select sd.id
         from ccbc_public.application_sow_data as sd
-        where sd.application_id = _application_id
+        where sd.amendment_number = _amendment_number
     );
 
     -- Update archived_at for non-archived records in application_sow_data table
     update ccbc_public.application_sow_data
     set archived_at = now()
-    where application_id = _application_id
+    where amendment_number = _amendment_number
     and archived_at is null;
 
     -- Loop through the selected IDs
@@ -50,4 +52,4 @@ $$ language plpgsql volatile;
 grant execute on function ccbc_public.archive_application_sow to ccbc_analyst;
 grant execute on function ccbc_public.archive_application_sow to ccbc_admin;
 
-COMMIT;
+commit;
