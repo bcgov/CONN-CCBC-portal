@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
 import changeRequestSchema from 'formSchema/analyst/changeRequest';
@@ -7,6 +7,7 @@ import { useCreateChangeRequestMutation } from 'schema/mutations/project/createC
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import Toast from 'components/Toast';
 import ChangeRequestCard from './ChangeRequestCard';
+import { displaySowUploadErrors } from '../ProjectInformation/ProjectInformationForm';
 
 const ChangeRequestForm = ({ application }) => {
   const queryFragment = useFragment(
@@ -61,8 +62,30 @@ const ChangeRequestForm = ({ application }) => {
   const [formData, setFormData] = useState({} as any);
   const [showToast, setShowToast] = useState(false);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
+  const [sowValidationErrors, setSowValidationErrors] = useState([]);
 
   const isStatementOfWorkUpload = formData?.statementOfWorkUpload;
+
+  const validateSow = useCallback(
+    async (file) => {
+      const sowFileFormData = new FormData();
+      sowFileFormData.append('file', file);
+
+      const response = await fetch(`/api/analyst/sow/${rowId}/${ccbcNumber}`, {
+        method: 'POST',
+        body: sowFileFormData,
+      });
+
+      const sowErrorList = await response.json();
+      if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
+        setSowValidationErrors(sowErrorList);
+      } else {
+        setSowValidationErrors([]);
+      }
+      return response;
+    },
+    [setSowValidationErrors, ccbcNumber, rowId]
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -97,6 +120,7 @@ const ChangeRequestForm = ({ application }) => {
         ccbcNumber,
         rowId,
         amendmentNumber: newChangeRequestNumber,
+        validateSow,
       }}
       before={
         <>
@@ -153,6 +177,8 @@ const ChangeRequestForm = ({ application }) => {
           Statement of work successfully imported
         </Toast>
       )}
+      {sowValidationErrors?.length > 0 &&
+        sowValidationErrors.flatMap(displaySowUploadErrors)}
     </ProjectForm>
   );
 };
