@@ -2044,6 +2044,61 @@ const mockQueryPayload = {
               tableName: 'project_information_data',
               externalAnalyst: null,
             },
+            {
+              applicationId: 6,
+              createdAt: '2023-06-22T07:57:08.820373-08:00',
+              familyName: 'Brown',
+              item: 'application',
+              givenName: 'Jimbo',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                json_data: {
+                  statementOfWorkUpload: [
+                    {
+                      uuid: 'just-about-anything',
+                      name: 'CR Statement of Work.xlsx',
+                    },
+                  ],
+                },
+                updated_by: 3,
+                archived_at: null,
+                archived_by: null,
+                ccbc_number: null,
+              },
+              recordId: '5074afcc-87be-5d86-b3da-f0df836635b2',
+              sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@idir',
+              tableName: 'change_request_data',
+              externalAnalyst: null,
+            },
+            {
+              applicationId: 6,
+              createdAt: '2023-06-22T07:57:08.820373-08:00',
+              familyName: 'Bob',
+              item: 'application',
+              givenName: 'Jimbo',
+              op: 'UPDATE',
+              record: {
+                id: 1,
+                json_data: {
+                  statementOfWorkUpload: [
+                    {
+                      uuid: 'just-about-anything',
+                      name: 'CR Statement of Work.xlsx',
+                    },
+                  ],
+                },
+                updated_by: 3,
+                updated_at: '2023-06-22T07:57:08.820373-08:00',
+                archived_at: null,
+                archived_by: null,
+                ccbc_number: null,
+              },
+              recordId: '5074afcc-87be-5d86-b3da-f0df836635b2',
+              sessionSub: '8aeecc40e7e74568bd8fa94e440f7e0b@idir',
+              tableName: 'change_request_data',
+              externalAnalyst: null,
+            },
           ],
         },
       },
@@ -2211,6 +2266,28 @@ describe('The index page', () => {
       screen.getAllByTestId('history-content-form-data')[2]
     ).toHaveTextContent(
       'Foo Bar uploaded the GIS Analysis on Mar 3, 2023, 8:35 a.m.'
+    );
+  });
+
+  it('shows the correct history for change request', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-content-change-request')[1]
+    ).toHaveTextContent(
+      'Jimbo Brown created a Change Request on Jun 22, 2023, 8:57 a.m.'
+    );
+  });
+
+  it('shows the correct history for an updated change request', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-content-change-request')[0]
+    ).toHaveTextContent(
+      'Jimbo Bob updated a Change Request on Jun 22, 2023, 8:57 a.m.'
     );
   });
 
