@@ -1,3 +1,34 @@
+# [1.77.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.76.0...v1.77.0) (2023-06-26)
+
+### Bug Fixes
+
+- add id prop for new datepicker input ([9529bf2](https://github.com/bcgov/CONN-CCBC-portal/commit/9529bf2e99aa2385a94987cc53bdbff81a4b7a79))
+- added styles on success page ([4ac7b94](https://github.com/bcgov/CONN-CCBC-portal/commit/4ac7b944b946ade0e9dbe23bc137829e71bad325))
+- added unit tests ([d381675](https://github.com/bcgov/CONN-CCBC-portal/commit/d38167563e20b890c9502af92082ee0765a53d5b))
+- change request empty state showing form schema ([291671e](https://github.com/bcgov/CONN-CCBC-portal/commit/291671e73cb8ea13fd4d12ac4cb4a888b9b45d0b))
+- change request form animation ([8b5e0ed](https://github.com/bcgov/CONN-CCBC-portal/commit/8b5e0ed4bb7fadc0a6772966c7bbe2443546c2c1))
+- change request revert ([5f0b1e9](https://github.com/bcgov/CONN-CCBC-portal/commit/5f0b1e96604b014db2e5fb9c6adc2f7ddacbbf44))
+- **ci:** release PR properly deletes old tag ([6f9b9b4](https://github.com/bcgov/CONN-CCBC-portal/commit/6f9b9b41c0ec47824d0ea6b9ebbc992fa9bf83b5))
+- don't save invalid date ([4956076](https://github.com/bcgov/CONN-CCBC-portal/commit/4956076753d2606b3f6fc7e9fc75167ca791043c))
+- improve test coverage ([8d68300](https://github.com/bcgov/CONN-CCBC-portal/commit/8d68300ba82949df933830d4018ac7f0fb0df23d))
+- set field to undefined on clear for proper error handling ([31ec8cb](https://github.com/bcgov/CONN-CCBC-portal/commit/31ec8cb94f78036b22b5f88669261c90d4cd8be6))
+- set project form animation height ([f596694](https://github.com/bcgov/CONN-CCBC-portal/commit/f596694e921533d9e64d81fe66f83ee6d3a2a411))
+
+### Features
+
+- add change request card ([03f0378](https://github.com/bcgov/CONN-CCBC-portal/commit/03f03788a08bb023f48d9ead80a20ad22ac1dc54))
+- add change request json form schema and ui schema ([3e95436](https://github.com/bcgov/CONN-CCBC-portal/commit/3e95436c0e3089222b618837715b1d2f58f02af2))
+- add change_request_data table ([be98760](https://github.com/bcgov/CONN-CCBC-portal/commit/be98760d4eb8c20c3b6a57c3e53a659af11a3f8d))
+- add createChangeRequest graphql mutation ([5553bd8](https://github.com/bcgov/CONN-CCBC-portal/commit/5553bd88f4dbeac2e8d81a6b3965d3044e07777b))
+- add postgres mutation create_change_request ([1207f6a](https://github.com/bcgov/CONN-CCBC-portal/commit/1207f6a918d2f8bd167f91c9ac5c185b7a9448fd))
+- add show_change_request feature flag ([119efe8](https://github.com/bcgov/CONN-CCBC-portal/commit/119efe85aabc468e5398d5bfd0e2ec43b8dc2b96))
+- added metabase link on success page ([363836e](https://github.com/bcgov/CONN-CCBC-portal/commit/363836e7e993c9bf1c0937e41182dbcb2b7cea7e))
+- adding metabase link to gis page ([941afbc](https://github.com/bcgov/CONN-CCBC-portal/commit/941afbc9f822d67092b062206d9a4a6c9bcabefa))
+- conditionally show add change request button based on sow upload field ([06bf769](https://github.com/bcgov/CONN-CCBC-portal/commit/06bf769f337d2f49bf0fe2342cd0dc1ca962be45))
+- order by change request number ([065b3d8](https://github.com/bcgov/CONN-CCBC-portal/commit/065b3d8b2439e802fb72adc8b457a5be19e999b6))
+- save change request number with form ([f910767](https://github.com/bcgov/CONN-CCBC-portal/commit/f910767f180264ffcf5fa44e6744f0515ff31693))
+- update create change request db mutation to check expected number ([f58aac6](https://github.com/bcgov/CONN-CCBC-portal/commit/f58aac6f0432c9af3b130f77bf4e4ef7ddc36218))
+
 # [1.76.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.75.0...v1.76.0) (2023-06-22)
 
 ### Bug Fixes

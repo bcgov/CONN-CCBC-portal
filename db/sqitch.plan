@@ -335,3 +335,4 @@ tables/application_status_type_006_add_new_types 2023-06-12T23:08:53Z Marcel Mue
 @1.76.0 2023-06-22T17:20:00Z Anthony Bushara <anthony@button.is> # release v1.76.0
 tables/change_request_data 2023-06-20T20:07:25Z Marcel Mueller <marcel@m2> # add table change request data
 mutations/create_change_request 2023-06-20T21:20:49Z Marcel Mueller <marcel@m2> # add mutation create_change_request
+@1.77.0 2023-06-26T13:48:33Z CCBC Service Account <ccbc@button.is> # release v1.77.0
