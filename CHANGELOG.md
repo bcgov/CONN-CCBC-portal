@@ -1,3 +1,9 @@
+# [1.78.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.77.0...v1.78.0) (2023-06-26)
+
+### Features
+
+- add basic history content for insert ([2c5abee](https://github.com/bcgov/CONN-CCBC-portal/commit/2c5abee140fb4c28b625b93919c34f7b2d21cf55))
+
 # [1.77.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.76.0...v1.77.0) (2023-06-26)
 
 ### Bug Fixes
