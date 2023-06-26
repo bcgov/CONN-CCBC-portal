@@ -339,3 +339,4 @@ tables/sow_grant_update 2023-06-14T22:46:52Z Rafael Solorzano <61289255+rafasdc@
 mutations/create_application_sow 2023-06-22T20:36:51Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create application sow data with archive
 mutations/archive_application_sow 2023-06-22T22:50:07Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # archive all sow data based on application id
 @1.77.0 2023-06-26T17:18:08Z CCBC Service Account <ccbc@button.is> # release v1.77.0
+@1.77.1 2023-06-26T20:32:06Z CCBC Service Account <ccbc@button.is> # release v1.77.1
