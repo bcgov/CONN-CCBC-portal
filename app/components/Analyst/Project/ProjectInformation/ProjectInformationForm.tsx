@@ -7,6 +7,7 @@ import projectInformationReadOnlySchema from 'formSchema/analyst/projectInformat
 import projectInformationUiSchema from 'formSchema/uiSchema/analyst/projectInformationUiSchema';
 import projectInformationReadOnlyUiSchema from 'formSchema/uiSchema/analyst/projectInformationReadOnlyUiSchema';
 import { useCreateProjectInformationMutation } from 'schema/mutations/project/createProjectInformation';
+import { useArchiveApplicationSowMutation } from 'schema/mutations/project/archiveApplicationSow';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import Toast from 'components/Toast';
@@ -96,6 +97,7 @@ const ProjectInformationForm = ({ application }) => {
   const { ccbcNumber, id, rowId, projectInformation } = queryFragment;
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
+  const [archiveApplicationSow] = useArchiveApplicationSowMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
   const [sowValidationErrors, setSowValidationErrors] = useState([]);
@@ -154,6 +156,14 @@ const ProjectInformationForm = ({ application }) => {
     if (hasFormErrors) {
       return;
     }
+    if (!formData.hasFundingAgreementBeenSigned) {
+      // archive by application id
+      archiveApplicationSow({
+        variables: {
+          input: { _applicationId: rowId },
+        },
+      });
+    }
 
     createProjectInformation({
       variables: {
@@ -190,7 +200,11 @@ const ProjectInformationForm = ({ application }) => {
       }}
       formData={formData}
       handleChange={(e) => {
-        setFormData({ ...e.formData });
+        if (!e.formData.hasFundingAgreementBeenSigned) {
+          setFormData({ ...e.formData, main: {} });
+        } else {
+          setFormData({ ...e.formData });
+        }
       }}
       isFormEditMode={isFormEditMode}
       title="Project information"

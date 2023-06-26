@@ -160,6 +160,69 @@ const mockJsonDataQueryPayload = {
   },
 };
 
+const mockProjectDataQueryPayload = {
+  Query() {
+    return {
+      applicationByRowId: {
+        rowId: 1,
+        ccbcNumber: 'CCBC-010003',
+        announcements: {
+          edges: [],
+          pageInfo: {
+            endCursor: null,
+            hasNextPage: false,
+          },
+          __id: 'client:WyJhcHBsaWNhdGlvbnMiLDZd:__AnnouncementsForm_announcements_connection',
+        },
+        conditionalApproval: {
+          id: 'test-id',
+          jsonData: {
+            decision: {
+              ministerDecision: 'Approved',
+            },
+            isedDecisionObj: {},
+            letterOfApproval: {},
+            response: {
+              applicantResponse: 'Accepted',
+            },
+          },
+        },
+        projectInformation: {
+          jsonData: {
+            main: {
+              upload: {
+                statementOfWorkUpload: [
+                  {
+                    id: 11,
+                    name: 'CCBC-020118 - Statement of Work Tables - 20230517.xlsx',
+                    size: 4230881,
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    uuid: '3529ee52-c2e0-4c65-b1c2-2e3632e77f66',
+                  },
+                ],
+                fundingAgreementUpload: [
+                  {
+                    id: 10,
+                    name: 'test.pdf',
+                    size: 0,
+                    type: 'application/pdf',
+                    uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
+                  },
+                ],
+              },
+              dateFundingAgreementSigned: '2023-05-10',
+            },
+            hasFundingAgreementBeenSigned: true,
+          },
+        },
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+    };
+  },
+};
+
 global.fetch = jest.fn(() =>
   Promise.resolve({
     json: () =>
@@ -780,5 +843,39 @@ describe('The Project page', () => {
     expect(
       screen.getByText('View project data in Metabase')
     ).toBeInTheDocument();
+  });
+
+  it('should clear and archive the project and sow information on no', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    // Click on the edit button to open the form
+    const editButton = screen.getAllByTestId('project-form-edit-button');
+    await act(async () => {
+      fireEvent.click(editButton[1]);
+    });
+
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('No');
+
+    expect(hasFundingAggreementBeenSigned).not.toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(hasFundingAggreementBeenSigned);
+    });
+
+    const saveButton = screen.getAllByTestId('save')[0];
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'archiveApplicationSowMutation',
+      {
+        input: {
+          _applicationId: 1,
+        },
+      }
+    );
   });
 });
