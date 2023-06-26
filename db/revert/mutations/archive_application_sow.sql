@@ -1,6 +1,8 @@
 -- Deploy ccbc:mutations/archive_application_sow to pg
 
-BEGIN;
+begin;
+
+drop function if exists ccbc_public.archive_application_sow;
 
 create or replace function ccbc_public.archive_application_sow(_application_id int)
 returns void as $$
@@ -50,4 +52,4 @@ $$ language plpgsql volatile;
 grant execute on function ccbc_public.archive_application_sow to ccbc_analyst;
 grant execute on function ccbc_public.archive_application_sow to ccbc_admin;
 
-COMMIT;
+begin;
