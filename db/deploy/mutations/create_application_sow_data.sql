@@ -2,32 +2,32 @@
 
 begin;
 
-create or replace function ccbc_public.create_application_sow_data(_application_id int, _json_data jsonb, _change_request_number int)
+create or replace function ccbc_public.create_application_sow_data(_application_id int, _json_data jsonb, _amendment_number int)
 returns ccbc_public.application_sow_data as $$
 declare
 new_application_sow_data_id int;
 old_application_sow_data_id int;
-sow_change_request_number int;
-sow_is_change_request boolean;
+sow_amendment_number int;
+sow_is_amendment boolean;
 begin
 
-  if _change_request_number is null or _change_request_number = 0
+  if _amendment_number is null or _amendment_number = 0
     then
-      sow_change_request_number := 0;
-      sow_is_change_request := false;
+      sow_amendment_number := 0;
+      sow_is_amendment := false;
     else
-      sow_change_request_number := _change_request_number;
-      sow_is_change_request := true;
+      sow_amendment_number := _amendment_number;
+      sow_is_amendment := true;
   end if;
 
   select asd.id into old_application_sow_data_id from ccbc_public.application_sow_data as asd
   where asd.application_id = _application_id
-  and asd.change_request_number = sow_change_request_number
+  and asd.amendment_number = sow_amendment_number
   and archived_at is null
   order by asd.id desc limit 1;
 
-  insert into ccbc_public.application_sow_data (application_id, json_data, change_request_number, is_change_request)
-    values (_application_id, _json_data, sow_change_request_number, sow_is_change_request) returning id into new_application_sow_data_id;
+  insert into ccbc_public.application_sow_data (application_id, json_data, amendment_number, is_amendment)
+    values (_application_id, _json_data, sow_amendment_number, sow_is_amendment) returning id into new_application_sow_data_id;
 
   if exists (select * from ccbc_public.application_sow_data where id = old_application_sow_data_id)
     then update ccbc_public.application_sow_data set archived_at = now() where id = old_application_sow_data_id;

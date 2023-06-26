@@ -30,13 +30,13 @@ select ccbc_public.create_application();
 -- set role to analyst
 set role ccbc_analyst;
 
--- create sow data without change request number
+-- create sow data without amendment number
 select ccbc_public.create_application_sow_data(1::int , '{}'::jsonb, null::int);
 
 select results_eq (
   $$
-    select change_request_number, is_change_request from ccbc_public.application_sow_data
-    where application_id = 1 and change_request_number = 0
+    select amendment_number, is_amendment from ccbc_public.application_sow_data
+    where application_id = 1 and amendment_number = 0
   $$,
   $$
   values (
@@ -44,7 +44,7 @@ select results_eq (
     false::boolean
   )
   $$,
-  'Original sow data should have 0 as change request number and false as is_change_request'
+  'Original sow data should have 0 as change request number and false as is_amendment'
 );
 
 -- create another and make sure the previous one is archived
@@ -53,7 +53,7 @@ select ccbc_public.create_application_sow_data(1::int , '{}'::jsonb, null::int);
 select results_eq (
   $$
     select count(*) from ccbc_public.application_sow_data
-    where application_id = 1 and change_request_number = 0 and archived_at is not null
+    where application_id = 1 and amendment_number = 0 and archived_at is not null
   $$,
   $$
   values (
@@ -68,8 +68,8 @@ select ccbc_public.create_application_sow_data(1::int , '{}'::jsonb, 1::int);
 
 select results_eq (
   $$
-    select change_request_number, is_change_request from ccbc_public.application_sow_data
-    where application_id = 1 and change_request_number = 1
+    select amendment_number, is_amendment from ccbc_public.application_sow_data
+    where application_id = 1 and amendment_number = 1
   $$,
   $$
   values (
@@ -77,7 +77,7 @@ select results_eq (
     true::boolean
   )
   $$,
-  'Change request sow data should have 1 as change request number and true as is_change_request'
+  'Change request sow data should have 1 as change request number and true as is_amendment'
 );
 
 -- create another and make sure the previous one is archived
@@ -87,7 +87,7 @@ select ccbc_public.create_application_sow_data(1::int , '{}'::jsonb, 1::int);
 select results_eq (
   $$
     select count(*) from ccbc_public.application_sow_data
-    where application_id = 1 and change_request_number = 1 and archived_at is not null
+    where application_id = 1 and amendment_number = 1 and archived_at is not null
   $$,
   $$
   values (

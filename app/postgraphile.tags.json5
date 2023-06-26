@@ -34,7 +34,7 @@
       },
       'ccbc_public.application_sow_data': {
         tags: {
-          omit: ['create', 'update', 'delete'],
+          omit: ['create', 'delete'],
         },
       },
     },
