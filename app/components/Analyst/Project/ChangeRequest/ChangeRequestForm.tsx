@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
 import changeRequestSchema from 'formSchema/analyst/changeRequest';
@@ -60,6 +60,10 @@ const ChangeRequestForm = ({ application }) => {
   const [showToast, setShowToast] = useState(false);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
 
+  // Leaving this here for validation implementation
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [sowValidationErrors, setSowValidationErrors] = useState([]);
+
   const isStatementOfWorkUpload = formData?.statementOfWorkUpload;
 
   const handleSubmit = (e) => {
@@ -88,11 +92,36 @@ const ChangeRequestForm = ({ application }) => {
     setShowToast(false);
   };
 
+  const validateSow = useCallback(
+    async (file) => {
+      const sowFileFormData = new FormData();
+      sowFileFormData.append('file', file);
+
+      const response = await fetch(
+        `/api/analyst/sow/${rowId}/${ccbcNumber}/${newChangeRequestNumber}`,
+        {
+          method: 'POST',
+          body: sowFileFormData,
+        }
+      );
+
+      const sowErrorList = await response.json();
+      if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
+        setSowValidationErrors(sowErrorList);
+      } else {
+        setSowValidationErrors([]);
+      }
+      return response;
+    },
+    [setSowValidationErrors, ccbcNumber, rowId, newChangeRequestNumber]
+  );
+
   return (
     <ProjectForm
       additionalContext={{
         applicationId: rowId,
         ccbcNumber,
+        validateSow,
       }}
       before={
         <>

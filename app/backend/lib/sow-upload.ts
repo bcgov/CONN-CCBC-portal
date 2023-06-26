@@ -69,7 +69,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
     if (loadError) {
       errorList.push({ level: 'summary', error: loadError });
     } else {
-      const sowData = (result as any)?.data?.createApplicationSow
+      const sowData = (result as any)?.data?.createApplicationSowData
         ?.applicationSowData;
       const sowId = sowData?.rowId || 1;
 
@@ -106,7 +106,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
 };
 
 sowUpload.post(
-  '/api/analyst/sow/:applicationId/:ccbcNumber',
+  '/api/analyst/sow/:applicationId/:ccbcNumber/:changeRequestNumber',
   limiter,
   (req, res) => {
     // eslint-disable-next-line no-void
