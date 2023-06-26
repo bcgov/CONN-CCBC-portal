@@ -17,12 +17,7 @@ const createSowMutation = `
   }
 `;
 
-const readSummary = async (
-  wb,
-  sheet_name,
-  applicationId,
-  changeRequestNumber
-) => {
+const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
   const summary = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
@@ -125,7 +120,7 @@ const readSummary = async (
 
   const sowData = {
     _applicationId: parseInt(applicationId, 10),
-    _changeRequestNumber: parseInt(changeRequestNumber, 10),
+    _amendmentNumber: parseInt(amendmentNumber, 10),
     _jsonData: jsonData,
   };
 
@@ -200,13 +195,13 @@ const ValidateData = (data) => {
 };
 
 const LoadSummaryData = async (wb, sheet_name, req) => {
-  const { applicationId, ccbcNumber, changeRequestNumber } = req.params;
+  const { applicationId, ccbcNumber, amendmentNumber } = req.params;
   const { validate = false } = req.query || {};
   const data = await readSummary(
     wb,
     sheet_name,
     applicationId,
-    changeRequestNumber
+    amendmentNumber
   );
 
   const uploadedNumber = data._jsonData.ccbc_number;
@@ -227,7 +222,11 @@ const LoadSummaryData = async (wb, sheet_name, req) => {
   const result = await performQuery(
     createSowMutation,
     {
-      input: { _applicationId: data._applicationId, _jsonData: data._jsonData },
+      input: {
+        _applicationId: data._applicationId,
+        _jsonData: data._jsonData,
+        _amendmentNumber: data._amendmentNumber,
+      },
     },
     req
   ).catch((e) => {

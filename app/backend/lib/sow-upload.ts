@@ -106,7 +106,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
 };
 
 sowUpload.post(
-  '/api/analyst/sow/:applicationId/:ccbcNumber/:changeRequestNumber',
+  '/api/analyst/sow/:applicationId/:ccbcNumber/:amendmentNumber',
   limiter,
   (req, res) => {
     // eslint-disable-next-line no-void
