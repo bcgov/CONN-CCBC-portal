@@ -1,3 +1,16 @@
+# [1.78.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.77.0...v1.78.0) (2023-06-26)
+
+### Bug Fixes
+
+- add crunchy postgres name override value ([e731f77](https://github.com/bcgov/CONN-CCBC-portal/commit/e731f77beb2398edf073329ace1e0982d650086c))
+- enable pg exporter in helm values ([26faf1c](https://github.com/bcgov/CONN-CCBC-portal/commit/26faf1c98dc84bbedfe90a4fff04485972a435cd))
+- helm subchart name issue ([f1bad34](https://github.com/bcgov/CONN-CCBC-portal/commit/f1bad34d862f796e4e0ddee660f43b5480d85b70))
+
+### Features
+
+- add basic history content for insert ([2c5abee](https://github.com/bcgov/CONN-CCBC-portal/commit/2c5abee140fb4c28b625b93919c34f7b2d21cf55))
+- update crunchy-postgres name override ([3c41ca5](https://github.com/bcgov/CONN-CCBC-portal/commit/3c41ca55e6ffb4696127e0d7b71b226b8d58be11))
+
 # [1.77.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.76.0...v1.77.0) (2023-06-26)
 
 ### Bug Fixes
