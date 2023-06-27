@@ -6,8 +6,8 @@ import changeRequestUiSchema from 'formSchema/uiSchema/analyst/changeRequestUiSc
 import { useCreateChangeRequestMutation } from 'schema/mutations/project/createChangeRequest';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import Toast from 'components/Toast';
+import sowValidateGenerator from 'lib/helpers/sowValidate';
 import ChangeRequestCard from './ChangeRequestCard';
-import { displaySowUploadErrors } from '../ProjectInformation/ProjectInformationForm';
 
 const ChangeRequestForm = ({ application }) => {
   const queryFragment = useFragment(
@@ -68,27 +68,8 @@ const ChangeRequestForm = ({ application }) => {
   const isStatementOfWorkUpload = formData?.statementOfWorkUpload;
 
   const validateSow = useCallback(
-    async (file, validate = true) => {
-      const sowFileFormData = new FormData();
-      sowFileFormData.append('file', file);
-      setSowFile(file);
-      const response = await fetch(
-        `/api/analyst/sow/${rowId}/${ccbcNumber}?validate=${validate}`,
-        {
-          method: 'POST',
-          body: sowFileFormData,
-        }
-      );
-
-      const sowErrorList = await response.json();
-      if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
-        setSowValidationErrors(sowErrorList);
-      } else {
-        setSowValidationErrors([]);
-      }
-      return response;
-    },
-    [setSowValidationErrors, ccbcNumber, rowId]
+    sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
+    [setSowValidationErrors, ccbcNumber, rowId, setSowFile]
   );
 
   const handleSubmit = (e) => {
@@ -126,6 +107,7 @@ const ChangeRequestForm = ({ application }) => {
         rowId,
         amendmentNumber: newChangeRequestNumber,
         validateSow,
+        sowValidationErrors,
       }}
       before={
         <>
@@ -182,8 +164,6 @@ const ChangeRequestForm = ({ application }) => {
           Statement of work successfully imported
         </Toast>
       )}
-      {sowValidationErrors?.length > 0 &&
-        sowValidationErrors.flatMap(displaySowUploadErrors)}
     </ProjectForm>
   );
 };

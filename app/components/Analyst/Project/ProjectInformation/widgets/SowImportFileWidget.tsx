@@ -184,7 +184,6 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
   const [error, setError] = useState('');
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
-  const [sowValidationErrors, setSowValidationErrors] = useState([]);
   const [isImporting, setIsImporting] = useState(false);
   const [isValidSow, setIsValidSow] = useState(false);
   const isFiles = value?.length > 0;
@@ -197,12 +196,12 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       setError('rjsf_validation');
     }
   }, [rawErrors, setError]);
+  const { applicationId, sowValidationErrors, validateSow, amendmentNumber } = formContext;
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (loading) return;
     setError('');
 
-    const { applicationId, rowId, ccbcNumber, amendmentNumber } = formContext;
     const file = e.target.files?.[0];
 
     const { isValid, error: newError } = validateFile(
@@ -235,24 +234,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       },
     };
 
-    setSowValidationErrors([]);
-    const sowFileFormData = new FormData();
-    sowFileFormData.append('file', file);
-
-    const response = await fetch(
-      `/api/analyst/sow/${rowId}/${ccbcNumber}/${amendmentNumber || 0}`,
-      {
-        method: 'POST',
-        body: sowFileFormData,
-      }
-    );
-
-    const sowErrorList = await response.json();
-    if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
-      setSowValidationErrors(sowErrorList);
-    } else {
-      setSowValidationErrors([]);
-    }
+    const response = await validateSow(file, true);
 
     const { status } = response;
     createAttachment({

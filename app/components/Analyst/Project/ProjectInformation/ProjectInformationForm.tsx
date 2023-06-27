@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
@@ -12,6 +12,7 @@ import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import Toast from 'components/Toast';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
+import sowValidateGenerator from 'lib/helpers/sowValidate';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
@@ -42,10 +43,16 @@ const ProjectInformationForm = ({ application }) => {
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
   const [sowFile, setSowFile] = useState(null);
+  const [sowValidationErrors, setSowValidationErrors] = useState([]);
   const [isFormEditMode, setIsFormEditMode] = useState(
     !projectInformation?.jsonData
   );
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+
+  const validateSow = useCallback(
+    sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
+    [rowId, ccbcNumber, setSowFile, setSowValidationErrors]
+  );
 
   const hasFormErrors = useMemo(() => {
     if (formData === null) {
@@ -117,8 +124,8 @@ const ProjectInformationForm = ({ application }) => {
     <StyledProjectForm
       additionalContext={{
         applicationId: rowId,
-        ccbcNumber,
-        rowId,
+        sowValidationErrors,
+        validateSow,
       }}
       formData={formData}
       handleChange={(e) => {
