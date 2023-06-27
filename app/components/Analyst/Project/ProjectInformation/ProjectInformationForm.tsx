@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
@@ -12,65 +12,6 @@ import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import Toast from 'components/Toast';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
-import { Alert } from '@button-inc/bcgov-theme';
-
-const StyledAlert = styled(Alert)`
-  margin-bottom: 8px;
-  margin-top: 8px;
-`;
-
-export const displaySowUploadErrors = (err) => {
-  const { level: errorType, error: errorMessage } = err;
-  let title =
-    'An unknown error has occured while validating the Statement of Work data';
-  if (errorType?.includes('tab')) {
-    title = `There was an error importing the Statement of Work data at ${errorType}`;
-  }
-  if (errorType === 'summary') {
-    title =
-      'There was an error importing the Statement of Work data at the Summary tab';
-  }
-
-  if (errorType === 'database') {
-    title = 'An error occured when validating the Statement of Work data';
-  }
-
-  if (errorType === 'workbook') {
-    title =
-      'The Statement of Work sheet does not appear to contain the correct tabs.';
-  }
-  // for cell level errors
-  if (typeof errorMessage !== 'string') {
-    return errorMessage.map(({ error: message }) => {
-      return (
-        <StyledAlert
-          key={message}
-          variant="danger"
-          closable={false}
-          content={
-            <>
-              <div> {title}</div>
-              <div>{message}</div>
-            </>
-          }
-        />
-      );
-    });
-  }
-  return (
-    <StyledAlert
-      key={errorMessage}
-      variant="danger"
-      closable={false}
-      content={
-        <>
-          <div> {title}</div>
-          <div>{errorMessage}</div>
-        </>
-      }
-    />
-  );
-};
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
@@ -100,7 +41,6 @@ const ProjectInformationForm = ({ application }) => {
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
-  const [sowValidationErrors, setSowValidationErrors] = useState([]);
   const [isFormEditMode, setIsFormEditMode] = useState(
     !projectInformation?.jsonData
   );
@@ -127,30 +67,6 @@ const ProjectInformationForm = ({ application }) => {
     const isFormValid = filteredErrors.length <= 0;
     return !isFormValid;
   }, [formData]);
-
-  const validateSow = useCallback(
-    async (file) => {
-      const sowFileFormData = new FormData();
-      sowFileFormData.append('file', file);
-
-      const response = await fetch(
-        `/api/analyst/sow/${rowId}/${ccbcNumber}/0`,
-        {
-          method: 'POST',
-          body: sowFileFormData,
-        }
-      );
-
-      const sowErrorList = await response.json();
-      if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
-        setSowValidationErrors(sowErrorList);
-      } else {
-        setSowValidationErrors([]);
-      }
-      return response;
-    },
-    [setSowValidationErrors, ccbcNumber, rowId]
-  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -199,7 +115,7 @@ const ProjectInformationForm = ({ application }) => {
       additionalContext={{
         applicationId: rowId,
         ccbcNumber,
-        validateSow,
+        rowId,
       }}
       formData={formData}
       handleChange={(e) => {
@@ -240,8 +156,6 @@ const ProjectInformationForm = ({ application }) => {
           Statement of work successfully imported
         </Toast>
       )}
-      {sowValidationErrors?.length > 0 &&
-        sowValidationErrors.flatMap(displaySowUploadErrors)}
     </StyledProjectForm>
   );
 };

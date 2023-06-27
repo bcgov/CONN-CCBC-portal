@@ -60,6 +60,13 @@ const mockEmptyQueryPayload = {
     };
   },
 };
+
+const mockFetch = Promise.resolve({
+  json: () => Promise.resolve([]),
+  status: 200,
+});
+global.fetch = jest.fn().mockImplementation(() => mockFetch);
+
 const componentTestingHelper =
   new ComponentTestingHelper<ChangeRequestFormTestQuery>({
     component: ChangeRequestForm,

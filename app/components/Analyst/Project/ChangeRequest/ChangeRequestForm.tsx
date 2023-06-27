@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
 import changeRequestSchema from 'formSchema/analyst/changeRequest';
@@ -51,6 +51,8 @@ const ChangeRequestForm = ({ application }) => {
 
   const changeRequestData = changeRequestDataByApplicationId?.edges;
   const connectionId = changeRequestDataByApplicationId?.__id;
+
+  // This will change to amendment number once we add the amendment field
   const newChangeRequestNumber = changeRequestData.length + 1;
   const isOriginalSowUpload =
     projectInformation?.jsonData?.main?.upload?.statementOfWorkUpload?.[0];
@@ -59,10 +61,6 @@ const ChangeRequestForm = ({ application }) => {
   const [formData, setFormData] = useState({} as any);
   const [showToast, setShowToast] = useState(false);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
-
-  // Leaving this here for validation implementation
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [sowValidationErrors, setSowValidationErrors] = useState([]);
 
   const isStatementOfWorkUpload = formData?.statementOfWorkUpload;
 
@@ -92,36 +90,13 @@ const ChangeRequestForm = ({ application }) => {
     setShowToast(false);
   };
 
-  const validateSow = useCallback(
-    async (file) => {
-      const sowFileFormData = new FormData();
-      sowFileFormData.append('file', file);
-
-      const response = await fetch(
-        `/api/analyst/sow/${rowId}/${ccbcNumber}/${newChangeRequestNumber}`,
-        {
-          method: 'POST',
-          body: sowFileFormData,
-        }
-      );
-
-      const sowErrorList = await response.json();
-      if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
-        setSowValidationErrors(sowErrorList);
-      } else {
-        setSowValidationErrors([]);
-      }
-      return response;
-    },
-    [setSowValidationErrors, ccbcNumber, rowId, newChangeRequestNumber]
-  );
-
   return (
     <ProjectForm
       additionalContext={{
         applicationId: rowId,
         ccbcNumber,
-        validateSow,
+        rowId,
+        amendmentNumber: newChangeRequestNumber,
       }}
       before={
         <>
