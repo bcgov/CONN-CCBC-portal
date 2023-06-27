@@ -29,6 +29,10 @@ const readBudget = async (sow_id, wb, sheet_name) => {
       totalInfrastructureBankFunding: '',
       totalFundingRequestedCCBC: '',
     },
+    detailedBudget: {
+      federalSharingRatio: 0,
+      provincialSharingRatio: 0,
+    },
     summaryOfEstimatedProjectCosts: {
       estimatedProjectCosts: {
         eligibleRuralBroadband: '',
@@ -227,6 +231,28 @@ const readBudget = async (sow_id, wb, sheet_name) => {
     }
   }
   // -- END SUMMARY TABLE --
+
+  // -- DETAILED BUDGET --
+
+  for (let row = 1000; row < 1050; row++) {
+    const suspect = budget[row]['B'];
+    let value;
+    if (suspect === undefined) continue;
+    if (typeof suspect !== 'string') {
+      value = suspect.toString();
+    } else {
+      value = suspect;
+    }
+    if (value.indexOf('INDICATE FEDERAL SHARING RATIO') > -1) {
+      detailedBudget.detailedBudget.federalSharingRatio = budget[row]['K'];
+    }
+
+    if (value.indexOf('INDICATE PROVINCIAL SHARING RATIO') > -1) {
+      detailedBudget.detailedBudget.provincialSharingRatio = budget[row]['K'];
+    }
+  }
+
+  // -- END DETAIlED BUDGET --
 
   // -- SUMMARY OF ESTIMATED PROJECT COSTS --
 
@@ -571,45 +597,72 @@ const readBudget = async (sow_id, wb, sheet_name) => {
 const ValidateData = (data) => {
   const errors = [];
   if (typeof data.totalEligibleCosts !== 'number') {
-    errors.push({level:'cell', error: 'Invalid data: Total Eligible Costs'});
-  }  
+    errors.push({ level: 'cell', error: 'Invalid data: Total Eligible Costs' });
+  }
   if (typeof data.totalIneligibleCosts !== 'number') {
-    errors.push({level:'cell', error: 'Invalid data: Total Ineligible Costs'});
-  }  
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Total Ineligible Costs',
+    });
+  }
   if (typeof data.totalProjectCost !== 'number') {
-    errors.push({level:'cell', error: 'Invalid data: Total Project Costs'});
+    errors.push({ level: 'cell', error: 'Invalid data: Total Project Costs' });
   }
   if (typeof data.amountRequestedFromFederalGovernment !== 'number') {
-    errors.push({level:'cell', error: 'Invalid data: Amount Requested from the Federal Government'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Amount Requested from the Federal Government',
+    });
   }
   if (typeof data.amountRequestedFromProvince !== 'number') {
-    errors.push({level:'cell', error: 'Invalid data: Amount Requested from the Province'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Amount Requested from the Province',
+    });
   }
   if (typeof data.totalApplicantContribution !== 'number') {
-    errors.push({level:'cell', error: 'Invalid data: Amount Applicant will contribute'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Amount Applicant will contribute',
+    });
   }
   if (typeof data.totalInfrastructureBankFunding !== 'number') {
-    errors.push({level:'cell', error: 'Invalid data: Amount CIB will contribute'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Amount CIB will contribute',
+    });
   }
   if (typeof data.fundingFromAllOtherSources !== 'number') {
-    errors.push({level:'cell', error: 'Invalid data: Funding from all other sources'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Funding from all other sources',
+    });
   }
   if (typeof data.totalFundingRequestedCCBC !== 'number') {
-    errors.push({level:'cell', error: 'Invalid data: Total Requested from the CCBC Program'});
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Total Requested from the CCBC Program',
+    });
   }
-  
-  if (data.targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity === undefined) {
-    errors.push({level:'table', error: 'Invalid data: Targeting very remote community'});
+
+  if (
+    data.targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity ===
+    undefined
+  ) {
+    errors.push({
+      level: 'table',
+      error: 'Invalid data: Targeting very remote community',
+    });
   }
   return errors;
-}
+};
 
 const LoadTab7Data = async (sow_id, wb, sheet_name, req) => {
   const { validate = false } = req.query || {};
   const data = await readBudget(sow_id, wb, sheet_name);
 
   const errorList = ValidateData(data.summaryTable);
-  
+
   if (errorList.length > 0) {
     return { error: errorList };
   }
@@ -621,7 +674,7 @@ const LoadTab7Data = async (sow_id, wb, sheet_name, req) => {
   const input = { input: { sowId: sow_id, jsonData: data } };
   // time to persist in DB
   const result = await performQuery(tab7Mutation, input, req).catch((e) => {
-    return { error: [{level:'database', error: e}] };
+    return { error: [{ level: 'database', error: e }] };
   });
   return result;
 };
