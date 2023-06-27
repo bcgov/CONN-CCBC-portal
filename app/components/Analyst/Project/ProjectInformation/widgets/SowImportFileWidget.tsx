@@ -12,6 +12,12 @@ import FileComponent from 'lib/theme/components/FileComponent';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { Alert } from '@button-inc/bcgov-theme';
+
+const StyledAlert = styled(Alert)`
+  margin-bottom: 8px;
+  margin-top: 8px;
+`;
 
 const ellipsisAnimation = keyframes`
   0% {
@@ -29,14 +35,13 @@ const ellipsisAnimation = keyframes`
 
 const Loading = styled.div`
   color: #1a5a96;
-
+  width: 10rem;
   &:after {
     overflow: hidden;
     display: inline-block;
     vertical-align: bottom;
     animation: ${ellipsisAnimation} steps(4, end) 900ms infinite;
     content: '\\2026'; /* ascii code for the ellipsis character */
-    width: 0px;
   }
 `;
 
@@ -85,6 +90,59 @@ export const Success = () => (
   </SuccessContainer>
 );
 
+export const displaySowUploadErrors = (err) => {
+  const { level: errorType, error: errorMessage } = err;
+  let title =
+    'An unknown error has occured while validating the Statement of Work data';
+  if (errorType?.includes('tab')) {
+    title = `There was an error importing the Statement of Work data at ${errorType}`;
+  }
+  if (errorType === 'summary') {
+    title =
+      'There was an error importing the Statement of Work data at the Summary tab';
+  }
+
+  if (errorType === 'database') {
+    title = 'An error occured when validating the Statement of Work data';
+  }
+
+  if (errorType === 'workbook') {
+    title =
+      'The Statement of Work sheet does not appear to contain the correct tabs.';
+  }
+  // for cell level errors
+  if (typeof errorMessage !== 'string') {
+    return errorMessage.map(({ error: message }) => {
+      return (
+        <StyledAlert
+          key={message}
+          variant="danger"
+          closable={false}
+          content={
+            <>
+              <div> {title}</div>
+              <div>{message}</div>
+            </>
+          }
+        />
+      );
+    });
+  }
+  return (
+    <StyledAlert
+      key={errorMessage}
+      variant="danger"
+      closable={false}
+      content={
+        <>
+          <div> {title}</div>
+          <div>{errorMessage}</div>
+        </>
+      }
+    />
+  );
+};
+
 export const renderStatusLabel = (
   loading: boolean,
   success: boolean
@@ -126,6 +184,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
   const [error, setError] = useState('');
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
+  const [sowValidationErrors, setSowValidationErrors] = useState([]);
   const [isImporting, setIsImporting] = useState(false);
   const [isValidSow, setIsValidSow] = useState(false);
   const isFiles = value?.length > 0;
@@ -143,7 +202,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
     if (loading) return;
     setError('');
 
-    const { applicationId, validateSow } = formContext;
+    const { applicationId, rowId, ccbcNumber } = formContext;
     const file = e.target.files?.[0];
 
     const { isValid, error: newError } = validateFile(
@@ -176,57 +235,75 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       },
     };
 
-    await validateSow(file).then((response) => {
-      const { status } = response;
-      if (status === 200) {
-        createAttachment({
-          variables,
-          onError: () => {
-            setError('uploadFailed');
-          },
-          onCompleted: (res) => {
-            const uuid = res?.createAttachment?.attachment?.file;
-            const attachmentRowId = res?.createAttachment?.attachment?.rowId;
+    setSowValidationErrors([]);
+    const sowFileFormData = new FormData();
+    sowFileFormData.append('file', file);
 
-            const fileDetails = {
-              id: attachmentRowId,
-              uuid,
-              name,
-              size,
-              type,
-            };
-            onChange([fileDetails]);
-            setIsImporting(false);
-            setIsValidSow(true);
-          },
-        });
-      } else {
-        setError('sowImportFailed');
-        setIsImporting(false);
-        setIsValidSow(false);
-      }
+    const response = await fetch(`/api/analyst/sow/${rowId}/${ccbcNumber}`, {
+      method: 'POST',
+      body: sowFileFormData,
     });
+
+    const sowErrorList = await response.json();
+    if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
+      setSowValidationErrors(sowErrorList);
+    } else {
+      setSowValidationErrors([]);
+    }
+
+    const { status } = response;
+    createAttachment({
+      variables,
+      onError: () => {
+        setError('uploadFailed');
+      },
+      onCompleted: (res) => {
+        const uuid = res?.createAttachment?.attachment?.file;
+        const attachmentRowId = res?.createAttachment?.attachment?.rowId;
+
+        const fileDetails = {
+          id: attachmentRowId,
+          uuid,
+          name,
+          size,
+          type,
+        };
+        onChange([fileDetails]);
+        setIsImporting(false);
+      },
+    });
+    if (status !== 200) {
+      setError('sowImportFailed');
+      setIsImporting(false);
+      setIsValidSow(false);
+    } else {
+      setIsValidSow(true);
+    }
   };
 
   return (
-    <FileComponent
-      loading={loading}
-      error={error}
-      handleDelete={() =>
-        handleDelete(fileId, deleteAttachment, setError, value, onChange)
-      }
-      handleDownload={handleDownload}
-      onChange={(e) => {
-        // eslint-disable-next-line no-void
-        void (() => handleChange(e))();
-      }}
-      fileTypes={acceptedFileTypes}
-      id={id}
-      label={label}
-      statusLabel={renderStatusLabel(isImporting, isValidSow)}
-      required={required}
-      value={value}
-    />
+    <>
+      <FileComponent
+        loading={loading}
+        error={error}
+        handleDelete={() =>
+          handleDelete(fileId, deleteAttachment, setError, value, onChange)
+        }
+        handleDownload={handleDownload}
+        onChange={(e) => {
+          // eslint-disable-next-line no-void
+          void (() => handleChange(e))();
+        }}
+        fileTypes={acceptedFileTypes}
+        id={id}
+        label={label}
+        statusLabel={renderStatusLabel(isImporting, isValidSow)}
+        required={required}
+        value={value}
+      />
+      {sowValidationErrors?.length > 0 &&
+        sowValidationErrors.flatMap(displaySowUploadErrors)}
+    </>
   );
 };
 
