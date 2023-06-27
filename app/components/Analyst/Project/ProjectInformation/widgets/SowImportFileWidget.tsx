@@ -35,14 +35,13 @@ const ellipsisAnimation = keyframes`
 
 const Loading = styled.div`
   color: #1a5a96;
-
+  width: 10rem;
   &:after {
     overflow: hidden;
     display: inline-block;
     vertical-align: bottom;
     animation: ${ellipsisAnimation} steps(4, end) 900ms infinite;
     content: '\\2026'; /* ascii code for the ellipsis character */
-    width: 0px;
   }
 `;
 
