@@ -252,32 +252,32 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
     }
 
     const { status } = response;
-    if (status === 200) {
-      createAttachment({
-        variables,
-        onError: () => {
-          setError('uploadFailed');
-        },
-        onCompleted: (res) => {
-          const uuid = res?.createAttachment?.attachment?.file;
-          const attachmentRowId = res?.createAttachment?.attachment?.rowId;
+    createAttachment({
+      variables,
+      onError: () => {
+        setError('uploadFailed');
+      },
+      onCompleted: (res) => {
+        const uuid = res?.createAttachment?.attachment?.file;
+        const attachmentRowId = res?.createAttachment?.attachment?.rowId;
 
-          const fileDetails = {
-            id: attachmentRowId,
-            uuid,
-            name,
-            size,
-            type,
-          };
-          onChange([fileDetails]);
-          setIsImporting(false);
-          setIsValidSow(true);
-        },
-      });
-    } else {
+        const fileDetails = {
+          id: attachmentRowId,
+          uuid,
+          name,
+          size,
+          type,
+        };
+        onChange([fileDetails]);
+        setIsImporting(false);
+      },
+    });
+    if (status !== 200) {
       setError('sowImportFailed');
       setIsImporting(false);
       setIsValidSow(false);
+    } else {
+      setIsValidSow(true);
     }
   };
 
