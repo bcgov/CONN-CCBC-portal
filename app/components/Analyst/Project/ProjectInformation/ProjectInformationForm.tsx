@@ -41,6 +41,7 @@ const ProjectInformationForm = ({ application }) => {
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
+  const [sowFile, setSowFile] = useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(
     !projectInformation?.jsonData
   );
@@ -71,7 +72,6 @@ const ProjectInformationForm = ({ application }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     hiddenSubmitRef.current.click();
-
     if (hasFormErrors) {
       return;
     }
@@ -83,25 +83,28 @@ const ProjectInformationForm = ({ application }) => {
         },
       });
     }
+    validateSow(sowFile, false).then(() => {
+      createProjectInformation({
+        variables: {
+          input: { _applicationId: rowId, _jsonData: formData },
+        },
+        onCompleted: () => {
+          setIsFormEditMode(false);
 
-    createProjectInformation({
-      variables: {
-        input: { _applicationId: rowId, _jsonData: formData },
-      },
-      onCompleted: () => {
-        setIsFormEditMode(false);
-
-        // May need to change when the toast is shown when we add validation
-        setShowToast(true);
-      },
-      updater: (store, data) => {
-        store
-          .get(id)
-          .setLinkedRecord(
-            store.get(data.createProjectInformation.projectInformationData.id),
-            'projectInformation'
-          );
-      },
+          // May need to change when the toast is shown when we add validation
+          setShowToast(true);
+        },
+        updater: (store, data) => {
+          store
+            .get(id)
+            .setLinkedRecord(
+              store.get(
+                data.createProjectInformation.projectInformationData.id
+              ),
+              'projectInformation'
+            );
+        },
+      });
     });
   };
 

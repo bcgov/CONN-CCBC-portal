@@ -60,6 +60,7 @@ const ChangeRequestForm = ({ application }) => {
 
   const [createChangeRequest] = useCreateChangeRequestMutation();
   const [formData, setFormData] = useState({} as any);
+  const [sowFile, setSowFile] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [sowValidationErrors, setSowValidationErrors] = useState([]);
@@ -67,14 +68,17 @@ const ChangeRequestForm = ({ application }) => {
   const isStatementOfWorkUpload = formData?.statementOfWorkUpload;
 
   const validateSow = useCallback(
-    async (file) => {
+    async (file, validate = true) => {
       const sowFileFormData = new FormData();
       sowFileFormData.append('file', file);
-
-      const response = await fetch(`/api/analyst/sow/${rowId}/${ccbcNumber}`, {
-        method: 'POST',
-        body: sowFileFormData,
-      });
+      setSowFile(file);
+      const response = await fetch(
+        `/api/analyst/sow/${rowId}/${ccbcNumber}?validate=${validate}`,
+        {
+          method: 'POST',
+          body: sowFileFormData,
+        }
+      );
 
       const sowErrorList = await response.json();
       if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
@@ -89,22 +93,23 @@ const ChangeRequestForm = ({ application }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    createChangeRequest({
-      variables: {
-        connections: [connectionId],
-        input: {
-          _applicationId: rowId,
-          _changeRequestNumber: newChangeRequestNumber,
-          _jsonData: formData,
+    validateSow(sowFile, false).then(() => {
+      createChangeRequest({
+        variables: {
+          connections: [connectionId],
+          input: {
+            _applicationId: rowId,
+            _changeRequestNumber: newChangeRequestNumber,
+            _jsonData: formData,
+          },
         },
-      },
-      onCompleted: () => {
-        setIsFormEditMode(false);
-        setFormData({});
-        // May need to change when the toast is shown when we add validation
-        setShowToast(true);
-      },
+        onCompleted: () => {
+          setIsFormEditMode(false);
+          setFormData({});
+          // May need to change when the toast is shown when we add validation
+          setShowToast(true);
+        },
+      });
     });
   };
 
