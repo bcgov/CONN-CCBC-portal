@@ -1,3 +1,14 @@
+# [1.79.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.78.0...v1.79.0) (2023-06-27)
+
+### Bug Fixes
+
+- restrict fileTypes for wireless upload ([39ca8d1](https://github.com/bcgov/CONN-CCBC-portal/commit/39ca8d192b8c3f20c8eff1953ea72e13c8114a5b))
+
+### Features
+
+- add sow wireless to history ([4e12a98](https://github.com/bcgov/CONN-CCBC-portal/commit/4e12a9875b82c56d9a2df49f214df4d3247b75b2))
+- add sow wireless upload ([aa8684a](https://github.com/bcgov/CONN-CCBC-portal/commit/aa8684a290218ba87511afc99b79c36fc2918988))
+
 # [1.78.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.77.0...v1.78.0) (2023-06-26)
 
 ### Bug Fixes
