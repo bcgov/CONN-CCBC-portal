@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { displaySowUploadErrors } from 'components/Analyst/Project/ProjectInformation/ProjectInformationForm';
+import { displaySowUploadErrors } from 'components/Analyst/Project/ProjectInformation/widgets/SowImportFileWidget';
 
 describe('displaySowUploadErrors', () => {
   it('should display the default error message when the error type is unknown', () => {
