@@ -3,11 +3,12 @@
 BEGIN;
 
 create or replace function ccbc_public.parse_gis_data(batchId int)
-returns text as 
+returns text as
 $function$
 
 declare
   application_row_id int;
+  application_status_name text;
   ccbc_id text;
   json_row jsonb;
   json_file jsonb;
@@ -22,20 +23,27 @@ begin
     -- Loop over each object in the JSON array
     for json_row in select * from jsonb_array_elements(json_file)
     loop
-        ccbc_id := json_row->>'ccbc_number'; 
+        ccbc_id := json_row->>'ccbc_number';
 
         -- Look up the application_id based on the ccbc_number value
-        select id into application_row_id from ccbc_public.application where ccbc_number = ccbc_id; 
-        -- If no row was found, add to list 
-        if not found then
-            result := coalesce(result || ',','') || ccbc_id;  
-            -- RAISE EXCEPTION 'No matching row in ccbc_public.application for ccbc_number %', ccbc_id;
-        else 
-            insert into ccbc_public.application_gis_data (batch_id, application_id, json_data) 
+        select id into application_row_id from ccbc_public.application where ccbc_number = ccbc_id;
+
+        -- Look up the application_status based on the application_id value
+        select status into application_status_name from ccbc_public.application_status
+        where application_id = application_row_id
+        order by id desc limit 1;
+
+        -- If no row was found, add to list
+        if not found
+            or (application_status_name != 'received' and application_status_name != 'screening' and application_status_name != 'assessment')
+        then
+            result := coalesce(result || ',','') || ccbc_id;
+        else
+            insert into ccbc_public.application_gis_data (batch_id, application_id, json_data)
             select batchId, application_row_id, json_row
             WHERE
               NOT EXISTS (
-                SELECT id FROM ccbc_public.application_gis_data t 
+                SELECT id FROM ccbc_public.application_gis_data t
                 WHERE t.application_id = application_row_id and t.json_data = json_row
               );
 

@@ -35,8 +35,8 @@ begin
             select batchId, application_row_id, json_row
             WHERE
               NOT EXISTS (
-                SELECT id FROM ccbc_public.application_gis_data t
-                WHERE t.application_id = application_row_id and t.json_data = json_row
+                  SELECT id FROM ccbc_public.application_gis_data t
+                  WHERE t.application_id = application_row_id and t.json_data = json_row
               );
 
         end if;
