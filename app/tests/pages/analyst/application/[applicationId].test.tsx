@@ -306,4 +306,38 @@ describe('The analyst view application page', () => {
     // expect not to find one
     expect(isAllHidden).toBeUndefined();
   });
+
+  it('handles quarantined links appropriately for analysts', async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ avstatus: 'dirty' }),
+      })
+    ) as jest.Mock;
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const expandAllButton = screen.getByRole('button', {
+      name: 'Expand all',
+    });
+
+    await act(() => {
+      fireEvent.click(expandAllButton);
+    });
+
+    const downloadLink = screen.getAllByTestId('history-attachment-link')[16];
+    expect(downloadLink).toBeVisible();
+
+    jest.spyOn(window, 'alert').mockImplementation(() => window);
+
+    await act(async () => {
+      fireEvent.click(downloadLink);
+    });
+
+    expect(window.alert).toHaveBeenCalledWith(
+      'An error occurred when downloading the file. Contact the CCBC Portal administrator'
+    );
+
+    // after clicking link should no longer be visible
+    expect(downloadLink).not.toBeVisible();
+  });
 });
