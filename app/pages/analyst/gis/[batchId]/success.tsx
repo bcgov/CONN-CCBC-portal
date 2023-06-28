@@ -18,24 +18,24 @@ const StyledGreenCard = styled.div`
   align-items: center;
   padding: 8px 16px;
   width: 600px;
-  border: 1px solid #d6d6d6; 
+  border: 1px solid #d6d6d6;
   border-radius: 8px;
   cursor: pointer;
   margin-top: 1em;
   margin-right: 2em;
-  background-color: #DFF0D8;
+  background-color: #dff0d8;
 `;
 
 const StyledGrayCard = styled.div`
   align-items: center;
   padding: 8px 16px;
   width: 600px;
-  border: 1px solid #d6d6d6; 
+  border: 1px solid #d6d6d6;
   border-radius: 8px;
   cursor: pointer;
   margin-top: 1em;
   margin-right: 2em;
-  background-color: #F1F2F3;
+  background-color: #f1f2f3;
 `;
 
 const StyledButton = styled.div`
@@ -65,14 +65,16 @@ const BatchIdPage: React.FC<
     getGisUploadSuccessQuery,
     preloadedQuery
   );
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
         <h1>GIS Analysis Import</h1>
         <StyledGreenCard>
           <StyledContainer>
-            <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS analysis
-            added to {gisDataCounts.nodes[0].total} projects for the first time
+            <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS
+            analysis added to {gisDataCounts.nodes[0].total} projects for the
+            first time
           </StyledContainer>
           <ToggleDropdown
             items={gisDataCounts.nodes[0]?.ccbcNumbers?.split(',') || []}
@@ -82,8 +84,8 @@ const BatchIdPage: React.FC<
         </StyledGreenCard>
         <StyledGreenCard>
           <StyledContainer>
-            <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS analysis
-            updated for {gisDataCounts.nodes[1].total} projects
+            <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS
+            analysis updated for {gisDataCounts.nodes[1].total} projects
           </StyledContainer>
           <ToggleDropdown
             items={gisDataCounts.nodes[1]?.ccbcNumbers?.split(',') || []}
@@ -93,15 +95,26 @@ const BatchIdPage: React.FC<
         </StyledGreenCard>
         <StyledGrayCard>
           <StyledContainer>
-            GIS analysis unchanged for {gisDataCounts.nodes[3].total} projects and
-            was not updated
+            GIS analysis unchanged for {gisDataCounts.nodes[3].total} projects
+            and was not updated
           </StyledContainer>
           <ToggleDropdown
             items={gisDataCounts.nodes[3]?.ccbcNumbers?.split(',') || []}
             hideText="Hide Projects"
             showText="View Projects"
           />
-          </StyledGrayCard>
+        </StyledGrayCard>
+        <StyledGrayCard>
+          <StyledContainer>
+            GIS analysis not imported for {gisDataCounts.nodes[4].total}{' '}
+            projects because they are at or past Recommendation
+          </StyledContainer>
+          <ToggleDropdown
+            items={gisDataCounts.nodes[4]?.ccbcNumbers?.split(',') || []}
+            hideText="Hide Projects"
+            showText="View Projects"
+          />
+        </StyledGrayCard>
         <StyledGrayCard>
           <StyledContainer>
             GIS analysis found for {gisDataCounts.nodes[2].total} CCBC numbers
@@ -113,17 +126,17 @@ const BatchIdPage: React.FC<
             showText="View Projects"
           />
           <StyledContainer>
-            Total processed {gisDataCounts.nodes[4].total}
+            Total processed {gisDataCounts.nodes[5].total}
           </StyledContainer>
         </StyledGrayCard>
         <StyledButton>
           <ButtonLink href="/analyst/dashboard">Return to dashboard</ButtonLink>
         </StyledButton>
       </StyledContainer>
-      <StyledContainer style={{marginTop:'3.8em'}}>
-        <MetabaseLink 
-          href='https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses' 
-          text='Visit Metabase to view a dashboard of GIS analysis'
+      <StyledContainer style={{ marginTop: '3.8em' }}>
+        <MetabaseLink
+          href="https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses"
+          text="Visit Metabase to view a dashboard of GIS analysis"
           width={600}
         />
       </StyledContainer>
