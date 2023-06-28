@@ -14,6 +14,15 @@ const StyledContainer = styled.div`
   margin-top: 5px;
 `;
 
+const StyledFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  ${(props) => props.theme.breakpoint.extraLargeUp} {
+    flex-direction: row;
+  }
+`;
+
 const StyledGreenCard = styled.div`
   align-items: center;
   padding: 8px 16px;
@@ -68,78 +77,82 @@ const BatchIdPage: React.FC<
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <StyledContainer>
-        <h1>GIS Analysis Import</h1>
-        <StyledGreenCard>
-          <StyledContainer>
-            <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS
-            analysis added to {gisDataCounts.nodes[0].total} projects for the
-            first time
-          </StyledContainer>
-          <ToggleDropdown
-            items={gisDataCounts.nodes[0]?.ccbcNumbers?.split(',') || []}
-            hideText="Hide Projects"
-            showText="View Projects"
+      <StyledFlex>
+        <StyledContainer>
+          <h1>GIS Analysis Import</h1>
+          <StyledGreenCard>
+            <StyledContainer>
+              <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS
+              analysis added to {gisDataCounts.nodes[0].total} projects for the
+              first time
+            </StyledContainer>
+            <ToggleDropdown
+              items={gisDataCounts.nodes[0]?.ccbcNumbers?.split(',') || []}
+              hideText="Hide Projects"
+              showText="View Projects"
+            />
+          </StyledGreenCard>
+          <StyledGreenCard>
+            <StyledContainer>
+              <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS
+              analysis updated for {gisDataCounts.nodes[1].total} projects
+            </StyledContainer>
+            <ToggleDropdown
+              items={gisDataCounts.nodes[1]?.ccbcNumbers?.split(',') || []}
+              hideText="Hide Projects"
+              showText="View Projects"
+            />
+          </StyledGreenCard>
+          <StyledGrayCard>
+            <StyledContainer>
+              GIS analysis unchanged for {gisDataCounts.nodes[3].total} projects
+              and was not updated
+            </StyledContainer>
+            <ToggleDropdown
+              items={gisDataCounts.nodes[3]?.ccbcNumbers?.split(',') || []}
+              hideText="Hide Projects"
+              showText="View Projects"
+            />
+          </StyledGrayCard>
+          <StyledGrayCard>
+            <StyledContainer>
+              GIS analysis not imported for {gisDataCounts.nodes[4].total}{' '}
+              projects because they are at or past Recommendation
+            </StyledContainer>
+            <ToggleDropdown
+              items={gisDataCounts.nodes[4]?.ccbcNumbers?.split(',') || []}
+              hideText="Hide Projects"
+              showText="View Projects"
+            />
+          </StyledGrayCard>
+          <StyledGrayCard>
+            <StyledContainer>
+              GIS analysis found for {gisDataCounts.nodes[2].total} CCBC numbers
+              that are not in the portal
+            </StyledContainer>
+            <ToggleDropdown
+              items={gisDataCounts.nodes[2]?.ccbcNumbers?.split(',') || []}
+              hideText="Hide Projects"
+              showText="View Projects"
+            />
+            <StyledContainer>
+              Total processed {gisDataCounts.nodes[5].total}
+            </StyledContainer>
+          </StyledGrayCard>
+          <StyledButton>
+            <ButtonLink href="/analyst/dashboard">
+              Return to dashboard
+            </ButtonLink>
+          </StyledButton>
+        </StyledContainer>
+        <StyledContainer style={{ marginTop: '3.8em' }}>
+          <MetabaseLink
+            href="https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses"
+            text="Visit Metabase to view a dashboard of GIS analysis"
+            width={600}
           />
-        </StyledGreenCard>
-        <StyledGreenCard>
-          <StyledContainer>
-            <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS
-            analysis updated for {gisDataCounts.nodes[1].total} projects
-          </StyledContainer>
-          <ToggleDropdown
-            items={gisDataCounts.nodes[1]?.ccbcNumbers?.split(',') || []}
-            hideText="Hide Projects"
-            showText="View Projects"
-          />
-        </StyledGreenCard>
-        <StyledGrayCard>
-          <StyledContainer>
-            GIS analysis unchanged for {gisDataCounts.nodes[3].total} projects
-            and was not updated
-          </StyledContainer>
-          <ToggleDropdown
-            items={gisDataCounts.nodes[3]?.ccbcNumbers?.split(',') || []}
-            hideText="Hide Projects"
-            showText="View Projects"
-          />
-        </StyledGrayCard>
-        <StyledGrayCard>
-          <StyledContainer>
-            GIS analysis not imported for {gisDataCounts.nodes[4].total}{' '}
-            projects because they are at or past Recommendation
-          </StyledContainer>
-          <ToggleDropdown
-            items={gisDataCounts.nodes[4]?.ccbcNumbers?.split(',') || []}
-            hideText="Hide Projects"
-            showText="View Projects"
-          />
-        </StyledGrayCard>
-        <StyledGrayCard>
-          <StyledContainer>
-            GIS analysis found for {gisDataCounts.nodes[2].total} CCBC numbers
-            that are not in the portal
-          </StyledContainer>
-          <ToggleDropdown
-            items={gisDataCounts.nodes[2]?.ccbcNumbers?.split(',') || []}
-            hideText="Hide Projects"
-            showText="View Projects"
-          />
-          <StyledContainer>
-            Total processed {gisDataCounts.nodes[5].total}
-          </StyledContainer>
-        </StyledGrayCard>
-        <StyledButton>
-          <ButtonLink href="/analyst/dashboard">Return to dashboard</ButtonLink>
-        </StyledButton>
-      </StyledContainer>
-      <StyledContainer style={{ marginTop: '3.8em' }}>
-        <MetabaseLink
-          href="https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses"
-          text="Visit Metabase to view a dashboard of GIS analysis"
-          width={600}
-        />
-      </StyledContainer>
+        </StyledContainer>
+      </StyledFlex>
     </Layout>
   );
 };
