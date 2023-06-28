@@ -10,23 +10,34 @@ const StyledFlex = styled.a`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   cursor: pointer;
+  color: ${(props) => props.theme.color.links};
 
   svg {
     margin-right: 8px;
   }
 `;
 
-interface MetabaseLinkProps { 
-  href?: string; 
+interface MetabaseLinkProps {
+  href?: string;
   text?: string;
   width?: number;
 }
 
-const MetabaseLink: React.FC<MetabaseLinkProps> = ({href='#', text='', width=326}) => {
-  const inlineStyle={width};
+const MetabaseLink: React.FC<MetabaseLinkProps> = ({
+  href = '#',
+  text = '',
+  width = 326,
+}) => {
+  const inlineStyle = { width };
   return (
-    <StyledFlex data-testid="metabase-link" href={href} target="_blank" style={inlineStyle}>
-      <MetabaseIcon />{text} 
+    <StyledFlex
+      data-testid="metabase-link"
+      href={href}
+      target="_blank"
+      style={inlineStyle}
+    >
+      <MetabaseIcon />
+      {text}
     </StyledFlex>
   );
 };
