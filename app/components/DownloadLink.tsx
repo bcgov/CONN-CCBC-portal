@@ -32,7 +32,7 @@ const handleDownload = async (uuid, fileName, setQuarantinedLink) => {
 const DownloadLink = ({ uuid, fileName }) => {
   const [quarantinedLink, setQuarantinedLink] = useState(false);
   return quarantinedLink ? (
-    `${fileName}`
+    <>`${fileName}`</>
   ) : (
     <StyledLink
       data-testid="history-attachment-link"
