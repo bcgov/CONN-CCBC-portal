@@ -196,7 +196,8 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       setError('rjsf_validation');
     }
   }, [rawErrors, setError]);
-  const { applicationId, sowValidationErrors, validateSow, amendmentNumber } = formContext;
+  const { applicationId, sowValidationErrors, validateSow, amendmentNumber } =
+    formContext;
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (loading) return;
@@ -234,7 +235,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       },
     };
 
-    const response = await validateSow(file, true);
+    const response = await validateSow(file, amendmentNumber, true);
 
     const { status } = response;
     createAttachment({

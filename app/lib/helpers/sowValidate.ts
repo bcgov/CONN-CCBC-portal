@@ -14,13 +14,17 @@ function sowValidateGenerator(
   setSowFile?: Dispatch<any>,
   setSowValidationErrors?: Dispatch<Array<any>>
 ) {
-  return async function sowValidate(file, validateOnly = true) {
+  return async function sowValidate(
+    file,
+    amendmentNumber?: number,
+    validateOnly = true
+  ) {
     const sowFileFormData = new FormData();
     sowFileFormData.append('file', file);
     if (setSowFile) setSowFile(file);
     if (setSowValidationErrors) setSowValidationErrors([]);
     const response = await fetch(
-      `/api/analyst/sow/${rowId}/${ccbcNumber}?validate=${validateOnly}`,
+      `/api/analyst/sow/${rowId}/${ccbcNumber}/${amendmentNumber}?validate=${validateOnly}`,
       {
         method: 'POST',
         body: sowFileFormData,

@@ -125,7 +125,7 @@ const ProjectInformationForm = ({ application }) => {
         },
       });
     }
-    validateSow(sowFile, false).then(() => {
+    validateSow(sowFile, 0, false).then(() => {
       createProjectInformation({
         variables: {
           input: { _applicationId: rowId, _jsonData: formData },

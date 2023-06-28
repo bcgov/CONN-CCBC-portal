@@ -74,7 +74,7 @@ const ChangeRequestForm = ({ application }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    validateSow(sowFile, false).then(() => {
+    validateSow(sowFile, newChangeRequestNumber, false).then(() => {
       createChangeRequest({
         variables: {
           connections: [connectionId],
