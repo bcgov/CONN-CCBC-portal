@@ -13,11 +13,24 @@ import MetabaseLink from 'components/Analyst/Project/ProjectInformation/Metabase
 import Toast from 'components/Toast';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import sowValidateGenerator from 'lib/helpers/sowValidate';
+import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import FileHeader from './FileHeader';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
     max-width: 200px;
   }
+`;
+
+const StyledChangeRequestApproved = styled.div`
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fcba1933;
+  min-height: 64px;
+  min-width: 340px;
+  max-width: 400px;
+  margin-bottom: 8px;
+  margin-left: 10px;
 `;
 
 const ProjectInformationForm = ({ application }) => {
@@ -31,12 +44,33 @@ const ProjectInformationForm = ({ application }) => {
           id
           jsonData
         }
+        changeRequestDataByApplicationId(
+          filter: { archivedAt: { isNull: true } }
+          orderBy: CHANGE_REQUEST_NUMBER_ASC
+          first: 999
+        )
+          @connection(
+            key: "ChangeRequestForm_changeRequestDataByApplicationId"
+          ) {
+          __id
+          edges {
+            node {
+              id
+            }
+          }
+        }
       }
     `,
     application
   );
 
-  const { ccbcNumber, id, rowId, projectInformation } = queryFragment;
+  const {
+    ccbcNumber,
+    id,
+    rowId,
+    projectInformation,
+    changeRequestDataByApplicationId,
+  } = queryFragment;
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
@@ -48,6 +82,7 @@ const ProjectInformationForm = ({ application }) => {
     !projectInformation?.jsonData
   );
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+  const hasChangeRequest = changeRequestDataByApplicationId.edges.length > 0;
 
   const validateSow = useCallback(
     sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
@@ -154,13 +189,25 @@ const ProjectInformationForm = ({ application }) => {
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
       hiddenSubmitRef={hiddenSubmitRef}
     >
-      {!isFormEditMode && (
-        <MetabaseLink
-          href="#"
-          text="View project data in Metabase"
-          width={326}
-        />
-      )}
+      <div style={{ display: 'flex' }}>
+        {!isFormEditMode && (
+          <MetabaseLink
+            href="#"
+            text="View project data in Metabase"
+            width={326}
+          />
+        )}
+        {!isFormEditMode && hasChangeRequest && (
+          <StyledChangeRequestApproved>
+            <FileHeader
+              icon={faClockRotateLeft}
+              title="Change request approved"
+            />
+            <div>These are the latest Statement of Work tables</div>
+            <div>All versions can be found in Metabase</div>
+          </StyledChangeRequestApproved>
+        )}
+      </div>
       {showToast && (
         <Toast timeout={100000000}>
           Statement of work successfully imported
