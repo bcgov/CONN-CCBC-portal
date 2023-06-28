@@ -348,3 +348,4 @@ mutations/create_application_sow [mutations/create_application_sow@1.77.0] 2023-
 mutations/archive_application_sow [mutations/archive_application_sow@1.77.0] 2023-06-26T20:54:06Z Marcel Mueller <marcel@m2.local> # update archive mutation to use amendment_number
 tables/json_data_comments 2023-06-28T22:21:45Z ,,, Vladimir <vladimir@button.is> # add markup comments to json_data fields
 mutations/parse_gis_data [mutations/parse_gis_data@1.78.0] 2023-06-28T15:06:06Z Marcel Mueller <marcel@m2.local> # parse gis data based on application status
+computed_columns/gis_data_counts [computed_columns/gis_data_counts@1.78.0] 2023-06-28T18:09:01Z Marcel Mueller <marcel@m2.local> # update gis data counts to check application status

@@ -7,6 +7,7 @@ returns setof ccbc_public.gis_data_count  as
 $$
 declare
     json_file jsonb;
+    application_status_name text;
 begin
 -- load JSON data
 select json_data into json_file  from ccbc_public.gis_data where id = batchId;
@@ -22,7 +23,9 @@ return query
             a.id as application_id,
             json_row as json_data
         from json_rows, ccbc_public.application a
+        join ccbc_public.application_gis_data agd on agd.application_id = a.id
         where a.ccbc_number = (json_row->>'ccbc_number')
+        and agd.batch_id = batchId
         and not exists (
             select 1
             from ccbc_public.application_gis_data agd
@@ -40,7 +43,7 @@ return query
         and exists (
             select 1
             from ccbc_public.application_gis_data agd
-            where (agd.created_at < (select created_at from ccbc_public.application_gis_data where batch_id=batchId and application_id = a.id)) and
+            where (agd.created_at < (select created_at from ccbc_public.application_gis_data where batch_id = batchId and application_id = a.id)) and
             application_id = a.id
         )
     ),
@@ -50,12 +53,32 @@ return query
             a.id as application_id,
             json_row as json_data
         from json_rows, ccbc_public.application a
+        join ccbc_public.application_status s on s.application_id = a.id
         where a.ccbc_number = (json_row->>'ccbc_number')
+        and s.archived_at is null
+        and (s.status = 'received' or s.status = 'screening' or s.status = 'assessment')
         and not exists (
             select 1
-            from ccbc_public.application_gis_data agd
-            where batch_id=batchId and application_id = a.id
+            from ccbc_public.application_gis_data
+            where batch_id = batchId and application_id = a.id
         )
+    ),
+    not_imported as (
+       select
+            (json_row->>'ccbc_number') as ccbc_number,
+            a.id as application_id,
+            json_row as json_data
+        from json_rows, ccbc_public.application a
+        join ccbc_public.application_status s on s.application_id = a.id
+        where a.ccbc_number = (json_row->>'ccbc_number')
+        and s.archived_at is null
+        and (s.status != 'received' and s.status != 'screening' and s.status != 'assessment')
+        and not exists (
+            select 1
+            from ccbc_public.application_gis_data
+            where batch_id = batchId and application_id = a.id
+        )
+
     ),
     unmatched as (
         select
@@ -74,6 +97,9 @@ return query
     union all
     select count(*)::int as total, 'unchanged' as data_type, string_agg(ccbc_number, ', ') AS ccbc_numbers
     from unchanged
+    union all
+    select count(*)::int as total, 'not_imported' as data_type, string_agg(ccbc_number, ', ') AS ccbc_numbers
+    from not_imported
     union all
     select jsonb_array_length(json_data) as total, 'total' as data_type, string_agg(json_data->>'ccbc_number', ', ') AS ccbc_numbers
     from ccbc_public.gis_data where id=batchId GROUP BY  gis_data.id,  json_data,  data_type;
