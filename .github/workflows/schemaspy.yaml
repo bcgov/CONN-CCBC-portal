@@ -1,7 +1,7 @@
 name: Generate Schemaspy Docs
 on:
   push:
-    branches: [ "main","1695-json-schema-docs" ]
+    branches: [ "main" ]
 
 env:
   NODE_ENV: test
