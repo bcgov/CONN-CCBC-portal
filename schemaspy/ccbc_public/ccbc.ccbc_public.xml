@@ -930,7 +930,7 @@
             <child column="rfi_data_id" foreignKey="application_rfi_data_rfi_data_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_rfi_data"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="rfi_number" nullable="true" remarks="Reference number assigned to the RFI" size="1000" type="varchar" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data entered into the form by the respondent" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data entered into the form by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Frfi_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="'draft'::character varying" digits="0" id="3" name="rfi_data_status_type_id" nullable="true" remarks="Column referencing the form data status type, defaults to draft" size="1000" type="varchar" typeCode="12">
             <parent column="name" foreignKey="rfi_data_rfi_data_status_type_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="rfi_data_status_type"/>
          </column>
