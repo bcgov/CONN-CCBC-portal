@@ -79,7 +79,7 @@ const ProjectInformationForm = ({ application }) => {
       // archive by application id
       archiveApplicationSow({
         variables: {
-          input: { _applicationId: rowId },
+          input: { _amendmentNumber: 0 },
         },
       });
     }

@@ -14674,6 +14674,12 @@ input ApplicationSowDataFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
+  """Filter by the object’s `amendmentNumber` field."""
+  amendmentNumber: IntFilter
+
+  """Filter by the object’s `isAmendment` field."""
+  isAmendment: BooleanFilter
+
   """Filter by the object’s `sowTab2SBySowId` relation."""
   sowTab2SBySowId: ApplicationSowDataToManySowTab2Filter
 
@@ -24416,6 +24422,12 @@ type ApplicationSowData implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
+  """The amendment number"""
+  amendmentNumber: Int
+
+  """Column identifying if the record is an amendment"""
+  isAmendment: Boolean
+
   """
   Reads a single `Application` that is related to this `ApplicationSowData`.
   """
@@ -26237,6 +26249,10 @@ enum ApplicationSowDataOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  AMENDMENT_NUMBER_ASC
+  AMENDMENT_NUMBER_DESC
+  IS_AMENDMENT_ASC
+  IS_AMENDMENT_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -26272,6 +26288,12 @@ input ApplicationSowDataCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `amendmentNumber` field."""
+  amendmentNumber: Int
+
+  """Checks for equality with the object’s `isAmendment` field."""
+  isAmendment: Boolean
 }
 
 """A connection to a list of `ProjectInformationData` values."""
@@ -44392,14 +44414,6 @@ type Mutation {
     input: CreateApplicationRfiDataInput!
   ): CreateApplicationRfiDataPayload
 
-  """Creates a single `ApplicationSowData`."""
-  createApplicationSowData(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateApplicationSowDataInput!
-  ): CreateApplicationSowDataPayload
-
   """Creates a single `ApplicationStatus`."""
   createApplicationStatus(
     """
@@ -45334,22 +45348,6 @@ type Mutation {
     input: DeleteApplicationRfiDataByRfiDataIdAndApplicationIdInput!
   ): DeleteApplicationRfiDataPayload
 
-  """Deletes a single `ApplicationSowData` using its globally unique id."""
-  deleteApplicationSowData(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationSowDataInput!
-  ): DeleteApplicationSowDataPayload
-
-  """Deletes a single `ApplicationSowData` using a unique key."""
-  deleteApplicationSowDataByRowId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationSowDataByRowIdInput!
-  ): DeleteApplicationSowDataPayload
-
   """Deletes a single `ApplicationStatus` using its globally unique id."""
   deleteApplicationStatus(
     """
@@ -45739,12 +45737,12 @@ type Mutation {
     """
     input: CreateApplicationInput!
   ): CreateApplicationPayload
-  createApplicationSow(
+  createApplicationSowData(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateApplicationSowInput!
-  ): CreateApplicationSowPayload
+    input: CreateApplicationSowDataInput!
+  ): CreateApplicationSowDataPayload
   createAssessmentForm(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -46518,88 +46516,6 @@ input ApplicationRfiDataInput {
 
   """The foreign key of an application"""
   applicationId: Int!
-}
-
-"""The output of our create `ApplicationSowData` mutation."""
-type CreateApplicationSowDataPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `ApplicationSowData` that was created by this mutation."""
-  applicationSowData: ApplicationSowData
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """
-  Reads a single `Application` that is related to this `ApplicationSowData`.
-  """
-  applicationByApplicationId: Application
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationSowData`.
-  """
-  ccbcUserByCreatedBy: CcbcUser
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationSowData`.
-  """
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationSowData`.
-  """
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `ApplicationSowData`. May be used by Relay 1."""
-  applicationSowDataEdge(
-    """The method to use when ordering `ApplicationSowData`."""
-    orderBy: [ApplicationSowDataOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationSowDataEdge
-}
-
-"""All input for the create `ApplicationSowData` mutation."""
-input CreateApplicationSowDataInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `ApplicationSowData` to be created by this mutation."""
-  applicationSowData: ApplicationSowDataInput!
-}
-
-"""An input for mutations affecting `ApplicationSowData`"""
-input ApplicationSowDataInput {
-  """ID of the application this SoW belongs to"""
-  applicationId: Int
-
-  """The data imported from the Excel filled by the respondent"""
-  jsonData: JSON
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
 }
 
 """The output of our create `ApplicationStatus` mutation."""
@@ -49140,6 +49056,12 @@ input ApplicationSowDataPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """The amendment number"""
+  amendmentNumber: Int
+
+  """Column identifying if the record is an amendment"""
+  isAmendment: Boolean
 }
 
 """All input for the `updateApplicationSowDataByRowId` mutation."""
@@ -51910,76 +51832,6 @@ input DeleteApplicationRfiDataByRfiDataIdAndApplicationIdInput {
   applicationId: Int!
 }
 
-"""The output of our delete `ApplicationSowData` mutation."""
-type DeleteApplicationSowDataPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `ApplicationSowData` that was deleted by this mutation."""
-  applicationSowData: ApplicationSowData
-  deletedApplicationSowDataId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """
-  Reads a single `Application` that is related to this `ApplicationSowData`.
-  """
-  applicationByApplicationId: Application
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationSowData`.
-  """
-  ccbcUserByCreatedBy: CcbcUser
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationSowData`.
-  """
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationSowData`.
-  """
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `ApplicationSowData`. May be used by Relay 1."""
-  applicationSowDataEdge(
-    """The method to use when ordering `ApplicationSowData`."""
-    orderBy: [ApplicationSowDataOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationSowDataEdge
-}
-
-"""All input for the `deleteApplicationSowData` mutation."""
-input DeleteApplicationSowDataInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `ApplicationSowData` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteApplicationSowDataByRowId` mutation."""
-input DeleteApplicationSowDataByRowIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """Unique ID for the  SoW"""
-  rowId: Int!
-}
-
 """The output of our delete `ApplicationStatus` mutation."""
 type DeleteApplicationStatusPayload {
   """
@@ -53321,7 +53173,7 @@ input ArchiveApplicationSowInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  _applicationId: Int!
+  _amendmentNumber: Int!
 }
 
 """The output of our `createAnnouncement` mutation."""
@@ -53407,8 +53259,8 @@ input CreateApplicationInput {
   clientMutationId: String
 }
 
-"""The output of our `createApplicationSow` mutation."""
-type CreateApplicationSowPayload {
+"""The output of our `createApplicationSowData` mutation."""
+type CreateApplicationSowDataPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
@@ -53448,8 +53300,8 @@ type CreateApplicationSowPayload {
   ): ApplicationSowDataEdge
 }
 
-"""All input for the `createApplicationSow` mutation."""
-input CreateApplicationSowInput {
+"""All input for the `createApplicationSowData` mutation."""
+input CreateApplicationSowDataInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -53457,6 +53309,7 @@ input CreateApplicationSowInput {
   clientMutationId: String
   _applicationId: Int!
   _jsonData: JSON!
+  _amendmentNumber: Int!
 }
 
 """The output of our `createAssessmentForm` mutation."""

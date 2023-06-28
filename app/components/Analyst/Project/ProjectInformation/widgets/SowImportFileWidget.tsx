@@ -202,7 +202,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
     if (loading) return;
     setError('');
 
-    const { applicationId, rowId, ccbcNumber } = formContext;
+    const { applicationId, rowId, ccbcNumber, amendmentNumber } = formContext;
     const file = e.target.files?.[0];
 
     const { isValid, error: newError } = validateFile(
@@ -239,10 +239,13 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
     const sowFileFormData = new FormData();
     sowFileFormData.append('file', file);
 
-    const response = await fetch(`/api/analyst/sow/${rowId}/${ccbcNumber}`, {
-      method: 'POST',
-      body: sowFileFormData,
-    });
+    const response = await fetch(
+      `/api/analyst/sow/${rowId}/${ccbcNumber}/${amendmentNumber || 0}`,
+      {
+        method: 'POST',
+        body: sowFileFormData,
+      }
+    );
 
     const sowErrorList = await response.json();
     if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {

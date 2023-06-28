@@ -6,8 +6,8 @@ import {
 } from './util';
 
 const createSowMutation = `
-  mutation sowUploadMutation($input: CreateApplicationSowInput!) {
-    createApplicationSow(input: $input) {
+  mutation sowUploadMutation($input: CreateApplicationSowDataInput!) {
+    createApplicationSowData(input:   $input) {
         applicationSowData {
         id
         rowId
@@ -17,32 +17,30 @@ const createSowMutation = `
   }
 `;
 
-const readSummary = async (wb, sheet_name, applicationId) => {
+const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
   const summary = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
-  const appId = typeof applicationId === 'number' ? applicationId : parseInt(applicationId,10);
-  const sowData = {
-    applicationId: appId,
-    jsonData: {
-      organizationName: '',
-      projectTitle: '',
-      province: '',
-      ccbc_number: '',
-      effectiveStartDate: '',
-      projectStartDate: '',
-      projectCompletionDate: '',
-      backboneFibre: false,
-      backboneMicrowave: false,
-      backboneSatellite: false,
-      lastMileFibre: false,
-      lastMileCable: false,
-      lastMileDSL: false,
-      lastMileMobileWireless: false,
-      lastMileFixedWireless: false,
-      lastMileSatellite: false,
-    },
+
+  const jsonData = {
+    organizationName: '',
+    projectTitle: '',
+    province: '',
+    ccbc_number: '',
+    effectiveStartDate: '',
+    projectStartDate: '',
+    projectCompletionDate: '',
+    backboneFibre: false,
+    backboneMicrowave: false,
+    backboneSatellite: false,
+    lastMileFibre: false,
+    lastMileCable: false,
+    lastMileDSL: false,
+    lastMileMobileWireless: false,
+    lastMileFixedWireless: false,
+    lastMileSatellite: false,
   };
+
   // hardcoded summary table position: rows from 6 to 20
   // first pass - columns C and D
   for (let row = 6; row < 20; row++) {
@@ -53,25 +51,25 @@ const readSummary = async (wb, sheet_name, applicationId) => {
     if (input === undefined) continue;
 
     if (value.indexOf('Applicant Name') > -1) {
-      sowData.jsonData.organizationName = input;
+      jsonData.organizationName = input;
     }
     if (value.indexOf('Project Title') > -1) {
-      sowData.jsonData.projectTitle = input;
+      jsonData.projectTitle = input;
     }
     if (value.indexOf('Province') > -1) {
-      sowData.jsonData.province = input;
+      jsonData.province = input;
     }
     if (value.indexOf('Application Number') > -1) {
-      sowData.jsonData.ccbc_number = input;
+      jsonData.ccbc_number = input;
     }
     if (value.indexOf('Effective Start Date') > -1) {
-      sowData.jsonData.effectiveStartDate = convertExcelDateToJSDate(input);
+      jsonData.effectiveStartDate = convertExcelDateToJSDate(input);
     }
     if (value.indexOf('Project Start Date') > -1) {
-      sowData.jsonData.projectStartDate = convertExcelDateToJSDate(input);
+      jsonData.projectStartDate = convertExcelDateToJSDate(input);
     }
     if (value.indexOf('Project Completion Date') > -1) {
-      sowData.jsonData.projectCompletionDate = convertExcelDateToJSDate(input);
+      jsonData.projectCompletionDate = convertExcelDateToJSDate(input);
     }
   }
 
@@ -92,35 +90,39 @@ const readSummary = async (wb, sheet_name, applicationId) => {
     const input = summary[row]['G'];
     if (input === undefined) continue;
     if (backbone && value.indexOf('Fibre') > -1) {
-      sowData.jsonData.backboneFibre = convertExcelDropdownToBoolean(input);
+      jsonData.backboneFibre = convertExcelDropdownToBoolean(input);
     }
     if (backbone && value.indexOf('Microwave') > -1) {
-      sowData.jsonData.backboneMicrowave = convertExcelDropdownToBoolean(input);
+      jsonData.backboneMicrowave = convertExcelDropdownToBoolean(input);
     }
     if (backbone && value.indexOf('Satellite') > -1) {
-      sowData.jsonData.backboneSatellite = convertExcelDropdownToBoolean(input);
+      jsonData.backboneSatellite = convertExcelDropdownToBoolean(input);
     }
     if (lastMile && value.indexOf('Fibre') > -1) {
-      sowData.jsonData.lastMileFibre = convertExcelDropdownToBoolean(input);
+      jsonData.lastMileFibre = convertExcelDropdownToBoolean(input);
     }
     if (lastMile && value.indexOf('Cable') > -1) {
-      sowData.jsonData.lastMileCable = convertExcelDropdownToBoolean(input);
+      jsonData.lastMileCable = convertExcelDropdownToBoolean(input);
     }
     if (lastMile && value.indexOf('DSL') > -1) {
-      sowData.jsonData.lastMileDSL = convertExcelDropdownToBoolean(input);
+      jsonData.lastMileDSL = convertExcelDropdownToBoolean(input);
     }
     if (lastMile && value.indexOf('Mobile') > -1) {
-      sowData.jsonData.lastMileMobileWireless =
-        convertExcelDropdownToBoolean(input);
+      jsonData.lastMileMobileWireless = convertExcelDropdownToBoolean(input);
     }
     if (lastMile && value.indexOf('Fixed') > -1) {
-      sowData.jsonData.lastMileFixedWireless =
-        convertExcelDropdownToBoolean(input);
+      jsonData.lastMileFixedWireless = convertExcelDropdownToBoolean(input);
     }
     if (lastMile && value.indexOf('Satellite') > -1) {
-      sowData.jsonData.lastMileSatellite = convertExcelDropdownToBoolean(input);
+      jsonData.lastMileSatellite = convertExcelDropdownToBoolean(input);
     }
   }
+
+  const sowData = {
+    _applicationId: parseInt(applicationId, 10),
+    _amendmentNumber: parseInt(amendmentNumber, 10),
+    _jsonData: jsonData,
+  };
 
   return sowData;
 };
@@ -193,17 +195,22 @@ const ValidateData = (data) => {
 };
 
 const LoadSummaryData = async (wb, sheet_name, req) => {
-  const { applicationId, ccbcNumber } = req.params;
+  const { applicationId, ccbcNumber, amendmentNumber } = req.params;
   const { validate = false } = req.query || {};
-  const data = await readSummary(wb, sheet_name, applicationId);
+  const data = await readSummary(
+    wb,
+    sheet_name,
+    applicationId,
+    amendmentNumber
+  );
 
-  const uploadedNumber = data.jsonData.ccbc_number;
+  const uploadedNumber = data._jsonData.ccbc_number;
   if (uploadedNumber !== ccbcNumber) {
     return {
       error: `CCBC Number mismatch: expected ${ccbcNumber}, received: ${uploadedNumber}`,
     };
   }
-  const errorList = ValidateData(data.jsonData);
+  const errorList = ValidateData(data._jsonData);
 
   if (errorList.length > 0) {
     return { error: errorList };
@@ -214,7 +221,13 @@ const LoadSummaryData = async (wb, sheet_name, req) => {
   // time to persist in DB
   const result = await performQuery(
     createSowMutation,
-    { input: { _applicationId: data.applicationId, _jsonData: data.jsonData } },
+    {
+      input: {
+        _applicationId: data._applicationId,
+        _jsonData: data._jsonData,
+        _amendmentNumber: data._amendmentNumber,
+      },
+    },
     req
   ).catch((e) => {
     return { error: e };

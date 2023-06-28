@@ -873,7 +873,7 @@ describe('The Project page', () => {
       'archiveApplicationSowMutation',
       {
         input: {
-          _applicationId: 1,
+          _amendmentNumber: 0,
         },
       }
     );

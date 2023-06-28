@@ -51,6 +51,8 @@ const ChangeRequestForm = ({ application }) => {
 
   const changeRequestData = changeRequestDataByApplicationId?.edges;
   const connectionId = changeRequestDataByApplicationId?.__id;
+
+  // This will change to amendment number once we add the amendment field
   const newChangeRequestNumber = changeRequestData.length + 1;
   const isOriginalSowUpload =
     projectInformation?.jsonData?.main?.upload?.statementOfWorkUpload?.[0];
@@ -93,6 +95,8 @@ const ChangeRequestForm = ({ application }) => {
       additionalContext={{
         applicationId: rowId,
         ccbcNumber,
+        rowId,
+        amendmentNumber: newChangeRequestNumber,
       }}
       before={
         <>
