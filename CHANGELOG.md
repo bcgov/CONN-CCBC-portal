@@ -1,3 +1,17 @@
+# [1.80.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.79.0...v1.80.0) (2023-06-28)
+
+### Bug Fixes
+
+- add amendment number to sow import file widget after validation updates ([f831e7e](https://github.com/bcgov/CONN-CCBC-portal/commit/f831e7e730d5302045365634a5bb5530f08a3e36))
+- sqitch.plan ([7c57711](https://github.com/bcgov/CONN-CCBC-portal/commit/7c5771118fc5da83517244db074f1b69a2849495))
+
+### Features
+
+- add change_request request columns to sow data table ([c8b462e](https://github.com/bcgov/CONN-CCBC-portal/commit/c8b462e86ffaa184fe6dc05be3ffcc36b5dc9d2d))
+- add create_application_sow_data postgres mutation ([08301c4](https://github.com/bcgov/CONN-CCBC-portal/commit/08301c478d43a2a18d62dce0c124a92f1cfcbf30))
+- grant update permissions on application_sow_data table ([16f7253](https://github.com/bcgov/CONN-CCBC-portal/commit/16f7253d2a6d27dc1f12fa59d9f71995030777b5))
+- update api for change requests ([7b6a365](https://github.com/bcgov/CONN-CCBC-portal/commit/7b6a36550d1f7e79b21babecc8417661c532ecf5))
+
 # [1.79.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.78.0...v1.79.0) (2023-06-27)
 
 ### Bug Fixes
