@@ -4,7 +4,7 @@ name: main
 on:
   workflow_call: # be sure to use 'secrets: inherit' in the caller
   push:
-    branches: [main]
+     branches: [ "main" ]
   pull_request:
     branches: [main]
 

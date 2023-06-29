@@ -1,8 +1,7 @@
 name: Generate Schemaspy Docs
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 env:
   NODE_ENV: test
@@ -37,7 +36,7 @@ jobs:
           mkdir output
           chmod a+rwx -R output
       - name: Run Schemaspy
-        run: docker run --network host -v "$PWD/output:/output" schemaspy/schemaspy:latest -t pgsql -db ccbc -host 127.0.0.1 -port 5432 -u postgres -p postgres -schemas ccbc_public
+        run: docker run --network host -v "$PWD/output:/output" -v "$PWD/meta:/meta" schemaspy/schemaspy:latest -t pgsql -db ccbc -host 127.0.0.1 -port 5432 -u postgres -p postgres -schemas ccbc_public -meta meta
       - name: Deploy to Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:

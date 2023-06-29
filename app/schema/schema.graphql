@@ -20129,7 +20129,9 @@ type FormData implements Node {
   """The unique id of the form data"""
   rowId: Int!
 
-  """The data entered into the form by the respondent"""
+  """
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fform_data.json)
+  """
   jsonData: JSON!
 
   """Column saving the key of the last edited form page"""
@@ -21622,7 +21624,9 @@ type RfiData implements Node {
   """Reference number assigned to the RFI"""
   rfiNumber: String
 
-  """The data entered into the form by the respondent"""
+  """
+  The json form data of the RFI information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Frfi_data.json)
+  """
   jsonData: JSON!
 
   """Column referencing the form data status type, defaults to draft"""
@@ -22231,6 +22235,10 @@ type AssessmentData implements Node {
   id: ID!
   rowId: Int!
   applicationId: Int!
+
+  """
+  The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fassessment_data.json)
+  """
   jsonData: JSON!
   assessmentDataType: String
 
@@ -22949,7 +22957,9 @@ type ConditionalApprovalData implements Node {
   """The foreign key of an application"""
   applicationId: Int
 
-  """The json form data of the conditional approval form"""
+  """
+  The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fconditional_approval_data.json)
+  """
   jsonData: JSON!
 
   """created by user id"""
@@ -23085,6 +23095,10 @@ type ApplicationGisData implements Node {
   rowId: Int!
   batchId: Int
   applicationId: Int
+
+  """
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_gis_data.json)
+  """
   jsonData: JSON!
 
   """created by user id"""
@@ -23136,7 +23150,9 @@ type GisData implements Node {
   id: ID!
   rowId: Int!
 
-  """content of the uploaded GIS data file"""
+  """
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fgis_data.json)
+  """
   jsonData: JSON!
 
   """created by user id"""
@@ -23758,7 +23774,9 @@ type Announcement implements Node {
   """List of CCBC number of the projects included in announcement"""
   ccbcNumbers: String
 
-  """The data entered into the announcement by the analyst or admin"""
+  """
+  The json form data of the announcement form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fannouncement.json)
+  """
   jsonData: JSON!
 
   """created by user id"""
@@ -24401,7 +24419,9 @@ type ApplicationSowData implements Node {
   """ID of the application this SoW belongs to"""
   applicationId: Int
 
-  """The data imported from the Excel filled by the respondent"""
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_sow_data.json)
+  """
   jsonData: JSON!
 
   """created by user id"""
@@ -25023,7 +25043,9 @@ type SowTab2 implements Node {
   """ID of the SoW"""
   sowId: Int
 
-  """The data imported from the Excel filled by the respondent"""
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_2.json)
+  """
   jsonData: JSON!
 
   """created by user id"""
@@ -25147,6 +25169,10 @@ type SowTab1 implements Node {
   id: ID!
   rowId: Int!
   sowId: Int
+
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_1.json)
+  """
   jsonData: JSON!
 
   """created by user id"""
@@ -25270,6 +25296,10 @@ type SowTab7 implements Node {
   id: ID!
   rowId: Int!
   sowId: Int
+
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_7.json)
+  """
   jsonData: JSON!
 
   """created by user id"""
@@ -25399,7 +25429,9 @@ type SowTab8 implements Node {
   """ID of the SoW"""
   sowId: Int
 
-  """The data imported from the Excel filled by the respondent"""
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_8.json)
+  """
   jsonData: JSON!
 
   """created by user id"""
@@ -26328,7 +26360,9 @@ type ProjectInformationData implements Node {
   """The foreign key of an application"""
   applicationId: Int
 
-  """The json form data of the project information form"""
+  """
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fproject_information_data.json)
+  """
   jsonData: JSON!
 
   """created by user id"""
@@ -46365,6 +46399,10 @@ input CreateApplicationGisDataInput {
 input ApplicationGisDataInput {
   batchId: Int
   applicationId: Int
+
+  """
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_gis_data.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -46702,6 +46740,10 @@ input CreateAssessmentDataInput {
 """An input for mutations affecting `AssessmentData`"""
 input AssessmentDataInput {
   applicationId: Int!
+
+  """
+  The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fassessment_data.json)
+  """
   jsonData: JSON
   assessmentDataType: String
 
@@ -47089,7 +47131,9 @@ input ConditionalApprovalDataInput {
   """The foreign key of an application"""
   applicationId: Int
 
-  """The json form data of the conditional approval form"""
+  """
+  The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fconditional_approval_data.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -47216,7 +47260,9 @@ input CreateFormDataInput {
 
 """An input for mutations affecting `FormData`"""
 input FormDataInput {
-  """The data entered into the form by the respondent"""
+  """
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fform_data.json)
+  """
   jsonData: JSON
 
   """Column saving the key of the last edited form page"""
@@ -47425,7 +47471,9 @@ input CreateGisDataInput {
 
 """An input for mutations affecting `GisData`"""
 input GisDataInput {
-  """content of the uploaded GIS data file"""
+  """
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fgis_data.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -47585,7 +47633,9 @@ input ProjectInformationDataInput {
   """The foreign key of an application"""
   applicationId: Int
 
-  """The json form data of the project information form"""
+  """
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fproject_information_data.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -47713,7 +47763,9 @@ input RfiDataInput {
   """Reference number assigned to the RFI"""
   rfiNumber: String
 
-  """The data entered into the form by the respondent"""
+  """
+  The json form data of the RFI information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Frfi_data.json)
+  """
   jsonData: JSON
 
   """Column referencing the form data status type, defaults to draft"""
@@ -47832,6 +47884,10 @@ input CreateSowTab1Input {
 """An input for mutations affecting `SowTab1`"""
 input SowTab1Input {
   sowId: Int
+
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_1.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -47905,7 +47961,9 @@ input SowTab2Input {
   """ID of the SoW"""
   sowId: Int
 
-  """The data imported from the Excel filled by the respondent"""
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_2.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -47977,6 +48035,10 @@ input CreateSowTab7Input {
 """An input for mutations affecting `SowTab7`"""
 input SowTab7Input {
   sowId: Int
+
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_7.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -48050,7 +48112,9 @@ input SowTab8Input {
   """ID of the SoW"""
   sowId: Int
 
-  """The data imported from the Excel filled by the respondent"""
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_8.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -48742,6 +48806,10 @@ Represents an update to a `ApplicationGisData`. Fields that are set will be upda
 input ApplicationGisDataPatch {
   batchId: Int
   applicationId: Int
+
+  """
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_gis_data.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -49036,7 +49104,9 @@ input ApplicationSowDataPatch {
   """ID of the application this SoW belongs to"""
   applicationId: Int
 
-  """The data imported from the Excel filled by the respondent"""
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_sow_data.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -49341,6 +49411,10 @@ Represents an update to a `AssessmentData`. Fields that are set will be updated.
 """
 input AssessmentDataPatch {
   applicationId: Int
+
+  """
+  The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fassessment_data.json)
+  """
   jsonData: JSON
   assessmentDataType: String
 
@@ -49856,7 +49930,9 @@ input ConditionalApprovalDataPatch {
   """The foreign key of an application"""
   applicationId: Int
 
-  """The json form data of the conditional approval form"""
+  """
+  The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fconditional_approval_data.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -50050,7 +50126,9 @@ input UpdateFormDataInput {
 Represents an update to a `FormData`. Fields that are set will be updated.
 """
 input FormDataPatch {
-  """The data entered into the form by the respondent"""
+  """
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fform_data.json)
+  """
   jsonData: JSON
 
   """Column saving the key of the last edited form page"""
@@ -50363,7 +50441,9 @@ input UpdateGisDataInput {
 Represents an update to a `GisData`. Fields that are set will be updated.
 """
 input GisDataPatch {
-  """content of the uploaded GIS data file"""
+  """
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fgis_data.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -50614,7 +50694,9 @@ input ProjectInformationDataPatch {
   """The foreign key of an application"""
   applicationId: Int
 
-  """The json form data of the project information form"""
+  """
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fproject_information_data.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -50792,7 +50874,9 @@ input RfiDataPatch {
   """Reference number assigned to the RFI"""
   rfiNumber: String
 
-  """The data entered into the form by the respondent"""
+  """
+  The json form data of the RFI information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Frfi_data.json)
+  """
   jsonData: JSON
 
   """Column referencing the form data status type, defaults to draft"""
@@ -50963,6 +51047,10 @@ Represents an update to a `SowTab1`. Fields that are set will be updated.
 """
 input SowTab1Patch {
   sowId: Int
+
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_1.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -51060,7 +51148,9 @@ input SowTab2Patch {
   """ID of the SoW"""
   sowId: Int
 
-  """The data imported from the Excel filled by the respondent"""
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_2.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -51158,6 +51248,10 @@ Represents an update to a `SowTab7`. Fields that are set will be updated.
 """
 input SowTab7Patch {
   sowId: Int
+
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_7.json)
+  """
   jsonData: JSON
 
   """created by user id"""
@@ -51255,7 +51349,9 @@ input SowTab8Patch {
   """ID of the SoW"""
   sowId: Int
 
-  """The data imported from the Excel filled by the respondent"""
+  """
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_8.json)
+  """
   jsonData: JSON
 
   """created by user id"""
