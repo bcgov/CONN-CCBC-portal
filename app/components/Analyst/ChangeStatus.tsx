@@ -184,8 +184,15 @@ const ChangeStatus: React.FC<Props> = ({
   };
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDraftStatus(getStatus(e.target.value, statusTypes));
+    const isAllowedExternalReceived =
+      e.target.value === 'received' &&
+      ['received', 'screening', 'assessment', 'recommendation'].includes(
+        analystStatus
+      );
+
     const isAllowedExternalChange =
-      isExternalStatus && e.target.value === analystStatus;
+      isExternalStatus &&
+      (e.target.value === analystStatus || isAllowedExternalReceived);
     const isInvaliedConditionalApproval =
       e.target.value === 'conditionally_approved' &&
       isAllowedExternalChange &&
