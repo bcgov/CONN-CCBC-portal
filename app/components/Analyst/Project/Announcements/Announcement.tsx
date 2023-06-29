@@ -31,6 +31,7 @@ const StyledPreview = styled.div`
   & img {
     border-radius: 8px;
     padding: 1px;
+    object-fit: contain;
   }
 `;
 
