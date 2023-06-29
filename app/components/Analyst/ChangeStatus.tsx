@@ -184,9 +184,16 @@ const ChangeStatus: React.FC<Props> = ({
   };
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDraftStatus(getStatus(e.target.value, statusTypes));
+    const isAllowedExternalReceived =
+      e.target.value === 'received' &&
+      ['received', 'screening', 'assessment', 'recommendation'].includes(
+        analystStatus
+      );
+
     const isAllowedExternalChange =
-      isExternalStatus && e.target.value === analystStatus;
-    const isInvaliedConditionalApproval =
+      isExternalStatus &&
+      (e.target.value === analystStatus || isAllowedExternalReceived);
+    const isInvalidConditionalApproval =
       e.target.value === 'conditionally_approved' &&
       isAllowedExternalChange &&
       !isAllowedConditionalApproval;
@@ -197,7 +204,7 @@ const ChangeStatus: React.FC<Props> = ({
     } else if (
       // open modal for external status change
       !isAllowedExternalChange ||
-      isInvaliedConditionalApproval
+      isInvalidConditionalApproval
     ) {
       window.location.hash = `#external-change-status-modal`;
     } else {
