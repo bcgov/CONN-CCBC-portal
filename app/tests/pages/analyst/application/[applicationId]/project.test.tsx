@@ -835,7 +835,7 @@ describe('The Project page', () => {
     expect(screen.getByText('Finalized map')).toBeInTheDocument();
 
     expect(
-      screen.getByText('Date funding agreement signed by recipient')
+      screen.getByText('Date funding agreement signed by Province')
     ).toBeInTheDocument();
 
     expect(screen.getByText('2023-05-10')).toBeInTheDocument();

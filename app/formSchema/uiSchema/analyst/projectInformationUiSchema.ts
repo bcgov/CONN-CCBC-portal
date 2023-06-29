@@ -5,7 +5,7 @@ const projectInformationUiSchema = {
   },
   main: {
     dateFundingAgreementSigned: {
-      'ui:title': 'Date funding agreement signed by the province',
+      'ui:title': 'Date funding agreement signed by Province',
       'ui:widget': 'DatePickerWidget',
     },
     upload: {
