@@ -1,0 +1,13 @@
+diff --git a/node_modules/@bcgov-cas/sso-react/dist/SessionTimeoutHandler.js b/node_modules/@bcgov-cas/sso-react/dist/SessionTimeoutHandler.js
+index 43e6190..586eb4e 100644
+--- a/node_modules/@bcgov-cas/sso-react/dist/SessionTimeoutHandler.js
++++ b/node_modules/@bcgov-cas/sso-react/dist/SessionTimeoutHandler.js
+@@ -82,7 +82,7 @@ var SessionTimeoutHandler = function (_a) {
+         var response, timeout, _a;
+         return __generator(this, function (_b) {
+             switch (_b.label) {
+-                case 0: return [4 /*yield*/, fetch(sessionRemainingTimePath)];
++                case 0: return [4 /*yield*/, fetch('/extend-session')];
+                 case 1:
+                     response = _b.sent();
+                     if (!response.ok) return [3 /*break*/, 3];
