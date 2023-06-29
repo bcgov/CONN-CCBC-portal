@@ -1,7 +1,7 @@
 name: Generate Schemaspy Docs
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main","1695-json-schema-docs" ]
 
 env:
   NODE_ENV: test
@@ -42,3 +42,8 @@ jobs:
         with:
           folder: output
           target-folder: schemaspy
+      - name: Deploy to Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: public/data
+          target-folder: schemaspy/data
