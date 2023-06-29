@@ -1,3 +1,29 @@
+# [1.80.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.79.0...v1.80.0) (2023-06-29)
+
+### Bug Fixes
+
+- add amendment number to sow import file widget after validation updates ([f831e7e](https://github.com/bcgov/CONN-CCBC-portal/commit/f831e7e730d5302045365634a5bb5530f08a3e36))
+- add missing detailed budget import ([3b20580](https://github.com/bcgov/CONN-CCBC-portal/commit/3b20580dc24524ca6d6b672f65fb839543cc07ec))
+- custom deploy added (temporary) ([61b2e90](https://github.com/bcgov/CONN-CCBC-portal/commit/61b2e90da7549b761b9a5b4b0875df976dddfb6f))
+- download link return element ([3d6ef0c](https://github.com/bcgov/CONN-CCBC-portal/commit/3d6ef0c2ffec10023e9f28dfb10117b6ec1fb02d))
+- project information date funding agreement signed label ([d276c1f](https://github.com/bcgov/CONN-CCBC-portal/commit/d276c1f08c6e83f60f1bb2fb285e5018fe05d4bf))
+- remove debug deployment ([12c5eca](https://github.com/bcgov/CONN-CCBC-portal/commit/12c5eca57ac9389b8bdeece28b6b5f3633b01089))
+- restore main.yml ([3efc461](https://github.com/bcgov/CONN-CCBC-portal/commit/3efc4610dbfe88fead50e187982a25b64d82b9a6))
+- schema ([b9f9593](https://github.com/bcgov/CONN-CCBC-portal/commit/b9f9593da247f693658a16653fdc8f546cb8ec5b))
+- sqitch.plan ([7c57711](https://github.com/bcgov/CONN-CCBC-portal/commit/7c5771118fc5da83517244db074f1b69a2849495))
+- updated schema ([facb21b](https://github.com/bcgov/CONN-CCBC-portal/commit/facb21b6271357a5e75eb343884641514c62ff56))
+
+### Features
+
+- add change_request request columns to sow data table ([c8b462e](https://github.com/bcgov/CONN-CCBC-portal/commit/c8b462e86ffaa184fe6dc05be3ffcc36b5dc9d2d))
+- add create_application_sow_data postgres mutation ([08301c4](https://github.com/bcgov/CONN-CCBC-portal/commit/08301c478d43a2a18d62dce0c124a92f1cfcbf30))
+- grant update permissions on application_sow_data table ([16f7253](https://github.com/bcgov/CONN-CCBC-portal/commit/16f7253d2a6d27dc1f12fa59d9f71995030777b5))
+- quarantined files handler for analysts ([c7fa6c7](https://github.com/bcgov/CONN-CCBC-portal/commit/c7fa6c721fdee4b0a3ffbdf241c189646f9157a3))
+- review files download, change button to a ([4e3e9d3](https://github.com/bcgov/CONN-CCBC-portal/commit/4e3e9d32d771c57fa13b1f34d3f4c26b04ca4191))
+- update api for change requests ([7b6a365](https://github.com/bcgov/CONN-CCBC-portal/commit/7b6a36550d1f7e79b21babecc8417661c532ecf5))
+- using meta data file to enchance schemaspy docs ([a6aeba3](https://github.com/bcgov/CONN-CCBC-portal/commit/a6aeba3061c8a2df0745ba06eca498a3c4f503cf))
+- using sqitch to add markup in comments ([6b7d18b](https://github.com/bcgov/CONN-CCBC-portal/commit/6b7d18b09e4cfe231fbc2f370b30eda485fcc93d))
+
 # [1.79.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.78.0...v1.79.0) (2023-06-27)
 
 ### Bug Fixes
