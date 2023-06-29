@@ -4,6 +4,7 @@ import {
   faMap,
 } from '@fortawesome/free-solid-svg-icons';
 import FileHeader from 'components/Analyst/Project/ProjectInformation/FileHeader';
+import projectInformationUiSchema from './projectInformationUiSchema';
 
 const projectInformationReadOnlyUiSchema = {
   main: {
@@ -35,7 +36,8 @@ const projectInformationReadOnlyUiSchema = {
       },
     },
     dateFundingAgreementSigned: {
-      'ui:title': 'Date funding agreement signed by recipient',
+      'ui:title':
+        projectInformationUiSchema.main.dateFundingAgreementSigned['ui:title'],
       'ui:widget': 'ReadOnlyWidget',
     },
   },
