@@ -1,0 +1,101 @@
+diff --git a/node_modules/@bcgov-cas/sso-express/dist/controllers.d.ts b/node_modules/@bcgov-cas/sso-express/dist/controllers.d.ts
+index fed3a24..b66860b 100644
+--- a/node_modules/@bcgov-cas/sso-express/dist/controllers.d.ts
++++ b/node_modules/@bcgov-cas/sso-express/dist/controllers.d.ts
+@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from "express";
+ import { BaseClient } from "openid-client";
+ import { SSOExpressOptions } from "./index";
+ export declare const logoutController: (client: BaseClient, options: SSOExpressOptions) => (req: Request, res: Response) => void;
+-export declare const tokenSetController: (client: BaseClient, _options: SSOExpressOptions) => (req: Request, _res: Response, next: NextFunction) => Promise<void>;
++export declare const tokenSetController: (client: BaseClient, _options: SSOExpressOptions, idleRemainingRoute?: string) => (req: Request, _res: Response, next: NextFunction) => Promise<void>;
+ export declare const sessionIdleRemainingTimeController: (_client: BaseClient, options: SSOExpressOptions) => (req: Request, res: Response) => Response<any, Record<string, any>>;
+ export declare const loginController: (client: BaseClient, options: SSOExpressOptions) => (req: Request, res: Response) => void;
+ export declare const authCallbackController: (client: BaseClient, options: SSOExpressOptions) => (req: Request, res: Response) => Promise<void>;
+diff --git a/node_modules/@bcgov-cas/sso-express/dist/controllers.js b/node_modules/@bcgov-cas/sso-express/dist/controllers.js
+index 86b2152..429f9f6 100644
+--- a/node_modules/@bcgov-cas/sso-express/dist/controllers.js
++++ b/node_modules/@bcgov-cas/sso-express/dist/controllers.js
+@@ -77,18 +77,20 @@ var logoutController = function (client, options) {
+     };
+ };
+ exports.logoutController = logoutController;
+-var tokenSetController = function (client, _options) {
++var tokenSetController = function (client, _options, idleRemainingRoute) {
++    if (idleRemainingRoute === void 0) { idleRemainingRoute = '/session-idle-remaining-time'; }
+     return function (req, _res, next) { return __awaiter(void 0, void 0, void 0, function () {
+-        var tokenSet, err_1;
++        var extend, tokenSet, err_1;
+         return __generator(this, function (_a) {
+             switch (_a.label) {
+                 case 0:
+                     if (!(0, helpers_1.isAuthenticated)(req)) return [3 /*break*/, 5];
++                    extend = req.url !== idleRemainingRoute;
+                     tokenSet = new openid_client_1.TokenSet(req.session.tokenSet);
+                     _a.label = 1;
+                 case 1:
+                     _a.trys.push([1, 4, , 5]);
+-                    if (!tokenSet.expired()) return [3 /*break*/, 3];
++                    if (!(extend && tokenSet.expired())) return [3 /*break*/, 3];
+                     return [4 /*yield*/, client.refresh(tokenSet)];
+                 case 2:
+                     // If so, use the refresh token to get a new access token
+diff --git a/node_modules/@bcgov-cas/sso-express/dist/index.d.ts b/node_modules/@bcgov-cas/sso-express/dist/index.d.ts
+index 7a29a48..ef5549b 100644
+--- a/node_modules/@bcgov-cas/sso-express/dist/index.d.ts
++++ b/node_modules/@bcgov-cas/sso-express/dist/index.d.ts
+@@ -52,6 +52,7 @@ export interface SSOExpressOptions {
+         logout?: string;
+         sessionIdleRemainingTime?: string;
+         authCallback?: string;
++        extendSession?: string;
+     };
+     authorizationUrlParams?: Record<string, string> | ((req: Request) => Record<string, string>);
+     /**
+diff --git a/node_modules/@bcgov-cas/sso-express/dist/index.js b/node_modules/@bcgov-cas/sso-express/dist/index.js
+index 66d1457..dbb4762 100644
+--- a/node_modules/@bcgov-cas/sso-express/dist/index.js
++++ b/node_modules/@bcgov-cas/sso-express/dist/index.js
+@@ -68,12 +68,13 @@ var defaultOptions = {
+         logout: "/logout",
+         sessionIdleRemainingTime: "/session-idle-remaining-time",
+         authCallback: "/auth-callback",
++        extendSession: '/extend-session',
+     },
+     authorizationUrlParams: {},
+ };
+ function ssoExpress(opts) {
+     return __awaiter(this, void 0, void 0, function () {
+-        var options, _a, clientId, clientSecret, baseUrl, oidcIssuer, _b, authCallback, login, logout, sessionIdleRemainingTime, issuer, Client, client, middleware;
++        var options, _a, clientId, clientSecret, baseUrl, oidcIssuer, _b, authCallback, login, logout, sessionIdleRemainingTime, extendSession, issuer, Client, client, middleware;
+         return __generator(this, function (_c) {
+             switch (_c.label) {
+                 case 0:
+@@ -81,7 +82,7 @@ function ssoExpress(opts) {
+                         throw new Error("sso-express: oidcConfig key not provided in options");
+                     options = __assign(__assign(__assign({}, defaultOptions), opts), { routes: __assign(__assign({}, defaultOptions.routes), opts.routes) });
+                     _a = options.oidcConfig, clientId = _a.clientId, clientSecret = _a.clientSecret, baseUrl = _a.baseUrl, oidcIssuer = _a.oidcIssuer;
+-                    _b = options.routes, authCallback = _b.authCallback, login = _b.login, logout = _b.logout, sessionIdleRemainingTime = _b.sessionIdleRemainingTime;
++                    _b = options.routes, authCallback = _b.authCallback, login = _b.login, logout = _b.logout, sessionIdleRemainingTime = _b.sessionIdleRemainingTime, extendSession = _b.extendSession;
+                     return [4 /*yield*/, openid_client_1.Issuer.discover(oidcIssuer)];
+                 case 1:
+                     issuer = _c.sent();
+@@ -94,14 +95,18 @@ function ssoExpress(opts) {
+                         token_endpoint_auth_method: clientSecret ? "client_secret_basic" : "none",
+                     });
+                     middleware = (0, express_1.Router)();
++                    //also create a get logout to be used by the onSessionExpired callbaack
++                    middleware.get(logout, (0, controllers_1.logoutController)(client, options));
+                     middleware.post(logout, (0, controllers_1.logoutController)(client, options));
+-                    middleware.use((0, controllers_1.tokenSetController)(client, options));
++                    middleware.use((0, controllers_1.tokenSetController)(client, options, sessionIdleRemainingTime));
+                     // Session Idle Remaining Time
+                     // Returns, in seconds, the amount of time left in the session
+                     if (sessionIdleRemainingTime)
+                         middleware.get(sessionIdleRemainingTime, (0, controllers_1.sessionIdleRemainingTimeController)(client, options));
+                     middleware.post(login, (0, controllers_1.loginController)(client, options));
+                     middleware.get(authCallback, (0, controllers_1.authCallbackController)(client, options));
++                    // create a separate extend-session callback
++                    middleware.get(extendSession, (0, controllers_1.sessionIdleRemainingTimeController)(client, options));
+                     return [2 /*return*/, middleware];
+             }
+         });

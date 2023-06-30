@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { graphql, fetchQuery, useRelayEnvironment } from 'react-relay';
-import config from 'config';
 import { SessionTimeoutHandler } from '@bcgov-cas/sso-react';
 import type { SessionExpiryHandlerQuery } from '../__generated__/SessionExpiryHandlerQuery.graphql';
 
@@ -33,15 +32,11 @@ const SessionExpiryHandler: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getLogOutUrl = () => {
-    const logoutUrl = config.get('SITEMINDER_LOGOUT_URL');
-    const localRedirectURL = `${window.location.origin}/${router.asPath}`;
-    return `${logoutUrl}?returl=${localRedirectURL}&retnow=1`;
-  };
-
   const handleSessionExpired = () => {
     setHasSession(false);
-    const logOutURL = getLogOutUrl();
+    // change to use backend logout
+    // as it will clear both SM and KC sessions
+    const logOutURL = '/logout';
 
     if (!logOutURL) {
       router.push({
@@ -65,7 +60,7 @@ const SessionExpiryHandler: React.FC = () => {
           resetOnChange={[router]}
           extendSessionOnEvents={{
             enabled: true,
-            throttleTime: 200000,
+            throttleTime: 60000,
             events: ['keydown', 'mousedown', 'scroll'],
           }}
         />
