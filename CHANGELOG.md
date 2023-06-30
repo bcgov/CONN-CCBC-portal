@@ -1,3 +1,42 @@
+# [1.80.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.79.0...v1.80.0) (2023-06-30)
+
+### Bug Fixes
+
+- add amendment number to sow import file widget after validation updates ([f831e7e](https://github.com/bcgov/CONN-CCBC-portal/commit/f831e7e730d5302045365634a5bb5530f08a3e36))
+- add correct metabase link colour ([40c0a95](https://github.com/bcgov/CONN-CCBC-portal/commit/40c0a95f9a096700e79c25b455b679c6cafed841))
+- add media query for gis success page metabase link ([0e0955b](https://github.com/bcgov/CONN-CCBC-portal/commit/0e0955b91488b93fd3c2978eacd5661eb4cfad94))
+- add missing detailed budget import ([3b20580](https://github.com/bcgov/CONN-CCBC-portal/commit/3b20580dc24524ca6d6b672f65fb839543cc07ec))
+- custom deploy added (temporary) ([61b2e90](https://github.com/bcgov/CONN-CCBC-portal/commit/61b2e90da7549b761b9a5b4b0875df976dddfb6f))
+- download link return element ([3d6ef0c](https://github.com/bcgov/CONN-CCBC-portal/commit/3d6ef0c2ffec10023e9f28dfb10117b6ec1fb02d))
+- project information date funding agreement signed label ([d276c1f](https://github.com/bcgov/CONN-CCBC-portal/commit/d276c1f08c6e83f60f1bb2fb285e5018fe05d4bf))
+- remove debug deployment ([12c5eca](https://github.com/bcgov/CONN-CCBC-portal/commit/12c5eca57ac9389b8bdeece28b6b5f3633b01089))
+- restore main.yml ([3efc461](https://github.com/bcgov/CONN-CCBC-portal/commit/3efc4610dbfe88fead50e187982a25b64d82b9a6))
+- schema ([b9f9593](https://github.com/bcgov/CONN-CCBC-portal/commit/b9f9593da247f693658a16653fdc8f546cb8ec5b))
+- spelling mistake ([bceeba9](https://github.com/bcgov/CONN-CCBC-portal/commit/bceeba9b0d5d1e6190959a6d9595ad406061d79a))
+- sqitch.plan ([7c57711](https://github.com/bcgov/CONN-CCBC-portal/commit/7c5771118fc5da83517244db074f1b69a2849495))
+- updated schema ([facb21b](https://github.com/bcgov/CONN-CCBC-portal/commit/facb21b6271357a5e75eb343884641514c62ff56))
+- wrap metabase link test component in global theme ([77d5495](https://github.com/bcgov/CONN-CCBC-portal/commit/77d5495a1d908c03e1076ca559eedae7fea52093))
+
+### Features
+
+- add change request approved if there are change requests ([5b7faef](https://github.com/bcgov/CONN-CCBC-portal/commit/5b7faef3de65b97f1941fd735c1c07e37aed5c5c))
+- add change_request request columns to sow data table ([c8b462e](https://github.com/bcgov/CONN-CCBC-portal/commit/c8b462e86ffaa184fe6dc05be3ffcc36b5dc9d2d))
+- add create_application_sow_data postgres mutation ([08301c4](https://github.com/bcgov/CONN-CCBC-portal/commit/08301c478d43a2a18d62dce0c124a92f1cfcbf30))
+- add extra requirements to change external received status ([ab8a987](https://github.com/bcgov/CONN-CCBC-portal/commit/ab8a987e682f56b053be85553a347e9c97a88fbe))
+- add gis analysis past recommendation block to gis success page ([61d639f](https://github.com/bcgov/CONN-CCBC-portal/commit/61d639f169da21daaf6e172e3fe6deac88710e75))
+- add new hook to cancel operations on hook change ([6b157ec](https://github.com/bcgov/CONN-CCBC-portal/commit/6b157ec70defb3ab2557ae84e2d0c856964b3c66))
+- add validation code to change request form ([5c45ae7](https://github.com/bcgov/CONN-CCBC-portal/commit/5c45ae781571bbe4cbc4d6d9ce5f0b997402579e))
+- add validation on file upload ([2389aed](https://github.com/bcgov/CONN-CCBC-portal/commit/2389aed85836ca4bd492b811c63b0afeebf4753c))
+- grant update permissions on application_sow_data table ([16f7253](https://github.com/bcgov/CONN-CCBC-portal/commit/16f7253d2a6d27dc1f12fa59d9f71995030777b5))
+- quarantined files handler for analysts ([c7fa6c7](https://github.com/bcgov/CONN-CCBC-portal/commit/c7fa6c721fdee4b0a3ffbdf241c189646f9157a3))
+- review files download, change button to a ([4e3e9d3](https://github.com/bcgov/CONN-CCBC-portal/commit/4e3e9d32d771c57fa13b1f34d3f4c26b04ca4191))
+- update api for change requests ([7b6a365](https://github.com/bcgov/CONN-CCBC-portal/commit/7b6a36550d1f7e79b21babecc8417661c532ecf5))
+- update gis_data_counts computed column for application status ([eb0ca2f](https://github.com/bcgov/CONN-CCBC-portal/commit/eb0ca2f2af57d22e2595acdf87fb6f3f86101d59))
+- update parse_gis_data postgres mutation to check application status ([56b5548](https://github.com/bcgov/CONN-CCBC-portal/commit/56b5548553c6985a1525a772c9cfc19c4c220604))
+- use object-fit: contain on announcement image preview ([04a252c](https://github.com/bcgov/CONN-CCBC-portal/commit/04a252ca9ff3085a9e9a00d6b934620425d1dd31))
+- using meta data file to enchance schemaspy docs ([a6aeba3](https://github.com/bcgov/CONN-CCBC-portal/commit/a6aeba3061c8a2df0745ba06eca498a3c4f503cf))
+- using sqitch to add markup in comments ([6b7d18b](https://github.com/bcgov/CONN-CCBC-portal/commit/6b7d18b09e4cfe231fbc2f370b30eda485fcc93d))
+
 # [1.79.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.78.0...v1.79.0) (2023-06-27)
 
 ### Bug Fixes
