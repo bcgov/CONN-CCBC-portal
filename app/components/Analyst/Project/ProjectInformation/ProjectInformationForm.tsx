@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
@@ -12,11 +12,25 @@ import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import Toast from 'components/Toast';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
+import sowValidateGenerator from 'lib/helpers/sowValidate';
+import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import FileHeader from './FileHeader';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
     max-width: 200px;
   }
+`;
+
+const StyledChangeRequestApproved = styled.div`
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fcba1933;
+  min-height: 64px;
+  min-width: 340px;
+  max-width: 400px;
+  margin-bottom: 8px;
+  margin-left: 10px;
 `;
 
 const ProjectInformationForm = ({ application }) => {
@@ -30,21 +44,50 @@ const ProjectInformationForm = ({ application }) => {
           id
           jsonData
         }
+        changeRequestDataByApplicationId(
+          filter: { archivedAt: { isNull: true } }
+          orderBy: CHANGE_REQUEST_NUMBER_ASC
+          first: 999
+        )
+          @connection(
+            key: "ChangeRequestForm_changeRequestDataByApplicationId"
+          ) {
+          __id
+          edges {
+            node {
+              id
+            }
+          }
+        }
       }
     `,
     application
   );
 
-  const { ccbcNumber, id, rowId, projectInformation } = queryFragment;
+  const {
+    ccbcNumber,
+    id,
+    rowId,
+    projectInformation,
+    changeRequestDataByApplicationId,
+  } = queryFragment;
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
+  const [sowFile, setSowFile] = useState(null);
+  const [sowValidationErrors, setSowValidationErrors] = useState([]);
   const [isFormEditMode, setIsFormEditMode] = useState(
     !projectInformation?.jsonData
   );
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+  const hasChangeRequest = changeRequestDataByApplicationId.edges.length > 0;
+
+  const validateSow = useCallback(
+    sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
+    [rowId, ccbcNumber, setSowFile, setSowValidationErrors]
+  );
 
   const hasFormErrors = useMemo(() => {
     if (formData === null) {
@@ -71,7 +114,6 @@ const ProjectInformationForm = ({ application }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     hiddenSubmitRef.current.click();
-
     if (hasFormErrors) {
       return;
     }
@@ -83,25 +125,28 @@ const ProjectInformationForm = ({ application }) => {
         },
       });
     }
+    validateSow(sowFile, 0, false).then(() => {
+      createProjectInformation({
+        variables: {
+          input: { _applicationId: rowId, _jsonData: formData },
+        },
+        onCompleted: () => {
+          setIsFormEditMode(false);
 
-    createProjectInformation({
-      variables: {
-        input: { _applicationId: rowId, _jsonData: formData },
-      },
-      onCompleted: () => {
-        setIsFormEditMode(false);
-
-        // May need to change when the toast is shown when we add validation
-        setShowToast(true);
-      },
-      updater: (store, data) => {
-        store
-          .get(id)
-          .setLinkedRecord(
-            store.get(data.createProjectInformation.projectInformationData.id),
-            'projectInformation'
-          );
-      },
+          // May need to change when the toast is shown when we add validation
+          setShowToast(true);
+        },
+        updater: (store, data) => {
+          store
+            .get(id)
+            .setLinkedRecord(
+              store.get(
+                data.createProjectInformation.projectInformationData.id
+              ),
+              'projectInformation'
+            );
+        },
+      });
     });
   };
 
@@ -114,8 +159,8 @@ const ProjectInformationForm = ({ application }) => {
     <StyledProjectForm
       additionalContext={{
         applicationId: rowId,
-        ccbcNumber,
-        rowId,
+        sowValidationErrors,
+        validateSow,
       }}
       formData={formData}
       handleChange={(e) => {
@@ -144,13 +189,25 @@ const ProjectInformationForm = ({ application }) => {
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
       hiddenSubmitRef={hiddenSubmitRef}
     >
-      {!isFormEditMode && (
-        <MetabaseLink
-          href="#"
-          text="View project data in Metabase"
-          width={326}
-        />
-      )}
+      <div style={{ display: 'flex' }}>
+        {!isFormEditMode && (
+          <MetabaseLink
+            href="#"
+            text="View project data in Metabase"
+            width={326}
+          />
+        )}
+        {!isFormEditMode && hasChangeRequest && (
+          <StyledChangeRequestApproved>
+            <FileHeader
+              icon={faClockRotateLeft}
+              title="Change request approved"
+            />
+            <div>These are the latest Statement of Work tables</div>
+            <div>All versions can be found in Metabase</div>
+          </StyledChangeRequestApproved>
+        )}
+      </div>
       {showToast && (
         <Toast timeout={100000000}>
           Statement of work successfully imported

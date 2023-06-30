@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
 import changeRequestSchema from 'formSchema/analyst/changeRequest';
@@ -6,6 +6,7 @@ import changeRequestUiSchema from 'formSchema/uiSchema/analyst/changeRequestUiSc
 import { useCreateChangeRequestMutation } from 'schema/mutations/project/createChangeRequest';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import Toast from 'components/Toast';
+import sowValidateGenerator from 'lib/helpers/sowValidate';
 import ChangeRequestCard from './ChangeRequestCard';
 
 const ChangeRequestForm = ({ application }) => {
@@ -59,29 +60,37 @@ const ChangeRequestForm = ({ application }) => {
 
   const [createChangeRequest] = useCreateChangeRequestMutation();
   const [formData, setFormData] = useState({} as any);
+  const [sowFile, setSowFile] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
+  const [sowValidationErrors, setSowValidationErrors] = useState([]);
 
   const isStatementOfWorkUpload = formData?.statementOfWorkUpload;
 
+  const validateSow = useCallback(
+    sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
+    [setSowValidationErrors, ccbcNumber, rowId, setSowFile]
+  );
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    createChangeRequest({
-      variables: {
-        connections: [connectionId],
-        input: {
-          _applicationId: rowId,
-          _changeRequestNumber: newChangeRequestNumber,
-          _jsonData: formData,
+    validateSow(sowFile, newChangeRequestNumber, false).then(() => {
+      createChangeRequest({
+        variables: {
+          connections: [connectionId],
+          input: {
+            _applicationId: rowId,
+            _changeRequestNumber: newChangeRequestNumber,
+            _jsonData: formData,
+          },
         },
-      },
-      onCompleted: () => {
-        setIsFormEditMode(false);
-        setFormData({});
-        // May need to change when the toast is shown when we add validation
-        setShowToast(true);
-      },
+        onCompleted: () => {
+          setIsFormEditMode(false);
+          setFormData({});
+          // May need to change when the toast is shown when we add validation
+          setShowToast(true);
+        },
+      });
     });
   };
 
@@ -97,6 +106,8 @@ const ChangeRequestForm = ({ application }) => {
         ccbcNumber,
         rowId,
         amendmentNumber: newChangeRequestNumber,
+        validateSow,
+        sowValidationErrors,
       }}
       before={
         <>

@@ -6,6 +6,8 @@ import compiledQuery, {
 import { act, fireEvent, screen } from '@testing-library/react';
 import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
 
+global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} }));
+
 const testQuery = graphql`
   query ChangeRequestFormTestQuery @relay_test_operation {
     # Spread the fragment you want to test here
