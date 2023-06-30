@@ -43,7 +43,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   Settings.defaultZone = 'America/Vancouver';
   Settings.defaultLocale = 'en-CA';
 
-  newTracker('ccbcTracker', 'spm.apps.gov.bc.ca', {
+  newTracker('ccbcTracker', 'spt.apps.gov.bc.ca', {
     appId: 'Snowplow_standalone_NWBC',
   });
 
