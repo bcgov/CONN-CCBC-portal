@@ -20130,7 +20130,7 @@ type FormData implements Node {
   rowId: Int!
 
   """
-  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fform_data.json)
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fform_data.json)
   """
   jsonData: JSON!
 
@@ -21625,7 +21625,7 @@ type RfiData implements Node {
   rfiNumber: String
 
   """
-  The json form data of the RFI information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Frfi_data.json)
+  The json form data of the RFI information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Frfi_data.json)
   """
   jsonData: JSON!
 
@@ -22237,7 +22237,7 @@ type AssessmentData implements Node {
   applicationId: Int!
 
   """
-  The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fassessment_data.json)
+  The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fassessment_data.json)
   """
   jsonData: JSON!
   assessmentDataType: String
@@ -22958,7 +22958,7 @@ type ConditionalApprovalData implements Node {
   applicationId: Int
 
   """
-  The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fconditional_approval_data.json)
+  The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fconditional_approval_data.json)
   """
   jsonData: JSON!
 
@@ -23097,7 +23097,7 @@ type ApplicationGisData implements Node {
   applicationId: Int
 
   """
-  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_gis_data.json)
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fapplication_gis_data.json)
   """
   jsonData: JSON!
 
@@ -23151,7 +23151,7 @@ type GisData implements Node {
   rowId: Int!
 
   """
-  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fgis_data.json)
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fgis_data.json)
   """
   jsonData: JSON!
 
@@ -23775,7 +23775,7 @@ type Announcement implements Node {
   ccbcNumbers: String
 
   """
-  The json form data of the announcement form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fannouncement.json)
+  The json form data of the announcement form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fannouncement.json)
   """
   jsonData: JSON!
 
@@ -24420,7 +24420,7 @@ type ApplicationSowData implements Node {
   applicationId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_sow_data.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fapplication_sow_data.json)
   """
   jsonData: JSON!
 
@@ -25044,7 +25044,7 @@ type SowTab2 implements Node {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_2.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_2.json)
   """
   jsonData: JSON!
 
@@ -25171,7 +25171,7 @@ type SowTab1 implements Node {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_1.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_1.json)
   """
   jsonData: JSON!
 
@@ -25298,7 +25298,7 @@ type SowTab7 implements Node {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_7.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_7.json)
   """
   jsonData: JSON!
 
@@ -25430,7 +25430,7 @@ type SowTab8 implements Node {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_8.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_8.json)
   """
   jsonData: JSON!
 
@@ -26361,7 +26361,7 @@ type ProjectInformationData implements Node {
   applicationId: Int
 
   """
-  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fproject_information_data.json)
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fproject_information_data.json)
   """
   jsonData: JSON!
 
@@ -46401,7 +46401,7 @@ input ApplicationGisDataInput {
   applicationId: Int
 
   """
-  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_gis_data.json)
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fapplication_gis_data.json)
   """
   jsonData: JSON
 
@@ -46742,7 +46742,7 @@ input AssessmentDataInput {
   applicationId: Int!
 
   """
-  The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fassessment_data.json)
+  The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fassessment_data.json)
   """
   jsonData: JSON
   assessmentDataType: String
@@ -47132,7 +47132,7 @@ input ConditionalApprovalDataInput {
   applicationId: Int
 
   """
-  The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fconditional_approval_data.json)
+  The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fconditional_approval_data.json)
   """
   jsonData: JSON
 
@@ -47261,7 +47261,7 @@ input CreateFormDataInput {
 """An input for mutations affecting `FormData`"""
 input FormDataInput {
   """
-  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fform_data.json)
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fform_data.json)
   """
   jsonData: JSON
 
@@ -47472,7 +47472,7 @@ input CreateGisDataInput {
 """An input for mutations affecting `GisData`"""
 input GisDataInput {
   """
-  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fgis_data.json)
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fgis_data.json)
   """
   jsonData: JSON
 
@@ -47634,7 +47634,7 @@ input ProjectInformationDataInput {
   applicationId: Int
 
   """
-  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fproject_information_data.json)
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fproject_information_data.json)
   """
   jsonData: JSON
 
@@ -47764,7 +47764,7 @@ input RfiDataInput {
   rfiNumber: String
 
   """
-  The json form data of the RFI information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Frfi_data.json)
+  The json form data of the RFI information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Frfi_data.json)
   """
   jsonData: JSON
 
@@ -47886,7 +47886,7 @@ input SowTab1Input {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_1.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_1.json)
   """
   jsonData: JSON
 
@@ -47962,7 +47962,7 @@ input SowTab2Input {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_2.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_2.json)
   """
   jsonData: JSON
 
@@ -48037,7 +48037,7 @@ input SowTab7Input {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_7.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_7.json)
   """
   jsonData: JSON
 
@@ -48113,7 +48113,7 @@ input SowTab8Input {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_8.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_8.json)
   """
   jsonData: JSON
 
@@ -48808,7 +48808,7 @@ input ApplicationGisDataPatch {
   applicationId: Int
 
   """
-  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_gis_data.json)
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fapplication_gis_data.json)
   """
   jsonData: JSON
 
@@ -49105,7 +49105,7 @@ input ApplicationSowDataPatch {
   applicationId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_sow_data.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fapplication_sow_data.json)
   """
   jsonData: JSON
 
@@ -49413,7 +49413,7 @@ input AssessmentDataPatch {
   applicationId: Int
 
   """
-  The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fassessment_data.json)
+  The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fassessment_data.json)
   """
   jsonData: JSON
   assessmentDataType: String
@@ -49931,7 +49931,7 @@ input ConditionalApprovalDataPatch {
   applicationId: Int
 
   """
-  The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fconditional_approval_data.json)
+  The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fconditional_approval_data.json)
   """
   jsonData: JSON
 
@@ -50127,7 +50127,7 @@ Represents an update to a `FormData`. Fields that are set will be updated.
 """
 input FormDataPatch {
   """
-  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fform_data.json)
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fform_data.json)
   """
   jsonData: JSON
 
@@ -50442,7 +50442,7 @@ Represents an update to a `GisData`. Fields that are set will be updated.
 """
 input GisDataPatch {
   """
-  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fgis_data.json)
+  The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fgis_data.json)
   """
   jsonData: JSON
 
@@ -50695,7 +50695,7 @@ input ProjectInformationDataPatch {
   applicationId: Int
 
   """
-  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fproject_information_data.json)
+  The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fproject_information_data.json)
   """
   jsonData: JSON
 
@@ -50875,7 +50875,7 @@ input RfiDataPatch {
   rfiNumber: String
 
   """
-  The json form data of the RFI information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Frfi_data.json)
+  The json form data of the RFI information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Frfi_data.json)
   """
   jsonData: JSON
 
@@ -51049,7 +51049,7 @@ input SowTab1Patch {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_1.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_1.json)
   """
   jsonData: JSON
 
@@ -51149,7 +51149,7 @@ input SowTab2Patch {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_2.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_2.json)
   """
   jsonData: JSON
 
@@ -51250,7 +51250,7 @@ input SowTab7Patch {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_7.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_7.json)
   """
   jsonData: JSON
 
@@ -51350,7 +51350,7 @@ input SowTab8Patch {
   sowId: Int
 
   """
-  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_8.json)
+  The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_8.json)
   """
   jsonData: JSON
 
