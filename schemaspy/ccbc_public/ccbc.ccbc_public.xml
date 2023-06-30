@@ -41,7 +41,7 @@
             <child column="announcement_id" foreignKey="application_announcement_announcement_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_announcement"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="ccbc_numbers" nullable="true" remarks="List of CCBC number of the projects included in announcement" size="2147483647" type="varchar" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The json form data of the announcement form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fannouncement.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The json form data of the announcement form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fannouncement.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="announcement_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
@@ -242,7 +242,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="application_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="application_gis_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="3" name="json_data" nullable="false" remarks="The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_gis_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="3" name="json_data" nullable="false" remarks="The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fapplication_gis_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="application_gis_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
@@ -332,7 +332,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="ID of the application this SoW belongs to" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="application_sow_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fapplication_sow_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fapplication_sow_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="application_sow_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
@@ -426,7 +426,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="assessment_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fassessment_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The json form data of the assessment form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fassessment_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="assessment_data_type" nullable="true" remarks="" size="1000" type="varchar" typeCode="12">
             <parent column="name" foreignKey="assessment_data_assessment_data_type_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="assessment_type"/>
          </column>
@@ -653,7 +653,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="The foreign key of an application" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="conditional_approval_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fconditional_approval_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The json form data of the conditional approval form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fconditional_approval_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="conditional_approval_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
@@ -702,7 +702,7 @@
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="The unique id of the form data" size="10" type="int4" typeCode="4">
             <child column="form_data_id" foreignKey="application_form_data_form_data_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_data"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="1" name="json_data" nullable="false" remarks="The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fform_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="1" name="json_data" nullable="false" remarks="The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fform_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="last_edited_page" nullable="true" remarks="Column saving the key of the last edited form page" size="100" type="varchar" typeCode="12"/>
          <column autoUpdated="false" defaultValue="'pending'::character varying" digits="0" id="3" name="form_data_status_type_id" nullable="true" remarks="Column referencing the form data status type, defaults to draft" size="1000" type="varchar" typeCode="12">
             <parent column="name" foreignKey="form_data_form_data_status_type_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data_status_type"/>
@@ -771,7 +771,7 @@
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
             <child column="batch_id" foreignKey="application_gis_data_batch_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_gis_data"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="1" name="json_data" nullable="false" remarks="The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fgis_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="1" name="json_data" nullable="false" remarks="The data imported from the GIS data Excel file. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fgis_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="gis_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
@@ -863,7 +863,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="The foreign key of an application" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="project_information_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fproject_information_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The json form data of the project information form. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fproject_information_data.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="project_information_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
@@ -980,7 +980,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="sow_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="sow_tab_1_sow_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_sow_data"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_1.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_1.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="sow_tab_1_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
@@ -1015,7 +1015,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="sow_id" nullable="true" remarks="ID of the SoW" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="sow_tab_2_sow_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_sow_data"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_2.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_2.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="sow_tab_2_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
@@ -1050,7 +1050,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="sow_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="sow_tab_7_sow_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_sow_data"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_7.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_7.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="sow_tab_7_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
@@ -1085,7 +1085,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="sow_id" nullable="true" remarks="ID of the SoW" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="sow_tab_8_sow_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_sow_data"/>
          </column>
-         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Fsow_tab_8.json)" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data imported from the Excel filled by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_8.json)" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="sow_tab_8_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
