@@ -1,6 +1,6 @@
 begin;
 
-select plan(8);
+select plan(9);
 
 truncate table
   ccbc_public.application,
@@ -45,7 +45,8 @@ select function_privs_are(
 
 \set test_data_1 '[{"ccbc_number":"CCBC-010001","number_of_households":100},{"ccbc_number":"CCBC-010002","number_of_households":200}]'
 \set test_data_2 '[{"ccbc_number":"CCBC-010001","number_of_households":100},{"ccbc_number":"CCBC-010002","number_of_households":250},{"ccbc_number":"CCBC-010003","number_of_households":300}]'
- 
+\set test_data_3 '[{"ccbc_number":"CCBC-010001","number_of_households":200},{"ccbc_number":"CCBC-010002","number_of_households":350},{"ccbc_number":"CCBC-010003","number_of_households":400}]'
+
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
 values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1),
       ('2022-05-01 09:00:01-07', '2022-06-01 09:00:00-07', 2);
@@ -57,7 +58,7 @@ insert into ccbc_public.ccbc_user
   ('foo1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111111'),
   ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111112'),
   ('foo3', 'bar', 'foo3@bar.com', '11111111-1111-1111-1111-111111111113');
-  
+
 
 set role ccbc_auth_user;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
@@ -80,8 +81,8 @@ insert into ccbc_public.application
 -- set all applications to received
 insert into ccbc_public.application_status
  (application_id, status) values (1,'received'), (2, 'received'), (3, 'received');
- 
--- set role to analyst and create announcement 
+
+-- set role to analyst and create announcement
 set role ccbc_analyst;
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
 
@@ -101,7 +102,7 @@ select results_eq (
 
 select results_eq (
   $$
-  select count(*) 
+  select count(*)
         from ccbc_public.application_gis_data
   $$,
   $$
@@ -110,14 +111,14 @@ select results_eq (
   'Should insert correct number of records'
 );
 
--- new GIS data  
+-- new GIS data
 select * from ccbc_public.save_gis_data(:'test_data_2'::jsonb);
 -- parse GIS data
 select * from ccbc_public.parse_gis_data(2);
 
 select results_eq (
   $$
-  select count(*) 
+  select count(*)
         from ccbc_public.application_gis_data
   $$,
   $$
@@ -126,9 +127,30 @@ select results_eq (
   'Should insert correct number of records'
 );
 
+
+-- change application status to status that won't trigger GIS data parsing
+
+insert into ccbc_public.application_status
+ (application_id, status) values (1, 'conditionally_approved'), (2, 'approved'), (3, 'complete');
+
+-- new GIS data
+select * from ccbc_public.save_gis_data(:'test_data_3'::jsonb);
+-- parse GIS data
+select * from ccbc_public.parse_gis_data(3);
+
+select results_eq (
+  $$
+  select count(*)
+        from ccbc_public.application_gis_data
+  $$,
+  $$
+    values(4::bigint)
+  $$,
+  'Should not insert any new records'
+);
+
 \unset test_data_1
 \unset test_data_2
 select finish();
 
 rollback;
-

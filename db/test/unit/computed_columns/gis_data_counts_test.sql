@@ -1,6 +1,6 @@
 begin;
 
-select plan(20);
+select plan(25);
 
 truncate table
   ccbc_public.application,
@@ -45,6 +45,7 @@ select function_privs_are(
 
 \set test_data_1 '[{"ccbc_number":"CCBC-010001","number_of_households":100},{"ccbc_number":"CCBC-010002","number_of_households":200},{"ccbc_number":"CCBC-010004","number_of_households":1}]'
 \set test_data_2 '[{"ccbc_number":"CCBC-010001","number_of_households":100},{"ccbc_number":"CCBC-010002","number_of_households":250},{"ccbc_number":"CCBC-010003","number_of_households":300}]'
+\set test_data_3 '[{"ccbc_number":"CCBC-010001","number_of_households":200},{"ccbc_number":"CCBC-010002","number_of_households":350},{"ccbc_number":"CCBC-010003","number_of_households":400}]'
 
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
 values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1),
@@ -248,6 +249,69 @@ select results_eq (
 select results_eq (
   $$
   select total from ccbc_public.gis_data_counts(2) where count_type='total'
+  $$,
+  $$
+    values(3::int)
+  $$,
+  'Should return total number of imported records'
+);
+
+-- change 2 application status to status that won't trigger GIS data parsing, leave one as received
+insert into ccbc_public.application_status
+ (application_id, status) values (2, 'approved'), (3, 'complete');
+
+-- new GIS data
+select * from ccbc_public.save_gis_data(:'test_data_3'::jsonb);
+update ccbc_public.gis_data set created_at = '2023-05-02 10:09:00+00' where id = 3;
+
+-- need to parse GIS data for first batch to be able to get correct updated/new count
+select * from ccbc_public.parse_gis_data(3);
+
+update ccbc_public.application_gis_data set created_at = '2023-05-02 10:10:00+00' where batch_id = 3;
+
+select results_eq (
+  $$
+  select total from ccbc_public.gis_data_counts(3) where count_type='new'
+  $$,
+  $$
+    values(0::int)
+  $$,
+  'Should have no new records'
+);
+
+select results_eq (
+  $$
+  select total from ccbc_public.gis_data_counts(3) where count_type='updated'
+  $$,
+  $$
+    values(1::int)
+  $$,
+  'Should have 1 updated record'
+);
+
+select results_eq (
+  $$
+  select ccbc_numbers from ccbc_public.gis_data_counts(3) where count_type='updated'
+  $$,
+  $$
+    values('CCBC-010001'::text)
+  $$,
+  'Should have proper CCBC numbers for updated records'
+);
+
+select results_eq (
+  $$
+  select total from ccbc_public.gis_data_counts(3) where count_type='not_imported'
+  $$,
+  $$
+    values(2::int)
+  $$,
+  'Should return total number of imported records'
+);
+
+select results_eq (
+  $$
+  select total from ccbc_public.gis_data_counts(3) where count_type='total'
   $$,
   $$
     values(3::int)

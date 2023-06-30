@@ -31,6 +31,11 @@ const mockQueryPayload = {
             ccbcNumbers: 'CCBC-010004',
           },
           {
+            total: 5,
+            countType: 'not_imported',
+            ccbcNumbers: 'CCBC-010006',
+          },
+          {
             total: 56,
             countType: 'total',
             ccbcNumbers: 'CCBC-010005',
@@ -108,6 +113,17 @@ describe('BatchIdPage', () => {
     expect(screen.getByText('Total processed 56')).toBeVisible();
   });
 
+  it('displays message for not_imported data', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(
+        'GIS analysis not imported for 5 projects because they are at or past Recommendation'
+      )
+    ).toBeVisible();
+  });
+
   it('displays the correct label and ccbc numbers on added toggle', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
@@ -133,10 +149,15 @@ describe('BatchIdPage', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const linkToMetabase = screen.getByText('Visit Metabase to view a dashboard of GIS analysis');
-    
+    const linkToMetabase = screen.getByText(
+      'Visit Metabase to view a dashboard of GIS analysis'
+    );
+
     expect(linkToMetabase).toBeVisible();
-    expect(linkToMetabase).toHaveAttribute('href', 'https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses');
+    expect(linkToMetabase).toHaveAttribute(
+      'href',
+      'https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses'
+    );
   });
 
   afterEach(() => {
