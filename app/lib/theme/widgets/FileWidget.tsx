@@ -11,6 +11,7 @@ import { useCreateAttachment } from 'schema/mutations/attachment/createAttachmen
 import { useDeleteAttachment } from 'schema/mutations/attachment/deleteAttachment';
 import bytesToSize from 'utils/bytesToText';
 import FileComponent from 'lib/theme/components/FileComponent';
+import useDisposeOnRouteChange from 'lib/helpers/useDisposeOnRouteChange';
 
 type File = {
   id: string | number;
@@ -38,6 +39,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const router = useRouter();
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
+  const setDisposable = useDisposeOnRouteChange();
   const wrap = uiSchema['ui:options']?.wrap ?? false;
   const allowMultipleFiles =
     (uiSchema['ui:options']?.allowMultipleFiles as boolean) ?? false;
@@ -99,7 +101,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       },
     };
 
-    createAttachment({
+    const disposableEvent = createAttachment({
       variables,
       onError: () => {
         setError('uploadFailed');
@@ -131,6 +133,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
         transaction.finish();
       },
     });
+
+    setDisposable(disposableEvent);
 
     e.target.value = '';
   };
