@@ -360,5 +360,17 @@ describe('The analyst view application page', () => {
     });
 
     expect(screen.getByText('Other statuses')).not.toBeVisible();
+
+    await act(() => {
+      fireEvent.keyDown(infoButton, { key: 'Enter' });
+    });
+
+    expect(screen.getByText('Other statuses')).toBeVisible();
+
+    await act(() => {
+      fireEvent.keyDown(closeButton, { key: 'Escape' });
+    });
+
+    expect(screen.getByText('Other statuses')).not.toBeVisible();
   });
 });
