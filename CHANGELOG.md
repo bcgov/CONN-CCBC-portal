@@ -1,3 +1,9 @@
+## [1.80.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.80.0...v1.80.1) (2023-06-30)
+
+### Bug Fixes
+
+- sow validate query param boolean bug ([00d3149](https://github.com/bcgov/CONN-CCBC-portal/commit/00d3149a48bf18f50a879dc3a1d1d7a9c7934110))
+
 # [1.80.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.79.0...v1.80.0) (2023-06-30)
 
 ### Bug Fixes
