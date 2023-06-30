@@ -36,6 +36,7 @@ const StatusInformationIcon = () => {
         onKeyDown={handleKeyDown}
         aria-labelledby="Description of Statuses and Triggers"
         style={{ cursor: 'pointer' }}
+        data-testid="status-information-icon"
       >
         <StyledFontAwesome
           icon={faCircleInfo}

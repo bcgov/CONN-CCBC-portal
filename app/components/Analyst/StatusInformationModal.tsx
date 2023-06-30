@@ -52,6 +52,7 @@ const StatusInformationModal: React.FC<Props> = ({
         {onClose ? (
           <IconButton
             aria-label="close"
+            data-testid="close-button"
             onClick={onClose}
             sx={{
               position: 'absolute',

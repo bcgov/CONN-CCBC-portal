@@ -340,4 +340,25 @@ describe('The analyst view application page', () => {
     // after clicking link should no longer be visible
     expect(downloadLink).not.toBeVisible();
   });
+
+  it('shows and hides the status info modal', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const infoButton = screen.getByTestId('status-information-icon');
+
+    await act(() => {
+      fireEvent.click(infoButton);
+    });
+
+    expect(screen.getByText('Other statuses')).toBeVisible();
+
+    const closeButton = screen.getByTestId('close-button');
+
+    await act(() => {
+      fireEvent.click(closeButton);
+    });
+
+    expect(screen.getByText('Other statuses')).not.toBeVisible();
+  });
 });
