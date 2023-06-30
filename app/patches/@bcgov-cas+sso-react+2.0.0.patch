@@ -1,8 +1,16 @@
 diff --git a/node_modules/@bcgov-cas/sso-react/dist/SessionTimeoutHandler.js b/node_modules/@bcgov-cas/sso-react/dist/SessionTimeoutHandler.js
-index 43e6190..586eb4e 100644
+index 43e6190..de717d8 100644
 --- a/node_modules/@bcgov-cas/sso-react/dist/SessionTimeoutHandler.js
 +++ b/node_modules/@bcgov-cas/sso-react/dist/SessionTimeoutHandler.js
-@@ -82,7 +82,7 @@ var SessionTimeoutHandler = function (_a) {
+@@ -76,13 +76,14 @@ var SERVER_DELAY_SECONDS = 2;
+ var SessionTimeoutHandler = function (_a) {
+     var _b = _a.modalDisplaySecondsBeforeLogout, modalDisplaySecondsBeforeLogout = _b === void 0 ? 120 : _b, _c = _a.sessionRemainingTimePath, sessionRemainingTimePath = _c === void 0 ? "/session-idle-remaining-time" : _c, _d = _a.logoutPath, logoutPath = _d === void 0 ? "/logout" : _d, _e = _a.onSessionExpired, onSessionExpired = _e === void 0 ? function () { } : _e, _f = _a.resetOnChange, resetOnChange = _f === void 0 ? [] : _f, renderModal = _a.renderModal, extendSessionOnEvents = _a.extendSessionOnEvents;
+     var _g = (0, react_1.useState)(false), showModal = _g[0], setShowModal = _g[1];
++    var _h = (0, react_1.useState)(false), sessionExtendedToggle = _h[0], setSessionExtendedToggle = _h[1];
+     // UNIX epoch (ms)
+-    var _h = (0, react_1.useState)(Infinity), sessionExpiresOn = _h[0], setSessionExpiresOn = _h[1];
++    var _j = (0, react_1.useState)(Infinity), sessionExpiresOn = _j[0], setSessionExpiresOn = _j[1];
+     var extendSession = function () { return __awaiter(void 0, void 0, void 0, function () {
          var response, timeout, _a;
          return __generator(this, function (_b) {
              switch (_b.label) {
@@ -11,3 +19,20 @@ index 43e6190..586eb4e 100644
                  case 1:
                      response = _b.sent();
                      if (!response.ok) return [3 /*break*/, 3];
+@@ -94,6 +95,7 @@ var SessionTimeoutHandler = function (_a) {
+                         setShowModal(false);
+                     }
+                     setSessionExpiresOn(timeout * 1000 + Date.now());
++                    setSessionExtendedToggle(function (sessionExtendedToggle) { return !sessionExtendedToggle; });
+                     _b.label = 3;
+                 case 3: return [2 /*return*/];
+             }
+@@ -153,7 +155,7 @@ var SessionTimeoutHandler = function (_a) {
+             clearTimeout(modalDisplayTimeoutId);
+             clearTimeout(sessionTimeoutId);
+         };
+-    }, __spreadArray([], resetOnChange, true));
++    }, __spreadArray(__spreadArray([], resetOnChange, true), [sessionExtendedToggle], false));
+     return (react_1.default.createElement(react_1.default.Fragment, null, showModal && (react_1.default.createElement(LogoutWarningModal_1.default, { expiresOn: sessionExpiresOn, onExtendSession: extendSession, logoutPath: logoutPath, renderModal: renderModal }))));
+ };
+ exports.default = SessionTimeoutHandler;
