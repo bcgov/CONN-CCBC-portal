@@ -12,7 +12,6 @@ const StatusInformationIcon = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleClick = () => {
-    // window.location.hash = '#status-information-modal';
     setShowModal(true);
   };
 
