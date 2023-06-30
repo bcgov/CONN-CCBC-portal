@@ -161,11 +161,12 @@ describe('sow_summary parsing tests', () => {
 
     const wb = XLSX.read(null);
     const req = { ...request };
-    req.query = { validate: true };
+    req.query = { validate: 'true' };
     req.params = {
       applicationId: 1,
       ccbcNumber: 'CCBC-020118',
       amendmentNumber: 0,
+      validate: 'true',
     };
 
     const data = await LoadSummaryData(wb, 'Summary_Sommaire', req);
