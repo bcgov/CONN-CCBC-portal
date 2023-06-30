@@ -350,3 +350,4 @@ tables/json_data_comments 2023-06-28T22:21:45Z ,,, Vladimir <vladimir@button.is>
 mutations/parse_gis_data [mutations/parse_gis_data@1.78.0] 2023-06-28T15:06:06Z Marcel Mueller <marcel@m2.local> # parse gis data based on application status
 computed_columns/gis_data_counts [computed_columns/gis_data_counts@1.78.0] 2023-06-28T18:09:01Z Marcel Mueller <marcel@m2.local> # update gis data counts to check application status
 @1.80.0 2023-06-30T15:39:41Z CCBC Service Account <ccbc@button.is> # release v1.80.0
+@1.80.1 2023-06-30T18:11:43Z CCBC Service Account <ccbc@button.is> # release v1.80.1
