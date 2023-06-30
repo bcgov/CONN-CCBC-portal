@@ -42,3 +42,8 @@ jobs:
         with:
           folder: output
           target-folder: schemaspy
+      - name: Deploy to Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: app/public/data
+          target-folder: schemaspy/data
