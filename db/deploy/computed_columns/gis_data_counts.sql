@@ -56,7 +56,7 @@ return query
         join ccbc_public.application_status s on s.application_id = a.id
         where a.ccbc_number = (json_row->>'ccbc_number')
         and s.archived_at is null
-        and (s.status = 'received' or s.status = 'screening' or s.status = 'assessment')
+        and s.status in ('received', 'screening', 'assessment')
         and not exists (
             select 1
             from ccbc_public.application_gis_data
@@ -72,7 +72,7 @@ return query
         join ccbc_public.application_status s on s.application_id = a.id
         where a.ccbc_number = (json_row->>'ccbc_number')
         and s.archived_at is null
-        and (s.status != 'received' and s.status != 'screening' and s.status != 'assessment')
+        and s.status not in ('received', 'screening', 'assessment')
         and not exists (
             select 1
             from ccbc_public.application_gis_data

@@ -35,7 +35,7 @@ begin
 
         -- If no row was found, add to list
         if not found or
-            (application_status_name != 'received' and application_status_name != 'screening' and application_status_name != 'assessment')
+            application_status_name not in ('received', 'screening', 'assessment')
         then
             result := coalesce(result || ',','') || ccbc_id;
         else
