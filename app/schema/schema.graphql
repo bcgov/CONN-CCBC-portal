@@ -1607,6 +1607,8 @@ type Analyst implements Node {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """Boolean column indicating whether the analyst is active or not."""
   active: Boolean
 
   """Reads a single `CcbcUser` that is related to this `Analyst`."""
@@ -16170,6 +16172,10 @@ type Intake implements Node {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """
+  The counter_id used by the gapless_counter to generate a gapless intake id
+  """
   counterId: Int
 
   """Reads a single `CcbcUser` that is related to this `Intake`."""
@@ -18837,6 +18843,8 @@ type ApplicationStatus implements Node {
 
   """ID of the application this status belongs to"""
   applicationId: Int
+
+  """The status of the application"""
   status: String
 
   """created by user id"""
@@ -19064,8 +19072,18 @@ type ApplicationStatusType implements Node {
 
   """Description of the status type"""
   description: String
+
+  """
+  Boolean column used to differentiate internal/external status by indicating whether the status is visible to the applicant or not.
+  """
   visibleByApplicant: Boolean
+
+  """The logical order in which the status should be displayed."""
   statusOrder: Int!
+
+  """
+  Boolean column used to differentiate internal/external status by indicating whether the status is visible to the analyst or not.
+  """
   visibleByAnalyst: Boolean
 
   """Reads and enables pagination through a set of `ApplicationStatus`."""
@@ -20757,6 +20775,8 @@ type Form implements Node {
 
   """Description of the form"""
   description: String
+
+  """The type of form being stored"""
   formType: String
 
   """Reads a single `FormType` that is related to this `Form`."""
@@ -22815,8 +22835,10 @@ type ApplicationPackage implements Node {
   """Unique ID for the application_package"""
   rowId: Int!
 
-  """Column containing the package number the application is assigned to"""
+  """The application_id of the application this record is associated with"""
   applicationId: Int
+
+  """The package number the application is assigned to"""
   package: Int
 
   """created by user id"""
@@ -23143,11 +23165,14 @@ type ApplicationGisData implements Node {
   ccbcUserByArchivedBy: CcbcUser
 }
 
+"""Table containing the uploaded GIS data in JSON format"""
 type GisData implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
+
+  """Primary key and unique identifier"""
   rowId: Int!
 
   """
@@ -23733,6 +23758,10 @@ type ApplicationAnnouncement implements Node {
 
   """Flag to identify either announcement is primary or secondary"""
   isPrimary: Boolean
+
+  """
+  Column describing the operation (created, updated, deleted) for context on the history page
+  """
   historyOperation: String
 
   """
@@ -24091,6 +24120,10 @@ type AnnouncementApplicationsByApplicationAnnouncementAnnouncementIdAndApplicati
 
   """Flag to identify either announcement is primary or secondary"""
   isPrimary: Boolean
+
+  """
+  Column describing the operation (created, updated, deleted) for context on the history page
+  """
   historyOperation: String
 }
 
@@ -26657,6 +26690,9 @@ type HistoryItemsConnection {
   totalCount: Int!
 }
 
+"""
+This is a type used to return records of history data in the application_history computed column
+"""
 type HistoryItem {
   """Application Id."""
   applicationId: Int
@@ -28712,6 +28748,10 @@ type ApplicationAnnouncementsByApplicationAnnouncementApplicationIdAndAnnounceme
 
   """Flag to identify either announcement is primary or secondary"""
   isPrimary: Boolean
+
+  """
+  Column describing the operation (created, updated, deleted) for context on the history page
+  """
   historyOperation: String
 }
 
@@ -29774,22 +29814,51 @@ type RecordVersionsConnection {
   totalCount: Int!
 }
 
+"""
+Table for tracking history records on tables that auditing is enabled on
+"""
 type RecordVersion implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
+
+  """Primary key and unique identifier"""
   rowId: BigInt!
+
+  """The id of the record the history record is associated with"""
   recordId: UUID
+
+  """
+  The id of the previous version of the record the history record is associated with
+  """
   oldRecordId: UUID
+
+  """The operation performed on the record (created, updated, deleted)"""
   op: Operation!
+
+  """The timestamp of the history record"""
   ts: Datetime!
+
+  """The oid of the table the record is associated with"""
   tableOid: BigFloat!
+
+  """The schema of the table the record is associated with"""
   tableSchema: String!
+
+  """The name of the table the record is associated with"""
   tableName: String!
+
+  """The user that created the record"""
   createdBy: Int
+
+  """The timestamp of when the record was created"""
   createdAt: Datetime!
+
+  """The record in JSON format"""
   record: JSON
+
+  """The previous version of the record in JSON format"""
   oldRecord: JSON
 
   """Reads a single `CcbcUser` that is related to this `RecordVersion`."""
@@ -46050,6 +46119,8 @@ input AnalystInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """Boolean column indicating whether the analyst is active or not."""
   active: Boolean
 }
 
@@ -46228,6 +46299,10 @@ input ApplicationAnnouncementInput {
 
   """Flag to identify either announcement is primary or secondary"""
   isPrimary: Boolean
+
+  """
+  Column describing the operation (created, updated, deleted) for context on the history page
+  """
   historyOperation: String
 }
 
@@ -46481,8 +46556,10 @@ input CreateApplicationPackageInput {
 
 """An input for mutations affecting `ApplicationPackage`"""
 input ApplicationPackageInput {
-  """Column containing the package number the application is assigned to"""
+  """The application_id of the application this record is associated with"""
   applicationId: Int
+
+  """The package number the application is assigned to"""
   package: Int
 
   """created by user id"""
@@ -46614,6 +46691,8 @@ input CreateApplicationStatusInput {
 input ApplicationStatusInput {
   """ID of the application this status belongs to"""
   applicationId: Int
+
+  """The status of the application"""
   status: String
 
   """created by user id"""
@@ -46680,8 +46759,18 @@ input ApplicationStatusTypeInput {
 
   """Description of the status type"""
   description: String
+
+  """
+  Boolean column used to differentiate internal/external status by indicating whether the status is visible to the applicant or not.
+  """
   visibleByApplicant: Boolean
+
+  """The logical order in which the status should be displayed."""
   statusOrder: Int!
+
+  """
+  Boolean column used to differentiate internal/external status by indicating whether the status is visible to the analyst or not.
+  """
   visibleByAnalyst: Boolean
 }
 
@@ -47203,6 +47292,8 @@ input FormInput {
 
   """Description of the form"""
   description: String
+
+  """The type of form being stored"""
   formType: String
 }
 
@@ -47697,17 +47788,42 @@ input CreateRecordVersionInput {
 
 """An input for mutations affecting `RecordVersion`"""
 input RecordVersionInput {
+  """Primary key and unique identifier"""
   rowId: BigInt
+
+  """The id of the record the history record is associated with"""
   recordId: UUID
+
+  """
+  The id of the previous version of the record the history record is associated with
+  """
   oldRecordId: UUID
+
+  """The operation performed on the record (created, updated, deleted)"""
   op: Operation!
+
+  """The timestamp of the history record"""
   ts: Datetime
+
+  """The oid of the table the record is associated with"""
   tableOid: BigFloat!
+
+  """The schema of the table the record is associated with"""
   tableSchema: String!
+
+  """The name of the table the record is associated with"""
   tableName: String!
+
+  """The user that created the record"""
   createdBy: Int
+
+  """The timestamp of when the record was created"""
   createdAt: Datetime!
+
+  """The record in JSON format"""
   record: JSON
+
+  """The previous version of the record in JSON format"""
   oldRecord: JSON
 }
 
@@ -48214,6 +48330,8 @@ input AnalystPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """Boolean column indicating whether the analyst is active or not."""
   active: Boolean
 }
 
@@ -48547,6 +48665,10 @@ input ApplicationAnnouncementPatch {
 
   """Flag to identify either announcement is primary or secondary"""
   isPrimary: Boolean
+
+  """
+  Column describing the operation (created, updated, deleted) for context on the history page
+  """
   historyOperation: String
 }
 
@@ -48912,8 +49034,10 @@ input UpdateApplicationPackageInput {
 Represents an update to a `ApplicationPackage`. Fields that are set will be updated.
 """
 input ApplicationPackagePatch {
-  """Column containing the package number the application is assigned to"""
+  """The application_id of the application this record is associated with"""
   applicationId: Int
+
+  """The package number the application is assigned to"""
   package: Int
 
   """created by user id"""
@@ -49218,6 +49342,8 @@ Represents an update to a `ApplicationStatus`. Fields that are set will be updat
 input ApplicationStatusPatch {
   """ID of the application this status belongs to"""
   applicationId: Int
+
+  """The status of the application"""
   status: String
 
   """created by user id"""
@@ -49310,8 +49436,18 @@ input ApplicationStatusTypePatch {
 
   """Description of the status type"""
   description: String
+
+  """
+  Boolean column used to differentiate internal/external status by indicating whether the status is visible to the applicant or not.
+  """
   visibleByApplicant: Boolean
+
+  """The logical order in which the status should be displayed."""
   statusOrder: Int
+
+  """
+  Boolean column used to differentiate internal/external status by indicating whether the status is visible to the analyst or not.
+  """
   visibleByAnalyst: Boolean
 }
 
@@ -49344,6 +49480,8 @@ input UpdateApplicationStatusTypeByStatusOrderInput {
   An object where the defined keys will be set on the `ApplicationStatusType` being updated.
   """
   applicationStatusTypePatch: ApplicationStatusTypePatch!
+
+  """The logical order in which the status should be displayed."""
   statusOrder: Int!
 }
 
@@ -50026,6 +50164,8 @@ input FormPatch {
 
   """Description of the form"""
   description: String
+
+  """The type of form being stored"""
   formType: String
 }
 
@@ -50477,6 +50617,8 @@ input UpdateGisDataByRowIdInput {
   An object where the defined keys will be set on the `GisData` being updated.
   """
   gisDataPatch: GisDataPatch!
+
+  """Primary key and unique identifier"""
   rowId: Int!
 }
 
@@ -50569,6 +50711,10 @@ input IntakePatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """
+  The counter_id used by the gapless_counter to generate a gapless intake id
+  """
   counterId: Int
 }
 
@@ -50784,17 +50930,42 @@ input UpdateRecordVersionInput {
 Represents an update to a `RecordVersion`. Fields that are set will be updated.
 """
 input RecordVersionPatch {
+  """Primary key and unique identifier"""
   rowId: BigInt
+
+  """The id of the record the history record is associated with"""
   recordId: UUID
+
+  """
+  The id of the previous version of the record the history record is associated with
+  """
   oldRecordId: UUID
+
+  """The operation performed on the record (created, updated, deleted)"""
   op: Operation
+
+  """The timestamp of the history record"""
   ts: Datetime
+
+  """The oid of the table the record is associated with"""
   tableOid: BigFloat
+
+  """The schema of the table the record is associated with"""
   tableSchema: String
+
+  """The name of the table the record is associated with"""
   tableName: String
+
+  """The user that created the record"""
   createdBy: Int
+
+  """The timestamp of when the record was created"""
   createdAt: Datetime
+
+  """The record in JSON format"""
   record: JSON
+
+  """The previous version of the record in JSON format"""
   oldRecord: JSON
 }
 
@@ -50810,6 +50981,8 @@ input UpdateRecordVersionByRowIdInput {
   An object where the defined keys will be set on the `RecordVersion` being updated.
   """
   recordVersionPatch: RecordVersionPatch!
+
+  """Primary key and unique identifier"""
   rowId: BigInt!
 }
 
@@ -52054,6 +52227,8 @@ input DeleteApplicationStatusTypeByStatusOrderInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+
+  """The logical order in which the status should be displayed."""
   statusOrder: Int!
 }
 
@@ -52768,6 +52943,8 @@ input DeleteGisDataByRowIdInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+
+  """Primary key and unique identifier"""
   rowId: Int!
 }
 
@@ -52889,6 +53066,8 @@ input DeleteRecordVersionByRowIdInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+
+  """Primary key and unique identifier"""
   rowId: BigInt!
 }
 
