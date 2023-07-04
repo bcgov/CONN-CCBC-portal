@@ -161,7 +161,7 @@ const ProjectInformationForm = ({ application }) => {
     if (namespace.endsWith('-prod')) {
       return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/86-one-pager-project-data-sow?ccbc_number=${ccbcNumber}`;
     }
-    return 'https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/88-one-pager-project-data-sow-test';
+    return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`;
   }
   return (
     <StyledProjectForm
