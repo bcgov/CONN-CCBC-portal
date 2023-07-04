@@ -1,9 +1,9 @@
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import cookie from 'js-cookie';
 import { DateTime } from 'luxon';
-import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { enUS } from '@mui/x-date-pickers/locales';
@@ -30,14 +30,19 @@ const StyledFlex = styled('div')`
   }
 `;
 
+const StyledDatePicker = styled(DesktopDatePicker)`
+  svg {
+    color: #606060;
+  }
+`;
+
 const TimeTravel = () => {
   const today = DateTime.now().toFormat('yyyy-MM-dd');
   const [date, setDate] = useState(cookie.get('mocks.mocked_date') || today);
 
   const setMockDate = (value: Date) => {
     if (value) {
-      const originalDate = new Date(value);
-      const newDate = new Date(originalDate.toDateString());
+      const newDate = new Date(new Date(value).toDateString());
 
       const mockDate = DateTime.fromJSDate(newDate, { zone: 'UTC' }).toFormat(
         'yyyy-MM-dd'
@@ -53,7 +58,6 @@ const TimeTravel = () => {
   };
 
   const styles = {
-    svg: { color: '#606060' },
     '& .Mui-focused': {
       outline: '4px solid #3b99fc',
       'outline-offset': '1px',
@@ -87,7 +91,7 @@ const TimeTravel = () => {
         }
         dateAdapter={AdapterDayjs}
       >
-        <DesktopDatePicker
+        <StyledDatePicker
           sx={styles}
           onChange={(value: Date) => setMockDate(value)}
           value={date ? dayjs(date) : null}
