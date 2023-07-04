@@ -15,6 +15,7 @@ import validateFormData from '@rjsf/core/dist/cjs/validate';
 import sowValidateGenerator from 'lib/helpers/sowValidate';
 import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import FileHeader from './FileHeader';
+import config from 'config';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
@@ -155,6 +156,13 @@ const ProjectInformationForm = ({ application }) => {
     setShowToast(false);
   };
 
+  const getMetabaseLink = () => {
+    const namespace = config.get('OPENSHIFT_APP_NAMESPACE') || 'dev-local';
+    if (namespace.endsWith('-prod')) {
+      return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/86-one-pager-project-data-sow?ccbc_number=${ccbcNumber}`;
+    }
+    return 'https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/88-one-pager-project-data-sow-test';
+  }
   return (
     <StyledProjectForm
       additionalContext={{
@@ -192,7 +200,7 @@ const ProjectInformationForm = ({ application }) => {
       <div style={{ display: 'flex' }}>
         {!isFormEditMode && (
           <MetabaseLink
-            href="#"
+            href={getMetabaseLink()}
             text="View project data in Metabase"
             width={326}
           />
