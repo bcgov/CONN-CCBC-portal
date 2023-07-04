@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import config from 'config';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
 import projectInformationSchema from 'formSchema/analyst/projectInformation';
 import projectInformationReadOnlySchema from 'formSchema/analyst/projectInformationReadOnly';
@@ -15,7 +16,6 @@ import validateFormData from '@rjsf/core/dist/cjs/validate';
 import sowValidateGenerator from 'lib/helpers/sowValidate';
 import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import FileHeader from './FileHeader';
-import config from 'config';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
