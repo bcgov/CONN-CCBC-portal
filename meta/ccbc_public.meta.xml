@@ -1,9 +1,0 @@
-<schemaMeta xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://schemaspy.org/xsd/6/schemameta.xsd" >
-  <comments>Database comment</comments>
-     <tables>
-        <table name="rfi_data">
-            <column name="json_data" 
-            comments='The data entered into the form by the respondent. See [schema](https://json-schema.app/view/%23?url=https%3A%2F%2Fdev.connectingcommunitiesbc.ca%2Fdata%2Frfi_data.json)' />
-        </table>
-     </tables>
-</schemaMeta>
