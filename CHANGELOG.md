@@ -1,3 +1,21 @@
+# [1.81.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.80.1...v1.81.0) (2023-07-04)
+
+### Bug Fixes
+
+- add schema files to github pages ([3355fe0](https://github.com/bcgov/CONN-CCBC-portal/commit/3355fe05a4fe9a139bba3d6a6fe210776039e919))
+- logout, reduce throttle to 1 minute ([bfb18fc](https://github.com/bcgov/CONN-CCBC-portal/commit/bfb18fcb571770d90600f13617d1db9830078c4f))
+- path to json schema files ([2be3203](https://github.com/bcgov/CONN-CCBC-portal/commit/2be3203ad02c8f6bdc784e9833d7ba35a4477072))
+- remove comment ([cf25c63](https://github.com/bcgov/CONN-CCBC-portal/commit/cf25c6382be418abc0ef2ecbbc3bddd93a24f60d))
+- rollback dev deployment ([9dd5a6f](https://github.com/bcgov/CONN-CCBC-portal/commit/9dd5a6f7bd15030c70b26e43b8dcb70f242969b5))
+- sqitch rework ([38b4d59](https://github.com/bcgov/CONN-CCBC-portal/commit/38b4d59b32511ea8d3c98e39b5d38c9e6b07c252))
+- updated schema after rebase ([a7bd8e5](https://github.com/bcgov/CONN-CCBC-portal/commit/a7bd8e5acf7ba00ce0611e163caeda94c7f10648))
+- updated schema and sqitch plan ([222d2e8](https://github.com/bcgov/CONN-CCBC-portal/commit/222d2e8c4329b650784c5ba3afa08ad523369da6))
+- using github pages links ([e161d9b](https://github.com/bcgov/CONN-CCBC-portal/commit/e161d9b9b7f49bc0167bf6078a090e7bf778dbd9))
+
+### Features
+
+- add app status info modal ([2c8f073](https://github.com/bcgov/CONN-CCBC-portal/commit/2c8f073b1669be5a651148e71a2cb0443194c40a))
+
 ## [1.80.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.80.0...v1.80.1) (2023-06-30)
 
 ### Bug Fixes
