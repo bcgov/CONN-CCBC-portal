@@ -3,6 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
 import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
+import StatusInformationIcon from './StatusInformationIcon';
 
 const StyledCallout = styled.div`
   margin-bottom: 40px;
@@ -125,6 +126,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
             status={analystStatus}
             statusList={allApplicationStatusTypes?.nodes}
           />
+          <StatusInformationIcon />
         </StyledItem>
         <StyledItem>
           <StyledLabel htmlFor="change-status">External Status</StyledLabel>
