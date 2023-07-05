@@ -4,9 +4,7 @@ import styled from 'styled-components';
 import config from 'config';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
 import projectInformationSchema from 'formSchema/analyst/projectInformation';
-import projectInformationReadOnlySchema from 'formSchema/analyst/projectInformationReadOnly';
 import projectInformationUiSchema from 'formSchema/uiSchema/analyst/projectInformationUiSchema';
-import projectInformationReadOnlyUiSchema from 'formSchema/uiSchema/analyst/projectInformationReadOnlyUiSchema';
 import { useCreateProjectInformationMutation } from 'schema/mutations/project/createProjectInformation';
 import { useArchiveApplicationSowMutation } from 'schema/mutations/project/archiveApplicationSow';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
@@ -14,8 +12,7 @@ import MetabaseLink from 'components/Analyst/Project/ProjectInformation/Metabase
 import Toast from 'components/Toast';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import sowValidateGenerator from 'lib/helpers/sowValidate';
-import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
-import FileHeader from './FileHeader';
+import ReadOnlyView from 'components/Analyst/Project/ProjectInformation/ReadOnlyView';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
@@ -23,15 +20,11 @@ const StyledProjectForm = styled(ProjectForm)`
   }
 `;
 
-const StyledChangeRequestApproved = styled.div`
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: #fcba1933;
-  min-height: 64px;
-  min-width: 340px;
-  max-width: 400px;
-  margin-bottom: 8px;
-  margin-left: 10px;
+const StyledFlex = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
 `;
 
 const ProjectInformationForm = ({ application }) => {
@@ -65,13 +58,7 @@ const ProjectInformationForm = ({ application }) => {
     application
   );
 
-  const {
-    ccbcNumber,
-    id,
-    rowId,
-    projectInformation,
-    changeRequestDataByApplicationId,
-  } = queryFragment;
+  const { ccbcNumber, id, rowId, projectInformation } = queryFragment;
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
@@ -83,12 +70,13 @@ const ProjectInformationForm = ({ application }) => {
     !projectInformation?.jsonData
   );
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
-  const hasChangeRequest = changeRequestDataByApplicationId.edges.length > 0;
 
   const validateSow = useCallback(
     sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
     [rowId, ccbcNumber, setSowFile, setSowValidationErrors]
   );
+
+  const formUploads = formData?.main?.upload;
 
   const hasFormErrors = useMemo(() => {
     if (formData === null) {
@@ -162,7 +150,7 @@ const ProjectInformationForm = ({ application }) => {
       return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/86-one-pager-project-data-sow?ccbc_number=${ccbcNumber}`;
     }
     return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`;
-  }
+  };
   return (
     <StyledProjectForm
       additionalContext={{
@@ -170,6 +158,17 @@ const ProjectInformationForm = ({ application }) => {
         sowValidationErrors,
         validateSow,
       }}
+      before={
+        isFormEditMode ? null : (
+          <StyledFlex>
+            <MetabaseLink
+              href={getMetabaseLink()}
+              text="View project data in Metabase"
+              width={326}
+            />
+          </StyledFlex>
+        )
+      }
       formData={formData}
       handleChange={(e) => {
         if (!e.formData.hasFundingAgreementBeenSigned) {
@@ -179,43 +178,28 @@ const ProjectInformationForm = ({ application }) => {
         }
       }}
       isFormEditMode={isFormEditMode}
-      title="Project information"
-      schema={
-        isFormEditMode
-          ? projectInformationSchema
-          : projectInformationReadOnlySchema
-      }
+      title="Funding agreement, statement of work, & map"
+      schema={isFormEditMode ? projectInformationSchema : {}}
       theme={ProjectTheme}
-      uiSchema={
-        isFormEditMode
-          ? projectInformationUiSchema
-          : projectInformationReadOnlyUiSchema
-      }
+      uiSchema={isFormEditMode ? projectInformationUiSchema : {}}
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
       saveBtnText="Save & Import Data"
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+      showEditBtn={false}
       hiddenSubmitRef={hiddenSubmitRef}
     >
-      <div style={{ display: 'flex' }}>
-        {!isFormEditMode && (
-          <MetabaseLink
-            href={getMetabaseLink()}
-            text="View project data in Metabase"
-            width={326}
-          />
-        )}
-        {!isFormEditMode && hasChangeRequest && (
-          <StyledChangeRequestApproved>
-            <FileHeader
-              icon={faClockRotateLeft}
-              title="Change request approved"
-            />
-            <div>These are the latest Statement of Work tables</div>
-            <div>All versions can be found in Metabase</div>
-          </StyledChangeRequestApproved>
-        )}
-      </div>
+      {!isFormEditMode && (
+        <ReadOnlyView
+          dateSigned={formData?.main?.dateFundingAgreementSigned}
+          title="Original"
+          setIsFormEditMode={setIsFormEditMode}
+          fundingAgreement={formUploads?.fundingAgreementUpload[0]}
+          map={formUploads?.finalizedMapUpload[0]}
+          sow={formUploads?.statementOfWorkUpload[0]}
+          wirelessSow={formUploads?.sowWirelessUpload[0]}
+        />
+      )}
       {showToast && (
         <Toast timeout={100000000}>
           Statement of work successfully imported
