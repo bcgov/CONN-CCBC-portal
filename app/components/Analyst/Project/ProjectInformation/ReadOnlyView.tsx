@@ -26,6 +26,7 @@ const StyledIconBtn = styled.button`
 
   & svg {
     color: ${(props) => props.theme.color.links};
+    padding-right: 8px;
   }
 
   &:hover {
