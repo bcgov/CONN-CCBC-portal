@@ -354,3 +354,4 @@ computed_columns/gis_data_counts [computed_columns/gis_data_counts@1.78.0] 2023-
 tables/json_data_comments [tables/json_data_comments@1.80.0] 2023-06-30T18:50:17Z ,,, Vladimir <vladimir@button.is> # updated links to schema viewer
 missing_metadata 2023-06-29T16:55:38Z Marcel Mueller <marcel@m2.local> # add missing table and column descriptions
 @1.81.0 2023-07-04T19:55:10Z CCBC Service Account <ccbc@button.is> # release v1.81.0
+@1.81.1 2023-07-05T16:57:56Z CCBC Service Account <ccbc@button.is> # release v1.81.1
