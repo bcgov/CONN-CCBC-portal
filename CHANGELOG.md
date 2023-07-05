@@ -1,3 +1,9 @@
+## [1.81.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.81.0...v1.81.1) (2023-07-05)
+
+### Bug Fixes
+
+- sow-upload tabs validate error ([8924fd1](https://github.com/bcgov/CONN-CCBC-portal/commit/8924fd120991fd9a9a6a8ce509cd26427b205bb8))
+
 # [1.81.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.80.1...v1.81.0) (2023-07-04)
 
 ### Bug Fixes
