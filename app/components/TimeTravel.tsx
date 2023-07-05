@@ -1,11 +1,13 @@
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import cookie from 'js-cookie';
 import { DateTime } from 'luxon';
-
-import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { enUS } from '@mui/x-date-pickers/locales';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 const StyledContainer = styled('div')`
   margin-left: 1em;
@@ -28,21 +30,24 @@ const StyledFlex = styled('div')`
   }
 `;
 
-const StyledDatePicker = styled(ReactDatePicker)`
-  border: 2px solid #606060;
-  border-radius: 0.25rem;
-  padding: 0.5rem 0.6rem;
-  width: 100%;
+const StyledDatePicker = styled(DesktopDatePicker)`
+  svg {
+    color: #606060;
+  }
 `;
 
 const TimeTravel = () => {
   const today = DateTime.now().toFormat('yyyy-MM-dd');
   const [date, setDate] = useState(cookie.get('mocks.mocked_date') || today);
 
-  const setMockDate = (value: Date) => { 
+  const setMockDate = (value: Date) => {
     if (value) {
-      const mockDate = DateTime.fromJSDate(value,{zone:'UTC'}).toFormat("yyyy-MM-dd");
-      cookie.set('mocks.mocked_timestamp', value.valueOf()/1000);
+      const newDate = new Date(new Date(value).toDateString());
+
+      const mockDate = DateTime.fromJSDate(newDate, { zone: 'UTC' }).toFormat(
+        'yyyy-MM-dd'
+      );
+      cookie.set('mocks.mocked_timestamp', value.valueOf() / 1000);
       cookie.set('mocks.mocked_date', mockDate);
       setDate(mockDate);
     } else {
@@ -50,6 +55,20 @@ const TimeTravel = () => {
       cookie.remove('mocks.mocked_timestamp');
       cookie.remove('mocks.mocked_date');
     }
+  };
+
+  const styles = {
+    '& .Mui-focused': {
+      outline: '4px solid #3b99fc',
+      'outline-offset': '1px',
+      'border-radius': '0.25em',
+    },
+    '& .MuiInputBase-input': {
+      padding: '9px',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: '2px solid #606060',
+    },
   };
 
   return (
@@ -66,17 +85,31 @@ const TimeTravel = () => {
         </Button>
         <StyledDiv>Current date is: {date}</StyledDiv>
       </StyledFlex>
-      <StyledDatePicker
-        className="form-control"
-        dateFormat="yyyy-MM-dd"
-        placeholderText="YYYY-MM-DD"
-        showMonthDropdown
-        showYearDropdown
-        value={date}
-        dropdownMode="select"
-        showPopperArrow={false}
-        onChange={(value:Date) => setMockDate(value)}
-      />
+      <LocalizationProvider
+        localeText={
+          enUS.components.MuiLocalizationProvider.defaultProps.localeText
+        }
+        dateAdapter={AdapterDayjs}
+      >
+        <StyledDatePicker
+          sx={styles}
+          onChange={(value: Date) => setMockDate(value)}
+          value={date ? dayjs(date) : null}
+          defaultValue={null}
+          slotProps={{
+            actionBar: {
+              actions: ['clear', 'cancel'],
+            },
+            textField: {
+              inputProps: {
+                id: 'datepicker-widget-input',
+                'data-testid': 'datepicker-widget-input',
+              },
+            },
+          }}
+          format="YYYY-MM-DD"
+        />
+      </LocalizationProvider>
     </StyledContainer>
   );
 };
