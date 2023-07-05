@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import config from 'config';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
 import projectInformationSchema from 'formSchema/analyst/projectInformation';
 import projectInformationReadOnlySchema from 'formSchema/analyst/projectInformationReadOnly';
@@ -155,6 +156,13 @@ const ProjectInformationForm = ({ application }) => {
     setShowToast(false);
   };
 
+  const getMetabaseLink = () => {
+    const namespace = config.get('OPENSHIFT_APP_NAMESPACE') || 'dev-local';
+    if (namespace.endsWith('-prod')) {
+      return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/86-one-pager-project-data-sow?ccbc_number=${ccbcNumber}`;
+    }
+    return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`;
+  }
   return (
     <StyledProjectForm
       additionalContext={{
@@ -192,7 +200,7 @@ const ProjectInformationForm = ({ application }) => {
       <div style={{ display: 'flex' }}>
         {!isFormEditMode && (
           <MetabaseLink
-            href="#"
+            href={getMetabaseLink()}
             text="View project data in Metabase"
             width={326}
           />
