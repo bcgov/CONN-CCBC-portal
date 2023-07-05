@@ -1,3 +1,15 @@
+# [1.82.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.81.1...v1.82.0) (2023-07-05)
+
+### Bug Fixes
+
+- config reference ([a794e1d](https://github.com/bcgov/CONN-CCBC-portal/commit/a794e1ddf166ede389656a9c4f19764a55b933bc))
+- remove unneeded metadata ([facd80f](https://github.com/bcgov/CONN-CCBC-portal/commit/facd80fba22c816e40728a4f5cdc8d89113fe383))
+- updated test link ([dc72488](https://github.com/bcgov/CONN-CCBC-portal/commit/dc72488b95f468601b971a562e520f44d77c850d))
+
+### Features
+
+- link to metabase SoW dashboard ([d19133f](https://github.com/bcgov/CONN-CCBC-portal/commit/d19133f77573d108ea4a076d2b856deca3a43401))
+
 ## [1.81.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.81.0...v1.81.1) (2023-07-05)
 
 ### Bug Fixes
