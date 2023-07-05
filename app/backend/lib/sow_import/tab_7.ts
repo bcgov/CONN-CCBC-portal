@@ -658,7 +658,7 @@ const ValidateData = (data) => {
 };
 
 const LoadTab7Data = async (sow_id, wb, sheet_name, req) => {
-  const { validate = false } = req.query || {};
+  const validate = req.query?.validate === 'true';
   const data = await readBudget(sow_id, wb, sheet_name);
 
   const errorList = ValidateData(data.summaryTable);
@@ -671,7 +671,7 @@ const LoadTab7Data = async (sow_id, wb, sheet_name, req) => {
     return data;
   }
 
-  const input = { input: { sowId: sow_id, jsonData: data } };
+  const input = { input: { sowId: parseInt(sow_id, 10), jsonData: data } };
   // time to persist in DB
   const result = await performQuery(tab7Mutation, input, req).catch((e) => {
     return { error: [{ level: 'database', error: e }] };
