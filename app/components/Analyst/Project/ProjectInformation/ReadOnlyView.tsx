@@ -63,7 +63,7 @@ const StyledHideButton = styled.div`
 
 const IconButton = ({ onClick }) => {
   return (
-    <StyledIconBtn onClick={onClick}>
+    <StyledIconBtn onClick={onClick} data-testid="project-form-edit-button">
       <FontAwesomeIcon icon={faPen} size="xs" />
     </StyledIconBtn>
   );

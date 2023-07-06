@@ -194,10 +194,10 @@ const ProjectInformationForm = ({ application }) => {
           dateSigned={formData?.main?.dateFundingAgreementSigned}
           title="Original"
           setIsFormEditMode={setIsFormEditMode}
-          fundingAgreement={formUploads?.fundingAgreementUpload[0]}
-          map={formUploads?.finalizedMapUpload[0]}
-          sow={formUploads?.statementOfWorkUpload[0]}
-          wirelessSow={formUploads?.sowWirelessUpload[0]}
+          fundingAgreement={formUploads?.fundingAgreementUpload?.[0]}
+          map={formUploads?.finalizedMapUpload?.[0]}
+          sow={formUploads?.statementOfWorkUpload?.[0]}
+          wirelessSow={formUploads?.sowWirelessUpload?.[0]}
         />
       )}
       {showToast && (
