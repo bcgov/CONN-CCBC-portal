@@ -41,6 +41,7 @@ const DownloadLink: React.FC<Props> = ({ children, uuid, fileName }) => {
     <>`${fileName}`</>
   ) : (
     <StyledLink
+      title={fileName}
       data-testid="history-attachment-link"
       onClick={(e) => {
         e.preventDefault();

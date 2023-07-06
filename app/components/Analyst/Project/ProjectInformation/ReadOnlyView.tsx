@@ -74,7 +74,8 @@ interface Props {
   dateSigned?: string;
   fundingAgreement?: any;
   map?: any;
-  setIsFormEditMode?: any;
+  onFormEdit?: any;
+  isFormEditMode?: boolean;
   sow?: any;
   title: string;
   wirelessSow?: any;
@@ -83,8 +84,9 @@ interface Props {
 const ReadOnlyView: React.FC<Props> = ({
   dateSigned,
   fundingAgreement,
+  isFormEditMode,
   map,
-  setIsFormEditMode,
+  onFormEdit,
   sow,
   title,
   wirelessSow,
@@ -97,7 +99,7 @@ const ReadOnlyView: React.FC<Props> = ({
     <StyledGrid>
       <StyledH3>
         {title}
-        <IconButton onClick={() => setIsFormEditMode(true)} />{' '}
+        {!isFormEditMode && <IconButton onClick={onFormEdit} />}
       </StyledH3>
       <div />
       <StyledColumn>
@@ -129,7 +131,7 @@ const ReadOnlyView: React.FC<Props> = ({
       </StyledColumn>
       <div>{formattedDateSigned}</div>
       <StyledHideButton>
-        <IconButton onClick={() => setIsFormEditMode(true)} />
+        {!isFormEditMode && <IconButton onClick={onFormEdit} />}
       </StyledHideButton>
     </StyledGrid>
   );

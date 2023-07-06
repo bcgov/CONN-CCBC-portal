@@ -2,9 +2,11 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import config from 'config';
-import ProjectForm from 'components/Analyst/Project/ProjectForm';
+import { AddButton, ProjectForm } from 'components/Analyst/Project';
 import projectInformationSchema from 'formSchema/analyst/projectInformation';
 import projectInformationUiSchema from 'formSchema/uiSchema/analyst/projectInformationUiSchema';
+import changeRequestSchema from 'formSchema/analyst/changeRequest';
+import changeRequestUiSchema from 'formSchema/uiSchema/analyst/changeRequestUiSchema';
 import { useCreateProjectInformationMutation } from 'schema/mutations/project/createProjectInformation';
 import { useArchiveApplicationSowMutation } from 'schema/mutations/project/archiveApplicationSow';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
@@ -20,11 +22,19 @@ const StyledProjectForm = styled(ProjectForm)`
   }
 `;
 
-const StyledFlex = styled.div`
+interface FlexProps {
+  isFormEditMode: boolean;
+}
+
+const StyledFlex = styled.div<FlexProps>`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
+  padding-bottom: ${(props) => (props.isFormEditMode ? '0px' : '8px')};
+  overflow: hidden;
+  max-height: ${(props) => (props.isFormEditMode ? '0px' : '80px')};
+  transition: max-height 0.5s;
 `;
 
 const ProjectInformationForm = ({ application }) => {
@@ -69,12 +79,20 @@ const ProjectInformationForm = ({ application }) => {
   const [isFormEditMode, setIsFormEditMode] = useState(
     !projectInformation?.jsonData
   );
+  const [isChangeRequest, setIsChangeRequest] = useState(false);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
   const validateSow = useCallback(
     sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
     [rowId, ccbcNumber, setSowFile, setSowValidationErrors]
   );
+
+  const formSchema = isChangeRequest
+    ? changeRequestSchema
+    : projectInformationSchema;
+  const uiSchema = isChangeRequest
+    ? changeRequestUiSchema
+    : projectInformationUiSchema;
 
   const formUploads = formData?.main?.upload;
 
@@ -153,6 +171,9 @@ const ProjectInformationForm = ({ application }) => {
     }
     return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`;
   };
+
+  const isOriginalSowUpload =
+    projectInformation?.jsonData?.main?.upload?.statementOfWorkUpload?.[0];
   return (
     <StyledProjectForm
       additionalContext={{
@@ -161,15 +182,24 @@ const ProjectInformationForm = ({ application }) => {
         validateSow,
       }}
       before={
-        isFormEditMode ? null : (
-          <StyledFlex>
-            <MetabaseLink
-              href={getMetabaseLink()}
-              text="View project data in Metabase"
-              width={326}
+        <StyledFlex isFormEditMode={isFormEditMode}>
+          {isOriginalSowUpload && (
+            <AddButton
+              isFormEditMode={isFormEditMode}
+              onClick={() => {
+                setIsChangeRequest(true);
+                setShowToast(false);
+                setIsFormEditMode(true);
+              }}
+              title="Add change request"
             />
-          </StyledFlex>
-        )
+          )}
+          <MetabaseLink
+            href={getMetabaseLink()}
+            text="View project data in Metabase"
+            width={326}
+          />
+        </StyledFlex>
       }
       formData={formData}
       handleChange={(e) => {
@@ -181,9 +211,12 @@ const ProjectInformationForm = ({ application }) => {
       }}
       isFormEditMode={isFormEditMode}
       title="Funding agreement, statement of work, & map"
-      schema={isFormEditMode ? projectInformationSchema : {}}
+      formAnimationHeight={isChangeRequest ? 1000 : 800}
+      formAnimationHeightOffset={70}
+      isFormAnimated
+      schema={formSchema}
       theme={ProjectTheme}
-      uiSchema={isFormEditMode ? projectInformationUiSchema : {}}
+      uiSchema={uiSchema}
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
       saveBtnText="Save & Import Data"
@@ -191,17 +224,19 @@ const ProjectInformationForm = ({ application }) => {
       showEditBtn={false}
       hiddenSubmitRef={hiddenSubmitRef}
     >
-      {!isFormEditMode && (
-        <ReadOnlyView
-          dateSigned={formData?.main?.dateFundingAgreementSigned}
-          title="Original"
-          setIsFormEditMode={setIsFormEditMode}
-          fundingAgreement={formUploads?.fundingAgreementUpload?.[0]}
-          map={formUploads?.finalizedMapUpload?.[0]}
-          sow={formUploads?.statementOfWorkUpload?.[0]}
-          wirelessSow={formUploads?.sowWirelessUpload?.[0]}
-        />
-      )}
+      <ReadOnlyView
+        dateSigned={formData?.main?.dateFundingAgreementSigned}
+        title="Original"
+        onFormEdit={() => {
+          setIsChangeRequest(false);
+          setIsFormEditMode(true);
+        }}
+        isFormEditMode={isFormEditMode}
+        fundingAgreement={formUploads?.fundingAgreementUpload?.[0]}
+        map={formUploads?.finalizedMapUpload?.[0]}
+        sow={formUploads?.statementOfWorkUpload?.[0]}
+        wirelessSow={formUploads?.sowWirelessUpload?.[0]}
+      />
       {showToast && (
         <Toast timeout={100000000}>
           Statement of work successfully imported
