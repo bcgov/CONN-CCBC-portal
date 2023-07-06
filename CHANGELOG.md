@@ -1,3 +1,13 @@
+# [1.83.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.82.0...v1.83.0) (2023-07-06)
+
+### Bug Fixes
+
+- dayjs typerror ([1590c38](https://github.com/bcgov/CONN-CCBC-portal/commit/1590c3832b132d2aa3d4e30dad3f8434dfac7418))
+
+### Features
+
+- make text boxes resizable in both directions ([3cab216](https://github.com/bcgov/CONN-CCBC-portal/commit/3cab2168fd1cb5f1d59e8a8b230a999497ba58b8))
+
 # [1.82.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.81.1...v1.82.0) (2023-07-05)
 
 ### Bug Fixes
