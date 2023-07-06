@@ -11,6 +11,7 @@ const StyledTextArea = styled(Textarea)`
     margin-bottom: 4px;
     width: ${(props) => props.theme.width.inputWidthFull};
     min-height: 129px;
+    resize: both;
   }
   textarea:disabled {
     background: rgba(196, 196, 196, 0.3);
