@@ -311,6 +311,7 @@ const ProjectInformationForm = ({ application }) => {
       onSubmit={handleSubmit}
       saveBtnText="Save & Import Data"
       setFormData={setFormData}
+      submitting={isFormSubmitting}
       saveBtnDisabled={isFormSubmitting}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
       showEditBtn={

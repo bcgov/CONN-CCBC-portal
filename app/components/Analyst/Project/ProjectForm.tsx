@@ -138,6 +138,7 @@ interface Props {
   schema: JSONSchema7;
   setFormData?: any;
   setIsFormEditMode: any;
+  submitting: boolean;
   theme?: any;
   title: string;
   uiSchema?: any;
@@ -163,6 +164,7 @@ const ProjectForm: React.FC<Props> = ({
   schema,
   setFormData = () => {},
   setIsFormEditMode,
+  submitting,
   theme,
   title,
   uiSchema,
@@ -248,7 +250,7 @@ const ProjectForm: React.FC<Props> = ({
           overflow={overflow}
         >
           {before}
-          {saveBtnDisabled ? (
+          {submitting ? (
             <LoadingContainer>
               <LoadingItem>
                 <CircularProgress color="inherit" />
