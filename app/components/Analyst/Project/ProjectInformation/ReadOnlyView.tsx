@@ -10,8 +10,22 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const StyledGrid = styled.div`
-  display: grid;
-  grid-template-columns: 20% 40% 15% 15% 8% 4%;
+  ${(props) => props.theme.breakpoint.mediumUp} {
+    display: grid;
+    grid-template-columns: 20% 40% 15% 15% 8% 4%;
+  }
+`;
+
+const StyledH3 = styled.h3`
+  button {
+    margin-left: 8px;
+  }
+
+  ${(props) => props.theme.breakpoint.mediumUp} {
+    button {
+      display: none;
+    }
+  }
 `;
 
 const StyledColumn = styled.div`
@@ -34,6 +48,23 @@ const StyledIconBtn = styled.button`
   }
 `;
 
+const StyledHideButton = styled.div`
+  display: none;
+  margin-left: 8px;
+
+  ${(props) => props.theme.breakpoint.mediumUp} {
+    display: block;
+  }
+`;
+
+const IconButton = ({ onClick }) => {
+  return (
+    <StyledIconBtn onClick={onClick}>
+      <FontAwesomeIcon icon={faPen} size="xs" />
+    </StyledIconBtn>
+  );
+};
+
 interface Props {
   dateSigned?: string;
   fundingAgreement?: any;
@@ -55,7 +86,10 @@ const ReadOnlyView: React.FC<Props> = ({
 }) => {
   return (
     <StyledGrid>
-      <h3>{title}</h3>
+      <StyledH3>
+        {title}
+        <IconButton onClick={() => setIsFormEditMode(true)} />{' '}
+      </StyledH3>
       <div />
       <StyledColumn>
         {fundingAgreement && (
@@ -85,9 +119,9 @@ const ReadOnlyView: React.FC<Props> = ({
         )}
       </StyledColumn>
       <div>{dateSigned}</div>
-      <StyledIconBtn onClick={() => setIsFormEditMode(true)}>
-        <FontAwesomeIcon icon={faPen} size="xs" />
-      </StyledIconBtn>
+      <StyledHideButton>
+        <IconButton onClick={() => setIsFormEditMode(true)} />
+      </StyledHideButton>
     </StyledGrid>
   );
 };
