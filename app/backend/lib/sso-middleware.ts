@@ -1,4 +1,4 @@
-import ssoExpress from '@bcgov-cas/sso-express';
+import ssoExpress from './sso-express';
 import { IDP_HINTS, IDP_HINT_PARAM } from '../../data/ssoConstants';
 import config from '../../config';
 import createUserMiddleware from './createUser';

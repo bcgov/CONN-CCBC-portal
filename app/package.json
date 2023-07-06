@@ -94,6 +94,7 @@
     "relay-runtime": "^13.2.0",
     "styled-components": "^5.3.5",
     "typography": "^0.16.21",
+    "url": "^0.11.1",
     "validator": "^13.9.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
