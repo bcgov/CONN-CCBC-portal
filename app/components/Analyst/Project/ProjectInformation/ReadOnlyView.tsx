@@ -31,6 +31,10 @@ const StyledH3 = styled.h3`
 const StyledColumn = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr;
+
+  & a {
+    display: flex;
+  }
 `;
 
 const StyledIconBtn = styled.button`
