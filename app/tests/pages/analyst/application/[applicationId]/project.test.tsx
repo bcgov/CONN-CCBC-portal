@@ -848,7 +848,7 @@ describe('The Project page', () => {
 
     expect(screen.getByText('Wireless SoW')).toBeInTheDocument();
 
-    expect(screen.getByText('2023-05-10')).toBeInTheDocument();
+    expect(screen.getByText('May 10, 2023')).toBeInTheDocument();
 
     expect(
       screen.getByText('View project data in Metabase')
