@@ -21,7 +21,7 @@ const ChangeRequestForm = ({ application }) => {
         }
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
-          orderBy: AMENDMENT_NUMBER_ASC
+          orderBy: AMENDMENT_NUMBER_DESC
           first: 999
         )
           @connection(

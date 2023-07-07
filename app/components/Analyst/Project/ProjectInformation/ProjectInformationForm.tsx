@@ -51,7 +51,7 @@ const ProjectInformationForm = ({ application }) => {
         }
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
-          orderBy: AMENDMENT_NUMBER_ASC
+          orderBy: AMENDMENT_NUMBER_DESC
           first: 999
         )
           @connection(
@@ -102,7 +102,18 @@ const ProjectInformationForm = ({ application }) => {
   );
 
   const projectInformationData = projectInformation?.jsonData;
-  const changeRequestData = changeRequestDataByApplicationId?.edges;
+  const changeRequestData =
+    changeRequestDataByApplicationId &&
+    [...changeRequestDataByApplicationId.edges]
+      .filter((data) => {
+        // Removing the old node with relay updater was leaving null values in the array
+        // Might be a better way to delete the node so we don't have to filter it out
+        return data.node !== null;
+      })
+      .sort((a, b) => {
+        return b.node.amendmentNumber - a.node.amendmentNumber;
+      });
+
   const connectionId = changeRequestDataByApplicationId?.__id;
 
   // This will change to amendment number once we add the amendment field
@@ -286,23 +297,7 @@ const ProjectInformationForm = ({ application }) => {
       }
       hiddenSubmitRef={hiddenSubmitRef}
     >
-      {hasFundingAgreementBeenSigned && (
-        <ReadOnlyView
-          date={projectInformationData?.dateFundingAgreementSigned}
-          title="Original"
-          onFormEdit={() => {
-            setIsChangeRequest(false);
-            setIsFormEditMode(true);
-          }}
-          isFormEditMode={isFormEditMode}
-          map={projectInformationData?.finalizedMapUpload?.[0]}
-          sow={projectInformationData?.statementOfWorkUpload?.[0]}
-          wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
-        />
-      )}
       {changeRequestData?.map((changeRequest) => {
-        if (!changeRequest?.node) return null;
-
         const {
           id: changeRequestId,
           amendmentNumber,
@@ -327,7 +322,20 @@ const ProjectInformationForm = ({ application }) => {
           />
         );
       })}
-
+      {hasFundingAgreementBeenSigned && (
+        <ReadOnlyView
+          date={projectInformationData?.dateFundingAgreementSigned}
+          title="Original"
+          onFormEdit={() => {
+            setIsChangeRequest(false);
+            setIsFormEditMode(true);
+          }}
+          isFormEditMode={isFormEditMode}
+          map={projectInformationData?.finalizedMapUpload?.[0]}
+          sow={projectInformationData?.statementOfWorkUpload?.[0]}
+          wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
+        />
+      )}
       {showToast && (
         <Toast timeout={100000000}>
           Statement of work successfully imported
