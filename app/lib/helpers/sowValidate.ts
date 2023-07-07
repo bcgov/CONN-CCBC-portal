@@ -40,10 +40,7 @@ function sowValidateGenerator(
       }
       return response;
     }
-    else {
-      if (setSowValidationErrors) setSowValidationErrors([]);
-      return;
-    }
+    if (setSowValidationErrors) setSowValidationErrors([]);
   };
 }
 
