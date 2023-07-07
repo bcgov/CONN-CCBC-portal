@@ -79,6 +79,7 @@ interface AnimateFormProps {
 // The children of the form (eg the ViewAnnouncements or ChangeRequestCard)
 // may need a z-index of 1 to prevent visual glitches while expanding/retracting
 const StyledAnimateForm = styled.div<AnimateFormProps>`
+  padding-left: 4px;
   ${({
     formAnimationHeight,
     formAnimationHeightOffset,

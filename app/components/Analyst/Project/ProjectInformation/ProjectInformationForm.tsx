@@ -31,8 +31,8 @@ const StyledFlex = styled.div<FlexProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
   padding-bottom: ${(props) => (props.isFormEditMode ? '0px' : '8px')};
+  padding-left: 4px;
   overflow: hidden;
   max-height: ${(props) => (props.isFormEditMode ? '0px' : '80px')};
   transition: max-height 0.5s;
@@ -89,7 +89,7 @@ const ProjectInformationForm = ({ application }) => {
   const [sowFile, setSowFile] = useState(null);
   const [sowValidationErrors, setSowValidationErrors] = useState([]);
   const [isFormEditMode, setIsFormEditMode] = useState(
-    !projectInformation?.jsonData
+    !projectInformation?.jsonData?.hasFundingAgreementBeenSigned
   );
   const [isChangeRequest, setIsChangeRequest] = useState(false);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
@@ -111,6 +111,9 @@ const ProjectInformationForm = ({ application }) => {
   const uiSchema = isChangeRequest
     ? changeRequestUiSchema
     : projectInformationUiSchema;
+
+  const hasFundingAgreementBeenSigned =
+    projectInformation?.jsonData?.hasFundingAgreementBeenSigned;
 
   const hasFormErrors = useMemo(() => {
     if (formData === null) {
@@ -137,9 +140,11 @@ const ProjectInformationForm = ({ application }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     hiddenSubmitRef.current.click();
-    if (hasFormErrors) {
+
+    if (hasFormErrors && formData.hasFundingAgreementBeenSigned) {
       return;
     }
+
     if (!formData.hasFundingAgreementBeenSigned) {
       // archive by application id
       archiveApplicationSow({
@@ -206,7 +211,6 @@ const ProjectInformationForm = ({ application }) => {
     }
     return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`;
   };
-
   const isOriginalSowUpload =
     projectInformation?.jsonData?.statementOfWorkUpload?.[0];
   return (
@@ -239,7 +243,9 @@ const ProjectInformationForm = ({ application }) => {
       formData={formData}
       handleChange={(e) => {
         if (!e.formData.hasFundingAgreementBeenSigned) {
-          setFormData({});
+          setFormData({
+            hasFundingAgreementBeenSigned: false,
+          });
         } else {
           setFormData({ ...e.formData });
         }
@@ -256,22 +262,26 @@ const ProjectInformationForm = ({ application }) => {
       onSubmit={handleSubmit}
       saveBtnText="Save & Import Data"
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-      showEditBtn={false}
+      showEditBtn={
+        !hasFundingAgreementBeenSigned && !isFormEditMode && !isChangeRequest
+      }
       hiddenSubmitRef={hiddenSubmitRef}
     >
-      <ReadOnlyView
-        dateSigned={projectInformationData?.dateFundingAgreementSigned}
-        title="Original"
-        onFormEdit={() => {
-          setIsChangeRequest(false);
-          setIsFormEditMode(true);
-        }}
-        isFormEditMode={isFormEditMode}
-        fundingAgreement={projectInformationData?.fundingAgreementUpload?.[0]}
-        map={projectInformationData?.finalizedMapUpload?.[0]}
-        sow={projectInformationData?.statementOfWorkUpload?.[0]}
-        wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
-      />
+      {hasFundingAgreementBeenSigned && (
+        <ReadOnlyView
+          dateSigned={projectInformationData?.dateFundingAgreementSigned}
+          title="Original"
+          onFormEdit={() => {
+            setIsChangeRequest(false);
+            setIsFormEditMode(true);
+          }}
+          isFormEditMode={isFormEditMode}
+          fundingAgreement={projectInformationData?.fundingAgreementUpload?.[0]}
+          map={projectInformationData?.finalizedMapUpload?.[0]}
+          sow={projectInformationData?.statementOfWorkUpload?.[0]}
+          wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
+        />
+      )}
       {changeRequestData?.map((changeRequest) => {
         const {
           id: changeRequestId,

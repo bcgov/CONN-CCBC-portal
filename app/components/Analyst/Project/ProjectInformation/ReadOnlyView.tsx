@@ -201,7 +201,11 @@ const ReadOnlyView: React.FC<Props> = ({
         </StyledColumn>
         <div>{dateSigned}</div>
         <StyledHideButton>
-          {!isFormEditMode && <IconButton onClick={onFormEdit} />}
+          {/* Hiding edit button for change request until we add amendment number
+          to the form and update mutation */}
+          {!isFormEditMode && !isChangeRequest && (
+            <IconButton onClick={onFormEdit} />
+          )}
         </StyledHideButton>
       </StyledGrid>
       <StyledToggleSection isShowMore={showMore}>
