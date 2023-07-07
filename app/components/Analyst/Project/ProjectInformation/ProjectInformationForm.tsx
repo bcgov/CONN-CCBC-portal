@@ -317,7 +317,6 @@ const ProjectInformationForm = ({ application }) => {
             }}
             isChangeRequest
             isFormEditMode={isFormEditMode}
-            fundingAgreement={jsonData?.fundingAgreementUpload?.[0]}
             sow={jsonData?.statementOfWorkUpload?.[0]}
           />
         );
@@ -333,6 +332,7 @@ const ProjectInformationForm = ({ application }) => {
           isFormEditMode={isFormEditMode}
           map={projectInformationData?.finalizedMapUpload?.[0]}
           sow={projectInformationData?.statementOfWorkUpload?.[0]}
+          fundingAgreement={projectInformationData?.fundingAgreementUpload?.[0]}
           wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
         />
       )}

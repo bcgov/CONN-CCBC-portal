@@ -137,7 +137,7 @@ const mockJsonDataQueryPayload = {
             ],
             sowWirelessUpload: [
               {
-                id: 10,
+                id: 12,
                 name: 'test.pdf',
                 size: 0,
                 type: 'application/pdf',
@@ -155,7 +155,7 @@ const mockJsonDataQueryPayload = {
             ],
             fundingAgreementUpload: [
               {
-                id: 10,
+                id: 14,
                 name: 'test.pdf',
                 size: 0,
                 type: 'application/pdf',
@@ -826,13 +826,13 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText('Funding Agreement')).toBeInTheDocument();
-
     expect(screen.getByText('SoW')).toBeInTheDocument();
 
     expect(screen.getByText('Map')).toBeInTheDocument();
 
     expect(screen.getByText('Wireless SoW')).toBeInTheDocument();
+
+    expect(screen.getByText('Funding Agreement')).toBeInTheDocument();
 
     expect(screen.getByText('May 10, 2023')).toBeInTheDocument();
 
@@ -846,9 +846,9 @@ describe('The Project page', () => {
     pageTestingHelper.renderPage();
 
     // Click on the edit button to open the form
-    const editButton = screen.getAllByTestId('project-form-edit-button');
+    const editButton = screen.getAllByTestId('project-form-edit-button')[3];
     await act(async () => {
-      fireEvent.click(editButton[1]);
+      fireEvent.click(editButton);
     });
 
     const hasFundingAggreementBeenSigned = screen.getByLabelText('No');

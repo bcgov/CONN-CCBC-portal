@@ -174,11 +174,11 @@ describe('The Change Request form', () => {
       'createChangeRequestMutation',
       {
         connections: [
-          'client:<Application-mock-id-1>:__ChangeRequestForm_changeRequestDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"CHANGE_REQUEST_NUMBER_ASC")',
+          'client:<Application-mock-id-1>:__ChangeRequestForm_changeRequestDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"AMENDMENT_NUMBER_DESC")',
         ],
         input: {
           _applicationId: 1,
-          _changeRequestNumber: 1,
+          _amendmentNumber: 1,
           _jsonData: {
             statementOfWorkUpload: [
               {
