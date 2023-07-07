@@ -21,7 +21,7 @@ const ChangeRequestForm = ({ application }) => {
         }
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
-          orderBy: CHANGE_REQUEST_NUMBER_ASC
+          orderBy: AMENDMENT_NUMBER_ASC
           first: 999
         )
           @connection(
@@ -31,7 +31,7 @@ const ChangeRequestForm = ({ application }) => {
           edges {
             node {
               id
-              changeRequestNumber
+              amendmentNumber
               createdAt
               jsonData
               updatedAt
@@ -80,7 +80,7 @@ const ChangeRequestForm = ({ application }) => {
           connections: [connectionId],
           input: {
             _applicationId: rowId,
-            _changeRequestNumber: newChangeRequestNumber,
+            _amendmentNumber: newChangeRequestNumber,
             _jsonData: formData,
           },
         },

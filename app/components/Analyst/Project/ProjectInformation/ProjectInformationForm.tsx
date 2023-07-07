@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { graphql, useFragment } from 'react-relay';
+import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import config from 'config';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
@@ -51,7 +51,7 @@ const ProjectInformationForm = ({ application }) => {
         }
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
-          orderBy: CHANGE_REQUEST_NUMBER_ASC
+          orderBy: AMENDMENT_NUMBER_ASC
           first: 999
         )
           @connection(
@@ -61,7 +61,7 @@ const ProjectInformationForm = ({ application }) => {
           edges {
             node {
               id
-              changeRequestNumber
+              amendmentNumber
               createdAt
               jsonData
               updatedAt
@@ -93,6 +93,8 @@ const ProjectInformationForm = ({ application }) => {
   );
   const [isChangeRequest, setIsChangeRequest] = useState(false);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+  const [currentChangeRequestData, setCurrentChangeRequestData] =
+    useState(null);
 
   const validateSow = useCallback(
     sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
@@ -104,7 +106,7 @@ const ProjectInformationForm = ({ application }) => {
   const connectionId = changeRequestDataByApplicationId?.__id;
 
   // This will change to amendment number once we add the amendment field
-  const newChangeRequestNumber = changeRequestData.length + 1;
+  const newAmendmentNumber = changeRequestData.length + 1;
   const formSchema = isChangeRequest
     ? changeRequestSchema
     : projectInformationSchema;
@@ -160,7 +162,8 @@ const ProjectInformationForm = ({ application }) => {
             connections: [connectionId],
             input: {
               _applicationId: rowId,
-              _changeRequestNumber: newChangeRequestNumber,
+              _amendmentNumber:
+                currentChangeRequestData?.amendmentNumber || newAmendmentNumber,
               _jsonData: formData,
             },
           },
@@ -171,6 +174,21 @@ const ProjectInformationForm = ({ application }) => {
             if (response.status === 200) {
               setShowToast(true);
             }
+            setCurrentChangeRequestData(null);
+            setShowToast(true);
+          },
+          updater: (store) => {
+            const relayConnectionId = changeRequestDataByApplicationId.__id;
+            // Get the connection from the store
+            const connection = store.get(relayConnectionId);
+
+            store.delete(currentChangeRequestData.id);
+
+            // Remove the old announcement from the connection
+            ConnectionHandler.deleteNode(
+              connection,
+              currentChangeRequestData.id
+            );
           },
         });
       } else {
@@ -242,7 +260,7 @@ const ProjectInformationForm = ({ application }) => {
       }
       formData={formData}
       handleChange={(e) => {
-        if (!e.formData.hasFundingAgreementBeenSigned) {
+        if (!isChangeRequest && !e.formData.hasFundingAgreementBeenSigned) {
           setFormData({
             hasFundingAgreementBeenSigned: false,
           });
@@ -261,6 +279,7 @@ const ProjectInformationForm = ({ application }) => {
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
       saveBtnText="Save & Import Data"
+      setFormData={setFormData}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
       showEditBtn={
         !hasFundingAgreementBeenSigned && !isFormEditMode && !isChangeRequest
@@ -269,34 +288,36 @@ const ProjectInformationForm = ({ application }) => {
     >
       {hasFundingAgreementBeenSigned && (
         <ReadOnlyView
-          dateSigned={projectInformationData?.dateFundingAgreementSigned}
+          date={projectInformationData?.dateFundingAgreementSigned}
           title="Original"
           onFormEdit={() => {
             setIsChangeRequest(false);
             setIsFormEditMode(true);
           }}
           isFormEditMode={isFormEditMode}
-          fundingAgreement={projectInformationData?.fundingAgreementUpload?.[0]}
           map={projectInformationData?.finalizedMapUpload?.[0]}
           sow={projectInformationData?.statementOfWorkUpload?.[0]}
           wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
         />
       )}
       {changeRequestData?.map((changeRequest) => {
+        if (!changeRequest?.node) return null;
+
         const {
           id: changeRequestId,
-          changeRequestNumber,
+          amendmentNumber,
           jsonData,
         } = changeRequest.node;
 
         return (
           <ReadOnlyView
             key={changeRequestId}
-            dateSigned={jsonData?.dateFundingAgreementSigned}
-            title={`Amendment #${changeRequestNumber}`}
+            date={jsonData?.dateChangeRequestApproved}
+            title={`Amendment #${amendmentNumber}`}
             onFormEdit={() => {
               setIsChangeRequest(true);
               setIsFormEditMode(true);
+              setCurrentChangeRequestData(changeRequest.node);
               setFormData(jsonData);
             }}
             isChangeRequest

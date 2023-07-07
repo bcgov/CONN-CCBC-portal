@@ -120,7 +120,7 @@ const IconButton = ({ onClick }) => {
 
 interface Props {
   additionalComments?: string;
-  dateSigned?: string;
+  date?: string;
   dateRequested?: string;
   fundingAgreement?: any;
   levelOfAmendment?: string;
@@ -135,7 +135,7 @@ interface Props {
 
 const ReadOnlyView: React.FC<Props> = ({
   additionalComments,
-  dateSigned,
+  date,
   dateRequested,
   fundingAgreement,
   isChangeRequest,
@@ -148,6 +148,9 @@ const ReadOnlyView: React.FC<Props> = ({
   wirelessSow,
 }) => {
   const [showMore, setShowMore] = useState(false);
+
+  const formattedDate =
+    date && DateTime.fromISO(date).toLocaleString(DateTime.DATE_MED);
 
   const formattedDateRequested =
     dateRequested &&
@@ -199,13 +202,9 @@ const ReadOnlyView: React.FC<Props> = ({
             </DownloadLink>
           )}
         </StyledColumn>
-        <div>{dateSigned}</div>
+        <div>{formattedDate}</div>
         <StyledHideButton>
-          {/* Hiding edit button for change request until we add amendment number
-          to the form and update mutation */}
-          {!isFormEditMode && !isChangeRequest && (
-            <IconButton onClick={onFormEdit} />
-          )}
+          {!isFormEditMode && <IconButton onClick={onFormEdit} />}
         </StyledHideButton>
       </StyledGrid>
       <StyledToggleSection isShowMore={showMore}>

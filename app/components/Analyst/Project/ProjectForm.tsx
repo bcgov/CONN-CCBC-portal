@@ -120,6 +120,7 @@ interface Props {
   saveBtnText?: string;
   saveBtnDisabled?: boolean;
   schema: JSONSchema7;
+  setFormData?: any;
   setIsFormEditMode: any;
   theme?: any;
   title: string;
@@ -144,6 +145,7 @@ const ProjectForm: React.FC<Props> = ({
   saveBtnDisabled,
   saveBtnText,
   schema,
+  setFormData = () => {},
   setIsFormEditMode,
   theme,
   title,
@@ -191,7 +193,7 @@ const ProjectForm: React.FC<Props> = ({
                 size="small"
                 variant="secondary"
                 onClick={() => {
-                  resetFormData();
+                  setFormData();
                   setIsFormEditMode(false);
                 }}
               >
@@ -202,7 +204,10 @@ const ProjectForm: React.FC<Props> = ({
             <>
               {showEditBtn && (
                 <StyledIconBtn
-                  onClick={() => setIsFormEditMode(true)}
+                  onClick={() => {
+                    setFormData({});
+                    setIsFormEditMode(true);
+                  }}
                   data-testid="project-form-edit-button"
                 >
                   <FontAwesomeIcon icon={faPen} size="xs" />
