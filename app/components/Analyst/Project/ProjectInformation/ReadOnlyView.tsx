@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import FileHeader from 'components/Analyst/Project/ProjectInformation/FileHeader';
 import DownloadLink from 'components/DownloadLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faChevronRight,
   faFileContract,
   faFileExcel,
   faMap,
@@ -15,9 +17,12 @@ const StyledGrid = styled.div`
     display: grid;
     grid-template-columns: 20% 40% 15% 15% 8% 4%;
   }
+
+  margin-bottom: 16px;
 `;
 
 const StyledH3 = styled.h3`
+  margin-bottom: 4px;
   button {
     margin-left: 8px;
   }
@@ -62,6 +67,32 @@ const StyledHideButton = styled.div`
   }
 `;
 
+const StyledToggleSection = styled.div<ToggleProps>`
+  display: flex;
+  flex-direction: column;
+  background: red;
+  overflow: hidden;
+  /*   max-height: ${({ isShowMore }) => (isShowMore ? '300px' : '0px')}; */
+  transition: transform 0.3s;
+  transform-origin: top left;
+  transform: ${({ isShowMore }) => (isShowMore ? '' : 'scaleY(0)')};
+`;
+
+interface ToggleProps {
+  isShowMore: boolean;
+}
+
+const StyledArrowButton = styled.button<ToggleProps>`
+  color: ${(props) => props.theme.color.links};
+  font-weight: 700;
+
+  & svg {
+    transform: ${({ isShowMore }) =>
+      isShowMore ? 'rotate(90deg)' : 'rotate(0deg)'};
+    transition: transform 0.3s;
+  }
+`;
+
 const IconButton = ({ onClick }) => {
   return (
     <StyledIconBtn onClick={onClick} data-testid="project-form-edit-button">
@@ -75,6 +106,7 @@ interface Props {
   fundingAgreement?: any;
   map?: any;
   onFormEdit?: any;
+  isChangeRequest?: boolean;
   isFormEditMode?: boolean;
   sow?: any;
   title: string;
@@ -84,6 +116,7 @@ interface Props {
 const ReadOnlyView: React.FC<Props> = ({
   dateSigned,
   fundingAgreement,
+  isChangeRequest,
   isFormEditMode,
   map,
   onFormEdit,
@@ -91,49 +124,77 @@ const ReadOnlyView: React.FC<Props> = ({
   title,
   wirelessSow,
 }) => {
-  const formattedDateSigned = DateTime.fromISO(dateSigned).toLocaleString(
-    DateTime.DATE_MED
-  );
+  const [showMore, setShowMore] = useState(false);
 
   return (
-    <StyledGrid>
-      <StyledH3>
-        {title}
-        {!isFormEditMode && <IconButton onClick={onFormEdit} />}
-      </StyledH3>
-      <div />
-      <StyledColumn>
-        {fundingAgreement && (
-          <DownloadLink
-            uuid={fundingAgreement.uuid}
-            fileName={fundingAgreement.name}
-          >
-            <FileHeader icon={faFileContract} title="Funding Agreement" />
-          </DownloadLink>
-        )}
-        {sow && (
-          <DownloadLink uuid={sow.uuid} fileName={sow.name}>
-            <FileHeader icon={faFileExcel} title="SoW" />
-          </DownloadLink>
-        )}
-      </StyledColumn>
-      <StyledColumn>
-        {map && (
-          <DownloadLink uuid={map.uuid} fileName={map.name}>
-            <FileHeader icon={faMap} title="Map" />
-          </DownloadLink>
-        )}
-        {wirelessSow && (
-          <DownloadLink uuid={wirelessSow.uuid} fileName={wirelessSow.name}>
-            <FileHeader icon={faFileExcel} title="Wireless SoW" />
-          </DownloadLink>
-        )}
-      </StyledColumn>
-      <div>{formattedDateSigned}</div>
-      <StyledHideButton>
-        {!isFormEditMode && <IconButton onClick={onFormEdit} />}
-      </StyledHideButton>
-    </StyledGrid>
+    <div>
+      <StyledGrid>
+        <div>
+          <StyledH3>
+            {title}
+            {!isFormEditMode && <IconButton onClick={onFormEdit} />}
+          </StyledH3>
+          {isChangeRequest && (
+            <StyledArrowButton
+              type="button"
+              onClick={() => setShowMore(!showMore)}
+              isShowMore={showMore}
+            >
+              View more <FontAwesomeIcon icon={faChevronRight} size="xs" />
+            </StyledArrowButton>
+          )}
+        </div>
+        <div />
+        <StyledColumn>
+          {fundingAgreement && (
+            <DownloadLink
+              uuid={fundingAgreement.uuid}
+              fileName={fundingAgreement.name}
+            >
+              <FileHeader icon={faFileContract} title="Funding Agreement" />
+            </DownloadLink>
+          )}
+          {sow && (
+            <DownloadLink uuid={sow.uuid} fileName={sow.name}>
+              <FileHeader icon={faFileExcel} title="SoW" />
+            </DownloadLink>
+          )}
+        </StyledColumn>
+        <StyledColumn>
+          {map && (
+            <DownloadLink uuid={map.uuid} fileName={map.name}>
+              <FileHeader icon={faMap} title="Map" />
+            </DownloadLink>
+          )}
+          {wirelessSow && (
+            <DownloadLink uuid={wirelessSow.uuid} fileName={wirelessSow.name}>
+              <FileHeader icon={faFileExcel} title="Wireless SoW" />
+            </DownloadLink>
+          )}
+        </StyledColumn>
+        <div>{dateSigned}</div>
+        <StyledHideButton>
+          {!isFormEditMode && <IconButton onClick={onFormEdit} />}
+        </StyledHideButton>
+      </StyledGrid>
+      <StyledToggleSection isShowMore={showMore}>
+        togglesection
+        <StyledArrowButton
+          type="button"
+          onClick={() => setShowMore(!showMore)}
+          isShowMore={showMore}
+        >
+          View more <FontAwesomeIcon icon={faChevronRight} size="xs" />
+        </StyledArrowButton>
+        <StyledArrowButton
+          type="button"
+          onClick={() => setShowMore(!showMore)}
+          isShowMore={showMore}
+        >
+          View more <FontAwesomeIcon icon={faChevronRight} size="xs" />
+        </StyledArrowButton>
+      </StyledToggleSection>
+    </div>
   );
 };
 

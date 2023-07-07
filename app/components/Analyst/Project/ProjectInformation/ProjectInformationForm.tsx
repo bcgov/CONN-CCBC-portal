@@ -8,6 +8,7 @@ import projectInformationUiSchema from 'formSchema/uiSchema/analyst/projectInfor
 import changeRequestSchema from 'formSchema/analyst/changeRequest';
 import changeRequestUiSchema from 'formSchema/uiSchema/analyst/changeRequestUiSchema';
 import { useCreateProjectInformationMutation } from 'schema/mutations/project/createProjectInformation';
+import { useCreateChangeRequestMutation } from 'schema/mutations/project/createChangeRequest';
 import { useArchiveApplicationSowMutation } from 'schema/mutations/project/archiveApplicationSow';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
@@ -60,6 +61,10 @@ const ProjectInformationForm = ({ application }) => {
           edges {
             node {
               id
+              changeRequestNumber
+              createdAt
+              jsonData
+              updatedAt
             }
           }
         }
@@ -68,10 +73,17 @@ const ProjectInformationForm = ({ application }) => {
     application
   );
 
-  const { ccbcNumber, id, rowId, projectInformation } = queryFragment;
+  const {
+    ccbcNumber,
+    changeRequestDataByApplicationId,
+    id,
+    rowId,
+    projectInformation,
+  } = queryFragment;
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
+  const [createChangeRequest] = useCreateChangeRequestMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
   const [sowFile, setSowFile] = useState(null);
@@ -87,6 +99,12 @@ const ProjectInformationForm = ({ application }) => {
     [rowId, ccbcNumber, setSowFile, setSowValidationErrors]
   );
 
+  const projectInformationData = projectInformation?.jsonData;
+  const changeRequestData = changeRequestDataByApplicationId?.edges;
+  const connectionId = changeRequestDataByApplicationId?.__id;
+
+  // This will change to amendment number once we add the amendment field
+  const newChangeRequestNumber = changeRequestData.length + 1;
   const formSchema = isChangeRequest
     ? changeRequestSchema
     : projectInformationSchema;
@@ -94,7 +112,7 @@ const ProjectInformationForm = ({ application }) => {
     ? changeRequestUiSchema
     : projectInformationUiSchema;
 
-  const formUploads = formData?.main?.upload;
+  const formUploads = projectInformationData?.main?.upload;
 
   const hasFormErrors = useMemo(() => {
     if (formData === null) {
@@ -133,29 +151,48 @@ const ProjectInformationForm = ({ application }) => {
       });
     }
     validateSow(sowFile, 0, false).then((response) => {
-      createProjectInformation({
-        variables: {
-          input: { _applicationId: rowId, _jsonData: formData },
-        },
-        onCompleted: () => {
-          setIsFormEditMode(false);
+      if (isChangeRequest) {
+        createChangeRequest({
+          variables: {
+            connections: [connectionId],
+            input: {
+              _applicationId: rowId,
+              _changeRequestNumber: newChangeRequestNumber,
+              _jsonData: formData,
+            },
+          },
+          onCompleted: () => {
+            setIsFormEditMode(false);
+            setFormData({});
+            // May need to change when the toast is shown when we add validation
+            if (response.status === 200) {
+              setShowToast(true);
+            }
+          },
+        });
+      } else {
+        createProjectInformation({
+          variables: {
+            input: { _applicationId: rowId, _jsonData: formData },
+          },
+          onCompleted: () => {
+            setIsFormEditMode(false);
 
-          // May need to change when the toast is shown when we add validation
-          if (response.status === 200) {
+            // May need to change when the toast is shown when we add validation
             setShowToast(true);
-          }
-        },
-        updater: (store, data) => {
-          store
-            .get(id)
-            .setLinkedRecord(
-              store.get(
-                data.createProjectInformation.projectInformationData.id
-              ),
-              'projectInformation'
-            );
-        },
-      });
+          },
+          updater: (store, data) => {
+            store
+              .get(id)
+              .setLinkedRecord(
+                store.get(
+                  data.createProjectInformation.projectInformationData.id
+                ),
+                'projectInformation'
+              );
+          },
+        });
+      }
     });
   };
 
@@ -225,7 +262,7 @@ const ProjectInformationForm = ({ application }) => {
       hiddenSubmitRef={hiddenSubmitRef}
     >
       <ReadOnlyView
-        dateSigned={formData?.main?.dateFundingAgreementSigned}
+        dateSigned={projectInformationData?.main?.dateFundingAgreementSigned}
         title="Original"
         onFormEdit={() => {
           setIsChangeRequest(false);
@@ -237,6 +274,30 @@ const ProjectInformationForm = ({ application }) => {
         sow={formUploads?.statementOfWorkUpload?.[0]}
         wirelessSow={formUploads?.sowWirelessUpload?.[0]}
       />
+      {changeRequestData?.map((changeRequest) => {
+        const {
+          id: changeRequestId,
+          changeRequestNumber,
+          jsonData,
+        } = changeRequest.node;
+        return (
+          <ReadOnlyView
+            key={changeRequestId}
+            dateSigned={jsonData?.dateFundingAgreementSigned}
+            title={`Amendment #${changeRequestNumber}`}
+            onFormEdit={() => {
+              setIsChangeRequest(true);
+              setIsFormEditMode(true);
+              setFormData(jsonData);
+            }}
+            isChangeRequest
+            isFormEditMode={isFormEditMode}
+            fundingAgreement={jsonData?.fundingAgreementUpload?.[0]}
+            sow={jsonData?.statementOfWorkUpload?.[0]}
+          />
+        );
+      })}
+
       {showToast && (
         <Toast timeout={100000000}>
           Statement of work successfully imported
