@@ -112,8 +112,6 @@ const ProjectInformationForm = ({ application }) => {
     ? changeRequestUiSchema
     : projectInformationUiSchema;
 
-  const formUploads = projectInformationData?.main?.upload;
-
   const hasFormErrors = useMemo(() => {
     if (formData === null) {
       return false;
@@ -210,7 +208,7 @@ const ProjectInformationForm = ({ application }) => {
   };
 
   const isOriginalSowUpload =
-    projectInformation?.jsonData?.main?.upload?.statementOfWorkUpload?.[0];
+    projectInformation?.jsonData?.statementOfWorkUpload?.[0];
   return (
     <StyledProjectForm
       additionalContext={{
@@ -241,7 +239,7 @@ const ProjectInformationForm = ({ application }) => {
       formData={formData}
       handleChange={(e) => {
         if (!e.formData.hasFundingAgreementBeenSigned) {
-          setFormData({ ...e.formData, main: {} });
+          setFormData({});
         } else {
           setFormData({ ...e.formData });
         }
@@ -262,17 +260,17 @@ const ProjectInformationForm = ({ application }) => {
       hiddenSubmitRef={hiddenSubmitRef}
     >
       <ReadOnlyView
-        dateSigned={projectInformationData?.main?.dateFundingAgreementSigned}
+        dateSigned={projectInformationData?.dateFundingAgreementSigned}
         title="Original"
         onFormEdit={() => {
           setIsChangeRequest(false);
           setIsFormEditMode(true);
         }}
         isFormEditMode={isFormEditMode}
-        fundingAgreement={formUploads?.fundingAgreementUpload?.[0]}
-        map={formUploads?.finalizedMapUpload?.[0]}
-        sow={formUploads?.statementOfWorkUpload?.[0]}
-        wirelessSow={formUploads?.sowWirelessUpload?.[0]}
+        fundingAgreement={projectInformationData?.fundingAgreementUpload?.[0]}
+        map={projectInformationData?.finalizedMapUpload?.[0]}
+        sow={projectInformationData?.statementOfWorkUpload?.[0]}
+        wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
       />
       {changeRequestData?.map((changeRequest) => {
         const {
@@ -280,6 +278,7 @@ const ProjectInformationForm = ({ application }) => {
           changeRequestNumber,
           jsonData,
         } = changeRequest.node;
+
         return (
           <ReadOnlyView
             key={changeRequestId}
