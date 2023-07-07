@@ -15195,9 +15195,6 @@ input ChangeRequestDataFilter {
   """Filter by the object’s `applicationId` field."""
   applicationId: IntFilter
 
-  """Filter by the object’s `changeRequestNumber` field."""
-  changeRequestNumber: IntFilter
-
   """Filter by the object’s `jsonData` field."""
   jsonData: JSONFilter
 
@@ -15218,6 +15215,9 @@ input ChangeRequestDataFilter {
 
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
+
+  """Filter by the object’s `amendmentNumber` field."""
+  amendmentNumber: IntFilter
 
   """Filter by the object’s `applicationByApplicationId` relation."""
   applicationByApplicationId: ApplicationFilter
@@ -26536,9 +26536,6 @@ type ChangeRequestData implements Node {
   """The foreign key of an application"""
   applicationId: Int
 
-  """The change request number for that application"""
-  changeRequestNumber: Int!
-
   """The json form data of the change request form"""
   jsonData: JSON!
 
@@ -26559,6 +26556,7 @@ type ChangeRequestData implements Node {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  amendmentNumber: Int
 
   """
   Reads a single `Application` that is related to this `ChangeRequestData`.
@@ -26591,8 +26589,6 @@ enum ChangeRequestDataOrderBy {
   ID_DESC
   APPLICATION_ID_ASC
   APPLICATION_ID_DESC
-  CHANGE_REQUEST_NUMBER_ASC
-  CHANGE_REQUEST_NUMBER_DESC
   JSON_DATA_ASC
   JSON_DATA_DESC
   CREATED_BY_ASC
@@ -26607,6 +26603,8 @@ enum ChangeRequestDataOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  AMENDMENT_NUMBER_ASC
+  AMENDMENT_NUMBER_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -26621,9 +26619,6 @@ input ChangeRequestDataCondition {
 
   """Checks for equality with the object’s `applicationId` field."""
   applicationId: Int
-
-  """Checks for equality with the object’s `changeRequestNumber` field."""
-  changeRequestNumber: Int
 
   """Checks for equality with the object’s `jsonData` field."""
   jsonData: JSON
@@ -26645,6 +26640,9 @@ input ChangeRequestDataCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `amendmentNumber` field."""
+  amendmentNumber: Int
 }
 
 """A connection to a list of `Announcement` values."""
@@ -47135,9 +47133,6 @@ input ChangeRequestDataInput {
   """The foreign key of an application"""
   applicationId: Int
 
-  """The change request number for that application"""
-  changeRequestNumber: Int!
-
   """The json form data of the change request form"""
   jsonData: JSON
 
@@ -47158,6 +47153,7 @@ input ChangeRequestDataInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  amendmentNumber: Int
 }
 
 """The output of our create `ConditionalApprovalData` mutation."""
@@ -49957,9 +49953,6 @@ input ChangeRequestDataPatch {
   """The foreign key of an application"""
   applicationId: Int
 
-  """The change request number for that application"""
-  changeRequestNumber: Int
-
   """The json form data of the change request form"""
   jsonData: JSON
 
@@ -49980,6 +49973,7 @@ input ChangeRequestDataPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  amendmentNumber: Int
 }
 
 """All input for the `updateChangeRequestDataByRowId` mutation."""
@@ -53680,7 +53674,7 @@ input CreateChangeRequestInput {
   """
   clientMutationId: String
   _applicationId: Int!
-  _changeRequestNumber: Int!
+  _amendmentNumber: Int!
   _jsonData: JSON!
 }
 
