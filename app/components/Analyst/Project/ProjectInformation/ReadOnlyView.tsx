@@ -68,14 +68,27 @@ const StyledHideButton = styled.div`
 `;
 
 const StyledToggleSection = styled.div<ToggleProps>`
-  display: flex;
-  flex-direction: column;
-  background: red;
+  display: grid;
+  grid-template-columns: 1fr 3fr 3fr;
   overflow: hidden;
-  /*   max-height: ${({ isShowMore }) => (isShowMore ? '300px' : '0px')}; */
-  transition: transform 0.3s;
-  transform-origin: top left;
-  transform: ${({ isShowMore }) => (isShowMore ? '' : 'scaleY(0)')};
+  max-height: ${({ isShowMore }) => (isShowMore ? '600px' : '0px')};
+  transition: all 0.5s;
+  margin-bottom: 16px;
+
+  h4 {
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+  }
+
+  span {
+    min-height: 20px;
+  }
+
+  div:not(:last-child) {
+    margin-right: 8px;
+  }
 `;
 
 interface ToggleProps {
@@ -93,6 +106,10 @@ const StyledArrowButton = styled.button<ToggleProps>`
   }
 `;
 
+const StyledContent = styled.div`
+  margin-bottom: 16px;
+`;
+
 const IconButton = ({ onClick }) => {
   return (
     <StyledIconBtn onClick={onClick} data-testid="project-form-edit-button">
@@ -102,8 +119,11 @@ const IconButton = ({ onClick }) => {
 };
 
 interface Props {
+  additionalComments?: string;
   dateSigned?: string;
+  dateRequested?: string;
   fundingAgreement?: any;
+  levelOfAmendment?: string;
   map?: any;
   onFormEdit?: any;
   isChangeRequest?: boolean;
@@ -114,10 +134,13 @@ interface Props {
 }
 
 const ReadOnlyView: React.FC<Props> = ({
+  additionalComments,
   dateSigned,
+  dateRequested,
   fundingAgreement,
   isChangeRequest,
   isFormEditMode,
+  levelOfAmendment,
   map,
   onFormEdit,
   sow,
@@ -125,6 +148,10 @@ const ReadOnlyView: React.FC<Props> = ({
   wirelessSow,
 }) => {
   const [showMore, setShowMore] = useState(false);
+
+  const formattedDateRequested =
+    dateRequested &&
+    DateTime.fromISO(dateRequested).toLocaleString(DateTime.DATE_MED);
 
   return (
     <div>
@@ -178,21 +205,24 @@ const ReadOnlyView: React.FC<Props> = ({
         </StyledHideButton>
       </StyledGrid>
       <StyledToggleSection isShowMore={showMore}>
-        togglesection
-        <StyledArrowButton
-          type="button"
-          onClick={() => setShowMore(!showMore)}
-          isShowMore={showMore}
-        >
-          View more <FontAwesomeIcon icon={faChevronRight} size="xs" />
-        </StyledArrowButton>
-        <StyledArrowButton
-          type="button"
-          onClick={() => setShowMore(!showMore)}
-          isShowMore={showMore}
-        >
-          View more <FontAwesomeIcon icon={faChevronRight} size="xs" />
-        </StyledArrowButton>
+        <div>
+          <div>
+            <h4>Requested/Initiated</h4>
+            <StyledContent>{formattedDateRequested}</StyledContent>
+          </div>
+          <div>
+            <h4>Level of amendment</h4>
+            <StyledContent>{levelOfAmendment}</StyledContent>
+          </div>
+        </div>
+        <div>
+          <h4>Change request form</h4>
+          {sow && <DownloadLink uuid={sow.uuid} fileName={sow.name} />}
+        </div>
+        <div>
+          <h4>Additional Comments if necessary to justify amendment impact</h4>
+          <span>{additionalComments}</span>
+        </div>
       </StyledToggleSection>
     </div>
   );
