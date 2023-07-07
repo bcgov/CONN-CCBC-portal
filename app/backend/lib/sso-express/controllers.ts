@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { BaseClient, generators, TokenSet } from 'openid-client';
 import { URL } from 'url';
+import * as Sentry from '@sentry/nextjs';
 import { getSessionRemainingTime, isAuthenticated } from './helpers';
 import { SSOExpressOptions } from './types';
 
@@ -59,7 +60,7 @@ export const tokenSetController =
         req.claims = tokenSet.claims();
       } catch (err) {
         console.error('sso-express could not refresh the access token.');
-        console.error(err);
+        Sentry.captureException({ token: tokenSet, error: err });
         delete req.session.tokenSet;
       }
     }
@@ -134,7 +135,7 @@ export const authCallbackController =
     delete req.session.oidcState;
     delete req.session.codeVerifier;
     if (state !== cachedState) {
-      console.error('Invalid OIDC state', state, cachedState);
+      Sentry.captureException({ state, cachedState });
       res.redirect(options.oidcConfig.baseUrl);
       return;
     }
@@ -159,7 +160,7 @@ export const authCallbackController =
       res.redirect(options.getLandingRoute(req));
     } catch (err) {
       console.error('sso-express could not get the access token.');
-      console.error(err);
+      Sentry.captureException(err);
       res.redirect(options.oidcConfig.baseUrl);
     }
   };
