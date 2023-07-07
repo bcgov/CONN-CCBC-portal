@@ -39,6 +39,7 @@ const defaultOptions: Partial<SSOExpressOptions> = {
     logout: '/logout',
     sessionIdleRemainingTime: '/session-idle-remaining-time',
     authCallback: '/auth-callback',
+    extendSession: '/extend-session',
   },
   authorizationUrlParams: {},
 };
@@ -57,8 +58,13 @@ async function ssoExpress(opts: SSOExpressOptions) {
   };
 
   const { clientId, clientSecret, baseUrl, oidcIssuer } = options.oidcConfig;
-  const { authCallback, login, logout, sessionIdleRemainingTime } =
-    options.routes;
+  const {
+    authCallback,
+    login,
+    logout,
+    sessionIdleRemainingTime,
+    extendSession,
+  } = options.routes;
 
   const issuer = await Issuer.discover(oidcIssuer);
   const { Client } = issuer;
@@ -73,9 +79,11 @@ async function ssoExpress(opts: SSOExpressOptions) {
   // Creating a router middleware on which we'll add all the specific routes and additional middlewares.
   const middleware = Router();
 
+  // also create a get logout to be used by the onSessionExpired callbaack
+  middleware.get(logout, logoutController(client, options));
   middleware.post(logout, logoutController(client, options));
 
-  middleware.use(tokenSetController(client));
+  middleware.use(tokenSetController(client, options, sessionIdleRemainingTime));
 
   // Session Idle Remaining Time
   // Returns, in seconds, the amount of time left in the session
@@ -87,6 +95,11 @@ async function ssoExpress(opts: SSOExpressOptions) {
 
   middleware.post(login, loginController(client, options));
   middleware.get(authCallback, authCallbackController(client, options));
+  // create a separate extend-session callback
+  middleware.get(
+    extendSession,
+    sessionIdleRemainingTimeController(client, options)
+  );
 
   return middleware;
 }

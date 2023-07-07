@@ -39,13 +39,18 @@ export const logoutController =
   };
 
 export const tokenSetController =
-  (client: BaseClient) =>
+  (
+    client: BaseClient,
+    _options: SSOExpressOptions,
+    idleRemainingRoute = '/session-idle-remaining-time'
+  ) =>
   async (req: Request, _res: Response, next: NextFunction) => {
     if (isAuthenticated(req)) {
+      const extend = req.url !== idleRemainingRoute;
       let tokenSet = new TokenSet(req.session.tokenSet);
       // Check if the access token is expired
       try {
-        if (tokenSet.expired()) {
+        if (extend && tokenSet.expired()) {
           // If so, use the refresh token to get a new access token
           tokenSet = await client.refresh(tokenSet);
           // even if the token set is not expired, this will still add the TokenSet instance methods

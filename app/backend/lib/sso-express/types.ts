@@ -36,6 +36,7 @@ export interface SSOExpressOptions {
     logout?: string;
     sessionIdleRemainingTime?: string;
     authCallback?: string;
+    extendSession?: string;
   };
   authorizationUrlParams?:
     | Record<string, string>
