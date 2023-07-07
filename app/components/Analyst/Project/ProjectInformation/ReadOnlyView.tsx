@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { DateTime } from 'luxon';
 import FileHeader from 'components/Analyst/Project/ProjectInformation/FileHeader';
 import DownloadLink from 'components/DownloadLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -88,6 +89,10 @@ const ReadOnlyView: React.FC<Props> = ({
   title,
   wirelessSow,
 }) => {
+  const formattedDateSigned = DateTime.fromISO(dateSigned).toLocaleString(
+    DateTime.DATE_MED
+  );
+
   return (
     <StyledGrid>
       <StyledH3>
@@ -122,7 +127,7 @@ const ReadOnlyView: React.FC<Props> = ({
           </DownloadLink>
         )}
       </StyledColumn>
-      <div>{dateSigned}</div>
+      <div>{formattedDateSigned}</div>
       <StyledHideButton>
         <IconButton onClick={() => setIsFormEditMode(true)} />
       </StyledHideButton>
