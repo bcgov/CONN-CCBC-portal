@@ -189,12 +189,14 @@ const ProjectInformationForm = ({ application }) => {
             setShowToast(true);
           },
           updater: (store) => {
+            // Don't need to update store if we are creating a new change request
+            if (!currentChangeRequestData?.id) return;
             const relayConnectionId = changeRequestDataByApplicationId.__id;
             // Get the connection from the store
+
             const connection = store.get(relayConnectionId);
 
             store.delete(currentChangeRequestData.id);
-
             // Remove the old announcement from the connection
             ConnectionHandler.deleteNode(
               connection,
@@ -209,6 +211,7 @@ const ProjectInformationForm = ({ application }) => {
           },
           onCompleted: () => {
             setIsFormEditMode(false);
+            setFormData({});
 
             // May need to change when the toast is shown when we add validation
             setShowToast(true);
@@ -256,6 +259,7 @@ const ProjectInformationForm = ({ application }) => {
               isFormEditMode={isFormEditMode}
               onClick={() => {
                 setIsChangeRequest(true);
+                setFormData({});
                 setShowToast(false);
                 setIsFormEditMode(true);
               }}
