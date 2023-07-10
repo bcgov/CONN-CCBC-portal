@@ -71,7 +71,7 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
 
   const filename = Object.keys(files)[0];
   const uploaded = files[filename];
-  if (!!uploaded === false) {
+  if (!uploaded) {
     return res.status(200).end();
   }
   const file = fs.readFileSync(uploaded.filepath, 'utf8');

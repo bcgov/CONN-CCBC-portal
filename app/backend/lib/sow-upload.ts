@@ -41,7 +41,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
 
   const filename = Object.keys(files)[0];
   const uploaded = files[filename];
-  if (!!uploaded === false) {
+  if (!uploaded) {
     return res.status(200).end();
   }
   const buf = fs.readFileSync(uploaded.filepath);
