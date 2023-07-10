@@ -968,7 +968,6 @@ describe('The Project page', () => {
     expect(hasFundingAggreementBeenSigned).toBeChecked();
 
     const saveButton = screen.getByText('Save & Import Data');
-    console.log(saveButton);
 
     expect(saveButton).not.toBeDisabled();
 
@@ -1019,7 +1018,6 @@ describe('The Project page', () => {
     expect(hasFundingAggreementBeenSigned).toBeChecked();
 
     const saveButton = screen.getByText('Save & Import Data');
-    console.log(saveButton);
 
     expect(saveButton).not.toBeDisabled();
 
