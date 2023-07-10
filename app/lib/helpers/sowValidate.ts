@@ -20,24 +20,27 @@ function sowValidateGenerator(
     validateOnly = true
   ) {
     const sowFileFormData = new FormData();
-    sowFileFormData.append('file', file);
-    if (setSowFile) setSowFile(file);
-    if (setSowValidationErrors) setSowValidationErrors([]);
-    const response = await fetch(
-      `/api/analyst/sow/${rowId}/${ccbcNumber}/${amendmentNumber}?validate=${validateOnly}`,
-      {
-        method: 'POST',
-        body: sowFileFormData,
-      }
-    );
+    if (file) {
+      sowFileFormData.append('file', file);
+      if (setSowFile) setSowFile(file);
+      if (setSowValidationErrors) setSowValidationErrors([]);
+      const response = await fetch(
+        `/api/analyst/sow/${rowId}/${ccbcNumber}/${amendmentNumber}?validate=${validateOnly}`,
+        {
+          method: 'POST',
+          body: sowFileFormData,
+        }
+      );
 
-    const sowErrorList = await response.json();
-    if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
-      if (setSowValidationErrors) setSowValidationErrors(sowErrorList);
-    } else if (setSowValidationErrors) {
-      setSowValidationErrors([]);
+      const sowErrorList = await response.json();
+      if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
+        if (setSowValidationErrors) setSowValidationErrors(sowErrorList);
+      } else if (setSowValidationErrors) {
+        setSowValidationErrors([]);
+      }
+      return response;
     }
-    return response;
+    if (setSowValidationErrors) setSowValidationErrors([]);
   };
 }
 
