@@ -308,6 +308,7 @@ const ProjectInformationForm = ({ application }) => {
           jsonData,
         } = changeRequest.node;
 
+        // Need to pass in correct values once the change request metadata ticket is complete
         return (
           <ReadOnlyView
             key={changeRequestId}
