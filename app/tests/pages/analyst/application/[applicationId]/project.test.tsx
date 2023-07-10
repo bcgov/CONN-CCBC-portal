@@ -992,5 +992,68 @@ describe('The Project page', () => {
         },
       }
     );
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createProjectInformation: {
+            projectInformationData: { id: '1', jsonData: {}, rowId: 1 },
+          },
+        },
+      });
+    });
+  });
+
+  it('should stop showing a spinner on error', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    // Click on the edit button to open the form
+    const editButton = screen.getAllByTestId('project-form-edit-button');
+    await act(async () => {
+      fireEvent.click(editButton[1]);
+    });
+
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
+
+    expect(hasFundingAggreementBeenSigned).toBeChecked();
+
+    const saveButton = screen.getByText('Save & Import Data');
+    console.log(saveButton);
+
+    expect(saveButton).not.toBeDisabled();
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+      jest.useFakeTimers();
+    });
+    expect(
+      screen.getByText('Importing Statement of Work. Please wait.')
+    ).toBeInTheDocument();
+    expect(saveButton).toBeDisabled();
+
+    jest.useRealTimers();
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'createProjectInformationMutation',
+      {
+        input: {
+          _applicationId: 1,
+          _jsonData: expect.anything(),
+        },
+      }
+    );
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          nonExistingField: {
+            projectInformationData: { id: '1', jsonData: {}, rowId: 1 },
+          },
+        },
+      });
+    });
+
+    expect(saveButton).not.toBeDisabled();
   });
 });
