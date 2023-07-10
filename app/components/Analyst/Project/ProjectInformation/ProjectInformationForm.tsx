@@ -114,7 +114,7 @@ const ProjectInformationForm = ({ application }) => {
         },
       });
     }
-    validateSow(sowFile, 0, false).then(() => {
+    validateSow(sowFile, 0, false).then((response) => {
       createProjectInformation({
         variables: {
           input: { _applicationId: rowId, _jsonData: formData },
@@ -123,7 +123,9 @@ const ProjectInformationForm = ({ application }) => {
           setIsFormEditMode(false);
 
           // May need to change when the toast is shown when we add validation
-          setShowToast(true);
+          if (response.status === 200) {
+            setShowToast(true);
+          }
         },
         updater: (store, data) => {
           store
