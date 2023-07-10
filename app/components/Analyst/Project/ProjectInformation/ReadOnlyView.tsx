@@ -15,7 +15,7 @@ import {
 const StyledGrid = styled.div`
   ${(props) => props.theme.breakpoint.mediumUp} {
     display: grid;
-    grid-template-columns: 20% 40% 15% 15% 8% 4%;
+    grid-template-columns: 18% 42% 15% 15% 8% 4%;
   }
 
   margin-bottom: 16px;
@@ -69,7 +69,7 @@ const StyledHideButton = styled.div`
 
 const StyledToggleSection = styled.div<ToggleProps>`
   display: grid;
-  grid-template-columns: 1fr 3fr 3fr;
+  grid-template-columns: 18% 42% 40%;
   overflow: hidden;
   max-height: ${({ isShowMore }) => (isShowMore ? '600px' : '0px')};
   transition: all 0.5s;
@@ -89,6 +89,17 @@ const StyledToggleSection = styled.div<ToggleProps>`
   div:not(:last-child) {
     margin-right: 8px;
   }
+`;
+
+const StyledDescription = styled.div`
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: calc(100%);
+  height: 60px;
+  padding-right: 8px;
 `;
 
 interface ToggleProps {
@@ -122,6 +133,7 @@ interface Props {
   additionalComments?: string;
   date?: string;
   dateRequested?: string;
+  descriptionOfChange?: string;
   fundingAgreement?: any;
   levelOfAmendment?: string;
   map?: any;
@@ -137,6 +149,7 @@ const ReadOnlyView: React.FC<Props> = ({
   additionalComments,
   date,
   dateRequested,
+  descriptionOfChange,
   fundingAgreement,
   isChangeRequest,
   isFormEditMode,
@@ -174,7 +187,9 @@ const ReadOnlyView: React.FC<Props> = ({
             </StyledArrowButton>
           )}
         </div>
-        <div />
+        <StyledDescription title={descriptionOfChange}>
+          {descriptionOfChange}
+        </StyledDescription>
         <StyledColumn>
           {fundingAgreement && (
             <DownloadLink
@@ -211,11 +226,11 @@ const ReadOnlyView: React.FC<Props> = ({
         <div>
           <div>
             <h4>Requested/Initiated</h4>
-            <StyledContent>{formattedDateRequested}</StyledContent>
+            <StyledContent>{formattedDateRequested || '‎'}</StyledContent>
           </div>
           <div>
             <h4>Level of amendment</h4>
-            <StyledContent>{levelOfAmendment}</StyledContent>
+            <StyledContent>{levelOfAmendment || '‎'}</StyledContent>
           </div>
         </div>
         <div>

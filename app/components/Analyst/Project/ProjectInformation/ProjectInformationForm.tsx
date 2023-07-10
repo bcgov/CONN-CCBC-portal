@@ -331,6 +331,7 @@ const ProjectInformationForm = ({ application }) => {
           title="Original"
           onFormEdit={() => {
             setIsChangeRequest(false);
+            setFormData(projectInformationData);
             setIsFormEditMode(true);
           }}
           isFormEditMode={isFormEditMode}
