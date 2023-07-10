@@ -138,7 +138,7 @@ interface Props {
   schema: JSONSchema7;
   setFormData?: any;
   setIsFormEditMode: any;
-  submitting: boolean;
+  submitting?: boolean;
   theme?: any;
   title: string;
   uiSchema?: any;
@@ -164,7 +164,7 @@ const ProjectForm: React.FC<Props> = ({
   schema,
   setFormData = () => {},
   setIsFormEditMode,
-  submitting,
+  submitting = false,
   theme,
   title,
   uiSchema,
