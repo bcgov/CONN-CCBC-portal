@@ -128,6 +128,24 @@ const mockJsonDataQueryPayload = {
           jsonData: {
             main: {
               upload: {
+                finalizedMapUpload: [
+                  {
+                    id: 10,
+                    name: 'test.pdf',
+                    size: 0,
+                    type: 'application/pdf',
+                    uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
+                  },
+                ],
+                sowWirelessUpload: [
+                  {
+                    id: 10,
+                    name: 'test.pdf',
+                    size: 0,
+                    type: 'application/pdf',
+                    uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
+                  },
+                ],
                 statementOfWorkUpload: [
                   {
                     id: 11,
@@ -822,23 +840,15 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText('Funding agreement')).toBeInTheDocument();
+    expect(screen.getByText('Funding Agreement')).toBeInTheDocument();
 
-    expect(screen.getByText('test.pdf')).toBeInTheDocument();
+    expect(screen.getByText('SoW')).toBeInTheDocument();
 
-    expect(screen.getByText('Statement of work table')).toBeInTheDocument();
+    expect(screen.getByText('Map')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('CCBC-020118 - Statement of Work Tables - 20230517.xlsx')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Wireless SoW')).toBeInTheDocument();
 
-    expect(screen.getByText('Finalized map')).toBeInTheDocument();
-
-    expect(
-      screen.getByText('Date funding agreement signed by Province')
-    ).toBeInTheDocument();
-
-    expect(screen.getByText('2023-05-10')).toBeInTheDocument();
+    expect(screen.getByText('May 10, 2023')).toBeInTheDocument();
 
     expect(
       screen.getByText('View project data in Metabase')

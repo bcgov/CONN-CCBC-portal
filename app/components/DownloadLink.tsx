@@ -29,7 +29,13 @@ const handleDownload = async (uuid, fileName, setQuarantinedLink) => {
     });
 };
 
-const DownloadLink = ({ uuid, fileName }) => {
+interface Props {
+  children?: any;
+  uuid: string;
+  fileName: string;
+}
+
+const DownloadLink: React.FC<Props> = ({ children, uuid, fileName }) => {
   const [quarantinedLink, setQuarantinedLink] = useState(false);
   return quarantinedLink ? (
     <>`${fileName}`</>
@@ -43,7 +49,7 @@ const DownloadLink = ({ uuid, fileName }) => {
         });
       }}
     >
-      {`${fileName}`}
+      {children || fileName}
     </StyledLink>
   );
 };

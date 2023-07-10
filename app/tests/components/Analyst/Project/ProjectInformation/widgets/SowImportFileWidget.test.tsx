@@ -165,7 +165,7 @@ describe('The SowImportFileWidget', () => {
     componentTestingHelper.loadQuery(mockFormDataPayload);
     componentTestingHelper.renderComponent();
 
-    const editButton = screen.getByTestId('project-form-edit-button');
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
 
     await act(async () => {
       fireEvent.click(editButton);
