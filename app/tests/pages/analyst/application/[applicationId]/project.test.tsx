@@ -953,5 +953,44 @@ describe('The Project page', () => {
         },
       },
     });
+  it('should show a spinner when the sow is being imported', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    // Click on the edit button to open the form
+    const editButton = screen.getAllByTestId('project-form-edit-button');
+    await act(async () => {
+      fireEvent.click(editButton[1]);
+    });
+
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
+
+    expect(hasFundingAggreementBeenSigned).toBeChecked();
+
+    const saveButton = screen.getByText('Save & Import Data');
+    console.log(saveButton);
+
+    expect(saveButton).not.toBeDisabled();
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+      jest.useFakeTimers();
+    });
+    expect(
+      screen.getByText('Importing Statement of Work. Please wait.')
+    ).toBeInTheDocument();
+    expect(saveButton).toBeDisabled();
+
+    jest.useRealTimers();
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'createProjectInformationMutation',
+      {
+        input: {
+          _applicationId: 1,
+          _jsonData: expect.anything(),
+        },
+      }
+    );
   });
 });
