@@ -874,4 +874,84 @@ describe('The Project page', () => {
       }
     );
   });
+
+  it('calls the mutation on Change Request save', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const addButton = screen.getByText('Add change request').closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
+      input: {
+        attachment: {
+          file,
+          fileName: 'file.xls',
+          fileSize: '1 Bytes',
+          fileType: 'application/vnd.ms-excel',
+          applicationId: 1,
+        },
+      },
+    });
+
+    expect(screen.getByLabelText('loading')).toBeInTheDocument();
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText('Replace')).toBeInTheDocument();
+    expect(screen.getByText('file.xls')).toBeInTheDocument();
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save & Import Data',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createChangeRequestMutation', {
+      connections: [
+        'client:<Application-mock-id-1>:__ChangeRequestForm_changeRequestDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"AMENDMENT_NUMBER_DESC")',
+      ],
+      input: {
+        _applicationId: 1,
+        _amendmentNumber: 2,
+        _jsonData: {
+          statementOfWorkUpload: [
+            {
+              id: 1,
+              uuid: 'string',
+              name: 'file.xls',
+              size: 1,
+              type: 'application/vnd.ms-excel',
+            },
+          ],
+        },
+      },
+    });
+  });
 });
