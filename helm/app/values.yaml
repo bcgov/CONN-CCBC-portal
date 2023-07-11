@@ -82,6 +82,8 @@ db:
   postMigrationCommand: ~
 
 metabase:
+  embedSecret: '' # The value must be passed in via the deploy script
+  siteUrl: '' # The value must be passed in via the deploy script
   instanceName: ccbc-metabase
   namespace: '' # The value must be passed in via the deploy script
   prodNamespace: '' # The value must be passed in via the deploy script
