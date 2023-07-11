@@ -22,6 +22,12 @@ const mockQueryPayload = {
 
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({}),
+  })
+) as jest.Mock;
+
 const pageTestingHelper = new PageTestingHelper<gisUploadedJsonQuery>({
   pageComponent: GisTab,
   compiledQuery: compiledGisUploadedJsonQuery,
@@ -218,10 +224,15 @@ describe('The Gis upload admin page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const linkToMetabase = screen.getByText('Visit Metabase to view a dashboard of GIS analysis');
-    
+    const linkToMetabase = screen.getByText(
+      'Visit Metabase to view a dashboard of GIS analysis'
+    );
+
     expect(linkToMetabase).toBeVisible();
-    expect(linkToMetabase).toHaveAttribute('href', 'https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses');
+    expect(linkToMetabase).toHaveAttribute(
+      'href',
+      'https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses'
+    );
   });
 
   afterEach(() => {
