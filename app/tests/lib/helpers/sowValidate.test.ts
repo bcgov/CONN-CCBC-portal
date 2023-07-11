@@ -44,7 +44,7 @@ describe('sowValidateGenerator', () => {
 
   test('should call setSowValidationErrors with the received error list', async () => {
     const mockFile = new File(['test'], 'test.txt');
-    const mockErrorList = [{ level: 'summary', error: 'Error 1' },{ level: 'tab', error: 'Error 2'}];
+    const mockErrorList = [{ level: 'summary', error: 'Error 1', filename:'test.txt' },{ level: 'tab', error: 'Error 2', filename:'test.txt'}];
     const mockCheckCallsValidationResponse = {
       json: jest.fn().mockResolvedValue(mockErrorList),
     };

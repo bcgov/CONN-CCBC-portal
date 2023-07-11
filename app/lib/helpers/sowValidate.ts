@@ -34,8 +34,8 @@ function sowValidateGenerator(
 
       const sowErrorList = await response.json();
       if (Array.isArray(sowErrorList) && sowErrorList.length > 0) {
-        sowErrorList.forEach( x => { x.filename = file.name} );
-        if (setSowValidationErrors) setSowValidationErrors(sowErrorList);
+        const errorList = sowErrorList.map( (item) =>{ return {...item, filename:file.name};})
+        if (setSowValidationErrors) setSowValidationErrors(errorList);
       } else if (setSowValidationErrors) {
         setSowValidationErrors([]);
       }
