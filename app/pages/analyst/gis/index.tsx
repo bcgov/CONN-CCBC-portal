@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
@@ -26,6 +26,7 @@ const getUploadedJsonQuery = graphql`
 
 const StyledContainer = styled.div`
   width: 100%;
+  height: 100%;
 `;
 const StyledError = styled('div')`
   color: #e71f1f;
@@ -47,13 +48,36 @@ const StyledCard = styled.div`
   padding: 8px 16px;
   width: 600px;
   border: 1px solid #d6d6d6;
-  box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   cursor: pointer;
   margin-top: 1em;
 `;
 
 const acceptedFileTypes = ['.json'];
+
+const MetabaseEmbed = () => {
+  const [metabaseUrl, setMetabaseUrl] = useState<string>('');
+  useEffect(() => {
+    const url = `/api/metabase-embed-url/87`;
+    fetch(url).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          setMetabaseUrl(data.url);
+          console.log(data.url);
+        });
+      }
+    });
+  }, []);
+
+  return (
+    <iframe
+      src={metabaseUrl}
+      title="Metabase"
+      style={{ border: 'none', width: '100%', height: '100%' }}
+    />
+  );
+};
 
 const UploadError = ({ error }) => {
   if (error === 'uploadFailed') {
@@ -141,9 +165,9 @@ const GisTab = () => {
   return (
     <div>
       <h2>GIS Input</h2>
-      <MetabaseLink 
-        href='https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses' 
-        text='Visit Metabase to view a dashboard of GIS analysis'
+      <MetabaseLink
+        href="https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses"
+        text="Visit Metabase to view a dashboard of GIS analysis"
         width={600}
       />
       <StyledCard>
@@ -193,12 +217,12 @@ const UploadJSON = ({
 }: RelayProps<Record<string, unknown>, gisUploadedJsonQuery>) => {
   const query = usePreloadedQuery(getUploadedJsonQuery, preloadedQuery);
   const { session } = query;
-
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
         <DashboardTabs session={session} />
         <GisTab />
+        <MetabaseEmbed />
       </StyledContainer>
     </Layout>
   );

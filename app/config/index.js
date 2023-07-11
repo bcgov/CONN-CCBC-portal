@@ -212,6 +212,18 @@ const config = convict({
     default: true,
     env: 'CHECK_TAGS',
   },
+  METABASE_EMBED_SECRET: {
+    doc: 'Metabase embed secret',
+    format: String,
+    default: '',
+    env: 'METABASE_EMBED_SECRET',
+  },
+  METABASE_SITE_URL: {
+    doc: 'Metabase site url',
+    format: String,
+    default: '',
+    env: 'METABASE_SITE_URL',
+  },
 });
 
 // Load environment dependent configuration
