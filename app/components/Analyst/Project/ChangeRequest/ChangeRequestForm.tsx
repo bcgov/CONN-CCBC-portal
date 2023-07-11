@@ -76,32 +76,28 @@ const ChangeRequestForm = ({ application }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsFormSubmitting(true);
-    validateSow(sowFile, newChangeRequestNumber, false)
-      .then(() => {
-        createChangeRequest({
-          variables: {
-            connections: [connectionId],
-            input: {
-              _applicationId: rowId,
-              _changeRequestNumber: newChangeRequestNumber,
-              _jsonData: formData,
-            },
+    validateSow(sowFile, newChangeRequestNumber, false).then(() => {
+      createChangeRequest({
+        variables: {
+          connections: [connectionId],
+          input: {
+            _applicationId: rowId,
+            _changeRequestNumber: newChangeRequestNumber,
+            _jsonData: formData,
           },
-          onCompleted: () => {
-            setIsFormEditMode(false);
-            setIsFormSubmitting(false);
-            setFormData({});
-            // May need to change when the toast is shown when we add validation
-            setShowToast(true);
-          },
-          onError: () => {
-            setIsFormSubmitting(false);
-          },
-        });
-      })
-      .catch(() => {
-        setIsFormSubmitting(false);
+        },
+        onCompleted: () => {
+          setIsFormEditMode(false);
+          setIsFormSubmitting(false);
+          setFormData({});
+          // May need to change when the toast is shown when we add validation
+          setShowToast(true);
+        },
+        onError: () => {
+          setIsFormSubmitting(false);
+        },
       });
+    });
   };
 
   const handleResetFormData = () => {
