@@ -145,6 +145,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
 }) => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
+  const errorFree = !error;
   const isSecondary = buttonVariant === 'secondary';
 
   const handleClick = () => {
@@ -152,8 +153,11 @@ const FileComponent: React.FC<FileComponentProps> = ({
   };
 
   const buttonLabel = () => {
-    if (isFiles && !allowMultipleFiles) {
+    if (isFiles && errorFree && !allowMultipleFiles) {
       return 'Replace';
+    }
+    if (isFiles && !errorFree && !allowMultipleFiles) {
+      return 'Upload';
     }
     if (isFiles && allowMultipleFiles) {
       return 'Add file';
@@ -172,7 +176,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
     >
       <StyledDetails>
         <StyledH4>{label}</StyledH4>
-        {isFiles &&
+        {isFiles && errorFree &&
           value.map((file: File) => (
             <StyledFileDiv key={file.uuid}>
               <StyledLink
