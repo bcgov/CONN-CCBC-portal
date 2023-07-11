@@ -60,6 +60,11 @@ inputs:
     description: 'Deploy the application in load test mode'
     required: false
     default: false
+  metabase_site_url:
+    description: 'Metabase site url'
+  metabase_embed_secret:
+    description: 'Metabase embed secret key'
+    required: true
 
 runs:
   using: composite
@@ -79,6 +84,8 @@ runs:
         aws_s3_secret_key: ${{ inputs.aws_s3_secret_key }}
         aws_role_arn: ${{ inputs.aws_role_arn }}
         aws_clam_s3_bucket: ${{ inputs.aws_clam_s3_bucket }}
+        metabase_site_url: ${{ inputs.metabase_site_url }}
+        metabase_embed_secret: ${{ inputs.metabase_embed_secret }}
 
         insecure_skip_tls_verify: true
     - run: |
@@ -87,6 +94,8 @@ runs:
           --set app.namespace=${{ inputs.openshift_app_namespace }} \
           --set metabase.namespace=${{ inputs.openshift_metabase_namespace }} \
           --set metabase.prodNamespace=${{ inputs.openshift_metabase_prod_namespace }} \
+          --set metabase.siteUrl=${{ inputs.metabase_site_url }} \
+          --set metabase.embedSecret=${{ inputs.metabase_embed_secret }} \
           --set image.app.tag=${{ inputs.tag }} \
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
