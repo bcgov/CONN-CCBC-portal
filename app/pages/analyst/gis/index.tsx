@@ -54,6 +54,13 @@ const StyledCard = styled.div`
   margin-top: 1em;
 `;
 
+const StyledIframe = styled.iframe`
+  width: 100%;
+  height: 100%;
+  border: none;
+  margin-top: 16px;
+`;
+
 const acceptedFileTypes = ['.json'];
 
 const MetabaseEmbed = () => {
@@ -64,19 +71,12 @@ const MetabaseEmbed = () => {
       if (response.ok) {
         response.json().then((data) => {
           setMetabaseUrl(data.url);
-          console.log(data.url);
         });
       }
     });
   }, []);
 
-  return (
-    <iframe
-      src={metabaseUrl}
-      title="Metabase"
-      style={{ border: 'none', width: '100%', height: '100%' }}
-    />
-  );
+  return <StyledIframe src={metabaseUrl} title="Metabase" />;
 };
 
 const UploadError = ({ error }) => {
