@@ -107,6 +107,7 @@ const Announcement = ({
   setAnnouncementData,
   setFormData,
   setIsFormEditMode,
+  currentCCBCNumber,
 }) => {
   const {
     jsonData: { announcementTitle, announcementDate, announcementUrl },
@@ -143,7 +144,7 @@ const Announcement = ({
         </div>
         <div>
           {announcement.jsonData.otherProjectsInAnnouncement?.map((project) => {
-            return (
+            return project.ccbcNumber === currentCCBCNumber ? null : (
               <div key={project.id}>
                 <StyledLink
                   href={`/analyst/application/${project.rowId}`}

@@ -144,6 +144,7 @@ const ViewAnnouncements: React.FC<Props> = ({
               setAnnouncementData={setAnnouncementData}
               setFormData={setFormData}
               setIsFormEditMode={setIsFormEditMode}
+              currentCCBCNumber={ccbcNumber}
             />
           );
         })
@@ -163,6 +164,7 @@ const ViewAnnouncements: React.FC<Props> = ({
               setAnnouncementData={setAnnouncementData}
               setFormData={setFormData}
               setIsFormEditMode={setIsFormEditMode}
+              currentCCBCNumber={ccbcNumber}
             />
           );
         })
