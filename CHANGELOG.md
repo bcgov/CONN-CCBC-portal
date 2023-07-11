@@ -1,3 +1,21 @@
+# [1.83.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.82.0...v1.83.0) (2023-07-11)
+
+### Bug Fixes
+
+- dayjs typerror ([1590c38](https://github.com/bcgov/CONN-CCBC-portal/commit/1590c3832b132d2aa3d4e30dad3f8434dfac7418))
+- format date correctly in project information read only view ([8e5db1a](https://github.com/bcgov/CONN-CCBC-portal/commit/8e5db1a3726d89dd668f3d6a9f4d8d422b8a7b74))
+- project information read only view alignment ([224c592](https://github.com/bcgov/CONN-CCBC-portal/commit/224c59230dd4c073c3b9f887032eae4431dd79ec))
+- redundant else ([a1e57fd](https://github.com/bcgov/CONN-CCBC-portal/commit/a1e57fdb9fb07434db4a58e8ffce5cd1b45dab9d))
+- success toast does not appear if there are import errors ([1ec05dc](https://github.com/bcgov/CONN-CCBC-portal/commit/1ec05dccc01f7e60d84b38ef76fc70bd030b4bba))
+- update based on PR comment ([f758b7b](https://github.com/bcgov/CONN-CCBC-portal/commit/f758b7b4ef56b782af72340a867f3574bb3929be))
+
+### Features
+
+- add breakpoint for project information read only update ([d8e6acc](https://github.com/bcgov/CONN-CCBC-portal/commit/d8e6acc4ce4416a463f772592052946fbf66c947))
+- failsafe to prevent filepath error ([b1c150a](https://github.com/bcgov/CONN-CCBC-portal/commit/b1c150a0caf2ea2f82fbc0bbf5855c9436d3ec96))
+- improve project information read only css ([f2d485d](https://github.com/bcgov/CONN-CCBC-portal/commit/f2d485d76bf407e352727da945911ed2605122e7))
+- make text boxes resizable in both directions ([3cab216](https://github.com/bcgov/CONN-CCBC-portal/commit/3cab2168fd1cb5f1d59e8a8b230a999497ba58b8))
+
 # [1.82.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.81.1...v1.82.0) (2023-07-05)
 
 ### Bug Fixes
