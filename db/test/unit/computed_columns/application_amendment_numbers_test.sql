@@ -1,6 +1,10 @@
 begin;
 
+<<<<<<< HEAD
 select plan(3);
+=======
+select plan(2);
+>>>>>>> 29ffc2e1 (feat: add application_amendment_numbers computed column)
 
 truncate table
   ccbc_public.application,
@@ -38,6 +42,7 @@ overriding system value
 values
 (2,1,'received',1,'2022-10-18 10:16:45.319172-07');
 
+<<<<<<< HEAD
 -- set role to analyst
 set role ccbc_analyst;
 
@@ -52,6 +57,10 @@ select is (
 );
 
 -- create some change requests
+=======
+-- set role to analyst and create some change requests
+set role ccbc_analyst;
+>>>>>>> 29ffc2e1 (feat: add application_amendment_numbers computed column)
 select ccbc_public.create_change_request(1::int , 1::int, '{}'::jsonb);
 select ccbc_public.create_change_request(1::int , 2::int, '{}'::jsonb);
 select ccbc_public.create_change_request(1::int , 6::int, '{}'::jsonb);
