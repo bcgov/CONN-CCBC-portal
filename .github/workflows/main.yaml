@@ -4,7 +4,7 @@ name: main
 on:
   workflow_call: # be sure to use 'secrets: inherit' in the caller
   push:
-     branches: [ "main" ]
+    branches: ['main']
   pull_request:
     branches: [main]
 
@@ -116,3 +116,5 @@ jobs:
       CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
       CERTBOT_SERVER: ${{ secrets.CERTBOT_SERVER }}
       AWS_CLAM_S3_BUCKET: ${{ secrets.AWS_CLAM_S3_BUCKET }}
+      METABASE_EMBED_SECRET: ${{ secrets.METABASE_EMBED_SECRET }}
+      METABASE_SITE_URL: ${{ secrets.METABASE_SITE_URL }}

@@ -19,6 +19,8 @@ on:
       AWS_ROLE_ARN: { required: true }
       CERTBOT_EMAIL: { required: true }
       CERTBOT_SERVER: { required: true }
+      METABASE_SITE_URL: { required: true }
+      METABASE_EMBED_SECRET: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -67,6 +69,8 @@ jobs:
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
           certbot_email: ${{ secrets.CERTBOT_EMAIL }}
           certbot_server: ${{ secrets.CERTBOT_SERVER }}
+          metabase_site_url: ${{ secrets.METABASE_SITE_URL }}
+          metabase_embed_secret: ${{ secrets.METABASE_EMBED_SECRET }}
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:
@@ -112,6 +116,8 @@ jobs:
           aws_clam_s3_bucket: ${{ secrets.AWS_CLAM_S3_BUCKET }}
           certbot_email: ${{ secrets.CERTBOT_EMAIL }}
           certbot_server: ${{ secrets.CERTBOT_SERVER }}
+          metabase_site_url: ${{ secrets.METABASE_SITE_URL }}
+          metabase_embed_secret: ${{ secrets.METABASE_EMBED_SECRET }}
           environment: test
 
   deploy-to-openshift-production:
@@ -148,6 +154,8 @@ jobs:
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
           certbot_email: ${{ secrets.CERTBOT_EMAIL }}
           certbot_server: ${{ secrets.CERTBOT_SERVER }}
+          metabase_site_url: ${{ secrets.METABASE_SITE_URL }}
+          metabase_embed_secret: ${{ secrets.METABASE_EMBED_SECRET }}
           environment: prod
 
   create-release:

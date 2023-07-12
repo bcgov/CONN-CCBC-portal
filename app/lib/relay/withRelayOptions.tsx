@@ -50,6 +50,7 @@ const withRelayOptions: WiredOptions<any> = {
   variablesFromContext: (ctx: NextPageContext | NextRouter) => {
     const filterArgs = safeJsonParse(ctx.query.filterArgs as string);
     const pageArgs = safeJsonParse(ctx.query.pageArgs as string);
+
     return {
       ...ctx.query,
       ...filterArgs,

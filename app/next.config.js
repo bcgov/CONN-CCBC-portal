@@ -14,6 +14,19 @@ const moduleExports = {
       },
     ];
   },
+  async headers() {
+    return [
+      {
+        source: '/analyst/:path*',
+        headers: [
+          {
+            key: 'Cross-Origin-Embedder-Policy',
+            value: '',
+          },
+        ],
+      },
+    ];
+  },
   reactStrictMode: true,
   webpack: (config, { isServer }) => {
     const newConfig = { ...config };
