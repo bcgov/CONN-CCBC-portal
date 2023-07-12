@@ -1,3 +1,16 @@
+# [1.84.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.83.0...v1.84.0) (2023-07-12)
+
+### Bug Fixes
+
+- do not show self project number on list ([034771d](https://github.com/bcgov/CONN-CCBC-portal/commit/034771df46817b1b64ff4d8ce41548ef6c7cb235))
+- radio focus border and label spacing ([7f107fa](https://github.com/bcgov/CONN-CCBC-portal/commit/7f107faa33108a23ffb795a9f0f6985dc28a2e97))
+
+### Features
+
+- add metabase-embed-url api route ([ee3c6c8](https://github.com/bcgov/CONN-CCBC-portal/commit/ee3c6c823dab56b16800338db052909fdd1fced0))
+- metabase embed style ([196f448](https://github.com/bcgov/CONN-CCBC-portal/commit/196f4489764f9fde64df45fdb482145a0a15918b))
+- move metabase embed to reusable component and use iframe resizer ([11910bb](https://github.com/bcgov/CONN-CCBC-portal/commit/11910bbdaad943c8351648b0c9adb79eb508437b))
+
 # [1.83.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.82.0...v1.83.0) (2023-07-11)
 
 ### Bug Fixes
