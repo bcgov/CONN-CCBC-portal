@@ -154,11 +154,14 @@ const ProjectInformationForm = ({ application }) => {
     e.preventDefault();
     hiddenSubmitRef.current.click();
 
+    const changeRequestAmendmentNumber =
+      currentChangeRequestData?.amendmentNumber || newAmendmentNumber;
+
     if (hasFormErrors && formData.hasFundingAgreementBeenSigned) {
       return;
     }
 
-    if (!formData.hasFundingAgreementBeenSigned) {
+    if (!formData.hasFundingAgreementBeenSigned && !isChangeRequest) {
       // archive by application id
       archiveApplicationSow({
         variables: {
@@ -166,15 +169,18 @@ const ProjectInformationForm = ({ application }) => {
         },
       });
     }
-    validateSow(sowFile, 0, false).then((response) => {
+    validateSow(
+      sowFile,
+      isChangeRequest ? changeRequestAmendmentNumber : 0,
+      false
+    ).then((response) => {
       if (isChangeRequest) {
         createChangeRequest({
           variables: {
             connections: [connectionId],
             input: {
               _applicationId: rowId,
-              _amendmentNumber:
-                currentChangeRequestData?.amendmentNumber || newAmendmentNumber,
+              _amendmentNumber: changeRequestAmendmentNumber,
               _jsonData: formData,
             },
           },
