@@ -64,7 +64,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
   - name: PGHOST
     valueFrom:
       secretKeyRef:
-        key: host
+        key: pgbouncer-host
         name: ccbc-pguser-ccbc
 {{- end }}
 
