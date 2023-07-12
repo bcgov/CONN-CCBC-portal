@@ -1,21 +1,18 @@
 import { useEffect, useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import { Div, Error, Input } from 'lib/theme/sharedWidgetStyles';
-import validator from 'validator';
 
-const UrlWidget: React.FC<WidgetProps> = (props) => {
-  const {
-    id,
-    placeholder,
-    disabled,
-    rawErrors,
-    onChange,
-    label,
-    value,
-    required,
-  } = props;
-
-  const [urlError, setUrlError] = useState(false);
+const AmendmentNumberWidget: React.FC<WidgetProps> = ({
+  id,
+  placeholder,
+  disabled,
+  formContext,
+  rawErrors,
+  onChange,
+  label,
+  value,
+  required,
+}) => {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
@@ -25,21 +22,20 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
   }, [rawErrors]);
 
   const handleChange = (e) => {
-    if (validator.isURL(e.target.value)) {
-      setUrlError(false);
+    const { amendmentNumbers } = formContext;
+    if (amendmentNumbers.includes(e.target.value)) {
       setIsError(false);
     } else {
-      setUrlError(true);
       setIsError(true);
     }
-    onChange(e.target.value);
+    onChange(e.target.value.replace(/\D/g, ''));
   };
 
   return (
-    <Div className="url-widget-wrapper">
+    <Div>
       <Input
-        type="url"
-        isError={isError || urlError}
+        type="text"
+        isError={isError}
         id={id}
         disabled={disabled}
         data-testid={id}
@@ -50,13 +46,11 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
         required={required}
         aria-label={label}
       />
-      <Error isError={urlError}>
-        {urlError
-          ? 'Invalid URL. Please copy and paste from your browser.'
-          : '‎'}
+      <Error isError={isError}>
+        {isError ? 'Amendment number already in use' : '‎'}
       </Error>
     </Div>
   );
 };
 
-export default UrlWidget;
+export default AmendmentNumberWidget;
