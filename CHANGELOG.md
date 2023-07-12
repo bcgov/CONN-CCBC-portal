@@ -1,3 +1,10 @@
+## [1.83.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.83.0...v1.83.1) (2023-07-12)
+
+### Bug Fixes
+
+- do not show self project number on list ([034771d](https://github.com/bcgov/CONN-CCBC-portal/commit/034771df46817b1b64ff4d8ce41548ef6c7cb235))
+- radio focus border and label spacing ([7f107fa](https://github.com/bcgov/CONN-CCBC-portal/commit/7f107faa33108a23ffb795a9f0f6985dc28a2e97))
+
 # [1.83.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.82.0...v1.83.0) (2023-07-11)
 
 ### Bug Fixes
