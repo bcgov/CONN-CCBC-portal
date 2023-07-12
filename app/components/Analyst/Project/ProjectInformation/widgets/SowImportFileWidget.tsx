@@ -285,7 +285,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
         fileTypes={acceptedFileTypes}
         id={id}
         label={label}
-        hideFailedUpload={true}
+        hideFailedUpload
         statusLabel={renderStatusLabel(isImporting, isValidSow)}
         required={required}
         value={value}

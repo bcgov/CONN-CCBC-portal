@@ -153,6 +153,7 @@ const GisTab = () => {
           id="json-upload"
           onChange={changeHandler}
           handleDelete={() => setSelectedFile(null)}
+          hideFailedUpload={false}
           value={selectedFile ? fileComponentValue : []}
         />
         <StyledBtnContainer>
