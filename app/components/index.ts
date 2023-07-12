@@ -10,6 +10,7 @@ export { default as Layout } from './Layout';
 export { default as LoadingSpinner } from './LoadingSpinner';
 export { default as LoadingCheck } from './LoadingCheck';
 export { default as LoginForm } from './LoginForm';
+export { default as MetabaseEmbed } from './MetabaseEmbed';
 export { default as Navigation } from './Navigation';
 export { default as NavLoginForm } from './NavLoginForm';
 export { default as SessionExpiryHandler } from './SessionExpiryHandler';

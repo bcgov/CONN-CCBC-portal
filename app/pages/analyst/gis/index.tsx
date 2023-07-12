@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
@@ -7,7 +7,7 @@ import path from 'path';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
-import { ButtonLink, Layout } from 'components';
+import { ButtonLink, Layout, MetabaseEmbed } from 'components';
 import { gisUploadedJsonQuery } from '__generated__/gisUploadedJsonQuery.graphql';
 import FileComponent from 'lib/theme/components/FileComponent';
 import { useRouter } from 'next/router';
@@ -54,30 +54,7 @@ const StyledCard = styled.div`
   margin-top: 1em;
 `;
 
-const StyledIframe = styled.iframe`
-  width: 100%;
-  height: 100%;
-  border: none;
-  margin-top: 16px;
-`;
-
 const acceptedFileTypes = ['.json'];
-
-const MetabaseEmbed = () => {
-  const [metabaseUrl, setMetabaseUrl] = useState<string>('');
-  useEffect(() => {
-    const url = `/api/metabase-embed-url/87`;
-    fetch(url).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          setMetabaseUrl(data.url);
-        });
-      }
-    });
-  }, []);
-
-  return <StyledIframe src={metabaseUrl} title="Metabase" />;
-};
 
 const UploadError = ({ error }) => {
   if (error === 'uploadFailed') {
@@ -222,7 +199,7 @@ const UploadJSON = ({
       <StyledContainer>
         <DashboardTabs session={session} />
         <GisTab />
-        <MetabaseEmbed />
+        <MetabaseEmbed dashboardNumber={87} />
       </StyledContainer>
     </Layout>
   );
