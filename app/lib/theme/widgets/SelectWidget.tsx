@@ -16,7 +16,7 @@ const StyledSelect = styled(Dropdown)<SelectProps>`
   .pg-select-wrapper {
     border: ${(props) =>
       props.isError ? '2px solid #E71F1F' : '2px solid #606060'};
-    margin: 12px 0;
+    margin-top: 8px;
     width: ${(props) => props.theme.width.inputWidthSmall};
   }
   .pg-select-wrapper:after {
@@ -49,7 +49,7 @@ const StyledSelect = styled(Dropdown)<SelectProps>`
 `;
 
 const StyledDiv = styled('div')`
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 `;
 
 const SelectWidget: React.FC<SelectWidgetProps> = ({

@@ -6,7 +6,8 @@ const StyledDiv = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 16px 0;
+  margin-top: 8px;
+  margin-bottom: 8px;
 
   & span {
     border-radius: 2px;

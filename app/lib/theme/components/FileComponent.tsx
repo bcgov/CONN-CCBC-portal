@@ -6,8 +6,8 @@ import { CancelIcon, LoadingSpinner } from '../../../components';
 const StyledContainer = styled.div<{
   wrap?: boolean;
 }>`
-  margin-top: 16px;
-  margin-bottom: 32px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   width: 100%;
   display: flex;
   justify-content: space-between;

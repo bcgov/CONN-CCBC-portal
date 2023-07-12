@@ -6,7 +6,7 @@ const StyledDiv = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 16px;
+  margin-top: 8px;
 
   & span {
     border-radius: 2px;
@@ -22,7 +22,8 @@ const StyledDiv = styled('div')`
 `;
 
 const StyledContainer = styled('div')`
-  margin: 16px 0;
+  margin-top: 8px;
+  margin-bottom: 16px;
 `;
 
 const CheckboxesWidget: React.FC<WidgetProps> = ({
