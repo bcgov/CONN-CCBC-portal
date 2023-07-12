@@ -202,6 +202,35 @@ describe('The SowImportFileWidget', () => {
     expect(screen.queryByText('Replace')).toBeNull();
   });
 
+  
+  it('handles invalid file upload', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
+
+    expect(hasFundingAggreementBeenSigned).not.toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(hasFundingAggreementBeenSigned);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
+      type: 'application/word',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    expect(screen.getByText('File error')).toBeInTheDocument();
+    expect(
+      screen.getByText('This file cannot be downloaded')
+    ).toBeInTheDocument();
+  });
+
   it('renders success text heading and subheading', () => {
     const { getByText } = render(
       <GlobalTheme>
