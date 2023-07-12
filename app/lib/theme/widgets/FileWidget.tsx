@@ -156,6 +156,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       id={id}
       label={label}
       required={required}
+      hideFailedUpload={false}
       value={value}
     />
   );

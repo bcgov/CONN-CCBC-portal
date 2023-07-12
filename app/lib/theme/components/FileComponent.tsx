@@ -92,6 +92,7 @@ interface FileComponentProps {
   statusLabel?: React.ReactNode;
   handleDownload?: Function;
   wrap?: boolean;
+  hideFailedUpload?: boolean
 }
 
 const ErrorMessage = ({ error, fileTypes }) => {
@@ -142,10 +143,11 @@ const FileComponent: React.FC<FileComponentProps> = ({
   error,
   handleDownload,
   wrap,
+  hideFailedUpload,
 }) => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
-  const errorFree = !error;
+  const hideIfFailed = !!error && hideFailedUpload;
   const isSecondary = buttonVariant === 'secondary';
 
   const handleClick = () => {
@@ -153,10 +155,10 @@ const FileComponent: React.FC<FileComponentProps> = ({
   };
 
   const buttonLabel = () => {
-    if (isFiles && errorFree && !allowMultipleFiles) {
+    if (isFiles && !hideIfFailed && !allowMultipleFiles) {
       return 'Replace';
     }
-    if (isFiles && !errorFree && !allowMultipleFiles) {
+    if (isFiles && hideIfFailed && !allowMultipleFiles) {
       return 'Upload';
     }
     if (isFiles && allowMultipleFiles) {
@@ -176,7 +178,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
     >
       <StyledDetails>
         <StyledH4>{label}</StyledH4>
-        {isFiles && errorFree &&
+        {isFiles && !hideIfFailed &&
           value.map((file: File) => (
             <StyledFileDiv key={file.uuid}>
               <StyledLink
