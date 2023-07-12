@@ -6,6 +6,14 @@ import React from 'react';
 const StyledContainer = styled('div')`
   margin-top: 16px;
   margin-bottom: 32px;
+
+  label:focus-within {
+    border-radius: 99px;
+  }
+
+  .pg-radio-label {
+    padding-left: 1em;
+  }
 `;
 
 const StyledDiv = styled('div')`
@@ -15,6 +23,9 @@ const StyledDiv = styled('div')`
   align-items: center;
 `;
 
+const StyledLabel = styled.label`
+  padding-left: 8px;
+`;
 const RadioWidget: React.FC<WidgetProps> = ({
   onChange,
   id,
@@ -50,7 +61,7 @@ const RadioWidget: React.FC<WidgetProps> = ({
               required={required}
               disabled={disabled}
             />
-            <label htmlFor={`${id}-${i}`}>{option.label}</label>
+            <StyledLabel htmlFor={`${id}-${i}`}>{option.label}</StyledLabel>
           </StyledDiv>
         )
       )}
