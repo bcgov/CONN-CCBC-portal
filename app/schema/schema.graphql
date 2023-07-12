@@ -12649,6 +12649,9 @@ input ApplicationFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
+  """Filter by the object’s `amendmentNumbers` field."""
+  amendmentNumbers: StringFilter
+
   """Filter by the object’s `analystLead` field."""
   analystLead: StringFilter
 
@@ -17310,6 +17313,11 @@ type Application implements Node {
     """
     filter: AssessmentDataFilter
   ): AssessmentDataConnection!
+
+  """
+  computed column to return space separated list of amendment numbers for a change request
+  """
+  amendmentNumbers: String
 
   """Computed column to return analyst lead of an application"""
   analystLead: String
