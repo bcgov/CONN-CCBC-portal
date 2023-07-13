@@ -361,3 +361,4 @@ missing_metadata 2023-06-29T16:55:38Z Marcel Mueller <marcel@m2.local> # add mis
 mutations/create_change_request [mutations/create_change_request@1.81.0] 2023-07-07T19:07:03Z Marcel Mueller <marcel@m2> # update mutation for different amendment number handling
 tables/change_request_data_001_amendment 2023-07-07T19:08:14Z Marcel Mueller <marcel@m2> # change change_request_number column to amendment_number
 @1.85.0 2023-07-13T18:29:11Z CCBC Service Account <ccbc@button.is> # release v1.85.0
+@1.86.0 2023-07-13T23:37:56Z CCBC Service Account <ccbc@button.is> # release v1.86.0

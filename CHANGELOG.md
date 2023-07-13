@@ -1,3 +1,18 @@
+# [1.86.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.85.0...v1.86.0) (2023-07-13)
+
+### Bug Fixes
+
+- add missing set submitting false ([0c0e10a](https://github.com/bcgov/CONN-CCBC-portal/commit/0c0e10a09c46f604210b97564fd01756e40505ef))
+- further merge conflicts ([6c24f96](https://github.com/bcgov/CONN-CCBC-portal/commit/6c24f96484f3e344ea6f517bb8fba57b6453af1a))
+- make submitting prop optional with default ([256f140](https://github.com/bcgov/CONN-CCBC-portal/commit/256f14062e78a509dd6c966fe5ceca755e5fe386))
+- remove console ([6c9513a](https://github.com/bcgov/CONN-CCBC-portal/commit/6c9513a45f6ce2b426eaef7dbefc7c159a2f1ea4))
+- remove unnecessary catch ([858f9fb](https://github.com/bcgov/CONN-CCBC-portal/commit/858f9fb64b04c59100c752cf8f4d728e9b84df1e))
+
+### Features
+
+- add spinner to project information ([9e749cd](https://github.com/bcgov/CONN-CCBC-portal/commit/9e749cdb62245da34f88cb1bb066f4a1f56ce4b3))
+- spinner for change req, add submitting prop ([c30c688](https://github.com/bcgov/CONN-CCBC-portal/commit/c30c68893b7024ab40e987316b83722fce1efede))
+
 # [1.85.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.84.0...v1.85.0) (2023-07-13)
 
 ### Bug Fixes
