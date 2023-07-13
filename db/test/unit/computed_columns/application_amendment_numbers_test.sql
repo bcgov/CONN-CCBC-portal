@@ -1,6 +1,6 @@
 begin;
 
-select plan(2);
+select plan(3);
 
 truncate table
   ccbc_public.application,
@@ -38,8 +38,20 @@ overriding system value
 values
 (2,1,'received',1,'2022-10-18 10:16:45.319172-07');
 
--- set role to analyst and create some change requests
+-- set role to analyst
 set role ccbc_analyst;
+
+select is (
+  (
+    select ccbc_public.application_amendment_numbers(
+      (select row(application.*)::ccbc_public.application from ccbc_public.application where id = 1)
+    )
+  ),
+  '0',
+  'ccbc_public.application_amendment_numbers should return 0 when there is no change requests as it is reserved for original sow data'
+);
+
+-- create some change requests
 select ccbc_public.create_change_request(1::int , 1::int, '{}'::jsonb);
 select ccbc_public.create_change_request(1::int , 2::int, '{}'::jsonb);
 select ccbc_public.create_change_request(1::int , 6::int, '{}'::jsonb);
