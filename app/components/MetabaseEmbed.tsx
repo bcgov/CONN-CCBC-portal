@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import config from 'config';
+import getConfig from 'next/config';
 import styled from 'styled-components';
 import IframeResizer from 'iframe-resizer-react';
 
-const namespace = config.get('OPENSHIFT_APP_NAMESPACE');
+const { publicRuntimeConfig } = getConfig();
+const namespace = publicRuntimeConfig.OPENSHIFT_APP_NAMESPACE;
+
 const isProd = namespace?.endsWith('-prod');
 
 const StyledIframe = styled(IframeResizer)`
