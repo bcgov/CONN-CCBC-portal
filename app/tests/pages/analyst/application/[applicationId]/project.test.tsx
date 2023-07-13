@@ -879,6 +879,8 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
     pageTestingHelper.renderPage();
 
+    // @ts-ignore
+    global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} }));
     const addButton = screen.getByText('Add change request').closest('button');
 
     await act(async () => {
