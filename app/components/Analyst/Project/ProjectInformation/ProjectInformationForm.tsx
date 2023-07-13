@@ -224,8 +224,8 @@ const ProjectInformationForm = ({ application }) => {
           },
           onCompleted: () => {
             setIsFormEditMode(false);
+            setIsFormSubmitting(false);
             setFormData({});
-
             // May need to change when the toast is shown when we add validation
             setShowToast(true);
           },
