@@ -178,6 +178,7 @@ const ProjectInformationForm = ({ application }) => {
         },
       });
     }
+
     validateSow(
       sowFile,
       isChangeRequest ? changeRequestAmendmentNumber : 0,
@@ -216,6 +217,14 @@ const ProjectInformationForm = ({ application }) => {
             setShowToast(true);
           },
           updater: (store) => {
+            const applicationStore = store.get(id);
+            const updatedAmendmentNumbers = `${amendmentNumbers} ${changeRequestAmendmentNumber}`;
+
+            applicationStore.setValue(
+              updatedAmendmentNumbers,
+              'amendmentNumbers'
+            );
+
             // Don't need to update store if we are creating a new change request
             if (!currentChangeRequestData?.id) return;
             const relayConnectionId = changeRequestDataByApplicationId.__id;
