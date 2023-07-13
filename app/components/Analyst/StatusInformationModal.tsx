@@ -78,7 +78,12 @@ const StatusInformationModal: React.FC<Props> = ({
           <StyledTable>
             <thead>
               <tr>
-                <th colSpan={2}>Other statuses</th>
+                <th
+                  style={{ fontFamily: 'BCSans, Verdana, Arial, sans-serif' }}
+                  colSpan={2}
+                >
+                  Other statuses
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -86,7 +91,11 @@ const StatusInformationModal: React.FC<Props> = ({
                 <td>
                   <Chip
                     label="On hold"
-                    sx={{ bgcolor: '#FFECC2', color: '#A37000' }}
+                    sx={{
+                      bgcolor: '#FFECC2',
+                      color: '#A37000',
+                      fontFamily: 'BCSans, Verdana, Arial, sans-serif',
+                    }}
                   />
                 </td>
                 <td>
@@ -100,7 +109,11 @@ const StatusInformationModal: React.FC<Props> = ({
                 <td>
                   <Chip
                     label="Closed"
-                    sx={{ bgcolor: '#E8E8E8', color: '#414141' }}
+                    sx={{
+                      bgcolor: '#E8E8E8',
+                      color: '#414141',
+                      fontFamily: 'BCSans, Verdana, Arial, sans-serif',
+                    }}
                   />
                 </td>
                 <td>
@@ -112,7 +125,11 @@ const StatusInformationModal: React.FC<Props> = ({
                 <td>
                   <Chip
                     label="Withdrawn"
-                    sx={{ bgcolor: '#E8E8E8', color: '#414141' }}
+                    sx={{
+                      bgcolor: '#E8E8E8',
+                      color: '#414141',
+                      fontFamily: 'BCSans, Verdana, Arial, sans-serif',
+                    }}
                   />
                 </td>
                 <td>
@@ -124,7 +141,11 @@ const StatusInformationModal: React.FC<Props> = ({
                 <td>
                   <Chip
                     label="Cancelled"
-                    sx={{ bgcolor: '#E8E8E8', color: '#414141' }}
+                    sx={{
+                      bgcolor: '#E8E8E8',
+                      color: '#414141',
+                      fontFamily: 'BCSans, Verdana, Arial, sans-serif',
+                    }}
                   />
                 </td>
                 <td>Project deliverables not achieved.</td>
@@ -133,7 +154,11 @@ const StatusInformationModal: React.FC<Props> = ({
                 <td>
                   <Chip
                     label="Draft"
-                    sx={{ bgcolor: '#606060e6', color: '#FFFFFF' }}
+                    sx={{
+                      bgcolor: '#606060e6',
+                      color: '#FFFFFF',
+                      fontFamily: 'BCSans, Verdana, Arial, sans-serif',
+                    }}
                   />
                 </td>
                 <td>
@@ -145,7 +170,11 @@ const StatusInformationModal: React.FC<Props> = ({
                 <td>
                   <Chip
                     label="Submitted"
-                    sx={{ bgcolor: '#345FA9', color: '#FFFFFF' }}
+                    sx={{
+                      bgcolor: '#345FA9',
+                      color: '#FFFFFF',
+                      fontFamily: 'BCSans, Verdana, Arial, sans-serif',
+                    }}
                   />
                 </td>
                 <td>
