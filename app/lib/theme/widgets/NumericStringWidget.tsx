@@ -7,7 +7,7 @@ import formatPhone from 'utils/formatPhone';
 
 const StyledInput = styled(Input)`
   & input {
-    margin-top: 12px;
+    margin-top: 8px;
     margin-bottom: 4px;
     width: 50%;
   }

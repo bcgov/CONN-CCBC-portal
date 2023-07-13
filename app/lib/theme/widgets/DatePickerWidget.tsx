@@ -17,8 +17,8 @@ interface StyleProps {
 const StyledContainer = styled('div')`
   width: ${(props) => props.theme.width.inputWidthSmall};
 
-  margin-top: 12px;
-  margin-bottom: 32px;
+  margin-top: 8px;
+  margin-bottom: 16px;
 `;
 
 const StyledDatePicker = styled(DesktopDatePicker)<StyleProps>`

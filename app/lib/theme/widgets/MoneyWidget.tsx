@@ -4,7 +4,7 @@ import CurrencyInput from 'react-currency-input-field';
 import Label from 'components/Form/Label';
 
 const StyledCurrencyInput = styled(CurrencyInput)`
-  margin-top: 12px;
+  margin-top: 8px;
   margin-bottom: 4px;
   width: 50%;
   border: 2px solid #606060;

@@ -4,11 +4,26 @@ import styled from 'styled-components';
 import React from 'react';
 
 const StyledContainer = styled('div')`
-  margin-top: 16px;
-  margin-bottom: 32px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+
+  div:first-child {
+    margin-top: 0px;
+  }
+
+  div {
+    margin-bottom: 0px;
+    margin-top: 8px;
+    line-height: 8px;
+  }
 
   label:focus-within {
     border-radius: 99px;
+  }
+
+  .pg-radio {
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
 
   .pg-radio-label {

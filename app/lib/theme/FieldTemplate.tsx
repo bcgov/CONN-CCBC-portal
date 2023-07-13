@@ -4,8 +4,8 @@ import Description from './components/Description';
 import FieldLabel from './components/FieldLabel';
 
 const StyledHR = styled.hr`
-  margin-top: ${(props) => props.theme.spacing.large};
-  margin-bottom: ${(props) => props.theme.spacing.large};
+  margin-top: ${(props) => props.theme.spacing.small};
+  margin-bottom: ${(props) => props.theme.spacing.small};
 `;
 
 const FieldTemplate: React.FC<FieldTemplateProps> = ({

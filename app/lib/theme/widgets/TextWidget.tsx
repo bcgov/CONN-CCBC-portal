@@ -9,7 +9,7 @@ const INPUT_MAX_LENGTH = 32000;
 
 const StyledInput = styled(Input)`
   & input {
-    margin-top: 12px;
+    margin-top: 8px;
     margin-bottom: 4px;
     width: 50%;
   }

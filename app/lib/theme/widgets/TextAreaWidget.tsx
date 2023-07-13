@@ -7,8 +7,7 @@ const INPUT_MAX_LENGTH = 32000;
 
 const StyledTextArea = styled(Textarea)`
   & textarea {
-    margin-top: 12px;
-    margin-bottom: 4px;
+    margin-top: 8px;
     width: ${(props) => props.theme.width.inputWidthFull};
     min-height: 129px;
     resize: both;
@@ -23,7 +22,7 @@ const StyledTextArea = styled(Textarea)`
 `;
 
 const StyledDiv = styled('div')`
-  margin-bottom: 32px;
+  margin-bottom: 16px !important;
 `;
 
 const TextAreaWidget: React.FC<WidgetProps> = ({
