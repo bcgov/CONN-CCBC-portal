@@ -1,3 +1,19 @@
+# [1.85.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.84.0...v1.85.0) (2023-07-13)
+
+### Bug Fixes
+
+- pass amendment number to change request sow upload ([52d7dc3](https://github.com/bcgov/CONN-CCBC-portal/commit/52d7dc3d438d5aee226e772d8a00f80597a0e192))
+- relay store update for creating/editing change requests ([7b17a35](https://github.com/bcgov/CONN-CCBC-portal/commit/7b17a35393921ab41a1ec4c9fc0b6f690f2359f3))
+- sqitch revert ([559da79](https://github.com/bcgov/CONN-CCBC-portal/commit/559da79b412be208587b0263709068d1b3daf364))
+
+### Features
+
+- add animation to change request read only view ([176cdbe](https://github.com/bcgov/CONN-CCBC-portal/commit/176cdbea770e7ebe401e77195f7a3b11e3166a53))
+- add extra change request read only fields ([2cbd79f](https://github.com/bcgov/CONN-CCBC-portal/commit/2cbd79fd56d952251c957be30fc8fc0233674144))
+- can edit change requests ([2857121](https://github.com/bcgov/CONN-CCBC-portal/commit/2857121ff888bd0db4a8668031fba82ca60ac470))
+- change request read only style improvements ([4894b09](https://github.com/bcgov/CONN-CCBC-portal/commit/4894b09f5b10f8e3dd178a14b131f34582006340))
+- show original sow and change requests in descending order ([e332f63](https://github.com/bcgov/CONN-CCBC-portal/commit/e332f6379353704fa593bd3792886388a3c4ca26))
+
 # [1.84.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.83.0...v1.84.0) (2023-07-12)
 
 ### Bug Fixes
