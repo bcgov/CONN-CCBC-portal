@@ -217,6 +217,7 @@ const ProjectInformationForm = ({ application }) => {
             setShowToast(true);
           },
           updater: (store) => {
+            // add new amendment number to the amendment numbers computed column
             const applicationStore = store.get(id);
             const updatedAmendmentNumbers = `${amendmentNumbers} ${changeRequestAmendmentNumber}`;
 
