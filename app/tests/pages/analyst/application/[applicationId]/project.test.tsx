@@ -953,6 +953,8 @@ describe('The Project page', () => {
         },
       },
     });
+  });
+
   it('should show a spinner when the sow is being imported', async () => {
     pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
     pageTestingHelper.renderPage();
