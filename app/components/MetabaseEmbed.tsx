@@ -3,8 +3,8 @@ import getConfig from 'next/config';
 import styled from 'styled-components';
 import IframeResizer from 'iframe-resizer-react';
 
-const { publicRuntimeConfig } = getConfig();
-const namespace = publicRuntimeConfig.OPENSHIFT_APP_NAMESPACE;
+const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
+const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
 
 const isProd = namespace?.endsWith('-prod');
 
