@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import path from 'path';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
-import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import { ButtonLink, Layout, MetabaseEmbed } from 'components';
 import { gisUploadedJsonQuery } from '__generated__/gisUploadedJsonQuery.graphql';
 import FileComponent from 'lib/theme/components/FileComponent';
@@ -142,11 +141,6 @@ const GisTab = () => {
   return (
     <div>
       <h2>GIS Input</h2>
-      <MetabaseLink
-        href="https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses"
-        text="Visit Metabase to view a dashboard of GIS analysis"
-        width={600}
-      />
       <StyledCard>
         <strong>
           Import a JSON of the GIS analysis for one or more applications
