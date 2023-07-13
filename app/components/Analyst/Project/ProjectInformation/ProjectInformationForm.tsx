@@ -45,6 +45,7 @@ const ProjectInformationForm = ({ application }) => {
       fragment ProjectInformationForm_application on Application {
         id
         rowId
+        amendmentNumbers
         ccbcNumber
         projectInformation {
           id
@@ -75,6 +76,7 @@ const ProjectInformationForm = ({ application }) => {
   );
 
   const {
+    amendmentNumbers,
     ccbcNumber,
     changeRequestDataByApplicationId,
     id,
@@ -279,6 +281,7 @@ const ProjectInformationForm = ({ application }) => {
   return (
     <StyledProjectForm
       additionalContext={{
+        amendmentNumbers,
         applicationId: rowId,
         sowValidationErrors,
         validateSow,
