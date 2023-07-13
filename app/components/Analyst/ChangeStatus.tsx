@@ -242,9 +242,7 @@ const ChangeStatus: React.FC<Props> = ({
         cancelLabel="Cancel change"
         onSave={handleSave}
         value={changeReason}
-        onCancel={() => {
-          setDraftStatus('complete');
-        }}
+        onCancel={() => setDraftStatus(currentStatus)}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
           setChangeReason(e.target.value)
         }
