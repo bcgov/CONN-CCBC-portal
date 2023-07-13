@@ -1056,4 +1056,184 @@ describe('The Project page', () => {
 
     expect(saveButton).not.toBeDisabled();
   });
+
+  it('should show a spinner on change request', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const addButton = screen.getByText('Add change request').closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
+      input: {
+        attachment: {
+          file,
+          fileName: 'file.xls',
+          fileSize: '1 Bytes',
+          fileType: 'application/vnd.ms-excel',
+          applicationId: 1,
+        },
+      },
+    });
+
+    expect(screen.getByLabelText('loading')).toBeInTheDocument();
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save & Import Data',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+      jest.useFakeTimers();
+    });
+
+    expect(
+      screen.getByText('Importing Statement of Work. Please wait.')
+    ).toBeInTheDocument();
+    expect(saveButton).toBeDisabled();
+
+    jest.useRealTimers();
+
+    pageTestingHelper.expectMutationToBeCalled('createChangeRequestMutation', {
+      connections: [
+        'client:<Application-mock-id-1>:__ChangeRequestForm_changeRequestDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"AMENDMENT_NUMBER_DESC")',
+      ],
+      input: {
+        _applicationId: 1,
+        _amendmentNumber: 2,
+        _jsonData: {
+          statementOfWorkUpload: [
+            {
+              id: 1,
+              uuid: 'string',
+              name: 'file.xls',
+              size: 1,
+              type: 'application/vnd.ms-excel',
+            },
+          ],
+        },
+      },
+    });
+  });
+
+  it('should stop showing a spinner on change request error', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const addButton = screen.getByText('Add change request').closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
+      input: {
+        attachment: {
+          file,
+          fileName: 'file.xls',
+          fileSize: '1 Bytes',
+          fileType: 'application/vnd.ms-excel',
+          applicationId: 1,
+        },
+      },
+    });
+
+    expect(screen.getByLabelText('loading')).toBeInTheDocument();
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save & Import Data',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+      jest.useFakeTimers();
+    });
+
+    expect(
+      screen.getByText('Importing Statement of Work. Please wait.')
+    ).toBeInTheDocument();
+    expect(saveButton).toBeDisabled();
+
+    jest.useRealTimers();
+
+    pageTestingHelper.expectMutationToBeCalled('createChangeRequestMutation', {
+      connections: [
+        'client:<Application-mock-id-1>:__ChangeRequestForm_changeRequestDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"AMENDMENT_NUMBER_DESC")',
+      ],
+      input: {
+        _applicationId: 1,
+        _amendmentNumber: 2,
+        _jsonData: {
+          statementOfWorkUpload: [
+            {
+              id: 1,
+              uuid: 'string',
+              name: 'file.xls',
+              size: 1,
+              type: 'application/vnd.ms-excel',
+            },
+          ],
+        },
+      },
+    });
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createChangeRequest: {
+            nonExistingField: { id: '1', jsonData: {}, rowId: 1 },
+          },
+        },
+      });
+    });
+  });
 });
