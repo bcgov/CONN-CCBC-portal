@@ -962,7 +962,7 @@ describe('The Project page', () => {
     // Click on the edit button to open the form
     const editButton = screen.getAllByTestId('project-form-edit-button');
     await act(async () => {
-      fireEvent.click(editButton[1]);
+      fireEvent.click(editButton[3]);
     });
 
     const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
@@ -1012,7 +1012,7 @@ describe('The Project page', () => {
     // Click on the edit button to open the form
     const editButton = screen.getAllByTestId('project-form-edit-button');
     await act(async () => {
-      fireEvent.click(editButton[1]);
+      fireEvent.click(editButton[3]);
     });
 
     const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
