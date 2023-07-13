@@ -92,6 +92,7 @@ const ProjectInformationForm = ({ application }) => {
     !projectInformation?.jsonData?.hasFundingAgreementBeenSigned
   );
   const [isChangeRequest, setIsChangeRequest] = useState(false);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const [currentChangeRequestData, setCurrentChangeRequestData] =
     useState(null);
@@ -152,12 +153,14 @@ const ProjectInformationForm = ({ application }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsFormSubmitting(true);
     hiddenSubmitRef.current.click();
 
     const changeRequestAmendmentNumber =
       currentChangeRequestData?.amendmentNumber || newAmendmentNumber;
 
     if (hasFormErrors && formData.hasFundingAgreementBeenSigned) {
+      setIsFormSubmitting(false);
       return;
     }
 
@@ -186,9 +189,10 @@ const ProjectInformationForm = ({ application }) => {
           },
           onCompleted: () => {
             setIsFormEditMode(false);
+            setIsFormSubmitting(false);
             setFormData({});
             // May need to change when the toast is shown when we add validation
-            if (response.status === 200) {
+            if (response?.status === 200) {
               setShowToast(true);
             }
             setCurrentChangeRequestData(null);
@@ -209,6 +213,9 @@ const ProjectInformationForm = ({ application }) => {
               currentChangeRequestData.id
             );
           },
+          onError: () => {
+            setIsFormSubmitting(false);
+          },
         });
       } else {
         createProjectInformation({
@@ -217,8 +224,8 @@ const ProjectInformationForm = ({ application }) => {
           },
           onCompleted: () => {
             setIsFormEditMode(false);
+            setIsFormSubmitting(false);
             setFormData({});
-
             // May need to change when the toast is shown when we add validation
             setShowToast(true);
           },
@@ -231,6 +238,9 @@ const ProjectInformationForm = ({ application }) => {
                 ),
                 'projectInformation'
               );
+          },
+          onError: () => {
+            setIsFormSubmitting(false);
           },
         });
       }
@@ -301,6 +311,8 @@ const ProjectInformationForm = ({ application }) => {
       onSubmit={handleSubmit}
       saveBtnText="Save & Import Data"
       setFormData={setFormData}
+      submitting={isFormSubmitting}
+      saveBtnDisabled={isFormSubmitting}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
       showEditBtn={
         !hasFundingAgreementBeenSigned && !isFormEditMode && !isChangeRequest

@@ -6,6 +6,7 @@ import { faMinus, faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { BaseAccordion } from '@button-inc/bcgov-theme/Accordion';
 import { FormBase } from 'components/Form';
 import type { JSONSchema7 } from 'json-schema';
+import CircularProgress from '@mui/material/CircularProgress';
 import ProjectTheme from './ProjectTheme';
 
 const ToggleRight = styled.div`
@@ -15,6 +16,21 @@ const ToggleRight = styled.div`
   margin-top: auto;
   margin-bottom: auto;
   font-size: 2em;
+`;
+
+const LoadingContainer = styled.div`
+  display: block;
+  margin-right: 200px;
+  margin-left: 200px;
+  & > * {
+    margin-bottom: 16px;
+  }
+`;
+
+const LoadingItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const StyledHeader = styled(BaseAccordion.Header)`
@@ -122,6 +138,7 @@ interface Props {
   schema: JSONSchema7;
   setFormData?: any;
   setIsFormEditMode: any;
+  submitting?: boolean;
   theme?: any;
   title: string;
   uiSchema?: any;
@@ -147,6 +164,7 @@ const ProjectForm: React.FC<Props> = ({
   schema,
   setFormData = () => {},
   setIsFormEditMode,
+  submitting = false,
   theme,
   title,
   uiSchema,
@@ -232,29 +250,40 @@ const ProjectForm: React.FC<Props> = ({
           overflow={overflow}
         >
           {before}
-          <FormBase
-            // setting a key here will reset the form
-            key={isFormEditMode ? 'edit' : 'view'}
-            schema={schema}
-            uiSchema={uiSchema}
-            formData={formData}
-            formContext={{ formData: { ...formData }, ...additionalContext }}
-            theme={theme || ProjectTheme}
-            omitExtraData={false}
-            onChange={handleChange}
-          >
-            {hiddenSubmitRef ? (
-              <button
-                type="submit"
-                ref={hiddenSubmitRef}
-                style={{ display: 'none' }}
-              >
-                Submit
-              </button>
-            ) : (
-              true
-            )}
-          </FormBase>
+          {submitting ? (
+            <LoadingContainer>
+              <LoadingItem>
+                <CircularProgress color="inherit" />
+              </LoadingItem>
+              <LoadingItem>
+                <p>Importing Statement of Work. Please wait.</p>
+              </LoadingItem>
+            </LoadingContainer>
+          ) : (
+            <FormBase
+              // setting a key here will reset the form
+              key={isFormEditMode ? 'edit' : 'view'}
+              schema={schema}
+              uiSchema={uiSchema}
+              formData={formData}
+              formContext={{ formData: { ...formData }, ...additionalContext }}
+              theme={theme || ProjectTheme}
+              omitExtraData={false}
+              onChange={handleChange}
+            >
+              {hiddenSubmitRef ? (
+                <button
+                  type="submit"
+                  ref={hiddenSubmitRef}
+                  style={{ display: 'none' }}
+                >
+                  Submit
+                </button>
+              ) : (
+                true
+              )}
+            </FormBase>
+          )}
         </StyledAnimateForm>
         {children}
       </BaseAccordion.Content>
