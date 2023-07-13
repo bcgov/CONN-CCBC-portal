@@ -1,11 +1,14 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { graphql, useFragment } from 'react-relay';
+import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import config from 'config';
-import ProjectForm from 'components/Analyst/Project/ProjectForm';
+import { AddButton, ProjectForm } from 'components/Analyst/Project';
 import projectInformationSchema from 'formSchema/analyst/projectInformation';
 import projectInformationUiSchema from 'formSchema/uiSchema/analyst/projectInformationUiSchema';
+import changeRequestSchema from 'formSchema/analyst/changeRequest';
+import changeRequestUiSchema from 'formSchema/uiSchema/analyst/changeRequestUiSchema';
 import { useCreateProjectInformationMutation } from 'schema/mutations/project/createProjectInformation';
+import { useCreateChangeRequestMutation } from 'schema/mutations/project/createChangeRequest';
 import { useArchiveApplicationSowMutation } from 'schema/mutations/project/archiveApplicationSow';
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
@@ -20,11 +23,19 @@ const StyledProjectForm = styled(ProjectForm)`
   }
 `;
 
-const StyledFlex = styled.div`
+interface FlexProps {
+  isFormEditMode: boolean;
+}
+
+const StyledFlex = styled.div<FlexProps>`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  width: 100%;
+  justify-content: space-between;
+  padding-bottom: ${(props) => (props.isFormEditMode ? '0px' : '8px')};
+  padding-left: 4px;
+  overflow: hidden;
+  max-height: ${(props) => (props.isFormEditMode ? '0px' : '80px')};
+  transition: max-height 0.5s;
 `;
 
 const ProjectInformationForm = ({ application }) => {
@@ -40,7 +51,7 @@ const ProjectInformationForm = ({ application }) => {
         }
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
-          orderBy: CHANGE_REQUEST_NUMBER_ASC
+          orderBy: AMENDMENT_NUMBER_DESC
           first: 999
         )
           @connection(
@@ -50,6 +61,10 @@ const ProjectInformationForm = ({ application }) => {
           edges {
             node {
               id
+              amendmentNumber
+              createdAt
+              jsonData
+              updatedAt
             }
           }
         }
@@ -58,25 +73,60 @@ const ProjectInformationForm = ({ application }) => {
     application
   );
 
-  const { ccbcNumber, id, rowId, projectInformation } = queryFragment;
+  const {
+    ccbcNumber,
+    changeRequestDataByApplicationId,
+    id,
+    rowId,
+    projectInformation,
+  } = queryFragment;
 
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
+  const [createChangeRequest] = useCreateChangeRequestMutation();
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
   const [sowFile, setSowFile] = useState(null);
   const [sowValidationErrors, setSowValidationErrors] = useState([]);
   const [isFormEditMode, setIsFormEditMode] = useState(
-    !projectInformation?.jsonData
+    !projectInformation?.jsonData?.hasFundingAgreementBeenSigned
   );
+  const [isChangeRequest, setIsChangeRequest] = useState(false);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+  const [currentChangeRequestData, setCurrentChangeRequestData] =
+    useState(null);
 
   const validateSow = useCallback(
     sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
     [rowId, ccbcNumber, setSowFile, setSowValidationErrors]
   );
 
-  const formUploads = formData?.main?.upload;
+  const projectInformationData = projectInformation?.jsonData;
+  const changeRequestData =
+    changeRequestDataByApplicationId &&
+    [...changeRequestDataByApplicationId.edges]
+      .filter((data) => {
+        // Removing the old node with relay updater was leaving null values in the array
+        // Might be a better way to delete the node so we don't have to filter it out
+        return data.node !== null;
+      })
+      .sort((a, b) => {
+        return b.node.amendmentNumber - a.node.amendmentNumber;
+      });
+
+  const connectionId = changeRequestDataByApplicationId?.__id;
+
+  // This will change to amendment number once we add the amendment field
+  const newAmendmentNumber = changeRequestData.length + 1;
+  const formSchema = isChangeRequest
+    ? changeRequestSchema
+    : projectInformationSchema;
+  const uiSchema = isChangeRequest
+    ? changeRequestUiSchema
+    : projectInformationUiSchema;
+
+  const hasFundingAgreementBeenSigned =
+    projectInformation?.jsonData?.hasFundingAgreementBeenSigned;
 
   const hasFormErrors = useMemo(() => {
     if (formData === null) {
@@ -103,10 +153,15 @@ const ProjectInformationForm = ({ application }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     hiddenSubmitRef.current.click();
-    if (hasFormErrors) {
+
+    const changeRequestAmendmentNumber =
+      currentChangeRequestData?.amendmentNumber || newAmendmentNumber;
+
+    if (hasFormErrors && formData.hasFundingAgreementBeenSigned) {
       return;
     }
-    if (!formData.hasFundingAgreementBeenSigned) {
+
+    if (!formData.hasFundingAgreementBeenSigned && !isChangeRequest) {
       // archive by application id
       archiveApplicationSow({
         variables: {
@@ -114,30 +169,71 @@ const ProjectInformationForm = ({ application }) => {
         },
       });
     }
-    validateSow(sowFile, 0, false).then((response) => {
-      createProjectInformation({
-        variables: {
-          input: { _applicationId: rowId, _jsonData: formData },
-        },
-        onCompleted: () => {
-          setIsFormEditMode(false);
-
-          // May need to change when the toast is shown when we add validation
-          if (response.status === 200) {
+    validateSow(
+      sowFile,
+      isChangeRequest ? changeRequestAmendmentNumber : 0,
+      false
+    ).then((response) => {
+      if (isChangeRequest) {
+        createChangeRequest({
+          variables: {
+            connections: [connectionId],
+            input: {
+              _applicationId: rowId,
+              _amendmentNumber: changeRequestAmendmentNumber,
+              _jsonData: formData,
+            },
+          },
+          onCompleted: () => {
+            setIsFormEditMode(false);
+            setFormData({});
+            // May need to change when the toast is shown when we add validation
+            if (response.status === 200) {
+              setShowToast(true);
+            }
+            setCurrentChangeRequestData(null);
             setShowToast(true);
-          }
-        },
-        updater: (store, data) => {
-          store
-            .get(id)
-            .setLinkedRecord(
-              store.get(
-                data.createProjectInformation.projectInformationData.id
-              ),
-              'projectInformation'
+          },
+          updater: (store) => {
+            // Don't need to update store if we are creating a new change request
+            if (!currentChangeRequestData?.id) return;
+            const relayConnectionId = changeRequestDataByApplicationId.__id;
+            // Get the connection from the store
+
+            const connection = store.get(relayConnectionId);
+
+            store.delete(currentChangeRequestData.id);
+            // Remove the old announcement from the connection
+            ConnectionHandler.deleteNode(
+              connection,
+              currentChangeRequestData.id
             );
-        },
-      });
+          },
+        });
+      } else {
+        createProjectInformation({
+          variables: {
+            input: { _applicationId: rowId, _jsonData: formData },
+          },
+          onCompleted: () => {
+            setIsFormEditMode(false);
+            setFormData({});
+
+            // May need to change when the toast is shown when we add validation
+            setShowToast(true);
+          },
+          updater: (store, data) => {
+            store
+              .get(id)
+              .setLinkedRecord(
+                store.get(
+                  data.createProjectInformation.projectInformationData.id
+                ),
+                'projectInformation'
+              );
+          },
+        });
+      }
     });
   };
 
@@ -153,6 +249,8 @@ const ProjectInformationForm = ({ application }) => {
     }
     return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`;
   };
+  const isOriginalSowUpload =
+    projectInformation?.jsonData?.statementOfWorkUpload?.[0];
   return (
     <StyledProjectForm
       additionalContext={{
@@ -161,45 +259,93 @@ const ProjectInformationForm = ({ application }) => {
         validateSow,
       }}
       before={
-        isFormEditMode ? null : (
-          <StyledFlex>
-            <MetabaseLink
-              href={getMetabaseLink()}
-              text="View project data in Metabase"
-              width={326}
+        <StyledFlex isFormEditMode={isFormEditMode}>
+          {isOriginalSowUpload && (
+            <AddButton
+              isFormEditMode={isFormEditMode}
+              onClick={() => {
+                setIsChangeRequest(true);
+                setFormData({});
+                setShowToast(false);
+                setIsFormEditMode(true);
+              }}
+              title="Add change request"
             />
-          </StyledFlex>
-        )
+          )}
+          <MetabaseLink
+            href={getMetabaseLink()}
+            text="View project data in Metabase"
+            width={326}
+          />
+        </StyledFlex>
       }
       formData={formData}
       handleChange={(e) => {
-        if (!e.formData.hasFundingAgreementBeenSigned) {
-          setFormData({ ...e.formData, main: {} });
+        if (!isChangeRequest && !e.formData.hasFundingAgreementBeenSigned) {
+          setFormData({
+            hasFundingAgreementBeenSigned: false,
+          });
         } else {
           setFormData({ ...e.formData });
         }
       }}
       isFormEditMode={isFormEditMode}
       title="Funding agreement, statement of work, & map"
-      schema={isFormEditMode ? projectInformationSchema : {}}
+      formAnimationHeight={isChangeRequest ? 1000 : 800}
+      formAnimationHeightOffset={70}
+      isFormAnimated
+      schema={formSchema}
       theme={ProjectTheme}
-      uiSchema={isFormEditMode ? projectInformationUiSchema : {}}
+      uiSchema={uiSchema}
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
       saveBtnText="Save & Import Data"
+      setFormData={setFormData}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-      showEditBtn={false}
+      showEditBtn={
+        !hasFundingAgreementBeenSigned && !isFormEditMode && !isChangeRequest
+      }
       hiddenSubmitRef={hiddenSubmitRef}
     >
-      {!isFormEditMode && (
+      {changeRequestData?.map((changeRequest) => {
+        const {
+          id: changeRequestId,
+          amendmentNumber,
+          jsonData,
+        } = changeRequest.node;
+
+        // Need to pass in correct values once the change request metadata ticket is complete
+        return (
+          <ReadOnlyView
+            key={changeRequestId}
+            date={jsonData?.dateChangeRequestApproved}
+            title={`Amendment #${amendmentNumber}`}
+            onFormEdit={() => {
+              setIsChangeRequest(true);
+              setIsFormEditMode(true);
+              setCurrentChangeRequestData(changeRequest.node);
+              setFormData(jsonData);
+            }}
+            isChangeRequest
+            isFormEditMode={isFormEditMode}
+            sow={jsonData?.statementOfWorkUpload?.[0]}
+          />
+        );
+      })}
+      {hasFundingAgreementBeenSigned && (
         <ReadOnlyView
-          dateSigned={formData?.main?.dateFundingAgreementSigned}
+          date={projectInformationData?.dateFundingAgreementSigned}
           title="Original"
-          setIsFormEditMode={setIsFormEditMode}
-          fundingAgreement={formUploads?.fundingAgreementUpload?.[0]}
-          map={formUploads?.finalizedMapUpload?.[0]}
-          sow={formUploads?.statementOfWorkUpload?.[0]}
-          wirelessSow={formUploads?.sowWirelessUpload?.[0]}
+          onFormEdit={() => {
+            setIsChangeRequest(false);
+            setFormData(projectInformationData);
+            setIsFormEditMode(true);
+          }}
+          isFormEditMode={isFormEditMode}
+          map={projectInformationData?.finalizedMapUpload?.[0]}
+          sow={projectInformationData?.statementOfWorkUpload?.[0]}
+          fundingAgreement={projectInformationData?.fundingAgreementUpload?.[0]}
+          wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
         />
       )}
       {showToast && (

@@ -68,6 +68,7 @@ const StyledBtn = styled(Button)`
 
 interface AnimateFormProps {
   formAnimationHeight: number;
+  formAnimationHeightOffset: number;
   isAnimated: boolean;
   isFormExpanded: boolean;
   overflow: string;
@@ -78,13 +79,24 @@ interface AnimateFormProps {
 // The children of the form (eg the ViewAnnouncements or ChangeRequestCard)
 // may need a z-index of 1 to prevent visual glitches while expanding/retracting
 const StyledAnimateForm = styled.div<AnimateFormProps>`
-  ${({ formAnimationHeight, isAnimated, isFormExpanded, overflow }) =>
+  padding-left: 4px;
+  ${({
+    formAnimationHeight,
+    formAnimationHeightOffset,
+    isAnimated,
+    isFormExpanded,
+    overflow,
+  }) =>
     isAnimated &&
     `
     position: relative;
     z-index: ${isFormExpanded ? 100 : 1};
     overflow: ${overflow};
-    max-height: ${isFormExpanded ? `${formAnimationHeight}px` : '30px'};
+    max-height: ${
+      isFormExpanded
+        ? `${formAnimationHeight}px`
+        : `${formAnimationHeightOffset}px`
+    };
     transition: max-height 0.7s;
   `}
 `;
@@ -94,6 +106,7 @@ interface Props {
   before?: React.ReactNode;
   children?: React.ReactNode;
   formAnimationHeight?: number;
+  formAnimationHeightOffset?: number;
   formData: any;
   handleChange: any;
   showEditBtn?: boolean;
@@ -107,6 +120,7 @@ interface Props {
   saveBtnText?: string;
   saveBtnDisabled?: boolean;
   schema: JSONSchema7;
+  setFormData?: any;
   setIsFormEditMode: any;
   theme?: any;
   title: string;
@@ -123,6 +137,7 @@ const ProjectForm: React.FC<Props> = ({
   hiddenSubmitRef,
   showEditBtn = true,
   formAnimationHeight = 300,
+  formAnimationHeightOffset = 30,
   isFormAnimated,
   isFormEditMode,
   onSubmit,
@@ -130,6 +145,7 @@ const ProjectForm: React.FC<Props> = ({
   saveBtnDisabled,
   saveBtnText,
   schema,
+  setFormData = () => {},
   setIsFormEditMode,
   theme,
   title,
@@ -177,7 +193,7 @@ const ProjectForm: React.FC<Props> = ({
                 size="small"
                 variant="secondary"
                 onClick={() => {
-                  resetFormData();
+                  setFormData();
                   setIsFormEditMode(false);
                 }}
               >
@@ -188,7 +204,10 @@ const ProjectForm: React.FC<Props> = ({
             <>
               {showEditBtn && (
                 <StyledIconBtn
-                  onClick={() => setIsFormEditMode(true)}
+                  onClick={() => {
+                    setFormData({});
+                    setIsFormEditMode(true);
+                  }}
                   data-testid="project-form-edit-button"
                 >
                   <FontAwesomeIcon icon={faPen} size="xs" />
@@ -207,6 +226,7 @@ const ProjectForm: React.FC<Props> = ({
       <BaseAccordion.Content>
         <StyledAnimateForm
           formAnimationHeight={formAnimationHeight}
+          formAnimationHeightOffset={formAnimationHeightOffset}
           isAnimated={isFormAnimated}
           isFormExpanded={isFormEditMode}
           overflow={overflow}

@@ -126,47 +126,43 @@ const mockJsonDataQueryPayload = {
         },
         projectInformation: {
           jsonData: {
-            main: {
-              upload: {
-                finalizedMapUpload: [
-                  {
-                    id: 10,
-                    name: 'test.pdf',
-                    size: 0,
-                    type: 'application/pdf',
-                    uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
-                  },
-                ],
-                sowWirelessUpload: [
-                  {
-                    id: 10,
-                    name: 'test.pdf',
-                    size: 0,
-                    type: 'application/pdf',
-                    uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
-                  },
-                ],
-                statementOfWorkUpload: [
-                  {
-                    id: 11,
-                    name: 'CCBC-020118 - Statement of Work Tables - 20230517.xlsx',
-                    size: 4230881,
-                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                    uuid: '3529ee52-c2e0-4c65-b1c2-2e3632e77f66',
-                  },
-                ],
-                fundingAgreementUpload: [
-                  {
-                    id: 10,
-                    name: 'test.pdf',
-                    size: 0,
-                    type: 'application/pdf',
-                    uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
-                  },
-                ],
+            finalizedMapUpload: [
+              {
+                id: 10,
+                name: 'test.pdf',
+                size: 0,
+                type: 'application/pdf',
+                uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
               },
-              dateFundingAgreementSigned: '2023-05-10',
-            },
+            ],
+            sowWirelessUpload: [
+              {
+                id: 12,
+                name: 'test.pdf',
+                size: 0,
+                type: 'application/pdf',
+                uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
+              },
+            ],
+            statementOfWorkUpload: [
+              {
+                id: 11,
+                name: 'CCBC-020118 - Statement of Work Tables - 20230517.xlsx',
+                size: 4230881,
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                uuid: '3529ee52-c2e0-4c65-b1c2-2e3632e77f66',
+              },
+            ],
+            fundingAgreementUpload: [
+              {
+                id: 14,
+                name: 'test.pdf',
+                size: 0,
+                type: 'application/pdf',
+                uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
+              },
+            ],
+            dateFundingAgreementSigned: '2023-05-10',
             hasFundingAgreementBeenSigned: true,
           },
         },
@@ -207,29 +203,25 @@ const mockProjectDataQueryPayload = {
         },
         projectInformation: {
           jsonData: {
-            main: {
-              upload: {
-                statementOfWorkUpload: [
-                  {
-                    id: 11,
-                    name: 'CCBC-020118 - Statement of Work Tables - 20230517.xlsx',
-                    size: 4230881,
-                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                    uuid: '3529ee52-c2e0-4c65-b1c2-2e3632e77f66',
-                  },
-                ],
-                fundingAgreementUpload: [
-                  {
-                    id: 10,
-                    name: 'test.pdf',
-                    size: 0,
-                    type: 'application/pdf',
-                    uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
-                  },
-                ],
+            statementOfWorkUpload: [
+              {
+                id: 11,
+                name: 'CCBC-020118 - Statement of Work Tables - 20230517.xlsx',
+                size: 4230881,
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                uuid: '3529ee52-c2e0-4c65-b1c2-2e3632e77f66',
               },
-              dateFundingAgreementSigned: '2023-05-10',
-            },
+            ],
+            fundingAgreementUpload: [
+              {
+                id: 10,
+                name: 'test.pdf',
+                size: 0,
+                type: 'application/pdf',
+                uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
+              },
+            ],
+            dateFundingAgreementSigned: '2023-05-10',
             hasFundingAgreementBeenSigned: true,
           },
         },
@@ -586,7 +578,7 @@ describe('The Project page', () => {
       fireEvent.click(saveButton);
     });
 
-    const modalSaveButton = screen.getByText('No');
+    const modalSaveButton = screen.getAllByText('No')[0];
 
     await act(async () => {
       fireEvent.click(modalSaveButton);
@@ -783,12 +775,6 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    // Click on the edit button to open the form
-    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
-    await act(async () => {
-      fireEvent.click(editButton);
-    });
-
     const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
 
     expect(hasFundingAggreementBeenSigned).not.toBeChecked();
@@ -840,13 +826,13 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText('Funding Agreement')).toBeInTheDocument();
-
     expect(screen.getByText('SoW')).toBeInTheDocument();
 
     expect(screen.getByText('Map')).toBeInTheDocument();
 
     expect(screen.getByText('Wireless SoW')).toBeInTheDocument();
+
+    expect(screen.getByText('Funding Agreement')).toBeInTheDocument();
 
     expect(screen.getByText('May 10, 2023')).toBeInTheDocument();
 
@@ -860,9 +846,9 @@ describe('The Project page', () => {
     pageTestingHelper.renderPage();
 
     // Click on the edit button to open the form
-    const editButton = screen.getAllByTestId('project-form-edit-button');
+    const editButton = screen.getAllByTestId('project-form-edit-button')[3];
     await act(async () => {
-      fireEvent.click(editButton[1]);
+      fireEvent.click(editButton);
     });
 
     const hasFundingAggreementBeenSigned = screen.getByLabelText('No');
@@ -887,5 +873,85 @@ describe('The Project page', () => {
         },
       }
     );
+  });
+
+  it('calls the mutation on Change Request save', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const addButton = screen.getByText('Add change request').closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
+      input: {
+        attachment: {
+          file,
+          fileName: 'file.xls',
+          fileSize: '1 Bytes',
+          fileType: 'application/vnd.ms-excel',
+          applicationId: 1,
+        },
+      },
+    });
+
+    expect(screen.getByLabelText('loading')).toBeInTheDocument();
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText('Replace')).toBeInTheDocument();
+    expect(screen.getByText('file.xls')).toBeInTheDocument();
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save & Import Data',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createChangeRequestMutation', {
+      connections: [
+        'client:<Application-mock-id-1>:__ChangeRequestForm_changeRequestDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"AMENDMENT_NUMBER_DESC")',
+      ],
+      input: {
+        _applicationId: 1,
+        _amendmentNumber: 2,
+        _jsonData: {
+          statementOfWorkUpload: [
+            {
+              id: 1,
+              uuid: 'string',
+              name: 'file.xls',
+              size: 1,
+              type: 'application/vnd.ms-excel',
+            },
+          ],
+        },
+      },
+    });
   });
 });

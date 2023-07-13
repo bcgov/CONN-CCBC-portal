@@ -2,8 +2,6 @@
 
 begin;
 
-drop function if exists ccbc_public.create_change_request(int, int, jsonb);
-
 create or replace function ccbc_public.create_change_request(_application_id int, _change_request_number int, _json_data jsonb)
 returns ccbc_public.change_request_data as $$
 declare

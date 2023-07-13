@@ -3,7 +3,7 @@ select plan(8);
 
 select has_table('ccbc_public', 'change_request_data', 'table ccbc_public.change_request_data exists');
 select has_column('ccbc_public', 'change_request_data', 'id', 'table ccbc_public.change_request_data has id column');
-select has_column('ccbc_public', 'change_request_data', 'change_request_number', 'table ccbc_public.change_request_data has json_data column');
+select has_column('ccbc_public', 'change_request_data', 'amendment_number', 'table ccbc_public.change_request_data has amendment_number column');
 select has_column('ccbc_public', 'change_request_data', 'json_data', 'table ccbc_public.change_request_data has json_data column');
 
 -- ccbc_guest

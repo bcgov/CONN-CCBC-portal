@@ -11,6 +11,7 @@ const StyledFlex = styled.a`
   border-radius: 8px;
   cursor: pointer;
   color: ${(props) => props.theme.color.links};
+  height: fit-content;
 
   svg {
     margin-right: 8px;

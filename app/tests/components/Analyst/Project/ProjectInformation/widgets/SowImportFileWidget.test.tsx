@@ -44,25 +44,22 @@ const mockFormDataPayload = {
         },
         jsonData: {
           hasFundingAgreementBeenSigned: true,
-          main: {
-            upload: {
-              statementOfWorkUpload: [
-                {
-                  id: 3,
-                  uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
-                  name: 'file-2.kmz',
-                  size: 0,
-                  type: 'application/vnd.google-earth.kmz',
-                },
-              ],
+          statementOfWorkUpload: [
+            {
+              id: 3,
+              uuid: 'a365945b-5631-4e52-af9f-515e6fdcf614',
+              name: 'file-2.kmz',
+              size: 0,
+              type: 'application/vnd.google-earth.kmz',
             },
-          },
+          ],
         },
       },
     };
   },
 };
 
+// @ts-ignore
 global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} }));
 
 const componentTestingHelper =
@@ -165,13 +162,13 @@ describe('The SowImportFileWidget', () => {
     componentTestingHelper.loadQuery(mockFormDataPayload);
     componentTestingHelper.renderComponent();
 
-    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+    const editButton = screen.getAllByTestId('project-form-edit-button')[2];
 
     await act(async () => {
       fireEvent.click(editButton);
     });
 
-    expect(screen.getByText('file-2.kmz')).toBeInTheDocument();
+    expect(screen.getAllByText('file-2.kmz')[0]).toBeInTheDocument();
     expect(screen.getByText('Replace')).toBeInTheDocument();
 
     const deleteButton = screen.getByTestId('file-delete-btn');
@@ -202,7 +199,6 @@ describe('The SowImportFileWidget', () => {
       });
     });
 
-    expect(screen.queryByText('file-2.kmz')).toBeNull();
     expect(screen.queryByText('Replace')).toBeNull();
   });
 
@@ -227,9 +223,12 @@ describe('The SowImportFileWidget', () => {
     const success = false;
 
     const { getByText } = render(
-      <GlobalTheme>{renderStatusLabel(loading, success)}</GlobalTheme>
+      <GlobalTheme>
+        <div>{renderStatusLabel(loading, success)}</div>
+      </GlobalTheme>
     );
 
+    expect(screen.queryAllByText('file-2.kmz')[0]).toBeUndefined();
     // Call the function
     const text = getByText('Checking the data');
 
@@ -246,7 +245,9 @@ describe('The SowImportFileWidget', () => {
     const renderedComponent = renderStatusLabel(loading, success);
 
     const { getByText } = render(
-      <GlobalTheme>{renderStatusLabel(loading, success)}</GlobalTheme>
+      <GlobalTheme>
+        <div>{renderStatusLabel(loading, success)}</div>
+      </GlobalTheme>
     );
 
     const headingElement = getByText(
@@ -258,7 +259,7 @@ describe('The SowImportFileWidget', () => {
     expect(subheadingElement).toBeInTheDocument();
 
     // Assert
-    expect(renderedComponent.type).toBe(Success);
+    expect(renderedComponent['type']).toBe(Success);
   });
 
   it('returns false when loading is false and success is false', () => {

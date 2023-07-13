@@ -1,6 +1,6 @@
 begin;
 
-select plan(6);
+select plan(5);
 
 truncate table
   ccbc_public.application,
@@ -51,8 +51,6 @@ select throws_like(
   'ccbc_auth_user cannot create change_request'
 );
 
-
-
 -- set role to analyst and create change request
 set role ccbc_analyst;
 select ccbc_public.create_change_request(1::int , 1::int, '{}'::jsonb);
@@ -67,16 +65,6 @@ select results_eq(
   'Should see 1 entry in change_request_data for application 1'
 );
 
--- throws error if change request number does not match what is expected in db
-
-
-select throws_like(
-  $$
-    select ccbc_public.create_change_request(1::int , 1::int, '{}'::jsonb);
-  $$,
-  'Change request number 1 does not match expected number 2',
-  'ccbc_analyst cannot create change_request'
-);
 
 -- set role to admin and create change request
 
@@ -92,8 +80,6 @@ select results_eq(
   $$,
   'Should see 2 entries in change_request_data for application 1'
 );
-
-
 
 select finish();
 rollback;

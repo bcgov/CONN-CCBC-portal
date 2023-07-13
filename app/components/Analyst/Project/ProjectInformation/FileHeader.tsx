@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const StyledContainer = styled('div')`
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
   color: ${(props) => props.theme.color.links};
 
   & svg {
