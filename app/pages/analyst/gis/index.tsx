@@ -194,7 +194,7 @@ const UploadJSON = ({
       <StyledContainer>
         <DashboardTabs session={session} />
         <GisTab />
-        <MetabaseEmbed dashboardNumber={87} />
+        <MetabaseEmbed dashboardNumber={87} dashboardNumberTest={91} />
       </StyledContainer>
     </Layout>
   );
