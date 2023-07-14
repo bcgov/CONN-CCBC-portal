@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ISubmitEvent } from '@rjsf/utils';
+import { IChangeEvent } from '@rjsf/core';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import FormBase from 'components/Form/FormBase';
@@ -45,7 +45,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
   const [createRfi] = useCreateRfiMutation();
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
 
-  const handleSubmit = (e: ISubmitEvent<any>) => {
+  const handleSubmit = (e: IChangeEvent<any>) => {
     const formData = {
       ...e.formData,
       rfiAdditionalFiles: {

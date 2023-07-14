@@ -1,12 +1,13 @@
 import defaultTheme from 'lib/theme/DefaultTheme';
 import { useMemo } from 'react';
-import styled from 'styled-components';
 import validator from '@rjsf/validator-ajv8';
+import styled from 'styled-components';
 import { FormProps, withTheme, ThemeProps } from '@rjsf/core';
 import GenericModal from 'lib/theme/widgets/GenericModal';
 
-interface FormPropsWithTheme<T> extends FormProps<T> {
+interface FormPropsWithTheme<T> extends Omit<FormProps<T>, 'validator'> {
   theme?: ThemeProps;
+  validator?: any;
 }
 
 const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {

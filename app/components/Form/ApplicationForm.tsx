@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import * as Sentry from '@sentry/nextjs';
-import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
+import { IChangeEvent } from '@rjsf/core';
 import { graphql, useFragment } from 'react-relay';
 import type { JSONSchema7 } from 'json-schema';
 import styled from 'styled-components';
@@ -358,7 +358,7 @@ const ApplicationForm: React.FC<Props> = ({
     });
   };
 
-  const handleSubmit = (e: ISubmitEvent<any>) => {
+  const handleSubmit = (e: IChangeEvent<any>) => {
     if (pageNumber < subschemaArray.length) {
       saveForm(
         e.formData,
@@ -416,7 +416,7 @@ const ApplicationForm: React.FC<Props> = ({
         fields={{ ReviewField }}
         formData={jsonData[sectionName]}
         schema={sectionSchema as JSONSchema7}
-        uiSchema={uiSchema[sectionName]}
+        uiSchema={uiSchema[sectionName] as any}
         // Todo: validate entire form on completion
         noValidate
         disabled={isFormDisabled()}
