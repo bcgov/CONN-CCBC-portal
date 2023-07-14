@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ObjectFieldTemplateProps } from '@rjsf/core';
+import { ObjectFieldTemplateProps } from '@rjsf/utils';
 import FormBorder from './components/FormBorder';
 import Description from './components/Description';
 
@@ -39,17 +39,18 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   title,
   properties,
 }) => {
-  const uiInline = uiSchema['ui:inline'];
+  const uiInline = Array.isArray(uiSchema['ui:inline'])
+    ? uiSchema['ui:inline']
+    : [];
 
   const getInlineKeys = () => {
     // Get array of inline keys so we can see if field exists in grid so we don't render it twice.
     const inlineKeys: string[] = [];
 
-    uiInline &&
-      uiInline.map((row: Record<string, string>) => {
-        const rowKeys = Object.keys(row);
-        inlineKeys.push(...rowKeys);
-      });
+    uiInline?.map((row: Record<string, string>) => {
+      const rowKeys = Object.keys(row);
+      return inlineKeys.push(...rowKeys);
+    });
 
     return inlineKeys;
   };
@@ -61,67 +62,67 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
       subtitle={uiSchema['ui:subtitle']}
     >
       <Description rawDescription={description} schema={schema} />
-      {uiInline &&
-        uiInline.map((row: any, i: number) => {
-          const rowKeys = Object.keys(row);
 
-          // check if row is in current page (props.properties) schema
-          const title =
-            properties.filter((prop: any) =>
-              Object.keys(row).includes(prop.name)
-            ).length > 1;
+      {uiInline?.map((row: any, i: number) => {
+        const rowKeys = Object.keys(row);
 
-          const columns = row?.columns;
-          const mapRow = (
-            <StyledGrid
-              style={{ gridTemplateColumns: `repeat(${columns || 1}, 1fr)` }}
-            >
-              {rowKeys.map((fieldName) => {
-                const content = properties.find(
-                  (prop: any) => prop.name === fieldName
-                )?.content;
+        // check if row is in current page (props.properties) schema
+        const rowTitle =
+          properties.filter((prop: any) => Object.keys(row).includes(prop.name))
+            .length > 1;
 
-                if (content) {
-                  if (columns === 1) {
-                    return <div key={fieldName}>{content}</div>;
-                  }
-                  return (
-                    <StyledColumn
-                      style={{
-                        gridColumn: row[fieldName],
-                        marginRight: Object.keys(row).length > 2 ? '1em' : 0,
-                      }}
-                      key={fieldName}
-                    >
-                      {content}
-                    </StyledColumn>
-                  );
+        const columns = row?.columns;
+        const mapRow = (
+          <StyledGrid
+            style={{ gridTemplateColumns: `repeat(${columns || 1}, 1fr)` }}
+          >
+            {rowKeys.map((fieldName) => {
+              const content = properties.find(
+                (prop: any) => prop.name === fieldName
+              )?.content;
+
+              if (content) {
+                if (columns === 1) {
+                  return <div key={fieldName}>{content}</div>;
                 }
-              })}
-            </StyledGrid>
-          );
-          return (
-            <div key={rowKeys[i]}>
-              {title && row.title && (
-                <>
-                  {row.headline ? (
-                    <h3>{row.title}</h3>
-                  ) : (
-                    <StyledLabel>{row.title}</StyledLabel>
-                  )}
-                </>
-              )}
+                return (
+                  <StyledColumn
+                    style={{
+                      gridColumn: row[fieldName],
+                      marginRight: Object.keys(row).length > 2 ? '1em' : 0,
+                    }}
+                    key={fieldName}
+                  >
+                    {content}
+                  </StyledColumn>
+                );
+              }
+              return null;
+            })}
+          </StyledGrid>
+        );
+        return (
+          <div key={rowKeys[i]}>
+            {rowTitle && row.title && (
+              <>
+                {row.headline ? (
+                  <h3>{row.title}</h3>
+                ) : (
+                  <StyledLabel>{row.title}</StyledLabel>
+                )}
+              </>
+            )}
 
-              {mapRow}
-            </div>
-          );
-        })}
+            {mapRow}
+          </div>
+        );
+      })}
 
       {properties.map((prop: any) => {
         const isInlineItem = inlineKeys.find((key) => key === prop.name);
-        if (!isInlineItem) {
-          return prop.content;
-        }
+        if (isInlineItem) return null;
+
+        return prop.content;
       })}
     </FormBorder>
   );
