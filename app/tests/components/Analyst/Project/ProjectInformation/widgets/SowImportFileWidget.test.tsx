@@ -59,9 +59,6 @@ const mockFormDataPayload = {
   },
 };
 
-// @ts-ignore
-global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} }));
-
 const componentTestingHelper =
   new ComponentTestingHelper<SowImportFileWidgetTestQuery>({
     component: ProjectInformationForm,
@@ -75,6 +72,8 @@ const componentTestingHelper =
 
 describe('The SowImportFileWidget', () => {
   beforeEach(() => {
+    // @ts-ignore
+    global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} }));
     componentTestingHelper.reinit();
     componentTestingHelper.setMockRouterValues({
       query: { id: '1' },
@@ -202,6 +201,63 @@ describe('The SowImportFileWidget', () => {
     expect(screen.queryByText('Replace')).toBeNull();
   });
 
+  
+  it('handles invalid file upload', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
+
+    expect(hasFundingAggreementBeenSigned).not.toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(hasFundingAggreementBeenSigned);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
+      type: 'application/word',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    expect(screen.getByText('File error')).toBeInTheDocument();
+    expect(
+      screen.getByText('This file cannot be downloaded')
+    ).toBeInTheDocument();
+  });
+
+  it('handles errors from sow validation', async () => {
+    const mockErrorList = [{ level: 'summary', error: 'Error 1', filename:'test.txt' },{ level: 'tab', error: 'Error 2', filename:'test.txt'}];
+    // @ts-ignore
+    global.fetch = jest.fn(() => Promise.resolve({ status: 400, json: () => mockErrorList }));
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
+
+    expect(hasFundingAggreementBeenSigned).not.toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(hasFundingAggreementBeenSigned);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
+      type: 'application/excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    expect(screen.getByText('Statement of Work import failed, please check the file and try again')).toBeInTheDocument();
+  })
+  
   it('renders success text heading and subheading', () => {
     const { getByText } = render(
       <GlobalTheme>

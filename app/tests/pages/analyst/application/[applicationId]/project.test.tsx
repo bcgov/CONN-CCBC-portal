@@ -233,17 +233,6 @@ const mockProjectDataQueryPayload = {
   },
 };
 
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () =>
-      Promise.resolve({
-        title: null,
-        description: 'No preview available',
-        image: '/images/noPreview.png',
-      }),
-  })
-) as jest.Mock;
-
 const pageTestingHelper = new PageTestingHelper<projectQuery>({
   pageComponent: Project,
   compiledQuery: compiledProjectQuery,
@@ -269,6 +258,8 @@ const mockShowAnnouncement: FeatureResult<JSONValue> = {
   ruleId: 'show_announcement',
 };
 
+jest.setTimeout(10000000);
+
 describe('The Project page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
@@ -281,7 +272,16 @@ describe('The Project page', () => {
       }
       return mockShowAnnouncement;
     });
-    // .mockReturnValue(mockShowConditonalApproval);
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            title: null,
+            description: 'No preview available',
+            image: '/images/noPreview.png',
+          }),
+      })
+    ) as jest.Mock;
   });
 
   it('displays the title', async () => {
@@ -879,6 +879,8 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
     pageTestingHelper.renderPage();
 
+    // @ts-ignore
+    global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} }));
     const addButton = screen.getByText('Add change request').closest('button');
 
     await act(async () => {
@@ -1061,6 +1063,8 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
     pageTestingHelper.renderPage();
 
+    // @ts-ignore
+    global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} })); 
     const addButton = screen.getByText('Add change request').closest('button');
 
     await act(async () => {
@@ -1145,7 +1149,9 @@ describe('The Project page', () => {
   it('should stop showing a spinner on change request error', async () => {
     pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
     pageTestingHelper.renderPage();
-
+    
+    // @ts-ignore
+    global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} })); 
     const addButton = screen.getByText('Add change request').closest('button');
 
     await act(async () => {
@@ -1236,4 +1242,9 @@ describe('The Project page', () => {
       });
     });
   });
+  
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  
 });

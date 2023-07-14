@@ -91,24 +91,25 @@ export const Success = () => (
 );
 
 export const displaySowUploadErrors = (err) => {
-  const { level: errorType, error: errorMessage } = err;
+  const { level: errorType, error: errorMessage, filename='Statement of Work' } = err;
+
   let title =
-    'An unknown error has occured while validating the Statement of Work data';
+    `An unknown error has occured while validating the ${filename} data`;
   if (errorType?.includes('tab')) {
-    title = `There was an error importing the Statement of Work data at ${errorType}`;
+    title = `There was an error importing the ${filename} data at ${errorType}`;
   }
   if (errorType === 'summary') {
     title =
-      'There was an error importing the Statement of Work data at the Summary tab';
+      `There was an error importing the ${filename} data at the Summary tab`;
   }
 
   if (errorType === 'database') {
-    title = 'An error occured when validating the Statement of Work data';
+    title = `An error occured when validating the ${filename} data`;
   }
 
   if (errorType === 'workbook') {
     title =
-      'The Statement of Work sheet does not appear to contain the correct tabs.';
+      `The ${filename} sheet does not appear to contain the correct tabs.`;
   }
   // for cell level errors
   if (typeof errorMessage !== 'string') {
@@ -238,31 +239,32 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
     const response = await validateSow(file, amendmentNumber, true);
 
     const { status } = response;
-    createAttachment({
-      variables,
-      onError: () => {
-        setError('uploadFailed');
-      },
-      onCompleted: (res) => {
-        const uuid = res?.createAttachment?.attachment?.file;
-        const attachmentRowId = res?.createAttachment?.attachment?.rowId;
 
-        const fileDetails = {
-          id: attachmentRowId,
-          uuid,
-          name,
-          size,
-          type,
-        };
-        onChange([fileDetails]);
-        setIsImporting(false);
-      },
-    });
     if (status !== 200) {
       setError('sowImportFailed');
       setIsImporting(false);
       setIsValidSow(false);
     } else {
+      createAttachment({
+        variables,
+        onError: () => {
+          setError('uploadFailed');
+        },
+        onCompleted: (res) => {
+          const uuid = res?.createAttachment?.attachment?.file;
+          const attachmentRowId = res?.createAttachment?.attachment?.rowId;
+  
+          const fileDetails = {
+            id: attachmentRowId,
+            uuid,
+            name,
+            size,
+            type,
+          };
+          onChange([fileDetails]);
+          setIsImporting(false);
+        },
+      });
       setIsValidSow(true);
     }
   };
@@ -283,6 +285,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
         fileTypes={acceptedFileTypes}
         id={id}
         label={label}
+        hideFailedUpload
         statusLabel={renderStatusLabel(isImporting, isValidSow)}
         required={required}
         value={value}
