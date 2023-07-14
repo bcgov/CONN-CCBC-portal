@@ -1,4 +1,4 @@
-import { ObjectFieldTemplateProps } from '@rjsf/core';
+import { ObjectFieldTemplateProps } from '@rjsf/utils';
 import styled from 'styled-components';
 
 interface FlexProps {

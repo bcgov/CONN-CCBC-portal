@@ -1,4 +1,4 @@
-import { FieldProps } from '@rjsf/core';
+import { FieldProps } from '@rjsf/utils';
 import fullSchema from 'formSchema/schema';
 import reviewUiSchema from 'formSchema/reviewUiSchema';
 import FormBase from 'components/Form/FormBase';

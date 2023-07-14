@@ -1,7 +1,7 @@
-import { ObjectFieldTemplateProps } from '@rjsf/core';
+import { ObjectFieldTemplateProps } from '@rjsf/utils';
 
-const ReviewObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = (
-  props
-) => <>{props.properties.map((prop) => prop.content)}</>;
+const ReviewObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
+  properties,
+}) => <>{properties.map((prop) => prop.content)}</>;
 
 export default ReviewObjectFieldTemplate;

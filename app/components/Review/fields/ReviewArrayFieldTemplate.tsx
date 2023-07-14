@@ -1,4 +1,4 @@
-import { ArrayFieldTemplateProps } from '@rjsf/core';
+import { ArrayFieldTemplateProps } from '@rjsf/utils';
 import React from 'react';
 import { StyledH4, StyledTitleRow } from 'components/Review/Components';
 

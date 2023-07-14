@@ -33,9 +33,11 @@ const ReviewTheme: ThemeProps = {
     NumericStringWidget: DefaultWidget,
     ReadOnlyWidget: DefaultWidget,
   },
-  ObjectFieldTemplate: ReviewObjectFieldTemplate,
-  FieldTemplate: ReviewFieldTemplate,
-  ArrayFieldTemplate: ReviewArrayFieldTemplate,
+  templates: {
+    ObjectFieldTemplate: ReviewObjectFieldTemplate,
+    FieldTemplate: ReviewFieldTemplate,
+    ArrayFieldTemplate: ReviewArrayFieldTemplate,
+  },
 };
 
 export default ReviewTheme;

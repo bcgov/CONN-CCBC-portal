@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ISubmitEvent } from '@rjsf/core';
+import { ISubmitEvent } from '@rjsf/utils';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import FormBase from 'components/Form/FormBase';

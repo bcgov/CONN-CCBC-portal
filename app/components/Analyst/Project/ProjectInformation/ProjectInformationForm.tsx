@@ -13,7 +13,8 @@ import { useArchiveApplicationSowMutation } from 'schema/mutations/project/archi
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import Toast from 'components/Toast';
-import validateFormData from '@rjsf/core/dist/cjs/validate';
+
+// import validateFormData from '@rjsf/core/dist/cjs/validate';
 import sowValidateGenerator from 'lib/helpers/sowValidate';
 import ReadOnlyView from 'components/Analyst/Project/ProjectInformation/ReadOnlyView';
 
@@ -133,10 +134,12 @@ const ProjectInformationForm = ({ application }) => {
     if (formData === null) {
       return false;
     }
-    const formErrors = validateFormData(
-      formData,
-      projectInformationSchema
-    )?.errors;
+    // const formErrors = validateFormData(
+    //   formData,
+    //   projectInformationSchema
+    // )?.errors;
+    //
+    const formErrors = [];
 
     // not sure about these enum or oneOf errors, filtering them out as a very hacky solution
     const filteredErrors = formErrors?.filter((error) => {

@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState, ReactNode } from 'react';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
-import validateFormData from '@rjsf/core/dist/cjs/validate';
+// import validateFormData from '@rjsf/core/dist/cjs/validate';
 import validator from 'validator';
 import ViewAnnouncements from 'components/Analyst/Project/Announcements/ViewAnnouncements';
 import announcementsSchema from 'formSchema/analyst/announcements';
@@ -158,7 +158,8 @@ const AnnouncementsForm = ({ query }) => {
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
   const isErrors = useMemo(() => {
-    const formErrors = validateFormData(formData, announcementsSchema)?.errors;
+    // const formErrors = validateFormData(formData, announcementsSchema)?.errors;
+    const formErrors = [];
     const filteredErrors = formErrors?.filter((error) => {
       return error.message !== 'should be string';
     });

@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import { StyledValue } from './ReadOnlyWidget';
 
 const ReadOnlyDecisionWidget: React.FC<WidgetProps> = ({ value }) => (

@@ -1,4 +1,4 @@
-import { ThemeProps, utils } from '@rjsf/core';
+import { ThemeProps, getDefaultRegistry } from '@rjsf/core';
 import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
 import {
   CheckboxWidget,
@@ -12,7 +12,7 @@ import RFiFieldTemplate from './FieldTemplate';
 import ObjectFieldTemplate from './ObjectFieldTemplate';
 import ListFilesWidget from './ListFilesWidget';
 
-const { fields, widgets: defaultWidgets } = utils.getDefaultRegistry();
+const { fields, widgets: defaultWidgets } = getDefaultRegistry();
 
 const RfiTheme: ThemeProps = {
   fields: {

@@ -10,7 +10,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import ProjectTheme from './ProjectTheme';
 
 const ToggleRight = styled.div`
-  display: flex;
   align-items: center;
   margin-left: auto;
   margin-top: auto;
@@ -250,40 +249,29 @@ const ProjectForm: React.FC<Props> = ({
           overflow={overflow}
         >
           {before}
-          {submitting ? (
-            <LoadingContainer>
-              <LoadingItem>
-                <CircularProgress color="inherit" />
-              </LoadingItem>
-              <LoadingItem>
-                <p>Importing Statement of Work. Please wait.</p>
-              </LoadingItem>
-            </LoadingContainer>
-          ) : (
-            <FormBase
-              // setting a key here will reset the form
-              key={isFormEditMode ? 'edit' : 'view'}
-              schema={schema}
-              uiSchema={uiSchema}
-              formData={formData}
-              formContext={{ formData: { ...formData }, ...additionalContext }}
-              theme={theme || ProjectTheme}
-              omitExtraData={false}
-              onChange={handleChange}
-            >
-              {hiddenSubmitRef ? (
-                <button
-                  type="submit"
-                  ref={hiddenSubmitRef}
-                  style={{ display: 'none' }}
-                >
-                  Submit
-                </button>
-              ) : (
-                true
-              )}
-            </FormBase>
-          )}
+          <FormBase
+            // setting a key here will reset the form
+            key={isFormEditMode ? 'edit' : 'view'}
+            schema={schema}
+            uiSchema={uiSchema}
+            formData={formData}
+            formContext={{ formData: { ...formData }, ...additionalContext }}
+            theme={theme || ProjectTheme}
+            omitExtraData={false}
+            onChange={handleChange}
+          >
+            {hiddenSubmitRef ? (
+              <button
+                type="submit"
+                ref={hiddenSubmitRef}
+                style={{ display: 'none' }}
+              >
+                Submit
+              </button>
+            ) : (
+              true
+            )}
+          </FormBase>
         </StyledAnimateForm>
         {children}
       </BaseAccordion.Content>

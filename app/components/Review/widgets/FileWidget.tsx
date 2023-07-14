@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import DownloadLink from 'components/DownloadLink';
 import React, { useMemo } from 'react';
 

@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import { SelectWidget } from 'lib/theme/widgets';
 
 interface SelectWidgetProps extends WidgetProps {

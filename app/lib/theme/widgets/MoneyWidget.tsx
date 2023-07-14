@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input-field';
 import Label from 'components/Form/Label';
