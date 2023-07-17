@@ -45,8 +45,8 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   const isRawErrors = rawErrors && rawErrors.length > 0;
   const isError = isRawErrors;
   const uiOptions = uiSchema['ui:options'];
-  const maxDate = dayjs(uiOptions?.maxDate);
-  const minDate = dayjs(uiOptions?.minDate);
+  const maxDate = dayjs(uiOptions?.maxDate as number);
+  const minDate = dayjs(uiOptions?.minDate as number);
 
   const handleChange = (d: Date) => {
     const originalDate = new Date(d);
