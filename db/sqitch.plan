@@ -362,3 +362,4 @@ mutations/create_change_request [mutations/create_change_request@1.81.0] 2023-07
 tables/change_request_data_001_amendment 2023-07-07T19:08:14Z Marcel Mueller <marcel@m2> # change change_request_number column to amendment_number
 @1.85.0 2023-07-13T18:29:11Z CCBC Service Account <ccbc@button.is> # release v1.85.0
 @1.86.0 2023-07-14T15:29:48Z CCBC Service Account <ccbc@button.is> # release v1.86.0
+@1.87.0 2023-07-17T22:45:32Z CCBC Service Account <ccbc@button.is> # release v1.87.0
