@@ -40,12 +40,12 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
   const setDisposable = useDisposeOnRouteChange();
-  const wrap = uiSchema['ui:options']?.wrap ?? false;
+  const uiOptions = uiSchema?.['ui:options'];
+  const wrap = uiOptions?.wrap ?? false;
   const allowMultipleFiles =
-    (uiSchema['ui:options']?.allowMultipleFiles as boolean) ?? false;
-  const acceptedFileTypes = (uiSchema['ui:options']?.fileTypes as string) ?? '';
-  const buttonVariant = (uiSchema['ui:options']?.buttonVariant ||
-    'primary') as string;
+    (uiOptions?.allowMultipleFiles as boolean) ?? false;
+  const acceptedFileTypes = (uiOptions?.fileTypes as string) ?? '';
+  const buttonVariant = (uiOptions?.buttonVariant || 'primary') as string;
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment;
   // 104857600 bytes = 100mb
@@ -85,7 +85,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     const { name, size, type } = file;
 
     if (isFiles && !allowMultipleFiles) {
-      // Soft delete file if 'Replace' button is used for single file uploads
+      // This is broken in RJSF 5 as the onChange is running after the onChange
+      // below in the createAttachment onCompleted function and is overwriting the value with null
       handleDelete(fileId, deleteAttachment, setError, value, onChange);
     }
 

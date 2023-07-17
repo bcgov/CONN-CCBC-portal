@@ -2,8 +2,9 @@ import validateFormData from '@rjsf/core/dist/cjs/validate';
 import schema from './schema';
 
 const validate = (formData) => {
-  const errorSchema = validateFormData(formData, schema)?.errorSchema;
-
+  // Need to figure out where the external validate function is in RJSF 5. This is a temporary 'fix' to make the form run without errors
+  // const errorSchema = validateFormData(formData, schema)?.errorSchema;
+  const errorSchema = [];
   const fileUploadPages = [
     'templateUploads',
     'supportingDocuments',

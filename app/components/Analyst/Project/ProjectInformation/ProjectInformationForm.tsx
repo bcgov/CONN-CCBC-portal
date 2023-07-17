@@ -134,7 +134,9 @@ const ProjectInformationForm = ({ application }) => {
     if (formData === null) {
       return false;
     }
-    // const formErrors = validateFormData(
+
+    // Temporarily disabling form validation to get form to run without errors for rjsf 5 upgrade
+    // // const formErrors = validateFormData(
     //   formData,
     //   projectInformationSchema
     // )?.errors;
@@ -154,13 +156,13 @@ const ProjectInformationForm = ({ application }) => {
     return !isFormValid;
   }, [formData]);
 
+  const changeRequestAmendmentNumber =
+    currentChangeRequestData?.amendmentNumber || newAmendmentNumber;
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsFormSubmitting(true);
     hiddenSubmitRef.current.click();
-
-    const changeRequestAmendmentNumber =
-      currentChangeRequestData?.amendmentNumber || newAmendmentNumber;
 
     if (hasFormErrors && formData.hasFundingAgreementBeenSigned) {
       setIsFormSubmitting(false);
@@ -270,6 +272,7 @@ const ProjectInformationForm = ({ application }) => {
         applicationId: rowId,
         sowValidationErrors,
         validateSow,
+        amendmentNumber: changeRequestAmendmentNumber,
       }}
       before={
         <StyledFlex isFormEditMode={isFormEditMode}>

@@ -91,16 +91,18 @@ export const Success = () => (
 );
 
 export const displaySowUploadErrors = (err) => {
-  const { level: errorType, error: errorMessage, filename='Statement of Work' } = err;
+  const {
+    level: errorType,
+    error: errorMessage,
+    filename = 'Statement of Work',
+  } = err;
 
-  let title =
-    `An unknown error has occured while validating the ${filename} data`;
+  let title = `An unknown error has occured while validating the ${filename} data`;
   if (errorType?.includes('tab')) {
     title = `There was an error importing the ${filename} data at ${errorType}`;
   }
   if (errorType === 'summary') {
-    title =
-      `There was an error importing the ${filename} data at the Summary tab`;
+    title = `There was an error importing the ${filename} data at the Summary tab`;
   }
 
   if (errorType === 'database') {
@@ -108,8 +110,7 @@ export const displaySowUploadErrors = (err) => {
   }
 
   if (errorType === 'workbook') {
-    title =
-      `The ${filename} sheet does not appear to contain the correct tabs.`;
+    title = `The ${filename} sheet does not appear to contain the correct tabs.`;
   }
   // for cell level errors
   if (typeof errorMessage !== 'string') {
@@ -253,7 +254,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
         onCompleted: (res) => {
           const uuid = res?.createAttachment?.attachment?.file;
           const attachmentRowId = res?.createAttachment?.attachment?.rowId;
-  
+
           const fileDetails = {
             id: attachmentRowId,
             uuid,
