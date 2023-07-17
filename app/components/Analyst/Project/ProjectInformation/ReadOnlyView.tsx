@@ -141,6 +141,7 @@ interface Props {
   onFormEdit?: any;
   isChangeRequest?: boolean;
   isFormEditMode?: boolean;
+  isSowUploadError?: boolean;
   sow?: any;
   title: string;
   wirelessSow?: any;
@@ -154,6 +155,7 @@ const ReadOnlyView: React.FC<Props> = ({
   fundingAgreement,
   isChangeRequest,
   isFormEditMode,
+  isSowUploadError,
   levelOfAmendment,
   map,
   onFormEdit,
@@ -169,15 +171,15 @@ const ReadOnlyView: React.FC<Props> = ({
   const formattedDateRequested =
     dateRequested &&
     DateTime.fromISO(dateRequested).toLocaleString(DateTime.DATE_MED);
-  const hasSowUploadErrors = true;
-    // projectInformation?.jsonData?.hasSowUploadErrors || true;
+
   return (
     <div>
-      {hasSowUploadErrors && !isFormEditMode && 
-            <ImportErrorMessage 
-              title={'Statement of Work data did not import'} 
-              errorMessage={'Press the edit pencil to try re-uploading'} />
-          }
+      {isSowUploadError && !isFormEditMode && (
+        <ImportErrorMessage
+          title="Statement of Work data did not import"
+          errorMessage="Press the edit pencil to try re-uploading"
+        />
+      )}
       <StyledGrid>
         <div>
           <StyledH3>

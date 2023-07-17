@@ -4,11 +4,7 @@ const projectInformation: JSONSchema7 = {
   title: 'Project information',
   description: '',
   type: 'object',
-  required: [
-    'dateFundingAgreementSigned',
-    'fundingAgreementUpload',
-    'statementOfWorkUpload',
-  ],
+  required: ['dateFundingAgreementSigned', 'fundingAgreementUpload'],
   properties: {
     hasFundingAgreementBeenSigned: {
       title: 'Has the funding agreement been signed?',
@@ -51,6 +47,9 @@ const projectInformation: JSONSchema7 = {
             finalizedMapUpload: {
               title: 'Upload the finalized map, if available',
               type: 'string',
+            },
+            sowValidationErrors: {
+              type: 'boolean',
             },
           },
         },
