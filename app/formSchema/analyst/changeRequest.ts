@@ -7,6 +7,7 @@ const changeRequest: JSONSchema7 = {
     ammendmentNumber: {
       title: 'Ammendment #',
       type: 'integer',
+      maximum: 999,
     },
     dateRequested: {
       title: 'Date change requested/initiated',

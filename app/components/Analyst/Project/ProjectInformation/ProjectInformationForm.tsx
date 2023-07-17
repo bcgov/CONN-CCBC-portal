@@ -16,6 +16,7 @@ import Toast from 'components/Toast';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import sowValidateGenerator from 'lib/helpers/sowValidate';
 import ReadOnlyView from 'components/Analyst/Project/ProjectInformation/ReadOnlyView';
+import ChangeRequestTheme from '../ChangeRequestTheme';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
@@ -316,7 +317,7 @@ const ProjectInformationForm = ({ application }) => {
       formAnimationHeightOffset={70}
       isFormAnimated
       schema={formSchema}
-      theme={ProjectTheme}
+      theme={isChangeRequest ? ChangeRequestTheme : ProjectTheme}
       uiSchema={uiSchema}
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
