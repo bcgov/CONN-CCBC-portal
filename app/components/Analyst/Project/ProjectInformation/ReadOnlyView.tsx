@@ -11,6 +11,7 @@ import {
   faMap,
   faPen,
 } from '@fortawesome/free-solid-svg-icons';
+import ImportErrorMessage from './ImportErrorMessage';
 
 const StyledGrid = styled.div`
   ${(props) => props.theme.breakpoint.mediumUp} {
@@ -168,9 +169,15 @@ const ReadOnlyView: React.FC<Props> = ({
   const formattedDateRequested =
     dateRequested &&
     DateTime.fromISO(dateRequested).toLocaleString(DateTime.DATE_MED);
-
+  const hasSowUploadErrors = true;
+    // projectInformation?.jsonData?.hasSowUploadErrors || true;
   return (
     <div>
+      {hasSowUploadErrors && !isFormEditMode && 
+            <ImportErrorMessage 
+              title={'Statement of Work data did not import'} 
+              errorMessage={'Press the edit pencil to try re-uploading'} />
+          }
       <StyledGrid>
         <div>
           <StyledH3>
