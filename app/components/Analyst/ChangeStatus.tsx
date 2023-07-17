@@ -206,7 +206,6 @@ const ChangeStatus: React.FC<Props> = ({
       !isAllowedExternalChange ||
       isInvalidConditionalApproval
     ) {
-      setDraftStatus(currentStatus);
       window.location.hash = `#external-change-status-modal`;
     } else {
       window.location.hash = `#change-status-external-modal-reason`;

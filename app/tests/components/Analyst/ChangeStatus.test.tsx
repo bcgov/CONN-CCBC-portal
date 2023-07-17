@@ -271,8 +271,7 @@ describe('The application header component', () => {
       fireEvent.change(select, { target: { value: 'approved' } });
     });
 
-    // this will stay on-hold as it will immediately change back before modal
-    expect(screen.getByTestId('change-status')).toHaveValue('on_hold');
+    expect(screen.getByTestId('change-status')).toHaveValue('approved');
 
     const okButton = screen.getByText('Ok');
     await act(async () => {
