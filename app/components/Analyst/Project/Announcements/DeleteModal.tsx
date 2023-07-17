@@ -37,6 +37,7 @@ const DeleteModal = ({
 }) => {
   const [DeleteAnnouncement] = useDeleteAnnouncementMutation();
   const { rowId, jsonData } = announcement;
+  const isMultiProject = jsonData.otherProjectsInAnnouncement?.length > 1;
 
   const handleDeleteAll = async () => {
     const variables = {
@@ -92,27 +93,37 @@ const DeleteModal = ({
         </Modal.Close>
       </Modal.Header>
       <Modal.Content>
-        <p>
-          Would you like to delete this announcement from all projects that are
-          linked or remove it from just this project?
-        </p>
+        {isMultiProject ? (
+          <p>
+            Would you like to delete this announcement from all projects that
+            are linked or remove it from just this project?
+          </p>
+        ) : (
+          <p>Are you sure you want to delete this announcement?</p>
+        )}
         <ModalButtons>
-          <Modal.Close>
-            <Button onClick={handleDeleteAll} data-testid="delete-from-all-btn">
-              Delete from all projects
-            </Button>
-          </Modal.Close>
+          {isMultiProject && (
+            <Modal.Close>
+              <Button
+                onClick={handleDeleteAll}
+                data-testid="delete-from-all-btn"
+              >
+                Delete from all projects
+              </Button>
+            </Modal.Close>
+          )}
           <Modal.Close>
             <Button
               onClick={handleDeleteOne}
               data-testid="delete-from-this-btn"
             >
-              Remove from this project
+              {isMultiProject ? `Remove from this project` : `Yes, delete`}
             </Button>
           </Modal.Close>
-
           <Modal.Close>
-            <Button variant="secondary">Cancel</Button>
+            <Button variant="secondary">
+              {!isMultiProject && `No, `}Cancel
+            </Button>
           </Modal.Close>
         </ModalButtons>
       </Modal.Content>
