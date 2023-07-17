@@ -839,6 +839,7 @@ describe('The applicant dashboard', () => {
     // When modal shows up, confirm status change
     cy.url().should('include', '#change-status-modal');
     cy.get('button[data-testid="withdraw-yes-btn"]')
+      .first()
       .should('be.visible')
       .click();
     cy.wait('@graphql');

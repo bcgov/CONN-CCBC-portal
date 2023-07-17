@@ -208,13 +208,13 @@ const ChangeStatus: React.FC<Props> = ({
     ) {
       window.location.hash = `#external-change-status-modal`;
     } else {
-      await handleSave(e.target.value);
+      window.location.hash = `#change-status-external-modal-reason`;
     }
   };
 
   return (
     <>
-      {isExternalStatus ? (
+      {isExternalStatus && (
         <ExternalChangeModal
           applicationId={rowId}
           id="external-change-status-modal"
@@ -224,25 +224,28 @@ const ChangeStatus: React.FC<Props> = ({
           }
           onCancel={() => setDraftStatus(currentStatus)}
         />
-      ) : (
-        <ChangeModal
-          description={
-            <ModalDescription
-              currentStatus={currentStatus}
-              draftStatus={draftStatus}
-            />
-          }
-          id="change-status-modal"
-          saveLabel="Save change"
-          cancelLabel="Cancel change"
-          onSave={handleSave}
-          value={changeReason}
-          onCancel={() => setDraftStatus(currentStatus)}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            setChangeReason(e.target.value)
-          }
-        />
       )}
+      <ChangeModal
+        description={
+          <ModalDescription
+            currentStatus={currentStatus}
+            draftStatus={draftStatus}
+          />
+        }
+        id={
+          isExternalStatus
+            ? 'change-status-external-modal-reason'
+            : 'change-status-modal'
+        }
+        saveLabel="Save change"
+        cancelLabel="Cancel change"
+        onSave={handleSave}
+        value={changeReason}
+        onCancel={() => setDraftStatus(currentStatus)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+          setChangeReason(e.target.value)
+        }
+      />
       <StyledDropdown
         data-testid="change-status"
         onChange={(e) => {

@@ -181,11 +181,11 @@ describe('The analyst edit application page', () => {
       fireEvent.click(formSaveButton);
     });
 
-    const textarea = screen.getAllByTestId('reason-for-change')[1];
+    const textarea = screen.getAllByTestId('reason-for-change')[2];
 
     fireEvent.change(textarea, { target: { value: 'test text' } });
 
-    const saveButton = screen.getAllByTestId('withdraw-yes-btn')[1];
+    const saveButton = screen.getAllByTestId('withdraw-yes-btn')[2];
 
     await act(async () => {
       fireEvent.click(saveButton);
