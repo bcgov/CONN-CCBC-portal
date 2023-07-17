@@ -48,6 +48,19 @@ const ChangeRequestFieldTemplate: React.FC<FieldTemplateProps> = ({
   const flexDirection = uiSchema['ui:options']?.flexDirection as string;
   const flexAlignment = uiSchema['ui:options']?.flexAlign as string;
 
+  const isFileWidget =
+    uiSchema['ui:widget'] === 'FileWidget' ||
+    uiSchema['ui:widget'] === 'SowImportFileWidget';
+
+  if (isFileWidget) {
+    return (
+      <StyledContainer flexAlign={flexAlignment} flexDirection={flexDirection}>
+        {uiTitle && <span>{uiTitle}</span>}
+        {children}
+      </StyledContainer>
+    );
+  }
+
   return (
     <StyledContainer flexAlign={flexAlignment} flexDirection={flexDirection}>
       {uiTitle && <StyledTextContainer>{uiTitle}</StyledTextContainer>}
