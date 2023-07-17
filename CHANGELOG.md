@@ -1,3 +1,9 @@
+## [1.86.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.86.0...v1.86.1) (2023-07-17)
+
+### Bug Fixes
+
+- status info modal chip font ([733abec](https://github.com/bcgov/CONN-CCBC-portal/commit/733abeca7cb6db626e8b0553bdd69aab9c8d3ce8))
+
 # [1.86.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.85.0...v1.86.0) (2023-07-14)
 
 ### Bug Fixes
