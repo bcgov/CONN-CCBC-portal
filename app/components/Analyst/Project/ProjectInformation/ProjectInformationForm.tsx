@@ -178,16 +178,16 @@ const ProjectInformationForm = ({ application }) => {
       false
     ).then((response) => {
       const isSowErrors = sowValidationErrors.length > 0;
+      const isSowUploaded = formData?.statementOfWorkUpload?.length > 0;
 
-      const newFormData = isSowErrors
-        ? {
-            ...formData,
-            isSowUploadError: true,
-          }
-        : {
-            ...formData,
-            isSowUploadError: false,
-          };
+      // If there are sow errors, persist sow error in form data if not delete
+      const newFormData = { ...formData };
+      if (isSowErrors) {
+        newFormData.isSowUploadError = true;
+      } else if (isSowUploaded) {
+        delete newFormData?.isSowUploadError;
+      }
+
       if (isChangeRequest) {
         createChangeRequest({
           variables: {
@@ -270,6 +270,7 @@ const ProjectInformationForm = ({ application }) => {
     }
     return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`;
   };
+
   const isOriginalSowUpload = projectInformation?.jsonData;
   return (
     <StyledProjectForm

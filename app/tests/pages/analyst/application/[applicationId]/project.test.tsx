@@ -233,6 +233,26 @@ const mockProjectDataQueryPayload = {
   },
 };
 
+const mockSowErrorQueryPayload = {
+  Query() {
+    return {
+      applicationByRowId: {
+        rowId: 1,
+        ccbcNumber: 'CCBC-010003',
+        projectInformation: {
+          jsonData: {
+            hasFundingAgreementBeenSigned: true,
+            isSowUploadError: true,
+          },
+        },
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+    };
+  },
+};
+
 const pageTestingHelper = new PageTestingHelper<projectQuery>({
   pageComponent: Project,
   compiledQuery: compiledProjectQuery,
@@ -1318,6 +1338,18 @@ describe('The Project page', () => {
         },
       });
     });
+  });
+
+  it('should show the persisted SoW upload error message', async () => {
+    pageTestingHelper.loadQuery(mockSowErrorQueryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText('Statement of Work data did not import')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Press the edit pencil to try re-uploading')
+    ).toBeInTheDocument();
   });
 
   afterEach(() => {
