@@ -16,6 +16,7 @@ import Toast from 'components/Toast';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
 import sowValidateGenerator from 'lib/helpers/sowValidate';
 import ReadOnlyView from 'components/Analyst/Project/ProjectInformation/ReadOnlyView';
+import ChangeRequestTheme from '../ChangeRequestTheme';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
@@ -101,6 +102,9 @@ const ProjectInformationForm = ({ application }) => {
     sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
     [rowId, ccbcNumber, setSowFile, setSowValidationErrors]
   );
+
+  const hasSowValidationErrors =
+    sowValidationErrors.length > 0 || sowFile === null;
 
   const projectInformationData = projectInformation?.jsonData;
   const changeRequestData =
@@ -312,15 +316,15 @@ const ProjectInformationForm = ({ application }) => {
       }}
       isFormEditMode={isFormEditMode}
       title="Funding agreement, statement of work, & map"
-      formAnimationHeight={isChangeRequest ? 1000 : 800}
+      formAnimationHeight={isChangeRequest ? 3000 : 800}
       formAnimationHeightOffset={70}
       isFormAnimated
       schema={formSchema}
-      theme={ProjectTheme}
+      theme={isChangeRequest ? ChangeRequestTheme : ProjectTheme}
       uiSchema={uiSchema}
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
-      saveBtnText="Save & Import Data"
+      saveBtnText={hasSowValidationErrors ? 'Save' : 'Save & Import Data'}
       setFormData={setFormData}
       submitting={isFormSubmitting}
       saveBtnDisabled={isFormSubmitting}

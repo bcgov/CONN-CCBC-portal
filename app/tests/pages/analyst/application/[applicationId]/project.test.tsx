@@ -365,7 +365,7 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const saveButton = screen.getByText('Save');
+    const saveButton = screen.getAllByText('Save')[0];
 
     await act(async () => {
       fireEvent.click(saveButton);
@@ -439,7 +439,7 @@ describe('The Project page', () => {
       });
     });
 
-    const saveButton = screen.getByText('Save');
+    const saveButton = screen.getAllByText('Save')[0];
 
     await act(async () => {
       fireEvent.click(saveButton);
@@ -984,7 +984,7 @@ describe('The Project page', () => {
       type: 'application/vnd.ms-excel',
     });
 
-    const inputFile = screen.getAllByTestId('file-test')[0];
+    const inputFile = screen.getAllByTestId('file-test')[1];
 
     await act(async () => {
       fireEvent.change(inputFile, { target: { files: [file] } });
@@ -1064,7 +1064,7 @@ describe('The Project page', () => {
 
     expect(hasFundingAggreementBeenSigned).toBeChecked();
 
-    const saveButton = screen.getByText('Save & Import Data');
+    const saveButton = screen.getByText('Save');
 
     expect(saveButton).not.toBeDisabled();
 
@@ -1114,7 +1114,7 @@ describe('The Project page', () => {
 
     expect(hasFundingAggreementBeenSigned).toBeChecked();
 
-    const saveButton = screen.getByText('Save & Import Data');
+    const saveButton = screen.getByText('Save');
 
     expect(saveButton).not.toBeDisabled();
 
@@ -1170,7 +1170,7 @@ describe('The Project page', () => {
       type: 'application/vnd.ms-excel',
     });
 
-    const inputFile = screen.getAllByTestId('file-test')[0];
+    const inputFile = screen.getAllByTestId('file-test')[1];
 
     await act(async () => {
       fireEvent.change(inputFile, { target: { files: [file] } });
@@ -1259,7 +1259,7 @@ describe('The Project page', () => {
       type: 'application/vnd.ms-excel',
     });
 
-    const inputFile = screen.getAllByTestId('file-test')[0];
+    const inputFile = screen.getAllByTestId('file-test')[1];
 
     await act(async () => {
       fireEvent.change(inputFile, { target: { files: [file] } });
