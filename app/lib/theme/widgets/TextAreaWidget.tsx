@@ -22,7 +22,7 @@ const StyledTextArea = styled(Textarea)`
 `;
 
 const StyledDiv = styled('div')`
-  margin-bottom: 16px;
+  margin-bottom: 16px !important;
 `;
 
 const TextAreaWidget: React.FC<WidgetProps> = ({

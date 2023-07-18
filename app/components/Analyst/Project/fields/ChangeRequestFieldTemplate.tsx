@@ -44,6 +44,7 @@ const StyledContainer = styled.div<ContainerProps>`
     max-width: 100%;
     width: 100%;
     margin: 0px;
+    margin-bottom: -8px;
   }
 
   display: flex;
