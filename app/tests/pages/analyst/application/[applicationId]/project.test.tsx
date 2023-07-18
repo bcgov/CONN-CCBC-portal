@@ -984,7 +984,7 @@ describe('The Project page', () => {
       type: 'application/vnd.ms-excel',
     });
 
-    const inputFile = screen.getAllByTestId('file-test')[0];
+    const inputFile = screen.getAllByTestId('file-test')[1];
 
     await act(async () => {
       fireEvent.change(inputFile, { target: { files: [file] } });
@@ -1170,7 +1170,7 @@ describe('The Project page', () => {
       type: 'application/vnd.ms-excel',
     });
 
-    const inputFile = screen.getAllByTestId('file-test')[0];
+    const inputFile = screen.getAllByTestId('file-test')[1];
 
     await act(async () => {
       fireEvent.change(inputFile, { target: { files: [file] } });
@@ -1259,7 +1259,7 @@ describe('The Project page', () => {
       type: 'application/vnd.ms-excel',
     });
 
-    const inputFile = screen.getAllByTestId('file-test')[0];
+    const inputFile = screen.getAllByTestId('file-test')[1];
 
     await act(async () => {
       fireEvent.change(inputFile, { target: { files: [file] } });

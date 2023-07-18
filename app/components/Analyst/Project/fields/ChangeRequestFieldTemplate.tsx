@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const StyledTextContainer = styled.span`
   text-align: right;
   font-weight: bold;
-  max-width: 15ch;
+  max-width: 20ch;
+  min-width: 20ch;
   padding: 10px;
   word-wrap: break-word;
 `;
