@@ -1,3 +1,19 @@
+# [1.87.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.86.0...v1.87.0) (2023-07-18)
+
+### Bug Fixes
+
+- conditional approval modal ([5d5fa00](https://github.com/bcgov/CONN-CCBC-portal/commit/5d5fa00040903125f73f72d7544e08d10823f726))
+- public runtime config breaking tests ([54285b5](https://github.com/bcgov/CONN-CCBC-portal/commit/54285b5fc39803f00334827485bb5087c59896ed))
+- revert hardcoded test value ([8d1655e](https://github.com/bcgov/CONN-CCBC-portal/commit/8d1655e371b6ae04057a65b47e024a6c16262fda))
+- status info modal chip font ([733abec](https://github.com/bcgov/CONN-CCBC-portal/commit/733abeca7cb6db626e8b0553bdd69aab9c8d3ce8))
+- use next/config for metabase embed env var ([00ce99c](https://github.com/bcgov/CONN-CCBC-portal/commit/00ce99c92d64c2318cb13297bf2fcb5aab4d667a))
+
+### Features
+
+- add gis test dashboard link ([8a0208e](https://github.com/bcgov/CONN-CCBC-portal/commit/8a0208eed7d507f02f4396e71aa45a2457b32809))
+- modal for single project delete ([a55450b](https://github.com/bcgov/CONN-CCBC-portal/commit/a55450bf0de973bbd063be2a90b596a14f843237))
+- show reason for change for external status ([076464a](https://github.com/bcgov/CONN-CCBC-portal/commit/076464af0f30f8edd913327d292f19197861a1ea))
+
 # [1.86.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.85.0...v1.86.0) (2023-07-14)
 
 ### Bug Fixes
