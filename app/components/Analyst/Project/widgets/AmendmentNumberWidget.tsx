@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
-import { Input } from 'lib/theme/sharedWidgetStyles';
+import { Input } from '@button-inc/bcgov-theme';
 
 interface ErrorProps {
   isError: boolean;
@@ -24,7 +24,6 @@ const StyledError = styled.div<ErrorProps>`
 
 const StyledInput = styled(Input)`
   margin: 8px 0;
-  max-width: 54px;
 
   input {
     max-width: 54px;
@@ -65,6 +64,7 @@ const AmendmentNumberWidget: React.FC<WidgetProps> = ({
   return (
     <StyledContainer>
       <StyledInput
+        style={{ width: '54px' }}
         type="text"
         isError={isError}
         id={id}

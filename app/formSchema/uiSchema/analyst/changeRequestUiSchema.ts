@@ -11,7 +11,7 @@ const changeRequestUiSchema = {
     'updatedMapUpload',
   ],
   amendmentNumber: {
-    'ui:widget': 'NumberWidget',
+    'ui:widget': 'AmendmentNumberWidget',
     'ui:title': 'Amendment #',
     'ui:option': {
       flexAlign: 'baseline',
