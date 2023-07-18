@@ -4,7 +4,7 @@ const projectInformation: JSONSchema7 = {
   title: 'Project information',
   description: '',
   type: 'object',
-  required: ['dateFundingAgreementSigned', 'fundingAgreementUpload'],
+  required: ['dateFundingAgreementSigned'],
   properties: {
     hasFundingAgreementBeenSigned: {
       title: 'Has the funding agreement been signed?',
