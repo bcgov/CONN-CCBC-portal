@@ -170,9 +170,19 @@ const ProjectInformationForm = ({ application }) => {
     setIsFormSubmitting(true);
 
     const changeRequestAmendmentNumber = formData?.amendmentNumber;
-    const isAmendmentValid = !amendmentNumbers
-      ?.split(' ')
-      .includes(changeRequestAmendmentNumber?.toString());
+    const oldChangeRequestAmendmentNumber =
+      currentChangeRequestData?.jsonData?.amendmentNumber;
+
+    // Allow form to be submitted if editing a change request and no change to amendment number
+    const isSameAmendmentNumber =
+      changeRequestAmendmentNumber === oldChangeRequestAmendmentNumber;
+
+    const isAmendmentValid =
+      !amendmentNumbers
+        ?.split(' ')
+        .includes(changeRequestAmendmentNumber?.toString()) ||
+      isSameAmendmentNumber;
+
     const isOriginalSowFormInvalid =
       !isChangeRequest &&
       hasFormErrors &&
