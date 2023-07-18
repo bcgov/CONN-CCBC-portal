@@ -103,6 +103,9 @@ const ProjectInformationForm = ({ application }) => {
     [rowId, ccbcNumber, setSowFile, setSowValidationErrors]
   );
 
+  const hasSowValidationErrors =
+    sowValidationErrors.length > 0 || sowFile === null;
+
   const projectInformationData = projectInformation?.jsonData;
   const changeRequestData =
     changeRequestDataByApplicationId &&
@@ -321,7 +324,7 @@ const ProjectInformationForm = ({ application }) => {
       uiSchema={uiSchema}
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
-      saveBtnText="Save & Import Data"
+      saveBtnText={hasSowValidationErrors ? 'Save' : 'Save & Import Data'}
       setFormData={setFormData}
       submitting={isFormSubmitting}
       saveBtnDisabled={isFormSubmitting}
