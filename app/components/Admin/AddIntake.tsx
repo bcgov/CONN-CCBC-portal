@@ -2,6 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import FormBase from 'components/Form/FormBase';
+import intakeSchema from 'formSchema/admin/intake';
+import intakeUiSchema from 'formSchema/uiSchema/admin/intakeUiSchema';
 
 const StyledButton = styled(Button)`
   // overflow: hidden for the animation was cutting off focus border so adding a small margin
@@ -43,7 +45,7 @@ const AddIntake = () => {
         </StyledButton>
       </StyledBtnContainer>
       <StyledForm isFormEditMode={isFormEditMode}>
-        <FormBase schema={{}}>
+        <FormBase schema={intakeSchema} uiSchema={intakeUiSchema}>
           <StyledSaveBtn>Save</StyledSaveBtn>
           <StyledButton
             onClick={() => setIsFormEditMode(false)}
