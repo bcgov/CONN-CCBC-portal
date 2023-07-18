@@ -3,6 +3,7 @@ import { JSONSchema7 } from 'json-schema';
 const changeRequest: JSONSchema7 = {
   description: '',
   type: 'object',
+  required: ['amendmentNumber'],
   properties: {
     amendmentNumber: {
       title: 'Amendment #',

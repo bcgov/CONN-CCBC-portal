@@ -123,8 +123,6 @@ const ProjectInformationForm = ({ application }) => {
 
   const connectionId = changeRequestDataByApplicationId?.__id;
 
-  // This will change to amendment number once we add the amendment field
-  const newAmendmentNumber = changeRequestData.length + 1;
   const formSchema = isChangeRequest
     ? changeRequestSchema
     : projectInformationSchema;
@@ -139,11 +137,7 @@ const ProjectInformationForm = ({ application }) => {
     if (formData === null) {
       return false;
     }
-    const formErrors = validateFormData(
-      formData,
-      projectInformationSchema
-    )?.errors;
-
+    const formErrors = validateFormData(formData, formSchema)?.errors;
     // not sure about these enum or oneOf errors, filtering them out as a very hacky solution
     const filteredErrors = formErrors?.filter((error) => {
       return (
@@ -157,15 +151,33 @@ const ProjectInformationForm = ({ application }) => {
     return !isFormValid;
   }, [formData]);
 
+  const validate = (jsonData, errors) => {
+    if (amendmentNumbers.includes(jsonData?.amendmentNumber)) {
+      errors.amendmentNumber.addError("Can't be a duplicate amendment number");
+    }
+    return errors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsFormSubmitting(true);
+
     hiddenSubmitRef.current.click();
 
-    const changeRequestAmendmentNumber =
-      currentChangeRequestData?.amendmentNumber || newAmendmentNumber;
+    setIsFormSubmitting(true);
 
-    if (hasFormErrors && formData.hasFundingAgreementBeenSigned) {
+    const changeRequestAmendmentNumber = formData?.amendmentNumber;
+    const isAmendmentValid = !amendmentNumbers.includes(
+      changeRequestAmendmentNumber
+    );
+    const isOriginalSowFormInvalid =
+      !isChangeRequest &&
+      hasFormErrors &&
+      formData.hasFundingAgreementBeenSigned;
+
+    const isChangeRequestFormInvalid =
+      isChangeRequest && (hasFormErrors || !isAmendmentValid);
+
+    if (isOriginalSowFormInvalid || isChangeRequestFormInvalid) {
       setIsFormSubmitting(false);
       return;
     }
@@ -210,7 +222,10 @@ const ProjectInformationForm = ({ application }) => {
             setIsFormSubmitting(false);
             setFormData({});
             // May need to change when the toast is shown when we add validation
-            if (response?.status === 200) {
+            if (
+              newFormData?.statementOfWorkUpload?.length > 0 &&
+              response?.status === 200
+            ) {
               setShowToast(true);
             }
             setCurrentChangeRequestData(null);
@@ -288,6 +303,7 @@ const ProjectInformationForm = ({ application }) => {
   };
 
   const isOriginalSowUpload = projectInformation?.jsonData;
+
   return (
     <StyledProjectForm
       additionalContext={{
@@ -346,6 +362,7 @@ const ProjectInformationForm = ({ application }) => {
         !hasFundingAgreementBeenSigned && !isFormEditMode && !isChangeRequest
       }
       hiddenSubmitRef={hiddenSubmitRef}
+      validate={validate}
     >
       {changeRequestData?.map((changeRequest) => {
         const {
