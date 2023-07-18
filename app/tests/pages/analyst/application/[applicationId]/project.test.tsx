@@ -12,6 +12,7 @@ const mockQueryPayload = {
     return {
       applicationByRowId: {
         rowId: 1,
+        amendmentNumbers: '0 1 2 3',
         ccbcNumber: 'CCBC-010003',
         conditionalApprovalDataByApplicationId: {
           edges: [
@@ -52,6 +53,7 @@ const mockJsonDataQueryPayload = {
     return {
       applicationByRowId: {
         rowId: 1,
+        amendmentNumbers: '0 1 2 3',
         ccbcNumber: 'CCBC-010003',
         announcements: {
           edges: [
@@ -179,6 +181,7 @@ const mockProjectDataQueryPayload = {
     return {
       applicationByRowId: {
         rowId: 1,
+        amendmentNumbers: '0 1 2 3',
         ccbcNumber: 'CCBC-010003',
         announcements: {
           edges: [],
@@ -238,6 +241,7 @@ const mockSowErrorQueryPayload = {
     return {
       applicationByRowId: {
         rowId: 1,
+        amendmentNumbers: '0 1 2 3',
         ccbcNumber: 'CCBC-010003',
         projectInformation: {
           jsonData: {
@@ -980,6 +984,12 @@ describe('The Project page', () => {
       fireEvent.click(addButton);
     });
 
+    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
+
+    await act(async () => {
+      fireEvent.change(amendmentNumber, { target: { value: '20' } });
+    });
+
     const file = new File([new ArrayBuffer(1)], 'file.xls', {
       type: 'application/vnd.ms-excel',
     });
@@ -1034,8 +1044,9 @@ describe('The Project page', () => {
       ],
       input: {
         _applicationId: 1,
-        _amendmentNumber: 2,
+        _amendmentNumber: 20,
         _jsonData: {
+          amendmentNumber: 20,
           statementOfWorkUpload: [
             {
               id: 1,
@@ -1166,6 +1177,12 @@ describe('The Project page', () => {
       fireEvent.click(addButton);
     });
 
+    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
+
+    await act(async () => {
+      fireEvent.change(amendmentNumber, { target: { value: '20' } });
+    });
+
     const file = new File([new ArrayBuffer(1)], 'file.xls', {
       type: 'application/vnd.ms-excel',
     });
@@ -1225,8 +1242,9 @@ describe('The Project page', () => {
       ],
       input: {
         _applicationId: 1,
-        _amendmentNumber: 2,
+        _amendmentNumber: 20,
         _jsonData: {
+          amendmentNumber: 20,
           statementOfWorkUpload: [
             {
               id: 1,
@@ -1255,6 +1273,12 @@ describe('The Project page', () => {
       fireEvent.click(addButton);
     });
 
+    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
+
+    await act(async () => {
+      fireEvent.change(amendmentNumber, { target: { value: '20' } });
+    });
+
     const file = new File([new ArrayBuffer(1)], 'file.xls', {
       type: 'application/vnd.ms-excel',
     });
@@ -1314,8 +1338,9 @@ describe('The Project page', () => {
       ],
       input: {
         _applicationId: 1,
-        _amendmentNumber: 2,
+        _amendmentNumber: 20,
         _jsonData: {
+          amendmentNumber: 20,
           statementOfWorkUpload: [
             {
               id: 1,
@@ -1350,6 +1375,41 @@ describe('The Project page', () => {
     expect(
       screen.getByText('Press the edit pencil to try re-uploading')
     ).toBeInTheDocument();
+  });
+
+  it('calls displays the amendment error on save', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+    const addButton = screen.getByText('Add change request').closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
+
+    await act(async () => {
+      fireEvent.change(amendmentNumber, { target: { value: '0' } });
+    });
+
+    const saveButton = screen.getByText('Save');
+
+    expect(saveButton).not.toBeDisabled();
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    expect(
+      screen.getByText('Amendment number already in use')
+    ).toBeInTheDocument();
+
+    expect(amendmentNumber).toHaveStyle('border: 2px solid #E71F1F;');
   });
 
   afterEach(() => {
