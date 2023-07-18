@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { DashboardTabs } from 'components/AnalystDashboard';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { Layout } from 'components';
-import { AdminTabs, Intake } from 'components/Admin';
+import { AddIntake, AdminTabs, Intake } from 'components/Admin';
 import { applicationIntakesQuery } from '__generated__/applicationIntakesQuery.graphql';
 
 const getApplicationIntakesQuery = graphql`
@@ -69,6 +69,7 @@ const ApplicationIntakes = ({
             })}
           </section>
         )}
+        <AddIntake />
       </StyledContainer>
     </Layout>
   );
