@@ -177,6 +177,17 @@ const ProjectInformationForm = ({ application }) => {
       isChangeRequest ? changeRequestAmendmentNumber : 0,
       false
     ).then((response) => {
+      const isSowErrors = sowValidationErrors.length > 0;
+      const isSowUploaded = formData?.statementOfWorkUpload?.length > 0;
+
+      // If there are sow errors, persist sow error in form data if not delete
+      const newFormData = { ...formData };
+      if (isSowErrors) {
+        newFormData.isSowUploadError = true;
+      } else if (isSowUploaded) {
+        delete newFormData?.isSowUploadError;
+      }
+
       if (isChangeRequest) {
         createChangeRequest({
           variables: {
@@ -184,7 +195,7 @@ const ProjectInformationForm = ({ application }) => {
             input: {
               _applicationId: rowId,
               _amendmentNumber: changeRequestAmendmentNumber,
-              _jsonData: formData,
+              _jsonData: newFormData,
             },
           },
           onCompleted: () => {
@@ -220,7 +231,7 @@ const ProjectInformationForm = ({ application }) => {
       } else {
         createProjectInformation({
           variables: {
-            input: { _applicationId: rowId, _jsonData: formData },
+            input: { _applicationId: rowId, _jsonData: newFormData },
           },
           onCompleted: () => {
             setIsFormEditMode(false);
@@ -259,8 +270,8 @@ const ProjectInformationForm = ({ application }) => {
     }
     return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`;
   };
-  const isOriginalSowUpload =
-    projectInformation?.jsonData?.statementOfWorkUpload?.[0];
+
+  const isOriginalSowUpload = projectInformation?.jsonData;
   return (
     <StyledProjectForm
       additionalContext={{
@@ -340,6 +351,7 @@ const ProjectInformationForm = ({ application }) => {
             }}
             isChangeRequest
             isFormEditMode={isFormEditMode}
+            isSowUploadError={jsonData?.isSowUploadError}
             sow={jsonData?.statementOfWorkUpload?.[0]}
           />
         );
@@ -354,6 +366,7 @@ const ProjectInformationForm = ({ application }) => {
             setIsFormEditMode(true);
           }}
           isFormEditMode={isFormEditMode}
+          isSowUploadError={projectInformationData?.isSowUploadError}
           map={projectInformationData?.finalizedMapUpload?.[0]}
           sow={projectInformationData?.statementOfWorkUpload?.[0]}
           fundingAgreement={projectInformationData?.fundingAgreementUpload?.[0]}

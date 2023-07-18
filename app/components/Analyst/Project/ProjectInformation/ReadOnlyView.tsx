@@ -11,6 +11,7 @@ import {
   faMap,
   faPen,
 } from '@fortawesome/free-solid-svg-icons';
+import ImportErrorMessage from './ImportErrorMessage';
 
 const StyledGrid = styled.div`
   ${(props) => props.theme.breakpoint.mediumUp} {
@@ -140,6 +141,7 @@ interface Props {
   onFormEdit?: any;
   isChangeRequest?: boolean;
   isFormEditMode?: boolean;
+  isSowUploadError?: boolean;
   sow?: any;
   title: string;
   wirelessSow?: any;
@@ -153,6 +155,7 @@ const ReadOnlyView: React.FC<Props> = ({
   fundingAgreement,
   isChangeRequest,
   isFormEditMode,
+  isSowUploadError,
   levelOfAmendment,
   map,
   onFormEdit,
@@ -171,6 +174,12 @@ const ReadOnlyView: React.FC<Props> = ({
 
   return (
     <div>
+      {isSowUploadError && !isFormEditMode && (
+        <ImportErrorMessage
+          title="Statement of Work data did not import"
+          errorMessage="Press the edit pencil to try re-uploading"
+        />
+      )}
       <StyledGrid>
         <div>
           <StyledH3>
