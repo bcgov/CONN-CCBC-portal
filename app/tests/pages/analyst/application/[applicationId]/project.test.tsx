@@ -716,14 +716,14 @@ describe('The Project page', () => {
     });
   });
 
-  it('should call the deleteAnnouncement mutation', async () => {
+  it('should call the deleteAnnouncement mutation for multi project', async () => {
     await act(async () => {
       pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
       pageTestingHelper.renderPage();
     });
 
     // Click on the delete button to open the form for the first announcement
-    const deleteButton = screen.getAllByTestId('project-form-delete-button')[1];
+    const deleteButton = screen.getAllByTestId('project-form-delete-button')[0];
     await act(async () => {
       fireEvent.click(deleteButton);
     });
@@ -741,8 +741,79 @@ describe('The Project page', () => {
     // Check if the deleteAnnouncement mutation has been sent
     pageTestingHelper.expectMutationToBeCalled('deleteAnnouncementMutation', {
       input: {
-        announcementRowId: 2,
+        announcementRowId: 1,
         applicationRowId: -1,
+        formData: {
+          announcementUrl: 'www.test.com',
+          announcementDate: '2023-05-01',
+          announcementType: 'Primary',
+          otherProjectsInAnnouncement: [
+            {
+              ccbcNumber: 'CCBC-010001',
+            },
+            {
+              ccbcNumber: 'CCBC-010002',
+            },
+          ],
+        },
+      },
+    });
+
+    // delete the announcement
+    const deleteFromThis = screen.getByTestId('delete-from-this-btn');
+    await act(async () => {
+      fireEvent.click(deleteFromThis);
+    });
+
+    // Check if the deleteAnnouncement mutation has been sent
+    pageTestingHelper.expectMutationToBeCalled('deleteAnnouncementMutation', {
+      input: {
+        announcementRowId: 1,
+        applicationRowId: -1,
+        formData: {
+          announcementUrl: 'www.test.com',
+          announcementDate: '2023-05-01',
+          announcementType: 'Primary',
+          otherProjectsInAnnouncement: [
+            {
+              ccbcNumber: 'CCBC-010001',
+            },
+            {
+              ccbcNumber: 'CCBC-010002',
+            },
+          ],
+        },
+      },
+    });
+  });
+
+  it('should call the deleteAnnouncement mutation for single project', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+      pageTestingHelper.renderPage();
+    });
+
+    // Click on the delete button to open the form for the first announcement
+    const deleteButton = screen.getAllByTestId('project-form-delete-button')[1];
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    // observe confirmation dialog
+    expect(screen.getByText('Yes, delete')).toBeInTheDocument();
+    expect(screen.getByText('No, Cancel')).toBeInTheDocument();
+
+    // delete the announcement
+    const deleteFromAll = screen.getByTestId('delete-from-this-btn');
+    await act(async () => {
+      fireEvent.click(deleteFromAll);
+    });
+
+    // Check if the deleteAnnouncement mutation has been sent
+    pageTestingHelper.expectMutationToBeCalled('deleteAnnouncementMutation', {
+      input: {
+        announcementRowId: 2,
+        applicationRowId: 1,
         formData: {
           announcementUrl: 'www.test-2.com',
           announcementDate: '2023-05-02',
@@ -761,7 +832,7 @@ describe('The Project page', () => {
     pageTestingHelper.expectMutationToBeCalled('deleteAnnouncementMutation', {
       input: {
         announcementRowId: 2,
-        applicationRowId: -1,
+        applicationRowId: 1,
         formData: {
           announcementUrl: 'www.test-2.com',
           announcementDate: '2023-05-02',
@@ -880,7 +951,9 @@ describe('The Project page', () => {
     pageTestingHelper.renderPage();
 
     // @ts-ignore
-    global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} }));
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
     const addButton = screen.getByText('Add change request').closest('button');
 
     await act(async () => {
@@ -1064,7 +1137,9 @@ describe('The Project page', () => {
     pageTestingHelper.renderPage();
 
     // @ts-ignore
-    global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} })); 
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
     const addButton = screen.getByText('Add change request').closest('button');
 
     await act(async () => {
@@ -1149,9 +1224,11 @@ describe('The Project page', () => {
   it('should stop showing a spinner on change request error', async () => {
     pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
     pageTestingHelper.renderPage();
-    
+
     // @ts-ignore
-    global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} })); 
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
     const addButton = screen.getByText('Add change request').closest('button');
 
     await act(async () => {
@@ -1242,9 +1319,8 @@ describe('The Project page', () => {
       });
     });
   });
-  
+
   afterEach(() => {
     jest.clearAllMocks();
   });
-  
 });
