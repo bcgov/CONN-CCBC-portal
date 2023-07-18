@@ -23,8 +23,6 @@ const StyledError = styled.div<ErrorProps>`
 }`;
 
 const StyledInput = styled(Input)`
-  margin: 8px 0;
-
   input {
     max-width: 54px;
     margin: 0px;

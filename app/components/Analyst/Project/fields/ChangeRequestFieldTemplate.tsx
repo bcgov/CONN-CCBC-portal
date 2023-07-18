@@ -2,12 +2,18 @@ import { FieldTemplateProps } from '@rjsf/core';
 import styled from 'styled-components';
 
 const StyledTextContainer = styled.span`
-  text-align: right;
+  text-align: left;
   font-weight: bold;
-  max-width: 20ch;
+  font-size: 14px;
   min-width: 20ch;
-  padding: 10px;
+  max-width: 20ch;
+  padding: 8px 0;
   word-wrap: break-word;
+
+  ${(props) => props.theme.breakpoint.mediumUp} {
+    text-align: right;
+    padding: 4px 8px;
+  }
 `;
 
 interface ContainerProps {
@@ -16,24 +22,50 @@ interface ContainerProps {
 }
 
 const StyledContainer = styled.div<ContainerProps>`
+  margin-bottom: 16px;
   .pg-select-wrapper,
-  .datepicker-widget,
   .url-widget-wrapper,
   .ccbcid-widget-wrapper {
     max-width: 300px;
     width: 100%;
   }
 
+  .datepicker-widget {
+    margin: 0px;
+  }
+
+  .radio-widget {
+    margin: 4px 0;
+  }
+
+  .pg-textarea,
+  .pg-textarea-input,
+  .textarea-widget {
+    max-width: 100%;
+    width: 100%;
+    margin: 0px;
+  }
+
   display: flex;
-  flex-direction: ${(props) => props.flexDirection ?? 'row'};
-  item-align: ${(props) => props.flexAlign ?? 'baseline'}
-    ${(props) => props.theme.breakpoint.smallUp} {
+  flex-direction: column;
+  item-align: ${(props) => props.flexAlign ?? 'baseline'};
+
+  ${(props) => props.theme.breakpoint.smallUp} {
+    margin-bottom: 0px;
     .pg-select-wrapper,
-    .datepicker-widget,
     .url-widget-wrapper,
     .ccbcid-widget-wrapper {
       max-width: 340px;
       width: 100%;
+    }
+  }
+
+  ${(props) => props.theme.breakpoint.mediumUp} {
+    flex-direction: ${(props) => props.flexDirection ?? 'row'};
+    .pg-textarea,
+    .pg-textarea-input,
+    .textarea-widget {
+      width: 400px;
     }
   }
   .select-widget-wrapper {

@@ -330,7 +330,7 @@ const ProjectInformationForm = ({ application }) => {
       isFormEditMode={isFormEditMode}
       title="Funding agreement, statement of work, & map"
       formAnimationHeight={isChangeRequest ? 3000 : 800}
-      formAnimationHeightOffset={70}
+      formAnimationHeightOffset={68}
       isFormAnimated
       schema={formSchema}
       theme={isChangeRequest ? ChangeRequestTheme : ProjectTheme}
