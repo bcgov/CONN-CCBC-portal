@@ -403,11 +403,27 @@ const ProjectInformationForm = ({ application }) => {
           jsonData,
         } = changeRequest.node;
 
+        const {
+          additionalComments,
+          changeRequestFormUpload,
+          dateApproved,
+          dateRequested,
+          descriptionOfChanges,
+          levelOfAmendment,
+          statementOfWorkUpload,
+          updatedMapUpload,
+        } = jsonData || {};
+
         // Need to pass in correct values once the change request metadata ticket is complete
         return (
           <ReadOnlyView
             key={changeRequestId}
-            date={jsonData?.dateChangeRequestApproved}
+            additionalComments={additionalComments}
+            changeRequestForm={changeRequestFormUpload?.[0]}
+            date={dateApproved}
+            dateRequested={dateRequested}
+            descriptionOfChanges={descriptionOfChanges}
+            levelOfAmendment={levelOfAmendment}
             title={`Amendment #${amendmentNumber}`}
             onFormEdit={() => {
               setIsChangeRequest(true);
@@ -418,7 +434,8 @@ const ProjectInformationForm = ({ application }) => {
             isChangeRequest
             isFormEditMode={isFormEditMode}
             isSowUploadError={jsonData?.isSowUploadError}
-            sow={jsonData?.statementOfWorkUpload?.[0]}
+            map={updatedMapUpload?.[0]}
+            sow={statementOfWorkUpload?.[0]}
           />
         );
       })}
