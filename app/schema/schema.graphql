@@ -53684,6 +53684,7 @@ input CreateChangeRequestInput {
   _applicationId: Int!
   _amendmentNumber: Int!
   _jsonData: JSON!
+  _oldChangeRequestId: Int
 }
 
 """The output of our `createConditionalApproval` mutation."""

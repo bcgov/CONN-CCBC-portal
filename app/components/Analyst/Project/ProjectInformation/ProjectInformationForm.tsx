@@ -210,7 +210,6 @@ const ProjectInformationForm = ({ application }) => {
       } else if (isSowUploaded) {
         delete newFormData?.isSowUploadError;
       }
-
       if (isChangeRequest) {
         createChangeRequest({
           variables: {
@@ -219,6 +218,7 @@ const ProjectInformationForm = ({ application }) => {
               _applicationId: rowId,
               _amendmentNumber: changeRequestAmendmentNumber,
               _jsonData: newFormData,
+              _oldChangeRequestId: currentChangeRequestData?.jsonData?.id,
             },
           },
           onCompleted: () => {

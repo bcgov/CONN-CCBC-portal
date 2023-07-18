@@ -4,19 +4,16 @@ begin;
 
 drop function if exists ccbc_public.create_change_request(int, int, jsonb);
 
-create or replace function ccbc_public.create_change_request(_application_id int, _amendment_number int, _json_data jsonb)
+create or replace function ccbc_public.create_change_request(_application_id int, _amendment_number int, _json_data jsonb, _old_change_request_id int default null)
 returns ccbc_public.change_request_data as $$
 declare
 new_change_request_id int;
 old_change_request_id int;
 begin
-  select into old_change_request_id id from ccbc_public.change_request_data
-    where application_id = _application_id and amendment_number = _amendment_number and archived_at is null;
-
   insert into ccbc_public.change_request_data (application_id, amendment_number, json_data)
     values (_application_id, _amendment_number, _json_data) returning id into new_change_request_id;
 
- if exists (select * from ccbc_public.change_request_data where id = old_change_request_id)
+ if _old_change_request_id is not null
     then update ccbc_public.change_request_data set archived_at = now() where id = old_change_request_id;
   end if;
 
