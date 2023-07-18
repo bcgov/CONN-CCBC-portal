@@ -1,18 +1,18 @@
 const changeRequestUiSchema = {
   'ui:order': [
-    'ammendmentNumber',
+    'amendmentNumber',
     'dateRequested',
     'dateApproved',
     'descriptionOfChanges',
-    'levelOfAmmendment',
+    'levelOfAmendment',
     'additionalComments',
     'changeRequestFormUpload',
     'statementOfWorkUpload',
     'updatedMapUpload',
   ],
-  ammendmentNumber: {
+  amendmentNumber: {
     'ui:widget': 'NumberWidget',
-    'ui:title': 'Ammendment #',
+    'ui:title': 'Amendment #',
     'ui:option': {
       flexAlign: 'baseline',
     },
@@ -41,7 +41,7 @@ const changeRequestUiSchema = {
     'ui:subtitle':
       "From the Impact Assessment Tool, not the recipient's description.",
   },
-  levelOfAmmendment: {
+  levelOfAmendment: {
     'ui:widget': 'RadioWidget',
     'ui:title': 'Level of amendment',
     'ui:option': {

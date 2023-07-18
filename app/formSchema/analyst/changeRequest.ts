@@ -4,8 +4,8 @@ const changeRequest: JSONSchema7 = {
   description: '',
   type: 'object',
   properties: {
-    ammendmentNumber: {
-      title: 'Ammendment #',
+    amendmentNumber: {
+      title: 'Amendment #',
       type: 'integer',
       maximum: 999,
     },
@@ -21,7 +21,7 @@ const changeRequest: JSONSchema7 = {
       title: 'Description of change(s)',
       type: 'string',
     },
-    levelOfAmmendment: {
+    levelOfAmendment: {
       title: 'Level of amendment',
       type: 'string',
       enum: ['Major Amendment', 'Minor Amendment', 'Super Minor Amendment'],
@@ -32,7 +32,7 @@ const changeRequest: JSONSchema7 = {
     },
     changeRequestFormUpload: {
       title:
-        'Upload the completed Project Change REquest form (including the completed Impact Assessment Tool tab)',
+        'Upload the completed Project Change Request form (including the completed Impact Assessment Tool tab)',
       type: 'string',
     },
     statementOfWorkUpload: {
