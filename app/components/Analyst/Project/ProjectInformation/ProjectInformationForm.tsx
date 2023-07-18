@@ -152,7 +152,11 @@ const ProjectInformationForm = ({ application }) => {
   }, [formData]);
 
   const validate = (jsonData, errors) => {
-    if (amendmentNumbers?.split(' ').includes(jsonData?.amendmentNumber)) {
+    if (
+      amendmentNumbers
+        ?.split(' ')
+        .includes(jsonData?.amendmentNumber?.toString())
+    ) {
       errors.amendmentNumber.addError("Can't be a duplicate amendment number");
     }
     return errors;
@@ -168,7 +172,7 @@ const ProjectInformationForm = ({ application }) => {
     const changeRequestAmendmentNumber = formData?.amendmentNumber;
     const isAmendmentValid = !amendmentNumbers
       ?.split(' ')
-      .includes(changeRequestAmendmentNumber);
+      .includes(changeRequestAmendmentNumber?.toString());
     const isOriginalSowFormInvalid =
       !isChangeRequest &&
       hasFormErrors &&
