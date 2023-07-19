@@ -1,3 +1,25 @@
+# [1.87.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.86.0...v1.87.0) (2023-07-18)
+
+### Bug Fixes
+
+- clear persisted sow error when sow file in form data ([184cc5e](https://github.com/bcgov/CONN-CCBC-portal/commit/184cc5ed11f045196ea3df765be2c42a081c08d9))
+- conditional approval modal ([5d5fa00](https://github.com/bcgov/CONN-CCBC-portal/commit/5d5fa00040903125f73f72d7544e08d10823f726))
+- public runtime config breaking tests ([54285b5](https://github.com/bcgov/CONN-CCBC-portal/commit/54285b5fc39803f00334827485bb5087c59896ed))
+- revert hardcoded test value ([8d1655e](https://github.com/bcgov/CONN-CCBC-portal/commit/8d1655e371b6ae04057a65b47e024a6c16262fda))
+- status info modal chip font ([733abec](https://github.com/bcgov/CONN-CCBC-portal/commit/733abeca7cb6db626e8b0553bdd69aab9c8d3ce8))
+- use next/config for metabase embed env var ([00ce99c](https://github.com/bcgov/CONN-CCBC-portal/commit/00ce99c92d64c2318cb13297bf2fcb5aab4d667a))
+
+### Features
+
+- add gis test dashboard link ([8a0208e](https://github.com/bcgov/CONN-CCBC-portal/commit/8a0208eed7d507f02f4396e71aa45a2457b32809))
+- change request metadata ([130a868](https://github.com/bcgov/CONN-CCBC-portal/commit/130a8688cf47e79a116aae691199fc730f2200f0))
+- change request schema and max date ([4658792](https://github.com/bcgov/CONN-CCBC-portal/commit/4658792b0b839527d9018e73c257f1db2f38889a))
+- display sow upload error ([6a53c6e](https://github.com/bcgov/CONN-CCBC-portal/commit/6a53c6e1dbc11b56c8fc6fe44eae9876189e678e))
+- modal for single project delete ([a55450b](https://github.com/bcgov/CONN-CCBC-portal/commit/a55450bf0de973bbd063be2a90b596a14f843237))
+- save button text changes on valid SoW ([441f8a3](https://github.com/bcgov/CONN-CCBC-portal/commit/441f8a38ecf5409f67d931a8d0de6c4ae507f3e1))
+- save sow error status in form data ([7fcd5de](https://github.com/bcgov/CONN-CCBC-portal/commit/7fcd5de110dbefc27e8224d39aca7879acaac90a))
+- show reason for change for external status ([076464a](https://github.com/bcgov/CONN-CCBC-portal/commit/076464af0f30f8edd913327d292f19197861a1ea))
+
 # [1.86.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.85.0...v1.86.0) (2023-07-14)
 
 ### Bug Fixes
