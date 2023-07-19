@@ -63,7 +63,7 @@ spec:
           - name: PGHOST
             valueFrom:
               secretKeyRef:
-                key: host
+                key: pgbouncer-host
                 name: ccbc-pguser-ccbc
           name: {{ template "ccbc.fullname" . }}-provision-pg-credentials
           image: {{ .Values.image.psql.repository }}:{{ .Values.image.psql.tag }}
@@ -106,7 +106,7 @@ spec:
           - name: PGHOST
             valueFrom:
               secretKeyRef:
-                key: host
+                key: pgbouncer-host
                 name: ccbc-pguser-ccbc
           - name: NAMESPACE
             valueFrom:
