@@ -1,5 +1,6 @@
 import { ThemeProps } from '@rjsf/core';
 import {
+  HiddenWidget,
   ReadOnlyDecisionWidget,
   ReadOnlyFileWidget,
   ReadOnlyResponseWidget,
@@ -8,7 +9,6 @@ import {
 } from './widgets';
 import ProjectTheme from '../ProjectTheme';
 import ConditionalApprovalObjectFieldTemplate from './ConditionalApprovalObjectFieldTemplate';
-import HiddenWidget from '../ProjectInformation/widgets/HiddenWidget';
 
 const ConditionalApprovalReadOnlyTheme: ThemeProps = {
   ...ProjectTheme,
