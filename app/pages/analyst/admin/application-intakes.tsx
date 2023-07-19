@@ -32,6 +32,7 @@ const getApplicationIntakesQuery = graphql`
 
 const StyledContainer = styled.div`
   width: 100%;
+  padding: 0 4px;
 `;
 
 const ApplicationIntakes = ({

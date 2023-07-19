@@ -15,7 +15,7 @@ const intake: JSONSchema7 = {
     },
     description: {
       type: 'string',
-      title: 'Announcement date',
+      title: 'Description',
     },
   },
 };
