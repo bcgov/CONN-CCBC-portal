@@ -2,7 +2,7 @@
 
 begin;
 
-drop function if exists ccbc_public.create_change_request(int, int, jsonb);
+drop function if exists ccbc_public.create_change_request;
 
 create or replace function ccbc_public.create_change_request(_application_id int, _amendment_number int, _json_data jsonb)
 returns ccbc_public.change_request_data as $$
