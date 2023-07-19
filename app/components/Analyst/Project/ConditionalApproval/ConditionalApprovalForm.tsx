@@ -93,6 +93,11 @@ const ConditionalApprovalForm = ({ application }) => {
     setNewFormData(oldFormData);
   };
 
+  const additionalContext = {
+    letterOfApprovalDateSent:
+      newFormData?.letterOfApproval.letterOfApprovalDateSent,
+  };
+
   return (
     <>
       <ConditionalApprovalModal
@@ -126,6 +131,7 @@ const ConditionalApprovalForm = ({ application }) => {
         resetFormData={handleResetFormData}
         onSubmit={handleSubmit}
         setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+        additionalContext={additionalContext}
       />
     </>
   );

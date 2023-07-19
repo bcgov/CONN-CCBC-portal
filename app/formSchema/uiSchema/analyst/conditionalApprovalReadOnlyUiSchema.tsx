@@ -14,16 +14,20 @@ const conditionalApprovalReadOnlyUiSchema = {
       'ui:widget': 'ReadOnlyDecisionWidget',
     },
   },
+  letterOfApproval: {
+    ...conditionalApprovalUiSchema.letterOfApproval,
+    letterOfApprovalDateSent: {
+      'ui:widget': 'HiddenWidget',
+    },
+  },
   response: {
     ...conditionalApprovalUiSchema.response,
     applicantResponse: {
       'ui:widget': 'ReadOnlyResponseWidget',
     },
-    statusApplicantSees: {
-      'ui:title': 'Status that applicant sees',
-      'ui:widget': 'ReadOnlyStatusWidget',
-    },
   },
 };
+
+delete conditionalApprovalReadOnlyUiSchema.response.statusApplicantSees;
 
 export default conditionalApprovalReadOnlyUiSchema;
