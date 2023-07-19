@@ -2,6 +2,6 @@
 
 begin;
 
-drop function ccbc_public.application_amendment_numbers(application ccbc_public.application);
+drop function if exists ccbc_public.application_amendment_numbers(application ccbc_public.application);
 
 commit;
