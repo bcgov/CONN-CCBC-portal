@@ -107,6 +107,30 @@ const mockJsonDataQueryPayload = {
           },
           __id: 'client:WyJhcHBsaWNhdGlvbnMiLDZd:__AnnouncementsForm_announcements_connection',
         },
+        changeRequestDataByApplicationId: {
+          edges: [
+            {
+              node: {
+                id: 'WyJjaGFuZ2VfcmVxdWVzdF9kYXRhIiwxXQ==',
+                amendmentNumber: 11,
+                createdAt: '2023-07-19T10:09:01.628553-07:00',
+                jsonData: {
+                  amendmentNumber: 11,
+                  isSowUploadError: true,
+                  changeRequestFormUpload: [
+                    {
+                      id: 2,
+                      name: 'test.xls',
+                      size: 0,
+                      type: 'application/vnd.ms-excel',
+                      uuid: 'fcd86908-b307-4615-b614-211c4f775d02',
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
         conditionalApprovalDataByApplicationId: {
           edges: [
             {
@@ -1385,6 +1409,7 @@ describe('The Project page', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({ status: 200, json: () => {} })
     );
+
     const addButton = screen.getByText('Add change request').closest('button');
 
     await act(async () => {
@@ -1410,6 +1435,88 @@ describe('The Project page', () => {
     ).toBeInTheDocument();
 
     expect(amendmentNumber).toHaveStyle('border: 2px solid #E71F1F;');
+  });
+
+  it('calls displays the amendment error on change', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
+    const addButton = screen.getByText('Add change request').closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
+
+    await act(async () => {
+      fireEvent.change(amendmentNumber, { target: { value: '1' } });
+    });
+
+    expect(
+      screen.getByText('Amendment number already in use')
+    ).toBeInTheDocument();
+
+    expect(amendmentNumber).toHaveStyle('border: 2px solid #E71F1F;');
+  });
+
+  it('can reuse amendment number on change request edit', async () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
+    // Click on the edit button to open the form
+    const editButton = screen.getAllByTestId('project-form-edit-button');
+    await act(async () => {
+      fireEvent.click(editButton[1]);
+    });
+
+    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
+
+    await act(async () => {
+      fireEvent.change(amendmentNumber, { target: { value: '12' } });
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createChangeRequest: {
+            nonExistingField: { id: '1', jsonData: {}, rowId: 1 },
+          },
+        },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.click(editButton[1]);
+    });
+
+    await act(async () => {
+      fireEvent.change(amendmentNumber, { target: { value: '11' } });
+    });
+
+    expect(
+      screen.getByText('Amendment number already in use')
+    ).not.toBeVisible();
+
+    expect(amendmentNumber).toHaveStyle('border: 2px solid #606060;');
   });
 
   afterEach(() => {

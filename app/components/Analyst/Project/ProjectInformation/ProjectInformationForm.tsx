@@ -178,6 +178,7 @@ const ProjectInformationForm = ({ application }) => {
       oldChangeRequestAmendmentNumber &&
       changeRequestAmendmentNumber === oldChangeRequestAmendmentNumber;
 
+    // check if amendment number is being used by another change request and also allow same amendment number to be valid if editing a form (isSameAmendmentNumber)
     const isAmendmentValid =
       !amendmentNumbers
         ?.split(' ')
