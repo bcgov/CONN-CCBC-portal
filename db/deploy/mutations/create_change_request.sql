@@ -8,13 +8,12 @@ create or replace function ccbc_public.create_change_request(_application_id int
 returns ccbc_public.change_request_data as $$
 declare
 new_change_request_id int;
-old_change_request_id int;
 begin
   insert into ccbc_public.change_request_data (application_id, amendment_number, json_data)
     values (_application_id, _amendment_number, _json_data) returning id into new_change_request_id;
 
- if _old_change_request_id is not null
-    then update ccbc_public.change_request_data set archived_at = now() where id = old_change_request_id;
+ if exists (select * from ccbc_public.change_request_data where id = _old_change_request_id)
+    then update ccbc_public.change_request_data set archived_at = now() where id = _old_change_request_id;
   end if;
 
   return (select row(ccbc_public.change_request_data.*) from ccbc_public.change_request_data

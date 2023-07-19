@@ -63,6 +63,7 @@ const ProjectInformationForm = ({ application }) => {
           edges {
             node {
               id
+              rowId
               amendmentNumber
               createdAt
               jsonData
@@ -223,6 +224,7 @@ const ProjectInformationForm = ({ application }) => {
         delete newFormData?.isSowUploadError;
       }
       if (isChangeRequest) {
+        console.log('old change request id', currentChangeRequestData?.rowId);
         createChangeRequest({
           variables: {
             connections: [connectionId],
@@ -230,7 +232,10 @@ const ProjectInformationForm = ({ application }) => {
               _applicationId: rowId,
               _amendmentNumber: changeRequestAmendmentNumber,
               _jsonData: newFormData,
-              _oldChangeRequestId: currentChangeRequestData?.jsonData?.id,
+              _oldChangeRequestId: parseInt(
+                currentChangeRequestData?.rowId,
+                10
+              ),
             },
           },
           onCompleted: () => {
