@@ -8,6 +8,7 @@ import {
 } from './widgets';
 import ProjectTheme from '../ProjectTheme';
 import ConditionalApprovalObjectFieldTemplate from './ConditionalApprovalObjectFieldTemplate';
+import HiddenWidget from '../ProjectInformation/widgets/HiddenWidget';
 
 const ConditionalApprovalReadOnlyTheme: ThemeProps = {
   ...ProjectTheme,
@@ -16,6 +17,7 @@ const ConditionalApprovalReadOnlyTheme: ThemeProps = {
     CheckboxesWidget: ReadOnlyWidget,
     DatePickerWidget: ReadOnlyWidget,
     FileWidget: ReadOnlyFileWidget,
+    HiddenWidget,
     SelectWidget: ReadOnlyWidget,
     ReadOnlyDecisionWidget,
     ReadOnlyResponseWidget,
