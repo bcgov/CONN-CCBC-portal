@@ -175,6 +175,7 @@ const ProjectInformationForm = ({ application }) => {
 
     // Allow form to be submitted if editing a change request and no change to amendment number
     const isSameAmendmentNumber =
+      oldChangeRequestAmendmentNumber &&
       changeRequestAmendmentNumber === oldChangeRequestAmendmentNumber;
 
     const isAmendmentValid =
@@ -248,7 +249,19 @@ const ProjectInformationForm = ({ application }) => {
           updater: (store) => {
             // add new amendment number to the amendment numbers computed column
             const applicationStore = store.get(id);
-            const updatedAmendmentNumbers = `${amendmentNumbers} ${changeRequestAmendmentNumber}`;
+
+            // remove amendment number if editing a change request and changing the amendment number
+            const newAmendmentNumbers = !isSameAmendmentNumber
+              ? amendmentNumbers
+                  .split(' ')
+                  .filter(
+                    (number) =>
+                      number !== oldChangeRequestAmendmentNumber?.toString()
+                  )
+                  .join(' ')
+              : amendmentNumbers;
+
+            const updatedAmendmentNumbers = `${newAmendmentNumbers} ${changeRequestAmendmentNumber}`;
 
             applicationStore.setValue(
               updatedAmendmentNumbers,
