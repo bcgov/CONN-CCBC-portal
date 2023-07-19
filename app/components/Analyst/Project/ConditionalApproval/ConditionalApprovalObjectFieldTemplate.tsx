@@ -130,7 +130,8 @@ const ConditionalApprovalObjectFieldTemplate: React.FC<
           {prop.content}
           {prop.name === 'response' &&
             formContext &&
-            formContext.letterOfApprovalDateSent && (
+            formContext?.letterOfApprovalDateSent &&
+            !formContext?.isFormEditMode && (
               <div>
                 <h4>Date letter sent to applicant</h4>
                 <div>{formContext.letterOfApprovalDateSent}</div>

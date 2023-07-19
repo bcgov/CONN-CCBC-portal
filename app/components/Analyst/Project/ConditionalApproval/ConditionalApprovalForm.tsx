@@ -95,7 +95,8 @@ const ConditionalApprovalForm = ({ application }) => {
 
   const additionalContext = {
     letterOfApprovalDateSent:
-      newFormData?.letterOfApproval.letterOfApprovalDateSent,
+      newFormData?.letterOfApproval?.letterOfApprovalDateSent,
+    isFormEditMode,
   };
 
   return (
