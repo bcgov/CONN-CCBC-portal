@@ -6,7 +6,7 @@ import ChangeStatus from 'components/Analyst/ChangeStatus';
 import StatusInformationIcon from './StatusInformationIcon';
 
 const StyledCallout = styled.div`
-  margin-bottom: 40px;
+  margin-bottom: 0.5em;
   display: flex;
   justify-content: space-between;
   padding: 8px 12px;

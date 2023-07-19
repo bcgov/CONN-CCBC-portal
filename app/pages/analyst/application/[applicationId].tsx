@@ -16,6 +16,7 @@ const StyledButton = styled('button')`
 `;
 
 const RightAlignText = styled('div')`
+  padding-top: 20px;
   text-align: right;
   padding-bottom: 4px;
 `;
