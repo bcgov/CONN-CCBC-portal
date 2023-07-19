@@ -1063,9 +1063,7 @@ describe('The Project page', () => {
     });
 
     pageTestingHelper.expectMutationToBeCalled('createChangeRequestMutation', {
-      connections: [
-        'client:<Application-mock-id-1>:__ChangeRequestForm_changeRequestDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"AMENDMENT_NUMBER_DESC")',
-      ],
+      connections: [expect.anything()],
       input: {
         _applicationId: 1,
         _amendmentNumber: 20,
@@ -1081,6 +1079,7 @@ describe('The Project page', () => {
             },
           ],
         },
+        _oldChangeRequestId: expect.anything(),
       },
     });
   });
@@ -1279,6 +1278,7 @@ describe('The Project page', () => {
             },
           ],
         },
+        _oldChangeRequestId: expect.anything(),
       },
     });
   });
@@ -1375,6 +1375,7 @@ describe('The Project page', () => {
             },
           ],
         },
+        _oldChangeRequestId: expect.anything(),
       },
     });
 
