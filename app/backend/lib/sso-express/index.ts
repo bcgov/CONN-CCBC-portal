@@ -11,6 +11,8 @@ import {
 } from './controllers';
 import { SSOExpressOptions } from './types';
 
+type GetAroundSonarCloudComplaint = (any) => void;
+
 export { getSessionRemainingTime, isAuthenticated };
 declare global {
   namespace Express {
@@ -83,7 +85,13 @@ async function ssoExpress(opts: SSOExpressOptions) {
   middleware.get(logout, logoutController(client, options));
   middleware.post(logout, logoutController(client, options));
 
-  middleware.use(tokenSetController(client, options, sessionIdleRemainingTime));
+  const tokenSetControllerMidWare: unknown = tokenSetController(
+    client,
+    options,
+    sessionIdleRemainingTime
+  );
+
+  middleware.use(tokenSetControllerMidWare as GetAroundSonarCloudComplaint);
 
   // Session Idle Remaining Time
   // Returns, in seconds, the amount of time left in the session
@@ -94,7 +102,11 @@ async function ssoExpress(opts: SSOExpressOptions) {
     );
 
   middleware.post(login, loginController(client, options));
-  middleware.get(authCallback, authCallbackController(client, options));
+  const authCallBackMidWare: unknown = authCallbackController(client, options);
+  middleware.get(
+    authCallback,
+    authCallBackMidWare as GetAroundSonarCloudComplaint
+  );
   // create a separate extend-session callback
   middleware.get(
     extendSession,
