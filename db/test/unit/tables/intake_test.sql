@@ -1,6 +1,6 @@
 begin;
 
-select plan(11);
+select plan(12);
 
 -- Table exists
 select has_table(
@@ -15,6 +15,7 @@ select has_column('ccbc_public', 'intake', 'close_timestamp','The table intake h
 select has_column('ccbc_public', 'intake', 'ccbc_intake_number','The table intake has column ccbc_intake_number');
 select has_column('ccbc_public', 'intake', 'application_number_seq_name','The table intake has column application_number_seq_name');
 select has_column('ccbc_public', 'intake', 'counter_id', 'The table intake has column counter_id');
+select has_column('ccbc_public', 'intake', 'description', 'The table intake has column description');
 
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
 values
