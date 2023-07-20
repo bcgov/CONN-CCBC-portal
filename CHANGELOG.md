@@ -1,3 +1,30 @@
+# [1.88.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.87.0...v1.88.0) (2023-07-20)
+
+### Bug Fixes
+
+- add optional chaining ([2b23d54](https://github.com/bcgov/CONN-CCBC-portal/commit/2b23d5474c4dece71cafa5a6549866aab04a736a))
+- amendment number widget styles ([c59bcbc](https://github.com/bcgov/CONN-CCBC-portal/commit/c59bcbcda266201c3679df3280bda34b6fcb8dbf))
+- amendment string validation bug ([2dafdf3](https://github.com/bcgov/CONN-CCBC-portal/commit/2dafdf3a5553c2999150689dda4d2f897925b0fd))
+- amendment validation bug ([a51644b](https://github.com/bcgov/CONN-CCBC-portal/commit/a51644bfb45f72ce09ce13746fc13709dcf8339c))
+- archive old change request using row id instead of amendment ([b3831aa](https://github.com/bcgov/CONN-CCBC-portal/commit/b3831aa0fb84fe885c683578ccc404556870549a))
+- can reuse amendment number after edit ([ab9398b](https://github.com/bcgov/CONN-CCBC-portal/commit/ab9398bae4bcf820293952658abfc040dc57385d))
+- change request archive issue ([d61748b](https://github.com/bcgov/CONN-CCBC-portal/commit/d61748b47dfe5276dc9468bcd36b927ddf3f9baf))
+- edit change request amendment number bug ([73e96e7](https://github.com/bcgov/CONN-CCBC-portal/commit/73e96e7ea356a4103a808efb59e31b93ab84595a))
+- return 0 with application_amendment_numbers when there is no change requests ([e7342b4](https://github.com/bcgov/CONN-CCBC-portal/commit/e7342b4b93f2c8f9699c9787399c0778f5b957e6))
+- revert error ([4ccdf6d](https://github.com/bcgov/CONN-CCBC-portal/commit/4ccdf6dc7914026df6e28e9b595b4acc9f94108f))
+- text area margin-bottom regression ([5ccc1be](https://github.com/bcgov/CONN-CCBC-portal/commit/5ccc1bedb5e74370f23634c1393f97bb83ea64d4))
+- use sqitch rework on create_change_request ([abd3bb7](https://github.com/bcgov/CONN-CCBC-portal/commit/abd3bb7ecdb3c70ca146f4133ae78104d438a221))
+
+### Features
+
+- add amendment number widget ([be7fbf1](https://github.com/bcgov/CONN-CCBC-portal/commit/be7fbf18823e2a8ec81669b3911a70aa3c4fc126))
+- add amendment validation on form save ([7af58ff](https://github.com/bcgov/CONN-CCBC-portal/commit/7af58ff1d97c9634e3432b8329edbb1dd64a427b))
+- add application_amendment_numbers computed column ([1d24841](https://github.com/bcgov/CONN-CCBC-portal/commit/1d24841db749aed89b2803d89ede9351dc6f469e))
+- add sentry for sso-express ([3f0157e](https://github.com/bcgov/CONN-CCBC-portal/commit/3f0157e48f45448723c065d7c75243bc0baed9ae))
+- change request form style improvements ([fe4f0d1](https://github.com/bcgov/CONN-CCBC-portal/commit/fe4f0d1cf207017c617e4193479e85f514b3b63c))
+- improve amendment widget styles and error handling ([25c9e36](https://github.com/bcgov/CONN-CCBC-portal/commit/25c9e36045f3a7dc44b363623ca156d8b0c45e03))
+- update relay store amendment numbers computed column ([cddbc86](https://github.com/bcgov/CONN-CCBC-portal/commit/cddbc86ac1354618ef7cb25e48d17fd4828c0aa9))
+
 # [1.87.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.86.0...v1.87.0) (2023-07-18)
 
 ### Bug Fixes
