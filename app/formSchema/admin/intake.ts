@@ -5,6 +5,10 @@ const intake: JSONSchema7 = {
   type: 'object',
   required: ['startDate', 'endDate'],
   properties: {
+    intakeNumber: {
+      title: 'Intake #',
+      type: 'number',
+    },
     startDate: {
       title: 'Start date & time',
       type: 'string',

@@ -1,4 +1,7 @@
 const intakeUiSchema = {
+  intakeNumber: {
+    'ui:widget': 'ReadOnlyWidget',
+  },
   startDate: {
     'ui:widget': 'DateTimePickerWidget',
   },

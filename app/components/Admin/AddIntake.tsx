@@ -6,6 +6,7 @@ import intakeSchema from 'formSchema/admin/intake';
 import intakeUiSchema from 'formSchema/uiSchema/admin/intakeUiSchema';
 import DefaultTheme from 'lib/theme/DefaultTheme';
 import BasicFieldTemplate from 'lib/theme/templates/BasicFieldTemplate';
+import ReadOnlyWidget from 'components/Analyst/Project/ConditionalApproval/widgets/ReadOnlyWidget';
 
 interface EditProps {
   isFormEditMode: boolean;
@@ -32,7 +33,7 @@ const StyledForm = styled.section<EditProps>`
   overflow: hidden;
   max-height: ${(props) => (props.isFormEditMode ? '500px' : '0px')};
   transition: max-height 0.5s;
-  padding: 4px 0;
+  padding-left: 4px;
   max-width: 480px;
 
   .datetime-widget {
@@ -51,6 +52,10 @@ const StyledSaveBtn = styled(Button)`
 
 const AddIntake = () => {
   const [isFormEditMode, setIsFormEditMode] = useState(false);
+  const [formData] = useState({
+    intakeNumber: 1,
+  } as any);
+
   return (
     <StyledContainer>
       <StyledBtnContainer isFormEditMode={isFormEditMode}>
@@ -64,10 +69,15 @@ const AddIntake = () => {
       </StyledBtnContainer>
       <StyledForm isFormEditMode={isFormEditMode}>
         <FormBase
+          formData={formData}
           schema={intakeSchema}
           uiSchema={intakeUiSchema}
           theme={{
             ...DefaultTheme,
+            widgets: {
+              ...DefaultTheme.widgets,
+              ReadOnlyWidget,
+            },
             FieldTemplate: BasicFieldTemplate,
           }}
         >
