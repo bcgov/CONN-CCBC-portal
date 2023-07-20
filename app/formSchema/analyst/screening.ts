@@ -21,7 +21,7 @@ const screening: JSONSchema7 = {
       type: 'string',
       anyOf: [
         {
-          title: 'No Decision',
+          title: 'No decision',
           enum: ['No decision'],
         },
         {
