@@ -1,3 +1,5 @@
+## [1.88.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.88.0...v1.88.1) (2023-07-20)
+
 # [1.88.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.87.0...v1.88.0) (2023-07-20)
 
 ### Bug Fixes

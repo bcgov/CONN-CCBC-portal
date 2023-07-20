@@ -366,3 +366,4 @@ tables/change_request_data_001_amendment 2023-07-07T19:08:14Z Marcel Mueller <ma
 computed_columns/application_amendment_numbers 2023-07-11T22:45:39Z Marcel Mueller <marcel@m2> # computed column to return string of all amendment numbers
 mutations/create_change_request [mutations/create_change_request@1.85.0] 2023-07-18T23:00:53Z Marcel Mueller <marcel@m2> # use row id to archive old change request
 @1.88.0 2023-07-20T18:14:45Z CCBC Service Account <ccbc@button.is> # release v1.88.0
+@1.88.1 2023-07-20T18:42:03Z CCBC Service Account <ccbc@button.is> # release v1.88.1
