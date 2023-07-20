@@ -25,9 +25,10 @@ const conditionalApprovalReadOnlyUiSchema = {
     applicantResponse: {
       'ui:widget': 'ReadOnlyResponseWidget',
     },
+    statusApplicantSees: {
+      'ui:widget': 'HiddenWidget',
+    },
   },
 };
-
-delete conditionalApprovalReadOnlyUiSchema.response.statusApplicantSees;
 
 export default conditionalApprovalReadOnlyUiSchema;
