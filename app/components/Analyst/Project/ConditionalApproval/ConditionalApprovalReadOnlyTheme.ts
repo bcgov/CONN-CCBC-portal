@@ -1,5 +1,6 @@
 import { ThemeProps } from '@rjsf/core';
 import {
+  HiddenWidget,
   ReadOnlyDecisionWidget,
   ReadOnlyFileWidget,
   ReadOnlyResponseWidget,
@@ -16,6 +17,7 @@ const ConditionalApprovalReadOnlyTheme: ThemeProps = {
     CheckboxesWidget: ReadOnlyWidget,
     DatePickerWidget: ReadOnlyWidget,
     FileWidget: ReadOnlyFileWidget,
+    HiddenWidget,
     SelectWidget: ReadOnlyWidget,
     ReadOnlyDecisionWidget,
     ReadOnlyResponseWidget,

@@ -99,11 +99,18 @@ const StyledFlex = styled.div<FlexProps>`
       margin-top: 8px;
     }
   }
+
+  h4 {
+    color: #9b9b9b;
+    margin: 0;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
 `;
 
 const ConditionalApprovalObjectFieldTemplate: React.FC<
   ObjectFieldTemplateProps
-> = ({ properties, uiSchema }) => {
+> = ({ properties, uiSchema, formContext }) => {
   const uiOptions = uiSchema['ui:options'];
   const flexDirection = uiOptions?.flexDirection;
   const isDividers = uiOptions?.dividers;
@@ -118,7 +125,20 @@ const ConditionalApprovalObjectFieldTemplate: React.FC<
       isDividers={isDividers}
     >
       {before}
-      {properties.map((prop) => prop.content)}
+      {properties.map((prop) => (
+        <div key={prop.content.key}>
+          {prop.content}
+          {prop.name === 'response' &&
+            formContext &&
+            formContext?.letterOfApprovalDateSent &&
+            !formContext?.isFormEditMode && (
+              <div>
+                <h4>Date letter sent to applicant</h4>
+                <div>{formContext.letterOfApprovalDateSent}</div>
+              </div>
+            )}
+        </div>
+      ))}
     </StyledFlex>
   );
 };

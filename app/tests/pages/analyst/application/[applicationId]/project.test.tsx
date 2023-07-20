@@ -536,9 +536,6 @@ describe('The Project page', () => {
     expect(screen.getByTestId('read-only-response-widget')).toHaveTextContent(
       'Accepted'
     );
-    expect(screen.getByTestId('read-only-status-widget')).toHaveTextContent(
-      'Conditionally Approved'
-    );
   });
 
   it('should open by default the read only form when json data exists', async () => {
