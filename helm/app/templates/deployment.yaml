@@ -106,7 +106,7 @@ spec:
           - name: PGHOST
             valueFrom:
               secretKeyRef:
-                key: host
+                key: pgbouncer-host
                 name: ccbc-pguser-ccbc
           - name: NAMESPACE
             valueFrom:
