@@ -1,5 +1,10 @@
 import { JSONSchema7 } from 'json-schema';
 
+const notStarted = 'Not started';
+const needsRFI = 'Needs RFI';
+const needs2ndReview = 'Needs 2nd review';
+const assessmentComplete = 'Assessment complete';
+
 const gis: JSONSchema7 = {
   title: ' ',
   description: '',
@@ -27,20 +32,20 @@ const gis: JSONSchema7 = {
       type: 'string',
       anyOf: [
         {
-          title: 'Not started',
-          enum: ['Not started'],
+          title: notStarted,
+          enum: [notStarted],
         },
         {
-          title: 'Needs RFI',
-          enum: ['Needs RFI'],
+          title: needsRFI,
+          enum: [needsRFI],
         },
         {
-          title: 'Needs 2nd review',
-          enum: ['Needs 2nd review'],
+          title: needs2ndReview,
+          enum: [needs2ndReview],
         },
         {
-          title: 'Assessment complete',
-          enum: ['Assessment complete'],
+          title: assessmentComplete,
+          enum: [assessmentComplete],
         },
       ],
       default: 'Not started',
