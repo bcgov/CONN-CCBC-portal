@@ -111,25 +111,6 @@ const mockJsonDataQueryPayload = {
           edges: [
             {
               node: {
-<<<<<<< HEAD
-                id: 'WyJjaGFuZ2VfcmVxdWVzdF9kYXRhIiwxXQ==',
-                amendmentNumber: 11,
-                createdAt: '2023-07-19T10:09:01.628553-07:00',
-                jsonData: {
-                  amendmentNumber: 11,
-                  isSowUploadError: true,
-                  changeRequestFormUpload: [
-                    {
-                      id: 2,
-                      name: 'test.xls',
-                      size: 0,
-                      type: 'application/vnd.ms-excel',
-                      uuid: 'fcd86908-b307-4615-b614-211c4f775d02',
-                    },
-                  ],
-                },
-              },
-=======
                 id: 'WyJjaGFuZ2VfcmVxdWVzdF9kYXRhIiwyXQ==',
                 amendmentNumber: 11,
                 createdAt: '2023-07-18T14:52:19.490349-07:00',
@@ -172,7 +153,6 @@ const mockJsonDataQueryPayload = {
                 __typename: 'ChangeRequestData',
               },
               cursor: 'WyJhbWVuZG1lbnRfbnVtYmVyX2Rlc2MiLFsxMSwyXV0=',
->>>>>>> b72136f7 (test: add read only change request test)
             },
           ],
         },
