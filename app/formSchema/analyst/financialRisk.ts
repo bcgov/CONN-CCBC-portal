@@ -18,13 +18,31 @@ const financialRisk: JSONSchema7 = {
     decision: {
       title: 'Decision',
       type: 'string',
-      enum: [
-        'No decision',
-        'Low risk',
-        'Low-medium risk',
-        'Medium risk',
-        'Medium-high risk',
-        'High risk',
+      anyOf: [
+        {
+          title: 'No Decision',
+          enum: ['No decision'],
+        },
+        {
+          title: 'Low Risk',
+          enum: ['Low risk'],
+        },
+        {
+          title: 'Low-Medium Risk',
+          enum: ['Low-medium risk'],
+        },
+        {
+          title: 'Medium Risk',
+          enum: ['Medium risk'],
+        },
+        {
+          title: 'Medium-High Risk',
+          enum: ['Medium-high risk'],
+        },
+        {
+          title: 'High Risk',
+          enum: ['High risk'],
+        },
       ],
       default: 'No decision',
     },

@@ -25,11 +25,23 @@ const gis: JSONSchema7 = {
     nextStep: {
       title: 'Progress',
       type: 'string',
-      enum: [
-        'Not started',
-        'Needs RFI',
-        'Needs 2nd review',
-        'Assessment complete',
+      anyOf: [
+        {
+          title: 'Not started',
+          enum: ['Not started'],
+        },
+        {
+          title: 'Needs RFI',
+          enum: ['Needs RFI'],
+        },
+        {
+          title: 'Needs 2nd review',
+          enum: ['Needs 2nd review'],
+        },
+        {
+          title: 'Assessment complete',
+          enum: ['Assessment complete'],
+        },
       ],
       default: 'Not started',
     },

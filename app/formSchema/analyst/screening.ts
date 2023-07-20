@@ -19,7 +19,24 @@ const screening: JSONSchema7 = {
     decision: {
       title: 'Decision',
       type: 'string',
-      enum: ['No decision', 'Eligible', 'Ineligible', 'Incomplete'],
+      anyOf: [
+        {
+          title: 'No Decision',
+          enum: ['No decision'],
+        },
+        {
+          title: 'Eligible',
+          enum: ['Eligible'],
+        },
+        {
+          title: 'Ineligible',
+          enum: ['Ineligible'],
+        },
+        {
+          title: 'Incomplete',
+          enum: ['Incomplete'],
+        },
+      ],
       default: 'No decision',
     },
     contestingMap: {
