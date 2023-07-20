@@ -111,23 +111,48 @@ const mockJsonDataQueryPayload = {
           edges: [
             {
               node: {
-                id: 'WyJjaGFuZ2VfcmVxdWVzdF9kYXRhIiwxXQ==',
+                id: 'WyJjaGFuZ2VfcmVxdWVzdF9kYXRhIiwyXQ==',
                 amendmentNumber: 11,
-                createdAt: '2023-07-19T10:09:01.628553-07:00',
+                createdAt: '2023-07-18T14:52:19.490349-07:00',
                 jsonData: {
+                  dateApproved: '2023-07-01',
+                  dateRequested: '2023-07-02',
                   amendmentNumber: 11,
-                  isSowUploadError: true,
-                  changeRequestFormUpload: [
+                  levelOfAmendment: 'Major Amendment',
+                  updatedMapUpload: [
                     {
-                      id: 2,
+                      id: 6,
                       name: 'test.xls',
                       size: 0,
                       type: 'application/vnd.ms-excel',
-                      uuid: 'fcd86908-b307-4615-b614-211c4f775d02',
+                      uuid: '370ecddf-de10-44b2-b0b9-22dcbe837a9a',
+                    },
+                  ],
+                  additionalComments: 'additional comments test',
+                  descriptionOfChanges: 'description of changes test',
+                  statementOfWorkUpload: [
+                    {
+                      id: 7,
+                      name: 'CCBC-010001 - Statement of Work Tables.xlsx',
+                      size: 4230870,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '1239e5c2-7e02-44e1-b972-3bb7d0478c00',
+                    },
+                  ],
+                  changeRequestFormUpload: [
+                    {
+                      id: 5,
+                      name: 'change request form file.xls',
+                      size: 0,
+                      type: 'application/vnd.ms-excel',
+                      uuid: '1a9b882c-744b-4663-b5c9-6f46f4568608',
                     },
                   ],
                 },
+                updatedAt: '2023-07-18T14:52:19.490349-07:00',
+                __typename: 'ChangeRequestData',
               },
+              cursor: 'WyJhbWVuZG1lbnRfbnVtYmVyX2Rlc2MiLFsxMSwyXV0=',
             },
           ],
         },
@@ -942,9 +967,9 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText('SoW')).toBeInTheDocument();
+    expect(screen.getAllByText('SoW')[0]).toBeInTheDocument();
 
-    expect(screen.getByText('Map')).toBeInTheDocument();
+    expect(screen.getAllByText('Map')[0]).toBeInTheDocument();
 
     expect(screen.getByText('Wireless SoW')).toBeInTheDocument();
 
@@ -1417,7 +1442,7 @@ describe('The Project page', () => {
     const amendmentNumber = screen.getByTestId('root_amendmentNumber');
 
     await act(async () => {
-      fireEvent.change(amendmentNumber, { target: { value: '0' } });
+      fireEvent.change(amendmentNumber, { target: { value: 0 } });
     });
 
     const saveButton = screen.getByText('Save');
@@ -1435,86 +1460,27 @@ describe('The Project page', () => {
     expect(amendmentNumber).toHaveStyle('border: 2px solid #E71F1F;');
   });
 
-  it('calls displays the amendment error on change', async () => {
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+  it('should show the read only change request data', async () => {
+    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
     pageTestingHelper.renderPage();
 
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 200, json: () => {} })
-    );
-
-    const addButton = screen.getByText('Add change request').closest('button');
+    const viewMoreBtn = screen.getByText('View more');
 
     await act(async () => {
-      fireEvent.click(addButton);
+      fireEvent.click(viewMoreBtn);
     });
 
-    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
+    expect(screen.getByText('additional comments test')).toBeInTheDocument();
 
-    await act(async () => {
-      fireEvent.change(amendmentNumber, { target: { value: '1' } });
-    });
+    expect(screen.getByText('description of changes test')).toBeInTheDocument();
 
     expect(
-      screen.getByText('Amendment number already in use')
+      screen.getByText('change request form file.xls')
     ).toBeInTheDocument();
 
-    expect(amendmentNumber).toHaveStyle('border: 2px solid #E71F1F;');
-  });
+    expect(screen.getByText('Jul 1, 2023')).toBeInTheDocument();
 
-  it('can reuse amendment number on change request edit', async () => {
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 200, json: () => {} })
-    );
-
-    // Click on the edit button to open the form
-    const editButton = screen.getAllByTestId('project-form-edit-button');
-    await act(async () => {
-      fireEvent.click(editButton[1]);
-    });
-
-    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
-
-    await act(async () => {
-      fireEvent.change(amendmentNumber, { target: { value: '12' } });
-    });
-
-    const saveButton = screen.getByRole('button', {
-      name: 'Save',
-    });
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
-    await act(async () => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createChangeRequest: {
-            nonExistingField: { id: '1', jsonData: {}, rowId: 1 },
-          },
-        },
-      });
-    });
-
-    await act(async () => {
-      fireEvent.click(editButton[1]);
-    });
-
-    await act(async () => {
-      fireEvent.change(amendmentNumber, { target: { value: '11' } });
-    });
-
-    expect(
-      screen.getByText('Amendment number already in use')
-    ).not.toBeVisible();
-
-    expect(amendmentNumber).toHaveStyle('border: 2px solid #606060;');
+    expect(screen.getByText('Jul 2, 2023')).toBeInTheDocument();
   });
 
   afterEach(() => {

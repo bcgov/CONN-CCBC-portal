@@ -132,9 +132,10 @@ const IconButton = ({ onClick }) => {
 
 interface Props {
   additionalComments?: string;
+  changeRequestForm?: any;
   date?: string;
   dateRequested?: string;
-  descriptionOfChange?: string;
+  descriptionOfChanges?: string;
   fundingAgreement?: any;
   levelOfAmendment?: string;
   map?: any;
@@ -149,9 +150,10 @@ interface Props {
 
 const ReadOnlyView: React.FC<Props> = ({
   additionalComments,
+  changeRequestForm,
   date,
   dateRequested,
-  descriptionOfChange,
+  descriptionOfChanges,
   fundingAgreement,
   isChangeRequest,
   isFormEditMode,
@@ -196,8 +198,8 @@ const ReadOnlyView: React.FC<Props> = ({
             </StyledArrowButton>
           )}
         </div>
-        <StyledDescription title={descriptionOfChange}>
-          {descriptionOfChange}
+        <StyledDescription title={descriptionOfChanges}>
+          {descriptionOfChanges}
         </StyledDescription>
         <StyledColumn>
           {fundingAgreement && (
@@ -244,7 +246,12 @@ const ReadOnlyView: React.FC<Props> = ({
         </div>
         <div>
           <h4>Change request form</h4>
-          {sow && <DownloadLink uuid={sow.uuid} fileName={sow.name} />}
+          {changeRequestForm && (
+            <DownloadLink
+              uuid={changeRequestForm.uuid}
+              fileName={changeRequestForm.name}
+            />
+          )}
         </div>
         <div>
           <h4>Additional Comments if necessary to justify amendment impact</h4>

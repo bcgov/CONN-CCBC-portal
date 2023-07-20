@@ -2,6 +2,6 @@
 
 begin;
 
-drop function ccbc_public.create_change_request;
+drop function if exists ccbc_public.create_change_request;
 
 commit;
