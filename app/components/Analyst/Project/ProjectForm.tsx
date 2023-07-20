@@ -14,7 +14,7 @@ const ToggleRight = styled.div`
   align-items: center;
   margin-left: auto;
   margin-top: auto;
-  margin-bottom: autoo
+  margin-bottom: auto;
   font-size: 2em;
 `;
 

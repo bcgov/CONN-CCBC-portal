@@ -224,7 +224,6 @@ const ProjectInformationForm = ({ application }) => {
         delete newFormData?.isSowUploadError;
       }
       if (isChangeRequest) {
-        console.log('old change request id', currentChangeRequestData?.rowId);
         createChangeRequest({
           variables: {
             connections: [connectionId],
