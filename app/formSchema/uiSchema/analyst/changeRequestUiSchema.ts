@@ -1,17 +1,6 @@
 const changeRequestUiSchema = {
-  'ui:order': [
-    'amendmentNumber',
-    'dateRequested',
-    'dateApproved',
-    'descriptionOfChanges',
-    'levelOfAmendment',
-    'additionalComments',
-    'changeRequestFormUpload',
-    'statementOfWorkUpload',
-    'updatedMapUpload',
-  ],
   amendmentNumber: {
-    'ui:widget': 'NumberWidget',
+    'ui:widget': 'AmendmentNumberWidget',
     'ui:title': 'Amendment #',
     'ui:option': {
       flexAlign: 'baseline',

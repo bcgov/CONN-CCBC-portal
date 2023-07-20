@@ -45,6 +45,7 @@ const ProjectInformationForm = ({ application }) => {
       fragment ProjectInformationForm_application on Application {
         id
         rowId
+        amendmentNumbers
         ccbcNumber
         projectInformation {
           id
@@ -62,6 +63,7 @@ const ProjectInformationForm = ({ application }) => {
           edges {
             node {
               id
+              rowId
               amendmentNumber
               createdAt
               jsonData
@@ -75,6 +77,7 @@ const ProjectInformationForm = ({ application }) => {
   );
 
   const {
+    amendmentNumbers,
     ccbcNumber,
     changeRequestDataByApplicationId,
     id,
@@ -121,8 +124,6 @@ const ProjectInformationForm = ({ application }) => {
 
   const connectionId = changeRequestDataByApplicationId?.__id;
 
-  // This will change to amendment number once we add the amendment field
-  const newAmendmentNumber = changeRequestData.length + 1;
   const formSchema = isChangeRequest
     ? changeRequestSchema
     : projectInformationSchema;
@@ -137,11 +138,7 @@ const ProjectInformationForm = ({ application }) => {
     if (formData === null) {
       return false;
     }
-    const formErrors = validateFormData(
-      formData,
-      projectInformationSchema
-    )?.errors;
-
+    const formErrors = validateFormData(formData, formSchema)?.errors;
     // not sure about these enum or oneOf errors, filtering them out as a very hacky solution
     const filteredErrors = formErrors?.filter((error) => {
       return (
@@ -155,15 +152,49 @@ const ProjectInformationForm = ({ application }) => {
     return !isFormValid;
   }, [formData]);
 
+  const validate = (jsonData, errors) => {
+    if (
+      amendmentNumbers
+        ?.split(' ')
+        .includes(jsonData?.amendmentNumber?.toString())
+    ) {
+      errors.amendmentNumber.addError("Can't be a duplicate amendment number");
+    }
+    return errors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsFormSubmitting(true);
+
     hiddenSubmitRef.current.click();
 
-    const changeRequestAmendmentNumber =
-      currentChangeRequestData?.amendmentNumber || newAmendmentNumber;
+    setIsFormSubmitting(true);
 
-    if (hasFormErrors && formData.hasFundingAgreementBeenSigned) {
+    const changeRequestAmendmentNumber = formData?.amendmentNumber;
+    const oldChangeRequestAmendmentNumber =
+      currentChangeRequestData?.jsonData?.amendmentNumber;
+
+    // Allow form to be submitted if editing a change request and no change to amendment number
+    const isSameAmendmentNumber =
+      oldChangeRequestAmendmentNumber &&
+      changeRequestAmendmentNumber === oldChangeRequestAmendmentNumber;
+
+    // check if amendment number is being used by another change request and also allow same amendment number to be valid if editing a form (isSameAmendmentNumber)
+    const isAmendmentValid =
+      !amendmentNumbers
+        ?.split(' ')
+        .includes(changeRequestAmendmentNumber?.toString()) ||
+      isSameAmendmentNumber;
+
+    const isOriginalSowFormInvalid =
+      !isChangeRequest &&
+      hasFormErrors &&
+      formData.hasFundingAgreementBeenSigned;
+
+    const isChangeRequestFormInvalid =
+      isChangeRequest && (hasFormErrors || !isAmendmentValid);
+
+    if (isOriginalSowFormInvalid || isChangeRequestFormInvalid) {
       setIsFormSubmitting(false);
       return;
     }
@@ -176,6 +207,7 @@ const ProjectInformationForm = ({ application }) => {
         },
       });
     }
+
     validateSow(
       sowFile,
       isChangeRequest ? changeRequestAmendmentNumber : 0,
@@ -191,7 +223,6 @@ const ProjectInformationForm = ({ application }) => {
       } else if (isSowUploaded) {
         delete newFormData?.isSowUploadError;
       }
-
       if (isChangeRequest) {
         createChangeRequest({
           variables: {
@@ -200,6 +231,10 @@ const ProjectInformationForm = ({ application }) => {
               _applicationId: rowId,
               _amendmentNumber: changeRequestAmendmentNumber,
               _jsonData: newFormData,
+              _oldChangeRequestId: parseInt(
+                currentChangeRequestData?.rowId,
+                10
+              ),
             },
           },
           onCompleted: () => {
@@ -207,13 +242,37 @@ const ProjectInformationForm = ({ application }) => {
             setIsFormSubmitting(false);
             setFormData({});
             // May need to change when the toast is shown when we add validation
-            if (response?.status === 200) {
+            if (
+              newFormData?.statementOfWorkUpload?.length > 0 &&
+              response?.status === 200
+            ) {
               setShowToast(true);
             }
             setCurrentChangeRequestData(null);
             setShowToast(true);
           },
           updater: (store) => {
+            // add new amendment number to the amendment numbers computed column
+            const applicationStore = store.get(id);
+
+            // remove amendment number if editing a change request and changing the amendment number
+            const newAmendmentNumbers = !isSameAmendmentNumber
+              ? amendmentNumbers
+                  .split(' ')
+                  .filter(
+                    (number) =>
+                      number !== oldChangeRequestAmendmentNumber?.toString()
+                  )
+                  .join(' ')
+              : amendmentNumbers;
+
+            const updatedAmendmentNumbers = `${newAmendmentNumbers} ${changeRequestAmendmentNumber}`;
+
+            applicationStore.setValue(
+              updatedAmendmentNumbers,
+              'amendmentNumbers'
+            );
+
             // Don't need to update store if we are creating a new change request
             if (!currentChangeRequestData?.id) return;
             const relayConnectionId = changeRequestDataByApplicationId.__id;
@@ -276,9 +335,11 @@ const ProjectInformationForm = ({ application }) => {
   };
 
   const isOriginalSowUpload = projectInformation?.jsonData;
+
   return (
     <StyledProjectForm
       additionalContext={{
+        amendmentNumbers,
         applicationId: rowId,
         sowValidationErrors,
         validateSow,
@@ -317,7 +378,7 @@ const ProjectInformationForm = ({ application }) => {
       isFormEditMode={isFormEditMode}
       title="Funding agreement, statement of work, & map"
       formAnimationHeight={isChangeRequest ? 3000 : 800}
-      formAnimationHeightOffset={70}
+      formAnimationHeightOffset={68}
       isFormAnimated
       schema={formSchema}
       theme={isChangeRequest ? ChangeRequestTheme : ProjectTheme}
@@ -333,6 +394,7 @@ const ProjectInformationForm = ({ application }) => {
         !hasFundingAgreementBeenSigned && !isFormEditMode && !isChangeRequest
       }
       hiddenSubmitRef={hiddenSubmitRef}
+      validate={validate}
     >
       {changeRequestData?.map((changeRequest) => {
         const {

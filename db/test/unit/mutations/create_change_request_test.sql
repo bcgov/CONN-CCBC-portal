@@ -1,6 +1,6 @@
 begin;
 
-select plan(5);
+select plan(7);
 
 truncate table
   ccbc_public.application,
@@ -80,6 +80,30 @@ select results_eq(
   $$,
   'Should see 2 entries in change_request_data for application 1'
 );
+
+select ccbc_public.create_change_request(1::int , 2::int, '{}'::jsonb, 1::int);
+
+select results_eq(
+  $$
+    select count(*) from ccbc_public.change_request_data where application_id = 1 and archived_at is null;
+  $$,
+  $$
+    values(2::bigint);
+  $$,
+  'Should see 2 entries in change_request_data for application when old change request id passed to mutation'
+);
+
+select results_eq(
+  $$
+    select count(*) from ccbc_public.change_request_data where application_id = 1 and archived_at is not null;
+  $$,
+  $$
+    values(1::bigint);
+  $$,
+  'Should see 1 entry in change_request_data for application 1 that is archived'
+);
+
+
 
 select finish();
 rollback;

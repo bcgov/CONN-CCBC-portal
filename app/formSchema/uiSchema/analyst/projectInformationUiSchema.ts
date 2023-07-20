@@ -24,6 +24,9 @@ const projectInformationUiSchema = {
   finalizedMapUpload: {
     'ui:widget': 'FileWidget',
   },
+  sowValidationErrors: {
+    'ui:widget': 'HiddenWidget',
+  },
 };
 
 export default projectInformationUiSchema;

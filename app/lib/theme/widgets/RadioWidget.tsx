@@ -63,7 +63,7 @@ const RadioWidget: React.FC<WidgetProps> = ({
     },
   };
   return (
-    <StyledContainer>
+    <StyledContainer className="radio-widget">
       {enumOptions?.map(
         (option: { value: string; label: string }, i: number) => (
           <StyledDiv key={option.value} style={{ opacity: disabled && '0.6' }}>

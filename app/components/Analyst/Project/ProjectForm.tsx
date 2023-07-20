@@ -143,6 +143,7 @@ interface Props {
   title: string;
   uiSchema?: any;
   saveDataTestId?: string;
+  validate?: any;
 }
 
 const ProjectForm: React.FC<Props> = ({
@@ -168,6 +169,7 @@ const ProjectForm: React.FC<Props> = ({
   theme,
   title,
   uiSchema,
+  validate,
   saveDataTestId = 'save',
   ...rest
 }) => {
@@ -270,6 +272,7 @@ const ProjectForm: React.FC<Props> = ({
               theme={theme || ProjectTheme}
               omitExtraData={false}
               onChange={handleChange}
+              validate={validate}
             >
               {hiddenSubmitRef ? (
                 <button
