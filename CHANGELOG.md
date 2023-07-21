@@ -1,3 +1,9 @@
+## [1.88.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.88.1...v1.88.2) (2023-07-21)
+
+### Bug Fixes
+
+- use hidden widget for applicant status sees ([a047947](https://github.com/bcgov/CONN-CCBC-portal/commit/a047947844dcec0e3e9b70cb55cdb569060f6e17))
+
 ## [1.88.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.88.0...v1.88.1) (2023-07-20)
 
 ### Bug Fixes
