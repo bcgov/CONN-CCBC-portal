@@ -7,6 +7,7 @@ import intakeUiSchema from 'formSchema/uiSchema/admin/intakeUiSchema';
 import DefaultTheme from 'lib/theme/DefaultTheme';
 import BasicFieldTemplate from 'lib/theme/templates/BasicFieldTemplate';
 import ReadOnlyWidget from 'components/Analyst/Project/ConditionalApproval/widgets/ReadOnlyWidget';
+import { useCreateIntakeMutation } from 'schema/mutations/admin/createIntakeMutation';
 
 interface EditProps {
   isFormEditMode: boolean;
@@ -54,12 +55,30 @@ const StyledSaveBtn = styled(Button)`
   margin-right: 16px;
 `;
 
-const AddIntake = () => {
-  const [isFormEditMode, setIsFormEditMode] = useState(false);
-  const [formData] = useState({
-    intakeNumber: 1,
-  } as any);
+interface Props {
+  allIntakesConnectionId: string;
+}
 
+const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
+  const [createIntake] = useCreateIntakeMutation();
+  const [isFormEditMode, setIsFormEditMode] = useState(false);
+
+  const handleSubmit = (e) => {
+    const intakeNumber = e.formData?.intakeNumber;
+    const startTime = e.formData?.startDate;
+    const endTime = e.formData?.endDate;
+    console.log(e.formData);
+    console.log(intakeNumber, startTime, endTime);
+    createIntake({
+      variables: {
+        connections: [allIntakesConnectionId],
+        input: { ccbcNumber: parseInt(intakeNumber, 10), endTime, startTime },
+      },
+      onCompleted: () => {
+        setIsFormEditMode(false);
+      },
+    });
+  };
   return (
     <section>
       <StyledBtnContainer isFormEditMode={isFormEditMode}>
@@ -74,9 +93,12 @@ const AddIntake = () => {
       <StyledContainer isFormEditMode={isFormEditMode}>
         <StyledForm isFormEditMode={isFormEditMode}>
           <FormBase
-            formData={formData}
+            formData={{
+              intakeNumber: 501,
+            }}
             schema={intakeSchema}
             uiSchema={intakeUiSchema}
+            onSubmit={handleSubmit}
             theme={{
               ...DefaultTheme,
               widgets: {

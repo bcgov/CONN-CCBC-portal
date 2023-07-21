@@ -7,7 +7,6 @@ import { enUS } from '@mui/x-date-pickers/locales';
 import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
-import { dateTimeFormat } from '../functions/formatDates';
 
 interface StyleProps {
   id: string;
@@ -25,14 +24,6 @@ const StyledDateTimePicker = styled(DesktopDateTimePicker)<StyleProps>`
   width: 100%;
 `;
 
-const getDateString = (date: Date | undefined) => {
-  if (date) {
-    if (date.valueOf() <= 0) return undefined;
-    return dateTimeFormat(date, 'timestamptz');
-  }
-  return undefined;
-};
-
 const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
   rawErrors,
   id,
@@ -49,17 +40,9 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
   const minDate = dayjs(uiOptions?.minDate as number);
 
   const handleChange = (d: Date) => {
-    const originalDate = new Date(d);
+    const dateTime = new Date(d).toISOString();
 
-    console.log(originalDate);
-    const realDate = new Date(originalDate);
-    console.log(realDate);
-    const newDate = getDateString(realDate);
-    console.log(newDate);
-    const isDateInvalid = newDate === 'Invalid DateTime';
-
-    if (isDateInvalid) return null;
-    return onChange(newDate);
+    return onChange(dateTime);
   };
 
   const styles = {
