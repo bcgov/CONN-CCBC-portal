@@ -1,5 +1,6 @@
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import { DateTime } from 'luxon';
 
 interface ContainerProps {
   isCurrentIntake: boolean;
@@ -15,10 +16,31 @@ const StyledContainer = styled.div<ContainerProps>`
 
 const StyledFlex = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
-  & :not(:last-child) {
-    margin-right: 64px;
+  & div {
+    margin-bottom: 16px;
+  }
+
+  & h4 {
+    margin-bottom: 4px;
+  }
+
+  ${({ theme }) => theme.breakpoint.smallUp} {
+    flex-direction: row;
+
+    & :not(:last-child) {
+      min-width: 200px;
+      margin-right: 64px;
+    }
+
+    & div {
+      margin-bottom: 0;
+    }
+
+    & h4 {
+      margin-bottom: 16px;
+    }
   }
 `;
 
@@ -48,17 +70,25 @@ const Intake: React.FC<IntakeProps> = ({ currentIntakeNumber, intake }) => {
   const { ccbcIntakeNumber, closeTimestamp, description, openTimestamp } =
     queryFragment;
 
+  const openDate = DateTime.fromISO(openTimestamp).toLocaleString(
+    DateTime.DATETIME_FULL
+  );
+
+  const closeDate = DateTime.fromISO(closeTimestamp).toLocaleString(
+    DateTime.DATETIME_FULL
+  );
+
   return (
     <StyledContainer isCurrentIntake={currentIntakeNumber === ccbcIntakeNumber}>
       <h3>Intake {ccbcIntakeNumber}</h3>
       <StyledFlex>
         <div>
           <h4>Start date & time</h4>
-          <span>{openTimestamp}</span>
+          <span>{openDate}</span>
         </div>
         <div>
           <h4>End date & time</h4>
-          <span>{closeTimestamp}</span>
+          <span>{closeDate}</span>
         </div>
         <div>
           <StyledDescription>Description</StyledDescription>
