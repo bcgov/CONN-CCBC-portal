@@ -66,6 +66,7 @@ const Intake: React.FC<IntakeProps> = ({ currentIntakeNumber, intake }) => {
     `,
     intake
   );
+  // Need to add description to the fragment which is coming in add intake PR
 
   const { ccbcIntakeNumber, closeTimestamp, description, openTimestamp } =
     queryFragment;
@@ -79,7 +80,10 @@ const Intake: React.FC<IntakeProps> = ({ currentIntakeNumber, intake }) => {
   );
 
   return (
-    <StyledContainer isCurrentIntake={currentIntakeNumber === ccbcIntakeNumber}>
+    <StyledContainer
+      data-testid="intake-container"
+      isCurrentIntake={currentIntakeNumber === ccbcIntakeNumber}
+    >
       <h3>Intake {ccbcIntakeNumber}</h3>
       <StyledFlex>
         <div>

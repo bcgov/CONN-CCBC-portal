@@ -39,7 +39,6 @@ const ApplicationIntakes = ({
 }: RelayProps<Record<string, unknown>, applicationIntakesQuery>) => {
   const query = usePreloadedQuery(getApplicationIntakesQuery, preloadedQuery);
   const { allIntakes, openIntake, session } = query;
-
   const intakeList = allIntakes?.edges;
 
   return (
