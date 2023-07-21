@@ -163,6 +163,14 @@ const ProjectInformationForm = ({ application }) => {
     return errors;
   };
 
+  const handleResetFormData = () => {
+    setFormData({});
+    setIsFormEditMode(false);
+    setIsFormSubmitting(false);
+    setSowFile(null);
+    setShowToast(false);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -214,7 +222,9 @@ const ProjectInformationForm = ({ application }) => {
       false
     ).then((response) => {
       const isSowErrors = sowValidationErrors.length > 0;
-      const isSowUploaded = formData?.statementOfWorkUpload?.length > 0;
+      const isSowUploaded =
+        formData?.statementOfWorkUpload?.length > 0 &&
+        typeof sowFile === 'object';
 
       // If there are sow errors, persist sow error in form data if not delete
       const newFormData = { ...formData };
@@ -238,18 +248,13 @@ const ProjectInformationForm = ({ application }) => {
             },
           },
           onCompleted: () => {
-            setIsFormEditMode(false);
-            setIsFormSubmitting(false);
-            setFormData({});
-            // May need to change when the toast is shown when we add validation
-            if (
-              newFormData?.statementOfWorkUpload?.length > 0 &&
-              response?.status === 200
-            ) {
+            handleResetFormData();
+
+            if (isSowUploaded && response?.status === 200) {
               setShowToast(true);
             }
+
             setCurrentChangeRequestData(null);
-            setShowToast(true);
           },
           updater: (store) => {
             // add new amendment number to the amendment numbers computed column
@@ -297,11 +302,11 @@ const ProjectInformationForm = ({ application }) => {
             input: { _applicationId: rowId, _jsonData: newFormData },
           },
           onCompleted: () => {
-            setIsFormEditMode(false);
-            setIsFormSubmitting(false);
-            setFormData({});
-            // May need to change when the toast is shown when we add validation
-            setShowToast(true);
+            handleResetFormData();
+
+            if (isSowUploaded && response?.status === 200) {
+              setShowToast(true);
+            }
           },
           updater: (store, data) => {
             store
@@ -319,11 +324,6 @@ const ProjectInformationForm = ({ application }) => {
         });
       }
     });
-  };
-
-  const handleResetFormData = () => {
-    setFormData(projectInformation?.jsonData || {});
-    setShowToast(false);
   };
 
   const getMetabaseLink = () => {
@@ -389,7 +389,10 @@ const ProjectInformationForm = ({ application }) => {
       setFormData={setFormData}
       submitting={isFormSubmitting}
       saveBtnDisabled={isFormSubmitting}
-      setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+      setIsFormEditMode={(boolean) => {
+        setShowToast(false);
+        setIsFormEditMode(boolean);
+      }}
       showEditBtn={
         !hasFundingAgreementBeenSigned && !isFormEditMode && !isChangeRequest
       }
@@ -430,6 +433,7 @@ const ProjectInformationForm = ({ application }) => {
               setIsFormEditMode(true);
               setCurrentChangeRequestData(changeRequest.node);
               setFormData(jsonData);
+              setShowToast(false);
             }}
             isChangeRequest
             isFormEditMode={isFormEditMode}
@@ -447,6 +451,7 @@ const ProjectInformationForm = ({ application }) => {
             setIsChangeRequest(false);
             setFormData(projectInformationData);
             setIsFormEditMode(true);
+            setShowToast(false);
           }}
           isFormEditMode={isFormEditMode}
           isSowUploadError={projectInformationData?.isSowUploadError}
@@ -457,9 +462,7 @@ const ProjectInformationForm = ({ application }) => {
         />
       )}
       {showToast && (
-        <Toast timeout={100000000}>
-          Statement of work successfully imported
-        </Toast>
+        <Toast timeout={5000}>Statement of work successfully imported</Toast>
       )}
     </StyledProjectForm>
   );
