@@ -24,6 +24,15 @@ const StyledDateTimePicker = styled(DesktopDateTimePicker)<StyleProps>`
   width: 100%;
 `;
 
+const StyledError = styled.div`
+  color: ${({ theme }) => theme.color.error};
+  white-space: nowrap;
+
+  &:after {
+    content: ' ‎ ';
+  }
+`;
+
 const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
   rawErrors,
   id,
@@ -108,6 +117,7 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
           }}
           format="YYYY-MM-DD HH:mm A"
         />
+        <StyledError>{rawErrors}</StyledError>
       </LocalizationProvider>
     </StyledContainer>
   );

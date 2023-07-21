@@ -8,6 +8,7 @@ import DefaultTheme from 'lib/theme/DefaultTheme';
 import BasicFieldTemplate from 'lib/theme/templates/BasicFieldTemplate';
 import ReadOnlyWidget from 'components/Analyst/Project/ConditionalApproval/widgets/ReadOnlyWidget';
 import { useCreateIntakeMutation } from 'schema/mutations/admin/createIntakeMutation';
+import { DateTime } from 'luxon';
 
 interface EditProps {
   isFormEditMode: boolean;
@@ -79,6 +80,27 @@ const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
       },
     });
   };
+
+  const validate = (jsonData, errors) => {
+    const { startDate, endDate } = jsonData;
+    const currentDateTime = DateTime.now();
+    const startDateTime = DateTime.fromISO(startDate);
+    const endDateTime = DateTime.fromISO(endDate);
+
+    if (startDateTime < currentDateTime) {
+      errors?.startDate.addError(
+        'Start date & time must be after current date & time'
+      );
+    }
+
+    if (endDateTime < startDateTime) {
+      errors?.endDate.addError(
+        'End date & time must be after start date & time'
+      );
+    }
+    return errors;
+  };
+
   return (
     <section>
       <StyledBtnContainer isFormEditMode={isFormEditMode}>
@@ -96,6 +118,7 @@ const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
             formData={{
               intakeNumber: 501,
             }}
+            liveValidate
             schema={intakeSchema}
             uiSchema={intakeUiSchema}
             onSubmit={handleSubmit}
@@ -107,6 +130,7 @@ const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
               },
               FieldTemplate: BasicFieldTemplate,
             }}
+            validate={validate}
           >
             <StyledSaveBtn>Save</StyledSaveBtn>
             <Button
