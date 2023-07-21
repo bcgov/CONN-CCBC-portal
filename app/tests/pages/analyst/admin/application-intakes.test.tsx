@@ -107,12 +107,6 @@ describe('The Application intakes admin page', () => {
     ).toBeVisible();
 
     expect(
-      screen.getAllByRole('heading', {
-        name: 'Description',
-      })[0]
-    ).toBeVisible();
-
-    expect(
       screen.getByText('January 15, 2023 at 12:00 a.m. PST')
     ).toBeVisible();
 

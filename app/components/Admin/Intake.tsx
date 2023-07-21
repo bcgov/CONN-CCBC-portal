@@ -94,10 +94,12 @@ const Intake: React.FC<IntakeProps> = ({ currentIntakeNumber, intake }) => {
           <h4>End date & time</h4>
           <span>{closeDate}</span>
         </div>
-        <div>
-          <StyledDescription>Description</StyledDescription>
-          <span>{description}</span>
-        </div>
+        {description && (
+          <div>
+            <StyledDescription>Description</StyledDescription>
+            <span>{description}</span>
+          </div>
+        )}
       </StyledFlex>
     </StyledContainer>
   );
