@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { graphql, useFragment } from 'react-relay';
 import { AjvError } from '@rjsf/core';
 import Button from '@button-inc/bcgov-theme/Button';
 import FormBase from 'components/Form/FormBase';
@@ -44,7 +45,7 @@ const StyledForm = styled.section<EditProps>`
   margin-top: ${({ isFormEditMode }) => (isFormEditMode ? '24px' : '0px')};
 
   .datetime-widget {
-    width: 240px;
+    width: 250px;
   }
 
   .pg-input,
@@ -62,12 +63,42 @@ const StyledSaveBtn = styled(Button)`
 `;
 
 interface Props {
-  allIntakesConnectionId: string;
+  applicationQuery: any;
 }
 
-const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
+const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment AddIntake_query on Query {
+        allIntakes(first: 999, orderBy: CCBC_INTAKE_NUMBER_DESC)
+          @connection(key: "ApplicationIntakes_allIntakes") {
+          __id
+          edges {
+            node {
+              ccbcIntakeNumber
+              closeTimestamp
+              openTimestamp
+            }
+          }
+        }
+        nextIntake {
+          ccbcIntakeNumber
+        }
+      }
+    `,
+    applicationQuery
+  );
+
   const [createIntake] = useCreateIntakeMutation();
   const [isFormEditMode, setIsFormEditMode] = useState(false);
+
+  const { allIntakes } = queryFragment;
+
+  const latestIntake = allIntakes?.edges[0].node;
+  const latestIntakeNumber = (latestIntake?.ccbcIntakeNumber as number) || 0;
+  const latestIntakeCloseTimestamp = latestIntake?.closeTimestamp;
+  const newIntakeNumber = latestIntakeNumber + 1;
+  const allIntakesConnectionId = allIntakes?.__id;
 
   const handleSubmit = (e) => {
     const intakeNumber = e.formData?.intakeNumber;
@@ -90,6 +121,10 @@ const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
     const currentDateTime = DateTime.now();
     const startDateTime = DateTime.fromISO(startDate);
     const endDateTime = DateTime.fromISO(endDate);
+    const latestIntakeEndDateTime = DateTime.fromISO(
+      latestIntakeCloseTimestamp
+    );
+
     if (!startDate) {
       errors?.startDate.addError('Start date & time must be entered');
     }
@@ -101,6 +136,10 @@ const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
     if (startDateTime < currentDateTime) {
       errors?.startDate.addError(
         'Start date & time must be after current date & time'
+      );
+    } else if (startDateTime < latestIntakeEndDateTime) {
+      errors?.startDate.addError(
+        'Start date & time must not overlap with the previous intake'
       );
     }
 
@@ -138,7 +177,7 @@ const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
         <StyledForm isFormEditMode={isFormEditMode}>
           <FormBase
             formData={{
-              intakeNumber: 501,
+              intakeNumber: newIntakeNumber,
             }}
             liveValidate
             schema={intakeSchema}

@@ -23,6 +23,7 @@ const getApplicationIntakesQuery = graphql`
     openIntake {
       ccbcIntakeNumber
     }
+    ...AddIntake_query
     session {
       sub
       ...DashboardTabs_query
@@ -69,7 +70,7 @@ const ApplicationIntakes = ({
             })}
           </section>
         )}
-        <AddIntake allIntakesConnectionId={allIntakes?.__id} />
+        <AddIntake applicationQuery={query} />
       </StyledContainer>
     </Layout>
   );
