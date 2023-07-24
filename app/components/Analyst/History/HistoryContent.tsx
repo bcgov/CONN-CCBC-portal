@@ -363,7 +363,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         <b>Change Request</b>
         <span> on {createdAtFormatted}</span>
         <HistoryFile
-          filesArray={record.json_data?.statementOfWorkUpload}
+          filesArray={record.json_data?.statementOfWorkUpload || []}
           title="Updated Statement of Work Excel"
         />
       </StyledContent>
