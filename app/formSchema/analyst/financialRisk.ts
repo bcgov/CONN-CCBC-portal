@@ -1,6 +1,16 @@
 import { JSONSchema7 } from 'json-schema';
 import sharedAssessmentFields from './sharedAssessmentFields';
 
+// when a different label and title is needed
+// decouple the title from the enum, this is a SonarCloud workaround
+// the enum MUST stay as below for data to be maintained
+const noDecision = 'No decision';
+const lowRisk = 'Low risk';
+const lowMediumRisk = 'Low-medium risk';
+const mediumRisk = 'Medium risk';
+const mediumHighRisk = 'Medium-high risk';
+const highRisk = 'High risk';
+
 const financialRisk: JSONSchema7 = {
   title: ' ',
   description: '',
@@ -20,28 +30,28 @@ const financialRisk: JSONSchema7 = {
       type: 'string',
       anyOf: [
         {
-          title: 'No decision',
-          enum: ['No decision'],
+          title: noDecision,
+          enum: [noDecision],
         },
         {
-          title: 'Low risk',
-          enum: ['Low risk'],
+          title: lowRisk,
+          enum: [lowRisk],
         },
         {
-          title: 'Low-medium risk',
-          enum: ['Low-medium risk'],
+          title: lowMediumRisk,
+          enum: [lowMediumRisk],
         },
         {
-          title: 'Medium risk',
-          enum: ['Medium risk'],
+          title: mediumRisk,
+          enum: [mediumRisk],
         },
         {
-          title: 'Medium-high risk',
-          enum: ['Medium-high risk'],
+          title: mediumHighRisk,
+          enum: [mediumHighRisk],
         },
         {
-          title: 'High risk',
-          enum: ['High risk'],
+          title: highRisk,
+          enum: [highRisk],
         },
       ],
       default: 'No decision',

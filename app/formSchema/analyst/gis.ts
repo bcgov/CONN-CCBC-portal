@@ -1,5 +1,8 @@
 import { JSONSchema7 } from 'json-schema';
 
+// when a different label and title is needed
+// decouple the title from the enum, this is SonarCloud workaround
+// the enum MUST stay as below for data to be maintained
 const notStarted = 'Not started';
 const needsRFI = 'Needs RFI';
 const needs2ndReview = 'Needs 2nd review';
