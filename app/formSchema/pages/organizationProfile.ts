@@ -58,7 +58,7 @@ const organizationProfile: Record<string, JSONSchema7> = {
       },
       organizationOverview: {
         title:
-          'Provide an overview of the organization. Include an overview of its current business model, years in business, experience in operating Broadband Service(s), previous federal broadband funding (if applicable), mission/mandate/vision, size of operation (e.g. annual revenue, assets, number of staff), membership (if applicable), current Coverage and subscription base (maximum 3,500 characters)',
+          'Provide an overview of the organization. Include an overview of its current business model, years in business, experience in operating Broadband Service(s), previous federal broadband funding (if applicable), mission/mandate/vision, size of operation (e.g. annual revenue, assets, number of staff), membership (if applicable), current Coverage and subscription base',
         type: 'string',
       },
       orgRegistrationDate: {
@@ -184,7 +184,7 @@ const organizationProfile: Record<string, JSONSchema7> = {
               },
               indigenousEntityDesc: {
                 title:
-                  'Please provide a short description of the Indigenous identity (maximum 75 characters)',
+                  'Please provide a short description of the Indigenous identity',
                 type: 'string',
               },
             },
