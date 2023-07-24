@@ -1,6 +1,9 @@
 const intakeUiSchema = {
   intakeNumber: {
     'ui:widget': 'ReadOnlyWidget',
+    'ui:options': {
+      hideErrors: true,
+    },
   },
   startDate: {
     'ui:widget': 'DateTimePickerWidget',
@@ -12,6 +15,7 @@ const intakeUiSchema = {
     'ui:help': 'Maximum 150 characters',
     'ui:options': {
       maxLength: 150,
+      hideErrors: true,
     },
   },
 };

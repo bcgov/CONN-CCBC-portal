@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { AjvError } from '@rjsf/core';
 import Button from '@button-inc/bcgov-theme/Button';
 import FormBase from 'components/Form/FormBase';
 import intakeSchema from 'formSchema/admin/intake';
@@ -50,6 +51,10 @@ const StyledForm = styled.section<EditProps>`
   .pg-input-input {
     width: 100%;
   }
+
+  .formFieldset {
+    margin: 0;
+  }
 `;
 
 const StyledSaveBtn = styled(Button)`
@@ -68,8 +73,7 @@ const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
     const intakeNumber = e.formData?.intakeNumber;
     const startTime = e.formData?.startDate;
     const endTime = e.formData?.endDate;
-    console.log(e.formData);
-    console.log(intakeNumber, startTime, endTime);
+
     createIntake({
       variables: {
         connections: [allIntakesConnectionId],
@@ -86,6 +90,13 @@ const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
     const currentDateTime = DateTime.now();
     const startDateTime = DateTime.fromISO(startDate);
     const endDateTime = DateTime.fromISO(endDate);
+    if (!startDate) {
+      errors?.startDate.addError('Start date & time must be entered');
+    }
+
+    if (!endDate) {
+      errors?.endDate.addError('End date & time must be entered');
+    }
 
     if (startDateTime < currentDateTime) {
       errors?.startDate.addError(
@@ -100,6 +111,17 @@ const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
     }
     return errors;
   };
+
+  const customTransformErrors = (errors: AjvError[]) =>
+    errors.map((error) => {
+      // remove 'Please enter a value' error from null fields so we can add specific error messages
+      if (error.name === 'required')
+        return {
+          ...error,
+          message: ``,
+        };
+      return error;
+    });
 
   return (
     <section>
@@ -122,6 +144,7 @@ const AddIntake: React.FC<Props> = ({ allIntakesConnectionId }) => {
             schema={intakeSchema}
             uiSchema={intakeUiSchema}
             onSubmit={handleSubmit}
+            transformErrors={customTransformErrors}
             theme={{
               ...DefaultTheme,
               widgets: {

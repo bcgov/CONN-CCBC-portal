@@ -17,20 +17,10 @@ const StyledContainer = styled('div')`
   width: ${(props) => props.theme.width.inputWidthSmall};
 
   margin-top: 8px;
-  margin-bottom: 16px;
 `;
 
 const StyledDateTimePicker = styled(DesktopDateTimePicker)<StyleProps>`
   width: 100%;
-`;
-
-const StyledError = styled.div`
-  color: ${({ theme }) => theme.color.error};
-  white-space: nowrap;
-
-  &:after {
-    content: ' ‎ ';
-  }
 `;
 
 const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
@@ -69,7 +59,6 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
     },
   };
 
-  // Leaving this here as the datepicker won't accept a component with props (onChange)
   // eslint-disable-next-line react/no-unstable-nested-components
   const ClearableIconButton = () => {
     return (
@@ -103,7 +92,7 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
           defaultValue={null}
           slotProps={{
             actionBar: {
-              actions: ['clear', 'cancel'],
+              actions: ['accept', 'clear', 'cancel'],
             },
             textField: {
               inputProps: {
@@ -117,7 +106,6 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
           }}
           format="YYYY-MM-DD HH:mm A"
         />
-        <StyledError>{rawErrors}</StyledError>
       </LocalizationProvider>
     </StyledContainer>
   );
