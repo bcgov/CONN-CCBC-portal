@@ -47,16 +47,19 @@ const ApplicationIntakes = ({
       <StyledContainer>
         <DashboardTabs session={session} />
         <AdminTabs />
-        <h2>Application Intakes</h2>
-        <p>
-          All times are in Pacific Time and automatically adjusted for daylight
-          saving time where necessary.
-        </p>
-        <p>Applicants have a grace period after each deadline.</p>
-        <p>
-          To adjust the grace period or toggle visibility of upcoming intake
-          dates, go to https://app.growthbook.io/
-        </p>
+        <section>
+          <h2>Application Intakes</h2>
+          <p>
+            All times are in Pacific Time and automatically adjusted for
+            daylight saving time where necessary.
+          </p>
+          <p>Applicants have a grace period after each deadline.</p>
+          <p>
+            To adjust the grace period or toggle visibility of upcoming intake
+            dates, go to https://app.growthbook.io/
+          </p>
+        </section>
+        <AddIntake applicationQuery={query} />
         {intakeList && (
           <section>
             {intakeList.map((intake: any) => {
@@ -70,7 +73,6 @@ const ApplicationIntakes = ({
             })}
           </section>
         )}
-        <AddIntake applicationQuery={query} />
       </StyledContainer>
     </Layout>
   );

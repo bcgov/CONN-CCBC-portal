@@ -94,7 +94,8 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
 
   const { allIntakes } = queryFragment;
 
-  const latestIntake = allIntakes?.edges[0].node;
+  const intakeList = allIntakes?.edges;
+  const latestIntake = intakeList[0].node;
   const latestIntakeNumber = (latestIntake?.ccbcIntakeNumber as number) || 0;
   const latestIntakeCloseTimestamp = latestIntake?.closeTimestamp;
   const newIntakeNumber = latestIntakeNumber + 1;
