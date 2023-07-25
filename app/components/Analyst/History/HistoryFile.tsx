@@ -33,7 +33,7 @@ const HistoryFile = ({ filesArray, title, tableTitle = true }) => {
         <tr>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>{title}</td>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>
-            {filesArray.length > 0
+            {filesArray?.length > 0
               ? filesArray.map((file) => {
                   return (
                     <>
