@@ -1,0 +1,7 @@
+name: trivy-scan
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  trivy-scan:
+    uses: button-inc/button-shared-gh-actions/.github/workflows/scan-code-trivy.yml@develop
