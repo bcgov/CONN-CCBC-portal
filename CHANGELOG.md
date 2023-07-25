@@ -1,3 +1,16 @@
+# [1.89.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.88.1...v1.89.0) (2023-07-25)
+
+### Bug Fixes
+
+- add null check for filesArray and check when passing content ([c1bcf0d](https://github.com/bcgov/CONN-CCBC-portal/commit/c1bcf0dece832c70d0f29c1197b89e89cbf4924f))
+- conditionally show description ([9823de3](https://github.com/bcgov/CONN-CCBC-portal/commit/9823de37dc81d174e25d92d7224f6a32b331f30f))
+- use hidden widget for applicant status sees ([a047947](https://github.com/bcgov/CONN-CCBC-portal/commit/a047947844dcec0e3e9b70cb55cdb569060f6e17))
+
+### Features
+
+- add view intake component ([bfa48ad](https://github.com/bcgov/CONN-CCBC-portal/commit/bfa48aded23bf207507761347a4a7b7b31a7d9c2))
+- format intake date time ([6b12494](https://github.com/bcgov/CONN-CCBC-portal/commit/6b124947b4e9ede17105bdb4f467ecbf447f0fde))
+
 ## [1.88.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.88.0...v1.88.1) (2023-07-20)
 
 ### Bug Fixes
