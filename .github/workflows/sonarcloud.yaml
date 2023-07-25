@@ -1,7 +1,7 @@
 name: sonarcloud-scan
 on:
   workflow_dispatch:
-  push:
+    # push:
 jobs:
   sonarcloud-scan:
     uses: button-inc/button-shared-gh-actions/.github/workflows/scan-code-sonarcloud.yml@develop

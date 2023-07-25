@@ -1,0 +1,10 @@
+name: gitleaks-scan
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  gitleaks-scan:
+    uses: button-inc/button-shared-gh-actions/.github/workflows/scan-code-gitleaks.yml@develop
+  secrets:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+    gitleaks-license: ${{ secrets.GITLEAKS_LICENSE}}

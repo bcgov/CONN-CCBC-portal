@@ -1,7 +1,7 @@
 name: zap-scan
 on:
   workflow_dispatch:
-  push:
+    # push:
 jobs:
   zap-scan:
     uses: button-inc/button-shared-gh-actions/.github/workflows/scan-code-owasp-zap.yml@develop
