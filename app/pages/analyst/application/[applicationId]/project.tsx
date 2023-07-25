@@ -9,6 +9,7 @@ import { useFeature } from '@growthbook/growthbook-react';
 import ConditionalApprovalForm from 'components/Analyst/Project/ConditionalApproval/ConditionalApprovalForm';
 import AnnouncementsForm from 'components/Analyst/Project/Announcements/AnnouncementsForm';
 import ProjectInformationForm from 'components/Analyst/Project/ProjectInformation/ProjectInformationForm';
+import CommunityProgressReport from 'components/Analyst/Project/CommunityProgressReport/CommunityProgressReport';
 
 const getProjectQuery = graphql`
   query projectQuery($rowId: Int!) {
@@ -33,6 +34,7 @@ const Project = ({
   const showConditionalApproval = useFeature('show_conditional_approval').value;
   const showAnnouncement = useFeature('show_announcement').value;
   const showProjectInformation = useFeature('show_project_information').value;
+  const showCommunityProgressReport = true;
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -44,6 +46,7 @@ const Project = ({
         {showProjectInformation && (
           <ProjectInformationForm application={applicationByRowId} />
         )}
+        {showCommunityProgressReport && <CommunityProgressReport />}
       </AnalystLayout>
     </Layout>
   );
