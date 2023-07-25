@@ -53,12 +53,14 @@ const organizationProfile = {
     'ui:options': {
       maxLength: MAX_MED_INPUT_LENGTH,
     },
+    'ui:help': 'maximum 75 characters',
   },
   organizationOverview: {
     'ui:widget': 'TextAreaWidget',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
     },
+    'ui:help': 'maximum 3,500 characters',
   },
   orgRegistrationDate: {
     'ui:widget': 'DatePickerWidget',
