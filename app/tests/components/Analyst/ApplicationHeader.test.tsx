@@ -98,7 +98,7 @@ describe('The application header component', () => {
 
     expect(applicationHeader).toHaveStyle({ borderLeft: '4px solid #1A5A96' });
     expect(applicationHeader).toHaveStyle({ padding: '8px 12px' });
-    expect(applicationHeader).toHaveStyle({ marginBottom: '40px' });
+    expect(applicationHeader).toHaveStyle({ marginBottom: '0.5em' });
   });
 
   it('has the correct styles for the CCBC number', () => {
