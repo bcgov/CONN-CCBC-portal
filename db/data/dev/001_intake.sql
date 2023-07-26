@@ -31,4 +31,8 @@ open_timestamp = excluded.open_timestamp,
 close_timestamp = excluded.close_timestamp,
 ccbc_intake_number = excluded.ccbc_intake_number;
 
+select setval('ccbc_public.intake_id_seq', 2, true);
+select setval('ccbc_public.gapless_counter_id_seq', 2, true);
+
+
 commit;
