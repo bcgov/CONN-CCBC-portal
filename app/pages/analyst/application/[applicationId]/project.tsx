@@ -34,7 +34,9 @@ const Project = ({
   const showConditionalApproval = useFeature('show_conditional_approval').value;
   const showAnnouncement = useFeature('show_announcement').value;
   const showProjectInformation = useFeature('show_project_information').value;
-  const showCommunityProgressReport = true;
+  const showCommunityProgressReport = useFeature(
+    'show_community_progress_report'
+  ).value;
 
   return (
     <Layout session={session} title="Connecting Communities BC">
