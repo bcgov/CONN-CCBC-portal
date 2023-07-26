@@ -19,7 +19,7 @@ const intake: JSONSchema7 = {
     },
     description: {
       type: 'string',
-      title: 'Description',
+      title: 'Description (optional)',
     },
   },
 };

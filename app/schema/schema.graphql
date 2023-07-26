@@ -53795,7 +53795,7 @@ input CreateIntakeInput {
   clientMutationId: String
   startTime: Datetime!
   endTime: Datetime!
-  ccbcNumber: Int!
+  intakeDescription: String
 }
 
 """The output of our `createNewFormData` mutation."""

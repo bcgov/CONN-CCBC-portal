@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
-import { AjvError } from '@rjsf/core';
+import { AjvError, IChangeEvent } from '@rjsf/core';
 import Button from '@button-inc/bcgov-theme/Button';
 import FormBase from 'components/Form/FormBase';
 import intakeSchema from 'formSchema/admin/intake';
@@ -50,7 +50,7 @@ const StyledForm = styled.section<EditProps>`
 
   .pg-input,
   .pg-input-input {
-    width: 100%;
+    width: 98%;
   }
 
   .formFieldset {
@@ -61,6 +61,26 @@ const StyledForm = styled.section<EditProps>`
 const StyledSaveBtn = styled(Button)`
   margin-right: 16px;
 `;
+
+const IntakeTheme = {
+  ...DefaultTheme,
+  widgets: {
+    ...DefaultTheme.widgets,
+    ReadOnlyWidget,
+  },
+  FieldTemplate: BasicFieldTemplate,
+};
+
+const customTransformErrors = (errors: AjvError[]) =>
+  errors.map((error) => {
+    // remove 'Please enter a value' error from null fields so we can add specific error messages
+    if (error.name === 'required')
+      return {
+        ...error,
+        message: ``,
+      };
+    return error;
+  });
 
 interface Props {
   applicationQuery: any;
@@ -89,9 +109,6 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
     applicationQuery
   );
 
-  const [createIntake] = useCreateIntakeMutation();
-  const [isFormEditMode, setIsFormEditMode] = useState(false);
-
   const { allIntakes } = queryFragment;
 
   const intakeList = allIntakes?.edges;
@@ -101,18 +118,33 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
   const newIntakeNumber = latestIntakeNumber + 1;
   const allIntakesConnectionId = allIntakes?.__id;
 
+  const defaultFormData = {
+    intakeNumber: newIntakeNumber,
+  };
+
+  const [createIntake] = useCreateIntakeMutation();
+  const [isFormEditMode, setIsFormEditMode] = useState(false);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [formData, setFormData] = useState(defaultFormData);
+
   const handleSubmit = (e) => {
-    const intakeNumber = e.formData?.intakeNumber;
     const startTime = e.formData?.startDate;
     const endTime = e.formData?.endDate;
+    const description = e.formData?.description;
 
     createIntake({
       variables: {
         connections: [allIntakesConnectionId],
-        input: { ccbcNumber: parseInt(intakeNumber, 10), endTime, startTime },
+        input: {
+          intakeDescription: description,
+          endTime,
+          startTime,
+        },
       },
       onCompleted: () => {
+        setIsFormSubmitting(false);
         setIsFormEditMode(false);
+        setFormData(defaultFormData);
       },
     });
   };
@@ -126,42 +158,31 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
       latestIntakeCloseTimestamp
     );
 
-    if (!startDate) {
+    if (!startDate && isFormSubmitting) {
       errors?.startDate.addError('Start date & time must be entered');
     }
 
-    if (!endDate) {
+    if (!endDate && isFormSubmitting) {
       errors?.endDate.addError('End date & time must be entered');
     }
 
-    if (startDateTime < currentDateTime) {
+    if (startDateTime <= currentDateTime) {
       errors?.startDate.addError(
         'Start date & time must be after current date & time'
       );
-    } else if (startDateTime < latestIntakeEndDateTime) {
+    } else if (startDateTime <= latestIntakeEndDateTime) {
       errors?.startDate.addError(
         'Start date & time must not overlap with the previous intake'
       );
     }
 
-    if (endDateTime < startDateTime) {
+    if (endDateTime <= startDateTime) {
       errors?.endDate.addError(
         'End date & time must be after start date & time'
       );
     }
     return errors;
   };
-
-  const customTransformErrors = (errors: AjvError[]) =>
-    errors.map((error) => {
-      // remove 'Please enter a value' error from null fields so we can add specific error messages
-      if (error.name === 'required')
-        return {
-          ...error,
-          message: ``,
-        };
-      return error;
-    });
 
   return (
     <section>
@@ -177,25 +198,24 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
       <StyledContainer isFormEditMode={isFormEditMode}>
         <StyledForm isFormEditMode={isFormEditMode}>
           <FormBase
-            formData={{
-              intakeNumber: newIntakeNumber,
-            }}
-            liveValidate
+            formData={formData}
+            onChange={(e: IChangeEvent) => setFormData({ ...e.formData })}
+            liveValidate={isFormEditMode}
             schema={intakeSchema}
             uiSchema={intakeUiSchema}
             onSubmit={handleSubmit}
             transformErrors={customTransformErrors}
-            theme={{
-              ...DefaultTheme,
-              widgets: {
-                ...DefaultTheme.widgets,
-                ReadOnlyWidget,
-              },
-              FieldTemplate: BasicFieldTemplate,
-            }}
+            theme={IntakeTheme}
             validate={validate}
           >
-            <StyledSaveBtn>Save</StyledSaveBtn>
+            <StyledSaveBtn
+              type="submit"
+              onClick={() => {
+                setIsFormSubmitting(true);
+              }}
+            >
+              Save
+            </StyledSaveBtn>
             <Button
               onClick={() => setIsFormEditMode(false)}
               variant="secondary"
