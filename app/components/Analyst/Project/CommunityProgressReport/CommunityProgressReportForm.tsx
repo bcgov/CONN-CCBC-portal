@@ -11,11 +11,6 @@ interface FormData {
   dateReceived?: string;
 }
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  // TODO
-};
-
 const CommunityProgressReportForm = () => {
   const [formData, setFormData] = useState({} as FormData);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
@@ -23,6 +18,12 @@ const CommunityProgressReportForm = () => {
   const handleResetFormData = () => {
     setIsFormEditMode(false);
     setFormData({} as FormData);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleResetFormData();
+    // TODO
   };
 
   return (
@@ -42,6 +43,7 @@ const CommunityProgressReportForm = () => {
         setFormData({ ...e.formData });
       }}
       resetFormData={handleResetFormData}
+      setFormData={setFormData}
       showEditBtn={false}
       before={
         <AddButton
