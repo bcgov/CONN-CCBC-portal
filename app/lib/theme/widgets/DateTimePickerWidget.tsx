@@ -13,7 +13,7 @@ interface StyleProps {
   isError?: boolean;
 }
 
-const StyledContainer = styled('div')`
+const StyledDateTimeContainer = styled('div')`
   width: ${(props) => props.theme.width.inputWidthSmall};
 
   margin-top: 8px;
@@ -32,11 +32,10 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
   onChange,
   uiSchema,
 }) => {
-  const isRawErrors = rawErrors && rawErrors.length > 0;
-  const isError = isRawErrors;
+  const isErrors = rawErrors && rawErrors.length > 0;
   const uiOptions = uiSchema['ui:options'];
-  const maxDate = dayjs(uiOptions?.maxDate as number);
-  const minDate = dayjs(uiOptions?.minDate as number);
+  const maxDate = uiOptions?.maxDate && dayjs(uiOptions?.maxDate as number);
+  const minDate = uiOptions?.minDate && dayjs(uiOptions?.minDate as number);
 
   const handleChange = (d: Date) => {
     const dateTime = new Date(d).toISOString();
@@ -55,12 +54,12 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
       padding: '9px',
     },
     '& .MuiOutlinedInput-notchedOutline': {
-      border: isError ? '2px solid #E71F1F' : '2px solid #606060',
+      border: isErrors ? '2px solid #E71F1F' : '2px solid #606060',
     },
   };
 
   // eslint-disable-next-line react/no-unstable-nested-components
-  const ClearableIconButton = () => {
+  const ClearableButton = () => {
     return (
       <button type="button" onClick={() => onChange(undefined)}>
         <FontAwesomeIcon icon={faTimesCircle} color="#606060" />
@@ -69,7 +68,7 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
   };
 
   return (
-    <StyledContainer
+    <StyledDateTimeContainer
       className="datetime-widget"
       data-testid="datetime-widget-container"
     >
@@ -80,11 +79,11 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
         dateAdapter={AdapterDayjs}
       >
         <StyledDateTimePicker
-          maxDate={uiOptions?.maxDate && maxDate}
-          minDate={uiOptions?.minDate && minDate}
+          maxDate={maxDate}
+          minDate={minDate}
           id={id}
           sx={styles}
-          isError={isError}
+          isError={isErrors}
           disabled={disabled}
           readOnly={readonly}
           onChange={handleChange}
@@ -102,12 +101,12 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
             },
           }}
           slots={{
-            openPickerButton: value ? ClearableIconButton : undefined,
+            openPickerButton: value ? ClearableButton : undefined,
           }}
           format="YYYY-MM-DD HH:mm A"
         />
       </LocalizationProvider>
-    </StyledContainer>
+    </StyledDateTimeContainer>
   );
 };
 
