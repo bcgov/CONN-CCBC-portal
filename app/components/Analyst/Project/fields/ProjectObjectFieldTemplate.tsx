@@ -28,6 +28,11 @@ const StyledFlex = styled.div<FlexProps>`
   }
 `;
 
+const StyledGrid = styled('div')`
+  display: grid;
+  min-width: 100%;
+`;
+
 const ProjectObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   uiSchema,
   properties,
@@ -36,10 +41,66 @@ const ProjectObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   const flexDirection = uiOptions?.flexDirection || 'column';
   const before = uiSchema?.['ui:before'];
 
+  const uiInline = uiSchema['ui:inline'];
+
+  const getInlineKeys = () => {
+    // Get array of inline keys so we can see if field exists in grid so we don't render it twice.
+    const inlineKeys: string[] = [];
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    uiInline &&
+      // eslint-disable-next-line array-callback-return
+      uiInline.map((row: Record<string, string>) => {
+        const rowKeys = Object.keys(row);
+        inlineKeys.push(...rowKeys);
+      });
+
+    return inlineKeys;
+  };
+
+  const inlineKeys = getInlineKeys();
+
   return (
     <StyledFlex direction={String(flexDirection)}>
       {before}
-      {properties.map((prop) => prop.content)}
+      {uiInline &&
+        uiInline.map((row: any, i: number) => {
+          const rowKeys = Object.keys(row);
+
+          const columns = row?.columns;
+          const mapRow = (
+            <StyledGrid
+              style={{ gridTemplateColumns: `repeat(${columns || 1}, 1fr)` }}
+            >
+              {
+                // eslint-disable-next-line array-callback-return, consistent-return
+                rowKeys.map((fieldName) => {
+                  const content = properties.find(
+                    (prop: any) => prop.name === fieldName
+                  )?.content;
+
+                  if (content) {
+                    if (columns === 1) {
+                      return <div key={fieldName}>{content}</div>;
+                    }
+                    return <>{content}</>;
+                  }
+                })
+              }
+            </StyledGrid>
+          );
+          return <div key={rowKeys[i]}>{mapRow}</div>;
+        })}
+
+      {
+        // eslint-disable-next-line array-callback-return, consistent-return
+        properties.map((prop: any) => {
+          const isInlineItem = inlineKeys.find((key) => key === prop.name);
+          if (!isInlineItem) {
+            return prop.content;
+          }
+        })
+      }
     </StyledFlex>
   );
 };

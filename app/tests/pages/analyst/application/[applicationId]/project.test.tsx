@@ -331,6 +331,14 @@ const mockShowAnnouncement: FeatureResult<JSONValue> = {
   ruleId: 'show_announcement',
 };
 
+const mockShowCommunityProgressReport: FeatureResult<JSONValue> = {
+  value: true,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_community_progress_report',
+};
+
 jest.setTimeout(10000000);
 
 describe('The Project page', () => {
@@ -342,6 +350,9 @@ describe('The Project page', () => {
     jest.spyOn(moduleApi, 'useFeature').mockImplementation((id) => {
       if (id === 'show_conditional_approval') {
         return mockShowConditonalApproval;
+      }
+      if (id === 'show_community_progress_report') {
+        return mockShowCommunityProgressReport;
       }
       return mockShowAnnouncement;
     });
@@ -1485,5 +1496,26 @@ describe('The Project page', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('should show the community progress report form', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const addCprBtn = screen.getByText('Add community progress report');
+
+    await act(async () => {
+      fireEvent.click(addCprBtn);
+    });
+
+    expect(
+      screen.getByTestId('save-community-progress-report')
+    ).toBeInTheDocument();
+
+    expect(screen.getByText('Due date')).toBeInTheDocument();
+
+    expect(screen.getByText('Date received')).toBeInTheDocument();
+
+    expect(screen.getByText('Progress report file')).toBeInTheDocument();
   });
 });
