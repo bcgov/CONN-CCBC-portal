@@ -2,7 +2,7 @@
 
 begin;
 
-alter table ccbc_public.intake add column description text;
+alter table ccbc_public.intake add column description text default null;
 
 comment on column ccbc_public.intake.description is 'A description of the intake';
 

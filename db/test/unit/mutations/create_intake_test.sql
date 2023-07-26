@@ -1,6 +1,6 @@
 begin;
 
-select plan(2);
+select plan(3);
 
 truncate table
   ccbc_public.intake,
@@ -14,14 +14,15 @@ select mocks.set_mocked_time_in_transaction('2022-08-19 09:00:00 America/Vancouv
 
 set role to ccbc_admin;
 
+
 select results_eq(
   $$
-    select open_timestamp, close_timestamp, ccbc_intake_number from ccbc_public.create_intake('2022-08-19 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver', 42);
+    select open_timestamp, close_timestamp, ccbc_intake_number from ccbc_public.create_intake('2022-08-19 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver');
   $$,
   $$
-    values ('2022-08-19 09:00:00 America/Vancouver'::timestamp with time zone, '2022-11-06 09:00:00 America/Vancouver'::timestamp with time zone, 42)
+    values ('2022-08-19 09:00:00 America/Vancouver'::timestamp with time zone, '2022-11-06 09:00:00 America/Vancouver'::timestamp with time zone, 1)
   $$,
-  'Should return newly created RFI'
+  'Should return newly created intake with no description'
 );
 
 select results_eq($$
@@ -31,6 +32,18 @@ $$
   values (0)
 $$,
 'Row should start with count of 0');
+
+select results_eq(
+  $$
+    select open_timestamp, close_timestamp, ccbc_intake_number, description from ccbc_public.create_intake('2022-08-19 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver', 'test');
+  $$,
+  $$
+    values ('2022-08-19 09:00:00 America/Vancouver'::timestamp with time zone, '2022-11-06 09:00:00 America/Vancouver'::timestamp with time zone, 2, 'test'::text)
+  $$,
+  'Should return newly created intake with no description'
+);
+
+
 
 select finish();
 rollback;
