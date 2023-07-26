@@ -101,9 +101,6 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
             }
           }
         }
-        nextIntake {
-          ccbcIntakeNumber
-        }
       }
     `,
     applicationQuery
@@ -118,6 +115,10 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
   const newIntakeNumber = latestIntakeNumber + 1;
   const allIntakesConnectionId = allIntakes?.__id;
 
+  // check if the latest intake opens before the current date
+  const isNewIntakeAllowed =
+    !latestIntake ||
+    DateTime.fromISO(latestIntake?.openTimestamp) < DateTime.now();
   const defaultFormData = {
     intakeNumber: newIntakeNumber,
   };
@@ -187,13 +188,15 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
   return (
     <section>
       <StyledBtnContainer isFormEditMode={isFormEditMode}>
-        <Button
-          isFormEditMode={isFormEditMode}
-          onClick={() => setIsFormEditMode(true)}
-          variant="secondary"
-        >
-          Add intake
-        </Button>
+        {isNewIntakeAllowed && (
+          <Button
+            isFormEditMode={isFormEditMode}
+            onClick={() => setIsFormEditMode(true)}
+            variant="secondary"
+          >
+            Add intake
+          </Button>
+        )}
       </StyledBtnContainer>
       <StyledContainer isFormEditMode={isFormEditMode}>
         <StyledForm isFormEditMode={isFormEditMode}>
