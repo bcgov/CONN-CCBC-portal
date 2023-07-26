@@ -1115,6 +1115,22 @@ describe('The Project page', () => {
         _oldChangeRequestId: expect.anything(),
       },
     });
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createChangeRequest: {
+            changeRequest: {
+              rowId: 1,
+            },
+          },
+        },
+      });
+    });
+
+    expect(
+      screen.getByText('Statement of work successfully imported')
+    ).toBeInTheDocument();
   });
 
   it('should show a spinner when the sow is being imported', async () => {
@@ -1314,6 +1330,24 @@ describe('The Project page', () => {
         _oldChangeRequestId: expect.anything(),
       },
     });
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createChangeRequest: {
+            changeRequestData: {
+              id: '1',
+              jsonData: {},
+              rowId: 1,
+            },
+          },
+        },
+      });
+    });
+
+    expect(
+      screen.getByText('Statement of work successfully imported')
+    ).toBeInTheDocument();
   });
 
   it('should stop showing a spinner on change request error', async () => {
