@@ -5,18 +5,24 @@ import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
 
+interface FormData {
+  progressReportFile?: any;
+  dueDate?: string;
+  dateReceived?: string;
+}
+
 const handleSubmit = (e) => {
   e.preventDefault();
   // TODO
 };
 
 const CommunityProgressReportForm = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({} as FormData);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
 
   const handleResetFormData = () => {
     setIsFormEditMode(false);
-    setFormData({});
+    setFormData({} as FormData);
   };
 
   return (
@@ -30,7 +36,7 @@ const CommunityProgressReportForm = () => {
       isFormAnimated
       isFormEditMode={isFormEditMode}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-      saveBtnText="Save"
+      saveBtnText={formData?.progressReportFile ? 'Save & Import' : 'Save'}
       title="Community progress report"
       handleChange={(e) => {
         setFormData({ ...e.formData });
