@@ -1,3 +1,10 @@
+# [1.90.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.89.0...v1.90.0) (2023-07-26)
+
+### Features
+
+- initial ui for community progress report ([9eb1e04](https://github.com/bcgov/CONN-CCBC-portal/commit/9eb1e04177516ca01247286d8541536515b32787))
+- use growthbook feature ([9d04484](https://github.com/bcgov/CONN-CCBC-portal/commit/9d04484f50b67e40bb1f508f010a40f0b00aa4a0))
+
 # [1.89.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.88.1...v1.89.0) (2023-07-26)
 
 ### Bug Fixes
