@@ -52,6 +52,7 @@ const CommunityProgressReportForm = () => {
           title="Add community progress report"
         />
       }
+      saveDataTestId="save-community-progress-report"
     />
   );
 };
