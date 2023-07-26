@@ -9,7 +9,7 @@ import { useFeature } from '@growthbook/growthbook-react';
 import ConditionalApprovalForm from 'components/Analyst/Project/ConditionalApproval/ConditionalApprovalForm';
 import AnnouncementsForm from 'components/Analyst/Project/Announcements/AnnouncementsForm';
 import ProjectInformationForm from 'components/Analyst/Project/ProjectInformation/ProjectInformationForm';
-import CommunityProgressReport from 'components/Analyst/Project/CommunityProgressReport/CommunityProgressReport';
+import CommunityProgressReportForm from 'components/Analyst/Project/CommunityProgressReport/CommunityProgressReportForm';
 
 const getProjectQuery = graphql`
   query projectQuery($rowId: Int!) {
@@ -46,7 +46,7 @@ const Project = ({
         {showProjectInformation && (
           <ProjectInformationForm application={applicationByRowId} />
         )}
-        {showCommunityProgressReport && <CommunityProgressReport />}
+        {showCommunityProgressReport && <CommunityProgressReportForm />}
       </AnalystLayout>
     </Layout>
   );
