@@ -18,7 +18,7 @@ into form_data_id, form_data_status;
 
 
 -- Just one more check at the DB level making sure form is in draft
-if application_status === 'draft' then
+if application_status = 'draft' then
   update ccbc_public.form_data set archived_at = now() where id = form_data_id;
   update ccbc_public.application set archived_at = now() where id = application_row_id;
 end if;
