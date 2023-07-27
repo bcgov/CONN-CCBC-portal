@@ -8,7 +8,7 @@ declare
   open_date timestamp with time zone;
   close_date timestamp with time zone;
 begin
-    select open_timestamp, close_timestampt into open_date, close_date
+    select open_timestamp, close_timestamp into open_date, close_date
     from ccbc_public.intake where ccbc_intake_number = intake_number;
 
     if open_date < now() or close_date < now() then
@@ -19,6 +19,8 @@ begin
     set archived_at = now()
     where ccbc_intake_number = intake_number
     and archived_at is null;
+
+  return (select row(ccbc_public.intake.*) from ccbc_public.intake where ccbc_intake_number = intake_number);
 end;
 $$ language plpgsql volatile;
 
