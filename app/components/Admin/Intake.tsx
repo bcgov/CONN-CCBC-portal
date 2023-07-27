@@ -1,6 +1,9 @@
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { useArchiveIntakeMutation } from 'schema/mutations/admin/archiveIntakeMutation';
 
 interface ContainerProps {
   isCurrentIntake: boolean;
@@ -12,6 +15,27 @@ const StyledContainer = styled.div<ContainerProps>`
     isCurrentIntake && '4px solid #3D9B50'};
   padding: 16px;
   margin-bottom: 16px;
+`;
+
+const StyledUpper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const StyledDelete = styled.button`
+  color: #d8292f;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  & svg {
+    margin-left: 8px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const StyledFlex = styled.div`
@@ -71,28 +95,52 @@ const Intake: React.FC<IntakeProps> = ({ currentIntakeNumber, intake }) => {
   const { ccbcIntakeNumber, closeTimestamp, description, openTimestamp } =
     queryFragment;
 
-  const openDate = DateTime.fromISO(openTimestamp).toLocaleString(
+  const [archiveIntake] = useArchiveIntakeMutation();
+
+  const formattedOpenDate = DateTime.fromISO(openTimestamp).toLocaleString(
     DateTime.DATETIME_FULL
   );
 
-  const closeDate = DateTime.fromISO(closeTimestamp).toLocaleString(
+  const formattedCloseDate = DateTime.fromISO(closeTimestamp).toLocaleString(
     DateTime.DATETIME_FULL
   );
+
+  const currentDateTime = DateTime.now();
+  const endDateTime = DateTime.fromISO(closeTimestamp);
+  const isAllowedDelete = currentDateTime <= endDateTime;
+
+  const handleDelete = () => {
+    archiveIntake({
+      variables: {
+        input: {
+          intakeNumber: ccbcIntakeNumber,
+        },
+      },
+    });
+  };
 
   return (
     <StyledContainer
       data-testid="intake-container"
       isCurrentIntake={currentIntakeNumber === ccbcIntakeNumber}
     >
-      <h3>Intake {ccbcIntakeNumber}</h3>
+      <StyledUpper>
+        <h3>Intake {ccbcIntakeNumber}</h3>
+        {isAllowedDelete && (
+          <StyledDelete onClick={handleDelete}>
+            Delete
+            <FontAwesomeIcon icon={faClose} />
+          </StyledDelete>
+        )}
+      </StyledUpper>
       <StyledFlex>
         <div>
           <h4>Start date & time</h4>
-          <span>{openDate}</span>
+          <span>{formattedOpenDate}</span>
         </div>
         <div>
           <h4>End date & time</h4>
-          <span>{closeDate}</span>
+          <span>{formattedCloseDate}</span>
         </div>
         {description && (
           <div>

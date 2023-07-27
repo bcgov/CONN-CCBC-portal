@@ -90,8 +90,11 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
   const queryFragment = useFragment(
     graphql`
       fragment AddIntake_query on Query {
-        allIntakes(first: 999, orderBy: CCBC_INTAKE_NUMBER_DESC)
-          @connection(key: "ApplicationIntakes_allIntakes") {
+        allIntakes(
+          first: 999
+          orderBy: CCBC_INTAKE_NUMBER_DESC
+          condition: { archivedAt: null }
+        ) @connection(key: "ApplicationIntakes_allIntakes") {
           __id
           edges {
             node {
