@@ -44,6 +44,7 @@ const Row = ({ application, formPages, reviewPage, setWithdrawId }) => {
 
   const isWithdrawn = application.status === 'withdrawn';
   const isSubmitted = application.status === 'submitted';
+  const isDraft = application.status === 'draft';
 
   const getApplicationUrl = () => {
     if (isWithdrawn) {
@@ -83,6 +84,15 @@ const Row = ({ application, formPages, reviewPage, setWithdrawId }) => {
               type="button"
             >
               <Withdraw />
+            </button>
+          )}
+          {!ccbcNumber && isDraft && (
+            <button
+              onClick={() => setWithdrawId(rowId)}
+              data-testid="withdraw-btn-test"
+              type="button"
+            >
+              Delete
             </button>
           )}
           {application.hasRfiOpen && (
