@@ -1,4 +1,4 @@
-import { graphql, useFragment } from 'react-relay';
+import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -74,14 +74,20 @@ const StyledDescription = styled.h4`
 `;
 
 interface IntakeProps {
+  allIntakesConnectionId: string;
   intake: any;
   currentIntakeNumber: number;
 }
 
-const Intake: React.FC<IntakeProps> = ({ currentIntakeNumber, intake }) => {
+const Intake: React.FC<IntakeProps> = ({
+  allIntakesConnectionId,
+  currentIntakeNumber,
+  intake,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment Intake_query on Intake {
+        __id
         ccbcIntakeNumber
         description
         closeTimestamp
@@ -115,6 +121,13 @@ const Intake: React.FC<IntakeProps> = ({ currentIntakeNumber, intake }) => {
         input: {
           intakeNumber: ccbcIntakeNumber,
         },
+      },
+      updater: (store) => {
+        const connection = store.get(allIntakesConnectionId);
+        const intakeConnectionId = queryFragment.__id;
+
+        store.delete(intakeConnectionId);
+        ConnectionHandler.deleteNode(connection, intakeConnectionId);
       },
     });
   };

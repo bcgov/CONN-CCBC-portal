@@ -20,7 +20,8 @@ begin
     where ccbc_intake_number = intake_number
     and archived_at is null;
 
-  return (select row(ccbc_public.intake.*) from ccbc_public.intake where ccbc_intake_number = intake_number);
+  return (select row(ccbc_public.intake.*) from ccbc_public.intake where ccbc_intake_number = intake_number and archived_at is null);
+
 end;
 $$ language plpgsql volatile;
 

@@ -43,7 +43,12 @@ const ApplicationIntakes = ({
 }: RelayProps<Record<string, unknown>, applicationIntakesQuery>) => {
   const query = usePreloadedQuery(getApplicationIntakesQuery, preloadedQuery);
   const { allIntakes, openIntake, session } = query;
-  const intakeList = allIntakes?.edges;
+  const intakeList =
+    allIntakes &&
+    [...allIntakes.edges].filter((data) => {
+      // filter null to handle errors after delting connection
+      return data.node !== null;
+    });
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -68,7 +73,8 @@ const ApplicationIntakes = ({
             {intakeList.map((intake: any) => {
               return (
                 <Intake
-                  key={intake.node.ccbcIntakeNumber}
+                  key={intake?.node?.ccbcIntakeNumber}
+                  allIntakesConnectionId={allIntakes.__id}
                   intake={intake.node}
                   currentIntakeNumber={openIntake?.ccbcIntakeNumber}
                 />
