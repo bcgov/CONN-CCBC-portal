@@ -223,7 +223,7 @@ const ProjectInformationForm = ({ application }) => {
     ).then((response) => {
       const isSowErrors = sowValidationErrors.length > 0;
       const isSowUploaded =
-        formData?.statementOfWorkUpload?.length > 0 && sowFile;
+        formData?.statementOfWorkUpload?.length > 0 && sowFile !== null;
 
       // If there are sow errors, persist sow error in form data if not delete
       const newFormData = { ...formData };

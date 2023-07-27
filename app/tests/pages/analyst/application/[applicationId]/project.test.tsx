@@ -1235,6 +1235,147 @@ describe('The Project page', () => {
     expect(saveButton).not.toBeDisabled();
   });
 
+  it('does not show the toast after saving if change request sow validation has failed', async () => {
+    const mockErrorList = [
+      { level: 'summary', error: 'Error 1', filename: 'test.txt' },
+      { level: 'tab', error: 'Error 2', filename: 'test.txt' },
+    ];
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 400, json: () => mockErrorList })
+    );
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const addButton = screen.getByText('Add change request').closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
+
+    await act(async () => {
+      fireEvent.change(amendmentNumber, { target: { value: '20' } });
+    });
+    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
+      type: 'application/excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    expect(
+      screen.getByText(
+        'Statement of Work import failed, please check the file and try again'
+      )
+    ).toBeInTheDocument();
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+      jest.useFakeTimers();
+    });
+
+    expect(saveButton).toBeDisabled();
+
+    jest.useRealTimers();
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'createChangeRequestMutation',
+      expect.anything()
+    );
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: expect.anything(),
+      });
+    });
+
+    expect(
+      screen.queryByText('Statement of work successfully imported')
+    ).toBeNull();
+  });
+
+  it('does not show the toast after saving if sow validation has failed', async () => {
+    const mockErrorList = [
+      { level: 'summary', error: 'Error 1', filename: 'test.txt' },
+      { level: 'tab', error: 'Error 2', filename: 'test.txt' },
+    ];
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 400, json: () => mockErrorList })
+    );
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
+    // Click on the edit button to open the form
+    const editButton = screen.getAllByTestId('project-form-edit-button');
+    await act(async () => {
+      fireEvent.click(editButton[3]);
+    });
+
+    await act(async () => {
+      fireEvent.click(hasFundingAggreementBeenSigned);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
+      type: 'application/excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    const date = screen.getAllByTestId('datepicker-widget-input')[3];
+
+    await act(async () => {
+      fireEvent.change(date, { target: { value: '2023-01-01' } });
+    });
+
+    expect(
+      screen.getByText(
+        'Statement of Work import failed, please check the file and try again'
+      )
+    ).toBeInTheDocument();
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+      jest.useFakeTimers();
+    });
+
+    expect(saveButton).toBeDisabled();
+
+    jest.useRealTimers();
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'createProjectInformationMutation',
+      expect.anything()
+    );
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: expect.anything(),
+      });
+    });
+
+    expect(
+      screen.queryByText('Statement of work successfully imported')
+    ).toBeNull();
+  });
+
   it('should show a spinner on change request', async () => {
     pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
     pageTestingHelper.renderPage();
