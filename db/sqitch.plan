@@ -380,3 +380,4 @@ tables/application_community_progress_report_data 2023-08-03T18:33:03Z Rafael So
 @1.92.0 2023-08-04T20:51:41Z CCBC Service Account <ccbc@button.is> # release v1.92.0
 functions/extract_uuids 2023-08-03T19:24:48Z Anthony Bushara <anthony@button.is> # Utility function to extract uuids out of any jsonb provided
 computed_columns/rfi_data_attachments 2023-08-04T16:23:42Z Anthony Bushara <anthony@button.is> # Computed column to provide all attachments rows of an rfi
+mutations/update_application_form [mutations/update_application_form@1.88.0] 2023-07-26T15:04:47Z Anthony Bushara <anthony@button.is> # Reject if updated_at does not match

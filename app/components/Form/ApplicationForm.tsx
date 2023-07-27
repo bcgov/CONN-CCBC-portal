@@ -146,6 +146,7 @@ const ApplicationForm: React.FC<Props> = ({
           rowId
           jsonData
           isEditable
+          updatedAt
           formByFormSchemaId {
             jsonSchema
           }
@@ -178,6 +179,7 @@ const ApplicationForm: React.FC<Props> = ({
       id: formDataId,
       isEditable,
       formByFormSchemaId: { jsonSchema },
+      updatedAt,
     },
     status,
   } = application;
@@ -326,6 +328,7 @@ const ApplicationForm: React.FC<Props> = ({
           jsonData: newFormData,
           lastEditedPage: isSaveAsDraftBtn ? 'review' : lastEditedPage,
           formDataRowId,
+          clientUpdatedAt: updatedAt,
         },
       },
       optimisticResponse: {
