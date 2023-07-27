@@ -25,7 +25,7 @@ const StyledMain = styled('main')`
   width: 100%;
   max-width: ${(props) => props.theme.width.pageMaxWidth};
   flex: 1;
-  padding: 2em;
+  padding: 1em 2em;
 `;
 
 const StyledDiv = styled('div')`

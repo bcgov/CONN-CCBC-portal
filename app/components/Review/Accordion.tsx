@@ -100,7 +100,7 @@ const Accordion = ({
               passHref
             >
               <StyledButton>
-                <FontAwesomeIcon icon={faPen} fixedWidth />
+                <FontAwesomeIcon icon={faPen} fixedWidth color="#1A5A96" />
               </StyledButton>
             </StyledLink>
           )}

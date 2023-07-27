@@ -34,8 +34,9 @@ const LoadingItem = styled.div`
 `;
 
 const StyledHeader = styled(BaseAccordion.Header)`
-  border-bottom: 1px solid #d6d6d6;
+  border-top: 1px solid #000057;
   margin-bottom: 16px;
+  padding-top: 0px;
 `;
 
 const StyledBaseAccordion = styled(BaseAccordion)`

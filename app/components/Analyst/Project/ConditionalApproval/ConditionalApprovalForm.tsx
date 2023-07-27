@@ -10,6 +10,11 @@ import {
   ConditionalApprovalReadOnlyTheme,
 } from 'components/Analyst/Project/ConditionalApproval';
 import { useCreateConditionalApprovalMutation } from 'schema/mutations/project/createConditionalApproval';
+import styled from 'styled-components';
+
+const StyledProjectForm = styled(ProjectForm)`
+  margin-top: 43px;
+`;
 
 const ConditionalApprovalForm = ({ application }) => {
   const queryFragment = useFragment(
@@ -111,7 +116,7 @@ const ConditionalApprovalForm = ({ application }) => {
         setIsFormEditMode={() => setIsFormEditMode(false)}
         resetFormData={handleResetFormData}
       />
-      <ProjectForm
+      <StyledProjectForm
         formData={newFormData}
         handleChange={(e) => {
           setNewFormData({ ...e.formData });
