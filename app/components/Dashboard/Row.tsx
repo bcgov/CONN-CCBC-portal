@@ -31,7 +31,13 @@ const StyledBtns = styled('div')`
   }
 `;
 
-const Row = ({ application, formPages, reviewPage, setWithdrawId }) => {
+const Row = ({
+  application,
+  formPages,
+  reviewPage,
+  setWithdrawId,
+  setArchiveId,
+}) => {
   const { ccbcNumber, intakeByIntakeId, formData, projectName, rowId, status } =
     application;
 
@@ -88,8 +94,11 @@ const Row = ({ application, formPages, reviewPage, setWithdrawId }) => {
           )}
           {!ccbcNumber && isDraft && (
             <button
-              onClick={() => setWithdrawId(rowId)}
-              data-testid="withdraw-btn-test"
+              onClick={() => {
+                setArchiveId(rowId);
+                window.location.hash = 'delete-application';
+              }}
+              data-testid="archive-btn-test"
               type="button"
             >
               Delete
