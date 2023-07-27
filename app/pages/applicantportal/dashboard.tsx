@@ -167,7 +167,7 @@ export const withRelayOptions = {
     const sub: string = ctx?.req?.claims?.sub;
 
     return {
-      formOwner: { owner: sub },
+      formOwner: { owner: sub, archivedAt: null, archivedBy: null },
     };
   },
 };
