@@ -1,3 +1,15 @@
+# [1.90.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.89.0...v1.90.0) (2023-07-27)
+
+### Bug Fixes
+
+- only show sow import toast when sow file has been uploaded ([0260e81](https://github.com/bcgov/CONN-CCBC-portal/commit/0260e81ebd9eefc85d9037d9cadb077d3559c9c1))
+- sowfile check ([1bcaae5](https://github.com/bcgov/CONN-CCBC-portal/commit/1bcaae5a3bef0bc764579a52b7dc61658a066e4f))
+
+### Features
+
+- initial ui for community progress report ([9eb1e04](https://github.com/bcgov/CONN-CCBC-portal/commit/9eb1e04177516ca01247286d8541536515b32787))
+- use growthbook feature ([9d04484](https://github.com/bcgov/CONN-CCBC-portal/commit/9d04484f50b67e40bb1f508f010a40f0b00aa4a0))
+
 # [1.89.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.88.1...v1.89.0) (2023-07-26)
 
 ### Bug Fixes
