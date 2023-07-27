@@ -13,10 +13,11 @@ declare
 begin
   select close_timestamp into previous_intake_end_date
   from ccbc_public.intake
+  where archived_at is null
   order by ccbc_intake_number
   desc limit 1;
 
-  if previous_intake_end_date is not null and previous_intake_end_date > start_time then
+  if previous_intake_end_date is not null and previous_intake_end_date >= start_time then
     raise exception 'The start time for the new intake must be after the end time of the previous intake';
   end if;
 
