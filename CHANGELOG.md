@@ -1,3 +1,9 @@
+## [1.90.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.90.0...v1.90.1) (2023-07-28)
+
+### Bug Fixes
+
+- match title to enum ([5fb738f](https://github.com/bcgov/CONN-CCBC-portal/commit/5fb738f07ed77c13f8e673aa52ba80bbc5e47caa))
+
 # [1.90.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.89.0...v1.90.0) (2023-07-27)
 
 ### Bug Fixes
