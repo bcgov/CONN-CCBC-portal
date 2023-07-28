@@ -38,8 +38,15 @@ const Row = ({
   setWithdrawId,
   setArchiveId,
 }) => {
-  const { ccbcNumber, intakeByIntakeId, formData, projectName, rowId, status } =
-    application;
+  const {
+    ccbcNumber,
+    intakeByIntakeId,
+    formData,
+    projectName,
+    rowId,
+    status,
+    id,
+  } = application;
 
   const lastEditedIndex = formPages.indexOf(formData.lastEditedPage) + 1;
 
@@ -95,7 +102,7 @@ const Row = ({
           {!ccbcNumber && isDraft && (
             <button
               onClick={() => {
-                setArchiveId(rowId);
+                setArchiveId({ rowId, id });
                 window.location.hash = 'delete-application';
               }}
               data-testid="archive-btn-test"

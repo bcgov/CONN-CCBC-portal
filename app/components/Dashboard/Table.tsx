@@ -41,9 +41,11 @@ type Props = {
 
 const Table = ({ applications }: Props) => {
   const [withdrawId, setWithdrawId] = useState<null | number>(null);
-  const [archiveId, setArchiveId] = useState<null | number>(null);
+  const [archiveId, setArchiveId] = useState({ rowId: null, id: null });
 
-  const applicationNodes = applications.allApplications.nodes;
+  const applicationNodes = applications.allApplications.edges
+    .map((edge) => edge.node)
+    .filter((node) => node !== null);
 
   const formPages = Object.keys(schema.properties);
 
@@ -72,7 +74,7 @@ const Table = ({ applications }: Props) => {
         </StyledTableHead>
         <tbody>
           {applicationNodes.map((application) => {
-            return (
+            return application ? (
               <Row
                 application={application}
                 key={application.owner}
@@ -81,11 +83,11 @@ const Table = ({ applications }: Props) => {
                 setWithdrawId={setWithdrawId}
                 setArchiveId={setArchiveId}
               />
-            );
+            ) : null;
           })}
         </tbody>
       </StyledTable>
-      <ArchiveModal id={archiveId} />
+      <ArchiveModal applications={applications} id={archiveId} />
       <Modal id={withdrawId} />
     </>
   );

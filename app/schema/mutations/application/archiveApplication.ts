@@ -5,7 +5,9 @@ import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 const mutation = graphql`
   mutation archiveApplicationMutation($input: ArchiveApplicationInput!) {
     archiveApplication(input: $input) {
+      clientMutationId
       application {
+        id
         updatedAt
         status
         ccbcNumber

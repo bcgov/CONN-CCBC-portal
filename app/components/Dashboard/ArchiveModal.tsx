@@ -4,6 +4,7 @@ import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
 
 import { useArchiveApplicationMutation } from 'schema/mutations/application/archiveApplication';
+import { ConnectionHandler } from 'relay-runtime';
 import X from './XIcon';
 
 const StyledModal = styled(Modal)`
@@ -37,8 +38,9 @@ const StyledConfirmBox = styled('div')`
   }
 `;
 
-const ArchiveModal = ({ id }) => {
+const ArchiveModal = ({ applications, id }) => {
   const [successModal, setSuccessModal] = useState(false);
+  const relayId = applications.allApplications.__id;
 
   const [archiveApplication] = useArchiveApplicationMutation();
 
@@ -46,10 +48,15 @@ const ArchiveModal = ({ id }) => {
     archiveApplication({
       variables: {
         input: {
-          applicationRowId: id,
+          applicationRowId: id.rowId,
         },
       },
       onCompleted: () => setSuccessModal(true),
+      updater: (store) => {
+        const connection = store.get(relayId);
+        store.delete(id.id);
+        ConnectionHandler.deleteNode(connection, id.id);
+      },
     });
   };
 

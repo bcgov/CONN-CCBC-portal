@@ -16,26 +16,35 @@ import { dashboardQuery } from '__generated__/dashboardQuery.graphql';
 
 const getDashboardQuery = graphql`
   query dashboardQuery($formOwner: ApplicationCondition!) {
-    allApplications(condition: $formOwner, orderBy: CREATED_AT_DESC) {
-      nodes {
-        id
-        rowId
-        owner
-        status
-        projectName
-        ccbcNumber
-        formData {
-          lastEditedPage
-          isEditable
-        }
-        intakeByIntakeId {
-          ccbcIntakeNumber
-          closeTimestamp
-          openTimestamp
-        }
-        hasRfiOpen
-        rfi {
+    allApplications(
+      condition: $formOwner
+      orderBy: CREATED_AT_DESC
+      first: 1000
+    ) @connection(key: "dashboard_allApplications") {
+      __id
+      edges {
+        node {
+          id
+          archivedAt
+          archivedBy
           rowId
+          owner
+          status
+          projectName
+          ccbcNumber
+          formData {
+            lastEditedPage
+            isEditable
+          }
+          intakeByIntakeId {
+            ccbcIntakeNumber
+            closeTimestamp
+            openTimestamp
+          }
+          hasRfiOpen
+          rfi {
+            rowId
+          }
         }
       }
     }
@@ -66,7 +75,7 @@ const Dashboard = ({
 
   const sub: string = session?.sub;
 
-  const hasApplications = allApplications.nodes.length > 0;
+  const hasApplications = allApplications.edges.length > 0;
 
   const router = useRouter();
 
