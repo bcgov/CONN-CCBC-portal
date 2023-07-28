@@ -1,5 +1,13 @@
 import { JSONSchema7 } from 'json-schema';
 
+// when a different label and title is needed
+// decouple the title from the enum, this is SonarCloud workaround
+// the enum MUST stay as below for data to be maintained
+const notStarted = 'Not started';
+const needsRFI = 'Needs RFI';
+const needs2ndReview = 'Needs 2nd review';
+const assessmentComplete = 'Assessment complete';
+
 const gis: JSONSchema7 = {
   title: ' ',
   description: '',
@@ -25,11 +33,23 @@ const gis: JSONSchema7 = {
     nextStep: {
       title: 'Progress',
       type: 'string',
-      enum: [
-        'Not started',
-        'Needs RFI',
-        'Needs 2nd review',
-        'Assessment complete',
+      anyOf: [
+        {
+          title: notStarted,
+          enum: [notStarted],
+        },
+        {
+          title: needsRFI,
+          enum: [needsRFI],
+        },
+        {
+          title: needs2ndReview,
+          enum: [needs2ndReview],
+        },
+        {
+          title: assessmentComplete,
+          enum: [assessmentComplete],
+        },
       ],
       default: 'Not started',
     },

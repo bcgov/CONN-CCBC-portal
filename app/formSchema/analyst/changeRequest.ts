@@ -25,7 +25,20 @@ const changeRequest: JSONSchema7 = {
     levelOfAmendment: {
       title: 'Level of amendment',
       type: 'string',
-      enum: ['Major Amendment', 'Minor Amendment', 'Super Minor Amendment'],
+      anyOf: [
+        {
+          title: 'Major Amendment',
+          enum: ['Major Amendment'],
+        },
+        {
+          title: 'Minor Amendment',
+          enum: ['Minor Amendment'],
+        },
+        {
+          title: 'Super Minor Amendment',
+          enum: ['Super Minor Amendment'],
+        },
+      ],
     },
     additionalComments: {
       title: 'Additional Comments if necessary to justify amendment impact',

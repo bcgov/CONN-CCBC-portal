@@ -13,11 +13,23 @@ const sharedAssessmentFields: JSONSchema7 = {
     nextStep: {
       title: 'Progress',
       type: 'string',
-      enum: [
-        'Not started',
-        'Needs 2nd review',
-        'Needs RFI',
-        'Assessment complete',
+      anyOf: [
+        {
+          title: 'Not started',
+          enum: ['Not started'],
+        },
+        {
+          title: 'Needs 2nd review',
+          enum: ['Needs 2nd review'],
+        },
+        {
+          title: 'Needs RFI',
+          enum: ['Needs RFI'],
+        },
+        {
+          title: 'Assessment complete',
+          enum: ['Assessment complete'],
+        },
       ],
       default: 'Not started',
     },

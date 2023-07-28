@@ -20,10 +20,25 @@ const permitting: JSONSchema7 = {
       type: 'array',
       items: {
         type: 'string',
-        enum: [
-          'Major permit approval issues anticipated. Likely to influence timeline.',
-          'Minor permit approval issues anticipated. Could influence timeline.',
-          'Normal permitting requirements and timelines anticipated.',
+        anyOf: [
+          {
+            title:
+              'Major permit approval issues anticipated. Likely to influence timeline.',
+            enum: [
+              'Major permit approval issues anticipated. Likely to influence timeline.',
+            ],
+          },
+          {
+            title:
+              'Minor permit approval issues anticipated. Could influence timeline.',
+            enum: [
+              'Minor permit approval issues anticipated. Could influence timeline.',
+            ],
+          },
+          {
+            title: 'Normal permitting requirements and timelines anticipated.',
+            enum: ['Normal permitting requirements and timelines anticipated.'],
+          },
         ],
       },
       uniqueItems: true,

@@ -1,6 +1,14 @@
 import { JSONSchema7 } from 'json-schema';
 import sharedAssessmentFields from './sharedAssessmentFields';
 
+// when a different label and title is needed
+// decouple the title from the enum, this is a SonarCloud workaround
+// the enum MUST stay as below for data to be maintained
+const noDecision = 'No decision';
+const eligible = 'Eligible';
+const ineligible = 'Ineligible';
+const incomplete = 'Incomplete';
+
 const screening: JSONSchema7 = {
   title: ' ',
   description: '',
@@ -19,7 +27,24 @@ const screening: JSONSchema7 = {
     decision: {
       title: 'Decision',
       type: 'string',
-      enum: ['No decision', 'Eligible', 'Ineligible', 'Incomplete'],
+      anyOf: [
+        {
+          title: noDecision,
+          enum: [noDecision],
+        },
+        {
+          title: eligible,
+          enum: [eligible],
+        },
+        {
+          title: ineligible,
+          enum: [ineligible],
+        },
+        {
+          title: incomplete,
+          enum: [incomplete],
+        },
+      ],
       default: 'No decision',
     },
     contestingMap: {
