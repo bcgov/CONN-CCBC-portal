@@ -10,21 +10,24 @@ import compiledDashboardTestQuery, {
 const testQuery = graphql`
   query DashboardTestQuery($formOwner: ApplicationCondition!) {
     allApplications(condition: $formOwner) {
-      nodes {
-        id
-        rowId
-        owner
-        status
-        projectName
-        ccbcNumber
-        formData {
-          lastEditedPage
-          isEditable
-        }
-        intakeByIntakeId {
-          ccbcIntakeNumber
-          closeTimestamp
-          openTimestamp
+      __id
+      edges {
+        node {
+          id
+          rowId
+          owner
+          status
+          projectName
+          ccbcNumber
+          formData {
+            lastEditedPage
+            isEditable
+          }
+          intakeByIntakeId {
+            ccbcIntakeNumber
+            closeTimestamp
+            openTimestamp
+          }
         }
       }
     }
@@ -35,56 +38,62 @@ const mockQueryPayload = {
   Query() {
     return {
       allApplications: {
-        nodes: [
+        edges: [
           {
-            id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
-            rowId: 2,
-            owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-            status: 'withdrawn',
-            projectName: null,
-            ccbcNumber: 'CCBC-010001',
-            formData: {
-              lastEditedPage: '',
-              isEditable: false,
-            },
-            intakeByIntakeId: {
-              ccbcIntakeNumber: 1,
-              closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
-              openTimestamp: '2022-07-25T00:00:00-07:00',
+            node: {
+              id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
+              rowId: 2,
+              owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+              status: 'withdrawn',
+              projectName: null,
+              ccbcNumber: 'CCBC-010001',
+              formData: {
+                lastEditedPage: '',
+                isEditable: false,
+              },
+              intakeByIntakeId: {
+                ccbcIntakeNumber: 1,
+                closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
+                openTimestamp: '2022-07-25T00:00:00-07:00',
+              },
             },
           },
           {
-            id: 'WyJhcHBsaWNhdGlvbnMiLDNd',
-            rowId: 3,
-            owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-            status: 'submitted',
-            projectName: null,
-            ccbcNumber: 'CCBC-010002',
-            formData: {
-              lastEditedPage: '',
-              isEditable: true,
-            },
-            intakeByIntakeId: {
-              ccbcIntakeNumber: 1,
-              closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
-              openTimestamp: '2022-07-25T00:00:00-07:00',
+            node: {
+              id: 'WyJhcHBsaWNhdGlvbnMiLDNd',
+              rowId: 3,
+              owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+              status: 'submitted',
+              projectName: null,
+              ccbcNumber: 'CCBC-010002',
+              formData: {
+                lastEditedPage: '',
+                isEditable: true,
+              },
+              intakeByIntakeId: {
+                ccbcIntakeNumber: 1,
+                closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
+                openTimestamp: '2022-07-25T00:00:00-07:00',
+              },
             },
           },
           {
-            id: 'WyJhcHBsaWNhdGlvbnMiLDRd',
-            rowId: 4,
-            owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-            status: 'submitted',
-            projectName: null,
-            ccbcNumber: 'CCBC-010003',
-            formData: {
-              lastEditedPage: '',
-              isEditable: true,
-            },
-            intakeByIntakeId: {
-              ccbcIntakeNumber: 1,
-              closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
-              openTimestamp: '2022-07-25T00:00:00-07:00',
+            node: {
+              id: 'WyJhcHBsaWNhdGlvbnMiLDRd',
+              rowId: 4,
+              owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+              status: 'submitted',
+              projectName: null,
+              ccbcNumber: 'CCBC-010003',
+              formData: {
+                lastEditedPage: '',
+                isEditable: true,
+              },
+              intakeByIntakeId: {
+                ccbcIntakeNumber: 1,
+                closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
+                openTimestamp: '2022-07-25T00:00:00-07:00',
+              },
             },
           },
         ],
@@ -126,19 +135,21 @@ describe('The Dashboard', () => {
       Query() {
         return {
           allApplications: {
-            nodes: [
+            edges: [
               {
-                id: 'WyJhcHBsaWNhdGlvbnMiLDFd',
-                rowId: 1,
-                owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-                status: 'draft',
-                projectName: null,
-                ccbcNumber: null,
-                formData: {
-                  lastEditedPage: 'templateUploads',
-                  isEditable: true,
+                node: {
+                  id: 'WyJhcHBsaWNhdGlvbnMiLDFd',
+                  rowId: 1,
+                  owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+                  status: 'draft',
+                  projectName: null,
+                  ccbcNumber: null,
+                  formData: {
+                    lastEditedPage: 'templateUploads',
+                    isEditable: true,
+                  },
+                  intakeByIntakeId: null,
                 },
-                intakeByIntakeId: null,
               },
             ],
           },
@@ -158,22 +169,24 @@ describe('The Dashboard', () => {
       Query() {
         return {
           allApplications: {
-            nodes: [
+            edges: [
               {
-                id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
-                rowId: 2,
-                owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-                status: 'submitted',
-                projectName: null,
-                ccbcNumber: 'CCBC-010004',
-                formData: {
-                  lastEditedPage: '',
-                  isEditable: true,
-                },
-                intakeByIntakeId: {
-                  ccbcIntakeNumber: 1,
-                  closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
-                  openTimestamp: '2022-07-25T00:00:00-07:00',
+                node: {
+                  id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
+                  rowId: 2,
+                  owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+                  status: 'submitted',
+                  projectName: null,
+                  ccbcNumber: 'CCBC-010004',
+                  formData: {
+                    lastEditedPage: '',
+                    isEditable: true,
+                  },
+                  intakeByIntakeId: {
+                    ccbcIntakeNumber: 1,
+                    closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
+                    openTimestamp: '2022-07-25T00:00:00-07:00',
+                  },
                 },
               },
             ],
@@ -195,22 +208,24 @@ describe('The Dashboard', () => {
       Query() {
         return {
           allApplications: {
-            nodes: [
+            edges: [
               {
-                id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
-                rowId: 2,
-                owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-                status: 'submitted',
-                projectName: null,
-                ccbcNumber: 'CCBC-010005',
-                formData: {
-                  lastEditedPage: '',
-                  isEditable: true,
-                },
-                intakeByIntakeId: {
-                  ccbcIntakeNumber: 1,
-                  closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
-                  openTimestamp: '2022-07-25T00:00:00-07:00',
+                node: {
+                  id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
+                  rowId: 2,
+                  owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+                  status: 'submitted',
+                  projectName: null,
+                  ccbcNumber: 'CCBC-010005',
+                  formData: {
+                    lastEditedPage: '',
+                    isEditable: true,
+                  },
+                  intakeByIntakeId: {
+                    ccbcIntakeNumber: 1,
+                    closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
+                    openTimestamp: '2022-07-25T00:00:00-07:00',
+                  },
                 },
               },
             ],
@@ -248,22 +263,24 @@ describe('The Dashboard', () => {
       Query() {
         return {
           allApplications: {
-            nodes: [
+            edges: [
               {
-                id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
-                rowId: 2,
-                owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-                status: 'submitted',
-                projectName: null,
-                ccbcNumber: 'CCBC-010005',
-                formData: {
-                  lastEditedPage: '',
-                  isEditable: false,
-                },
-                intakeByIntakeId: {
-                  ccbcIntakeNumber: 1,
-                  closeTimestamp: '2021-09-09T13:49:23.513427-07:00',
-                  openTimestamp: '2020-07-25T00:00:00-07:00',
+                node: {
+                  id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
+                  rowId: 2,
+                  owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+                  status: 'submitted',
+                  projectName: null,
+                  ccbcNumber: 'CCBC-010005',
+                  formData: {
+                    lastEditedPage: '',
+                    isEditable: false,
+                  },
+                  intakeByIntakeId: {
+                    ccbcIntakeNumber: 1,
+                    closeTimestamp: '2021-09-09T13:49:23.513427-07:00',
+                    openTimestamp: '2020-07-25T00:00:00-07:00',
+                  },
                 },
               },
             ],
@@ -284,22 +301,24 @@ describe('The Dashboard', () => {
       Query() {
         return {
           allApplications: {
-            nodes: [
+            edges: [
               {
-                id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
-                rowId: 2,
-                owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-                status: 'withdrawn',
-                projectName: null,
-                ccbcNumber: 'CCBC-010005',
-                formData: {
-                  lastEditedPage: '',
-                  isEditable: false,
-                },
-                intakeByIntakeId: {
-                  ccbcIntakeNumber: 1,
-                  closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
-                  openTimestamp: '2022-07-25T00:00:00-07:00',
+                node: {
+                  id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
+                  rowId: 2,
+                  owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+                  status: 'withdrawn',
+                  projectName: null,
+                  ccbcNumber: 'CCBC-010005',
+                  formData: {
+                    lastEditedPage: '',
+                    isEditable: false,
+                  },
+                  intakeByIntakeId: {
+                    ccbcIntakeNumber: 1,
+                    closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
+                    openTimestamp: '2022-07-25T00:00:00-07:00',
+                  },
                 },
               },
             ],

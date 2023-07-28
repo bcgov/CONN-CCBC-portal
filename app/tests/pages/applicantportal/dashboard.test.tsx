@@ -51,37 +51,41 @@ const mockQueryPayload = {
   Query() {
     return {
       allApplications: {
-        nodes: [
+        edges: [
           {
-            id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
-            rowId: 2,
-            owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-            status: 'withdrawn',
-            projectName: null,
-            ccbcNumber: 'CCBC-010001',
-            formData: {
-              lastEditedPage: '',
-              isEditable: false,
-            },
-            intakeByIntakeId: {
-              ccbcIntakeNumber: 1,
-              closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
-              openTimestamp: '2022-07-25T00:00:00-07:00',
+            node: {
+              id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
+              rowId: 2,
+              owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+              status: 'withdrawn',
+              projectName: null,
+              ccbcNumber: 'CCBC-010001',
+              formData: {
+                lastEditedPage: '',
+                isEditable: false,
+              },
+              intakeByIntakeId: {
+                ccbcIntakeNumber: 1,
+                closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
+                openTimestamp: '2022-07-25T00:00:00-07:00',
+              },
             },
           },
           {
-            id: 'WyJhcHBsaWNhdGlvbnMiLDJf',
-            rowId: 3,
-            owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-            status: 'Received',
-            projectName: 'test',
-            ccbcNumber: 'CCBC-020002',
-            formData: {
-              lastEditedPage: '',
-              isEditable: false,
-            },
-            intakeByIntakeId: {
-              ccbcIntakeNumber: 2,
+            node: {
+              id: 'WyJhcHBsaWNhdGlvbnMiLDJf',
+              rowId: 3,
+              owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+              status: 'Received',
+              projectName: 'test',
+              ccbcNumber: 'CCBC-020002',
+              formData: {
+                lastEditedPage: '',
+                isEditable: false,
+              },
+              intakeByIntakeId: {
+                ccbcIntakeNumber: 2,
+              },
             },
           },
         ],
@@ -100,7 +104,7 @@ const mockQueryPayload = {
 const mockNoApplicationsPayload = {
   Query() {
     return {
-      allApplications: { nodes: [] },
+      allApplications: { edges: [] },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
