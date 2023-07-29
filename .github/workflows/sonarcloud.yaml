@@ -4,7 +4,7 @@ on:
   push:
 jobs:
   sonarcloud-scan:
-    uses: button-inc/gh-actions/.github/workflows/scan-code-sonarcloud.yml@develop
+    uses: button-inc/gh-actions/.github/workflows/scan-code-sonarcloud.yml@v0.1.0
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
       sonar-token: ${{ secrets.SONAR_TOKEN}}
