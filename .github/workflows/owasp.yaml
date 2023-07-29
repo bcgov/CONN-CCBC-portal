@@ -1,0 +1,10 @@
+name: zap-scan
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  zap-scan:
+    uses: button-inc/gh-actions/.github/workflows/scan-code-owasp-zap.yml@v0.1.0
+    with:
+      target-url: 'http://localhost:3000/applicantportal'
+      package-manager: 'yarn'
