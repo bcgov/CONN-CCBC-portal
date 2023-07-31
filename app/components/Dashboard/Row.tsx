@@ -108,7 +108,7 @@ const Row = ({
               data-testid="archive-btn-test"
               type="button"
             >
-              Delete
+              <Link href="#delete-application">Delete</Link>
             </button>
           )}
           {application.hasRfiOpen && (
