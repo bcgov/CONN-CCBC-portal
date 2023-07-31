@@ -66,6 +66,7 @@ const ListFilesWidget: React.FC<WidgetProps> = ({ label, value }) => {
       ) : (
         <StyledP>Not received</StyledP>
       )}
+      <div>Add file(s) sent by Email</div>
     </StyledContainer>
   );
 };
