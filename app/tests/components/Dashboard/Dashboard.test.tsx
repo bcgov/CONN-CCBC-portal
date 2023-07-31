@@ -333,4 +333,58 @@ describe('The Dashboard', () => {
     expect(screen.getByText('View')).toBeInTheDocument();
     expect(screen.queryByTestId('withdraw-btn-test')).toBeNull();
   });
+
+  it('Calls the correct mutation when the delete button is clicked', async () => {
+    const payload = {
+      Query() {
+        return {
+          allApplications: {
+            edges: [
+              {
+                node: {
+                  id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
+                  rowId: 2,
+                  owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+                  status: 'draft',
+                  projectName: null,
+                  ccbcNumber: null,
+                  formData: {
+                    lastEditedPage: '',
+                    isEditable: true,
+                  },
+                  intakeByIntakeId: {
+                    ccbcIntakeNumber: 1,
+                    closeTimestamp: '2024-09-09T13:49:23.513427-07:00',
+                    openTimestamp: '2022-07-25T00:00:00-07:00',
+                  },
+                },
+              },
+            ],
+          },
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(payload);
+    const user = userEvent.setup();
+
+    componentTestingHelper.renderComponent();
+    expect(screen.getByText('Draft')).toBeInTheDocument();
+    expect(screen.getByText('Delete')).toBeInTheDocument();
+    expect(screen.getByTestId('archive-btn-test')).toBeInTheDocument();
+
+    const archiveBtn = screen.getByTestId('archive-btn-test');
+    await user.click(archiveBtn);
+
+    const archiveModalBtn = screen.getByTestId('archive-yes-btn');
+    await user.click(archiveModalBtn);
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'archiveApplicationMutation',
+      {
+        input: {
+          applicationRowId: 2,
+        },
+      }
+    );
+  });
 });
