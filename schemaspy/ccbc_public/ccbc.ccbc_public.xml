@@ -838,6 +838,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="counter_id" nullable="true" remarks="The counter_id used by the gapless_counter to generate a gapless intake id" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="intake_counter_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="gapless_counter"/>
          </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="description" nullable="true" remarks="A description of the intake" size="2147483647" type="text" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="intake_pkey" unique="true">
             <column ascending="true" name="id"/>
