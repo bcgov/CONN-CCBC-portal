@@ -1,5 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import { AddButton } from '../Project';
 
 const StyledContainer = styled.div`
   margin-bottom: 24px;
@@ -33,7 +35,12 @@ type File = {
   type: string;
 };
 
-const ListFilesWidget: React.FC<WidgetProps> = ({ label, value }) => {
+const ListFilesWidget: React.FC<WidgetProps> = ({
+  formContext,
+  label,
+  value,
+}) => {
+  const router = useRouter();
   const isFiles = value?.length > 0;
 
   const handleDownload = async (uuid: string, fileName: string) => {
@@ -66,7 +73,15 @@ const ListFilesWidget: React.FC<WidgetProps> = ({ label, value }) => {
       ) : (
         <StyledP>Not received</StyledP>
       )}
-      <div>Add file(s) sent by Email</div>
+      <AddButton
+        isFormEditMode={false}
+        title="Add file(s) sent by Email"
+        onClick={() => {
+          router.push(
+            `/analyst/application/${formContext.applicationId}/rfi/${formContext.rfiId}/upload`
+          );
+        }}
+      />
     </StyledContainer>
   );
 };

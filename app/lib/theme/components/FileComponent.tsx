@@ -1,7 +1,13 @@
 import React, { MutableRefObject, useRef } from 'react';
 import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { enUS } from '@mui/x-date-pickers/locales';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 import { CancelIcon, LoadingSpinner } from '../../../components';
+import { dateTimeFormat } from '../functions/formatDates';
 
 const StyledContainer = styled.div<{
   wrap?: boolean;
@@ -93,7 +99,19 @@ interface FileComponentProps {
   handleDownload?: Function;
   wrap?: boolean;
   hideFailedUpload?: boolean;
+  useFileDate?: boolean;
+  fileDateTitle?: string;
+  fileDate?: string | null;
+  setFileDate?: Function;
 }
+
+const getDateString = (date: Date | undefined) => {
+  if (date) {
+    if (date.valueOf() <= 0) return undefined;
+    return dateTimeFormat(date, 'date_year_first');
+  }
+  return undefined;
+};
 
 const ErrorMessage = ({ error, fileTypes }) => {
   if (error === 'uploadFailed') {
@@ -153,6 +171,10 @@ const FileComponent: React.FC<FileComponentProps> = ({
   handleDownload,
   wrap,
   hideFailedUpload,
+  useFileDate = false,
+  fileDateTitle,
+  fileDate,
+  setFileDate,
 }) => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
@@ -219,7 +241,56 @@ const FileComponent: React.FC<FileComponentProps> = ({
         {error && <ErrorMessage error={error} fileTypes={fileTypes} />}
       </StyledDetails>
       <StyledDetails>{statusLabel}</StyledDetails>
-      <div>
+      <div
+        style={
+          useFileDate
+            ? { display: 'flex', flexDirection: 'row', alignItems: 'center' }
+            : {}
+        }
+      >
+        {useFileDate && (
+          <div>
+            <h4>{`${fileDateTitle}`}</h4>
+            <LocalizationProvider
+              localeText={
+                enUS.components.MuiLocalizationProvider.defaultProps.localeText
+              }
+              dateAdapter={AdapterDayjs}
+            >
+              <DesktopDatePicker
+                id={id}
+                isError={false}
+                disabled={false}
+                readOnly={false}
+                onChange={(d) => {
+                  const originalDate = new Date(d);
+                  const realDate = new Date(originalDate.toDateString());
+                  const newDate = getDateString(realDate);
+                  const isDateInvalid = newDate === 'Invalid DateTime';
+                  if (isDateInvalid) {
+                    setFileDate(null);
+                  } else {
+                    setFileDate(newDate);
+                  }
+                }}
+                value={fileDate ? dayjs(fileDate) : null}
+                defaultValue={null}
+                slotProps={{
+                  actionBar: {
+                    actions: ['clear', 'cancel'],
+                  },
+                  textField: {
+                    inputProps: {
+                      id,
+                      'data-testid': 'datepicker-widget-input',
+                    },
+                  },
+                }}
+                format="YYYY-MM-DD"
+              />
+            </LocalizationProvider>
+          </div>
+        )}
         <StyledButton
           addBottomMargin={wrap}
           id={`${id}-btn`}
@@ -228,7 +299,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
             handleClick();
           }}
           variant={buttonVariant}
-          disabled={loading || disabled}
+          disabled={loading || disabled || (useFileDate && !fileDate)}
         >
           {loading ? (
             <LoadingSpinner color={isSecondary ? '#000000' : '#fff'} />

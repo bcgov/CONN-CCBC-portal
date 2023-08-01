@@ -29,10 +29,8 @@ const RfiAnalystUpload = ({ rfiQuery }) => {
           rfiRowId: rfiDataByRowId.rowId,
         },
       },
-      onCompleted: (response) => {
-        router.push(
-          `/applicantportal/form/${router.query.id}/rfi/${response.updateRfi.rfiData.rowId}`
-        );
+      onCompleted: () => {
+        router.push(`/analyst/application/${router.query.applicationId}/rfi`);
       },
       onError: (err) => {
         // eslint-disable-next-line no-console
