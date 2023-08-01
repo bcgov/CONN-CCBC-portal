@@ -1,6 +1,6 @@
 begin;
 
-select plan(4);
+select plan(5);
 
 truncate table
   ccbc_public.intake,
@@ -48,6 +48,13 @@ select throws_like(
      select open_timestamp, close_timestamp, ccbc_intake_number from ccbc_public.create_intake('2022-08-19 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver');  $$,
   'The start time for the new intake must be after the end time of the previous intake',
   'The intake start date must be after the end date of the previous intake'
+);
+
+select throws_like(
+  $$
+     select open_timestamp, close_timestamp, ccbc_intake_number from ccbc_public.create_intake('2022-08-19 09:00:00 America/Vancouver','2022-08-19 09:00:00 America/Vancouver');  $$,
+  'The start date for the new intake must be before the end date',
+  'The start date must be before the end date'
 );
 
 select finish();

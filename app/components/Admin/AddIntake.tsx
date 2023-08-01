@@ -155,6 +155,7 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
     const currentDateTime = DateTime.now();
     const startDateTime = DateTime.fromISO(startDate);
     const endDateTime = DateTime.fromISO(endDate);
+
     const latestIntakeEndDateTime = DateTime.fromISO(
       latestIntakeCloseTimestamp
     );

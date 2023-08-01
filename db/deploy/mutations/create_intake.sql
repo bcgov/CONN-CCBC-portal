@@ -17,6 +17,10 @@ begin
   order by ccbc_intake_number
   desc limit 1;
 
+  if start_time >= end_time then
+    raise exception 'The start date for the new intake must be before the end date';
+  end if;
+
   if previous_intake_end_date is not null and previous_intake_end_date >= start_time then
     raise exception 'The start time for the new intake must be after the end time of the previous intake';
   end if;
