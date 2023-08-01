@@ -369,3 +369,4 @@ mutations/create_change_request [mutations/create_change_request@1.85.0] 2023-07
 @1.88.1 2023-07-20T20:21:29Z CCBC Service Account <ccbc@button.is> # release v1.88.1
 @1.89.0 2023-07-26T14:39:02Z CCBC Service Account <ccbc@button.is> # release v1.89.0
 @1.90.0 2023-07-27T16:25:53Z CCBC Service Account <ccbc@button.is> # release v1.90.0
+@1.90.1 2023-08-01T16:51:54Z CCBC Service Account <ccbc@button.is> # release v1.90.1
