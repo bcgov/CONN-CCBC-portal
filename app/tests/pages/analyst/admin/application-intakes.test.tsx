@@ -42,6 +42,33 @@ const mockQueryPayload = {
   },
 };
 
+const mockDeleteQueryPayload = {
+  Query() {
+    return {
+      allIntakes: {
+        edges: [
+          {
+            node: {
+              ccbcIntakeNumber: 3,
+              closeTimestamp: '2030-01-15T23:00:00-08:00',
+              description: 'Intake 3 description',
+              openTimestamp: '2031-01-15T00:00:00-08:00',
+              rowId: 3,
+            },
+          },
+        ],
+      },
+      openIntake: {
+        ccbcIntakeNumber: 2,
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'ccbc_admin',
+      },
+    };
+  },
+};
+
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 
 const pageTestingHelper = new PageTestingHelper<applicationIntakesQuery>({
@@ -126,7 +153,7 @@ describe('The Application intakes admin page', () => {
     expect(
       screen.getByRole('heading', {
         name: 'Intake 2',
-      }).parentElement
+      }).parentElement.parentElement
     ).toHaveStyle('border-left: 4px solid #3D9B50;');
   });
 
@@ -188,17 +215,42 @@ describe('The Application intakes admin page', () => {
       fireEvent.click(saveButton);
     });
 
+    pageTestingHelper.expectMutationToBeCalled('createIntakeMutation', {
+      connections: [
+        'client:root:__ApplicationIntakes_allIntakes_connection(condition:{"archivedAt":null},orderBy:"CCBC_INTAKE_NUMBER_DESC")',
+      ],
+      input: {
+        intakeDescription: 'Test description',
+        endTime: '2025-07-02T07:00:00.000Z',
+        startTime: '2025-07-01T07:00:00.000Z',
+      },
+    });
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {},
+      });
+    });
+  });
+
+  it('should delete a future intake', async () => {
+    pageTestingHelper.loadQuery(mockDeleteQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const deleteButton = screen.getByRole('button', {
+      name: 'Delete',
+    });
+
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
     pageTestingHelper.expectMutationToBeCalled(
-      'createIntakeMutation',
+      'archiveIntakeMutation',
 
       {
-        connections: [
-          'client:root:__ApplicationIntakes_allIntakes_connection(orderBy:"CCBC_INTAKE_NUMBER_DESC")',
-        ],
         input: {
-          intakeDescription: 'Test description',
-          endTime: '2025-07-02T07:00:00.000Z',
-          startTime: '2025-07-01T07:00:00.000Z',
+          intakeNumber: 3,
         },
       }
     );
@@ -209,7 +261,6 @@ describe('The Application intakes admin page', () => {
       });
     });
   });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
