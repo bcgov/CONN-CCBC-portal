@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { DashboardTabs } from 'components/AnalystDashboard';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { Layout } from 'components';
-import { AdminTabs, Intake } from 'components/Admin';
+import { AddIntake, AdminTabs, Intake } from 'components/Admin';
 import { applicationIntakesQuery } from '__generated__/applicationIntakesQuery.graphql';
 
 const getApplicationIntakesQuery = graphql`
@@ -23,6 +23,7 @@ const getApplicationIntakesQuery = graphql`
     openIntake {
       ccbcIntakeNumber
     }
+    ...AddIntake_query
     session {
       sub
       ...DashboardTabs_query
@@ -46,16 +47,19 @@ const ApplicationIntakes = ({
       <StyledContainer>
         <DashboardTabs session={session} />
         <AdminTabs />
-        <h2>Application Intakes</h2>
-        <p>
-          All times are in Pacific Time and automatically adjusted for daylight
-          saving time where necessary.
-        </p>
-        <p>Applicants have a grace period after each deadline.</p>
-        <p>
-          To adjust the grace period or toggle visibility of upcoming intake
-          dates, go to https://app.growthbook.io/
-        </p>
+        <section>
+          <h2>Application Intakes</h2>
+          <p>
+            All times are in Pacific Time and automatically adjusted for
+            daylight saving time where necessary.
+          </p>
+          <p>Applicants have a grace period after each deadline.</p>
+          <p>
+            To adjust the grace period or toggle visibility of upcoming intake
+            dates, go to https://app.growthbook.io/
+          </p>
+        </section>
+        <AddIntake applicationQuery={query} />
         {intakeList && (
           <section>
             {intakeList.map((intake: any) => {

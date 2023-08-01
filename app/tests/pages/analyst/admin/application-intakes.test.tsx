@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import ApplicationIntakes from 'pages/analyst/admin/application-intakes';
 import compiledApplicationIntakesQuery, {
   applicationIntakesQuery,
@@ -128,6 +128,86 @@ describe('The Application intakes admin page', () => {
         name: 'Intake 2',
       }).parentElement
     ).toHaveStyle('border-left: 4px solid #3D9B50;');
+  });
+
+  it('should fill the intake form and save an intake', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const addButton = screen.getByRole('button', {
+      name: 'Add intake',
+    });
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const startDateInput = screen.getAllByPlaceholderText(
+      'YYYY-MM-DD hh:mm aa'
+    )[0];
+
+    const endDateInput = screen.getAllByPlaceholderText(
+      'YYYY-MM-DD hh:mm aa'
+    )[1];
+
+    const descriptionInput = screen.getByTestId('root_description');
+
+    expect(startDateInput).toBeVisible();
+    expect(endDateInput).toBeVisible();
+    expect(descriptionInput).toBeVisible();
+
+    await act(async () => {
+      fireEvent.change(startDateInput, {
+        target: {
+          value: '2025-07-01 00:00 AM',
+        },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(endDateInput, {
+        target: {
+          value: '2025-07-02 00:00 AM',
+        },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.change(descriptionInput, {
+        target: {
+          value: 'Test description',
+        },
+      });
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'createIntakeMutation',
+
+      {
+        connections: [
+          'client:root:__ApplicationIntakes_allIntakes_connection(orderBy:"CCBC_INTAKE_NUMBER_DESC")',
+        ],
+        input: {
+          intakeDescription: 'Test description',
+          endTime: '2025-07-02T07:00:00.000Z',
+          startTime: '2025-07-01T07:00:00.000Z',
+        },
+      }
+    );
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {},
+      });
+    });
   });
 
   afterEach(() => {

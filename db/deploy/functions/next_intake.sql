@@ -12,7 +12,7 @@ as $function$
   limit 1;
 $function$ language sql stable;
 
-grant execute on function ccbc_public.next_intake to ccbc_auth_user, ccbc_guest;
+grant execute on function ccbc_public.next_intake to ccbc_auth_user, ccbc_guest, ccbc_admin, ccbc_analyst;
 
 comment on function ccbc_public.next_intake is 'Returns the next intake if any';
 

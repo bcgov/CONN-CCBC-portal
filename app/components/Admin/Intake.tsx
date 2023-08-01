@@ -59,6 +59,7 @@ const Intake: React.FC<IntakeProps> = ({ currentIntakeNumber, intake }) => {
     graphql`
       fragment Intake_query on Intake {
         ccbcIntakeNumber
+        description
         closeTimestamp
         openTimestamp
         rowId
@@ -66,7 +67,6 @@ const Intake: React.FC<IntakeProps> = ({ currentIntakeNumber, intake }) => {
     `,
     intake
   );
-  // Need to add description to the fragment which is coming in add intake PR
 
   const { ccbcIntakeNumber, closeTimestamp, description, openTimestamp } =
     queryFragment;
