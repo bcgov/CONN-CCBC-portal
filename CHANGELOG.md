@@ -1,3 +1,30 @@
+# [1.91.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.90.0...v1.91.0) (2023-08-01)
+
+### Bug Fixes
+
+- add start date must be before end date check ([ff0e136](https://github.com/bcgov/CONN-CCBC-portal/commit/ff0e136a09777a97a69c62a191f68fbf4e67ff70))
+- declare intake theme outside of component ([0d084f3](https://github.com/bcgov/CONN-CCBC-portal/commit/0d084f36caedf38666f730eb8e10db25bc5ba6b7))
+- intake revert ([2e217d4](https://github.com/bcgov/CONN-CCBC-portal/commit/2e217d4acb650cb7d835e8b84776f9d7d057d032))
+- match title to enum ([5fb738f](https://github.com/bcgov/CONN-CCBC-portal/commit/5fb738f07ed77c13f8e673aa52ba80bbc5e47caa))
+- select archived_at is null for previous intake ([cca84ec](https://github.com/bcgov/CONN-CCBC-portal/commit/cca84ecc1b25be0267ef00c5db7bf2a895cbe3d7))
+
+### Features
+
+- add create intake graphql mutation ([edcca8d](https://github.com/bcgov/CONN-CCBC-portal/commit/edcca8d07e1ef977d50ae4e6cad6d7ec56731d04))
+- add custom intake null validation message ([8c1bdfd](https://github.com/bcgov/CONN-CCBC-portal/commit/8c1bdfd58be0c3acf651a4ef98da20068cb9fa56))
+- add date time picker widget ([5bbd2cd](https://github.com/bcgov/CONN-CCBC-portal/commit/5bbd2cd582949becec57067b1607a4010ab16864))
+- add db mutation check for intake date overlap ([e223cb3](https://github.com/bcgov/CONN-CCBC-portal/commit/e223cb3d706c853d72b8d7e4a3185b432865d9cb))
+- add description column to intake table ([c7dd85a](https://github.com/bcgov/CONN-CCBC-portal/commit/c7dd85a2029141478cce99c8fc8c680905483e72))
+- add intake schema and ui schema ([e952fa7](https://github.com/bcgov/CONN-CCBC-portal/commit/e952fa7645b0c28d5f6a9a5638d53c7c7f692aea))
+- add intake validations ([ea3c4a6](https://github.com/bcgov/CONN-CCBC-portal/commit/ea3c4a6560654ec1ca60744de953f33ca3e4eff0))
+- add last intake date overlap validation ([c1a2dd4](https://github.com/bcgov/CONN-CCBC-portal/commit/c1a2dd42aeb6ad702c064f28d5b7d2a310f2c77e))
+- add read only intake field ([7851218](https://github.com/bcgov/CONN-CCBC-portal/commit/7851218939bbe629f47dbe361d171fcf7d6a6aff))
+- create intake on submit ([3cf9037](https://github.com/bcgov/CONN-CCBC-portal/commit/3cf9037471d432063550cef96d056216d092d422))
+- grant analyst permissions to next_intake function ([1b41f89](https://github.com/bcgov/CONN-CCBC-portal/commit/1b41f8973b02c81d4c2356c4104a1657234105c4))
+- hide add intake button when there is a future intake ([7ee088a](https://github.com/bcgov/CONN-CCBC-portal/commit/7ee088a7acd5077909d48a3d792e9390e1210a6a))
+- improve intake animation ([5b71166](https://github.com/bcgov/CONN-CCBC-portal/commit/5b71166e5459f8e4a9e837e85327cf08590dd961))
+- prepend relay node on create intake ([fb15b08](https://github.com/bcgov/CONN-CCBC-portal/commit/fb15b0883e56117dcc54a54f8f0035f179b86377))
+
 # [1.90.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.89.0...v1.90.0) (2023-07-27)
 
 ### Bug Fixes
