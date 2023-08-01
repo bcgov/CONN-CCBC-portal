@@ -33,6 +33,21 @@ const getDateString = (date: Date | undefined) => {
   return undefined;
 };
 
+const getStyles = (isError: boolean) => ({
+  svg: { color: '#606060' },
+  '& .Mui-focused': {
+    outline: '4px solid #3b99fc',
+    'outline-offset': '1px',
+    'border-radius': '0.25em',
+  },
+  '& .MuiInputBase-input': {
+    padding: '9px',
+  },
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: isError ? '2px solid #E71F1F' : '2px solid #606060',
+  },
+});
+
 const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   rawErrors,
   id,
@@ -58,20 +73,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
     return onChange(newDate);
   };
 
-  const styles = {
-    svg: { color: '#606060' },
-    '& .Mui-focused': {
-      outline: '4px solid #3b99fc',
-      'outline-offset': '1px',
-      'border-radius': '0.25em',
-    },
-    '& .MuiInputBase-input': {
-      padding: '9px',
-    },
-    '& .MuiOutlinedInput-notchedOutline': {
-      border: isError ? '2px solid #E71F1F' : '2px solid #606060',
-    },
-  };
+  const styles = getStyles(isError);
 
   // Leaving this here as the datepicker won't accept a component with props (onChange)
   // eslint-disable-next-line react/no-unstable-nested-components
@@ -127,3 +129,4 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
 };
 
 export default DatePickerWidget;
+export { getStyles, getDateString };

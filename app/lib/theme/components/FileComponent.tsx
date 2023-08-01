@@ -7,7 +7,7 @@ import { enUS } from '@mui/x-date-pickers/locales';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { CancelIcon, LoadingSpinner } from '../../../components';
-import { dateTimeFormat } from '../functions/formatDates';
+import { getDateString, getStyles } from '../widgets/DatePickerWidget';
 
 const StyledContainer = styled.div<{
   wrap?: boolean;
@@ -104,14 +104,6 @@ interface FileComponentProps {
   fileDate?: string | null;
   setFileDate?: Function;
 }
-
-const getDateString = (date: Date | undefined) => {
-  if (date) {
-    if (date.valueOf() <= 0) return undefined;
-    return dateTimeFormat(date, 'date_year_first');
-  }
-  return undefined;
-};
 
 const ErrorMessage = ({ error, fileTypes }) => {
   if (error === 'uploadFailed') {
@@ -249,8 +241,8 @@ const FileComponent: React.FC<FileComponentProps> = ({
         }
       >
         {useFileDate && (
-          <div>
-            <h4>{`${fileDateTitle}`}</h4>
+          <div style={{ height: '100%' }}>
+            <h4 style={{ marginBottom: '8px' }}>{`${fileDateTitle}`}</h4>
             <LocalizationProvider
               localeText={
                 enUS.components.MuiLocalizationProvider.defaultProps.localeText
@@ -259,6 +251,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
             >
               <DesktopDatePicker
                 id={id}
+                sx={getStyles(false)}
                 isError={false}
                 disabled={false}
                 readOnly={false}
@@ -291,22 +284,24 @@ const FileComponent: React.FC<FileComponentProps> = ({
             </LocalizationProvider>
           </div>
         )}
-        <StyledButton
-          addBottomMargin={wrap}
-          id={`${id}-btn`}
-          onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-            e.preventDefault();
-            handleClick();
-          }}
-          variant={buttonVariant}
-          disabled={loading || disabled || (useFileDate && !fileDate)}
-        >
-          {loading ? (
-            <LoadingSpinner color={isSecondary ? '#000000' : '#fff'} />
-          ) : (
-            buttonLabel()
-          )}
-        </StyledButton>
+        <div style={useFileDate ? { height: '100%', marginTop: '45px' } : {}}>
+          <StyledButton
+            addBottomMargin={wrap}
+            id={`${id}-btn`}
+            onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+              e.preventDefault();
+              handleClick();
+            }}
+            variant={buttonVariant}
+            disabled={loading || disabled || (useFileDate && !fileDate)}
+          >
+            {loading ? (
+              <LoadingSpinner color={isSecondary ? '#000000' : '#fff'} />
+            ) : (
+              buttonLabel()
+            )}
+          </StyledButton>
+        </div>
       </div>
       <input
         data-testid="file-test"
