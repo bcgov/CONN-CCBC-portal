@@ -10,6 +10,7 @@ import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import styled from 'styled-components';
+import sortRfiFiles from 'utils/sortRfiFiles';
 
 const StyledButton = styled('button')`
   color: ${(props) => props.theme.color.links};
@@ -29,6 +30,21 @@ const getApplicationQuery = graphql`
         jsonData
         formByFormSchemaId {
           jsonSchema
+        }
+      }
+      applicationRfiDataByApplicationId(
+        orderBy: RFI_DATA_ID_DESC
+        filter: { rfiDataByRfiDataId: { archivedAt: { isNull: true } } }
+      ) {
+        edges {
+          node {
+            rfiDataByRfiDataId {
+              jsonData
+              id
+              rowId
+              rfiNumber
+            }
+          }
         }
       }
     }
@@ -52,7 +68,10 @@ const Application = ({
       jsonData,
       formByFormSchemaId: { jsonSchema },
     },
+    applicationRfiDataByApplicationId,
   } = applicationByRowId;
+
+  const rfiFileList = sortRfiFiles(applicationRfiDataByApplicationId?.edges);
 
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
 
@@ -86,6 +105,7 @@ const Application = ({
           formContext={{
             // validate errors and pass through formContext for review checkbox section
             errors: formErrorSchema,
+            rfiFileList,
             toggleOverride,
           }}
           formData={jsonData}
