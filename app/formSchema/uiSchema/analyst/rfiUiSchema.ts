@@ -558,4 +558,24 @@ export const rfiApplicantUiSchema = {
   },
 };
 
+// create a new schema with all FileWidget fields set to allowMultipleFiles
+export const rfiAnalystUiSchema = JSON.parse(
+  JSON.stringify(rfiApplicantUiSchema)
+);
+const stack = [rfiAnalystUiSchema.rfiAdditionalFiles];
+while (stack.length) {
+  const currentObj = stack.pop();
+  Object.keys(currentObj).forEach((key) => {
+    if (typeof currentObj[key] === 'object') {
+      if (currentObj[key]['ui:widget'] === 'FileWidget') {
+        if (!currentObj[key]['ui:options']) {
+          currentObj[key]['ui:options'] = {};
+        }
+        currentObj[key]['ui:options'].allowMultipleFiles = true;
+      }
+      stack.push(currentObj[key]);
+    }
+  });
+}
+
 export default rfiUiSchema;

@@ -4,7 +4,7 @@ import { FormDiv } from 'components';
 import { RfiTheme } from 'components/Analyst/RFI';
 import { RfiFormStatus, FormBase } from 'components/Form';
 import { rfiSchema } from 'formSchema/analyst';
-import { rfiApplicantUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
+import { rfiAnalystUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { useRouter } from 'next/router';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import styled from 'styled-components';
@@ -59,7 +59,7 @@ const RfiAnalystUpload = ({ rfiQuery }) => {
         <FormBase
           theme={RfiTheme}
           schema={rfiSchema}
-          uiSchema={rfiApplicantUiSchema}
+          uiSchema={rfiAnalystUiSchema}
           omitExtraData={false}
           formData={rfiDataByRowId?.jsonData}
           onSubmit={handleSubmit}
