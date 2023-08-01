@@ -12555,6 +12555,9 @@ input IntakeFilter {
   """Filter by the object’s `counterId` field."""
   counterId: IntFilter
 
+  """Filter by the object’s `description` field."""
+  description: StringFilter
+
   """Filter by the object’s `applicationsByIntakeId` relation."""
   applicationsByIntakeId: IntakeToManyApplicationFilter
 
@@ -16181,6 +16184,9 @@ type Intake implements Node {
   """
   counterId: Int
 
+  """A description of the intake"""
+  description: String
+
   """Reads a single `CcbcUser` that is related to this `Intake`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -16507,6 +16513,8 @@ enum IntakesOrderBy {
   ARCHIVED_AT_DESC
   COUNTER_ID_ASC
   COUNTER_ID_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -16552,6 +16560,9 @@ input IntakeCondition {
 
   """Checks for equality with the object’s `counterId` field."""
   counterId: Int
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
 }
 
 """A connection to a list of `CcbcUser` values, with data from `Intake`."""
@@ -50718,6 +50729,9 @@ input IntakePatch {
   The counter_id used by the gapless_counter to generate a gapless intake id
   """
   counterId: Int
+
+  """A description of the intake"""
+  description: String
 }
 
 """All input for the `updateIntakeByRowId` mutation."""
@@ -53781,7 +53795,7 @@ input CreateIntakeInput {
   clientMutationId: String
   startTime: Datetime!
   endTime: Datetime!
-  ccbcNumber: Int!
+  intakeDescription: String
 }
 
 """The output of our `createNewFormData` mutation."""

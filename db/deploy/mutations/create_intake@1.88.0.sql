@@ -2,8 +2,6 @@
 
 begin;
 
-drop function if exists ccbc_public.create_intake cascade;
-
 create or replace function ccbc_public.create_intake(start_time timestamp with time zone, end_time timestamp with time zone, ccbc_number int) returns ccbc_public.intake as $$
 declare
   result ccbc_public.intake;
