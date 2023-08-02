@@ -29,16 +29,13 @@ const appendRfiFiles = (rfiFiles, rfiNumber) => {
 };
 
 const sortRfiFiles = (rfiNodes) => {
-  const rfiList = rfiNodes?.forEach((edge) => {
+  rfiNodes?.forEach((edge) => {
     const { rfiDataByRfiDataId } = edge.node;
     const { jsonData, rfiNumber } = rfiDataByRfiDataId;
 
-    appendRfiFiles(jsonData?.rfiAdditionalFiles, rfiNumber);
-
-    return fileList;
+    return appendRfiFiles(jsonData?.rfiAdditionalFiles, rfiNumber);
   });
-
-  return rfiList;
+  return fileList;
 };
 
 export default sortRfiFiles;
