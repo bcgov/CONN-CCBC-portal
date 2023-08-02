@@ -101,7 +101,7 @@ interface FileComponentProps {
   hideFailedUpload?: boolean;
   useFileDate?: boolean;
   fileDateTitle?: string;
-  fileDate?: string | null;
+  fileDate?: any;
   setFileDate?: Function;
 }
 
@@ -255,7 +255,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
                 isError={false}
                 disabled={false}
                 readOnly={false}
-                onChange={(d) => {
+                onChange={(d: Date) => {
                   const originalDate = new Date(d);
                   const realDate = new Date(originalDate.toDateString());
                   const newDate = getDateString(realDate);
