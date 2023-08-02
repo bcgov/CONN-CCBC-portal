@@ -25,7 +25,8 @@ const sowUpload = Router();
 
 const processSow: ExpressMiddleware = async (req, res) => {
   const authRole = getAuthRole(req);
-  const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
+  const isRoleAuthorized =
+    authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'ccbc_analyst';
 
   if (!isRoleAuthorized) {
     return res.status(404).end();
