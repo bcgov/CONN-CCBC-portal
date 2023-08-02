@@ -1,6 +1,6 @@
 begin;
 
-select plan(4);
+select plan(5);
 
 truncate table
   ccbc_public.application,
@@ -14,7 +14,7 @@ restart identity cascade;
 
 
 select has_function(
-  'ccbc_public', 'update_application_form', ARRAY['int','jsonb','varchar'],
+  'ccbc_public', 'update_application_form', ARRAY['int','jsonb','varchar','timestamptz'],
   'Function update_application_form should exist'
 );
 
@@ -38,7 +38,8 @@ select ccbc_public.update_application_form(
       'title', 'some title'
     )
   ),
-  'projectInformation'
+  'projectInformation',
+  '2022-03-01 11:00:00-05'
 );
 
 select results_eq(
@@ -70,7 +71,8 @@ select ccbc_public.update_application_form(
       'organizationName', 'my org'
     )
   ),
-  'projectInformation'
+  'projectInformation',
+  '2022-03-01 11:00:00.001-05'
 );
 
 select results_eq(
@@ -89,9 +91,30 @@ select results_eq(
   'update_application_form updates the submissionDate and sets submissionCompletedFor'
 );
 
+select throws_like(
+  $$
+  select ccbc_public.update_application_form(
+  1,
+  jsonb_build_object(
+    'projectInformation', jsonb_build_object(
+      'title', 'some title'
+    ),
+    'organizationProfile', jsonb_build_object(
+      'organizationName', 'my org'
+    )
+  ),
+  'projectInformation',
+  '2022-03-01 11:00:00.001-05'
+);
+  $$,
+  'Data is Out of Sync',
+  'Should raise "Data is out of sync" exception when calling my_function'
+);
+
+
 
 select function_privs_are(
-  'ccbc_public', 'update_application_form', ARRAY['int','jsonb','varchar'], 'ccbc_auth_user', ARRAY['EXECUTE'],
+  'ccbc_public', 'update_application_form', ARRAY['int','jsonb','varchar','timestamptz'], 'ccbc_auth_user', ARRAY['EXECUTE'],
   'ccbc_auth_user can execute ccbc_public.update_application_form'
 );
 
