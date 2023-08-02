@@ -156,7 +156,7 @@ describe('BatchIdPage', () => {
     expect(linkToMetabase).toBeVisible();
     expect(linkToMetabase).toHaveAttribute(
       'href',
-      'https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses'
+      'https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/91-gis-data-dashboard-test'
     );
   });
 
