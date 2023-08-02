@@ -149,6 +149,7 @@ const BatchIdPage: React.FC<
           <MetabaseLink
             href="https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses"
             text="Visit Metabase to view a dashboard of GIS analysis"
+            testHref="https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/91-gis-data-dashboard-test"
             width={600}
           />
         </StyledContainer>
