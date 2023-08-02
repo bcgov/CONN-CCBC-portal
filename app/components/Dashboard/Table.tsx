@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import Modal from './Modal';
 import Row from './Row';
+import ArchiveModal from './ArchiveModal';
 
 const StyledFontAwesome = styled(FontAwesomeIcon)`
   margin-left: 4px; ;
@@ -40,8 +41,11 @@ type Props = {
 
 const Table = ({ applications }: Props) => {
   const [withdrawId, setWithdrawId] = useState<null | number>(null);
+  const [archiveId, setArchiveId] = useState({ rowId: null, id: null });
 
-  const applicationNodes = applications.allApplications.nodes;
+  const applicationNodes = applications.allApplications.edges
+    .map((edge) => edge.node)
+    .filter((node) => node !== null);
 
   const formPages = Object.keys(schema.properties);
 
@@ -70,19 +74,20 @@ const Table = ({ applications }: Props) => {
         </StyledTableHead>
         <tbody>
           {applicationNodes.map((application) => {
-            return (
+            return application ? (
               <Row
                 application={application}
                 key={application.owner}
                 formPages={formPages}
                 reviewPage={reviewPage}
                 setWithdrawId={setWithdrawId}
+                setArchiveId={setArchiveId}
               />
-            );
+            ) : null;
           })}
         </tbody>
       </StyledTable>
-
+      <ArchiveModal applications={applications} id={archiveId} />
       <Modal id={withdrawId} />
     </>
   );
