@@ -31,9 +31,22 @@ const StyledBtns = styled('div')`
   }
 `;
 
-const Row = ({ application, formPages, reviewPage, setWithdrawId }) => {
-  const { ccbcNumber, intakeByIntakeId, formData, projectName, rowId, status } =
-    application;
+const Row = ({
+  application,
+  formPages,
+  reviewPage,
+  setWithdrawId,
+  setArchiveId,
+}) => {
+  const {
+    ccbcNumber,
+    intakeByIntakeId,
+    formData,
+    projectName,
+    rowId,
+    status,
+    id,
+  } = application;
 
   const lastEditedIndex = formPages.indexOf(formData.lastEditedPage) + 1;
 
@@ -44,6 +57,7 @@ const Row = ({ application, formPages, reviewPage, setWithdrawId }) => {
 
   const isWithdrawn = application.status === 'withdrawn';
   const isSubmitted = application.status === 'submitted';
+  const isDraft = application.status === 'draft';
 
   const getApplicationUrl = () => {
     if (isWithdrawn) {
@@ -83,6 +97,18 @@ const Row = ({ application, formPages, reviewPage, setWithdrawId }) => {
               type="button"
             >
               <Withdraw />
+            </button>
+          )}
+          {!ccbcNumber && isDraft && (
+            <button
+              onClick={() => {
+                setArchiveId({ rowId, id });
+                window.location.hash = 'delete-application';
+              }}
+              data-testid="archive-btn-test"
+              type="button"
+            >
+              <Link href="#delete-application">Delete</Link>
             </button>
           )}
           {application.hasRfiOpen && (

@@ -45839,6 +45839,14 @@ type Mutation {
     """
     input: DeleteSowTab8ByRowIdInput!
   ): DeleteSowTab8Payload
+
+  """Mutation to archive an application and its related data"""
+  archiveApplication(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: ArchiveApplicationInput!
+  ): ArchiveApplicationPayload
   archiveApplicationSow(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -53441,6 +53449,49 @@ input DeleteSowTab8ByRowIdInput {
 
   """Unique ID for the SoW Tab 8"""
   rowId: Int!
+}
+
+"""The output of our `archiveApplication` mutation."""
+type ArchiveApplicationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  application: Application
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Intake` that is related to this `Application`."""
+  intakeByIntakeId: Intake
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Application`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `Application`. May be used by Relay 1."""
+  applicationEdge(
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationsEdge
+}
+
+"""All input for the `archiveApplication` mutation."""
+input ArchiveApplicationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  applicationRowId: Int!
 }
 
 """The output of our `archiveApplicationSow` mutation."""
