@@ -21,6 +21,7 @@ const sortRfiFiles = (rfiNodes) => {
 
     return appendRfiFiles(jsonData?.rfiAdditionalFiles, rfiNumber);
   });
+
   return fileList;
 };
 

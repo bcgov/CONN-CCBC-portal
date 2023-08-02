@@ -72,7 +72,6 @@ const Application = ({
   } = applicationByRowId;
 
   const rfiFileList = sortRfiFiles(applicationRfiDataByApplicationId?.edges);
-
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
 
   return (
