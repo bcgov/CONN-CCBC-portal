@@ -376,3 +376,4 @@ mutations/archive_application 2023-07-26T22:48:25Z Rafael Solorzano <61289255+ra
 mutations/archive_intake 2023-07-27T15:39:07Z Marcel Mueller <marcel@m2> # add mutation to soft delete/archive intake
 tables/intake_006_partial_unique 2023-07-27T20:03:03Z Marcel Mueller <marcel@m2> # drop unique constraint and add partial unique index
 @1.91.0 2023-08-02T21:36:10Z CCBC Service Account <ccbc@button.is> # release v1.91.0
+@1.91.1 2023-08-02T23:05:05Z CCBC Service Account <ccbc@button.is> # release v1.91.1
