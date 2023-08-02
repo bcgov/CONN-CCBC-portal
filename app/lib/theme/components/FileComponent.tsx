@@ -250,23 +250,23 @@ const FileComponent: React.FC<FileComponentProps> = ({
               dateAdapter={AdapterDayjs}
             >
               <DesktopDatePicker
-                id={id}
                 sx={getStyles(false)}
-                isError={false}
                 disabled={false}
                 readOnly={false}
-                onChange={(d: Date) => {
-                  const originalDate = new Date(d);
-                  const realDate = new Date(originalDate.toDateString());
-                  const newDate = getDateString(realDate);
-                  const isDateInvalid = newDate === 'Invalid DateTime';
-                  if (isDateInvalid) {
-                    setFileDate(null);
-                  } else {
-                    setFileDate(newDate);
+                onChange={(d: Date | null) => {
+                  if (d) {
+                    const originalDate = new Date(d);
+                    const realDate = new Date(originalDate.toDateString());
+                    const newDate = getDateString(realDate);
+                    const isDateInvalid = newDate === 'Invalid DateTime';
+                    if (isDateInvalid) {
+                      setFileDate(null);
+                    } else {
+                      setFileDate(newDate);
+                    }
                   }
                 }}
-                value={fileDate ? dayjs(fileDate) : null}
+                value={fileDate ? dayjs(fileDate).toDate() : null}
                 defaultValue={null}
                 slotProps={{
                   actionBar: {
