@@ -350,6 +350,7 @@ describe('The submission form page', () => {
             acknowledgements: { acknowledgementsList: acknowledgementsEnum },
           },
           lastEditedPage: 'review',
+          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
         },
       }
     );

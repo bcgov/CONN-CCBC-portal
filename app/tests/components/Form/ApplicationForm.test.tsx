@@ -96,6 +96,7 @@ describe('The application form', () => {
       'updateApplicationFormMutation',
       {
         input: {
+          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
           formDataRowId: 123,
           jsonData: {
             projectInformation: {
@@ -120,6 +121,7 @@ describe('The application form', () => {
       'updateApplicationFormMutation',
       {
         input: {
+          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
           formDataRowId: 123,
           jsonData: {
             projectInformation: {},
@@ -299,6 +301,7 @@ describe('The application form', () => {
       'updateApplicationFormMutation',
       {
         input: {
+          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
           formDataRowId: 123,
           jsonData: {
             estimatedProjectEmployment: {
@@ -337,6 +340,7 @@ describe('The application form', () => {
       'updateApplicationFormMutation',
       {
         input: {
+          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
           formDataRowId: 123,
           jsonData: {
             projectFunding: {
