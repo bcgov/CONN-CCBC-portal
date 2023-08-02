@@ -1,4 +1,4 @@
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, act } from '@testing-library/react';
 import AnalystRfiPage from '../../../../../../../pages/analyst/application/[applicationId]/rfi/[rfiId]/upload';
 import PageTestingHelper from '../../../../../../utils/pageTestingHelper';
 import compiledPageQuery, {
@@ -11,6 +11,9 @@ const mockQueryPayload = {
       rfiDataByRowId: {
         jsonData: {
           rfiDueBy: '2022-12-22',
+          rfiAdditionalFiles: {
+            communityRuralDevelopmentBenefitsRfi: true,
+          },
         },
         rowId: 1,
         rfiNumber: 'CCBC-01001-01',
@@ -74,12 +77,30 @@ describe('The applicantRfiId Page', () => {
       {
         input: {
           jsonData: {
-            rfiAdditionalFiles: {},
+            rfiAdditionalFiles: {
+              communityRuralDevelopmentBenefitsRfi: true,
+            },
             rfiDueBy: '2022-12-22',
           },
           rfiRowId: 1,
         },
       }
     );
+  });
+  it('should change the date on file date picker and enable save button', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const addFileButton = screen.getByText('Upload(s)');
+
+    expect(addFileButton).toBeDisabled();
+
+    const date = screen.getAllByTestId('datepicker-widget-input')[0];
+
+    await act(async () => {
+      fireEvent.change(date, { target: { value: '2023-01-01' } });
+    });
+
+    expect(addFileButton).not.toBeDisabled();
   });
 });
