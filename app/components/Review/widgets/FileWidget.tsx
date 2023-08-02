@@ -37,7 +37,12 @@ const StyledIconDiv = styled('div')`
   }
 `;
 
-const FileWidget: React.FC<WidgetProps> = ({ formContext, id, value }) => {
+const FileWidget: React.FC<WidgetProps> = ({
+  formContext,
+  id,
+  options,
+  value,
+}) => {
   // seems like the id is the only way to get the field name from widget props
   // id is in the format root_[pageName]_[fieldName]
   const fieldName = id?.split('_')?.[2];
@@ -55,7 +60,7 @@ const FileWidget: React.FC<WidgetProps> = ({ formContext, id, value }) => {
         return (
           <StyledFile key={rfi}>
             {rfiFileList[rfi]?.map((el, index) => {
-              const isSingleFile = rfiFileList[rfi].length === 1;
+              const isSingleFile = !options?.allowMultipleFiles;
               const isDisplayIcon = isSingleFile && i === 0;
 
               // placeholder for date until we get computed column. Will search for file date by uuid
@@ -65,6 +70,7 @@ const FileWidget: React.FC<WidgetProps> = ({ formContext, id, value }) => {
                   {isDisplayIcon ? (
                     <StyledIconDiv>
                       <FontAwesomeIcon
+                        data-testid="rfi-star-icon"
                         icon={faStar}
                         style={{ color: '#FFC107' }}
                         size="xs"
