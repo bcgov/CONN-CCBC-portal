@@ -1,6 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import { useFeature } from '@growthbook/growthbook-react';
 import { AddButton } from '../Project';
 
 const StyledContainer = styled.div`
@@ -40,6 +41,7 @@ const ListFilesWidget: React.FC<WidgetProps> = ({
   label,
   value,
 }) => {
+  const showRfiUpload = useFeature('show_analyst_rfi_upload').value;
   const router = useRouter();
   const isFiles = value?.length > 0;
 
@@ -73,15 +75,17 @@ const ListFilesWidget: React.FC<WidgetProps> = ({
       ) : (
         <StyledP>Not received</StyledP>
       )}
-      <AddButton
-        isFormEditMode={false}
-        title="Add file(s) sent by Email"
-        onClick={() => {
-          router.push(
-            `/analyst/application/${formContext.applicationId}/rfi/${formContext.rfiId}/upload`
-          );
-        }}
-      />
+      {showRfiUpload && (
+        <AddButton
+          isFormEditMode={false}
+          title="Add file(s) sent by Email"
+          onClick={() => {
+            router.push(
+              `/analyst/application/${formContext.applicationId}/rfi/${formContext.rfiId}/upload`
+            );
+          }}
+        />
+      )}
     </StyledContainer>
   );
 };
