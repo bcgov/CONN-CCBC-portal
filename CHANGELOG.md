@@ -1,3 +1,44 @@
+# [1.91.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.90.0...v1.91.0) (2023-08-02)
+
+### Bug Fixes
+
+- add start date must be before end date check ([ff0e136](https://github.com/bcgov/CONN-CCBC-portal/commit/ff0e136a09777a97a69c62a191f68fbf4e67ff70))
+- application status check ([348c9e8](https://github.com/bcgov/CONN-CCBC-portal/commit/348c9e864de00d0d1f46621c929b90c19b39c641))
+- archive intake mutation return value ([f826c83](https://github.com/bcgov/CONN-CCBC-portal/commit/f826c8303020dc2717d67e8a36006c01e9fa57d9))
+- declare intake theme outside of component ([0d084f3](https://github.com/bcgov/CONN-CCBC-portal/commit/0d084f36caedf38666f730eb8e10db25bc5ba6b7))
+- intake revert ([2e217d4](https://github.com/bcgov/CONN-CCBC-portal/commit/2e217d4acb650cb7d835e8b84776f9d7d057d032))
+- match title to enum ([5fb738f](https://github.com/bcgov/CONN-CCBC-portal/commit/5fb738f07ed77c13f8e673aa52ba80bbc5e47caa))
+- merge conflict ([f4251ee](https://github.com/bcgov/CONN-CCBC-portal/commit/f4251ee8914f214e982816256dc3bca43aadb893))
+- select archived_at is null for previous intake ([cca84ec](https://github.com/bcgov/CONN-CCBC-portal/commit/cca84ecc1b25be0267ef00c5db7bf2a895cbe3d7))
+- use intake start time for allow delete ([1ba1b27](https://github.com/bcgov/CONN-CCBC-portal/commit/1ba1b27b9bb0dc896b6505dd90963846e0d95234))
+
+### Features
+
+- add archive intake graphql mutation ([5fe2a88](https://github.com/bcgov/CONN-CCBC-portal/commit/5fe2a88e6443b621037c4532d881a49e02df9dc1))
+- add archive_intake mutation ([8d33a0c](https://github.com/bcgov/CONN-CCBC-portal/commit/8d33a0cb9fc3fea45739014053d02499af561797))
+- add create intake graphql mutation ([edcca8d](https://github.com/bcgov/CONN-CCBC-portal/commit/edcca8d07e1ef977d50ae4e6cad6d7ec56731d04))
+- add custom intake null validation message ([8c1bdfd](https://github.com/bcgov/CONN-CCBC-portal/commit/8c1bdfd58be0c3acf651a4ef98da20068cb9fa56))
+- add date time picker widget ([5bbd2cd](https://github.com/bcgov/CONN-CCBC-portal/commit/5bbd2cd582949becec57067b1607a4010ab16864))
+- add db mutation check for intake date overlap ([e223cb3](https://github.com/bcgov/CONN-CCBC-portal/commit/e223cb3d706c853d72b8d7e4a3185b432865d9cb))
+- add description column to intake table ([691273c](https://github.com/bcgov/CONN-CCBC-portal/commit/691273c9eff69bbbf0dd5592e54ca40ecee42d05))
+- add description column to intake table ([c7dd85a](https://github.com/bcgov/CONN-CCBC-portal/commit/c7dd85a2029141478cce99c8fc8c680905483e72))
+- add intake schema and ui schema ([e952fa7](https://github.com/bcgov/CONN-CCBC-portal/commit/e952fa7645b0c28d5f6a9a5638d53c7c7f692aea))
+- add intake validations ([ea3c4a6](https://github.com/bcgov/CONN-CCBC-portal/commit/ea3c4a6560654ec1ca60744de953f33ca3e4eff0))
+- add last intake date overlap validation ([c1a2dd4](https://github.com/bcgov/CONN-CCBC-portal/commit/c1a2dd42aeb6ad702c064f28d5b7d2a310f2c77e))
+- add read only intake field ([7851218](https://github.com/bcgov/CONN-CCBC-portal/commit/7851218939bbe629f47dbe361d171fcf7d6a6aff))
+- create intake on submit ([3cf9037](https://github.com/bcgov/CONN-CCBC-portal/commit/3cf9037471d432063550cef96d056216d092d422))
+- delete draft application ([19a35be](https://github.com/bcgov/CONN-CCBC-portal/commit/19a35be67b9df27ec3f7cf95c0dcb97bbd09d470))
+- delete intake onclick ([88a2c82](https://github.com/bcgov/CONN-CCBC-portal/commit/88a2c828382213eb9c84c128a3e306abcf00502f))
+- grant analyst permissions to next_intake function ([983b4ad](https://github.com/bcgov/CONN-CCBC-portal/commit/983b4adc047fd3b2c9e0709f6b02fb8045267933))
+- grant analyst permissions to next_intake function ([1b41f89](https://github.com/bcgov/CONN-CCBC-portal/commit/1b41f8973b02c81d4c2356c4104a1657234105c4))
+- hide add intake button when there is a future intake ([7ee088a](https://github.com/bcgov/CONN-CCBC-portal/commit/7ee088a7acd5077909d48a3d792e9390e1210a6a))
+- improve intake animation ([5b71166](https://github.com/bcgov/CONN-CCBC-portal/commit/5b71166e5459f8e4a9e837e85327cf08590dd961))
+- initial archive draft mutation and ui ([822a8d2](https://github.com/bcgov/CONN-CCBC-portal/commit/822a8d209900bdb587ba2f81c67f4b6b3958d865))
+- only show non archived applications ([ca93da5](https://github.com/bcgov/CONN-CCBC-portal/commit/ca93da5be9963d1de902e5b93f2381a507e5cec5))
+- prepend relay node on create intake ([fb15b08](https://github.com/bcgov/CONN-CCBC-portal/commit/fb15b0883e56117dcc54a54f8f0035f179b86377))
+- **relay:** set connection key and edges for delete ([16cc58e](https://github.com/bcgov/CONN-CCBC-portal/commit/16cc58e747ffe4e216f1da4f33e5873a1938cebb))
+- update relay store on archive ([5ed2cbe](https://github.com/bcgov/CONN-CCBC-portal/commit/5ed2cbe7c260763aa15cc84f99ad5f5b6e39894c))
+
 # [1.90.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.89.0...v1.90.0) (2023-07-27)
 
 ### Bug Fixes
