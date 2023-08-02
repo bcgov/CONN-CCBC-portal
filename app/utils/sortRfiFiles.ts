@@ -1,18 +1,4 @@
-import {
-  templateUploads,
-  coverage,
-  supportingDocuments,
-} from 'formSchema/pages';
-
 const fileList = {};
-
-[
-  ...Object.keys(templateUploads.templateUploads.properties),
-  ...Object.keys(coverage.coverage.properties),
-  ...Object.keys(supportingDocuments.supportingDocuments.properties),
-].forEach((field) => {
-  fileList[field] = {};
-});
 
 const appendRfiFiles = (rfiFiles, rfiNumber) => {
   // append Rfi files to fileList
