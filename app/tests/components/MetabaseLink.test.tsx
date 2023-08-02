@@ -5,7 +5,7 @@ import GlobalTheme from 'styles/GlobalTheme';
 const renderStaticLayout = (href?, text?, width?) => {
   return render(
     <GlobalTheme>
-      <MetabaseLink href={href} text={text} width={width} />
+      <MetabaseLink href={href} text={text} width={width} testHref={href} />
     </GlobalTheme>
   );
 };
