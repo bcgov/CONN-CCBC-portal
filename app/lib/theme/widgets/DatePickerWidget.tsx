@@ -129,4 +129,4 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
 };
 
 export default DatePickerWidget;
-export { getStyles, getDateString };
+export { getStyles, getDateString, StyledDatePicker };

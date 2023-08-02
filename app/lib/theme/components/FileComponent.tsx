@@ -1,13 +1,18 @@
 import React, { MutableRefObject, useRef } from 'react';
 import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { enUS } from '@mui/x-date-pickers/locales';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { CancelIcon, LoadingSpinner } from '../../../components';
-import { getDateString, getStyles } from '../widgets/DatePickerWidget';
+import {
+  StyledDatePicker,
+  getDateString,
+  getStyles,
+} from '../widgets/DatePickerWidget';
 
 const StyledContainer = styled.div<{
   wrap?: boolean;
@@ -173,6 +178,15 @@ const FileComponent: React.FC<FileComponentProps> = ({
   const hideIfFailed = !!error && hideFailedUpload;
   const isSecondary = buttonVariant === 'secondary';
 
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const ClearableIconButton = () => {
+    return (
+      <button type="button" onClick={() => setFileDate(undefined)}>
+        <FontAwesomeIcon icon={faTimesCircle} color="#606060" />
+      </button>
+    );
+  };
+
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
@@ -249,7 +263,8 @@ const FileComponent: React.FC<FileComponentProps> = ({
               }
               dateAdapter={AdapterDayjs}
             >
-              <DesktopDatePicker
+              <StyledDatePicker
+                id={id}
                 sx={getStyles(false)}
                 disabled={false}
                 readOnly={false}
@@ -278,6 +293,9 @@ const FileComponent: React.FC<FileComponentProps> = ({
                       'data-testid': 'datepicker-widget-input',
                     },
                   },
+                }}
+                slots={{
+                  openPickerButton: fileDate ? ClearableIconButton : undefined,
                 }}
                 format="YYYY-MM-DD"
               />
