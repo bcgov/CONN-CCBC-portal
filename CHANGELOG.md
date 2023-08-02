@@ -1,3 +1,13 @@
+# [1.92.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.91.0...v1.92.0) (2023-08-02)
+
+### Bug Fixes
+
+- allow analyst role to use sow-upload api route ([d67fc17](https://github.com/bcgov/CONN-CCBC-portal/commit/d67fc17c4ffd5d32ff6eff36e9058990635eedb1))
+
+### Features
+
+- add metabase test gis link to gis success page ([34aa867](https://github.com/bcgov/CONN-CCBC-portal/commit/34aa867a3094c4cb170e8a8d0884ae633a413d65))
+
 # [1.91.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.90.0...v1.91.0) (2023-08-02)
 
 ### Bug Fixes
