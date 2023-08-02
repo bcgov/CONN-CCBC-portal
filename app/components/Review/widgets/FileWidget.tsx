@@ -41,17 +41,17 @@ const FileWidget: React.FC<WidgetProps> = ({ formContext, id, value }) => {
   // seems like the id is the only way to get the field name from widget props
   // id is in the format root_[pageName]_[fieldName]
   const fieldName = id?.split('_')?.[2];
-  const rfiFileList = formContext?.rfiFileList?.[fieldName] || {};
-  const rfiList = Object.keys(rfiFileList);
+  const rfiFileList = formContext?.rfiFileList?.[fieldName];
+  const rfiList = rfiFileList && Object.keys(rfiFileList);
 
-  const isRfi = rfiList.length > 0;
+  const isRfi = rfiList?.length > 0;
   const filesArray = useMemo(() => {
     return value || [];
   }, [value]);
 
   return (
     <div>
-      {rfiList.map((rfi, i) => {
+      {rfiList?.map((rfi, i) => {
         return (
           <StyledFile key={rfi}>
             {rfiFileList[rfi]?.map((el, index) => {
