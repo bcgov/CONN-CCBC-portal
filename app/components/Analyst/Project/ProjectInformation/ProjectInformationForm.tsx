@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
-import config from 'config';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
 import projectInformationSchema from 'formSchema/analyst/projectInformation';
 import projectInformationUiSchema from 'formSchema/uiSchema/analyst/projectInformationUiSchema';
@@ -325,14 +324,6 @@ const ProjectInformationForm = ({ application }) => {
     });
   };
 
-  const getMetabaseLink = () => {
-    const namespace = config.get('OPENSHIFT_APP_NAMESPACE') || 'dev-local';
-    if (namespace.endsWith('-prod')) {
-      return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/86-one-pager-project-data-sow?ccbc_number=${ccbcNumber}`;
-    }
-    return `https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`;
-  };
-
   const isOriginalSowUpload = projectInformation?.jsonData;
 
   return (
@@ -358,8 +349,9 @@ const ProjectInformationForm = ({ application }) => {
             />
           )}
           <MetabaseLink
-            href={getMetabaseLink()}
+            href={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/86-one-pager-project-data-sow?ccbc_number=${ccbcNumber}`}
             text="View project data in Metabase"
+            testHref={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`}
             width={326}
           />
         </StyledFlex>

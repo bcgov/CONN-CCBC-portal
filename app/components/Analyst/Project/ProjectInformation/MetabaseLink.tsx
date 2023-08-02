@@ -1,5 +1,11 @@
 import styled from 'styled-components';
+import getConfig from 'next/config';
 import MetabaseIcon from './MetabaseIcon';
+
+const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
+const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
+
+const isProd = namespace?.endsWith('-prod');
 
 const StyledFlex = styled.a`
   display: flex;
@@ -20,6 +26,7 @@ const StyledFlex = styled.a`
 
 interface MetabaseLinkProps {
   href?: string;
+  testHref?: string;
   text?: string;
   width?: number;
 }
@@ -28,12 +35,14 @@ const MetabaseLink: React.FC<MetabaseLinkProps> = ({
   href = '#',
   text = '',
   width = 326,
+  testHref,
 }) => {
+  const url = isProd ? href : testHref;
   const inlineStyle = { width };
   return (
     <StyledFlex
       data-testid="metabase-link"
-      href={href}
+      href={url}
       target="_blank"
       style={inlineStyle}
     >
