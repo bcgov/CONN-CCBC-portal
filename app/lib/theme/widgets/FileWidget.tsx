@@ -48,7 +48,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const acceptedFileTypes = (uiSchema['ui:options']?.fileTypes as string) ?? '';
   const useFileDate = (uiSchema['ui:options']?.useFileDate as boolean) ?? false;
   const fileDateTitle = uiSchema['ui:options']?.fileDateTitle as string;
-  console.log('useFileDate', useFileDate);
   const buttonVariant = (uiSchema['ui:options']?.buttonVariant ||
     'primary') as string;
   const isFiles = value?.length > 0;
