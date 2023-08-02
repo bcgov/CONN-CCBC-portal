@@ -112,8 +112,8 @@ const Intake: React.FC<IntakeProps> = ({
   );
 
   const currentDateTime = DateTime.now();
-  const endDateTime = DateTime.fromISO(closeTimestamp);
-  const isAllowedDelete = currentDateTime <= endDateTime;
+  const startDateTime = DateTime.fromISO(openTimestamp);
+  const isAllowedDelete = currentDateTime <= startDateTime;
 
   const handleDelete = () => {
     archiveIntake({
