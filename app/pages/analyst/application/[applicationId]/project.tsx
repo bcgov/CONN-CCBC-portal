@@ -20,6 +20,7 @@ const getProjectQuery = graphql`
       ...CommunityProgressReportForm_application
       ...ConditionalApprovalForm_application
       ...ProjectInformationForm_application
+      ...CommunityProgressReportForm_application
     }
     ...AnalystLayout_query
     ...AnnouncementsForm_query

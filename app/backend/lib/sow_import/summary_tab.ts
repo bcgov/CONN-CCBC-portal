@@ -18,9 +18,7 @@ const createSowMutation = `
 `;
 
 const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
-  const summary = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
-    header: 'A',
-  });
+  const summary = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name]);
 
   const jsonData = {
     organizationName: '',

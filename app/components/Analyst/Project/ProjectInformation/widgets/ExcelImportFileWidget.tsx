@@ -187,7 +187,7 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
   const [isImporting, setIsImporting] = useState(false);
-  const [isValidSow, setIsValidSow] = useState(false);
+  const [isValidExcel, setIsValidExcel] = useState(false);
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment || isImporting;
   const maxFileSizeInBytes = 104857600;
@@ -198,8 +198,7 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
       setError('rjsf_validation');
     }
   }, [rawErrors, setError]);
-  const { applicationId, sowValidationErrors, validateSow, amendmentNumber } =
-    formContext;
+  const { applicationId, excelValidationErrors, validateExcel } = formContext;
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (loading) return;
@@ -238,14 +237,14 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
       },
     };
 
-    const response = await validateSow(file, amendmentNumber, true);
+    const response = await validateExcel(file, true);
 
     const { status } = response;
 
     if (status !== 200) {
       setError('sowImportFailed');
       setIsImporting(false);
-      setIsValidSow(false);
+      setIsValidExcel(false);
     } else {
       createAttachment({
         variables,
@@ -267,7 +266,7 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
           setIsImporting(false);
         },
       });
-      setIsValidSow(true);
+      setIsValidExcel(true);
     }
   };
 
@@ -288,12 +287,12 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
         id={id}
         label={label}
         hideFailedUpload
-        statusLabel={renderStatusLabel(isImporting, isValidSow)}
+        statusLabel={renderStatusLabel(isImporting, isValidExcel)}
         required={required}
         value={value}
       />
-      {sowValidationErrors?.length > 0 &&
-        sowValidationErrors.flatMap(displaySowUploadErrors)}
+      {excelValidationErrors?.length > 0 &&
+        excelValidationErrors.flatMap(displaySowUploadErrors)}
     </>
   );
 };

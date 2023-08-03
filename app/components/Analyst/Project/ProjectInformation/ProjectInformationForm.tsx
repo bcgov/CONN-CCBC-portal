@@ -106,7 +106,7 @@ const ProjectInformationForm = ({ application }) => {
 
   const validateSow = useCallback(
     excelValidateGenerator(apiPath, setSowFile, setSowValidationErrors),
-    [rowId, ccbcNumber, setSowFile, setSowValidationErrors]
+    [setSowFile, setSowValidationErrors]
   );
 
   const hasSowValidationErrors =
@@ -331,8 +331,8 @@ const ProjectInformationForm = ({ application }) => {
       additionalContext={{
         amendmentNumbers,
         applicationId: rowId,
-        sowValidationErrors,
-        validateSow,
+        excelValidationErrors: sowValidationErrors,
+        validateExcel: validateSow,
       }}
       before={
         <StyledFlex isFormEditMode={isFormEditMode}>

@@ -1,8 +1,9 @@
+import { useCallback, useState } from 'react';
+import { graphql, useFragment } from 'react-relay';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
-import { useState } from 'react';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
-import { graphql, useFragment } from 'react-relay';
+import excelValidateGenerator from 'lib/helpers/excelValidate';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
@@ -34,6 +35,7 @@ const CommunityProgressReportForm = ({ application }) => {
             }
           }
         }
+        ccbcNumber
       }
     `,
     application
@@ -43,6 +45,15 @@ const CommunityProgressReportForm = ({ application }) => {
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [createCommunityProgressReport] =
     useCreateCommunityProgressReportMutation();
+  const [excelFile, setExcelFile] = useState(null);
+
+  const apiPath = `/api/analyst/community-report/${rowId}`;
+
+  // will need to pass in something like setValidationErrors as a third argument in the validation ticket
+  const validateCommunityReport = useCallback(
+    excelValidateGenerator(apiPath, setExcelFile),
+    [setExcelFile]
+  );
 
   const handleResetFormData = () => {
     setIsFormEditMode(false);
@@ -51,23 +62,31 @@ const CommunityProgressReportForm = ({ application }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createCommunityProgressReport({
-      variables: {
-        input: {
-          applicationCommunityProgressReportData: {
-            jsonData: formData,
-            applicationId: rowId,
+
+    validateCommunityReport(excelFile, false).then(() => {
+      /// save form data
+      createCommunityProgressReport({
+        variables: {
+          input: {
+            applicationCommunityProgressReportData: {
+              jsonData: formData,
+              applicationId: rowId,
+            },
           },
         },
-      },
-      onCompleted: () => {
-        handleResetFormData();
-      },
+        onCompleted: () => {
+          handleResetFormData();
+        },
+      });
     });
   };
 
   return (
     <ProjectForm
+      additionalContext={{
+        applicationId: rowId,
+        validateExcel: validateCommunityReport,
+      }}
       schema={communityProgressReport}
       uiSchema={communityProgressReportUiSchema}
       formData={formData}
