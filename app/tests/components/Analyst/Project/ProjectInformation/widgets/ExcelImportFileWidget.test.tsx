@@ -1,19 +1,19 @@
 import ProjectInformationForm from 'components/Analyst/Project/ProjectInformation/ProjectInformationForm';
 import { graphql } from 'react-relay';
 import compiledQuery, {
-  SowImportFileWidgetTestQuery,
-} from '__generated__/SowImportFileWidgetTestQuery.graphql';
+  ExcelImportFileWidgetTestQuery,
+} from '__generated__/ExcelImportFileWidgetTestQuery.graphql';
 import { act, fireEvent, screen, render } from '@testing-library/react';
 import { schema } from 'formSchema';
 import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
 import {
   Success,
   renderStatusLabel,
-} from 'components/Analyst/Project/ProjectInformation/widgets/SowImportFileWidget';
+} from 'components/Analyst/Project/ProjectInformation/widgets/ExcelImportFileWidget';
 import GlobalTheme from 'styles/GlobalTheme';
 
 const testQuery = graphql`
-  query SowImportFileWidgetTestQuery {
+  query ExcelImportFileWidgetTestQuery {
     # Spread the fragment you want to test here
     application(id: "TestApplicationID") {
       ...ProjectInformationForm_application
@@ -60,7 +60,7 @@ const mockFormDataPayload = {
 };
 
 const componentTestingHelper =
-  new ComponentTestingHelper<SowImportFileWidgetTestQuery>({
+  new ComponentTestingHelper<ExcelImportFileWidgetTestQuery>({
     component: ProjectInformationForm,
     testQuery,
     compiledQuery,
@@ -70,10 +70,12 @@ const componentTestingHelper =
     }),
   });
 
-describe('The SowImportFileWidget', () => {
+describe('The ExcelImportFileWidget', () => {
   beforeEach(() => {
     // @ts-ignore
-    global.fetch = jest.fn(() => Promise.resolve({ status: 200, json: () => {} }));
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
     componentTestingHelper.reinit();
     componentTestingHelper.setMockRouterValues({
       query: { id: '1' },
@@ -201,7 +203,6 @@ describe('The SowImportFileWidget', () => {
     expect(screen.queryByText('Replace')).toBeNull();
   });
 
-  
   it('handles invalid file upload', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
@@ -231,9 +232,14 @@ describe('The SowImportFileWidget', () => {
   });
 
   it('handles errors from sow validation', async () => {
-    const mockErrorList = [{ level: 'summary', error: 'Error 1', filename:'test.txt' },{ level: 'tab', error: 'Error 2', filename:'test.txt'}];
+    const mockErrorList = [
+      { level: 'summary', error: 'Error 1', filename: 'test.txt' },
+      { level: 'tab', error: 'Error 2', filename: 'test.txt' },
+    ];
     // @ts-ignore
-    global.fetch = jest.fn(() => Promise.resolve({ status: 400, json: () => mockErrorList }));
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 400, json: () => mockErrorList })
+    );
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -255,13 +261,17 @@ describe('The SowImportFileWidget', () => {
       fireEvent.change(inputFile, { target: { files: [file] } });
     });
 
-    expect(screen.getByText('Statement of Work import failed, please check the file and try again')).toBeInTheDocument();
-  })
-  
+    expect(
+      screen.getByText(
+        'Statement of Work import failed, please check the file and try again'
+      )
+    ).toBeInTheDocument();
+  });
+
   it('renders success text heading and subheading', () => {
     const { getByText } = render(
       <GlobalTheme>
-        <Success />
+        <Success heading="Statement of Work Data table match database" />
       </GlobalTheme>
     );
     const headingElement = getByText(
@@ -306,9 +316,8 @@ describe('The SowImportFileWidget', () => {
       </GlobalTheme>
     );
 
-    const headingElement = getByText(
-      'Statement of Work Data table match database'
-    );
+    // testing generic success header here since the custom is described in ui:options
+    const headingElement = getByText('Excel Data table match database');
     const subheadingElement = getByText('Remember to press Save & Import');
 
     expect(headingElement).toBeInTheDocument();

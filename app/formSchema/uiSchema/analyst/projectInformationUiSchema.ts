@@ -14,7 +14,10 @@ const projectInformationUiSchema = {
     'ui:title':
       'After pressing Import, key information will be extracted from the Statement of Work Tables to the database such as Dates, Communities & households, and Project costing & funding',
     'ui:widget': 'ExcelImportFileWidget',
-    successHeading: 'Statement of Work Data table match database',
+    'ui:options': {
+      excelFileWidgetSuccessHeading:
+        'Statement of Work Data table match database',
+    },
   },
   sowWirelessUpload: {
     'ui:widget': 'FileWidget',

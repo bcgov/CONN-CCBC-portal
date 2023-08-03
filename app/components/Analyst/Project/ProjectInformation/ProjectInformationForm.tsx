@@ -104,7 +104,6 @@ const ProjectInformationForm = ({ application }) => {
     isChangeRequest ? formData?.amendmentNumber : 0
   }`;
 
-  console.log('apiPath', apiPath);
   const validateSow = useCallback(
     excelValidateGenerator(apiPath, setSowFile, setSowValidationErrors),
     [setSowFile, setSowValidationErrors]

@@ -50,6 +50,7 @@ const CommunityProgressReportForm = ({ application }) => {
   const apiPath = `/api/analyst/community-report/${rowId}`;
 
   // will need to pass in something like setValidationErrors as a third argument in the validation ticket
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const validateCommunityReport = useCallback(
     excelValidateGenerator(apiPath, setExcelFile),
     [setExcelFile]
