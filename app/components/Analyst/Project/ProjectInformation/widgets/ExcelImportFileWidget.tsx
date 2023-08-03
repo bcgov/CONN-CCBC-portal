@@ -168,13 +168,13 @@ type FileProps = {
   type: string;
 };
 
-interface SowImportFileWidgetProps extends WidgetProps {
+interface ExcelImportFileWidgetProps extends WidgetProps {
   value: Array<FileProps>;
 }
 
 const acceptedFileTypes = '.xls, .xlsx, .xlsm';
 
-const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
+const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
   id,
   formContext,
   onChange,
@@ -298,4 +298,4 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
   );
 };
 
-export default SowImportFileWidget;
+export default ExcelImportFileWidget;

@@ -2,6 +2,7 @@ import { Dispatch } from 'react';
 
 /**
  * Function generator made to get around the "no code copying" for sonarcloud, to be used in a callback or by itself
+ * @param apiPath The path to the api, e.g. /api/sow-upload/[applicationId]
  * @param setFile A react hook to set the file, optional
  * @param setValidationErrors A react hook to set validation errors, optional
  * @returns An async function that will post to the sow-upload validation and extraction.

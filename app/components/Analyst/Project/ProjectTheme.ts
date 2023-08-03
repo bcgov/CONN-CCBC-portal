@@ -2,7 +2,7 @@ import { ThemeProps, utils } from '@rjsf/core';
 import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
 import * as widgets from 'lib/theme/widgets';
 import ReadOnlyWidget from 'components/Analyst/Project/ConditionalApproval/widgets/ReadOnlyWidget';
-import SowImportFileWidget from 'components/Analyst/Project/ProjectInformation/widgets/SowImportFileWidget';
+import ExcelImportFileWidget from 'components/Analyst/Project/ProjectInformation/widgets/ExcelImportFileWidget';
 import { StatusSelectWidget } from './ConditionalApproval/widgets';
 import ProjectFieldTemplate from './fields/ProjectFieldTemplate';
 import ProjectObjectFieldTemplate from './fields/ProjectObjectFieldTemplate';
@@ -20,7 +20,7 @@ const ProjectTheme: ThemeProps = {
     ...widgets,
     AmendmentNumberWidget,
     ReadOnlyWidget,
-    SowImportFileWidget,
+    ExcelImportFileWidget,
     StatusSelectWidget,
     CcbcIdWidget,
     HiddenWidget,
