@@ -74,12 +74,10 @@ const SuccessContainer = styled.div`
   display: flex;
 `;
 
-export const Success = () => (
+export const Success = ({ heading = 'Excel Data table match database' }) => (
   <SuccessContainer>
     <SuccessTextContainer>
-      <SuccessTextHeading>
-        Statement of Work Data table match database
-      </SuccessTextHeading>
+      <SuccessTextHeading>{heading}</SuccessTextHeading>
       <SuccessTextSubHeading>
         Remember to press Save & Import
       </SuccessTextSubHeading>
@@ -147,14 +145,15 @@ export const displaySowUploadErrors = (err) => {
 
 export const renderStatusLabel = (
   loading: boolean,
-  success: boolean
+  success: boolean,
+  successHeading?: string
 ): React.ReactNode => {
   if (loading) {
     return <Loading>Checking the data</Loading>;
   }
 
   if (!loading && success) {
-    return <Success />;
+    return <Success heading={successHeading} />;
   }
 
   return false;
@@ -178,6 +177,7 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
   id,
   formContext,
   onChange,
+  options,
   value,
   required,
   label,
@@ -188,6 +188,9 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
   const [isImporting, setIsImporting] = useState(false);
   const [isValidExcel, setIsValidExcel] = useState(false);
+  const successHeading =
+    options?.excelFileWidgetSuccessHeading &&
+    options.excelFileWidgetSuccessHeading.toString();
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment || isImporting;
   const maxFileSizeInBytes = 104857600;
@@ -287,7 +290,11 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
         id={id}
         label={label}
         hideFailedUpload
-        statusLabel={renderStatusLabel(isImporting, isValidExcel)}
+        statusLabel={renderStatusLabel(
+          isImporting,
+          isValidExcel,
+          successHeading
+        )}
         required={required}
         value={value}
       />
