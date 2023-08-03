@@ -34,6 +34,11 @@ const StyledFlex = styled.div<FlexProps>`
     width: 100%;
   }
 
+  input[inputmode='decimal'] {
+    margin-top: 0;
+    min-width: 284px;
+  }
+
   ${(props) => props.theme.breakpoint.smallUp} {
     .pg-select-wrapper {
       min-width: 330px;
@@ -44,6 +49,10 @@ const StyledFlex = styled.div<FlexProps>`
     }
 
     .datepicker-widget {
+      min-width: 330px;
+    }
+
+    input[inputmode='decimal'] {
       min-width: 330px;
     }
   }
@@ -67,6 +76,10 @@ const StyledFlex = styled.div<FlexProps>`
 
     .file-widget {
       min-width: 340px;
+    }
+
+    input[inputmode='decimal'] {
+      min-width: 212px;
     }
 
     padding-bottom: 0px;

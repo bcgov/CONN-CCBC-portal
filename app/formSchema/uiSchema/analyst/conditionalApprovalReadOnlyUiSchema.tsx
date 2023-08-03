@@ -7,11 +7,17 @@ const conditionalApprovalReadOnlyUiSchema = {
     ministerDecision: {
       'ui:widget': 'ReadOnlyDecisionWidget',
     },
+    provincialRequested: {
+      'ui:widget': 'ReadOnlyRequestedMoneyWidget',
+    },
   },
   isedDecisionObj: {
     ...conditionalApprovalUiSchema.isedDecisionObj,
     isedDecision: {
       'ui:widget': 'ReadOnlyDecisionWidget',
+    },
+    federalRequested: {
+      'ui:widget': 'ReadOnlyRequestedMoneyWidget',
     },
   },
   letterOfApproval: {

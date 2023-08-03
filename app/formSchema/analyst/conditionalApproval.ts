@@ -21,6 +21,9 @@ const conditionalApproval: JSONSchema7 = {
           type: 'string',
           enum: ['Announce immediately', 'Hold announcement'],
         },
+        provincialRequested: {
+          type: 'number',
+        },
       },
     },
     isedDecisionObj: {
@@ -38,6 +41,9 @@ const conditionalApproval: JSONSchema7 = {
         isedAnnouncement: {
           type: 'string',
           enum: ['Announce immediately', 'Hold announcement'],
+        },
+        federalRequested: {
+          type: 'number',
         },
       },
     },
