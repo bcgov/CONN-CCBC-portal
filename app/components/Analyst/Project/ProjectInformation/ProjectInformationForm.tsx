@@ -13,7 +13,7 @@ import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import Toast from 'components/Toast';
 import validateFormData from '@rjsf/core/dist/cjs/validate';
-import sowValidateGenerator from 'lib/helpers/sowValidate';
+import excelValidateGenerator from 'lib/helpers/excelValidate';
 import ReadOnlyView from 'components/Analyst/Project/ProjectInformation/ReadOnlyView';
 import ChangeRequestTheme from '../ChangeRequestTheme';
 
@@ -100,8 +100,12 @@ const ProjectInformationForm = ({ application }) => {
   const [currentChangeRequestData, setCurrentChangeRequestData] =
     useState(null);
 
+  const apiPath = `/api/analyst/sow/${rowId}/${ccbcNumber}/${
+    isChangeRequest ? formData?.amendmentNumber : 0
+  }`;
+
   const validateSow = useCallback(
-    sowValidateGenerator(rowId, ccbcNumber, setSowFile, setSowValidationErrors),
+    excelValidateGenerator(apiPath, setSowFile, setSowValidationErrors),
     [rowId, ccbcNumber, setSowFile, setSowValidationErrors]
   );
 
@@ -215,11 +219,7 @@ const ProjectInformationForm = ({ application }) => {
       });
     }
 
-    validateSow(
-      sowFile,
-      isChangeRequest ? changeRequestAmendmentNumber : 0,
-      false
-    ).then((response) => {
+    validateSow(sowFile, false).then((response) => {
       const isSowErrors = sowValidationErrors.length > 0;
       const isSowUploaded =
         formData?.statementOfWorkUpload?.length > 0 && sowFile !== null;
