@@ -31,6 +31,11 @@ const StyledBtns = styled('div')`
   }
 `;
 
+const StyledButtonLink = styled('button')`
+  text-decoration: none;
+  color: #1a5a96;
+`;
+
 const Row = ({
   application,
   formPages,
@@ -100,7 +105,7 @@ const Row = ({
             </button>
           )}
           {!ccbcNumber && isDraft && (
-            <button
+            <StyledButtonLink
               onClick={() => {
                 setArchiveId({ rowId, id });
                 window.location.hash = 'delete-application';
@@ -108,8 +113,8 @@ const Row = ({
               data-testid="archive-btn-test"
               type="button"
             >
-              <Link href="#delete-application">Delete</Link>
-            </button>
+              Delete
+            </StyledButtonLink>
           )}
           {application.hasRfiOpen && (
             <Link
