@@ -1693,4 +1693,41 @@ describe('The Project page', () => {
 
     expect(screen.getByText('Progress report file')).toBeInTheDocument();
   });
+
+  it('should call the community progress report create mutation', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const addCprBtn = screen.getByText('Add community progress report');
+
+    await act(async () => {
+      fireEvent.click(addCprBtn);
+    });
+
+    const saveButton = screen.getByTestId('save-community-progress-report');
+
+    expect(saveButton).toBeInTheDocument();
+
+    expect(screen.getByText('Due date')).toBeInTheDocument();
+
+    expect(screen.getByText('Date received')).toBeInTheDocument();
+
+    expect(screen.getByText('Progress report file')).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'createCommunityProgressReportMutation',
+      {
+        input: {
+          applicationCommunityProgressReportData: {
+            jsonData: {},
+            applicationId: 1,
+          },
+        },
+      }
+    );
+  });
 });
