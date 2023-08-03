@@ -37,6 +37,10 @@ const conditionalApprovalUiSchema = {
       'ui:widget': 'SelectWidget',
       'ui:placeholder': 'No recommendation',
     },
+    provincialRequested: {
+      'ui:widget': 'MoneyWidget',
+      'ui:placeholder': '$ requested',
+    },
   },
   isedDecisionObj: {
     'ui:title': '‎',
@@ -54,6 +58,9 @@ const conditionalApprovalUiSchema = {
     isedAnnouncement: {
       'ui:widget': 'SelectWidget',
       'ui:placeholder': 'No recommendation',
+    },
+    federalRequested: {
+      'ui:placeholder': '$ requested',
     },
   },
 

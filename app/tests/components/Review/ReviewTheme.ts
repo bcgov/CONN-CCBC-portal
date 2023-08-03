@@ -178,14 +178,14 @@ const sharedReviewThemeTests = (renderTest) => {
         .getByText(/Total project cost/i)
         .closest('tr')
         .getElementsByTagName('td')[0]
-    ).toHaveTextContent('$1 230');
+    ).toHaveTextContent('$1,230');
 
     expect(
       section
         .getByText(/Total eligible cost/i)
         .closest('tr')
         .getElementsByTagName('td')[0]
-    ).toHaveTextContent('$1 000');
+    ).toHaveTextContent('$1,000');
   });
 
   it('should display headings in the estimated employment', () => {
