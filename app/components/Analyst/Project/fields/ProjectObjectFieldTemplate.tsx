@@ -83,7 +83,11 @@ const ProjectObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
                     if (columns === 1) {
                       return <div key={fieldName}>{content}</div>;
                     }
-                    return <>{content}</>;
+                    return (
+                      <div key={fieldName} style={{ paddingRight: '4px' }}>
+                        {content}
+                      </div>
+                    );
                   }
                 })
               }
