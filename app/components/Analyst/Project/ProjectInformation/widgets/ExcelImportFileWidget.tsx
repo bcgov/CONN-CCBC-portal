@@ -88,7 +88,7 @@ export const Success = ({ heading = 'Excel Data table match database' }) => (
   </SuccessContainer>
 );
 
-export const displaySowUploadErrors = (err) => {
+export const displayExcelUploadErrors = (err) => {
   const {
     level: errorType,
     error: errorMessage,
@@ -188,9 +188,11 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
   const [isImporting, setIsImporting] = useState(false);
   const [isValidExcel, setIsValidExcel] = useState(false);
+  const excelImportOptions = options?.excelImport;
   const successHeading =
-    options?.excelFileWidgetSuccessHeading &&
-    options.excelFileWidgetSuccessHeading.toString();
+    excelImportOptions['successHeading'] &&
+    excelImportOptions['successHeading'].toString();
+  const errorType = excelImportOptions?.['errorType'];
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment || isImporting;
   const maxFileSizeInBytes = 104857600;
@@ -245,7 +247,7 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
     const { status } = response;
 
     if (status !== 200) {
-      setError('sowImportFailed');
+      setError(errorType || 'excelImportFailed');
       setIsImporting(false);
       setIsValidExcel(false);
     } else {
@@ -299,7 +301,7 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
         value={value}
       />
       {excelValidationErrors?.length > 0 &&
-        excelValidationErrors.flatMap(displaySowUploadErrors)}
+        excelValidationErrors.flatMap(displayExcelUploadErrors)}
     </>
   );
 };

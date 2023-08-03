@@ -57,8 +57,10 @@ const changeRequestUiSchema = {
     'ui:widget': 'ExcelImportFileWidget',
     'ui:options': {
       flexDirection: 'column',
-      excelFileWidgetSuccessHeading:
-        'Statement of Work Data table match database',
+      excelImport: {
+        successHeading: 'Statement of Work Data table match database',
+        errorType: 'sowImportFailed',
+      },
     },
   },
   updatedMapUpload: {

@@ -92,7 +92,7 @@ interface FileComponentProps {
   statusLabel?: React.ReactNode;
   handleDownload?: Function;
   wrap?: boolean;
-  hideFailedUpload?: boolean
+  hideFailedUpload?: boolean;
 }
 
 const ErrorMessage = ({ error, fileTypes }) => {
@@ -108,6 +108,15 @@ const ErrorMessage = ({ error, fileTypes }) => {
     return (
       <StyledError>
         Statement of Work import failed, please check the file and try again
+      </StyledError>
+    );
+  }
+
+  if (error === 'communityProgressImportFailed') {
+    return (
+      <StyledError>
+        Community Progress Report import failed, please check the file and try
+        again
       </StyledError>
     );
   }
@@ -178,7 +187,8 @@ const FileComponent: React.FC<FileComponentProps> = ({
     >
       <StyledDetails>
         <StyledH4>{label}</StyledH4>
-        {isFiles && !hideIfFailed &&
+        {isFiles &&
+          !hideIfFailed &&
           value.map((file: File) => (
             <StyledFileDiv key={file.uuid}>
               <StyledLink
