@@ -30,7 +30,7 @@ describe('The applicant dashboard', () => {
 
     cy.intercept(
       {
-        url: '/graphql', // replace with the actual endpoint
+        url: '/graphql',
         method: 'POST',
       },
       (req) => {
