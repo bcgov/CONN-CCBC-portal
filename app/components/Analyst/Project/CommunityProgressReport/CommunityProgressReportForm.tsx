@@ -4,6 +4,7 @@ import communityProgressReport from 'formSchema/analyst/communityProgressReport'
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
+import CommunityProgressView from './CommunityProgressView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
@@ -32,6 +33,7 @@ const CommunityProgressReportForm = ({ application }) => {
             node {
               id
               jsonData
+              ...CommunityProgressView_query
             }
           }
         }
@@ -40,12 +42,18 @@ const CommunityProgressReportForm = ({ application }) => {
     `,
     application
   );
-  const { rowId } = queryFragment;
+  const {
+    applicationCommunityProgressReportDataByApplicationId:
+      communityProgressData,
+    rowId,
+  } = queryFragment;
+
   const [formData, setFormData] = useState({} as FormData);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [createCommunityProgressReport] =
     useCreateCommunityProgressReportMutation();
   const [excelFile, setExcelFile] = useState(null);
+  const communityProgressConnectionId = communityProgressData?.__id;
 
   const apiPath = `/api/analyst/community-report/${rowId}`;
 
@@ -68,6 +76,7 @@ const CommunityProgressReportForm = ({ application }) => {
       /// save form data
       createCommunityProgressReport({
         variables: {
+          connections: [communityProgressConnectionId],
           input: {
             applicationCommunityProgressReportData: {
               jsonData: formData,
@@ -113,7 +122,13 @@ const CommunityProgressReportForm = ({ application }) => {
         />
       }
       saveDataTestId="save-community-progress-report"
-    />
+    >
+      {communityProgressData?.edges?.map(({ node }) => {
+        return (
+          <CommunityProgressView key={node.id} communityProgressReport={node} />
+        );
+      })}
+    </ProjectForm>
   );
 };
 
