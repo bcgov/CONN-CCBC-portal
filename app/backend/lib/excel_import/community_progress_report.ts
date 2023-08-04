@@ -2,7 +2,7 @@ import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
 
 const createSowMutation = `
-  mutation communityReportUploadMutation($input: CreateApplicationCommunityReportDataInput!) {
+  mutation communityReportUploadMutation($input: CreateApplicationCommunityReportExcelDataInput!) {
     createApplicationCommunityReportExcelData(input:   $input) {
         applicationCommunityReportExcelData {
         id
