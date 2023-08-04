@@ -58638,7 +58638,6 @@ input UpdateApplicationFormInput {
   formDataRowId: Int!
   jsonData: JSON!
   lastEditedPage: String!
-  clientUpdatedAt: Datetime!
 }
 
 """The output of our `updateRfi` mutation."""
