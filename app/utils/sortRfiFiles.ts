@@ -13,7 +13,7 @@ const sortRfiFiles = (rfiNodes) => {
 
     // unite rfi files with attachment data so we can get the date uploaded
     const unitedRfiFiles = {};
-    fileFields.forEach((field) => {
+    fileFields?.forEach((field) => {
       unitedRfiFiles[field] = rfiFiles[field].map((file, i) => {
         const attachmentData = attachments.find(
           (attachment) => attachment.file === file.uuid
