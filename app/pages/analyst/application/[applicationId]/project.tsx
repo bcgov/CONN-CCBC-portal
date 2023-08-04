@@ -17,6 +17,7 @@ const getProjectQuery = graphql`
       sub
     }
     applicationByRowId(rowId: $rowId) {
+      ...CommunityProgressReportForm_application
       ...ConditionalApprovalForm_application
       ...ProjectInformationForm_application
     }
@@ -48,7 +49,9 @@ const Project = ({
         {showProjectInformation && (
           <ProjectInformationForm application={applicationByRowId} />
         )}
-        {showCommunityProgressReport && <CommunityProgressReportForm />}
+        {showCommunityProgressReport && (
+          <CommunityProgressReportForm application={applicationByRowId} />
+        )}
       </AnalystLayout>
     </Layout>
   );

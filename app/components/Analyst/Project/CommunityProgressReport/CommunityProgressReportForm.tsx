@@ -1,6 +1,8 @@
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useState } from 'react';
+import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
+import { graphql, useFragment } from 'react-relay';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
@@ -11,9 +13,36 @@ interface FormData {
   dateReceived?: string;
 }
 
-const CommunityProgressReportForm = () => {
+const CommunityProgressReportForm = ({ application }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment CommunityProgressReportForm_application on Application {
+        id
+        rowId
+        applicationCommunityProgressReportDataByApplicationId(
+          filter: { archivedAt: { isNull: true } }
+          first: 1000
+        )
+          @connection(
+            key: "CommunityProgressReportForm_applicationCommunityProgressReportDataByApplicationId"
+          ) {
+          __id
+          edges {
+            node {
+              id
+              jsonData
+            }
+          }
+        }
+      }
+    `,
+    application
+  );
+  const { rowId } = queryFragment;
   const [formData, setFormData] = useState({} as FormData);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
+  const [createCommunityProgressReport] =
+    useCreateCommunityProgressReportMutation();
 
   const handleResetFormData = () => {
     setIsFormEditMode(false);
@@ -22,8 +51,19 @@ const CommunityProgressReportForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleResetFormData();
-    // TODO
+    createCommunityProgressReport({
+      variables: {
+        input: {
+          applicationCommunityProgressReportData: {
+            jsonData: formData,
+            applicationId: rowId,
+          },
+        },
+      },
+      onCompleted: () => {
+        handleResetFormData();
+      },
+    });
   };
 
   return (

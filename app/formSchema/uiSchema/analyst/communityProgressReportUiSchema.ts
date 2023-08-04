@@ -14,7 +14,7 @@ const communityProgressReportUiSchema = {
   },
   'ui:inline': [
     {
-      columns: 3,
+      columns: 6,
       dueDate: 1,
       dateReceived: 2,
     },
