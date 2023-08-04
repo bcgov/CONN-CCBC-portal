@@ -230,9 +230,9 @@ type Query implements Node {
   ): ApplicationCommunityProgressReportDataConnection
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  allApplicationCommunityReportData(
+  allApplicationCommunityReportExcelData(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -251,19 +251,19 @@ type Query implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection
 
   """Reads and enables pagination through a set of `ApplicationFormData`."""
   allApplicationFormData(
@@ -1296,7 +1296,7 @@ type Query implements Node {
   applicationAnalystLeadByRowId(rowId: Int!): ApplicationAnalystLead
   applicationAnnouncementByAnnouncementIdAndApplicationId(announcementId: Int!, applicationId: Int!): ApplicationAnnouncement
   applicationCommunityProgressReportDataByRowId(rowId: Int!): ApplicationCommunityProgressReportData
-  applicationCommunityReportDataByRowId(rowId: Int!): ApplicationCommunityReportData
+  applicationCommunityReportExcelDataByRowId(rowId: Int!): ApplicationCommunityReportExcelData
   applicationFormDataByFormDataIdAndApplicationId(formDataId: Int!, applicationId: Int!): ApplicationFormData
   applicationGisAssessmentHhByRowId(rowId: Int!): ApplicationGisAssessmentHh
   applicationGisDataByRowId(rowId: Int!): ApplicationGisData
@@ -1418,14 +1418,14 @@ type Query implements Node {
   ): ApplicationCommunityProgressReportData
 
   """
-  Reads a single `ApplicationCommunityReportData` using its globally unique `ID`.
+  Reads a single `ApplicationCommunityReportExcelData` using its globally unique `ID`.
   """
-  applicationCommunityReportData(
+  applicationCommunityReportExcelData(
     """
-    The globally unique `ID` to be used in selecting a single `ApplicationCommunityReportData`.
+    The globally unique `ID` to be used in selecting a single `ApplicationCommunityReportExcelData`.
     """
     id: ID!
-  ): ApplicationCommunityReportData
+  ): ApplicationCommunityReportExcelData
 
   """Reads a single `ApplicationFormData` using its globally unique `ID`."""
   applicationFormData(
@@ -4469,9 +4469,9 @@ type CcbcUser implements Node {
   ): ApplicationCommunityProgressReportDataConnection!
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByCreatedBy(
+  applicationCommunityReportExcelDataByCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4490,24 +4490,24 @@ type CcbcUser implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByUpdatedBy(
+  applicationCommunityReportExcelDataByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4526,24 +4526,24 @@ type CcbcUser implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByArchivedBy(
+  applicationCommunityReportExcelDataByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -4562,19 +4562,19 @@ type CcbcUser implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
@@ -12227,7 +12227,7 @@ type CcbcUser implements Node {
   ): CcbcUserCcbcUsersByApplicationCommunityProgressReportDataArchivedByAndUpdatedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `Application`."""
-  applicationsByApplicationCommunityReportDataCreatedByAndApplicationId(
+  applicationsByApplicationCommunityReportExcelDataCreatedByAndApplicationId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -12258,10 +12258,10 @@ type CcbcUser implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: ApplicationFilter
-  ): CcbcUserApplicationsByApplicationCommunityReportDataCreatedByAndApplicationIdManyToManyConnection!
+  ): CcbcUserApplicationsByApplicationCommunityReportExcelDataCreatedByAndApplicationIdManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationCommunityReportDataCreatedByAndUpdatedBy(
+  ccbcUsersByApplicationCommunityReportExcelDataCreatedByAndUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -12292,10 +12292,10 @@ type CcbcUser implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: CcbcUserFilter
-  ): CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndUpdatedByManyToManyConnection!
+  ): CcbcUserCcbcUsersByApplicationCommunityReportExcelDataCreatedByAndUpdatedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationCommunityReportDataCreatedByAndArchivedBy(
+  ccbcUsersByApplicationCommunityReportExcelDataCreatedByAndArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -12326,10 +12326,10 @@ type CcbcUser implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: CcbcUserFilter
-  ): CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndArchivedByManyToManyConnection!
+  ): CcbcUserCcbcUsersByApplicationCommunityReportExcelDataCreatedByAndArchivedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `Application`."""
-  applicationsByApplicationCommunityReportDataUpdatedByAndApplicationId(
+  applicationsByApplicationCommunityReportExcelDataUpdatedByAndApplicationId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -12360,10 +12360,10 @@ type CcbcUser implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: ApplicationFilter
-  ): CcbcUserApplicationsByApplicationCommunityReportDataUpdatedByAndApplicationIdManyToManyConnection!
+  ): CcbcUserApplicationsByApplicationCommunityReportExcelDataUpdatedByAndApplicationIdManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationCommunityReportDataUpdatedByAndCreatedBy(
+  ccbcUsersByApplicationCommunityReportExcelDataUpdatedByAndCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -12394,10 +12394,10 @@ type CcbcUser implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: CcbcUserFilter
-  ): CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndCreatedByManyToManyConnection!
+  ): CcbcUserCcbcUsersByApplicationCommunityReportExcelDataUpdatedByAndCreatedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationCommunityReportDataUpdatedByAndArchivedBy(
+  ccbcUsersByApplicationCommunityReportExcelDataUpdatedByAndArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -12428,10 +12428,10 @@ type CcbcUser implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: CcbcUserFilter
-  ): CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndArchivedByManyToManyConnection!
+  ): CcbcUserCcbcUsersByApplicationCommunityReportExcelDataUpdatedByAndArchivedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `Application`."""
-  applicationsByApplicationCommunityReportDataArchivedByAndApplicationId(
+  applicationsByApplicationCommunityReportExcelDataArchivedByAndApplicationId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -12462,10 +12462,10 @@ type CcbcUser implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: ApplicationFilter
-  ): CcbcUserApplicationsByApplicationCommunityReportDataArchivedByAndApplicationIdManyToManyConnection!
+  ): CcbcUserApplicationsByApplicationCommunityReportExcelDataArchivedByAndApplicationIdManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationCommunityReportDataArchivedByAndCreatedBy(
+  ccbcUsersByApplicationCommunityReportExcelDataArchivedByAndCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -12496,10 +12496,10 @@ type CcbcUser implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: CcbcUserFilter
-  ): CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndCreatedByManyToManyConnection!
+  ): CcbcUserCcbcUsersByApplicationCommunityReportExcelDataArchivedByAndCreatedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationCommunityReportDataArchivedByAndUpdatedBy(
+  ccbcUsersByApplicationCommunityReportExcelDataArchivedByAndUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -12530,7 +12530,7 @@ type CcbcUser implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: CcbcUserFilter
-  ): CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndUpdatedByManyToManyConnection!
+  ): CcbcUserCcbcUsersByApplicationCommunityReportExcelDataArchivedByAndUpdatedByManyToManyConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -13143,28 +13143,28 @@ input CcbcUserFilter {
   applicationCommunityProgressReportDataByArchivedByExist: Boolean
 
   """
-  Filter by the object’s `applicationCommunityReportDataByCreatedBy` relation.
+  Filter by the object’s `applicationCommunityReportExcelDataByCreatedBy` relation.
   """
-  applicationCommunityReportDataByCreatedBy: CcbcUserToManyApplicationCommunityReportDataFilter
+  applicationCommunityReportExcelDataByCreatedBy: CcbcUserToManyApplicationCommunityReportExcelDataFilter
 
-  """Some related `applicationCommunityReportDataByCreatedBy` exist."""
-  applicationCommunityReportDataByCreatedByExist: Boolean
-
-  """
-  Filter by the object’s `applicationCommunityReportDataByUpdatedBy` relation.
-  """
-  applicationCommunityReportDataByUpdatedBy: CcbcUserToManyApplicationCommunityReportDataFilter
-
-  """Some related `applicationCommunityReportDataByUpdatedBy` exist."""
-  applicationCommunityReportDataByUpdatedByExist: Boolean
+  """Some related `applicationCommunityReportExcelDataByCreatedBy` exist."""
+  applicationCommunityReportExcelDataByCreatedByExist: Boolean
 
   """
-  Filter by the object’s `applicationCommunityReportDataByArchivedBy` relation.
+  Filter by the object’s `applicationCommunityReportExcelDataByUpdatedBy` relation.
   """
-  applicationCommunityReportDataByArchivedBy: CcbcUserToManyApplicationCommunityReportDataFilter
+  applicationCommunityReportExcelDataByUpdatedBy: CcbcUserToManyApplicationCommunityReportExcelDataFilter
 
-  """Some related `applicationCommunityReportDataByArchivedBy` exist."""
-  applicationCommunityReportDataByArchivedByExist: Boolean
+  """Some related `applicationCommunityReportExcelDataByUpdatedBy` exist."""
+  applicationCommunityReportExcelDataByUpdatedByExist: Boolean
+
+  """
+  Filter by the object’s `applicationCommunityReportExcelDataByArchivedBy` relation.
+  """
+  applicationCommunityReportExcelDataByArchivedBy: CcbcUserToManyApplicationCommunityReportExcelDataFilter
+
+  """Some related `applicationCommunityReportExcelDataByArchivedBy` exist."""
+  applicationCommunityReportExcelDataByArchivedByExist: Boolean
 
   """Filter by the object’s `keycloakJwtsBySub` relation."""
   keycloakJwtsBySub: CcbcUserToManyKeycloakJwtFilter
@@ -13776,12 +13776,14 @@ input ApplicationFilter {
   applicationCommunityProgressReportDataByApplicationIdExist: Boolean
 
   """
-  Filter by the object’s `applicationCommunityReportDataByApplicationId` relation.
+  Filter by the object’s `applicationCommunityReportExcelDataByApplicationId` relation.
   """
-  applicationCommunityReportDataByApplicationId: ApplicationToManyApplicationCommunityReportDataFilter
+  applicationCommunityReportExcelDataByApplicationId: ApplicationToManyApplicationCommunityReportExcelDataFilter
 
-  """Some related `applicationCommunityReportDataByApplicationId` exist."""
-  applicationCommunityReportDataByApplicationIdExist: Boolean
+  """
+  Some related `applicationCommunityReportExcelDataByApplicationId` exist.
+  """
+  applicationCommunityReportExcelDataByApplicationIdExist: Boolean
 
   """Filter by the object’s `intakeByIntakeId` relation."""
   intakeByIntakeId: IntakeFilter
@@ -16346,29 +16348,29 @@ input ApplicationCommunityProgressReportDataFilter {
 }
 
 """
-A filter to be used against many `ApplicationCommunityReportData` object types. All fields are combined with a logical ‘and.’
+A filter to be used against many `ApplicationCommunityReportExcelData` object types. All fields are combined with a logical ‘and.’
 """
-input ApplicationToManyApplicationCommunityReportDataFilter {
+input ApplicationToManyApplicationCommunityReportExcelDataFilter {
   """
-  Every related `ApplicationCommunityReportData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  Every related `ApplicationCommunityReportExcelData` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
-  every: ApplicationCommunityReportDataFilter
+  every: ApplicationCommunityReportExcelDataFilter
 
   """
-  Some related `ApplicationCommunityReportData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  Some related `ApplicationCommunityReportExcelData` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
-  some: ApplicationCommunityReportDataFilter
+  some: ApplicationCommunityReportExcelDataFilter
 
   """
-  No related `ApplicationCommunityReportData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  No related `ApplicationCommunityReportExcelData` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
-  none: ApplicationCommunityReportDataFilter
+  none: ApplicationCommunityReportExcelDataFilter
 }
 
 """
-A filter to be used against `ApplicationCommunityReportData` object types. All fields are combined with a logical ‘and.’
+A filter to be used against `ApplicationCommunityReportExcelData` object types. All fields are combined with a logical ‘and.’
 """
-input ApplicationCommunityReportDataFilter {
+input ApplicationCommunityReportExcelDataFilter {
   """Filter by the object’s `rowId` field."""
   rowId: IntFilter
 
@@ -16421,13 +16423,13 @@ input ApplicationCommunityReportDataFilter {
   ccbcUserByArchivedByExists: Boolean
 
   """Checks for all expressions in this list."""
-  and: [ApplicationCommunityReportDataFilter!]
+  and: [ApplicationCommunityReportExcelDataFilter!]
 
   """Checks for any expressions in this list."""
-  or: [ApplicationCommunityReportDataFilter!]
+  or: [ApplicationCommunityReportExcelDataFilter!]
 
   """Negates the expression."""
-  not: ApplicationCommunityReportDataFilter
+  not: ApplicationCommunityReportExcelDataFilter
 }
 
 """
@@ -17138,23 +17140,23 @@ input CcbcUserToManyApplicationCommunityProgressReportDataFilter {
 }
 
 """
-A filter to be used against many `ApplicationCommunityReportData` object types. All fields are combined with a logical ‘and.’
+A filter to be used against many `ApplicationCommunityReportExcelData` object types. All fields are combined with a logical ‘and.’
 """
-input CcbcUserToManyApplicationCommunityReportDataFilter {
+input CcbcUserToManyApplicationCommunityReportExcelDataFilter {
   """
-  Every related `ApplicationCommunityReportData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  Every related `ApplicationCommunityReportExcelData` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
-  every: ApplicationCommunityReportDataFilter
+  every: ApplicationCommunityReportExcelDataFilter
 
   """
-  Some related `ApplicationCommunityReportData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  Some related `ApplicationCommunityReportExcelData` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
-  some: ApplicationCommunityReportDataFilter
+  some: ApplicationCommunityReportExcelDataFilter
 
   """
-  No related `ApplicationCommunityReportData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  No related `ApplicationCommunityReportExcelData` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
-  none: ApplicationCommunityReportDataFilter
+  none: ApplicationCommunityReportExcelDataFilter
 }
 
 """
@@ -18549,9 +18551,9 @@ type Application implements Node {
   ): ApplicationCommunityProgressReportDataConnection!
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByApplicationId(
+  applicationCommunityReportExcelDataByApplicationId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -18570,19 +18572,19 @@ type Application implements Node {
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 
   """Reads and enables pagination through a set of `AssessmentData`."""
   allAssessments(
@@ -20218,7 +20220,7 @@ type Application implements Node {
   ): ApplicationCcbcUsersByApplicationCommunityProgressReportDataApplicationIdAndArchivedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationCommunityReportDataApplicationIdAndCreatedBy(
+  ccbcUsersByApplicationCommunityReportExcelDataApplicationIdAndCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -20249,10 +20251,10 @@ type Application implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: CcbcUserFilter
-  ): ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndCreatedByManyToManyConnection!
+  ): ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndCreatedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationCommunityReportDataApplicationIdAndUpdatedBy(
+  ccbcUsersByApplicationCommunityReportExcelDataApplicationIdAndUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -20283,10 +20285,10 @@ type Application implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: CcbcUserFilter
-  ): ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndUpdatedByManyToManyConnection!
+  ): ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndUpdatedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByApplicationCommunityReportDataApplicationIdAndArchivedBy(
+  ccbcUsersByApplicationCommunityReportExcelDataApplicationIdAndArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -20317,7 +20319,7 @@ type Application implements Node {
     A filter to be used in determining which values should be returned by the collection.
     """
     filter: CcbcUserFilter
-  ): ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndArchivedByManyToManyConnection!
+  ): ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndArchivedByManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -28326,39 +28328,43 @@ input ApplicationCommunityProgressReportDataCondition {
   archivedAt: Datetime
 }
 
-"""A connection to a list of `ApplicationCommunityReportData` values."""
-type ApplicationCommunityReportDataConnection {
-  """A list of `ApplicationCommunityReportData` objects."""
-  nodes: [ApplicationCommunityReportData]!
+"""
+A connection to a list of `ApplicationCommunityReportExcelData` values.
+"""
+type ApplicationCommunityReportExcelDataConnection {
+  """A list of `ApplicationCommunityReportExcelData` objects."""
+  nodes: [ApplicationCommunityReportExcelData]!
 
   """
-  A list of edges which contains the `ApplicationCommunityReportData` and cursor to aid in pagination.
+  A list of edges which contains the `ApplicationCommunityReportExcelData` and cursor to aid in pagination.
   """
-  edges: [ApplicationCommunityReportDataEdge!]!
+  edges: [ApplicationCommunityReportExcelDataEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """
-  The count of *all* `ApplicationCommunityReportData` you could get from the connection.
+  The count of *all* `ApplicationCommunityReportExcelData` you could get from the connection.
   """
   totalCount: Int!
 }
 
-"""Table containing the Community Report data for the given application"""
-type ApplicationCommunityReportData implements Node {
+"""
+Table containing the Community Report excel data for the given application
+"""
+type ApplicationCommunityReportExcelData implements Node {
   """
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
 
-  """Unique ID for the Community Report data"""
+  """Unique ID for the Community Report excel data"""
   rowId: Int!
 
   """ID of the application this Community Report belongs to"""
   applicationId: Int
 
-  """The data imported from the Excel filled by the respondent"""
+  """The data imported from the excel filled by the respondent"""
   jsonData: JSON!
 
   """created by user id"""
@@ -28380,37 +28386,37 @@ type ApplicationCommunityReportData implements Node {
   archivedAt: Datetime
 
   """
-  Reads a single `Application` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `Application` that is related to this `ApplicationCommunityReportExcelData`.
   """
   applicationByApplicationId: Application
 
   """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportExcelData`.
   """
   ccbcUserByCreatedBy: CcbcUser
 
   """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportExcelData`.
   """
   ccbcUserByUpdatedBy: CcbcUser
 
   """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportExcelData`.
   """
   ccbcUserByArchivedBy: CcbcUser
 }
 
-"""A `ApplicationCommunityReportData` edge in the connection."""
-type ApplicationCommunityReportDataEdge {
+"""A `ApplicationCommunityReportExcelData` edge in the connection."""
+type ApplicationCommunityReportExcelDataEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
-  """The `ApplicationCommunityReportData` at the end of the edge."""
-  node: ApplicationCommunityReportData
+  """The `ApplicationCommunityReportExcelData` at the end of the edge."""
+  node: ApplicationCommunityReportExcelData
 }
 
-"""Methods to use when ordering `ApplicationCommunityReportData`."""
-enum ApplicationCommunityReportDataOrderBy {
+"""Methods to use when ordering `ApplicationCommunityReportExcelData`."""
+enum ApplicationCommunityReportExcelDataOrderBy {
   NATURAL
   ID_ASC
   ID_DESC
@@ -28435,10 +28441,10 @@ enum ApplicationCommunityReportDataOrderBy {
 }
 
 """
-A condition to be used against `ApplicationCommunityReportData` object types.
-All fields are tested for equality and combined with a logical ‘and.’
+A condition to be used against `ApplicationCommunityReportExcelData` object
+types. All fields are tested for equality and combined with a logical ‘and.’
 """
-input ApplicationCommunityReportDataCondition {
+input ApplicationCommunityReportExcelDataCondition {
   """Checks for equality with the object’s `rowId` field."""
   rowId: Int
 
@@ -31618,16 +31624,16 @@ type ApplicationCcbcUsersByApplicationCommunityProgressReportDataApplicationIdAn
 }
 
 """
-A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndCreatedByManyToManyConnection {
+type ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndCreatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndCreatedByManyToManyEdge!]!
+  edges: [ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndCreatedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -31637,9 +31643,9 @@ type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndCreated
 }
 
 """
-A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndCreatedByManyToManyEdge {
+type ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndCreatedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -31647,9 +31653,9 @@ type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndCreated
   node: CcbcUser
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByCreatedBy(
+  applicationCommunityReportExcelDataByCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -31668,32 +31674,32 @@ type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndCreated
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
-A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndUpdatedByManyToManyConnection {
+type ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndUpdatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndUpdatedByManyToManyEdge!]!
+  edges: [ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndUpdatedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -31703,9 +31709,9 @@ type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndUpdated
 }
 
 """
-A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndUpdatedByManyToManyEdge {
+type ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndUpdatedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -31713,9 +31719,9 @@ type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndUpdated
   node: CcbcUser
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByUpdatedBy(
+  applicationCommunityReportExcelDataByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -31734,32 +31740,32 @@ type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndUpdated
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
-A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndArchivedByManyToManyConnection {
+type ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndArchivedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndArchivedByManyToManyEdge!]!
+  edges: [ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndArchivedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -31769,9 +31775,9 @@ type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndArchive
 }
 
 """
-A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndArchivedByManyToManyEdge {
+type ApplicationCcbcUsersByApplicationCommunityReportExcelDataApplicationIdAndArchivedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -31779,9 +31785,9 @@ type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndArchive
   node: CcbcUser
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByArchivedBy(
+  applicationCommunityReportExcelDataByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -31800,19 +31806,19 @@ type ApplicationCcbcUsersByApplicationCommunityReportDataApplicationIdAndArchive
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """A `Application` edge in the connection."""
@@ -46516,16 +46522,16 @@ type CcbcUserCcbcUsersByApplicationCommunityProgressReportDataArchivedByAndUpdat
 }
 
 """
-A connection to a list of `Application` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `Application` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserApplicationsByApplicationCommunityReportDataCreatedByAndApplicationIdManyToManyConnection {
+type CcbcUserApplicationsByApplicationCommunityReportExcelDataCreatedByAndApplicationIdManyToManyConnection {
   """A list of `Application` objects."""
   nodes: [Application]!
 
   """
-  A list of edges which contains the `Application`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `Application`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [CcbcUserApplicationsByApplicationCommunityReportDataCreatedByAndApplicationIdManyToManyEdge!]!
+  edges: [CcbcUserApplicationsByApplicationCommunityReportExcelDataCreatedByAndApplicationIdManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -46535,9 +46541,9 @@ type CcbcUserApplicationsByApplicationCommunityReportDataCreatedByAndApplication
 }
 
 """
-A `Application` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `Application` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserApplicationsByApplicationCommunityReportDataCreatedByAndApplicationIdManyToManyEdge {
+type CcbcUserApplicationsByApplicationCommunityReportExcelDataCreatedByAndApplicationIdManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -46545,9 +46551,9 @@ type CcbcUserApplicationsByApplicationCommunityReportDataCreatedByAndApplication
   node: Application
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByApplicationId(
+  applicationCommunityReportExcelDataByApplicationId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -46566,32 +46572,32 @@ type CcbcUserApplicationsByApplicationCommunityReportDataCreatedByAndApplication
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
-A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndUpdatedByManyToManyConnection {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataCreatedByAndUpdatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndUpdatedByManyToManyEdge!]!
+  edges: [CcbcUserCcbcUsersByApplicationCommunityReportExcelDataCreatedByAndUpdatedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -46601,9 +46607,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndUpdatedByManyT
 }
 
 """
-A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndUpdatedByManyToManyEdge {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataCreatedByAndUpdatedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -46611,9 +46617,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndUpdatedByManyT
   node: CcbcUser
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByUpdatedBy(
+  applicationCommunityReportExcelDataByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -46632,32 +46638,32 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndUpdatedByManyT
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
-A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndArchivedByManyToManyConnection {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataCreatedByAndArchivedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndArchivedByManyToManyEdge!]!
+  edges: [CcbcUserCcbcUsersByApplicationCommunityReportExcelDataCreatedByAndArchivedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -46667,9 +46673,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndArchivedByMany
 }
 
 """
-A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndArchivedByManyToManyEdge {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataCreatedByAndArchivedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -46677,9 +46683,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndArchivedByMany
   node: CcbcUser
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByArchivedBy(
+  applicationCommunityReportExcelDataByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -46698,32 +46704,32 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataCreatedByAndArchivedByMany
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
-A connection to a list of `Application` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `Application` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserApplicationsByApplicationCommunityReportDataUpdatedByAndApplicationIdManyToManyConnection {
+type CcbcUserApplicationsByApplicationCommunityReportExcelDataUpdatedByAndApplicationIdManyToManyConnection {
   """A list of `Application` objects."""
   nodes: [Application]!
 
   """
-  A list of edges which contains the `Application`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `Application`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [CcbcUserApplicationsByApplicationCommunityReportDataUpdatedByAndApplicationIdManyToManyEdge!]!
+  edges: [CcbcUserApplicationsByApplicationCommunityReportExcelDataUpdatedByAndApplicationIdManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -46733,9 +46739,9 @@ type CcbcUserApplicationsByApplicationCommunityReportDataUpdatedByAndApplication
 }
 
 """
-A `Application` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `Application` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserApplicationsByApplicationCommunityReportDataUpdatedByAndApplicationIdManyToManyEdge {
+type CcbcUserApplicationsByApplicationCommunityReportExcelDataUpdatedByAndApplicationIdManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -46743,9 +46749,9 @@ type CcbcUserApplicationsByApplicationCommunityReportDataUpdatedByAndApplication
   node: Application
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByApplicationId(
+  applicationCommunityReportExcelDataByApplicationId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -46764,32 +46770,32 @@ type CcbcUserApplicationsByApplicationCommunityReportDataUpdatedByAndApplication
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
-A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndCreatedByManyToManyConnection {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataUpdatedByAndCreatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndCreatedByManyToManyEdge!]!
+  edges: [CcbcUserCcbcUsersByApplicationCommunityReportExcelDataUpdatedByAndCreatedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -46799,9 +46805,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndCreatedByManyT
 }
 
 """
-A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndCreatedByManyToManyEdge {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataUpdatedByAndCreatedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -46809,9 +46815,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndCreatedByManyT
   node: CcbcUser
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByCreatedBy(
+  applicationCommunityReportExcelDataByCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -46830,32 +46836,32 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndCreatedByManyT
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
-A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndArchivedByManyToManyConnection {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataUpdatedByAndArchivedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndArchivedByManyToManyEdge!]!
+  edges: [CcbcUserCcbcUsersByApplicationCommunityReportExcelDataUpdatedByAndArchivedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -46865,9 +46871,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndArchivedByMany
 }
 
 """
-A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndArchivedByManyToManyEdge {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataUpdatedByAndArchivedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -46875,9 +46881,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndArchivedByMany
   node: CcbcUser
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByArchivedBy(
+  applicationCommunityReportExcelDataByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -46896,32 +46902,32 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataUpdatedByAndArchivedByMany
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
-A connection to a list of `Application` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `Application` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserApplicationsByApplicationCommunityReportDataArchivedByAndApplicationIdManyToManyConnection {
+type CcbcUserApplicationsByApplicationCommunityReportExcelDataArchivedByAndApplicationIdManyToManyConnection {
   """A list of `Application` objects."""
   nodes: [Application]!
 
   """
-  A list of edges which contains the `Application`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `Application`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [CcbcUserApplicationsByApplicationCommunityReportDataArchivedByAndApplicationIdManyToManyEdge!]!
+  edges: [CcbcUserApplicationsByApplicationCommunityReportExcelDataArchivedByAndApplicationIdManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -46931,9 +46937,9 @@ type CcbcUserApplicationsByApplicationCommunityReportDataArchivedByAndApplicatio
 }
 
 """
-A `Application` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `Application` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserApplicationsByApplicationCommunityReportDataArchivedByAndApplicationIdManyToManyEdge {
+type CcbcUserApplicationsByApplicationCommunityReportExcelDataArchivedByAndApplicationIdManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -46941,9 +46947,9 @@ type CcbcUserApplicationsByApplicationCommunityReportDataArchivedByAndApplicatio
   node: Application
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByApplicationId(
+  applicationCommunityReportExcelDataByApplicationId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -46962,32 +46968,32 @@ type CcbcUserApplicationsByApplicationCommunityReportDataArchivedByAndApplicatio
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
-A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndCreatedByManyToManyConnection {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataArchivedByAndCreatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndCreatedByManyToManyEdge!]!
+  edges: [CcbcUserCcbcUsersByApplicationCommunityReportExcelDataArchivedByAndCreatedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -46997,9 +47003,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndCreatedByMany
 }
 
 """
-A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndCreatedByManyToManyEdge {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataArchivedByAndCreatedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -47007,9 +47013,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndCreatedByMany
   node: CcbcUser
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByCreatedBy(
+  applicationCommunityReportExcelDataByCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -47028,32 +47034,32 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndCreatedByMany
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
-A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportData`.
+A connection to a list of `CcbcUser` values, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndUpdatedByManyToManyConnection {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataArchivedByAndUpdatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
 
   """
-  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportData`, and the cursor to aid in pagination.
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationCommunityReportExcelData`, and the cursor to aid in pagination.
   """
-  edges: [CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndUpdatedByManyToManyEdge!]!
+  edges: [CcbcUserCcbcUsersByApplicationCommunityReportExcelDataArchivedByAndUpdatedByManyToManyEdge!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -47063,9 +47069,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndUpdatedByMany
 }
 
 """
-A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportData`.
+A `CcbcUser` edge in the connection, with data from `ApplicationCommunityReportExcelData`.
 """
-type CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndUpdatedByManyToManyEdge {
+type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataArchivedByAndUpdatedByManyToManyEdge {
   """A cursor for use in pagination."""
   cursor: Cursor
 
@@ -47073,9 +47079,9 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndUpdatedByMany
   node: CcbcUser
 
   """
-  Reads and enables pagination through a set of `ApplicationCommunityReportData`.
+  Reads and enables pagination through a set of `ApplicationCommunityReportExcelData`.
   """
-  applicationCommunityReportDataByUpdatedBy(
+  applicationCommunityReportExcelDataByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -47094,19 +47100,19 @@ type CcbcUserCcbcUsersByApplicationCommunityReportDataArchivedByAndUpdatedByMany
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
     """
-    condition: ApplicationCommunityReportDataCondition
+    condition: ApplicationCommunityReportExcelDataCondition
 
     """
     A filter to be used in determining which values should be returned by the collection.
     """
-    filter: ApplicationCommunityReportDataFilter
-  ): ApplicationCommunityReportDataConnection!
+    filter: ApplicationCommunityReportExcelDataFilter
+  ): ApplicationCommunityReportExcelDataConnection!
 }
 
 """
@@ -48232,24 +48238,24 @@ type Mutation {
   ): UpdateApplicationCommunityProgressReportDataPayload
 
   """
-  Updates a single `ApplicationCommunityReportData` using its globally unique id and a patch.
+  Updates a single `ApplicationCommunityReportExcelData` using its globally unique id and a patch.
   """
-  updateApplicationCommunityReportData(
+  updateApplicationCommunityReportExcelData(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateApplicationCommunityReportDataInput!
-  ): UpdateApplicationCommunityReportDataPayload
+    input: UpdateApplicationCommunityReportExcelDataInput!
+  ): UpdateApplicationCommunityReportExcelDataPayload
 
   """
-  Updates a single `ApplicationCommunityReportData` using a unique key and a patch.
+  Updates a single `ApplicationCommunityReportExcelData` using a unique key and a patch.
   """
-  updateApplicationCommunityReportDataByRowId(
+  updateApplicationCommunityReportExcelDataByRowId(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: UpdateApplicationCommunityReportDataByRowIdInput!
-  ): UpdateApplicationCommunityReportDataPayload
+    input: UpdateApplicationCommunityReportExcelDataByRowIdInput!
+  ): UpdateApplicationCommunityReportExcelDataPayload
 
   """
   Updates a single `ApplicationFormData` using its globally unique id and a patch.
@@ -49344,12 +49350,12 @@ type Mutation {
     """
     input: CreateApplicationInput!
   ): CreateApplicationPayload
-  createApplicationCommunityReportData(
+  createApplicationCommunityReportExcelData(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
     """
-    input: CreateApplicationCommunityReportDataInput!
-  ): CreateApplicationCommunityReportDataPayload
+    input: CreateApplicationCommunityReportExcelDataInput!
+  ): CreateApplicationCommunityReportExcelDataPayload
   createApplicationSowData(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -52422,8 +52428,10 @@ input UpdateApplicationCommunityProgressReportDataByRowIdInput {
   rowId: Int!
 }
 
-"""The output of our update `ApplicationCommunityReportData` mutation."""
-type UpdateApplicationCommunityReportDataPayload {
+"""
+The output of our update `ApplicationCommunityReportExcelData` mutation.
+"""
+type UpdateApplicationCommunityReportExcelDataPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
@@ -52431,9 +52439,9 @@ type UpdateApplicationCommunityReportDataPayload {
   clientMutationId: String
 
   """
-  The `ApplicationCommunityReportData` that was updated by this mutation.
+  The `ApplicationCommunityReportExcelData` that was updated by this mutation.
   """
-  applicationCommunityReportData: ApplicationCommunityReportData
+  applicationCommunityReportExcelData: ApplicationCommunityReportExcelData
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -52441,36 +52449,38 @@ type UpdateApplicationCommunityReportDataPayload {
   query: Query
 
   """
-  Reads a single `Application` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `Application` that is related to this `ApplicationCommunityReportExcelData`.
   """
   applicationByApplicationId: Application
 
   """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportExcelData`.
   """
   ccbcUserByCreatedBy: CcbcUser
 
   """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportExcelData`.
   """
   ccbcUserByUpdatedBy: CcbcUser
 
   """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportExcelData`.
   """
   ccbcUserByArchivedBy: CcbcUser
 
   """
-  An edge for our `ApplicationCommunityReportData`. May be used by Relay 1.
+  An edge for our `ApplicationCommunityReportExcelData`. May be used by Relay 1.
   """
-  applicationCommunityReportDataEdge(
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationCommunityReportDataEdge
+  applicationCommunityReportExcelDataEdge(
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationCommunityReportExcelDataEdge
 }
 
-"""All input for the `updateApplicationCommunityReportData` mutation."""
-input UpdateApplicationCommunityReportDataInput {
+"""
+All input for the `updateApplicationCommunityReportExcelData` mutation.
+"""
+input UpdateApplicationCommunityReportExcelDataInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -52478,24 +52488,24 @@ input UpdateApplicationCommunityReportDataInput {
   clientMutationId: String
 
   """
-  The globally unique `ID` which will identify a single `ApplicationCommunityReportData` to be updated.
+  The globally unique `ID` which will identify a single `ApplicationCommunityReportExcelData` to be updated.
   """
   id: ID!
 
   """
-  An object where the defined keys will be set on the `ApplicationCommunityReportData` being updated.
+  An object where the defined keys will be set on the `ApplicationCommunityReportExcelData` being updated.
   """
-  applicationCommunityReportDataPatch: ApplicationCommunityReportDataPatch!
+  applicationCommunityReportExcelDataPatch: ApplicationCommunityReportExcelDataPatch!
 }
 
 """
-Represents an update to a `ApplicationCommunityReportData`. Fields that are set will be updated.
+Represents an update to a `ApplicationCommunityReportExcelData`. Fields that are set will be updated.
 """
-input ApplicationCommunityReportDataPatch {
+input ApplicationCommunityReportExcelDataPatch {
   """ID of the application this Community Report belongs to"""
   applicationId: Int
 
-  """The data imported from the Excel filled by the respondent"""
+  """The data imported from the excel filled by the respondent"""
   jsonData: JSON
 
   """created by user id"""
@@ -52518,9 +52528,9 @@ input ApplicationCommunityReportDataPatch {
 }
 
 """
-All input for the `updateApplicationCommunityReportDataByRowId` mutation.
+All input for the `updateApplicationCommunityReportExcelDataByRowId` mutation.
 """
-input UpdateApplicationCommunityReportDataByRowIdInput {
+input UpdateApplicationCommunityReportExcelDataByRowIdInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.
@@ -52528,11 +52538,11 @@ input UpdateApplicationCommunityReportDataByRowIdInput {
   clientMutationId: String
 
   """
-  An object where the defined keys will be set on the `ApplicationCommunityReportData` being updated.
+  An object where the defined keys will be set on the `ApplicationCommunityReportExcelData` being updated.
   """
-  applicationCommunityReportDataPatch: ApplicationCommunityReportDataPatch!
+  applicationCommunityReportExcelDataPatch: ApplicationCommunityReportExcelDataPatch!
 
-  """Unique ID for the Community Report data"""
+  """Unique ID for the Community Report excel data"""
   rowId: Int!
 }
 
@@ -57528,14 +57538,16 @@ input CreateApplicationInput {
   clientMutationId: String
 }
 
-"""The output of our `createApplicationCommunityReportData` mutation."""
-type CreateApplicationCommunityReportDataPayload {
+"""
+The output of our `createApplicationCommunityReportExcelData` mutation.
+"""
+type CreateApplicationCommunityReportExcelDataPayload {
   """
   The exact same `clientMutationId` that was provided in the mutation input,
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
-  applicationCommunityReportData: ApplicationCommunityReportData
+  applicationCommunityReportExcelData: ApplicationCommunityReportExcelData
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
@@ -57543,36 +57555,38 @@ type CreateApplicationCommunityReportDataPayload {
   query: Query
 
   """
-  Reads a single `Application` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `Application` that is related to this `ApplicationCommunityReportExcelData`.
   """
   applicationByApplicationId: Application
 
   """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportExcelData`.
   """
   ccbcUserByCreatedBy: CcbcUser
 
   """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportExcelData`.
   """
   ccbcUserByUpdatedBy: CcbcUser
 
   """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportData`.
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityReportExcelData`.
   """
   ccbcUserByArchivedBy: CcbcUser
 
   """
-  An edge for our `ApplicationCommunityReportData`. May be used by Relay 1.
+  An edge for our `ApplicationCommunityReportExcelData`. May be used by Relay 1.
   """
-  applicationCommunityReportDataEdge(
-    """The method to use when ordering `ApplicationCommunityReportData`."""
-    orderBy: [ApplicationCommunityReportDataOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationCommunityReportDataEdge
+  applicationCommunityReportExcelDataEdge(
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
+    orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationCommunityReportExcelDataEdge
 }
 
-"""All input for the `createApplicationCommunityReportData` mutation."""
-input CreateApplicationCommunityReportDataInput {
+"""
+All input for the `createApplicationCommunityReportExcelData` mutation.
+"""
+input CreateApplicationCommunityReportExcelDataInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.

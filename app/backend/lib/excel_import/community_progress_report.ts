@@ -3,8 +3,8 @@ import { performQuery } from '../graphql';
 
 const createSowMutation = `
   mutation communityReportUploadMutation($input: CreateApplicationCommunityReportDataInput!) {
-    createApplicationCommunityReportData(input:   $input) {
-        applicationCommunityReportData {
+    createApplicationCommunityReportExcelData(input:   $input) {
+        applicationCommunityReportExcelData {
         id
         rowId
       }

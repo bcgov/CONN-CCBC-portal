@@ -11,8 +11,8 @@ truncate table
   ccbc_public.intake
 restart identity cascade;
 
-select has_function('ccbc_public', 'create_application_community_report_data',
-  'Function create_application_community_report_data should exist');
+select has_function('ccbc_public', 'create_application_community_report_excel_data',
+  'Function create_application_community_report_excel_data should exist');
 
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
 values('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1);
@@ -31,11 +31,11 @@ select ccbc_public.create_application();
 set role ccbc_analyst;
 
 -- create sow data without amendment number
-select ccbc_public.create_application_community_report_data(1::int , '{}'::jsonb);
+select ccbc_public.create_application_community_report_excel_data(1::int , '{}'::jsonb);
 
 select results_eq (
   $$
-    select count(*) from ccbc_public.application_community_report_data
+    select count(*) from ccbc_public.application_community_report_excel_data
     where application_id = 1
   $$,
   $$
@@ -47,11 +47,11 @@ select results_eq (
 );
 
 -- create another and make sure the previous one is archived
-select ccbc_public.create_application_community_report_data(1::int , '{}'::jsonb);
+select ccbc_public.create_application_community_report_excel_data(1::int , '{}'::jsonb);
 
 select results_eq (
   $$
-    select count(*) from ccbc_public.application_community_report_data
+    select count(*) from ccbc_public.application_community_report_excel_data
     where application_id = 1 and archived_at is not null
   $$,
   $$
