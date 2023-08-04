@@ -189,9 +189,7 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
   const [isImporting, setIsImporting] = useState(false);
   const [isValidExcel, setIsValidExcel] = useState(false);
   const excelImportOptions = options?.excelImport;
-  const successHeading =
-    excelImportOptions['successHeading'] &&
-    excelImportOptions['successHeading'].toString();
+  const successHeading = excelImportOptions['successHeading']?.toString();
   const errorType = excelImportOptions?.['errorType'];
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment || isImporting;
