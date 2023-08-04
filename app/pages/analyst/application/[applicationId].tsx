@@ -43,6 +43,15 @@ const getApplicationQuery = graphql`
               id
               rowId
               rfiNumber
+              attachments {
+                nodes {
+                  id
+                  file
+                  fileName
+                  rowId
+                  createdAt
+                }
+              }
             }
           }
         }

@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import DownloadLink from 'components/DownloadLink';
+import { DateTime } from 'luxon';
 
 const StyledFile = styled('div')`
   display: flex;
@@ -63,8 +64,10 @@ const FileWidget: React.FC<WidgetProps> = ({
               const isSingleFile = !options?.allowMultipleFiles;
               const isDisplayIcon = isSingleFile && i === 0;
 
-              // placeholder for date until we get computed column. Will search for file date by uuid
-              const fileDate = 'date placeholder';
+              const fileDate = DateTime.fromISO(el.createdAt).toLocaleString(
+                DateTime.DATETIME_MED
+              );
+
               return (
                 <>
                   {isDisplayIcon ? (
