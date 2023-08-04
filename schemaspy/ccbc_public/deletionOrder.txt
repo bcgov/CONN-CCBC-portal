@@ -12,6 +12,7 @@ project_information_data
 conditional_approval_data
 change_request_data
 application_package
+application_community_progress_report_data
 application_rfi_data
 application_form_data
 record_version

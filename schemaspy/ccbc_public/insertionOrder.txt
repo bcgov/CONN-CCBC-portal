@@ -19,6 +19,7 @@ application_gis_assessment_hh
 record_version
 application_form_data
 application_rfi_data
+application_community_progress_report_data
 application_package
 change_request_data
 conditional_approval_data
