@@ -11,6 +11,10 @@ create or replace function ccbc_public.application_zones(application ccbc_public
         from ccbc_public.application_form_data(application)
     ) into result;
 
+    result := array(
+        select unnest(result) order by 1
+    );
+
     return result;
   end;
 $$ language plpgsql stable;
