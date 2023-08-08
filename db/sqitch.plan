@@ -379,3 +379,4 @@ tables/intake_006_partial_unique 2023-07-27T20:03:03Z Marcel Mueller <marcel@m2>
 
 tables/application_community_progress_report_data 2023-08-03T18:33:03Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create community progress report table
 @1.92.0 2023-08-04T20:51:41Z CCBC Service Account <ccbc@button.is> # release v1.92.0
+@1.92.1 2023-08-08T15:06:42Z CCBC Service Account <ccbc@button.is> # release v1.92.1
