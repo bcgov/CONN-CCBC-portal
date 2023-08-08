@@ -32,6 +32,7 @@ const CommunityProgressReportForm = ({ application }) => {
           edges {
             node {
               id
+              rowId
               jsonData
               ...CommunityProgressView_query
             }
@@ -49,9 +50,11 @@ const CommunityProgressReportForm = ({ application }) => {
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
+  const [communityProgressRowId, setCommunityProgressRowId] = useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [createCommunityProgressReport] =
     useCreateCommunityProgressReportMutation();
+
   const [excelFile, setExcelFile] = useState(null);
   const communityProgressConnectionId = communityProgressData?.__id;
 
@@ -78,10 +81,9 @@ const CommunityProgressReportForm = ({ application }) => {
         variables: {
           connections: [communityProgressConnectionId],
           input: {
-            applicationCommunityProgressReportData: {
-              jsonData: formData,
-              applicationId: rowId,
-            },
+            _jsonData: formData,
+            _applicationId: rowId,
+            _oldCommunityProgressReportId: communityProgressRowId,
           },
         },
         onCompleted: () => {
@@ -125,7 +127,16 @@ const CommunityProgressReportForm = ({ application }) => {
     >
       {communityProgressData?.edges?.map(({ node }) => {
         return (
-          <CommunityProgressView key={node.id} communityProgressReport={node} />
+          <CommunityProgressView
+            key={node.id}
+            communityProgressReport={node}
+            isFormEditMode={isFormEditMode}
+            onFormEdit={() => {
+              setFormData(node.jsonData);
+              setCommunityProgressRowId(node.rowId);
+              setIsFormEditMode(true);
+            }}
+          />
         );
       })}
     </ProjectForm>
