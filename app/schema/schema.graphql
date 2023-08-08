@@ -47911,14 +47911,6 @@ type Mutation {
     input: CreateApplicationAnnouncementInput!
   ): CreateApplicationAnnouncementPayload
 
-  """Creates a single `ApplicationCommunityProgressReportData`."""
-  createApplicationCommunityProgressReportData(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateApplicationCommunityProgressReportDataInput!
-  ): CreateApplicationCommunityProgressReportDataPayload
-
   """Creates a single `ApplicationFormData`."""
   createApplicationFormData(
     """
@@ -48843,26 +48835,6 @@ type Mutation {
     input: DeleteApplicationAnnouncementByAnnouncementIdAndApplicationIdInput!
   ): DeleteApplicationAnnouncementPayload
 
-  """
-  Deletes a single `ApplicationCommunityProgressReportData` using its globally unique id.
-  """
-  deleteApplicationCommunityProgressReportData(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationCommunityProgressReportDataInput!
-  ): DeleteApplicationCommunityProgressReportDataPayload
-
-  """
-  Deletes a single `ApplicationCommunityProgressReportData` using a unique key.
-  """
-  deleteApplicationCommunityProgressReportDataByRowId(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteApplicationCommunityProgressReportDataByRowIdInput!
-  ): DeleteApplicationCommunityProgressReportDataPayload
-
   """Deletes a single `ApplicationFormData` using its globally unique id."""
   deleteApplicationFormData(
     """
@@ -49350,6 +49322,12 @@ type Mutation {
     """
     input: CreateApplicationInput!
   ): CreateApplicationPayload
+  createApplicationCommunityProgressReportData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationCommunityProgressReportDataInput!
+  ): CreateApplicationCommunityProgressReportDataPayload
   createApplicationCommunityReportExcelData(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -49820,104 +49798,6 @@ input ApplicationAnnouncementInput {
   Column describing the operation (created, updated, deleted) for context on the history page
   """
   historyOperation: String
-}
-
-"""
-The output of our create `ApplicationCommunityProgressReportData` mutation.
-"""
-type CreateApplicationCommunityProgressReportDataPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """
-  The `ApplicationCommunityProgressReportData` that was created by this mutation.
-  """
-  applicationCommunityProgressReportData: ApplicationCommunityProgressReportData
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """
-  Reads a single `Application` that is related to this `ApplicationCommunityProgressReportData`.
-  """
-  applicationByApplicationId: Application
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityProgressReportData`.
-  """
-  ccbcUserByCreatedBy: CcbcUser
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityProgressReportData`.
-  """
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityProgressReportData`.
-  """
-  ccbcUserByArchivedBy: CcbcUser
-
-  """
-  An edge for our `ApplicationCommunityProgressReportData`. May be used by Relay 1.
-  """
-  applicationCommunityProgressReportDataEdge(
-    """
-    The method to use when ordering `ApplicationCommunityProgressReportData`.
-    """
-    orderBy: [ApplicationCommunityProgressReportDataOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationCommunityProgressReportDataEdge
-}
-
-"""
-All input for the create `ApplicationCommunityProgressReportData` mutation.
-"""
-input CreateApplicationCommunityProgressReportDataInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The `ApplicationCommunityProgressReportData` to be created by this mutation.
-  """
-  applicationCommunityProgressReportData: ApplicationCommunityProgressReportDataInput!
-}
-
-"""
-An input for mutations affecting `ApplicationCommunityProgressReportData`
-"""
-input ApplicationCommunityProgressReportDataInput {
-  """ID of the application this Community Progress Report belongs to"""
-  applicationId: Int
-
-  """
-  The due date, date received and the file information of the Community Progress Report Excel file
-  """
-  jsonData: JSON
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
 }
 
 """The output of our create `ApplicationFormData` mutation."""
@@ -55613,88 +55493,6 @@ input DeleteApplicationAnnouncementByAnnouncementIdAndApplicationIdInput {
   applicationId: Int!
 }
 
-"""
-The output of our delete `ApplicationCommunityProgressReportData` mutation.
-"""
-type DeleteApplicationCommunityProgressReportDataPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """
-  The `ApplicationCommunityProgressReportData` that was deleted by this mutation.
-  """
-  applicationCommunityProgressReportData: ApplicationCommunityProgressReportData
-  deletedApplicationCommunityProgressReportDataId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """
-  Reads a single `Application` that is related to this `ApplicationCommunityProgressReportData`.
-  """
-  applicationByApplicationId: Application
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityProgressReportData`.
-  """
-  ccbcUserByCreatedBy: CcbcUser
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityProgressReportData`.
-  """
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """
-  Reads a single `CcbcUser` that is related to this `ApplicationCommunityProgressReportData`.
-  """
-  ccbcUserByArchivedBy: CcbcUser
-
-  """
-  An edge for our `ApplicationCommunityProgressReportData`. May be used by Relay 1.
-  """
-  applicationCommunityProgressReportDataEdge(
-    """
-    The method to use when ordering `ApplicationCommunityProgressReportData`.
-    """
-    orderBy: [ApplicationCommunityProgressReportDataOrderBy!] = [PRIMARY_KEY_ASC]
-  ): ApplicationCommunityProgressReportDataEdge
-}
-
-"""
-All input for the `deleteApplicationCommunityProgressReportData` mutation.
-"""
-input DeleteApplicationCommunityProgressReportDataInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `ApplicationCommunityProgressReportData` to be deleted.
-  """
-  id: ID!
-}
-
-"""
-All input for the `deleteApplicationCommunityProgressReportDataByRowId` mutation.
-"""
-input DeleteApplicationCommunityProgressReportDataByRowIdInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """Unique ID for the  Community Progress Report"""
-  rowId: Int!
-}
-
 """The output of our delete `ApplicationFormData` mutation."""
 type DeleteApplicationFormDataPayload {
   """
@@ -57536,6 +57334,67 @@ input CreateApplicationInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+}
+
+"""
+The output of our `createApplicationCommunityProgressReportData` mutation.
+"""
+type CreateApplicationCommunityProgressReportDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  applicationCommunityProgressReportData: ApplicationCommunityProgressReportData
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationCommunityProgressReportData`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityProgressReportData`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityProgressReportData`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationCommunityProgressReportData`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """
+  An edge for our `ApplicationCommunityProgressReportData`. May be used by Relay 1.
+  """
+  applicationCommunityProgressReportDataEdge(
+    """
+    The method to use when ordering `ApplicationCommunityProgressReportData`.
+    """
+    orderBy: [ApplicationCommunityProgressReportDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationCommunityProgressReportDataEdge
+}
+
+"""
+All input for the `createApplicationCommunityProgressReportData` mutation.
+"""
+input CreateApplicationCommunityProgressReportDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  _applicationId: Int!
+  _jsonData: JSON!
+  _oldCommunityProgressReportId: Int
 }
 
 """
