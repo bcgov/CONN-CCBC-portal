@@ -42,6 +42,11 @@
           omit: ['create', 'delete'],
         },
       },
+      'ccbc_public.application_community_progress_report_data': {
+        tags: {
+          omit: ['create', 'delete'],
+        },
+      },
     },
     procedure: {
       'ccbc_public.application_analyst_lead': {
