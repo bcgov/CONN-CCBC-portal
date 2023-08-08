@@ -1,3 +1,10 @@
+# [1.93.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.92.0...v1.93.0) (2023-08-08)
+
+### Features
+
+- computed column returning attachments for rfi ([172c485](https://github.com/bcgov/CONN-CCBC-portal/commit/172c48575c778dbaf2c02301391c47e3fd998710))
+- extract uuid function ([8b3c06a](https://github.com/bcgov/CONN-CCBC-portal/commit/8b3c06aad91592efc8645e2260aedb994559cd50))
+
 # [1.92.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.91.0...v1.92.0) (2023-08-04)
 
 ### Bug Fixes
