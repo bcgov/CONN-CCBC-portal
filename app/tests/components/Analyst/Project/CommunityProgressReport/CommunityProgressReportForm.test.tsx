@@ -22,7 +22,26 @@ const mockQueryPayload = {
       rowId: 1,
       ccbcNumber: '123456789',
       applicationCommunityProgressReportDataByApplicationId: {
-        edges: [],
+        edges: [
+          {
+            node: {
+              rowId: 1,
+              jsonData: {
+                dueDate: '2023-08-01',
+                dateReceived: '2023-08-02',
+                progressReportFile: [
+                  {
+                    id: 1,
+                    name: 'community_report.xlsx',
+                    size: 121479,
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    uuid: '541089ee-8f80-4dd9-844f-093d7739792b',
+                  },
+                ],
+              },
+            },
+          },
+        ],
       },
     };
   },
@@ -133,21 +152,20 @@ describe('The Community Progress Report form', () => {
     componentTestingHelper.expectMutationToBeCalled(
       'createCommunityProgressReportMutation',
       {
+        connections: expect.anything(),
         input: {
-          applicationCommunityProgressReportData: {
-            jsonData: {
-              progressReportFile: [
-                {
-                  id: 1,
-                  uuid: 'string',
-                  name: 'file.xls',
-                  size: 1,
-                  type: 'application/vnd.ms-excel',
-                },
-              ],
-            },
-            applicationId: 1,
+          _jsonData: {
+            progressReportFile: [
+              {
+                id: 1,
+                uuid: 'string',
+                name: 'file.xls',
+                size: 1,
+                type: 'application/vnd.ms-excel',
+              },
+            ],
           },
+          _applicationId: 1,
         },
       }
     );
@@ -163,5 +181,14 @@ describe('The Community Progress Report form', () => {
         },
       });
     });
+  });
+
+  it('displays the saved Community Progress Report', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('Q2 (Jul-Sep)')).toBeInTheDocument();
+    expect(screen.getByText('Edit')).toBeInTheDocument();
+    expect(screen.getByText('community_report.xlsx')).toBeInTheDocument();
   });
 });
