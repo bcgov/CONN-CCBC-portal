@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 
 const getFiscalQuarter = (date) => {
   if (!date) return null;
-  const { month } = DateTime.fromJSDate(new Date(date));
+  const { month } = DateTime.fromJSDate(new Date(date)).setZone('UTC');
 
   if (month >= 1 && month <= 3) {
     return 'Q4 (Jan-Mar)';
