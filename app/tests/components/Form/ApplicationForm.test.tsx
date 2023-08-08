@@ -96,6 +96,7 @@ describe('The application form', () => {
       'updateApplicationFormMutation',
       {
         input: {
+          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
           formDataRowId: 123,
           jsonData: {
             projectInformation: {
@@ -106,6 +107,39 @@ describe('The application form', () => {
         },
       }
     );
+  });
+
+  it('Results in error if data is out of sync', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    fireEvent.change(screen.getByLabelText(/project title/i), {
+      target: { value: 'test title' },
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateApplicationFormMutation',
+      {
+        input: {
+          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
+          formDataRowId: 123,
+          jsonData: {
+            projectInformation: {
+              projectTitle: 'test title',
+            },
+          },
+          lastEditedPage: 'projectInformation',
+        },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.rejectMostRecentOperation(
+        new Error('Data is Out of Sync')
+      );
+    });
+
+    expect(window.location.hash).toBe('#data-out-of-sync');
   });
 
   it('sets lastEditedPage to the next page when the user clicks on "continue"', async () => {
@@ -120,6 +154,7 @@ describe('The application form', () => {
       'updateApplicationFormMutation',
       {
         input: {
+          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
           formDataRowId: 123,
           jsonData: {
             projectInformation: {},
@@ -299,6 +334,7 @@ describe('The application form', () => {
       'updateApplicationFormMutation',
       {
         input: {
+          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
           formDataRowId: 123,
           jsonData: {
             estimatedProjectEmployment: {
@@ -337,6 +373,7 @@ describe('The application form', () => {
       'updateApplicationFormMutation',
       {
         input: {
+          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
           formDataRowId: 123,
           jsonData: {
             projectFunding: {

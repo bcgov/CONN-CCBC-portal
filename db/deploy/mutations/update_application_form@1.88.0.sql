@@ -2,8 +2,6 @@
 
 begin;
 
-drop function ccbc_public.update_application_form;
-
 create or replace function ccbc_public.update_application_form(form_data_row_id int, json_data jsonb, last_edited_page varchar)
 returns ccbc_public.form_data as
 $$

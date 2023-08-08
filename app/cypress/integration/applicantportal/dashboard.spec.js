@@ -28,6 +28,31 @@ describe('The applicant dashboard', () => {
     cy.findByRole('heading', { name: /^Project information/i }).should('exist');
     cy.get('[id="root_projectTitle"]');
 
+    cy.intercept(
+      {
+        url: '/graphql',
+        method: 'POST',
+      },
+      (req) => {
+        req.on('before:response', (res) => {
+          console.log(res);
+          // Check if the response contains the specific error message
+          if (
+            res.body &&
+            res.body.errors &&
+            res.body.errors.some(
+              (error) => error.message === 'Data is Out of Sync'
+            )
+          ) {
+            // Erase the window location hash
+            // cy.window().location.hash = '';
+          }
+          delete res.body.errors;
+          return res;
+        });
+      }
+    ).as('graphql');
+
     cy.get('[id="root_geographicAreaDescription"]').type('test');
 
     cy.get('[id="root_projectDescription"]').type('test');

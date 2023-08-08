@@ -32,6 +32,7 @@ import {
   getSectionNameFromPageNumber,
   schemaToSubschemasArray,
 } from '../../utils/schemaUtils';
+import ConflictModal from './ConflictModal';
 
 const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
   const isSubmissionCompletedByFilled =
@@ -146,6 +147,7 @@ const ApplicationForm: React.FC<Props> = ({
           rowId
           jsonData
           isEditable
+          updatedAt
           formByFormSchemaId {
             jsonSchema
           }
@@ -178,6 +180,7 @@ const ApplicationForm: React.FC<Props> = ({
       id: formDataId,
       isEditable,
       formByFormSchemaId: { jsonSchema },
+      updatedAt,
     },
     status,
   } = application;
@@ -326,6 +329,7 @@ const ApplicationForm: React.FC<Props> = ({
           jsonData: newFormData,
           lastEditedPage: isSaveAsDraftBtn ? 'review' : lastEditedPage,
           formDataRowId,
+          clientUpdatedAt: updatedAt,
         },
       },
       optimisticResponse: {
@@ -340,7 +344,10 @@ const ApplicationForm: React.FC<Props> = ({
         },
       },
       debounceKey: formDataId,
-      onError: () => {
+      onError: (error) => {
+        if (error.message.includes('Data is Out of Sync')) {
+          window.location.hash = 'data-out-of-sync';
+        }
         setSavingError(
           <>
             There was an error saving your response.
@@ -398,7 +405,6 @@ const ApplicationForm: React.FC<Props> = ({
       !isEditable
     );
   };
-
   return (
     <>
       <Flex>
@@ -434,6 +440,7 @@ const ApplicationForm: React.FC<Props> = ({
           status={status}
         />
       </FormBase>
+      <ConflictModal id="data-out-of-sync" />
     </>
   );
 };
