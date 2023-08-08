@@ -30,9 +30,15 @@ const StyledDate = styled.div`
   grid-template-columns: 1fr 1fr;
   font-weight: 700;
   white-space: nowrap;
+  margin-right: 16px;
 
   & span:first-child {
-    margin-right: 16px;
+    min-width: 100px;
+    margin-right: 8px;
+  }
+
+  & span:last-child {
+    text-align: right;
   }
 `;
 

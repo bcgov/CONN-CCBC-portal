@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { graphql, useFragment } from 'react-relay';
+import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
@@ -50,13 +50,18 @@ const CommunityProgressReportForm = ({ application }) => {
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
-  const [communityProgressRowId, setCommunityProgressRowId] = useState(null);
+  const [currentCommunityProgressData, setCurrentCommunityProgressData] =
+    useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [createCommunityProgressReport] =
     useCreateCommunityProgressReportMutation();
-
   const [excelFile, setExcelFile] = useState(null);
+
   const communityProgressConnectionId = communityProgressData?.__id;
+  const communityProgressList = communityProgressData?.edges?.filter((data) => {
+    // filter null nodes from the list caused by relay connection update
+    return data.node !== null;
+  });
 
   const apiPath = `/api/analyst/community-report/${rowId}`;
 
@@ -70,6 +75,7 @@ const CommunityProgressReportForm = ({ application }) => {
   const handleResetFormData = () => {
     setIsFormEditMode(false);
     setFormData({} as FormData);
+    setCurrentCommunityProgressData(null);
   };
 
   const handleSubmit = (e) => {
@@ -83,11 +89,22 @@ const CommunityProgressReportForm = ({ application }) => {
           input: {
             _jsonData: formData,
             _applicationId: rowId,
-            _oldCommunityProgressReportId: communityProgressRowId,
+            _oldCommunityProgressReportId: currentCommunityProgressData?.rowId,
           },
         },
         onCompleted: () => {
           handleResetFormData();
+        },
+        updater: (store) => {
+          if (currentCommunityProgressData?.id) {
+            const connection = store.get(communityProgressConnectionId);
+
+            store.delete(currentCommunityProgressData.id);
+            ConnectionHandler.deleteNode(
+              connection,
+              currentCommunityProgressData.id
+            );
+          }
         },
       });
     });
@@ -125,7 +142,7 @@ const CommunityProgressReportForm = ({ application }) => {
       }
       saveDataTestId="save-community-progress-report"
     >
-      {communityProgressData?.edges?.map(({ node }) => {
+      {communityProgressList?.map(({ node }) => {
         return (
           <CommunityProgressView
             key={node.id}
@@ -133,7 +150,7 @@ const CommunityProgressReportForm = ({ application }) => {
             isFormEditMode={isFormEditMode}
             onFormEdit={() => {
               setFormData(node.jsonData);
-              setCommunityProgressRowId(node.rowId);
+              setCurrentCommunityProgressData(node);
               setIsFormEditMode(true);
             }}
           />
