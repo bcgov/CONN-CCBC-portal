@@ -173,6 +173,7 @@ const rfiMutationInput = {
             name: 'test-file.kmz',
             size: 1,
             type: 'application/vnd.google-earth.kmz',
+            uploadedAt: expect.any(String),
           },
         ],
       },

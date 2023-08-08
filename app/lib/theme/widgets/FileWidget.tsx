@@ -12,6 +12,7 @@ import { useDeleteAttachment } from 'schema/mutations/attachment/deleteAttachmen
 import bytesToSize from 'utils/bytesToText';
 import FileComponent from 'lib/theme/components/FileComponent';
 import useDisposeOnRouteChange from 'lib/helpers/useDisposeOnRouteChange';
+import { DateTime } from 'luxon';
 
 type File = {
   id: string | number;
@@ -120,6 +121,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
           name,
           size,
           type,
+          uploadedAt: DateTime.now().toISO(),
         };
 
         if (allowMultipleFiles) {
