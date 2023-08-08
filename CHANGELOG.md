@@ -1,3 +1,18 @@
+# [1.93.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.92.0...v1.93.0) (2023-08-08)
+
+### Bug Fixes
+
+- **ci:** revert mutation fix ([70fb3cb](https://github.com/bcgov/CONN-CCBC-portal/commit/70fb3cbaba757c72c3b319f5e73048a1a893252a))
+
+### Features
+
+- add check for updating application form ([8749064](https://github.com/bcgov/CONN-CCBC-portal/commit/87490640bc1e9408d3f2648022a352546fe50030))
+- add modal when conflict occurs ([47ac05d](https://github.com/bcgov/CONN-CCBC-portal/commit/47ac05d725dee3d3ebe4a3aaf4bd71e060af2668))
+- computed column returning attachments for rfi ([172c485](https://github.com/bcgov/CONN-CCBC-portal/commit/172c48575c778dbaf2c02301391c47e3fd998710))
+- extract uuid function ([8b3c06a](https://github.com/bcgov/CONN-CCBC-portal/commit/8b3c06aad91592efc8645e2260aedb994559cd50))
+- save datetime uploaded in file form data ([e392478](https://github.com/bcgov/CONN-CCBC-portal/commit/e3924788a7482bba6301da319b2c7a7b4cc3d548))
+- update debounce timeout along and add buffer to update ([5ff5986](https://github.com/bcgov/CONN-CCBC-portal/commit/5ff5986de8d7e439df7721ed4e164f018bf5e022))
+
 # [1.92.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.91.0...v1.92.0) (2023-08-04)
 
 ### Bug Fixes
