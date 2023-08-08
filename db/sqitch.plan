@@ -378,8 +378,6 @@ tables/intake_006_partial_unique 2023-07-27T20:03:03Z Marcel Mueller <marcel@m2>
 @1.91.0 2023-08-02T21:36:10Z CCBC Service Account <ccbc@button.is> # release v1.91.0
 tables/application_community_progress_report_data 2023-08-03T18:33:03Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create community progress report table
 @1.92.0 2023-08-04T20:51:41Z CCBC Service Account <ccbc@button.is> # release v1.92.0
-functions/extract_uuids 2023-08-03T19:24:48Z Anthony Bushara <anthony@button.is> # Utility function to extract uuids out of any jsonb provided
-computed_columns/rfi_data_attachments 2023-08-04T16:23:42Z Anthony Bushara <anthony@button.is> # Computed column to provide all attachments rows of an rfi
 mutations/update_application_form [mutations/update_application_form@1.88.0] 2023-07-26T15:04:47Z Anthony Bushara <anthony@button.is> # Reject if updated_at does not match
 tables/application_community_report_excel_data 2023-08-02T21:46:28Z Marcel Mueller <marcel@m2.local> # add table to store community report data
 mutations/create_application_community_report_excel_data 2023-08-03T14:31:46Z Marcel Mueller <marcel@m2.local> # add mutation to create community report excel data
