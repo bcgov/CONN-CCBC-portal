@@ -28,6 +28,26 @@ const StyledContainer = styled.div<{
   flex-direction: ${({ wrap }) => (wrap ? 'column-reverse' : 'row')};
 `;
 
+const StyledInputContainer = styled.div<{ useFileDate?: boolean }>`
+  ${(useFileDate) =>
+    useFileDate
+      ? `
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      `
+      : ''};
+`;
+
+const StyledButtonContainer = styled.div<{ useFileDate?: boolean }>`
+  ${(useFileDate) =>
+    useFileDate
+      ? `
+      height: 100%; margin-top: 45px;
+      `
+      : ''};
+`;
+
 const StyledDetails = styled('div')`
   display: flex;
   flex-direction: column;
@@ -247,13 +267,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
         {error && <ErrorMessage error={error} fileTypes={fileTypes} />}
       </StyledDetails>
       <StyledDetails>{statusLabel}</StyledDetails>
-      <div
-        style={
-          useFileDate
-            ? { display: 'flex', flexDirection: 'row', alignItems: 'center' }
-            : {}
-        }
-      >
+      <StyledInputContainer useFileDate={useFileDate}>
         {useFileDate && (
           <div style={{ height: '100%' }}>
             <h4 style={{ marginBottom: '8px' }}>{`${fileDateTitle}`}</h4>
@@ -302,7 +316,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
             </LocalizationProvider>
           </div>
         )}
-        <div style={useFileDate ? { height: '100%', marginTop: '45px' } : {}}>
+        <StyledButtonContainer>
           <StyledButton
             addBottomMargin={wrap}
             id={`${id}-btn`}
@@ -319,8 +333,8 @@ const FileComponent: React.FC<FileComponentProps> = ({
               buttonLabel()
             )}
           </StyledButton>
-        </div>
-      </div>
+        </StyledButtonContainer>
+      </StyledInputContainer>
       <input
         data-testid="file-test"
         ref={hiddenFileInput}
