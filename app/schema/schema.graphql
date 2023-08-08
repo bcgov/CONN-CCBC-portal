@@ -22488,6 +22488,32 @@ type RfiData implements Node {
     filter: ApplicationRfiDataFilter
   ): ApplicationRfiDataConnection!
 
+  """Computed column to return all attachement rows for an rfi_data row"""
+  attachments(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: AttachmentFilter
+  ): AttachmentsConnection!
+
   """Reads and enables pagination through a set of `Application`."""
   applicationsByApplicationRfiDataRfiDataIdAndApplicationId(
     """Only read the first `n` values of the set."""

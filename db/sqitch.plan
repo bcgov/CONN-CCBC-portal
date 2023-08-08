@@ -376,6 +376,7 @@ mutations/archive_application 2023-07-26T22:48:25Z Rafael Solorzano <61289255+ra
 mutations/archive_intake 2023-07-27T15:39:07Z Marcel Mueller <marcel@m2> # add mutation to soft delete/archive intake
 tables/intake_006_partial_unique 2023-07-27T20:03:03Z Marcel Mueller <marcel@m2> # drop unique constraint and add partial unique index
 @1.91.0 2023-08-02T21:36:10Z CCBC Service Account <ccbc@button.is> # release v1.91.0
-
 tables/application_community_progress_report_data 2023-08-03T18:33:03Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create community progress report table
 @1.92.0 2023-08-04T20:51:41Z CCBC Service Account <ccbc@button.is> # release v1.92.0
+functions/extract_uuids 2023-08-03T19:24:48Z Anthony Bushara <anthony@button.is> # Utility function to extract uuids out of any jsonb provided
+computed_columns/rfi_data_attachments 2023-08-04T16:23:42Z Anthony Bushara <anthony@button.is> # Computed column to provide all attachments rows of an rfi
