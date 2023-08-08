@@ -45,6 +45,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const wrap = uiSchema['ui:options']?.wrap ?? false;
   const allowMultipleFiles =
     (uiSchema['ui:options']?.allowMultipleFiles as boolean) ?? false;
+  const maxDate = uiSchema['ui:options']?.maxDate as Date;
+  const minDate = uiSchema['ui:options']?.minDate as Date;
   const acceptedFileTypes = (uiSchema['ui:options']?.fileTypes as string) ?? '';
   const useFileDate = (uiSchema['ui:options']?.useFileDate as boolean) ?? false;
   const fileDateTitle = uiSchema['ui:options']?.fileDateTitle as string;
@@ -169,6 +171,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       fileDate={fileDate}
       setFileDate={setFileDate}
       fileDateTitle={fileDateTitle}
+      maxDate={maxDate}
+      minDate={minDate}
     />
   );
 };

@@ -586,6 +586,7 @@ while (stack.length) {
         currentObj[key]['ui:options'].allowMultipleFiles = true;
         currentObj[key]['ui:options'].useFileDate = true;
         currentObj[key]['ui:options'].fileDateTitle = 'Date received';
+        currentObj[key]['ui:options'].maxDate = new Date();
       }
       stack.push(currentObj[key]);
     }

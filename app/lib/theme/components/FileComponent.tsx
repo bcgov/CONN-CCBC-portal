@@ -128,6 +128,8 @@ interface FileComponentProps {
   fileDateTitle?: string;
   fileDate?: any;
   setFileDate?: Function;
+  maxDate?: Date;
+  minDate?: Date;
 }
 
 const ErrorMessage = ({ error, fileTypes }) => {
@@ -192,6 +194,8 @@ const FileComponent: React.FC<FileComponentProps> = ({
   fileDateTitle,
   fileDate,
   setFileDate,
+  maxDate,
+  minDate,
 }) => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
@@ -278,6 +282,8 @@ const FileComponent: React.FC<FileComponentProps> = ({
               dateAdapter={AdapterDayjs}
             >
               <StyledDatePicker
+                maxDate={maxDate ? dayjs(maxDate) : undefined}
+                minDate={minDate ? dayjs(minDate) : undefined}
                 id={id}
                 sx={getStyles(false)}
                 disabled={false}
