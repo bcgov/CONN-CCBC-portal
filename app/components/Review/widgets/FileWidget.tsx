@@ -47,10 +47,9 @@ const FileWidget: React.FC<WidgetProps> = ({
   // seems like the id is the only way to get the field name from widget props
   // id is in the format root_[pageName]_[fieldName]
   const fieldName = id?.split('_')?.[2];
-  const rfiFileList = formContext?.rfiFileList?.[fieldName];
-  const rfiList = rfiFileList && Object.keys(rfiFileList);
-
+  const rfiList = formContext?.rfiList;
   const isRfi = rfiList?.length > 0;
+
   const filesArray = useMemo(() => {
     return value || [];
   }, [value]);
@@ -58,15 +57,29 @@ const FileWidget: React.FC<WidgetProps> = ({
   return (
     <div>
       {rfiList?.map((rfi, i) => {
+        // loop through the rfis and check if there are any files for the current field
+        const rfiFiles = rfi.jsonData.rfiAdditionalFiles;
+        const isFileField =
+          rfiFiles && Object.keys(rfiFiles).includes(fieldName);
+        if (!isFileField) return null;
+
+        const attachments = rfi?.attachments?.nodes;
+
         return (
           <StyledFile key={rfi}>
-            {rfiFileList[rfi]?.map((el, index) => {
+            {rfiFiles[fieldName]?.map((el, index) => {
+              // loop through the list of files for the current field
               const isSingleFile = !options?.allowMultipleFiles;
               const isDisplayIcon = isSingleFile && i === 0;
-
-              const fileDate = DateTime.fromISO(el.createdAt).toLocaleString(
-                DateTime.DATETIME_MED
+              const attachmentData = attachments?.find(
+                (attachment) => attachment?.file === el.uuid
               );
+
+              const fileDate =
+                attachmentData?.createdAt &&
+                DateTime.fromISO(attachmentData.createdAt).toLocaleString(
+                  DateTime.DATETIME_MED
+                );
 
               return (
                 <>
@@ -91,13 +104,13 @@ const FileWidget: React.FC<WidgetProps> = ({
                       fileName={el.name}
                     />
                   )}
-                  {index !== rfiFileList[rfi].length - 1 ? (
+                  {index !== rfiFiles[fieldName].length - 1 ? (
                     <StyledSingleDetails>
                       <span>{fileDate}</span>
                     </StyledSingleDetails>
                   ) : (
                     <StyledDetails>
-                      <span>Received from {rfi}</span>
+                      <span>Received from {rfi.rfiNumber}</span>
                       <span>{fileDate}</span>
                     </StyledDetails>
                   )}

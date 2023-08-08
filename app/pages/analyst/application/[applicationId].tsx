@@ -10,7 +10,6 @@ import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import styled from 'styled-components';
-import sortRfiFiles from 'utils/sortRfiFiles';
 
 const StyledButton = styled('button')`
   color: ${(props) => props.theme.color.links};
@@ -80,7 +79,10 @@ const Application = ({
     applicationRfiDataByApplicationId,
   } = applicationByRowId;
 
-  const rfiFileList = sortRfiFiles(applicationRfiDataByApplicationId?.edges);
+  const rfiList = applicationRfiDataByApplicationId?.edges?.map(
+    (edge) => edge.node.rfiDataByRfiDataId
+  );
+
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
 
   return (
@@ -113,7 +115,7 @@ const Application = ({
           formContext={{
             // validate errors and pass through formContext for review checkbox section
             errors: formErrorSchema,
-            rfiFileList,
+            rfiList,
             toggleOverride,
           }}
           formData={jsonData}
