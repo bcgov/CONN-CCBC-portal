@@ -1,3 +1,27 @@
+# [1.93.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.92.0...v1.93.0) (2023-08-09)
+
+### Bug Fixes
+
+- **ci:** revert mutation fix ([70fb3cb](https://github.com/bcgov/CONN-CCBC-portal/commit/70fb3cbaba757c72c3b319f5e73048a1a893252a))
+- community report mutation input name ([8eaaffb](https://github.com/bcgov/CONN-CCBC-portal/commit/8eaaffb30f4f306a3762f39b98b768fa7bd14626))
+- merge conflict ([64b7fe0](https://github.com/bcgov/CONN-CCBC-portal/commit/64b7fe0a5e043100eaa043e017beed7eb8663778))
+- success heading type ([e9356f9](https://github.com/bcgov/CONN-CCBC-portal/commit/e9356f9539e3962a5f307451085fa8dd603da76d))
+- undo change to summary_tab file ([0e1dd4f](https://github.com/bcgov/CONN-CCBC-portal/commit/0e1dd4fffce570dfccc03a5295a63cd2a04d64a9))
+
+### Features
+
+- add check for updating application form ([8749064](https://github.com/bcgov/CONN-CCBC-portal/commit/87490640bc1e9408d3f2648022a352546fe50030))
+- add community report table ([91c7db1](https://github.com/bcgov/CONN-CCBC-portal/commit/91c7db1ed028892b7bd036b98a875b9e578e25e4))
+- add custom excel import widget error ([b0f8974](https://github.com/bcgov/CONN-CCBC-portal/commit/b0f8974947b1776756d644b6ab4f7aa779708f70))
+- add modal when conflict occurs ([47ac05d](https://github.com/bcgov/CONN-CCBC-portal/commit/47ac05d725dee3d3ebe4a3aaf4bd71e060af2668))
+- add postgres mutation to create community report data ([4922521](https://github.com/bcgov/CONN-CCBC-portal/commit/4922521c0be63d080b8eef81ea7a51d189f66480))
+- allow custom success message for excel import file widget ([edbe9a5](https://github.com/bcgov/CONN-CCBC-portal/commit/edbe9a5dd4ad05943d017b819cb5cc8b44e26cab))
+- computed column returning attachments for rfi ([172c485](https://github.com/bcgov/CONN-CCBC-portal/commit/172c48575c778dbaf2c02301391c47e3fd998710))
+- extract uuid function ([8b3c06a](https://github.com/bcgov/CONN-CCBC-portal/commit/8b3c06aad91592efc8645e2260aedb994559cd50))
+- save community progress report excel data ([2d69a36](https://github.com/bcgov/CONN-CCBC-portal/commit/2d69a36233256469f9b7e204be28f22fe9fe7c86))
+- save datetime uploaded in file form data ([e392478](https://github.com/bcgov/CONN-CCBC-portal/commit/e3924788a7482bba6301da319b2c7a7b4cc3d548))
+- update debounce timeout along and add buffer to update ([5ff5986](https://github.com/bcgov/CONN-CCBC-portal/commit/5ff5986de8d7e439df7721ed4e164f018bf5e022))
+
 # [1.92.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.91.0...v1.92.0) (2023-08-04)
 
 ### Bug Fixes
