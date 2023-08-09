@@ -88,6 +88,11 @@
           sortable: true,
         },
       },
+      'ccbc_public.application_zone': {
+        tags: {
+          sortable: true,
+        },
+      },
       'ccbc_public.extract_uuids': {
         tags: {
           omit: true,

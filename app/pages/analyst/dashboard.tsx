@@ -17,6 +17,7 @@ const DEFAULT_SORT = 'CCBC_NUMBER_ASC';
 const tableFilters = [
   new NumberFilter('Intake', 'intakeNumber'),
   new TextFilter('CCBC ID', 'ccbcNumber'),
+  new NumberFilter('Zone', 'zones', { orderByPrefix: 'ZONE' }),
   new TextFilter('Status', 'statusSortFilter'),
   new TextFilter('Project title', 'projectName'),
   new TextFilter('Organization', 'organizationName'),
@@ -33,6 +34,7 @@ const getDashboardAnalystQuery = graphql`
     $orderBy: [ApplicationsOrderBy!]
     $intakeNumber: Int
     $ccbcNumber: String
+    $zones: [Int]
     $projectName: String
     $organizationName: String
     $analystLead: String
@@ -56,6 +58,7 @@ const getDashboardAnalystQuery = graphql`
         organizationName: { includesInsensitive: $organizationName }
         analystLead: { includesInsensitive: $analystLead }
         package: { equalTo: $package }
+        zones: { contains: $zones }
       }
     ) {
       totalCount

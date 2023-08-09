@@ -12800,8 +12800,11 @@ type Application implements Node {
   Computed column to return the status order with the status name appended for sorting and filtering
   """
   statusSortFilter: String
+  zone: Int
 
-  """Computed column to get zones from json data"""
+  """
+  Computed column to get single lowest zone from json data, used for sorting
+  """
   zones: [Int]
 
   """Reads and enables pagination through a set of `AssessmentType`."""
@@ -15163,6 +15166,9 @@ input ApplicationFilter {
 
   """Filter by the object’s `statusSortFilter` field."""
   statusSortFilter: StringFilter
+
+  """Filter by the object’s `zone` field."""
+  zone: IntFilter
 
   """Filter by the object’s `zones` field."""
   zones: IntListFilter
@@ -19675,6 +19681,8 @@ enum ApplicationsOrderBy {
   STATUS_ORDER_DESC
   STATUS_SORT_FILTER_ASC
   STATUS_SORT_FILTER_DESC
+  ZONE_ASC
+  ZONE_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
