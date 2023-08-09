@@ -2,6 +2,6 @@
 
 begin;
 
-drop table ccbc_public.application_community_report_excel_data cascade;
+drop table if exists ccbc_public.application_community_report_excel_data cascade;
 
 commit;

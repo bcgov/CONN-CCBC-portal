@@ -2,6 +2,8 @@
 
 begin;
 
+drop function if exists ccbc_public.create_application_community_report_excel_data cascade;
+
 create or replace function ccbc_public.create_application_community_report_excel_data(_application_id int, _json_data jsonb)
 returns ccbc_public.application_community_report_excel_data as $$
 declare
