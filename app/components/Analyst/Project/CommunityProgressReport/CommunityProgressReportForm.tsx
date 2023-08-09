@@ -58,10 +58,18 @@ const CommunityProgressReportForm = ({ application }) => {
   const [excelFile, setExcelFile] = useState(null);
 
   const communityProgressConnectionId = communityProgressData?.__id;
-  const communityProgressList = communityProgressData?.edges?.filter((data) => {
-    // filter null nodes from the list caused by relay connection update
-    return data.node !== null;
-  });
+  const communityProgressList = communityProgressData?.edges
+    ?.filter((data) => {
+      // filter null nodes from the list caused by relay connection update
+      return data.node !== null;
+    })
+    .sort((a, b) => {
+      // sort by date received
+      const dateA = new Date(a.node.jsonData.dueDate);
+      const dateB = new Date(b.node.jsonData.dueDate);
+
+      return dateB.getTime() - dateA.getTime();
+    });
 
   const apiPath = `/api/analyst/community-report/${rowId}`;
 
