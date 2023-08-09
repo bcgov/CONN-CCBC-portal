@@ -28,6 +28,8 @@ const mockQueryPayload = {
               ccbcNumber: 'CCBC-010001',
               organizationName: 'Test Org Name',
               intakeNumber: 1,
+              zone: 1,
+              zones: [1, 2],
             },
           },
           {
@@ -39,6 +41,8 @@ const mockQueryPayload = {
               ccbcNumber: 'CCBC-010002',
               organizationName: 'Test Org Name 2',
               intakeNumber: 2189,
+              zone: null,
+              zones: [],
             },
           },
           {
@@ -50,6 +54,8 @@ const mockQueryPayload = {
               ccbcNumber: 'CCBC-010003',
               organizationName: 'Test Org Name 3',
               intakeNumber: 1,
+              zone: null,
+              zones: [],
             },
           },
           {
@@ -61,6 +67,8 @@ const mockQueryPayload = {
               ccbcNumber: 'CCBC-010004',
               organizationName: 'Test Org Name 4',
               intakeNumber: 3,
+              zone: null,
+              zones: [],
             },
           },
         ],
@@ -100,6 +108,7 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
     analystLead: null,
     package: null,
     statusSortFilter: null,
+    zones: null,
   },
 });
 
