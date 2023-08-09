@@ -191,4 +191,18 @@ describe('The Community Progress Report form', () => {
     expect(screen.getByText('Edit')).toBeInTheDocument();
     expect(screen.getByText('community_report.xlsx')).toBeInTheDocument();
   });
+
+  it('can edit a saved Community Progress Report', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryByText('Save')).not.toBeInTheDocument();
+    const editButton = screen.getByText('Edit').closest('button');
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    expect(screen.getByText('Save')).toBeInTheDocument();
+  });
 });
