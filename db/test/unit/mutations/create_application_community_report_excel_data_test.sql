@@ -46,8 +46,8 @@ select results_eq (
   'Should crete community report data'
 );
 
--- create another and make sure the previous one is archived
-select ccbc_public.create_application_community_report_excel_data(1::int , '{}'::jsonb);
+-- create another, pass in the previous id and make sure the previous one is archived
+select ccbc_public.create_application_community_report_excel_data(1::int , '{}'::jsonb, 1);
 
 select results_eq (
   $$
