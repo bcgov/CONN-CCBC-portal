@@ -74,12 +74,10 @@ const SuccessContainer = styled.div`
   display: flex;
 `;
 
-export const Success = () => (
+export const Success = ({ heading = 'Excel Data table match database' }) => (
   <SuccessContainer>
     <SuccessTextContainer>
-      <SuccessTextHeading>
-        Statement of Work Data table match database
-      </SuccessTextHeading>
+      <SuccessTextHeading>{heading}</SuccessTextHeading>
       <SuccessTextSubHeading>
         Remember to press Save & Import
       </SuccessTextSubHeading>
@@ -90,7 +88,7 @@ export const Success = () => (
   </SuccessContainer>
 );
 
-export const displaySowUploadErrors = (err) => {
+export const displayExcelUploadErrors = (err) => {
   const {
     level: errorType,
     error: errorMessage,
@@ -147,14 +145,15 @@ export const displaySowUploadErrors = (err) => {
 
 export const renderStatusLabel = (
   loading: boolean,
-  success: boolean
+  success: boolean,
+  successHeading?: string
 ): React.ReactNode => {
   if (loading) {
     return <Loading>Checking the data</Loading>;
   }
 
   if (!loading && success) {
-    return <Success />;
+    return <Success heading={successHeading} />;
   }
 
   return false;
@@ -168,16 +167,17 @@ type FileProps = {
   type: string;
 };
 
-interface SowImportFileWidgetProps extends WidgetProps {
+interface ExcelImportFileWidgetProps extends WidgetProps {
   value: Array<FileProps>;
 }
 
 const acceptedFileTypes = '.xls, .xlsx, .xlsm';
 
-const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
+const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
   id,
   formContext,
   onChange,
+  options,
   value,
   required,
   label,
@@ -187,7 +187,10 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
   const [isImporting, setIsImporting] = useState(false);
-  const [isValidSow, setIsValidSow] = useState(false);
+  const [isValidExcel, setIsValidExcel] = useState(false);
+  const excelImportOptions = options?.excelImport;
+  const successHeading = excelImportOptions['successHeading'] as any;
+  const errorType = excelImportOptions?.['errorType'];
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment || isImporting;
   const maxFileSizeInBytes = 104857600;
@@ -198,8 +201,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       setError('rjsf_validation');
     }
   }, [rawErrors, setError]);
-  const { applicationId, sowValidationErrors, validateSow, amendmentNumber } =
-    formContext;
+  const { applicationId, excelValidationErrors, validateExcel } = formContext;
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (loading) return;
@@ -238,14 +240,14 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
       },
     };
 
-    const response = await validateSow(file, amendmentNumber, true);
+    const response = await validateExcel(file, true);
 
     const { status } = response;
 
     if (status !== 200) {
-      setError('sowImportFailed');
+      setError(errorType || 'excelImportFailed');
       setIsImporting(false);
-      setIsValidSow(false);
+      setIsValidExcel(false);
     } else {
       createAttachment({
         variables,
@@ -267,7 +269,7 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
           setIsImporting(false);
         },
       });
-      setIsValidSow(true);
+      setIsValidExcel(true);
     }
   };
 
@@ -288,14 +290,18 @@ const SowImportFileWidget: React.FC<SowImportFileWidgetProps> = ({
         id={id}
         label={label}
         hideFailedUpload
-        statusLabel={renderStatusLabel(isImporting, isValidSow)}
+        statusLabel={renderStatusLabel(
+          isImporting,
+          isValidExcel,
+          successHeading
+        )}
         required={required}
         value={value}
       />
-      {sowValidationErrors?.length > 0 &&
-        sowValidationErrors.flatMap(displaySowUploadErrors)}
+      {excelValidationErrors?.length > 0 &&
+        excelValidationErrors.flatMap(displayExcelUploadErrors)}
     </>
   );
 };
 
-export default SowImportFileWidget;
+export default ExcelImportFileWidget;

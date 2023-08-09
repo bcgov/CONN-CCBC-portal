@@ -84,7 +84,7 @@ const ChangeRequestFieldTemplate: React.FC<FieldTemplateProps> = ({
 
   const isFileWidget =
     uiSchema['ui:widget'] === 'FileWidget' ||
-    uiSchema['ui:widget'] === 'SowImportFileWidget';
+    uiSchema['ui:widget'] === 'ExcelImportFileWidget';
 
   if (isFileWidget) {
     return (

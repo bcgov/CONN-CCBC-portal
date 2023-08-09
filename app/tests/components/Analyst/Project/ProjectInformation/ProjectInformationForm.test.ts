@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
-import { displaySowUploadErrors } from 'components/Analyst/Project/ProjectInformation/widgets/SowImportFileWidget';
+import { displayExcelUploadErrors } from 'components/Analyst/Project/ProjectInformation/widgets/ExcelImportFileWidget';
 
-describe('displaySowUploadErrors', () => {
+describe('displayExcelUploadErrors', () => {
   it('should display the default error message when the error type is unknown', () => {
     const { getByText } = render(
-      displaySowUploadErrors({ level: 'unknown', error: 'Unknown error' })
+      displayExcelUploadErrors({ level: 'unknown', error: 'Unknown error' })
     );
     expect(
       getByText(
@@ -16,7 +16,7 @@ describe('displaySowUploadErrors', () => {
 
   it('should display the tab error message when the error type includes tab', () => {
     const { getByText } = render(
-      displaySowUploadErrors({ level: 'tab 1', error: 'Tab error' })
+      displayExcelUploadErrors({ level: 'tab 1', error: 'Tab error' })
     );
     expect(
       getByText(
@@ -28,7 +28,7 @@ describe('displaySowUploadErrors', () => {
 
   it('should display the summary error message when the error type is summary', () => {
     const { getByText } = render(
-      displaySowUploadErrors({ level: 'summary', error: 'Summary error' })
+      displayExcelUploadErrors({ level: 'summary', error: 'Summary error' })
     );
     expect(
       getByText(
@@ -40,7 +40,7 @@ describe('displaySowUploadErrors', () => {
 
   it('should display the database error message when the error type is database', () => {
     const { getByText } = render(
-      displaySowUploadErrors({ level: 'database', error: 'Database error' })
+      displayExcelUploadErrors({ level: 'database', error: 'Database error' })
     );
     expect(
       getByText('An error occured when validating the Statement of Work data')
@@ -50,7 +50,7 @@ describe('displaySowUploadErrors', () => {
 
   it('should display the workbook error message when the error type is workbook', () => {
     const { getByText } = render(
-      displaySowUploadErrors({ level: 'workbook', error: 'Workbook error' })
+      displayExcelUploadErrors({ level: 'workbook', error: 'Workbook error' })
     );
     expect(
       getByText(
@@ -67,7 +67,7 @@ describe('displaySowUploadErrors', () => {
     ];
 
     const { getByText } = render(
-      displaySowUploadErrors({ level: 'cell', error: errorMessageArray })
+      displayExcelUploadErrors({ level: 'cell', error: errorMessageArray })
     );
 
     errorMessageArray.forEach(({ error }) => {
