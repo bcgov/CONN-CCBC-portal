@@ -390,3 +390,4 @@ tables/application_community_progress_report_data_001 2023-08-08T19:31:35Z Marce
 functions/extract_uuids 2023-08-03T19:24:48Z Anthony Bushara <anthony@button.is> # Utility function to extract uuids out of any jsonb provided
 computed_columns/rfi_data_attachments 2023-08-04T16:23:42Z Anthony Bushara <anthony@button.is> # Computed column to provide all attachments rows of an rfi
 @1.93.0 2023-08-09T16:44:16Z CCBC Service Account <ccbc@button.is> # release v1.93.0
+@1.93.1 2023-08-09T21:51:31Z CCBC Service Account <ccbc@button.is> # release v1.93.1
