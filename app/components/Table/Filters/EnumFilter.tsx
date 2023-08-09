@@ -36,9 +36,16 @@ export default class EnumFilter<T> extends TableFilter {
           disabled={disabled}
           value={(filterArgs[this.argName] ?? '') as string}
           aria-label={`Filter by ${this.title}`}
-          onChange={(evt) =>
-            onChange(this.castValue(evt.target.value), this.argName)
-          }
+          onChange={(evt) => {
+            onChange(this.castValue(evt.target.value), this.argName);
+            setTimeout(() => {
+              const enterEvent = new KeyboardEvent('keydown', {
+                key: 'Enter',
+                bubbles: true,
+              });
+              evt.target.dispatchEvent(enterEvent);
+            }, 200); // 200 milliseconds delay required for change to properly take place
+          }}
         >
           <option key={`${this.argName}-placeholder`} value="">
             ...
