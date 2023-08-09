@@ -1,6 +1,6 @@
 import { mocked } from 'jest-mock';
 import userEvent from '@testing-library/user-event';
-import { fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import Dashboard from '../../../pages/analyst/dashboard';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
@@ -319,5 +319,31 @@ describe('The index page', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('triggers the onChange event when the zone dropdown is changed', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    jest.useFakeTimers();
+    const zoneDropdown = screen.getByLabelText(
+      'Filter by Zone'
+    ) as HTMLSelectElement;
+
+    await act(async () => {
+      fireEvent.change(zoneDropdown, { target: { value: '14' } });
+      jest.advanceTimersByTime(200);
+    });
+
+    await waitFor(() => {
+      fireEvent.keyDown(zoneDropdown, {
+        key: 'Enter',
+        bubbles: true,
+      });
+    });
+    jest.useRealTimers();
+
+    const option = screen.getAllByText('14')[0];
+    expect(option).toBeInTheDocument();
   });
 });
