@@ -49,8 +49,6 @@ const CommunityProgressReportForm = ({ application }) => {
     rowId,
   } = queryFragment;
 
-  console.log('communityProgressData', communityProgressData);
-
   const [formData, setFormData] = useState({} as FormData);
   const [currentCommunityProgressData, setCurrentCommunityProgressData] =
     useState(null);

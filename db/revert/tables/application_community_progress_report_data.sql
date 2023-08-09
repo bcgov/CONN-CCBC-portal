@@ -2,6 +2,6 @@
 
 BEGIN;
 
-drop table if exists ccbc_public.application_community_progress_report_data;
+drop table if exists ccbc_public.application_community_progress_report_data cascade;
 
 COMMIT;
