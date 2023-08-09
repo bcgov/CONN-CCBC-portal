@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>conditional_approval_data - ccbc.ccbc_public</title>
+        <title>application_community_report_excel_data - ccbc.ccbc_public</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>conditional_approval_data</h1><p><span id="recordNumber">-1</span> rows</p><br />
+                    <h1>application_community_report_excel_data</h1><p><span id="recordNumber">-1</span> rows</p><br />
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <i class="fa fa-file-text-o"></i>
@@ -84,7 +84,7 @@
                             </div>
                         </div><!-- /.box-header -->
                         <div class="box-body clearfix">
-                            <p>Table to store conditional approval data</p>
+                            <p>Table containing the Community Report excel data for the given application</p>
                         </div><!-- /.box-body -->
                     </div>
                 </section>
@@ -136,7 +136,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>Unique id for the row</p></td>
+                                    <td><p>Unique ID for the Community Report excel data</p></td>
                                 </tr>
                                 <tr>
                                     <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="application_id">application_id</span></td>
@@ -152,13 +152,13 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="conditional_approval_data.application_id references application.id via conditional_approval_data_application_id_fkey"><a href='application.html'>application</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">conditional_approval_data_application_id_fkey</td>
+                                                <td title="application_community_report_excel_data.application_id references application.id via application_community_report_excel_data_application_id_fkey"><a href='application.html'>application</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_community_report_excel_data_application_id_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td><p>The foreign key of an application</p></td>
+                                    <td><p>ID of the application this Community Report belongs to</p></td>
                                 </tr>
                                 <tr>
                                     <td><span id="json_data">json_data</span></td>
@@ -175,7 +175,7 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
                                     </td>
-                                    <td><p>The json form data of the conditional approval form. See <a href="https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fconditional_approval_data.json">schema</a></p></td>
+                                    <td><p>The data imported from the excel filled by the respondent</p></td>
                                 </tr>
                                 <tr>
                                     <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="created_by">created_by</span></td>
@@ -191,8 +191,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="conditional_approval_data.created_by references ccbc_user.id via conditional_approval_data_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">conditional_approval_data_created_by_fkey</td>
+                                                <td title="application_community_report_excel_data.created_by references ccbc_user.id via application_community_report_excel_data_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_community_report_excel_data_created_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -230,8 +230,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="conditional_approval_data.updated_by references ccbc_user.id via conditional_approval_data_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">conditional_approval_data_updated_by_fkey</td>
+                                                <td title="application_community_report_excel_data.updated_by references ccbc_user.id via application_community_report_excel_data_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_community_report_excel_data_updated_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -269,8 +269,8 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="conditional_approval_data.archived_by references ccbc_user.id via conditional_approval_data_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">conditional_approval_data_archived_by_fkey</td>
+                                                <td title="application_community_report_excel_data.archived_by references ccbc_user.id via application_community_report_excel_data_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">application_community_report_excel_data_archived_by_fkey</td>
                                                 <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
@@ -325,25 +325,25 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> conditional_approval_data_pkey</td>
+                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> application_community_report_excel_data_pkey</td>
                                     <td>Primary key</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>id</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_conditional_approval_data_archived_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_application_community_report_excel_data_archived_by</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>archived_by</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_conditional_approval_data_created_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_application_community_report_excel_data_created_by_</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>created_by</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>ccbc_public_conditional_approval_data_updated_by_foreign_key</td>
+                                    <td title='Indexed'>ccbc_public_application_community_report_excel_data_updated_by_</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
                                     <td>updated_by</td>
@@ -373,43 +373,43 @@
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
 <area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="231,5,400,269">
 <area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,200,187,435">
-<area shape="rect" id="node3" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="444,128,847,461">
+<area shape="rect" id="node3" href="application_community_report_excel_data.html" target="_top" title="application_community_report_excel_data" alt="" coords="444,128,972,461">
 </map>
-                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/conditional_approval_data.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/application_community_report_excel_data.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="466,104,605,192">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,1004,161,1092">
-<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="205,172,407,260">
-<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="451,760,620,848">
-<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="241,828,371,916">
-<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="748,15,1023,103">
-<area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="737,170,1034,258">
-<area shape="rect" id="node8" href="application_community_progress__3b268028.html" target="_top" title="application_community_progress_report_data" alt="" coords="664,275,1107,363">
-<area shape="rect" id="node9" href="application_community_report_excel_data.html" target="_top" title="application_community_report_excel_data" alt="" coords="677,380,1093,468">
-<area shape="rect" id="node10" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="757,486,1014,574">
-<area shape="rect" id="node11" href="form_data.html" target="_top" title="form_data" alt="" coords="225,482,387,570">
-<area shape="rect" id="node12" href="application_gis_assessment_hh.html" target="_top" title="application_gis_assessment_hh" alt="" coords="723,732,1048,820">
-<area shape="rect" id="node13" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="765,591,1005,679">
-<area shape="rect" id="node14" href="gis_data.html" target="_top" title="gis_data" alt="" coords="234,587,378,675">
-<area shape="rect" id="node15" href="application_package.html" target="_top" title="application_package" alt="" coords="765,838,1006,926">
-<area shape="rect" id="node16" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="767,943,1004,1031">
-<area shape="rect" id="node17" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="236,1002,376,1090">
-<area shape="rect" id="node18" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="760,2024,1011,2112">
-<area shape="rect" id="node19" href="application_status.html" target="_top" title="application_status" alt="" coords="773,1048,998,1136">
-<area shape="rect" id="node20" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="777,1222,993,1310">
-<area shape="rect" id="node21" href="attachment.html" target="_top" title="attachment" alt="" coords="1151,1132,1324,1220">
-<area shape="rect" id="node22" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="761,1327,1009,1415">
-<area shape="rect" id="node23" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="684,1674,1087,2007">
-<area shape="rect" id="node24" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="744,1432,1027,1520">
-<area shape="rect" id="node25" href="record_version.html" target="_top" title="record_version" alt="" coords="207,1746,405,1834">
-<area shape="rect" id="node26" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1157,1516,1317,1604">
-<area shape="rect" id="node27" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1157,1622,1317,1710">
-<area shape="rect" id="node28" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1157,2071,1317,2159">
-<area shape="rect" id="node29" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1157,2176,1317,2264">
+<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="466,147,605,235">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,1192,161,1280">
+<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="205,388,407,476">
+<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="451,943,620,1031">
+<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="241,1016,371,1104">
+<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="791,5,1065,93">
+<area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="779,111,1077,199">
+<area shape="rect" id="node8" href="application_community_progress__3b268028.html" target="_top" title="application_community_progress_report_data" alt="" coords="707,216,1149,304">
+<area shape="rect" id="node9" href="application_community_report_excel_data.html" target="_top" title="application_community_report_excel_data" alt="" coords="664,321,1192,655">
+<area shape="rect" id="node10" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="799,672,1057,760">
+<area shape="rect" id="node11" href="form_data.html" target="_top" title="form_data" alt="" coords="225,669,387,757">
+<area shape="rect" id="node12" href="application_gis_assessment_hh.html" target="_top" title="application_gis_assessment_hh" alt="" coords="765,883,1091,971">
+<area shape="rect" id="node13" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="808,777,1048,865">
+<area shape="rect" id="node14" href="gis_data.html" target="_top" title="gis_data" alt="" coords="234,843,378,931">
+<area shape="rect" id="node15" href="application_package.html" target="_top" title="application_package" alt="" coords="807,1024,1049,1112">
+<area shape="rect" id="node16" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="809,1129,1047,1217">
+<area shape="rect" id="node17" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="236,1189,376,1277">
+<area shape="rect" id="node18" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="803,1897,1053,1985">
+<area shape="rect" id="node19" href="application_status.html" target="_top" title="application_status" alt="" coords="815,1235,1041,1323">
+<area shape="rect" id="node20" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="820,1408,1036,1496">
+<area shape="rect" id="node21" href="attachment.html" target="_top" title="attachment" alt="" coords="1236,1319,1409,1407">
+<area shape="rect" id="node22" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="804,1513,1052,1601">
+<area shape="rect" id="node23" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="783,1619,1073,1707">
+<area shape="rect" id="node24" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="787,1792,1069,1880">
+<area shape="rect" id="node25" href="record_version.html" target="_top" title="record_version" alt="" coords="207,1813,405,1901">
+<area shape="rect" id="node26" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1243,1703,1403,1791">
+<area shape="rect" id="node27" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1243,1935,1403,2023">
+<area shape="rect" id="node28" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1243,2040,1403,2128">
+<area shape="rect" id="node29" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1243,2145,1403,2233">
 </map>
-                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/conditional_approval_data.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/application_community_report_excel_data.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                 </div>
                             </div>
