@@ -103,8 +103,6 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
 
   const router = useRouter();
 
-  console.log(zones);
-
   const handleOnClick = () => {
     router.push(`/analyst/application/${rowId}`);
   };
