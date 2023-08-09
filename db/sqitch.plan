@@ -386,3 +386,4 @@ mutations/create_application_community_report_excel_data 2023-08-03T14:31:46Z Ma
 @1.93.0 2023-08-09T16:44:16Z CCBC Service Account <ccbc@button.is> # release v1.93.0
 mutations/create_application_community_progress_report_data 2023-08-04T22:38:04Z Marcel Mueller <marcel@m2> # add mutation to create community progress data
 tables/application_community_progress_report_data_001 2023-08-08T19:31:35Z Marcel Mueller <marcel@m2> # add update permissions
+mutations/create_application_community_report_excel_data [mutations/create_application_community_report_excel_data@1.93.0] 2023-08-09T21:56:56Z Marcel Mueller <marcel@m2> # add argument for old report id
