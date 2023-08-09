@@ -50,6 +50,7 @@ const CommunityProgressReportForm = ({ application }) => {
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
+  // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentCommunityProgressData, setCurrentCommunityProgressData] =
     useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
