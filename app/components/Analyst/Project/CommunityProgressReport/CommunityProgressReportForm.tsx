@@ -84,6 +84,7 @@ const CommunityProgressReportForm = ({ application }) => {
     setIsFormEditMode(false);
     setFormData({} as FormData);
     setCurrentCommunityProgressData(null);
+    setExcelFile(null);
   };
 
   const handleSubmit = (e) => {
@@ -133,7 +134,9 @@ const CommunityProgressReportForm = ({ application }) => {
       isFormAnimated
       isFormEditMode={isFormEditMode}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-      saveBtnText={formData?.progressReportFile ? 'Save & Import' : 'Save'}
+      saveBtnText={
+        formData?.progressReportFile && excelFile ? 'Save & Import' : 'Save'
+      }
       title="Community progress report"
       handleChange={(e) => {
         setFormData({ ...e.formData });
