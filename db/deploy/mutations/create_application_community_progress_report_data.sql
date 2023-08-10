@@ -5,14 +5,15 @@ begin;
 create or replace function ccbc_public.create_application_community_progress_report_data(
     _application_id integer,
     _json_data jsonb,
-    _old_community_progress_report_id integer default null
+    _old_community_progress_report_id integer default null,
+    _excel_data_id integer default null
 ) returns ccbc_public.application_community_progress_report_data as $$
 declare
   new_id integer;
 begin
 
-  insert into ccbc_public.application_community_progress_report_data (application_id, json_data)
-  values (_application_id, _json_data)
+  insert into ccbc_public.application_community_progress_report_data (application_id, excel_data_id, json_data)
+  values (_application_id, _excel_data_id, _json_data)
   returning id into new_id;
 
   if exists (select * from ccbc_public.application_community_progress_report_data where id = _old_community_progress_report_id)
