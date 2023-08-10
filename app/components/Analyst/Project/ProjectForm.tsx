@@ -141,6 +141,7 @@ interface Props {
   setFormData?: any;
   setIsFormEditMode: any;
   submitting?: boolean;
+  submittingText?: string;
   theme?: any;
   title: string;
   uiSchema?: any;
@@ -168,6 +169,7 @@ const ProjectForm: React.FC<Props> = ({
   setFormData = () => {},
   setIsFormEditMode,
   submitting = false,
+  submittingText,
   theme,
   title,
   uiSchema,
@@ -260,7 +262,7 @@ const ProjectForm: React.FC<Props> = ({
                 <CircularProgress color="inherit" />
               </LoadingItem>
               <LoadingItem>
-                <p>Importing Statement of Work. Please wait.</p>
+                <p>{`${submittingText}`}</p>
               </LoadingItem>
             </LoadingContainer>
           ) : (
