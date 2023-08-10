@@ -158,7 +158,11 @@ const CommunityProgressReportForm = ({ application }) => {
       }}
       resetFormData={handleResetFormData}
       setFormData={setFormData}
+      submitting={isFormSubmitting}
+      submittingText="Importing community progress report. Please wait."
       showEditBtn={false}
+      saveBtnDisabled={isFormSubmitting}
+      cancelBtnDisabled={isFormSubmitting}
       before={
         <AddButton
           isFormEditMode={isFormEditMode}

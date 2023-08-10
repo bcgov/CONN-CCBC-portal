@@ -137,6 +137,7 @@ interface Props {
   resetFormData: any;
   saveBtnText?: string;
   saveBtnDisabled?: boolean;
+  cancelBtnDisabled?: boolean;
   schema: JSONSchema7;
   setFormData?: any;
   setIsFormEditMode: any;
@@ -164,6 +165,7 @@ const ProjectForm: React.FC<Props> = ({
   onSubmit,
   resetFormData,
   saveBtnDisabled,
+  cancelBtnDisabled,
   saveBtnText,
   schema,
   setFormData = () => {},
@@ -216,6 +218,7 @@ const ProjectForm: React.FC<Props> = ({
               <StyledBtn
                 size="small"
                 variant="secondary"
+                disabled={cancelBtnDisabled}
                 onClick={() => {
                   setFormData();
                   setIsFormEditMode(false);
