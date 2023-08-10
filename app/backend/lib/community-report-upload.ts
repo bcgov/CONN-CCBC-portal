@@ -73,7 +73,7 @@ const processCommunityReport: ExpressMiddleware = async (req, res) => {
 };
 
 communityReportUpload.post(
-  '/api/analyst/community-report/:applicationId',
+  '/api/analyst/community-report/:applicationId/:reportId',
   limiter,
   (req, res) => {
     // eslint-disable-next-line no-void

@@ -32,7 +32,9 @@ function excelValidateGenerator(
       } else if (setExcelValidationErrors) {
         setExcelValidationErrors([]);
       }
-      return response;
+
+      // return error list and status since response.json has been consumed and locked
+      return { ...errorListResponse, status: response.status };
     }
     if (setExcelValidationErrors) setExcelValidationErrors([]);
     return null;
