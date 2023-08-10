@@ -4,6 +4,7 @@ import communityProgressReport from 'formSchema/analyst/communityProgressReport'
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
+import Toast from 'components/Toast';
 import CommunityProgressView from './CommunityProgressView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
@@ -57,6 +58,8 @@ const CommunityProgressReportForm = ({ application }) => {
   const [createCommunityProgressReport] =
     useCreateCommunityProgressReportMutation();
   const [excelFile, setExcelFile] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   const communityProgressConnectionId = communityProgressData?.__id;
   const communityProgressList = communityProgressData?.edges
@@ -86,12 +89,14 @@ const CommunityProgressReportForm = ({ application }) => {
     setFormData({} as FormData);
     setCurrentCommunityProgressData(null);
     setExcelFile(null);
+    setShowToast(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsFormSubmitting(true);
 
-    validateCommunityReport(excelFile, false).then(() => {
+    validateCommunityReport(excelFile, false).then((r) => {
       /// save form data
       createCommunityProgressReport({
         variables: {
@@ -104,6 +109,15 @@ const CommunityProgressReportForm = ({ application }) => {
         },
         onCompleted: () => {
           handleResetFormData();
+
+          if (r?.status === 200) {
+            setShowToast(true);
+          }
+
+          setIsFormSubmitting(false);
+        },
+        onError: () => {
+          setIsFormSubmitting(false);
         },
         updater: (store) => {
           if (currentCommunityProgressData?.id) {
@@ -168,6 +182,11 @@ const CommunityProgressReportForm = ({ application }) => {
           />
         );
       })}
+      {showToast && (
+        <Toast timeout={5000}>
+          Community progress report successfully imported
+        </Toast>
+      )}
     </ProjectForm>
   );
 };
