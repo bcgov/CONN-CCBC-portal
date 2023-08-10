@@ -1,3 +1,20 @@
+# [1.94.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.93.1...v1.94.0) (2023-08-10)
+
+### Bug Fixes
+
+- date time and timezone ([8d4dab3](https://github.com/bcgov/CONN-CCBC-portal/commit/8d4dab3df932822d3b23a1e201565af218068afa))
+- date types errors ([1d67633](https://github.com/bcgov/CONN-CCBC-portal/commit/1d676335059480966cf064a3978c44876079278e))
+- leave value as dayjs only ([c07b790](https://github.com/bcgov/CONN-CCBC-portal/commit/c07b7909ecf2836e32c6a0c26be4b87de984ddfe))
+- remove console log ([51cc799](https://github.com/bcgov/CONN-CCBC-portal/commit/51cc7997fdb0797056cdf228c53c65e4b515ca25))
+- set max and min date option, use dayjs ([a8309ff](https://github.com/bcgov/CONN-CCBC-portal/commit/a8309ff0a91bc962d5925fa9224e653b8b70df4e))
+- update date types, remove unused props ([962185c](https://github.com/bcgov/CONN-CCBC-portal/commit/962185cccb140a6672d8f2b7ac8ecb8cf64ed732))
+
+### Features
+
+- add file date, route to add files ([7986e3d](https://github.com/bcgov/CONN-CCBC-portal/commit/7986e3dec3beb8120e61f8863c59ccba82d6ad5c))
+- analyst rfi upload ([f6e1cdc](https://github.com/bcgov/CONN-CCBC-portal/commit/f6e1cdca1d0f5f8020fe16e0ae62d151b1358d77))
+- use feature flag for add files ([a3bf24f](https://github.com/bcgov/CONN-CCBC-portal/commit/a3bf24f8ef1d00f5812dbfa84b51c2e00eee2c42))
+
 ## [1.93.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.93.0...v1.93.1) (2023-08-09)
 
 # [1.93.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.92.0...v1.93.0) (2023-08-09)
