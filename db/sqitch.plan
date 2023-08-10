@@ -389,3 +389,4 @@ computed_columns/application_zones 2023-08-08T19:53:49Z Rafael Solorzano <612892
 computed_columns/application_zone 2023-08-08T23:18:42Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # single zone returned as integer for sorting purposes
 mutations/create_application_community_progress_report_data 2023-08-04T22:38:04Z Marcel Mueller <marcel@m2> # add mutation to create community progress data
 tables/application_community_progress_report_data_001 2023-08-08T19:31:35Z Marcel Mueller <marcel@m2> # add update permissions
+@1.94.0 2023-08-10T23:24:25Z CCBC Service Account <ccbc@button.is> # release v1.94.0

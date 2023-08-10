@@ -1,3 +1,29 @@
+# [1.94.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.93.1...v1.94.0) (2023-08-10)
+
+### Bug Fixes
+
+- date time and timezone ([8d4dab3](https://github.com/bcgov/CONN-CCBC-portal/commit/8d4dab3df932822d3b23a1e201565af218068afa))
+- date types errors ([1d67633](https://github.com/bcgov/CONN-CCBC-portal/commit/1d676335059480966cf064a3978c44876079278e))
+- fiscal format timezone ([a7716ee](https://github.com/bcgov/CONN-CCBC-portal/commit/a7716ee9e3ce4445f07a0b90ff4428b96b19971d))
+- leave value as dayjs only ([c07b790](https://github.com/bcgov/CONN-CCBC-portal/commit/c07b7909ecf2836e32c6a0c26be4b87de984ddfe))
+- only show save & import when excel file present in community report ([c92a06c](https://github.com/bcgov/CONN-CCBC-portal/commit/c92a06c33665926488d4f94e8a5b607c220efb0a))
+- remove console log ([eeec092](https://github.com/bcgov/CONN-CCBC-portal/commit/eeec092cd295a1fb27685aa53800de5531919f5a))
+- remove console log ([51cc799](https://github.com/bcgov/CONN-CCBC-portal/commit/51cc7997fdb0797056cdf228c53c65e4b515ca25))
+- set max and min date option, use dayjs ([a8309ff](https://github.com/bcgov/CONN-CCBC-portal/commit/a8309ff0a91bc962d5925fa9224e653b8b70df4e))
+- update date types, remove unused props ([962185c](https://github.com/bcgov/CONN-CCBC-portal/commit/962185cccb140a6672d8f2b7ac8ecb8cf64ed732))
+
+### Features
+
+- add create community progress report postgres mutation ([7d84510](https://github.com/bcgov/CONN-CCBC-portal/commit/7d84510ffd3f6a2f87ed0caecfe8535258f19e85))
+- add file date, route to add files ([7986e3d](https://github.com/bcgov/CONN-CCBC-portal/commit/7986e3dec3beb8120e61f8863c59ccba82d6ad5c))
+- add relay connection to community progress mutation ([10cfc09](https://github.com/bcgov/CONN-CCBC-portal/commit/10cfc09c21b945f07e1cd85ddb2edcbbfcaa4bce))
+- analyst rfi upload ([f6e1cdc](https://github.com/bcgov/CONN-CCBC-portal/commit/f6e1cdca1d0f5f8020fe16e0ae62d151b1358d77))
+- computed column to get zones array ([fcf4826](https://github.com/bcgov/CONN-CCBC-portal/commit/fcf482692e9dfe8cca541ce5bc61d6b99f11a623))
+- format fiscal quarter and year for community report view ([3a485cc](https://github.com/bcgov/CONN-CCBC-portal/commit/3a485cc42ce3fbb737f844f1006eb1a3dec263d2))
+- sort community progress reports by due date ([e65bcb0](https://github.com/bcgov/CONN-CCBC-portal/commit/e65bcb084850ac48b9b24d9d8e7b86d865a8246b))
+- update relay store after edit community progress report ([7d6a864](https://github.com/bcgov/CONN-CCBC-portal/commit/7d6a864b7b63324127b20a41b990963c985db73c))
+- use feature flag for add files ([a3bf24f](https://github.com/bcgov/CONN-CCBC-portal/commit/a3bf24f8ef1d00f5812dbfa84b51c2e00eee2c42))
+
 ## [1.93.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.93.0...v1.93.1) (2023-08-09)
 
 # [1.93.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.92.0...v1.93.0) (2023-08-09)
