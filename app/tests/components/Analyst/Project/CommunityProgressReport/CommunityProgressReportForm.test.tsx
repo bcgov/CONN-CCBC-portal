@@ -367,4 +367,73 @@ describe('The Community Progress Report form', () => {
 
     expect(toast).toBeNull();
   });
+
+  it('can delete a saved Community Progress Report', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryByText('community_report.xlsx')).toBeInTheDocument();
+
+    const deleteButton = screen.getByText('Delete').closest('button');
+
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    expect(screen.getByText('Yes, delete')).toBeVisible();
+    expect(screen.getByText('No, keep')).toBeVisible();
+
+    const deleteConfirm = screen.getByText('Yes, delete').closest('button');
+
+    await act(async () => {
+      fireEvent.click(deleteConfirm);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'archiveApplicationCommunityProgressReportMutation',
+      {
+        input: {
+          _communityProgressReportId: 1,
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          archiveApplicationCommunityProgressReportData: {
+            application: {
+              rowId: 1,
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.queryByText('community_report.xlsx')).not.toBeInTheDocument();
+  });
+
+  it('can cancel deleting a saved Community Progress Report', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryByText('community_report.xlsx')).toBeInTheDocument();
+
+    const deleteButton = screen.getByText('Delete').closest('button');
+
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    expect(screen.getByText('Yes, delete')).toBeVisible();
+    expect(screen.getByText('No, keep')).toBeVisible();
+
+    const deleteConfirm = screen.getByText('No, keep').closest('button');
+
+    await act(async () => {
+      fireEvent.click(deleteConfirm);
+    });
+
+    expect(screen.queryByText('community_report.xlsx')).toBeInTheDocument();
+  });
 });
