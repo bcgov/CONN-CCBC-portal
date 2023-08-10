@@ -1,13 +1,35 @@
 import { useCallback, useState } from 'react';
+import styled from 'styled-components';
+import Button from '@button-inc/bcgov-theme/Button';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
+import { useArchiveApplicationCommunityProgressReportMutation as useArchiveCpr } from 'schema/mutations/project/archiveApplicationCommunityProgressReport';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
+import Modal from 'components/Modal';
 import CommunityProgressView from './CommunityProgressView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
+
+const StyledContainer = styled.div`
+  text-align: center;
+  max-width: 400px;
+
+  p {
+    margin-top: 16px;
+  }
+`;
+
+const StyledFlex = styled.div`
+  display: flex;
+  justify-content: center;
+
+  button:first-child {
+    margin-right: 16px;
+  }
+`;
 
 interface FormData {
   progressReportFile?: any;
@@ -31,6 +53,7 @@ const CommunityProgressReportForm = ({ application }) => {
           __id
           edges {
             node {
+              __id
               id
               rowId
               excelDataId
@@ -51,12 +74,14 @@ const CommunityProgressReportForm = ({ application }) => {
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
+  const [showModal, setShowModal] = useState(false);
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentCommunityProgressData, setCurrentCommunityProgressData] =
     useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [createCommunityProgressReport] =
     useCreateCommunityProgressReportMutation();
+  const [archiveCommunityProgressReport] = useArchiveCpr();
   const [excelFile, setExcelFile] = useState(null);
 
   const communityProgressConnectionId = communityProgressData?.__id;
@@ -133,56 +158,103 @@ const CommunityProgressReportForm = ({ application }) => {
     });
   };
 
+  const handleDelete = async () => {
+    archiveCommunityProgressReport({
+      variables: {
+        input: {
+          _communityProgressReportId: currentCommunityProgressData?.rowId,
+        },
+      },
+      updater: (store) => {
+        const connection = store.get(communityProgressConnectionId);
+        const progressReportConnectionId = currentCommunityProgressData?.__id;
+
+        store.delete(progressReportConnectionId);
+        ConnectionHandler.deleteNode(connection, progressReportConnectionId);
+      },
+      onCompleted: () => {
+        setShowModal(false);
+        setCurrentCommunityProgressData(null);
+      },
+    });
+  };
+
   return (
-    <ProjectForm
-      additionalContext={{
-        applicationId: rowId,
-        validateExcel: validateCommunityReport,
-      }}
-      schema={communityProgressReport}
-      uiSchema={communityProgressReportUiSchema}
-      formData={formData}
-      theme={ProjectTheme}
-      onSubmit={handleSubmit}
-      formAnimationHeight={400}
-      isFormAnimated
-      isFormEditMode={isFormEditMode}
-      setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-      saveBtnText={
-        formData?.progressReportFile && excelFile ? 'Save & Import' : 'Save'
-      }
-      title="Community progress report"
-      handleChange={(e) => {
-        setFormData({ ...e.formData });
-      }}
-      resetFormData={handleResetFormData}
-      setFormData={setFormData}
-      showEditBtn={false}
-      before={
-        <AddButton
-          isFormEditMode={isFormEditMode}
-          onClick={() => setIsFormEditMode(true)}
-          title="Add community progress report"
-        />
-      }
-      saveDataTestId="save-community-progress-report"
-    >
-      {communityProgressList?.map(({ node }) => {
-        return (
-          <CommunityProgressView
-            key={node.id}
-            connectionId={communityProgressConnectionId}
-            communityProgressReport={node}
+    <>
+      <Modal
+        open={showModal}
+        onClose={() => {
+          setCurrentCommunityProgressData(null);
+          setShowModal(false);
+        }}
+        title="Delete"
+      >
+        <StyledContainer>
+          <p>
+            Are you sure you want to delete this community progress report and
+            all accompanying data?
+          </p>
+          <StyledFlex>
+            <Button onClick={handleDelete}>Yes, delete</Button>
+            <Button onClick={() => setShowModal(false)} variant="secondary">
+              No, keep
+            </Button>
+          </StyledFlex>
+        </StyledContainer>
+      </Modal>
+      <ProjectForm
+        additionalContext={{
+          applicationId: rowId,
+          validateExcel: validateCommunityReport,
+        }}
+        schema={communityProgressReport}
+        uiSchema={communityProgressReportUiSchema}
+        formData={formData}
+        theme={ProjectTheme}
+        onSubmit={handleSubmit}
+        formAnimationHeight={400}
+        isFormAnimated
+        isFormEditMode={isFormEditMode}
+        setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+        saveBtnText={
+          formData?.progressReportFile && excelFile ? 'Save & Import' : 'Save'
+        }
+        title="Community progress report"
+        handleChange={(e) => {
+          setFormData({ ...e.formData });
+        }}
+        resetFormData={handleResetFormData}
+        setFormData={setFormData}
+        showEditBtn={false}
+        before={
+          <AddButton
             isFormEditMode={isFormEditMode}
-            onFormEdit={() => {
-              setFormData(node.jsonData);
-              setCurrentCommunityProgressData(node);
-              setIsFormEditMode(true);
-            }}
+            onClick={() => setIsFormEditMode(true)}
+            title="Add community progress report"
           />
-        );
-      })}
-    </ProjectForm>
+        }
+        saveDataTestId="save-community-progress-report"
+      >
+        {communityProgressList?.map(({ node }) => {
+          return (
+            <CommunityProgressView
+              key={node.id}
+              communityProgressReport={node}
+              isFormEditMode={isFormEditMode}
+              onShowDeleteModal={() => {
+                setShowModal(true);
+                setCurrentCommunityProgressData(node);
+              }}
+              onFormEdit={() => {
+                setFormData(node.jsonData);
+                setCurrentCommunityProgressData(node);
+                setIsFormEditMode(true);
+              }}
+            />
+          );
+        })}
+      </ProjectForm>
+    </>
   );
 };
 

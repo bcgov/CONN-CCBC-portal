@@ -1,10 +1,9 @@
-import { ConnectionHandler, graphql, useFragment } from 'react-relay/hooks';
+import { graphql, useFragment } from 'react-relay/hooks';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faPen } from '@fortawesome/free-solid-svg-icons';
 import DownloadLink from 'components/DownloadLink';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
-import { useArchiveApplicationCommunityProgressReportMutation as useArchiveCpr } from 'schema/mutations/project/archiveApplicationCommunityProgressReport';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -58,51 +57,31 @@ const StyledDate = styled.div`
 
 interface Props {
   communityProgressReport: any;
-  connectionId: string;
   isFormEditMode: boolean;
   onFormEdit: () => void;
+  onShowDeleteModal: () => void;
 }
 
 const CommunityProgressView: React.FC<Props> = ({
   communityProgressReport,
-  connectionId,
   isFormEditMode,
   onFormEdit,
+  onShowDeleteModal,
 }) => {
   const queryFragment = useFragment(
     graphql`
       fragment CommunityProgressView_query on ApplicationCommunityProgressReportData {
         __id
-        rowId
         jsonData
       }
     `,
     communityProgressReport
   );
 
-  const { jsonData, rowId } = queryFragment;
-
-  const [archiveCommunityProgressReport] = useArchiveCpr();
+  const { jsonData } = queryFragment;
 
   const progressReportFile = jsonData?.progressReportFile?.[0];
   const dueDate = jsonData?.dueDate;
-
-  const handleDelete = async () => {
-    archiveCommunityProgressReport({
-      variables: {
-        input: {
-          _communityProgressReportId: rowId,
-        },
-      },
-      updater: (store) => {
-        const connection = store.get(connectionId);
-        const progressReportConnectionId = queryFragment.__id;
-
-        store.delete(progressReportConnectionId);
-        ConnectionHandler.deleteNode(connection, progressReportConnectionId);
-      },
-    });
-  };
 
   return (
     <StyledContainer>
@@ -119,7 +98,7 @@ const CommunityProgressView: React.FC<Props> = ({
           <StyledButton onClick={onFormEdit}>
             Edit <FontAwesomeIcon icon={faPen} />
           </StyledButton>
-          <StyledDeleteButton onClick={handleDelete}>
+          <StyledDeleteButton onClick={onShowDeleteModal}>
             Delete <FontAwesomeIcon size="xl" icon={faClose} />
           </StyledDeleteButton>
         </StyledFlex>
