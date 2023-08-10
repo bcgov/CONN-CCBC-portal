@@ -171,6 +171,7 @@ const CommunityProgressReportForm = ({ application }) => {
         return (
           <CommunityProgressView
             key={node.id}
+            connectionId={communityProgressConnectionId}
             communityProgressReport={node}
             isFormEditMode={isFormEditMode}
             onFormEdit={() => {

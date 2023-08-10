@@ -1,9 +1,10 @@
-import { graphql, useFragment } from 'react-relay/hooks';
+import { ConnectionHandler, graphql, useFragment } from 'react-relay/hooks';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faPen } from '@fortawesome/free-solid-svg-icons';
 import DownloadLink from 'components/DownloadLink';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
+import { useArchiveApplicationCommunityProgressReportMutation as useArchiveCpr } from 'schema/mutations/project/archiveApplicationCommunityProgressReport';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -11,7 +12,10 @@ const StyledContainer = styled.div`
   margin-bottom: 8px;
 `;
 
-const StyledEditButton = styled.button`
+const StyledButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   color: ${(props) => props.theme.color.links};
   font-size: 14px;
   font-weight: 700;
@@ -23,6 +27,16 @@ const StyledEditButton = styled.button`
   &:hover {
     opacity: 0.7;
   }
+`;
+
+const StyledDeleteButton = styled(StyledButton)`
+  margin-left: 16px;
+  color: ${(props) => props.theme.color.error}; |
+`;
+
+const StyledFlex = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const StyledDate = styled.div`
@@ -44,28 +58,51 @@ const StyledDate = styled.div`
 
 interface Props {
   communityProgressReport: any;
+  connectionId: string;
   isFormEditMode: boolean;
   onFormEdit: () => void;
 }
 
 const CommunityProgressView: React.FC<Props> = ({
   communityProgressReport,
+  connectionId,
   isFormEditMode,
   onFormEdit,
 }) => {
   const queryFragment = useFragment(
     graphql`
       fragment CommunityProgressView_query on ApplicationCommunityProgressReportData {
+        __id
+        rowId
         jsonData
       }
     `,
     communityProgressReport
   );
 
-  const { jsonData } = queryFragment;
+  const { jsonData, rowId } = queryFragment;
+
+  const [archiveCommunityProgressReport] = useArchiveCpr();
 
   const progressReportFile = jsonData?.progressReportFile?.[0];
   const dueDate = jsonData?.dueDate;
+
+  const handleDelete = async () => {
+    archiveCommunityProgressReport({
+      variables: {
+        input: {
+          _communityProgressReportId: rowId,
+        },
+      },
+      updater: (store) => {
+        const connection = store.get(connectionId);
+        const progressReportConnectionId = queryFragment.__id;
+
+        store.delete(progressReportConnectionId);
+        ConnectionHandler.deleteNode(connection, progressReportConnectionId);
+      },
+    });
+  };
 
   return (
     <StyledContainer>
@@ -77,13 +114,16 @@ const CommunityProgressView: React.FC<Props> = ({
         fileName={progressReportFile?.name}
         uuid={progressReportFile?.uuid}
       />
-      <span>
-        {!isFormEditMode && (
-          <StyledEditButton onClick={onFormEdit}>
+      {!isFormEditMode && (
+        <StyledFlex>
+          <StyledButton onClick={onFormEdit}>
             Edit <FontAwesomeIcon icon={faPen} />
-          </StyledEditButton>
-        )}
-      </span>
+          </StyledButton>
+          <StyledDeleteButton onClick={handleDelete}>
+            Delete <FontAwesomeIcon size="xl" icon={faClose} />
+          </StyledDeleteButton>
+        </StyledFlex>
+      )}
     </StyledContainer>
   );
 };
