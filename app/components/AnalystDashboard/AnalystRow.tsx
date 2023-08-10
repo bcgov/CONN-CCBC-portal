@@ -26,11 +26,11 @@ const StyledBaseCell = styled('td')`
 `;
 
 const StyledIntakeNumberCell = styled('td')`
-  width: 7.31%;
+  width: 6.66%;
 `;
 
 const StyledCcbdIdCell = styled(StyledBaseCell)`
-  width: 10.54%;
+  width: 8.31%;
   padding-left: 12px !important;
   white-space: nowrap;
 `;
@@ -41,21 +41,27 @@ const StyledStatusCell = styled(StyledBaseCell)`
 `;
 
 const StyledProjectNameCell = styled(StyledBaseCell)`
-  width: 23.49%;
+  width: 23.68%;
 `;
 
 const StyledOrganizationNameCell = styled(StyledBaseCell)`
-  width: 18.72%;
+  width: 18.42%;
 `;
 
 const StyledLeadCell = styled(StyledBaseCell)`
-  width: 17.07%;
-  max-width: 17.07%;
+  width: 10.53%;
+  max-width: 10.53%;
   cursor: default;
 `;
 
 const StyledPackageCell = styled(StyledBaseCell)`
-  width: 8.55%;
+  width: 7.89%;
+  text-align: right;
+`;
+
+const StyledZoneCell = styled(StyledBaseCell)`
+  width: 5.59%;
+  text-align: right;
 `;
 
 const AnalystRow: React.FC<Props> = ({ query, application }) => {
@@ -77,6 +83,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
     ccbcNumber,
     organizationName,
     intakeNumber,
+    zones,
   } = useFragment(
     graphql`
       fragment AnalystRow_application on Application {
@@ -88,6 +95,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
         ccbcNumber
         organizationName
         intakeNumber
+        zones
       }
     `,
     application
@@ -103,6 +111,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
     <StyledRow onClick={handleOnClick}>
       <StyledIntakeNumberCell>{intakeNumber}</StyledIntakeNumberCell>
       <StyledCcbdIdCell>{ccbcNumber}</StyledCcbdIdCell>
+      <StyledZoneCell>{zones.join(', ')}</StyledZoneCell>
       <StyledStatusCell>
         <StatusPill status={analystStatus} styles={statusStyles} />
       </StyledStatusCell>

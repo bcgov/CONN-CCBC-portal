@@ -13671,6 +13671,12 @@ input ApplicationFilter {
   """Filter by the object’s `statusSortFilter` field."""
   statusSortFilter: StringFilter
 
+  """Filter by the object’s `zone` field."""
+  zone: IntFilter
+
+  """Filter by the object’s `zones` field."""
+  zones: IntListFilter
+
   """Filter by the object’s `applicationStatusesByApplicationId` relation."""
   applicationStatusesByApplicationId: ApplicationToManyApplicationStatusFilter
 
@@ -13817,6 +13823,69 @@ input ApplicationFilter {
 
   """Negates the expression."""
   not: ApplicationFilter
+}
+
+"""
+A filter to be used against Int List fields. All fields are combined with a logical ‘and.’
+"""
+input IntListFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: [Int]
+
+  """Not equal to the specified value."""
+  notEqualTo: [Int]
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: [Int]
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: [Int]
+
+  """Less than the specified value."""
+  lessThan: [Int]
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: [Int]
+
+  """Greater than the specified value."""
+  greaterThan: [Int]
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: [Int]
+
+  """Contains the specified list of values."""
+  contains: [Int]
+
+  """Contained by the specified list of values."""
+  containedBy: [Int]
+
+  """Overlaps the specified list of values."""
+  overlaps: [Int]
+
+  """Any array item is equal to the specified value."""
+  anyEqualTo: Int
+
+  """Any array item is not equal to the specified value."""
+  anyNotEqualTo: Int
+
+  """Any array item is less than the specified value."""
+  anyLessThan: Int
+
+  """Any array item is less than or equal to the specified value."""
+  anyLessThanOrEqualTo: Int
+
+  """Any array item is greater than the specified value."""
+  anyGreaterThan: Int
+
+  """Any array item is greater than or equal to the specified value."""
+  anyGreaterThanOrEqualTo: Int
 }
 
 """
@@ -18722,6 +18791,12 @@ type Application implements Node {
   Computed column to return the status order with the status name appended for sorting and filtering
   """
   statusSortFilter: String
+  zone: Int
+
+  """
+  Computed column to get single lowest zone from json data, used for sorting
+  """
+  zones: [Int]
 
   """Reads and enables pagination through a set of `ApplicationStatusType`."""
   applicationStatusTypesByApplicationStatusApplicationIdAndStatus(
@@ -20933,6 +21008,8 @@ enum ApplicationsOrderBy {
   STATUS_ORDER_DESC
   STATUS_SORT_FILTER_ASC
   STATUS_SORT_FILTER_DESC
+  ZONE_ASC
+  ZONE_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }

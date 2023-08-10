@@ -6,6 +6,7 @@ import NumberFilter from './NumberFilter';
 import SortOnlyFilter from './SortOnlyFilter';
 import TextFilter from './TextFilter';
 import YesNoFilter from './YesNoFilter';
+import NumberEnumFilter from './NumberEnumFilter';
 
 export type { FilterArgs, PageArgs, FilterComponent } from './types';
 
@@ -18,4 +19,5 @@ export {
   SortOnlyFilter,
   TextFilter,
   YesNoFilter,
+  NumberEnumFilter,
 };

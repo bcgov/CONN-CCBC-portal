@@ -4,7 +4,11 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import cookie from 'js-cookie';
 import { DashboardTabs, AnalystRow } from 'components/AnalystDashboard';
-import { TextFilter, NumberFilter } from 'components/Table/Filters';
+import {
+  TextFilter,
+  NumberFilter,
+  NumberEnumFilter,
+} from 'components/Table/Filters';
 import Table from 'components/Table';
 import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
@@ -13,10 +17,14 @@ import { dashboardAnalystQuery } from '__generated__/dashboardAnalystQuery.graph
 import { useRouter } from 'next/router';
 
 const DEFAULT_SORT = 'CCBC_NUMBER_ASC';
+const zoneOptions = Array.from({ length: 14 }, (_, i) => i + 1);
 
 const tableFilters = [
   new NumberFilter('Intake', 'intakeNumber'),
   new TextFilter('CCBC ID', 'ccbcNumber'),
+  new NumberEnumFilter('Zone', 'zones', zoneOptions, {
+    orderByPrefix: 'ZONE',
+  }),
   new TextFilter('Status', 'statusSortFilter'),
   new TextFilter('Project title', 'projectName'),
   new TextFilter('Organization', 'organizationName'),
@@ -33,6 +41,7 @@ const getDashboardAnalystQuery = graphql`
     $orderBy: [ApplicationsOrderBy!]
     $intakeNumber: Int
     $ccbcNumber: String
+    $zones: [Int]
     $projectName: String
     $organizationName: String
     $analystLead: String
@@ -56,6 +65,7 @@ const getDashboardAnalystQuery = graphql`
         organizationName: { includesInsensitive: $organizationName }
         analystLead: { includesInsensitive: $analystLead }
         package: { equalTo: $package }
+        zones: { contains: $zones }
       }
     ) {
       totalCount

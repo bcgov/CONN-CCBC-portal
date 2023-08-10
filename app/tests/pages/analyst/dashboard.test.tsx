@@ -1,6 +1,6 @@
 import { mocked } from 'jest-mock';
 import userEvent from '@testing-library/user-event';
-import { fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import Dashboard from '../../../pages/analyst/dashboard';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
@@ -28,6 +28,8 @@ const mockQueryPayload = {
               ccbcNumber: 'CCBC-010001',
               organizationName: 'Test Org Name',
               intakeNumber: 1,
+              zone: 1,
+              zones: [1, 2],
             },
           },
           {
@@ -39,6 +41,8 @@ const mockQueryPayload = {
               ccbcNumber: 'CCBC-010002',
               organizationName: 'Test Org Name 2',
               intakeNumber: 2189,
+              zone: null,
+              zones: [],
             },
           },
           {
@@ -50,6 +54,8 @@ const mockQueryPayload = {
               ccbcNumber: 'CCBC-010003',
               organizationName: 'Test Org Name 3',
               intakeNumber: 1,
+              zone: null,
+              zones: [],
             },
           },
           {
@@ -61,6 +67,8 @@ const mockQueryPayload = {
               ccbcNumber: 'CCBC-010004',
               organizationName: 'Test Org Name 4',
               intakeNumber: 3,
+              zone: null,
+              zones: [],
             },
           },
         ],
@@ -100,6 +108,7 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
     analystLead: null,
     package: null,
     statusSortFilter: null,
+    zones: null,
   },
 });
 
@@ -310,5 +319,31 @@ describe('The index page', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it('triggers the onChange event when the zone dropdown is changed', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    jest.useFakeTimers();
+    const zoneDropdown = screen.getByLabelText(
+      'Filter by Zone'
+    ) as HTMLSelectElement;
+
+    await act(async () => {
+      fireEvent.change(zoneDropdown, { target: { value: '14' } });
+      jest.advanceTimersByTime(200);
+    });
+
+    await waitFor(() => {
+      fireEvent.keyDown(zoneDropdown, {
+        key: 'Enter',
+        bubbles: true,
+      });
+    });
+    jest.useRealTimers();
+
+    const option = screen.getAllByText('14')[0];
+    expect(option).toBeInTheDocument();
   });
 });
