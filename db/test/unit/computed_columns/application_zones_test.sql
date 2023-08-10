@@ -53,8 +53,8 @@ select is (
       (select row(application.*)::ccbc_public.application from ccbc_public.application)
     )
   ),
-  [1],
-  'application_zones retrieves the organization name from the form_data'
+  array[1],
+  'application_zones retrieves the zones from the form_data'
 );
 
 
