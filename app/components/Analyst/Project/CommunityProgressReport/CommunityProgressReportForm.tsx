@@ -92,10 +92,9 @@ const CommunityProgressReportForm = ({ application }) => {
     setShowToast(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsFormSubmitting(true);
-
     validateCommunityReport(excelFile, false).then((r) => {
       /// save form data
       createCommunityProgressReport({
@@ -109,12 +108,11 @@ const CommunityProgressReportForm = ({ application }) => {
         },
         onCompleted: () => {
           handleResetFormData();
+          setIsFormSubmitting(false);
 
           if (r?.status === 200) {
             setShowToast(true);
           }
-
-          setIsFormSubmitting(false);
         },
         onError: () => {
           setIsFormSubmitting(false);
@@ -148,10 +146,11 @@ const CommunityProgressReportForm = ({ application }) => {
       formAnimationHeight={400}
       isFormAnimated
       isFormEditMode={isFormEditMode}
-      setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-      saveBtnText={
-        formData?.progressReportFile && excelFile ? 'Save & Import' : 'Save'
-      }
+      setIsFormEditMode={(boolean) => {
+        setShowToast(false);
+        setIsFormEditMode(boolean);
+      }}
+      saveBtnText={formData?.progressReportFile ? 'Save & Import' : 'Save'}
       title="Community progress report"
       handleChange={(e) => {
         setFormData({ ...e.formData });
