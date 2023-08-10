@@ -57,7 +57,7 @@ describe('The Datepicker widget', () => {
     const datepicker = screen.getByTestId('datepicker-widget-input');
 
     await act(async () => {
-      fireEvent.change(datepicker, { target: { value: '1293-08-23' } });
+      fireEvent.change(datepicker, { target: { value: '1970-01-01' } });
     });
 
     await act(async () => {
