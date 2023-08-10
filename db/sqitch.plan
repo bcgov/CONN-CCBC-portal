@@ -387,3 +387,4 @@ mutations/create_application_community_report_excel_data 2023-08-03T14:31:46Z Ma
 @1.93.1 2023-08-09T21:51:31Z CCBC Service Account <ccbc@button.is> # release v1.93.1
 computed_columns/application_zones 2023-08-08T19:53:49Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # get zone from application
 computed_columns/application_zone 2023-08-08T23:18:42Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # single zone returned as integer for sorting purposes
+@1.94.0 2023-08-10T22:29:12Z CCBC Service Account <ccbc@button.is> # release v1.94.0
