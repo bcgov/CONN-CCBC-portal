@@ -65,7 +65,7 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
 
   const handleChange = (d: Date) => {
     const originalDate = new Date(d);
-    if (!Number.isNaN(originalDate)) {
+    if (!Number.isNaN(originalDate && originalDate.valueOf() >= 0)) {
       const newDate = originalDate.toISOString().split('T')[0];
       return onChange(newDate);
     }
