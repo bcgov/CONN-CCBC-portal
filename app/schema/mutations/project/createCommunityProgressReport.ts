@@ -12,6 +12,7 @@ const mutation = graphql`
         @appendEdge(connections: $connections) {
         node {
           id
+          excelDataId
           jsonData
           rowId
         }

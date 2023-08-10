@@ -33,6 +33,7 @@ const CommunityProgressReportForm = ({ application }) => {
             node {
               id
               rowId
+              excelDataId
               jsonData
               ...CommunityProgressView_query
             }
@@ -72,7 +73,7 @@ const CommunityProgressReportForm = ({ application }) => {
       return dateB.getTime() - dateA.getTime();
     });
 
-  const apiPath = `/api/analyst/community-report/${rowId}`;
+  const apiPath = `/api/analyst/community-report/${rowId}/1`;
 
   // will need to pass in something like setValidationErrors as a third argument in the validation ticket
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -91,7 +92,18 @@ const CommunityProgressReportForm = ({ application }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    validateCommunityReport(excelFile, false).then(() => {
+    validateCommunityReport(excelFile, false).then((res) => {
+      // get the excel data row id from the response or the current community progress data
+      const responseExcelDataId =
+        res?.result?.data.createApplicationCommunityReportExcelData
+          ?.applicationCommunityReportExcelData?.rowId;
+
+      // get the excel data row id from the current community progress data if it exists
+      const currentExcelDataId = currentCommunityProgressData?.excelDataId;
+
+      // replace the current excel data id if a new excel file was uploaded since the previous data will be archived
+      const excelDataId = responseExcelDataId || currentExcelDataId;
+
       /// save form data
       createCommunityProgressReport({
         variables: {
@@ -100,6 +112,7 @@ const CommunityProgressReportForm = ({ application }) => {
             _jsonData: formData,
             _applicationId: rowId,
             _oldCommunityProgressReportId: currentCommunityProgressData?.rowId,
+            _excelDataId: excelDataId,
           },
         },
         onCompleted: () => {

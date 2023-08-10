@@ -70,7 +70,7 @@ export const readRowData = (row: Object) => {
   };
 };
 
-const readSummary = async (wb, sheet_name, applicationId) => {
+const readSummary = async (wb, sheet_name, applicationId, reportId) => {
   const sheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
@@ -104,6 +104,7 @@ const readSummary = async (wb, sheet_name, applicationId) => {
   const communityReportData = {
     _applicationId: parseInt(applicationId, 10),
     _jsonData: jsonData,
+    _oldId: reportId ? parseInt(reportId, 10) : null,
   };
 
   return communityReportData;
@@ -146,10 +147,10 @@ const ValidateData = (data) => {
 };
 
 const LoadCommunityReportData = async (wb, sheet_name, req) => {
-  const { applicationId } = req.params;
+  const { applicationId, reportId } = req.params;
   const validate = req.query?.validate === 'true';
 
-  const data = await readSummary(wb, sheet_name, applicationId);
+  const data = await readSummary(wb, sheet_name, applicationId, reportId);
 
   const errorList = ValidateData(data._jsonData);
 
