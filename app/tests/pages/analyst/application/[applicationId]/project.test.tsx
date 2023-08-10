@@ -1721,11 +1721,10 @@ describe('The Project page', () => {
     pageTestingHelper.expectMutationToBeCalled(
       'createCommunityProgressReportMutation',
       {
+        connections: expect.anything(),
         input: {
-          applicationCommunityProgressReportData: {
-            jsonData: {},
-            applicationId: 1,
-          },
+          _jsonData: {},
+          _applicationId: 1,
         },
       }
     );

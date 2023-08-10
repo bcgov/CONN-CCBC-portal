@@ -4,13 +4,17 @@ import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`
   mutation createCommunityProgressReportMutation(
+    $connections: [ID!]!
     $input: CreateApplicationCommunityProgressReportDataInput!
   ) {
     createApplicationCommunityProgressReportData(input: $input) {
-      applicationCommunityProgressReportData {
-        id
-        jsonData
-        rowId
+      applicationCommunityProgressReportDataEdge
+        @appendEdge(connections: $connections) {
+        node {
+          id
+          jsonData
+          rowId
+        }
       }
     }
   }

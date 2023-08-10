@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react';
-import { graphql, useFragment } from 'react-relay';
+import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
+import CommunityProgressView from './CommunityProgressView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
@@ -31,7 +32,9 @@ const CommunityProgressReportForm = ({ application }) => {
           edges {
             node {
               id
+              rowId
               jsonData
+              ...CommunityProgressView_query
             }
           }
         }
@@ -40,12 +43,34 @@ const CommunityProgressReportForm = ({ application }) => {
     `,
     application
   );
-  const { rowId } = queryFragment;
+  const {
+    applicationCommunityProgressReportDataByApplicationId:
+      communityProgressData,
+    rowId,
+  } = queryFragment;
+
   const [formData, setFormData] = useState({} as FormData);
+  // store the current community progress data node for edit mode so we have access to row id and relay connection
+  const [currentCommunityProgressData, setCurrentCommunityProgressData] =
+    useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [createCommunityProgressReport] =
     useCreateCommunityProgressReportMutation();
   const [excelFile, setExcelFile] = useState(null);
+
+  const communityProgressConnectionId = communityProgressData?.__id;
+  const communityProgressList = communityProgressData?.edges
+    ?.filter((data) => {
+      // filter null nodes from the list caused by relay connection update
+      return data.node !== null;
+    })
+    .sort((a, b) => {
+      // sort by date received
+      const dateA = new Date(a.node.jsonData.dueDate);
+      const dateB = new Date(b.node.jsonData.dueDate);
+
+      return dateB.getTime() - dateA.getTime();
+    });
 
   const apiPath = `/api/analyst/community-report/${rowId}`;
 
@@ -59,6 +84,8 @@ const CommunityProgressReportForm = ({ application }) => {
   const handleResetFormData = () => {
     setIsFormEditMode(false);
     setFormData({} as FormData);
+    setCurrentCommunityProgressData(null);
+    setExcelFile(null);
   };
 
   const handleSubmit = (e) => {
@@ -68,15 +95,26 @@ const CommunityProgressReportForm = ({ application }) => {
       /// save form data
       createCommunityProgressReport({
         variables: {
+          connections: [communityProgressConnectionId],
           input: {
-            applicationCommunityProgressReportData: {
-              jsonData: formData,
-              applicationId: rowId,
-            },
+            _jsonData: formData,
+            _applicationId: rowId,
+            _oldCommunityProgressReportId: currentCommunityProgressData?.rowId,
           },
         },
         onCompleted: () => {
           handleResetFormData();
+        },
+        updater: (store) => {
+          if (currentCommunityProgressData?.id) {
+            const connection = store.get(communityProgressConnectionId);
+
+            store.delete(currentCommunityProgressData.id);
+            ConnectionHandler.deleteNode(
+              connection,
+              currentCommunityProgressData.id
+            );
+          }
         },
       });
     });
@@ -97,7 +135,9 @@ const CommunityProgressReportForm = ({ application }) => {
       isFormAnimated
       isFormEditMode={isFormEditMode}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
-      saveBtnText={formData?.progressReportFile ? 'Save & Import' : 'Save'}
+      saveBtnText={
+        formData?.progressReportFile && excelFile ? 'Save & Import' : 'Save'
+      }
       title="Community progress report"
       handleChange={(e) => {
         setFormData({ ...e.formData });
@@ -113,7 +153,22 @@ const CommunityProgressReportForm = ({ application }) => {
         />
       }
       saveDataTestId="save-community-progress-report"
-    />
+    >
+      {communityProgressList?.map(({ node }) => {
+        return (
+          <CommunityProgressView
+            key={node.id}
+            communityProgressReport={node}
+            isFormEditMode={isFormEditMode}
+            onFormEdit={() => {
+              setFormData(node.jsonData);
+              setCurrentCommunityProgressData(node);
+              setIsFormEditMode(true);
+            }}
+          />
+        );
+      })}
+    </ProjectForm>
   );
 };
 
