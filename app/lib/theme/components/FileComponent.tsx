@@ -8,11 +8,7 @@ import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { CancelIcon, LoadingSpinner } from '../../../components';
-import {
-  StyledDatePicker,
-  getDateString,
-  getStyles,
-} from '../widgets/DatePickerWidget';
+import { StyledDatePicker, getStyles } from '../widgets/DatePickerWidget';
 
 const StyledContainer = styled.div<{
   wrap?: boolean;
@@ -289,16 +285,12 @@ const FileComponent: React.FC<FileComponentProps> = ({
                 disabled={false}
                 readOnly={false}
                 onChange={(d: Date | null) => {
-                  if (d) {
-                    const originalDate = new Date(d);
-                    const realDate = new Date(originalDate.toDateString());
-                    const newDate = getDateString(realDate);
-                    const isDateInvalid = newDate === 'Invalid DateTime';
-                    if (isDateInvalid) {
-                      setFileDate(null);
-                    } else {
-                      setFileDate(newDate);
-                    }
+                  const originalDate = new Date(d);
+                  if (!Number.isNaN(originalDate)) {
+                    const newDate = originalDate.toISOString().split('T')[0];
+                    setFileDate(newDate);
+                  } else {
+                    setFileDate(null);
                   }
                 }}
                 value={fileDate ? dayjs(fileDate) : null}

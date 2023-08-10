@@ -65,12 +65,11 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
 
   const handleChange = (d: Date) => {
     const originalDate = new Date(d);
-    const realDate = new Date(originalDate.toDateString());
-    const newDate = getDateString(realDate);
-    const isDateInvalid = newDate === 'Invalid DateTime';
-
-    if (isDateInvalid) return null;
-    return onChange(newDate);
+    if (!Number.isNaN(originalDate)) {
+      const newDate = originalDate.toISOString().split('T')[0];
+      return onChange(newDate);
+    }
+    return null;
   };
 
   const styles = getStyles(isError);
