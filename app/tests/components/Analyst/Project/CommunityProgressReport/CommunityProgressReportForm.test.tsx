@@ -204,5 +204,82 @@ describe('The Community Progress Report form', () => {
     });
 
     expect(screen.getByText('Save')).toBeInTheDocument();
+  it('shows spinner when file is being imported and toast on success', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
+    const addButton = screen
+      .getByText('Add community progress report')
+      .closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getByTestId('file-test');
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText('Replace')).toBeInTheDocument();
+    expect(screen.getByText('file.xls')).toBeInTheDocument();
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save & Import',
+    });
+
+    const cancelButton = screen.getByRole('button', {
+      name: 'Cancel',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+      jest.useFakeTimers();
+    });
+
+    expect(
+      screen.getByText('Importing community progress report. Please wait.')
+    ).toBeInTheDocument();
+    expect(saveButton).toBeDisabled();
+    expect(cancelButton).toBeDisabled();
+
+    jest.useRealTimers();
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          applicationCommunityProgressReportData: {
+            rowId: 1,
+          },
+        },
+      });
+    });
+
+    expect(
+      screen.getByText('Community progress report successfully imported')
+    ).toBeInTheDocument();
   });
 });
