@@ -301,7 +301,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
                     }
                   }
                 }}
-                value={fileDate ? dayjs(fileDate).toDate() : null}
+                value={fileDate ? dayjs(fileDate) : null}
                 defaultValue={null}
                 slotProps={{
                   actionBar: {
