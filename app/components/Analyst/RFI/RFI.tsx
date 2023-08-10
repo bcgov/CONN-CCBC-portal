@@ -107,6 +107,7 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
         formData={jsonData}
         noValidate
         tagName="div"
+        formContext={{ applicationId, rfiId: rowId }}
         // Pass children to hide submit button
         // eslint-disable-next-line react/no-children-prop
         children

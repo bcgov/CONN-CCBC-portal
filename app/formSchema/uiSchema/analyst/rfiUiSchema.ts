@@ -305,6 +305,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     eligibilityAndImpactsCalculatorRfi: {
@@ -317,6 +318,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     detailedBudgetRfi: {
@@ -329,6 +331,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     financialForecastRfi: {
@@ -341,6 +344,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     lastMileIspOfferingRfi: {
@@ -353,6 +357,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     popWholesalePricingRfi: {
@@ -365,6 +370,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     communityRuralDevelopmentBenefitsTemplateRfi: {
@@ -377,6 +383,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     wirelessAddendumRfi: {
@@ -389,6 +396,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     supportingConnectivityEvidenceRfi: {
@@ -401,6 +409,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     geographicNamesRfi: {
@@ -413,6 +422,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     equipmentDetailsRfi: {
@@ -507,6 +517,7 @@ export const rfiApplicantUiSchema = {
       'ui:options': {
         hideOptional: true,
         fileTypes: '.kmz',
+        allowMultipleFiles: true,
       },
     },
     geographicCoverageMapRfi: {
@@ -519,6 +530,7 @@ export const rfiApplicantUiSchema = {
       'ui:widget': 'FileWidget',
       'ui:options': {
         hideOptional: true,
+        allowMultipleFiles: true,
       },
     },
     coverageAssessmentStatisticsRfi: {
@@ -557,5 +569,28 @@ export const rfiApplicantUiSchema = {
     },
   },
 };
+
+// create a new schema with file date and file date Title
+export const rfiAnalystUiSchema = JSON.parse(
+  JSON.stringify(rfiApplicantUiSchema)
+);
+const stack = [rfiAnalystUiSchema.rfiAdditionalFiles];
+while (stack.length) {
+  const currentObj = stack.pop();
+  Object.keys(currentObj).forEach((key) => {
+    if (typeof currentObj[key] === 'object') {
+      if (currentObj[key]['ui:widget'] === 'FileWidget') {
+        if (!currentObj[key]['ui:options']) {
+          currentObj[key]['ui:options'] = {};
+        }
+        currentObj[key]['ui:options'].allowMultipleFiles = true;
+        currentObj[key]['ui:options'].useFileDate = true;
+        currentObj[key]['ui:options'].fileDateTitle = 'Date received';
+        currentObj[key]['ui:options'].maxDate = new Date();
+      }
+      stack.push(currentObj[key]);
+    }
+  });
+}
 
 export default rfiUiSchema;

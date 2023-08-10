@@ -1,7 +1,14 @@
 import React, { MutableRefObject, useRef } from 'react';
 import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { enUS } from '@mui/x-date-pickers/locales';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { CancelIcon, LoadingSpinner } from '../../../components';
+import { StyledDatePicker, getStyles } from '../widgets/DatePickerWidget';
 
 const StyledContainer = styled.div<{
   wrap?: boolean;
@@ -15,6 +22,26 @@ const StyledContainer = styled.div<{
   border-radius: 4px;
   padding: 16px;
   flex-direction: ${({ wrap }) => (wrap ? 'column-reverse' : 'row')};
+`;
+
+const StyledInputContainer = styled.div<{ useFileDate?: boolean }>`
+  ${(useFileDate) =>
+    useFileDate
+      ? `
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      `
+      : ''};
+`;
+
+const StyledButtonContainer = styled.div<{ useFileDate?: boolean }>`
+  ${(useFileDate) =>
+    useFileDate
+      ? `
+      height: 100%; margin-top: 45px;
+      `
+      : ''};
 `;
 
 const StyledDetails = styled('div')`
@@ -93,6 +120,12 @@ interface FileComponentProps {
   handleDownload?: Function;
   wrap?: boolean;
   hideFailedUpload?: boolean;
+  useFileDate?: boolean;
+  fileDateTitle?: string;
+  fileDate?: any;
+  setFileDate?: Function;
+  maxDate?: Date;
+  minDate?: Date;
 }
 
 const ErrorMessage = ({ error, fileTypes }) => {
@@ -153,11 +186,26 @@ const FileComponent: React.FC<FileComponentProps> = ({
   handleDownload,
   wrap,
   hideFailedUpload,
+  useFileDate = false,
+  fileDateTitle,
+  fileDate,
+  setFileDate,
+  maxDate,
+  minDate,
 }) => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
   const hideIfFailed = !!error && hideFailedUpload;
   const isSecondary = buttonVariant === 'secondary';
+
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const ClearableIconButton = () => {
+    return (
+      <button type="button" onClick={() => setFileDate(undefined)}>
+        <FontAwesomeIcon icon={faTimesCircle} color="#606060" />
+      </button>
+    );
+  };
 
   const handleClick = () => {
     hiddenFileInput.current.click();
@@ -219,24 +267,75 @@ const FileComponent: React.FC<FileComponentProps> = ({
         {error && <ErrorMessage error={error} fileTypes={fileTypes} />}
       </StyledDetails>
       <StyledDetails>{statusLabel}</StyledDetails>
-      <div>
-        <StyledButton
-          addBottomMargin={wrap}
-          id={`${id}-btn`}
-          onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-            e.preventDefault();
-            handleClick();
-          }}
-          variant={buttonVariant}
-          disabled={loading || disabled}
-        >
-          {loading ? (
-            <LoadingSpinner color={isSecondary ? '#000000' : '#fff'} />
-          ) : (
-            buttonLabel()
-          )}
-        </StyledButton>
-      </div>
+      <StyledInputContainer useFileDate={useFileDate}>
+        {useFileDate && (
+          <div style={{ height: '100%' }}>
+            <h4 style={{ marginBottom: '8px' }}>{`${fileDateTitle}`}</h4>
+            <LocalizationProvider
+              localeText={
+                enUS.components.MuiLocalizationProvider.defaultProps.localeText
+              }
+              dateAdapter={AdapterDayjs}
+            >
+              <StyledDatePicker
+                maxDate={maxDate ? dayjs(maxDate) : undefined}
+                minDate={minDate ? dayjs(minDate) : undefined}
+                id={id}
+                sx={getStyles(false)}
+                disabled={false}
+                readOnly={false}
+                onChange={(d: Date | null) => {
+                  const originalDate = new Date(d);
+                  if (
+                    !Number.isNaN(originalDate) &&
+                    originalDate.valueOf() >= 0
+                  ) {
+                    const newDate = originalDate.toISOString().split('T')[0];
+                    setFileDate(newDate);
+                  } else {
+                    setFileDate(null);
+                  }
+                }}
+                value={fileDate ? dayjs(fileDate) : null}
+                defaultValue={null}
+                slotProps={{
+                  actionBar: {
+                    actions: ['clear', 'cancel'],
+                  },
+                  textField: {
+                    inputProps: {
+                      id,
+                      'data-testid': 'datepicker-widget-input',
+                    },
+                  },
+                }}
+                slots={{
+                  openPickerButton: fileDate ? ClearableIconButton : undefined,
+                }}
+                format="YYYY-MM-DD"
+              />
+            </LocalizationProvider>
+          </div>
+        )}
+        <StyledButtonContainer>
+          <StyledButton
+            addBottomMargin={wrap}
+            id={`${id}-btn`}
+            onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+              e.preventDefault();
+              handleClick();
+            }}
+            variant={buttonVariant}
+            disabled={loading || disabled || (useFileDate && !fileDate)}
+          >
+            {loading ? (
+              <LoadingSpinner color={isSecondary ? '#000000' : '#fff'} />
+            ) : (
+              buttonLabel()
+            )}
+          </StyledButton>
+        </StyledButtonContainer>
+      </StyledInputContainer>
       <input
         data-testid="file-test"
         ref={hiddenFileInput}

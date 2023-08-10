@@ -40,11 +40,16 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const router = useRouter();
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
+  const [fileDate, setFileDate] = useState(null);
   const setDisposable = useDisposeOnRouteChange();
   const wrap = uiSchema['ui:options']?.wrap ?? false;
   const allowMultipleFiles =
     (uiSchema['ui:options']?.allowMultipleFiles as boolean) ?? false;
+  const maxDate = uiSchema['ui:options']?.maxDate as Date;
+  const minDate = uiSchema['ui:options']?.minDate as Date;
   const acceptedFileTypes = (uiSchema['ui:options']?.fileTypes as string) ?? '';
+  const useFileDate = (uiSchema['ui:options']?.useFileDate as boolean) ?? false;
+  const fileDateTitle = uiSchema['ui:options']?.fileDateTitle as string;
   const buttonVariant = (uiSchema['ui:options']?.buttonVariant ||
     'primary') as string;
   const isFiles = value?.length > 0;
@@ -122,6 +127,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
           size,
           type,
           uploadedAt: DateTime.now().toISO(),
+          ...(useFileDate ? { fileDate } : {}),
         };
 
         if (allowMultipleFiles) {
@@ -133,6 +139,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
         span.setStatus('ok');
         span.finish();
         transaction.finish();
+        setFileDate(null);
       },
     });
 
@@ -160,6 +167,12 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       required={required}
       hideFailedUpload={false}
       value={value}
+      useFileDate={useFileDate}
+      fileDate={fileDate}
+      setFileDate={setFileDate}
+      fileDateTitle={fileDateTitle}
+      maxDate={maxDate}
+      minDate={minDate}
     />
   );
 };
