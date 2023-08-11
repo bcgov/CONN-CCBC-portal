@@ -25,7 +25,7 @@ const StyledContainer = styled.div<{
 `;
 
 const StyledInputContainer = styled.div<{ useFileDate?: boolean }>`
-  ${(useFileDate) =>
+  ${({ useFileDate }) =>
     useFileDate
       ? `
         display: flex;
@@ -36,7 +36,7 @@ const StyledInputContainer = styled.div<{ useFileDate?: boolean }>`
 `;
 
 const StyledButtonContainer = styled.div<{ useFileDate?: boolean }>`
-  ${(useFileDate) =>
+  ${({ useFileDate }) =>
     useFileDate
       ? `
       height: 100%; margin-top: 45px;
@@ -317,7 +317,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
             </LocalizationProvider>
           </div>
         )}
-        <StyledButtonContainer>
+        <StyledButtonContainer useFileDate={useFileDate}>
           <StyledButton
             addBottomMargin={wrap}
             id={`${id}-btn`}
