@@ -72,8 +72,9 @@ const processCommunityReport: ExpressMiddleware = async (req, res) => {
     .end();
 };
 
+// reportId is optional and used for the prviously upload report so we can archive it if replacing with another excel upload.
 communityReportUpload.post(
-  '/api/analyst/community-report/:applicationId',
+  '/api/analyst/community-report/:applicationId/:reportId',
   limiter,
   (req, res) => {
     // eslint-disable-next-line no-void

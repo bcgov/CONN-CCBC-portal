@@ -1,7 +1,7 @@
 import { graphql, useFragment } from 'react-relay/hooks';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faPen } from '@fortawesome/free-solid-svg-icons';
 import DownloadLink from 'components/DownloadLink';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 
@@ -11,7 +11,10 @@ const StyledContainer = styled.div`
   margin-bottom: 8px;
 `;
 
-const StyledEditButton = styled.button`
+const StyledButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   color: ${(props) => props.theme.color.links};
   font-size: 14px;
   font-weight: 700;
@@ -23,6 +26,16 @@ const StyledEditButton = styled.button`
   &:hover {
     opacity: 0.7;
   }
+`;
+
+const StyledDeleteButton = styled(StyledButton)`
+  margin-left: 16px;
+  color: ${(props) => props.theme.color.error}; |
+`;
+
+const StyledFlex = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const StyledDate = styled.div`
@@ -46,16 +59,19 @@ interface Props {
   communityProgressReport: any;
   isFormEditMode: boolean;
   onFormEdit: () => void;
+  onShowDeleteModal: () => void;
 }
 
 const CommunityProgressView: React.FC<Props> = ({
   communityProgressReport,
   isFormEditMode,
   onFormEdit,
+  onShowDeleteModal,
 }) => {
   const queryFragment = useFragment(
     graphql`
       fragment CommunityProgressView_query on ApplicationCommunityProgressReportData {
+        __id
         jsonData
       }
     `,
@@ -77,13 +93,16 @@ const CommunityProgressView: React.FC<Props> = ({
         fileName={progressReportFile?.name}
         uuid={progressReportFile?.uuid}
       />
-      <span>
-        {!isFormEditMode && (
-          <StyledEditButton onClick={onFormEdit}>
+      {!isFormEditMode && (
+        <StyledFlex>
+          <StyledButton onClick={onFormEdit}>
             Edit <FontAwesomeIcon icon={faPen} />
-          </StyledEditButton>
-        )}
-      </span>
+          </StyledButton>
+          <StyledDeleteButton onClick={onShowDeleteModal}>
+            Delete <FontAwesomeIcon size="xl" icon={faClose} />
+          </StyledDeleteButton>
+        </StyledFlex>
+      )}
     </StyledContainer>
   );
 };

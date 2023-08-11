@@ -40,7 +40,9 @@ describe('The Community Progress Report import', () => {
       };
     });
 
-    const response = await request(app).post('/api/analyst/community-report/1');
+    const response = await request(app).post(
+      '/api/analyst/community-report/1/1'
+    );
     expect(response.status).toBe(404);
   });
 
@@ -63,7 +65,7 @@ describe('The Community Progress Report import', () => {
     });
 
     const response = await request(app)
-      .post('/api/analyst/community-report/10')
+      .post('/api/analyst/community-report/10/1')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'community-report-data' }))
@@ -90,7 +92,7 @@ describe('The Community Progress Report import', () => {
     });
 
     const response = await request(app)
-      .post('/api/analyst/community-report/10?validate=true')
+      .post('/api/analyst/community-report/10/1?validate=true')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'community_report-data' }))
@@ -111,7 +113,7 @@ describe('The Community Progress Report import', () => {
     });
 
     const response = await request(app)
-      .post('/api/analyst/community-report/10')
+      .post('/api/analyst/community-report/10/1')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'community-report-data' }))
