@@ -325,7 +325,6 @@ const ProjectInformationForm = ({ application }) => {
   };
 
   const isOriginalSowUpload = projectInformation?.jsonData;
-
   return (
     <StyledProjectForm
       additionalContext={{
@@ -378,8 +377,14 @@ const ProjectInformationForm = ({ application }) => {
       onSubmit={handleSubmit}
       saveBtnText={hasSowValidationErrors ? 'Save' : 'Save & Import Data'}
       setFormData={setFormData}
-      submitting={isFormSubmitting}
       submittingText="Importing Statement of Work. Please wait."
+      submitting={
+        !hasSowValidationErrors &&
+        !hasFormErrors &&
+        sowFile &&
+        formData.statementOfWorkUpload &&
+        isFormSubmitting
+      }
       saveBtnDisabled={isFormSubmitting}
       setIsFormEditMode={(boolean) => {
         setShowToast(false);
