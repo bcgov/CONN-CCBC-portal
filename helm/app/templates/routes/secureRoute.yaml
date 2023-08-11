@@ -1,12 +1,6 @@
-{{- $route := (lookup "route.openshift.io/v1" "Route" .Release.Namespace "ccbc-secure") }}
-{{- $certificate := "" }}
-{{- $key := "" }}
-{{- $caCertificate := "" }}
-{{- if $route }}
-{{- $certificate = $route.spec.tls.certificate }}
-{{- $key = $route.spec.tls.key }}
-{{- $caCertificate = $route.spec.tls.caCertificate }}
-{{- end -}}
+{{- $certificate := .Values.cert.certificate}}
+{{- $key := .Values.cert.key}}
+{{- $caCertificate := .Values.cert.caCertificate}}
 
 apiVersion: route.openshift.io/v1
 kind: Route
@@ -26,11 +20,9 @@ spec:
   tls:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
-    {{- if $route }}
     certificate: {{ $certificate | quote }}
     key: {{ $key | quote }}
     caCertificate: {{ $caCertificate | quote }}
-    {{- end }}
   to:
     kind: Service
     name: {{ template "ccbc.fullname" . }}
@@ -53,11 +45,9 @@ spec:
   tls:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
-    {{- if $route }}
     certificate: {{ $certificate | quote }}
     key: {{ $key | quote }}
     caCertificate: {{ $caCertificate | quote }}
-    {{- end }}
   to:
     kind: Service
     name: {{ template "ccbc.fullname" . }}

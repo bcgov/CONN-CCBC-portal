@@ -21,6 +21,9 @@ on:
       CERTBOT_SERVER: { required: true }
       METABASE_SITE_URL: { required: true }
       METABASE_EMBED_SECRET: { required: true }
+      CERT: { required: true }
+      CERT_KEY: { required: true }
+      CERT_CA: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -71,6 +74,9 @@ jobs:
           certbot_server: ${{ secrets.CERTBOT_SERVER }}
           metabase_site_url: ${{ secrets.METABASE_SITE_URL }}
           metabase_embed_secret: ${{ secrets.METABASE_EMBED_SECRET }}
+          cert: ${{ secrets.CERT }}
+          cert_key: ${{ secrets.CERT_KEY }}
+          cert_ca: ${{ secrets.CERT_CA }}
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:

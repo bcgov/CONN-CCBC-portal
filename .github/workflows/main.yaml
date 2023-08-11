@@ -118,3 +118,6 @@ jobs:
       AWS_CLAM_S3_BUCKET: ${{ secrets.AWS_CLAM_S3_BUCKET }}
       METABASE_EMBED_SECRET: ${{ secrets.METABASE_EMBED_SECRET }}
       METABASE_SITE_URL: ${{ secrets.METABASE_SITE_URL }}
+      CERT: ${{ secrets.CERT }}
+      CERT_KEY: ${{ secrets.CERT_KEY }}
+      CERT_CA: ${{ secrets.CERT_CA }}
