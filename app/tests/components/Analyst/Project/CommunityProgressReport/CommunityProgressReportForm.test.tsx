@@ -204,6 +204,8 @@ describe('The Community Progress Report form', () => {
     });
 
     expect(screen.getByText('Save')).toBeInTheDocument();
+  });
+
   it('shows spinner when file is being imported and toast on success', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();

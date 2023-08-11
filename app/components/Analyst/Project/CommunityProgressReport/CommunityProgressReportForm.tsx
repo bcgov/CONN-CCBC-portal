@@ -150,7 +150,9 @@ const CommunityProgressReportForm = ({ application }) => {
         setShowToast(false);
         setIsFormEditMode(boolean);
       }}
-      saveBtnText={formData?.progressReportFile ? 'Save & Import' : 'Save'}
+      saveBtnText={
+        formData?.progressReportFile && excelFile ? 'Save & Import' : 'Save'
+      }
       title="Community progress report"
       handleChange={(e) => {
         setFormData({ ...e.formData });
