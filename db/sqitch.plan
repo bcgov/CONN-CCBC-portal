@@ -378,6 +378,8 @@ tables/intake_006_partial_unique 2023-07-27T20:03:03Z Marcel Mueller <marcel@m2>
 @1.91.0 2023-08-02T21:36:10Z CCBC Service Account <ccbc@button.is> # release v1.91.0
 tables/application_community_progress_report_data 2023-08-03T18:33:03Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create community progress report table
 @1.92.0 2023-08-04T20:51:41Z CCBC Service Account <ccbc@button.is> # release v1.92.0
+functions/extract_uuids 2023-08-03T19:24:48Z Anthony Bushara <anthony@button.is> # Utility function to extract uuids out of any jsonb provided
+computed_columns/rfi_data_attachments 2023-08-04T16:23:42Z Anthony Bushara <anthony@button.is> # Computed column to provide all attachments rows of an rfi
 mutations/update_application_form [mutations/update_application_form@1.88.0] 2023-07-26T15:04:47Z Anthony Bushara <anthony@button.is> # Reject if updated_at does not match
 tables/application_community_report_excel_data 2023-08-02T21:46:28Z Marcel Mueller <marcel@m2.local> # add table to store community report data
 mutations/create_application_community_report_excel_data 2023-08-03T14:31:46Z Marcel Mueller <marcel@m2.local> # add mutation to create community report excel data
@@ -387,9 +389,7 @@ computed_columns/application_zones 2023-08-08T19:53:49Z Rafael Solorzano <612892
 computed_columns/application_zone 2023-08-08T23:18:42Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # single zone returned as integer for sorting purposes
 mutations/create_application_community_progress_report_data 2023-08-04T22:38:04Z Marcel Mueller <marcel@m2> # add mutation to create community progress data
 tables/application_community_progress_report_data_001 2023-08-08T19:31:35Z Marcel Mueller <marcel@m2> # add update permissions
-functions/extract_uuids 2023-08-03T19:24:48Z Anthony Bushara <anthony@button.is> # Utility function to extract uuids out of any jsonb provided
-computed_columns/rfi_data_attachments 2023-08-04T16:23:42Z Anthony Bushara <anthony@button.is> # Computed column to provide all attachments rows of an rfi
-mutations/create_application_community_report_excel_data [mutations/create_application_community_report_excel_data@1.93.0] 2023-08-09T21:56:56Z Marcel Mueller <marcel@m2> # add argument for old report id
+mutations/create_application_community_report_excel_data [mutations/create_application_community_report_excel_data@1.93.0 @1.93.1] 2023-08-09T21:56:56Z Marcel Mueller <marcel@m2> # add argument for old report id
 tables/application_community_progress_report_data_002.sql 2023-08-09T22:24:14Z Marcel Mueller <marcel@m2> # add column excel_data_id
 mutations/archive_application_community_progress_report 2023-08-10T17:18:29Z Marcel Mueller <marcel@m2> # mutations to archive community progress report form and excel data
 @1.94.0 2023-08-11T19:28:01Z CCBC Service Account <ccbc@button.is> # release v1.94.0
