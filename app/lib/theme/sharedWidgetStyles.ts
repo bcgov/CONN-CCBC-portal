@@ -7,7 +7,7 @@ interface ErrorProps {
 
 export const StyledInput = styled(Input)`
   & input {
-    margin-top: 12px;
+    margin-top: 8px;
     margin-bottom: 4px;
     min-width: 100%;
     padding: 9px;

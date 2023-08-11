@@ -56,7 +56,6 @@ const UrlWidget: React.FC<WidgetProps> = ({
 
   const styles = {
     '& .MuiInputBase-root': {
-      'margin-top': '4px',
       padding: '0px',
       border: '2px solid #606060',
       borderRadius: '0.25rem',
