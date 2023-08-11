@@ -31,6 +31,30 @@ const getApplicationQuery = graphql`
           jsonSchema
         }
       }
+      applicationRfiDataByApplicationId(
+        orderBy: RFI_DATA_ID_DESC
+        filter: { rfiDataByRfiDataId: { archivedAt: { isNull: true } } }
+      ) {
+        edges {
+          node {
+            rfiDataByRfiDataId {
+              jsonData
+              id
+              rowId
+              rfiNumber
+              attachments {
+                nodes {
+                  id
+                  file
+                  fileName
+                  rowId
+                  createdAt
+                }
+              }
+            }
+          }
+        }
+      }
     }
     session {
       sub
@@ -52,7 +76,12 @@ const Application = ({
       jsonData,
       formByFormSchemaId: { jsonSchema },
     },
+    applicationRfiDataByApplicationId,
   } = applicationByRowId;
+
+  const rfiList = applicationRfiDataByApplicationId?.edges?.map(
+    (edge) => edge.node.rfiDataByRfiDataId
+  );
 
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
 
@@ -86,6 +115,7 @@ const Application = ({
           formContext={{
             // validate errors and pass through formContext for review checkbox section
             errors: formErrorSchema,
+            rfiList,
             toggleOverride,
           }}
           formData={jsonData}

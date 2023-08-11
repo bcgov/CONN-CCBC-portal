@@ -1,22 +1,144 @@
-import { WidgetProps } from '@rjsf/core';
-import DownloadLink from 'components/DownloadLink';
 import React, { useMemo } from 'react';
+import { WidgetProps } from '@rjsf/core';
+import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import DownloadLink from 'components/DownloadLink';
+import { DateTime } from 'luxon';
 
-const FileWidget: React.FC<WidgetProps> = ({ value }) => {
+const StyledFile = styled('div')`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+`;
+
+const StyledDetails = styled.span`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: #939393;
+`;
+
+const StyledSingleDetails = styled(StyledDetails)`
+  justify-content: flex-end;
+`;
+
+const StyledIconDiv = styled('div')`
+  position: relative;
+  & svg {
+    max-width: 14px;
+    position: relative;
+    top: 2px;
+    left: -16px;
+  }
+
+  & a {
+    position: relative;
+    left: -16px;
+  }
+`;
+
+const FileWidget: React.FC<WidgetProps> = ({
+  formContext,
+  id,
+  options,
+  value,
+}) => {
+  // seems like the id is the only way to get the field name from widget props
+  // id is in the format root_[pageName]_[fieldName]
+  const fieldName = id?.split('_')?.[2];
+  const rfiList = formContext?.rfiList;
+  const isRfi = rfiList?.length > 0;
+
   const filesArray = useMemo(() => {
     return value || [];
   }, [value]);
 
-  return filesArray?.map((el, index) => (
-    <React.Fragment key={el.name}>
-      <DownloadLink uuid={el.uuid} fileName={el.name ?? el.toString()} />
-      {index < filesArray.length - 1 && (
-        <>
-          ,<br />
-        </>
+  return (
+    <div>
+      {rfiList?.map((rfi, i) => {
+        // loop through the rfis and check if there are any files for the current field
+        const rfiFiles = rfi.jsonData.rfiAdditionalFiles;
+        const isFileField =
+          rfiFiles && Object.keys(rfiFiles).includes(fieldName);
+        if (!isFileField) return null;
+
+        const attachments = rfi?.attachments?.nodes;
+
+        return (
+          <StyledFile key={rfi}>
+            {rfiFiles[fieldName]?.map((el, index) => {
+              // loop through the list of files for the current field
+              const isSingleFile = !options?.allowMultipleFiles;
+              const isDisplayIcon = isSingleFile && i === 0;
+              const attachmentData = attachments?.find(
+                (attachment) => attachment?.file === el.uuid
+              );
+
+              const fileDate =
+                attachmentData?.createdAt &&
+                DateTime.fromISO(attachmentData.createdAt).toLocaleString(
+                  DateTime.DATETIME_MED
+                );
+
+              return (
+                <>
+                  {isDisplayIcon ? (
+                    <StyledIconDiv>
+                      <FontAwesomeIcon
+                        data-testid="rfi-star-icon"
+                        icon={faStar}
+                        style={{ color: '#FFC107' }}
+                        size="xs"
+                      />
+                      <DownloadLink
+                        key={el.uuid}
+                        uuid={el.uuid}
+                        fileName={el.name}
+                      />
+                    </StyledIconDiv>
+                  ) : (
+                    <DownloadLink
+                      key={el.uuid}
+                      uuid={el.uuid}
+                      fileName={el.name}
+                    />
+                  )}
+                  {index !== rfiFiles[fieldName].length - 1 ? (
+                    <StyledSingleDetails>
+                      <span>{fileDate}</span>
+                    </StyledSingleDetails>
+                  ) : (
+                    <StyledDetails>
+                      <span>Received from {rfi.rfiNumber}</span>
+                      <span>{fileDate}</span>
+                    </StyledDetails>
+                  )}
+                </>
+              );
+            })}
+          </StyledFile>
+        );
+      })}
+
+      {filesArray.length > 0 && (
+        <StyledFile>
+          {filesArray?.map((el, index) => {
+            const isComma = index < filesArray.length - 1;
+            return (
+              <DownloadLink
+                key={el.uuid}
+                uuid={el.uuid}
+                fileName={`${el.name}${isComma ? ',' : ''}`}
+              />
+            );
+          })}
+
+          {isRfi && <StyledDetails>Original</StyledDetails>}
+        </StyledFile>
       )}
-    </React.Fragment>
-  ));
+    </div>
+  );
 };
 
 export default FileWidget;

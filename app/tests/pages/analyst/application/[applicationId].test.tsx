@@ -22,6 +22,45 @@ const mockQueryPayload = {
             jsonSchema: schema,
           },
         },
+        applicationRfiDataByApplicationId: {
+          edges: [
+            {
+              node: {
+                rfiDataByRfiDataId: {
+                  jsonData: {
+                    rfiType: ['Missing files or information'],
+                    rfiDueBy: '2023-08-05',
+                    rfiAdditionalFiles: {
+                      geographicCoverageMap: [
+                        {
+                          id: 35,
+                          name: 'rfi-test-file.kmz',
+                          size: 1000000,
+                          type: '',
+                          uuid: '6c5328e2-2c64-4de1-921f-a289f57c1106',
+                        },
+                      ],
+                      geographicCoverageMapRfi: true,
+                      eligibilityAndImpactsCalculator: [
+                        {
+                          id: 34,
+                          name: 'rfi-test-file-2.kmz',
+                          size: 1000000,
+                          type: '',
+                          uuid: '6287fd27-3994-4bf9-9a6b-2ad6d7b95abb',
+                        },
+                      ],
+                      eligibilityAndImpactsCalculatorRfi: true,
+                    },
+                  },
+                  id: 'WyJyZmlfZGF0YSIsNV0=',
+                  rowId: 5,
+                  rfiNumber: 'CCBC-030004-2',
+                },
+              },
+            },
+          ],
+        },
         status: 'received',
       },
       session: {
@@ -372,5 +411,20 @@ describe('The analyst view application page', () => {
     });
 
     expect(screen.getByText('Other statuses')).not.toBeVisible();
+  });
+
+  it('displays the rfi files', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('rfi-test-file.kmz')).toBeInTheDocument();
+    expect(screen.getByText('rfi-test-file-2.kmz')).toBeInTheDocument();
+  });
+
+  it('displays the star icon for rfi file', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getAllByTestId('rfi-star-icon')[0]).toBeInTheDocument();
   });
 });
