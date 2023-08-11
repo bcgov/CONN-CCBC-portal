@@ -2,6 +2,6 @@
 
 begin;
 
-drop function if exists ccbc:mutations/archive_application_community_progress_report cascade;
+drop function if exists ccbc_public.archive_application_community_progress_report cascade;
 
 commit;

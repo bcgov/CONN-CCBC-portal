@@ -389,10 +389,6 @@ mutations/create_application_community_progress_report_data 2023-08-04T22:38:04Z
 tables/application_community_progress_report_data_001 2023-08-08T19:31:35Z Marcel Mueller <marcel@m2> # add update permissions
 functions/extract_uuids 2023-08-03T19:24:48Z Anthony Bushara <anthony@button.is> # Utility function to extract uuids out of any jsonb provided
 computed_columns/rfi_data_attachments 2023-08-04T16:23:42Z Anthony Bushara <anthony@button.is> # Computed column to provide all attachments rows of an rfi
-@1.93.0 2023-08-09T16:44:16Z CCBC Service Account <ccbc@button.is> # release v1.93.0
-@1.93.1 2023-08-09T21:51:31Z CCBC Service Account <ccbc@button.is> # release v1.93.1
-mutations/create_application_community_progress_report_data 2023-08-04T22:38:04Z Marcel Mueller <marcel@m2> # add mutation to create community progress data
-tables/application_community_progress_report_data_001 2023-08-08T19:31:35Z Marcel Mueller <marcel@m2> # add update permissions
 mutations/create_application_community_report_excel_data [mutations/create_application_community_report_excel_data@1.93.0] 2023-08-09T21:56:56Z Marcel Mueller <marcel@m2> # add argument for old report id
 tables/application_community_progress_report_data_002.sql 2023-08-09T22:24:14Z Marcel Mueller <marcel@m2> # add column excel_data_id
 mutations/archive_application_community_progress_report 2023-08-10T17:18:29Z Marcel Mueller <marcel@m2> # mutations to archive community progress report form and excel data

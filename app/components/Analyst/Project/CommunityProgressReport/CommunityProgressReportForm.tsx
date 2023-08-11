@@ -71,7 +71,7 @@ const CommunityProgressReportForm = ({ application }) => {
   const {
     applicationCommunityProgressReportDataByApplicationId:
       communityProgressData,
-    rowId,
+    rowId: applicationRowId,
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
@@ -101,7 +101,7 @@ const CommunityProgressReportForm = ({ application }) => {
       return dateB.getTime() - dateA.getTime();
     });
 
-  const apiPath = `/api/analyst/community-report/${rowId}/1`;
+  const apiPath = `/api/analyst/community-report/${applicationRowId}/${currentCommunityProgressData?.rowId}`;
 
   // will need to pass in something like setValidationErrors as a third argument in the validation ticket
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,7 +123,7 @@ const CommunityProgressReportForm = ({ application }) => {
     setIsFormSubmitting(true);
 
     validateCommunityReport(excelFile, false).then((res) => {
-      // get the excel data row id from the response or the current community progress data
+      // get the excel data row i from the response or the current community progress data
       const responseExcelDataId =
         res?.result?.data.createApplicationCommunityReportExcelData
           ?.applicationCommunityReportExcelData?.rowId;
@@ -140,7 +140,7 @@ const CommunityProgressReportForm = ({ application }) => {
           connections: [communityProgressConnectionId],
           input: {
             _jsonData: formData,
-            _applicationId: rowId,
+            _applicationId: applicationRowId,
             _oldCommunityProgressReportId: currentCommunityProgressData?.rowId,
             _excelDataId: excelDataId,
           },
@@ -222,7 +222,7 @@ const CommunityProgressReportForm = ({ application }) => {
       </Modal>
       <ProjectForm
         additionalContext={{
-          applicationId: rowId,
+          applicationId: applicationRowId,
           validateExcel: validateCommunityReport,
         }}
         schema={communityProgressReport}
