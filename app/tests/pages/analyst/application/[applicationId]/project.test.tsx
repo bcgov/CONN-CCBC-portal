@@ -1137,6 +1137,11 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
     pageTestingHelper.renderPage();
 
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
     // Click on the edit button to open the form
     const editButton = screen.getAllByTestId('project-form-edit-button');
     await act(async () => {
@@ -1147,7 +1152,44 @@ describe('The Project page', () => {
 
     expect(hasFundingAggreementBeenSigned).toBeChecked();
 
-    const saveButton = screen.getByText('Save');
+    const file = new File([new ArrayBuffer(1)], 'file.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test');
+
+    await act(async () => {
+      fireEvent.change(inputFile[1], { target: { files: [file] } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
+      input: {
+        attachment: {
+          file,
+          fileName: 'file.xls',
+          fileSize: '1 Bytes',
+          fileType: 'application/vnd.ms-excel',
+          applicationId: 1,
+        },
+      },
+    });
+
+    expect(screen.getByLabelText('loading')).toBeInTheDocument();
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    const saveButton = screen.getByText('Save & Import Data');
 
     expect(saveButton).not.toBeDisabled();
 
@@ -1187,6 +1229,11 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
     pageTestingHelper.renderPage();
 
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
     // Click on the edit button to open the form
     const editButton = screen.getAllByTestId('project-form-edit-button');
     await act(async () => {
@@ -1197,7 +1244,44 @@ describe('The Project page', () => {
 
     expect(hasFundingAggreementBeenSigned).toBeChecked();
 
-    const saveButton = screen.getByText('Save');
+    const file = new File([new ArrayBuffer(1)], 'file.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test');
+
+    await act(async () => {
+      fireEvent.change(inputFile[1], { target: { files: [file] } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
+      input: {
+        attachment: {
+          file,
+          fileName: 'file.xls',
+          fileSize: '1 Bytes',
+          fileType: 'application/vnd.ms-excel',
+          applicationId: 1,
+        },
+      },
+    });
+
+    expect(screen.getByLabelText('loading')).toBeInTheDocument();
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    const saveButton = screen.getByText('Save & Import Data');
 
     expect(saveButton).not.toBeDisabled();
 
