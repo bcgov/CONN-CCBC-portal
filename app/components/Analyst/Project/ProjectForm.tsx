@@ -137,10 +137,12 @@ interface Props {
   resetFormData: any;
   saveBtnText?: string;
   saveBtnDisabled?: boolean;
+  cancelBtnDisabled?: boolean;
   schema: JSONSchema7;
   setFormData?: any;
   setIsFormEditMode: any;
   submitting?: boolean;
+  submittingText?: string;
   theme?: any;
   title: string;
   uiSchema?: any;
@@ -163,11 +165,13 @@ const ProjectForm: React.FC<Props> = ({
   onSubmit,
   resetFormData,
   saveBtnDisabled,
+  cancelBtnDisabled,
   saveBtnText,
   schema,
   setFormData = () => {},
   setIsFormEditMode,
   submitting = false,
+  submittingText,
   theme,
   title,
   uiSchema,
@@ -214,6 +218,7 @@ const ProjectForm: React.FC<Props> = ({
               <StyledBtn
                 size="small"
                 variant="secondary"
+                disabled={cancelBtnDisabled}
                 onClick={() => {
                   setFormData();
                   setIsFormEditMode(false);
@@ -260,7 +265,7 @@ const ProjectForm: React.FC<Props> = ({
                 <CircularProgress color="inherit" />
               </LoadingItem>
               <LoadingItem>
-                <p>Importing Statement of Work. Please wait.</p>
+                <p>{`${submittingText}`}</p>
               </LoadingItem>
             </LoadingContainer>
           ) : (

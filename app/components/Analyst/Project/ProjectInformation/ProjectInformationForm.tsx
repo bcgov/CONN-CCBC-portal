@@ -379,6 +379,7 @@ const ProjectInformationForm = ({ application }) => {
       saveBtnText={hasSowValidationErrors ? 'Save' : 'Save & Import Data'}
       setFormData={setFormData}
       submitting={isFormSubmitting}
+      submittingText="Importing Statement of Work. Please wait."
       saveBtnDisabled={isFormSubmitting}
       setIsFormEditMode={(boolean) => {
         setShowToast(false);

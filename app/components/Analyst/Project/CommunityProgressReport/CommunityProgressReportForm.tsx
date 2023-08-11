@@ -4,6 +4,7 @@ import communityProgressReport from 'formSchema/analyst/communityProgressReport'
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
+import Toast from 'components/Toast';
 import CommunityProgressView from './CommunityProgressView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
@@ -57,6 +58,8 @@ const CommunityProgressReportForm = ({ application }) => {
   const [createCommunityProgressReport] =
     useCreateCommunityProgressReportMutation();
   const [excelFile, setExcelFile] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   const communityProgressConnectionId = communityProgressData?.__id;
   const communityProgressList = communityProgressData?.edges
@@ -86,12 +89,13 @@ const CommunityProgressReportForm = ({ application }) => {
     setFormData({} as FormData);
     setCurrentCommunityProgressData(null);
     setExcelFile(null);
+    setShowToast(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    validateCommunityReport(excelFile, false).then(() => {
+    setIsFormSubmitting(true);
+    validateCommunityReport(excelFile, false).then((r) => {
       /// save form data
       createCommunityProgressReport({
         variables: {
@@ -104,6 +108,14 @@ const CommunityProgressReportForm = ({ application }) => {
         },
         onCompleted: () => {
           handleResetFormData();
+          setIsFormSubmitting(false);
+
+          if (r?.status === 200) {
+            setShowToast(true);
+          }
+        },
+        onError: () => {
+          setIsFormSubmitting(false);
         },
         updater: (store) => {
           if (currentCommunityProgressData?.id) {
@@ -134,7 +146,10 @@ const CommunityProgressReportForm = ({ application }) => {
       formAnimationHeight={400}
       isFormAnimated
       isFormEditMode={isFormEditMode}
-      setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
+      setIsFormEditMode={(boolean) => {
+        setShowToast(false);
+        setIsFormEditMode(boolean);
+      }}
       saveBtnText={
         formData?.progressReportFile && excelFile ? 'Save & Import' : 'Save'
       }
@@ -144,7 +159,11 @@ const CommunityProgressReportForm = ({ application }) => {
       }}
       resetFormData={handleResetFormData}
       setFormData={setFormData}
+      submitting={isFormSubmitting}
+      submittingText="Importing community progress report. Please wait."
       showEditBtn={false}
+      saveBtnDisabled={isFormSubmitting}
+      cancelBtnDisabled={isFormSubmitting}
       before={
         <AddButton
           isFormEditMode={isFormEditMode}
@@ -168,6 +187,11 @@ const CommunityProgressReportForm = ({ application }) => {
           />
         );
       })}
+      {showToast && (
+        <Toast timeout={5000}>
+          Community progress report successfully imported
+        </Toast>
+      )}
     </ProjectForm>
   );
 };
