@@ -67,10 +67,13 @@ inputs:
     required: true
   cert:
     description: 'Certificate for secure route'
+    required: true
   cert_key:
     description: 'Certificate key for secure route'
+    required: true
   cert_ca:
     description: 'Certificate CA for secure route'
+    required: true
 
 runs:
   using: composite
