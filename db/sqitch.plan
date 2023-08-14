@@ -394,3 +394,4 @@ tables/application_community_progress_report_data_002.sql 2023-08-09T22:24:14Z M
 mutations/archive_application_community_progress_report 2023-08-10T17:18:29Z Marcel Mueller <marcel@m2> # mutations to archive community progress report form and excel data
 @1.94.0 2023-08-11T19:28:01Z CCBC Service Account <ccbc@button.is> # release v1.94.0
 @1.94.1 2023-08-11T22:08:15Z CCBC Service Account <ccbc@button.is> # release v1.94.1
+@1.95.0 2023-08-14T22:17:04Z CCBC Service Account <ccbc@button.is> # release v1.95.0
