@@ -126,7 +126,7 @@ const readSummary = async (wb, sheet_name, applicationId, reportId) => {
 const ValidateData = async (data, applicationRowId, req) => {
   const queryResult = await performQuery(
     getCcbcNumber,
-    { _rowId: parseInt(applicationRowId) },
+    { _rowId: parseInt(applicationRowId, 10) },
     req
   );
   const ccbcNumber = queryResult?.data?.applicationByRowId?.ccbcNumber;
@@ -163,7 +163,7 @@ const ValidateData = async (data, applicationRowId, req) => {
     });
   }
 
-  const communityDataErrors = data.communityData.map((comData) => {
+  data.communityData.forEach((comData) => {
     if (
       comData.communityName === undefined ||
       typeof comData.communityName !== 'string'
