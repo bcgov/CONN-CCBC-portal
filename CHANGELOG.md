@@ -1,3 +1,15 @@
+# [1.95.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.94.1...v1.95.0) (2023-08-14)
+
+### Bug Fixes
+
+- recieve_application select intake archived_at ([143dfeb](https://github.com/bcgov/CONN-CCBC-portal/commit/143dfebbc92b3b33d8d77fda7dc71faba6a4bde8))
+- return only non archived intakes from next_intake and open_intake function ([ce4a898](https://github.com/bcgov/CONN-CCBC-portal/commit/ce4a89830e9a02e6851be5cb772f9f1f81eec2e4))
+
+### Features
+
+- deploy route and set certs ([5194611](https://github.com/bcgov/CONN-CCBC-portal/commit/5194611795f0137f2745d91f1f0830c91f8e5421))
+- only show spinner if sow is present/valid ([3082b69](https://github.com/bcgov/CONN-CCBC-portal/commit/3082b697ac21026efb417ed00913df89d5a71f69))
+
 ## [1.94.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.94.0...v1.94.1) (2023-08-11)
 
 # [1.94.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.93.1...v1.94.0) (2023-08-11)
