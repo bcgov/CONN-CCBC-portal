@@ -1,56 +1,69 @@
-BEGIN;
+begin;
 
-SELECT plan(8);
+select plan(9);
 
-SELECT has_function('ccbc_public', 'open_intake',
+select has_function('ccbc_public', 'open_intake',
  'function ccbc_public.open_intake exists');
 
 -- setup intake table, since there is no guarantee that an intake will be available when running the test
 
-DELETE FROM ccbc_public.intake;
+delete from ccbc_public.intake;
 
-INSERT INTO ccbc_public.intake
+insert into ccbc_public.intake
     (open_timestamp, close_timestamp, ccbc_intake_number)
-    VALUES (now(), now() + interval '10 days', 10);
+    values (now(), now() + interval '10 days', 10);
 
 -- ccbc_auth_user
-SET ROLE ccbc_auth_user;
-SELECT concat('current user is: ', (SELECT current_user));
+set role ccbc_auth_user;
+select concat('current user is: ', (select current_user));
 
-SELECT results_eq(
+select results_eq(
     $$
-        SELECT ccbc_intake_number FROM ccbc_public.open_intake();
+        select ccbc_intake_number from ccbc_public.open_intake();
     $$
     , ARRAY[10::int],
     'Current intake number is displayed for ccbc_auth_user'
     );
 
 -- ccbc_guest
-SET ROLE ccbc_guest;
-SELECT concat('current user is: ', (SELECT current_user));
+set role ccbc_guest;
+select concat('current user is: ', (select current_user));
 
-SELECT results_eq(
+select results_eq(
     $$
-        SELECT ccbc_intake_number FROM ccbc_public.open_intake();
+        select ccbc_intake_number from ccbc_public.open_intake();
     $$
     , ARRAY[10::int],
     'Current intake number is displayed for guest'
     );
 
+set role postgres;
+update ccbc_public.intake set archived_at = now() where ccbc_intake_number = 10;
+
+set role ccbc_auth_user;
+
+select results_eq(
+    $$
+        select ccbc_intake_number from ccbc_public.open_intake();
+    $$
+    , ARRAY[null::int],
+    'Current intake number is null when current intake is archived'
+    );
+
 -- no open intakes should return null
 -- set role with enough permissions to delete from intake table
-SET ROLE postgres;
-DELETE FROM ccbc_public.intake;
+set role postgres;
+delete from ccbc_public.intake;
 
-INSERT INTO ccbc_public.intake
+insert into ccbc_public.intake
     (open_timestamp, close_timestamp, ccbc_intake_number)
-    VALUES (now() - interval '11 days', now() - interval '2 days', 10);
+    values (now() - interval '11 days', now() - interval '2 days', 10);
 
 -- set role back to guest user
-SET ROLE ccbc_guest;
+set role ccbc_guest;
 
-SELECT is(
-    (SELECT ccbc_intake_number FROM ccbc_public.open_intake())
+select is(
+    (select ccbc_intake_number from ccbc_public.open_intake())
     ,
     null
     ,
@@ -77,5 +90,5 @@ select function_privs_are(
   'ccbc_analyst can execute ccbc_public.open_intake()'
 );
 
-SELECT finish();
-ROLLBACK;
+select finish();
+rollback;

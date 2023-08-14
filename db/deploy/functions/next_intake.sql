@@ -8,6 +8,7 @@ as $function$
   select *
   from ccbc_public.intake
   where now() < open_timestamp
+  and archived_at is null
   order by ccbc_intake_number
   limit 1;
 $function$ language sql stable;
