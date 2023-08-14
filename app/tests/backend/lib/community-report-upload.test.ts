@@ -187,7 +187,6 @@ describe('The Community Progress Report import', () => {
       .expect(400);
 
     const responseDataJson = JSON.parse(response.text);
-    console.log(responseDataJson);
     expect(responseDataJson).toBeArray();
     expect(responseDataJson[0].error).toBe('Invalid data: Community Name 123');
     expect(responseDataJson[1].error).toBe('Invalid data: Stage undefined');
