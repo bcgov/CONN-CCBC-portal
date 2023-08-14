@@ -7,7 +7,7 @@ $function$
  select * from ccbc_public.intake where now() >= open_timestamp and now() <= close_timestamp;
 $function$ language sql stable;
 
-grant execute on function ccbc_public.open_intake to ccbc_guest, ccbc_auth_user, ccbc_admin, ccbc_analyst;
+grant execute on function ccbc_public.open_intake to ccbc_guest, ccbc_auth_user;
 
 comment on function ccbc_public.open_intake is 'Returns the current open intake';
 
