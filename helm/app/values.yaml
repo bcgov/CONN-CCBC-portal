@@ -67,6 +67,15 @@ objectStorage:
   awsS3SecretKey: '' # The value must be passed in via the deploy script
   awsRoleArn: '' # The value must be passed in via the deploy script
 
+# Must be passed via the deploy script
+cert:
+  cert: |
+    ''
+  key: |
+    ''
+  ca: |
+    ''
+
 db:
   name: ccbc
   appUser: ccbc_app
@@ -89,16 +98,6 @@ metabase:
   prodNamespace: '' # The value must be passed in via the deploy script
   prodIngress:
     enable: false
-
-certbot:
-  image:
-    tag: 1.0.2
-    pullPolicy: IfNotPresent
-  certbot:
-    email: '' # The value must be passed in via the deploy script
-    server: '' # The value must be passed in via the deploy script
-  cron:
-    suspend: false # The certs have been issued in all environments
 
 loadTest:
   # if true, this will start the app with ENABLE_MOCK_AUTH=true, and deploy the data located in `db/data/perf`

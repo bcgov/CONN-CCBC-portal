@@ -37,6 +37,7 @@
 - [Deploying the project](#deploying-the-project)
 - [Disaster recovery information](#disaster-recovery-documentation)
 - [CronJobs](#cronjobs)
+- [Certificates] (#certificates)
 
 ## Setting up a local development environment
 
@@ -219,8 +220,6 @@ To deploy the project into a a new namespace or to deploy another instance of th
    - AWS_S3_KEY
    - AWS_S3_REGION
    - AWS_S3_SECRET_KEY
-   - CERTBOT_EMAIL
-   - CERTBOT_SERVER
    - CLIENT_SECRET
      - SSO Client Secret
    - NEXT_PUBLIC_GROWTHBOOK_API_KEY
@@ -232,6 +231,9 @@ To deploy the project into a a new namespace or to deploy another instance of th
    - OPENSHIFT_ROUTE
    - OPENSHIFT_SECURE_ROUTE
    - OPENSHIFT_TOKEN
+   - CERT
+   - CERT_KEY
+   - CERT_CA
 
 3. Create any updated values as needed for your new deployment under `helm/app`. For example, if you named your environment `foo` you will create a file named `values-foo.yaml`
 4. Add an extra step to `.github/workflows/deploy.yaml` with updated job and environment name.
@@ -257,10 +259,6 @@ Managed by the PostgresCluster Operator (CrunchyDB), performs an incremental dat
 
 As above managed by CrunchyDB. Performs a full backup of the database everyday at 1:00AM Pacific Time.
 
-#### Certbot
-
-As the name implies; a job that uses certbot to keep the TLS certificate up to date. Runs everyday at 5:00PM Pacific Time.
-
 #### Receive applications
 
 Marks all applications for a specific intake as received on the database. Runs twice a day at 10:00 AM and 10:00PM Pacific time.
@@ -280,3 +278,18 @@ To run any of the CronJobs above manually:
 3. Once ran you should see `job.batch/[YOUR JOB NAME]` created
 
 Note that you cannot run a job with the same name twice, if you need to rerun a job either delete the old job and re run the command from step 2, or use a different name.
+
+### Certificates
+
+Certificates are generated using the standard BC Government process:
+
+Certificates are generated using the standard BC Government process:
+
+1. Create a submission for certificates through MySC.
+2. Generate a CSR or use one already generated and provide it when requested. If a new one is needed, you can use the following command:
+   `openssl req -new -newkey rsa:2048 -nodes -out domain.ca.csr -keyout domain.ca.key -subj "/C=CA/ST=British Columbia/L=Victoria/O=Government of the Province of British Columbia/OU=NetworkBC/CN=domain.ca"` replace `domain.ca` with the domain you are generating a certificate for.
+
+3. The step above will give you two files, `domain.ca.csr` and `domain.ca.key`. You will _only_ need to share the CSR; the key will be saved in a secret as listed above during deployment.
+4. Once complete, you will receive a certificate and a chain. Use them in the `CERT` and `CERT_CA` fields, respectively. You might also need to update `CERT_KEY` if a new CSR was used.
+5. Repeat this process for any other certificates you need to renew (e.g., dev, test, etc.).
+6. Finally, to update the certificates run the deploy action for each environment that needs updating.

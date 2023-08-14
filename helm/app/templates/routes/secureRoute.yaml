@@ -1,19 +1,8 @@
-{{- $route := (lookup "route.openshift.io/v1" "Route" .Release.Namespace "ccbc-secure") }}
-{{- $certificate := "" }}
-{{- $key := "" }}
-{{- $caCertificate := "" }}
-{{- if $route }}
-{{- $certificate = $route.spec.tls.certificate }}
-{{- $key = $route.spec.tls.key }}
-{{- $caCertificate = $route.spec.tls.caCertificate }}
-{{- end -}}
-
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: ccbc-secure
   labels: {{ include "ccbc.labels" . | nindent 4 }}
-    certbot-managed: "true"
   annotations:
     haproxy.router.openshift.io/balance: roundrobin
     haproxy.router.openshift.io/timeout: 1800s
@@ -26,18 +15,16 @@ spec:
   tls:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
-    {{- if $route }}
-    certificate: {{ $certificate | quote }}
-    key: {{ $key | quote }}
-    caCertificate: {{ $caCertificate | quote }}
-    {{- end }}
+    certificate: {{ .Values.cert.cert | quote }}
+    key: {{ .Values.cert.key | quote }}
+    caCertificate: {{ .Values.cert.ca | quote }}
   to:
     kind: Service
     name: {{ template "ccbc.fullname" . }}
     weight: 100
   wildcardPolicy: None
 
-{{- if .Values.secureRoute.wwwRoute.enable }}
+{{- if .Values.secureRoute.wwwRoute.enable | quote }}
 ---
 # The www route isn't managed by certbot to avoid duplicate certificate requests
 # It will need a redeploy to fetch the new cert from the route above
@@ -53,11 +40,9 @@ spec:
   tls:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
-    {{- if $route }}
-    certificate: {{ $certificate | quote }}
-    key: {{ $key | quote }}
-    caCertificate: {{ $caCertificate | quote }}
-    {{- end }}
+    certificate: {{ .Values.cert.cert | quote }}
+    key: {{ .Values.cert.key | quote }}
+    caCertificate: {{ .Values.cert.ca | quote }}
   to:
     kind: Service
     name: {{ template "ccbc.fullname" . }}

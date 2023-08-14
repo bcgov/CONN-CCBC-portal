@@ -65,6 +65,15 @@ inputs:
   metabase_embed_secret:
     description: 'Metabase embed secret key'
     required: true
+  cert:
+    description: 'Certificate for secure route'
+    required: true
+  cert_key:
+    description: 'Certificate key for secure route'
+    required: true
+  cert_ca:
+    description: 'Certificate CA for secure route'
+    required: true
 
 runs:
   using: composite
@@ -86,7 +95,9 @@ runs:
         aws_clam_s3_bucket: ${{ inputs.aws_clam_s3_bucket }}
         metabase_site_url: ${{ inputs.metabase_site_url }}
         metabase_embed_secret: ${{ inputs.metabase_embed_secret }}
-
+        cert: ${{ inputs.cert }}
+        cert_key: ${{ inputs.cert_key }}
+        cert_ca: ${{ inputs.cert_ca }}
         insecure_skip_tls_verify: true
     - run: |
         chmod +x ./lib/app_deploy.sh
@@ -110,6 +121,9 @@ runs:
           --set certbot.certbot.email=${{ inputs.certbot_email }} \
           --set certbot.certbot.server=${{ inputs.certbot_server }} \
           --set loadTest.enable=${{ inputs.enable_load_test }} \
+          --set cert.cert="${{ inputs.cert }}" \
+          --set cert.key="${{ inputs.cert_key }}" \
+          --set cert.ca="${{ inputs.cert_ca }}" \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash
