@@ -219,8 +219,6 @@ To deploy the project into a a new namespace or to deploy another instance of th
    - AWS_S3_KEY
    - AWS_S3_REGION
    - AWS_S3_SECRET_KEY
-   - CERTBOT_EMAIL
-   - CERTBOT_SERVER
    - CLIENT_SECRET
      - SSO Client Secret
    - NEXT_PUBLIC_GROWTHBOOK_API_KEY
@@ -232,6 +230,9 @@ To deploy the project into a a new namespace or to deploy another instance of th
    - OPENSHIFT_ROUTE
    - OPENSHIFT_SECURE_ROUTE
    - OPENSHIFT_TOKEN
+   - CERT
+   - CERT_KEY
+   - CERT_CA
 
 3. Create any updated values as needed for your new deployment under `helm/app`. For example, if you named your environment `foo` you will create a file named `values-foo.yaml`
 4. Add an extra step to `.github/workflows/deploy.yaml` with updated job and environment name.
@@ -256,10 +257,6 @@ Managed by the PostgresCluster Operator (CrunchyDB), performs an incremental dat
 #### Full backup
 
 As above managed by CrunchyDB. Performs a full backup of the database everyday at 1:00AM Pacific Time.
-
-#### Certbot
-
-As the name implies; a job that uses certbot to keep the TLS certificate up to date. Runs everyday at 5:00PM Pacific Time.
 
 #### Receive applications
 
