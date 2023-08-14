@@ -37,6 +37,7 @@
 - [Deploying the project](#deploying-the-project)
 - [Disaster recovery information](#disaster-recovery-documentation)
 - [CronJobs](#cronjobs)
+- [Certificates] (#certificates)
 
 ## Setting up a local development environment
 
@@ -277,3 +278,18 @@ To run any of the CronJobs above manually:
 3. Once ran you should see `job.batch/[YOUR JOB NAME]` created
 
 Note that you cannot run a job with the same name twice, if you need to rerun a job either delete the old job and re run the command from step 2, or use a different name.
+
+### Certificates
+
+Certificates are generated using the standard BC Government process:
+
+Certificates are generated using the standard BC Government process:
+
+1. Create a submission for certificates through MySC.
+2. Generate a CSR or use one already generated and provide it when requested. If a new one is needed, you can use the following command:
+   `openssl req -new -newkey rsa:2048 -nodes -out domain.ca.csr -keyout domain.ca.key -subj "/C=CA/ST=British Columbia/L=Victoria/O=Government of the Province of British Columbia/OU=NetworkBC/CN=domain.ca"` replace `domain.ca` with the domain you are generating a certificate for.
+
+3. The step above will give you two files, `domain.ca.csr` and `domain.ca.key`. You will _only_ need to share the CSR; the key will be saved in a secret as listed above during deployment.
+4. Once complete, you will receive a certificate and a chain. Use them in the `CERT` and `CERT_CA` fields, respectively. You might also need to update `CERT_KEY` if a new CSR was used.
+5. Repeat this process for any other certificates you need to renew (e.g., dev, test, etc.).
+6. Finally, to update the certificates run the deploy action for each environment that needs updating.
