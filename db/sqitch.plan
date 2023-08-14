@@ -396,3 +396,4 @@ mutations/archive_application_community_progress_report 2023-08-10T17:18:29Z Mar
 @1.94.1 2023-08-11T22:08:15Z CCBC Service Account <ccbc@button.is> # release v1.94.1
 functions/next_intake [functions/next_intake@1.94.0] 2023-08-14T20:10:54Z Marcel Mueller <marcel@m2> # return only intakes where archived_at is null
 functions/open_intake [functions/open_intake@1.94.0] 2023-08-14T20:21:04Z Marcel Mueller <marcel@m2> # return only intakes where archived_at is null
+functions/receive_applications [functions/receive_applications@1.94.0] 2023-08-14T21:26:26Z Marcel Mueller <marcel@m2> # select intake where archived at is null
