@@ -13,9 +13,9 @@ declare
 begin
 
   select updated_at into current_updated_at from ccbc_public.form_data where id = form_data_row_id;
-  -- Adding a buffer, can be used to update if someone happens to have a version of the form that was opened <1 second from the last save
+  -- Adding a buffer, can be used to update if someone happens to have a version of the form that was opened <3 seconds from the last save
   -- Risk is that there can still be overwritten data.
-  if client_updated_at < current_updated_at  - interval '1 second' then
+  if client_updated_at < current_updated_at  - interval '3 second' then
     raise exception 'Data is Out of Sync';
   end if;
 
