@@ -61,6 +61,10 @@ const processCommunityReport: ExpressMiddleware = async (req, res) => {
   }
 
   const result = await LoadCommunityReportData(wb, 'Sheet 1', req);
+  // get around typescript complaining
+  if (result['error']) {
+    return res.status(400).json(result['error']).end();
+  }
 
   if (result) {
     return res.status(200).json({ result }).end();

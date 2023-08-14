@@ -85,6 +85,10 @@ const CommunityProgressReportForm = ({ application }) => {
   const [archiveCommunityProgressReport] = useArchiveCpr();
   const [excelFile, setExcelFile] = useState(null);
   const [showToast, setShowToast] = useState(false);
+  const [
+    communityProgressValidationErrors,
+    setCommunityProgressValidationErrors,
+  ] = useState([]);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   const communityProgressConnectionId = communityProgressData?.__id;
@@ -106,7 +110,11 @@ const CommunityProgressReportForm = ({ application }) => {
   // will need to pass in something like setValidationErrors as a third argument in the validation ticket
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const validateCommunityReport = useCallback(
-    excelValidateGenerator(apiPath, setExcelFile),
+    excelValidateGenerator(
+      apiPath,
+      setExcelFile,
+      setCommunityProgressValidationErrors
+    ),
     [setExcelFile]
   );
 
@@ -224,6 +232,7 @@ const CommunityProgressReportForm = ({ application }) => {
         additionalContext={{
           applicationId: applicationRowId,
           validateExcel: validateCommunityReport,
+          excelValidationErrors: communityProgressValidationErrors,
         }}
         schema={communityProgressReport}
         uiSchema={communityProgressReportUiSchema}
