@@ -121,6 +121,9 @@ runs:
           --set certbot.certbot.email=${{ inputs.certbot_email }} \
           --set certbot.certbot.server=${{ inputs.certbot_server }} \
           --set loadTest.enable=${{ inputs.enable_load_test }} \
+          --set cert.cert=${{ inputs.cert }} \
+          --set cert.key=${{ inputs.cert_key }} \
+          --set cert.ca=${{ inputs.cert_ca }} \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash

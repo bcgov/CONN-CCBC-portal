@@ -67,10 +67,14 @@ objectStorage:
   awsS3SecretKey: '' # The value must be passed in via the deploy script
   awsRoleArn: '' # The value must be passed in via the deploy script
 
+# Must be passed via the deploy script
 cert:
-  cert: '' #Must be passed via the deploy script
-  key: '' #Must be passed via the deploy script
-  ca: '' #Must be passed via the deploy script
+  cert: |
+    ''
+  key: |
+    ''
+  ca: |
+    ''
 
 db:
   name: ccbc
