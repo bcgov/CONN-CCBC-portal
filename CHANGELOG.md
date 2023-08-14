@@ -1,3 +1,9 @@
+# [1.95.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.94.1...v1.95.0) (2023-08-14)
+
+### Features
+
+- only show spinner if sow is present/valid ([3082b69](https://github.com/bcgov/CONN-CCBC-portal/commit/3082b697ac21026efb417ed00913df89d5a71f69))
+
 ## [1.94.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.94.0...v1.94.1) (2023-08-11)
 
 # [1.94.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.93.1...v1.94.0) (2023-08-11)
