@@ -1,6 +1,10 @@
 import type { Request } from 'express';
+import { TokenSet } from 'openid-client';
 
-export const isAuthenticated = (req: Request) => !!req.session?.tokenSet;
+export const isAuthenticated = (req: Request) => {
+  const tokenSet = new TokenSet(req.session?.tokenSet);
+  return !!req.session?.tokenSet && tokenSet.expired() === false;
+};
 
 const decodeJwt = (token: string) => {
   const [header, payload, signature] = token.split('.');
