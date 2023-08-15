@@ -5,5 +5,5 @@
   "ENABLE_MOCK_TIME": true,
   "ENABLE_MOCK_COOKIES": true,
   "SENTRY_ENVIRONMENT": "test",
-  "ENABLE_AWS_LOGS": "true"
+  "ENABLE_AWS_LOGS": true
 }
