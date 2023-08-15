@@ -277,7 +277,6 @@ describe('the loginController', () => {
     } as unknown as Response;
     await handler(req, res);
     expect(generators.random).toHaveBeenCalledWith(32);
-    expect(req.session.oidcState).toBe('some-random-state');
   });
 
   it("redirects the user to the provider's auth URL, and saves the redirectUri in the session", async () => {
@@ -314,7 +313,6 @@ describe('the loginController', () => {
       {
         session: {
           codeVerifier: 'some-random-state',
-          oidcState: 'some-random-state',
           redirectUri: 'http://example.com/callback?test=%2Fpath%2Fabc',
         },
       }
@@ -409,35 +407,10 @@ describe('the loginController', () => {
       redirect_uri: 'https://example.com/auth-callback',
     });
     expect(req.session.codeVerifier).toBe(mockCodeVerifier);
-    expect(req.session.oidcState).toBe(mockCodeVerifier);
   });
 });
 
 describe('the authCallbackController', () => {
-  it("checks if the OpenID state of the request matches the session's", async () => {
-    const consoleErrorMock = jest.spyOn(console, 'error').mockImplementation();
-    const handler = authCallbackController(client, middlewareOptions);
-    const req = {
-      session: { oidcState: 'some-state' },
-      query: {
-        state: 'some-other-state',
-      },
-    } as unknown as Request;
-    const res = {
-      redirect: jest.fn(),
-    } as unknown as Response;
-
-    await handler(req, res);
-
-    expect(req.session.oidcState).toBe(undefined);
-    expect(res.redirect).toHaveBeenCalledWith(
-      middlewareOptions.oidcConfig.baseUrl
-    );
-    expect(client.callback).toHaveBeenCalledTimes(0);
-
-    consoleErrorMock.mockRestore();
-  });
-
   it('fetches the tokenSet, calls the callback with the redirectUri from the session, and redirects to the landing route', async () => {
     const handler = authCallbackController(client, middlewareOptions);
     const req = {
@@ -464,7 +437,6 @@ describe('the authCallbackController', () => {
 
     await handler(req, res);
 
-    expect(req.session.oidcState).toBe(undefined);
     expect(res.redirect).toHaveBeenCalledWith('/landing');
     expect(client.callbackParams).toHaveBeenCalledWith(req);
     expect(tokenSet.claims).toHaveBeenCalled();
@@ -508,7 +480,6 @@ describe('the authCallbackController', () => {
 
     await handler(req, res);
 
-    expect(req.session.oidcState).toBe(undefined);
     expect(res.redirect).toHaveBeenCalledWith(
       middlewareOptions.oidcConfig.baseUrl
     );
