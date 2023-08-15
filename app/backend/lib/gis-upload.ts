@@ -7,6 +7,8 @@ import schema from './gis-schema.json';
 import { performQuery } from './graphql';
 import getAuthRole from '../../utils/getAuthRole';
 import { parseForm } from './express-helper';
+import * as jsonlint from 'jsonlint';
+import { ESLint } from 'eslint';
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
@@ -75,7 +77,27 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
     return res.status(200).end();
   }
   const file = fs.readFileSync(uploaded.filepath, 'utf8');
-  const data = JSON.parse(file);
+  let data = null;
+  try {
+    const eslintConfig = {
+      plugins: ['json'],
+      rules: {
+        'json/*': ['error'],
+      },
+    };
+    const eslint = new ESLint({
+      useEslintrc: false,
+      baseConfig: eslintConfig,
+    });
+    const results = await eslint.lintText(file);
+    console.log(results);
+    console.log(results[0].messages);
+    jsonlint.parse(file);
+    data = JSON.parse(file);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ error: e }).end();
+  }
   let isValid: boolean;
 
   try {
