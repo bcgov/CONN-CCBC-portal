@@ -255,9 +255,11 @@ const ValidateData = async (data, applicationRowId, req) => {
       typeof comData.applicationNumber !== 'string' ||
       comData.applicationNumber !== ccbcNumber
     ) {
-      errors.push({
-        error: `CCBC Number mismatch: expected ${ccbcNumber}, received: ${comData.applicationNumber}`,
-      });
+      const errorString = `CCBC Number mismatch: expected ${ccbcNumber}, received: ${comData.applicationNumber}`;
+      if (!errors.find((err) => err.error === errorString))
+        errors.push({
+          error: `CCBC Number mismatch: expected ${ccbcNumber}, received: ${comData.applicationNumber}`,
+        });
     }
   });
 
