@@ -11,7 +11,6 @@ const isProd = config.get('NODE_ENV') === 'production';
 
 const HALF_DAY = 12 * (60 * 60 * 1000);
 const ONE_DAY = 2 * HALF_DAY;
-const THIRTY_DAYS = 30 * ONE_DAY;
 
 const session = () => {
   const store = new PgSession({
@@ -27,7 +26,7 @@ const session = () => {
     saveUninitialized: false,
     cookie: {
       // session expiration is set by default to 30 days
-      maxAge: THIRTY_DAYS,
+      maxAge: ONE_DAY,
       // httpOnly flag makes sure the cookie is only accessed
       // through the HTTP protocol and not JS/browser
       httpOnly: true,
