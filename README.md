@@ -149,6 +149,8 @@ AWS_S3_SECRET_KEY
 AWS_ROLE_ARN
 ```
 
+To enable logging in the development console set the `ENABLE_AWS_LOGS` environment variable to `true`.
+
 ### Release Process
 
 Before releasing our application to our `test` and `prod` environments, an essential step is to add a tag to our sqitch plan, to identify which database changes are released to prod and should be immutable.
