@@ -1,5 +1,6 @@
 import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
+import { convertExcelDateToJSDate } from '../sow_import/util';
 
 const createSowMutation = `
   mutation communityReportUploadMutation($input: CreateApplicationCommunityReportExcelDataInput!) {
@@ -11,6 +12,14 @@ const createSowMutation = `
       clientMutationId
     }
   }
+`;
+
+const getCcbcNumber = `
+query getCcbcNumber($_rowId: Int!) {
+  applicationByRowId(rowId: $_rowId) {
+    ccbcNumber
+  }
+}
 `;
 
 // For the summary table
@@ -63,8 +72,12 @@ export const readRowData = (row: Object) => {
     longitude: row[LONGITUDE_COLUMN],
     typeOfService: row[TYPE_OF_SERVICE_COLUMN],
     stage: row[STAGE_COLUMN],
-    actualConstructionStartDate: row[ACTUAL_CONSTRUCTION_START_DATE_COLUMN],
-    actualConstructionEndDate: row[ACTUAL_CONSTRUCTION_END_DATE_COLUMN],
+    actualConstructionStartDate: convertExcelDateToJSDate(
+      row[ACTUAL_CONSTRUCTION_START_DATE_COLUMN]
+    ),
+    actualConstructionEndDate: convertExcelDateToJSDate(
+      row[ACTUAL_CONSTRUCTION_END_DATE_COLUMN]
+    ),
     applicationNumber: row[APPLICATION_NUMBER_COLUMN],
     informationComplete: row[INFORMATION_COMPLETE_COLUMN],
   };
@@ -110,8 +123,15 @@ const readSummary = async (wb, sheet_name, applicationId, reportId) => {
   return communityReportData;
 };
 
-const ValidateData = (data) => {
+const ValidateData = async (data, applicationRowId, req) => {
+  const queryResult = await performQuery(
+    getCcbcNumber,
+    { _rowId: parseInt(applicationRowId, 10) },
+    req
+  );
+  const ccbcNumber = queryResult?.data?.applicationByRowId?.ccbcNumber;
   const errors = [];
+
   if (data.numberOfCommunitiesInPlanning === undefined) {
     errors.push({
       level: 'cell',
@@ -143,6 +163,106 @@ const ValidateData = (data) => {
     });
   }
 
+  data.communityData.forEach((comData) => {
+    if (
+      comData.communityName === undefined ||
+      typeof comData.communityName !== 'string'
+    ) {
+      errors.push({
+        level: 'cell',
+        error: `Invalid data: Community Name ${comData.communityName}`,
+      });
+    }
+    if (
+      comData.communityId === undefined ||
+      typeof comData.communityId !== 'number'
+    ) {
+      errors.push({
+        level: 'cell',
+        error: `Invalid data: Community ID ${comData.communityId}`,
+      });
+    }
+
+    if (
+      comData.provincesTerritories === undefined ||
+      typeof comData.provincesTerritories !== 'string'
+    ) {
+      errors.push({
+        level: 'cell',
+        error: `Invalid data: Provinces/Territory ${comData.provincesTerritories}`,
+      });
+    }
+
+    if (
+      comData.latitude === undefined ||
+      typeof comData.latitude !== 'number'
+    ) {
+      errors.push({
+        level: 'cell',
+        error: `Invalid data: Latitude ${comData.latitude}`,
+      });
+    }
+
+    if (
+      comData.longitude === undefined ||
+      typeof comData.longitude !== 'number'
+    ) {
+      errors.push({
+        level: 'cell',
+        error: `Invalid data: Latitude ${comData.longitude}`,
+      });
+    }
+
+    if (
+      comData.typeOfService === undefined ||
+      typeof comData.typeOfService !== 'string'
+    ) {
+      errors.push({
+        level: 'cell',
+        error: `Invalid data: Type of Service ${comData.typeOfService}`,
+      });
+    }
+
+    if (comData.stage === undefined || typeof comData.stage !== 'string') {
+      errors.push({
+        level: 'cell',
+        error: `Invalid data: Stage ${comData.stage}`,
+      });
+    }
+
+    if (
+      comData.actualConstructionStartDate === undefined ||
+      typeof comData.actualConstructionStartDate !== 'string'
+    ) {
+      errors.push({
+        level: 'cell',
+        error: `Invalid data: Actual Construction Start Date ${comData.actualConstructionStartDate}`,
+      });
+    }
+
+    if (
+      comData.actualConstructionEndDate === undefined ||
+      typeof comData.actualConstructionEndDate !== 'string'
+    ) {
+      errors.push({
+        level: 'cell',
+        error: `Invalid data: Actual Construction Start Date ${comData.actualConstructionEndDate}`,
+      });
+    }
+
+    if (
+      comData.applicationNumber === undefined ||
+      typeof comData.applicationNumber !== 'string' ||
+      comData.applicationNumber !== ccbcNumber
+    ) {
+      const errorString = `CCBC Number mismatch: expected ${ccbcNumber}, received: ${comData.applicationNumber}`;
+      if (!errors.find((err) => err.error === errorString))
+        errors.push({
+          error: `CCBC Number mismatch: expected ${ccbcNumber}, received: ${comData.applicationNumber}`,
+        });
+    }
+  });
+
   return errors;
 };
 
@@ -152,7 +272,7 @@ const LoadCommunityReportData = async (wb, sheet_name, req) => {
 
   const data = await readSummary(wb, sheet_name, applicationId, reportId);
 
-  const errorList = ValidateData(data._jsonData);
+  const errorList = await ValidateData(data._jsonData, applicationId, req);
 
   if (errorList.length > 0) {
     return { error: errorList };
