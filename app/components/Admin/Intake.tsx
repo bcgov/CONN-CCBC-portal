@@ -2,7 +2,7 @@ import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faPen } from '@fortawesome/free-solid-svg-icons';
 import { useArchiveIntakeMutation } from 'schema/mutations/admin/archiveIntakeMutation';
 
 interface ContainerProps {
@@ -20,7 +20,17 @@ const StyledContainer = styled.div<ContainerProps>`
 const StyledUpper = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+  margin-bottom: 8px;
+
+  & h3 {
+    margin: 0;
+  }
+
+  & button {
+    margin-left: 8px;
+  }
 `;
 
 const StyledDelete = styled.button`
@@ -35,6 +45,15 @@ const StyledDelete = styled.button`
 
   &:hover {
     opacity: 0.7;
+  }
+`;
+
+const StyledEdit = styled.button`
+    color: ${({ theme }) => theme.color.links};
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 `;
 
@@ -75,14 +94,20 @@ const StyledDescription = styled.h4`
 
 interface IntakeProps {
   allIntakesConnectionId: string;
-  intake: any;
   currentIntakeNumber: number;
+  intake: any;
+  setFormData: (formData: any) => void;
+  isFormEditMode: boolean;
+  setIsFormEditMode: (isFormEditMode: boolean) => void;
 }
 
 const Intake: React.FC<IntakeProps> = ({
   allIntakesConnectionId,
   currentIntakeNumber,
   intake,
+  setFormData,
+  isFormEditMode,
+  setIsFormEditMode,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -125,10 +150,19 @@ const Intake: React.FC<IntakeProps> = ({
       updater: (store) => {
         const connection = store.get(allIntakesConnectionId);
         const intakeConnectionId = queryFragment.__id;
-
         store.delete(intakeConnectionId);
         ConnectionHandler.deleteNode(connection, intakeConnectionId);
       },
+    });
+  };
+
+  const handleEdit = () => {
+    setIsFormEditMode(true);
+    setFormData({
+      intakeNumber: ccbcIntakeNumber,
+      startDate: openTimestamp,
+      endDate: closeTimestamp,
+      description,
     });
   };
 
@@ -138,7 +172,15 @@ const Intake: React.FC<IntakeProps> = ({
       isCurrentIntake={currentIntakeNumber === ccbcIntakeNumber}
     >
       <StyledUpper>
-        <h3>Intake {ccbcIntakeNumber}</h3>
+        <h3>
+          Intake {ccbcIntakeNumber}
+          {!isFormEditMode && (
+            <StyledEdit onClick={handleEdit}>
+              <FontAwesomeIcon icon={faPen} />
+            </StyledEdit>
+          )}
+        </h3>
+
         {isAllowedDelete && (
           <StyledDelete onClick={handleDelete}>
             Delete

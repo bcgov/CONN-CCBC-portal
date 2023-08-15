@@ -84,9 +84,19 @@ const customTransformErrors = (errors: AjvError[]) =>
 
 interface Props {
   applicationQuery: any;
+  formData: any;
+  isFormEditMode: boolean;
+  setFormData: (formData: any) => void;
+  setIsFormEditMode: (isFormEditMode: boolean) => void;
 }
 
-const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
+const AddIntake: React.FC<Props> = ({
+  applicationQuery,
+  formData,
+  isFormEditMode,
+  setFormData,
+  setIsFormEditMode,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment AddIntake_query on Query {
@@ -127,9 +137,7 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
   };
 
   const [createIntake] = useCreateIntakeMutation();
-  const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-  const [formData, setFormData] = useState(defaultFormData);
 
   const handleSubmit = (e) => {
     const startTime = e.formData?.startDate;

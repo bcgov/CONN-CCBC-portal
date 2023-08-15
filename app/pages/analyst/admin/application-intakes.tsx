@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
@@ -43,6 +44,19 @@ const ApplicationIntakes = ({
 }: RelayProps<Record<string, unknown>, applicationIntakesQuery>) => {
   const query = usePreloadedQuery(getApplicationIntakesQuery, preloadedQuery);
   const { allIntakes, openIntake, session } = query;
+
+  const latestIntake = allIntakes?.edges[0].node;
+  const newIntakeNumber = ((latestIntake?.ccbcIntakeNumber as number) || 0) + 1;
+
+  // check if the latest intake opens before the current date
+  const defaultFormData = {
+    intakeNumber: newIntakeNumber,
+  };
+
+  const [isFormEditMode, setIsFormEditMode] = useState(false);
+
+  const [formData, setFormData] = useState(defaultFormData);
+
   const intakeList =
     allIntakes &&
     [...allIntakes.edges].filter((data) => {
@@ -67,7 +81,13 @@ const ApplicationIntakes = ({
             dates, go to https://app.growthbook.io/
           </p>
         </section>
-        <AddIntake applicationQuery={query} />
+        <AddIntake
+          applicationQuery={query}
+          formData={formData}
+          isFormEditMode={isFormEditMode}
+          setFormData={setFormData}
+          setIsFormEditMode={setIsFormEditMode}
+        />
         {intakeList && (
           <section>
             {intakeList.map((intake: any) => {
@@ -77,6 +97,9 @@ const ApplicationIntakes = ({
                   allIntakesConnectionId={allIntakes.__id}
                   intake={intake.node}
                   currentIntakeNumber={openIntake?.ccbcIntakeNumber}
+                  isFormEditMode={isFormEditMode}
+                  setFormData={setFormData}
+                  setIsFormEditMode={setIsFormEditMode}
                 />
               );
             })}
