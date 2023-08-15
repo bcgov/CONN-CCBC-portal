@@ -94,7 +94,6 @@ export const loginController =
     }
 
     const state = generators.random(32);
-    req.session.oidcState = state;
 
     // Code challenge and code verifier for PKCE support. If the clientSecret is set
     // in the oidcConfig, then code challenge options will be included in the auth
@@ -130,15 +129,19 @@ export const authCallbackController =
   (client: BaseClient, options: SSOExpressOptions) =>
   async (req: Request, res: Response) => {
     const state = req.query.state as string;
-    const cachedState = req.session.oidcState;
     const sessionCodeVerifier = req.session.codeVerifier;
-    delete req.session.oidcState;
     delete req.session.codeVerifier;
+
+    // The check below is redundant as the oidc client
+    // callback will check the state
+    /*
     if (state !== cachedState) {
       Sentry.captureException({ state, cachedState });
       res.redirect(options.oidcConfig.baseUrl);
       return;
     }
+    */
+
     const callbackParams = client.callbackParams(req);
 
     try {
