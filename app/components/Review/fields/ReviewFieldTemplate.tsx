@@ -8,6 +8,7 @@ import {
 
 const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   id,
+  formContext,
   schema,
   uiSchema,
   children,
@@ -29,13 +30,19 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
 
   const before = uiSchema?.['ui:before'];
   const after = uiSchema?.['ui:after'];
+  const fieldName = id?.split('_')?.[2];
+  const isErrors = rawErrors && rawErrors.length > 0;
+  // check if the field is in the rfi list so we can display rfi files for required fields that have an error
+  const isFieldInRfi = formContext?.rfiList?.some((rfi) =>
+    Object.keys(rfi?.jsonData?.rfiAdditionalFiles || []).includes(fieldName)
+  );
 
   return (
     <>
       {before}
       <tr>
         <StyledColLeft id={id}>{title}</StyledColLeft>
-        {rawErrors && rawErrors.length > 0 ? (
+        {isErrors && !isFieldInRfi ? (
           <StyledColError />
         ) : (
           <StyledColRight id={`${id}-value`}>{children}</StyledColRight>
