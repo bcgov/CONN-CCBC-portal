@@ -182,6 +182,12 @@ const config = convict({
     default: 'arn:aws:sns:ca-central-1:780887525069:ccbc-export-files',
     env: 'ARCHIVE_REQUEST_TOPIC_ARN',
   },
+  ENABLE_AWS_LOGS: {
+    doc: 'Enable AWS logging in the console console',
+    format: Boolean,
+    default: false,
+    env: 'ENABLE_AWS_LOGS',
+  },
   ENABLE_MOCK_TIME: {
     doc: 'Enable Mock Time',
     format: Boolean,
