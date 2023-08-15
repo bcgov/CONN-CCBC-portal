@@ -163,7 +163,7 @@ export const authCallbackController =
       res.redirect(options.getLandingRoute(req));
     } catch (err) {
       console.error('sso-express could not get the access token.');
-      Sentry.captureException(err);
+      Sentry.captureException({ error: err, session: req.session });
       res.redirect(options.oidcConfig.baseUrl);
     }
   };
