@@ -41,7 +41,8 @@ begin
   set open_timestamp = start_time, close_timestamp = end_time, description = intake_description
   where ccbc_intake_number = intake_number and archived_at is null;
 
-  return (select * from ccbc_public.intake where ccbc_intake_number = intake_number and archived_at is null);
+  return (select row(ccbc_public.intake.*) from ccbc_public.intake where ccbc_intake_number = intake_number and archived_at is null
+  order by id desc limit 1);
 
 end;
 $$ language plpgsql strict volatile;
