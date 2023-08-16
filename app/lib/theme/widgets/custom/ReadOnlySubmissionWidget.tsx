@@ -36,10 +36,10 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
         {!formContext?.areAllAcknowledgementsChecked && (
           <>
             All acknowledgements must be checked before submitting the
-            application. Please return to the{' '}
+            application. Please return to the
             <StyledLink href={`/applicantportal/form/${formContext.rowId}/20`}>
-              Acknowledgements
-            </StyledLink>{' '}
+              {` Acknowledgements `}
+            </StyledLink>
             page.
           </>
         )}
