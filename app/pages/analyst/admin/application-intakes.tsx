@@ -55,7 +55,7 @@ const ApplicationIntakes = ({
   const newIntakeNumber = ((latestIntake?.ccbcIntakeNumber as number) || 0) + 1;
 
   const [isFormEditMode, setIsFormEditMode] = useState(false);
-
+  const [isIntakeEdit, setIsIntakeEdit] = useState(false);
   const [formData, setFormData] = useState({
     intakeNumber: newIntakeNumber,
   } as any);
@@ -68,22 +68,15 @@ const ApplicationIntakes = ({
     });
 
   const handleEdit = (intake) => {
-    const {
-      __id: id,
-      ccbcIntakeNumber,
-      closeTimestamp,
-      description,
-      openTimestamp,
-      rowId,
-    } = intake;
+    const { ccbcIntakeNumber, closeTimestamp, description, openTimestamp } =
+      intake;
     setIsFormEditMode(true);
+    setIsIntakeEdit(true);
     setFormData({
-      id,
       intakeNumber: ccbcIntakeNumber,
       startDate: openTimestamp,
       endDate: closeTimestamp,
       description,
-      rowId,
     });
   };
 
@@ -109,6 +102,8 @@ const ApplicationIntakes = ({
           formData={formData}
           intakeList={intakeList}
           isFormEditMode={isFormEditMode}
+          isIntakeEdit={isIntakeEdit}
+          setIsIntakeEdit={setIsIntakeEdit}
           setFormData={setFormData}
           setIsFormEditMode={setIsFormEditMode}
         />

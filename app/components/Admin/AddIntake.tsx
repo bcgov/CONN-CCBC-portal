@@ -86,19 +86,23 @@ const customTransformErrors = (errors: AjvError[]) =>
 interface Props {
   applicationQuery: any;
   formData: any;
+  isIntakeEdit: boolean;
   intakeList: any;
   isFormEditMode: boolean;
   setFormData: (formData: any) => void;
   setIsFormEditMode: (isFormEditMode: boolean) => void;
+  setIsIntakeEdit: (isIntakeEdit: boolean) => void;
 }
 
 const AddIntake: React.FC<Props> = ({
   applicationQuery,
   formData,
+  isIntakeEdit,
   intakeList,
   isFormEditMode,
   setFormData,
   setIsFormEditMode,
+  setIsIntakeEdit,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -138,12 +142,19 @@ const AddIntake: React.FC<Props> = ({
   const [updateIntake] = useUpdateIntakeMutation();
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
+  const handleResetForm = () => {
+    setIsFormSubmitting(false);
+    setIsFormEditMode(false);
+    setIsIntakeEdit(false);
+    setFormData({
+      intakeNumber: newIntakeNumber,
+    });
+  };
+
   const handleSubmit = (e) => {
     const { startDate, endDate, intakeNumber, description } = e.formData;
 
-    const isEdit = formData?.id && formData?.rowId;
-
-    if (isEdit) {
+    if (isIntakeEdit) {
       updateIntake({
         variables: {
           input: {
@@ -154,11 +165,7 @@ const AddIntake: React.FC<Props> = ({
           },
         },
         onCompleted: () => {
-          setIsFormSubmitting(false);
-          setIsFormEditMode(false);
-          setFormData({
-            intakeNumber: newIntakeNumber,
-          });
+          handleResetForm();
         },
       });
     } else {
@@ -172,11 +179,7 @@ const AddIntake: React.FC<Props> = ({
           },
         },
         onCompleted: () => {
-          setIsFormSubmitting(false);
-          setIsFormEditMode(false);
-          setFormData({
-            intakeNumber: newIntakeNumber,
-          });
+          handleResetForm();
         },
       });
     }
