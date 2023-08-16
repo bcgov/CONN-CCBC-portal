@@ -1,3 +1,9 @@
+# [1.96.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.95.0...v1.96.0) (2023-08-16)
+
+### Features
+
+- ui does not change when selecting no ([5c14722](https://github.com/bcgov/CONN-CCBC-portal/commit/5c14722f2a0ac151ba04450a301bfe6c43f98a4d))
+
 # [1.95.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.94.1...v1.95.0) (2023-08-15)
 
 ### Bug Fixes
