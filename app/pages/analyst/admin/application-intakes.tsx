@@ -73,6 +73,7 @@ const ApplicationIntakes = ({
     setIsFormEditMode(true);
     setIsIntakeEdit(true);
     setFormData({
+      isEdit: true,
       intakeNumber: ccbcIntakeNumber,
       startDate: openTimestamp,
       endDate: closeTimestamp,

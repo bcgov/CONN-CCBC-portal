@@ -60,6 +60,7 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
 
   // eslint-disable-next-line react/no-unstable-nested-components
   const ClearableButton = () => {
+    if (disabled) return null;
     return (
       <button type="button" onClick={() => onChange(undefined)}>
         <FontAwesomeIcon icon={faTimesCircle} color="#606060" />

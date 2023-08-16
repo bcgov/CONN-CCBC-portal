@@ -185,15 +185,36 @@ const AddIntake: React.FC<Props> = ({
     }
   };
 
+  const currentDateTime = DateTime.now();
+  const intakeStartDate =
+    formData?.startDate && DateTime.fromISO(formData.startDate);
+  const isStartDateDisabled =
+    isIntakeEdit && currentDateTime >= intakeStartDate;
+
   const validate = (jsonData, errors) => {
     const { startDate, endDate } = jsonData;
-    const currentDateTime = DateTime.now();
     const startDateTime = DateTime.fromISO(startDate);
     const endDateTime = DateTime.fromISO(endDate);
 
     const latestIntakeEndDateTime = DateTime.fromISO(
       latestIntakeCloseTimestamp
     );
+
+    const isEdit = isIntakeEdit || jsonData?.isEdit;
+
+    const intakeIndex = intakeList.findIndex(
+      (intake) => intake.node.ccbcIntakeNumber === jsonData?.intakeNumber
+    );
+
+    // get the previous intake to check for date overlap when editing
+    const previousIntake = intakeList[intakeIndex + 1]?.node;
+    const previousIntakeEndDateTime =
+      previousIntake && DateTime.fromISO(previousIntake.closeTimestamp);
+
+    // get the next intake to check for date overlap when editing
+    const nextIntake = intakeIndex !== 0 && intakeList[intakeIndex - 1]?.node;
+    const nextIntakeStartDateTime =
+      nextIntake && DateTime.fromISO(nextIntake?.openTimestamp);
 
     if (!startDate && isFormSubmitting) {
       errors?.startDate.addError('Start date & time must be entered');
@@ -203,11 +224,23 @@ const AddIntake: React.FC<Props> = ({
       errors?.endDate.addError('End date & time must be entered');
     }
 
-    if (startDateTime <= currentDateTime) {
+    if (isEdit && nextIntake && endDateTime >= nextIntakeStartDateTime) {
+      errors?.endDate.addError(
+        'End date & time must not overlap with the next intake'
+      );
+    }
+
+    if (isEdit && startDateTime <= previousIntakeEndDateTime) {
+      errors?.startDate.addError(
+        'Start date & time must not overlap with the previous intake'
+      );
+    }
+
+    if (!isStartDateDisabled && startDateTime <= currentDateTime) {
       errors?.startDate.addError(
         'Start date & time must be after current date & time'
       );
-    } else if (startDateTime <= latestIntakeEndDateTime) {
+    } else if (startDateTime <= latestIntakeEndDateTime && !isEdit) {
       errors?.startDate.addError(
         'Start date & time must not overlap with the previous intake'
       );
@@ -246,7 +279,14 @@ const AddIntake: React.FC<Props> = ({
             onChange={(e: IChangeEvent) => setFormData({ ...e.formData })}
             liveValidate={isFormEditMode}
             schema={intakeSchema}
-            uiSchema={intakeUiSchema}
+            uiSchema={{
+              ...intakeUiSchema,
+              startDate: {
+                ...intakeUiSchema.startDate,
+                // disable start date when editing an intake if the start date is before the current date
+                'ui:disabled': isStartDateDisabled,
+              },
+            }}
             onSubmit={handleSubmit}
             transformErrors={customTransformErrors}
             theme={IntakeTheme}
