@@ -7,6 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { DateTime } from 'luxon';
 import { CancelIcon, LoadingSpinner } from '../../../components';
 import { StyledDatePicker, getStyles } from '../widgets/DatePickerWidget';
 
@@ -76,12 +77,16 @@ const StyledError = styled('div')`
   margin-top: 10px;
 `;
 
+const StyledDateDiv = styled.div`
+  margin-left: 16px;
+  margin-top: 4px;
+`;
+
 const StyledFileDiv = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
   word-break: break-word;
-
   margin-left: 16px;
   margin-top: 10px;
   & svg {
@@ -101,6 +106,8 @@ type File = {
   name: string;
   size: number;
   type: string;
+  uploadedAt?: string;
+  fileDate?: string;
 };
 
 interface FileComponentProps {
@@ -238,31 +245,38 @@ const FileComponent: React.FC<FileComponentProps> = ({
         {isFiles &&
           !hideIfFailed &&
           value.map((file: File) => (
-            <StyledFileDiv key={file.uuid}>
-              <StyledLink
-                data-testid="file-download-link"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (handleDownload) {
-                    handleDownload(file.uuid, file.name);
-                  }
-                }}
-              >
-                {file.name}
-              </StyledLink>
-              <StyledDeleteBtn
-                data-testid="file-delete-btn"
-                onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-                  e.preventDefault();
-                  if (handleDelete) {
-                    handleDelete(file.id);
-                  }
-                }}
-                disabled={loading || disabled}
-              >
-                <CancelIcon />
-              </StyledDeleteBtn>
-            </StyledFileDiv>
+            <>
+              <StyledFileDiv key={file.uuid}>
+                <StyledLink
+                  data-testid="file-download-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (handleDownload) {
+                      handleDownload(file.uuid, file.name);
+                    }
+                  }}
+                >
+                  {file.name}
+                </StyledLink>
+                <StyledDeleteBtn
+                  data-testid="file-delete-btn"
+                  onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+                    e.preventDefault();
+                    if (handleDelete) {
+                      handleDelete(file.id);
+                    }
+                  }}
+                  disabled={loading || disabled}
+                >
+                  <CancelIcon />
+                </StyledDeleteBtn>
+              </StyledFileDiv>
+              {useFileDate && file?.fileDate && (
+                <StyledDateDiv>
+                  {DateTime.fromISO(file.fileDate).toFormat('MMM dd, yyyy')}
+                </StyledDateDiv>
+              )}
+            </>
           ))}
         {error && <ErrorMessage error={error} fileTypes={fileTypes} />}
       </StyledDetails>
