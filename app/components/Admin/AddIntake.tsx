@@ -230,17 +230,14 @@ const AddIntake: React.FC<Props> = ({
       );
     }
 
-    if (isEdit && startDateTime <= previousIntakeEndDateTime) {
-      errors?.startDate.addError(
-        'Start date & time must not overlap with the previous intake'
-      );
-    }
-
-    if (!isStartDateDisabled && startDateTime <= currentDateTime) {
+    if (!isEdit && startDateTime <= currentDateTime) {
       errors?.startDate.addError(
         'Start date & time must be after current date & time'
       );
-    } else if (startDateTime <= latestIntakeEndDateTime && !isEdit) {
+    } else if (
+      (startDateTime <= latestIntakeEndDateTime && !isEdit) ||
+      (isEdit && startDateTime <= previousIntakeEndDateTime)
+    ) {
       errors?.startDate.addError(
         'Start date & time must not overlap with the previous intake'
       );
@@ -277,7 +274,7 @@ const AddIntake: React.FC<Props> = ({
           <FormBase
             formData={formData}
             onChange={(e: IChangeEvent) => setFormData({ ...e.formData })}
-            liveValidate={isFormEditMode}
+            liveValidate={isFormEditMode || isIntakeEdit}
             schema={intakeSchema}
             uiSchema={{
               ...intakeUiSchema,

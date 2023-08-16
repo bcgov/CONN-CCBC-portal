@@ -56,6 +56,10 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
     '& .MuiOutlinedInput-notchedOutline': {
       border: isErrors ? '2px solid #E71F1F' : '2px solid #606060',
     },
+    '& input:disabled': {
+      border: 'none',
+      background: 'none',
+    },
   };
 
   // eslint-disable-next-line react/no-unstable-nested-components
