@@ -87,6 +87,7 @@ const ProjectInformationForm = ({ application }) => {
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
   const [createChangeRequest] = useCreateChangeRequestMutation();
+  const [hasFormSaved, setHasFormSaved] = useState<boolean>(false);
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
   const [sowFile, setSowFile] = useState(null);
@@ -111,6 +112,18 @@ const ProjectInformationForm = ({ application }) => {
 
   const hasSowValidationErrors =
     sowValidationErrors.length > 0 || sowFile === null;
+
+  const getSaveButtonText = useCallback(() => {
+    if (!hasSowValidationErrors) {
+      return 'Save & Import Data';
+    }
+
+    if (hasFormSaved) {
+      return 'Saved';
+    }
+
+    return 'Save';
+  }, [hasSowValidationErrors, hasFormSaved]);
 
   const projectInformationData = projectInformation?.jsonData;
   const changeRequestData =
@@ -166,9 +179,9 @@ const ProjectInformationForm = ({ application }) => {
     return errors;
   };
 
-  const handleResetFormData = () => {
+  const handleResetFormData = (isEditMode = false) => {
     setFormData({});
-    setIsFormEditMode(false);
+    setIsFormEditMode(isEditMode);
     setIsFormSubmitting(false);
     setSowFile(null);
     setShowToast(false);
@@ -300,8 +313,8 @@ const ProjectInformationForm = ({ application }) => {
             input: { _applicationId: rowId, _jsonData: newFormData },
           },
           onCompleted: () => {
-            handleResetFormData();
-
+            handleResetFormData(!formData?.hasFundingAgreementBeenSigned);
+            setHasFormSaved(true);
             if (isSowUploaded && response?.status === 200) {
               setShowToast(true);
             }
@@ -357,6 +370,7 @@ const ProjectInformationForm = ({ application }) => {
       }
       formData={formData}
       handleChange={(e) => {
+        setHasFormSaved(false);
         if (!isChangeRequest && !e.formData.hasFundingAgreementBeenSigned) {
           setFormData({
             hasFundingAgreementBeenSigned: false,
@@ -375,7 +389,7 @@ const ProjectInformationForm = ({ application }) => {
       uiSchema={uiSchema}
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
-      saveBtnText={hasSowValidationErrors ? 'Save' : 'Save & Import Data'}
+      saveBtnText={getSaveButtonText()}
       setFormData={setFormData}
       submittingText="Importing Statement of Work. Please wait."
       submitting={
