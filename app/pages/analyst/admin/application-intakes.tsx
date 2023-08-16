@@ -19,7 +19,13 @@ const getApplicationIntakesQuery = graphql`
       __id
       edges {
         node {
+          __id
           ccbcIntakeNumber
+          description
+          closeTimestamp
+          openTimestamp
+          rowId
+
           ...Intake_query
         }
       }
@@ -48,14 +54,11 @@ const ApplicationIntakes = ({
   const latestIntake = allIntakes?.edges[0].node;
   const newIntakeNumber = ((latestIntake?.ccbcIntakeNumber as number) || 0) + 1;
 
-  // check if the latest intake opens before the current date
-  const defaultFormData = {
-    intakeNumber: newIntakeNumber,
-  };
-
   const [isFormEditMode, setIsFormEditMode] = useState(false);
 
-  const [formData, setFormData] = useState(defaultFormData);
+  const [formData, setFormData] = useState({
+    intakeNumber: newIntakeNumber,
+  } as any);
 
   const intakeList =
     allIntakes &&
@@ -63,6 +66,26 @@ const ApplicationIntakes = ({
       // filter null to handle errors after delting connection
       return data.node !== null;
     });
+
+  const handleEdit = (intake) => {
+    const {
+      __id: id,
+      ccbcIntakeNumber,
+      closeTimestamp,
+      description,
+      openTimestamp,
+      rowId,
+    } = intake;
+    setIsFormEditMode(true);
+    setFormData({
+      id,
+      intakeNumber: ccbcIntakeNumber,
+      startDate: openTimestamp,
+      endDate: closeTimestamp,
+      description,
+      rowId,
+    });
+  };
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -84,6 +107,7 @@ const ApplicationIntakes = ({
         <AddIntake
           applicationQuery={query}
           formData={formData}
+          intakeList={intakeList}
           isFormEditMode={isFormEditMode}
           setFormData={setFormData}
           setIsFormEditMode={setIsFormEditMode}
@@ -98,7 +122,7 @@ const ApplicationIntakes = ({
                   intake={intake.node}
                   currentIntakeNumber={openIntake?.ccbcIntakeNumber}
                   isFormEditMode={isFormEditMode}
-                  setFormData={setFormData}
+                  onEdit={() => handleEdit(intake.node)}
                   setIsFormEditMode={setIsFormEditMode}
                 />
               );

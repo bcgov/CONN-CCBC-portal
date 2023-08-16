@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import { AjvError, IChangeEvent } from '@rjsf/core';
 import Button from '@button-inc/bcgov-theme/Button';
+import { useUpdateIntakeMutation } from 'schema/mutations/admin/updateIntakeMutation';
 import FormBase from 'components/Form/FormBase';
 import intakeSchema from 'formSchema/admin/intake';
 import intakeUiSchema from 'formSchema/uiSchema/admin/intakeUiSchema';
@@ -85,6 +86,7 @@ const customTransformErrors = (errors: AjvError[]) =>
 interface Props {
   applicationQuery: any;
   formData: any;
+  intakeList: any;
   isFormEditMode: boolean;
   setFormData: (formData: any) => void;
   setIsFormEditMode: (isFormEditMode: boolean) => void;
@@ -93,6 +95,7 @@ interface Props {
 const AddIntake: React.FC<Props> = ({
   applicationQuery,
   formData,
+  intakeList,
   isFormEditMode,
   setFormData,
   setIsFormEditMode,
@@ -121,7 +124,6 @@ const AddIntake: React.FC<Props> = ({
 
   const { allIntakes } = queryFragment;
 
-  const intakeList = allIntakes?.edges;
   const latestIntake = intakeList[0].node;
   const latestIntakeNumber = (latestIntake?.ccbcIntakeNumber as number) || 0;
   const latestIntakeCloseTimestamp = latestIntake?.closeTimestamp;
@@ -132,33 +134,52 @@ const AddIntake: React.FC<Props> = ({
   const isNewIntakeAllowed =
     !latestIntake ||
     DateTime.fromISO(latestIntake?.openTimestamp) < DateTime.now();
-  const defaultFormData = {
-    intakeNumber: newIntakeNumber,
-  };
-
   const [createIntake] = useCreateIntakeMutation();
+  const [updateIntake] = useUpdateIntakeMutation();
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   const handleSubmit = (e) => {
-    const startTime = e.formData?.startDate;
-    const endTime = e.formData?.endDate;
-    const description = e.formData?.description;
+    const { startDate, endDate, intakeNumber, description } = e.formData;
 
-    createIntake({
-      variables: {
-        connections: [allIntakesConnectionId],
-        input: {
-          intakeDescription: description,
-          endTime,
-          startTime,
+    const isEdit = formData?.id && formData?.rowId;
+
+    if (isEdit) {
+      updateIntake({
+        variables: {
+          input: {
+            intakeNumber,
+            startTime: startDate,
+            endTime: endDate,
+            intakeDescription: description,
+          },
         },
-      },
-      onCompleted: () => {
-        setIsFormSubmitting(false);
-        setIsFormEditMode(false);
-        setFormData(defaultFormData);
-      },
-    });
+        onCompleted: () => {
+          setIsFormSubmitting(false);
+          setIsFormEditMode(false);
+          setFormData({
+            intakeNumber: newIntakeNumber,
+          });
+        },
+      });
+    } else {
+      createIntake({
+        variables: {
+          connections: [allIntakesConnectionId],
+          input: {
+            intakeDescription: description,
+            endTime: endDate,
+            startTime: startDate,
+          },
+        },
+        onCompleted: () => {
+          setIsFormSubmitting(false);
+          setIsFormEditMode(false);
+          setFormData({
+            intakeNumber: newIntakeNumber,
+          });
+        },
+      });
+    }
   };
 
   const validate = (jsonData, errors) => {
@@ -203,7 +224,12 @@ const AddIntake: React.FC<Props> = ({
         {isNewIntakeAllowed && (
           <Button
             isFormEditMode={isFormEditMode}
-            onClick={() => setIsFormEditMode(true)}
+            onClick={() => {
+              setIsFormEditMode(true);
+              setFormData({
+                intakeNumber: newIntakeNumber,
+              });
+            }}
             variant="secondary"
           >
             Add intake

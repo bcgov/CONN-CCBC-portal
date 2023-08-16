@@ -96,8 +96,8 @@ interface IntakeProps {
   allIntakesConnectionId: string;
   currentIntakeNumber: number;
   intake: any;
-  setFormData: (formData: any) => void;
   isFormEditMode: boolean;
+  onEdit: (intake: any) => void;
   setIsFormEditMode: (isFormEditMode: boolean) => void;
 }
 
@@ -105,9 +105,8 @@ const Intake: React.FC<IntakeProps> = ({
   allIntakesConnectionId,
   currentIntakeNumber,
   intake,
-  setFormData,
   isFormEditMode,
-  setIsFormEditMode,
+  onEdit,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -138,7 +137,9 @@ const Intake: React.FC<IntakeProps> = ({
 
   const currentDateTime = DateTime.now();
   const startDateTime = DateTime.fromISO(openTimestamp);
+  const endDateTime = DateTime.fromISO(closeTimestamp);
   const isAllowedDelete = currentDateTime <= startDateTime;
+  const isAllowedEdit = currentDateTime <= endDateTime;
 
   const handleDelete = () => {
     archiveIntake({
@@ -156,16 +157,6 @@ const Intake: React.FC<IntakeProps> = ({
     });
   };
 
-  const handleEdit = () => {
-    setIsFormEditMode(true);
-    setFormData({
-      intakeNumber: ccbcIntakeNumber,
-      startDate: openTimestamp,
-      endDate: closeTimestamp,
-      description,
-    });
-  };
-
   return (
     <StyledContainer
       data-testid="intake-container"
@@ -174,8 +165,8 @@ const Intake: React.FC<IntakeProps> = ({
       <StyledUpper>
         <h3>
           Intake {ccbcIntakeNumber}
-          {!isFormEditMode && (
-            <StyledEdit onClick={handleEdit}>
+          {!isFormEditMode && isAllowedEdit && (
+            <StyledEdit onClick={onEdit}>
               <FontAwesomeIcon icon={faPen} />
             </StyledEdit>
           )}
