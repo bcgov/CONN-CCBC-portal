@@ -62,4 +62,4 @@ The Button Component Library is a BC Gov themed component library that has an ac
 
 ### [MUI (Material-UI)](https://mui.com/)
 
-MUI, previously known as Material-UI, is a popular React UI framework that implements MUI, previously known as Material-UI, is a popular React UI framework that implements Google's Material Design. While it offers a wide array of components, we primarily use MUI for its more complex components, such as the autocomplete and date picker. Moreover, its theming capabilities allow us to seamlessly integrate these components into the visual design and feel of our current application.
+MUI,previously known as Material-UI, is a popular React UI framework that implements Google's Material Design. While it offers a wide array of components, we primarily use MUI for its more complex components, such as the autocomplete and date picker. Moreover, its theming capabilities allow us to seamlessly integrate these components into the visual design and feel of our current application.
