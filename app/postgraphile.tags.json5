@@ -29,7 +29,7 @@
       },
       'ccbc_public.intake': {
         tags: {
-          omit: ['create', 'delete', 'update'],
+          omit: ['create', 'update', 'delete'],
         },
       },
       'ccbc_public.application_sow_data': {
