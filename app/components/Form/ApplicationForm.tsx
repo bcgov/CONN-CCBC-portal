@@ -187,24 +187,6 @@ const ApplicationForm: React.FC<Props> = ({
 
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
   const sectionName = getSectionNameFromPageNumber(pageNumber);
-  const formContext = useMemo(() => {
-    const intakeCloseTimestamp =
-      application?.intakeByIntakeId?.closeTimestamp ||
-      openIntake?.closeTimestamp;
-
-    return {
-      intakeCloseTimestamp,
-      fullFormData: jsonData,
-      formErrorSchema,
-      isEditable,
-    };
-  }, [
-    openIntake,
-    application?.intakeByIntakeId?.closeTimestamp,
-    jsonData,
-    formErrorSchema,
-    isEditable,
-  ]);
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
@@ -216,6 +198,29 @@ const ApplicationForm: React.FC<Props> = ({
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
     verifyAllSubmissionsFilled(jsonData.submission)
   );
+
+  const formContext = useMemo(() => {
+    const intakeCloseTimestamp =
+      application?.intakeByIntakeId?.closeTimestamp ||
+      openIntake?.closeTimestamp;
+
+    return {
+      intakeCloseTimestamp,
+      fullFormData: jsonData,
+      formErrorSchema,
+      isEditable,
+      areAllAcknowledgementsChecked,
+      rowId,
+    };
+  }, [
+    openIntake,
+    application?.intakeByIntakeId?.closeTimestamp,
+    jsonData,
+    formErrorSchema,
+    isEditable,
+    areAllAcknowledgementsChecked,
+    rowId,
+  ]);
 
   const updateAreAllAcknowledgementFieldsSet = (
     akcnowledgementsList: AcknowledgementsFieldJSON
