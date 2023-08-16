@@ -76,10 +76,11 @@ const FileWidget: React.FC<WidgetProps> = ({
               );
 
               const fileDate =
-                attachmentData?.createdAt &&
-                DateTime.fromISO(attachmentData.createdAt).toLocaleString(
-                  DateTime.DATETIME_MED
-                );
+                el.fileDate ??
+                (attachmentData?.createdAt &&
+                  DateTime.fromISO(attachmentData.createdAt).toLocaleString(
+                    DateTime.DATETIME_MED
+                  ));
 
               return (
                 <>
