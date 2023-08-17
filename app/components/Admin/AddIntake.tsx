@@ -21,6 +21,7 @@ const StyledContainer = styled.div<EditProps>`
   border: 1px solid #606060;
   border-radius: 4px;
   padding: 0 24px;
+  margin-bottom: 16px;
   visibility: ${({ isFormEditMode }) =>
     isFormEditMode ? 'visible' : 'hidden'};
   transition: all 0.5s;
@@ -89,9 +90,11 @@ interface Props {
   isIntakeEdit: boolean;
   intakeList: any;
   isFormEditMode: boolean;
+  isStartDateDisabled: boolean;
   setFormData: (formData: any) => void;
   setIsFormEditMode: (isFormEditMode: boolean) => void;
   setIsIntakeEdit: (isIntakeEdit: boolean) => void;
+  setIsStartDateDisabled: (isStartDateDisabled: boolean) => void;
 }
 
 const AddIntake: React.FC<Props> = ({
@@ -100,9 +103,11 @@ const AddIntake: React.FC<Props> = ({
   isIntakeEdit,
   intakeList,
   isFormEditMode,
+  isStartDateDisabled,
   setFormData,
   setIsFormEditMode,
   setIsIntakeEdit,
+  setIsStartDateDisabled,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -128,7 +133,7 @@ const AddIntake: React.FC<Props> = ({
 
   const { allIntakes } = queryFragment;
 
-  const latestIntake = intakeList[0].node;
+  const latestIntake = intakeList[0]?.node;
   const latestIntakeNumber = (latestIntake?.ccbcIntakeNumber as number) || 0;
   const latestIntakeCloseTimestamp = latestIntake?.closeTimestamp;
   const newIntakeNumber = latestIntakeNumber + 1;
@@ -146,6 +151,8 @@ const AddIntake: React.FC<Props> = ({
     setIsFormSubmitting(false);
     setIsFormEditMode(false);
     setIsIntakeEdit(false);
+    setIsIntakeEdit(false);
+    setIsStartDateDisabled(false);
     setFormData({
       intakeNumber: newIntakeNumber,
     });
@@ -188,9 +195,6 @@ const AddIntake: React.FC<Props> = ({
   const currentDateTime = DateTime.now();
   const intakeStartDate =
     formData?.startDate && DateTime.fromISO(formData.startDate);
-  const isStartDateDisabled =
-    isIntakeEdit && currentDateTime >= intakeStartDate;
-
   const validate = (jsonData, errors) => {
     const { startDate, endDate } = jsonData;
     const startDateTime = DateTime.fromISO(startDate);
@@ -202,17 +206,19 @@ const AddIntake: React.FC<Props> = ({
 
     const isEdit = isIntakeEdit || jsonData?.isEdit;
 
+    // get the index of the current intake when editing an intake
     const intakeIndex = intakeList.findIndex(
       (intake) => intake.node.ccbcIntakeNumber === jsonData?.intakeNumber
     );
 
     // get the previous intake to check for date overlap when editing
-    const previousIntake = intakeList[intakeIndex + 1]?.node;
+    const previousIntake = isEdit && intakeList[intakeIndex + 1]?.node;
     const previousIntakeEndDateTime =
       previousIntake && DateTime.fromISO(previousIntake.closeTimestamp);
 
     // get the next intake to check for date overlap when editing
-    const nextIntake = intakeIndex !== 0 && intakeList[intakeIndex - 1]?.node;
+    const nextIntake =
+      isEdit && intakeIndex !== 0 && intakeList[intakeIndex - 1]?.node;
     const nextIntakeStartDateTime =
       nextIntake && DateTime.fromISO(nextIntake?.openTimestamp);
 
@@ -230,12 +236,20 @@ const AddIntake: React.FC<Props> = ({
       );
     }
 
-    if (!isEdit && startDateTime <= currentDateTime) {
+    if (
+      (!isEdit && startDateTime <= currentDateTime) ||
+      // only check start date is in the future if editing an intake that has not started yet and does not have start date locked
+      (isEdit &&
+        currentDateTime <= intakeStartDate &&
+        startDateTime <= currentDateTime)
+    ) {
       errors?.startDate.addError(
         'Start date & time must be after current date & time'
       );
     } else if (
+      // check latest intake start date overlap if creating a new intake
       (startDateTime <= latestIntakeEndDateTime && !isEdit) ||
+      // check previous intake end date overlap if editing an intake
       (isEdit && startDateTime <= previousIntakeEndDateTime)
     ) {
       errors?.startDate.addError(
@@ -297,10 +311,7 @@ const AddIntake: React.FC<Props> = ({
             >
               Save
             </StyledSaveBtn>
-            <Button
-              onClick={() => setIsFormEditMode(false)}
-              variant="secondary"
-            >
+            <Button onClick={handleResetForm} variant="secondary">
               Cancel
             </Button>
           </FormBase>

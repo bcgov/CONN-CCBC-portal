@@ -8,6 +8,7 @@ import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { Layout } from 'components';
 import { AddIntake, AdminTabs, Intake } from 'components/Admin';
 import { applicationIntakesQuery } from '__generated__/applicationIntakesQuery.graphql';
+import { DateTime } from 'luxon';
 
 const getApplicationIntakesQuery = graphql`
   query applicationIntakesQuery {
@@ -59,6 +60,7 @@ const ApplicationIntakes = ({
   const [formData, setFormData] = useState({
     intakeNumber: newIntakeNumber,
   } as any);
+  const [isStartDateDisabled, setIsStartDateDisabled] = useState(false);
 
   const intakeList =
     allIntakes &&
@@ -70,6 +72,10 @@ const ApplicationIntakes = ({
   const handleEdit = (intake) => {
     const { ccbcIntakeNumber, closeTimestamp, description, openTimestamp } =
       intake;
+
+    const currentDateTime = DateTime.now();
+    const intakeStartDate = DateTime.fromISO(openTimestamp);
+
     setIsFormEditMode(true);
     setIsIntakeEdit(true);
     setFormData({
@@ -79,6 +85,9 @@ const ApplicationIntakes = ({
       endDate: closeTimestamp,
       description,
     });
+    if (currentDateTime >= intakeStartDate) {
+      setIsStartDateDisabled(true);
+    }
   };
 
   return (
@@ -103,10 +112,12 @@ const ApplicationIntakes = ({
           formData={formData}
           intakeList={intakeList}
           isFormEditMode={isFormEditMode}
+          isStartDateDisabled={isStartDateDisabled}
           isIntakeEdit={isIntakeEdit}
           setIsIntakeEdit={setIsIntakeEdit}
           setFormData={setFormData}
           setIsFormEditMode={setIsFormEditMode}
+          setIsStartDateDisabled={setIsStartDateDisabled}
         />
         {intakeList && (
           <section>
