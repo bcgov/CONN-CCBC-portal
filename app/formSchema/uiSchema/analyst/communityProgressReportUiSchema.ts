@@ -6,6 +6,12 @@ const communityProgressReportUiSchema = {
   dateReceived: {
     'ui:title': 'Date received',
     'ui:widget': 'DatePickerWidget',
+    'ui:options': {
+      hideErrors: true,
+    },
+  },
+  errorField: {
+    'ui:widget': 'ContextErrorWidget',
   },
   progressReportFile: {
     'ui:title':
