@@ -69,6 +69,42 @@ const mockDeleteQueryPayload = {
   },
 };
 
+const mockEditQueryPayload = {
+  Query() {
+    return {
+      allIntakes: {
+        edges: [
+          {
+            node: {
+              ccbcIntakeNumber: 3,
+              closeTimestamp: '2030-01-15T23:00:00-08:00',
+              description: 'Intake 3 description',
+              openTimestamp: '2031-01-15T00:00:00-08:00',
+              rowId: 3,
+            },
+          },
+          {
+            node: {
+              ccbcIntakeNumber: 2,
+              closeTimestamp: '2029-01-15T23:00:00-08:00',
+              description: 'Intake 3 description',
+              openTimestamp: '2024-01-15T00:00:00-08:00',
+              rowId: 3,
+            },
+          },
+        ],
+      },
+      openIntake: {
+        ccbcIntakeNumber: 2,
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'ccbc_admin',
+      },
+    };
+  },
+};
+
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 
 const pageTestingHelper = new PageTestingHelper<applicationIntakesQuery>({
@@ -261,6 +297,76 @@ describe('The Application intakes admin page', () => {
       });
     });
   });
+
+  it('should edit an intake', async () => {
+    pageTestingHelper.loadQuery(mockEditQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getAllByTestId('edit-intake')[1];
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const startDateInput = screen.getAllByPlaceholderText(
+      'YYYY-MM-DD hh:mm aa'
+    )[0];
+
+    const endDateInput = screen.getAllByPlaceholderText(
+      'YYYY-MM-DD hh:mm aa'
+    )[1];
+
+    const descriptionInput = screen.getByTestId('root_description');
+
+    expect(startDateInput).toBeVisible();
+
+    expect(endDateInput).toBeVisible();
+
+    expect(descriptionInput).toBeVisible();
+
+    await act(async () => {
+      fireEvent.change(startDateInput, {
+        target: {
+          value: '2025-07-01 00:00 AM',
+        },
+      });
+
+      fireEvent.change(endDateInput, {
+        target: {
+          value: '2025-07-02 00:00 AM',
+        },
+      });
+
+      fireEvent.change(descriptionInput, {
+        target: {
+          value: 'Test description',
+        },
+      });
+    });
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('updateIntakeMutation', {
+      input: {
+        intakeNumber: 2,
+        startTime: '2025-07-01T07:00:00.000Z',
+        endTime: '2025-07-02T07:00:00.000Z',
+        intakeDescription: 'Test description',
+      },
+    });
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {},
+      });
+    });
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });

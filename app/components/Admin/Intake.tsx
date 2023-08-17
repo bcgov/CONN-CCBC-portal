@@ -166,7 +166,7 @@ const Intake: React.FC<IntakeProps> = ({
         <h3>
           Intake {ccbcIntakeNumber}
           {!isFormEditMode && isAllowedEdit && (
-            <StyledEdit onClick={onEdit}>
+            <StyledEdit onClick={onEdit} data-testid="edit-intake">
               <FontAwesomeIcon icon={faPen} />
             </StyledEdit>
           )}

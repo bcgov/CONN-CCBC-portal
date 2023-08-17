@@ -53,7 +53,7 @@ const ApplicationIntakes = ({
   const { allIntakes, openIntake, session } = query;
 
   const latestIntake = allIntakes?.edges[0].node;
-  const newIntakeNumber = ((latestIntake?.ccbcIntakeNumber as number) || 0) + 1;
+  const newIntakeNumber = (latestIntake?.ccbcIntakeNumber || 0) + 1;
 
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [isIntakeEdit, setIsIntakeEdit] = useState(false);
