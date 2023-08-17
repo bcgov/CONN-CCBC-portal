@@ -1,3 +1,15 @@
+# [1.96.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.95.0...v1.96.0) (2023-08-16)
+
+### Bug Fixes
+
+- change is auth logic to check refresh token ([7021e76](https://github.com/bcgov/CONN-CCBC-portal/commit/7021e76fe1a9b68045f93712aff4d63ae1db6869))
+
+### Features
+
+- display date file received for analyst rfi ([4808149](https://github.com/bcgov/CONN-CCBC-portal/commit/48081494dc5ef2474de23de8429d2ba7aa79eb70))
+- ui does not change when selecting no ([5c14722](https://github.com/bcgov/CONN-CCBC-portal/commit/5c14722f2a0ac151ba04450a301bfe6c43f98a4d))
+- use received date on summary page ([1d95545](https://github.com/bcgov/CONN-CCBC-portal/commit/1d95545c0b02257953c7b3969f43aa8b08f9fdc8))
+
 # [1.95.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.94.1...v1.95.0) (2023-08-15)
 
 ### Bug Fixes
