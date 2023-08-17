@@ -367,6 +367,39 @@ describe('The Application intakes admin page', () => {
     });
   });
 
+  it('should not overlap the next intake when editing an intake', async () => {
+    pageTestingHelper.loadQuery(mockEditQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getAllByTestId('edit-intake')[1];
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const endDateInput = screen.getAllByPlaceholderText(
+      'YYYY-MM-DD hh:mm aa'
+    )[1];
+
+    const descriptionInput = screen.getByTestId('root_description');
+
+    expect(endDateInput).toBeVisible();
+
+    expect(descriptionInput).toBeVisible();
+
+    await act(async () => {
+      fireEvent.change(endDateInput, {
+        target: {
+          value: '2033-07-02 00:00 AM',
+        },
+      });
+    });
+
+    expect(
+      screen.getByText('End date & time must not overlap with the next intake')
+    ).toBeVisible();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
