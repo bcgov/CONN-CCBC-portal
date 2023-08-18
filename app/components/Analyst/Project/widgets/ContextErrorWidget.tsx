@@ -3,7 +3,11 @@ import styled from 'styled-components';
 
 const StyledError = styled.div`
   color: ${({ theme }) => theme.color.error};
-  margin-bottom: 8px;
+  margin: 8px 0;
+
+  ${(props) => props.theme.breakpoint.largeUp} {
+    margin: 0;
+  }
 
   &:after {
     content: ' ‎ ';

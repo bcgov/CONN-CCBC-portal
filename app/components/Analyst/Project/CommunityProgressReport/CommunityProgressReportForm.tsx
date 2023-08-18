@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
@@ -7,6 +7,7 @@ import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communi
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
 import { useArchiveApplicationCommunityProgressReportMutation as useArchiveCpr } from 'schema/mutations/project/archiveApplicationCommunityProgressReport';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
+import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import Toast from 'components/Toast';
 import Modal from 'components/Modal';
 import CommunityProgressView from './CommunityProgressView';
@@ -20,6 +21,13 @@ const StyledContainer = styled.div`
 
   p {
     margin-top: 16px;
+  }
+`;
+
+const StyledProjectForm = styled(ProjectForm)`
+  .datepicker-widget {
+    width: 180px;
+    margin-bottom: 0px;
   }
 `;
 
@@ -83,8 +91,12 @@ const CommunityProgressReportForm = ({ application }) => {
   const [createCommunityProgressReport] =
     useCreateCommunityProgressReportMutation();
   const [archiveCommunityProgressReport] = useArchiveCpr();
+  const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+  // use this to live validate the form after the first submit attempt
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
   const [excelFile, setExcelFile] = useState(null);
   const [showToast, setShowToast] = useState(false);
+  const [isFiscalError, setIsFiscalError] = useState(false);
   const [
     communityProgressValidationErrors,
     setCommunityProgressValidationErrors,
@@ -117,16 +129,29 @@ const CommunityProgressReportForm = ({ application }) => {
     [setExcelFile]
   );
 
+  const fiscalQuarterList = communityProgressList
+    ?.filter((data) => data.node.jsonData?.dueDate !== undefined)
+    ?.map((data) => {
+      const dueDate = data.node.jsonData?.dueDate;
+      const fiscalYear = getFiscalYear(dueDate);
+      const fiscalQuarter = getFiscalQuarter(dueDate);
+      return `${fiscalYear} ${fiscalQuarter}`;
+    });
+
   const handleResetFormData = () => {
     setIsFormEditMode(false);
     setFormData({} as FormData);
     setCurrentCommunityProgressData(null);
+    setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
   };
 
   const handleSubmit = async (e) => {
+    hiddenSubmitRef.current.click();
     e.preventDefault();
+    setIsSubmitAttempted(true);
+    if (!formData?.dueDate) return;
     setIsFormSubmitting(true);
 
     validateCommunityReport(excelFile, false).then((res) => {
@@ -178,6 +203,17 @@ const CommunityProgressReportForm = ({ application }) => {
     });
   };
 
+  useEffect(() => {
+    const dueDate = formData?.dueDate;
+    if (!dueDate) setIsFiscalError(false);
+    const fiscalDate = `${getFiscalYear(dueDate)} ${getFiscalQuarter(dueDate)}`;
+    if (fiscalQuarterList?.includes(fiscalDate)) {
+      setIsFiscalError(true);
+    } else {
+      setIsFiscalError(false);
+    }
+  }, [formData, fiscalQuarterList]);
+
   const handleDelete = async () => {
     archiveCommunityProgressReport({
       variables: {
@@ -227,19 +263,23 @@ const CommunityProgressReportForm = ({ application }) => {
           </StyledFlex>
         </StyledContainer>
       </Modal>
-      <ProjectForm
+      <StyledProjectForm
         additionalContext={{
           applicationId: applicationRowId,
           validateExcel: validateCommunityReport,
           excelValidationErrors: communityProgressValidationErrors,
+          contextErrorWidgetMessage:
+            isFiscalError &&
+            'A community progress report has already been created for this quarter',
         }}
         schema={communityProgressReport}
         uiSchema={communityProgressReportUiSchema}
         formData={formData}
         theme={ProjectTheme}
         onSubmit={handleSubmit}
-        formAnimationHeight={400}
+        formAnimationHeight={600}
         isFormAnimated
+        hiddenSubmitRef={hiddenSubmitRef}
         isFormEditMode={isFormEditMode}
         setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
         saveBtnText={
@@ -255,11 +295,15 @@ const CommunityProgressReportForm = ({ application }) => {
         saveBtnDisabled={isFormSubmitting}
         cancelBtnDisabled={isFormSubmitting}
         resetFormData={handleResetFormData}
+        liveValidate={isSubmitAttempted}
         setFormData={setFormData}
         before={
           <AddButton
             isFormEditMode={isFormEditMode}
-            onClick={() => setIsFormEditMode(true)}
+            onClick={() => {
+              setIsSubmitAttempted(false);
+              setIsFormEditMode(true);
+            }}
             title="Add community progress report"
           />
         }
@@ -283,7 +327,7 @@ const CommunityProgressReportForm = ({ application }) => {
             />
           );
         })}
-      </ProjectForm>
+      </StyledProjectForm>
     </>
   );
 };
