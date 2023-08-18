@@ -38,10 +38,6 @@ begin
       then update ccbc_public.sow_tab_8 set archived_at = now() where sow_id = _sow_id and archived_at is null;
     end if;
 
-    if exists (select * from ccbc_public.attachment where file = old_project_information_json_data -> 'statementOfWorkUpload' -> 0 ->> 'uuid') then
-      update ccbc_public.attachment set archived_at = now() where file = old_project_information_json_data -> 'statementOfWorkUpload' -> 0 ->> 'uuid';
-    end if;
-
   end if;
 
   if exists (select * from ccbc_public.project_information_data where id = old_project_information_id)
