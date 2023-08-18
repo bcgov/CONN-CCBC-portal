@@ -203,6 +203,9 @@ const CommunityProgressReportForm = ({ application }) => {
     });
   };
 
+  // check to see if the due date is in the same fiscal quarter as another report,
+  // then pass the result to the fiscal error state and then to formContext to display
+  // the error using ContextErrorWidget since this is a warning not a true error
   useEffect(() => {
     const dueDate = formData?.dueDate;
     if (!dueDate) setIsFiscalError(false);
