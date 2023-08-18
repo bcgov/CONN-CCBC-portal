@@ -1,6 +1,6 @@
 begin;
 
-select plan(7);
+select plan(17);
 
 truncate table
   ccbc_public.application,
@@ -8,7 +8,8 @@ truncate table
   ccbc_public.attachment,
   ccbc_public.form_data,
   ccbc_public.application_form_data,
-  ccbc_public.intake
+  ccbc_public.intake,
+  ccbc_public.application_sow_data
 restart identity cascade;
 
 select has_function('ccbc_public', 'create_change_request',
@@ -103,7 +104,89 @@ select results_eq(
   'Should see 1 entry in change_request_data for application 1 that is archived'
 );
 
+insert into ccbc_public.application_sow_data(application_id, json_data, amendment_number) values (1, '{}'::jsonb, 2);
 
+insert into ccbc_public.sow_tab_1(sow_id, json_data) values (1, '{}'::jsonb);
+insert into ccbc_public.sow_tab_2(sow_id, json_data) values (1, '{}'::jsonb);
+insert into ccbc_public.sow_tab_7(sow_id, json_data) values (1, '{}'::jsonb);
+insert into ccbc_public.sow_tab_8(sow_id, json_data) values (1, '{}'::jsonb);
+
+
+select ccbc_public.create_change_request(1::int , 2::int, '{}'::jsonb, 2::int);
+
+
+select is_empty(
+  $$
+  select * from ccbc_public.application_sow_data where archived_at is null;
+  $$,
+  'Should not find an unarchived application_sow_data'
+);
+
+select isnt_empty(
+  $$
+  select * from ccbc_public.application_sow_data where archived_at is not null;
+  $$,
+  'Should find an archived application_sow_data'
+);
+
+
+select is_empty(
+  $$
+  select * from ccbc_public.sow_tab_1 where archived_at is null;
+  $$,
+  'Should not find an unarchived sow_tab_1'
+);
+
+select isnt_empty(
+  $$
+  select * from ccbc_public.sow_tab_1 where archived_at is not null;
+  $$,
+  'Should find an archived sow_tab_1'
+);
+
+
+select is_empty(
+  $$
+  select * from ccbc_public.sow_tab_2 where archived_at is null;
+  $$,
+  'Should not find an unarchived sow_tab_2'
+);
+
+select isnt_empty(
+  $$
+  select * from ccbc_public.sow_tab_2 where archived_at is not null;
+  $$,
+  'Should find an archived sow_tab_2'
+);
+
+
+select is_empty(
+  $$
+  select * from ccbc_public.sow_tab_7 where archived_at is null;
+  $$,
+  'Should not find an unarchived sow_tab_7'
+);
+
+select isnt_empty(
+  $$
+  select * from ccbc_public.sow_tab_7 where archived_at is not null;
+  $$,
+  'Should find an archived sow_tab_7'
+);
+
+select is_empty(
+  $$
+  select * from ccbc_public.sow_tab_8 where archived_at is null;
+  $$,
+  'Should not find an unarchived sow_tab_8'
+);
+
+select isnt_empty(
+  $$
+  select * from ccbc_public.sow_tab_8 where archived_at is not null;
+  $$,
+  'Should find an archived sow_tab_8'
+);
 
 select finish();
 rollback;

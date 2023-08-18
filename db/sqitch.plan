@@ -400,3 +400,6 @@ functions/receive_applications [functions/receive_applications@1.94.0] 2023-08-1
 mutations/update_application_form [mutations/update_application_form@1.94.0] 2023-08-14T20:22:39Z Tony Bushara <tonybushara@pop-os> # Increase the buffer time to 3 seconds
 @1.95.0 2023-08-15T17:59:22Z CCBC Service Account <ccbc@button.is> # release v1.95.0
 @1.96.0 2023-08-16T23:11:14Z CCBC Service Account <ccbc@button.is> # release v1.96.0
+mutations/create_project_information [mutations/create_project_information@1.95.0] 2023-08-17T23:04:04Z Tony Bushara <tonybushara@pop-os> # Check if there is no file and archive sow data
+mutations/create_change_request [mutations/create_change_request@1.95.0] 2023-08-18T14:39:12Z Tony Bushara <tonybushara@pop-os> # Archive relevant sow data if statementOfWork is removed
+mutations/create_application_community_progress_report_data [mutations/create_application_community_progress_report_data@1.95.0] 2023-08-18T16:22:50Z Tony Bushara <tonybushara@pop-os> # Create the community progress report data and archive old excel data if no file is present

@@ -107,7 +107,7 @@ const ProjectInformationForm = ({ application }) => {
 
   const validateSow = useCallback(
     excelValidateGenerator(apiPath, setSowFile, setSowValidationErrors),
-    [setSowFile, setSowValidationErrors]
+    [setSowFile, setSowValidationErrors, apiPath]
   );
 
   const hasSowValidationErrors =

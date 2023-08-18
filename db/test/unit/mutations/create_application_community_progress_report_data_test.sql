@@ -1,6 +1,6 @@
 begin;
 
-select plan(4);
+select plan(6);
 
 truncate table
   ccbc_public.application,
@@ -31,10 +31,11 @@ select ccbc_public.create_application();
 -- set role to analyst and create application community progress report data
 set role ccbc_analyst;
 set jwt.claims.sub to 'testCcbcAnalyst';
+insert into ccbc_public.application_community_report_excel_data(application_id) VALUES (1);
 
 select results_eq(
   $$
-    select id, json_data from ccbc_public.create_application_community_progress_report_data(1,'{}'::jsonb);
+    select id, json_data from ccbc_public.create_application_community_progress_report_data(1,'{}'::jsonb, null, 1);
   $$,
   $$
     values (1,'{}'::jsonb)
@@ -42,7 +43,22 @@ select results_eq(
   'Should return newly created community progress report data'
 );
 
-select ccbc_public.create_application_community_progress_report_data(1,'{}'::jsonb, 1);
+-- should archived previously inserted excel data
+select ccbc_public.create_application_community_progress_report_data(1,'{}'::jsonb, 1, 1);
+
+select is_empty(
+  $$
+  select * from ccbc_public.application_community_report_excel_data where archived_at is null;
+  $$,
+  'Should  not find an unarchived community_report_excel_data'
+);
+
+select isnt_empty(
+  $$
+  select * from ccbc_public.application_community_report_excel_data where archived_at is not null;
+  $$,
+  'Should find an archived community_report_excel_data'
+);
 
 select results_eq(
   $$
