@@ -1,3 +1,16 @@
+# [1.97.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.96.0...v1.97.0) (2023-08-18)
+
+### Bug Fixes
+
+- include apiPath in useCallBack dependency array ([55c50d5](https://github.com/bcgov/CONN-CCBC-portal/commit/55c50d56b90971072b68ee3a6e42caf011b623b2))
+
+### Features
+
+- archive sow data in change request when no sow data is present ([00c4d1a](https://github.com/bcgov/CONN-CCBC-portal/commit/00c4d1ac258100c451838f2199d5734c32077f72))
+- archive sow_data if no statement of work upload ([10f9d96](https://github.com/bcgov/CONN-CCBC-portal/commit/10f9d961de41e7c068f3162dc06bbc4e6174151d))
+- community progress report archives if file is missing ([2b68e1f](https://github.com/bcgov/CONN-CCBC-portal/commit/2b68e1f112a826cc6c03b1cf97f8f941c724b67e))
+- show errors on submission page ([ab8009e](https://github.com/bcgov/CONN-CCBC-portal/commit/ab8009e82218d55a57827b8229b06e2fdd6fe5aa))
+
 # [1.96.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.95.0...v1.96.0) (2023-08-16)
 
 ### Bug Fixes
