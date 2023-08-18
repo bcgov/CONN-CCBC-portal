@@ -1,3 +1,9 @@
+# [1.97.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.96.0...v1.97.0) (2023-08-18)
+
+### Features
+
+- show errors on submission page ([ab8009e](https://github.com/bcgov/CONN-CCBC-portal/commit/ab8009e82218d55a57827b8229b06e2fdd6fe5aa))
+
 # [1.96.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.95.0...v1.96.0) (2023-08-16)
 
 ### Bug Fixes

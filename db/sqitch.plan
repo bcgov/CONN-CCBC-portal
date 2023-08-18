@@ -400,3 +400,4 @@ functions/receive_applications [functions/receive_applications@1.94.0] 2023-08-1
 mutations/update_application_form [mutations/update_application_form@1.94.0] 2023-08-14T20:22:39Z Tony Bushara <tonybushara@pop-os> # Increase the buffer time to 3 seconds
 @1.95.0 2023-08-15T17:59:22Z CCBC Service Account <ccbc@button.is> # release v1.95.0
 @1.96.0 2023-08-16T23:11:14Z CCBC Service Account <ccbc@button.is> # release v1.96.0
+@1.97.0 2023-08-18T16:16:26Z CCBC Service Account <ccbc@button.is> # release v1.97.0
