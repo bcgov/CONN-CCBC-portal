@@ -100,6 +100,16 @@ describe('The Community Progress Report form', () => {
       fireEvent.click(addButton);
     });
 
+    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dueDateInput, {
+        target: {
+          value: '2025-07-01 00:00 AM',
+        },
+      });
+    });
+
     const file = new File([new ArrayBuffer(1)], 'file.xls', {
       type: 'application/vnd.ms-excel',
     });
@@ -152,9 +162,10 @@ describe('The Community Progress Report form', () => {
     componentTestingHelper.expectMutationToBeCalled(
       'createCommunityProgressReportMutation',
       {
-        connections: expect.anything(),
+        connections: [expect.anything()],
         input: {
           _jsonData: {
+            dueDate: '1970-01-01',
             progressReportFile: [
               {
                 id: 1,
@@ -221,6 +232,16 @@ describe('The Community Progress Report form', () => {
 
     await act(async () => {
       fireEvent.click(addButton);
+    });
+
+    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dueDateInput, {
+        target: {
+          value: '2025-07-01 00:00 AM',
+        },
+      });
     });
 
     const file = new File([new ArrayBuffer(1)], 'file.xls', {
@@ -300,6 +321,16 @@ describe('The Community Progress Report form', () => {
 
     await act(async () => {
       fireEvent.click(addButton);
+    });
+
+    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dueDateInput, {
+        target: {
+          value: '2025-07-01 00:00 AM',
+        },
+      });
     });
 
     const file = new File([new ArrayBuffer(1)], 'file.xls', {
