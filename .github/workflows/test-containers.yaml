@@ -17,7 +17,7 @@ env:
   PGUSER: postgres
 
 jobs:
-  yarn-test-e2e:
+  yarn-test-e2e-applicant:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -31,7 +31,41 @@ jobs:
         env:
           HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
           HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
-        run: yarn test:e2e
+        run: yarn test:e2e:applicant
+        working-directory: ./app
+
+  yarn-test-e2e-admin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: run app locally
+        uses: ./.github/actions/local-app-run
+      - run: yarn install --frozen-lockfile
+        working-directory: ./app
+      - name: run e2e tests
+        env:
+          HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+          HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+        run: yarn test:e2e:admin
+        working-directory: ./app
+
+  yarn-test-e2e-analyst:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - name: run app locally
+        uses: ./.github/actions/local-app-run
+      - run: yarn install --frozen-lockfile
+        working-directory: ./app
+      - name: run e2e tests
+        env:
+          HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+          HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+        run: yarn test:e2e:analyst
         working-directory: ./app
 
   zap-owasp-full:
