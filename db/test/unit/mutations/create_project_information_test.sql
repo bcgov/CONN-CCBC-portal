@@ -8,7 +8,8 @@ truncate table
   ccbc_public.attachment,
   ccbc_public.form_data,
   ccbc_public.application_form_data,
-  ccbc_public.intake
+  ccbc_public.intake,
+  ccbc_public.application_sow_data
 restart identity cascade;
 
 select has_function('ccbc_public', 'create_project_information',
