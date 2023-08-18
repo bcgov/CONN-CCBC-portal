@@ -1,6 +1,7 @@
 import { JSONSchema7 } from 'json-schema';
 
 const communityProgressReport: JSONSchema7 = {
+  required: ['dueDate'],
   properties: {
     dueDate: {
       title: 'Due date',
@@ -8,6 +9,9 @@ const communityProgressReport: JSONSchema7 = {
     },
     dateReceived: {
       title: 'Date received',
+      type: 'string',
+    },
+    errorField: {
       type: 'string',
     },
     progressReportFile: {

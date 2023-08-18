@@ -1788,6 +1788,16 @@ describe('The Project page', () => {
       fireEvent.click(addCprBtn);
     });
 
+    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[4];
+
+    await act(async () => {
+      fireEvent.change(dueDateInput, {
+        target: {
+          value: '2023-08-01',
+        },
+      });
+    });
+
     const saveButton = screen.getByTestId('save-community-progress-report');
 
     expect(saveButton).toBeInTheDocument();
@@ -1805,9 +1815,11 @@ describe('The Project page', () => {
     pageTestingHelper.expectMutationToBeCalled(
       'createCommunityProgressReportMutation',
       {
-        connections: expect.anything(),
+        connections: [expect.anything()],
         input: {
-          _jsonData: {},
+          _jsonData: {
+            dueDate: '2023-08-01',
+          },
           _applicationId: 1,
         },
       }

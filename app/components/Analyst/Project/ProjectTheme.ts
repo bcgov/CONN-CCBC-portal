@@ -7,7 +7,12 @@ import { StatusSelectWidget } from './ConditionalApproval/widgets';
 import ProjectFieldTemplate from './fields/ProjectFieldTemplate';
 import ProjectObjectFieldTemplate from './fields/ProjectObjectFieldTemplate';
 import { ProjectSectionField } from './fields';
-import { AmendmentNumberWidget, CcbcIdWidget, HiddenWidget } from './widgets';
+import {
+  AmendmentNumberWidget,
+  CcbcIdWidget,
+  ContextErrorWidget,
+  HiddenWidget,
+} from './widgets';
 
 const { fields } = utils.getDefaultRegistry();
 
@@ -24,6 +29,7 @@ const ProjectTheme: ThemeProps = {
     StatusSelectWidget,
     CcbcIdWidget,
     HiddenWidget,
+    ContextErrorWidget,
   },
   ObjectFieldTemplate: ProjectObjectFieldTemplate,
   FieldTemplate: ProjectFieldTemplate,

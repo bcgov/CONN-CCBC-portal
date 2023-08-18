@@ -133,6 +133,7 @@ interface Props {
   hiddenSubmitRef?: any;
   isFormEditMode: boolean;
   isFormAnimated?: boolean;
+  liveValidate?: boolean;
   onSubmit: any;
   resetFormData: any;
   saveBtnText?: string;
@@ -162,6 +163,7 @@ const ProjectForm: React.FC<Props> = ({
   formAnimationHeightOffset = 30,
   isFormAnimated,
   isFormEditMode,
+  liveValidate,
   onSubmit,
   resetFormData,
   saveBtnDisabled,
@@ -277,6 +279,7 @@ const ProjectForm: React.FC<Props> = ({
               formData={formData}
               formContext={{ formData: { ...formData }, ...additionalContext }}
               theme={theme || ProjectTheme}
+              liveValidate={liveValidate}
               omitExtraData={false}
               onChange={handleChange}
               validate={validate}

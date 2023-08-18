@@ -100,6 +100,16 @@ describe('The Community Progress Report form', () => {
       fireEvent.click(addButton);
     });
 
+    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dueDateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
+    });
+
     const file = new File([new ArrayBuffer(1)], 'file.xls', {
       type: 'application/vnd.ms-excel',
     });
@@ -152,9 +162,10 @@ describe('The Community Progress Report form', () => {
     componentTestingHelper.expectMutationToBeCalled(
       'createCommunityProgressReportMutation',
       {
-        connections: expect.anything(),
+        connections: [expect.anything()],
         input: {
           _jsonData: {
+            dueDate: '2025-07-01',
             progressReportFile: [
               {
                 id: 1,
@@ -221,6 +232,16 @@ describe('The Community Progress Report form', () => {
 
     await act(async () => {
       fireEvent.click(addButton);
+    });
+
+    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dueDateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
     });
 
     const file = new File([new ArrayBuffer(1)], 'file.xls', {
@@ -300,6 +321,16 @@ describe('The Community Progress Report form', () => {
 
     await act(async () => {
       fireEvent.click(addButton);
+    });
+
+    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dueDateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
     });
 
     const file = new File([new ArrayBuffer(1)], 'file.xls', {
@@ -435,5 +466,34 @@ describe('The Community Progress Report form', () => {
     });
 
     expect(screen.queryByText('community_report.xlsx')).toBeInTheDocument();
+  });
+
+  it('shows the fiscal date warning when selecting a due date in the same fiscal quarter as an existing report', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const addButton = screen
+      .getByText('Add community progress report')
+      .closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dueDateInput, {
+        target: {
+          value: '2023-08-01',
+        },
+      });
+    });
+
+    expect(
+      screen.getByText(
+        'A community progress report has already been created for this quarter'
+      )
+    ).toBeInTheDocument();
   });
 });
