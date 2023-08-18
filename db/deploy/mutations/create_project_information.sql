@@ -22,30 +22,30 @@ begin
       and archived_at is null
       returning id into _sow_id;
 
-  if exists (select * from ccbc_public.sow_tab_1 where sow_id = _sow_id and archived_at is null)
-    then update ccbc_public.sow_tab_1 set archived_at = now() where sow_id = _sow_id and archived_at is null;
-  end if;
+    if exists (select * from ccbc_public.sow_tab_1 where sow_id = _sow_id and archived_at is null)
+      then update ccbc_public.sow_tab_1 set archived_at = now() where sow_id = _sow_id and archived_at is null;
+    end if;
 
-  if exists (select * from ccbc_public.sow_tab_2 where sow_id = _sow_id and archived_at is null)
-    then update ccbc_public.sow_tab_2 set archived_at = now() where sow_id = _sow_id and archived_at is null;
-  end if;
+    if exists (select * from ccbc_public.sow_tab_2 where sow_id = _sow_id and archived_at is null)
+      then update ccbc_public.sow_tab_2 set archived_at = now() where sow_id = _sow_id and archived_at is null;
+    end if;
 
-  if exists (select * from ccbc_public.sow_tab_7 where sow_id = _sow_id and archived_at is null)
-    then update ccbc_public.sow_tab_7 set archived_at = now() where sow_id = _sow_id and archived_at is null;
-  end if;
+    if exists (select * from ccbc_public.sow_tab_7 where sow_id = _sow_id and archived_at is null)
+      then update ccbc_public.sow_tab_7 set archived_at = now() where sow_id = _sow_id and archived_at is null;
+    end if;
 
-  if exists (select * from ccbc_public.sow_tab_8 where sow_id = _sow_id and archived_at is null)
-    then update ccbc_public.sow_tab_8 set archived_at = now() where sow_id = _sow_id and archived_at is null;
-  end if;
+    if exists (select * from ccbc_public.sow_tab_8 where sow_id = _sow_id and archived_at is null)
+      then update ccbc_public.sow_tab_8 set archived_at = now() where sow_id = _sow_id and archived_at is null;
+    end if;
 
-  if exists (select * from ccbc_public.attachment where file = old_project_information_json_data -> 'statementOfWorkUpload' -> 0 ->> 'uuid') then
-    update ccbc_public.attachment set archived_at = now() where file = old_project_information_json_data -> 'statementOfWorkUpload' -> 0 ->> 'uuid';
+    if exists (select * from ccbc_public.attachment where file = old_project_information_json_data -> 'statementOfWorkUpload' -> 0 ->> 'uuid') then
+      update ccbc_public.attachment set archived_at = now() where file = old_project_information_json_data -> 'statementOfWorkUpload' -> 0 ->> 'uuid';
+    end if;
+
   end if;
 
   if exists (select * from ccbc_public.project_information_data where id = old_project_information_id)
     then update ccbc_public.project_information_data set archived_at = now() where id = old_project_information_id;
-  end if;
-
   end if;
 
   insert into ccbc_public.project_information_data (application_id, json_data)
