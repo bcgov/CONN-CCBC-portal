@@ -107,7 +107,7 @@ const ProjectInformationForm = ({ application }) => {
 
   const validateSow = useCallback(
     excelValidateGenerator(apiPath, setSowFile, setSowValidationErrors),
-    [setSowFile, setSowValidationErrors]
+    [setSowFile, setSowValidationErrors, apiPath]
   );
 
   const hasSowValidationErrors =
@@ -197,6 +197,7 @@ const ProjectInformationForm = ({ application }) => {
     const changeRequestAmendmentNumber = formData?.amendmentNumber;
     const oldChangeRequestAmendmentNumber =
       currentChangeRequestData?.jsonData?.amendmentNumber;
+    console.log(changeRequestAmendmentNumber, oldChangeRequestAmendmentNumber);
 
     // Allow form to be submitted if editing a change request and no change to amendment number
     const isSameAmendmentNumber =
