@@ -32,9 +32,9 @@ select ccbc_public.create_application();
 set role ccbc_analyst;
 set jwt.claims.sub to 'testCcbcAnalyst';
 
-select ccbc_public.create_application_community_report_excel_data(1::int , '{}'::jsonb);
+select ccbc_public.create_application_community_report_excel_data(1::int , '{"progressReportFile": "a"}'::jsonb);
 
-select ccbc_public.create_application_community_progress_report_data(1,'{}'::jsonb, 1, 1);
+select ccbc_public.create_application_community_progress_report_data(1,'{"progressReportFile": "a"}'::jsonb, 1, 1);
 
 select ccbc_public.archive_application_community_progress_report(1);
 
