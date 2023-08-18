@@ -56,10 +56,15 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
     '& .MuiOutlinedInput-notchedOutline': {
       border: isErrors ? '2px solid #E71F1F' : '2px solid #606060',
     },
+    '& input:disabled': {
+      border: 'none',
+      background: 'none',
+    },
   };
 
   // eslint-disable-next-line react/no-unstable-nested-components
   const ClearableButton = () => {
+    if (disabled) return null;
     return (
       <button type="button" onClick={() => onChange(undefined)}>
         <FontAwesomeIcon icon={faTimesCircle} color="#606060" />

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import { AjvError, IChangeEvent } from '@rjsf/core';
 import Button from '@button-inc/bcgov-theme/Button';
+import { useUpdateIntakeMutation } from 'schema/mutations/admin/updateIntakeMutation';
 import FormBase from 'components/Form/FormBase';
 import intakeSchema from 'formSchema/admin/intake';
 import intakeUiSchema from 'formSchema/uiSchema/admin/intakeUiSchema';
@@ -20,6 +21,7 @@ const StyledContainer = styled.div<EditProps>`
   border: 1px solid #606060;
   border-radius: 4px;
   padding: 0 24px;
+  margin-bottom: 16px;
   visibility: ${({ isFormEditMode }) =>
     isFormEditMode ? 'visible' : 'hidden'};
   transition: all 0.5s;
@@ -84,9 +86,29 @@ const customTransformErrors = (errors: AjvError[]) =>
 
 interface Props {
   applicationQuery: any;
+  formData: any;
+  isIntakeEdit: boolean;
+  intakeList: any;
+  isFormEditMode: boolean;
+  isStartDateDisabled: boolean;
+  setFormData: (formData: any) => void;
+  setIsFormEditMode: (isFormEditMode: boolean) => void;
+  setIsIntakeEdit: (isIntakeEdit: boolean) => void;
+  setIsStartDateDisabled: (isStartDateDisabled: boolean) => void;
 }
 
-const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
+const AddIntake: React.FC<Props> = ({
+  applicationQuery,
+  formData,
+  isIntakeEdit,
+  intakeList,
+  isFormEditMode,
+  isStartDateDisabled,
+  setFormData,
+  setIsFormEditMode,
+  setIsIntakeEdit,
+  setIsStartDateDisabled,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment AddIntake_query on Query {
@@ -111,8 +133,7 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
 
   const { allIntakes } = queryFragment;
 
-  const intakeList = allIntakes?.edges;
-  const latestIntake = intakeList[0].node;
+  const latestIntake = intakeList[0]?.node;
   const latestIntakeNumber = (latestIntake?.ccbcIntakeNumber as number) || 0;
   const latestIntakeCloseTimestamp = latestIntake?.closeTimestamp;
   const newIntakeNumber = latestIntakeNumber + 1;
@@ -122,46 +143,84 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
   const isNewIntakeAllowed =
     !latestIntake ||
     DateTime.fromISO(latestIntake?.openTimestamp) < DateTime.now();
-  const defaultFormData = {
-    intakeNumber: newIntakeNumber,
-  };
-
   const [createIntake] = useCreateIntakeMutation();
-  const [isFormEditMode, setIsFormEditMode] = useState(false);
+  const [updateIntake] = useUpdateIntakeMutation();
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-  const [formData, setFormData] = useState(defaultFormData);
 
-  const handleSubmit = (e) => {
-    const startTime = e.formData?.startDate;
-    const endTime = e.formData?.endDate;
-    const description = e.formData?.description;
-
-    createIntake({
-      variables: {
-        connections: [allIntakesConnectionId],
-        input: {
-          intakeDescription: description,
-          endTime,
-          startTime,
-        },
-      },
-      onCompleted: () => {
-        setIsFormSubmitting(false);
-        setIsFormEditMode(false);
-        setFormData(defaultFormData);
-      },
+  const handleResetForm = () => {
+    setIsFormSubmitting(false);
+    setIsFormEditMode(false);
+    setIsIntakeEdit(false);
+    setIsIntakeEdit(false);
+    setIsStartDateDisabled(false);
+    setFormData({
+      intakeNumber: newIntakeNumber,
     });
   };
 
+  const handleSubmit = (e) => {
+    const { startDate, endDate, intakeNumber, description } = e.formData;
+
+    if (isIntakeEdit) {
+      updateIntake({
+        variables: {
+          input: {
+            intakeNumber,
+            startTime: startDate,
+            endTime: endDate,
+            intakeDescription: description,
+          },
+        },
+        onCompleted: () => {
+          handleResetForm();
+        },
+      });
+    } else {
+      createIntake({
+        variables: {
+          connections: [allIntakesConnectionId],
+          input: {
+            intakeDescription: description,
+            endTime: endDate,
+            startTime: startDate,
+          },
+        },
+        onCompleted: () => {
+          handleResetForm();
+        },
+      });
+    }
+  };
+
+  const currentDateTime = DateTime.now();
+  const intakeStartDate =
+    formData?.startDate && DateTime.fromISO(formData.startDate);
   const validate = (jsonData, errors) => {
     const { startDate, endDate } = jsonData;
-    const currentDateTime = DateTime.now();
     const startDateTime = DateTime.fromISO(startDate);
     const endDateTime = DateTime.fromISO(endDate);
 
     const latestIntakeEndDateTime = DateTime.fromISO(
       latestIntakeCloseTimestamp
     );
+
+    const isEdit = isIntakeEdit || jsonData?.isEdit;
+
+    // get the index of the current intake when editing an intake
+    const intakeIndex = intakeList.findIndex(
+      (intake) => intake.node.ccbcIntakeNumber === jsonData?.intakeNumber
+    );
+
+    // get the previous intake to check for date overlap when editing
+    const previousIntake = isEdit && intakeList[intakeIndex + 1]?.node;
+    const previousIntakeEndDateTime =
+      previousIntake && DateTime.fromISO(previousIntake.closeTimestamp);
+
+    // get the next intake to check for date overlap when editing
+    const nextIntake =
+      isEdit && intakeIndex !== 0 && intakeList[intakeIndex - 1]?.node;
+    const nextIntakeStartDateTime =
+      nextIntake && DateTime.fromISO(nextIntake?.openTimestamp);
 
     if (!startDate && isFormSubmitting) {
       errors?.startDate.addError('Start date & time must be entered');
@@ -171,11 +230,28 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
       errors?.endDate.addError('End date & time must be entered');
     }
 
-    if (startDateTime <= currentDateTime) {
+    if (isEdit && nextIntake && endDateTime >= nextIntakeStartDateTime) {
+      errors?.endDate.addError(
+        'End date & time must not overlap with the next intake'
+      );
+    }
+
+    if (
+      (!isEdit && startDateTime <= currentDateTime) ||
+      // only check start date is in the future if editing an intake that has not started yet and does not have start date locked
+      (isEdit &&
+        currentDateTime <= intakeStartDate &&
+        startDateTime <= currentDateTime)
+    ) {
       errors?.startDate.addError(
         'Start date & time must be after current date & time'
       );
-    } else if (startDateTime <= latestIntakeEndDateTime) {
+    } else if (
+      // check latest intake start date overlap if creating a new intake
+      (startDateTime <= latestIntakeEndDateTime && !isEdit) ||
+      // check previous intake end date overlap if editing an intake
+      (isEdit && startDateTime <= previousIntakeEndDateTime)
+    ) {
       errors?.startDate.addError(
         'Start date & time must not overlap with the previous intake'
       );
@@ -195,7 +271,12 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
         {isNewIntakeAllowed && (
           <Button
             isFormEditMode={isFormEditMode}
-            onClick={() => setIsFormEditMode(true)}
+            onClick={() => {
+              setIsFormEditMode(true);
+              setFormData({
+                intakeNumber: newIntakeNumber,
+              });
+            }}
             variant="secondary"
           >
             Add intake
@@ -207,9 +288,16 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
           <FormBase
             formData={formData}
             onChange={(e: IChangeEvent) => setFormData({ ...e.formData })}
-            liveValidate={isFormEditMode}
+            liveValidate={isFormEditMode || isIntakeEdit}
             schema={intakeSchema}
-            uiSchema={intakeUiSchema}
+            uiSchema={{
+              ...intakeUiSchema,
+              startDate: {
+                ...intakeUiSchema.startDate,
+                // disable start date when editing an intake if the start date is before the current date
+                'ui:disabled': isStartDateDisabled,
+              },
+            }}
             onSubmit={handleSubmit}
             transformErrors={customTransformErrors}
             theme={IntakeTheme}
@@ -223,10 +311,7 @@ const AddIntake: React.FC<Props> = ({ applicationQuery }) => {
             >
               Save
             </StyledSaveBtn>
-            <Button
-              onClick={() => setIsFormEditMode(false)}
-              variant="secondary"
-            >
+            <Button onClick={handleResetForm} variant="secondary">
               Cancel
             </Button>
           </FormBase>
