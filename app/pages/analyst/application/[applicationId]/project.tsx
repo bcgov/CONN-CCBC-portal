@@ -10,6 +10,7 @@ import ConditionalApprovalForm from 'components/Analyst/Project/ConditionalAppro
 import AnnouncementsForm from 'components/Analyst/Project/Announcements/AnnouncementsForm';
 import ProjectInformationForm from 'components/Analyst/Project/ProjectInformation/ProjectInformationForm';
 import CommunityProgressReportForm from 'components/Analyst/Project/CommunityProgressReport/CommunityProgressReportForm';
+import ClaimsForm from 'components/Analyst/Project/Claims/ClaimsForm';
 
 const getProjectQuery = graphql`
   query projectQuery($rowId: Int!) {
@@ -21,6 +22,7 @@ const getProjectQuery = graphql`
       ...ConditionalApprovalForm_application
       ...ProjectInformationForm_application
       ...CommunityProgressReportForm_application
+      ...ClaimsForm_application
     }
     ...AnalystLayout_query
     ...AnnouncementsForm_query
@@ -39,6 +41,8 @@ const Project = ({
   const showCommunityProgressReport = useFeature(
     'show_community_progress_report'
   ).value;
+  const showClaims = useFeature('show_claims').value;
+  console.log('showClaims', showClaims);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -53,6 +57,7 @@ const Project = ({
         {showCommunityProgressReport && (
           <CommunityProgressReportForm application={applicationByRowId} />
         )}
+        {showClaims && <ClaimsForm application={applicationByRowId} />}
       </AnalystLayout>
     </Layout>
   );
