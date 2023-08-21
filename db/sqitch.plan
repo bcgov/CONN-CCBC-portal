@@ -405,3 +405,4 @@ mutations/create_change_request [mutations/create_change_request@1.95.0] 2023-08
 mutations/create_application_community_progress_report_data [mutations/create_application_community_progress_report_data@1.95.0] 2023-08-18T16:22:50Z Tony Bushara <tonybushara@pop-os> # Create the community progress report data and archive old excel data if no file is present
 mutations/update_intake 2023-08-15T19:56:30Z Marcel Mueller <marcel@m2.local> # mutation to update an intake
 @1.97.0 2023-08-18T22:52:11Z CCBC Service Account <ccbc@button.is> # release v1.97.0
+@1.97.1 2023-08-21T16:10:48Z CCBC Service Account <ccbc@button.is> # release v1.97.1
