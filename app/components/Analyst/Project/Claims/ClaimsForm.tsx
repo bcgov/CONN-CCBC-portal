@@ -38,6 +38,23 @@ const StyledFlex = styled.div`
   }
 `;
 
+const FormHeader = (
+  <div>
+    <p>
+      Claims & progress reports are submitted by recipients for incurred or paid
+      expenses during the previous quarter(s). While they are due 45 days after
+      that quarter ends, recipients do not always submit claim & progress
+      reports every quarter.{' '}
+    </p>
+    <p>
+      All processing of claims takes place outside of the CCBC portal. After a
+      claim is processed and paid, please upload the finalized and completed
+      claim Excel file here.
+    </p>
+    <b>Claims period</b>
+  </div>
+);
+
 interface FormData {
   claimsFile?: any;
   fromDate?: string;
@@ -224,6 +241,7 @@ const ClaimsForm = ({ application }) => {
         schema={claimsSchema}
         uiSchema={claimsUiSchema}
         formData={formData}
+        formHeader={FormHeader}
         theme={ProjectTheme}
         onSubmit={handleSubmit}
         formAnimationHeight={600}
