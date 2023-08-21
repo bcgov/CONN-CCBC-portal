@@ -1,3 +1,28 @@
+# [1.97.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.96.0...v1.97.0) (2023-08-18)
+
+### Bug Fixes
+
+- announcement field alignment ([8f52069](https://github.com/bcgov/CONN-CCBC-portal/commit/8f52069b93bfe023de65ccf0b8f8efed6bd7757d))
+- edit intake start date validation error ([c8ae764](https://github.com/bcgov/CONN-CCBC-portal/commit/c8ae7640be1537e6305551c9ab232b771c4f6b7d))
+- include apiPath in useCallBack dependency array ([55c50d5](https://github.com/bcgov/CONN-CCBC-portal/commit/55c50d56b90971072b68ee3a6e42caf011b623b2))
+- live validate form after submit attempt ([b992ce5](https://github.com/bcgov/CONN-CCBC-portal/commit/b992ce577b57337e8c0a0972f235c1ab13673942))
+- start date disabling incorrectly ([1b411fb](https://github.com/bcgov/CONN-CCBC-portal/commit/1b411fb8cbe4ab0f0f39b9ff851d57f4ab52ffc4))
+- update intake mutation return error ([e2b9204](https://github.com/bcgov/CONN-CCBC-portal/commit/e2b920474d24e8d39c425dc58b0fdb8356c7063f))
+
+### Features
+
+- add context error widget ([94f1849](https://github.com/bcgov/CONN-CCBC-portal/commit/94f184916d019838c27b38629d9f6bc8f476a208))
+- add intake edit button ([e51d27a](https://github.com/bcgov/CONN-CCBC-portal/commit/e51d27a847b4291e73dece44512c355342feec24))
+- add postgres mutation update_intake ([bbd8b4b](https://github.com/bcgov/CONN-CCBC-portal/commit/bbd8b4b549951827303a84d828c5c608a6281bbb))
+- add update intake graphql mutation ([8b649e8](https://github.com/bcgov/CONN-CCBC-portal/commit/8b649e8883434f7a159268014dc276a8689e0599))
+- archive sow data in change request when no sow data is present ([00c4d1a](https://github.com/bcgov/CONN-CCBC-portal/commit/00c4d1ac258100c451838f2199d5734c32077f72))
+- archive sow_data if no statement of work upload ([10f9d96](https://github.com/bcgov/CONN-CCBC-portal/commit/10f9d961de41e7c068f3162dc06bbc4e6174151d))
+- community progress report archives if file is missing ([2b68e1f](https://github.com/bcgov/CONN-CCBC-portal/commit/2b68e1f112a826cc6c03b1cf97f8f941c724b67e))
+- edit intake cannot overlap previous or next intakes ([28d7edf](https://github.com/bcgov/CONN-CCBC-portal/commit/28d7edfe1f274a2280fc4c5e00bddae7e8a46c40))
+- pass growthbook api key to docker container ([581f921](https://github.com/bcgov/CONN-CCBC-portal/commit/581f921967cf648007b8cfd43a130a7088aaf7e4))
+- show errors on submission page ([ab8009e](https://github.com/bcgov/CONN-CCBC-portal/commit/ab8009e82218d55a57827b8229b06e2fdd6fe5aa))
+- update intake on edit ([6c0ac09](https://github.com/bcgov/CONN-CCBC-portal/commit/6c0ac09fcd07c903704821dcaef3eb01c082c3c0))
+
 # [1.96.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.95.0...v1.96.0) (2023-08-16)
 
 ### Bug Fixes
