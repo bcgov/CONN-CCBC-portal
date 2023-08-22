@@ -5,7 +5,7 @@ import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import claimsSchema from 'formSchema/analyst/claims';
 import claimsUiSchema from 'formSchema/uiSchema/analyst/claimsUiSchema';
 import { useCreateClaimsMutation } from 'schema/mutations/project/createClaimsData';
-/* import { useArchiveApplicationClaimsMutation as useArchiveClaims } from 'schema/mutations/project/archiveApplicationClaims'; */
+import { useArchiveApplicationClaimsDataMutation as useArchiveClaims } from 'schema/mutations/project/archiveApplicationClaimsData';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
 import Modal from 'components/Modal';
@@ -99,7 +99,7 @@ const ClaimsForm = ({ application }) => {
   const [currentClaimsData, setCurrentClaimsData] = useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [createClaims] = useCreateClaimsMutation();
-  /*   const [archiveClaims] = useArchiveCpr(); */
+  const [archiveClaims] = useArchiveClaims();
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   // use this to live validate the form after the first submit attempt
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
@@ -193,24 +193,24 @@ const ClaimsForm = ({ application }) => {
   };
 
   const handleDelete = async () => {
-    // archiveClaims({
-    //   variables: {
-    //     input: {
-    //       _claimsId: currentClaimsData?.rowId,
-    //     },
-    //   },
-    //   updater: (store) => {
-    //     const connection = store.get(claimsConnectionId);
-    //     const claimsConnectionId = currentClaimsData?.__id;
-    //
-    //     store.delete(claimsConnectionId);
-    //     ConnectionHandler.deleteNode(connection, claimsConnectionId);
-    //   },
-    //   onCompleted: () => {
-    //     setShowModal(false);
-    //     setCurrentClaimsData(null);
-    //   },
-    // });
+    archiveClaims({
+      variables: {
+        input: {
+          _claimsDataId: currentClaimsData?.rowId,
+        },
+      },
+      updater: (store) => {
+        const claimConnectionId = currentClaimsData?.__id;
+        const connection = store.get(claimConnectionId);
+
+        store.delete(claimConnectionId);
+        ConnectionHandler.deleteNode(connection, claimConnectionId);
+      },
+      onCompleted: () => {
+        setShowModal(false);
+        setCurrentClaimsData(null);
+      },
+    });
   };
 
   return (
@@ -230,8 +230,8 @@ const ClaimsForm = ({ application }) => {
       >
         <StyledContainer>
           <p>
-            Are you sure you want to delete this claim and all accompanying
-            data?
+            Are you sure you want to delete this claim & progress report and all
+            accompanying data?
           </p>
           <StyledFlex>
             <Button onClick={handleDelete}>Yes, delete</Button>
