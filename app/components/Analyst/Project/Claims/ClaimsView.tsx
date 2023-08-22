@@ -7,7 +7,7 @@ import DownloadLink from 'components/DownloadLink';
 
 const StyledContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-columns: 128px 4fr 1fr;
   margin-bottom: 8px;
 `;
 
