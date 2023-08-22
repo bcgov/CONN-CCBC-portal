@@ -27,9 +27,9 @@ const mockQueryPayload = {
             node: {
               rowId: 1,
               jsonData: {
-                dueDate: '2023-08-01',
-                dateReceived: '2023-08-02',
-                progressReportFile: [
+                toDate: '2023-08-01',
+                fromDate: '2023-08-02',
+                claimsFile: [
                   {
                     id: 1,
                     name: 'claims.xlsx',
@@ -42,13 +42,6 @@ const mockQueryPayload = {
             },
           },
         ],
-      },
-    };
-  },
-  Query() {
-    return {
-      openIntake: {
-        closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
       },
     };
   },
@@ -175,5 +168,70 @@ describe('The Claims form', () => {
         },
       });
     });
+  });
+
+  it('should show the saved claim', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('claims.xlsx')).toBeInTheDocument();
+
+    expect(screen.getByText('Aug-Aug 2023')).toBeInTheDocument();
+  });
+
+  it('can edit a saved Claim', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryByText('Save')).not.toBeInTheDocument();
+    const editButton = screen.getByText('Edit').closest('button');
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    expect(saveButton).toBeInTheDocument();
+
+    const toDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(toDateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createClaimsDataMutation',
+      {
+        connections: [expect.anything()],
+        input: {
+          _jsonData: {
+            toDate: '2023-08-01',
+            fromDate: '2025-07-01',
+            claimsFile: [
+              {
+                id: 1,
+                name: 'claims.xlsx',
+                size: 121479,
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                uuid: '541089ee-8f80-4dd9-844f-093d7739792b',
+              },
+            ],
+          },
+          _applicationId: 1,
+          _oldClaimsId: 1,
+        },
+      }
+    );
   });
 });
