@@ -107,11 +107,11 @@ const ClaimsForm = ({ application }) => {
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   const claimsConnectionId = claimsData?.__id;
-  const claimsList = claimsData?.edges?.filter((data) => {
-    // filter null nodes from the list caused by relay connection update
-    return data.node !== null;
-  });
-
+  // const claimsList = claimsData?.edges?.filter((data) => {
+  //   // filter null nodes from the list caused by relay connection update
+  //   return data.node !== null;
+  // });
+  //
   const apiPath = `/api/analyst/claims/${applicationRowId}/${currentClaimsData?.rowId}`;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -138,16 +138,15 @@ const ClaimsForm = ({ application }) => {
 
     validateClaims(excelFile, false).then((res) => {
       // get the excel data row i from the response or the current community progress data
-      const responseExcelDataId =
-        res?.result?.data.createApplicationCommunityReportExcelData
-          ?.applicationCommunityReportExcelData?.rowId;
+      // const responseExcelDataId =
+      //   res?.result?.data.createApplicationCommunityReportExcelData
+      //     ?.applicationCommunityReportExcelData?.rowId;
 
       // get the excel data row id from the current community progress data if it exists
-      const currentExcelDataId = currentClaimsData?.excelDataId;
+      /* const currentExcelDataId = currentClaimsData?.excelDataId; */
 
       // replace the current excel data id if a new excel file was uploaded since the previous data will be archived
-      const excelDataId = responseExcelDataId || currentExcelDataId;
-      console.log(claimsList, excelDataId);
+      /* const excelDataId = responseExcelDataId || currentExcelDataId; */
 
       /// save form data
       createClaims({

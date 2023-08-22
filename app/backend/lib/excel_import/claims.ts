@@ -15,8 +15,8 @@ const createClaimsMutation = `
 `;
 
 const readSummary = async (wb, sheet_name, applicationId, claimsId) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const ws = wb.Sheets[sheet_name];
-  console.log('ws', ws !== undefined);
 
   // read excel data here
 
