@@ -9,6 +9,7 @@ import { useCreateClaimsMutation } from 'schema/mutations/project/createClaimsDa
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
 import Modal from 'components/Modal';
+import ClaimsView from './ClaimsView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
@@ -78,6 +79,7 @@ const ClaimsForm = ({ application }) => {
               id
               rowId
               jsonData
+              ...ClaimsView_query
             }
           }
         }
@@ -107,11 +109,11 @@ const ClaimsForm = ({ application }) => {
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   const claimsConnectionId = claimsData?.__id;
-  // const claimsList = claimsData?.edges?.filter((data) => {
-  //   // filter null nodes from the list caused by relay connection update
-  //   return data.node !== null;
-  // });
-  //
+  const claimsList = claimsData?.edges?.filter((data) => {
+    // filter null nodes from the list caused by relay connection update
+    return data.node !== null;
+  });
+
   const apiPath = `/api/analyst/claims/${applicationRowId}/${currentClaimsData?.rowId}`;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -275,7 +277,24 @@ const ClaimsForm = ({ application }) => {
         }
         saveDataTestId="save-claims data"
       >
-        {/*  map view here */}
+        {claimsList?.map(({ node }) => {
+          return (
+            <ClaimsView
+              key={node.id}
+              claim={node}
+              isFormEditMode={isFormEditMode}
+              onShowDeleteModal={() => {
+                setShowModal(true);
+                setCurrentClaimsData(node);
+              }}
+              onFormEdit={() => {
+                setFormData(node.jsonData);
+                setCurrentClaimsData(node);
+                setIsFormEditMode(true);
+              }}
+            />
+          );
+        })}
       </StyledProjectForm>
     </>
   );

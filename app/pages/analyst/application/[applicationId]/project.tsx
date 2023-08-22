@@ -42,7 +42,6 @@ const Project = ({
     'show_community_progress_report'
   ).value;
   const showClaims = useFeature('show_claims').value;
-  console.log('showClaims', showClaims);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
