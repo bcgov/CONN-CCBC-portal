@@ -19,6 +19,7 @@ import ssoMiddleware from './backend/lib/sso-middleware';
 import headersMiddleware from './backend/lib/headers';
 import graphQlMiddleware from './backend/lib/graphql';
 import s3download from './backend/lib/s3download';
+import claimsUpload from './backend/lib/claims-upload';
 import communityReportUpload from './backend/lib/community-report-upload';
 import gisUpload from './backend/lib/gis-upload';
 import sowUpload from './backend/lib/sow-upload';
@@ -97,7 +98,12 @@ app.prepare().then(async () => {
 
   server.use(
     unless(
-      ['/api/analyst/sow', '/api/analyst/gis', 'api/analyst/community-report'],
+      [
+        '/api/analyst/sow',
+        '/api/analyst/gis',
+        'api/analyst/community-report',
+        'api/analyst/claims',
+      ],
       graphqlUploadExpress()
     )
   );
@@ -107,6 +113,7 @@ app.prepare().then(async () => {
 
   server.use('/', s3adminArchive);
   server.use('/', s3download);
+  server.use('/', claimsUpload);
   server.use('/', communityReportUpload);
   server.use('/', gisUpload);
   server.use('/', linkPreview);
