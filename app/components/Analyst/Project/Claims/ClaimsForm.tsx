@@ -5,7 +5,7 @@ import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import claimsSchema from 'formSchema/analyst/claims';
 import claimsUiSchema from 'formSchema/uiSchema/analyst/claimsUiSchema';
 import { useCreateClaimsMutation } from 'schema/mutations/project/createClaimsData';
-/* import { useArchiveApplicationClaimsMutation as useArchiveCpr } from 'schema/mutations/project/archiveApplicationClaims'; */
+/* import { useArchiveApplicationClaimsMutation as useArchiveClaims } from 'schema/mutations/project/archiveApplicationClaims'; */
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
 import Modal from 'components/Modal';
@@ -276,7 +276,7 @@ const ClaimsForm = ({ application }) => {
         }
         saveDataTestId="save-claims data"
       >
-        map view here
+        {/*  map view here */}
       </StyledProjectForm>
     </>
   );
