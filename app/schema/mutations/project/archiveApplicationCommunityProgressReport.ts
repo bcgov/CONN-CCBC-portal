@@ -15,7 +15,8 @@ const mutation = graphql`
 const useArchiveApplicationCommunityProgressReportMutation = () =>
   useMutationWithErrorMessage<archiveApplicationCommunityProgressReportMutation>(
     mutation,
-    () => 'An error occured while attempting to create the project information'
+    () =>
+      'An error occured while attempting to archive the community progress report.'
   );
 
 export { mutation, useArchiveApplicationCommunityProgressReportMutation };
