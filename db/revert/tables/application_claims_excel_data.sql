@@ -2,6 +2,6 @@
 
 begin;
 
-drop table if exists ccbc.application_claims_excel_data;
+drop table if exists ccbc_public.application_claims_excel_data cascade;
 
 commit;
