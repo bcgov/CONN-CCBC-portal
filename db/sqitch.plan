@@ -407,3 +407,4 @@ mutations/update_intake 2023-08-15T19:56:30Z Marcel Mueller <marcel@m2.local> # 
 @1.97.0 2023-08-18T22:52:11Z CCBC Service Account <ccbc@button.is> # release v1.97.0
 tables/application_claims_data 2023-08-18T21:23:37Z Marcel Mueller <marcel@m2> # add table to store claims form data
 mutations/create_application_claims_data 2023-08-18T21:49:29Z Marcel Mueller <marcel@m2> # mutation to create application claims data
+tables/application_claims_excel_data 2023-08-22T16:17:35Z Marcel Mueller <marcel@m2> # add table to store application claims excel data

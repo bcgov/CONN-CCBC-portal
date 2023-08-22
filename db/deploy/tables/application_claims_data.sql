@@ -5,12 +5,17 @@ begin;
 create table ccbc_public.application_claims_data(
   id integer primary key generated always as identity,
   application_id integer references ccbc_public.application(id),
-  json_data jsonb not null default '{}'::jsonb
+  json_data jsonb not null default '{}'::jsonb,
+  excel_data_id integer
 );
 
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_claims_data');
 
 create index application_claims_data_application_id_index on ccbc_public.application_claims_data(application_id);
+
+-- enable audit/history
+select audit.enable_tracking('ccbc_public.application_claims_data'::regclass);
+
 do
 $grant$
 begin
@@ -29,7 +34,9 @@ end
 $grant$;
 
 comment on table ccbc_public.application_claims_data is 'Table containing the claims data for the given application';
-comment on column ccbc_public.application_claims_data.id is 'Unique ID for the claims';
+comment on column ccbc_public.application_claims_data.id is 'Unique id for the claims';
 comment on column ccbc_public.application_claims_data.application_id is 'Id of the application the claims belongs to';
-comment on column ccbc_public.application_claims_data.json_data is 'The due date, date received and the file information of the claims Excel file';
+comment on column ccbc_public.application_claims_data.json_data is 'The claims form json data';
+comment on column ccbc_public.application_claims_data.excel_data_id is 'The id of the excel data that this record is associated with';
+
 commit;

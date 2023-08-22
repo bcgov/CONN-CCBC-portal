@@ -1,6 +1,6 @@
 begin;
 
-select plan(8);
+select plan(9);
 
 -- Table exists
 select has_table(
@@ -12,6 +12,7 @@ select has_table(
 select has_column('ccbc_public', 'application_claims_data', 'id','The table application_claims_data has column id');
 select has_column('ccbc_public', 'application_claims_data', 'application_id','The table application_claims_data has column application_id');
 select has_column('ccbc_public', 'application_claims_data', 'json_data','The table application_claims_data has column json_data');
+select has_column('ccbc_public', 'application_claims_data', 'excel_data_id','The table application_claims_data has column excel_data_id');
 
 -- Privileges
 select table_privs_are(
