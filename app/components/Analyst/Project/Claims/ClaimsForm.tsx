@@ -109,10 +109,18 @@ const ClaimsForm = ({ application }) => {
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   const claimsConnectionId = claimsData?.__id;
-  const claimsList = claimsData?.edges?.filter((data) => {
-    // filter null nodes from the list caused by relay connection update
-    return data.node !== null;
-  });
+  const claimsList = claimsData?.edges
+    ?.filter((data) => {
+      // filter null nodes from the list caused by relay connection update
+      return data.node !== null;
+    })
+    .sort((a, b) => {
+      // This will change to sorted by claim number once we import that from the excel file
+      const dateA = new Date(a.node.jsonData.toDate);
+      const dateB = new Date(b.node.jsonData.toDate);
+
+      return dateB.getTime() - dateA.getTime();
+    });
 
   const apiPath = `/api/analyst/claims/${applicationRowId}/${currentClaimsData?.rowId}`;
 
