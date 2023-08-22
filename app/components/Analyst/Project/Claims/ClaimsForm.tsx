@@ -148,15 +148,15 @@ const ClaimsForm = ({ application }) => {
 
     validateClaims(excelFile, false).then((res) => {
       // get the excel data row i from the response or the current community progress data
-      // const responseExcelDataId =
-      //   res?.result?.data.createApplicationCommunityReportExcelData
-      //     ?.applicationCommunityReportExcelData?.rowId;
+      const responseExcelDataId =
+        res?.result?.data.createApplicationClaimsExcelData
+          ?.applicationClaimsExcelData?.rowId;
 
       // get the excel data row id from the current community progress data if it exists
-      /* const currentExcelDataId = currentClaimsData?.excelDataId; */
+      const currentExcelDataId = currentClaimsData?.excelDataId;
 
       // replace the current excel data id if a new excel file was uploaded since the previous data will be archived
-      /* const excelDataId = responseExcelDataId || currentExcelDataId; */
+      const excelDataId = responseExcelDataId || currentExcelDataId;
 
       /// save form data
       createClaims({
@@ -166,7 +166,7 @@ const ClaimsForm = ({ application }) => {
             _jsonData: formData,
             _applicationId: applicationRowId,
             _oldClaimsId: currentClaimsData?.rowId,
-            /*             _excelDataId: excelDataId, */
+            _excelDataId: excelDataId,
           },
         },
         onCompleted: () => {
