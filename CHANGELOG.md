@@ -1,3 +1,27 @@
+# [1.98.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.97.0...v1.98.0) (2023-08-23)
+
+### Bug Fixes
+
+- application_claims_data table revert ([fd604eb](https://github.com/bcgov/CONN-CCBC-portal/commit/fd604eb6b37efa86d2ca18eb7c269ef37d38a086))
+- sqitch revert ([396eedb](https://github.com/bcgov/CONN-CCBC-portal/commit/396eedb5e2bada5bca85b0dd1647be687b740640))
+
+### Features
+
+- add application_claims_data table ([da8fa3d](https://github.com/bcgov/CONN-CCBC-portal/commit/da8fa3df2b221d7c4391a422bdfaf1b7b524f7e0))
+- add archive application claims data graphql mutation ([ec24b44](https://github.com/bcgov/CONN-CCBC-portal/commit/ec24b441e5ff71b62525ce42aa412b61dd15db90))
+- add archive_application_claims_data postgres mutation ([1737ccb](https://github.com/bcgov/CONN-CCBC-portal/commit/1737ccbe408fa680a015f27870ec95f04abe126e))
+- add claims api route ([077efbf](https://github.com/bcgov/CONN-CCBC-portal/commit/077efbfc1600d54e3337110f73495c8c90b235f4))
+- add claims form ([e927c34](https://github.com/bcgov/CONN-CCBC-portal/commit/e927c343d87117935fd921a6a36eb365f82f4f7e))
+- add claims form header ([8dc09e1](https://github.com/bcgov/CONN-CCBC-portal/commit/8dc09e15a808d2691bc23bc936ad4aed6b28c01a))
+- add claims form schema and ui schema ([45ed6d8](https://github.com/bcgov/CONN-CCBC-portal/commit/45ed6d847cea9cce8fe2eb37fdf6e4c76fde007a))
+- add claims growthbook feature flag ([6416aea](https://github.com/bcgov/CONN-CCBC-portal/commit/6416aea73e0025d1806a5bce2faae29dc4a3faec))
+- add claims view ([13551e7](https://github.com/bcgov/CONN-CCBC-portal/commit/13551e7acccaae8649fd0f02f55e13f8237d1d97))
+- add create claims data graphql mutation ([69fc94a](https://github.com/bcgov/CONN-CCBC-portal/commit/69fc94a45f639de333e79d638a35a86d0d855c53))
+- add create_application_claims_data postgres mutation ([5c4911f](https://github.com/bcgov/CONN-CCBC-portal/commit/5c4911f964ad587033f6f6540bf9d795eeeb6e41))
+- add delete claim functionality ([8d4e19f](https://github.com/bcgov/CONN-CCBC-portal/commit/8d4e19fb7440fcf0c8ac95a369c6a2332c6ca70d))
+- add mutation create_application_claims_data ([57550ed](https://github.com/bcgov/CONN-CCBC-portal/commit/57550ed1de027d52f2a0ea11aacbf10d38ac6f43))
+- add table application_claims_excel_data ([35b268e](https://github.com/bcgov/CONN-CCBC-portal/commit/35b268ed309bc2898a4b9b3943b0ab291ddaaa17))
+
 # [1.97.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.96.0...v1.97.0) (2023-08-18)
 
 ### Bug Fixes
