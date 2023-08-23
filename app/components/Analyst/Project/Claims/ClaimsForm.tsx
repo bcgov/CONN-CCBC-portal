@@ -147,12 +147,12 @@ const ClaimsForm = ({ application }) => {
     setIsFormSubmitting(true);
 
     validateClaims(excelFile, false).then((res) => {
-      // get the excel data row i from the response or the current community progress data
+      // get the excel data row i from the response or the current claims data
       const responseExcelDataId =
         res?.result?.data.createApplicationClaimsExcelData
           ?.applicationClaimsExcelData?.rowId;
 
-      // get the excel data row id from the current community progress data if it exists
+      // get the excel data row id from the current claims if it exists
       const currentExcelDataId = currentClaimsData?.excelDataId;
 
       // replace the current excel data id if a new excel file was uploaded since the previous data will be archived

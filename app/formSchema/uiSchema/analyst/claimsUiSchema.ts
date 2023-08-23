@@ -11,8 +11,8 @@ const claimsUiSchema = {
     'ui:widget': 'ExcelImportFileWidget',
     'ui:options': {
       excelImport: {
-        successHeading: 'Community Progress Report Data table match database',
-        errorType: 'communityProgressImportFailed',
+        successHeading: 'Claims & progress report Data table match database',
+        errorType: 'claimsImportFailed',
       },
     },
   },
