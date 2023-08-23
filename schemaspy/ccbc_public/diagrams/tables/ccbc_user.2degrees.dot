@@ -20,6 +20,14 @@ digraph "twoDegreesRelationshipsDiagram" {
   "application_announcement":"archived_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_announcement":"created_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_announcement":"updated_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_claims_data":"application_id":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_claims_data":"archived_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_claims_data":"created_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_claims_data":"updated_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_claims_excel_data":"application_id":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_claims_excel_data":"archived_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_claims_excel_data":"created_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_claims_excel_data":"updated_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_community_progress_report_data":"application_id":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_community_progress_report_data":"archived_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_community_progress_report_data":"created_by":w -> "ccbc_user":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
@@ -136,7 +144,7 @@ digraph "twoDegreesRelationshipsDiagram" {
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="67" HEIGHT="16"><B>application</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">16 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">18 &gt;</TD></TR>
     </TABLE>>
     URL="application.html"
     target="_top"
@@ -163,6 +171,28 @@ digraph "twoDegreesRelationshipsDiagram" {
     URL="application_announcement.html"
     target="_top"
     tooltip="application_announcement"
+  ];
+  "application_claims_data" [
+   label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="143" HEIGHT="16"><B>application_claims_data</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD></TR>
+    </TABLE>>
+    URL="application_claims_data.html"
+    target="_top"
+    tooltip="application_claims_data"
+  ];
+  "application_claims_excel_data" [
+   label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="178" HEIGHT="16"><B>application_claims_excel_data</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD></TR>
+    </TABLE>>
+    URL="application_claims_excel_data.html"
+    target="_top"
+    tooltip="application_claims_excel_data"
   ];
   "application_community_progress_report_data" [
    label=<
@@ -323,7 +353,7 @@ digraph "twoDegreesRelationshipsDiagram" {
       <TR><TD PORT="archived_by" COLSPAN="2" BGCOLOR="#ffffff" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/foreignKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="99" HEIGHT="16">archived_by</TD></TR></TABLE></TD><TD PORT="archived_by.type" ALIGN="LEFT">int4[10]</TD></TR>
       <TR><TD PORT="archived_at" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="99" HEIGHT="16">archived_at</TD></TR></TABLE></TD><TD PORT="archived_at.type" ALIGN="LEFT">timestamptz[35,6]</TD></TR>
       <TR><TD PORT="external_analyst" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="99" HEIGHT="16">external_analyst</TD></TR></TABLE></TD><TD PORT="external_analyst.type" ALIGN="LEFT">bool[1]</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">76 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">82 &gt;</TD></TR>
     </TABLE>>
     URL="ccbc_user.html"
     target="_top"

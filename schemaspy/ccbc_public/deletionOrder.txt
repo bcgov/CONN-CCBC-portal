@@ -14,6 +14,8 @@ change_request_data
 application_package
 application_community_report_excel_data
 application_community_progress_report_data
+application_claims_excel_data
+application_claims_data
 application_rfi_data
 application_form_data
 record_version
