@@ -17,6 +17,8 @@
     "postinstall": "yarn patch-package",
     "test": "TZ=America/Vancouver jest",
     "test:e2e": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run",
+    "test:e2e:analyst": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run --spec 'cypress/integration/analyst/**/*.spec.js'",
+    "test:e2e:applicant": "wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true happo-e2e -- cypress run --spec 'cypress/integration/applicantportal/**/*.spec.js'",
     "cypress": "cypress open",
     "format": "prettier --write './**/*.tsx' --config ../.prettierrc"
   },
