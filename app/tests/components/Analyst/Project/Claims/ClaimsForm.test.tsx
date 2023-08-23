@@ -1,0 +1,237 @@
+import ClaimsForm from 'components/Analyst/Project/Claims/ClaimsForm';
+import { graphql } from 'react-relay';
+import compiledQuery, {
+  ApplicationFormTestQuery,
+} from '__generated__/ApplicationFormTestQuery.graphql';
+import { act, fireEvent, screen } from '@testing-library/react';
+import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
+
+const testQuery = graphql`
+  query ClaimsFormTestQuery @relay_test_operation {
+    # Spread the fragment you want to test here
+    application(id: "TestApplicationId") {
+      ...ClaimsForm_application
+    }
+  }
+`;
+
+const mockQueryPayload = {
+  Application() {
+    return {
+      id: 'TestApplicationId',
+      rowId: 1,
+      ccbcNumber: '123456789',
+      applicationClaimsDataByApplicationId: {
+        edges: [
+          {
+            node: {
+              rowId: 1,
+              jsonData: {
+                toDate: '2023-08-01',
+                fromDate: '2023-08-02',
+                claimsFile: [
+                  {
+                    id: 1,
+                    name: 'claims.xlsx',
+                    size: 121479,
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    uuid: '541089ee-8f80-4dd9-844f-093d7739792b',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+    };
+  },
+};
+
+const componentTestingHelper =
+  new ComponentTestingHelper<ApplicationFormTestQuery>({
+    component: ClaimsForm,
+    testQuery,
+    compiledQuery,
+    defaultQueryResolver: mockQueryPayload,
+    getPropsFromTestQuery: (data) => ({
+      application: data.application,
+    }),
+  });
+
+describe('The Claims form', () => {
+  beforeEach(() => {
+    componentTestingHelper.reinit();
+  });
+
+  it('displays the form', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByRole('heading', { name: 'Claims' })).toBeVisible();
+
+    expect(screen.getByText('Add claim')).toBeInTheDocument();
+  });
+
+  it('Uploads a Claim', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
+    const addButton = screen.getByText('Add claim').closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getByTestId('file-test');
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file,
+            fileName: 'file.xls',
+            fileSize: '1 Bytes',
+            fileType: 'application/vnd.ms-excel',
+            applicationId: 1,
+          },
+        },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText('Replace')).toBeInTheDocument();
+    expect(screen.getByText('file.xls')).toBeInTheDocument();
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save & Import',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createClaimsDataMutation',
+      {
+        connections: [expect.anything()],
+        input: {
+          _jsonData: {
+            claimsFile: [
+              {
+                id: 1,
+                uuid: 'string',
+                name: 'file.xls',
+                size: 1,
+                type: 'application/vnd.ms-excel',
+              },
+            ],
+          },
+          _applicationId: 1,
+        },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createClaimsData: {
+            changeRequest: {
+              rowId: 1,
+            },
+          },
+        },
+      });
+    });
+  });
+
+  it('should show the saved claim', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('claims.xlsx')).toBeInTheDocument();
+
+    expect(screen.getByText('Aug-Aug 2023')).toBeInTheDocument();
+  });
+
+  it('can edit a saved Claim', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryByText('Save')).not.toBeInTheDocument();
+    const editButton = screen.getByText('Edit').closest('button');
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    expect(saveButton).toBeInTheDocument();
+
+    const toDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(toDateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createClaimsDataMutation',
+      {
+        connections: [expect.anything()],
+        input: {
+          _jsonData: {
+            toDate: '2023-08-01',
+            fromDate: '2025-07-01',
+            claimsFile: [
+              {
+                id: 1,
+                name: 'claims.xlsx',
+                size: 121479,
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                uuid: '541089ee-8f80-4dd9-844f-093d7739792b',
+              },
+            ],
+          },
+          _applicationId: 1,
+          _oldClaimsId: 1,
+        },
+      }
+    );
+  });
+});

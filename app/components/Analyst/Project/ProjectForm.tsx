@@ -126,6 +126,7 @@ interface Props {
   formAnimationHeight?: number;
   formAnimationHeightOffset?: number;
   formData: any;
+  formHeader?: string | React.ReactNode | JSX.Element;
   handleChange: any;
   showEditBtn?: boolean;
   /** The hidden submit button's ref, used to enforce validation on the form
@@ -156,6 +157,7 @@ const ProjectForm: React.FC<Props> = ({
   before,
   children,
   formData,
+  formHeader,
   handleChange,
   hiddenSubmitRef,
   showEditBtn = true,
@@ -261,6 +263,7 @@ const ProjectForm: React.FC<Props> = ({
           overflow={overflow}
         >
           {before}
+          {formHeader}
           {submitting ? (
             <LoadingContainer>
               <LoadingItem>

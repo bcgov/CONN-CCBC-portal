@@ -47,6 +47,16 @@
           omit: ['create', 'delete'],
         },
       },
+      'ccbc_public.application_claims_data': {
+        tags: {
+          omit: ['create', 'delete'],
+        },
+      },
+      'ccbc_public.application_claims_excel_data': {
+        tags: {
+          omit: ['create', 'delete'],
+        },
+      },
     },
     procedure: {
       'ccbc_public.application_analyst_lead': {

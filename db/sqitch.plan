@@ -405,3 +405,8 @@ mutations/create_change_request [mutations/create_change_request@1.95.0] 2023-08
 mutations/create_application_community_progress_report_data [mutations/create_application_community_progress_report_data@1.95.0] 2023-08-18T16:22:50Z Tony Bushara <tonybushara@pop-os> # Create the community progress report data and archive old excel data if no file is present
 mutations/update_intake 2023-08-15T19:56:30Z Marcel Mueller <marcel@m2.local> # mutation to update an intake
 @1.97.0 2023-08-18T22:52:11Z CCBC Service Account <ccbc@button.is> # release v1.97.0
+tables/application_claims_data 2023-08-18T21:23:37Z Marcel Mueller <marcel@m2> # add table to store claims form data
+mutations/create_application_claims_data 2023-08-18T21:49:29Z Marcel Mueller <marcel@m2> # mutation to create application claims data
+tables/application_claims_excel_data 2023-08-22T16:17:35Z Marcel Mueller <marcel@m2> # add table to store application claims excel data
+mutations/create_application_claims_excel_data 2023-08-22T16:49:23Z Marcel Mueller <marcel@m2> # add mutation to create application claims excel data
+mutations/archive_application_claims_data 2023-08-22T22:16:21Z Marcel Mueller <marcel@m2> # mutation to archive claims data and associated excel data
