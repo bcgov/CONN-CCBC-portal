@@ -39,6 +39,18 @@ const ChangeReason = ({ reason }) => {
   );
 };
 
+const communityReportSchema = {
+    properies:{
+      dueDate:{
+        title: 'Due date',
+        type: 'string'
+      },
+      dateReceived:{
+        title: 'Date received',
+        type: 'string'
+      }
+    } 
+};
 const filterArrays = (obj: Record<string, any>): Record<string, any> => {
   const filteredEntries = Object.entries(obj).filter(([, value]) =>
     Array.isArray(value)
@@ -366,6 +378,41 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           filesArray={record.json_data?.statementOfWorkUpload || []}
           title="Updated Statement of Work Excel"
         />
+      </StyledContent>
+    );
+  }
+  
+  if (tableName === 'application_community_progress_report_data') {
+    return (
+      <StyledContent data-testid="history-content-community-progress-report">
+        <span>
+          {displayName} {op === 'INSERT' ? 'created' : 'updated'} a{' '}
+        </span>
+        <b>Community Progress Report</b>
+        <span> on {createdAtFormatted}</span>
+        
+        {op === 'INSERT' && record.json_data?.progressReportFile && (
+          <HistoryFile
+          filesArray={record.json_data.progressReportFile || []}
+          title="Uploaded Community Progress Report Excel"
+        />
+        )} 
+        {op === 'INSERT' && showHistoryDetails && (
+          <HistoryDetails
+            json={record.json_data}
+            prevJson={{}}
+            excludedKeys={['ccbc_number','progressReportFile']}
+            diffSchema={communityReportSchema}
+          />
+        )} 
+        {op === 'UPDATE' && showHistoryDetails && (
+          <HistoryDetails
+            json={record.json_data}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
+            excludedKeys={['ccbc_number','progressReportFile']}
+            diffSchema={communityReportSchema}
+          />
+        )} 
       </StyledContent>
     );
   }
