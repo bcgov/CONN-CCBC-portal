@@ -33,6 +33,7 @@ describe('The analyst application view', () => {
 
     cy.wait(1000);
 
+    cy.get('body').happoScreenshot({ component: 'Conditional approval form' });
     // Province decision section
     cy.get('select[id="root_decision_ministerDecision"]').select('Approved');
 
@@ -91,7 +92,7 @@ describe('The analyst application view', () => {
 
     // Announcements test
     cy.get('button').contains('Add announcement').click();
-    cy.get('body').happoScreenshot({ component: 'Announcements' });
+    cy.get('body').happoScreenshot({ component: 'Announcements form' });
 
     cy.get('select[id="root_announcementType"]').select('Primary');
 
@@ -108,7 +109,6 @@ describe('The analyst application view', () => {
 
     // Add secondary announcement
     cy.get('button').contains('Add announcement').click();
-    cy.get('body').happoScreenshot({ component: 'Announcements form' });
 
     cy.get('select[id="root_announcementType"]').select('Secondary');
 
@@ -131,6 +131,8 @@ describe('The analyst application view', () => {
     cy.get('[id="root_hasFundingAgreementBeenSigned-0"]')
       .parent()
       .click({ force: true });
+
+    cy.get('body').happoScreenshot({ component: 'Statement of work form' });
 
     cy.get('[id="root_dateFundingAgreementSigned"]')
       .parent()
@@ -164,6 +166,7 @@ describe('The analyst application view', () => {
 
     // Add change request
     cy.get('button').contains('Add change request').click();
+    cy.get('body').happoScreenshot({ component: 'Change request form' });
 
     cy.get('[id="root_amendmentNumber"]').type(1);
 
@@ -203,6 +206,8 @@ describe('The analyst application view', () => {
     cy.get('button').contains('Add community progress report').click();
     cy.contains('h2', 'Community progress report');
 
+    cy.get('body').happoScreenshot({ component: 'Community progress form' });
+
     cy.get('[id="root_dueDate"]').parent().find('.MuiButtonBase-root').click();
     cy.get('.MuiPickersDay-today').click();
     cy.wait(1000);
@@ -228,6 +233,8 @@ describe('The analyst application view', () => {
     // Claims
     cy.get('button').contains('Add claim').click();
 
+    cy.get('body').happoScreenshot({ component: 'Claims form' });
+
     cy.get('[id="root_fromDate"]').parent().find('.MuiButtonBase-root').click();
 
     cy.get('[id="root_toDate"]').parent().find('.MuiButtonBase-root').click();
@@ -244,5 +251,8 @@ describe('The analyst application view', () => {
 
     // Save claim
     cy.contains('Save & Import').click();
+
+    // Verify saved forms appear on history page
+    cy.visit('/analyst/application/1/history');
   });
 });
