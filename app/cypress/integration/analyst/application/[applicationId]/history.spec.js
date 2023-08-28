@@ -16,18 +16,6 @@ describe('The analyst history page', () => {
   it('loads', () => {
     cy.visit('/analyst/application/1/history');
 
-    cy.contains('h2', 'Conditional approval');
-    // conditional approval tests here
-
-    cy.contains('h2', 'Announcements');
-
-    cy.wait('@graphql');
-    cy.get('button').contains('Add announcement').click();
-    cy.get('body').happoScreenshot({ component: 'Project page' });
-
-    cy.contains('h2', 'Funding agreement, statement of work, & map');
-    // funding agreement tests here
-
-    cy.contains('h2', 'Community progress report');
+    cy.contains('h2', 'History');
   });
 });
