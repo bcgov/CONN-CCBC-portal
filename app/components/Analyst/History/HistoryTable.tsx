@@ -104,7 +104,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
                 item.op === 'INSERT' &&
                 item.record.dueDate && 
                 getFiscalQuarter(item.record.dueDate) === quarter &&
-                getFiscalQuarter(item.record.dueDate) == year                
+                getFiscalQuarter(item.record.dueDate) === year                
               );
             }
             return item.tableName === historyItem.tableName;
