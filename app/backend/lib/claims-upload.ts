@@ -1,19 +1,14 @@
 import { Router } from 'express';
 import formidable from 'formidable';
 import fs from 'fs';
-import RateLimit from 'express-rate-limit';
 import * as XLSX from 'xlsx';
+import limiter from './excel_import/excel-limiter';
 import getAuthRole from '../../utils/getAuthRole';
 import LoadClaimsData from './excel_import/claims';
 import { ExpressMiddleware, parseForm } from './express-helper';
 
 // see https://docs.sheetjs.com/docs/getting-started/installation/nodejs/#installation
 XLSX.set_fs(fs);
-
-const limiter = RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 5,
-});
 
 const claimsUpload = Router();
 

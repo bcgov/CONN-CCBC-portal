@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import formidable from 'formidable';
 import fs from 'fs';
-import RateLimit from 'express-rate-limit';
 import * as XLSX from 'xlsx';
+import limiter from './excel_import/excel-limiter';
 import getAuthRole from '../../utils/getAuthRole';
 import LoadSummaryData from './sow_import/summary_tab';
 import LoadTab1Data from './sow_import/tab_1';
@@ -15,11 +15,6 @@ import { ExpressMiddleware, parseForm } from './express-helper';
 XLSX.set_fs(fs);
 
 const sheetNames = ['Summary_Sommaire', '1', '2', '7', '8'];
-
-const limiter = RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 5,
-});
 
 const sowUpload = Router();
 
