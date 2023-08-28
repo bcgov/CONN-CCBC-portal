@@ -404,15 +404,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             excludedKeys={['ccbc_number','progressReportFile']}
             diffSchema={communityReportSchema}
           />
-        )} 
-        {op === 'UPDATE' && showHistoryDetails && (
-          <HistoryDetails
-            json={record.json_data}
-            prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={['ccbc_number','progressReportFile']}
-            diffSchema={communityReportSchema}
-          />
-        )} 
+        )}
       </StyledContent>
     );
   }
