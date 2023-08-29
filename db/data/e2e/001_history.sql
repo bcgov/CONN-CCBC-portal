@@ -47,4 +47,14 @@ insert into ccbc_public.ccbc_user
     $${"id": 2, "json_data": {"submission": {"submissionDate": "2022-09-15", "submissionTitle": "Test title", "submissionCompletedBy": "Mr Test", "submissionCompletedFor": "Testing Incorporated"}, "projectInformation": {"projectTitle": "Test title"}, "organizationProfile": {"organizationName": "org name received"}}, "created_at": "2023-08-29T18:12:54.02826+00:00", "created_by": null, "updated_at": "2023-08-29T18:12:54.02826+00:00", "updated_by": null, "archived_at": null, "archived_by": null, "form_schema_id": 1, "last_edited_page": null, "reason_for_change": "e2e testing", "form_data_status_type_id": "pending", "application_id": 1}$$);
 
 
+  -- Form data form edit application
+  insert into ccbc_public.form_data
+  (id, json_data, last_edited_page, form_data_status_type_id, created_by, created_at, updated_by, updated_at, form_schema_id)
+  overriding system value
+  values (2, '{}', 'projectInformation', 'pending', 1, '2022-10-17 16:28:11.006719-07', 1, '2022-10-17 16:28:26.105206-07', 1);
+
+  insert into ccbc_public.application_form_data
+  (form_data_id, application_id)
+  values (2,1);
+
 commit;
