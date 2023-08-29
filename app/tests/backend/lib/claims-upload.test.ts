@@ -68,7 +68,7 @@ describe('The Claims excel import api route', () => {
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'claims-data' }))
       // replace with claims file once we receive it
-      .attach('claims-data', `${__dirname}/community_report.xlsx`)
+      .attach('claims-data', `${__dirname}/claims.xlsx`)
       .expect(200);
 
     expect(response.status).toBe(200);
@@ -94,7 +94,11 @@ describe('The Claims excel import api route', () => {
     expect(response.body).toEqual([
       {
         level: 'workbook',
-        error: `missing required sheet "Sheet 1". Found: ["Summary_Sommaire","1","2","3","4","5","6","7","8","Change Log","Controls","Controls_E","Controls_F","Communities","Text"]`,
+        error: `missing required sheet "Claim Request Form". Found: ["Summary_Sommaire","1","2","3","4","5","6","7","8","Change Log","Controls","Controls_E","Controls_F","Communities","Text"]`,
+      },
+      {
+        level: 'workbook',
+        error: `missing required sheet "Progress Report". Found: ["Summary_Sommaire","1","2","3","4","5","6","7","8","Change Log","Controls","Controls_E","Controls_F","Communities","Text"]`,
       },
     ]);
   });
