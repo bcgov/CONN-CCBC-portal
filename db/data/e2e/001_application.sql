@@ -62,10 +62,12 @@ $${
     ]}
 }$$,
 'projectInformation',
-'pending',1,'2022-10-17 16:28:11.006719-07',1,'2022-10-17 16:28:26.105206-07', 1);
+'pending',1,'2022-10-17 16:28:11.006719-07',1,'2022-10-17 16:28:26.105206-07', 1),
+(2, '{}', 'projectInformation', 'pending', 1, '2022-10-17 16:28:11.006719-07', 1, '2022-10-17 16:28:26.105206-07', 1);
+
 
 insert into ccbc_public.application_form_data
 (form_data_id, application_id)
-values (1,1);
+values (1,1),(2,1);
 
 commit;
