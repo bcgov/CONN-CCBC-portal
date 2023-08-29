@@ -10,6 +10,8 @@ import { ExpressMiddleware, parseForm } from './express-helper';
 // see https://docs.sheetjs.com/docs/getting-started/installation/nodejs/#installation
 XLSX.set_fs(fs);
 
+const sheetNames = ['Claim Request Form', 'Progress Report'];
+
 const claimsUpload = Router();
 
 const processClaims: ExpressMiddleware = async (req, res) => {
@@ -37,17 +39,17 @@ const processClaims: ExpressMiddleware = async (req, res) => {
   const buf = fs.readFileSync(uploaded.filepath);
   const wb = XLSX.read(buf);
 
-  const sheet = 'Sheet 1';
-
-  // Throw error if sheet is not found
-  if (!wb.SheetNames.includes(sheet)) {
-    errorList.push({
-      level: 'workbook',
-      error: `missing required sheet "${sheet}". Found: ${JSON.stringify(
-        wb.SheetNames
-      )}`,
-    });
-  }
+  // check if we have all needed worksheets
+  sheetNames.forEach((sheet) => {
+    if (wb.SheetNames.indexOf(sheet) === -1) {
+      errorList.push({
+        level: 'workbook',
+        error: `missing required sheet "${sheet}". Found: ${JSON.stringify(
+          wb.SheetNames
+        )}`,
+      });
+    }
+  });
 
   // other validation stuff here
 
@@ -55,7 +57,7 @@ const processClaims: ExpressMiddleware = async (req, res) => {
     return res.status(400).json(errorList).end();
   }
 
-  const result = await LoadClaimsData(wb, 'Sheet 1', req);
+  const result = await LoadClaimsData(wb, sheetNames[0], sheetNames[1], req);
   // get around typescript complaining
   if (result['error']) {
     return res.status(400).json(result['error']).end();
