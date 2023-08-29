@@ -17,5 +17,61 @@ describe('The analyst history page', () => {
     cy.visit('/analyst/application/1/history');
 
     cy.contains('h2', 'History');
+
+    // Change request
+    cy.contains(/Annie Analyst created a Change Request/);
+    cy.contains('Updated Statement of Work Excel');
+    cy.contains('CCBC-010001-sow_excel.xlsx');
+
+    // Project Information (SoW form)
+    cy.contains(/Annie Analyst saved the Project information/, {
+      matchCase: false,
+    });
+    cy.contains('Statement of Work Excel');
+    cy.contains('SOW Wireless Table');
+    cy.contains('Funding agreement');
+    cy.contains('Finalized map');
+
+    // Announcement
+    cy.contains('announcement');
+
+    // RFI
+    cy.contains(/Annie Analyst saved RFI-CCBC-010001-1/);
+    cy.contains('RFI type');
+    cy.contains('Missing files or information');
+    cy.contains('Due by');
+    cy.contains('Logical Network Diagram requested');
+    cy.contains('Template 1 - Eligibility and Impacts Calculator requested');
+    cy.contains('Template 6 - Community Benefits requested');
+
+    // Assessments
+    cy.contains(/Annie Analyst saved the Permitting assessment/, {
+      matchCase: false,
+    });
+    cy.contains(/Annie Analyst saved the Project Management assessment/, {
+      matchCase: false,
+    });
+    cy.contains(/Annie Analyst saved the Financial Risk assessment/, {
+      matchCase: false,
+    });
+    cy.contains(/Annie Analyst saved the GIS assessment/, {
+      matchCase: false,
+    });
+    cy.contains(/Annie Analyst saved the Technical assessment/, {
+      matchCase: false,
+    });
+    cy.contains(/Annie Analyst saved the Screening assessment/, {
+      matchCase: false,
+    });
+
+    // Status
+    cy.contains(
+      /Annie Analyst changed the Internal Status to Conditionally approved/,
+      {
+        matchCase: false,
+      }
+    );
+
+    cy.contains(/The application was Received/, { matchCase: false });
   });
 });
