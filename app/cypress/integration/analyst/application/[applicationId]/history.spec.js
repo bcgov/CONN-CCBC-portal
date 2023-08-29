@@ -18,6 +18,10 @@ describe('The analyst history page', () => {
 
     cy.contains('h2', 'History');
 
+    // Edit application
+    cy.contains(/Annie Analyst edited the Application/);
+    cy.contains('Reason For Change: e2e testing', { matchCase: false });
+
     // Change request
     cy.contains(/Annie Analyst created a Change Request/);
     cy.contains('Updated Statement of Work Excel');
