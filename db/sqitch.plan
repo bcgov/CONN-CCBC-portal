@@ -411,3 +411,4 @@ tables/application_claims_excel_data 2023-08-22T16:17:35Z Marcel Mueller <marcel
 mutations/create_application_claims_excel_data 2023-08-22T16:49:23Z Marcel Mueller <marcel@m2> # add mutation to create application claims excel data
 mutations/archive_application_claims_data 2023-08-22T22:16:21Z Marcel Mueller <marcel@m2> # mutation to archive claims data and associated excel data
 @1.98.0 2023-08-23T20:35:43Z CCBC Service Account <ccbc@button.is> # release v1.98.0
+@1.99.0 2023-08-30T19:03:24Z CCBC Service Account <ccbc@button.is> # release v1.99.0
