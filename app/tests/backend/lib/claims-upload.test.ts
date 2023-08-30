@@ -123,6 +123,10 @@ describe('The Claims excel import api route', () => {
 
     expect(response.status).toBe(400);
     expect(response.body).toEqual([
+      {
+        error: 'Invalid data: Claim number',
+        level: 'cell',
+      },
       { level: 'cell', error: 'Invalid data: Date request received' },
       {
         level: 'cell',
@@ -157,6 +161,10 @@ describe('The Claims excel import api route', () => {
 
     expect(response.status).toBe(400);
     expect(response.body).toEqual([
+      {
+        error: 'Invalid data: Claim number',
+        level: 'cell',
+      },
       { level: 'cell', error: 'Invalid data: Date request received' },
       {
         level: 'cell',

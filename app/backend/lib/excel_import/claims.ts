@@ -74,6 +74,7 @@ const ValidateData = async (data, req) => {
   const { ccbcNumber } = req.params;
 
   const {
+    claimNumber,
     dateRequestReceived,
     projectNumber,
     eligibleCostsIncurredFromDate,
@@ -81,6 +82,13 @@ const ValidateData = async (data, req) => {
   } = data;
 
   const errors = [];
+
+  if (claimNumber === undefined) {
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Claim number',
+    });
+  }
 
   if (dateRequestReceived === undefined) {
     errors.push({
