@@ -75,7 +75,7 @@ const processClaims: ExpressMiddleware = async (req, res) => {
 
 // claimsId is optional and used for the previously uploaded claim so we can archive it if replacing with another excel upload.
 claimsUpload.post(
-  '/api/analyst/claims/:applicationId/:claimsId',
+  '/api/analyst/claims/:applicationId/:ccbcNumber/:claimsId',
   limiter,
   (req, res) => {
     // eslint-disable-next-line no-void
