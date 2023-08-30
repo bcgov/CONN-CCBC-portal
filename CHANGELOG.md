@@ -1,3 +1,24 @@
+# [1.99.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.98.0...v1.99.0) (2023-08-30)
+
+### Bug Fixes
+
+- claims and project number excel import column ([2029d5b](https://github.com/bcgov/CONN-CCBC-portal/commit/2029d5bf4ae06ffe52d0d48327aa3d492d1e7e2d))
+- minor fix ([f41017e](https://github.com/bcgov/CONN-CCBC-portal/commit/f41017eabf5584efc599afd87b646884598bcd28))
+- no update op for cpr ([3e130ef](https://github.com/bcgov/CONN-CCBC-portal/commit/3e130efdf6e334bd7e63113cffd006cea3897783))
+- sqitch revert ([c59eaf7](https://github.com/bcgov/CONN-CCBC-portal/commit/c59eaf7690bc2acf319483fad4097d8dd13baa43))
+- typo ([421739a](https://github.com/bcgov/CONN-CCBC-portal/commit/421739ab3015ec056392876531db4087a03adae7))
+- updated delete mitation test ([9cec2f1](https://github.com/bcgov/CONN-CCBC-portal/commit/9cec2f10cb2379c58b8144aa18ba51e86a69e85f))
+- updated schema ([b3e1eb4](https://github.com/bcgov/CONN-CCBC-portal/commit/b3e1eb465503987f91234f8fe4dea7372f4c71e9))
+- updated schema ([0ea107e](https://github.com/bcgov/CONN-CCBC-portal/commit/0ea107eb42b19cfe1f86efe522bf108ce2ed6af8))
+- wrap table <tr> tags in <tbody> to fix hydration error ([76ee1de](https://github.com/bcgov/CONN-CCBC-portal/commit/76ee1de67f1acc880ca8f7b1ae42dccbcec7aa8a))
+
+### Features
+
+- added audit for application_community_progress_report_data ([6c2403c](https://github.com/bcgov/CONN-CCBC-portal/commit/6c2403c47f0a00a60ee884b6bf41545761eaf76c))
+- convert claims excel fields to json in claims upload api ([bcc62fb](https://github.com/bcgov/CONN-CCBC-portal/commit/bcc62fb1317bdc04dd06b5381931ca80142ef90c))
+- delete community progress report and record to history ([2e6a9ea](https://github.com/bcgov/CONN-CCBC-portal/commit/2e6a9ea5be76eab3feb0d934c6de838a4b38db90))
+- display history and added tests ([3202c34](https://github.com/bcgov/CONN-CCBC-portal/commit/3202c344b2298fc1f407348a16fdb9c2d5fefa91))
+
 # [1.98.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.97.0...v1.98.0) (2023-08-23)
 
 ### Bug Fixes
