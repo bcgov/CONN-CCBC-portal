@@ -129,6 +129,9 @@ const CommunityProgressReportForm = ({ application }) => {
     [setExcelFile]
   );
 
+  const hasValidationErrors =
+    communityProgressValidationErrors.length > 0 || excelFile === null;
+
   const fiscalQuarterList = communityProgressList
     ?.filter((data) => data.node.jsonData?.dueDate !== undefined)
     ?.map((data) => {
@@ -294,7 +297,12 @@ const CommunityProgressReportForm = ({ application }) => {
         handleChange={(e) => {
           setFormData({ ...e.formData });
         }}
-        submitting={isFormSubmitting}
+        submitting={
+          !hasValidationErrors &&
+          excelFile &&
+          formData.progressReportFile &&
+          isFormSubmitting
+        }
         submittingText="Importing community progress report. Please wait."
         showEditBtn={false}
         saveBtnDisabled={isFormSubmitting}
