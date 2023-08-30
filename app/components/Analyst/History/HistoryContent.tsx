@@ -388,7 +388,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     const oldFile = prevHistoryItem?.record?.json_data?.progressReportFile;
     const changedFile = (updateRec 
       && (oldFile && !newFile || newFile && !oldFile || 
-      newFile && oldFile  && newFile[0].uuid != oldFile[0].uuid));
+      newFile && oldFile  && newFile[0].uuid !== oldFile[0].uuid));
 
     return (
       <StyledContent data-testid="history-content-community-progress-report">
