@@ -25,8 +25,8 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
 
   // Claims Request Form sheet fields
   const dateRequestReceived = claimsRequestFormSheet[0]['E'];
-  const projectNumber = claimsRequestFormSheet[3]['C'];
-  const claimNumber = claimsRequestFormSheet[14]['C'];
+  const projectNumber = claimsRequestFormSheet[3]['D'];
+  const claimNumber = claimsRequestFormSheet[14]['D'];
   const eligibleCostsIncurredFromDate = claimsRequestFormSheet[23]['C']
     ? convertExcelDateToJSDate(claimsRequestFormSheet[23]['C'])
     : null;
