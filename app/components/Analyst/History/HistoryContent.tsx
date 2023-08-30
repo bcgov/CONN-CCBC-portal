@@ -39,6 +39,18 @@ const ChangeReason = ({ reason }) => {
   );
 };
 
+const communityReportSchema = {
+    properies:{
+      dueDate:{
+        title: 'Due date',
+        type: 'string'
+      },
+      dateReceived:{
+        title: 'Date received',
+        type: 'string'
+      }
+    } 
+};
 const filterArrays = (obj: Record<string, any>): Record<string, any> => {
   const filteredEntries = Object.entries(obj).filter(([, value]) =>
     Array.isArray(value)
@@ -366,6 +378,46 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           filesArray={record.json_data?.statementOfWorkUpload || []}
           title="Updated Statement of Work Excel"
         />
+      </StyledContent>
+    );
+  }
+  
+  if (tableName === 'application_community_progress_report_data') {
+    const updateRec = (op === 'INSERT' && prevHistoryItem );
+    const newFile = record.json_data?.progressReportFile;
+    const oldFile = prevHistoryItem?.record?.json_data?.progressReportFile;
+    const changedFile = (updateRec 
+      && (oldFile && !newFile || newFile && !oldFile || 
+      newFile && oldFile  && newFile[0].uuid !== oldFile[0].uuid));
+
+    return (
+      <StyledContent data-testid="history-content-community-progress-report">
+        { op === 'INSERT' && prevHistoryItem?.record &&
+        <span>{displayName} updated a{' '}</span>
+        }
+        { op === 'INSERT' && prevHistoryItem?.record === undefined &&
+        <span>{displayName} created a{' '}</span>
+        }
+        { op === 'UPDATE' && record.history_operation === 'deleted' &&
+        <span>{displayName} deleted a{' '}</span>
+        }
+        <b>Community Progress Report</b>
+        <span> on {createdAtFormatted}</span>
+        
+        {op === 'INSERT' && changedFile && (
+          <HistoryFile
+          filesArray={record.json_data.progressReportFile || []}
+          title="Uploaded Community Progress Report Excel"
+        />
+        )} 
+        {op === 'INSERT' && showHistoryDetails && (
+          <HistoryDetails
+            json={record.json_data}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
+            excludedKeys={['ccbc_number','progressReportFile']}
+            diffSchema={communityReportSchema}
+          />
+        )} 
       </StyledContent>
     );
   }

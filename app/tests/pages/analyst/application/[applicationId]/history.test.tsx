@@ -2108,6 +2108,112 @@ const mockQueryPayload = {
               tableName: 'change_request_data',
               externalAnalyst: null,
             },
+            {
+              applicationId: 6,
+              createdAt: "2023-08-21T20:19:46.332698-07:00",
+              externalAnalyst: null,
+              familyName: "Foo",
+              givenName: "Bar",
+              item: null,
+              op: "INSERT",
+              tableName: "application_community_progress_report_data",
+              record: {
+                id: 1,
+                json_data: {
+                  dueDate: "2023-04-01",
+                  dateReceived: "2023-04-20"
+                },
+                created_at: "2023-08-21T20:19:46.332698-07:00",
+                created_by: 95,
+                updated_at: "2023-08-21T20:19:46.332698-07:00",
+                updated_by: 95,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: null,
+                application_id: 6
+              },
+              recordId: "fad31cb3-8a42-530b-ae5b-0a950e570ae4",
+              oldRecord: null
+            },
+            {
+              applicationId: 6,
+              createdAt: "2023-08-21T21:15:56.178828-07:00",
+              externalAnalyst: null,
+              familyName: "Foo",
+              givenName: "Bar",
+              item: null,
+              op: "INSERT",
+              tableName: "application_community_progress_report_data",
+              record: {
+                id: 2,
+                json_data: {
+                  dueDate: "2023-08-01",
+                  dateReceived: "2023-08-03",
+                  progressReportFile: [
+                    {
+                      id: 716,
+                      name: "Community Progress Report_010002.xlsx",
+                      size: 122870,
+                      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                      uuid: "06152b7b-59d5-4ff2-bf3a-e155db5d29d0"
+                    }
+                  ]
+                },
+                created_at: "2023-08-21T21:15:56.178828-07:00",
+                created_by: 95,
+                updated_at: "2023-08-21T21:15:56.178828-07:00",
+                updated_by: 95,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: 1,
+                application_id: 6
+              },
+              recordId: "1699b4e8-fa3b-52f5-9f64-2502da91b827",
+              oldRecord: null
+            },
+            {
+              applicationId: 6,
+              createdAt: "2023-08-24T19:56:49.246157-07:00",
+              externalAnalyst: null,
+              familyName: "Foo",
+              item: null,
+              givenName: "Bar",
+              op: "UPDATE",
+              tableName: "application_community_progress_report_data",
+              record: {
+                  id: 1,
+                  json_data: {
+                      dueDate: "2023-08-01",
+                      dateReceived: "2023-08-02"
+                  },
+                  created_at: "2023-08-24T19:56:49.246157-07:00",
+                  created_by: 95,
+                  updated_at: "2023-08-24T21:35:37.114692-07:00",
+                  updated_by: 95,
+                  archived_at: "2023-08-24T21:35:37.114692-07:00",
+                  archived_by: 95,
+                  excel_data_id: null,
+                  application_id: 6,
+                  history_operation: "deleted"
+              },
+              oldRecord: {
+                  id: 1,
+                  json_data: {
+                    dueDate: "2023-08-01",
+                    dateReceived: "2023-08-02"
+                  },
+                  created_at: "2023-08-24T19:56:49.246157-07:00",
+                  created_by: 95,
+                  updated_at: "2023-08-24T21:35:37.114692-07:00",
+                  updated_by: 95,
+                  archived_at: "2023-08-24T21:35:37.114692-07:00",
+                  archived_by: 95,
+                  excel_data_id: null,
+                  application_id: 6,
+                  history_operation: "created"
+              },
+              recordId: "ee4a96e3-82ac-50a6-bdb9-7678fcaaf36a"
+            }
           ],
         },
       },
@@ -2210,6 +2316,19 @@ describe('The index page', () => {
     );
   });
 
+  it('shows the correct community report history', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getAllByTestId('history-content-community-progress-report')[1]).toHaveTextContent(
+      'The applicant created a Community Progress Report on Aug 21, 2023'
+    );
+
+    expect(screen.getAllByTestId('history-content-community-progress-report')[0]).toHaveTextContent(
+      'The applicant deleted a Community Progress Report'
+    );
+  });
+
   it('shows the correct history for editing an application', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
@@ -2254,13 +2373,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 17 diff tables', async () => {
+  it('shows all 19 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(17);
+    expect(diffTables.length).toBe(19);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
