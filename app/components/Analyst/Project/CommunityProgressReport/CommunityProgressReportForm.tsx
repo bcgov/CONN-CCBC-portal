@@ -5,7 +5,6 @@ import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
-//import { useArchiveApplicationCommunityProgressReportMutation as useArchiveCpr } from 'schema/mutations/project/archiveApplicationCommunityProgressReport';
 import { useDeleteAnnouncementMutation as useArchiveCpr} from 'schema/mutations/project/deleteCommunityProgressReport';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';

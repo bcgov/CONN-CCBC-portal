@@ -2,6 +2,6 @@
 
 begin;
 
-create unique index ccbc_user_email_address on ccbc_public.ccbc_user(email_address);
+-- XXX Add DDLs here.
 
 commit;
