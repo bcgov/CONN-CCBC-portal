@@ -1,3 +1,14 @@
+# [1.99.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.98.0...v1.99.0) (2023-08-30)
+
+### Bug Fixes
+
+- claims and project number excel import column ([2029d5b](https://github.com/bcgov/CONN-CCBC-portal/commit/2029d5bf4ae06ffe52d0d48327aa3d492d1e7e2d))
+- wrap table <tr> tags in <tbody> to fix hydration error ([76ee1de](https://github.com/bcgov/CONN-CCBC-portal/commit/76ee1de67f1acc880ca8f7b1ae42dccbcec7aa8a))
+
+### Features
+
+- convert claims excel fields to json in claims upload api ([bcc62fb](https://github.com/bcgov/CONN-CCBC-portal/commit/bcc62fb1317bdc04dd06b5381931ca80142ef90c))
+
 # [1.98.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.97.0...v1.98.0) (2023-08-23)
 
 ### Bug Fixes
