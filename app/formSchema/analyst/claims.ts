@@ -5,14 +5,6 @@ const claims: JSONSchema7 = {
   type: 'object',
   required: ['dueDate'],
   properties: {
-    fromDate: {
-      title: 'From',
-      type: 'string',
-    },
-    toDate: {
-      title: 'To',
-      type: 'string',
-    },
     claimsFile: {
       title: 'Upload the completed claims & progress report',
       type: 'string',
