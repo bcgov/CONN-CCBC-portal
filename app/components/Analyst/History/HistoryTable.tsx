@@ -96,16 +96,13 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
               );
             }
             // community reports must match by quarter
-            if (item.tableName === 'application_community_progress_report_data') {
-              const quarter = historyItem.record.dueDate && getFiscalQuarter(historyItem.record.dueDate);
-              const year = historyItem.record.dueDate && getFiscalYear(item.historyItem.dueDate);
-              return (
-                item.tableName === historyItem.tableName &&
-                item.op === 'INSERT' &&
-                item.record.dueDate && 
-                getFiscalQuarter(item.record.dueDate) === quarter &&
-                getFiscalQuarter(item.record.dueDate) === year                
-              );
+            if (item.tableName === 'application_community_progress_report_data' && item.tableName === historyItem.tableName) {
+              const quarter = historyItem.record.json_data.dueDate && getFiscalQuarter(historyItem.record.json_data.dueDate);
+              const year = historyItem.record.json_data.dueDate && getFiscalYear(historyItem.record.json_data.dueDate);
+              const updated = (item.op === 'INSERT' &&
+              getFiscalQuarter(item.record.json_data.dueDate) === quarter &&
+              getFiscalYear(item.record.json_data.dueDate) === year); 
+              return updated;
             }
             return item.tableName === historyItem.tableName;
           });

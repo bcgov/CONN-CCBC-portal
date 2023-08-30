@@ -383,15 +383,28 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   }
   
   if (tableName === 'application_community_progress_report_data') {
+    const updateRec = (op === 'INSERT' && prevHistoryItem );
+    const newFile = record.json_data?.progressReportFile;
+    const oldFile = prevHistoryItem?.record?.json_data?.progressReportFile;
+    const changedFile = (updateRec 
+      && (oldFile && !newFile || newFile && !oldFile || 
+      newFile && oldFile  && newFile[0].uuid != oldFile[0].uuid));
+
     return (
       <StyledContent data-testid="history-content-community-progress-report">
-        <span>
-          {displayName} {op === 'INSERT' ? 'created' : 'updated'} a{' '}
-        </span>
+        { op === 'INSERT' && prevHistoryItem?.record &&
+        <span>{displayName} updated a{' '}</span>
+        }
+        { op === 'INSERT' && prevHistoryItem?.record === undefined &&
+        <span>{displayName} created a{' '}</span>
+        }
+        { op === 'UPDATE' && record.history_operation === 'deleted' &&
+        <span>{displayName} deleted a{' '}</span>
+        }
         <b>Community Progress Report</b>
         <span> on {createdAtFormatted}</span>
         
-        {op === 'INSERT' && record.json_data?.progressReportFile && (
+        {op === 'INSERT' && changedFile && (
           <HistoryFile
           filesArray={record.json_data.progressReportFile || []}
           title="Uploaded Community Progress Report Excel"
@@ -400,11 +413,11 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         {op === 'INSERT' && showHistoryDetails && (
           <HistoryDetails
             json={record.json_data}
-            prevJson={{}}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
             excludedKeys={['ccbc_number','progressReportFile']}
             diffSchema={communityReportSchema}
           />
-        )}
+        )} 
       </StyledContent>
     );
   }
