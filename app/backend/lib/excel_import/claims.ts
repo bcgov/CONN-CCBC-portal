@@ -1,6 +1,6 @@
-/* import * as XLSX from 'xlsx'; */
+import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
-/* import { convertExcelDateToJSDate } from '../sow_import/util'; */
+import { convertExcelDateToJSDate } from '../sow_import/util';
 
 const createClaimsMutation = `
   mutation claimsUploadMutation($input: CreateApplicationClaimsExcelDataInput!) {
@@ -14,14 +14,50 @@ const createClaimsMutation = `
   }
 `;
 
-const readSummary = async (wb, sheet_name, applicationId, claimsId) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const ws = wb.Sheets[sheet_name];
+const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
+  const claimsRequestFormSheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet_1], {
+    header: 'A',
+  });
 
-  // read excel data here
+  const progressReportSheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet_2], {
+    header: 'A',
+  });
+
+  // Claims Request Form sheet fields
+  const dateRequestReceived = claimsRequestFormSheet[0]['E'];
+  const projectNumber = claimsRequestFormSheet[3]['D'];
+  const claimNumber = claimsRequestFormSheet[14]['D'];
+  const eligibleCostsIncurredFromDate = claimsRequestFormSheet[23]['C']
+    ? convertExcelDateToJSDate(claimsRequestFormSheet[23]['C'])
+    : null;
+  const eligibleCostsIncurredToDate = claimsRequestFormSheet[24]['C']
+    ? convertExcelDateToJSDate(claimsRequestFormSheet[24]['C'])
+    : null;
+
+  // Progress Report sheet fields
+  const progressOnPermits = progressReportSheet[8]['G'];
+  const hasConstructionBegun = progressReportSheet[10]['G'];
+  const haveServicesBeenOffered = progressReportSheet[12]['G'];
+  const projectScheduleRisks = progressReportSheet[14]['G'];
+  const thirdPartyPassiveInfrastructure = progressReportSheet[15]['G'];
+  const commincationMaterials = progressReportSheet[16]['G'];
+  const projectBudgetRisks = progressReportSheet[18]['G'];
+  const changesToOverallBudget = progressReportSheet[19]['G'];
 
   const jsonData = {
-    // excel fields here
+    dateRequestReceived,
+    projectNumber,
+    claimNumber,
+    eligibleCostsIncurredFromDate,
+    eligibleCostsIncurredToDate,
+    progressOnPermits,
+    hasConstructionBegun,
+    haveServicesBeenOffered,
+    projectScheduleRisks,
+    thirdPartyPassiveInfrastructure,
+    commincationMaterials,
+    projectBudgetRisks,
+    changesToOverallBudget,
   };
 
   const claimsData = {
@@ -33,11 +69,11 @@ const readSummary = async (wb, sheet_name, applicationId, claimsId) => {
   return claimsData;
 };
 
-const LoadClaimsData = async (wb, sheet_name, req) => {
+const LoadClaimsData = async (wb, sheet_1, sheet_2, req) => {
   const { applicationId, claimsId } = req.params;
   const validate = req.query?.validate === 'true';
 
-  const data = await readSummary(wb, sheet_name, applicationId, claimsId);
+  const data = await readSummary(wb, sheet_1, sheet_2, applicationId, claimsId);
 
   if (validate) {
     return data;
