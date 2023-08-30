@@ -30,7 +30,7 @@ const StyledButton = styled.button`
 
 const StyledDeleteButton = styled(StyledButton)`
   margin-left: 16px;
-  color: ${(props) => props.theme.color.error}; |
+  color: ${(props) => props.theme.color.error};
 `;
 
 const StyledFlex = styled.div`
@@ -66,22 +66,41 @@ const ClaimsView: React.FC<Props> = ({
       fragment ClaimsView_query on ApplicationClaimsData {
         __id
         jsonData
+        applicationByApplicationId {
+          applicationClaimsExcelDataByApplicationId {
+            nodes {
+              rowId
+              jsonData
+            }
+          }
+        }
       }
     `,
     claim
   );
+  const excelData =
+    queryFragment?.applicationByApplicationId?.applicationClaimsExcelDataByApplicationId?.nodes.filter(
+      (node) => {
+        return node.rowId === claim.excelDataId;
+      }
+    )[0];
 
   const { jsonData } = queryFragment;
+  const excelJsonData = excelData?.jsonData;
 
   const claimsFile = jsonData?.claimsFile?.[0];
 
   const fromDate =
-    jsonData?.fromDate &&
-    DateTime.fromJSDate(new Date(jsonData.fromDate)).setZone('UTC');
+    excelJsonData?.eligibleCostsIncurredFromDate &&
+    DateTime.fromJSDate(
+      new Date(excelJsonData.eligibleCostsIncurredFromDate)
+    ).setZone('UTC');
 
   const toDate =
-    jsonData?.toDate &&
-    DateTime.fromJSDate(new Date(jsonData.toDate)).setZone('UTC');
+    excelJsonData?.eligibleCostsIncurredToDate &&
+    DateTime.fromJSDate(
+      new Date(excelJsonData.eligibleCostsIncurredToDate)
+    ).setZone('UTC');
   const formattedDate =
     fromDate &&
     toDate &&
