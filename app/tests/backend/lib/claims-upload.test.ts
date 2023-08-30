@@ -105,6 +105,71 @@ describe('The Claims excel import api route', () => {
     ]);
   });
 
+  it('should return correct errors for excel with empty fields', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/claims/10/CCBC-010001/1')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'claims-data' }))
+      .attach('claims-data', `${__dirname}/claims_empty.xlsx`)
+      .expect(400);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual([
+      { level: 'cell', error: 'Invalid data: Date request received' },
+      {
+        level: 'cell',
+        error: 'Invalid data: Eligible costs incurred from date',
+      },
+      {
+        level: 'cell',
+        error: 'Invalid data: Eligible costs incurred to date',
+      },
+      {
+        error:
+          'CCBC Number mismatch: expected CCBC-010001, received: undefined',
+      },
+    ]);
+  });
+
+  it('should return correct errors for excel with incorrect fields', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/claims/10/CCBC-010001/1')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'claims-data' }))
+      .attach('claims-data', `${__dirname}/claims_validation_errors.xlsx`)
+      .expect(400);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual([
+      { level: 'cell', error: 'Invalid data: Date request received' },
+      {
+        level: 'cell',
+        error:
+          'Invalid data: Eligible costs incurred from date cannot be greater than eligible costs incurred to date',
+      },
+      {
+        error:
+          'CCBC Number mismatch: expected CCBC-010001, received: CCBC-010002',
+      },
+    ]);
+  });
+
   afterEach(async () => {
     // eslint-disable-next-line no-promise-executor-return
     await new Promise<void>((resolve) => setTimeout(() => resolve(), 500)); // avoid jest open handle error
