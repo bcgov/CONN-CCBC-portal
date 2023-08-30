@@ -40,7 +40,9 @@ describe('The Claims excel import api route', () => {
       };
     });
 
-    const response = await request(app).post('/api/analyst/claims/1/1');
+    const response = await request(app).post(
+      '/api/analyst/claims/1/CCBC-010001/1'
+    );
     expect(response.status).toBe(404);
   });
 
@@ -63,7 +65,7 @@ describe('The Claims excel import api route', () => {
     });
 
     const response = await request(app)
-      .post('/api/analyst/claims/10/1')
+      .post('/api/analyst/claims/10/CCBC-010001/1')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'claims-data' }))
@@ -83,7 +85,7 @@ describe('The Claims excel import api route', () => {
     });
 
     const response = await request(app)
-      .post('/api/analyst/claims/10/1')
+      .post('/api/analyst/claims/10/CCBC-010001/1')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'claims-data' }))
