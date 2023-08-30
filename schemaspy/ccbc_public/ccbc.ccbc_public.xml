@@ -293,6 +293,7 @@
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="excel_data_id" nullable="true" remarks="The id of the excel data that this record is associated with" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="'created'::character varying" digits="0" id="10" name="history_operation" nullable="true" remarks="History operation" size="1000" type="varchar" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="application_community_progress_report_data_pkey" unique="true">
             <column ascending="true" name="id"/>
