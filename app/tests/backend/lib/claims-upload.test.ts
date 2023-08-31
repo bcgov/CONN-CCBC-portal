@@ -40,7 +40,9 @@ describe('The Claims excel import api route', () => {
       };
     });
 
-    const response = await request(app).post('/api/analyst/claims/1/1');
+    const response = await request(app).post(
+      '/api/analyst/claims/1/CCBC-010001/1'
+    );
     expect(response.status).toBe(404);
   });
 
@@ -63,7 +65,7 @@ describe('The Claims excel import api route', () => {
     });
 
     const response = await request(app)
-      .post('/api/analyst/claims/10/1')
+      .post('/api/analyst/claims/10/CCBC-010001/1')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'claims-data' }))
@@ -83,7 +85,7 @@ describe('The Claims excel import api route', () => {
     });
 
     const response = await request(app)
-      .post('/api/analyst/claims/10/1')
+      .post('/api/analyst/claims/10/CCBC-010001/1')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'claims-data' }))
@@ -99,6 +101,79 @@ describe('The Claims excel import api route', () => {
       {
         level: 'workbook',
         error: `missing required sheet "Progress Report". Found: ["Summary_Sommaire","1","2","3","4","5","6","7","8","Change Log","Controls","Controls_E","Controls_F","Communities","Text"]`,
+      },
+    ]);
+  });
+
+  it('should return correct errors for excel with empty fields', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/claims/10/CCBC-010001/1')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'claims-data' }))
+      .attach('claims-data', `${__dirname}/claims_empty.xlsx`)
+      .expect(400);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual([
+      {
+        error: 'Invalid data: Claim number',
+        level: 'cell',
+      },
+      { level: 'cell', error: 'Invalid data: Date request received' },
+      {
+        level: 'cell',
+        error: 'Invalid data: Eligible costs incurred from date',
+      },
+      {
+        level: 'cell',
+        error: 'Invalid data: Eligible costs incurred to date',
+      },
+      {
+        error:
+          'CCBC Number mismatch: expected CCBC-010001, received: undefined',
+      },
+    ]);
+  });
+
+  it('should return correct errors for excel with incorrect fields', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/claims/10/CCBC-010001/1')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'claims-data' }))
+      .attach('claims-data', `${__dirname}/claims_validation_errors.xlsx`)
+      .expect(400);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual([
+      {
+        error: 'Invalid data: Claim number',
+        level: 'cell',
+      },
+      { level: 'cell', error: 'Invalid data: Date request received' },
+      {
+        level: 'cell',
+        error:
+          'Invalid data: Eligible costs incurred from date cannot be greater than eligible costs incurred to date',
+      },
+      {
+        error:
+          'CCBC Number mismatch: expected CCBC-010001, received: CCBC-010002',
       },
     ]);
   });

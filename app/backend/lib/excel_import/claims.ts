@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx';
+import { DateTime } from 'luxon';
 import { performQuery } from '../graphql';
 import { convertExcelDateToJSDate } from '../sow_import/util';
 
@@ -69,11 +70,91 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
   return claimsData;
 };
 
+const ValidateData = async (data, req) => {
+  const { ccbcNumber } = req.params;
+
+  const {
+    claimNumber,
+    dateRequestReceived,
+    projectNumber,
+    eligibleCostsIncurredFromDate,
+    eligibleCostsIncurredToDate,
+  } = data;
+
+  const errors = [];
+
+  if (claimNumber === undefined) {
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Claim number',
+    });
+  }
+
+  if (dateRequestReceived === undefined) {
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Date request received',
+    });
+  }
+
+  if (
+    eligibleCostsIncurredFromDate === undefined ||
+    DateTime.fromISO(eligibleCostsIncurredFromDate).invalidReason
+  ) {
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Eligible costs incurred from date',
+    });
+  }
+
+  if (
+    eligibleCostsIncurredToDate === undefined ||
+    DateTime.fromISO(eligibleCostsIncurredToDate).invalidReason
+  ) {
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: Eligible costs incurred to date',
+    });
+  }
+
+  if (
+    eligibleCostsIncurredFromDate &&
+    eligibleCostsIncurredToDate &&
+    eligibleCostsIncurredFromDate > eligibleCostsIncurredToDate
+  ) {
+    errors.push({
+      level: 'cell',
+      error:
+        'Invalid data: Eligible costs incurred from date cannot be greater than eligible costs incurred to date',
+    });
+  }
+
+  if (
+    projectNumber === undefined ||
+    typeof projectNumber !== 'string' ||
+    projectNumber !== ccbcNumber
+  ) {
+    const errorString = `CCBC Number mismatch: expected ${ccbcNumber}, received: ${projectNumber}`;
+    if (!errors.find((err) => err.error === errorString))
+      errors.push({
+        error: `CCBC Number mismatch: expected ${ccbcNumber}, received: ${projectNumber}`,
+      });
+  }
+
+  return errors;
+};
+
 const LoadClaimsData = async (wb, sheet_1, sheet_2, req) => {
   const { applicationId, claimsId } = req.params;
   const validate = req.query?.validate === 'true';
 
   const data = await readSummary(wb, sheet_1, sheet_2, applicationId, claimsId);
+
+  const errorList = await ValidateData(data._jsonData, req);
+
+  if (errorList.length > 0) {
+    return { error: errorList };
+  }
 
   if (validate) {
     return data;

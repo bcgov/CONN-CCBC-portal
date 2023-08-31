@@ -68,6 +68,7 @@ const ClaimsForm = ({ application }) => {
       fragment ClaimsForm_application on Application {
         id
         rowId
+        ccbcNumber
         applicationClaimsDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
           first: 1000
@@ -91,6 +92,7 @@ const ClaimsForm = ({ application }) => {
   const {
     applicationClaimsDataByApplicationId: claimsData,
     rowId: applicationRowId,
+    ccbcNumber,
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
@@ -122,7 +124,7 @@ const ClaimsForm = ({ application }) => {
       return dateB.getTime() - dateA.getTime();
     });
 
-  const apiPath = `/api/analyst/claims/${applicationRowId}/${currentClaimsData?.rowId}`;
+  const apiPath = `/api/analyst/claims/${applicationRowId}/${ccbcNumber}/${currentClaimsData?.rowId}`;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const validateClaims = useCallback(
