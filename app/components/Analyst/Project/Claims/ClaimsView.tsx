@@ -7,7 +7,7 @@ import DownloadLink from 'components/DownloadLink';
 
 const StyledContainer = styled.div`
   display: grid;
-  grid-template-columns: 164px 4fr 1fr;
+  grid-template-columns: 20px 164px 4fr 1fr;
   margin-bottom: 8px;
 `;
 
@@ -46,6 +46,11 @@ const StyledDate = styled.div`
   ${(props) => props.theme.breakpoint.mediumUp} {
     margin: 0;
   }
+`;
+
+const StyledSuperScript = styled.span`
+  vertical-align: super;
+  font-size: 10px;
 `;
 
 interface Props {
@@ -108,6 +113,10 @@ const ClaimsView: React.FC<Props> = ({
 
   return (
     <StyledContainer>
+      <div>
+        <StyledSuperScript>#</StyledSuperScript>
+        <b>{excelJsonData?.claimNumber}</b>
+      </div>
       <StyledDate>{formattedDate}</StyledDate>
       <DownloadLink fileName={claimsFile?.name} uuid={claimsFile?.uuid} />
       {!isFormEditMode && (
