@@ -1,3 +1,9 @@
+# [1.100.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.99.0...v1.100.0) (2023-08-31)
+
+### Features
+
+- show claims from year ([eef2faa](https://github.com/bcgov/CONN-CCBC-portal/commit/eef2faa8ae8237494464349cc6f50bc0ce40d135))
+
 # [1.99.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.98.0...v1.99.0) (2023-08-30)
 
 ### Bug Fixes
