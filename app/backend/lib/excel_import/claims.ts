@@ -71,7 +71,7 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
 };
 
 const ValidateData = async (data, req) => {
-  const { ccbcNumber } = req.params;
+  const { ccbcNumber, applicationId } = req.params;
 
   const {
     claimNumber,
@@ -81,12 +81,46 @@ const ValidateData = async (data, req) => {
     eligibleCostsIncurredToDate,
   } = data;
 
+  // get all previous claims for this applications
+  const claims: any = await performQuery(
+    `
+    query ClaimQuery {
+      applicationByRowId(rowId: ${applicationId}) {
+        applicationClaimsExcelDataByApplicationId(filter: {archivedAt: {isNull: true}}) {
+          nodes {
+            jsonData
+          }
+        }
+      }
+    }
+    `,
+    {},
+    req
+  ).catch((e) => {
+    return { error: e };
+  });
+
+  // get an array of all previous used claim numebers
+  const previousClaimNumbers =
+    claims?.data?.applicationByRowId.applicationClaimsExcelDataByApplicationId?.nodes?.map(
+      (claim) => {
+        return claim.jsonData.claimNumber;
+      }
+    );
+
   const errors = [];
 
   if (claimNumber === undefined) {
     errors.push({
       level: 'cell',
       error: 'Invalid data: Claim number',
+    });
+  }
+
+  if (previousClaimNumbers.includes(claimNumber)) {
+    errors.push({
+      level: 'claimNumber',
+      error: `Check that it's the correct file and retry uploading. If you were trying to edit an existing claim, please click the edit button beside it.`,
     });
   }
 

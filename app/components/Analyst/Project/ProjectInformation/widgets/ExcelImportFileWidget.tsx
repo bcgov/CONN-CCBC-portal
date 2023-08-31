@@ -110,6 +110,9 @@ export const displayExcelUploadErrors = (err) => {
   if (errorType === 'workbook') {
     title = `The ${filename} sheet does not appear to contain the correct tabs.`;
   }
+  if (errorType === 'claimNumber') {
+    title = `A Claim & Progress Report already exists with this claim number. Data were not imported.`;
+  }
   // for cell level errors
   if (typeof errorMessage !== 'string') {
     return errorMessage.map(({ error: message }) => {
