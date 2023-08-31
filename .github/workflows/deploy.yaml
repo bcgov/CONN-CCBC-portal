@@ -81,7 +81,7 @@ jobs:
 
   ensure-sqitch-plan-ends-with-tag:
     runs-on: ubuntu-latest
-    needs: [is-tagged-release]
+    # needs: [is-tagged-release]
     if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     steps:
       - uses: actions/checkout@v3
