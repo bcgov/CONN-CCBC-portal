@@ -71,8 +71,7 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
 };
 
 const ValidateData = async (data, req) => {
-  const { ccbcNumber, applicationId } = req.params;
-
+  const { ccbcNumber, applicationId, claimsId, excelDataId } = req.params;
   const {
     claimNumber,
     dateRequestReceived,
@@ -88,6 +87,7 @@ const ValidateData = async (data, req) => {
       applicationByRowId(rowId: ${applicationId}) {
         applicationClaimsExcelDataByApplicationId(filter: {archivedAt: {isNull: true}}) {
           nodes {
+            rowId
             jsonData
           }
         }
@@ -117,11 +117,30 @@ const ValidateData = async (data, req) => {
     });
   }
 
-  if (previousClaimNumbers.includes(claimNumber)) {
+  if (previousClaimNumbers.includes(claimNumber) && claimsId === undefined) {
     errors.push({
       level: 'claimNumber',
       error: `Check that it's the correct file and retry uploading. If you were trying to edit an existing claim, please click the edit button beside it.`,
     });
+  }
+
+  // we are processing an edit
+  if (claimsId !== undefined && excelDataId !== undefined) {
+    // find matching existing claim excel data
+    const existingClaim =
+      claims?.data?.applicationByRowId.applicationClaimsExcelDataByApplicationId?.nodes?.find(
+        (claim) => {
+          return claim.rowId === parseInt(excelDataId, 10);
+        }
+      );
+    if (
+      existingClaim === undefined ||
+      existingClaim.jsonData.claimNumber !== data.claimNumber
+    ) {
+      errors.push({
+        error: 'The claim number does not match the claim number being edited.',
+      });
+    }
   }
 
   if (dateRequestReceived === undefined) {
