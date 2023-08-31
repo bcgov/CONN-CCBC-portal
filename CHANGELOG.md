@@ -1,3 +1,14 @@
+# [1.101.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.100.0...v1.101.0) (2023-08-31)
+
+### Bug Fixes
+
+- don't show community progress excel spinner if there are validation errors ([1a18b6a](https://github.com/bcgov/CONN-CCBC-portal/commit/1a18b6a8736afff4c00c849627d87657dc1810bf))
+
+### Features
+
+- add claims excel validation ([1116df5](https://github.com/bcgov/CONN-CCBC-portal/commit/1116df524110899a5c39d02a2d3531c50d18108d))
+- validate claim number exists in excel upload ([86d47b6](https://github.com/bcgov/CONN-CCBC-portal/commit/86d47b626bb37d9b6ad35cfa4cfc11a5ab5c88f4))
+
 # [1.100.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.99.0...v1.100.0) (2023-08-31)
 
 ### Features
