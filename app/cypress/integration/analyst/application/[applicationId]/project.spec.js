@@ -251,8 +251,5 @@ describe('The analyst application view', () => {
 
     // Save claim
     cy.contains('Save & Import').click();
-
-    // Verify saved forms appear on history page
-    cy.visit('/analyst/application/1/history');
   });
 });
