@@ -176,7 +176,7 @@ describe('The Claims form', () => {
 
     expect(screen.getByText('claims.xlsx')).toBeInTheDocument();
 
-    expect(screen.getByText('Aug-Aug 2023')).toBeInTheDocument();
+    expect(screen.getByText('Aug 2023 - Aug 2023')).toBeInTheDocument();
   });
 
   it('can edit a saved Claim', async () => {
