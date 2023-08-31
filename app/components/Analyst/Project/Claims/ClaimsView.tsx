@@ -80,7 +80,7 @@ const ClaimsView: React.FC<Props> = ({
   const formattedDate =
     fromDate &&
     toDate &&
-    `${fromDate?.monthShort}-${toDate?.monthShort} ${toDate?.year}`;
+    `${fromDate?.monthShort} ${fromDate?.year} - ${toDate?.monthShort} ${toDate?.year}`;
 
   return (
     <StyledContainer>
