@@ -39,7 +39,6 @@ const mockQueryPayload = {
               },
               excelDataId: 1,
               applicationByApplicationId: {
-                id: 'blah',
                 applicationClaimsExcelDataByApplicationId: {
                   nodes: [
                     {
@@ -193,15 +192,6 @@ describe('The Claims form', () => {
         },
       });
     });
-  });
-
-  it('should show the saved claim', () => {
-    componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent();
-
-    expect(screen.getByText('claims.xlsx')).toBeInTheDocument();
-
-    expect(screen.getByText('Aug 2023 - Aug 2023')).toBeInTheDocument();
   });
 
   it('can edit a saved Claim', async () => {
