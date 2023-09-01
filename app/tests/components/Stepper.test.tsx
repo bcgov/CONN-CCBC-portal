@@ -1,11 +1,12 @@
 import Stepper from 'components/Stepper';
+import schema from 'formSchema/schema';
 import { render, screen } from '@testing-library/react';
 import GlobalTheme, { theme } from 'styles/GlobalTheme';
 
 const renderStaticLayout = () => {
   return render(
     <GlobalTheme>
-      <Stepper />
+      <Stepper schema={schema} />
     </GlobalTheme>
   );
 };
