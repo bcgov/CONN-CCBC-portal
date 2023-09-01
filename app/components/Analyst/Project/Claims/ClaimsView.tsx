@@ -7,7 +7,7 @@ import DownloadLink from 'components/DownloadLink';
 
 const StyledContainer = styled.div`
   display: grid;
-  grid-template-columns: 128px 4fr 1fr;
+  grid-template-columns: 164px 4fr 1fr;
   margin-bottom: 8px;
 `;
 
@@ -41,6 +41,11 @@ const StyledFlex = styled.div`
 const StyledDate = styled.div`
   white-space: nowrap;
   font-weight: 700;
+  margin-right: 16px;
+
+  ${(props) => props.theme.breakpoint.mediumUp} {
+    margin: 0;
+  }
 `;
 
 interface Props {
