@@ -6,7 +6,7 @@ import { graphql, useFragment } from 'react-relay';
 import type { JSONSchema7 } from 'json-schema';
 import styled from 'styled-components';
 import validate from 'formSchema/validate';
-import schema from 'formSchema/schema';
+// import schema from 'formSchema/schema';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
 import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
@@ -94,11 +94,12 @@ interface SubmissionFieldsJSON {
 }
 
 export const mergeFormSectionData = (
+  formSchema,
   formData,
   formSectionName,
   calculatedSection
 ) => {
-  const schemaSection = schema.properties[formSectionName];
+  const schemaSection = formSchema.properties[formSectionName];
 
   const handleError = (error) => {
     Sentry.captureException({
@@ -184,7 +185,6 @@ const ApplicationForm: React.FC<Props> = ({
     },
     status,
   } = application;
-
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
   const sectionName = getSectionNameFromPageNumber(pageNumber);
 
@@ -248,7 +248,7 @@ const ApplicationForm: React.FC<Props> = ({
     jsonSchema as object
   );
 
-  const sectionSchema = schema.properties[sectionName] as JSONSchema7;
+  const sectionSchema = jsonSchema?.properties[sectionName] as JSONSchema7;
   const isWithdrawn = status === 'withdrawn';
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';
@@ -312,6 +312,7 @@ const ApplicationForm: React.FC<Props> = ({
     const calculatedSectionData = calculate(newFormSectionData, sectionName);
 
     const newFormData = mergeFormSectionData(
+      jsonSchema,
       jsonData,
       sectionName,
       calculatedSectionData
