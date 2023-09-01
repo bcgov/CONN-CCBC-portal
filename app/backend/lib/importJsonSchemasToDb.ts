@@ -1,5 +1,6 @@
 import { pgPool } from './setup-pg';
 import schema from '../../formSchema/schema';
+import schemaV2 from '../../formSchema/schemaV2';
 import {
   financialRisk,
   gis,
@@ -22,6 +23,13 @@ const importJsonSchemasToDb = async () => {
       'intake1schema',
       schema,
       'Schema of the first batch of applications',
+      'intake',
+    ]);
+
+    await client.query(insertQuery, [
+      'intake_schema_2',
+      schemaV2,
+      'V2 of the intake schema',
       'intake',
     ]);
 

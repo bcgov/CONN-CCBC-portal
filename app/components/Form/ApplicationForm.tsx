@@ -187,7 +187,6 @@ const ApplicationForm: React.FC<Props> = ({
   } = application;
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
   const sectionName = getSectionNameFromPageNumber(pageNumber);
-
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
   const [savingError, setSavingError] = useState(null);
@@ -207,6 +206,7 @@ const ApplicationForm: React.FC<Props> = ({
     return {
       intakeCloseTimestamp,
       fullFormData: jsonData,
+      formSchema: jsonSchema,
       formErrorSchema,
       isEditable,
       areAllAcknowledgementsChecked,
