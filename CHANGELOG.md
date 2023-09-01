@@ -1,3 +1,10 @@
+## [1.101.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.101.0...v1.101.1) (2023-09-01)
+
+### Bug Fixes
+
+- community progress and claims form schema error ([c368b63](https://github.com/bcgov/CONN-CCBC-portal/commit/c368b636bb8afefb232088e9ca4ad84ba53a7c2d))
+- project form id ([e3832c4](https://github.com/bcgov/CONN-CCBC-portal/commit/e3832c40d4391522d7f02d716b15e05d65c1850a))
+
 # [1.101.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.100.0...v1.101.0) (2023-08-31)
 
 ### Bug Fixes
