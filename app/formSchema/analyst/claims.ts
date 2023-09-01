@@ -1,6 +1,8 @@
 import { JSONSchema7 } from 'json-schema';
 
 const claims: JSONSchema7 = {
+  description: '',
+  type: 'object',
   required: ['dueDate'],
   properties: {
     fromDate: {

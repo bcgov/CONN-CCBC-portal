@@ -213,6 +213,7 @@ const ProjectForm: React.FC<Props> = ({
             <>
               <StyledBtn
                 data-testid={saveDataTestId}
+                id={`${title.toLowerCase().split(' ').join('-')}-save-button`}
                 size="small"
                 disabled={saveBtnDisabled}
                 onClick={onSubmit}
