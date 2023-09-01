@@ -20,7 +20,7 @@ describe('The analyst application view', () => {
       body: {},
     }).as('community-report-validate');
 
-    cy.intercept('POST', '/api/analyst/claims/1/*/?validate=true', {
+    cy.intercept('POST', '/api/analyst/claims/1/CCBC-010001/*/?validate=true', {
       statusCode: 200,
       body: {},
     }).as('claims-validate');
