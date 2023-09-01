@@ -5,7 +5,7 @@ import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
-import { useDeleteAnnouncementMutation as useArchiveCpr} from 'schema/mutations/project/deleteCommunityProgressReport';
+import { useDeleteAnnouncementMutation as useArchiveCpr } from 'schema/mutations/project/deleteCommunityProgressReport';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import Toast from 'components/Toast';
@@ -134,6 +134,7 @@ const CommunityProgressReportForm = ({ application }) => {
 
   const fiscalQuarterList = communityProgressList
     ?.filter((data) => data.node.jsonData?.dueDate !== undefined)
+    ?.filter((data) => data.node.rowId !== currentCommunityProgressData?.rowId)
     ?.map((data) => {
       const dueDate = data.node.jsonData?.dueDate;
       const fiscalYear = getFiscalYear(dueDate);
@@ -226,7 +227,7 @@ const CommunityProgressReportForm = ({ application }) => {
         input: {
           cprRowId: currentCommunityProgressData?.rowId,
           applicationRowId,
-          formData:{}
+          formData: {},
         },
       },
       updater: (store) => {
