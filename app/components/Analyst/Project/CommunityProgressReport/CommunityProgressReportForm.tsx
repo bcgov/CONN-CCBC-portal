@@ -149,12 +149,14 @@ const CommunityProgressReportForm = ({ application }) => {
     setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
+    setShowModal(false);
   };
 
   const handleSubmit = async (e) => {
     hiddenSubmitRef.current.click();
     e.preventDefault();
     setIsSubmitAttempted(true);
+
     if (!formData?.dueDate) return;
     setIsFormSubmitting(true);
 
@@ -238,8 +240,7 @@ const CommunityProgressReportForm = ({ application }) => {
         ConnectionHandler.deleteNode(connection, progressReportConnectionId);
       },
       onCompleted: () => {
-        setShowModal(false);
-        setCurrentCommunityProgressData(null);
+        handleResetFormData();
       },
     });
   };
@@ -251,14 +252,7 @@ const CommunityProgressReportForm = ({ application }) => {
           Community progress report successfully imported
         </Toast>
       )}
-      <Modal
-        open={showModal}
-        onClose={() => {
-          setCurrentCommunityProgressData(null);
-          setShowModal(false);
-        }}
-        title="Delete"
-      >
+      <Modal open={showModal} onClose={handleResetFormData} title="Delete">
         <StyledContainer>
           <p>
             Are you sure you want to delete this community progress report and
@@ -266,7 +260,7 @@ const CommunityProgressReportForm = ({ application }) => {
           </p>
           <StyledFlex>
             <Button onClick={handleDelete}>Yes, delete</Button>
-            <Button onClick={() => setShowModal(false)} variant="secondary">
+            <Button onClick={handleResetFormData} variant="secondary">
               No, keep
             </Button>
           </StyledFlex>
@@ -316,6 +310,7 @@ const CommunityProgressReportForm = ({ application }) => {
             isFormEditMode={isFormEditMode}
             onClick={() => {
               setIsSubmitAttempted(false);
+              setCurrentCommunityProgressData(null);
               setIsFormEditMode(true);
             }}
             title="Add community progress report"
