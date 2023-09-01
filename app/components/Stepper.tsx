@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { JSONSchema7 } from 'json-schema';
 import Link from 'next/link';
 import styled from 'styled-components';
-import schema from 'formSchema/schema';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
 import getFormPage from 'utils/getFormPage';
 
@@ -48,10 +47,14 @@ const formPageList = uiSchema['ui:order'].filter((formName) => {
   return formName !== 'submission';
 });
 
-const Stepper = () => {
+interface StepperProps {
+  schema: JSONSchema7;
+}
+
+const Stepper: React.FC<StepperProps> = ({ schema }) => {
   const router = useRouter();
   const rowId = router.query.id;
-  const formPageSchema = schema.properties;
+  const formSchema = schema.properties;
 
   return (
     <StyledNav>
@@ -60,7 +63,8 @@ const Stepper = () => {
           formPageList[Number(router.query.page) - 1] === formName;
 
         const pageNumber = getFormPage(formName);
-        const formSchema = formPageSchema[formName] as JSONSchema7;
+        const formPageSchema = formSchema[formName] as JSONSchema7;
+        if (!formPageSchema) return null;
         return (
           <>
             {isCurrentPage ? (
@@ -70,7 +74,7 @@ const Stepper = () => {
                   key={formName}
                   passHref
                 >
-                  {formSchema.title}
+                  {formPageSchema.title}
                 </StyledLink>
               </StyledActive>
             ) : (
@@ -80,7 +84,7 @@ const Stepper = () => {
                   key={formName}
                   passHref
                 >
-                  {formSchema.title}
+                  {formPageSchema?.title}
                 </StyledLink>
               </StyledDiv>
             )}

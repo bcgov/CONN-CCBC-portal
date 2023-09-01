@@ -20,6 +20,11 @@ const getPageQuery = graphql`
       id
       owner
       status
+      formData {
+        formByFormSchemaId {
+          jsonSchema
+        }
+      }
       ...ApplicationForm_application
     }
     session {
@@ -36,6 +41,11 @@ const FormPage = ({
 
   const { applicationByRowId, session } = query;
   const { status } = applicationByRowId;
+  const {
+    formData: {
+      formByFormSchemaId: { jsonSchema },
+    },
+  } = applicationByRowId;
   const router = useRouter();
 
   const applicationId = Number(router.query.id);
@@ -44,7 +54,7 @@ const FormPage = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <Stepper />
+      <Stepper schema={jsonSchema} />
 
       <FormDiv>
         {status === 'withdrawn' && (
