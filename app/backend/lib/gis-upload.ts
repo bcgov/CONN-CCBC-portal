@@ -7,12 +7,11 @@ import schema from './gis-schema.json';
 import { performQuery } from './graphql';
 import getAuthRole from '../../utils/getAuthRole';
 import { parseForm } from './express-helper';
-import * as jsonlint from 'jsonlint';
-import { ESLint } from 'eslint';
+import { jsonProcessor } from './json-lint';
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 5,
+  max: 10,
 });
 
 const saveGisDataMutation = `
@@ -56,7 +55,19 @@ const formatAjv = (data: Record<string, any>, errors: ErrorObject[]) => {
   });
   return { errors: reply };
 };
-
+const formatJsonLint = ( errors: any[]) => {
+  const reply = [];
+  errors.forEach((e) => {
+    const item = {
+      line: e.range.start.line,
+      position: e.range.start.character,
+      message: e.message,
+    };
+    reply.push(item);
+   
+  });
+  return { errors: reply };
+};
 // eslint-disable-next-line consistent-return
 gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   const authRole = getAuthRole(req);
@@ -79,20 +90,10 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   const file = fs.readFileSync(uploaded.filepath, 'utf8');
   let data = null;
   try {
-    const eslintConfig = {
-      plugins: ['json'],
-      rules: {
-        'json/*': ['error'],
-      },
-    };
-    const eslint = new ESLint({
-      useEslintrc: false,
-      baseConfig: eslintConfig,
-    });
-    const results = await eslint.lintText(file);
-    console.log(results);
-    console.log(results[0].messages);
-    jsonlint.parse(file);
+    const lintErrors = jsonProcessor.process(file,filename);
+    if (Array.isArray(lintErrors) && lintErrors.length>0) {      
+      return res.status(400).json(formatJsonLint(lintErrors)).end();
+    }
     data = JSON.parse(file);
   } catch (e) {
     console.log(e);
