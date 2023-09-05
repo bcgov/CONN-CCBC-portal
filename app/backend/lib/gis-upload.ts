@@ -96,7 +96,6 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
     }
     data = JSON.parse(file);
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ error: e }).end();
   }
   let isValid: boolean;
