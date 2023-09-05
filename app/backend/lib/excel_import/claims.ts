@@ -117,7 +117,7 @@ const ValidateData = async (data, req) => {
     });
   }
 
-  if (previousClaimNumbers.includes(claimNumber) && claimsId === undefined) {
+  if (previousClaimNumbers.includes(claimNumber) && claimsId === 'undefined') {
     errors.push({
       level: 'claimNumber',
       error: `Check that it's the correct file and retry uploading. If you were trying to edit an existing claim, please click the edit button beside it.`,
@@ -125,7 +125,7 @@ const ValidateData = async (data, req) => {
   }
 
   // we are processing an edit
-  if (claimsId !== undefined && excelDataId !== undefined) {
+  if (claimsId !== 'undefined' && excelDataId !== 'undefined') {
     // find matching existing claim excel data
     const existingClaim =
       claims?.data?.applicationByRowId.applicationClaimsExcelDataByApplicationId?.nodes?.find(
