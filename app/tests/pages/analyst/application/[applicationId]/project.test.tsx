@@ -1880,5 +1880,9 @@ describe('The Project page', () => {
     expect(screen.getByText('claims.xlsx')).toBeInTheDocument();
 
     expect(screen.getByText('Aug 2023 - Aug 2023')).toBeInTheDocument();
+
+    expect(
+      screen.getByText('Aug 2023 - Aug 2023').previousElementSibling.textContent
+    ).toBe('#1');
   });
 });
