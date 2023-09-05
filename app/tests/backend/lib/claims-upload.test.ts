@@ -178,6 +178,118 @@ describe('The Claims excel import api route', () => {
     ]);
   });
 
+  it('should return correct errors for claim number in use', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          applicationByRowId: {
+            applicationClaimsExcelDataByApplicationId: {
+              nodes: [
+                {
+                  jsonData: {
+                    claimNumber: 999,
+                    projectNumber: 'CCBC-010001',
+                    progressOnPermits: 'Not Started',
+                    projectBudgetRisks: 'Yes',
+                    dateRequestReceived: '2023-01-01',
+                    hasConstructionBegun: 'In Progress',
+                    projectScheduleRisks: 'Yes',
+                    commincationMaterials: 'Yes',
+                    changesToOverallBudget: 'Yes',
+                    haveServicesBeenOffered: 'Completed',
+                    eligibleCostsIncurredToDate: '2023-08-01T00:00:00.000Z',
+                    eligibleCostsIncurredFromDate: '2023-08-02T00:00:00.000Z',
+                    thirdPartyPassiveInfrastructure: 'Yes',
+                  },
+                  rowId: 1,
+                },
+              ],
+            },
+          },
+        },
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/claims/10/CCBC-010001/undefined/undefined')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'claims-data' }))
+      .attach('claims-data', `${__dirname}/claims.xlsx`)
+      .expect(400);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual([
+      {
+        error:
+          "Check that it's the correct file and retry uploading. If you were trying to edit an existing claim, please click the edit button beside it.",
+        level: 'claimNumber',
+      },
+    ]);
+  });
+
+  it('should return correct errors for claim number not matching edit', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          applicationByRowId: {
+            applicationClaimsExcelDataByApplicationId: {
+              nodes: [
+                {
+                  jsonData: {
+                    claimNumber: 998,
+                    projectNumber: 'CCBC-010001',
+                    progressOnPermits: 'Not Started',
+                    projectBudgetRisks: 'Yes',
+                    dateRequestReceived: '2023-01-01',
+                    hasConstructionBegun: 'In Progress',
+                    projectScheduleRisks: 'Yes',
+                    commincationMaterials: 'Yes',
+                    changesToOverallBudget: 'Yes',
+                    haveServicesBeenOffered: 'Completed',
+                    eligibleCostsIncurredToDate: '2023-08-01T00:00:00.000Z',
+                    eligibleCostsIncurredFromDate: '2023-08-02T00:00:00.000Z',
+                    thirdPartyPassiveInfrastructure: 'Yes',
+                  },
+                  rowId: 1,
+                },
+              ],
+            },
+          },
+        },
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/claims/10/CCBC-010001/1/1')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'claims-data' }))
+      .attach('claims-data', `${__dirname}/claims.xlsx`)
+      .expect(400);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual([
+      {
+        error: 'The claim number does not match the claim number being edited.',
+      },
+    ]);
+  });
+
   afterEach(async () => {
     // eslint-disable-next-line no-promise-executor-return
     await new Promise<void>((resolve) => setTimeout(() => resolve(), 500)); // avoid jest open handle error
