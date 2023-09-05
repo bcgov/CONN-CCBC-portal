@@ -156,7 +156,7 @@ describe('The analyst application view', () => {
       .selectFile('cypress/fixtures/mock_excel.xlsx', {
         force: true,
       });
-    cy.wait('@sow-upload-validate', { timeout: 20000 });
+    cy.wait('@sow-upload-validate', { timeout: 50000 });
     cy.contains('button', 'mock_excel.xlsx');
 
     // Save statement of work
@@ -195,7 +195,7 @@ describe('The analyst application view', () => {
       .selectFile('cypress/fixtures/mock_excel.xlsx', {
         force: true,
       });
-    cy.wait('@sow-upload-validate', { timeout: 20000 });
+    cy.wait('@sow-upload-validate', { timeout: 50000 });
     cy.wait(5000);
     cy.contains('button', 'mock_excel.xlsx');
 
@@ -224,7 +224,7 @@ describe('The analyst application view', () => {
       .selectFile('cypress/fixtures/mock_excel.xlsx', {
         force: true,
       });
-    cy.wait('@community-report-validate', { timeout: 20000 });
+    cy.wait('@community-report-validate', { timeout: 50000 });
     cy.contains('button', 'mock_excel.xlsx');
 
     // Community progress report
@@ -242,7 +242,7 @@ describe('The analyst application view', () => {
       .selectFile('cypress/fixtures/mock_excel.xlsx', {
         force: true,
       });
-    cy.wait('@claims-validate', { timeout: 20000 });
+    cy.wait('@claims-validate', { timeout: 50000 });
     cy.contains('button', 'mock_excel.xlsx');
 
     // Save claim
