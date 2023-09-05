@@ -350,6 +350,10 @@ const ApplicationForm: React.FC<Props> = ({
       },
       debounceKey: formDataId,
       onError: (error) => {
+        Sentry.captureException({
+          name: 'Application form data is out of sync',
+          message: error,
+        });
         if (error.message.includes('Data is Out of Sync')) {
           window.location.hash = 'data-out-of-sync';
         }
