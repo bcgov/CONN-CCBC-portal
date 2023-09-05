@@ -13,6 +13,15 @@ const mutation = graphql`
           id
           jsonData
           rowId
+          excelDataId
+          applicationByApplicationId {
+            applicationClaimsExcelDataByApplicationId {
+              nodes {
+                rowId
+                jsonData
+              }
+            }
+          }
         }
       }
     }

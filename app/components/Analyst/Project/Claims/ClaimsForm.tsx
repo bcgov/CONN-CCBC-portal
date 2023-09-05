@@ -52,7 +52,6 @@ const FormHeader = (
       claim is processed and paid, please upload the finalized and completed
       claim Excel file here.
     </p>
-    <b>Claims period</b>
   </div>
 );
 
@@ -80,6 +79,7 @@ const ClaimsForm = ({ application }) => {
               id
               rowId
               jsonData
+              excelDataId
               ...ClaimsView_query
             }
           }

@@ -277,6 +277,53 @@ const mockProjectDataQueryPayload = {
             hasFundingAgreementBeenSigned: true,
           },
         },
+        applicationClaimsDataByApplicationId: {
+          edges: [
+            {
+              node: {
+                rowId: 1,
+                jsonData: {
+                  claimsFile: [
+                    {
+                      id: 1,
+                      name: 'claims.xlsx',
+                      size: 121479,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '541089ee-8f80-4dd9-844f-093d7739792b',
+                    },
+                  ],
+                },
+                excelDataId: 1,
+                applicationByApplicationId: {
+                  applicationClaimsExcelDataByApplicationId: {
+                    nodes: [
+                      {
+                        jsonData: {
+                          claimNumber: 1,
+                          projectNumber: 'CCBC-010001',
+                          progressOnPermits: 'Not Started',
+                          projectBudgetRisks: 'Yes',
+                          dateRequestReceived: '2023-01-01',
+                          hasConstructionBegun: 'In Progress',
+                          projectScheduleRisks: 'Yes',
+                          commincationMaterials: 'Yes',
+                          changesToOverallBudget: 'Yes',
+                          haveServicesBeenOffered: 'Completed',
+                          eligibleCostsIncurredToDate:
+                            '2023-08-01T00:00:00.000Z',
+                          eligibleCostsIncurredFromDate:
+                            '2023-08-02T00:00:00.000Z',
+                          thirdPartyPassiveInfrastructure: 'Yes',
+                        },
+                        rowId: 1,
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+        },
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -1824,5 +1871,14 @@ describe('The Project page', () => {
         },
       }
     );
+  });
+
+  it('should show the saved claim', () => {
+    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('claims.xlsx')).toBeInTheDocument();
+
+    expect(screen.getByText('Aug 2023 - Aug 2023')).toBeInTheDocument();
   });
 });

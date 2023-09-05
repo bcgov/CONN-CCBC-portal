@@ -27,8 +27,6 @@ const mockQueryPayload = {
             node: {
               rowId: 1,
               jsonData: {
-                toDate: '2023-08-01',
-                fromDate: '2023-08-02',
                 claimsFile: [
                   {
                     id: 1,
@@ -38,6 +36,32 @@ const mockQueryPayload = {
                     uuid: '541089ee-8f80-4dd9-844f-093d7739792b',
                   },
                 ],
+              },
+              excelDataId: 1,
+              applicationByApplicationId: {
+                applicationClaimsExcelDataByApplicationId: {
+                  nodes: [
+                    {
+                      jsonData: {
+                        claimNumber: 1,
+                        projectNumber: 'CCBC-010001',
+                        progressOnPermits: 'Not Started',
+                        projectBudgetRisks: 'Yes',
+                        dateRequestReceived: '2023-01-01',
+                        hasConstructionBegun: 'In Progress',
+                        projectScheduleRisks: 'Yes',
+                        commincationMaterials: 'Yes',
+                        changesToOverallBudget: 'Yes',
+                        haveServicesBeenOffered: 'Completed',
+                        eligibleCostsIncurredToDate: '2023-08-01T00:00:00.000Z',
+                        eligibleCostsIncurredFromDate:
+                          '2023-08-02T00:00:00.000Z',
+                        thirdPartyPassiveInfrastructure: 'Yes',
+                      },
+                      rowId: 1,
+                    },
+                  ],
+                },
               },
             },
           },
@@ -170,15 +194,6 @@ describe('The Claims form', () => {
     });
   });
 
-  it('should show the saved claim', () => {
-    componentTestingHelper.loadQuery();
-    componentTestingHelper.renderComponent();
-
-    expect(screen.getByText('claims.xlsx')).toBeInTheDocument();
-
-    expect(screen.getByText('Aug 2023 - Aug 2023')).toBeInTheDocument();
-  });
-
   it('can edit a saved Claim', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
@@ -196,16 +211,6 @@ describe('The Claims form', () => {
 
     expect(saveButton).toBeInTheDocument();
 
-    const toDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
-
-    await act(async () => {
-      fireEvent.change(toDateInput, {
-        target: {
-          value: '2025-07-01',
-        },
-      });
-    });
-
     await act(async () => {
       fireEvent.click(saveButton);
     });
@@ -216,8 +221,6 @@ describe('The Claims form', () => {
         connections: [expect.anything()],
         input: {
           _jsonData: {
-            toDate: '2023-08-01',
-            fromDate: '2025-07-01',
             claimsFile: [
               {
                 id: 1,
@@ -230,6 +233,7 @@ describe('The Claims form', () => {
           },
           _applicationId: 1,
           _oldClaimsId: 1,
+          _excelDataId: 1,
         },
       }
     );

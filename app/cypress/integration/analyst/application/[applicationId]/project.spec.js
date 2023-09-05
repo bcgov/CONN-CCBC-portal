@@ -235,10 +235,6 @@ describe('The analyst application view', () => {
 
     cy.get('body').happoScreenshot({ component: 'Claims form' });
 
-    cy.get('[id="root_fromDate"]').parent().find('.MuiButtonBase-root').click();
-
-    cy.get('[id="root_toDate"]').parent().find('.MuiButtonBase-root').click();
-
     // Claim excel upload
     cy.get('[id="root_claimsFile-btn"]').click();
     cy.get('[data-testid=file-test]')
