@@ -163,7 +163,8 @@
   "resolutions": {
     "@sideway/formula": "3.0.1",
     "json5": "2.2.3",
-    "jsonwebtoken": "9.0.0"
+    "jsonwebtoken": "9.0.0",
+    "underscore": "1.12.1"
   },
   "relay": {
     "src": "./",
