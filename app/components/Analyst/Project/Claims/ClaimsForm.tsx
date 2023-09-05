@@ -80,6 +80,14 @@ const ClaimsForm = ({ application }) => {
               rowId
               jsonData
               excelDataId
+              applicationByApplicationId {
+                applicationClaimsExcelDataByApplicationId {
+                  nodes {
+                    rowId
+                    jsonData
+                  }
+                }
+              }
               ...ClaimsView_query
             }
           }
@@ -111,18 +119,32 @@ const ClaimsForm = ({ application }) => {
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   const claimsConnectionId = claimsData?.__id;
-  const claimsList = claimsData?.edges
-    ?.filter((data) => {
-      // filter null nodes from the list caused by relay connection update
-      return data.node !== null;
-    })
-    .sort((a, b) => {
-      // This will change to sorted by claim number once we import that from the excel file
-      const dateA = new Date(a.node.jsonData.toDate);
-      const dateB = new Date(b.node.jsonData.toDate);
 
-      return dateB.getTime() - dateA.getTime();
-    });
+  const claimsList = claimsData?.edges?.filter((data) => {
+    // filter null nodes from the list caused by relay connection update
+    return data.node !== null;
+  });
+
+  const claimsListWithExcelData = claimsList?.map((edge) => {
+    const excelData =
+      edge.node.applicationByApplicationId.applicationClaimsExcelDataByApplicationId.nodes.find(
+        (node) => node.rowId === edge.node.excelDataId
+      );
+    return {
+      ...edge,
+      node: {
+        ...edge.node,
+        excelData,
+      },
+    };
+  });
+
+  const sortedClaimsList = claimsListWithExcelData?.sort((a, b) => {
+    const claimA = a.node.excelData?.jsonData?.claimNumber;
+    const claimB = b.node.excelData?.jsonData?.claimNumber;
+
+    return claimB - claimA;
+  });
 
   const apiPath = `/api/analyst/claims/${applicationRowId}/${ccbcNumber}/${currentClaimsData?.rowId}/${currentClaimsData?.excelDataId}`;
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,9 +154,9 @@ const ClaimsForm = ({ application }) => {
   );
 
   const handleResetFormData = () => {
+    setCurrentClaimsData(null);
     setIsFormEditMode(false);
     setFormData({} as FormData);
-    setCurrentClaimsData(null);
     setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
@@ -278,6 +300,7 @@ const ClaimsForm = ({ application }) => {
           <AddButton
             isFormEditMode={isFormEditMode}
             onClick={() => {
+              setCurrentClaimsData(null);
               setIsSubmitAttempted(false);
               setIsFormEditMode(true);
             }}
@@ -286,7 +309,7 @@ const ClaimsForm = ({ application }) => {
         }
         saveDataTestId="save-claims data"
       >
-        {claimsList?.map(({ node }) => {
+        {sortedClaimsList?.map(({ node }) => {
           return (
             <ClaimsView
               key={node.id}
