@@ -1,3 +1,15 @@
+# [1.102.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.101.0...v1.102.0) (2023-09-05)
+
+### Bug Fixes
+
+- claims from year width overlap ([d2e0aaf](https://github.com/bcgov/CONN-CCBC-portal/commit/d2e0aafa4470da17bdcc7d9e6a8cf87c61abc3e3))
+- community progress and claims form schema error ([c368b63](https://github.com/bcgov/CONN-CCBC-portal/commit/c368b636bb8afefb232088e9ca4ad84ba53a7c2d))
+- project form id ([e3832c4](https://github.com/bcgov/CONN-CCBC-portal/commit/e3832c40d4391522d7f02d716b15e05d65c1850a))
+
+### Features
+
+- use claim excel data for date range ([41adf3b](https://github.com/bcgov/CONN-CCBC-portal/commit/41adf3bbbe29583e049074603131ba48190200be))
+
 # [1.101.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.100.0...v1.101.0) (2023-08-31)
 
 ### Bug Fixes
