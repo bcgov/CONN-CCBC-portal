@@ -42,15 +42,9 @@ const StyledBtnContainer = styled.div`
   justify-content: left;
 `;
 
-const StyledCard = styled.div`
-  align-items: center;
-  padding: 8px 16px;
-  width: 600px;
-  border: 1px solid #d6d6d6;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 1em;
+const StyledList = styled.div` 
+  margin-left: 1.3em;
+  line-height: 1.5em;
 `;
 
 const acceptedFileTypes = ['.json'];
@@ -141,7 +135,7 @@ const GisTab = () => {
   return (
     <div>
       <h2>GIS Input</h2>
-      <StyledCard>
+      <div>
         <strong>
           Import a JSON of the GIS analysis for one or more applications
         </strong>
@@ -156,30 +150,35 @@ const GisTab = () => {
           hideFailedUpload={false}
           value={selectedFile ? fileComponentValue : []}
         />
+        
+        {error && <UploadError error={error} />}
+        {hasUploadErrors && (
+          <>
+            <br/>
+            <div>
+              {' '}
+              <FontAwesomeIcon icon={faCircleXmark} color="#D8292F" /> Error
+              uploading JSON file 
+            </div>
+            <StyledList>
+              {error.map((err, index) => {
+                const col = err?.posiition ? `and column ${err?.posiition}`:'';
+                return (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <div key={index}>{`Parsing error: ${err?.message} at line ${err?.line} ${col}`}</div>
+                );
+              })}
+              {' '}
+              Please check your file and try again.
+            </StyledList>
+          </>
+        )}
         <StyledBtnContainer>
           <ButtonLink onClick={handleUpload} href="#">
             Continue
           </ButtonLink>
         </StyledBtnContainer>
-      </StyledCard>
-      {error && <UploadError error={error} />}
-      {hasUploadErrors && (
-        <>
-          <p>
-            {' '}
-            <FontAwesomeIcon icon={faCircleXmark} color="#D8292F" /> Error
-            importing the file. Errors occured at:{' '}
-          </p>
-          <ul>
-            {error.map((err, index) => {
-              return (
-                // eslint-disable-next-line react/no-array-index-key
-                <li key={index}>{`Line: ${err?.line}, ${err?.message}`}</li>
-              );
-            })}
-          </ul>
-        </>
-      )}
+      </div>
     </div>
   );
 };
