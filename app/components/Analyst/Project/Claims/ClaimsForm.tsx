@@ -125,8 +125,6 @@ const ClaimsForm = ({ application }) => {
     });
 
   const apiPath = `/api/analyst/claims/${applicationRowId}/${ccbcNumber}/${currentClaimsData?.rowId}/${currentClaimsData?.excelDataId}`;
-  console.log('apiPath', apiPath);
-  console.log('currentClaimsData', currentClaimsData);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const validateClaims = useCallback(
     excelValidateGenerator(apiPath, setExcelFile, setClaimsValidationErrors),
