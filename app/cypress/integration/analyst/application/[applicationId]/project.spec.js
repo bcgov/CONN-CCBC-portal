@@ -35,7 +35,7 @@ describe('The analyst application view', () => {
 
     cy.contains('h2', 'Conditional approval');
 
-    cy.wait(1000);
+    cy.wait(500);
 
     cy.get('body').happoScreenshot({ component: 'Conditional approval form' });
     // Province decision section
@@ -96,6 +96,9 @@ describe('The analyst application view', () => {
 
     // Announcements test
     cy.get('button').contains('Add announcement').click();
+
+    cy.wait(500);
+
     cy.get('body').happoScreenshot({ component: 'Announcements form' });
 
     cy.get('select[id="root_announcementType"]').select('Primary');
@@ -170,6 +173,9 @@ describe('The analyst application view', () => {
 
     // Add change request
     cy.get('button').contains('Add change request').click();
+
+    cy.wait(1000);
+
     cy.get('body').happoScreenshot({ component: 'Change request form' });
 
     cy.get('[id="root_amendmentNumber"]').type(1);
@@ -200,7 +206,6 @@ describe('The analyst application view', () => {
         force: true,
       });
     cy.wait('@sow-upload-validate', { timeout: 50000 });
-    cy.wait(5000);
     cy.contains('button', 'mock_excel.xlsx');
 
     // Save change request
@@ -208,8 +213,10 @@ describe('The analyst application view', () => {
 
     // Community progress report
     cy.get('button').contains('Add community progress report').click();
+
     cy.contains('h2', 'Community progress report');
 
+    cy.wait(1000);
     cy.get('body').happoScreenshot({ component: 'Community progress form' });
 
     cy.get('[id="root_dueDate"]').parent().find('.MuiButtonBase-root').click();
@@ -237,6 +244,7 @@ describe('The analyst application view', () => {
     // Claims
     cy.get('button').contains('Add claim').click();
 
+    cy.wait(1000);
     cy.get('body').happoScreenshot({ component: 'Claims form' });
 
     // Claim excel upload
