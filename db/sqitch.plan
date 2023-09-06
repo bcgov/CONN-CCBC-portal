@@ -422,11 +422,10 @@ mutations/delete_community_progress_report 2023-08-25T02:18:31Z ,,, Vladimir <vl
 @1.101.0 2023-08-31T18:26:25Z CCBC Service Account <ccbc@button.is> # release v1.101.0
 @1.102.0 2023-09-05T21:25:38Z CCBC Service Account <ccbc@button.is> # release v1.102.0
 mutations/archive_application_community_progress_report [mutations/archive_application_community_progress_report@1.98.0] 2023-09-04T22:46:10Z ,,, Vladimir <vladimir@button.is> # merge with delete_community_progress_report
-
-
 tables/application_milestone_data 2023-09-07T20:54:15Z Marcel Mueller <marcel@m2> # table to store the application milestone form data
 tables/application_milestone_excel_data 2023-09-07T21:09:27Z Marcel Mueller <marcel@m2> # add table to store milestone excel data
 mutations/create_application_milestone_data 2023-09-07T21:13:57Z Marcel Mueller <marcel@m2> # mutation to create application milestone data
 mutations/create_application_milestone_excel_data 2023-09-07T21:36:50Z Marcel Mueller <marcel@m2> # mutations to create application_milestone_excel_data
 @1.103.0 2023-09-11T16:04:04Z CCBC Service Account <ccbc@button.is> # release v1.103.0
 @1.103.1 2023-09-11T16:23:54Z CCBC Service Account <ccbc@button.is> # release v1.103.1
+mutations/update_application_form [mutations/update_application_form@1.99.0] 2023-09-06T16:04:25Z Marcel Mueller <marcel@m2> # fix incorrect out of sync error
