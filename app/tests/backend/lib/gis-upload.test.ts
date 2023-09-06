@@ -70,6 +70,84 @@ describe('The GIS import', () => {
     expect(response.status).toBe(200);
   });
 
+  it('should return validation error if file fails basic eslint check', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: { createGisData: {gisData:{rowId:1}}}
+      };
+    });
+    const expected={
+      "errors": [
+        {
+          "line": 1, 
+          "message": "must be array"
+        }
+      ]
+    };
+
+    const response = await request(app)
+      .post('/api/analyst/gis') 
+      .set("Content-Type", "application/json")
+      .set('Connection', 'keep-alive')
+      .field("data", JSON.stringify({ name: "gis-data" }))
+      .attach("gis-data", `${__dirname}/gis-data-400a.json`)
+      .expect(400);
+    expect(response.status).toBe(400); 
+    expect(response.body).toEqual(expected);
+  });
+
+  it('should return validation error if file fails complex eslint check', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: { createGisData: {gisData:{rowId:1}}}
+      };
+    });
+
+    const expected={
+      "errors": [
+        {
+          "line": 10,
+          "position": 26,
+          "message": "Value expected"
+        },
+        {
+          "line": 5,
+          "position": 20,
+          "message": "Expected comma"
+        },
+        {
+          "line": 2,
+          "position": 17,
+          "message": "Value expected"
+        }
+      ]
+    };
+    
+    const response = await request(app)
+      .post('/api/analyst/gis') 
+      .set("Content-Type", "application/json")
+      .set('Connection', 'keep-alive')
+      .field("data", JSON.stringify({ name: "gis-data" }))
+      .attach("gis-data", `${__dirname}/gis-data-400b.json`)
+      .expect(400);
+    expect(response.status).toBe(400); 
+    expect(response.body).toEqual(expected);
+  });
+
   it('should return validation error if file does not match schema', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
