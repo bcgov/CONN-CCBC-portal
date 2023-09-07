@@ -107,7 +107,7 @@ select throws_like(
   '2022-03-01 11:00:00.001-05'
 );
   $$,
-  'Data is Out of Sync',
+  'Data is Out of Sync, client_updated_at: 2022-03-01 08:00:00.001-08 < current_updated_at: 2022-03-02 07:59:00-08, current_last_edited_page: projectInformation, client_last_edited_page: projectInformation',
   'Should raise "Data is out of sync" exception when calling my_function'
 );
 

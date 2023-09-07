@@ -15,7 +15,7 @@ begin
 
   select updated_at, fd.last_edited_page into current_updated_at, current_last_edited_page from ccbc_public.form_data as fd where id = form_data_row_id;
 
-  -- Adding a very large buffer for updating if someone happens to have a version of the form that was opened <60 seconds from the last save if on the same form page. This large buffer comes with the risk of losing data though it was needed to mitigate the multiple tabs error from     displaying erroneously while typing. There may be a bug in useDebounceMutation that is committing a stale mutation causing this so this is an imperfect solution.
+  -- Adding a very large buffer for updating if someone happens to have a version of the form that was opened <60 seconds from the last save if on the same form page. This large buffer comes with the risk of losing data though it was needed to mitigate the multiple tabs error from displaying erroneously while typing. There may be a bug in useDebounceMutation that is committing a stale mutation causing this so this is an imperfect solution.
   if current_last_edited_page = last_edited_page and client_updated_at < current_updated_at - interval '60 second' then
     raise exception 'Data is Out of Sync, client_updated_at: % < current_updated_at: %, current_last_edited_page: %, client_last_edited_page: %', client_updated_at, current_updated_at - interval '60 second', current_last_edited_page, last_edited_page;
 
