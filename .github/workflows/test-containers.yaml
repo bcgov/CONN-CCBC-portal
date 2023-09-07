@@ -37,7 +37,7 @@ jobs:
           HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
           HAPPO_NONCE: ${{ github.sha }}
         run: |
-          wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true && HAPPO_NONCE="$HAPPO_NONCE" npx happo-e2e -- cypress run
+          HAPPO_NONCE="$HAPPO_NONCE" npx happo-e2e -- cypress run
         continue-on-error: true
         working-directory: ./app
 
