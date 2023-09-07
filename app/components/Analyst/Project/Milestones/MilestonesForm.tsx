@@ -136,7 +136,7 @@ const MilestonesForm = ({ application }) => {
   //   return data.node !== null;
   // });
   //
-  const apiPath = `/api/analyst/milestones/${applicationRowId}/${ccbcNumber}/${currentMilestoneData?.rowId}`;
+  const apiPath = `/api/analyst/milestone/${applicationRowId}/${ccbcNumber}/${currentMilestoneData?.rowId}`;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const validateMilestone = useCallback(
