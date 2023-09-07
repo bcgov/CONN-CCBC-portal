@@ -10,6 +10,7 @@ import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import morgan from 'morgan';
+import sharepoint from './backend/lib/sharepoint';
 import linkPreview from './backend/lib/linkPreview';
 import readinessTest from './backend/lib/readinessTests';
 import { pgPool } from './backend/lib/setup-pg';
@@ -121,6 +122,7 @@ app.prepare().then(async () => {
   server.use('/', login);
   server.use('/', logout);
   server.use('/', metabaseEmbedUrl);
+  server.use('/', sharepoint);
 
   server.all('*', async (req, res) => handle(req, res));
 
