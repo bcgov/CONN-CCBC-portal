@@ -97,10 +97,6 @@ describe('The analyst application view', () => {
     // Announcements test
     cy.get('button').contains('Add announcement').click();
 
-    cy.wait(500);
-
-    cy.get('body').happoScreenshot({ component: 'Announcements form' });
-
     cy.get('select[id="root_announcementType"]').select('Primary');
 
     cy.get('[id="root_announcementUrl"]').type('www.e2e-testing.com');
@@ -110,6 +106,8 @@ describe('The analyst application view', () => {
       .find('.MuiButtonBase-root')
       .click();
     cy.get('button').contains('1').click();
+
+    cy.get('body').happoScreenshot({ component: 'Announcements form' });
 
     // Save announcement
     cy.get('#announcements-save-button').click();
@@ -139,8 +137,6 @@ describe('The analyst application view', () => {
       .parent()
       .click({ force: true });
 
-    cy.get('body').happoScreenshot({ component: 'Statement of work form' });
-
     cy.get('[id="root_dateFundingAgreementSigned"]')
       .parent()
       .find('.MuiButtonBase-root')
@@ -166,6 +162,8 @@ describe('The analyst application view', () => {
     cy.wait('@sow-upload-validate', { timeout: 50000 });
     cy.contains('button', 'mock_excel.xlsx');
 
+    cy.get('body').happoScreenshot({ component: 'Statement of work form' });
+
     // Save statement of work
     cy.contains('Save & Import Data').click();
 
@@ -173,10 +171,6 @@ describe('The analyst application view', () => {
 
     // Add change request
     cy.get('button').contains('Add change request').click();
-
-    cy.wait(1000);
-
-    cy.get('body').happoScreenshot({ component: 'Change request form' });
 
     cy.get('[id="root_amendmentNumber"]').type(1);
 
@@ -198,6 +192,8 @@ describe('The analyst application view', () => {
 
     cy.get('[id="root_additionalComments"]').type('test');
 
+    cy.get('body').happoScreenshot({ component: 'Change request form' });
+
     // Change request excel upload
     cy.get('[id="root_statementOfWorkUpload-btn"]').click();
     cy.get('[data-testid=file-test]')
@@ -215,9 +211,6 @@ describe('The analyst application view', () => {
     cy.get('button').contains('Add community progress report').click();
 
     cy.contains('h2', 'Community progress report');
-
-    cy.wait(1000);
-    cy.get('body').happoScreenshot({ component: 'Community progress form' });
 
     cy.get('[id="root_dueDate"]').parent().find('.MuiButtonBase-root').click();
     cy.get('button').contains('1').click();
@@ -237,15 +230,12 @@ describe('The analyst application view', () => {
       });
     cy.wait('@community-report-validate', { timeout: 50000 });
     cy.contains('button', 'mock_excel.xlsx');
+    cy.get('body').happoScreenshot({ component: 'Community progress form' });
 
-    // Community progress report
     cy.contains('Save & Import').click();
 
     // Claims
     cy.get('button').contains('Add claim').click();
-
-    cy.wait(1000);
-    cy.get('body').happoScreenshot({ component: 'Claims form' });
 
     // Claim excel upload
     cy.get('[id="root_claimsFile-btn"]').click();
@@ -256,6 +246,7 @@ describe('The analyst application view', () => {
       });
     cy.wait('@claims-validate', { timeout: 50000 });
     cy.contains('button', 'mock_excel.xlsx');
+    cy.get('body').happoScreenshot({ component: 'Claims form' });
 
     // Save claim
     cy.contains('Save & Import').click();
