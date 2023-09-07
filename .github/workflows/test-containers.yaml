@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        parallel: 5
+        containers: [1, 2, 3, 4, 5]
     steps:
       - uses: actions/checkout@v3
       - name: dev env setup
