@@ -27,11 +27,9 @@ set role ccbc_auth_user;
 
 select ccbc_public.create_application();
 
-
 -- set role to analyst and create application milestone data
 set role ccbc_analyst;
 set jwt.claims.sub to 'testCcbcAnalyst';
-
 
 select results_eq(
   $$
