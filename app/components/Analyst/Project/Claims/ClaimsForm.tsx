@@ -127,7 +127,7 @@ const ClaimsForm = ({ application }) => {
 
   const claimsListWithExcelData = claimsList?.map((edge) => {
     const excelData =
-      edge.node.applicationByApplicationId.applicationClaimsExcelDataByApplicationId.nodes.find(
+      edge?.node?.applicationByApplicationId?.applicationClaimsExcelDataByApplicationId?.nodes?.find(
         (node) => node.rowId === edge.node.excelDataId
       );
     return {
