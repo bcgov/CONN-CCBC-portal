@@ -37,11 +37,7 @@ jobs:
           HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
           HAPPO_NONCE: ${{ github.sha }}
         run: |
-          for i in $(seq 1 ${{ matrix.container }}); do
-            # Run happo-e2e with Cypress
-            npx happo-e2e -- group $i --nonce "$HAPPO_NONCE" -- cypress run
-          done
-          wait
+          wait-on http://localhost:3000 && HAPPO_DOWNLOAD_ALL=true && HAPPO_NONCE="$HAPPO_NONCE" npx happo-e2e -- cypress run
         continue-on-error: true
         working-directory: ./app
 
