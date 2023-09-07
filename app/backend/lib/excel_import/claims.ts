@@ -71,8 +71,7 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
 };
 
 const ValidateData = async (data, req) => {
-  const { ccbcNumber } = req.params;
-
+  const { ccbcNumber, applicationId, claimsId, excelDataId } = req.params;
   const {
     claimNumber,
     dateRequestReceived,
@@ -81,6 +80,34 @@ const ValidateData = async (data, req) => {
     eligibleCostsIncurredToDate,
   } = data;
 
+  // get all previous claims for this applications
+  const claims: any = await performQuery(
+    `
+    query ClaimQuery {
+      applicationByRowId(rowId: ${applicationId}) {
+        applicationClaimsExcelDataByApplicationId(filter: {archivedAt: {isNull: true}}) {
+          nodes {
+            rowId
+            jsonData
+          }
+        }
+      }
+    }
+    `,
+    {},
+    req
+  ).catch((e) => {
+    return { error: e };
+  });
+
+  // get an array of all previous used claim numebers
+  const previousClaimNumbers =
+    claims?.data?.applicationByRowId?.applicationClaimsExcelDataByApplicationId?.nodes?.map(
+      (claim) => {
+        return claim.jsonData.claimNumber;
+      }
+    );
+
   const errors = [];
 
   if (claimNumber === undefined) {
@@ -88,6 +115,32 @@ const ValidateData = async (data, req) => {
       level: 'cell',
       error: 'Invalid data: Claim number',
     });
+  }
+
+  if (previousClaimNumbers?.includes(claimNumber) && claimsId === 'undefined') {
+    errors.push({
+      level: 'claimNumber',
+      error: `Check that it's the correct file and retry uploading. If you were trying to edit an existing claim, please click the edit button beside it.`,
+    });
+  }
+
+  // we are processing an edit
+  if (claimsId !== 'undefined' && excelDataId !== 'undefined') {
+    // find matching existing claim excel data
+    const existingClaim =
+      claims?.data?.applicationByRowId?.applicationClaimsExcelDataByApplicationId?.nodes?.find(
+        (claim) => {
+          return claim.rowId === parseInt(excelDataId, 10);
+        }
+      );
+    if (
+      existingClaim === undefined ||
+      existingClaim.jsonData.claimNumber !== data.claimNumber
+    ) {
+      errors.push({
+        error: 'The claim number does not match the claim number being edited.',
+      });
+    }
   }
 
   if (dateRequestReceived === undefined) {
