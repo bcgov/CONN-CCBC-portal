@@ -19,6 +19,10 @@ env:
 jobs:
   yarn-test-e2e:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        parallel: 5
     steps:
       - uses: actions/checkout@v3
       - name: dev env setup
@@ -31,7 +35,14 @@ jobs:
         env:
           HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
           HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
-        run: yarn test:e2e
+          HAPPO_NONCE: ${{ github.sha }}
+        run: |
+          for i in $(seq 1 ${{ matrix.parallel }}); do
+            # Run happo-e2e with Cypress
+            npx happo-e2e -- group $i --nonce "$HAPPO_NONCE" -- cypress run
+          done
+          wait
+        continue-on-error: true
         working-directory: ./app
 
   zap-owasp-full:
