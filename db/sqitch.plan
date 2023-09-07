@@ -426,3 +426,4 @@ mutations/archive_application_community_progress_report [mutations/archive_appli
 
 tables/application_milestone_data 2023-09-07T20:54:15Z Marcel Mueller <marcel@m2> # table to store the application milestone form data
 tables/application_milestone_excel_data 2023-09-07T21:09:27Z Marcel Mueller <marcel@m2> # add table to store milestone excel data
+mutations/create_application_milestone_data 2023-09-07T21:13:57Z Marcel Mueller <marcel@m2> # mutation to create application milestone data
