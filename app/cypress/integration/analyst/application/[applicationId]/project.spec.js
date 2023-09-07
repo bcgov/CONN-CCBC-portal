@@ -45,7 +45,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     cy.get('select[id="root_decision_ministerAnnouncement"]').select(
       'Announce immediately'
@@ -59,7 +59,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     cy.contains('h2', 'Announcements');
     cy.get('select[id="root_isedDecisionObj_isedAnnouncement"]').select(
@@ -80,7 +80,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     cy.get('select[id="root_response_applicantResponse"]').select('Accepted');
 
@@ -109,7 +109,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     // Save announcement
     cy.get('#announcements-save-button').click();
@@ -125,7 +125,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     // Save announcement
     cy.get('#announcements-save-button').click();
@@ -145,7 +145,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     // Funding agreement upload
     cy.get('[id="root_fundingAgreementUpload-btn"]').click();
@@ -184,13 +184,13 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     cy.get('[id="root_dateApproved"]')
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     cy.get('[id="root_descriptionOfChanges"]').type('test');
 
@@ -220,13 +220,13 @@ describe('The analyst application view', () => {
     cy.get('body').happoScreenshot({ component: 'Community progress form' });
 
     cy.get('[id="root_dueDate"]').parent().find('.MuiButtonBase-root').click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
     cy.wait(1000);
     cy.get('[id="root_dateReceived"]')
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     // Community progress report excel upload
     cy.get('[id="root_progressReportFile-btn"]').click();
