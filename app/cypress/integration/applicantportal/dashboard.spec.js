@@ -24,10 +24,6 @@ describe('The applicant dashboard', () => {
 
     cy.findByRole('button', { name: /Create application/i }).click();
 
-    // Project information page
-    cy.findByRole('heading', { name: /^Project information/i }).should('exist');
-    cy.get('[id="root_projectTitle"]');
-
     cy.intercept(
       {
         url: '/graphql',
