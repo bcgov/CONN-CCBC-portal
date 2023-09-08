@@ -123,6 +123,8 @@ const MilestonesForm = ({ application }) => {
   const [createMilestone] = useCreateMilestoneMutation();
   /*   const [archiveMilestone] = useArchiveMilestone(); */
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+  // use this to live validate the form after the first submit attempt
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
   const [excelFile, setExcelFile] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [milestoneValidationErrors, setMilestoneValidationErrors] = useState(
@@ -148,11 +150,13 @@ const MilestonesForm = ({ application }) => {
     setIsFormEditMode(false);
     setFormData({} as FormData);
     setCurrentMilestoneData(null);
+    setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
   };
 
   const handleSubmit = async (e) => {
+    setIsSubmitAttempted(true);
     hiddenSubmitRef.current.click();
     if (!formData?.dueDate) return;
     e.preventDefault();
@@ -160,8 +164,9 @@ const MilestonesForm = ({ application }) => {
 
     validateMilestone(excelFile, false).then((res) => {
       // get the excel data row i from the response or the current claims data
+      console.log(res);
       const responseExcelDataId =
-        res?.result?.data.createApplicationMilestoneExcelData
+        res?.result?.data?.createApplicationMilestoneExcelData
           ?.applicationMilestoneExcelData?.rowId;
 
       // get the excel data row id from the current claims if it exists
@@ -283,11 +288,13 @@ const MilestonesForm = ({ application }) => {
         saveBtnDisabled={isFormSubmitting}
         cancelBtnDisabled={isFormSubmitting}
         resetFormData={handleResetFormData}
+        liveValidate={isSubmitAttempted}
         setFormData={setFormData}
         before={
           <AddButton
             isFormEditMode={isFormEditMode}
             onClick={() => {
+              setIsSubmitAttempted(false);
               setIsFormEditMode(true);
             }}
             title="Add milestone report"

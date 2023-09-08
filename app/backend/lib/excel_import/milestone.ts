@@ -5,7 +5,7 @@ import { performQuery } from '../graphql';
 
 const createMilestoneMutation = `
   mutation milestoneUploadMutation($input: CreateApplicationMilestoneExcelDataInput!) {
-    createApplicationMilestoneExcelData(input:   $input) {
+    createApplicationMilestoneExcelData(input: $input) {
         applicationMilestoneExcelData {
         id
         rowId
@@ -27,6 +27,8 @@ const readSummary = async (wb, sheet, applicationId, milestoneId) => {
     _jsonData: jsonData,
     _oldId: milestoneId ? parseInt(milestoneId, 10) : null,
   };
+
+  console.log('milestonedata', milestoneData);
 
   return milestoneData;
 };
@@ -72,13 +74,14 @@ const LoadMilestoneData = async (wb, sheet, req) => {
       input: {
         _applicationId: data._applicationId,
         _jsonData: data._jsonData,
+        _oldId: data._oldId,
       },
     },
     req
   ).catch((e) => {
     return { error: e };
   });
-
+  console.log(result);
   return result;
 };
 

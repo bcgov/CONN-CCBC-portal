@@ -10,7 +10,7 @@ import { ExpressMiddleware, parseForm } from './express-helper';
 // see https://docs.sheetjs.com/docs/getting-started/installation/nodejs/#installation
 XLSX.set_fs(fs);
 
-const sheetNames = ['Milestone Data'];
+const sheetNames = ['Project Updates Centre', 'Milestone 1', 'Milestone 2'];
 
 const milestoneUpload = Router();
 
@@ -38,7 +38,6 @@ const processMilestone: ExpressMiddleware = async (req, res) => {
   }
   const buf = fs.readFileSync(uploaded.filepath);
   const wb = XLSX.read(buf);
-
   // check if we have all needed worksheets
   sheetNames.forEach((sheet) => {
     if (wb.SheetNames.indexOf(sheet) === -1) {
