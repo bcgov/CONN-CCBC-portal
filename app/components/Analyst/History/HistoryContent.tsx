@@ -418,7 +418,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             prevJson={prevHistoryItem?.record?.json_data || {}}
             excludedKeys={['ccbc_number','progressReportFile']}
             diffSchema={communityReportSchema}
-            overrideParent={'communityReport'}
+            overrideParent='communityReport'
           />
         )} 
       </StyledContent>
