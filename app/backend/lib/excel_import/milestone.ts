@@ -43,7 +43,7 @@ const readSummary = async (wb, sheets, applicationId, milestoneId) => {
       ? convertExcelDateToJSDate(milestone2Sheet[5]['D'])
       : '',
   };
-  console.log('jsonData', jsonData);
+
   const milestoneData = {
     _applicationId: parseInt(applicationId, 10),
     _jsonData: jsonData,
