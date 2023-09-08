@@ -17,8 +17,31 @@ env:
   PGUSER: postgres
 
 jobs:
+  install-cypress:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - run: yarn install --frozen-lockfile
+        working-directory: ./app
+      - name: Cypress install
+        uses: cypress-io/github-action@v6
+        with:
+          # Disable running of tests within install job
+          runTests: false
+          build: yarn build
+
+      - name: Save build folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          if-no-files-found: error
+          path: dist
   yarn-test-e2e:
     runs-on: ubuntu-latest
+    needs: install-cypress
     strategy:
       fail-fast: false
       matrix:
@@ -31,6 +54,10 @@ jobs:
         uses: ./.github/actions/local-app-run
       - run: yarn install --frozen-lockfile
         working-directory: ./app
+      - name: Download the build folder
+        uses: actions/download-artifact@v3
+        with:
+          name: build
       - name: Cypress run
         uses: cypress-io/github-action@v6
         env:
