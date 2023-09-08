@@ -227,13 +227,7 @@ const CommunityProgressReportForm = ({ application }) => {
     archiveCommunityProgressReport({
       variables: {
         input: {
-<<<<<<< HEAD
-          cprRowId: currentCommunityProgressData?.rowId,
-          applicationRowId,
-          formData: {},
-=======
           _communityProgressReportId: currentCommunityProgressData?.rowId,
->>>>>>> b0983348 (fix: merged two delete mutations for CPR)
         },
       },
       updater: (store) => {
