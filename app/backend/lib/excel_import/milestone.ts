@@ -27,7 +27,7 @@ const readSummary = async (wb, sheet, applicationId, milestoneId) => {
     _jsonData: jsonData,
     _oldId: milestoneId ? parseInt(milestoneId, 10) : null,
   };
-
+  console.log(milestoneData);
   return milestoneData;
 };
 
@@ -72,7 +72,7 @@ const LoadMilestoneData = async (wb, sheet, req) => {
       input: {
         _applicationId: data._applicationId,
         _jsonData: data._jsonData,
-        _oldId: data._oldId,
+        _oldId: data._oldId || null,
       },
     },
     req
