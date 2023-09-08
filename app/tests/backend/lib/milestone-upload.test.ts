@@ -57,8 +57,8 @@ describe('The Milestone excel import api route', () => {
     mocked(performQuery).mockImplementation(async () => {
       return {
         data: {
-          createApplicationClaimsData: {
-            applicationClaimsData: { rowId: 1 },
+          createApplicationMilestoneData: {
+            applicationMilestoneData: { rowId: 1 },
           },
         },
       };
@@ -69,8 +69,8 @@ describe('The Milestone excel import api route', () => {
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'milestone-data' }))
-      // replace with claims file once we receive it
-      .attach('claims-data', `${__dirname}/milestone_empty.xlsx`)
+      // replace with milestone file once we receive it
+      .attach('milestone-data', `${__dirname}/milestone_empty.xlsx`)
       .expect(200);
 
     expect(response.status).toBe(200);
@@ -89,7 +89,7 @@ describe('The Milestone excel import api route', () => {
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'milestone-data' }))
-      .attach('claims-data', `${__dirname}/sow_200.xlsx`)
+      .attach('milestone-data', `${__dirname}/sow_200.xlsx`)
       .expect(400);
 
     expect(response.status).toBe(400);

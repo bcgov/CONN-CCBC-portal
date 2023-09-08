@@ -41,7 +41,7 @@ select results_eq(
   'Should return newly created milestone data'
 );
 
--- create a claim and pass in the old milestone id
+-- create a milestone and pass in the old milestone id
 select id, json_data from ccbc_public.create_application_milestone_data(1,'{}'::jsonb, 1);
 
 select results_eq(

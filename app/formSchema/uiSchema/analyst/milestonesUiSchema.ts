@@ -1,4 +1,4 @@
-const claimsUiSchema = {
+const milestoneUiSchema = {
   dueDate: {
     'ui:title': 'Due date',
     'ui:widget': 'DatePickerWidget',
@@ -17,4 +17,4 @@ const claimsUiSchema = {
   },
 };
 
-export default claimsUiSchema;
+export default milestoneUiSchema;

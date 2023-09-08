@@ -5,7 +5,7 @@ import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import milestonesSchema from 'formSchema/analyst/milestones';
 import milestonesUiSchema from 'formSchema/uiSchema/analyst/milestonesUiSchema';
 import { useCreateMilestoneMutation } from 'schema/mutations/project/createMilestoneData';
-/* import { useArchiveApplicationMilestoneDataMutation as useArchiveClaims } from 'schema/mutations/project/archiveApplicationMilestoneData'; */
+/* import { useArchiveApplicationMilestoneDataMutation as useArchiveMilestone } from 'schema/mutations/project/archiveApplicationMilestoneData'; */
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
 import Modal from 'components/Modal';
@@ -74,9 +74,9 @@ const FormHeader = (
 );
 
 interface FormData {
-  claimsFile?: any;
-  fromDate?: string;
-  toDate?: string;
+  dueDate?: string;
+  milestoneFile?: any;
+  evidenceOfCompletionFile?: any;
 }
 
 const MilestonesForm = ({ application }) => {
@@ -115,7 +115,7 @@ const MilestonesForm = ({ application }) => {
     ccbcNumber,
   } = queryFragment;
 
-  const [formData, setFormData] = useState({} as any);
+  const [formData, setFormData] = useState({} as FormData);
   const [showModal, setShowModal] = useState(false);
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentMilestoneData, setCurrentMilestoneData] = useState(null);
@@ -163,12 +163,12 @@ const MilestonesForm = ({ application }) => {
     setIsFormSubmitting(true);
 
     validateMilestone(excelFile, false).then((res) => {
-      // get the excel data row i from the response or the current claims data
+      // get the excel data row i from the response or the current milestone data
       const responseExcelDataId =
         res?.result?.data?.createApplicationMilestoneExcelData
           ?.applicationMilestoneExcelData?.rowId;
 
-      // get the excel data row id from the current claims if it exists
+      // get the excel data row id from the current milestone if it exists
       const currentExcelDataId = currentMilestoneData?.excelDataId;
 
       // replace the current excel data id if a new excel file was uploaded since the previous data will be archived
@@ -212,7 +212,7 @@ const MilestonesForm = ({ application }) => {
     // archiveMilestone({
     //   variables: {
     //     input: {
-    //       _claimsDataId: currentMilestoneData?.rowId,
+    //       _milestoneDataId: currentMilestoneData?.rowId,
     //     },
     //   },
     //   updater: (store) => {
@@ -233,7 +233,7 @@ const MilestonesForm = ({ application }) => {
     <>
       {showToast && (
         <Toast timeout={5000}>
-          Claims & progress report excel data successfully imported
+          Milestone report excel data successfully imported
         </Toast>
       )}
       <Modal

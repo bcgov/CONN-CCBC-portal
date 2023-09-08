@@ -42,7 +42,7 @@ const ValidateData = async () => {
   //   if (milestoneNumber === undefined) {
   //     errors.push({
   //       level: 'cell',
-  //       error: 'Invalid data: Claim number',
+  //       error: 'Invalid data: Milestone number',
   //     });
   //   }
   //
