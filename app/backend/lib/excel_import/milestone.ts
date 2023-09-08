@@ -50,10 +50,10 @@ const ValidateData = async () => {
 };
 
 const LoadMilestoneData = async (wb, sheet, req) => {
-  const { applicationId, claimsId } = req.params;
+  const { applicationId, milestoneId } = req.params;
   const validate = req.query?.validate === 'true';
 
-  const data = await readSummary(wb, sheet, applicationId, claimsId);
+  const data = await readSummary(wb, sheet, applicationId, milestoneId);
 
   /*   const errorList = await ValidateData(data._jsonData, req); */
   const errorList = await ValidateData();
