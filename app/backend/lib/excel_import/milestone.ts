@@ -28,8 +28,6 @@ const readSummary = async (wb, sheet, applicationId, milestoneId) => {
     _oldId: milestoneId ? parseInt(milestoneId, 10) : null,
   };
 
-  console.log('milestonedata', milestoneData);
-
   return milestoneData;
 };
 
@@ -81,7 +79,6 @@ const LoadMilestoneData = async (wb, sheet, req) => {
   ).catch((e) => {
     return { error: e };
   });
-  console.log(result);
   return result;
 };
 
