@@ -35,7 +35,7 @@ describe('The analyst application view', () => {
 
     cy.contains('h2', 'Conditional approval');
 
-    cy.wait(1000);
+    cy.wait(500);
 
     cy.get('body').happoScreenshot({ component: 'Conditional approval form' });
     // Province decision section
@@ -45,7 +45,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     cy.get('select[id="root_decision_ministerAnnouncement"]').select(
       'Announce immediately'
@@ -59,7 +59,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     cy.contains('h2', 'Announcements');
     cy.get('select[id="root_isedDecisionObj_isedAnnouncement"]').select(
@@ -80,7 +80,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     cy.get('select[id="root_response_applicantResponse"]').select('Accepted');
 
@@ -96,7 +96,6 @@ describe('The analyst application view', () => {
 
     // Announcements test
     cy.get('button').contains('Add announcement').click();
-    cy.get('body').happoScreenshot({ component: 'Announcements form' });
 
     cy.get('select[id="root_announcementType"]').select('Primary');
 
@@ -106,7 +105,9 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
+
+    cy.get('body').happoScreenshot({ component: 'Announcements form' });
 
     // Save announcement
     cy.get('#announcements-save-button').click();
@@ -122,7 +123,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     // Save announcement
     cy.get('#announcements-save-button').click();
@@ -136,13 +137,11 @@ describe('The analyst application view', () => {
       .parent()
       .click({ force: true });
 
-    cy.get('body').happoScreenshot({ component: 'Statement of work form' });
-
     cy.get('[id="root_dateFundingAgreementSigned"]')
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     // Funding agreement upload
     cy.get('[id="root_fundingAgreementUpload-btn"]').click();
@@ -163,6 +162,8 @@ describe('The analyst application view', () => {
     cy.wait('@sow-upload-validate', { timeout: 50000 });
     cy.contains('button', 'mock_excel.xlsx');
 
+    cy.get('body').happoScreenshot({ component: 'Statement of work form' });
+
     // Save statement of work
     cy.contains('Save & Import Data').click();
 
@@ -170,7 +171,6 @@ describe('The analyst application view', () => {
 
     // Add change request
     cy.get('button').contains('Add change request').click();
-    cy.get('body').happoScreenshot({ component: 'Change request form' });
 
     cy.get('[id="root_amendmentNumber"]').type(1);
 
@@ -178,19 +178,21 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     cy.get('[id="root_dateApproved"]')
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     cy.get('[id="root_descriptionOfChanges"]').type('test');
 
     cy.get('[id="root_levelOfAmendment-0"]').parent().click({ force: true });
 
     cy.get('[id="root_additionalComments"]').type('test');
+
+    cy.get('body').happoScreenshot({ component: 'Change request form' });
 
     // Change request excel upload
     cy.get('[id="root_statementOfWorkUpload-btn"]').click();
@@ -200,7 +202,6 @@ describe('The analyst application view', () => {
         force: true,
       });
     cy.wait('@sow-upload-validate', { timeout: 50000 });
-    cy.wait(5000);
     cy.contains('button', 'mock_excel.xlsx');
 
     // Save change request
@@ -208,18 +209,17 @@ describe('The analyst application view', () => {
 
     // Community progress report
     cy.get('button').contains('Add community progress report').click();
+
     cy.contains('h2', 'Community progress report');
 
-    cy.get('body').happoScreenshot({ component: 'Community progress form' });
-
     cy.get('[id="root_dueDate"]').parent().find('.MuiButtonBase-root').click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
     cy.wait(1000);
     cy.get('[id="root_dateReceived"]')
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-    cy.get('.MuiPickersDay-today').click();
+    cy.get('button').contains('1').click();
 
     // Community progress report excel upload
     cy.get('[id="root_progressReportFile-btn"]').click();
@@ -230,14 +230,12 @@ describe('The analyst application view', () => {
       });
     cy.wait('@community-report-validate', { timeout: 50000 });
     cy.contains('button', 'mock_excel.xlsx');
+    cy.get('body').happoScreenshot({ component: 'Community progress form' });
 
-    // Community progress report
     cy.contains('Save & Import').click();
 
     // Claims
     cy.get('button').contains('Add claim').click();
-
-    cy.get('body').happoScreenshot({ component: 'Claims form' });
 
     // Claim excel upload
     cy.get('[id="root_claimsFile-btn"]').click();
@@ -248,6 +246,7 @@ describe('The analyst application view', () => {
       });
     cy.wait('@claims-validate', { timeout: 50000 });
     cy.contains('button', 'mock_excel.xlsx');
+    cy.get('body').happoScreenshot({ component: 'Claims form' });
 
     // Save claim
     cy.contains('Save & Import').click();
