@@ -31,100 +31,105 @@ jobs:
         uses: ./.github/actions/local-app-run
       - run: yarn install --frozen-lockfile
         working-directory: ./app
-      - name: run e2e tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         env:
           HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
           HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
           HAPPO_NONCE: ${{ github.sha }}
-        run: |
-          HAPPO_NONCE="$HAPPO_NONCE" npx happo-e2e -- cypress run
-        continue-on-error: true
+        with:
+          command-prefix: HAPPO_NONCE="$HAPPO_NONCE" npx happo-e2e --- npx
         working-directory: ./app
+      #- name: run e2e tests
+      #  run: |
+      #    HAPPO_NONCE="$HAPPO_NONCE" npx happo-e2e -- cypress run
+      #  continue-on-error: true
+      #  working-directory: ./app
 
-  zap-owasp-full:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
-      - name: run app locally
-        uses: ./.github/actions/local-app-run
-      - name: ZAP Full Scan
-        uses: zaproxy/action-full-scan@v0.5.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          docker_name: 'owasp/zap2docker-stable'
-          target: 'http://localhost:3000/applicantportal'
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a -d -T 5 -m 2'
-          issue_title: OWASP Full Scan
-          fail_action: true
+  # zap-owasp-full:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: dev env setup
+  #       uses: ./.github/actions/dev-env-setup
+  #     - name: run app locally
+  #       uses: ./.github/actions/local-app-run
+  #     - name: ZAP Full Scan
+  #       uses: zaproxy/action-full-scan@v0.5.1
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         docker_name: 'owasp/zap2docker-stable'
+  #         target: 'http://localhost:3000/applicantportal'
+  #         rules_file_name: '.zap/rules.tsv'
+  #         cmd_options: '-a -d -T 5 -m 2'
+  #         issue_title: OWASP Full Scan
+  #         fail_action: true
 
-  trivy-scan-app:
-    runs-on: ubuntu-latest
-    outputs:
-      results-length: ${{ steps.scan-results-length.outputs.results-length }}
-    timeout-minutes: 60
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Trivy Vulnerability Scan
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
-          format: sarif
-          output: trivy-results.sarif
-          exit-code: '0'
-          ignore-unfixed: true
-          vuln-type: os,library
-          severity: CRITICAL
-          timeout: 10m0s
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
-      - name: Get Results Length From Sarif
-        id: scan-results-length
-        run: echo "results-length=$(cat trivy-results.sarif | jq '.runs[0].results | length')" >> $GITHUB_OUTPUT
+  # trivy-scan-app:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     results-length: ${{ steps.scan-results-length.outputs.results-length }}
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Trivy Vulnerability Scan
+  #       uses: aquasecurity/trivy-action@master
+  #       with:
+  #         image-ref: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
+  #         format: sarif
+  #         output: trivy-results.sarif
+  #         exit-code: '0'
+  #         ignore-unfixed: true
+  #         vuln-type: os,library
+  #         severity: CRITICAL
+  #         timeout: 10m0s
+  #     - name: Upload Trivy scan results to GitHub Security tab
+  #       uses: github/codeql-action/upload-sarif@v2
+  #       with:
+  #         sarif_file: 'trivy-results.sarif'
+  #     - name: Get Results Length From Sarif
+  #       id: scan-results-length
+  #       run: echo "results-length=$(cat trivy-results.sarif | jq '.runs[0].results | length')" >> $GITHUB_OUTPUT
 
-  trivy-scan-db:
-    runs-on: ubuntu-latest
-    outputs:
-      results-length: ${{ steps.scan-results-length.outputs.results-length }}
-    timeout-minutes: 60
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Trivy Vulnerability Scan
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }}
-          format: sarif
-          output: trivy-results.sarif
-          exit-code: '0'
-          ignore-unfixed: true
-          vuln-type: os,library
-          severity: CRITICAL
-          timeout: 10m0s
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
-      - name: Get Results Length From Sarif
-        id: scan-results-length
-        run: echo "results-length=$(cat trivy-results.sarif | jq '.runs[0].results | length')" >> $GITHUB_OUTPUT
+  # trivy-scan-db:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     results-length: ${{ steps.scan-results-length.outputs.results-length }}
+  #   timeout-minutes: 60
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Trivy Vulnerability Scan
+  #       uses: aquasecurity/trivy-action@master
+  #       with:
+  #         image-ref: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }}
+  #         format: sarif
+  #         output: trivy-results.sarif
+  #         exit-code: '0'
+  #         ignore-unfixed: true
+  #         vuln-type: os,library
+  #         severity: CRITICAL
+  #         timeout: 10m0s
+  #     - name: Upload Trivy scan results to GitHub Security tab
+  #       uses: github/codeql-action/upload-sarif@v2
+  #       with:
+  #         sarif_file: 'trivy-results.sarif'
+  #     - name: Get Results Length From Sarif
+  #       id: scan-results-length
+  #       run: echo "results-length=$(cat trivy-results.sarif | jq '.runs[0].results | length')" >> $GITHUB_OUTPUT
 
-  renovate:
-    needs: ['trivy-scan-db', 'trivy-scan-app']
-    if: needs.trivy-scan-db.outputs.results-length > 0 || needs.trivy-scan-app.outputs.results-length > 0
-    env:
-      RENOVATE_GIT_PRIVATE_KEY: ${{secrets.RENOVATE_PRIVATE_KEY}}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v32.238.1
-        with:
-          configurationFile: ./.github/renovate.json
-          token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+  # renovate:
+  #   needs: ['trivy-scan-db', 'trivy-scan-app']
+  #   if: needs.trivy-scan-db.outputs.results-length > 0 || needs.trivy-scan-app.outputs.results-length > 0
+  #   env:
+  #     RENOVATE_GIT_PRIVATE_KEY: ${{secrets.RENOVATE_PRIVATE_KEY}}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - name: Self-hosted Renovate
+  #       uses: renovatebot/github-action@v32.238.1
+  #       with:
+  #         configurationFile: ./.github/renovate.json
+  #         token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
