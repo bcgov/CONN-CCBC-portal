@@ -73,7 +73,7 @@ jobs:
 
   yarn-test-e2e-finalize:
     runs-on: ubuntu-latest
-    needs: [yarn-test-e2e-applicant, yarn-test-e2e-admin, yarn-test-e2e-analyst]
+    needs: [yarn-test-e2e-admin, yarn-test-e2e-analyst]
     steps:
       - uses: actions/checkout@v3
       - name: dev env setup
