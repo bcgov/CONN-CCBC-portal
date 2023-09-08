@@ -31,6 +31,7 @@ jobs:
         env:
           HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
           HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+          HAPPO_NONCE: ${{ github.sha }}
         run: yarn test:e2e:applicant
         working-directory: ./app
 
@@ -48,6 +49,7 @@ jobs:
         env:
           HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
           HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+          HAPPO_NONCE: ${{ github.sha }}
         run: yarn test:e2e:admin
         working-directory: ./app
 
@@ -65,7 +67,24 @@ jobs:
         env:
           HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
           HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+          HAPPO_NONCE: ${{ github.sha }}
         run: yarn test:e2e:analyst
+        working-directory: ./app
+
+  yarn-test-e2e-finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
+      - run: yarn install --frozen-lockfile
+        working-directory: ./app
+      - name: finalize e2e tests
+        env:
+          HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+          HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+          HAPPO_NONCE: ${{ github.sha }}
+        run: npx happo-e2e finalize
         working-directory: ./app
 
   zap-owasp-full:
