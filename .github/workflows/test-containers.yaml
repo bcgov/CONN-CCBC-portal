@@ -39,6 +39,7 @@ jobs:
           HAPPO_NONCE: ${{ github.sha }}
         with:
           command-prefix: HAPPO_NONCE="$HAPPO_NONCE" npx happo-e2e --- npx
+          parallel: true
         working-directory: ./app
       #- name: run e2e tests
       #  run: |
