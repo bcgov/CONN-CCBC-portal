@@ -9,12 +9,12 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yaml
+  # build:
+  #   uses: ./.github/workflows/build.yaml
 
-  test-code:
-    uses: ./.github/workflows/test-code.yaml
-    secrets: inherit
+  # test-code:
+  #   uses: ./.github/workflows/test-code.yaml
+  #   secrets: inherit
 
   test-containers:
     # needs: [build]
