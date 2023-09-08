@@ -177,6 +177,7 @@ describe('The Milestone form', () => {
             ],
           },
           _applicationId: 1,
+          _oldMilestoneId: null,
         },
       }
     );
