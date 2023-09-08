@@ -5,7 +5,7 @@ import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
-import { useDeleteAnnouncementMutation as useArchiveCpr} from 'schema/mutations/project/deleteCommunityProgressReport';
+import { useDeleteAnnouncementMutation as useArchiveCpr } from 'schema/mutations/project/deleteCommunityProgressReport';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import Toast from 'components/Toast';
@@ -134,6 +134,7 @@ const CommunityProgressReportForm = ({ application }) => {
 
   const fiscalQuarterList = communityProgressList
     ?.filter((data) => data.node.jsonData?.dueDate !== undefined)
+    ?.filter((data) => data.node.rowId !== currentCommunityProgressData?.rowId)
     ?.map((data) => {
       const dueDate = data.node.jsonData?.dueDate;
       const fiscalYear = getFiscalYear(dueDate);
@@ -148,12 +149,14 @@ const CommunityProgressReportForm = ({ application }) => {
     setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
+    setShowModal(false);
   };
 
   const handleSubmit = async (e) => {
     hiddenSubmitRef.current.click();
     e.preventDefault();
     setIsSubmitAttempted(true);
+
     if (!formData?.dueDate) return;
     setIsFormSubmitting(true);
 
@@ -226,7 +229,7 @@ const CommunityProgressReportForm = ({ application }) => {
         input: {
           cprRowId: currentCommunityProgressData?.rowId,
           applicationRowId,
-          formData:{}
+          formData: {},
         },
       },
       updater: (store) => {
@@ -237,8 +240,7 @@ const CommunityProgressReportForm = ({ application }) => {
         ConnectionHandler.deleteNode(connection, progressReportConnectionId);
       },
       onCompleted: () => {
-        setShowModal(false);
-        setCurrentCommunityProgressData(null);
+        handleResetFormData();
       },
     });
   };
@@ -250,14 +252,7 @@ const CommunityProgressReportForm = ({ application }) => {
           Community progress report successfully imported
         </Toast>
       )}
-      <Modal
-        open={showModal}
-        onClose={() => {
-          setCurrentCommunityProgressData(null);
-          setShowModal(false);
-        }}
-        title="Delete"
-      >
+      <Modal open={showModal} onClose={handleResetFormData} title="Delete">
         <StyledContainer>
           <p>
             Are you sure you want to delete this community progress report and
@@ -265,7 +260,7 @@ const CommunityProgressReportForm = ({ application }) => {
           </p>
           <StyledFlex>
             <Button onClick={handleDelete}>Yes, delete</Button>
-            <Button onClick={() => setShowModal(false)} variant="secondary">
+            <Button onClick={handleResetFormData} variant="secondary">
               No, keep
             </Button>
           </StyledFlex>
@@ -315,6 +310,7 @@ const CommunityProgressReportForm = ({ application }) => {
             isFormEditMode={isFormEditMode}
             onClick={() => {
               setIsSubmitAttempted(false);
+              setCurrentCommunityProgressData(null);
               setIsFormEditMode(true);
             }}
             title="Add community progress report"
