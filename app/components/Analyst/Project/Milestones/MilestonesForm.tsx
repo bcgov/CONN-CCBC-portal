@@ -164,7 +164,6 @@ const MilestonesForm = ({ application }) => {
 
     validateMilestone(excelFile, false).then((res) => {
       // get the excel data row i from the response or the current claims data
-      console.log(res);
       const responseExcelDataId =
         res?.result?.data?.createApplicationMilestoneExcelData
           ?.applicationMilestoneExcelData?.rowId;
