@@ -36,7 +36,7 @@ jobs:
           HAPPO_NONCE: ${{ github.sha }}
         with:
           # Disable running of tests within install job
-          command-prefix: HAPPO_NONCE="$HAPPO_NONCE" npx happo-e2e --- npx
+          command-prefix: 'HAPPO_NONCE=${{ github.sha }} npx happo-e2e --- npx'
           runTests: false
           working-directory: ./app
           build: yarn build
