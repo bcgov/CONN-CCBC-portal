@@ -269,7 +269,7 @@ const MilestonesForm = ({ application }) => {
         formHeader={FormHeader}
         theme={ProjectTheme}
         onSubmit={handleSubmit}
-        formAnimationHeight={600}
+        formAnimationHeight={1600}
         isFormAnimated
         hiddenSubmitRef={hiddenSubmitRef}
         isFormEditMode={isFormEditMode}
@@ -287,7 +287,7 @@ const MilestonesForm = ({ application }) => {
         saveBtnDisabled={isFormSubmitting}
         cancelBtnDisabled={isFormSubmitting}
         resetFormData={handleResetFormData}
-        liveValidate={isSubmitAttempted}
+        liveValidate={isSubmitAttempted && isFormEditMode}
         setFormData={setFormData}
         before={
           <AddButton
