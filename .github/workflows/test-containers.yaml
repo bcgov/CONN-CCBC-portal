@@ -39,6 +39,7 @@ jobs:
           command-prefix: HAPPO_NONCE="$HAPPO_NONCE" npx happo-e2e --- npx
           runTests: false
           working-directory: ./app
+          build: yarn:build
       - name: Save build folder
         uses: actions/upload-artifact@v3
         with:
