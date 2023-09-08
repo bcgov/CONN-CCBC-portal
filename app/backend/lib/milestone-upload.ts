@@ -56,7 +56,7 @@ const processMilestone: ExpressMiddleware = async (req, res) => {
     return res.status(400).json(errorList).end();
   }
 
-  const result = await LoadMilestoneData(wb, sheetNames[0], req);
+  const result = await LoadMilestoneData(wb, sheetNames, req);
   // get around typescript complaining
   if (result['error']) {
     return res.status(400).json(result['error']).end();
