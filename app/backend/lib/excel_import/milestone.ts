@@ -49,7 +49,7 @@ const readSummary = async (wb, sheets, applicationId, milestoneId) => {
     _jsonData: jsonData,
     _oldId: milestoneId ? parseInt(milestoneId, 10) : null,
   };
-  console.log(milestoneData);
+
   return milestoneData;
 };
 

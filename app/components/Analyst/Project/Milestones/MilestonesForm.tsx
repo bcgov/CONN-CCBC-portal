@@ -181,7 +181,7 @@ const MilestonesForm = ({ application }) => {
           input: {
             _jsonData: formData,
             _applicationId: applicationRowId,
-            _oldMilestoneId: currentMilestoneData?.rowId,
+            _oldMilestoneId: currentMilestoneData?.rowId || null,
             _excelDataId: excelDataId,
           },
         },
