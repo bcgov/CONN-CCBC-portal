@@ -22,8 +22,9 @@ describe('The applicant dashboard', () => {
 
     cy.get('body').happoScreenshot({ component: 'Dashboard Page' });
 
+    cy.findByRole('button', { name: /Create application/i }).not('be.disabled');
     cy.findByRole('button', { name: /Create application/i }).click();
-    cy.wait(1000);
+    cy.wait(2000);
 
     // Project information page
     cy.findByRole('heading', { name: /^Project information/i }).should('exist');
