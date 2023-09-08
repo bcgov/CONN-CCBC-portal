@@ -17,7 +17,7 @@ jobs:
     secrets: inherit
 
   test-containers:
-    needs: [build]
+    # needs: [build]
     uses: ./.github/workflows/test-containers.yaml
     secrets:
       HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
