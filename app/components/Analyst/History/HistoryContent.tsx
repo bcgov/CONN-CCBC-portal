@@ -40,7 +40,8 @@ const ChangeReason = ({ reason }) => {
 };
 
 const communityReportSchema = {
-    properies:{
+  communityReport: {
+    properties:{
       dueDate:{
         title: 'Due date',
         type: 'string'
@@ -50,6 +51,7 @@ const communityReportSchema = {
         type: 'string'
       }
     } 
+  }
 };
 const filterArrays = (obj: Record<string, any>): Record<string, any> => {
   const filteredEntries = Object.entries(obj).filter(([, value]) =>
@@ -416,6 +418,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             prevJson={prevHistoryItem?.record?.json_data || {}}
             excludedKeys={['ccbc_number','progressReportFile']}
             diffSchema={communityReportSchema}
+            overrideParent='communityReport'
           />
         )} 
       </StyledContent>

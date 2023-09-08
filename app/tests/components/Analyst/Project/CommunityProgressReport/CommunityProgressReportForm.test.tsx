@@ -421,12 +421,10 @@ describe('The Community Progress Report form', () => {
     });
 
     componentTestingHelper.expectMutationToBeCalled(
-      'deleteCommunityProgressReportMutation',
+      'archiveApplicationCommunityProgressReportMutation',
       {
-        input: {
-          cprRowId: 1,
-          applicationRowId: 1,
-          formData:{}
+        input: {          
+          _communityProgressReportId: 1,
         },
       }
     );

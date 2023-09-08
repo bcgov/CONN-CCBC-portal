@@ -5,7 +5,7 @@ import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
-import { useDeleteAnnouncementMutation as useArchiveCpr } from 'schema/mutations/project/deleteCommunityProgressReport';
+import { useArchiveApplicationCommunityProgressReportMutation as useArchiveCpr } from 'schema/mutations/project/archiveApplicationCommunityProgressReport';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import Toast from 'components/Toast';
@@ -227,9 +227,7 @@ const CommunityProgressReportForm = ({ application }) => {
     archiveCommunityProgressReport({
       variables: {
         input: {
-          cprRowId: currentCommunityProgressData?.rowId,
-          applicationRowId,
-          formData: {},
+          _communityProgressReportId: currentCommunityProgressData?.rowId,
         },
       },
       updater: (store) => {
