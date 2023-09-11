@@ -25,7 +25,7 @@ interface Props {
 
 const ViewDeleteButton: React.FC<Props> = ({ onClick }) => (
   <StyledButton onClick={onClick}>
-    View
+    Edit
     <FontAwesomeIcon icon={faPen} />
   </StyledButton>
 );
