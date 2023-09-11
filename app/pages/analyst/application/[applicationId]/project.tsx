@@ -11,6 +11,7 @@ import AnnouncementsForm from 'components/Analyst/Project/Announcements/Announce
 import ProjectInformationForm from 'components/Analyst/Project/ProjectInformation/ProjectInformationForm';
 import CommunityProgressReportForm from 'components/Analyst/Project/CommunityProgressReport/CommunityProgressReportForm';
 import ClaimsForm from 'components/Analyst/Project/Claims/ClaimsForm';
+import MilestonesForm from 'components/Analyst/Project/Milestones/MilestonesForm';
 
 const getProjectQuery = graphql`
   query projectQuery($rowId: Int!) {
@@ -23,6 +24,7 @@ const getProjectQuery = graphql`
       ...ProjectInformationForm_application
       ...CommunityProgressReportForm_application
       ...ClaimsForm_application
+      ...MilestonesForm_application
     }
     ...AnalystLayout_query
     ...AnnouncementsForm_query
@@ -42,6 +44,7 @@ const Project = ({
     'show_community_progress_report'
   ).value;
   const showClaims = useFeature('show_claims').value;
+  const showMilestones = useFeature('show_milestones').value;
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -57,6 +60,7 @@ const Project = ({
           <CommunityProgressReportForm application={applicationByRowId} />
         )}
         {showClaims && <ClaimsForm application={applicationByRowId} />}
+        {showMilestones && <MilestonesForm application={applicationByRowId} />}
       </AnalystLayout>
     </Layout>
   );

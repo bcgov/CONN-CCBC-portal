@@ -212,7 +212,12 @@ describe('The analyst application view', () => {
 
     cy.contains('h2', 'Community progress report');
 
-    cy.get('[id="root_dueDate"]').parent().find('.MuiButtonBase-root').click();
+    cy.get('[id="root_dueDate"]')
+      .first()
+      .parent()
+      .find('.MuiButtonBase-root')
+      .click();
+
     cy.get('button').contains('1').click();
     cy.wait(1000);
     cy.get('[id="root_dateReceived"]')

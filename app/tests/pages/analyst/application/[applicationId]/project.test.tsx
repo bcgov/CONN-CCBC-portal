@@ -1818,7 +1818,7 @@ describe('The Project page', () => {
       screen.getByTestId('save-community-progress-report')
     ).toBeInTheDocument();
 
-    expect(screen.getByText('Due date')).toBeInTheDocument();
+    expect(screen.getAllByText('Due date')[0]).toBeInTheDocument();
 
     expect(screen.getByText('Date received')).toBeInTheDocument();
 
@@ -1849,7 +1849,7 @@ describe('The Project page', () => {
 
     expect(saveButton).toBeInTheDocument();
 
-    expect(screen.getByText('Due date')).toBeInTheDocument();
+    expect(screen.getAllByText('Due date')[0]).toBeInTheDocument();
 
     expect(screen.getByText('Date received')).toBeInTheDocument();
 
