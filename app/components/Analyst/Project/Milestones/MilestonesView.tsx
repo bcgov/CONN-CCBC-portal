@@ -2,11 +2,12 @@ import { graphql, useFragment } from 'react-relay/hooks';
 import styled from 'styled-components';
 import DownloadLink from 'components/DownloadLink';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
+import ProgressBar from 'components/ProgressBar';
 import { ViewDeleteButton, ViewEditButton } from '..';
 
 const StyledContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-columns: 1fr 2fr 2fr 1fr;
   margin-bottom: 8px;
 `;
 
@@ -71,9 +72,11 @@ const MilestonesView: React.FC<Props> = ({
         <span>{dueDate && getFiscalYear(dueDate)}</span>
       </StyledDate>
       <DownloadLink fileName="Milestone Report" uuid={milestoneFile?.uuid} />
+      <ProgressBar progress={90} />
       {!isFormEditMode && (
         <StyledFlex>
           <ViewEditButton onClick={onFormEdit} />
+
           <ViewDeleteButton onClick={onShowDeleteModal} />
         </StyledFlex>
       )}

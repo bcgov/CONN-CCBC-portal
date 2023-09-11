@@ -211,6 +211,7 @@ const MilestonesForm = ({ application }) => {
         },
         onCompleted: () => {
           // add the new milestone excel data to the list if it exists so it can be instantly displayed
+          // since relay store doesn't like two store updates in the same mutation
           // otherwise the user will have to refresh the page to see the new data
           if (responseExcelData?.id) {
             setMilestonesExcelDataList([
