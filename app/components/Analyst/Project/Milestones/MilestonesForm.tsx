@@ -286,7 +286,9 @@ const MilestonesForm = ({ application }) => {
             accompanying data?
           </p>
           <StyledFlex>
-            <Button onClick={handleDelete}>Yes, delete</Button>
+            <Button onClick={handleDelete} disabled>
+              Yes, delete
+            </Button>
             <Button onClick={() => setShowModal(false)} variant="secondary">
               No, keep
             </Button>

@@ -39,6 +39,7 @@ const StyledDate = styled.div`
 
 interface Props {
   milestone: any;
+  milestoneExcelData: any;
   isFormEditMode: boolean;
   onFormEdit: () => void;
   onShowDeleteModal: () => void;
@@ -46,6 +47,7 @@ interface Props {
 
 const MilestonesView: React.FC<Props> = ({
   milestone,
+  milestoneExcelData,
   isFormEditMode,
   onFormEdit,
   onShowDeleteModal,
@@ -65,14 +67,25 @@ const MilestonesView: React.FC<Props> = ({
   const milestoneFile = jsonData?.milestoneFile?.[0];
   const dueDate = jsonData?.dueDate;
 
+  const overallProgress =
+    milestoneExcelData?.node?.jsonData?.overallMilestoneProgress;
+  const progress = overallProgress && Math.round(overallProgress * 100);
+
   return (
     <StyledContainer>
       <StyledDate>
         <span>{dueDate && getFiscalQuarter(dueDate)}</span>
         <span>{dueDate && getFiscalYear(dueDate)}</span>
       </StyledDate>
-      <DownloadLink fileName="Milestone Report" uuid={milestoneFile?.uuid} />
-      <ProgressBar progress={90} />
+      <span>
+        {milestoneFile && (
+          <DownloadLink
+            fileName="Milestone Report"
+            uuid={milestoneFile?.uuid}
+          />
+        )}
+      </span>
+      <span>{progress && <ProgressBar progress={progress} />}</span>
       {!isFormEditMode && (
         <StyledFlex>
           <ViewEditButton onClick={onFormEdit} />
