@@ -35,6 +35,7 @@ sharepoint.get('/api/sharepoint/auth', async (req, res) => {
   const authHeaders = await spauth
     .getAuth('https://bcgov.sharepoint.com/sites/CITZ-CONN_NETWORKBC_COM/', {
       ondemand: true,
+      persist: false,
     })
     .then(async (data) => {
       const { headers } = data;
