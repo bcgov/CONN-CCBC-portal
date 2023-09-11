@@ -1,3 +1,30 @@
+# [1.103.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.102.0...v1.103.0) (2023-09-11)
+
+### Bug Fixes
+
+- add .spec to cypress assessment test filenames ([7345403](https://github.com/bcgov/CONN-CCBC-portal/commit/73454030e998f0216cb3b199afdb86fe0bd76015))
+- cleanup ([ea7fbae](https://github.com/bcgov/CONN-CCBC-portal/commit/ea7fbae0d050b7adc5b842cf4149ef4217cfacbe))
+- community progress archiving previous created report ([8d14f6c](https://github.com/bcgov/CONN-CCBC-portal/commit/8d14f6c79a7d00aa35b996bc06a62133145aceeb))
+- fiscal year warning showing up while editing community report ([af60c87](https://github.com/bcgov/CONN-CCBC-portal/commit/af60c87e10ab7131a6b357ae371d9676e120cbb6))
+- merge conflict fix ([646dd0e](https://github.com/bcgov/CONN-CCBC-portal/commit/646dd0ea33fd28ce96a9e91ca97bd0c53925f7f4))
+- merged two delete mutations for CPR ([d3845c8](https://github.com/bcgov/CONN-CCBC-portal/commit/d3845c8df791cad124290daa467d599478e7ce1c))
+- minor fix ([dd6531b](https://github.com/bcgov/CONN-CCBC-portal/commit/dd6531b324543fe9138b3aad55787ac1f1d579c9))
+- package.json cleanup ([f4b1ea3](https://github.com/bcgov/CONN-CCBC-portal/commit/f4b1ea3f12458bc0e781f18862fd36acd0a9eb0d))
+- previous and edit claim logic ([4e804ba](https://github.com/bcgov/CONN-CCBC-portal/commit/4e804ba688e9a6d51034e40c1b99fc360f3dc0fa))
+- remove console log ([41b7b48](https://github.com/bcgov/CONN-CCBC-portal/commit/41b7b48d883a95b398f9dab9222b1691d5078608))
+- trying to mitigate vulnerability CVE-2021-23358 ([6b84bcc](https://github.com/bcgov/CONN-CCBC-portal/commit/6b84bcc4baa2eef9af22e9a0abffe20386853132))
+- updated tests ([b98576c](https://github.com/bcgov/CONN-CCBC-portal/commit/b98576cf15223d85956dbf9e2c6b482b600a634c))
+
+### Features
+
+- add commands to package.json for running admin, analyst and applicant e2e tests ([4b74cea](https://github.com/bcgov/CONN-CCBC-portal/commit/4b74ceaebdfb605cfafd9b16e20a9bf427f3d8d3))
+- claim edit must match previous claim number ([56053ea](https://github.com/bcgov/CONN-CCBC-portal/commit/56053ea5bc6ad4998b2e7b5d0e1b6e272e202232))
+- seprate cypress github workflow into admin, analyst and applicant tests ([057327d](https://github.com/bcgov/CONN-CCBC-portal/commit/057327dcd6184cfa408da947bcc88de1a006280c))
+- show claim number on view ([d31e41f](https://github.com/bcgov/CONN-CCBC-portal/commit/d31e41f3e064342cedcc86622564ee5cbe7a75ef))
+- updated page to match screen design ([c0774cb](https://github.com/bcgov/CONN-CCBC-portal/commit/c0774cb694da31e544fc2d20b137cc734a8910aa))
+- using eslint-json ([65cbc49](https://github.com/bcgov/CONN-CCBC-portal/commit/65cbc492c2be249b6d01cc2b66bf73dd8926cc0d))
+- validate claim number ([a530a06](https://github.com/bcgov/CONN-CCBC-portal/commit/a530a06ca0d8c0c0db31574da6d11eecb9e09721))
+
 # [1.102.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.101.0...v1.102.0) (2023-09-05)
 
 ### Bug Fixes
