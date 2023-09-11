@@ -48,6 +48,14 @@ const StyledFlex = styled.div`
   }
 `;
 
+const StyledViewHeader = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1fr;
+  color: #757575;
+  font-size: 14px;
+  font-weight: 700;
+`;
+
 const FormHeader = (
   <StyledFormHeader>
     <p>
@@ -339,6 +347,12 @@ const MilestonesForm = ({ application }) => {
         }
         saveDataTestId="save-milestones-data"
       >
+        <StyledViewHeader>
+          <span />
+          <span />
+          <span>% Project Milestone Complete</span>
+          <span />
+        </StyledViewHeader>
         {milestonesList?.map(({ node }) => {
           return (
             <MilestonesView
