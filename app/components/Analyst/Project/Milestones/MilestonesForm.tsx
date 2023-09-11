@@ -149,10 +149,18 @@ const MilestonesForm = ({ application }) => {
   const [milestonesExcelDataList, setMilestonesExcelDataList] =
     useState(excelDataEdges);
   const milestonesConnectionId = milestoneData?.__id;
-  const milestonesList = milestoneData?.edges?.filter((data) => {
-    // filter null nodes from the list caused by relay connection update
-    return data.node !== null;
-  });
+  const milestonesList = milestoneData?.edges
+    ?.filter((data) => {
+      // filter null nodes from the list caused by relay connection update
+      return data.node !== null;
+    })
+    .sort((a, b) => {
+      // sort by due date
+      const dateA = new Date(a.node.jsonData.dueDate);
+      const dateB = new Date(b.node.jsonData.dueDate);
+
+      return dateB.getTime() - dateA.getTime();
+    });
 
   const apiPath = `/api/analyst/milestone/${applicationRowId}/${ccbcNumber}/${currentMilestoneData?.rowId}`;
 
@@ -333,6 +341,9 @@ const MilestonesForm = ({ application }) => {
             <MilestonesView
               key={node.id}
               milestone={node}
+              milestoneExcelData={milestonesExcelDataList.find(
+                (data) => data.node.rowId === node.excelDataId
+              )}
               isFormEditMode={isFormEditMode}
               onShowDeleteModal={() => {
                 setShowModal(true);
