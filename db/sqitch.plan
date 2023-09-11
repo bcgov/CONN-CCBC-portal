@@ -430,3 +430,4 @@ mutations/create_application_milestone_data 2023-09-07T21:13:57Z Marcel Mueller 
 mutations/create_application_milestone_excel_data 2023-09-07T21:36:50Z Marcel Mueller <marcel@m2> # mutations to create application_milestone_excel_data
 @1.103.0 2023-09-11T16:04:04Z CCBC Service Account <ccbc@button.is> # release v1.103.0
 @1.103.1 2023-09-11T16:23:54Z CCBC Service Account <ccbc@button.is> # release v1.103.1
+@1.103.2 2023-09-11T16:59:49Z CCBC Service Account <ccbc@button.is> # release v1.103.2
