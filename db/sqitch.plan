@@ -428,3 +428,4 @@ tables/application_milestone_data 2023-09-07T20:54:15Z Marcel Mueller <marcel@m2
 tables/application_milestone_excel_data 2023-09-07T21:09:27Z Marcel Mueller <marcel@m2> # add table to store milestone excel data
 mutations/create_application_milestone_data 2023-09-07T21:13:57Z Marcel Mueller <marcel@m2> # mutation to create application milestone data
 mutations/create_application_milestone_excel_data 2023-09-07T21:36:50Z Marcel Mueller <marcel@m2> # mutations to create application_milestone_excel_data
+@1.103.0 2023-09-11T16:04:04Z CCBC Service Account <ccbc@button.is> # release v1.103.0
