@@ -7857,31 +7857,30 @@ gray-percentage@^2.0.0:
   resolved "https://registry.yarnpkg.com/gray-percentage/-/gray-percentage-2.0.0.tgz#b72a274d1b1379104a0050b63b207dc53fe56f99"
   integrity sha1-tyonTRsTeRBKAFC2OyB9xT/lb5k=
 
-happo-cypress@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/happo-cypress/-/happo-cypress-3.0.1.tgz#05a20b7ed5f8e8277c325679ca18ae17bb5a0056"
-  integrity sha512-x95Nhj1tjPzBZS8MyCyCbzXSJBJwjK2R/EJ5WQJQDHpj+bPoBP6JmT2wM5Pzoq7gt9+BhQm5IE8SIM05ltOSxQ==
-  dependencies:
-    happo-e2e "^1.0.3"
+happo-cypress@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/happo-cypress/-/happo-cypress-4.1.1.tgz#d10f064fad72a6a733a22f2baa234518e582b6bc"
+  integrity sha512-qMSjOOlCGjGis+i/VTzcL8/2te73I2jrNcQkx+rJgcbgYV7x13tiEVVo/MrR5lCg7kHtXiNNXAXgw7XUxNh3pQ==
 
-happo-e2e@^1.0.3, happo-e2e@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/happo-e2e/-/happo-e2e-1.1.0.tgz#e28d9035975c6e024a201e1e2f824b7bbe24e61c"
-  integrity sha512-6vHmYfqnCNr+Eur+rOzUSGrsCsjBXtNFi/PwDkyk5ejRJ072aQEL7VnDosEsbiNMK5uCUsX5UprV4L1buezzpA==
+happo-e2e@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/happo-e2e/-/happo-e2e-2.2.5.tgz#7b2947fa2d965738559201e7289e51068a7f8dc2"
+  integrity sha512-AD8oy7/3Qt4VuHzySwT1yfq5N3uLUt5g5WAHCNgBOgDz2lifYY+y1osWtuqyM8E+TEDXWC40GHJmVqkPhgdr9A==
   dependencies:
     archiver "^5.3.0"
     base64-stream "^1.0.0"
     crypto-js "^4.1.1"
     https-proxy-agent "^5.0.0"
+    image-size "^1.0.1"
     mkdirp "^1.0.4"
     node-fetch "^2.0.0"
     parse-srcset "^1.0.2"
     string.prototype.replaceall "^1.0.6"
 
-happo.io@^8.3.1:
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/happo.io/-/happo.io-8.3.1.tgz#a4b6fae8f3f9b9082d39e54b8d576d3dcffdfab6"
-  integrity sha512-8D+vlCycmVm/gpqsawdTBI2MpRfrbYf0jwucJaDf55UQZ8wT8nAkE4ds1KRhNm3a8cLq+uxUgRcz6VS7XKwfXg==
+happo.io@^8.3.3:
+  version "8.3.3"
+  resolved "https://registry.yarnpkg.com/happo.io/-/happo.io-8.3.3.tgz#eeb2f1b9bd955fde530da9cc30f4028de032d116"
+  integrity sha512-E9a9LrHXOQFbs+qlJCET59Q9HVHbzvCX/Wht5236SpP2d3NymlziuBb8uXvF3t9mvvLVx5Od4+EDNzeNrttB3g==
   dependencies:
     "@babel/preset-react" "^7.12.1"
     abort-controller "^3.0.0"
@@ -8197,6 +8196,13 @@ ignore@^5.1.8, ignore@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
   integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
+
+image-size@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/image-size/-/image-size-1.0.2.tgz#d778b6d0ab75b2737c1556dd631652eb963bc486"
+  integrity sha512-xfOoWjceHntRb3qFCrh5ZFORYH8XCdYpASltMhZ/Q0KZiOwjdE/Yl2QCiWdwD+lygV5bMCvauzgu5PxBX/Yerg==
+  dependencies:
+    queue "6.0.2"
 
 imagetracerjs@^1.2.5:
   version "1.2.6"
@@ -10917,6 +10923,13 @@ queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
+
+queue@6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/queue/-/queue-6.0.2.tgz#b91525283e2315c7553d2efa18d83e76432fed65"
+  integrity sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==
+  dependencies:
+    inherits "~2.0.3"
 
 random-bytes@~1.0.0:
   version "1.0.0"

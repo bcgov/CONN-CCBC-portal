@@ -10,6 +10,14 @@ describe('The applicant dashboard', () => {
     cy.mockLogin('ccbc_auth_user');
   });
 
+  it('triggers setup of everything', () => {
+    cy.sqlFixture('e2e/001_application');
+    cy.sqlFixture('e2e/001_application_received');
+    cy.sqlFixture('e2e/001_analyst');
+    cy.mockLogin('ccbc_auth_user');
+    cy.visit('/analyst/application/1');
+  });
+
   // Commenting out radio inputs until we pass in proper names or ids to select from
 
   it('should allow to start and fill an application', () => {
@@ -22,6 +30,7 @@ describe('The applicant dashboard', () => {
 
     cy.get('body').happoScreenshot({ component: 'Dashboard Page' });
 
+    cy.findByRole('button', { name: /Create application/i }).not('be.disabled');
     cy.findByRole('button', { name: /Create application/i }).click();
 
     // Project information page
