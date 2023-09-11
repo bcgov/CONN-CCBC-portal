@@ -9,6 +9,7 @@ import { useCreateMilestoneMutation } from 'schema/mutations/project/createMiles
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
 import Modal from 'components/Modal';
+import MilestonesView from './MilestonesView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
@@ -101,6 +102,19 @@ const MilestonesForm = ({ application }) => {
               rowId
               jsonData
               excelDataId
+              ...MilestonesView_query
+            }
+          }
+        }
+        applicationMilestoneExcelDataByApplicationId(
+          filter: { archivedAt: { isNull: true } }
+          first: 1000
+        ) {
+          edges {
+            node {
+              id
+              jsonData
+              rowId
             }
           }
         }
@@ -111,6 +125,7 @@ const MilestonesForm = ({ application }) => {
   );
   const {
     applicationMilestoneDataByApplicationId: milestoneData,
+    applicationMilestoneExcelDataByApplicationId: { edges: excelDataEdges },
     rowId: applicationRowId,
     ccbcNumber,
   } = queryFragment;
@@ -131,13 +146,14 @@ const MilestonesForm = ({ application }) => {
     []
   );
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-
+  const [milestonesExcelDataList, setMilestonesExcelDataList] =
+    useState(excelDataEdges);
   const milestonesConnectionId = milestoneData?.__id;
-  // const milestoneList = milestoneData?.edges?.filter((data) => {
-  //   // filter null nodes from the list caused by relay connection update
-  //   return data.node !== null;
-  // });
-  //
+  const milestonesList = milestoneData?.edges?.filter((data) => {
+    // filter null nodes from the list caused by relay connection update
+    return data.node !== null;
+  });
+
   const apiPath = `/api/analyst/milestone/${applicationRowId}/${ccbcNumber}/${currentMilestoneData?.rowId}`;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,15 +180,15 @@ const MilestonesForm = ({ application }) => {
 
     validateMilestone(excelFile, false).then((res) => {
       // get the excel data row i from the response or the current milestone data
-      const responseExcelDataId =
+      const responseExcelData =
         res?.result?.data?.createApplicationMilestoneExcelData
-          ?.applicationMilestoneExcelData?.rowId;
+          ?.applicationMilestoneExcelData;
 
       // get the excel data row id from the current milestone if it exists
       const currentExcelDataId = currentMilestoneData?.excelDataId;
 
       // replace the current excel data id if a new excel file was uploaded since the previous data will be archived
-      const excelDataId = responseExcelDataId || currentExcelDataId;
+      const excelDataId = responseExcelData?.rowId || currentExcelDataId;
 
       /// save form data
       createMilestone({
@@ -186,6 +202,17 @@ const MilestonesForm = ({ application }) => {
           },
         },
         onCompleted: () => {
+          // add the new milestone excel data to the list if it exists so it can be instantly displayed
+          // otherwise the user will have to refresh the page to see the new data
+          if (responseExcelData?.id) {
+            setMilestonesExcelDataList([
+              ...milestonesExcelDataList,
+              {
+                node: responseExcelData,
+              },
+            ]);
+          }
+
           handleResetFormData();
           setIsFormSubmitting(false);
 
@@ -301,7 +328,24 @@ const MilestonesForm = ({ application }) => {
         }
         saveDataTestId="save-milestones-data"
       >
-        {/* map milestones here */}
+        {milestonesList?.map(({ node }) => {
+          return (
+            <MilestonesView
+              key={node.id}
+              milestone={node}
+              isFormEditMode={isFormEditMode}
+              onShowDeleteModal={() => {
+                setShowModal(true);
+                setCurrentMilestoneData(node);
+              }}
+              onFormEdit={() => {
+                setFormData(node.jsonData);
+                setCurrentMilestoneData(node);
+                setIsFormEditMode(true);
+              }}
+            />
+          );
+        })}
       </StyledProjectForm>
     </>
   );

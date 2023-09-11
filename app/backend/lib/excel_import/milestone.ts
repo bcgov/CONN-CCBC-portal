@@ -8,6 +8,7 @@ const createMilestoneMutation = `
         applicationMilestoneExcelData {
         id
         rowId
+        jsonData
       }
       clientMutationId
     }
