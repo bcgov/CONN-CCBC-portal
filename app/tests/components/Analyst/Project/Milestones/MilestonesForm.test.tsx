@@ -250,4 +250,73 @@ describe('The Milestone form', () => {
 
     expect(screen.getByText('Save')).toBeInTheDocument();
   });
+
+  it('can delete a saved Milestone', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryByText('Milestone Report')).toBeInTheDocument();
+
+    const deleteButton = screen.getByText('Delete').closest('button');
+
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    expect(screen.getByText('Yes, delete')).toBeVisible();
+    expect(screen.getByText('No, keep')).toBeVisible();
+
+    const deleteConfirm = screen.getByText('Yes, delete').closest('button');
+
+    await act(async () => {
+      fireEvent.click(deleteConfirm);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'archiveApplicationMilestoneDataMutation',
+      {
+        input: {
+          _milestoneId: 1,
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          archiveApplicationMilestoneData: {
+            application: {
+              rowId: 1,
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.queryByText('Milestone Report')).not.toBeInTheDocument();
+  });
+
+  it('can cancel deleting a saved Milestone', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryByText('Milestone Report')).toBeInTheDocument();
+
+    const deleteButton = screen.getByText('Delete').closest('button');
+
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    expect(screen.getByText('Yes, delete')).toBeVisible();
+    expect(screen.getByText('No, keep')).toBeVisible();
+
+    const deleteConfirm = screen.getByText('No, keep').closest('button');
+
+    await act(async () => {
+      fireEvent.click(deleteConfirm);
+    });
+
+    expect(screen.queryByText('Milestone Report')).toBeInTheDocument();
+  });
 });
