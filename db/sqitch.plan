@@ -432,3 +432,4 @@ mutations/update_application_form [mutations/update_application_form@1.99.0] 202
 @1.104.0 2023-09-13T19:39:26Z CCBC Service Account <ccbc@button.is> # release v1.104.0
 tables/application_milestone_data_001 2023-09-12T17:52:00Z Marcel Mueller <marcel@m2> # add column history_operation
 mutations/archive_application_milestone_data 2023-09-12T18:07:10Z Marcel Mueller <marcel@m2> # mutation to archive milestone data and associated excel data
+tables/application_milestone_data_001 2023-09-12T17:52:00Z Marcel Mueller <marcel@m2> # add column history_operation
