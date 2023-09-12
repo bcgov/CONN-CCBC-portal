@@ -70,7 +70,7 @@ describe('The Milestone excel import api route', () => {
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'milestone-data' }))
       // replace with milestone file once we receive it
-      .attach('milestone-data', `${__dirname}/milestone_empty.xlsx`)
+      .attach('milestone-data', `${__dirname}/milestone.xlsx`)
       .expect(200);
 
     expect(response.status).toBe(200);
@@ -105,6 +105,32 @@ describe('The Milestone excel import api route', () => {
       {
         level: 'workbook',
         error: `missing required sheet "Milestone 2". Found: ["Summary_Sommaire","1","2","3","4","5","6","7","8","Change Log","Controls","Controls_E","Controls_F","Communities","Text"]`,
+      },
+    ]);
+  });
+
+  it('should return an error if the project number does not match', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/milestone/1/CCBC-010002/1')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'milestone-data' }))
+      .attach('milestone-data', `${__dirname}/milestone.xlsx`)
+      .expect(400);
+
+    expect(response.status).toBe(400);
+
+    expect(response.body).toEqual([
+      {
+        error:
+          'CCBC Number mismatch: expected CCBC-010002, received: CCBC-010001',
       },
     ]);
   });
