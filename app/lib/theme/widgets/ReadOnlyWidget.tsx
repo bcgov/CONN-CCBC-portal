@@ -17,6 +17,8 @@ const StyledValue = styled('div')`
 
 const StyledError = styled('div')`
   color: #e71f1f;
+  display: inline-block;
+  margin-top: 8px;
 `;
 
 const StyledMessage = styled('div')`
