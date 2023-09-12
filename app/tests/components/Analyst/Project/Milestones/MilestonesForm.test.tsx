@@ -236,4 +236,18 @@ describe('The Milestone form', () => {
     expect(screen.getByText('Delete')).toBeInTheDocument();
     expect(screen.getByText('Milestone Report')).toBeInTheDocument();
   });
+
+  it('can edit a saved Milestone', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryByText('Save')).not.toBeInTheDocument();
+    const editButton = screen.getByText('Edit').closest('button');
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    expect(screen.getByText('Save')).toBeInTheDocument();
+  });
 });
