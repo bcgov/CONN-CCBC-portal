@@ -1,9 +1,8 @@
 import { graphql, useFragment } from 'react-relay/hooks';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose, faPen } from '@fortawesome/free-solid-svg-icons';
 import DownloadLink from 'components/DownloadLink';
+import { ViewDeleteButton, ViewEditButton } from '..';
 
 const StyledContainer = styled.div`
   display: grid;
@@ -11,31 +10,13 @@ const StyledContainer = styled.div`
   margin-bottom: 8px;
 `;
 
-const StyledButton = styled.button`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: ${(props) => props.theme.color.links};
-  font-size: 14px;
-  font-weight: 700;
-
-  & svg {
-    margin-left: 4px;
-  }
-
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-const StyledDeleteButton = styled(StyledButton)`
-  margin-left: 16px;
-  color: ${(props) => props.theme.color.error};
-`;
-
 const StyledFlex = styled.div`
   display: flex;
   justify-content: flex-end;
+
+  & button:first-child {
+    margin-right: 16px;
+  }
 `;
 
 const StyledDate = styled.div`
@@ -121,12 +102,8 @@ const ClaimsView: React.FC<Props> = ({
       <DownloadLink fileName={claimsFile?.name} uuid={claimsFile?.uuid} />
       {!isFormEditMode && (
         <StyledFlex>
-          <StyledButton onClick={onFormEdit}>
-            Edit <FontAwesomeIcon icon={faPen} />
-          </StyledButton>
-          <StyledDeleteButton onClick={onShowDeleteModal}>
-            Delete <FontAwesomeIcon size="xl" icon={faClose} />
-          </StyledDeleteButton>
+          <ViewEditButton onClick={onFormEdit} />
+          <ViewDeleteButton onClick={onShowDeleteModal} />
         </StyledFlex>
       )}
     </StyledContainer>

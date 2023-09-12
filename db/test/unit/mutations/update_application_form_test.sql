@@ -91,7 +91,8 @@ select results_eq(
   'update_application_form updates the submissionDate and sets submissionCompletedFor'
 );
 
-select throws_like(
+-- use matching to check for the exception message since local machine seems to have a different timezone than the test server
+select throws_matching(
   $$
   select ccbc_public.update_application_form(
   1,
@@ -107,7 +108,8 @@ select throws_like(
   '2022-03-01 11:00:00.001-05'
 );
   $$,
-  'Data is Out of Sync',
+  -- match on the exception message
+  'Data is Out of Sync, client_updated_at: ',
   'Should raise "Data is out of sync" exception when calling my_function'
 );
 

@@ -13,6 +13,7 @@ export { default as LoginForm } from './LoginForm';
 export { default as MetabaseEmbed } from './MetabaseEmbed';
 export { default as Navigation } from './Navigation';
 export { default as NavLoginForm } from './NavLoginForm';
+export { default as ProgressBar } from './ProgressBar';
 export { default as SessionExpiryHandler } from './SessionExpiryHandler';
 export { default as Stepper } from './Stepper';
 export { default as StyledGovButton } from './StyledGovButton';

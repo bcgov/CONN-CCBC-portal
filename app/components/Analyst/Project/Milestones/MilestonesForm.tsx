@@ -9,6 +9,7 @@ import { useCreateMilestoneMutation } from 'schema/mutations/project/createMiles
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
 import Modal from 'components/Modal';
+import MilestonesView from './MilestonesView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
@@ -45,6 +46,14 @@ const StyledFlex = styled.div`
   button:first-child {
     margin-right: 16px;
   }
+`;
+
+const StyledViewHeader = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1fr;
+  color: #757575;
+  font-size: 14px;
+  font-weight: 700;
 `;
 
 const FormHeader = (
@@ -101,6 +110,19 @@ const MilestonesForm = ({ application }) => {
               rowId
               jsonData
               excelDataId
+              ...MilestonesView_query
+            }
+          }
+        }
+        applicationMilestoneExcelDataByApplicationId(
+          filter: { archivedAt: { isNull: true } }
+          first: 1000
+        ) {
+          edges {
+            node {
+              id
+              jsonData
+              rowId
             }
           }
         }
@@ -111,6 +133,7 @@ const MilestonesForm = ({ application }) => {
   );
   const {
     applicationMilestoneDataByApplicationId: milestoneData,
+    applicationMilestoneExcelDataByApplicationId: { edges: excelDataEdges },
     rowId: applicationRowId,
     ccbcNumber,
   } = queryFragment;
@@ -131,13 +154,22 @@ const MilestonesForm = ({ application }) => {
     []
   );
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-
+  const [milestonesExcelDataList, setMilestonesExcelDataList] =
+    useState(excelDataEdges);
   const milestonesConnectionId = milestoneData?.__id;
-  // const milestoneList = milestoneData?.edges?.filter((data) => {
-  //   // filter null nodes from the list caused by relay connection update
-  //   return data.node !== null;
-  // });
-  //
+  const milestonesList = milestoneData?.edges
+    ?.filter((data) => {
+      // filter null nodes from the list caused by relay connection update
+      return data.node !== null;
+    })
+    .sort((a, b) => {
+      // sort by due date
+      const dateA = new Date(a.node.jsonData.dueDate);
+      const dateB = new Date(b.node.jsonData.dueDate);
+
+      return dateB.getTime() - dateA.getTime();
+    });
+
   const apiPath = `/api/analyst/milestone/${applicationRowId}/${ccbcNumber}/${currentMilestoneData?.rowId}`;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,15 +196,15 @@ const MilestonesForm = ({ application }) => {
 
     validateMilestone(excelFile, false).then((res) => {
       // get the excel data row i from the response or the current milestone data
-      const responseExcelDataId =
+      const responseExcelData =
         res?.result?.data?.createApplicationMilestoneExcelData
-          ?.applicationMilestoneExcelData?.rowId;
+          ?.applicationMilestoneExcelData;
 
       // get the excel data row id from the current milestone if it exists
       const currentExcelDataId = currentMilestoneData?.excelDataId;
 
       // replace the current excel data id if a new excel file was uploaded since the previous data will be archived
-      const excelDataId = responseExcelDataId || currentExcelDataId;
+      const excelDataId = responseExcelData?.rowId || currentExcelDataId;
 
       /// save form data
       createMilestone({
@@ -181,11 +213,23 @@ const MilestonesForm = ({ application }) => {
           input: {
             _jsonData: formData,
             _applicationId: applicationRowId,
-            _oldMilestoneId: currentMilestoneData?.rowId,
+            _oldMilestoneId: currentMilestoneData?.rowId || null,
             _excelDataId: excelDataId,
           },
         },
         onCompleted: () => {
+          // add the new milestone excel data to the list if it exists so it can be instantly displayed
+          // since relay store doesn't like two store updates in the same mutation
+          // otherwise the user will have to refresh the page to see the new data
+          if (responseExcelData?.id) {
+            setMilestonesExcelDataList([
+              ...milestonesExcelDataList,
+              {
+                node: responseExcelData,
+              },
+            ]);
+          }
+
           handleResetFormData();
           setIsFormSubmitting(false);
 
@@ -250,7 +294,9 @@ const MilestonesForm = ({ application }) => {
             accompanying data?
           </p>
           <StyledFlex>
-            <Button onClick={handleDelete}>Yes, delete</Button>
+            <Button onClick={handleDelete} disabled>
+              Yes, delete
+            </Button>
             <Button onClick={() => setShowModal(false)} variant="secondary">
               No, keep
             </Button>
@@ -301,7 +347,35 @@ const MilestonesForm = ({ application }) => {
         }
         saveDataTestId="save-milestones-data"
       >
-        {/* map milestones here */}
+        {milestonesList.length > 0 && (
+          <StyledViewHeader>
+            <span />
+            <span />
+            <span>% Project Milestone Complete</span>
+            <span />
+          </StyledViewHeader>
+        )}
+        {milestonesList?.map(({ node }) => {
+          return (
+            <MilestonesView
+              key={node.id}
+              milestone={node}
+              milestoneExcelData={milestonesExcelDataList.find(
+                (data) => data.node.rowId === node.excelDataId
+              )}
+              isFormEditMode={isFormEditMode}
+              onShowDeleteModal={() => {
+                setShowModal(true);
+                setCurrentMilestoneData(node);
+              }}
+              onFormEdit={() => {
+                setFormData(node.jsonData);
+                setCurrentMilestoneData(node);
+                setIsFormEditMode(true);
+              }}
+            />
+          );
+        })}
       </StyledProjectForm>
     </>
   );
