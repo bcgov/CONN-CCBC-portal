@@ -5,7 +5,7 @@ import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import milestonesSchema from 'formSchema/analyst/milestones';
 import milestonesUiSchema from 'formSchema/uiSchema/analyst/milestonesUiSchema';
 import { useCreateMilestoneMutation } from 'schema/mutations/project/createMilestoneData';
-/* import { useArchiveApplicationMilestoneDataMutation as useArchiveMilestone } from 'schema/mutations/project/archiveApplicationMilestoneData'; */
+import { useArchiveApplicationMilestoneDataMutation as useArchiveMilestone } from 'schema/mutations/project/archiveApplicationMilestoneData';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
 import Modal from 'components/Modal';
@@ -144,7 +144,7 @@ const MilestonesForm = ({ application }) => {
   const [currentMilestoneData, setCurrentMilestoneData] = useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [createMilestone] = useCreateMilestoneMutation();
-  /*   const [archiveMilestone] = useArchiveMilestone(); */
+  const [archiveMilestone] = useArchiveMilestone();
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   // use this to live validate the form after the first submit attempt
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
@@ -253,24 +253,24 @@ const MilestonesForm = ({ application }) => {
   };
 
   const handleDelete = async () => {
-    // archiveMilestone({
-    //   variables: {
-    //     input: {
-    //       _milestoneDataId: currentMilestoneData?.rowId,
-    //     },
-    //   },
-    //   updater: (store) => {
-    //     const milestoneConnectionId = currentMilestoneData?.__id;
-    //     const connection = store.get(milestoneConnectionId);
-    //
-    //     store.delete(milestoneConnectionId);
-    //     ConnectionHandler.deleteNode(connection, milestoneConnectionId);
-    //   },
-    //   onCompleted: () => {
-    //     setShowModal(false);
-    //     setCurrentMilestoneData(null);
-    //   },
-    // });
+    archiveMilestone({
+      variables: {
+        input: {
+          _milestoneId: currentMilestoneData?.rowId,
+        },
+      },
+      updater: (store) => {
+        const milestoneConnectionId = currentMilestoneData?.__id;
+        const connection = store.get(milestoneConnectionId);
+
+        store.delete(milestoneConnectionId);
+        ConnectionHandler.deleteNode(connection, milestoneConnectionId);
+      },
+      onCompleted: () => {
+        setShowModal(false);
+        setCurrentMilestoneData(null);
+      },
+    });
   };
 
   return (
@@ -294,9 +294,7 @@ const MilestonesForm = ({ application }) => {
             accompanying data?
           </p>
           <StyledFlex>
-            <Button onClick={handleDelete} disabled>
-              Yes, delete
-            </Button>
+            <Button onClick={handleDelete}>Yes, delete</Button>
             <Button onClick={() => setShowModal(false)} variant="secondary">
               No, keep
             </Button>
