@@ -1509,6 +1509,9 @@ type Query implements Node {
 
   """Returns the current open intake"""
   openIntake: Intake
+
+  """Returns the current public open intake"""
+  openIntakePublic: Intake
   session: KeycloakJwt
 
   """Reads a single `Analyst` using its globally unique `ID`."""
@@ -15461,6 +15464,9 @@ input IntakeFilter {
   """Filter by the object’s `description` field."""
   description: StringFilter
 
+  """Filter by the object’s `hidden` field."""
+  hidden: IntFilter
+
   """Filter by the object’s `applicationsByIntakeId` relation."""
   applicationsByIntakeId: IntakeToManyApplicationFilter
 
@@ -19853,6 +19859,9 @@ type Intake implements Node {
   """A description of the intake"""
   description: String
 
+  """Flag to identify internal-only intake"""
+  hidden: Int
+
   """Reads a single `CcbcUser` that is related to this `Intake`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -20181,6 +20190,8 @@ enum IntakesOrderBy {
   COUNTER_ID_DESC
   DESCRIPTION_ASC
   DESCRIPTION_DESC
+  HIDDEN_ASC
+  HIDDEN_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -20229,6 +20240,9 @@ input IntakeCondition {
 
   """Checks for equality with the object’s `description` field."""
   description: String
+
+  """Checks for equality with the object’s `hidden` field."""
+  hidden: Int
 }
 
 """A connection to a list of `CcbcUser` values, with data from `Intake`."""

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { graphql } from 'react-relay';
+import crypto from 'crypto';
 import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import styled from 'styled-components';
 import Link from '@button-inc/bcgov-theme/Link';
@@ -53,6 +54,9 @@ const getDashboardQuery = graphql`
     }
     openIntake {
       closeTimestamp
+    }    
+    openIntakePublic {
+      closeTimestamp
     }
     nextIntake {
       openTimestamp
@@ -68,10 +72,19 @@ const StyledContainer = styled('div')`
 const Dashboard = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, dashboardQuery>) => {
+  const { asPath } = useRouter();
+  const queryParams = asPath.replace('applicantportal/dashboard','').replace('/','').replace('?',''); 
+  let custom;
+  if (queryParams !== '') {
+    crypto.createHash('sha256');
+    const hash = crypto.createHash('sha256');
+    const secret = queryParams.replace('/','').replace('?','').replace('=','');
+    hash.update(secret);
+    const digest = hash.digest('hex');
+    custom = digest === '32783cef30bc23d9549623aa48aa8556346d78bd3ca604f277d63d6e573e8ce0';
+  }
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
-  const { allApplications, nextIntake, openIntake, session } = query;
-
-  const closeTimestamp = openIntake?.closeTimestamp;
+  const { allApplications, nextIntake, openIntake, openIntakePublic, session } = query;
 
   const sub: string = session?.sub;
 
@@ -80,6 +93,12 @@ const Dashboard = ({
   const router = useRouter();
 
   const [createApplication] = useCreateApplicationMutation();
+
+  let intakeDates = custom 
+    ? (openIntake ? {...openIntake} : openIntake)
+    : (openIntakePublic ? {...openIntakePublic} : openIntakePublic);
+  
+  const closeTimestamp = intakeDates?.closeTimestamp;
 
   useEffect(() => {
     // check if session is still valid
@@ -106,12 +125,11 @@ const Dashboard = ({
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
   const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
   const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
-
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
         <section>
-          {openIntake && (
+          {intakeDates && (
             <DynamicAlert
               dateTimestamp={closeTimestamp}
               text={openIntakeBanner.text}
@@ -119,7 +137,7 @@ const Dashboard = ({
               displayOpenDate={false}
             />
           )}
-          {!openIntake && (
+          {!intakeDates && (
             <DynamicAlert
               dateTimestamp={nextIntake?.openTimestamp}
               text={closedIntakeBanner.text}
@@ -128,7 +146,7 @@ const Dashboard = ({
             />
           )}
           <h1>Dashboard</h1>
-          {openIntake ? (
+          {intakeDates ? (
             <p>
               Review of applications will begin on{' '}
               {dateTimeSubtracted(closeTimestamp, showSubtractedTime)}. You can
@@ -152,7 +170,7 @@ const Dashboard = ({
           )}
           <StyledGovButton
             onClick={handleCreateApplication}
-            disabled={!openIntake}
+            disabled={!intakeDates}
           >
             Create application
           </StyledGovButton>

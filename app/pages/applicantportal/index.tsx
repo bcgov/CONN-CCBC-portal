@@ -1,7 +1,9 @@
 import type { NextPageContext } from 'next';
+import { useRouter } from 'next/router'; 
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
+import crypto from 'crypto';
 import { useFeature } from '@growthbook/growthbook-react';
 import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
@@ -58,6 +60,10 @@ const getApplicantportalQuery = graphql`
     session {
       sub
     }
+    openIntakePublic {
+      openTimestamp
+      closeTimestamp
+    }
     openIntake {
       openTimestamp
       closeTimestamp
@@ -71,17 +77,32 @@ const getApplicantportalQuery = graphql`
 const Home = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, applicantportalQuery>) => {
-  const { nextIntake, openIntake, session } = usePreloadedQuery(
+  const { nextIntake, openIntake, openIntakePublic, session } = usePreloadedQuery(
     getApplicantportalQuery,
     preloadedQuery
   );
+  const { asPath } = useRouter();
+  const queryParams = asPath.replace('applicantportal',''); 
+  let custom;
+  if (queryParams !== '') {
+    crypto.createHash('sha256');
+    const hash = crypto.createHash('sha256');
+    const secret = queryParams.replace('/','').replace('?','').replace('=','');
+    hash.update(secret);
+    const digest = hash.digest('hex');
+    custom = digest === '32783cef30bc23d9549623aa48aa8556346d78bd3ca604f277d63d6e573e8ce0';
+  }
 
+  let intakeDates = custom 
+    ? (openIntake ? {...openIntake} : openIntake)
+    : (openIntakePublic ? {...openIntakePublic} : openIntakePublic);
+   
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
   const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
   const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
 
   const intakeCalloutChildren = useMemo(() => {
-    if (!openIntake)
+    if (!intakeDates)
       return (
         <>
           <BoldText>Applications are not currently being accepted.</BoldText>
@@ -95,7 +116,7 @@ const Home = ({
       );
 
     const formattedClosingDate = dateTimeSubtracted(
-      openIntake.closeTimestamp,
+      intakeDates.closeTimestamp,
       showSubtractedTime
     );
 
@@ -107,12 +128,12 @@ const Home = ({
         submitted applications can be edited until then.
       </BoldText>
     );
-  }, [openIntake]);
-
+  }, [intakeDates]);
+  const dashboardUrl = `/applicantportal/dashboard${queryParams}`;
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
-        {!openIntake && (
+        {!intakeDates && (
           <DynamicAlert
             dateTimestamp={nextIntake?.openTimestamp}
             text={closedIntakeBanner.text}
@@ -120,9 +141,9 @@ const Home = ({
             displayOpenDate={closedIntakeBanner.displayOpenDate}
           />
         )}
-        {openIntake && (
+        {intakeDates && (
           <DynamicAlert
-            dateTimestamp={openIntake.closeTimestamp}
+            dateTimestamp={intakeDates.closeTimestamp}
             text={openIntakeBanner.text}
             variant={openIntakeBanner.variant}
             displayOpenDate={false}
@@ -141,7 +162,7 @@ const Home = ({
         <section>
           {session?.sub ? (
             <StyledBtnContainer>
-              <ButtonLink href="/applicantportal/dashboard">
+              <ButtonLink href={dashboardUrl}>
                 Go to dashboard
               </ButtonLink>
             </StyledBtnContainer>

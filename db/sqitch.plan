@@ -429,3 +429,6 @@ mutations/create_application_milestone_excel_data 2023-09-07T21:36:50Z Marcel Mu
 @1.103.0 2023-09-11T16:04:04Z CCBC Service Account <ccbc@button.is> # release v1.103.0
 @1.103.1 2023-09-11T16:23:54Z CCBC Service Account <ccbc@button.is> # release v1.103.1
 mutations/update_application_form [mutations/update_application_form@1.99.0] 2023-09-06T16:04:25Z Marcel Mueller <marcel@m2> # fix incorrect out of sync error
+tables/intake_007_add_hidden 2023-09-07T07:20:55Z ,,, Vladimir <vladimir@button.is> # add new column to intake table
+functions/open_intake_public 2023-09-07T09:57:53Z ,,, Vladimir <vladimir@button.is> # add custom version of open_intake function
+
