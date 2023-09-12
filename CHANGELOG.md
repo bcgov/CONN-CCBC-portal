@@ -1,3 +1,9 @@
+## [1.103.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.103.1...v1.103.2) (2023-09-12)
+
+### Bug Fixes
+
+- multiple tabs error being shown erroneously ([5f32d93](https://github.com/bcgov/CONN-CCBC-portal/commit/5f32d9355c99d6e53e19049ac704fb900c8b2676))
+
 ## [1.103.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.103.0...v1.103.1) (2023-09-11)
 
 # [1.103.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.102.0...v1.103.0) (2023-09-11)
