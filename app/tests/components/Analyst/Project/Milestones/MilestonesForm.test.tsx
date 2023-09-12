@@ -89,7 +89,31 @@ describe('The Milestone form', () => {
 
     // @ts-ignore
     global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 200, json: () => {} })
+      Promise.resolve({
+        status: 200,
+        json: () => ({
+          result: {
+            data: {
+              createApplicationMilestoneExcelData: {
+                applicationMilestoneExcelData: {
+                  id: 'WyJhcHBsaWNhdGlvbl9taWxlc3RvbmVfZXhjZWxfZGF0YSIsNF0=',
+                  rowId: 4,
+                  jsonData: {
+                    projectNumber: 'CCBC-010001',
+                    milestone1Progress: 0.2,
+                    milestone2Progress: 0.3,
+                    milestone3Progress: 0.2,
+                    overallMilestoneProgress: 0.7,
+                    milestone1DateOfReception: '2023-01-01T00:00:00.000Z',
+                    milestone2DateOfReception: '2023-01-01T00:00:00.000Z',
+                  },
+                },
+                clientMutationId: null,
+              },
+            },
+          },
+        }),
+      })
     );
 
     const addButton = screen
@@ -178,6 +202,7 @@ describe('The Milestone form', () => {
           },
           _applicationId: 1,
           _oldMilestoneId: null,
+          _excelDataId: 4,
         },
       }
     );
@@ -185,9 +210,30 @@ describe('The Milestone form', () => {
     act(() => {
       componentTestingHelper.environment.mock.resolveMostRecentOperation({
         data: {
-          createMilestoneData: {},
+          createApplicationMilestoneExcelData: {
+            applicationMilestoneExcelData: {
+              id: 'WyJhcHBsaWNhdGlvbl9taWxlc3RvbmVfZXhjZWxfZGF0YSIsNF0=',
+              rowId: 4,
+              jsonData: {
+                projectNumber: 'CCBC-010001',
+                milestone1Progress: 0.2,
+                milestone2Progress: 0.3,
+                milestone3Progress: 0.2,
+                overallMilestoneProgress: 0.7,
+                milestone1DateOfReception: '2023-01-01T00:00:00.000Z',
+                milestone2DateOfReception: '2023-01-01T00:00:00.000Z',
+              },
+            },
+          },
         },
       });
     });
+
+    expect(
+      screen.getByText('% Project Milestone Complete')
+    ).toBeInTheDocument();
+    expect(screen.getByText('Edit')).toBeInTheDocument();
+    expect(screen.getByText('Delete')).toBeInTheDocument();
+    expect(screen.getByText('Milestone Report')).toBeInTheDocument();
   });
 });
