@@ -2,11 +2,12 @@ import { graphql, useFragment } from 'react-relay/hooks';
 import styled from 'styled-components';
 import DownloadLink from 'components/DownloadLink';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
+import ProgressBar from 'components/ProgressBar';
 import { ViewDeleteButton, ViewEditButton } from '..';
 
 const StyledContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-columns: 1fr 2fr 2fr 1fr;
   margin-bottom: 8px;
 `;
 
@@ -37,32 +38,39 @@ const StyledDate = styled.div`
 `;
 
 interface Props {
-  communityProgressReport: any;
+  milestone: any;
+  milestoneExcelData: any;
   isFormEditMode: boolean;
   onFormEdit: () => void;
   onShowDeleteModal: () => void;
 }
 
-const CommunityProgressView: React.FC<Props> = ({
-  communityProgressReport,
+const MilestonesView: React.FC<Props> = ({
+  milestone,
+  milestoneExcelData,
   isFormEditMode,
   onFormEdit,
   onShowDeleteModal,
 }) => {
   const queryFragment = useFragment(
     graphql`
-      fragment CommunityProgressView_query on ApplicationCommunityProgressReportData {
+      fragment MilestonesView_query on ApplicationMilestoneData {
         __id
         jsonData
       }
     `,
-    communityProgressReport
+    milestone
   );
 
   const { jsonData } = queryFragment;
 
-  const progressReportFile = jsonData?.progressReportFile?.[0];
+  const milestoneFile = jsonData?.milestoneFile?.[0];
   const dueDate = jsonData?.dueDate;
+
+  const overallProgress =
+    milestoneExcelData?.node?.jsonData?.overallMilestoneProgress;
+  const progress = overallProgress && Math.round(overallProgress * 100);
+  const isProgress = typeof progress === 'number';
 
   return (
     <StyledContainer>
@@ -70,13 +78,19 @@ const CommunityProgressView: React.FC<Props> = ({
         <span>{dueDate && getFiscalQuarter(dueDate)}</span>
         <span>{dueDate && getFiscalYear(dueDate)}</span>
       </StyledDate>
-      <DownloadLink
-        fileName={progressReportFile?.name}
-        uuid={progressReportFile?.uuid}
-      />
+      <span>
+        {milestoneFile && (
+          <DownloadLink
+            fileName="Milestone Report"
+            uuid={milestoneFile?.uuid}
+          />
+        )}
+      </span>
+      <span>{isProgress && <ProgressBar progress={progress} />}</span>
       {!isFormEditMode && (
         <StyledFlex>
           <ViewEditButton onClick={onFormEdit} />
+
           <ViewDeleteButton onClick={onShowDeleteModal} />
         </StyledFlex>
       )}
@@ -84,4 +98,4 @@ const CommunityProgressView: React.FC<Props> = ({
   );
 };
 
-export default CommunityProgressView;
+export default MilestonesView;

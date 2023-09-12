@@ -1,7 +1,6 @@
-// import * as XLSX from 'xlsx';
-// import { DateTime } from 'luxon';
+import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
-/* import { convertExcelDateToJSDate } from '../sow_import/util'; */
+import { convertExcelDateToJSDate } from '../sow_import/util';
 
 const createMilestoneMutation = `
   mutation milestoneUploadMutation($input: CreateApplicationMilestoneExcelDataInput!) {
@@ -9,18 +8,42 @@ const createMilestoneMutation = `
         applicationMilestoneExcelData {
         id
         rowId
+        jsonData
       }
       clientMutationId
     }
   }
 `;
 
-const readSummary = async (wb, sheet, applicationId, milestoneId) => {
-  // const milestoneFormSheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet], {
-  //   header: 'A',
-  // });
+const readSummary = async (wb, sheets, applicationId, milestoneId) => {
+  const projectUpdatesCentreSheet = XLSX.utils.sheet_to_json(
+    wb.Sheets[sheets[0]],
+    {
+      header: 'A',
+    }
+  );
 
-  const jsonData = {};
+  const milestone1Sheet = XLSX.utils.sheet_to_json(wb.Sheets[sheets[1]], {
+    header: 'A',
+  });
+
+  const milestone2Sheet = XLSX.utils.sheet_to_json(wb.Sheets[sheets[2]], {
+    header: 'A',
+  });
+
+  const jsonData = {
+    projectNumber: projectUpdatesCentreSheet[3]['C'],
+    milestone1Progress: projectUpdatesCentreSheet[4]['G'],
+    milestone2Progress: projectUpdatesCentreSheet[5]['G'],
+    milestone3Progress: projectUpdatesCentreSheet[6]['G'],
+    overallMilestoneProgress: projectUpdatesCentreSheet[7]['G'],
+    milestone1DateOfReception: milestone1Sheet[15]['C']
+      ? convertExcelDateToJSDate(milestone1Sheet[15]['C'])
+      : '',
+    milestone2DateOfReception: milestone2Sheet[5]['D']
+      ? convertExcelDateToJSDate(milestone2Sheet[5]['D'])
+      : '',
+  };
 
   const milestoneData = {
     _applicationId: parseInt(applicationId, 10),
@@ -35,25 +58,25 @@ const ValidateData = async () => {
   // const ValidateData = async (data, req) => {
   //   const { ccbcNumber } = req.params;
   //
-  //   const { milestoneNumber } = data;
+  //   const { projectNumber } = data;
   //
   const errors = [];
   //
-  //   if (milestoneNumber === undefined) {
+  //   if (projectNumber === undefined) {
   //     errors.push({
   //       level: 'cell',
-  //       error: 'Invalid data: Milestone number',
+  //       error: 'Invalid data: Project number',
   //     });
   //   }
   //
   return errors;
 };
 
-const LoadMilestoneData = async (wb, sheet, req) => {
+const LoadMilestoneData = async (wb, sheets, req) => {
   const { applicationId, milestoneId } = req.params;
   const validate = req.query?.validate === 'true';
 
-  const data = await readSummary(wb, sheet, applicationId, milestoneId);
+  const data = await readSummary(wb, sheets, applicationId, milestoneId);
 
   /*   const errorList = await ValidateData(data._jsonData, req); */
   const errorList = await ValidateData();
@@ -72,7 +95,7 @@ const LoadMilestoneData = async (wb, sheet, req) => {
       input: {
         _applicationId: data._applicationId,
         _jsonData: data._jsonData,
-        _oldId: data._oldId,
+        _oldId: data._oldId || null,
       },
     },
     req
