@@ -1,6 +1,6 @@
 begin;
 
-select plan(9);
+select plan(10);
 
 -- Table exists
 select has_table(
@@ -13,6 +13,7 @@ select has_column('ccbc_public', 'application_milestone_data', 'id','The table a
 select has_column('ccbc_public', 'application_milestone_data', 'application_id','The table application_milestone_data has column application_id');
 select has_column('ccbc_public', 'application_milestone_data', 'json_data','The table application_milestone_data has column json_data');
 select has_column('ccbc_public', 'application_milestone_data', 'excel_data_id','The table application_milestone_data has column excel_data_id');
+select has_column('ccbc_public', 'application_milestone_data', 'history_operation','The table application_milestone_data has column history_operation');
 
 -- Privileges
 select table_privs_are(
