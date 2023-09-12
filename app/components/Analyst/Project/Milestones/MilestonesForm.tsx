@@ -347,12 +347,14 @@ const MilestonesForm = ({ application }) => {
         }
         saveDataTestId="save-milestones-data"
       >
-        <StyledViewHeader>
-          <span />
-          <span />
-          <span>% Project Milestone Complete</span>
-          <span />
-        </StyledViewHeader>
+        {milestonesList.length > 0 && (
+          <StyledViewHeader>
+            <span />
+            <span />
+            <span>% Project Milestone Complete</span>
+            <span />
+          </StyledViewHeader>
+        )}
         {milestonesList?.map(({ node }) => {
           return (
             <MilestonesView
