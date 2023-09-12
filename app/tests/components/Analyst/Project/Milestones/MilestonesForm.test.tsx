@@ -319,4 +319,62 @@ describe('The Milestone form', () => {
 
     expect(screen.queryByText('Milestone Report')).toBeInTheDocument();
   });
+
+  it('displays an error message when the excel upload fails', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        status: 400,
+        json: () => [
+          {
+            error:
+              'CCBC Number mismatch: expected CCBC-010003, received: CCBC-010001',
+          },
+        ],
+      })
+    );
+
+    const addButton = screen
+      .getByText('Add milestone report')
+      .closest('button');
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dueDateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'milestone.xlsx', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    expect(
+      screen.getByText(
+        'An unknown error has occured while validating the milestone.xlsx data'
+      )
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(
+        'CCBC Number mismatch: expected CCBC-010003, received: CCBC-010001'
+      )
+    ).toBeInTheDocument();
+  });
 });
