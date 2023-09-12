@@ -1,3 +1,23 @@
+# [1.104.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.103.1...v1.104.0) (2023-09-12)
+
+### Bug Fixes
+
+- conditionally render milestone view header ([e475bf7](https://github.com/bcgov/CONN-CCBC-portal/commit/e475bf7b1b8c197eccef02427626b51a1927ce90))
+- conditionally show progress bar ([1ddc4e9](https://github.com/bcgov/CONN-CCBC-portal/commit/1ddc4e94dae68be2e8ad47cae8bc3a39b986cebe))
+- milestone id ([015ca1c](https://github.com/bcgov/CONN-CCBC-portal/commit/015ca1c312bc05d328966bfb16decc47fea95b30))
+- milestones view sonarcloud boolean error ([8b26625](https://github.com/bcgov/CONN-CCBC-portal/commit/8b266257c5340a701f791ea66176dd9c0285023d))
+- multiple tabs error being shown erroneously ([5f32d93](https://github.com/bcgov/CONN-CCBC-portal/commit/5f32d9355c99d6e53e19049ac704fb900c8b2676))
+- old milestone id ([0c15dc1](https://github.com/bcgov/CONN-CCBC-portal/commit/0c15dc1c55bb82d9d8cad75662e48e7bdf155fa3))
+- view edit button label ([1e0264f](https://github.com/bcgov/CONN-CCBC-portal/commit/1e0264f21895bb8ace55d289214448b1f7f29314))
+
+### Features
+
+- add milestone view header ([82730ed](https://github.com/bcgov/CONN-CCBC-portal/commit/82730ed68cb8afa1a3dfa2cfaeaca1fe9da4ee71))
+- add progress bar for milestone reports ([bc8db83](https://github.com/bcgov/CONN-CCBC-portal/commit/bc8db8398bfe1ac1cd2546fed39cbeafd8c1d4f1))
+- import milestone excel data from file ([a4c046a](https://github.com/bcgov/CONN-CCBC-portal/commit/a4c046ab4bffb83309c9121d776876da3a99bfc7))
+- show read only milestone view on form ([aa2a9e3](https://github.com/bcgov/CONN-CCBC-portal/commit/aa2a9e30ec763a69bbec8c974abcfb8ac67be58e))
+- sort milestones by due date ([ed08aa7](https://github.com/bcgov/CONN-CCBC-portal/commit/ed08aa733f4eec9fc5455c61e692946310e1b8c0))
+
 ## [1.103.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.103.0...v1.103.1) (2023-09-11)
 
 # [1.103.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.102.0...v1.103.0) (2023-09-11)
