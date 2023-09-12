@@ -70,6 +70,7 @@ const MilestonesView: React.FC<Props> = ({
   const overallProgress =
     milestoneExcelData?.node?.jsonData?.overallMilestoneProgress;
   const progress = overallProgress && Math.round(overallProgress * 100);
+  const isProgress = typeof progress === 'number';
 
   return (
     <StyledContainer>
@@ -85,7 +86,7 @@ const MilestonesView: React.FC<Props> = ({
           />
         )}
       </span>
-      <span>{progress && <ProgressBar progress={progress} />}</span>
+      <span>{isProgress && <ProgressBar progress={progress} />}</span>
       {!isFormEditMode && (
         <StyledFlex>
           <ViewEditButton onClick={onFormEdit} />
