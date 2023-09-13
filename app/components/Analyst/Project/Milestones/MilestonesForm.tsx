@@ -88,7 +88,12 @@ interface FormData {
   evidenceOfCompletionFile?: any;
 }
 
-const MilestonesForm = ({ application }) => {
+interface Props {
+  application: any;
+  isExpanded?: boolean;
+}
+
+const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
   const queryFragment = useFragment(
     graphql`
       fragment MilestonesForm_application on Application {
@@ -317,6 +322,7 @@ const MilestonesForm = ({ application }) => {
         theme={ProjectTheme}
         onSubmit={handleSubmit}
         formAnimationHeight={1600}
+        isExpanded={isExpanded}
         isFormAnimated
         hiddenSubmitRef={hiddenSubmitRef}
         isFormEditMode={isFormEditMode}

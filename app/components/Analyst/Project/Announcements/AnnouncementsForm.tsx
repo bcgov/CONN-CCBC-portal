@@ -107,7 +107,12 @@ export const toastContent = (ccbcIds: Array<any>) => {
   );
 };
 
-const AnnouncementsForm = ({ query }) => {
+interface Props {
+  query: any;
+  isExpanded?: boolean;
+}
+
+const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
   const queryFragment = useFragment(
     graphql`
       fragment AnnouncementsForm_query on Query {
@@ -256,6 +261,7 @@ const AnnouncementsForm = ({ query }) => {
       }}
       hiddenSubmitRef={hiddenSubmitRef}
       formAnimationHeight={400}
+      isExpanded={isExpanded}
       isFormAnimated
       isFormEditMode={isFormEditMode}
       showEditBtn={false}

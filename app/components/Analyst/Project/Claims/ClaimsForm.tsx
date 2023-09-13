@@ -61,7 +61,12 @@ interface FormData {
   toDate?: string;
 }
 
-const ClaimsForm = ({ application }) => {
+interface Props {
+  application: any;
+  isExpanded?: boolean;
+}
+
+const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
   const queryFragment = useFragment(
     graphql`
       fragment ClaimsForm_application on Application {
@@ -277,6 +282,7 @@ const ClaimsForm = ({ application }) => {
         theme={ProjectTheme}
         onSubmit={handleSubmit}
         formAnimationHeight={600}
+        isExpanded={isExpanded}
         isFormAnimated
         hiddenSubmitRef={hiddenSubmitRef}
         isFormEditMode={isFormEditMode}

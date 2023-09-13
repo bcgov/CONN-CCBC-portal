@@ -38,7 +38,15 @@ const StyledFlex = styled.div<FlexProps>`
   transition: max-height 0.5s;
 `;
 
-const ProjectInformationForm = ({ application }) => {
+interface Props {
+  application: any;
+  isExpanded?: boolean;
+}
+
+const ProjectInformationForm: React.FC<Props> = ({
+  application,
+  isExpanded,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment ProjectInformationForm_application on Application {
@@ -379,6 +387,7 @@ const ProjectInformationForm = ({ application }) => {
           setFormData({ ...e.formData });
         }
       }}
+      isExpanded={isExpanded}
       isFormEditMode={isFormEditMode}
       title="Funding agreement, statement of work, & map"
       formAnimationHeight={isChangeRequest ? 3000 : 800}

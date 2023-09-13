@@ -16,7 +16,15 @@ const StyledProjectForm = styled(ProjectForm)`
   margin-top: 43px;
 `;
 
-const ConditionalApprovalForm = ({ application }) => {
+interface Props {
+  application: any;
+  isExpanded?: boolean;
+}
+
+const ConditionalApprovalForm: React.FC<Props> = ({
+  application,
+  isExpanded,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment ConditionalApprovalForm_application on Application {
@@ -121,6 +129,7 @@ const ConditionalApprovalForm = ({ application }) => {
         handleChange={(e) => {
           setNewFormData({ ...e.formData });
         }}
+        isExpanded={isExpanded}
         isFormEditMode={isFormEditMode}
         title="Conditional approval"
         schema={conditionalApprovalSchema}
