@@ -16,6 +16,11 @@ const mutation = graphql`
           rowId
         }
       }
+      conditionalApprovalData {
+        id
+        jsonData
+        rowId
+      }
     }
   }
 `;

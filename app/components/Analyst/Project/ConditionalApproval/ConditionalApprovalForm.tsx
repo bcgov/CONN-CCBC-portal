@@ -55,10 +55,13 @@ const ConditionalApprovalForm: React.FC<Props> = ({
     application
   );
 
-  const { id, rowId, conditionalApprovalDataByApplicationId } = queryFragment;
+  const {
+    id,
+    rowId,
+    conditionalApproval,
+    conditionalApprovalDataByApplicationId,
+  } = queryFragment;
 
-  const conditionalApproval =
-    conditionalApprovalDataByApplicationId?.edges[0]?.node;
   const relayConnectionId = conditionalApprovalDataByApplicationId?.__id;
 
   const [createConditionalApproval] = useCreateConditionalApprovalMutation();
@@ -91,12 +94,21 @@ const ConditionalApprovalForm: React.FC<Props> = ({
           setOldFormData(newFormData);
           setIsFormEditMode(false);
         },
-        updater: (store) => {
+        updater: (store, data) => {
           // Get the connection from the store
           const connection = store.get(relayConnectionId);
 
           // Remove the old data from the connection
           ConnectionHandler.deleteNode(connection, conditionalApproval?.id);
+
+          store
+            .get(id)
+            .setLinkedRecord(
+              store.get(
+                data.createConditionalApproval.conditionalApprovalData.id
+              ),
+              'conditionalApproval'
+            );
         },
       });
     }
