@@ -34,7 +34,6 @@ const getProjectQuery = graphql`
       projectInformation {
         jsonData
       }
-
       ...CommunityProgressReportForm_application
       ...ConditionalApprovalForm_application
       ...ProjectInformationForm_application

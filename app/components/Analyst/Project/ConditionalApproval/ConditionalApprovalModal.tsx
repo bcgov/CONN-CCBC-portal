@@ -80,10 +80,16 @@ const ConditionalApprovalModal: React.FC<Props> = ({
         setOldFormData();
         setIsFormEditMode();
       },
-      updater: (store) => {
+      updater: (store, data) => {
         store
           .get(applicationStoreId)
-          .setValue(formatStatus(newFormStatus), 'externalStatus');
+          .setValue(formatStatus(newFormStatus), 'externalStatus')
+          .setLinkedRecord(
+            store.get(
+              data.submitConditionallyApproved.conditionalApprovalData.id
+            ),
+            'conditionalApproval'
+          );
       },
     });
   };
