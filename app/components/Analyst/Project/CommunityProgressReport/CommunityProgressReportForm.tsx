@@ -347,22 +347,20 @@ const CommunityProgressReportForm = ({ application }) => {
         <StyledBottom>
         {communityProgressList?.map(({ node }) => {
           return (
-            <div>
-              <CommunityProgressView
-                key={node.id}
-                communityProgressReport={node}
-                isFormEditMode={isFormEditMode}
-                onShowDeleteModal={() => {
-                  setShowModal(true);
-                  setCurrentCommunityProgressData(node);
-                }}
-                onFormEdit={() => {
-                  setFormData(node.jsonData);
-                  setCurrentCommunityProgressData(node);
-                  setIsFormEditMode(true);
-                }}
-              />
-            </div>
+            <CommunityProgressView
+              key={node.id}
+              communityProgressReport={node}
+              isFormEditMode={isFormEditMode}
+              onShowDeleteModal={() => {
+                setShowModal(true);
+                setCurrentCommunityProgressData(node);
+              }}
+              onFormEdit={() => {
+                setFormData(node.jsonData);
+                setCurrentCommunityProgressData(node);
+                setIsFormEditMode(true);
+              }}
+            />
           );
         })}
         </StyledBottom>
