@@ -47,7 +47,7 @@
     "@mui/material": "^5.12.2",
     "@mui/x-date-pickers": "^6.8.0",
     "@rjsf/core": "^4.2.0",
-    "@sentry/nextjs": "^7.36.0",
+    "@sentry/nextjs": "^7.69.0",
     "@snowplow/browser-tracker": "^3.10.1",
     "@types/eslint": "^8.44.2",
     "@types/formidable": "^2.0.5",
