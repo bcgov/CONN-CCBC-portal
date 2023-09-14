@@ -36,22 +36,24 @@ const isConditionalApprovalComplete = (data) => {
 };
 
 const isCommunityProgressOpen = (date) => {
-  const newDate = new Date(new Date(date).toDateString());
+  if (!date) return false;
 
-  const today = DateTime.fromJSDate(newDate, { zone: 'UTC' });
-  const { year } = today;
-  const firstQuarterStart = DateTime.fromISO(`${year}-03-01`);
+  const today = Date.parse(date);
+  const currentDateTime = DateTime.fromJSDate(new Date(date));
+  const { year } = currentDateTime;
 
-  const firstQuarterEnd = DateTime.fromISO(`${year}-03-31`);
+  const firstQuarterStart = Date.parse(`${year}-03-01`);
 
-  const secondQuarterStart = DateTime.fromISO(`${year}-06-01`);
-  const secondQuarterEnd = DateTime.fromISO(`${year}-06-30`);
+  const firstQuarterEnd = Date.parse(`${year}-03-31`);
 
-  const thirdQuarterStart = DateTime.fromISO(`${year}-09-01`);
-  const thirdQuarterEnd = DateTime.fromISO(`${year}-09-30`);
+  const secondQuarterStart = Date.parse(`${year}-06-01`);
+  const secondQuarterEnd = Date.parse(`${year}-06-30`);
 
-  const fourthQuarterStart = DateTime.fromISO(`${year}-12-01`);
-  const fourthQuarterEnd = DateTime.fromISO(`${year}-12-31`);
+  const thirdQuarterStart = Date.parse(`${year}-09-01`);
+  const thirdQuarterEnd = Date.parse(`${year}-09-30`);
+
+  const fourthQuarterStart = Date.parse(`${year}-12-01`);
+  const fourthQuarterEnd = Date.parse(`${year}-12-31`);
 
   if (
     (today >= firstQuarterStart && today <= firstQuarterEnd) ||
@@ -65,22 +67,23 @@ const isCommunityProgressOpen = (date) => {
 };
 
 const isMilestonesOpen = (date) => {
-  const newDate = new Date(new Date(date).toDateString());
+  if (!date) return false;
 
-  const today = DateTime.fromJSDate(newDate, { zone: 'UTC' });
-  const { year } = today;
+  const today = Date.parse(date);
+  const currentDateTime = DateTime.fromJSDate(new Date(date));
+  const { year } = currentDateTime;
 
-  const firstQuarterStart = DateTime.fromISO(`${year}-03-15`);
-  const firstQuarterEnd = DateTime.fromISO(`${year}-04-15`);
+  const firstQuarterStart = Date.parse(`${year}-03-15`);
+  const firstQuarterEnd = Date.parse(`${year}-04-15`);
 
-  const secondQuarterStart = DateTime.fromISO(`${year}-06-15`);
-  const secondQuarterEnd = DateTime.fromISO(`${year}-07-15`);
+  const secondQuarterStart = Date.parse(`${year}-06-15`);
+  const secondQuarterEnd = Date.parse(`${year}-07-15`);
 
-  const thirdQuarterStart = DateTime.fromISO(`${year}-09-15`);
-  const thirdQuarterEnd = DateTime.fromISO(`${year}-10-15`);
+  const thirdQuarterStart = Date.parse(`${year}-09-15`);
+  const thirdQuarterEnd = Date.parse(`${year}-10-15`);
 
-  const fourthQuarterStart = DateTime.fromISO(`${year}-12-15`);
-  const fourthQuarterEnd = DateTime.fromISO(`${year + 1}-01-15`);
+  const fourthQuarterStart = Date.parse(`${year}-12-15`);
+  const fourthQuarterEnd = Date.parse(`${year + 1}-01-15`);
 
   if (
     (today >= firstQuarterStart && today <= firstQuarterEnd) ||
@@ -94,13 +97,14 @@ const isMilestonesOpen = (date) => {
 };
 
 const isClaimsOpen = (date) => {
-  const newDate = new Date(new Date(date).toDateString());
+  if (!date) return false;
 
-  const today = DateTime.fromJSDate(newDate, { zone: 'UTC' });
-  const { year } = today;
+  const today = Date.parse(date);
+  const currentDateTime = DateTime.fromJSDate(new Date(date));
+  const { year } = currentDateTime;
 
-  const openStartDate = DateTime.fromISO(`${year}-04-15`);
-  const openEndDate = DateTime.fromISO(`${year}-05-30`);
+  const openStartDate = Date.parse(`${year}-04-15`);
+  const openEndDate = Date.parse(`${year}-05-30`);
 
   if (today >= openStartDate && today <= openEndDate) {
     return true;
