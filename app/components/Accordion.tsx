@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +8,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 
 const StyledH2 = styled.h2`
   margin-bottom: 0;
-  white-space: nowrap;
+  max-width: 70%;
 `;
 
 const StyledAccordion = styled(AccordionContainer)`
@@ -40,7 +40,15 @@ const Accordion = ({ children, headerContent, isExpanded, title }) => {
       setExpanded(isExpandedState ? panel : false);
     };
 
-  const isAccordionExpanded = isExpanded || expanded === 'panel1';
+  // Allow external isExpanded to control the accordion while still allowing the user to expand/collapse
+  useEffect(() => {
+    if (isExpanded) {
+      setExpanded('panel1');
+    } else {
+      setExpanded(false);
+    }
+  }, [isExpanded]);
+  const isAccordionExpanded = expanded === 'panel1';
 
   const stopPropagation = (e) => e.stopPropagation();
 
@@ -60,7 +68,7 @@ const Accordion = ({ children, headerContent, isExpanded, title }) => {
       >
         <StyledH2>{title}</StyledH2>
         <StyledFlex onClick={stopPropagation}>
-          {expanded && headerContent}
+          {isAccordionExpanded && headerContent}
         </StyledFlex>
       </StyledAccordionHeader>
       <AccordionDetails>{children}</AccordionDetails>
