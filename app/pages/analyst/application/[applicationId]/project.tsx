@@ -103,7 +103,7 @@ const Project = ({
         setIsCommunityProgressExpanded(true);
       }
     }
-  }, [conditionalApproval, projectInformation]);
+  }, [conditionalApproval, date, projectInformation]);
 
   return (
     <Layout session={session} title="Connecting Communities BC">

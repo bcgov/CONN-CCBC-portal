@@ -61,6 +61,7 @@ const Accordion = ({ children, headerContent, isExpanded, title }) => {
       <StyledAccordionHeader
         expandIcon={
           <FontAwesomeIcon
+            data-testid="accordion-icon"
             icon={isAccordionExpanded ? faMinus : faPlus}
             color="#000057"
           />

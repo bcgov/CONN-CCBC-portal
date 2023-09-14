@@ -14,16 +14,6 @@ const mockQueryPayload = {
         rowId: 1,
         amendmentNumbers: '0 1 2 3',
         ccbcNumber: 'CCBC-010003',
-        conditionalApprovalDataByApplicationId: {
-          edges: [
-            {
-              node: {
-                id: 'test-id',
-                jsonData: null,
-              },
-            },
-          ],
-        },
         allApplications: {
           nodes: [
             {
@@ -51,10 +41,26 @@ const mockQueryPayload = {
 const mockJsonDataQueryPayload = {
   Query() {
     return {
+      allApplications: {
+        nodes: [
+          {
+            ccbcNumber: 'CCBC-010001',
+            rowId: 1,
+          },
+          {
+            ccbcNumber: 'CCBC-010002',
+            rowId: 2,
+          },
+          {
+            ccbcNumber: 'CCBC-010003',
+            rowId: 3,
+          },
+        ],
+      },
       applicationByRowId: {
+        id: 'TestApplicationId',
         rowId: 1,
-        amendmentNumbers: '0 1 2 3',
-        ccbcNumber: 'CCBC-010003',
+        ccbcNumber: '123456789',
         announcements: {
           edges: [
             {
@@ -101,253 +107,8 @@ const mockJsonDataQueryPayload = {
               },
             },
           ],
-          pageInfo: {
-            endCursor: null,
-            hasNextPage: false,
-          },
           __id: 'client:WyJhcHBsaWNhdGlvbnMiLDZd:__AnnouncementsForm_announcements_connection',
         },
-        changeRequestDataByApplicationId: {
-          edges: [
-            {
-              node: {
-                id: 'WyJjaGFuZ2VfcmVxdWVzdF9kYXRhIiwyXQ==',
-                amendmentNumber: 11,
-                createdAt: '2023-07-18T14:52:19.490349-07:00',
-                jsonData: {
-                  dateApproved: '2023-07-01',
-                  dateRequested: '2023-07-02',
-                  amendmentNumber: 11,
-                  levelOfAmendment: 'Major Amendment',
-                  updatedMapUpload: [
-                    {
-                      id: 6,
-                      name: 'test.xls',
-                      size: 0,
-                      type: 'application/vnd.ms-excel',
-                      uuid: '370ecddf-de10-44b2-b0b9-22dcbe837a9a',
-                    },
-                  ],
-                  additionalComments: 'additional comments test',
-                  descriptionOfChanges: 'description of changes test',
-                  statementOfWorkUpload: [
-                    {
-                      id: 7,
-                      name: 'CCBC-010001 - Statement of Work Tables.xlsx',
-                      size: 4230870,
-                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                      uuid: '1239e5c2-7e02-44e1-b972-3bb7d0478c00',
-                    },
-                  ],
-                  changeRequestFormUpload: [
-                    {
-                      id: 5,
-                      name: 'change request form file.xls',
-                      size: 0,
-                      type: 'application/vnd.ms-excel',
-                      uuid: '1a9b882c-744b-4663-b5c9-6f46f4568608',
-                    },
-                  ],
-                },
-                updatedAt: '2023-07-18T14:52:19.490349-07:00',
-                __typename: 'ChangeRequestData',
-              },
-              cursor: 'WyJhbWVuZG1lbnRfbnVtYmVyX2Rlc2MiLFsxMSwyXV0=',
-            },
-          ],
-        },
-        conditionalApprovalDataByApplicationId: {
-          edges: [
-            {
-              node: {
-                id: 'test-id',
-                jsonData: {
-                  decision: {
-                    ministerDecision: 'Approved',
-                  },
-                  isedDecisionObj: {},
-                  letterOfApproval: {},
-                  response: {
-                    applicantResponse: 'Accepted',
-                  },
-                },
-              },
-            },
-          ],
-        },
-        projectInformation: {
-          jsonData: {
-            finalizedMapUpload: [
-              {
-                id: 10,
-                name: 'test.pdf',
-                size: 0,
-                type: 'application/pdf',
-                uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
-              },
-            ],
-            sowWirelessUpload: [
-              {
-                id: 12,
-                name: 'test.pdf',
-                size: 0,
-                type: 'application/pdf',
-                uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
-              },
-            ],
-            statementOfWorkUpload: [
-              {
-                id: 11,
-                name: 'CCBC-020118 - Statement of Work Tables - 20230517.xlsx',
-                size: 4230881,
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                uuid: '3529ee52-c2e0-4c65-b1c2-2e3632e77f66',
-              },
-            ],
-            fundingAgreementUpload: [
-              {
-                id: 14,
-                name: 'test.pdf',
-                size: 0,
-                type: 'application/pdf',
-                uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
-              },
-            ],
-            dateFundingAgreementSigned: '2023-05-10',
-            hasFundingAgreementBeenSigned: true,
-          },
-        },
-      },
-      session: {
-        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-      },
-    };
-  },
-};
-
-const mockProjectDataQueryPayload = {
-  Query() {
-    return {
-      applicationByRowId: {
-        rowId: 1,
-        amendmentNumbers: '0 1 2 3',
-        ccbcNumber: 'CCBC-010003',
-        announcements: {
-          edges: [],
-          pageInfo: {
-            endCursor: null,
-            hasNextPage: false,
-          },
-          __id: 'client:WyJhcHBsaWNhdGlvbnMiLDZd:__AnnouncementsForm_announcements_connection',
-        },
-        conditionalApproval: {
-          id: 'test-id',
-          jsonData: {
-            decision: {
-              ministerDecision: 'Approved',
-            },
-            isedDecisionObj: {},
-            letterOfApproval: {},
-            response: {
-              applicantResponse: 'Accepted',
-            },
-          },
-        },
-        projectInformation: {
-          jsonData: {
-            statementOfWorkUpload: [
-              {
-                id: 11,
-                name: 'CCBC-020118 - Statement of Work Tables - 20230517.xlsx',
-                size: 4230881,
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                uuid: '3529ee52-c2e0-4c65-b1c2-2e3632e77f66',
-              },
-            ],
-            fundingAgreementUpload: [
-              {
-                id: 10,
-                name: 'test.pdf',
-                size: 0,
-                type: 'application/pdf',
-                uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
-              },
-            ],
-            dateFundingAgreementSigned: '2023-05-10',
-            hasFundingAgreementBeenSigned: true,
-          },
-        },
-        applicationClaimsDataByApplicationId: {
-          edges: [
-            {
-              node: {
-                rowId: 1,
-                jsonData: {
-                  claimsFile: [
-                    {
-                      id: 1,
-                      name: 'claims.xlsx',
-                      size: 121479,
-                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                      uuid: '541089ee-8f80-4dd9-844f-093d7739792b',
-                    },
-                  ],
-                },
-                excelDataId: 1,
-                applicationByApplicationId: {
-                  applicationClaimsExcelDataByApplicationId: {
-                    nodes: [
-                      {
-                        jsonData: {
-                          claimNumber: 1,
-                          projectNumber: 'CCBC-010001',
-                          progressOnPermits: 'Not Started',
-                          projectBudgetRisks: 'Yes',
-                          dateRequestReceived: '2023-01-01',
-                          hasConstructionBegun: 'In Progress',
-                          projectScheduleRisks: 'Yes',
-                          commincationMaterials: 'Yes',
-                          changesToOverallBudget: 'Yes',
-                          haveServicesBeenOffered: 'Completed',
-                          eligibleCostsIncurredToDate:
-                            '2023-08-01T00:00:00.000Z',
-                          eligibleCostsIncurredFromDate:
-                            '2023-08-02T00:00:00.000Z',
-                          thirdPartyPassiveInfrastructure: 'Yes',
-                        },
-                        rowId: 1,
-                      },
-                    ],
-                  },
-                },
-              },
-            },
-          ],
-        },
-      },
-      session: {
-        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-      },
-    };
-  },
-};
-
-const mockSowErrorQueryPayload = {
-  Query() {
-    return {
-      applicationByRowId: {
-        rowId: 1,
-        amendmentNumbers: '0 1 2 3',
-        ccbcNumber: 'CCBC-010003',
-        projectInformation: {
-          jsonData: {
-            hasFundingAgreementBeenSigned: true,
-            isSowUploadError: true,
-          },
-        },
-      },
-      session: {
-        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
     };
   },
@@ -362,28 +123,12 @@ const pageTestingHelper = new PageTestingHelper<projectQuery>({
   },
 });
 
-const mockShowConditonalApproval: FeatureResult<JSONValue> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_conditional_approval',
-};
-
 const mockShowAnnouncement: FeatureResult<JSONValue> = {
   value: true,
   source: 'defaultValue',
   on: null,
   off: null,
   ruleId: 'show_announcement',
-};
-
-const mockShowCommunityProgressReport: FeatureResult<JSONValue> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_community_progress_report',
 };
 
 jest.setTimeout(10000000);
@@ -394,13 +139,7 @@ describe('The Project page', () => {
     pageTestingHelper.setMockRouterValues({
       query: { applicationId: '1' },
     });
-    jest.spyOn(moduleApi, 'useFeature').mockImplementation((id) => {
-      if (id === 'show_conditional_approval') {
-        return mockShowConditonalApproval;
-      }
-      if (id === 'show_community_progress_report') {
-        return mockShowCommunityProgressReport;
-      }
+    jest.spyOn(moduleApi, 'useFeature').mockImplementation(() => {
       return mockShowAnnouncement;
     });
     global.fetch = jest.fn(() =>
@@ -415,315 +154,17 @@ describe('The Project page', () => {
     ) as jest.Mock;
   });
 
-  it('displays the title', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.getByRole('heading', { name: 'Conditional approval' })
-    ).toBeInTheDocument();
-  });
-
-  it('displays the form titles', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(screen.getByText(`Minister's decision`)).toBeInTheDocument();
-    expect(screen.getByText('BC')).toBeInTheDocument();
-    expect(screen.getByText('ISED')).toBeInTheDocument();
-    expect(
-      screen.getByText("Minister's decision, letter, and response")
-    ).toBeInTheDocument();
-    expect(screen.getByText(`Applicant's response`)).toBeInTheDocument();
-    expect(
-      screen.getByText('Date letter sent to applicant')
-    ).toBeInTheDocument();
-    expect(screen.getByText('Status that applicant sees')).toBeInTheDocument();
-  });
-
-  it('applicant status select should be disabled', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.getByTestId('root_response_statusApplicantSees')
-    ).toBeDisabled();
-  });
-
-  it('applicant status select should be enabled when the correct options are selected', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    const ministerDecision = screen.getByTestId(
-      'root_decision_ministerDecision'
-    );
-
-    const applicantResponse = screen.getByTestId(
-      'root_response_applicantResponse'
-    );
-
-    await act(async () => {
-      fireEvent.change(ministerDecision, { target: { value: 'Approved' } });
-      fireEvent.change(applicantResponse, { target: { value: 'Accepted' } });
-    });
-
-    expect(
-      screen.getByTestId('root_response_statusApplicantSees')
-    ).not.toBeDisabled();
-  });
-
-  it('calls the mutation on form save', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    const saveButton = screen.getAllByText('Save')[0];
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
-    pageTestingHelper.expectMutationToBeCalled(
-      'createConditionalApprovalMutation',
-
-      {
-        connections: [
-          'client:<Application-mock-id-1>:__ConditionalApprovalForm_conditionalApprovalDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"CREATED_AT_DESC")',
-        ],
-        input: {
-          _applicationId: 1,
-          _jsonData: {
-            decision: {},
-            isedDecisionObj: {},
-            letterOfApproval: {},
-            response: {},
-          },
-        },
-      }
-    );
-
-    act(() => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          conditionalApprovalData: {
-            id: 'test-id',
-            jsonData: {
-              decision: {},
-              isedDecisionObj: {},
-              letterOfApproval: {},
-              response: {},
-            },
-            rowId: 1,
-          },
-        },
-      });
-    });
-  });
-
-  it('should show the modal when applicant status select is enabled and json data is saved', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    const ministerDecision = screen.getByTestId(
-      'root_decision_ministerDecision'
-    );
-
-    const applicantResponse = screen.getByTestId(
-      'root_response_applicantResponse'
-    );
-
-    const statusApplicantSees = screen.getByTestId(
-      'root_response_statusApplicantSees'
-    );
-
-    expect(statusApplicantSees).toBeDisabled();
-
-    await act(async () => {
-      fireEvent.change(ministerDecision, { target: { value: 'Approved' } });
-      fireEvent.change(applicantResponse, { target: { value: 'Accepted' } });
-    });
-
-    expect(statusApplicantSees).not.toBeDisabled();
-
-    await act(async () => {
-      fireEvent.change(statusApplicantSees, {
-        target: { value: 'Conditionally Approved' },
-      });
-    });
-
-    const saveButton = screen.getAllByText('Save')[0];
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
-    expect(screen.getByTestId('old-form-status')).toHaveTextContent('Received');
-    expect(screen.getByTestId('new-form-status')).toHaveTextContent(
-      'Conditionally Approved'
-    );
-
-    const modalSaveButton = screen.getByText('Yes, change it');
-
-    await act(async () => {
-      fireEvent.click(modalSaveButton);
-    });
-
-    pageTestingHelper.expectMutationToBeCalled(
-      'submitConditionalApprovalMutation',
-      {
-        input: {
-          _applicationId: 1,
-          _jsonData: {
-            decision: {
-              ministerDecision: 'Approved',
-            },
-            isedDecisionObj: {},
-            letterOfApproval: {},
-            response: {
-              applicantResponse: 'Accepted',
-              statusApplicantSees: 'Conditionally Approved',
-            },
-          },
-          newApplicationStatus: 'Conditionally Approved',
-        },
-      }
-    );
-
-    act(() => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          conditionalApprovalData: {
-            id: 'test-id',
-            jsonData: {
-              decision: {
-                ministerDecision: 'Approved',
-              },
-              isedDecisionObj: {},
-              letterOfApproval: {},
-              response: {
-                applicantResponse: 'Accepted',
-                statusApplicantSees: 'Conditionally Approved',
-              },
-            },
-            rowId: 1,
-          },
-        },
-      });
-    });
-
-    expect(
-      screen.getAllByTestId('read-only-decision-widget')[0]
-    ).toHaveTextContent('Approved');
-    expect(
-      screen.getAllByTestId('read-only-decision-widget')[1]
-    ).toHaveTextContent('No decision received');
-    expect(screen.getByTestId('read-only-response-widget')).toHaveTextContent(
-      'Accepted'
-    );
-  });
-
-  it('should open by default the read only form when json data exists', async () => {
-    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    expect(screen.getByTestId('read-only-response-widget')).toHaveTextContent(
-      'Accepted'
-    );
-  });
-
-  it('should open the editable form when the edit button is clicked', async () => {
-    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
-
-    expect(
-      screen.queryByTestId('root_response_applicantResponse')
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', { name: 'Save' })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', { name: 'Cancel' })
-    ).not.toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.click(editButton);
-    });
-
-    expect(
-      screen.getByTestId('root_response_applicantResponse')
-    ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
-  });
-
-  it('should open the read only form when the cancel button is clicked', async () => {
-    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
-
-    await act(async () => {
-      fireEvent.click(editButton);
-    });
-
-    expect(editButton).not.toBeInTheDocument();
-    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
-
-    await act(async () => {
-      fireEvent.click(cancelButton);
-    });
-
-    expect(
-      screen.getAllByTestId('project-form-edit-button')[0]
-    ).toBeInTheDocument();
-    expect(
-      screen.getAllByTestId('read-only-decision-widget')[0]
-    ).toHaveTextContent('Approved');
-  });
-
-  it('should not save and open the read only form when the modal cancel button is clicked', async () => {
-    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    await act(async () => {
-      fireEvent.click(screen.getAllByTestId('project-form-edit-button')[0]);
-    });
-
-    const statusApplicantSees = screen.getByTestId(
-      'root_response_statusApplicantSees'
-    );
-
-    await act(async () => {
-      fireEvent.change(statusApplicantSees, {
-        target: { value: 'Conditionally Approved' },
-      });
-    });
-
-    const saveButton = screen.getByText('Save');
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
-    const modalSaveButton = screen.getAllByText('No')[0];
-
-    await act(async () => {
-      fireEvent.click(modalSaveButton);
-    });
-
-    expect(
-      screen.getAllByTestId('project-form-edit-button')[0]
-    ).toBeInTheDocument();
-    expect(
-      screen.getAllByTestId('read-only-decision-widget')[0]
-    ).toHaveTextContent('Approved');
-  });
-
   it('should show the announcements', async () => {
     await act(async () => {
       pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
       pageTestingHelper.renderPage();
+    });
+
+    const expandButton =
+      screen.getAllByTestId('accordion-icon')[1].parentElement;
+
+    act(() => {
+      fireEvent.click(expandButton);
     });
 
     expect(screen.getByText('Primary news release')).toBeInTheDocument();
@@ -741,6 +182,13 @@ describe('The Project page', () => {
   it('should show the error message for invalid url', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
+
+    const expandButton =
+      screen.getAllByTestId('accordion-icon')[1].parentElement;
+
+    act(() => {
+      fireEvent.click(expandButton);
+    });
 
     const editButton = screen.getByText('Add announcement');
 
@@ -769,13 +217,20 @@ describe('The Project page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
+    const expandButton =
+      screen.getAllByTestId('accordion-icon')[1].parentElement;
+
+    act(() => {
+      fireEvent.click(expandButton);
+    });
+
     const editButton = screen.getByText('Add announcement');
 
     await act(async () => {
       fireEvent.click(editButton);
     });
 
-    const saveButton = screen.getAllByText('Save')[1];
+    const saveButton = screen.getByText('Save');
 
     await act(async () => {
       fireEvent.click(saveButton);
@@ -787,7 +242,7 @@ describe('The Project page', () => {
       .closest('div');
     const announcementDate = screen.getAllByTestId(
       'datepicker-widget-container'
-    )[3].children[0].children[0].children[2];
+    )[0].children[0].children[0].children[2];
 
     expect(announcementUrl).toHaveStyle('border: 2px solid #E71F1F;');
     expect(announcementType).toHaveStyle('border: 2px solid #E71F1F;');
@@ -798,6 +253,13 @@ describe('The Project page', () => {
     await act(async () => {
       pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
       pageTestingHelper.renderPage();
+    });
+
+    const expandButton =
+      screen.getAllByTestId('accordion-icon')[1].parentElement;
+
+    act(() => {
+      fireEvent.click(expandButton);
     });
 
     // Click on the edit button to open the form for the first announcement
@@ -848,6 +310,13 @@ describe('The Project page', () => {
     await act(async () => {
       pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
       pageTestingHelper.renderPage();
+    });
+
+    const expandButton =
+      screen.getAllByTestId('accordion-icon')[1].parentElement;
+
+    act(() => {
+      fireEvent.click(expandButton);
     });
 
     // Click on the delete button to open the form for the first announcement
@@ -921,6 +390,13 @@ describe('The Project page', () => {
       pageTestingHelper.renderPage();
     });
 
+    const expandButton =
+      screen.getAllByTestId('accordion-icon')[1].parentElement;
+
+    act(() => {
+      fireEvent.click(expandButton);
+    });
+
     // Click on the delete button to open the form for the first announcement
     const deleteButton = screen.getAllByTestId('project-form-delete-button')[1];
     await act(async () => {
@@ -970,919 +446,7 @@ describe('The Project page', () => {
     });
   });
 
-  it('should open the project information form and upload a file', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
-
-    expect(hasFundingAggreementBeenSigned).not.toBeChecked();
-
-    await act(async () => {
-      fireEvent.click(hasFundingAggreementBeenSigned);
-    });
-
-    const file = new File([new ArrayBuffer(1)], 'test.pdf', {
-      type: 'application/pdf',
-    });
-
-    const inputFile = screen.getAllByTestId('file-test')[1];
-
-    await act(async () => {
-      fireEvent.change(inputFile, { target: { files: [file] } });
-    });
-
-    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
-      input: {
-        attachment: {
-          file,
-          fileName: 'test.pdf',
-          fileSize: '1 Bytes',
-          fileType: 'application/pdf',
-          applicationId: 1,
-        },
-      },
-    });
-
-    act(() => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createAttachment: {
-            attachment: {
-              rowId: 1,
-              file: 'string',
-            },
-          },
-        },
-      });
-    });
-
-    expect(screen.getByText('Replace')).toBeInTheDocument();
-    expect(screen.getByText('test.pdf')).toBeInTheDocument();
-  });
-
-  it('should show the read only project information form', async () => {
-    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    expect(screen.getAllByText('SoW')[0]).toBeInTheDocument();
-
-    expect(screen.getAllByText('Map')[0]).toBeInTheDocument();
-
-    expect(screen.getByText('Wireless SoW')).toBeInTheDocument();
-
-    expect(screen.getByText('Funding Agreement')).toBeInTheDocument();
-
-    expect(screen.getByText('May 10, 2023')).toBeInTheDocument();
-
-    expect(
-      screen.getAllByText('View project data in Metabase').length
-    ).toBeGreaterThan(0);
-  });
-
-  it('should clear and archive the project and sow information on no', async () => {
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    // Click on the edit button to open the form
-    const editButton = screen.getAllByTestId('project-form-edit-button')[3];
-    await act(async () => {
-      fireEvent.click(editButton);
-    });
-
-    const hasFundingAggreementBeenSigned = screen.getByLabelText('No');
-
-    expect(hasFundingAggreementBeenSigned).not.toBeChecked();
-
-    await act(async () => {
-      fireEvent.click(hasFundingAggreementBeenSigned);
-    });
-
-    const saveButton = screen.getAllByTestId('save')[0];
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
-    pageTestingHelper.expectMutationToBeCalled(
-      'archiveApplicationSowMutation',
-      {
-        input: {
-          _amendmentNumber: 0,
-        },
-      }
-    );
-  });
-
-  it('calls the mutation on Change Request save', async () => {
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 200, json: () => {} })
-    );
-    const addButton = screen.getByText('Add change request').closest('button');
-
-    await act(async () => {
-      fireEvent.click(addButton);
-    });
-
-    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
-
-    await act(async () => {
-      fireEvent.change(amendmentNumber, { target: { value: '20' } });
-    });
-
-    const file = new File([new ArrayBuffer(1)], 'file.xls', {
-      type: 'application/vnd.ms-excel',
-    });
-
-    const inputFile = screen.getAllByTestId('file-test')[1];
-
-    await act(async () => {
-      fireEvent.change(inputFile, { target: { files: [file] } });
-    });
-
-    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
-      input: {
-        attachment: {
-          file,
-          fileName: 'file.xls',
-          fileSize: '1 Bytes',
-          fileType: 'application/vnd.ms-excel',
-          applicationId: 1,
-        },
-      },
-    });
-
-    expect(screen.getByLabelText('loading')).toBeInTheDocument();
-
-    act(() => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createAttachment: {
-            attachment: {
-              rowId: 1,
-              file: 'string',
-            },
-          },
-        },
-      });
-    });
-
-    expect(screen.getByText('Replace')).toBeInTheDocument();
-    expect(screen.getByText('file.xls')).toBeInTheDocument();
-
-    const saveButton = screen.getByRole('button', {
-      name: 'Save & Import Data',
-    });
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
-    pageTestingHelper.expectMutationToBeCalled('createChangeRequestMutation', {
-      connections: [expect.anything()],
-      input: {
-        _applicationId: 1,
-        _amendmentNumber: 20,
-        _jsonData: {
-          amendmentNumber: 20,
-          statementOfWorkUpload: [
-            {
-              id: 1,
-              uuid: 'string',
-              name: 'file.xls',
-              size: 1,
-              type: 'application/vnd.ms-excel',
-            },
-          ],
-        },
-        _oldChangeRequestId: expect.anything(),
-      },
-    });
-
-    act(() => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createChangeRequest: {
-            changeRequest: {
-              rowId: 1,
-            },
-          },
-        },
-      });
-    });
-
-    expect(
-      screen.getByText('Statement of work successfully imported')
-    ).toBeInTheDocument();
-  });
-
-  it('should show a spinner when the sow is being imported', async () => {
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 200, json: () => {} })
-    );
-
-    // Click on the edit button to open the form
-    const editButton = screen.getAllByTestId('project-form-edit-button');
-    await act(async () => {
-      fireEvent.click(editButton[3]);
-    });
-
-    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
-
-    expect(hasFundingAggreementBeenSigned).toBeChecked();
-
-    const file = new File([new ArrayBuffer(1)], 'file.xls', {
-      type: 'application/vnd.ms-excel',
-    });
-
-    const inputFile = screen.getAllByTestId('file-test');
-
-    await act(async () => {
-      fireEvent.change(inputFile[1], { target: { files: [file] } });
-    });
-
-    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
-      input: {
-        attachment: {
-          file,
-          fileName: 'file.xls',
-          fileSize: '1 Bytes',
-          fileType: 'application/vnd.ms-excel',
-          applicationId: 1,
-        },
-      },
-    });
-
-    expect(screen.getByLabelText('loading')).toBeInTheDocument();
-
-    act(() => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createAttachment: {
-            attachment: {
-              rowId: 1,
-              file: 'string',
-            },
-          },
-        },
-      });
-    });
-
-    const saveButton = screen.getByText('Save & Import Data');
-
-    expect(saveButton).not.toBeDisabled();
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-      jest.useFakeTimers();
-    });
-    expect(
-      screen.getByText('Importing Statement of Work. Please wait.')
-    ).toBeInTheDocument();
-    expect(saveButton).toBeDisabled();
-
-    jest.useRealTimers();
-
-    pageTestingHelper.expectMutationToBeCalled(
-      'createProjectInformationMutation',
-      {
-        input: {
-          _applicationId: 1,
-          _jsonData: expect.anything(),
-        },
-      }
-    );
-
-    await act(async () => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createProjectInformation: {
-            projectInformationData: { id: '1', jsonData: {}, rowId: 1 },
-          },
-        },
-      });
-    });
-  });
-
-  it('should stop showing a spinner on error', async () => {
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 200, json: () => {} })
-    );
-
-    // Click on the edit button to open the form
-    const editButton = screen.getAllByTestId('project-form-edit-button');
-    await act(async () => {
-      fireEvent.click(editButton[3]);
-    });
-
-    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
-
-    expect(hasFundingAggreementBeenSigned).toBeChecked();
-
-    const file = new File([new ArrayBuffer(1)], 'file.xls', {
-      type: 'application/vnd.ms-excel',
-    });
-
-    const inputFile = screen.getAllByTestId('file-test');
-
-    await act(async () => {
-      fireEvent.change(inputFile[1], { target: { files: [file] } });
-    });
-
-    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
-      input: {
-        attachment: {
-          file,
-          fileName: 'file.xls',
-          fileSize: '1 Bytes',
-          fileType: 'application/vnd.ms-excel',
-          applicationId: 1,
-        },
-      },
-    });
-
-    expect(screen.getByLabelText('loading')).toBeInTheDocument();
-
-    act(() => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createAttachment: {
-            attachment: {
-              rowId: 1,
-              file: 'string',
-            },
-          },
-        },
-      });
-    });
-
-    const saveButton = screen.getByText('Save & Import Data');
-
-    expect(saveButton).not.toBeDisabled();
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-      jest.useFakeTimers();
-    });
-    expect(
-      screen.getByText('Importing Statement of Work. Please wait.')
-    ).toBeInTheDocument();
-    expect(saveButton).toBeDisabled();
-
-    jest.useRealTimers();
-
-    pageTestingHelper.expectMutationToBeCalled(
-      'createProjectInformationMutation',
-      {
-        input: {
-          _applicationId: 1,
-          _jsonData: expect.anything(),
-        },
-      }
-    );
-
-    await act(async () => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          nonExistingField: {
-            projectInformationData: { id: '1', jsonData: {}, rowId: 1 },
-          },
-        },
-      });
-    });
-
-    expect(saveButton).not.toBeDisabled();
-  });
-
-  it('does not show the toast after saving if change request sow validation has failed', async () => {
-    const mockErrorList = [
-      { level: 'summary', error: 'Error 1', filename: 'test.txt' },
-      { level: 'tab', error: 'Error 2', filename: 'test.txt' },
-    ];
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 400, json: () => mockErrorList })
-    );
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    const addButton = screen.getByText('Add change request').closest('button');
-
-    await act(async () => {
-      fireEvent.click(addButton);
-    });
-
-    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
-
-    await act(async () => {
-      fireEvent.change(amendmentNumber, { target: { value: '20' } });
-    });
-    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
-      type: 'application/excel',
-    });
-
-    const inputFile = screen.getAllByTestId('file-test')[1];
-
-    await act(async () => {
-      fireEvent.change(inputFile, { target: { files: [file] } });
-    });
-
-    expect(
-      screen.getByText(
-        'Statement of Work import failed, please check the file and try again'
-      )
-    ).toBeInTheDocument();
-
-    const saveButton = screen.getByRole('button', {
-      name: 'Save',
-    });
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-      jest.useFakeTimers();
-    });
-
-    expect(saveButton).toBeDisabled();
-
-    jest.useRealTimers();
-
-    pageTestingHelper.expectMutationToBeCalled(
-      'createChangeRequestMutation',
-      expect.anything()
-    );
-
-    await act(async () => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: expect.anything(),
-      });
-    });
-
-    expect(
-      screen.queryByText('Statement of work successfully imported')
-    ).toBeNull();
-  });
-
-  it('does not show the toast after saving if sow validation has failed', async () => {
-    const mockErrorList = [
-      { level: 'summary', error: 'Error 1', filename: 'test.txt' },
-      { level: 'tab', error: 'Error 2', filename: 'test.txt' },
-    ];
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 400, json: () => mockErrorList })
-    );
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
-    // Click on the edit button to open the form
-    const editButton = screen.getAllByTestId('project-form-edit-button');
-    await act(async () => {
-      fireEvent.click(editButton[3]);
-    });
-
-    await act(async () => {
-      fireEvent.click(hasFundingAggreementBeenSigned);
-    });
-
-    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
-      type: 'application/excel',
-    });
-
-    const inputFile = screen.getAllByTestId('file-test')[1];
-
-    await act(async () => {
-      fireEvent.change(inputFile, { target: { files: [file] } });
-    });
-
-    const date = screen.getAllByTestId('datepicker-widget-input')[3];
-
-    await act(async () => {
-      fireEvent.change(date, { target: { value: '2023-01-01' } });
-    });
-
-    expect(
-      screen.getByText(
-        'Statement of Work import failed, please check the file and try again'
-      )
-    ).toBeInTheDocument();
-
-    const saveButton = screen.getByRole('button', {
-      name: 'Save',
-    });
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-      jest.useFakeTimers();
-    });
-
-    expect(saveButton).toBeDisabled();
-
-    jest.useRealTimers();
-
-    pageTestingHelper.expectMutationToBeCalled(
-      'createProjectInformationMutation',
-      expect.anything()
-    );
-
-    await act(async () => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: expect.anything(),
-      });
-    });
-
-    expect(
-      screen.queryByText('Statement of work successfully imported')
-    ).toBeNull();
-  });
-
-  it('should show a spinner on change request', async () => {
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 200, json: () => {} })
-    );
-    const addButton = screen.getByText('Add change request').closest('button');
-
-    await act(async () => {
-      fireEvent.click(addButton);
-    });
-
-    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
-
-    await act(async () => {
-      fireEvent.change(amendmentNumber, { target: { value: '20' } });
-    });
-
-    const file = new File([new ArrayBuffer(1)], 'file.xls', {
-      type: 'application/vnd.ms-excel',
-    });
-
-    const inputFile = screen.getAllByTestId('file-test')[1];
-
-    await act(async () => {
-      fireEvent.change(inputFile, { target: { files: [file] } });
-    });
-
-    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
-      input: {
-        attachment: {
-          file,
-          fileName: 'file.xls',
-          fileSize: '1 Bytes',
-          fileType: 'application/vnd.ms-excel',
-          applicationId: 1,
-        },
-      },
-    });
-
-    expect(screen.getByLabelText('loading')).toBeInTheDocument();
-
-    act(() => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createAttachment: {
-            attachment: {
-              rowId: 1,
-              file: 'string',
-            },
-          },
-        },
-      });
-    });
-
-    const saveButton = screen.getByRole('button', {
-      name: 'Save & Import Data',
-    });
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-      jest.useFakeTimers();
-    });
-
-    expect(
-      screen.getByText('Importing Statement of Work. Please wait.')
-    ).toBeInTheDocument();
-    expect(saveButton).toBeDisabled();
-
-    jest.useRealTimers();
-
-    pageTestingHelper.expectMutationToBeCalled('createChangeRequestMutation', {
-      connections: [
-        'client:<Application-mock-id-1>:__ChangeRequestForm_changeRequestDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"AMENDMENT_NUMBER_DESC")',
-      ],
-      input: {
-        _applicationId: 1,
-        _amendmentNumber: 20,
-        _jsonData: {
-          amendmentNumber: 20,
-          statementOfWorkUpload: [
-            {
-              id: 1,
-              uuid: 'string',
-              name: 'file.xls',
-              size: 1,
-              type: 'application/vnd.ms-excel',
-            },
-          ],
-        },
-        _oldChangeRequestId: expect.anything(),
-      },
-    });
-
-    await act(async () => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createChangeRequest: {
-            changeRequestData: {
-              id: '1',
-              jsonData: {},
-              rowId: 1,
-            },
-          },
-        },
-      });
-    });
-
-    expect(
-      screen.getByText('Statement of work successfully imported')
-    ).toBeInTheDocument();
-  });
-
-  it('should stop showing a spinner on change request error', async () => {
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 200, json: () => {} })
-    );
-    const addButton = screen.getByText('Add change request').closest('button');
-
-    await act(async () => {
-      fireEvent.click(addButton);
-    });
-
-    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
-
-    await act(async () => {
-      fireEvent.change(amendmentNumber, { target: { value: '20' } });
-    });
-
-    const file = new File([new ArrayBuffer(1)], 'file.xls', {
-      type: 'application/vnd.ms-excel',
-    });
-
-    const inputFile = screen.getAllByTestId('file-test')[1];
-
-    await act(async () => {
-      fireEvent.change(inputFile, { target: { files: [file] } });
-    });
-
-    pageTestingHelper.expectMutationToBeCalled('createAttachmentMutation', {
-      input: {
-        attachment: {
-          file,
-          fileName: 'file.xls',
-          fileSize: '1 Bytes',
-          fileType: 'application/vnd.ms-excel',
-          applicationId: 1,
-        },
-      },
-    });
-
-    expect(screen.getByLabelText('loading')).toBeInTheDocument();
-
-    act(() => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createAttachment: {
-            attachment: {
-              rowId: 1,
-              file: 'string',
-            },
-          },
-        },
-      });
-    });
-
-    const saveButton = screen.getByRole('button', {
-      name: 'Save & Import Data',
-    });
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-      jest.useFakeTimers();
-    });
-
-    expect(
-      screen.getByText('Importing Statement of Work. Please wait.')
-    ).toBeInTheDocument();
-    expect(saveButton).toBeDisabled();
-
-    jest.useRealTimers();
-
-    pageTestingHelper.expectMutationToBeCalled('createChangeRequestMutation', {
-      connections: [
-        'client:<Application-mock-id-1>:__ChangeRequestForm_changeRequestDataByApplicationId_connection(filter:{"archivedAt":{"isNull":true}},orderBy:"AMENDMENT_NUMBER_DESC")',
-      ],
-      input: {
-        _applicationId: 1,
-        _amendmentNumber: 20,
-        _jsonData: {
-          amendmentNumber: 20,
-          statementOfWorkUpload: [
-            {
-              id: 1,
-              uuid: 'string',
-              name: 'file.xls',
-              size: 1,
-              type: 'application/vnd.ms-excel',
-            },
-          ],
-        },
-        _oldChangeRequestId: expect.anything(),
-      },
-    });
-
-    await act(async () => {
-      pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          createChangeRequest: {
-            nonExistingField: { id: '1', jsonData: {}, rowId: 1 },
-          },
-        },
-      });
-    });
-  });
-
-  it('should show the persisted SoW upload error message', async () => {
-    pageTestingHelper.loadQuery(mockSowErrorQueryPayload);
-    pageTestingHelper.renderPage();
-
-    expect(
-      screen.getByText('Statement of Work data did not import')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('Press the edit pencil to try re-uploading')
-    ).toBeInTheDocument();
-  });
-
-  it('calls displays the amendment error on save', async () => {
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({ status: 200, json: () => {} })
-    );
-
-    const addButton = screen.getByText('Add change request').closest('button');
-
-    await act(async () => {
-      fireEvent.click(addButton);
-    });
-
-    const amendmentNumber = screen.getByTestId('root_amendmentNumber');
-
-    await act(async () => {
-      fireEvent.change(amendmentNumber, { target: { value: 0 } });
-    });
-
-    const saveButton = screen.getByText('Save');
-
-    expect(saveButton).not.toBeDisabled();
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
-    expect(
-      screen.getByText('Amendment number already in use')
-    ).toBeInTheDocument();
-
-    expect(amendmentNumber).toHaveStyle('border: 2px solid #E71F1F;');
-  });
-
-  it('should show the read only change request data', async () => {
-    pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    const viewMoreBtn = screen.getByText('View more');
-
-    await act(async () => {
-      fireEvent.click(viewMoreBtn);
-    });
-
-    expect(screen.getByText('additional comments test')).toBeInTheDocument();
-
-    expect(screen.getByText('description of changes test')).toBeInTheDocument();
-
-    expect(
-      screen.getByText('change request form file.xls')
-    ).toBeInTheDocument();
-
-    expect(screen.getByText('Jul 1, 2023')).toBeInTheDocument();
-
-    expect(screen.getByText('Jul 2, 2023')).toBeInTheDocument();
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
-  });
-
-  it('should show the community progress report form', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    const addCprBtn = screen.getByText('Add community progress report');
-
-    await act(async () => {
-      fireEvent.click(addCprBtn);
-    });
-
-    expect(
-      screen.getByTestId('save-community-progress-report')
-    ).toBeInTheDocument();
-
-    expect(screen.getAllByText('Due date')[0]).toBeInTheDocument();
-
-    expect(screen.getByText('Date received')).toBeInTheDocument();
-
-    expect(screen.getByText('Progress report file')).toBeInTheDocument();
-  });
-
-  it('should call the community progress report create mutation', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    const addCprBtn = screen.getByText('Add community progress report');
-
-    await act(async () => {
-      fireEvent.click(addCprBtn);
-    });
-
-    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[4];
-
-    await act(async () => {
-      fireEvent.change(dueDateInput, {
-        target: {
-          value: '2023-08-01',
-        },
-      });
-    });
-
-    const saveButton = screen.getByTestId('save-community-progress-report');
-
-    expect(saveButton).toBeInTheDocument();
-
-    expect(screen.getAllByText('Due date')[0]).toBeInTheDocument();
-
-    expect(screen.getByText('Date received')).toBeInTheDocument();
-
-    expect(screen.getByText('Progress report file')).toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
-    pageTestingHelper.expectMutationToBeCalled(
-      'createCommunityProgressReportMutation',
-      {
-        connections: [expect.anything()],
-        input: {
-          _jsonData: {
-            dueDate: '2023-08-01',
-          },
-          _applicationId: 1,
-        },
-      }
-    );
-  });
-
-  it('should show the saved claim', () => {
-    pageTestingHelper.loadQuery(mockProjectDataQueryPayload);
-    pageTestingHelper.renderPage();
-
-    expect(screen.getByText('claims.xlsx')).toBeInTheDocument();
-
-    expect(screen.getByText('Aug 2023 - Aug 2023')).toBeInTheDocument();
-
-    expect(
-      screen.getByText('Aug 2023 - Aug 2023').previousElementSibling.textContent
-    ).toBe('#1');
   });
 });
