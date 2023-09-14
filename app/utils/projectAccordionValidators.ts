@@ -72,7 +72,6 @@ const isMilestonesOpen = (date) => {
   const today = Date.parse(date);
   const currentDateTime = DateTime.fromJSDate(new Date(date)).toUTC();
   const { day, month, year } = currentDateTime;
-  console.log('day, month', day, month);
 
   const firstQuarterStart = Date.parse(`${year}-03-15`);
   const firstQuarterEnd = Date.parse(`${year}-04-15`);
@@ -105,7 +104,7 @@ const isMilestonesOpen = (date) => {
 
 const isClaimsOpen = (date) => {
   if (!date) return false;
-  console.log('isMilestonesOpen', isMilestonesOpen('2022-01-15'));
+
   const today = Date.parse(date);
   const currentDateTime = DateTime.fromJSDate(new Date(date));
   const { year } = currentDateTime;
