@@ -1036,8 +1036,8 @@ describe('The Project page', () => {
     expect(screen.getByText('May 10, 2023')).toBeInTheDocument();
 
     expect(
-      screen.getByText('View project data in Metabase')
-    ).toBeInTheDocument();
+      screen.getAllByText('View project data in Metabase').length
+    ).toBeGreaterThan(0);
   });
 
   it('should clear and archive the project and sow information on no', async () => {
