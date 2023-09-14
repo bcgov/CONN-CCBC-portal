@@ -259,7 +259,7 @@ const CommunityProgressReportForm = ({ application }) => {
       },
     });
   };
-
+  const formOffset = communityProgressList?.length > 0 ? 68 : 30;
   return (
     <>
       {showToast && (
@@ -282,7 +282,7 @@ const CommunityProgressReportForm = ({ application }) => {
         </StyledContainer>
       </Modal>
       <StyledProjectForm
-        formAnimationHeightOffset={68}    
+        formAnimationHeightOffset={formOffset}    
         additionalContext={{
           applicationId: applicationRowId,
           validateExcel: validateCommunityReport,
