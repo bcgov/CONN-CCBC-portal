@@ -70,8 +70,9 @@ const isMilestonesOpen = (date) => {
   if (!date) return false;
 
   const today = Date.parse(date);
-  const currentDateTime = DateTime.fromJSDate(new Date(date));
-  const { year } = currentDateTime;
+  const currentDateTime = DateTime.fromJSDate(new Date(date)).toUTC();
+  const { day, month, year } = currentDateTime;
+  console.log('day, month', day, month);
 
   const firstQuarterStart = Date.parse(`${year}-03-15`);
   const firstQuarterEnd = Date.parse(`${year}-04-15`);
@@ -82,8 +83,14 @@ const isMilestonesOpen = (date) => {
   const thirdQuarterStart = Date.parse(`${year}-09-15`);
   const thirdQuarterEnd = Date.parse(`${year}-10-15`);
 
-  const fourthQuarterStart = Date.parse(`${year}-12-15`);
-  const fourthQuarterEnd = Date.parse(`${year + 1}-01-15`);
+  let fourthQuarterStart = Date.parse(`${year}-12-15`);
+  let fourthQuarterEnd = Date.parse(`${year + 1}-01-15`);
+
+  // If the date is in January, we need to adjust the year to be the previous year
+  if (month === 1 && day <= 15) {
+    fourthQuarterStart = Date.parse(`${year - 1}-12-15`);
+    fourthQuarterEnd = Date.parse(`${year}-01-15`);
+  }
 
   if (
     (today >= firstQuarterStart && today <= firstQuarterEnd) ||
@@ -98,7 +105,7 @@ const isMilestonesOpen = (date) => {
 
 const isClaimsOpen = (date) => {
   if (!date) return false;
-
+  console.log('isMilestonesOpen', isMilestonesOpen('2022-01-15'));
   const today = Date.parse(date);
   const currentDateTime = DateTime.fromJSDate(new Date(date));
   const { year } = currentDateTime;
