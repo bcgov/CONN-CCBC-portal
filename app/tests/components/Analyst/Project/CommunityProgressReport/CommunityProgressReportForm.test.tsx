@@ -207,9 +207,9 @@ describe('The Community Progress Report form', () => {
   it('displays the Metabase link when there is a saved Community Progress Report', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
-    
+
     expect(
-      screen.getByText('View project data in Metabase')
+      screen.getByTestId('metabase-link')
     ).toBeInTheDocument();
   });
 
