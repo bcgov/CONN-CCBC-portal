@@ -62,6 +62,7 @@ const componentTestingHelper =
     defaultQueryResolver: mockQueryPayload,
     getPropsFromTestQuery: (data) => ({
       application: data.application,
+      isExpanded: true,
     }),
   });
 
@@ -203,14 +204,32 @@ describe('The Community Progress Report form', () => {
     expect(screen.getByText('community_report.xlsx')).toBeInTheDocument();
   });
 
-  
   it('displays the Metabase link when there is a saved Community Progress Report', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
+    expect(screen.getByTestId('metabase-link')).toBeInTheDocument();
+  });
+
+  it('should show the community progress report form', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const addCprBtn = screen.getByText('Add community progress report');
+
+    await act(async () => {
+      fireEvent.click(addCprBtn);
+    });
+
     expect(
-      screen.getByTestId('metabase-link')
+      screen.getByTestId('save-community-progress-report')
     ).toBeInTheDocument();
+
+    expect(screen.getAllByText('Due date')[0]).toBeInTheDocument();
+
+    expect(screen.getByText('Date received')).toBeInTheDocument();
+
+    expect(screen.getByText('Progress report file')).toBeInTheDocument();
   });
 
   it('can edit a saved Community Progress Report', async () => {
@@ -433,7 +452,7 @@ describe('The Community Progress Report form', () => {
     componentTestingHelper.expectMutationToBeCalled(
       'archiveApplicationCommunityProgressReportMutation',
       {
-        input: {          
+        input: {
           _communityProgressReportId: 1,
         },
       }
@@ -505,5 +524,53 @@ describe('The Community Progress Report form', () => {
         'A community progress report has already been created for this quarter'
       )
     ).toBeInTheDocument();
+  });
+
+  it('should call the community progress report create mutation', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const addCprBtn = screen.getByText('Add community progress report');
+
+    await act(async () => {
+      fireEvent.click(addCprBtn);
+    });
+
+    const dueDateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dueDateInput, {
+        target: {
+          value: '2023-08-01',
+        },
+      });
+    });
+
+    const saveButton = screen.getByTestId('save-community-progress-report');
+
+    expect(saveButton).toBeInTheDocument();
+
+    expect(screen.getAllByText('Due date')[0]).toBeInTheDocument();
+
+    expect(screen.getByText('Date received')).toBeInTheDocument();
+
+    expect(screen.getByText('Progress report file')).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createCommunityProgressReportMutation',
+      {
+        connections: [expect.anything()],
+        input: {
+          _jsonData: {
+            dueDate: '2023-08-01',
+          },
+          _applicationId: 1,
+        },
+      }
+    );
   });
 });
