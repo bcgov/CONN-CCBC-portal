@@ -332,7 +332,8 @@ const CommunityProgressReportForm = ({ application }) => {
               }}
               title="Add community progress report"
             />
-            {communityProgressList && 
+            
+            {communityProgressList?.length > 0 && 
               <MetabaseLink
                 href={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/95-community-progress-report-prod?ccbc_number=${ccbcNumber}`}
                 text="View project data in Metabase"
