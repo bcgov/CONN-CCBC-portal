@@ -30,6 +30,9 @@ describe('The analyst application view', () => {
     ).as('claims-validate');
   });
 
+  // We should be able to clean up a lot of these cy.wait() calls (especially the datepicker ones) once we upgrade to cypress 12.
+  // These have been added to mitigate detached DOM errors.
+
   it('loads', () => {
     cy.visit('/analyst/application/1/project');
 
@@ -59,6 +62,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
+    cy.wait(200);
     cy.get('button').contains('1').click();
 
     cy.contains('h2', 'Announcements');
@@ -80,6 +84,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
+    cy.wait(200);
     cy.get('button').contains('1').click();
 
     cy.get('select[id="root_response_applicantResponse"]').select('Accepted');
@@ -95,6 +100,10 @@ describe('The analyst application view', () => {
     cy.wait('@graphql');
 
     // Announcements test
+
+    // Open accordion
+    cy.get('[data-testid=accordion-icon]').parent().eq(1).click();
+
     cy.get('button').contains('Add announcement').click();
 
     cy.get('select[id="root_announcementType"]').select('Primary');
@@ -105,6 +114,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
+    cy.wait(200);
     cy.get('button').contains('1').click();
 
     cy.get('body').happoScreenshot({ component: 'Announcements form' });
@@ -123,6 +133,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
+    cy.wait(200);
     cy.get('button').contains('1').click();
 
     // Save announcement
@@ -141,6 +152,7 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
+    cy.wait(200);
     cy.get('button').contains('1').click();
 
     // Funding agreement upload
@@ -170,6 +182,10 @@ describe('The analyst application view', () => {
     cy.wait(2000);
 
     // Add change request
+
+    // Open accordion
+    cy.get('[data-testid=accordion-icon]').eq(2).parent().click();
+
     cy.get('button').contains('Add change request').click();
 
     cy.get('[id="root_amendmentNumber"]').type(1);
@@ -178,12 +194,14 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
+    cy.wait(200);
     cy.get('button').contains('1').click();
 
     cy.get('[id="root_dateApproved"]')
       .parent()
       .find('.MuiButtonBase-root')
       .click();
+    cy.wait(200);
     cy.get('button').contains('1').click();
 
     cy.get('[id="root_descriptionOfChanges"]').type('test');
@@ -208,6 +226,15 @@ describe('The analyst application view', () => {
     cy.contains('Save & Import Data').click();
 
     // Community progress report
+    // Check if accordion is open and open if not due to accordion opening based on dates
+    cy.get('button')
+      .contains('Add community progress report')
+      .then(($button) => {
+        if ($button.is(':hidden')) {
+          cy.wait(500);
+          cy.get('[data-testid=accordion-icon]').parent().eq(3).click();
+        }
+      });
     cy.get('button').contains('Add community progress report').click();
 
     cy.contains('h2', 'Community progress report');
@@ -217,13 +244,16 @@ describe('The analyst application view', () => {
       .parent()
       .find('.MuiButtonBase-root')
       .click();
-
+    cy.wait(200);
     cy.get('button').contains('1').click();
+
     cy.wait(1000);
+
     cy.get('[id="root_dateReceived"]')
       .parent()
       .find('.MuiButtonBase-root')
       .click();
+    cy.wait(200);
     cy.get('button').contains('1').click();
 
     // Community progress report excel upload
@@ -240,6 +270,17 @@ describe('The analyst application view', () => {
     cy.contains('Save & Import').click();
 
     // Claims
+    // Check if accordion is open and open if not due to accordion opening based on dates
+    cy.get('button')
+      .contains('Add claim')
+      .then(($button) => {
+        if ($button.is(':hidden')) {
+          cy.wait(500);
+          cy.get('[data-testid=accordion-icon]').parent().eq(4).click();
+        }
+      });
+
+    cy.wait(500);
     cy.get('button').contains('Add claim').click();
 
     // Claim excel upload

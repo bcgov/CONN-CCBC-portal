@@ -64,6 +64,7 @@ const componentTestingHelper =
     defaultQueryResolver: mockQueryPayload,
     getPropsFromTestQuery: (data) => ({
       application: data.application,
+      isExpanded: true,
     }),
   });
 

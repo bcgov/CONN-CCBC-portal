@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { BaseAccordion } from '@button-inc/bcgov-theme/Accordion';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import Accordion from 'components/Accordion';
 import { FormBase } from 'components/Form';
 import type { JSONSchema7 } from 'json-schema';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -16,6 +16,7 @@ const ToggleRight = styled.div`
   margin-top: auto;
   margin-bottom: auto;
   font-size: 2em;
+  cursor: default;
 `;
 
 const LoadingContainer = styled.div`
@@ -33,38 +34,11 @@ const LoadingItem = styled.div`
   justify-content: center;
 `;
 
-const StyledHeader = styled(BaseAccordion.Header)`
-  border-top: 1px solid #000057;
-  margin-bottom: 16px;
-  padding-top: 0px;
-`;
-
-const StyledBaseAccordion = styled(BaseAccordion)`
-  border: none;
-
-  h2 {
-    margin-bottom: 0;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-  }
-
-  ${(props) => props.theme.breakpoint.smallUp} {
-    h2 {
-      font-size: 24px;
-    }
-  }
-
-  header {
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-  }
-`;
-
 const StyledIconBtn = styled.button`
   border-radius: 0;
   appearance: none;
   margin-right: 8px;
+  font-size: 28px;
 
   & svg {
     color: ${(props) => props.theme.color.links};
@@ -132,6 +106,7 @@ interface Props {
   /** The hidden submit button's ref, used to enforce validation on the form
    *  (the red-outline we see on widgets) */
   hiddenSubmitRef?: any;
+  isExpanded?: boolean;
   isFormEditMode: boolean;
   isFormAnimated?: boolean;
   liveValidate?: boolean;
@@ -163,6 +138,7 @@ const ProjectForm: React.FC<Props> = ({
   showEditBtn = true,
   formAnimationHeight = 300,
   formAnimationHeightOffset = 30,
+  isExpanded = false,
   isFormAnimated,
   isFormEditMode,
   liveValidate,
@@ -204,11 +180,13 @@ const ProjectForm: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFormEditMode]);
 
+  const stopPropagation = (e) => e.stopPropagation();
+
   return (
-    <StyledBaseAccordion onToggle={() => {}} {...rest} defaultToggled>
-      <StyledHeader>
-        <h2>{title}</h2>
-        <StyledToggleRight>
+    <Accordion
+      isExpanded={isExpanded}
+      headerContent={
+        <StyledToggleRight onClick={stopPropagation}>
           {isFormEditMode ? (
             <>
               <StyledBtn
@@ -247,64 +225,59 @@ const ProjectForm: React.FC<Props> = ({
               )}
             </>
           )}
-          <BaseAccordion.ToggleOff>
-            <FontAwesomeIcon icon={faPlus} fixedWidth />
-          </BaseAccordion.ToggleOff>
-          <BaseAccordion.ToggleOn>
-            <FontAwesomeIcon icon={faMinus} fixedWidth />
-          </BaseAccordion.ToggleOn>
         </StyledToggleRight>
-      </StyledHeader>
-      <BaseAccordion.Content>
-        <StyledAnimateForm
-          formAnimationHeight={formAnimationHeight}
-          formAnimationHeightOffset={formAnimationHeightOffset}
-          isAnimated={isFormAnimated}
-          isFormExpanded={isFormEditMode}
-          overflow={overflow}
-        >
-          {before}
-          {formHeader}
-          {submitting ? (
-            <LoadingContainer>
-              <LoadingItem>
-                <CircularProgress color="inherit" />
-              </LoadingItem>
-              <LoadingItem>
-                <p>{`${submittingText}`}</p>
-              </LoadingItem>
-            </LoadingContainer>
-          ) : (
-            <FormBase
-              // setting a key here will reset the form
-              key={isFormEditMode ? 'edit' : 'view'}
-              schema={schema}
-              uiSchema={uiSchema}
-              formData={formData}
-              formContext={{ formData: { ...formData }, ...additionalContext }}
-              theme={theme || ProjectTheme}
-              liveValidate={liveValidate}
-              omitExtraData={false}
-              onChange={handleChange}
-              validate={validate}
-            >
-              {hiddenSubmitRef ? (
-                <button
-                  type="submit"
-                  ref={hiddenSubmitRef}
-                  style={{ display: 'none' }}
-                >
-                  Submit
-                </button>
-              ) : (
-                true
-              )}
-            </FormBase>
-          )}
-        </StyledAnimateForm>
-        {children}
-      </BaseAccordion.Content>
-    </StyledBaseAccordion>
+      }
+      title={title}
+      {...rest}
+    >
+      <StyledAnimateForm
+        formAnimationHeight={formAnimationHeight}
+        formAnimationHeightOffset={formAnimationHeightOffset}
+        isAnimated={isFormAnimated}
+        isFormExpanded={isFormEditMode}
+        overflow={overflow}
+      >
+        {before}
+        {formHeader}
+        {submitting ? (
+          <LoadingContainer>
+            <LoadingItem>
+              <CircularProgress color="inherit" />
+            </LoadingItem>
+            <LoadingItem>
+              <p>{`${submittingText}`}</p>
+            </LoadingItem>
+          </LoadingContainer>
+        ) : (
+          <FormBase
+            // setting a key here will reset the form
+            key={isFormEditMode ? 'edit' : 'view'}
+            schema={schema}
+            uiSchema={uiSchema}
+            formData={formData}
+            formContext={{ formData: { ...formData }, ...additionalContext }}
+            theme={theme || ProjectTheme}
+            liveValidate={liveValidate}
+            omitExtraData={false}
+            onChange={handleChange}
+            validate={validate}
+          >
+            {hiddenSubmitRef ? (
+              <button
+                type="submit"
+                ref={hiddenSubmitRef}
+                style={{ display: 'none' }}
+              >
+                Submit
+              </button>
+            ) : (
+              true
+            )}
+          </FormBase>
+        )}
+      </StyledAnimateForm>
+      {children}
+    </Accordion>
   );
 };
 export default ProjectForm;

@@ -16,7 +16,15 @@ const StyledProjectForm = styled(ProjectForm)`
   margin-top: 43px;
 `;
 
-const ConditionalApprovalForm = ({ application }) => {
+interface Props {
+  application: any;
+  isExpanded?: boolean;
+}
+
+const ConditionalApprovalForm: React.FC<Props> = ({
+  application,
+  isExpanded,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment ConditionalApprovalForm_application on Application {
@@ -47,10 +55,13 @@ const ConditionalApprovalForm = ({ application }) => {
     application
   );
 
-  const { id, rowId, conditionalApprovalDataByApplicationId } = queryFragment;
+  const {
+    id,
+    rowId,
+    conditionalApproval,
+    conditionalApprovalDataByApplicationId,
+  } = queryFragment;
 
-  const conditionalApproval =
-    conditionalApprovalDataByApplicationId?.edges[0]?.node;
   const relayConnectionId = conditionalApprovalDataByApplicationId?.__id;
 
   const [createConditionalApproval] = useCreateConditionalApprovalMutation();
@@ -83,12 +94,21 @@ const ConditionalApprovalForm = ({ application }) => {
           setOldFormData(newFormData);
           setIsFormEditMode(false);
         },
-        updater: (store) => {
+        updater: (store, data) => {
           // Get the connection from the store
           const connection = store.get(relayConnectionId);
 
           // Remove the old data from the connection
           ConnectionHandler.deleteNode(connection, conditionalApproval?.id);
+
+          store
+            .get(id)
+            .setLinkedRecord(
+              store.get(
+                data.createConditionalApproval.conditionalApprovalData.id
+              ),
+              'conditionalApproval'
+            );
         },
       });
     }
@@ -121,6 +141,7 @@ const ConditionalApprovalForm = ({ application }) => {
         handleChange={(e) => {
           setNewFormData({ ...e.formData });
         }}
+        isExpanded={isExpanded}
         isFormEditMode={isFormEditMode}
         title="Conditional approval"
         schema={conditionalApprovalSchema}

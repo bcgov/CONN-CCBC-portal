@@ -62,7 +62,15 @@ interface FormData {
   dateReceived?: string;
 }
 
-const CommunityProgressReportForm = ({ application }) => {
+interface Props {
+  application: any;
+  isExpanded?: boolean;
+}
+
+const CommunityProgressReportForm: React.FC<Props> = ({
+  application,
+  isExpanded,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment CommunityProgressReportForm_application on Application {
@@ -297,6 +305,7 @@ const CommunityProgressReportForm = ({ application }) => {
         theme={ProjectTheme}
         onSubmit={handleSubmit}
         formAnimationHeight={600}
+        isExpanded={isExpanded}
         isFormAnimated
         hiddenSubmitRef={hiddenSubmitRef}
         isFormEditMode={isFormEditMode}
