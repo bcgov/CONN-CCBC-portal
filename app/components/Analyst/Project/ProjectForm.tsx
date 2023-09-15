@@ -16,6 +16,7 @@ const ToggleRight = styled.div`
   margin-top: auto;
   margin-bottom: auto;
   font-size: 2em;
+  cursor: default;
 `;
 
 const LoadingContainer = styled.div`
@@ -179,11 +180,13 @@ const ProjectForm: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFormEditMode]);
 
+  const stopPropagation = (e) => e.stopPropagation();
+
   return (
     <Accordion
       isExpanded={isExpanded}
       headerContent={
-        <StyledToggleRight>
+        <StyledToggleRight onClick={stopPropagation}>
           {isFormEditMode ? (
             <>
               <StyledBtn

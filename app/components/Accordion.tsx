@@ -36,7 +36,7 @@ const Accordion = ({ children, headerContent, isExpanded, title }) => {
 
   const handleChange =
     (panel: string) =>
-    (event: React.SyntheticEvent, isExpandedState: boolean) => {
+    (_event: React.SyntheticEvent, isExpandedState: boolean) => {
       setExpanded(isExpandedState ? panel : false);
     };
 
@@ -48,9 +48,8 @@ const Accordion = ({ children, headerContent, isExpanded, title }) => {
       setExpanded(false);
     }
   }, [isExpanded]);
-  const isAccordionExpanded = expanded === 'panel1';
 
-  const stopPropagation = (e) => e.stopPropagation();
+  const isAccordionExpanded = expanded === 'panel1';
 
   return (
     <StyledAccordion
@@ -68,9 +67,7 @@ const Accordion = ({ children, headerContent, isExpanded, title }) => {
         }
       >
         <StyledH2>{title}</StyledH2>
-        <StyledFlex onClick={stopPropagation}>
-          {isAccordionExpanded && headerContent}
-        </StyledFlex>
+        <StyledFlex>{isAccordionExpanded && headerContent}</StyledFlex>
       </StyledAccordionHeader>
       <AccordionDetails>{children}</AccordionDetails>
     </StyledAccordion>
