@@ -1,3 +1,17 @@
+# [1.105.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.104.0...v1.105.0) (2023-09-15)
+
+### Bug Fixes
+
+- css fix ([1c0aea9](https://github.com/bcgov/CONN-CCBC-portal/commit/1c0aea95ca9418e2fb2d70a78e7bbf5e8518438d))
+- hide metabase link if no cpr added ([2263d86](https://github.com/bcgov/CONN-CCBC-portal/commit/2263d8663328d46a0cd928506f9062f204eb28b1))
+- remove unneeded div ([9c2ab0e](https://github.com/bcgov/CONN-CCBC-portal/commit/9c2ab0ec9ed8a1506dddc59fd372509aae1d8a72))
+- tests ([68a16f7](https://github.com/bcgov/CONN-CCBC-portal/commit/68a16f77cea39d8918cf01e82352149ef6c69f86))
+- unit test ([446ecb4](https://github.com/bcgov/CONN-CCBC-portal/commit/446ecb47006d528cb3bc9b6c67910419dd3b290f))
+
+### Features
+
+- added metabaselink to CPR section ([05a6586](https://github.com/bcgov/CONN-CCBC-portal/commit/05a658672a7a9daa1f2a8235d374d816d3ddbfce))
+
 # [1.104.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.103.1...v1.104.0) (2023-09-13)
 
 ### Bug Fixes
