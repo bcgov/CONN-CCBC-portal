@@ -238,7 +238,7 @@ describe('The Conditional Approval form', () => {
       });
     });
 
-    const saveButton = screen.getAllByText('Save')[0];
+    const saveButton = screen.getByText('Save');
 
     await act(async () => {
       fireEvent.click(saveButton);
@@ -279,20 +279,22 @@ describe('The Conditional Approval form', () => {
     act(() => {
       componentTestingHelper.environment.mock.resolveMostRecentOperation({
         data: {
-          conditionalApprovalData: {
-            id: 'test-id',
-            jsonData: {
-              decision: {
-                ministerDecision: 'Approved',
+          submitConditionallyApproved: {
+            conditionalApprovalData: {
+              id: 'test-id',
+              jsonData: {
+                decision: {
+                  ministerDecision: 'Approved',
+                },
+                isedDecisionObj: {},
+                letterOfApproval: {},
+                response: {
+                  applicantResponse: 'Accepted',
+                  statusApplicantSees: 'Conditionally Approved',
+                },
               },
-              isedDecisionObj: {},
-              letterOfApproval: {},
-              response: {
-                applicantResponse: 'Accepted',
-                statusApplicantSees: 'Conditionally Approved',
-              },
+              rowId: 1,
             },
-            rowId: 1,
           },
         },
       });
