@@ -14,6 +14,9 @@ const milestoneUiSchema = {
   },
   evidenceOfCompletionFile: {
     'ui:widget': 'FileWidget',
+    'ui:options': {
+      allowMultipleFiles: true,
+    },
   },
 };
 
