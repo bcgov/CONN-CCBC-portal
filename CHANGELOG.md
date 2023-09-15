@@ -1,3 +1,36 @@
+# [1.105.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.104.0...v1.105.0) (2023-09-15)
+
+### Bug Fixes
+
+- accordion header clickable ([e21d564](https://github.com/bcgov/CONN-CCBC-portal/commit/e21d564f0ef21fa3efacc92fc320e935863bc1db))
+- conditional approval status change store update ([c3c07ae](https://github.com/bcgov/CONN-CCBC-portal/commit/c3c07aeca47a2fe02e8c0317937d58146861351d))
+- css fix ([1c0aea9](https://github.com/bcgov/CONN-CCBC-portal/commit/1c0aea95ca9418e2fb2d70a78e7bbf5e8518438d))
+- don't display milestone progress if milestone file deleted ([1e90261](https://github.com/bcgov/CONN-CCBC-portal/commit/1e902614d94d63f31ea0d26019cdc483092aef1f))
+- funding agreement accordion logic ([dcb2384](https://github.com/bcgov/CONN-CCBC-portal/commit/dcb2384cc473b82abb1ab219c45088a98b9cd09c))
+- hide metabase link if no cpr added ([2263d86](https://github.com/bcgov/CONN-CCBC-portal/commit/2263d8663328d46a0cd928506f9062f204eb28b1))
+- merge conflict ([b0754a6](https://github.com/bcgov/CONN-CCBC-portal/commit/b0754a680403c4adeaa3dad26338ded8fd3ea32e))
+- milestone form submitting validation errors ([80242af](https://github.com/bcgov/CONN-CCBC-portal/commit/80242af698d2631e66862c076a587be0a2669759))
+- project accordion date validators timezone offset issue ([795ee2f](https://github.com/bcgov/CONN-CCBC-portal/commit/795ee2f9be0529327fd19824534375cfce347fda))
+- project accordion year bug ([a57cf25](https://github.com/bcgov/CONN-CCBC-portal/commit/a57cf2595bb77a80771b1c981a11cebdce0bf9b6))
+- remove unneeded div ([9c2ab0e](https://github.com/bcgov/CONN-CCBC-portal/commit/9c2ab0ec9ed8a1506dddc59fd372509aae1d8a72))
+- tests ([68a16f7](https://github.com/bcgov/CONN-CCBC-portal/commit/68a16f77cea39d8918cf01e82352149ef6c69f86))
+- unit test ([446ecb4](https://github.com/bcgov/CONN-CCBC-portal/commit/446ecb47006d528cb3bc9b6c67910419dd3b290f))
+- user can't expand accordion after state has been controlled externally ([a189405](https://github.com/bcgov/CONN-CCBC-portal/commit/a1894055203ffe822bbecc190ca94ecf5f609a84))
+
+### Features
+
+- add archive application milestone data graphql mutation ([2656479](https://github.com/bcgov/CONN-CCBC-portal/commit/2656479442701915223a2c81ba4bb2a4b7332492))
+- add checks to expand project forms ([59e66c4](https://github.com/bcgov/CONN-CCBC-portal/commit/59e66c4e502c253f4118cdb761622e3a47035a45))
+- add history_operation column to application_milestone_data table ([cad5679](https://github.com/bcgov/CONN-CCBC-portal/commit/cad56797e2533172067e1ac5066dbb19de2ef07b))
+- add history_operation column to application_milestone_data table ([5941b2c](https://github.com/bcgov/CONN-CCBC-portal/commit/5941b2c7ab7a188abfe60f8897656038bae564c2))
+- add is expanded prop to project forms ([6a97f39](https://github.com/bcgov/CONN-CCBC-portal/commit/6a97f391811a908b37a706b95284cc47fd7f8453))
+- add postgres mutation archive_application_milestone_data ([6aafaeb](https://github.com/bcgov/CONN-CCBC-portal/commit/6aafaebc386069f482bb71470466c1bb1e94b137))
+- add postgres mutation archive_application_milestone_data ([09eddb9](https://github.com/bcgov/CONN-CCBC-portal/commit/09eddb9a852d78d4432f6062221a0c57b6ac5519))
+- added metabaselink to CPR section ([05a6586](https://github.com/bcgov/CONN-CCBC-portal/commit/05a658672a7a9daa1f2a8235d374d816d3ddbfce))
+- allow multiple file uploads for milestones evidence of completion ([946c944](https://github.com/bcgov/CONN-CCBC-portal/commit/946c9444e7f4ec5c0f4c1b0341ef52d0e42f9aa7))
+- enable deletion of milestones in milestone form ([aefbc7c](https://github.com/bcgov/CONN-CCBC-portal/commit/aefbc7ce4b6c369e7b54d60df96abb7ca28bc545))
+- validate project/ccbc number in milestone excel upload ([cf28782](https://github.com/bcgov/CONN-CCBC-portal/commit/cf2878203d739f5ff5e8e2563837b2fa542bc5ee))
+
 # [1.104.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.103.1...v1.104.0) (2023-09-13)
 
 ### Bug Fixes
