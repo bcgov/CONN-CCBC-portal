@@ -86,7 +86,9 @@ const MilestonesView: React.FC<Props> = ({
           />
         )}
       </span>
-      <span>{isProgress && <ProgressBar progress={progress} />}</span>
+      <span>
+        {isProgress && milestoneFile && <ProgressBar progress={progress} />}
+      </span>
       {!isFormEditMode && (
         <StyledFlex>
           <ViewEditButton onClick={onFormEdit} />
