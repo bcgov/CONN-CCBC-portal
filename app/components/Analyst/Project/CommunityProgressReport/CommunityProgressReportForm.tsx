@@ -14,6 +14,7 @@ import CommunityProgressView from './CommunityProgressView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
+import MetabaseLink from '../ProjectInformation/MetabaseLink';
 
 const StyledContainer = styled.div`
   text-align: center;
@@ -38,6 +39,21 @@ const StyledFlex = styled.div`
   button:first-child {
     margin-right: 16px;
   }
+`;
+
+const StyledFlexDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  padding-left: 4px;
+  overflow: hidden;
+  max-height: 80px;
+  transition: max-height 0.5s;
+`;
+
+const StyledBottom = styled.div`
+  margin-bottom: 1em;
 `;
 
 interface FormData {
@@ -79,6 +95,7 @@ const CommunityProgressReportForm = ({ application }) => {
   const {
     applicationCommunityProgressReportDataByApplicationId:
       communityProgressData,
+      ccbcNumber,
     rowId: applicationRowId,
   } = queryFragment;
 
@@ -242,7 +259,7 @@ const CommunityProgressReportForm = ({ application }) => {
       },
     });
   };
-
+  const formOffset = communityProgressList?.length > 0 ? 68 : 30;
   return (
     <>
       {showToast && (
@@ -265,6 +282,7 @@ const CommunityProgressReportForm = ({ application }) => {
         </StyledContainer>
       </Modal>
       <StyledProjectForm
+        formAnimationHeightOffset={formOffset}    
         additionalContext={{
           applicationId: applicationRowId,
           validateExcel: validateCommunityReport,
@@ -304,18 +322,30 @@ const CommunityProgressReportForm = ({ application }) => {
         liveValidate={isSubmitAttempted}
         setFormData={setFormData}
         before={
-          <AddButton
-            isFormEditMode={isFormEditMode}
-            onClick={() => {
-              setIsSubmitAttempted(false);
-              setCurrentCommunityProgressData(null);
-              setIsFormEditMode(true);
-            }}
-            title="Add community progress report"
-          />
+          <StyledFlexDiv>
+            <AddButton
+              isFormEditMode={isFormEditMode}
+              onClick={() => {
+                setIsSubmitAttempted(false);
+                setCurrentCommunityProgressData(null);
+                setIsFormEditMode(true);
+              }}
+              title="Add community progress report"
+            />
+            
+            {communityProgressList?.length > 0 && 
+              <MetabaseLink
+                href={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/95-community-progress-report-prod?ccbc_number=${ccbcNumber}`}
+                text="View project data in Metabase"
+                testHref={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/94-community-progress-report?ccbc_number=${ccbcNumber}`}
+                width={326}
+              />
+            }
+          </StyledFlexDiv>
         }
         saveDataTestId="save-community-progress-report"
       >
+        <StyledBottom>
         {communityProgressList?.map(({ node }) => {
           return (
             <CommunityProgressView
@@ -334,6 +364,7 @@ const CommunityProgressReportForm = ({ application }) => {
             />
           );
         })}
+        </StyledBottom>
       </StyledProjectForm>
     </>
   );

@@ -203,6 +203,16 @@ describe('The Community Progress Report form', () => {
     expect(screen.getByText('community_report.xlsx')).toBeInTheDocument();
   });
 
+  
+  it('displays the Metabase link when there is a saved Community Progress Report', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(
+      screen.getByTestId('metabase-link')
+    ).toBeInTheDocument();
+  });
+
   it('can edit a saved Community Progress Report', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
