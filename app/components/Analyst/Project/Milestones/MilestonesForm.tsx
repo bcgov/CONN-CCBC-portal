@@ -172,6 +172,9 @@ const MilestonesForm = ({ application }) => {
 
   const apiPath = `/api/analyst/milestone/${applicationRowId}/${ccbcNumber}/${currentMilestoneData?.rowId}`;
 
+  const hasValidationErrors =
+    milestoneValidationErrors.length > 0 || excelFile === null;
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const validateMilestone = useCallback(
     excelValidateGenerator(apiPath, setExcelFile, setMilestoneValidationErrors),
@@ -325,7 +328,12 @@ const MilestonesForm = ({ application }) => {
         handleChange={(e) => {
           setFormData({ ...e.formData });
         }}
-        submitting={isFormSubmitting}
+        submitting={
+          !hasValidationErrors &&
+          excelFile &&
+          formData?.milestoneFile &&
+          isFormSubmitting
+        }
         submittingText="Importing milestone data. Please wait."
         showEditBtn={false}
         saveBtnDisabled={isFormSubmitting}

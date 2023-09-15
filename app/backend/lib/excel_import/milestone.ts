@@ -54,21 +54,23 @@ const readSummary = async (wb, sheets, applicationId, milestoneId) => {
   return milestoneData;
 };
 
-const ValidateData = async () => {
-  // const ValidateData = async (data, req) => {
-  //   const { ccbcNumber } = req.params;
-  //
-  //   const { projectNumber } = data;
-  //
+const ValidateData = async (data, req) => {
+  const { ccbcNumber } = req.params;
+
+  const { projectNumber } = data;
+
   const errors = [];
-  //
-  //   if (projectNumber === undefined) {
-  //     errors.push({
-  //       level: 'cell',
-  //       error: 'Invalid data: Project number',
-  //     });
-  //   }
-  //
+  if (
+    projectNumber === undefined ||
+    typeof projectNumber !== 'string' ||
+    projectNumber !== ccbcNumber
+  ) {
+    const errorString = `CCBC Number mismatch: expected ${ccbcNumber}, received: ${projectNumber}`;
+    if (!errors.find((err) => err.error === errorString))
+      errors.push({
+        error: `CCBC Number mismatch: expected ${ccbcNumber}, received: ${projectNumber}`,
+      });
+  }
   return errors;
 };
 
@@ -78,8 +80,7 @@ const LoadMilestoneData = async (wb, sheets, req) => {
 
   const data = await readSummary(wb, sheets, applicationId, milestoneId);
 
-  /*   const errorList = await ValidateData(data._jsonData, req); */
-  const errorList = await ValidateData();
+  const errorList = await ValidateData(data._jsonData, req);
 
   if (errorList.length > 0) {
     return { error: errorList };
