@@ -86,7 +86,10 @@ const Project = ({
       setIsConditionalApprovalExpanded(true);
       setIsProjectInformationExpanded(false);
     }
-    if (isFundingAgreementSigned) {
+    if (
+      isFundingAgreementSigned &&
+      isConditionalApprovalComplete(conditionalApproval?.jsonData)
+    ) {
       setIsConditionalApprovalExpanded(false);
       setIsProjectInformationExpanded(false);
 
