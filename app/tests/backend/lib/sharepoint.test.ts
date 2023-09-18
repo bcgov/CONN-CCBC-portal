@@ -1,12 +1,16 @@
 /**
  * @jest-environment node
  */
+import { mocked } from 'jest-mock';
 import request from 'supertest';
 import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
 import bodyParser from 'body-parser';
 import sharepoint from '../../../backend/lib/sharepoint';
+import getAuthRole from '../../../utils/getAuthRole';
+
+jest.mock('../../../utils/getAuthRole');
 
 jest.setTimeout(10000000);
 
@@ -21,6 +25,20 @@ describe('The SharePoint API', () => {
     app.use('/', sharepoint);
   });
 
+  it('should receive the correct response for unauthorized user', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_guest',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app).get(
+      '/api/sharepoint/masterSpreadsheet'
+    );
+    expect(response.status).toBe(404);
+  });
+
   it('should return 200 for an ok response', async () => {
     // @ts-ignore
     global.fetch = jest.fn(() =>
@@ -31,6 +49,13 @@ describe('The SharePoint API', () => {
         arrayBuffer: async () => new ArrayBuffer(0),
       })
     );
+
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
 
     const response = await request(app).get(
       '/api/sharepoint/masterSpreadsheet'
@@ -43,6 +68,13 @@ describe('The SharePoint API', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({ status: 400, json: () => {} })
     );
+
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
 
     const response = await request(app).get(
       '/api/sharepoint/masterSpreadsheet'
