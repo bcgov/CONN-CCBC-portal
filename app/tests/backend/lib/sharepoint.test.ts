@@ -7,10 +7,12 @@ import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
 import bodyParser from 'body-parser';
+import * as spauth from 'node-sp-auth';
 import sharepoint from '../../../backend/lib/sharepoint';
 import getAuthRole from '../../../utils/getAuthRole';
 
 jest.mock('../../../utils/getAuthRole');
+jest.mock('node-sp-auth');
 
 jest.setTimeout(10000000);
 
@@ -41,6 +43,12 @@ describe('The SharePoint API', () => {
 
   it('should return 200 for an ok response', async () => {
     // @ts-ignore
+    (spauth.getAuth as jest.Mock).mockResolvedValue({
+      headers: {
+        Accept: 'application/json;odata=verbose',
+        'Content-Type': 'application/json',
+      },
+    });
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
@@ -64,6 +72,12 @@ describe('The SharePoint API', () => {
   });
 
   it('should return 500 for when sharepoint fails to respond', async () => {
+    (spauth.getAuth as jest.Mock).mockResolvedValue({
+      headers: {
+        Accept: 'application/json;odata=verbose',
+        'Content-Type': 'application/json',
+      },
+    });
     // @ts-ignore
     global.fetch = jest.fn(() =>
       Promise.resolve({ status: 400, json: () => {} })
