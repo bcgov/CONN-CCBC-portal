@@ -2,6 +2,7 @@ import { Router } from 'express';
 import * as XLSX from 'xlsx';
 import * as spauth from 'node-sp-auth';
 import config from '../../config';
+import getAuthRole from '../../utils/getAuthRole';
 
 const SP_SITE = config.get('SP_SITE');
 const SP_DOC_LIBRARY = config.get('SP_DOC_LIBRARY');
@@ -13,6 +14,13 @@ const sharepoint = Router();
 
 // eslint-disable-next-line consistent-return
 sharepoint.get('/api/sharepoint/masterSpreadsheet', async (req, res) => {
+  const authRole = getAuthRole(req);
+  const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
+
+  if (!isRoleAuthorized) {
+    return res.status(404).end();
+  }
+
   const authHeaders = await spauth
     .getAuth(SP_SITE, {
       username: SP_SA_USER,
