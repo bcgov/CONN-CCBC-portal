@@ -11,8 +11,8 @@ const SP_SA_PASSWORD = config.get('SP_SA_PASSWORD');
 
 const sharepoint = Router();
 
+// eslint-disable-next-line consistent-return
 sharepoint.get('/api/sharepoint/masterSpreadsheet', async (req, res) => {
-  const responseOBject = { metadata: null, sheets: null };
   const authHeaders = await spauth
     .getAuth(SP_SITE, {
       username: SP_SA_USER,
@@ -33,10 +33,6 @@ sharepoint.get('/api/sharepoint/masterSpreadsheet', async (req, res) => {
       headers: authHeaders,
     }
   );
-  if (metadata.ok) {
-    responseOBject.metadata = await metadata.json();
-    responseOBject.metadata = responseOBject?.metadata || null;
-  }
   const file = await fetch(
     `${SP_SITE}/_api/web/GetFolderByServerRelativeUrl('${SP_DOC_LIBRARY}')/Files('${SP_FILE_NAME}')/$value
     `,
@@ -45,12 +41,16 @@ sharepoint.get('/api/sharepoint/masterSpreadsheet', async (req, res) => {
       headers: authHeaders,
     }
   );
-  if (file.ok) {
+  if (metadata.ok && file.ok) {
     const bufferResponse = await file.arrayBuffer();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const wb = XLSX.read(bufferResponse);
-    responseOBject.sheets = wb.SheetNames as any;
+    // TODO: check if metadata.TimeLastModified is different from the last time we imported the data
+    // TODO: add logic to parse the workbook and insert data to DB
+  } else {
+    return res.sendStatus(500);
   }
-  res.json(responseOBject).end();
+  return res.sendStatus(200);
 });
 
 export default sharepoint;
