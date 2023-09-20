@@ -221,6 +221,7 @@ const ApplicationForm: React.FC<Props> = ({
       isEditable,
       areAllAcknowledgementsChecked,
       rowId,
+      finalUiSchema,
     };
   }, [
     openIntake,

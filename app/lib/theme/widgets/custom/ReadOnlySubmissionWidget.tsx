@@ -1,6 +1,7 @@
 import { WidgetProps } from '@rjsf/core';
 import styled from 'styled-components';
 import Link from 'next/link';
+import getFormPage from 'utils/getFormPage';
 
 export const StyledContainer = styled('div')`
   margin-bottom: 8px;
@@ -27,6 +28,7 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
   value,
   formContext,
 }) => {
+  const uiSchema = formContext.finalUiSchema['ui:order'];
   return (
     <>
       <StyledContainer>
@@ -37,7 +39,12 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
           <>
             All acknowledgements must be checked before submitting the
             application. Please return to the
-            <StyledLink href={`/applicantportal/form/${formContext.rowId}/20`}>
+            <StyledLink
+              href={`/applicantportal/form/${formContext.rowId}/${getFormPage(
+                uiSchema,
+                'acknowledgements'
+              )}`}
+            >
               {` Acknowledgements `}
             </StyledLink>
             page.
@@ -49,7 +56,12 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
           <>
             <br />
             There is missing information in this application. Please see the
-            <StyledLink href={`/applicantportal/form/${formContext.rowId}/19`}>
+            <StyledLink
+              href={`/applicantportal/form/${formContext.rowId}/${getFormPage(
+                uiSchema,
+                'review'
+              )}`}
+            >
               {` Review `}
             </StyledLink>
             page
