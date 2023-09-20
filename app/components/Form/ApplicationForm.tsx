@@ -6,7 +6,6 @@ import { graphql, useFragment } from 'react-relay';
 import type { JSONSchema7 } from 'json-schema';
 import styled from 'styled-components';
 import validate from 'formSchema/validate';
-import schema from 'formSchema/schema';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
 import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
@@ -96,9 +95,10 @@ interface SubmissionFieldsJSON {
 export const mergeFormSectionData = (
   formData,
   formSectionName,
-  calculatedSection
+  calculatedSection,
+  jsonSchema
 ) => {
-  const schemaSection = schema.properties[formSectionName];
+  const schemaSection = jsonSchema.properties[formSectionName];
 
   const handleError = (error) => {
     Sentry.captureException({
@@ -186,7 +186,17 @@ const ApplicationForm: React.FC<Props> = ({
   } = application;
 
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
-  const sectionName = getSectionNameFromPageNumber(pageNumber);
+  const filteredUiSchemaOrder = uiSchema['ui:order'].filter((formName) => {
+    return Object.prototype.hasOwnProperty.call(
+      jsonSchema.properties,
+      formName
+    );
+  });
+  const finalUiSchema = {
+    ...uiSchema,
+    'ui:order': filteredUiSchemaOrder,
+  };
+  const sectionName = getSectionNameFromPageNumber(finalUiSchema, pageNumber);
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
   const [savingError, setSavingError] = useState(null);
@@ -220,6 +230,7 @@ const ApplicationForm: React.FC<Props> = ({
     isEditable,
     areAllAcknowledgementsChecked,
     rowId,
+    jsonSchema,
   ]);
 
   const updateAreAllAcknowledgementFieldsSet = (
@@ -248,7 +259,7 @@ const ApplicationForm: React.FC<Props> = ({
     jsonSchema as object
   );
 
-  const sectionSchema = schema.properties[sectionName] as JSONSchema7;
+  const sectionSchema = jsonSchema.properties[sectionName] as JSONSchema7;
   const isWithdrawn = status === 'withdrawn';
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';
@@ -314,7 +325,8 @@ const ApplicationForm: React.FC<Props> = ({
     const newFormData = mergeFormSectionData(
       jsonData,
       sectionName,
-      calculatedSectionData
+      calculatedSectionData,
+      jsonSchema
     );
 
     // if we're redirecting after this, set lastEditedPage to the next page
@@ -410,6 +422,7 @@ const ApplicationForm: React.FC<Props> = ({
       !isEditable
     );
   };
+
   return (
     <>
       <Flex>

@@ -43,7 +43,7 @@ const StyledLink = styled(Link)`
   padding: 16px 40px;
 `;
 
-const formPageList = uiSchema['ui:order'].filter((formName) => {
+const formPageListNoSubmission = uiSchema['ui:order'].filter((formName) => {
   return formName !== 'submission';
 });
 
@@ -56,13 +56,17 @@ const Stepper: React.FC<StepperProps> = ({ schema }) => {
   const rowId = router.query.id;
   const formSchema = schema.properties;
 
+  const formPageList = formPageListNoSubmission.filter((formName) => {
+    return Object.prototype.hasOwnProperty.call(formSchema, formName);
+  });
+
   return (
     <StyledNav>
       {formPageList.map((formName) => {
         const isCurrentPage =
           formPageList[Number(router.query.page) - 1] === formName;
 
-        const pageNumber = getFormPage(formName);
+        const pageNumber = getFormPage(formPageList, formName);
         const formPageSchema = formSchema[formName] as JSONSchema7;
         if (!formPageSchema) return null;
         return (
