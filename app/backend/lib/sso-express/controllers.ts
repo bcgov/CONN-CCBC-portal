@@ -102,6 +102,16 @@ export const loginController =
     const codeChallenge = generators.codeChallenge(codeVerifier);
     req.session.codeVerifier = codeVerifier;
 
+    if (req.session.tokenSet) {
+      Sentry.captureException({
+        session: req.session,
+        codeVerifier,
+        codeChallenge,
+        message: 'loginController: req.session.tokenSet exists',
+      });
+      delete req.session.tokenSet;
+    }
+
     const redirectUri = options.getRedirectUri(
       new URL(client.metadata.redirect_uris[0]),
       req
@@ -130,7 +140,6 @@ export const authCallbackController =
   async (req: Request, res: Response) => {
     const state = req.query.state as string;
     const sessionCodeVerifier = req.session.codeVerifier;
-    delete req.session.codeVerifier;
 
     // The check below is redundant as the oidc client
     // callback will check the state
@@ -160,6 +169,8 @@ export const authCallbackController =
         await options.onAuthCallback(req);
       }
 
+      delete req.session.codeVerifier;
+
       res.redirect(options.getLandingRoute(req));
     } catch (err) {
       console.error('sso-express could not get the access token.');
@@ -167,6 +178,7 @@ export const authCallbackController =
         error: err,
         session: req.session,
         query: req.query,
+        sessionCodeVerifier,
       });
       res.redirect(options.oidcConfig.baseUrl);
     }
