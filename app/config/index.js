@@ -230,6 +230,36 @@ const config = convict({
     default: '',
     env: 'METABASE_SITE_URL',
   },
+  SP_SITE: {
+    doc: 'SharePoint Site URL',
+    format: String,
+    default: '',
+    env: 'SP_SITE',
+  },
+  SP_MS_FILE_NAME: {
+    doc: 'SharePoint master spreadsheet File Name',
+    format: String,
+    default: '',
+    env: 'SP_MS_FILE_NAME',
+  },
+  SP_DOC_LIBRARY: {
+    doc: 'SharePoint document library',
+    format: String,
+    default: '',
+    env: 'SP_DOC_LIBRARY',
+  },
+  SP_SA_USER: {
+    doc: 'SharePoint service account user',
+    format: String,
+    default: '',
+    env: 'SP_SA_USER',
+  },
+  SP_SA_PASSWORD: {
+    doc: 'SharePoint service account password',
+    format: String,
+    default: '',
+    env: 'SP_SA_PASSWORD',
+  },
 });
 
 // Load environment dependent configuration

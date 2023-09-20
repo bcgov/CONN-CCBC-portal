@@ -29,6 +29,7 @@ import login from './backend/lib/login';
 import s3adminArchive from './backend/lib/s3admin-archive';
 import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
 import metabaseEmbedUrl from './backend/lib/metabase-embed-url';
+import sharepoint from './backend/lib/sharepoint';
 
 // Function to exclude middleware from certain routes
 // The paths argument takes an array of strings containing routes to exclude from the middleware
@@ -124,6 +125,7 @@ app.prepare().then(async () => {
   server.use('/', login);
   server.use('/', logout);
   server.use('/', metabaseEmbedUrl);
+  server.use('/', sharepoint);
 
   server.all('*', async (req, res) => handle(req, res));
 
