@@ -22,7 +22,8 @@ jobs:
         uses: ./.github/actions/dev-env-setup
       - run: make install_dev_tools
       - run: make stop_pg # cleanly stop the database, otherwise it will complain in the subsequent jobs
-      - run: yarn install --frozen-lockfile --check-files
+      - run: mkdir .yarncache
+      - run: yarn install --frozen-lockfile --cache-folder ./.yarncache --check-files
         working-directory: ./app
 
   trivy-scan-code:
