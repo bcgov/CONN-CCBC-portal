@@ -1,16 +1,16 @@
 FROM registry.access.redhat.com/ubi9/s2i-base@sha256:b5f5f6ad1f5ef4f5420fabd3542847ce67011f4f0a727095357b3d44ab1a502f
 
 ENV SUMMARY="An image for the CONN-CCBC-portal app" \
-    DESCRIPTION="This image contains the compiled CONN-CCBC-portal node app"
+  DESCRIPTION="This image contains the compiled CONN-CCBC-portal node app"
 
 LABEL summary="$SUMMARY" \
-      description="$DESCRIPTION" \
-      io.k8s.description="$DESCRIPTION" \
-      io.k8s.display-name="ghcr.io/bcgov/conn-ccbc-portal/ccbc-app" \
-      io.openshift.tags="ccbc,node" \
-      name="ccbc-app" \
-      vendor="Province of British Columbia" \
-      maintainer="Romer, Meherzad CITZ:EX <Meherzad.Romer@gov.bc.ca>"
+  description="$DESCRIPTION" \
+  io.k8s.description="$DESCRIPTION" \
+  io.k8s.display-name="ghcr.io/bcgov/conn-ccbc-portal/ccbc-app" \
+  io.openshift.tags="ccbc,node" \
+  name="ccbc-app" \
+  vendor="Province of British Columbia" \
+  maintainer="Romer, Meherzad CITZ:EX <Meherzad.Romer@gov.bc.ca>"
 
 ENV USER_ID=1001
 ENV APP_HOME=/root
@@ -60,12 +60,15 @@ RUN rm -rf /usr/local/bin/npm \
 ENV NODE_ENV=production
 ENV ENABLE_ANALYTICS=true
 
+RUN mkdir .yarncache
+
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 CYPRESS_INSTALL_BINARY=0 \
-  yarn install --frozen-lockfile --production=false && \
+  yarn install --frozen-lockfile --production=false --cache-folder ./.yarncache && \
   yarn build:relay && \
   yarn build:server && \
   yarn build:next && \
-  yarn install --frozen-lockfile --production=true && \
+  yarn install --frozen-lockfile --production=true --cache-folder ./.yarncache && \
+  rm -rf .yarncache && \
   yarn cache clean && \
   # Make everything in the home group-writable to support OpenShift's restricted SCC
   # Needs to be done as root to chown
