@@ -55,6 +55,8 @@ const EditApplication = ({
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const sectionName = router.query.section as string;
+  console.log('sectionName', sectionName);
+  console.log(jsonSchema);
   const applicationId = router.query.applicationId as string;
   const sectionSchema = jsonSchema.properties[sectionName] as JSONSchema7;
 
@@ -76,10 +78,10 @@ const EditApplication = ({
     const calculatedSectionData = calculate(sectionFormData, sectionName);
 
     const newFormData = mergeFormSectionData(
-      jsonSchema,
       jsonData,
       sectionName,
-      calculatedSectionData
+      calculatedSectionData,
+      jsonSchema
     );
 
     createNewFormData({
