@@ -1,6 +1,7 @@
-import FormTestRenderer from '../../utils/formTestRenderer';
 import { render, screen } from '@testing-library/react';
 import type { JSONSchema7 } from 'json-schema';
+import { uiSchema } from 'formSchema';
+import FormTestRenderer from '../../utils/formTestRenderer';
 
 const schema = {
   title: 'Read only submission widget test',
@@ -14,32 +15,34 @@ const schema = {
   },
 };
 
-const uiSchema = {
+const ui = {
+  'ui:order': ['submissionDate'],
   submissionDate: {
     'ui:widget': 'ReadOnlySubmissionWidget',
   },
 };
 
-const renderStaticLayout = (schema: JSONSchema7, uiSchema: any, formData) => {
+const renderStaticLayout = (s: JSONSchema7, u: any, formData) => {
   return render(
     <FormTestRenderer
       formData={formData}
       onSubmit={() => console.log('test')}
-      schema={schema as JSONSchema7}
-      uiSchema={uiSchema}
+      schema={s as JSONSchema7}
+      uiSchema={u}
+      formContext={{ finalUiSchema: uiSchema }}
     />
   );
 };
 
 describe('The ReadOnlySubmissionWidget', () => {
   it('should render the title', () => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema, {});
+    renderStaticLayout(schema as JSONSchema7, ui, {});
 
     expect(screen.getByText('On this date (YYYY-MM-DD)')).toBeInTheDocument();
   });
 
   it('should render the value', () => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema, {
+    renderStaticLayout(schema as JSONSchema7, ui, {
       submissionDate: '2022-09-22',
     });
 

@@ -11,6 +11,7 @@ type Props = {
   onSubmit: () => void;
   schema: JSONSchema7;
   uiSchema: any;
+  formContext: any;
 };
 
 const clientEnv = getClientEnvironment();
@@ -23,6 +24,7 @@ const FormTestRenderer: React.FC<Props> = ({
   onSubmit,
   schema,
   uiSchema,
+  formContext = null,
 }) => {
   const relayProps = getRelayProps({}, initialPreloadedQuery);
   const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
@@ -36,6 +38,7 @@ const FormTestRenderer: React.FC<Props> = ({
           onSubmit={onSubmit}
           schema={schema as JSONSchema7}
           uiSchema={uiSchema}
+          formContext={formContext}
         />
       </GlobalTheme>
     </RelayEnvironmentProvider>

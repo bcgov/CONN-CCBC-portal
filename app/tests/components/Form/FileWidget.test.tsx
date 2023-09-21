@@ -5,7 +5,7 @@ import compiledQuery, {
 } from '__generated__/FileWidgetTestQuery.graphql';
 import { act, fireEvent, screen } from '@testing-library/react';
 import getFormPage from 'utils/getFormPage';
-import { schema } from 'formSchema';
+import { uiSchema, schema } from 'formSchema';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
 const testQuery = graphql`
@@ -50,7 +50,7 @@ const componentTestingHelper = new ComponentTestingHelper<FileWidgetTestQuery>({
   defaultQueryResolver: mockQueryPayload,
   getPropsFromTestQuery: (data) => ({
     application: data.application,
-    pageNumber: getFormPage('coverage'),
+    pageNumber: getFormPage(uiSchema['ui:order'], 'coverage'),
     query: data.query,
   }),
 });
