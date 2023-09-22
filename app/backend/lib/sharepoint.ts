@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as XLSX from 'xlsx';
-import * as spauth from 'node-sp-auth';
+import * as spauth from '@bcgov-ccbc/ccbc-node-sp-auth';
 import config from '../../config';
 import getAuthRole from '../../utils/getAuthRole';
 
