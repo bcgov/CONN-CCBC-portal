@@ -10,6 +10,7 @@
 - [AWS Infrastructure](docs/AWS_Infrastructure.md)
 - [Database Development](docs/Database_Development.md)
 - [SchemaSpy Database documentation](https://bcgov.github.io/CONN-CCBC-portal/schemaspy/)
+- [Growthbook](#growthbook)
 
 #### Local development
 
@@ -37,7 +38,7 @@
 - [Deploying the project](#deploying-the-project)
 - [Disaster recovery information](#disaster-recovery-documentation)
 - [CronJobs](#cronjobs)
-- [Certificates] (#certificates)
+- [Certificates](#certificates)
 
 ## Setting up a local development environment
 
@@ -295,3 +296,18 @@ Certificates are generated using the standard BC Government process:
 4. Once complete, you will receive a certificate and a chain. Use them in the `CERT` and `CERT_CA` fields, respectively. You might also need to update `CERT_KEY` if a new CSR was used.
 5. Repeat this process for any other certificates you need to renew (e.g., dev, test, etc.).
 6. Finally, to update the certificates run the deploy action for each environment that needs updating.
+
+## Growthbook
+
+GrowthBook is an open-source platform for feature flagging and A/B testing. In the context of our application, we use it as follows:
+
+- **Feature Flagging:** Enables or disables functionality per environment (dev, test, and prod).
+- **Banners:** GrowthBook allows setting values on features to be outside of true and false. This allows us to create "objects" and read them in the app to set custom banners.
+
+### Adding a Feature
+
+For detailed instructions on how to add and manage features, please refer to the [GrowthBook docs](https://docs.growthbook.io/features/basics).
+
+### Getting Access
+
+To get access to GrowthBook for this project, contact one of the administrators. You will then be able to create and manage feature flags.
