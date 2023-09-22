@@ -7,7 +7,7 @@ import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
 import bodyParser from 'body-parser';
-import * as spauth from 'node-sp-auth';
+import * as spauth from '@bcgov-ccbc/ccbc-node-sp-auth';
 import sharepoint from '../../../backend/lib/sharepoint';
 import getAuthRole from '../../../utils/getAuthRole';
 
