@@ -12,7 +12,7 @@ import sharepoint from '../../../backend/lib/sharepoint';
 import getAuthRole from '../../../utils/getAuthRole';
 
 jest.mock('../../../utils/getAuthRole');
-jest.mock('node-sp-auth');
+jest.mock('@bcgov-ccbc/ccbc-node-sp-auth');
 
 jest.setTimeout(10000000);
 
