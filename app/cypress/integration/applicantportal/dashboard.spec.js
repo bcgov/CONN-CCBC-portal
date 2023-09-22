@@ -284,7 +284,7 @@ describe('The applicant dashboard', () => {
 
     // // Estimated project employment page
     cy.findByRole('heading', { name: /^Estimated project employment/i }).should(
-      'exist'
+      'not.exist'
     );
 
     cy.get('[id="root_currentEmployment"]').type(20);
