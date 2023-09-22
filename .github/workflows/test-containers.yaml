@@ -19,7 +19,7 @@ env:
 jobs:
   yarn-test-e2e-applicant:
     runs-on: ubuntu-latest
-    needs: [test-code.install-test-env]
+    needs: [main.test-code.install-test-env]
     steps:
       - uses: actions/checkout@v3
       - name: dev env setup
