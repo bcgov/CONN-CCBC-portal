@@ -2158,6 +2158,26 @@
     "@button-inc/bcgov-theme" "^1.0.1"
     lodash.throttle "^4.1.1"
 
+"@bcgov-ccbc/ccbc-node-sp-auth@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@bcgov-ccbc/ccbc-node-sp-auth/-/ccbc-node-sp-auth-1.0.0.tgz#fd497297142241e78b5448c0a8cfe73ff592d49f"
+  integrity sha512-O5FIPF2bP2NXKU98/NhFrypHtlh5Pli8JZoF+/427xr/aMn8G6npAVijsrNEL8OJ7D6gsSZ248G7gVVHmCsggQ==
+  dependencies:
+    "@types/cookie" "0.4.0"
+    "@types/core-js" "2.5.3"
+    "@types/global-agent" "2.1.0"
+    "@types/jsonwebtoken" "8.5.0"
+    "@types/lodash.template" "4.5.0"
+    "@types/node" "14.0.13"
+    cookie "0.4.1"
+    cpass "2.3.0"
+    global-agent "2.1.12"
+    got "11.8.5"
+    json5 "2.2.2"
+    jsonwebtoken "9.0.0"
+    lodash.template "4.5.0"
+    xmldoc "1.1.2"
+
 "@bcgov/bc-sans@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@bcgov/bc-sans/-/bc-sans-1.0.1.tgz#8b622032465463934319771ea92fa3df74e6c9d3"
@@ -9501,7 +9521,7 @@ json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
-json5@2.2.3, json5@2.x, json5@^0.5.1, json5@^1.0.2, json5@^2.1.1, json5@^2.2.1:
+json5@2.2.2, json5@2.2.3, json5@2.x, json5@^0.5.1, json5@^1.0.2, json5@^2.1.1, json5@^2.2.1:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.3.tgz#78cd6f1a19bdc12b73db5ad0c61efd66c1e29283"
   integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
@@ -10182,24 +10202,6 @@ node-releases@^2.0.3:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.4.tgz#f38252370c43854dc48aa431c766c6c398f40476"
   integrity sha512-gbMzqQtTtDz/00jQzZ21PQzdI9PyLYqUSvD0p3naOhX4odFji0ZxYdnVwPTxmSwkmxhcFImpozceidSG+AgoPQ==
-
-"node-sp-auth@git+https://github.com/bcgov/conn-ccbc-node-sp-auth.git":
-  version "3.0.7"
-  resolved "git+https://github.com/bcgov/conn-ccbc-node-sp-auth.git#f4eac42fc1fc79be144294be44b571f95da96074"
-  dependencies:
-    "@types/cookie" "0.4.0"
-    "@types/core-js" "2.5.3"
-    "@types/global-agent" "2.1.0"
-    "@types/jsonwebtoken" "8.5.0"
-    "@types/lodash.template" "4.5.0"
-    "@types/node" "14.0.13"
-    cookie "0.4.1"
-    cpass "2.3.0"
-    global-agent "2.1.12"
-    got "11.8.5"
-    jsonwebtoken "9.0.0"
-    lodash.template "4.5.0"
-    xmldoc "1.1.2"
 
 nodemon@^2.0.20:
   version "2.0.20"
