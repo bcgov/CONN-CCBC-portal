@@ -259,4 +259,4 @@ install_git_hooks:
 release: ## Tag a release using release-it
 release:
 	@yarn
-	@yarn release-it
+	@yarn release-it --git.commitArgs=-n
