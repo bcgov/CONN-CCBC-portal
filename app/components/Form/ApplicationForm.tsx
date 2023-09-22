@@ -226,7 +226,6 @@ const ApplicationForm: React.FC<Props> = ({
   }, [
     openIntake,
     application?.intakeByIntakeId?.closeTimestamp,
-    jsonData,
     formErrorSchema,
     isEditable,
     areAllAcknowledgementsChecked,
@@ -322,7 +321,10 @@ const ApplicationForm: React.FC<Props> = ({
       updateAreAllAcknowledgementFieldsSet(newFormSectionData);
     if (isSubmitPage) updateAreAllSubmissionFieldsSet(newFormSectionData);
 
-    const calculatedSectionData = calculate(newFormSectionData, sectionName);
+    const calculatedSectionData = calculate(
+      newFormSectionData,
+      sectionName.toString()
+    );
 
     const newFormData = mergeFormSectionData(
       jsonData,
