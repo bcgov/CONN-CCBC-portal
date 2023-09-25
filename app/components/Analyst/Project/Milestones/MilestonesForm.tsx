@@ -351,6 +351,8 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
             isFormEditMode={isFormEditMode}
             onClick={() => {
               setShowToast(false);
+              setFormData({} as FormData);
+              setCurrentMilestoneData(null);
               setIsSubmitAttempted(false);
               setIsFormEditMode(true);
             }}
