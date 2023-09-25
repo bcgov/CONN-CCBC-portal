@@ -17,7 +17,7 @@ jobs:
   install-test-env:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - run: make install_dev_tools
@@ -30,7 +30,7 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
         with:
@@ -59,7 +59,7 @@ jobs:
         os: ['linux']
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Initialize CodeQL
         uses: github/codeql-action/init@6a28655e3dcb49cb0840ea372fd6d17733edd8a4
         with:
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Tag the base ref for pull requests
@@ -89,7 +89,7 @@ jobs:
   gitleaks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: ./.bin/install-gitleaks-linux-x64.sh
       - run: ./gitleaks detect --exit-code 0 --report-format sarif --report-path "gitleaks.sarif"
       - uses: github/codeql-action/upload-sarif@6a28655e3dcb49cb0840ea372fd6d17733edd8a4
@@ -100,7 +100,7 @@ jobs:
     needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
@@ -120,7 +120,7 @@ jobs:
     needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - run: yarn run eslint -f @microsoft/eslint-formatter-sarif -o results.sarif . || true
@@ -151,7 +151,7 @@ jobs:
     needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - name: deploy db migrations
@@ -165,7 +165,7 @@ jobs:
     needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: dev env setup
@@ -181,7 +181,7 @@ jobs:
     needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: dev env setup
@@ -194,7 +194,7 @@ jobs:
   check_immutable_sqitch_files:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - run: ./.bin/sqitch-check-immutable-files.sh db origin/main
@@ -202,7 +202,7 @@ jobs:
   check_deleted_sqitch_tags:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v3
@@ -255,7 +255,7 @@ jobs:
       name: tools
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Authenticate to OpenShift Linter namespace
         uses: redhat-actions/oc-login@v1
         with:

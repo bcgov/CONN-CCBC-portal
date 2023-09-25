@@ -35,7 +35,7 @@ jobs:
       tagVersion: ${{steps.tagVersion.outputs.tagVersion}}
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Is Tagged Commit
@@ -51,7 +51,7 @@ jobs:
       # url: 'https://ccbc-dev.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Deploy
         uses: ./.github/actions/app
         with:
@@ -84,7 +84,7 @@ jobs:
     needs: [is-tagged-release]
     if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: ./.bin/sqitch-last-change-is-tag.sh db
 
   deploy-to-openshift-test:
@@ -101,7 +101,7 @@ jobs:
       url: 'https://ccbc-test.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Deploy
         uses: ./.github/actions/app
         with:
@@ -143,7 +143,7 @@ jobs:
       url: 'https://ccbc.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Deploy
         uses: ./.github/actions/app
         with:
@@ -175,7 +175,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Fetch latest tag
