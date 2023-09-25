@@ -275,8 +275,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
         ConnectionHandler.deleteNode(connection, milestoneConnectionId);
       },
       onCompleted: () => {
-        setShowModal(false);
-        setCurrentMilestoneData(null);
+        handleResetFormData();
       },
     });
   };

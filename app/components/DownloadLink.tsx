@@ -33,15 +33,21 @@ interface Props {
   children?: any;
   uuid: string;
   fileName: string;
+  fileLabel?: string;
 }
 
-const DownloadLink: React.FC<Props> = ({ children, uuid, fileName }) => {
+const DownloadLink: React.FC<Props> = ({
+  children,
+  uuid,
+  fileName,
+  fileLabel,
+}) => {
   const [quarantinedLink, setQuarantinedLink] = useState(false);
   return quarantinedLink ? (
-    <>`${fileName}`</>
+    <>`${fileLabel || fileName}`</>
   ) : (
     <StyledLink
-      title={fileName}
+      title={fileLabel || fileName}
       data-testid="history-attachment-link"
       onClick={(e) => {
         e.preventDefault();
@@ -50,7 +56,7 @@ const DownloadLink: React.FC<Props> = ({ children, uuid, fileName }) => {
         });
       }}
     >
-      {children || fileName}
+      {children || fileLabel || fileName}
     </StyledLink>
   );
 };
