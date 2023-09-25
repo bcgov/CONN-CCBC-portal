@@ -71,6 +71,9 @@ const submissionPayload = {
             submissionCompletedBy: 'test',
             submissionTitle: 'test',
           },
+          review: {
+            acknowledgeIncomplete: true,
+          },
           acknowledgements: {
             acknowledgementsList: acknowledgementsEnum,
           },
@@ -224,6 +227,9 @@ describe('The submission form page', () => {
         submissionCompletedBy: 'Bob Loblaw',
         submissionTitle: 'some title',
       },
+      review: {
+        acknowledgeIncomplete: true,
+      },
       acknowledgements: {
         acknowledgementsList: acknowledgementsEnum,
       },
@@ -346,6 +352,9 @@ describe('The submission form page', () => {
               submissionDate: '2022-09-27',
               submissionCompletedBy: 'test',
               submissionTitle: 'test',
+            },
+            review: {
+              acknowledgeIncomplete: true,
             },
             acknowledgements: { acknowledgementsList: acknowledgementsEnum },
           },

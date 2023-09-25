@@ -78,7 +78,8 @@ const EditApplication = ({
     const newFormData = mergeFormSectionData(
       jsonData,
       sectionName,
-      calculatedSectionData
+      calculatedSectionData,
+      jsonSchema
     );
 
     createNewFormData({

@@ -14,11 +14,16 @@ const StyledLink = styled(Link)`
   color: #e71f1f;
 `;
 
-const SubmissionCompletedForWidget: React.FC<WidgetProps> = ({ id, value }) => {
+const SubmissionCompletedForWidget: React.FC<WidgetProps> = ({
+  id,
+  value,
+  formContext,
+}) => {
   const router = useRouter();
   const rowId = router.query.id;
+  const uiSchema = formContext.finalUiSchema['ui:order'];
 
-  const pageNumber = getFormPage('organizationProfile');
+  const pageNumber = getFormPage(uiSchema, 'organizationProfile');
 
   return (
     <StyledContainer>

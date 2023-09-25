@@ -1,5 +1,4 @@
 import { FieldProps } from '@rjsf/core';
-import fullSchema from 'formSchema/schema';
 import reviewUiSchema from 'formSchema/reviewUiSchema';
 import FormBase from 'components/Form/FormBase';
 import styled from 'styled-components';
@@ -24,7 +23,7 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
     onBlur,
     onFocus,
   } = props;
-  const { fullFormData, formErrorSchema } = formContext;
+  const { fullFormData, formSchema, formErrorSchema } = formContext;
 
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
@@ -52,7 +51,7 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
       </StyledAlert>
       <FormBase
         theme={ReviewTheme}
-        schema={fullSchema}
+        schema={formSchema}
         uiSchema={reviewUiSchema as any}
         formData={fullFormData}
         liveValidate

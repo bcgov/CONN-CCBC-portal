@@ -284,30 +284,8 @@ describe('The applicant dashboard', () => {
 
     // // Estimated project employment page
     cy.findByRole('heading', { name: /^Estimated project employment/i }).should(
-      'exist'
+      'not.exist'
     );
-
-    cy.get('[id="root_currentEmployment"]').type(20);
-
-    cy.get('[id="root_numberOfEmployeesToWork"]').type(12);
-
-    cy.get('[id="root_hoursOfEmploymentPerWeek"]').type(12);
-
-    cy.get('[id="root_personMonthsToBeCreated"]').type(12);
-
-    cy.get('[id="root_numberOfContractorsToWork"]').type(12);
-
-    cy.get('[id="root_hoursOfContractorEmploymentPerWeek"]').type(12);
-
-    cy.get('[id="root_contractorPersonMonthsToBeCreated"]').type(12);
-
-    cy.contains('header > div', 'Last saved:');
-
-    cy.get('body').happoScreenshot({
-      component: 'Estimated Project Employment Page',
-    });
-
-    cy.contains('button', 'Save and continue').click();
 
     // // Template uploads page
     cy.findByRole('heading', { name: /^Template uploads/i }).should('exist');

@@ -1,4 +1,3 @@
-import { uiSchema } from 'formSchema';
 import type { JSONSchema7 } from 'json-schema';
 /**
  * @param schema A valid JSON schema
@@ -12,6 +11,7 @@ export const schemaToSubschemasArray = (
 };
 
 export const getSectionNameFromPageNumber = (
+  uiSchema,
   pageNumber: number
 ): keyof typeof uiSchema => {
   return uiSchema['ui:order'][pageNumber - 1] as keyof typeof uiSchema;

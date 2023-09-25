@@ -1,7 +1,5 @@
-import uiSchema from 'formSchema/uiSchema/uiSchema';
-
-const getFormPage = (pageName: string) => {
-  const pageNumber = uiSchema['ui:order'].indexOf(pageName) + 1;
+const getFormPage = (uiSchema, pageName: string) => {
+  const pageNumber = uiSchema.indexOf(pageName) + 1;
 
   return pageNumber;
 };
