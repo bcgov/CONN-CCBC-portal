@@ -1,3 +1,13 @@
+# [1.106.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.105.0...v1.106.0) (2023-09-25)
+
+### Bug Fixes
+
+- use sx prop to add styles to accordion ([97a698c](https://github.com/bcgov/CONN-CCBC-portal/commit/97a698c4763fe51248ab9b8702c1be1dcd36694a))
+
+### Features
+
+- add sp ms api ([28a0036](https://github.com/bcgov/CONN-CCBC-portal/commit/28a0036633e76c1f8a0c898df63450b821b4d474))
+
 # [1.105.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.104.0...v1.105.0) (2023-09-15)
 
 ### Bug Fixes
