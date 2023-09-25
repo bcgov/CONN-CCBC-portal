@@ -11,17 +11,6 @@ const StyledH2 = styled.h2`
   max-width: 70%;
 `;
 
-const StyledAccordion = styled(AccordionContainer)`
-  border: none;
-  box-shadow: none;
-`;
-
-const StyledAccordionHeader = styled(AccordionSummary)`
-  border-top: 1px solid #000057;
-  font-size: 32px;
-  height: 30px;
-`;
-
 const StyledFlex = styled.div`
   position: absolute;
   right: 50px;
@@ -52,12 +41,21 @@ const Accordion = ({ children, headerContent, isExpanded, title }) => {
   const isAccordionExpanded = expanded === 'panel1';
 
   return (
-    <StyledAccordion
+    <AccordionContainer
       disableGutters
+      sx={{
+        border: 'none',
+        boxShadow: 'none',
+      }}
       expanded={isAccordionExpanded}
       onChange={handleChange('panel1')}
     >
-      <StyledAccordionHeader
+      <AccordionSummary
+        sx={{
+          borderTop: '1px solid #000057',
+          fontSize: '32px',
+          height: '30px',
+        }}
         expandIcon={
           <FontAwesomeIcon
             data-testid="accordion-icon"
@@ -68,9 +66,9 @@ const Accordion = ({ children, headerContent, isExpanded, title }) => {
       >
         <StyledH2>{title}</StyledH2>
         <StyledFlex>{isAccordionExpanded && headerContent}</StyledFlex>
-      </StyledAccordionHeader>
+      </AccordionSummary>
       <AccordionDetails>{children}</AccordionDetails>
-    </StyledAccordion>
+    </AccordionContainer>
   );
 };
 
