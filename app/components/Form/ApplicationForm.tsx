@@ -16,6 +16,7 @@ import { updateApplicationFormMutation } from '__generated__/updateApplicationFo
 import { useUpdateApplicationForm } from 'schema/mutations/application/updateApplicationForm';
 import verifyFormFields from 'utils/verifyFormFields';
 import ReviewField from 'components/Review/ReviewPageField';
+import { useFeature } from '@growthbook/growthbook-react';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
 import {
@@ -162,16 +163,26 @@ const ApplicationForm: React.FC<Props> = ({
     applicationKey
   );
 
-  const { openIntake } = useFragment(
+  const applicationFormQuery = useFragment(
     graphql`
       fragment ApplicationForm_query on Query {
         openIntake {
           closeTimestamp
         }
+        allForms(condition: { formType: "intake" }, last: 1) {
+          nodes {
+            rowId
+            jsonSchema
+          }
+        }
       }
     `,
     query
   );
+
+  const forceLatestSchema = useFeature('draft_apps_use_latest_schema').value;
+  const { openIntake } = applicationFormQuery;
+  const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
   const {
     rowId,
     formData: {
@@ -179,12 +190,17 @@ const ApplicationForm: React.FC<Props> = ({
       rowId: formDataRowId,
       id: formDataId,
       isEditable,
-      formByFormSchemaId: { jsonSchema },
       updatedAt,
     },
     status,
   } = application;
-
+  let jsonSchema: any;
+  // eslint-disable-next-line no-constant-condition, no-self-compare
+  if (forceLatestSchema && status === 'draft') {
+    jsonSchema = latestJsonSchema;
+  } else {
+    jsonSchema = application.formData.formByFormSchemaId.jsonSchema;
+  }
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
   const filteredUiSchemaOrder = uiSchema['ui:order'].filter((formName) => {
     return Object.prototype.hasOwnProperty.call(
