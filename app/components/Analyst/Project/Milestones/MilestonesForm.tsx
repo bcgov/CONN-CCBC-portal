@@ -350,6 +350,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
           <AddButton
             isFormEditMode={isFormEditMode}
             onClick={() => {
+              setShowToast(false);
               setIsSubmitAttempted(false);
               setIsFormEditMode(true);
             }}
