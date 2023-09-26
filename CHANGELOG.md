@@ -1,3 +1,11 @@
+## [1.106.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.106.0...v1.106.1) (2023-09-26)
+
+### Bug Fixes
+
+- clear previous milestone data ([8f07e3e](https://github.com/bcgov/CONN-CCBC-portal/commit/8f07e3ec9dc43539e3713a8aa5f71d457768e3fd))
+- milestone file name ([957ee17](https://github.com/bcgov/CONN-CCBC-portal/commit/957ee179df91b9e8caf178c926fd3a1561be8c07))
+- milestone toast only shows once ([d239c60](https://github.com/bcgov/CONN-CCBC-portal/commit/d239c60463de6f4c8615ef4356f2d9a39215982f))
+
 # [1.106.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.105.0...v1.106.0) (2023-09-26)
 
 ### Bug Fixes

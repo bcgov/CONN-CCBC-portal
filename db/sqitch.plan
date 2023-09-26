@@ -434,3 +434,4 @@ tables/application_milestone_data_001 2023-09-12T17:52:00Z Marcel Mueller <marce
 mutations/archive_application_milestone_data 2023-09-12T18:07:10Z Marcel Mueller <marcel@m2> # mutation to archive milestone data and associated excel data
 @1.105.0 2023-09-15T20:46:03Z CCBC Service Account <ccbc@button.is> # release v1.105.0
 @1.106.0 2023-09-26T21:05:23Z CCBC Service Account <ccbc@button.is> # release v1.106.0
+@1.106.1 2023-09-26T22:05:33Z CCBC Service Account <ccbc@button.is> # release v1.106.1
