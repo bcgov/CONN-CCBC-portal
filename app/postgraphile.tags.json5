@@ -67,6 +67,11 @@
           omit: ['create', 'delete'],
         },
       },
+      'ccbc_public.cbc_project': {
+        tags: {
+          omit: ['create', 'delete'],
+        },
+      },
     },
     procedure: {
       'ccbc_public.application_analyst_lead': {
