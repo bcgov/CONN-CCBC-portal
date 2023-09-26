@@ -182,10 +182,10 @@ describe('The form page', () => {
 
     expect(screen.getByText('Benefits')).toBeInTheDocument();
 
-    const estimatedProjectEmploymeny = screen.queryByText(
-      'Estimated Project Employment'
+    const estimatedProjectEmployment = screen.queryByText(
+      'Estimated project employment'
     );
 
-    expect(estimatedProjectEmploymeny).toBeNull();
+    expect(estimatedProjectEmployment).toBeNull();
   });
 });
