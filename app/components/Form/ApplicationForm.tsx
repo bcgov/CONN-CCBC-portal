@@ -150,6 +150,7 @@ const ApplicationForm: React.FC<Props> = ({
           isEditable
           updatedAt
           formByFormSchemaId {
+            rowId
             jsonSchema
           }
         }
@@ -183,6 +184,7 @@ const ApplicationForm: React.FC<Props> = ({
   const forceLatestSchema = useFeature('draft_apps_use_latest_schema').value;
   const { openIntake } = applicationFormQuery;
   const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
+  const latestFormSchemaId = applicationFormQuery.allForms.nodes[0].rowId;
   const {
     rowId,
     formData: {
@@ -195,11 +197,14 @@ const ApplicationForm: React.FC<Props> = ({
     status,
   } = application;
   let jsonSchema: any;
+  let formSchemaId: number;
   // eslint-disable-next-line no-constant-condition, no-self-compare
   if (forceLatestSchema && status === 'draft') {
     jsonSchema = latestJsonSchema;
+    formSchemaId = latestFormSchemaId;
   } else {
     jsonSchema = application.formData.formByFormSchemaId.jsonSchema;
+    formSchemaId = application.formData.formByFormSchemaId.rowId;
   }
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
   const filteredUiSchemaOrder = uiSchema['ui:order'].filter((formName) => {
@@ -419,6 +424,7 @@ const ApplicationForm: React.FC<Props> = ({
         variables: {
           input: {
             applicationRowId: rowId,
+            _formSchemaId: formSchemaId,
           },
         },
         onCompleted: () =>
