@@ -81,7 +81,8 @@ const MilestonesView: React.FC<Props> = ({
       <span>
         {milestoneFile && (
           <DownloadLink
-            fileName="Milestone Report"
+            fileLabel="Milestone Report"
+            fileName={milestoneFile?.name}
             uuid={milestoneFile?.uuid}
           />
         )}

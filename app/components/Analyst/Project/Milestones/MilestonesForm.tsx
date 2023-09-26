@@ -275,8 +275,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
         ConnectionHandler.deleteNode(connection, milestoneConnectionId);
       },
       onCompleted: () => {
-        setShowModal(false);
-        setCurrentMilestoneData(null);
+        handleResetFormData();
       },
     });
   };
@@ -351,6 +350,9 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
           <AddButton
             isFormEditMode={isFormEditMode}
             onClick={() => {
+              setShowToast(false);
+              setFormData({} as FormData);
+              setCurrentMilestoneData(null);
               setIsSubmitAttempted(false);
               setIsFormEditMode(true);
             }}
