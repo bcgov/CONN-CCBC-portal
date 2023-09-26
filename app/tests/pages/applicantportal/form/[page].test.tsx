@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { NextPageContext } from 'next';
-import { schema } from 'formSchema';
+import { schema, schemaV2 } from 'formSchema';
+import * as moduleApi from '@growthbook/growthbook-react';
 import { withRelayOptions } from '../../../../pages/applicantportal/form/[id]/success';
 import FormPage from '../../../../pages/applicantportal/form/[id]/[page]';
 import PageTestingHelper from '../../../utils/pageTestingHelper';
@@ -29,8 +30,24 @@ const mockQueryPayload = {
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
+      allForms: {
+        nodes: [
+          {
+            rowId: 10,
+            jsonSchema: schemaV2,
+          },
+        ],
+      },
     };
   },
+};
+
+const mockForceLatestSchema: moduleApi.FeatureResult<moduleApi.JSONValue> = {
+  value: true,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'draft_apps_use_latest_schema',
 };
 
 const pageTestingHelper = new PageTestingHelper<PageQuery>({
@@ -55,6 +72,9 @@ describe('The form page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText('Logout')).toBeInTheDocument();
+    expect(
+      screen.getByText('Estimated project employment')
+    ).toBeInTheDocument();
   });
 
   it('does not display the alert or info banner when editing a draft application', () => {
@@ -152,5 +172,20 @@ describe('The form page', () => {
         destination: '/applicantportal',
       },
     });
+  });
+
+  it('uses the latest schema if the flag is on and estimated project employment is not present', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockForceLatestSchema);
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('Benefits')).toBeInTheDocument();
+
+    const estimatedProjectEmploymeny = screen.queryByText(
+      'Estimated Project Employment'
+    );
+
+    expect(estimatedProjectEmploymeny).toBeNull();
   });
 });
