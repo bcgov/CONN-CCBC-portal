@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
-/* import { convertExcelDateToJSDate } from '../sow_import/util'; */
+import { convertExcelDateToJSDate } from '../sow_import/util';
 
 const createCbcProjectMutation = `
   mutation cbcProjectMutation($input: CreateCbcProjectInput!) {
@@ -64,13 +64,19 @@ const readSummary = async (wb, sheet) => {
       nditConditionalApprovalLetterSent: project['AD'],
       bindingAgreementSignedNditRecipient: project['AE'],
       announcedByProvince: project['AF'],
-      dateApplicationReceived: project['AG'],
-      dateConditionallyApproved: project['AH'],
-      dateAgreementSigned: project['AI'],
-      proposedStartDate: project['AJ'],
-      proposedCompletionDate: project['AK'],
-      reportingCompletionDate: project['AL'],
-      dateAnnounced: project['AM'],
+      dateApplicationReceived:
+        project['AG'] && convertExcelDateToJSDate(project['AG']),
+      dateConditionallyApproved:
+        project['AH'] && convertExcelDateToJSDate(project['AH']),
+      dateAgreementSigned:
+        project['AI'] && convertExcelDateToJSDate(project['AI']),
+      proposedStartDate:
+        project['AJ'] && convertExcelDateToJSDate(project['AJ']),
+      proposedCompletionDate:
+        project['AK'] && convertExcelDateToJSDate(project['AK']),
+      reportingCompletionDate:
+        project['AL'] && convertExcelDateToJSDate(project['AL']),
+      dateAnnounced: project['AM'] && convertExcelDateToJSDate(project['AM']),
       projectMilestoneCompleted: project['AN'],
       constructionCompletedOnTime: project['AO'],
       milestoneComments: project['AP'],
