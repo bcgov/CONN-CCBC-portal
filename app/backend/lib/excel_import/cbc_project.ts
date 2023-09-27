@@ -20,16 +20,21 @@ const readSummary = async (wb, sheet) => {
     header: 'A',
   });
   const cbcProjectList = [];
-  // remove the first element and the last 12 elements so we have only the project rows
-  // this feels pretty unsafe, might be worth asking to remove the extra rows from the excel file
-  const cbcProjects = cbcProjectsSheet.slice(1, cbcProjectsSheet.length - 12);
-
-  cbcProjects.forEach((proj) => {
+  cbcProjectsSheet.forEach((proj) => {
     // filter values from proj which are 'NULL'
     const project = Object.fromEntries(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       Object.entries(proj).filter(([_, v]) => v !== 'NULL')
     );
+
+    // filter out rows with no project number or project number is not a number
+    if (
+      Object.keys(project).length <= 2 ||
+      typeof project['A'] !== 'number' ||
+      !project['A']
+    ) {
+      return;
+    }
 
     const cbcProject = {
       projectNumber: project['A'],
