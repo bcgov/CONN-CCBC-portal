@@ -72,6 +72,9 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
       if (errorList.length > 0) {
         return res.status(400).json(errorList).end();
       }
+
+      // TODO: check if metadata.TimeLastModified is different from the last time we imported the data
+
       const metadataJson = await metadata.json();
       const sharepointTimestamp = metadataJson?.d?.TimeLastModified;
 
@@ -81,8 +84,14 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
         sharepointTimestamp,
         req
       );
-      // TODO: check if metadata.TimeLastModified is different from the last time we imported the data
-      // TODO: add logic to parse the workbook and insert data to DB
+
+      if (result['error']) {
+        return res.status(400).json(result['error']).end();
+      }
+
+      if (result) {
+        return res.status(200).json({ result }).end();
+      }
     } else {
       return res.sendStatus(500);
     }

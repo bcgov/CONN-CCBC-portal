@@ -24,7 +24,13 @@ const readSummary = async (wb, sheet) => {
   // this feels pretty unsafe, might be worth asking to remove the extra rows from the excel file
   const cbcProjects = cbcProjectsSheet.slice(1, cbcProjectsSheet.length - 12);
 
-  cbcProjects.forEach((project) => {
+  cbcProjects.forEach((proj) => {
+    // filter values from proj which are 'NULL'
+    const project = Object.fromEntries(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(proj).filter(([_, v]) => v !== 'NULL')
+    );
+
     const cbcProject = {
       projectNumber: project['A'],
       orignalProjectNumber: project['B'],
@@ -85,15 +91,12 @@ const readSummary = async (wb, sheet) => {
   return cbcProjectData;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ValidateData = async (data) => {
   const errors = [];
 
-  if (data.projectNumber === undefined) {
-    errors.push({
-      level: 'cell',
-      error: `Invalid data: Project Number ${data.projectNumber}`,
-    });
-  }
+  // validation checks here
+
   return errors;
 };
 
@@ -103,7 +106,6 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
   const data = await readSummary(wb, sheet);
 
   const errorList = await ValidateData(data._jsonData);
-
   if (errorList.length > 0) {
     return { error: errorList };
   }
