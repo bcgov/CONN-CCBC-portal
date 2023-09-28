@@ -3,12 +3,12 @@ import * as http from 'http';
 import { stringify } from 'querystring';
 
 // Setup
-const keycloakHost = process.env.KEYCLOAK_URL || 'dev.loginproxy.gov.bc.ca';
-const serverUrl = process.env.SERVER_URL || '';
-const serverPath = process.env.SERVER_PATH || '';
-const serverPort = process.env.SERVER_PORT || 443;
-const clientId = process.env.CLIENT_ID || '';
-const clientSecret = process.env.CLIENT_SECRET || '';
+const keycloakHost = process.env.KEYCLOAK_HOST || 'dev.loginproxy.gov.bc.ca';
+const serverUrl = process.env.CCBC_SERVER_URL || '';
+const serverPath = process.env.CCBC_SERVER_PATH || '';
+const serverPort = process.env.CCBC_SERVER_PORT || 443;
+const clientId = process.env.SA_CLIENT_ID || '';
+const clientSecret = process.env.SA_CLIENT_SECRET || '';
 
 // Fetch the access token from Keycloak
 function fetchAccessToken() {
