@@ -17,24 +17,24 @@ spec:
           restartPolicy: Never
           containers:
             - env:
-              - name: KEYCLOAK_HOST
-                value: {{ .Values.cronsp.keycloakHost }}
-              - name: CCBC_SERVER_PATH
-                value: {{ .Values.cronsp.path }}
-              - name: CCBC_SERVER_URL
-                value: {{ .Values.secureRoute.host }}
-              - name: CCBC_SERVER_PORT
-                value: {{ .Values.cronsp.port }}
-              - name: SA_CLIENT_ID
-                valueFrom:
-                  secretKeyRef:
-                    key: client-id
-                    name: ccbc-cron-sp-sso
-              - name: SA_CLIENT_SECRET
-                valueFrom:
-                  secretKeyRef:
-                    key: client-secret
-                    name: ccbc-cron-sp-sso
+                - name: KEYCLOAK_HOST
+                  value: {{ .Values.cronsp.keycloakHost }}
+                - name: CCBC_SERVER_PATH
+                  value: {{ .Values.cronsp.path }}
+                - name: CCBC_SERVER_URL
+                  value: {{ .Values.secureRoute.host }}
+                - name: CCBC_SERVER_PORT
+                  value: {{ .Values.cronsp.port }}
+                - name: SA_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-id
+                      name: ccbc-cron-sp-sso
+                - name: SA_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-secret
+                      name: ccbc-cron-sp-sso
               name: {{ template "ccbc.fullname" . }}-cron-sp
               image: {{ .Values.image.cronsp.repository }}:{{ .Values.image.cronsp.tag }}
               imagePullPolicy: IfNotPresent
