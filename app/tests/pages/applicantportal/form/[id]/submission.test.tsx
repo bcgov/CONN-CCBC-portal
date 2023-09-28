@@ -266,6 +266,7 @@ describe('The submission form page', () => {
       {
         input: {
           applicationRowId: 42,
+          _formSchemaId: 42,
         },
       }
     );

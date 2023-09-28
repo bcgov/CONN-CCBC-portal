@@ -1,14 +1,14 @@
 -- Deploy ccbc:mutations/submit_application to pg
 
 begin;
-drop function if exists ccbc_public.submit_application(application_row_id int);
-create or replace function ccbc_public.submit_application(application_row_id int, _form_schema_id int)
+
+create or replace function ccbc_public.submit_application(application_row_id int)
 returns ccbc_public.application as $$
 declare
   current_intake_id int;
   current_intake_number int;
   reference_number bigint;
-  _counter_id int;
+  seq_name varchar;
   application_status varchar;
   num_acknowledgements integer;
   _form_data_schema_id integer;
@@ -55,26 +55,28 @@ begin
     raise 'The application cannot be submitted as there are unchecked acknowledgements';
   end if;
 
-  select id, ccbc_intake_number, counter_id from ccbc_public.open_intake()
-  into current_intake_id, current_intake_number, _counter_id;
+  select id, ccbc_intake_number, application_number_seq_name from ccbc_public.open_intake()
+  into current_intake_id, current_intake_number, seq_name;
 
   if current_intake_id is null then
     raise 'There is no open intake, the application cannot be submitted';
   end if;
 
+  select nextval(seq_name) into reference_number;
+
   insert into ccbc_public.application_status
     (application_id, status) values (application_row_id, 'submitted');
 
   update ccbc_public.application set
-  ccbc_number=format(
+    intake_id = current_intake_id,
+    ccbc_number = format(
       'CCBC-%s%s', lpad(current_intake_number::text , 2, '0'),
-      lpad((ccbc_public.increment_counter(_counter_id::int))::text, 4, '0')
-    ),
-    intake_id = current_intake_id where id = application_row_id;
+      lpad(reference_number::text, 4, '0')
+    )
+  where id = application_row_id;
 
   update ccbc_public.form_data set
-    form_data_status_type_id = 'committed',
-    form_schema_id = _form_schema_id
+    form_data_status_type_id = 'committed'
     where id = form_data_id;
 
   return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);

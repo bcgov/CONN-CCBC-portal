@@ -66001,6 +66001,7 @@ input SubmitApplicationInput {
   """
   clientMutationId: String
   applicationRowId: Int!
+  _formSchemaId: Int!
 }
 
 """The output of our `submitConditionallyApproved` mutation."""

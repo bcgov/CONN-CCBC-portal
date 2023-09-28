@@ -675,18 +675,6 @@ describe('The applicant dashboard', () => {
 
     cy.contains('button', 'Continue').click();
 
-    // // Estimated project employment page
-
-    cy.contains('h1', 'Estimated project employment');
-
-    cy.get('input').should('be.disabled');
-
-    cy.get('body').happoScreenshot({
-      component: 'Out of Intake Estimated Project Employment Page',
-    });
-
-    cy.contains('button', 'Continue').click();
-
     // // Template uploads page
 
     cy.contains('h1', 'Template uploads');

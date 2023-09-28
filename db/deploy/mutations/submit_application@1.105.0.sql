@@ -1,8 +1,8 @@
 -- Deploy ccbc:mutations/submit_application to pg
 
 begin;
-drop function if exists ccbc_public.submit_application(application_row_id int);
-create or replace function ccbc_public.submit_application(application_row_id int, _form_schema_id int)
+
+create or replace function ccbc_public.submit_application(application_row_id int)
 returns ccbc_public.application as $$
 declare
   current_intake_id int;
@@ -73,8 +73,7 @@ begin
     intake_id = current_intake_id where id = application_row_id;
 
   update ccbc_public.form_data set
-    form_data_status_type_id = 'committed',
-    form_schema_id = _form_schema_id
+    form_data_status_type_id = 'committed'
     where id = form_data_id;
 
   return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);

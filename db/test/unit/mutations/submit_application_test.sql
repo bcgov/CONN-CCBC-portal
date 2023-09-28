@@ -13,7 +13,7 @@ restart identity cascade;
 
 
 select has_function(
-  'ccbc_public', 'submit_application', ARRAY['int'],
+  'ccbc_public', 'submit_application', ARRAY['int','int'],
   'Function submit_application should exist'
 );
 
@@ -91,7 +91,7 @@ select mocks.set_mocked_time_in_transaction((select open_timestamp - interval '1
 
 select throws_like(
   $$
-    select ccbc_public.submit_application(1)
+    select ccbc_public.submit_application(1,1)
   $$,
   'There is no open intake, the application cannot be submitted',
   'Throws an exception when there is no open intake'
@@ -101,7 +101,7 @@ select mocks.set_mocked_time_in_transaction((select open_timestamp from ccbc_pub
 
 select throws_like(
   $$
-    select ccbc_public.submit_application(3)
+    select ccbc_public.submit_application(3,1)
   $$,
   'The application cannot be submitted as it has the following status: withdrawn',
   'Throws an exception when the application is withdrawn'
@@ -110,7 +110,7 @@ select throws_like(
 select results_eq(
   $$
     select application.id, application.ccbc_number, application_status.status , application.intake_id
-    from ccbc_public.submit_application(2) as application,
+    from ccbc_public.submit_application(2,1) as application,
      ccbc_public.application_status as application_status
      where application.id = application_status.application_id
      and application_status.status='submitted'
@@ -123,7 +123,7 @@ select results_eq(
 
 select results_eq(
   $$
-    select id, ccbc_number, intake_id from ccbc_public.submit_application(1)
+    select id, ccbc_number, intake_id from ccbc_public.submit_application(1,1)
   $$,
   $$
     values (1, 'CCBC-010001'::varchar, 1)
@@ -144,7 +144,7 @@ select results_eq(
 
 select results_eq(
   $$
-    select id, ccbc_number, intake_id from ccbc_public.submit_application(4)
+    select id, ccbc_number, intake_id from ccbc_public.submit_application(4,1)
   $$,
   $$
     values (4, 'CCBC-010002'::varchar, 1)
@@ -154,47 +154,47 @@ select results_eq(
 
 select throws_like(
   $$
-    select ccbc_public.submit_application(5)
+    select ccbc_public.submit_application(5,1)
   $$,
   'The application cannot be submitted as the submission field submission_date is null or empty'
 );
 
 select throws_like(
   $$
-    select ccbc_public.submit_application(6)
+    select ccbc_public.submit_application(6,1)
   $$,
   'The application cannot be submitted as the submission field submission_title is null or empty'
 );
 
 select throws_like(
   $$
-    select ccbc_public.submit_application(7)
+    select ccbc_public.submit_application(7,1)
   $$,
   'The application cannot be submitted as the submission field submission_completed_by is null or empty'
 );
 
 select throws_like(
   $$
-    select ccbc_public.submit_application(8)
+    select ccbc_public.submit_application(8,1)
   $$,
   'The application cannot be submitted as the submission field submission_completed_for is null or empty'
 );
 
 select throws_like(
   $$
-    select ccbc_public.submit_application(9)
+    select ccbc_public.submit_application(9,1)
   $$,
   'The application cannot be submitted as there are unchecked acknowledgements'
 );
 
 select function_privs_are(
-  'ccbc_public', 'submit_application', ARRAY['int']::text[], 'ccbc_auth_user', ARRAY['EXECUTE'],
-  'ccbc_auth_user can execute ccbc_public.submit_application(int)'
+  'ccbc_public', 'submit_application', ARRAY['int','int']::text[], 'ccbc_auth_user', ARRAY['EXECUTE'],
+  'ccbc_auth_user can execute ccbc_public.submit_application'
 );
 
 select function_privs_are(
-  'ccbc_public', 'submit_application', ARRAY['int'], 'ccbc_guest', ARRAY[]::text[],
-  'ccbc_guest cannot execute ccbc_public.submit_application(int)'
+  'ccbc_public', 'submit_application', ARRAY['int','int'], 'ccbc_guest', ARRAY[]::text[],
+  'ccbc_guest cannot execute ccbc_public.submit_application'
 );
 
 -- TODO: check if form_data is set as committed
