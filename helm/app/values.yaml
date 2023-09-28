@@ -23,8 +23,8 @@ image:
     tag: 'sha-65212713aa9902ec41a0ee00df51ded83c971a0d' # The tag value must be passed in via the deploy script
 
 cronsp:
-  client-secret: '' # client-secret must be passed in via deploy script
-  client-id: '' # client-id must be passed in via deploy script
+  clientSecret: '' # client-secret must be passed in via deploy script
+  clientId: '' # client-id must be passed in via deploy script
   path: '' # path must be passed in via deploy script
   schedule: '0 0 31 2 7' #disabled
   port: '443'
