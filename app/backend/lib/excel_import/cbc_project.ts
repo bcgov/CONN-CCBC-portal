@@ -88,8 +88,9 @@ const readSummary = async (wb, sheet) => {
       primaryNewsRelease: project['AQ'],
       secondaryNewsRelease: project['AR'],
       notes: project['AS'],
-      lastReviewed: project['AT'],
-      reviewNotes: project['AU'],
+      locked: project['AT'],
+      lastReviewed: project['AU'],
+      reviewNotes: project['AV'],
     };
 
     cbcProjectList.push(cbcProject);
