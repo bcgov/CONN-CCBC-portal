@@ -63,7 +63,7 @@ update ccbc_public.form_data set
   }$$::jsonb
   where id=_form_data_id;
 
-perform ccbc_public.submit_application(_application_id);
+perform ccbc_public.submit_application(_application_id, 1);
 
 insert into ccbc_public.application_status (application_id, status) values (_application_id, 'received');
 
@@ -109,7 +109,7 @@ update ccbc_public.form_data set
   }$$::jsonb
   where id=_form_data_id;
 
-perform ccbc_public.submit_application(_application_id);
+perform ccbc_public.submit_application(_application_id, 1);
 
 -- application received and withdrawn
 select id from ccbc_public.create_application() into _application_id;
@@ -153,7 +153,7 @@ update ccbc_public.form_data set
   }$$::jsonb
   where id=_form_data_id;
 
-perform ccbc_public.submit_application(_application_id);
+perform ccbc_public.submit_application(_application_id, 1);
 
 insert into ccbc_public.application_status (application_id, status) values (_application_id, 'received');
 
