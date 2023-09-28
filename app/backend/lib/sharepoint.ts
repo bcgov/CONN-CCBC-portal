@@ -57,7 +57,6 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
       const bufferResponse = await file.arrayBuffer();
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const wb = XLSX.read(bufferResponse);
-
       const sheet = 'CBC Projects';
       // Throw error if sheet is not found
       if (!wb.SheetNames.includes(sheet)) {
@@ -69,9 +68,9 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
         });
       }
 
-      // if (errorList.length > 0) {
-      //   return res.status(400).json(errorList).end();
-      // }
+      if (errorList.length > 0) {
+        return res.status(400).json(errorList).end();
+      }
 
       // TODO: check if metadata.TimeLastModified is different from the last time we imported the data
 

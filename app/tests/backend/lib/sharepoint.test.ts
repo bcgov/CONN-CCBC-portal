@@ -7,12 +7,16 @@ import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
 import bodyParser from 'body-parser';
+import * as XLSX from 'xlsx';
 import * as spauth from '@bcgov-ccbc/ccbc-node-sp-auth';
+import { performQuery } from '../../../backend/lib/graphql';
 import sharepoint from '../../../backend/lib/sharepoint';
 import getAuthRole from '../../../utils/getAuthRole';
 
 jest.mock('../../../utils/getAuthRole');
 jest.mock('@bcgov-ccbc/ccbc-node-sp-auth');
+jest.mock('../../../backend/lib/graphql');
+jest.mock('xlsx');
 jest.setTimeout(10000000);
 
 describe('The SharePoint API', () => {
@@ -47,6 +51,30 @@ describe('The SharePoint API', () => {
       },
     });
 
+    const fakeSummary = [
+      {
+        A: 20230427,
+        B: 'Step 1',
+        C: 'Project Information',
+        D: 'Complete',
+        E: 'Complete',
+      },
+      {
+        A: 20230427,
+        B: 'Step 1',
+        C: 'Project Information',
+        D: 'Complete',
+        E: 'Complete',
+      },
+    ];
+
+    jest.spyOn(XLSX, 'read').mockReturnValue({
+      Sheets: { Sheet1: {} },
+      SheetNames: ['CBC Projects'],
+    });
+
+    jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeSummary);
+
     // @ts-ignore
     global.fetch = jest.fn(() =>
       Promise.resolve({
@@ -56,6 +84,10 @@ describe('The SharePoint API', () => {
         arrayBuffer: async () => new ArrayBuffer(0),
       })
     );
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {};
+    });
 
     mocked(getAuthRole).mockImplementation(() => {
       return {
