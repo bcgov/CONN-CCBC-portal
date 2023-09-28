@@ -2,6 +2,6 @@
 
 begin;
 
-drop table if exists cbc_project cascade;
+drop table if exists ccbc_public.cbc_project cascade;
 
 commit;
