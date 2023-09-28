@@ -100,6 +100,38 @@ describe('The SharePoint API', () => {
     expect(response.status).toBe(200);
   });
 
+  it('should return 400 when the sheet is not found', async () => {
+    // @ts-ignore
+    (spauth.getAuth as jest.Mock).mockResolvedValue({
+      headers: {
+        Accept: 'application/json;odata=verbose',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    jest.spyOn(XLSX, 'read').mockReturnValue({
+      Sheets: { Sheet1: {} },
+      SheetNames: ['Wrong sheet name'],
+    });
+
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app).get('/api/sharepoint/cbc-project');
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual([
+      {
+        error:
+          'missing required sheet "CBC Projects". Found: ["Wrong sheet name"]',
+        level: 'workbook',
+      },
+    ]);
+  });
+
   it('should return 500 for when sharepoint fails to respond', async () => {
     (spauth.getAuth as jest.Mock).mockResolvedValue({
       headers: {

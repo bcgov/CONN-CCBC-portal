@@ -113,8 +113,6 @@ const ValidateData = async (data) => {
 };
 
 const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
-  const validate = req.query?.validate === 'true';
-
   const data = await readSummary(wb, sheet);
 
   const errorList = await ValidateData(data._jsonData);
@@ -122,9 +120,6 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
     return { error: errorList };
   }
 
-  if (validate) {
-    return data;
-  }
   // time to persist in DB
   const result = await performQuery(
     createCbcProjectMutation,
