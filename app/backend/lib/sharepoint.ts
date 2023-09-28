@@ -69,9 +69,9 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
         });
       }
 
-      if (errorList.length > 0) {
-        return res.status(400).json(errorList).end();
-      }
+      // if (errorList.length > 0) {
+      //   return res.status(400).json(errorList).end();
+      // }
 
       // TODO: check if metadata.TimeLastModified is different from the last time we imported the data
 
@@ -90,7 +90,7 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
       }
 
       if (result) {
-        return res.status(200).json({ result }).end();
+        return res.status(200).json(result).end();
       }
     } else {
       return res.sendStatus(500);

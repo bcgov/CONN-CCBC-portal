@@ -13,7 +13,6 @@ import getAuthRole from '../../../utils/getAuthRole';
 
 jest.mock('../../../utils/getAuthRole');
 jest.mock('@bcgov-ccbc/ccbc-node-sp-auth');
-
 jest.setTimeout(10000000);
 
 describe('The SharePoint API', () => {
@@ -35,9 +34,7 @@ describe('The SharePoint API', () => {
       };
     });
 
-    const response = await request(app).get(
-      '/api/sharepoint/masterSpreadsheet'
-    );
+    const response = await request(app).get('/api/sharepoint/cbc-project');
     expect(response.status).toBe(404);
   });
 
@@ -49,6 +46,8 @@ describe('The SharePoint API', () => {
         'Content-Type': 'application/json',
       },
     });
+
+    // @ts-ignore
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
@@ -65,9 +64,7 @@ describe('The SharePoint API', () => {
       };
     });
 
-    const response = await request(app).get(
-      '/api/sharepoint/masterSpreadsheet'
-    );
+    const response = await request(app).get('/api/sharepoint/cbc-project');
     expect(response.status).toBe(200);
   });
 
@@ -90,9 +87,7 @@ describe('The SharePoint API', () => {
       };
     });
 
-    const response = await request(app).get(
-      '/api/sharepoint/masterSpreadsheet'
-    );
+    const response = await request(app).get('/api/sharepoint/cbc-project');
     expect(response.status).toBe(500);
   });
 });
