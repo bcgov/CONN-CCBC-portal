@@ -12,13 +12,14 @@ const StyledContainer = styled.div<AnimateProps>`
   width: 100%;
   position: relative;
   height: 100px;
-  max-height: ${({ isExpanded }) => (isExpanded ? '90px' : '70px')};
+  max-height: ${({ isExpanded }) => (isExpanded ? '86px' : '70px')};
   transition: max-height 0.4s;
 `;
 
 const StyledText = styled.div`
   width: 100%;
-  padding-top: 2px; // optical - so text doesn't shift between readonly/edit //
+  cursor: pointer;
+  padding-top: 2px;
   -webkit-box-orient: vertical;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -52,12 +53,18 @@ const StyledTextArea = styled.textarea<AnimateProps>`
 `;
 
 interface TextAreaProps {
+  isEditing: boolean;
   value: string;
   onSubmit: (value: string) => void;
+  setIsEditing: (value: boolean) => void;
 }
 
-const InlineTextArea: React.FC<TextAreaProps> = ({ value, onSubmit }) => {
-  const [isEditing, setIsEditing] = useState(false);
+const InlineTextArea: React.FC<TextAreaProps> = ({
+  isEditing,
+  value,
+  onSubmit,
+  setIsEditing,
+}) => {
   const [text, setText] = useState(value || '');
 
   const handleBlur = () => {
@@ -71,7 +78,6 @@ const InlineTextArea: React.FC<TextAreaProps> = ({ value, onSubmit }) => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
-      setIsEditing(false);
       onSubmit(text);
     } else if (e.key === 'Escape') {
       setIsEditing(false);

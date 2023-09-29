@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 import InlineTextArea from 'components/InlineTextArea';
@@ -25,6 +26,7 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
   } = queryFragment;
   const projectDescription = jsonData?.projectInformation?.projectDescription;
 
+  const [isEditing, setIsEditing] = useState(false);
   const [createNewFormData] = useCreateNewFormDataMutation();
 
   const handleSubmit = (value: string) => {
@@ -46,13 +48,18 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
             formSchemaId,
           },
         },
+        onCompleted: () => {
+          setIsEditing(false);
+        },
       });
     }
   };
   return (
     <InlineTextArea
+      isEditing={isEditing}
       value={projectDescription}
       onSubmit={(value) => handleSubmit(value)}
+      setIsEditing={setIsEditing}
     />
   );
 };
