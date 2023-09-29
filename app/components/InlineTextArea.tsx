@@ -12,26 +12,31 @@ const StyledContainer = styled.div<AnimateProps>`
   width: 100%;
   position: relative;
   height: 100px;
-  max-height: ${({ isExpanded }) => (isExpanded ? '90px' : '20px')};
+  max-height: ${({ isExpanded }) => (isExpanded ? '90px' : '70px')};
   transition: max-height 0.4s;
 `;
 
 const StyledText = styled.div`
-  cursor: pointer;
   width: 100%;
+  padding-top: 2px; // optical - so text doesn't shift between readonly/edit //
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 `;
 
 const StyledPlaceholder = styled(StyledText)`
   color: #ccc;
-  cursor: pointer;
 `;
 
 const StyledInfo = styled(StyledPlaceholder)`
+  cursor: default;
   font-size: 12px;
 `;
 
 const StyledTextArea = styled.textarea<AnimateProps>`
-  padding: 8px;
   border: 1px solid #ccc;
   resize: none;
   width: 100%;
@@ -60,6 +65,10 @@ const InlineTextArea: React.FC<TextAreaProps> = ({ value, onSubmit }) => {
     onSubmit(text);
   };
 
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       setIsEditing(false);
@@ -74,6 +83,14 @@ const InlineTextArea: React.FC<TextAreaProps> = ({ value, onSubmit }) => {
     <StyledContainer isExpanded={isEditing}>
       {isEditing ? (
         <StyledTextArea
+          ref={(ref) => ref && ref.focus()}
+          // set cursor position to end of text
+          onFocus={(e) =>
+            e.currentTarget.setSelectionRange(
+              e.currentTarget.value.length,
+              e.currentTarget.value.length
+            )
+          }
           isExpanded={isEditing}
           autoFocus
           value={text}
@@ -85,9 +102,9 @@ const InlineTextArea: React.FC<TextAreaProps> = ({ value, onSubmit }) => {
       ) : (
         <>
           {value ? (
-            <StyledText onClick={() => setIsEditing(true)}>{text}</StyledText>
+            <StyledText onClick={handleEdit}>{text}</StyledText>
           ) : (
-            <StyledPlaceholder onClick={() => setIsEditing(true)}>
+            <StyledPlaceholder onClick={handleEdit}>
               Click to edit project description
             </StyledPlaceholder>
           )}
