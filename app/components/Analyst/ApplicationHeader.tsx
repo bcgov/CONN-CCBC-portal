@@ -3,7 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
 import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
-import InlineTextArea from 'components/InlineTextArea';
+import EditProjectDescription from './EditProjectDescription';
 import StatusInformationIcon from './StatusInformationIcon';
 
 const StyledCallout = styled.div`
@@ -89,6 +89,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           externalStatus
           ...ChangeStatus_query
           ...AssignPackage_query
+          ...EditProjectDescription_query
         }
         ...AssignLead_query
         allApplicationStatusTypes(
@@ -123,7 +124,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
         <StyledH2>{ccbcNumber}</StyledH2>
         <StyledH1>{projectName}</StyledH1>
         <StyledH2>{organizationName}</StyledH2>
-        <InlineTextArea onChange={() => {}} />
+        <EditProjectDescription application={applicationByRowId} />
       </StyledProjectInfo>
       <StyledDiv>
         <StyledItem style={{ marginBottom: '0.3rem' }}>

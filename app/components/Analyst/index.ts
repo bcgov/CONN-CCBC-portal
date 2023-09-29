@@ -4,5 +4,6 @@ export { default as AssignLead } from './AssignLead';
 export { default as AssignPackage } from './AssignPackage';
 export { default as ChangeModal } from './ChangeModal';
 export { default as ChangeStatus } from './ChangeStatus';
+export { default as EditProjectDescription } from './EditProjectDescription';
 export { default as NavigationSidebar } from './NavigationSidebar';
 export { default as NavItem } from './NavItem';

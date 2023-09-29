@@ -23,6 +23,7 @@ const StyledText = styled.div`
 
 const StyledPlaceholder = styled(StyledText)`
   color: #ccc;
+  cursor: pointer;
 `;
 
 const StyledInfo = styled(StyledPlaceholder)`
@@ -47,22 +48,25 @@ const StyledTextArea = styled.textarea<AnimateProps>`
 
 interface TextAreaProps {
   value: string;
-  onChange: (value: string) => void;
+  onSubmit: (value: string) => void;
 }
 
-const InlineTextArea: React.FC<TextAreaProps> = ({ value, onChange }) => {
+const InlineTextArea: React.FC<TextAreaProps> = ({ value, onSubmit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(value || '');
 
   const handleBlur = () => {
     setIsEditing(false);
-    onChange(text);
+    onSubmit(text);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       setIsEditing(false);
-      onChange(text);
+      onSubmit(text);
+    } else if (e.key === 'Escape') {
+      setIsEditing(false);
+      setText(value);
     }
   };
 
