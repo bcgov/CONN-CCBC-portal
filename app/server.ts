@@ -30,6 +30,7 @@ import s3adminArchive from './backend/lib/s3admin-archive';
 import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
 import metabaseEmbedUrl from './backend/lib/metabase-embed-url';
 import sharepoint from './backend/lib/sharepoint';
+import templateUpload from './backend/lib/template-upload';
 
 // Function to exclude middleware from certain routes
 // The paths argument takes an array of strings containing routes to exclude from the middleware
@@ -106,6 +107,7 @@ app.prepare().then(async () => {
         'api/analyst/community-report',
         'api/analyst/claims',
         'api/analyst/milestone',
+        '/api/applicant/template',
       ],
       graphqlUploadExpress()
     )
@@ -126,6 +128,7 @@ app.prepare().then(async () => {
   server.use('/', logout);
   server.use('/', metabaseEmbedUrl);
   server.use('/', sharepoint);
+  server.use('/', templateUpload);
 
   server.all('*', async (req, res) => handle(req, res));
 
