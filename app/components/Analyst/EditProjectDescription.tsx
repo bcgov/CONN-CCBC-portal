@@ -11,8 +11,10 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
   const queryFragment = useFragment(
     graphql`
       fragment EditProjectDescription_query on Application {
+        id
         rowId
         formData {
+          id
           formSchemaId
           jsonData
         }
@@ -22,6 +24,7 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
   );
   const {
     formData: { formSchemaId, jsonData },
+    id,
     rowId,
   } = queryFragment;
   const projectDescription = jsonData?.projectInformation?.projectDescription;
@@ -30,7 +33,7 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
   const [createNewFormData] = useCreateNewFormDataMutation();
 
   const handleSubmit = (value: string) => {
-    if (value) {
+    if (value && value !== projectDescription) {
       const newJsonData = {
         ...jsonData,
         projectInformation: {
@@ -51,7 +54,17 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
         onCompleted: () => {
           setIsEditing(false);
         },
+        updater: (store, data) => {
+          store
+            .get(id)
+            .setLinkedRecord(
+              store.get(data.createNewFormData.formData.id),
+              'formData'
+            );
+        },
       });
+    } else {
+      setIsEditing(false);
     }
   };
   return (

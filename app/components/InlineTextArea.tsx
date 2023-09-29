@@ -81,6 +81,7 @@ const InlineTextArea: React.FC<TextAreaProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
+      e.preventDefault();
       onSubmit(text);
     } else if (e.key === 'Escape') {
       setIsEditing(false);

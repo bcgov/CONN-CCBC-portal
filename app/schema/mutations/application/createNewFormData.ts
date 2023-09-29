@@ -7,7 +7,14 @@ const mutation = graphql`
   mutation createNewFormDataMutation($input: CreateNewFormDataInput!) {
     createNewFormData(input: $input) {
       formData {
+        id
+        rowId
         jsonData
+        formSchemaId
+        formByFormSchemaId {
+          id
+          jsonSchema
+        }
       }
     }
   }
