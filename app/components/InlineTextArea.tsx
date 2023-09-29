@@ -58,10 +58,12 @@ interface TextAreaProps {
   value: string;
   onSubmit: (value: string) => void;
   setIsEditing: (value: boolean) => void;
+  placeholder?: string;
 }
 
 const InlineTextArea: React.FC<TextAreaProps> = ({
   isEditing,
+  placeholder,
   value,
   onSubmit,
   setIsEditing,
@@ -112,7 +114,7 @@ const InlineTextArea: React.FC<TextAreaProps> = ({
             <StyledText onClick={handleEdit}>{text}</StyledText>
           ) : (
             <StyledPlaceholder onClick={handleEdit}>
-              Click to edit project description
+              {placeholder || 'Click to edit'}
             </StyledPlaceholder>
           )}
         </>

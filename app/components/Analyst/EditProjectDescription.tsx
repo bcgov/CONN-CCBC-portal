@@ -57,6 +57,7 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
   return (
     <InlineTextArea
       isEditing={isEditing}
+      placeholder="Click to add internal project description"
       value={projectDescription}
       onSubmit={(value) => handleSubmit(value)}
       setIsEditing={setIsEditing}

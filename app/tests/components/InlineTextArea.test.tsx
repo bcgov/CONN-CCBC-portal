@@ -53,7 +53,7 @@ describe('The InlineTextArea component', () => {
   it('should render the read-only form with placeholder', async () => {
     renderStaticLayoutReadOnly('');
     // select textarea with placeholder
-    const placeholder = screen.getByText('Click to edit project description');
+    const placeholder = screen.getByText('Click to edit');
     expect(placeholder).toBeInTheDocument();
   });
 });
