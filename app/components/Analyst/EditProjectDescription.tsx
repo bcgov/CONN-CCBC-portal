@@ -33,7 +33,7 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
   const [createNewFormData] = useCreateNewFormDataMutation();
 
   const handleSubmit = (value: string) => {
-    if (value && value !== projectDescription) {
+    if (value !== projectDescription) {
       const newJsonData = {
         ...jsonData,
         projectInformation: {
