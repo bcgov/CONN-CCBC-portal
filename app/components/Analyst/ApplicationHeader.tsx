@@ -11,6 +11,7 @@ const StyledCallout = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 8px 12px;
+  padding-bottom: 0;
   border-left: 4px solid ${(props) => props.theme.color.links};
   width: 100%;
 `;

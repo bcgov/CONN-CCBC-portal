@@ -35,6 +35,7 @@ const StyledPlaceholder = styled(StyledText)`
 const StyledInfo = styled(StyledPlaceholder)`
   cursor: default;
   font-size: 12px;
+  height: 24px;
 `;
 
 const StyledTextArea = styled.textarea<AnimateProps>`
@@ -43,7 +44,7 @@ const StyledTextArea = styled.textarea<AnimateProps>`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  max-height: ${({ isExpanded }) => (isExpanded ? '90px' : '20px')};
+  max-height: ${({ isExpanded }) => (isExpanded ? '92px' : '20px')};
   transition: max-height 0.4s;
 
   &:focus {
