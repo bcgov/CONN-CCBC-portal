@@ -62,7 +62,7 @@ const Row = ({
   const isIntakeClosed = intakeClosingDate
     ? Date.parse(intakeClosingDate) < Date.now()
     : false;
-  console.log(status);
+
   const isWithdrawn = status === 'withdrawn';
   const isSubmitted = status === 'submitted';
   const isWithdrawable =
