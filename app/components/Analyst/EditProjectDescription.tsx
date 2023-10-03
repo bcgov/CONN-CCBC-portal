@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
-import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
+import { useUpdateApplicationMutation } from 'schema/mutations/application/updateApplication';
 import InlineTextArea from 'components/InlineTextArea';
 
 interface Props {
@@ -13,54 +13,24 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
       fragment EditProjectDescription_query on Application {
         id
         rowId
-        formData {
-          id
-          formSchemaId
-          jsonData
-        }
+        internalDescription
       }
     `,
     application
   );
-  const {
-    formData: { formSchemaId, jsonData },
-    id,
-    rowId,
-  } = queryFragment;
-  const projectDescription = jsonData?.projectInformation?.projectDescription;
+  const { internalDescription, rowId } = queryFragment;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [createNewFormData] = useCreateNewFormDataMutation();
+  const [updateApplication] = useUpdateApplicationMutation();
 
   const handleSubmit = (value: string) => {
-    if (value !== projectDescription) {
-      const newJsonData = {
-        ...jsonData,
-        projectInformation: {
-          ...jsonData.projectInformation,
-          projectDescription: value,
-        },
-      };
-
-      createNewFormData({
+    if (value !== internalDescription) {
+      updateApplication({
         variables: {
-          input: {
-            applicationRowId: rowId,
-            jsonData: newJsonData,
-            reasonForChange: 'Update project description',
-            formSchemaId,
-          },
+          input: { applicationPatch: { internalDescription: value }, rowId },
         },
         onCompleted: () => {
           setIsEditing(false);
-        },
-        updater: (store, data) => {
-          store
-            .get(id)
-            .setLinkedRecord(
-              store.get(data.createNewFormData.formData.id),
-              'formData'
-            );
         },
       });
     } else {
@@ -71,7 +41,7 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
     <InlineTextArea
       isEditing={isEditing}
       placeholder="Click to add internal project description"
-      value={projectDescription}
+      value={internalDescription}
       onSubmit={(value) => handleSubmit(value)}
       setIsEditing={setIsEditing}
     />
