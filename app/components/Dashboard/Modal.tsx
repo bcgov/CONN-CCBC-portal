@@ -36,6 +36,15 @@ const StyledConfirmBox = styled('div')`
   }
 `;
 
+const StyledContent = styled(Modal.Content)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  max-width: 600px;
+`;
+
 const WithdrawModal = ({ id }) => {
   const [successModal, setSuccessModal] = useState(false);
 
@@ -54,14 +63,14 @@ const WithdrawModal = ({ id }) => {
 
   return (
     <>
-      <StyledModal id="modal-id">
+      <StyledModal id="withdraw-modal">
         <Modal.Header>
           Withdraw application
           <Modal.Close>
             <X />
           </Modal.Close>
         </Modal.Header>
-        <Modal.Content>
+        <StyledContent>
           <p>
             Applications submitted are deemed as property of BC. Withdrawing
             this application will remove it from consideration for Connection
@@ -81,10 +90,10 @@ const WithdrawModal = ({ id }) => {
             </Modal.Close>
 
             <Modal.Close>
-              <Button variant="secondary">No, keep this application</Button>
+              <Button variant="secondary">No, keep</Button>
             </Modal.Close>
           </ModalButtons>
-        </Modal.Content>
+        </StyledContent>
       </StyledModal>
       {successModal && (
         <StyledConfirmBox>
