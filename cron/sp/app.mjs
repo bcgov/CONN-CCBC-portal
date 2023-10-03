@@ -4,7 +4,7 @@ import { stringify } from 'querystring';
 
 // Setup
 const keycloakHost = process.env.KEYCLOAK_HOST || 'dev.loginproxy.gov.bc.ca';
-const serverUrl = process.env.CCBC_SERVER_URL || '';
+const serverHost = process.env.CCBC_SERVER_HOST || '';
 const serverPath = process.env.CCBC_SERVER_PATH || '';
 const serverPort = process.env.CCBC_SERVER_PORT || 443;
 const clientId = process.env.SA_CLIENT_ID || '';
@@ -60,15 +60,9 @@ function fetchAccessToken() {
 
 // Make a GET request to the server with the access token
 function triggerImport(accessToken) {
-  //Handling both http and https requests
-  // TODO: change depending on how the final trigger is called (service or route)
-  const remoteUrl = new URL(serverUrl);
-  const isHttps = remoteUrl.protocol === 'https:';
-
-  const httpClient = isHttps ? https : http;
 
   const options = {
-    hostname: remoteUrl.hostname,
+    hostname: serverHost,
     port: parseInt(serverPort, 10),
     path: serverPath,
     method: 'GET',
@@ -78,7 +72,7 @@ function triggerImport(accessToken) {
   };
 
   return new Promise((resolve, reject) => {
-    const req = httpClient.request(options, (res) => {
+    const req = http.request(options, (res) => {
       let data = '';
 
       res.on('data', (chunk) => {

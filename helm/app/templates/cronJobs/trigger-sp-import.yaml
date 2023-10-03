@@ -21,8 +21,8 @@ spec:
                   value: {{ .Values.cronsp.keycloakHost | quote }}
                 - name: CCBC_SERVER_PATH
                   value: {{ .Values.cronsp.path | quote }}
-                - name: CCBC_SERVER_URL
-                  value: {{ .Values.secureRoute.host | quote }}
+                - name: CCBC_SERVER_HOST
+                  value: {{ template "ccbc.fullname" . }}
                 - name: CCBC_SERVER_PORT
                   value: {{ .Values.cronsp.port | quote }}
                 - name: SA_CLIENT_ID

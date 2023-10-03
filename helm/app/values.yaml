@@ -27,7 +27,7 @@ cronsp:
   clientId: '' # client-id must be passed in via deploy script
   path: '/api/sharepoint/cbc-project'
   schedule: '0 10 30 9 ?' #disabled
-  port: '443'
+  port: '3000'
   keycloakHost: '' # keycloakHost must be passed in via deploy script
 
 app:
