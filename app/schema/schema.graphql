@@ -15922,6 +15922,9 @@ input ApplicationFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
+  """Filter by the object’s `internalDescription` field."""
+  internalDescription: StringFilter
+
   """Filter by the object’s `amendmentNumbers` field."""
   amendmentNumbers: StringFilter
 
@@ -20916,6 +20919,9 @@ type Application implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
+  """Internal project description for analysts"""
+  internalDescription: String
+
   """Reads a single `Intake` that is related to this `Application`."""
   intakeByIntakeId: Intake
 
@@ -24375,6 +24381,8 @@ enum ApplicationsOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  INTERNAL_DESCRIPTION_ASC
+  INTERNAL_DESCRIPTION_DESC
   ANALYST_LEAD_ASC
   ANALYST_LEAD_DESC
   INTAKE_NUMBER_ASC
@@ -24431,6 +24439,9 @@ input ApplicationCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `internalDescription` field."""
+  internalDescription: String
 }
 
 """
@@ -59788,6 +59799,9 @@ input ApplicationPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """Internal project description for analysts"""
+  internalDescription: String
 }
 
 """All input for the `updateApplicationByRowId` mutation."""
