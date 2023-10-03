@@ -14,6 +14,12 @@ begin
 
 select ccbc_public.application_status(ccbc_public.application.*) into application_status from ccbc_public.application where id = application_row_id;
 
+if application_status = 'withdrawn' then
+  raise exception 'Application is already withdrawn';
+elsif application_status = 'approved' or application_status = 'complete' or application_status = 'draft' then
+  raise exception 'Application cannot be withdrawn as it has status %', application_status;
+end if;
+
 select id, form_data_status_type_id from
 ccbc_public.application_form_data((select row(ccbc_public.application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id))
 into form_data_id, form_data_status;
