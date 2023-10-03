@@ -7,13 +7,16 @@ import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
 import bodyParser from 'body-parser';
+import * as XLSX from 'xlsx';
 import * as spauth from '@bcgov-ccbc/ccbc-node-sp-auth';
+import { performQuery } from '../../../backend/lib/graphql';
 import sharepoint from '../../../backend/lib/sharepoint';
 import getAuthRole from '../../../utils/getAuthRole';
 
 jest.mock('../../../utils/getAuthRole');
 jest.mock('@bcgov-ccbc/ccbc-node-sp-auth');
-
+jest.mock('../../../backend/lib/graphql');
+jest.mock('xlsx');
 jest.setTimeout(10000000);
 
 describe('The SharePoint API', () => {
@@ -35,9 +38,7 @@ describe('The SharePoint API', () => {
       };
     });
 
-    const response = await request(app).get(
-      '/api/sharepoint/masterSpreadsheet'
-    );
+    const response = await request(app).get('/api/sharepoint/cbc-project');
     expect(response.status).toBe(404);
   });
 
@@ -49,6 +50,32 @@ describe('The SharePoint API', () => {
         'Content-Type': 'application/json',
       },
     });
+
+    const fakeSummary = [
+      {
+        A: 20230427,
+        B: 'Step 1',
+        C: 'Project Information',
+        D: 'Complete',
+        E: 'Complete',
+      },
+      {
+        A: 20230427,
+        B: 'Step 1',
+        C: 'Project Information',
+        D: 'Complete',
+        E: 'Complete',
+      },
+    ];
+
+    jest.spyOn(XLSX, 'read').mockReturnValue({
+      Sheets: { Sheet1: {} },
+      SheetNames: ['CBC Projects'],
+    });
+
+    jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeSummary);
+
+    // @ts-ignore
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
@@ -58,6 +85,10 @@ describe('The SharePoint API', () => {
       })
     );
 
+    mocked(performQuery).mockImplementation(async () => {
+      return {};
+    });
+
     mocked(getAuthRole).mockImplementation(() => {
       return {
         pgRole: 'ccbc_admin',
@@ -65,10 +96,40 @@ describe('The SharePoint API', () => {
       };
     });
 
-    const response = await request(app).get(
-      '/api/sharepoint/masterSpreadsheet'
-    );
+    const response = await request(app).get('/api/sharepoint/cbc-project');
     expect(response.status).toBe(200);
+  });
+
+  it('should return 400 when the sheet is not found', async () => {
+    // @ts-ignore
+    (spauth.getAuth as jest.Mock).mockResolvedValue({
+      headers: {
+        Accept: 'application/json;odata=verbose',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    jest.spyOn(XLSX, 'read').mockReturnValue({
+      Sheets: { Sheet1: {} },
+      SheetNames: ['Wrong sheet name'],
+    });
+
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app).get('/api/sharepoint/cbc-project');
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual([
+      {
+        error:
+          'missing required sheet "CBC Projects". Found: ["Wrong sheet name"]',
+        level: 'workbook',
+      },
+    ]);
   });
 
   it('should return 500 for when sharepoint fails to respond', async () => {
@@ -90,9 +151,7 @@ describe('The SharePoint API', () => {
       };
     });
 
-    const response = await request(app).get(
-      '/api/sharepoint/masterSpreadsheet'
-    );
+    const response = await request(app).get('/api/sharepoint/cbc-project');
     expect(response.status).toBe(500);
   });
 });

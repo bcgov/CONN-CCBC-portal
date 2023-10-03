@@ -76,6 +76,13 @@ cert:
   ca: |
     ''
 
+sharepoint:
+  spSite: ''
+  spSaUser: ''
+  spSaPassword: ''
+  spDocLibrary: ''
+  spMsFileName: ''
+
 db:
   name: ccbc
   appUser: ccbc_app

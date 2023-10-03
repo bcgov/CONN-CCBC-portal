@@ -74,6 +74,21 @@ inputs:
   cert_ca:
     description: 'Certificate CA for secure route'
     required: true
+  sp_sa_user:
+    description: 'SharePoint service account user'
+    required: true
+  sp_sa_password:
+    description: 'SharePoint service account password'
+    required: true
+  sp_site:
+    description: 'SharePoint site URL'
+    required: true
+  sp_doc_library:
+    description: 'SharePoint document library'
+    required: true
+  sp_ms_file_name:
+    description: 'SharePoint CBC Projects excel File Name'
+    required: true
 
 runs:
   using: composite
@@ -121,9 +136,14 @@ runs:
           --set certbot.certbot.email=${{ inputs.certbot_email }} \
           --set certbot.certbot.server=${{ inputs.certbot_server }} \
           --set loadTest.enable=${{ inputs.enable_load_test }} \
-          --set cert.cert="${{ inputs.cert }}" \
-          --set cert.key="${{ inputs.cert_key }}" \
-          --set cert.ca="${{ inputs.cert_ca }}" \
+          --set cert.cert=${{ inputs.cert }} \
+          --set cert.key=${{ inputs.cert_key }} \
+          --set cert.ca=${{ inputs.cert_ca }} \
+          --set sharepoint.spSite=${{ inputs.sp_site }} \
+          --set sharepoint.spSaUser=${{ inputs.sp_sa_user }} \
+          --set sharepoint.spSaPassword=${{ inputs.sp_sa_password }} \
+          --set sharepoint.spDocLibrary=${{ inputs.sp_doc_library }} \
+          --set sharepoint.spMsFileName=${{ inputs.sp_ms_file_name }} \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash

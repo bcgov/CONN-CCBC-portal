@@ -121,3 +121,8 @@ jobs:
       CERT: ${{ secrets.CERT }}
       CERT_KEY: ${{ secrets.CERT_KEY }}
       CERT_CA: ${{ secrets.CERT_CA }}
+      SP_SA_USER: ${{ secrets.SP_SA_USER }}
+      SP_SA_PASSWORD: ${{ secrets.SP_SA_PASSWORD }}
+      SP_DOC_LIBRARY: ${{ secrets.SP_DOC_LIBRARY }}
+      SP_SITE: ${{ secrets.SP_SITE }}
+      SP_MS_FILE_NAME: ${{ secrets.SP_MS_FILE_NAME }}

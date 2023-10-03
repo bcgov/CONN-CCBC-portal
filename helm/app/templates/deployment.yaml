@@ -212,6 +212,16 @@ spec:
               value: {{ .Values.metabase.siteUrl }}
             - name: METABASE_EMBED_SECRET
               value: {{ .Values.metabase.embedSecret }}
+            - name: SP_SITE
+              value: {{ .Values.sharepoint.spSite }}
+            - name: SP_SA_USER
+              value: {{ .Values.sharepoint.spSaUser }}
+            - name: SP_SA_PASSWORD
+              value: {{ .Values.sharepoint.spSaPassword }}
+            - name: SP_DOC_LIBRARY
+              value: {{ .Values.sharepoint.spDocLibrary }}
+            - name: SP_MS_FILE_NAME
+              value: {{ .Values.sharepoint.spMsFileName }}
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}

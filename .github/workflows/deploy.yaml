@@ -24,6 +24,11 @@ on:
       CERT: { required: true }
       CERT_KEY: { required: true }
       CERT_CA: { required: true }
+      SP_SA_USER: { required: true }
+      SP_SA_PASSWORD: { required: true }
+      SP_DOC_LIBRARY: { required: true }
+      SP_SITE: { required: true }
+      SP_MS_FILE_NAME: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -77,6 +82,11 @@ jobs:
           cert: ${{ secrets.CERT }}
           cert_key: ${{ secrets.CERT_KEY }}
           cert_ca: ${{ secrets.CERT_CA }}
+          sp_sa_user: ${{ secrets.SP_SA_USER }}
+          sp_sa_password: ${{ secrets.SP_SA_PASSWORD }}
+          sp_doc_library: ${{ secrets.SP_DOC_LIBRARY }}
+          sp_site: ${{ secrets.SP_SITE }}
+          sp_ms_file_name: ${{ secrets.SP_MS_FILE_NAME }}
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:
@@ -127,6 +137,11 @@ jobs:
           cert: ${{ secrets.CERT }}
           cert_key: ${{ secrets.CERT_KEY }}
           cert_ca: ${{ secrets.CERT_CA }}
+          sp_sa_user: ${{ secrets.SP_SA_USER }}
+          sp_sa_password: ${{ secrets.SP_SA_PASSWORD }}
+          sp_doc_library: ${{ secrets.SP_DOC_LIBRARY }}
+          sp_site: ${{ secrets.SP_SITE }}
+          sp_ms_file_name: ${{ secrets.SP_MS_FILE_NAME }}
           environment: test
 
   deploy-to-openshift-production:
@@ -168,6 +183,11 @@ jobs:
           cert: ${{ secrets.CERT }}
           cert_key: ${{ secrets.CERT_KEY }}
           cert_ca: ${{ secrets.CERT_CA }}
+          sp_sa_user: ${{ secrets.SP_SA_USER }}
+          sp_sa_password: ${{ secrets.SP_SA_PASSWORD }}
+          sp_doc_library: ${{ secrets.SP_DOC_LIBRARY }}
+          sp_site: ${{ secrets.SP_SITE }}
+          sp_ms_file_name: ${{ secrets.SP_MS_FILE_NAME }}
           environment: prod
 
   create-release:
