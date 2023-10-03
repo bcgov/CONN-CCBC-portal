@@ -45,19 +45,25 @@ const StyledContent = styled(Modal.Content)`
   max-width: 600px;
 `;
 
-const WithdrawModal = ({ id }) => {
+const WithdrawModal = ({ application, setApplication }) => {
   const [successModal, setSuccessModal] = useState(false);
-
   const [withdrawApplication] = useWithdrawApplicationMutation();
 
   const handleWithdraw = async () => {
     withdrawApplication({
       variables: {
         input: {
-          applicationRowId: id,
+          applicationRowId: application?.rowId,
         },
       },
-      onCompleted: () => setSuccessModal(true),
+      onCompleted: () => {
+        setApplication(null);
+        setSuccessModal(true);
+      },
+
+      updater: (store) => {
+        store.get(application?.id).setValue('status', 'withdrawn');
+      },
     });
   };
 

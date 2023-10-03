@@ -43,7 +43,7 @@ const Row = ({
   application,
   formPages,
   reviewPage,
-  setWithdrawId,
+  setCurrentApplication,
   setArchiveId,
 }) => {
   const {
@@ -70,10 +70,11 @@ const Row = ({
     status === 'submitted' ||
     status === 'applicant_conditionally_approved';
   const isDraft = application.status === 'draft';
+  const isEditable = formData.isEditable && status !== 'withdrawn';
 
   const getApplicationUrl = () => {
     if (isWithdrawn) {
-      return `/ applicantportal / form / ${application.rowId}/${reviewPage}`;
+      return `/applicantportal/form/${application.rowId}/${reviewPage}`;
     }
     if (isSubmitted && isIntakeClosed) {
       return `/applicantportal/form/${application.rowId}/${reviewPage}`;
@@ -85,6 +86,7 @@ const Row = ({
       formData.lastEditedPage ? lastEditedIndex : 1
     }`;
   };
+
   return (
     <StyledRow key={rowId}>
       <StyledTableCell width="15%">
@@ -99,13 +101,11 @@ const Row = ({
       </StyledTableCell>
       <StyledTableCell>
         <StyledBtns>
-          <Link href={getApplicationUrl()}>
-            {formData.isEditable ? 'Edit' : 'View'}
-          </Link>
+          <Link href={getApplicationUrl()}>{isEditable ? 'Edit' : 'View'}</Link>
           {isWithdrawable && (
             <StyledWithdraw
               onClick={() => {
-                setWithdrawId(rowId);
+                setCurrentApplication(application);
                 window.history.replaceState(null, null, ' ');
                 window.location.hash = 'withdraw-modal';
               }}
