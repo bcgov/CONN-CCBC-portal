@@ -720,6 +720,36 @@
             <column ascending="true" name="updated_by"/>
          </index>
       </table>
+      <table name="cbc_project" remarks="Table containing the data imported from the CBC projects excel file" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the row" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="1" name="json_data" nullable="false" remarks="The data imported from the excel" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="2" name="sharepoint_timestamp" nullable="true" remarks="The timestamp of the last time the data was updated from sharepoint" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_project_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_project_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_project_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="cbc_project_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_cbc_project_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_cbc_project_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_cbc_project_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
       <table name="ccbc_user" remarks="Table containing information about the application's users, this is business contact information not personally identifiable information" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the user" size="10" type="int4" typeCode="4">
             <child column="archived_by" foreignKey="analyst_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="analyst"/>
@@ -773,6 +803,9 @@
             <child column="archived_by" foreignKey="attachment_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="attachment"/>
             <child column="created_by" foreignKey="attachment_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="attachment"/>
             <child column="updated_by" foreignKey="attachment_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="attachment"/>
+            <child column="archived_by" foreignKey="cbc_project_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project"/>
+            <child column="created_by" foreignKey="cbc_project_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project"/>
+            <child column="updated_by" foreignKey="cbc_project_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project"/>
             <child column="archived_by" foreignKey="ccbc_user_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
             <child column="created_by" foreignKey="ccbc_user_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
             <child column="updated_by" foreignKey="ccbc_user_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
