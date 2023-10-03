@@ -18,14 +18,7 @@ const mockQueryPayload = {
   Application() {
     return {
       rowId: 1,
-      formData: {
-        formSchemaId: 1,
-        jsonData: {
-          projectInformation: {
-            projectDescription: 'test description',
-          },
-        },
-      },
+      internalDescription: 'test description',
     };
   },
 };
@@ -90,17 +83,13 @@ describe('The EditProjectDescription component', () => {
     });
 
     componentTestingHelper.expectMutationToBeCalled(
-      'createNewFormDataMutation',
+      'updateApplicationMutation',
       {
         input: {
-          applicationRowId: 1,
-          jsonData: {
-            projectInformation: {
-              projectDescription: 'test description 2',
-            },
+          applicationPatch: {
+            internalDescription: 'test description 2',
           },
-          reasonForChange: 'Update project description',
-          formSchemaId: 1,
+          rowId: 1,
         },
       }
     );
@@ -108,10 +97,10 @@ describe('The EditProjectDescription component', () => {
     componentTestingHelper.environment.mock.resolveMostRecentOperation({
       errors: [],
       data: {
-        createNewFormData: {
-          formData: {
-            rowId: 1,
-          },
+        application: {
+          id: 'test-id',
+          rowId: 1,
+          internalDescription: 'test description 2',
         },
       },
     });
