@@ -437,3 +437,4 @@ mutations/archive_application_milestone_data 2023-09-12T18:07:10Z Marcel Mueller
 @1.106.1 2023-09-26T22:05:33Z CCBC Service Account <ccbc@button.is> # release v1.106.1
 mutations/submit_application [mutations/submit_application@1.105.0] 2023-09-26T21:09:06Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # update form schema id on application submission
 computed_columns/form_data_is_editable [computed_columns/form_data_is_editable@1.105.0] 2023-09-29T16:07:53Z Marcel Mueller <marcel@m2> # fix bug where applicants can edit received applications
+@1.107.0 2023-10-03T15:53:07Z CCBC Service Account <ccbc@button.is> # release v1.107.0
