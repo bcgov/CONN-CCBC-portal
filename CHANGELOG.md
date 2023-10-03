@@ -1,3 +1,13 @@
+# [1.107.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.106.1...v1.107.0) (2023-10-03)
+
+### Bug Fixes
+
+- form_data_is_editable can only edit draft and submitted applications ([596b47f](https://github.com/bcgov/CONN-CCBC-portal/commit/596b47f3f601b0ec9d5ba84f13b0d047451929e1))
+
+### Features
+
+- draft apps use latest form schema based on flag ([fa991c9](https://github.com/bcgov/CONN-CCBC-portal/commit/fa991c9ae5d52b1087c17e533cb1c07ad1a73241))
+
 ## [1.106.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.106.0...v1.106.1) (2023-09-26)
 
 ### Bug Fixes
