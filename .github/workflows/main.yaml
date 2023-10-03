@@ -126,3 +126,6 @@ jobs:
       SP_DOC_LIBRARY: ${{ secrets.SP_DOC_LIBRARY }}
       SP_SITE: ${{ secrets.SP_SITE }}
       SP_MS_FILE_NAME: ${{ secrets.SP_MS_FILE_NAME }}
+      SA_CLIENT_SECRET: ${{ secrets.SA_CLIENT_SECRET }}
+      SA_CLIENT_ID: ${{ secrets.SA_CLIENT_ID }}
+      KEYCLOAK_HOST: ${{ secrets.KEYCLOAK_HOST }}
