@@ -21,6 +21,9 @@ WORKDIR ${APP_HOME}
 
 COPY cron/sp/ ${APP_HOME}
 
+RUN chown -R ${USER_ID}:0 ${APP_HOME} && \
+    chmod -R g+rwX ${APP_HOME}
+
 USER ${USER_ID}
 WORKDIR ${APP_HOME}
 
