@@ -136,9 +136,9 @@ runs:
           --set certbot.certbot.email=${{ inputs.certbot_email }} \
           --set certbot.certbot.server=${{ inputs.certbot_server }} \
           --set loadTest.enable=${{ inputs.enable_load_test }} \
-          --set cert.cert=${{ inputs.cert }} \
-          --set cert.key=${{ inputs.cert_key }} \
-          --set cert.ca=${{ inputs.cert_ca }} \
+          --set cert.cert="${{ inputs.cert }}" \
+          --set cert.key="${{ inputs.cert_key }}" \
+          --set cert.ca="${{ inputs.cert_ca }}" \
           --set sharepoint.spSite=${{ inputs.sp_site }} \
           --set sharepoint.spSaUser=${{ inputs.sp_sa_user }} \
           --set sharepoint.spSaPassword=${{ inputs.sp_sa_password }} \
