@@ -2,11 +2,23 @@
  * @jest-environment node
  */
 import * as XLSX from 'xlsx';
-import readTemplateOneData from '../../../backend/lib/excel_import/template_one';
-import readTemplateTwoData from '../../../backend/lib/excel_import/template_two';
+import request from 'supertest';
+import express from 'express';
+import session from 'express-session';
+import crypto from 'crypto';
+import { mocked } from 'jest-mock';
+import fs from 'fs';
+import * as readTemplateTwoData from '../../../backend/lib/excel_import/template_two';
+import * as readTemplateOneData from '../../../backend/lib/excel_import/template_one';
+import getAuthRole from '../../../utils/getAuthRole';
+import templateUpload from '../../../backend/lib/template-upload';
+import { parseForm } from '../../../backend/lib/express-helper';
 
 jest.mock('../../../backend/lib/graphql');
-
+jest.mock('fs');
+jest.mock('xlsx');
+jest.mock('../../../utils/getAuthRole');
+jest.mock('../../../backend/lib/express-helper');
 const fakeTemplateOne = [
   { A: 'Connecting Communities BC (CCBC)', Q: 'Version', R: 2 },
   { A: 'TEMPLATE 1:  ELIGIBILITY AND IMPACTS CALCULATOR' },
@@ -436,6 +448,78 @@ const fakeTemplateTwo = [
 ];
 
 describe('sow_summary parsing tests', () => {
+  let app;
+
+  beforeEach(() => {
+    jest.spyOn(XLSX, 'read').mockReturnValue({
+      Sheets: { Sheet1: {} },
+      SheetNames: ['Template_Sheet'],
+    });
+    app = express();
+    app.use(session({ secret: crypto.randomUUID(), cookie: { secure: true } }));
+    app.use('/', templateUpload);
+  });
+
+  it('should return 404 for unauthorized role', async () => {
+    mocked(getAuthRole).mockReturnValue({
+      pgRole: 'unauthorized_role',
+      landingRoute: undefined,
+    });
+
+    const response = await request(app).post(
+      '/api/applicant/template?templateNumber=1'
+    );
+
+    expect(response.status).toBe(404);
+  });
+
+  it('should handle successful template 1 upload', async () => {
+    jest.spyOn(XLSX, 'read').mockReturnValue({
+      Sheets: { Sheet1: {} },
+      SheetNames: ['Eligibility_Summary'],
+    });
+    jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeTemplateOne);
+    jest.mock('../../../backend/lib/excel_import/template_one');
+    mocked(getAuthRole).mockReturnValue({ pgRole: 'ccbc_auth_user' });
+    mocked(parseForm).mockResolvedValue({
+      someFileName: {
+        filepath: 'mock-path',
+      },
+    });
+    jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
+    // mocked(readTemplateOneData).mockImplementation(() => ({ success: true }));
+    jest
+      .spyOn(readTemplateOneData, 'default')
+      .mockImplementationOnce(() => ({ success: true }));
+
+    await request(app)
+      .post('/api/applicant/template?templateNumber=1')
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual({ result: { success: true } });
+      });
+  });
+
+  it('should handle successful template 2 upload', async () => {
+    mocked(getAuthRole).mockReturnValue({ pgRole: 'ccbc_auth_user' });
+    mocked(parseForm).mockResolvedValue({
+      someFileName: {
+        filepath: 'mock-path',
+      },
+    });
+    jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
+    jest
+      .spyOn(readTemplateTwoData, 'default')
+      .mockImplementationOnce(() => ({ success: true }));
+
+    await request(app)
+      .post('/api/applicant/template?templateNumber=2')
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual({ result: { success: true } });
+      });
+  });
+
   it('successfully reads a worksheet', async () => {
     jest.spyOn(XLSX, 'read').mockReturnValue({
       Sheets: { Sheet1: {} },
@@ -445,7 +529,7 @@ describe('sow_summary parsing tests', () => {
 
     const wb = XLSX.read(null);
 
-    const data = readTemplateOneData(wb, 'Eligibility_Summary');
+    const data = readTemplateOneData.default(wb, 'Eligibility_Summary');
     const expected = {
       finalEligibleHouseholds: 2,
       totalNumberHouseholdsImpacted: 123987,
@@ -462,7 +546,7 @@ describe('sow_summary parsing tests', () => {
 
     const wb = XLSX.read(null);
 
-    const data = readTemplateTwoData(wb, 'Template 2');
+    const data = readTemplateTwoData.default(wb, 'Template 2');
     const expected = {
       totalEligibleCosts: 92455,
       totalProjectCosts: 101230,
