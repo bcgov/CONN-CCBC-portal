@@ -9,12 +9,8 @@ $$
   )
    select coalesce(
     (
-      select true
-      from ccbc_public.application app
-      where app.id in (select application_id from ccbc_public.application_form_data where form_data_id = form_data.id)
-      and ccbc_public.application_status(app) = 'draft'
-      and (select id from open_intake) is not null
-      and form_data.form_data_status_type_id = 'pending'
+      select true from open_intake
+      where open_intake.id is not null and form_data.form_data_status_type_id = 'pending'
     ),
     (
       select true
@@ -27,7 +23,7 @@ $$
    )
 $$ language sql stable;
 
-grant execute on function ccbc_public.form_data_is_editable to ccbc_auth_user, ccbc_admin, ccbc_analyst;
+grant execute on function ccbc_public.form_data_is_editable to ccbc_auth_user;
 
 comment on function ccbc_public.form_data_is_editable is 'computed column to display whether form_data is editable or not';
 
