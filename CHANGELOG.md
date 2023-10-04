@@ -1,3 +1,22 @@
+# [1.107.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.106.1...v1.107.0) (2023-10-03)
+
+### Bug Fixes
+
+- cbc_project revert ([e037c8c](https://github.com/bcgov/CONN-CCBC-portal/commit/e037c8ca5e514b233bae027b8fadcf65a379d40c))
+- form_data_is_editable can only edit draft and submitted applications ([596b47f](https://github.com/bcgov/CONN-CCBC-portal/commit/596b47f3f601b0ec9d5ba84f13b0d047451929e1))
+
+### Features
+
+- add new row to cbc_project import ([fa3d1e0](https://github.com/bcgov/CONN-CCBC-portal/commit/fa3d1e05a87effb020b0f78a90b3a7d8957c6404))
+- add postgres mutation create_cbc_project ([81354c1](https://github.com/bcgov/CONN-CCBC-portal/commit/81354c1f70f97bdd7f16672209cee5b34832be1d))
+- add table cbc_project ([df44c85](https://github.com/bcgov/CONN-CCBC-portal/commit/df44c8519f8ed964dc7053302c64454da4f0d25f))
+- check cbc project number before insert ([de71cf0](https://github.com/bcgov/CONN-CCBC-portal/commit/de71cf0172dcd15b1af9252ea9752db15eebc7a4))
+- convert excel dates to js date in cbc_project import ([1d8114e](https://github.com/bcgov/CONN-CCBC-portal/commit/1d8114e9845f806ace543bd40cfc36657482e8ae))
+- draft apps use latest form schema based on flag ([fa991c9](https://github.com/bcgov/CONN-CCBC-portal/commit/fa991c9ae5d52b1087c17e533cb1c07ad1a73241))
+- pass sharepoint env vars to deployment ([75525c7](https://github.com/bcgov/CONN-CCBC-portal/commit/75525c7e0e6ef8b6a7d60024fbc9eaa8e256b542))
+- save cbc project spreadsheet data ([bf34d60](https://github.com/bcgov/CONN-CCBC-portal/commit/bf34d606ce532c0ead773b1170e70e7ab2714d8a))
+- save sharepoint timestamp with cbc project import ([d68bb48](https://github.com/bcgov/CONN-CCBC-portal/commit/d68bb48a67f1624d7aea16a95cb9afddeb78a4fa))
+
 ## [1.106.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.106.0...v1.106.1) (2023-09-26)
 
 ### Bug Fixes
