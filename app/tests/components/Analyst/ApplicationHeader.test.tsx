@@ -97,7 +97,7 @@ describe('The application header component', () => {
       screen.getByText('CCBC-10001').parentElement.parentElement;
 
     expect(applicationHeader).toHaveStyle({ borderLeft: '4px solid #1A5A96' });
-    expect(applicationHeader).toHaveStyle({ padding: '8px 12px' });
+    expect(applicationHeader).toHaveStyle({ padding: '8px 12px 0px 12px' });
     expect(applicationHeader).toHaveStyle({ marginBottom: '0.5em' });
   });
 

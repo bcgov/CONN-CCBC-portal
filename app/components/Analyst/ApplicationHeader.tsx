@@ -3,6 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
 import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
+import EditProjectDescription from './EditProjectDescription';
 import StatusInformationIcon from './StatusInformationIcon';
 
 const StyledCallout = styled.div`
@@ -10,20 +11,28 @@ const StyledCallout = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 8px 12px;
+  padding-bottom: 0;
   border-left: 4px solid ${(props) => props.theme.color.links};
+  width: 100%;
 `;
 
 const StyledH1 = styled.h1`
   font-size: 24px;
   margin: 8px 0;
 `;
+
 const StyledH2 = styled.h2`
   margin: 0;
   font-size: 16px;
 `;
 
+const StyledProjectInfo = styled.div`
+  width: 100%;
+`;
+
 const StyledDiv = styled.div`
   display: grid;
+  height: fit-content;
 `;
 
 const StyledLabel = styled.label`
@@ -81,6 +90,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           externalStatus
           ...ChangeStatus_query
           ...AssignPackage_query
+          ...EditProjectDescription_query
         }
         ...AssignLead_query
         allApplicationStatusTypes(
@@ -111,11 +121,12 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
 
   return (
     <StyledCallout>
-      <div>
+      <StyledProjectInfo>
         <StyledH2>{ccbcNumber}</StyledH2>
         <StyledH1>{projectName}</StyledH1>
         <StyledH2>{organizationName}</StyledH2>
-      </div>
+        <EditProjectDescription application={applicationByRowId} />
+      </StyledProjectInfo>
       <StyledDiv>
         <StyledItem style={{ marginBottom: '0.3rem' }}>
           <StyledLabel htmlFor="change-status">Internal Status</StyledLabel>
