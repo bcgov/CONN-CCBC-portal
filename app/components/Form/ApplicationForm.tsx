@@ -374,7 +374,7 @@ const ApplicationForm: React.FC<Props> = ({
           budgetDetails: {
             ...newFormData.budgetDetails,
             totalEligibleCosts: templateData.data.result.totalEligibleCosts,
-            totalProjectCosts: templateData.data.result.totalProjectCosts,
+            totalProjectCost: templateData.data.result.totalProjectCosts,
           },
         };
       }
