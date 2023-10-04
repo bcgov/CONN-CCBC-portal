@@ -56,8 +56,8 @@ interface Props {
 }
 
 const disabledStatusList = {
-  approved: ['analyst_withdrawn'],
-  complete: ['analyst_withdrawn'],
+  approved: ['withdrawn', 'analyst_withdrawn'],
+  complete: ['withdrawn', 'analyst_withdrawn'],
   received: [
     'assessment',
     'recommendation',
