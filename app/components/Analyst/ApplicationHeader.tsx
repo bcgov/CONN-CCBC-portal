@@ -135,8 +135,12 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           <ChangeStatus
             application={applicationByRowId}
             disabledStatusList={disabledStatusList}
-            hiddenStatusTypes={['draft', 'submitted', 'withdrawn']}
-            status={analystStatus}
+            hiddenStatusTypes={['draft', 'submitted', 'analyst_withdrawn']}
+            status={
+              analystStatus === 'analyst_withdrawn'
+                ? 'withdrawn'
+                : analystStatus
+            }
             statusList={allApplicationStatusTypes?.nodes}
           />
           <StatusInformationIcon />

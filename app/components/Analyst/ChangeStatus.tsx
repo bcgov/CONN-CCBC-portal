@@ -135,15 +135,16 @@ const ChangeStatus: React.FC<Props> = ({
     // update status when there is a relay store update
     setCurrentStatus(getStatus(status, statusTypes));
     setDraftStatus(getStatus(status, statusTypes));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   const handleSave = async (value) => {
     const newStatus = value || draftStatus?.name;
+    const withdrawn = isExternalStatus ? 'withdrawn' : 'analyst_withdrawn';
     const externalStatus =
-      newStatus === 'withdrawn' ? newStatus : `applicant_${newStatus}`;
-    const statusInputName = isExternalStatus
-      ? externalStatus
-      : draftStatus?.name;
+      newStatus === 'withdrawn' ? withdrawn : `applicant_${newStatus}`;
+    const internalStatus = newStatus === 'withdrawn' ? withdrawn : newStatus;
+    const statusInputName = isExternalStatus ? externalStatus : internalStatus;
 
     createStatus({
       variables: {
@@ -169,6 +170,7 @@ const ChangeStatus: React.FC<Props> = ({
       },
     });
   };
+
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDraftStatus(getStatus(e.target.value, statusTypes));
     const isAllowedExternalReceived =
