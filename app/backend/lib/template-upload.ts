@@ -53,7 +53,7 @@ const processTemplateUpload: ExpressMiddleware = async (req, res) => {
   } else {
     return res
       .status(400)
-      .json({ error: `Template Number ${templateNumber}` })
+      .json({ error: `Template Number ${templateNumber} is not valid` })
       .end();
   }
   if (result) {
@@ -62,7 +62,7 @@ const processTemplateUpload: ExpressMiddleware = async (req, res) => {
 
   return res
     .status(400)
-    .json({ error: 'failed to save milestone data in DB' })
+    .json({ error: 'failed to process template upload' })
     .end();
 };
 

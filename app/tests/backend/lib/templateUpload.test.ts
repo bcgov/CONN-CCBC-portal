@@ -480,6 +480,9 @@ describe('sow_summary parsing tests', () => {
     });
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeTemplateOne);
     jest.mock('../../../backend/lib/excel_import/template_one');
+    jest
+      .spyOn(readTemplateOneData, 'default')
+      .mockImplementationOnce(() => ({ success: true }));
     mocked(getAuthRole).mockReturnValue({ pgRole: 'ccbc_auth_user' });
     mocked(parseForm).mockResolvedValue({
       someFileName: {
@@ -487,10 +490,6 @@ describe('sow_summary parsing tests', () => {
       },
     });
     jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
-    // mocked(readTemplateOneData).mockImplementation(() => ({ success: true }));
-    jest
-      .spyOn(readTemplateOneData, 'default')
-      .mockImplementationOnce(() => ({ success: true }));
 
     await request(app)
       .post('/api/applicant/template?templateNumber=1')
@@ -552,6 +551,60 @@ describe('sow_summary parsing tests', () => {
       totalProjectCosts: 101230,
     };
     expect(data).toEqual(expected);
+  });
+
+  it('should handle file parsing errors', async () => {
+    mocked(parseForm).mockRejectedValue(new Error('Parsing error'));
+
+    await request(app)
+      .post('/api/applicant/template?templateNumber=1')
+      .expect(400)
+      .then((response) => {
+        expect(response.body[0]).toEqual({
+          level: 'file',
+          error: {},
+        });
+      });
+  });
+
+  it('should handle invalid template numbers', async () => {
+    mocked(parseForm).mockResolvedValue({
+      someFileName: {
+        filepath: 'mock-path',
+      },
+    });
+    jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
+
+    await request(app)
+      .post('/api/applicant/template?templateNumber=3') // Assuming only templateNumber 1 and 2 are valid
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({
+          error: 'Template Number 3 is not valid',
+        });
+      });
+  });
+
+  it('should handle general failure', async () => {
+    mocked(parseForm).mockResolvedValue({
+      someFileName: {
+        filepath: 'mock-path',
+      },
+    });
+    jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
+    // Let's assume templateNumber 1 returns null to simulate a failure
+    jest
+      .spyOn(readTemplateOneData, 'default')
+      .mockImplementationOnce(() => null);
+
+    await request(app)
+      .post('/api/applicant/template?templateNumber=1')
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({
+          error: 'failed to process template upload',
+        });
+      });
   });
   afterEach(() => {
     jest.clearAllMocks();
