@@ -478,6 +478,50 @@ describe('The FileWidget', () => {
     });
   });
 
+  it('uploading template data mutates form data', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 11,
+      query: data.query,
+    }));
+
+    const mockSuccessResponseTemplateOne = {
+      totalEligibleCosts: 92455,
+      totalProjectCosts: 101230,
+    };
+    const mockFetchPromiseTemplateOne = Promise.resolve({
+      json: () => Promise.resolve(mockSuccessResponseTemplateOne),
+    });
+
+    const mockSuccessResponseTemplateTwo = {
+      totalEligibleCosts: 92455,
+      totalProjectCosts: 101230,
+    };
+    const mockFetchPromiseTemplateTwo = Promise.resolve({
+      json: () => Promise.resolve(mockSuccessResponseTemplateTwo),
+    });
+    global.fetch = jest.fn((url) => {
+      if (url.includes('templateNumber=1')) return mockFetchPromiseTemplateOne;
+      return mockFetchPromiseTemplateTwo;
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+    const formData = new FormData();
+    formData.append('file', file);
+    expect(global.fetch).toHaveBeenCalledOnce();
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/applicant/template?templateNumber=1',
+      { body: formData, method: 'POST' }
+    );
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });

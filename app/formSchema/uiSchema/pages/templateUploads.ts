@@ -19,6 +19,8 @@ const templateUploads = {
     'ui:options': {
       label: false,
       fileTypes: EXCEL_FILE_EXTENSIONS,
+      templateNumber: 1,
+      templateValidate: true,
     },
   },
   detailedBudget: {
@@ -26,6 +28,8 @@ const templateUploads = {
     'ui:options': {
       label: false,
       fileTypes: EXCEL_FILE_EXTENSIONS,
+      templateNumber: 2,
+      templateValidate: true,
     },
   },
   financialForecast: {

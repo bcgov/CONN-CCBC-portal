@@ -35,6 +35,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   uiSchema,
   label,
   rawErrors,
+  formContext,
 }) => {
   const [error, setError] = useState('');
   const router = useRouter();
@@ -52,11 +53,16 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const fileDateTitle = uiSchema['ui:options']?.fileDateTitle as string;
   const buttonVariant = (uiSchema['ui:options']?.buttonVariant ||
     'primary') as string;
+  const templateValidate =
+    (uiSchema['ui:options']?.templateValidate as boolean) ?? false;
+  const templateNumber =
+    (uiSchema['ui:options']?.templateNumber as number) ?? 0;
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment;
   // 104857600 bytes = 100mb
   const maxFileSizeInBytes = 104857600;
   const fileId = isFiles && value[0].id;
+  const { setTemplateData } = formContext;
 
   useEffect(() => {
     if (rawErrors?.length > 0) {
@@ -77,6 +83,27 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       parseInt(router?.query?.id as string, 10) ||
       parseInt(router?.query?.applicationId as string, 10);
     const file = e.target.files?.[0];
+
+    if (templateValidate) {
+      const fileFormData = new FormData();
+      if (file) {
+        fileFormData.append('file', file);
+        if (setTemplateData) {
+          fetch(`/api/applicant/template?templateNumber=${templateNumber}`, {
+            method: 'POST',
+            body: fileFormData,
+          }).then((response) => {
+            if (response.ok)
+              response.json().then((data) => {
+                setTemplateData({
+                  templateNumber,
+                  data,
+                });
+              });
+          });
+        }
+      }
+    }
 
     const { isValid, error: newError } = validateFile(
       file,

@@ -228,6 +228,7 @@ const ApplicationForm: React.FC<Props> = ({
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
     verifyAllSubmissionsFilled(jsonData.submission)
   );
+  const [templateData, setTemplateData] = useState(null);
 
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
@@ -243,6 +244,7 @@ const ApplicationForm: React.FC<Props> = ({
       areAllAcknowledgementsChecked,
       rowId,
       finalUiSchema,
+      setTemplateData,
     };
   }, [
     openIntake,
@@ -347,12 +349,36 @@ const ApplicationForm: React.FC<Props> = ({
       sectionName.toString()
     );
 
-    const newFormData = mergeFormSectionData(
+    let newFormData = mergeFormSectionData(
       jsonData,
       sectionName,
       calculatedSectionData,
       jsonSchema
     );
+
+    if (templateData) {
+      if (templateData.templateNumber === 1) {
+        newFormData = {
+          ...newFormData,
+          benefits: {
+            ...newFormData.benefits,
+            householdsImpactedIndigenous:
+              templateData.data.result.finalEligibleHouseholds,
+            numberOfHouseholds:
+              templateData.data.result.totalNumberHouseholdsImpacted,
+          },
+        };
+      } else if (templateData.templateNumber === 2) {
+        newFormData = {
+          ...newFormData,
+          budgetDetails: {
+            ...newFormData.budgetDetails,
+            totalEligibleCosts: templateData.data.result.totalEligibleCosts,
+            totalProjectCost: templateData.data.result.totalProjectCosts,
+          },
+        };
+      }
+    }
 
     // if we're redirecting after this, set lastEditedPage to the next page
     const lastEditedPageNumber = isRedirectingToNextPage
