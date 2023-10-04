@@ -1,6 +1,6 @@
 begin;
 
-select plan(7);
+select plan(10);
 
 select has_function(
   'ccbc_public', 'withdraw_application', ARRAY['int'],
@@ -16,19 +16,45 @@ insert into ccbc_public.application(id, owner) overriding system value
 values
   (2, '00000000-0000-0000-0000-000000000000'),
   (3, '00000000-0000-0000-0000-000000000000'),
-  (4, '00000000-0000-0000-0000-000000000000');
+  (4, '00000000-0000-0000-0000-000000000000'),
+  (5, '00000000-0000-0000-0000-000000000000'),
+  (6, '00000000-0000-0000-0000-000000000000');
 
 
 insert into ccbc_public.application_status(application_id, status)
 VALUES
  (2, 'submitted'),
- (3, 'withdrawn');
+ (3, 'withdrawn'),
+ (4, 'approved'),
+ (5, 'complete'),
+ (6, 'draft');
 
-select lives_ok(
+select throws_like(
   $$
     select ccbc_public.withdraw_application(3)
   $$,
-  'Handles an already withdrawn application'
+  'Application is already withdrawn'
+);
+
+select throws_like(
+  $$
+    select ccbc_public.withdraw_application(4)
+  $$,
+  'Application cannot be withdrawn as it has status approved'
+);
+
+select throws_like(
+  $$
+    select ccbc_public.withdraw_application(5)
+  $$,
+  'Application cannot be withdrawn as it has status complete'
+);
+
+select throws_like(
+  $$
+    select ccbc_public.withdraw_application(6)
+  $$,
+  'Application cannot be withdrawn as it has status draft'
 );
 
 select is_empty(

@@ -2,7 +2,6 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
 import StatusPill from '../StatusPill';
-import Withdraw from './Withdraw';
 
 const StyledRow = styled('tr')`
   &:hover {
@@ -36,11 +35,15 @@ const StyledButtonLink = styled('button')`
   color: #1a5a96;
 `;
 
+const StyledWithdraw = styled.button`
+  color: #d8292f;
+`;
+
 const Row = ({
   application,
   formPages,
   reviewPage,
-  setWithdrawId,
+  setCurrentApplication,
   setArchiveId,
 }) => {
   const {
@@ -60,9 +63,14 @@ const Row = ({
     ? Date.parse(intakeClosingDate) < Date.now()
     : false;
 
-  const isWithdrawn = application.status === 'withdrawn';
-  const isSubmitted = application.status === 'submitted';
+  const isWithdrawn = status === 'withdrawn';
+  const isSubmitted = status === 'submitted';
+  const isWithdrawable =
+    status === 'received' ||
+    status === 'submitted' ||
+    status === 'applicant_conditionally_approved';
   const isDraft = application.status === 'draft';
+  const isEditable = formData.isEditable && status !== 'withdrawn';
 
   const getApplicationUrl = () => {
     if (isWithdrawn) {
@@ -78,6 +86,7 @@ const Row = ({
       formData.lastEditedPage ? lastEditedIndex : 1
     }`;
   };
+
   return (
     <StyledRow key={rowId}>
       <StyledTableCell width="15%">
@@ -92,17 +101,19 @@ const Row = ({
       </StyledTableCell>
       <StyledTableCell>
         <StyledBtns>
-          <Link href={getApplicationUrl()}>
-            {formData.isEditable ? 'Edit' : 'View'}
-          </Link>
-          {isSubmitted && !isIntakeClosed && (
-            <button
-              onClick={() => setWithdrawId(rowId)}
+          <Link href={getApplicationUrl()}>{isEditable ? 'Edit' : 'View'}</Link>
+          {isWithdrawable && (
+            <StyledWithdraw
+              onClick={() => {
+                setCurrentApplication(application);
+                window.history.replaceState(null, null, ' ');
+                window.location.hash = 'withdraw-modal';
+              }}
               data-testid="withdraw-btn-test"
               type="button"
             >
-              <Withdraw />
-            </button>
+              Withdraw
+            </StyledWithdraw>
           )}
           {!ccbcNumber && isDraft && (
             <StyledButtonLink

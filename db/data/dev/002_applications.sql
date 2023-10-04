@@ -164,6 +164,7 @@ perform ccbc_public.create_application();
 
 -- not submitted, withdrawn application
 select id from ccbc_public.create_application() into _application_id;
+insert into ccbc_public.application_status (application_id, status) values (_application_id, 'submitted');
 perform ccbc_public.withdraw_application(_application_id);
 
 end

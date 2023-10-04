@@ -293,7 +293,6 @@ describe('The Dashboard', () => {
     expect(screen.getByText('CCBC-010005')).toBeInTheDocument();
     expect(screen.getByText('Submitted')).toBeInTheDocument();
     expect(screen.getByText('View')).toBeInTheDocument();
-    expect(screen.queryByTestId('withdraw-btn-test')).toBeNull();
   });
 
   it('Renders a withdrawn application', () => {
@@ -364,6 +363,7 @@ describe('The Dashboard', () => {
         };
       },
     };
+
     componentTestingHelper.loadQuery(payload);
     const user = userEvent.setup();
 
@@ -386,5 +386,101 @@ describe('The Dashboard', () => {
         },
       }
     );
+  });
+
+  it('renders the withdraw button for submitted applications', () => {
+    const payload = {
+      Query() {
+        return {
+          allApplications: {
+            edges: [
+              {
+                node: {
+                  status: 'submitted',
+                },
+              },
+            ],
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(payload);
+
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByTestId('withdraw-btn-test')).toBeInTheDocument();
+  });
+
+  it('renders the withdraw button for received applications', () => {
+    const payload = {
+      Query() {
+        return {
+          allApplications: {
+            edges: [
+              {
+                node: {
+                  status: 'received',
+                },
+              },
+            ],
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(payload);
+
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByTestId('withdraw-btn-test')).toBeInTheDocument();
+  });
+
+  it('renders the withdraw button for conditionally_approved applications', () => {
+    const payload = {
+      Query() {
+        return {
+          allApplications: {
+            edges: [
+              {
+                node: {
+                  status: 'applicant_conditionally_approved',
+                },
+              },
+            ],
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(payload);
+
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByTestId('withdraw-btn-test')).toBeInTheDocument();
+  });
+
+  it('does not the withdraw button for draft applications', () => {
+    const payload = {
+      Query() {
+        return {
+          allApplications: {
+            edges: [
+              {
+                node: {
+                  status: 'draft',
+                },
+              },
+            ],
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(payload);
+
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryByTestId('withdraw-btn-test')).not.toBeInTheDocument();
   });
 });

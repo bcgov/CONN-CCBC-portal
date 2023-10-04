@@ -40,7 +40,7 @@ type Props = {
 };
 
 const Table = ({ applications }: Props) => {
-  const [withdrawId, setWithdrawId] = useState<null | number>(null);
+  const [currentApplication, setCurrentApplication] = useState(null);
   const [archiveId, setArchiveId] = useState({ rowId: null, id: null });
 
   const applicationNodes = applications.allApplications.edges
@@ -80,7 +80,7 @@ const Table = ({ applications }: Props) => {
                 key={application.owner}
                 formPages={formPages}
                 reviewPage={reviewPage}
-                setWithdrawId={setWithdrawId}
+                setCurrentApplication={setCurrentApplication}
                 setArchiveId={setArchiveId}
               />
             ) : null;
@@ -88,7 +88,10 @@ const Table = ({ applications }: Props) => {
         </tbody>
       </StyledTable>
       <ArchiveModal applications={applications} id={archiveId} />
-      <Modal id={withdrawId} />
+      <Modal
+        application={currentApplication}
+        setApplication={setCurrentApplication}
+      />
     </>
   );
 };
