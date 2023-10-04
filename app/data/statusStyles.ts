@@ -94,6 +94,9 @@ const statusStylesBase = {
 // Spread base styles for applicant status styles
 const statusStyles = {
   ...statusStylesBase,
+  analyst_withdrawn: {
+    ...statusStylesBase.withdrawn,
+  },
   applicant_approved: {
     ...statusStylesBase.approved,
   },

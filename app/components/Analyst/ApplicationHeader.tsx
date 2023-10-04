@@ -56,6 +56,8 @@ interface Props {
 }
 
 const disabledStatusList = {
+  approved: ['analyst_withdrawn'],
+  complete: ['analyst_withdrawn'],
   received: [
     'assessment',
     'recommendation',
@@ -144,12 +146,12 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           <ChangeStatus
             application={applicationByRowId}
             hiddenStatusTypes={[
+              'analyst_withdrawn',
               'assessment',
               'draft',
               'recommendation',
               'screening',
               'submitted',
-              'withdrawn',
             ]}
             isExternalStatus
             status={externalStatus.replace('applicant_', '')}
