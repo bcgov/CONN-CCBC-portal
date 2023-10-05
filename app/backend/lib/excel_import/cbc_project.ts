@@ -174,8 +174,6 @@ const readSummary = async (wb, sheet) => {
     cbcProjectList.push(cbcProject);
   });
 
-  /*   console.log('cbcProjectList', cbcProjectList); */
-
   const cbcProjectData = {
     _jsonData: cbcProjectList,
   };
