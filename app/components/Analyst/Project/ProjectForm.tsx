@@ -82,7 +82,7 @@ const StyledAnimateForm = styled.div<AnimateFormProps>`
     isAnimated &&
     `
     position: relative;
-    z-index: ${isFormExpanded ? 100 : 1};
+    z-index: ${isFormExpanded ? 10 : 1};
     overflow: ${overflow};
     max-height: ${
       isFormExpanded
