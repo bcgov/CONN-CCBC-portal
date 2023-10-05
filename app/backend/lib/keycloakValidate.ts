@@ -35,7 +35,7 @@ const validateKeycloakToken = async (req, res, next) => {
 
   try {
     const userInfo = await client.userinfo(token);
-    console.log(decodedToken, userInfo);
+
     if (
       decodedToken.iss !== oidcIssuer ||
       decodedToken.aud !== clientId ||
@@ -48,7 +48,6 @@ const validateKeycloakToken = async (req, res, next) => {
     req.claims.client_roles = userInfo.client_roles;
     next();
   } catch (error) {
-    console.log(error);
     return res.status(401).json({ error: 'Unauthorized: Invalid token.' });
   }
 };
