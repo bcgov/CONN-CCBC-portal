@@ -4,6 +4,7 @@ import * as spauth from '@bcgov-ccbc/ccbc-node-sp-auth';
 import config from '../../config';
 import getAuthRole from '../../utils/getAuthRole';
 import LoadCbcProjectData from './excel_import/cbc_project';
+import validateKeycloakToken from './keycloakValidate';
 
 const SP_SITE = config.get('SP_SITE');
 const SP_DOC_LIBRARY = config.get('SP_DOC_LIBRARY');
@@ -11,17 +12,7 @@ const SP_FILE_NAME = config.get('SP_MS_FILE_NAME');
 const SP_SA_USER = config.get('SP_SA_USER');
 const SP_SA_PASSWORD = config.get('SP_SA_PASSWORD');
 
-const sharepoint = Router();
-
-// eslint-disable-next-line consistent-return
-sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
-  const authRole = getAuthRole(req);
-  const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
-
-  if (!isRoleAuthorized) {
-    return res.status(404).end();
-  }
-
+const importSharePointData = async (req, res) => {
   const errorList = [];
 
   (async () => {
@@ -96,6 +87,28 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
     }
     return res.sendStatus(200);
   })();
+};
+
+const sharepoint = Router();
+
+// eslint-disable-next-line consistent-return
+sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
+  const authRole = getAuthRole(req);
+  const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
+  if (!isRoleAuthorized) {
+    return res.status(404).end();
+  }
+
+  return importSharePointData(req, res);
 });
+
+sharepoint.get(
+  '/api/sharepoint/cron-cbc-project',
+  validateKeycloakToken,
+  (req, res) => {
+    req.claims.identity_provider = 'serviceaccount';
+    return importSharePointData(req, res);
+  }
+);
 
 export default sharepoint;
