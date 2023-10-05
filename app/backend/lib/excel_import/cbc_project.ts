@@ -20,6 +20,13 @@ const readSummary = async (wb, sheet) => {
     header: 'A',
   });
   const cbcProjectList = [];
+  const columnList = cbcProjectsSheet[0];
+
+  // reverse key value pairs so we can get the column location
+  const columns = Object.fromEntries(
+    Object.entries(columnList).map((a) => a.reverse())
+  );
+
   cbcProjectsSheet.forEach((proj) => {
     // filter values from proj which are 'NULL'
     const project = Object.fromEntries(
@@ -37,60 +44,85 @@ const readSummary = async (wb, sheet) => {
     }
 
     const cbcProject = {
-      projectNumber: project['A'],
-      orignalProjectNumber: project['B'],
-      phase: project['C'],
-      intake: project['D'],
-      projectStatus: project['E'],
-      projectTitle: project['F'],
-      projectDescription: project['G'],
-      applicant: project['H'],
-      eightThirtyMillionFunding: project['I'],
-      federalFundingSource: project['J'],
-      federalProjectNumber: project['K'],
-      projectType: project['L'],
-      transportProjectType: project['M'],
-      highwayProjectType: project['N'],
-      lastMileProjectType: project['O'],
-      lastMileMinimumSpeed: project['P'],
-      connectedCoastNetworkDependant: project['Q'],
-      projectLocations: project['R'],
-      communitiesAndLocalesCount: project['S'],
-      indigenousCommunities: project['T'],
-      householdCount: project['U'],
-      transportKm: project['V'],
-      highwayKm: project['W'],
-      restAreas: project['X'],
-      bcFundingRequest: project['Y'],
-      federalFundingRequest: project['Z'],
-      applicantAmount: project['AA'],
-      otherFunding: project['AB'],
-      totalProjectBudget: project['AC'],
-      nditConditionalApprovalLetterSent: project['AD'],
-      bindingAgreementSignedNditRecipient: project['AE'],
-      announcedByProvince: project['AF'],
+      projectNumber: project[columns['Project #']],
+      orignalProjectNumber: project[columns['Original Project #']],
+      phase: project[columns['Phase']],
+      intake: project[columns['Intake']],
+      projectStatus: project[columns['Project Status']],
+      projectTitle: project[columns['Project Title']],
+      projectDescription: project[columns['Project Description']],
+      applicant: project[columns['Applicant']],
+      eightThirtyMillionFunding: project[columns['$830 million funding']],
+      federalFundingSource: project[columns['Federal Funding Source']],
+      federalProjectNumber: project[columns['Federal Project #']],
+      projectType: project[columns['Project Type']],
+      transportProjectType: project[columns['Transport Project Type']],
+      highwayProjectType: project[columns['Highway Project Type']],
+      lastMileProjectType: project[columns['Last Mile Project Type']],
+      lastMileMinimumSpeed: project[columns['Last Mile Minimum Speed']],
+      connectedCoastNetworkDependant:
+        project[columns['Connected Coast Network Dependant']],
+      projectLocations: project[columns['Project Locations']],
+      communitiesAndLocalesCount:
+        project[columns['Communities and Locales Count']],
+      indigenousCommunities: project[columns['Indigenous Communities']],
+      householdCount: project[columns['Household Count']],
+      transportKm: project[columns['Transport km']],
+      highwayKm: project[columns['Highway km']],
+      restAreas: project[columns['Rest Areas']],
+      bcFundingRequest: project[columns['BC Funding Request']],
+      federalFundingRequest: project[columns['Federal Funding Request']],
+      applicantAmount: project[columns['Applicant Amount']],
+      otherFunding: project[columns['Other Funding']],
+      totalProjectBudget: project[columns['Total Project Budget']],
+      nditConditionalApprovalLetterSent:
+        project[columns['NDIT Conditional Approval Letter Send to Applicant']],
+      bindingAgreementSignedNditRecipient:
+        project[columns['Binding Agreement Signed (NDIT Recipient)']],
+      announcedByProvince: project[columns['Announced by Province']],
       dateApplicationReceived:
-        project['AG'] && convertExcelDateToJSDate(project['AG']),
+        project[columns['Date Application Received']] &&
+        convertExcelDateToJSDate(project[columns['Date Application Received']]),
       dateConditionallyApproved:
-        project['AH'] && convertExcelDateToJSDate(project['AH']),
+        project[columns['Date Conditionally Approved']] &&
+        convertExcelDateToJSDate(
+          project[columns['Date Conditionally Approved']]
+        ),
       dateAgreementSigned:
-        project['AI'] && convertExcelDateToJSDate(project['AI']),
+        project[columns['Date Agreement Signed']] &&
+        convertExcelDateToJSDate(project[columns['Date Agreement Signed']]),
       proposedStartDate:
-        project['AJ'] && convertExcelDateToJSDate(project['AJ']),
+        project[columns['Proposed Start Date']] &&
+        convertExcelDateToJSDate(project[columns['Proposed Start Date']]),
       proposedCompletionDate:
-        project['AK'] && convertExcelDateToJSDate(project['AK']),
+        project[columns['Proposed Completion Date']] &&
+        convertExcelDateToJSDate(project[columns['Proposed Completion Date']]),
       reportingCompletionDate:
-        project['AL'] && convertExcelDateToJSDate(project['AL']),
-      dateAnnounced: project['AM'] && convertExcelDateToJSDate(project['AM']),
-      projectMilestoneCompleted: project['AN'],
-      constructionCompletedOnTime: project['AO'],
-      milestoneComments: project['AP'],
-      primaryNewsRelease: project['AQ'],
-      secondaryNewsRelease: project['AR'],
-      notes: project['AS'],
-      locked: project['AT'],
-      lastReviewed: project['AU'],
-      reviewNotes: project['AV'],
+        project[columns['Reporting Completion Date']] &&
+        convertExcelDateToJSDate(project[columns['Reporting Completion Date']]),
+      dateAnnounced:
+        project[columns['Date Announced']] &&
+        convertExcelDateToJSDate(project[columns['Date Announced']]),
+      projectMilestoneCompleted:
+        project[columns['Project Milestone Completed']] &&
+        project[columns['Project Milestone Completed']],
+      constructionCompletedOn:
+        project[columns['Construction Completed On']] &&
+        project[columns['Construction Completed On']],
+      milestoneComments:
+        project[columns['Milestone Comments']] &&
+        project[columns['Milestone Comments']],
+      primaryNewsRelease:
+        project[columns['Primary News Release']] &&
+        project[columns['Primary News Release']],
+      secondaryNewsRelease:
+        project[columns['Secondary News Release']] &&
+        project[columns['Secondary News Release']],
+      notes: project[columns['Notes']] && project[columns['Notes']],
+      locked: project[columns['Locked']] && project[columns['Locked']],
+      lastReviewed:
+        project[columns['Last Reviewed']] && project[columns['Last Reviewed']],
+      errorLog: [],
     };
 
     cbcProjectList.push(cbcProject);
