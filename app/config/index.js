@@ -260,6 +260,18 @@ const config = convict({
     default: '',
     env: 'SP_SA_PASSWORD',
   },
+  KEYCLOAK_SA_CLIENT_ID: {
+    doc: 'Keycloak service account client id',
+    format: String,
+    default: '',
+    env: 'KEYCLOAK_SA_CLIENT_ID',
+  },
+  KEYCLOAK_SA_CLIENT_SECRET: {
+    doc: 'Keycloak service account client secret',
+    format: String,
+    default: '',
+    env: 'KEYCLOAK_SA_CLIENT_SECRET',
+  },
 });
 
 // Load environment dependent configuration
