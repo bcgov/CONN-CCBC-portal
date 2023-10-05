@@ -452,3 +452,5 @@ create_roles [create_roles@1.105.0] 2023-10-05T21:31:05Z Rafael Solorzano <61289
 schemas/public [schemas/public@1.105.0] 2023-10-05T22:18:46Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant usage to service account role to ccbc_public
 functions/session [functions/session@1.105.0] 2023-10-05T22:21:49Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant usage to service account
 tables/ccbc_user_005_grant_service_account_permissions 2023-10-05T22:40:21Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant service accounts permissions to ccbc_user
+tables/cbc_project_001_grant_service_account_permissions 2023-10-05T22:51:30Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant service account permissions cbc_project table
+mutations/create_cbc_project [mutations/create_cbc_project@1.107.0] 2023-10-05T22:53:00Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant service account permissions
