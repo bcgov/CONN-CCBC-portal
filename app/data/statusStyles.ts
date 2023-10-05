@@ -74,7 +74,7 @@ const statusStylesBase = {
   withdrawn: {
     primary: '#414141',
     backgroundColor: '#E8E8E8',
-    pillWidth: '120px',
+    pillWidth: '128px',
     description: 'Withdrawn',
   },
   draft: {
