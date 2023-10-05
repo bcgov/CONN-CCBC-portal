@@ -99,7 +99,7 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
     return res.status(404).end();
   }
 
-  return importSharePointData(req, res);
+  importSharePointData(req, res);
 });
 
 sharepoint.get(
@@ -107,7 +107,7 @@ sharepoint.get(
   validateKeycloakToken,
   (req, res) => {
     req.claims.identity_provider = 'serviceaccount';
-    return importSharePointData(req, res);
+    importSharePointData(req, res);
   }
 );
 
