@@ -444,3 +444,4 @@ tables/application_002_add_internal_description 2023-10-03T17:21:27Z Marcel Muel
 mutations/withdraw_application [mutations/withdraw_application@1.105.0] 2023-10-03T21:09:05Z Marcel Mueller <marcel@m2> # add status checks for withdraw
 tables/application_002_analyst_can_see_withdrawn 2023-10-04T15:10:26Z Anthony Bushara <anthony@button.is> # Change RLS to allow analysts to be able to see withdrawn applications
 @1.108.0 2023-10-06T16:42:37Z CCBC Service Account <ccbc@button.is> # release v1.108.0
+tables/application_internal_description 2023-10-06T16:21:58Z Marcel Mueller <marcel@m2> # add table for application internal description

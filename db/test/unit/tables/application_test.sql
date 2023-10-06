@@ -3,7 +3,7 @@ create extension if not exists pgtap;
 reset client_min_messages;
 
 begin;
-SELECT plan(10);
+SELECT plan(9);
 
 truncate table
   ccbc_public.application,
@@ -27,7 +27,6 @@ select has_table(
 select has_column('ccbc_public', 'application', 'id','The table application has column id');
 select has_column('ccbc_public', 'application', 'ccbc_number','The table application has column ccbc_number');
 select has_column('ccbc_public', 'application', 'owner','The table application has column owner');
-select has_column('ccbc_public', 'application', 'internal_description','The table application has column internal_description');
 
 
 
