@@ -18,7 +18,7 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
     `,
     application
   );
-  const { internalDescription, rowId } = queryFragment;
+  const { id, internalDescription, rowId } = queryFragment;
 
   const [isEditing, setIsEditing] = useState(false);
   const [createDescription] = useCreateApplicationInternalDescriptionMutation();
@@ -31,6 +31,10 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
         },
         onCompleted: () => {
           setIsEditing(false);
+        },
+        updater: (store) => {
+          const applicationRecord = store.get(id);
+          applicationRecord.setValue(value, 'internalDescription');
         },
       });
     } else {
