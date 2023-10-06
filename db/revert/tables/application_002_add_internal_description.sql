@@ -2,6 +2,6 @@
 
 begin;
 
-alter table ccbc_public.application drop column internal_description;
+alter table ccbc_public.application drop column if exists internal_description;
 
 commit;
