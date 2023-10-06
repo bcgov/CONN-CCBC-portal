@@ -202,7 +202,6 @@ describe('The SharePoint API', () => {
     const saResponse = await request(app)
       .get('/api/sharepoint/cron-cbc-project')
       .set('Authorization', 'Bearer test_fake_token');
-    console.log(saResponse.status);
     expect(saResponse.status).toBe(200);
   });
 
