@@ -1,3 +1,26 @@
+# [1.108.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.107.0...v1.108.0) (2023-10-06)
+
+### Bug Fixes
+
+- analyst application permissions ([aa59dc0](https://github.com/bcgov/CONN-CCBC-portal/commit/aa59dc07b93032587890d0d5004ac567c21ed9ee))
+- clearing description doesn't show placeholder text ([4e196df](https://github.com/bcgov/CONN-CCBC-portal/commit/4e196df975bae1813c9cd5607a79b6811c4d51ba))
+- merge error ([cf98c55](https://github.com/bcgov/CONN-CCBC-portal/commit/cf98c55db3e3afcecf7bb302ccbb98ea5212dcc1))
+- project page z-index modal conflict ([b570222](https://github.com/bcgov/CONN-CCBC-portal/commit/b57022274dbf32ec8c1d1280b585f8a265583efb))
+- update store on withdraw so edit button does not appear ([f987802](https://github.com/bcgov/CONN-CCBC-portal/commit/f987802fadce1aa088942aa30e4f0fc09e178762))
+
+### Features
+
+- add elipses to project description text overflow ([aaf9d0d](https://github.com/bcgov/CONN-CCBC-portal/commit/aaf9d0dbbf414ab0adeb43777d8357b50f080928))
+- add inline text area component ([d96055b](https://github.com/bcgov/CONN-CCBC-portal/commit/d96055bcf14a9a23ea32928ac58ad14cdfdc9c90))
+- add interal_description column to application table ([9dd4764](https://github.com/bcgov/CONN-CCBC-portal/commit/9dd476478834c76468675897020df4ee6c572d82))
+- add status checks form withdraw_application mutation ([47661be](https://github.com/bcgov/CONN-CCBC-portal/commit/47661be42c7af419bd9d17c2ed059b810443870b))
+- analysts can see withdrawn applications ([9978c39](https://github.com/bcgov/CONN-CCBC-portal/commit/9978c39ae258b47cc3c34dc0d303158d2e3bfc3f))
+- applicant can withdraw submitted, received or conditionally approved applications ([b4b0ac8](https://github.com/bcgov/CONN-CCBC-portal/commit/b4b0ac84c57925fa4c39f59666c37590a9e34583))
+- backend for template upload ([9c26e32](https://github.com/bcgov/CONN-CCBC-portal/commit/9c26e32c6958f05643432144b8b2632c78d657d6))
+- save project description ([0a6d6c0](https://github.com/bcgov/CONN-CCBC-portal/commit/0a6d6c09e53a6b1db95550351222acc8c74326e6))
+- template data is automatically added in the form ([1e45bff](https://github.com/bcgov/CONN-CCBC-portal/commit/1e45bff09c14bd7fee9402b84ad93992d32c7b44))
+- update relay store after project description change ([4b0d8a8](https://github.com/bcgov/CONN-CCBC-portal/commit/4b0d8a8ed968da0648f1de26c6c622c98987d2ad))
+
 # [1.107.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.106.1...v1.107.0) (2023-10-03)
 
 ### Bug Fixes
