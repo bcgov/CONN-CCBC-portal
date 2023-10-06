@@ -20,7 +20,7 @@ describe('The analyst dashboard', () => {
     cy.visit('/analyst/dashboard');
     // need to add to prevent "is detached from the dom" issue
     cy.wait(2000);
-    cy.get('tbody > tr').click();
+    cy.get('tbody > tr').first().click();
     cy.url().should('include', '/analyst/application/');
   });
 
