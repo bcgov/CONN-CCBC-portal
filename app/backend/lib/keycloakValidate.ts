@@ -1,42 +1,33 @@
 import { Issuer } from 'openid-client';
+import decodeJwt from '../../utils/decodeJwt';
 import config from '../../config';
 
 const oidcIssuer = config.get('AUTH_SERVER_URL');
 const clientId = config.get('KEYCLOAK_SA_CLIENT_ID');
 const clientSecret = config.get('KEYCLOAK_SA_CLIENT_SECRET');
 
-const decodeJwt = (token: string) => {
-  const [header, payload, signature] = token.split('.');
-  return {
-    header: JSON.parse(Buffer.from(header, 'base64').toString('utf8')),
-    payload: JSON.parse(Buffer.from(payload, 'base64').toString('utf8')),
-    signature,
-  };
-};
-
 // Middleware function to validate Keycloak bearer token
 // eslint-disable-next-line consistent-return
 const validateKeycloakToken = (req, res, next) => {
   (async () => {
     // Initialize Keycloak issuer
-    const keycloakIssuer = await Issuer.discover(oidcIssuer);
-
-    // Client configuration
-    const client = new keycloakIssuer.Client({
-      client_id: clientId,
-      client_secret: clientSecret,
-    });
-
-    const token = req.headers.authorization?.split(' ')[1];
-    const decodedToken = decodeJwt(token).payload;
-
-    if (!token) {
-      return res
-        .status(401)
-        .json({ error: 'Unauthorized: No token provided.' });
-    }
-
     try {
+      const keycloakIssuer = await Issuer.discover(oidcIssuer);
+      // Client configuration
+      const client = new keycloakIssuer.Client({
+        client_id: clientId,
+        client_secret: clientSecret,
+      });
+
+      const token = req.headers.authorization?.split(' ')[1];
+      const decodedToken = decodeJwt(token).payload;
+
+      if (!token) {
+        return res
+          .status(401)
+          .json({ error: 'Unauthorized: No token provided.' });
+      }
+
       const userInfo = await client.userinfo(token);
 
       if (
