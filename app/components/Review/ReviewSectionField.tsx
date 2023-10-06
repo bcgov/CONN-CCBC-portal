@@ -17,7 +17,8 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
     () => Object.keys(errorSchema || {}).length > 0,
     [errorSchema]
   );
-  const allowAnalystEdit = uiOptions?.allowAnalystEdit;
+  const allowAnalystEdit =
+    uiOptions?.allowAnalystEdit && (formContext.isEditable ?? true);
   return (
     <Accordion
       id={idSchema.$id}

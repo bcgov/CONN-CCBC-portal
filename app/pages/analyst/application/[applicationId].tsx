@@ -24,6 +24,7 @@ const RightAlignText = styled('div')`
 const getApplicationQuery = graphql`
   query ApplicationIdQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
+      status
       formData {
         rowId
         jsonData
@@ -72,12 +73,14 @@ const Application = ({
   >(undefined);
   const { applicationByRowId, session } = query;
   const {
+    status,
     formData: {
       jsonData,
       formByFormSchemaId: { jsonSchema },
     },
     applicationRfiDataByApplicationId,
   } = applicationByRowId;
+  const isEditable = status !== 'withdrawn';
 
   const rfiList = applicationRfiDataByApplicationId?.edges?.map(
     (edge) => edge.node.rfiDataByRfiDataId
@@ -117,6 +120,7 @@ const Application = ({
             errors: formErrorSchema,
             rfiList,
             toggleOverride,
+            isEditable,
           }}
           formData={jsonData}
           tagName="div"
