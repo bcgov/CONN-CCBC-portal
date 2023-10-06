@@ -9,6 +9,9 @@ import crypto from 'crypto';
 import bodyParser from 'body-parser';
 import * as XLSX from 'xlsx';
 import * as spauth from '@bcgov-ccbc/ccbc-node-sp-auth';
+import decodeJwt from 'utils/decodeJwt';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as openid from 'openid-client';
 import { performQuery } from '../../../backend/lib/graphql';
 import sharepoint from '../../../backend/lib/sharepoint';
 import getAuthRole from '../../../utils/getAuthRole';
@@ -17,7 +20,10 @@ jest.mock('../../../utils/getAuthRole');
 jest.mock('@bcgov-ccbc/ccbc-node-sp-auth');
 jest.mock('../../../backend/lib/graphql');
 jest.mock('xlsx');
-jest.setTimeout(10000000);
+jest.mock('utils/decodeJwt');
+jest.mock('openid-client');
+
+jest.setTimeout(10000);
 
 describe('The SharePoint API', () => {
   let app;
@@ -40,6 +46,17 @@ describe('The SharePoint API', () => {
 
     const response = await request(app).get('/api/sharepoint/cbc-project');
     expect(response.status).toBe(404);
+
+    (decodeJwt as jest.Mock).mockReturnValue({
+      header: { alg: 'HS256', typ: 'JWT' },
+      payload: { userId: 123, username: 'test_unauthorized' },
+      signature: 'mockedSignature',
+    });
+
+    const saResponse = await request(app)
+      .get('/api/sharepoint/cron-cbc-project')
+      .set('Authorization', 'Bearer fake_token');
+    expect(saResponse.status).toBe(401);
   });
 
   it('should return 200 for an ok response', async () => {
@@ -97,7 +114,19 @@ describe('The SharePoint API', () => {
     });
 
     const response = await request(app).get('/api/sharepoint/cbc-project');
+
+    // const originalModule = jest.requireActual('openid-client');
+    // const issuer = await originalModule.Issuer.discover(
+    //   'https://dev.loginproxy.gov.bc.ca/auth/realms/standard'
+    // );
+
+    // jest.spyOn(openid.Issuer, 'discover').mockResolvedValue(issuer);
+
+    // const saResponse = await request(app)
+    //   .get('/api/sharepoint/cron-cbc-project')
+    //   .set('Authorization', 'Bearer test_fake_token');
     expect(response.status).toBe(200);
+    // expect(saResponse.status).toBe(200);
   });
 
   it('should return 400 when the sheet is not found', async () => {
