@@ -40,11 +40,10 @@ const validateKeycloakToken = (req, res, next) => {
       // attach claim info
       req.claims = req.claims || {};
       req.claims.client_roles = userInfo.client_roles;
-      next();
+      return next();
     } catch (error) {
       return res.status(401).json({ error: 'Unauthorized: Invalid token.' });
     }
-    return res.status(401).json({ error: 'Unauthorized: Invalid token.' });
   })();
 };
 
