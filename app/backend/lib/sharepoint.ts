@@ -42,6 +42,18 @@ const importSharePointData = async (req, res) => {
         return headers;
       });
 
+    const postErrorList = async (body) => {
+      const sharepointErrorList = await fetch(
+        `${SP_SITE}/_api/web/lists/GetByTitle('${SP_LIST_NAME}')/items`,
+        {
+          method: 'POST',
+          headers: authHeaders,
+          body,
+        }
+      );
+      return sharepointErrorList;
+    };
+
     const metadata = (await fetch(
       `${SP_SITE}/_api/web/GetFolderByServerRelativeUrl('${SP_DOC_LIBRARY}')/Files('${SP_FILE_NAME}')
     `,
@@ -111,6 +123,21 @@ const importSharePointData = async (req, res) => {
     authHeaders['X-RequestDigest'] =
       digestJson.d.GetContextWebInformation.FormDigestValue;
 
+    if (!metadata.ok || !file.ok) {
+      const body = JSON.stringify({
+        __metadata: {
+          type: listItemEntityTypeFullName,
+        },
+        Error: 'Import abandoned',
+        Details: 'Could not find the file to import',
+      });
+      authHeaders['Content-Length'] = body.length;
+
+      const errorlist = await postErrorList(body);
+      const errorlistJson = await errorlist.json();
+      return res.status(400).json(errorlistJson).end();
+    }
+
     if (metadata.ok && file.ok) {
       const bufferResponse = await file.arrayBuffer();
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -127,7 +154,19 @@ const importSharePointData = async (req, res) => {
       }
 
       if (errorList.length > 0) {
-        return res.status(400).json(errorList).end();
+        const body = JSON.stringify({
+          __metadata: {
+            type: listItemEntityTypeFullName,
+          },
+          Error: 'Import abandoned',
+          Details: errorList.map((e) => e.error).join('\n'),
+        });
+        authHeaders['Content-Length'] = body.length;
+
+        const errorlist = await postErrorList(body);
+        const errorlistJson = await errorlist.json();
+
+        return res.status(400).json(errorlistJson).end();
       }
 
       const result = await LoadCbcProjectData(
@@ -137,30 +176,19 @@ const importSharePointData = async (req, res) => {
         req
       );
 
-      // testing creating list item
-      const body = JSON.stringify({
-        __metadata: {
-          type: listItemEntityTypeFullName,
-        },
-        Error: 'test',
-        Details: 'test details \n test details 2',
-      });
-
-      authHeaders['Content-Length'] = body.length;
-
-      const testlist = await fetch(
-        `${SP_SITE}/_api/web/lists/GetByTitle('${SP_LIST_NAME}')/items`,
-        {
-          method: 'POST',
-          headers: authHeaders,
-          body,
-        }
-      );
-      const testlistJson = await testlist.json();
-      console.log(testlistJson);
-
       if (result['error']) {
-        return res.status(400).json(result['error']).end();
+        const body = JSON.stringify({
+          __metadata: {
+            type: listItemEntityTypeFullName,
+          },
+          Error: 'Imported with errors',
+          Details: result['error'].join('\n'),
+        });
+        authHeaders['Content-Length'] = body.length;
+
+        const errorlist = await postErrorList(body);
+        const errorlistJson = await errorlist.json();
+        return res.status(400).json(errorlistJson).end();
       }
 
       if (result) {
