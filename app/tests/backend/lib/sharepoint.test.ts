@@ -58,7 +58,7 @@ describe('The SharePoint API', () => {
     expect(saResponse.status).toBe(401);
   });
 
-  it('should return 200 for an ok response', async () => {
+  it('should return 200 for an ok response for admin and service account', async () => {
     // @ts-ignore
     (spauth.getAuth as jest.Mock).mockResolvedValue({
       headers: {
@@ -114,61 +114,6 @@ describe('The SharePoint API', () => {
 
     const response = await request(app).get('/api/sharepoint/cbc-project');
     expect(response.status).toBe(200);
-  });
-
-  it('should return 200 for an ok response for service account', async () => {
-    // @ts-ignore
-    (spauth.getAuth as jest.Mock).mockResolvedValue({
-      headers: {
-        Accept: 'application/json;odata=verbose',
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const fakeSummary = [
-      {
-        A: 20230427,
-        B: 'Step 1',
-        C: 'Project Information',
-        D: 'Complete',
-        E: 'Complete',
-      },
-      {
-        A: 20230427,
-        B: 'Step 1',
-        C: 'Project Information',
-        D: 'Complete',
-        E: 'Complete',
-      },
-    ];
-
-    jest.spyOn(XLSX, 'read').mockReturnValue({
-      Sheets: { Sheet1: {} },
-      SheetNames: ['CBC Projects'],
-    });
-
-    jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeSummary);
-
-    // @ts-ignore
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        status: 200,
-        json: () => {},
-        arrayBuffer: async () => new ArrayBuffer(0),
-      })
-    );
-
-    mocked(performQuery).mockImplementation(async () => {
-      return {};
-    });
-
-    mocked(getAuthRole).mockImplementation(() => {
-      return {
-        pgRole: 'ccbc_admin',
-        landingRoute: '/',
-      };
-    });
 
     const client = {
       userinfo: jest.fn().mockResolvedValue({
