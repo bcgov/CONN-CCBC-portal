@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as XLSX from 'xlsx';
 import * as spauth from '@bcgov-ccbc/ccbc-node-sp-auth';
+import * as luxon from 'luxon';
 import config from '../../config';
 import getAuthRole from '../../utils/getAuthRole';
 import LoadCbcProjectData from './excel_import/cbc_project';
@@ -49,6 +50,8 @@ const importSharePointData = async (req, res) => {
       }
     )) as any;
 
+    const metadataJson = await metadata.json();
+
     const latestTimestampQueryResult = (await performQuery(
       latestTimestampQuery,
       {},
@@ -61,8 +64,16 @@ const importSharePointData = async (req, res) => {
       latestTimestampQueryResult?.data?.allCbcProjects?.nodes[0]
         ?.sharepointTimestamp || null;
 
-    if (latestTimestamp) {
-      // TODO: check against metadata
+    // not the first import
+    // check if the file has been modified since the last import
+    if (latestTimestamp !== null) {
+      if (
+        luxon.DateTime.fromISO(latestTimestamp) >=
+        luxon.DateTime.fromISO(metadataJson?.d?.TimeLastModified)
+      ) {
+        // file has not been modified send back 200 with message
+        return res.status(200).send({ message: 'No new data to import' }).end();
+      }
     }
 
     const file = await fetch(
@@ -92,9 +103,6 @@ const importSharePointData = async (req, res) => {
         return res.status(400).json(errorList).end();
       }
 
-      // TODO: check if metadata.TimeLastModified is different from the last time we imported the data
-
-      const metadataJson = await metadata.json();
       const sharepointTimestamp = metadataJson?.d?.TimeLastModified;
 
       const result = await LoadCbcProjectData(
