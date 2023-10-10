@@ -57,18 +57,18 @@ const mockErrorData = {
   lastReviewed: null,
   reviewNotes: undefined,
   errorLog: [
-    'federalFunding not imported due to formatting error - value should be a number',
-    'applicantAmount not imported due to formatting error - value should be a number',
-    'otherFunding not imported due to formatting error - value should be a number',
-    'totalProjectBudget not imported due to formatting error - value should be a number',
-    'dateApplicationReceived not imported due to formatting error - value should be a date',
-    'dateConditionallyApproved not imported due to formatting error - value should be a date',
-    'dateAgreementSigned not imported due to formatting error - value should be a date',
-    'proposedStartDate not imported due to formatting error - value should be a date',
-    'proposedCompletionDate not imported due to formatting error - value should be a date',
-    'reportingCompletionDate not imported due to formatting error - value should be a date',
-    'dateAnnounced not imported due to formatting error - value should be a date',
-    'lastReviewed not imported due to formatting error - value should be a date',
+    'Row 2: federalFunding not imported due to formatting error - value should be a number',
+    'Row 2: applicantAmount not imported due to formatting error - value should be a number',
+    'Row 2: otherFunding not imported due to formatting error - value should be a number',
+    'Row 2: totalProjectBudget not imported due to formatting error - value should be a number',
+    'Row 2: dateApplicationReceived not imported due to formatting error - value should be a date',
+    'Row 2: dateConditionallyApproved not imported due to formatting error - value should be a date',
+    'Row 2: dateAgreementSigned not imported due to formatting error - value should be a date',
+    'Row 2: proposedStartDate not imported due to formatting error - value should be a date',
+    'Row 2: proposedCompletionDate not imported due to formatting error - value should be a date',
+    'Row 2: reportingCompletionDate not imported due to formatting error - value should be a date',
+    'Row 2: dateAnnounced not imported due to formatting error - value should be a date',
+    'Row 2: lastReviewed not imported due to formatting error - value should be a date',
   ],
 };
 jest.mock('../../../../backend/lib/graphql');
@@ -115,6 +115,7 @@ describe('cbc_project', () => {
           clientMutationId: '1',
         },
       },
+      error: [],
     });
   });
 
@@ -199,6 +200,24 @@ describe('cbc_project', () => {
           clientMutationId: '1',
         },
       },
+      error: [
+        'Row 2: communitiesAndLocalesCount not imported due to formatting error - value should be a number',
+        'Row 2: indigenousCommunities not imported due to formatting error - value should be a number',
+        'Row 2: householdCount not imported due to formatting error - value should be a number',
+        'Row 2: highwayKm not imported due to formatting error - value should be a number',
+        'Row 2: bcFundingRequest not imported due to formatting error - value should be a number',
+        'Row 2: federalFunding not imported due to formatting error - value should be a number',
+        'Row 2: applicantAmount not imported due to formatting error - value should be a number',
+        'Row 2: dateApplicationReceived not imported due to formatting error - value should be a date',
+        'Row 2: dateConditionallyApproved not imported due to formatting error - value should be a date',
+        'Row 2: dateAgreementSigned not imported due to formatting error - value should be a date',
+        'Row 2: proposedStartDate not imported due to formatting error - value should be a date',
+        'Row 2: proposedCompletionDate not imported due to formatting error - value should be a date',
+        'Row 2: reportingCompletionDate not imported due to formatting error - value should be a date',
+        'Row 2: projectMilestoneCompleted not imported due to formatting error - value should be a date',
+        'Row 2: constructionCompletedOn not imported due to formatting error - value should be a date',
+        'Row 2: lastReviewed not imported due to formatting error - value should be a date',
+      ],
     });
   });
 });
