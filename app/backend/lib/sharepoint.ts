@@ -13,6 +13,7 @@ const SP_DOC_LIBRARY = config.get('SP_DOC_LIBRARY');
 const SP_FILE_NAME = config.get('SP_MS_FILE_NAME');
 const SP_SA_USER = config.get('SP_SA_USER');
 const SP_SA_PASSWORD = config.get('SP_SA_PASSWORD');
+const SP_LIST_NAME = config.get('SP_LIST_NAME');
 
 const latestTimestampQuery = `
   query LatestTimestampQuery {
@@ -37,7 +38,7 @@ const importSharePointData = async (req, res) => {
       .then(async (data) => {
         const { headers } = data;
         headers['Accept'] = 'application/json;odata=verbose';
-        headers['Content-Type'] = 'application/json';
+        headers['Content-Type'] = 'application/json;odata=verbose';
         return headers;
       });
 
@@ -84,6 +85,32 @@ const importSharePointData = async (req, res) => {
         headers: authHeaders,
       }
     );
+
+    // fetch the list to get the ListItemEntityTypeFullName
+    const list = await fetch(
+      `${SP_SITE}/_api/web/lists/GetByTitle('${SP_LIST_NAME}')?$select=ListItemEntityTypeFullName`,
+      {
+        method: 'GET',
+        headers: authHeaders,
+      }
+    );
+
+    // fetch the request digest needed for to POST to sharepoint API
+    const digest = await fetch(`${SP_SITE}/_api/contextinfo`, {
+      method: 'POST',
+      headers: authHeaders,
+    });
+
+    const sharepointListJson = await list.json();
+    const sharepointTimestamp = metadataJson?.d?.TimeLastModified;
+    const listItemEntityTypeFullName =
+      sharepointListJson?.d?.ListItemEntityTypeFullName;
+    const digestJson = await digest.json();
+
+    // add the request digest to the authHeaders
+    authHeaders['X-RequestDigest'] =
+      digestJson.d.GetContextWebInformation.FormDigestValue;
+
     if (metadata.ok && file.ok) {
       const bufferResponse = await file.arrayBuffer();
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -103,14 +130,34 @@ const importSharePointData = async (req, res) => {
         return res.status(400).json(errorList).end();
       }
 
-      const sharepointTimestamp = metadataJson?.d?.TimeLastModified;
-
       const result = await LoadCbcProjectData(
         wb,
         sheet,
         sharepointTimestamp,
         req
       );
+
+      // testing creating list item
+      const body = JSON.stringify({
+        __metadata: {
+          type: listItemEntityTypeFullName,
+        },
+        Error: 'test',
+        Details: 'test details \n test details 2',
+      });
+
+      authHeaders['Content-Length'] = body.length;
+
+      const testlist = await fetch(
+        `${SP_SITE}/_api/web/lists/GetByTitle('${SP_LIST_NAME}')/items`,
+        {
+          method: 'POST',
+          headers: authHeaders,
+          body,
+        }
+      );
+      const testlistJson = await testlist.json();
+      console.log(testlistJson);
 
       if (result['error']) {
         return res.status(400).json(result['error']).end();

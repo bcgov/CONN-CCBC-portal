@@ -43,6 +43,8 @@ const validateDate = (value, fieldName, errorList) => {
   return null;
 };
 
+const cbcErrorList = [];
+
 const readSummary = async (wb, sheet) => {
   const cbcProjectsSheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet], {
     header: 'A',
@@ -171,6 +173,8 @@ const readSummary = async (wb, sheet) => {
       errorLog,
     };
 
+    cbcErrorList.push(...errorLog);
+
     cbcProjectList.push(cbcProject);
   });
 
@@ -181,21 +185,11 @@ const readSummary = async (wb, sheet) => {
   return cbcProjectData;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ValidateData = async (data) => {
-  const errors = [];
-
-  // validation checks here
-
-  return errors;
-};
-
 const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
   const data = await readSummary(wb, sheet);
 
-  const errorList = await ValidateData(data._jsonData);
-  if (errorList.length > 0) {
-    return { error: errorList };
+  if (cbcErrorList.length > 0) {
+    return { error: cbcErrorList };
   }
 
   // time to persist in DB
