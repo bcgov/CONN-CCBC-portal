@@ -1,3 +1,18 @@
+# [1.109.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.108.0...v1.109.0) (2023-10-10)
+
+### Bug Fixes
+
+- sqitch revert ([5ffca9e](https://github.com/bcgov/CONN-CCBC-portal/commit/5ffca9ecfff1918d6046a73579082685e0e75259))
+- update internal description in relay store on save ([bbcf73c](https://github.com/bcgov/CONN-CCBC-portal/commit/bbcf73c966a0481807f6829620ea1e8d07f95090))
+
+### Features
+
+- add computed column application_internal_description ([9ea972e](https://github.com/bcgov/CONN-CCBC-portal/commit/9ea972e09ac3f74761dbd6265ff38b5809e6f3a0))
+- add graphql mutation create application internal description ([a134c0b](https://github.com/bcgov/CONN-CCBC-portal/commit/a134c0bdd6f4e6da0af4790796d3edbc40847f69))
+- add postgres mutation create_application_internal_description ([cf31b1d](https://github.com/bcgov/CONN-CCBC-portal/commit/cf31b1d6d90410e3c207b8ee200e7e7025d400dc))
+- add table application_internal_description ([c6fd95c](https://github.com/bcgov/CONN-CCBC-portal/commit/c6fd95cdf00d0c7aebd5598f12e045d57e074688))
+- save internal description with new mutation ([a69cfbe](https://github.com/bcgov/CONN-CCBC-portal/commit/a69cfbeb90b526f9bd4e7ff56d28f8dd8c3bd0eb))
+
 # [1.108.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.107.0...v1.108.0) (2023-10-06)
 
 ### Bug Fixes
