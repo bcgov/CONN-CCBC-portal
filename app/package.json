@@ -65,7 +65,7 @@
     "dayjs": "^1.11.8",
     "debug": "^4.1.7",
     "delay": "^5.0.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.3.1",
     "express": "^4.17.3",
     "express-rate-limit": "^6.7.0",
     "express-session": "1.17.3",
