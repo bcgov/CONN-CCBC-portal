@@ -89,6 +89,9 @@ inputs:
   sp_ms_file_name:
     description: 'SharePoint CBC Projects excel File Name'
     required: true
+  sp_list_name:
+    description: 'SharePoint CBC Project error list name'
+    required: true
 
 runs:
   using: composite
@@ -145,6 +148,7 @@ runs:
           --set cronsp.clientSecret="${{ inputs.sa_client_secret }}" \
           --set cronsp.clientId="${{ inputs.sa_client_id }}" \
           --set cronsp.keycloakHost="${{ inputs.keycloak_host }}" \
+          --set sharepoint.spListName="${{ inputs.sp_list_name }}" \
           --set cert.cert="${{ inputs.cert }}" \
           --set cert.key="${{ inputs.cert_key }}" \
           --set cert.ca="${{ inputs.cert_ca }}" \

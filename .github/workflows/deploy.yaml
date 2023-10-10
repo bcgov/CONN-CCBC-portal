@@ -32,6 +32,7 @@ on:
       SA_CLIENT_SECRET: { required: true }
       SA_CLIENT_ID: { required: true }
       KEYCLOAK_HOST: { required: true }
+      SP_LIST_NAME: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -90,9 +91,13 @@ jobs:
           sp_doc_library: ${{ secrets.SP_DOC_LIBRARY }}
           sp_site: ${{ secrets.SP_SITE }}
           sp_ms_file_name: ${{ secrets.SP_MS_FILE_NAME }}
+<<<<<<< HEAD
           keycloak_host: ${{ secrets.KEYCLOAK_HOST }}
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
+=======
+          sp_list_name: ${{ secrets.SP_LIST_NAME }}
+>>>>>>> 36770855 (feat: pass new env var for sharepoint list to deployment)
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:
@@ -148,9 +153,13 @@ jobs:
           sp_doc_library: ${{ secrets.SP_DOC_LIBRARY }}
           sp_site: ${{ secrets.SP_SITE }}
           sp_ms_file_name: ${{ secrets.SP_MS_FILE_NAME }}
+<<<<<<< HEAD
           keycloak_host: ${{ secrets.KEYCLOAK_HOST }}
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
+=======
+          sp_list_name: ${{ secrets.SP_LIST_NAME }}
+>>>>>>> 36770855 (feat: pass new env var for sharepoint list to deployment)
           environment: test
 
   deploy-to-openshift-production:
@@ -197,9 +206,13 @@ jobs:
           sp_doc_library: ${{ secrets.SP_DOC_LIBRARY }}
           sp_site: ${{ secrets.SP_SITE }}
           sp_ms_file_name: ${{ secrets.SP_MS_FILE_NAME }}
+<<<<<<< HEAD
           keycloak_host: ${{ secrets.KEYCLOAK_HOST }}
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
+=======
+          sp_list_name: ${{ secrets.SP_LIST_NAME }}
+>>>>>>> 36770855 (feat: pass new env var for sharepoint list to deployment)
           environment: prod
 
   create-release:
