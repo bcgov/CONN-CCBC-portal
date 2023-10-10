@@ -448,3 +448,4 @@ tables/application_internal_description 2023-10-06T16:21:58Z Marcel Mueller <mar
 mutations/create_application_internal_description 2023-10-06T17:05:19Z Marcel Mueller <marcel@m2> # mutation to create application_internal_description and archive previous one
 computed_columns/application_internal_description 2023-10-06T17:46:17Z Marcel Mueller <marcel@m2> # computed column to return the internal description associated with an application
 @1.109.0 2023-10-10T20:48:37Z CCBC Service Account <ccbc@button.is> # release v1.109.0
+@1.109.1 2023-10-10T21:36:24Z CCBC Service Account <ccbc@button.is> # release v1.109.1
