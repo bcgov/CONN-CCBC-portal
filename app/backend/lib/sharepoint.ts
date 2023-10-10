@@ -5,12 +5,24 @@ import config from '../../config';
 import getAuthRole from '../../utils/getAuthRole';
 import LoadCbcProjectData from './excel_import/cbc_project';
 import validateKeycloakToken from './keycloakValidate';
+import { performQuery } from './graphql';
 
 const SP_SITE = config.get('SP_SITE');
 const SP_DOC_LIBRARY = config.get('SP_DOC_LIBRARY');
 const SP_FILE_NAME = config.get('SP_MS_FILE_NAME');
 const SP_SA_USER = config.get('SP_SA_USER');
 const SP_SA_PASSWORD = config.get('SP_SA_PASSWORD');
+
+const latestTimestampQuery = `
+  query LatestTimestampQuery {
+    allCbcProjects(filter: {archivedAt: {isNull: true}}, last: 1) {
+      nodes {
+        sharepointTimestamp
+        rowId
+      }
+    }
+  }
+`;
 
 const importSharePointData = async (req, res) => {
   const errorList = [];
@@ -36,6 +48,23 @@ const importSharePointData = async (req, res) => {
         headers: authHeaders,
       }
     )) as any;
+
+    const latestTimestampQueryResult = (await performQuery(
+      latestTimestampQuery,
+      {},
+      req
+    ).catch((e) => {
+      return { error: e };
+    })) as any;
+
+    const latestTimestamp =
+      latestTimestampQueryResult?.data?.allCbcProjects?.nodes[0]
+        ?.sharepointTimestamp || null;
+
+    if (latestTimestamp) {
+      // TODO: check against metadata
+    }
+
     const file = await fetch(
       `${SP_SITE}/_api/web/GetFolderByServerRelativeUrl('${SP_DOC_LIBRARY}')/Files('${SP_FILE_NAME}')/$value
     `,
