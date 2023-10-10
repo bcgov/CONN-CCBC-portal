@@ -83,13 +83,11 @@ describe('The EditProjectDescription component', () => {
     });
 
     componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationMutation',
+      'createApplicationInternalDescriptionMutation',
       {
         input: {
-          applicationPatch: {
-            internalDescription: 'test description 2',
-          },
-          rowId: 1,
+          _applicationId: 1,
+          _description: 'test description 2',
         },
       }
     );

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
-import { useUpdateApplicationMutation } from 'schema/mutations/application/updateApplication';
+import { useCreateApplicationInternalDescriptionMutation } from 'schema/mutations/application/createApplicationInternalDescription';
 import InlineTextArea from 'components/InlineTextArea';
 
 interface Props {
@@ -18,19 +18,23 @@ const EditProjectDescription: React.FC<Props> = ({ application }) => {
     `,
     application
   );
-  const { internalDescription, rowId } = queryFragment;
+  const { id, internalDescription, rowId } = queryFragment;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [updateApplication] = useUpdateApplicationMutation();
+  const [createDescription] = useCreateApplicationInternalDescriptionMutation();
 
   const handleSubmit = (value: string) => {
     if (value !== internalDescription) {
-      updateApplication({
+      createDescription({
         variables: {
-          input: { applicationPatch: { internalDescription: value }, rowId },
+          input: { _applicationId: rowId, _description: value },
         },
         onCompleted: () => {
           setIsEditing(false);
+        },
+        updater: (store) => {
+          const applicationRecord = store.get(id);
+          applicationRecord.setValue(value, 'internalDescription');
         },
       });
     } else {
