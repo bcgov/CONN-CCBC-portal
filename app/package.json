@@ -88,7 +88,7 @@
     "patch-package": "^6.5.0",
     "path-to-regexp": "^6.2.1",
     "pg": "^8.9.0",
-    "pluralize": "^7.0.0",
+    "pluralize": "^8.0.0",
     "postgraphile": "^4.12.9",
     "postgraphile-plugin-connection-filter": "^2.3.0",
     "postinstall-postinstall": "^2.1.0",
