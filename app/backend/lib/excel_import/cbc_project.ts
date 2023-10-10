@@ -15,12 +15,42 @@ const createCbcProjectMutation = `
   }
 `;
 
+const validateNumber = (value, fieldName, errorList) => {
+  if (!value) {
+    return null;
+  }
+  if (typeof value === 'number') {
+    return value;
+  }
+
+  errorList.push(
+    `${fieldName} not imported due to formatting error - value should be a number`
+  );
+  return null;
+};
+
+const validateDate = (value, fieldName, errorList) => {
+  if (!value) {
+    return null;
+  }
+  if (typeof value === 'number') {
+    return convertExcelDateToJSDate(value);
+  }
+
+  errorList.push(
+    `${fieldName} not imported due to formatting error - value should be a date`
+  );
+  return null;
+};
+
 const readSummary = async (wb, sheet) => {
   const cbcProjectsSheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet], {
     header: 'A',
   });
   const cbcProjectList = [];
+
   cbcProjectsSheet.forEach((proj) => {
+    const errorLog = [];
     // filter values from proj which are 'NULL'
     const project = Object.fromEntries(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -55,42 +85,90 @@ const readSummary = async (wb, sheet) => {
       lastMileMinimumSpeed: project['P'],
       connectedCoastNetworkDependant: project['Q'],
       projectLocations: project['R'],
-      communitiesAndLocalesCount: project['S'],
-      indigenousCommunities: project['T'],
-      householdCount: project['U'],
-      transportKm: project['V'],
-      highwayKm: project['W'],
+      communitiesAndLocalesCount: validateNumber(
+        project['S'],
+        'communitiesAndLocalesCount',
+        errorLog
+      ),
+      indigenousCommunities: validateNumber(
+        project['T'],
+        'indigenousCommunities',
+        errorLog
+      ),
+      householdCount: validateNumber(project['U'], 'householdCount', errorLog),
+      transportKm: validateNumber(project['V'], 'transportKm', errorLog),
+      highwayKm: validateNumber(project['W'], 'highwayKm', errorLog),
       restAreas: project['X'],
-      bcFundingRequest: project['Y'],
-      federalFundingRequest: project['Z'],
-      applicantAmount: project['AA'],
-      otherFunding: project['AB'],
-      totalProjectBudget: project['AC'],
+      bcFundingRequest: validateNumber(
+        project['Y'],
+        'bcFundingRequest',
+        errorLog
+      ),
+      federalFunding: validateNumber(project['Z'], 'federalFunding', errorLog),
+      applicantAmount: validateNumber(
+        project['AA'],
+        'applicantAmount',
+        errorLog
+      ),
+      otherFunding: validateNumber(project['AB'], 'otherFunding', errorLog),
+      totalProjectBudget: validateNumber(
+        project['AC'],
+        'totalProjectBudget',
+        errorLog
+      ),
       nditConditionalApprovalLetterSent: project['AD'],
       bindingAgreementSignedNditRecipient: project['AE'],
       announcedByProvince: project['AF'],
-      dateApplicationReceived:
-        project['AG'] && convertExcelDateToJSDate(project['AG']),
-      dateConditionallyApproved:
-        project['AH'] && convertExcelDateToJSDate(project['AH']),
-      dateAgreementSigned:
-        project['AI'] && convertExcelDateToJSDate(project['AI']),
-      proposedStartDate:
-        project['AJ'] && convertExcelDateToJSDate(project['AJ']),
-      proposedCompletionDate:
-        project['AK'] && convertExcelDateToJSDate(project['AK']),
-      reportingCompletionDate:
-        project['AL'] && convertExcelDateToJSDate(project['AL']),
-      dateAnnounced: project['AM'] && convertExcelDateToJSDate(project['AM']),
-      projectMilestoneCompleted: project['AN'],
-      constructionCompletedOnTime: project['AO'],
+      dateApplicationReceived: validateDate(
+        project['AG'],
+        'dateApplicationReceived',
+        errorLog
+      ),
+      dateConditionallyApproved: validateDate(
+        project['AH'],
+        'dateConditionallyApproved',
+        errorLog
+      ),
+      dateAgreementSigned: validateDate(
+        project['AI'],
+        'dateAgreementSigned',
+        errorLog
+      ),
+      proposedStartDate: validateDate(
+        project['AJ'],
+        'proposedStartDate',
+        errorLog
+      ),
+      proposedCompletionDate: validateDate(
+        project['AK'],
+        'proposedCompletionDate',
+        errorLog
+      ),
+      reportingCompletionDate: validateDate(
+        project['AL'],
+        'reportingCompletionDate',
+        errorLog
+      ),
+      dateAnnounced: validateDate(project['AM'], 'dateAnnounced', errorLog),
+      projectMilestoneCompleted: validateDate(
+        project['AN'],
+        'projectMilestoneCompleted',
+        errorLog
+      ),
+
+      constructionCompletedOn: validateDate(
+        project['AO'],
+        'constructionCompletedOn',
+        errorLog
+      ),
       milestoneComments: project['AP'],
       primaryNewsRelease: project['AQ'],
       secondaryNewsRelease: project['AR'],
       notes: project['AS'],
       locked: project['AT'],
-      lastReviewed: project['AU'],
+      lastReviewed: validateDate(project['AU'], 'lastReviewed', errorLog),
       reviewNotes: project['AV'],
+      errorLog,
     };
 
     cbcProjectList.push(cbcProject);
