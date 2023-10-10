@@ -233,10 +233,6 @@ const readSummary = async (wb, sheet) => {
 const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
   const data = await readSummary(wb, sheet);
 
-  if (cbcErrorList.length > 0) {
-    return { error: cbcErrorList };
-  }
-
   // time to persist in DB
   const result = await performQuery(
     createCbcProjectMutation,
@@ -250,7 +246,11 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
   ).catch((e) => {
     return { error: e };
   });
-  return result;
+
+  return {
+    ...result,
+    error: cbcErrorList,
+  };
 };
 
 export default LoadCbcProjectData;
