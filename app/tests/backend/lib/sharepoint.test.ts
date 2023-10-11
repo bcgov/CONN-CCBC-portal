@@ -9,6 +9,8 @@ import crypto from 'crypto';
 import bodyParser from 'body-parser';
 import * as XLSX from 'xlsx';
 import * as spauth from '@bcgov-ccbc/ccbc-node-sp-auth';
+import decodeJwt from 'utils/decodeJwt';
+import * as openid from 'openid-client';
 import { performQuery } from '../../../backend/lib/graphql';
 import sharepoint from '../../../backend/lib/sharepoint';
 import getAuthRole from '../../../utils/getAuthRole';
@@ -17,7 +19,10 @@ jest.mock('../../../utils/getAuthRole');
 jest.mock('@bcgov-ccbc/ccbc-node-sp-auth');
 jest.mock('../../../backend/lib/graphql');
 jest.mock('xlsx');
-jest.setTimeout(10000000);
+jest.mock('utils/decodeJwt');
+jest.mock('openid-client');
+
+jest.setTimeout(10000);
 
 describe('The SharePoint API', () => {
   let app;
@@ -40,9 +45,20 @@ describe('The SharePoint API', () => {
 
     const response = await request(app).get('/api/sharepoint/cbc-project');
     expect(response.status).toBe(404);
+
+    (decodeJwt as jest.Mock).mockReturnValue({
+      header: { alg: 'HS256', typ: 'JWT' },
+      payload: { userId: 123, username: 'test_unauthorized' },
+      signature: 'mockedSignature',
+    });
+
+    const saResponse = await request(app)
+      .get('/api/sharepoint/cron-cbc-project')
+      .set('Authorization', 'Bearer fake_token');
+    expect(saResponse.status).toBe(401);
   });
 
-  it('should return 200 for an ok response', async () => {
+  it('should return 200 for an ok response for admin and service account', async () => {
     // @ts-ignore
     (spauth.getAuth as jest.Mock).mockResolvedValue({
       headers: {
@@ -98,6 +114,40 @@ describe('The SharePoint API', () => {
 
     const response = await request(app).get('/api/sharepoint/cbc-project');
     expect(response.status).toBe(200);
+
+    const client = {
+      userinfo: jest.fn().mockResolvedValue({
+        sub: 'mockedSub',
+        name: 'mockedName',
+        email: 'mockedEmail',
+        client_roles: ['trigger-import'],
+      }),
+    };
+
+    const issuer = {
+      Client: jest.fn().mockReturnValue(client),
+      Issuer: jest.fn(),
+      FAPI1Client: jest.fn(),
+      metadata: {}, // Mock metadata object
+      // eslint-disable-next-line no-useless-computed-key
+      http_options: {},
+    } as unknown as openid.Issuer<openid.BaseClient>;
+    jest.spyOn(openid.Issuer, 'discover').mockResolvedValue(issuer);
+
+    (decodeJwt as jest.Mock).mockReturnValue({
+      header: { alg: 'HS256', typ: 'JWT' },
+      payload: {
+        iss: 'https://dev.loginproxy.gov.bc.ca/auth/realms/standard',
+        username: 'test_authorized',
+        aud: '',
+      },
+      signature: 'mockedSignature',
+    });
+
+    const saResponse = await request(app)
+      .get('/api/sharepoint/cron-cbc-project')
+      .set('Authorization', 'Bearer test_fake_token');
+    expect(saResponse.status).toBe(200);
   });
 
   it('should return 400 when the sheet is not found', async () => {

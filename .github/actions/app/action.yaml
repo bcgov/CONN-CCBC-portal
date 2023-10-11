@@ -124,6 +124,7 @@ runs:
           --set metabase.embedSecret=${{ inputs.metabase_embed_secret }} \
           --set image.app.tag=${{ inputs.tag }} \
           --set image.db.tag=${{ inputs.tag  }} \
+          --set image.cronsp.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
           --set secureRoute.host=${{ inputs.secure_route }} \
           --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
@@ -141,6 +142,9 @@ runs:
           --set sharepoint.spSaPassword="${{ inputs.sp_sa_password }}" \
           --set sharepoint.spDocLibrary="${{ inputs.sp_doc_library }}" \
           --set sharepoint.spMsFileName="${{ inputs.sp_ms_file_name }}" \
+          --set cronsp.clientSecret="${{ inputs.sa_client_secret }}" \
+          --set cronsp.clientId="${{ inputs.sa_client_id }}" \
+          --set cronsp.keycloakHost="${{ inputs.keycloak_host }}" \
           --set cert.cert="${{ inputs.cert }}" \
           --set cert.key="${{ inputs.cert_key }}" \
           --set cert.ca="${{ inputs.cert_ca }}" \

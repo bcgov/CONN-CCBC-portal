@@ -222,6 +222,16 @@ spec:
               value: {{ .Values.sharepoint.spDocLibrary }}
             - name: SP_MS_FILE_NAME
               value: {{ .Values.sharepoint.spMsFileName }}
+            - name: KEYCLOAK_SA_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  key: client-id
+                  name: ccbc-cron-sp-sso
+            - name: KEYCLOAK_SA_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: client-secret
+                  name: ccbc-cron-sp-sso
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}

@@ -26,5 +26,7 @@ $$ language plpgsql volatile;
 
 grant execute on function ccbc_public.create_cbc_project to ccbc_analyst;
 grant execute on function ccbc_public.create_cbc_project to ccbc_admin;
+grant execute on function ccbc_public.create_cbc_project to ccbc_service_account;
+
 
 commit;

@@ -54,6 +54,13 @@ const getAuthRole = (req: Request) => {
     };
   }
 
+  if (idp === 'serviceaccount') {
+    return {
+      pgRole: 'ccbc_service_account',
+      landingRoute: null,
+    };
+  }
+
   return {
     pgRole: 'ccbc_auth_user',
     landingRoute: defaultLandingRoutes.ccbc_auth_user,

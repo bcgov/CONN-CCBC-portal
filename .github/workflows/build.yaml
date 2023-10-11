@@ -24,6 +24,10 @@ jobs:
             context: .
             dockerfile: db/Dockerfile
             name: db
+          - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-cron-sp
+            context: .
+            dockerfile: cron/sp/Dockerfile
+            name: cron-sp
     permissions:
       contents: read
       packages: write

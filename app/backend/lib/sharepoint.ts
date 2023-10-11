@@ -1,9 +1,12 @@
 import { Router } from 'express';
 import * as XLSX from 'xlsx';
 import * as spauth from '@bcgov-ccbc/ccbc-node-sp-auth';
+import * as luxon from 'luxon';
 import config from '../../config';
 import getAuthRole from '../../utils/getAuthRole';
 import LoadCbcProjectData from './excel_import/cbc_project';
+import validateKeycloakToken from './keycloakValidate';
+import { performQuery } from './graphql';
 
 const SP_SITE = config.get('SP_SITE');
 const SP_DOC_LIBRARY = config.get('SP_DOC_LIBRARY');
@@ -11,17 +14,18 @@ const SP_FILE_NAME = config.get('SP_MS_FILE_NAME');
 const SP_SA_USER = config.get('SP_SA_USER');
 const SP_SA_PASSWORD = config.get('SP_SA_PASSWORD');
 
-const sharepoint = Router();
-
-// eslint-disable-next-line consistent-return
-sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
-  const authRole = getAuthRole(req);
-  const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
-
-  if (!isRoleAuthorized) {
-    return res.status(404).end();
+const latestTimestampQuery = `
+  query LatestTimestampQuery {
+    allCbcProjects(filter: {archivedAt: {isNull: true}}, last: 1) {
+      nodes {
+        sharepointTimestamp
+        rowId
+      }
+    }
   }
+`;
 
+const importSharePointData = async (req, res) => {
   const errorList = [];
 
   (async () => {
@@ -45,6 +49,33 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
         headers: authHeaders,
       }
     )) as any;
+
+    const metadataJson = await metadata.json();
+
+    const latestTimestampQueryResult = (await performQuery(
+      latestTimestampQuery,
+      {},
+      req
+    ).catch((e) => {
+      return { error: e };
+    })) as any;
+
+    const latestTimestamp =
+      latestTimestampQueryResult?.data?.allCbcProjects?.nodes[0]
+        ?.sharepointTimestamp || null;
+
+    // not the first import
+    // check if the file has been modified since the last import
+    if (latestTimestamp !== null) {
+      if (
+        luxon.DateTime.fromISO(latestTimestamp) >=
+        luxon.DateTime.fromISO(metadataJson?.d?.TimeLastModified)
+      ) {
+        // file has not been modified send back 200 with message
+        return res.status(200).send({ message: 'No new data to import' }).end();
+      }
+    }
+
     const file = await fetch(
       `${SP_SITE}/_api/web/GetFolderByServerRelativeUrl('${SP_DOC_LIBRARY}')/Files('${SP_FILE_NAME}')/$value
     `,
@@ -72,9 +103,6 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
         return res.status(400).json(errorList).end();
       }
 
-      // TODO: check if metadata.TimeLastModified is different from the last time we imported the data
-
-      const metadataJson = await metadata.json();
       const sharepointTimestamp = metadataJson?.d?.TimeLastModified;
 
       const result = await LoadCbcProjectData(
@@ -96,6 +124,28 @@ sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
     }
     return res.sendStatus(200);
   })();
+};
+
+const sharepoint = Router();
+
+// eslint-disable-next-line consistent-return
+sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
+  const authRole = getAuthRole(req);
+  const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
+  if (!isRoleAuthorized) {
+    return res.status(404).end();
+  }
+
+  importSharePointData(req, res);
 });
+
+sharepoint.get(
+  '/api/sharepoint/cron-cbc-project',
+  validateKeycloakToken,
+  (req, res) => {
+    req.claims.identity_provider = 'serviceaccount';
+    importSharePointData(req, res);
+  }
+);
 
 export default sharepoint;

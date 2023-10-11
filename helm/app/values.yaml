@@ -17,6 +17,18 @@ image:
     repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db
     pullPolicy: IfNotPresent
     tag: 'sha-d53715434b85fd10f07e9976014e2dfa6166b818' # The tag value must be passed in via the deploy script
+  cronsp:
+    repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-cron-sp
+    pullPolicy: IfNotPresent
+    tag: 'sha-65212713aa9902ec41a0ee00df51ded83c971a0d' # The tag value must be passed in via the deploy script
+
+cronsp:
+  clientSecret: '' # client-secret must be passed in via deploy script
+  clientId: '' # client-id must be passed in via deploy script
+  path: '/api/sharepoint/cron-cbc-project'
+  schedule: '0 12,16:30 * * 1-5' #trigger noon and 4:30pm on weekdays
+  port: '3000'
+  keycloakHost: '' # keycloakHost must be passed in via deploy script
 
 app:
   port: '3000'
