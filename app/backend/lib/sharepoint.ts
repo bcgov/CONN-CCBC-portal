@@ -176,7 +176,7 @@ const importSharePointData = async (req, res) => {
         req
       );
 
-      if (result['errorLog'].length > 0) {
+      if (result['errorLog']?.length > 0) {
         const body = JSON.stringify({
           __metadata: {
             type: listItemEntityTypeFullName,
@@ -192,8 +192,20 @@ const importSharePointData = async (req, res) => {
         return res.status(200).json(errorlist).end();
       }
 
-      if (result['error']) {
-        return res.status(400).json(result).end();
+      if (result['error']?.length > 0) {
+        const body = JSON.stringify({
+          __metadata: {
+            type: listItemEntityTypeFullName,
+          },
+          Error: 'Import abandoned',
+          Details: result['error'].join('\n'),
+        });
+        authHeaders['Content-Length'] = body.length;
+
+        const errors = await postErrorList(body);
+        const errorsJson = await errors.json();
+
+        return res.status(400).json(errorsJson).end();
       }
 
       if (result) {

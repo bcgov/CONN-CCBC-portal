@@ -1,6 +1,10 @@
 import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
-import { convertExcelDateToJSDate } from '../sow_import/util';
+import {
+  validateColumns,
+  validateDate,
+  validateNumber,
+} from './validate_cbc_project';
 
 const createCbcProjectMutation = `
   mutation cbcProjectMutation($input: CreateCbcProjectInput!) {
@@ -14,34 +18,6 @@ const createCbcProjectMutation = `
     }
   }
 `;
-
-const validateNumber = (value, fieldName, errorList, projectNumber) => {
-  if (!value) {
-    return null;
-  }
-  if (typeof value === 'number') {
-    return value;
-  }
-
-  errorList.push(
-    `Project #${projectNumber}: ${fieldName} not imported due to formatting error - value should be a number`
-  );
-  return null;
-};
-
-const validateDate = (value, fieldName, errorList, projectNumber) => {
-  if (!value) {
-    return null;
-  }
-  if (typeof value === 'number') {
-    return convertExcelDateToJSDate(value);
-  }
-
-  errorList.push(
-    `Project #${projectNumber}: ${fieldName} not imported due to formatting error - value should be a date`
-  );
-  return null;
-};
 
 const cbcErrorList = [];
 
@@ -235,8 +211,26 @@ const readSummary = async (wb, sheet) => {
   return cbcProjectData;
 };
 
+const ValidateData = async (wb, sheet) => {
+  const cbcProjectsSheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet], {
+    header: 'A',
+  });
+
+  const columnList = cbcProjectsSheet[0];
+
+  const errors = validateColumns(columnList);
+
+  return errors;
+};
+
 const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
   const data = await readSummary(wb, sheet);
+
+  const errorList = await ValidateData(wb, sheet);
+
+  if (errorList.length > 0) {
+    return { error: errorList };
+  }
 
   // time to persist in DB
   const result = await performQuery(
@@ -249,7 +243,7 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
     },
     req
   ).catch((e) => {
-    return { error: e };
+    return { error: [e] };
   });
 
   return {
