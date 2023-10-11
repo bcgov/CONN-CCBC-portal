@@ -193,7 +193,6 @@ const importSharePointData = async (req, res) => {
       }
 
       if (result['error']) {
-        console.log(result['error']);
         return res.status(400).json(result).end();
       }
 
