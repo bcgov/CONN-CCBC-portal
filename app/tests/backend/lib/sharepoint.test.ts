@@ -11,6 +11,7 @@ import * as XLSX from 'xlsx';
 import * as spauth from '@bcgov-ccbc/ccbc-node-sp-auth';
 import decodeJwt from 'utils/decodeJwt';
 import * as openid from 'openid-client';
+import columnList from 'tests/backend/lib/excel_import/validate_cbc_project.test';
 import { performQuery } from '../../../backend/lib/graphql';
 import sharepoint from '../../../backend/lib/sharepoint';
 import getAuthRole from '../../../utils/getAuthRole';
@@ -69,6 +70,9 @@ describe('The SharePoint API', () => {
 
     const fakeSummary = [
       {
+        ...columnList,
+      },
+      {
         A: 20230427,
         B: 'Step 1',
         C: 'Project Information',
@@ -103,6 +107,7 @@ describe('The SharePoint API', () => {
                 FormDigestValue: '123',
               },
             },
+            error: [],
           }),
         arrayBuffer: async () => new ArrayBuffer(0),
       })

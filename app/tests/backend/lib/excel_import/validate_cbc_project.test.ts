@@ -69,3 +69,6 @@ describe('The validateColumns function', () => {
     ]);
   });
 });
+
+// eslint-disable-next-line jest/no-export
+export default columnList;

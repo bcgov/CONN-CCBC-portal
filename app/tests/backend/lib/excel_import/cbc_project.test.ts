@@ -4,6 +4,7 @@
 import { mocked } from 'jest-mock';
 import * as XLSX from 'xlsx';
 import request from 'supertest';
+import columnList from 'tests/backend/lib/excel_import/validate_cbc_project.test';
 import { performQuery } from '../../../../backend/lib/graphql';
 import LoadCbcProjectData from '../../../../backend/lib/excel_import/cbc_project';
 
@@ -84,7 +85,10 @@ describe('cbc_project', () => {
   it('should parse worksheet', async () => {
     jest
       .spyOn(XLSX.utils, 'sheet_to_json')
-      .mockReturnValue([{ A: 121231, B: 2, C: 3, D: 4, E: 5 }]);
+      .mockReturnValue([
+        { ...columnList },
+        { A: 121231, B: 2, C: 3, D: 4, E: 5 },
+      ]);
 
     mocked(performQuery).mockImplementation(async () => {
       return {
@@ -121,7 +125,7 @@ describe('cbc_project', () => {
 
   it('should parse worksheet with errors', async () => {
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue([
-      { A: 1 },
+      { ...columnList },
       {
         A: 9999,
         C: '4b',
