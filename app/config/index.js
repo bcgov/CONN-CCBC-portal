@@ -271,6 +271,7 @@ const config = convict({
     format: String,
     default: '',
     env: 'KEYCLOAK_SA_CLIENT_SECRET',
+  },
   SP_LIST_NAME: {
     doc: 'SharePoint list name',
     format: String,

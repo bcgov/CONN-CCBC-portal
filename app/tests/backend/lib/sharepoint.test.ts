@@ -166,6 +166,10 @@ describe('The SharePoint API', () => {
       },
     });
 
+    mocked(performQuery).mockImplementation(async () => {
+      return {};
+    });
+
     // @ts-ignore
     global.fetch = jest.fn(() =>
       Promise.resolve({
@@ -186,7 +190,7 @@ describe('The SharePoint API', () => {
     );
 
     jest.spyOn(XLSX, 'read').mockReturnValue({
-      Sheets: { Sheet1: {} },
+      Sheets: { 1: {} },
       SheetNames: ['Wrong sheet name'],
     });
 
@@ -217,6 +221,11 @@ describe('The SharePoint API', () => {
         'Content-Type': 'application/json;odata=verbose',
       },
     });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {};
+    });
+
     // @ts-ignore
     global.fetch = jest.fn(() =>
       Promise.resolve({
