@@ -15,7 +15,7 @@ const createCbcProjectMutation = `
   }
 `;
 
-const validateNumber = (value, fieldName, errorList, rowNumber) => {
+const validateNumber = (value, fieldName, errorList, projectNumber) => {
   if (!value) {
     return null;
   }
@@ -24,12 +24,12 @@ const validateNumber = (value, fieldName, errorList, rowNumber) => {
   }
 
   errorList.push(
-    `Row ${rowNumber}: ${fieldName} not imported due to formatting error - value should be a number`
+    `Project #${projectNumber}: ${fieldName} not imported due to formatting error - value should be a number`
   );
   return null;
 };
 
-const validateDate = (value, fieldName, errorList, rowNumber) => {
+const validateDate = (value, fieldName, errorList, projectNumber) => {
   if (!value) {
     return null;
   }
@@ -38,7 +38,7 @@ const validateDate = (value, fieldName, errorList, rowNumber) => {
   }
 
   errorList.push(
-    `Row ${rowNumber}: ${fieldName} not imported due to formatting error - value should be a date`
+    `Project #${projectNumber}: ${fieldName} not imported due to formatting error - value should be a date`
   );
   return null;
 };
@@ -51,9 +51,7 @@ const readSummary = async (wb, sheet) => {
   });
   const cbcProjectList = [];
 
-  cbcProjectsSheet.forEach((proj, i) => {
-    const rowNumber = i + 1;
-
+  cbcProjectsSheet.forEach((proj) => {
     const errorLog = [];
     // filter values from proj which are 'NULL'
     const project = Object.fromEntries(
@@ -61,11 +59,13 @@ const readSummary = async (wb, sheet) => {
       Object.entries(proj).filter(([_, v]) => v !== 'NULL')
     );
 
+    const projectNumber = project['A'];
+
     // filter out rows with no project number or project number is not a number
     if (
       Object.keys(project).length <= 2 ||
-      typeof project['A'] !== 'number' ||
-      !project['A']
+      typeof projectNumber !== 'number' ||
+      !projectNumber
     ) {
       return;
     }
@@ -93,57 +93,62 @@ const readSummary = async (wb, sheet) => {
         project['S'],
         'communitiesAndLocalesCount',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       indigenousCommunities: validateNumber(
         project['T'],
         'indigenousCommunities',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       householdCount: validateNumber(
         project['U'],
         'householdCount',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       transportKm: validateNumber(
         project['V'],
         'transportKm',
         errorLog,
-        rowNumber
+        projectNumber
       ),
-      highwayKm: validateNumber(project['W'], 'highwayKm', errorLog, rowNumber),
+      highwayKm: validateNumber(
+        project['W'],
+        'highwayKm',
+        errorLog,
+        projectNumber
+      ),
       restAreas: project['X'],
       bcFundingRequest: validateNumber(
         project['Y'],
         'bcFundingRequest',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       federalFunding: validateNumber(
         project['Z'],
         'federalFunding',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       applicantAmount: validateNumber(
         project['AA'],
         'applicantAmount',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       otherFunding: validateNumber(
         project['AB'],
         'otherFunding',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       totalProjectBudget: validateNumber(
         project['AC'],
         'totalProjectBudget',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       nditConditionalApprovalLetterSent: project['AD'],
       bindingAgreementSignedNditRecipient: project['AE'],
@@ -152,56 +157,56 @@ const readSummary = async (wb, sheet) => {
         project['AG'],
         'dateApplicationReceived',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       dateConditionallyApproved: validateDate(
         project['AH'],
         'dateConditionallyApproved',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       dateAgreementSigned: validateDate(
         project['AI'],
         'dateAgreementSigned',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       proposedStartDate: validateDate(
         project['AJ'],
         'proposedStartDate',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       proposedCompletionDate: validateDate(
         project['AK'],
         'proposedCompletionDate',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       reportingCompletionDate: validateDate(
         project['AL'],
         'reportingCompletionDate',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       dateAnnounced: validateDate(
         project['AM'],
         'dateAnnounced',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       projectMilestoneCompleted: validateDate(
         project['AN'],
         'projectMilestoneCompleted',
         errorLog,
-        rowNumber
+        projectNumber
       ),
 
       constructionCompletedOn: validateDate(
         project['AO'],
         'constructionCompletedOn',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       milestoneComments: project['AP'],
       primaryNewsRelease: project['AQ'],
@@ -212,7 +217,7 @@ const readSummary = async (wb, sheet) => {
         project['AU'],
         'lastReviewed',
         errorLog,
-        rowNumber
+        projectNumber
       ),
       reviewNotes: project['AV'],
       errorLog,
