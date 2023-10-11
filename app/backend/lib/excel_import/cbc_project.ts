@@ -249,7 +249,7 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
 
   return {
     ...result,
-    error: cbcErrorList,
+    errorLog: cbcErrorList,
   };
 };
 

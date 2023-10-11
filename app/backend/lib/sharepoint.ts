@@ -135,7 +135,7 @@ const importSharePointData = async (req, res) => {
 
       const errorlist = await postErrorList(body);
       const errorlistJson = await errorlist.json();
-      return res.status(400).json(errorlistJson).end();
+      return res.status(500).json(errorlistJson).end();
     }
 
     if (metadata.ok && file.ok) {
@@ -176,19 +176,25 @@ const importSharePointData = async (req, res) => {
         req
       );
 
-      if (result['error']) {
+      if (result['errorLog'].length > 0) {
         const body = JSON.stringify({
           __metadata: {
             type: listItemEntityTypeFullName,
           },
           Error: 'Imported with errors',
-          Details: result['error'].join('\n'),
+          Details: result['errorLog'].join('\n'),
         });
         authHeaders['Content-Length'] = body.length;
 
         const errorlist = await postErrorList(body);
-        const errorlistJson = await errorlist.json();
-        return res.status(400).json(errorlistJson).end();
+
+        // Status 200 is returned since we still imported the data
+        return res.status(200).json(errorlist).end();
+      }
+
+      if (result['error']) {
+        console.log(result['error']);
+        return res.status(400).json(result).end();
       }
 
       if (result) {
