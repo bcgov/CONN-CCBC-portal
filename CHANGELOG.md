@@ -1,3 +1,11 @@
+# [1.110.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.109.0...v1.110.0) (2023-10-12)
+
+### Features
+
+- cron job to trigger sp import ([bb2f82e](https://github.com/bcgov/CONN-CCBC-portal/commit/bb2f82ec7447a70a88d066e5a62983fce4ca4bc0))
+- middleware to validate keycloak token ([1b3c283](https://github.com/bcgov/CONN-CCBC-portal/commit/1b3c283f150c848a1b53203f4dd34cc599f227f7))
+- only import if file has been modified ([9e5d48a](https://github.com/bcgov/CONN-CCBC-portal/commit/9e5d48afef20122ba68f506112b41935c8e8c0b5))
+
 # [1.109.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.108.0...v1.109.0) (2023-10-10)
 
 ### Bug Fixes
