@@ -74,7 +74,7 @@ const statusStylesBase = {
   withdrawn: {
     primary: '#414141',
     backgroundColor: '#E8E8E8',
-    pillWidth: '120px',
+    pillWidth: '128px',
     description: 'Withdrawn',
   },
   draft: {
@@ -94,6 +94,9 @@ const statusStylesBase = {
 // Spread base styles for applicant status styles
 const statusStyles = {
   ...statusStylesBase,
+  analyst_withdrawn: {
+    ...statusStylesBase.withdrawn,
+  },
   applicant_approved: {
     ...statusStylesBase.approved,
   },

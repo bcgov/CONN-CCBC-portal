@@ -56,6 +56,8 @@ interface Props {
 }
 
 const disabledStatusList = {
+  approved: ['withdrawn', 'analyst_withdrawn'],
+  complete: ['withdrawn', 'analyst_withdrawn'],
   received: [
     'assessment',
     'recommendation',
@@ -133,8 +135,12 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           <ChangeStatus
             application={applicationByRowId}
             disabledStatusList={disabledStatusList}
-            hiddenStatusTypes={['draft', 'submitted', 'withdrawn']}
-            status={analystStatus}
+            hiddenStatusTypes={['draft', 'submitted', 'analyst_withdrawn']}
+            status={
+              analystStatus === 'analyst_withdrawn'
+                ? 'withdrawn'
+                : analystStatus
+            }
             statusList={allApplicationStatusTypes?.nodes}
           />
           <StatusInformationIcon />
@@ -144,12 +150,12 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           <ChangeStatus
             application={applicationByRowId}
             hiddenStatusTypes={[
+              'analyst_withdrawn',
               'assessment',
               'draft',
               'recommendation',
               'screening',
               'submitted',
-              'withdrawn',
             ]}
             isExternalStatus
             status={externalStatus.replace('applicant_', '')}

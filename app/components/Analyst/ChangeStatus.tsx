@@ -14,17 +14,6 @@ interface DropdownProps {
   };
 }
 
-const StyledWithdrawn = styled.div`
-  border: none;
-  border-radius: 16px;
-  appearance: none;
-  padding: 6px 12px;
-  height: 30px;
-  color: #414141;
-  background-color: #e8e8e8;
-  cursor: default;
-`;
-
 const StyledDropdown = styled.select<DropdownProps>`
   color: ${(props) => props.statusStyles?.primary};
   border: none;
@@ -146,17 +135,16 @@ const ChangeStatus: React.FC<Props> = ({
     // update status when there is a relay store update
     setCurrentStatus(getStatus(status, statusTypes));
     setDraftStatus(getStatus(status, statusTypes));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
-  // No dropdown for withdrawn applications
-  if (status === 'withdrawn') {
-    return <StyledWithdrawn>Withdrawn</StyledWithdrawn>;
-  }
-
   const handleSave = async (value) => {
-    const statusInputName = isExternalStatus
-      ? `applicant_${value || draftStatus?.name}`
-      : draftStatus?.name;
+    const newStatus = value || draftStatus?.name;
+    const withdrawn = isExternalStatus ? 'withdrawn' : 'analyst_withdrawn';
+    const externalStatus =
+      newStatus === 'withdrawn' ? withdrawn : `applicant_${newStatus}`;
+    const internalStatus = newStatus === 'withdrawn' ? withdrawn : newStatus;
+    const statusInputName = isExternalStatus ? externalStatus : internalStatus;
 
     createStatus({
       variables: {
@@ -182,6 +170,7 @@ const ChangeStatus: React.FC<Props> = ({
       },
     });
   };
+
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDraftStatus(getStatus(e.target.value, statusTypes));
     const isAllowedExternalReceived =
@@ -190,9 +179,13 @@ const ChangeStatus: React.FC<Props> = ({
         analystStatus
       );
 
+    const isAllowedExternalWithdraw =
+      e.target.value === 'withdrawn' && analystStatus === 'analyst_withdrawn';
     const isAllowedExternalChange =
       isExternalStatus &&
-      (e.target.value === analystStatus || isAllowedExternalReceived);
+      (e.target.value === analystStatus ||
+        isAllowedExternalReceived ||
+        isAllowedExternalWithdraw);
     const isInvalidConditionalApproval =
       e.target.value === 'conditionally_approved' &&
       isAllowedExternalChange &&
