@@ -469,6 +469,62 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
       </StyledContent>
     );
   }
+  if (tableName === 'application_milestone_data') {
+    const updateRec = op === 'INSERT' && prevHistoryItem;
+    const newFile = record.json_data?.milestoneFile;
+    const oldFile = prevHistoryItem?.record?.json_data?.milestoneFile;
+    const changedFile =
+      updateRec &&
+      ((oldFile && !newFile) ||
+        (newFile && !oldFile) ||
+        (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid));
+
+    return (
+      <StyledContent data-testid="history-content-milestone_data">
+        {/* Update currently not being returned by DB, not needed */}
+        {op === 'UPDATE' &&
+          prevHistoryItem?.record &&
+          record.history_operation === 'created' && (
+            <span>{displayName} updated a </span>
+          )}
+        {op === 'INSERT' &&
+          prevHistoryItem?.record !== undefined &&
+          record.history_operation === 'created' && (
+            <span>{displayName} updated a </span>
+          )}
+        {op === 'INSERT' &&
+          prevHistoryItem?.record === undefined &&
+          record.history_operation === 'created' && (
+            <span>{displayName} created a </span>
+          )}
+        {op === 'UPDATE' && record.history_operation === 'deleted' && (
+          <span>{displayName} deleted a </span>
+        )}
+        <b>Milestone Report</b>
+        <span> on {createdAtFormatted}</span>
+
+        {op === 'INSERT' && changedFile && (
+          <HistoryFile
+            filesArray={record.json_data.milestoneFile || []}
+            title="Uploaded Milestone Report Excel"
+          />
+        )}
+        {showHistoryDetails && (
+          <HistoryDetails
+            json={record.json_data}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
+            excludedKeys={[
+              'ccbc_number',
+              'milestoneFile',
+              'evidenceOfCompletionFile',
+            ]}
+            diffSchema={communityReportSchema}
+            overrideParent="communityReport"
+          />
+        )}
+      </StyledContent>
+    );
+  }
 
   return null;
 };
