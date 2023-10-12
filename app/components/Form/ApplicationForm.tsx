@@ -428,6 +428,7 @@ const ApplicationForm: React.FC<Props> = ({
         if (isSaveAsDraftBtn) {
           setSavedAsDraft(true);
         }
+        setTemplateData(null);
       },
       ...mutationConfig,
     });
