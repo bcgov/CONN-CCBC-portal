@@ -1,3 +1,19 @@
+# [1.110.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.109.0...v1.110.0) (2023-10-12)
+
+### Bug Fixes
+
+- withdrawn disabled status list ([a80cb6d](https://github.com/bcgov/CONN-CCBC-portal/commit/a80cb6d00ade2e42bc8a9ec87c7d49957af87ef0))
+- withdrawn pill width ([fbfc824](https://github.com/bcgov/CONN-CCBC-portal/commit/fbfc8242cf1aab9e6a320f7894e81e723ca0531a))
+- withdrawn status dropdown styles ([edf0abe](https://github.com/bcgov/CONN-CCBC-portal/commit/edf0abe27759b327d363682df901dd90637d0f68))
+
+### Features
+
+- add new status type analyst_withdrawn ([b4a48ae](https://github.com/bcgov/CONN-CCBC-portal/commit/b4a48ae2b1ea21e5dda5a78e2794fb53eaf6de46))
+- add withdrawn status to interal and external status dropdowns ([7efa198](https://github.com/bcgov/CONN-CCBC-portal/commit/7efa198e7bb86445876a2b70648869306ca6a094))
+- cron job to trigger sp import ([bb2f82e](https://github.com/bcgov/CONN-CCBC-portal/commit/bb2f82ec7447a70a88d066e5a62983fce4ca4bc0))
+- middleware to validate keycloak token ([1b3c283](https://github.com/bcgov/CONN-CCBC-portal/commit/1b3c283f150c848a1b53203f4dd34cc599f227f7))
+- only import if file has been modified ([9e5d48a](https://github.com/bcgov/CONN-CCBC-portal/commit/9e5d48afef20122ba68f506112b41935c8e8c0b5))
+
 # [1.109.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.108.0...v1.109.0) (2023-10-10)
 
 ### Bug Fixes
