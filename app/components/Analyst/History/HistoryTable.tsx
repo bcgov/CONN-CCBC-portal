@@ -116,7 +116,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
                   getFiscalYear(item.record.json_data.dueDate) === year;
                 return updated;
               }
-              // application milestone needs to match by excel data id or it might mismatch
+              // application milestone needs to match by excel data id or it might mismatch for diffing
               if (item.tableName === 'application_milestone_data') {
                 return (
                   item.tableName === historyItem.tableName &&
