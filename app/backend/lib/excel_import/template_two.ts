@@ -13,10 +13,18 @@ const readTemplateTwoData = (wb: WorkBook, sheetName = 'Template 2') => {
   let totalProjectCostRow = 0;
 
   for (let i = 0; i < sheet.length; i += 1) {
-    if (sheet[i][TITLE_COLUMN] === TOTAL_ELIGIBLE_COSTS_TITLE) {
+    if (
+      typeof sheet[i][TITLE_COLUMN] === 'string' &&
+      sheet[i][TITLE_COLUMN].toLowerCase() ===
+        TOTAL_ELIGIBLE_COSTS_TITLE.toLowerCase()
+    ) {
       totalEligibleCostsRow = i;
     }
-    if (sheet[i][TITLE_COLUMN] === TOTAL_PROJECT_COST_TITLE) {
+    if (
+      typeof sheet[i][TITLE_COLUMN] === 'string' &&
+      sheet[i][TITLE_COLUMN].toLowerCase() ===
+        TOTAL_PROJECT_COST_TITLE.toLowerCase()
+    ) {
       totalProjectCostRow = i;
     }
   }

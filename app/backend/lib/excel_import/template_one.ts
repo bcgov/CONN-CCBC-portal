@@ -1,8 +1,12 @@
 import XLSX, { WorkBook } from 'xlsx';
 
 const FINAL_ELIGIBLE_HOUSEHOLDS_COLUMN = 'F';
+const FINAL_ELIGIBLE_HOUSEHOLDS_COLUMN_TITLE =
+  'Final number of Eligible Households targeted by this proposal';
 const TITLE_COLUMN = 'C';
 const TOTAL_INDIGENOUS_HOUSEHOLDS_COLUMN = 'G';
+const TOTAL_INDIGENOUS_HOUSEHOLDS_COLUMN_TITLE =
+  'Number of impacted households on indigenous lands';
 
 const readTemplateOneData = (
   wb: WorkBook,
@@ -18,14 +22,16 @@ const readTemplateOneData = (
 
   for (let i = 0; i < sheet.length; i += 1) {
     if (
-      sheet[i][TITLE_COLUMN] ===
-      'Final number of Eligible Households targeted by this proposal'
+      typeof sheet[i][TITLE_COLUMN] === 'string' &&
+      sheet[i][TITLE_COLUMN].toLowerCase() ===
+        FINAL_ELIGIBLE_HOUSEHOLDS_COLUMN_TITLE.toLowerCase()
     ) {
       finalEligibleHouseholdsRow = i;
     }
     if (
-      sheet[i][TITLE_COLUMN] ===
-      'Number of impacted households on indigenous lands'
+      typeof sheet[i][TITLE_COLUMN] === 'string' &&
+      sheet[i][TITLE_COLUMN].toLowerCase() ===
+        TOTAL_INDIGENOUS_HOUSEHOLDS_COLUMN_TITLE.toLowerCase()
     ) {
       totalIndigenousHouseholdsRow = i;
     }
