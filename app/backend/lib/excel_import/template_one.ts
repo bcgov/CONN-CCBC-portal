@@ -1,9 +1,8 @@
 import XLSX, { WorkBook } from 'xlsx';
 
 const FINAL_ELIGIBLE_HOUSEHOLDS_COLUMN = 'F';
-const FINAL_ELIGIBLE_HOUSEHOLDS_ROW = 90;
+const TITLE_COLUMN = 'C';
 const TOTAL_INDIGENOUS_HOUSEHOLDS_COLUMN = 'G';
-const TOTAL_INDIGENOUS_HOUSEHOLDS_ROW = 39;
 
 const readTemplateOneData = (
   wb: WorkBook,
@@ -13,10 +12,33 @@ const readTemplateOneData = (
     header: 'A',
   });
 
+  let finalEligibleHouseholdsRow = 0;
+
+  let totalIndigenousHouseholdsRow = 0;
+
+  for (let i = 0; i < sheet.length; i += 1) {
+    if (
+      sheet[i][TITLE_COLUMN] ===
+      'Final number of Eligible Households targeted by this proposal'
+    ) {
+      finalEligibleHouseholdsRow = i;
+    }
+    if (
+      sheet[i][TITLE_COLUMN] ===
+      'Number of impacted households on indigenous lands'
+    ) {
+      totalIndigenousHouseholdsRow = i;
+    }
+  }
+
+  if (finalEligibleHouseholdsRow === 0 || totalIndigenousHouseholdsRow === 0) {
+    return null;
+  }
+
   const finalEligibleHouseholds =
-    sheet[FINAL_ELIGIBLE_HOUSEHOLDS_ROW][FINAL_ELIGIBLE_HOUSEHOLDS_COLUMN];
+    sheet[finalEligibleHouseholdsRow][FINAL_ELIGIBLE_HOUSEHOLDS_COLUMN];
   const totalNumberHouseholdsImpacted =
-    sheet[TOTAL_INDIGENOUS_HOUSEHOLDS_ROW][TOTAL_INDIGENOUS_HOUSEHOLDS_COLUMN];
+    sheet[totalIndigenousHouseholdsRow][TOTAL_INDIGENOUS_HOUSEHOLDS_COLUMN];
 
   return {
     finalEligibleHouseholds,
