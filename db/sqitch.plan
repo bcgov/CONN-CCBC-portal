@@ -459,3 +459,4 @@ tables/application_status_type_007_add_analyst_withdrawn 2023-10-04T15:19:28Z Ma
 tables/application_claims_data_001 2023-10-12T17:42:41Z Marcel Mueller <marcel@m2> # add column to track history operation
 mutations/archive_application_claims_data [mutations/archive_application_claims_data@1.109.0] 2023-10-12T18:01:52Z Marcel Mueller <marcel@m2> # set history operation when archiving
 mutations/create_application_claims_data [mutations/create_application_claims_data@1.109.0] 2023-10-12T18:41:38Z Marcel Mueller <marcel@m2> # set history operation to 'updated' if there is a previous claim
+computed_columns/application_history [computed_columns/application_history@1.109.0] 2023-10-12T20:25:06Z Marcel Mueller <marcel@m2> # update to return application_claims_data
