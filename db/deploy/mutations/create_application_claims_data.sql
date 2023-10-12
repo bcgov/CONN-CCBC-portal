@@ -13,13 +13,19 @@ declare
   old_excel_data_id integer;
 begin
 
-  insert into ccbc_public.application_claims_data (application_id, json_data, excel_data_id)
-  values (_application_id, _json_data, _excel_data_id)
-  returning id into new_id;
-
   -- archive old claims data if it exists
-  if exists (select * from ccbc_public.application_claims_data where id = _old_claims_id)
-    then update ccbc_public.application_claims_data set archived_at = now() where id = _old_claims_id returning excel_data_id into old_excel_data_id;
+  if exists (select * from ccbc_public.application_claims_data where id = _old_claims_id) then
+    update ccbc_public.application_claims_data set archived_at = now() where id = _old_claims_id returning excel_data_id into old_excel_data_id;
+
+    -- set history_operation to 'updated' if old claims data exists
+    insert into ccbc_public.application_claims_data (application_id, json_data, excel_data_id, history_operation)
+    values (_application_id, _json_data, _excel_data_id, 'updated')
+    returning id into new_id;
+  else
+    -- history_operation defaults to 'created' if no old claims data exists
+    insert into ccbc_public.application_claims_data (application_id, json_data, excel_data_id)
+    values (_application_id, _json_data, _excel_data_id)
+    returning id into new_id;
   end if;
 
   -- archive excel data if the form data has no claims file data
