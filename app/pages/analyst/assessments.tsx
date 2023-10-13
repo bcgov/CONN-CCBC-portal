@@ -5,10 +5,36 @@ import { graphql } from 'react-relay';
 import { DashboardTabs, TableTabs } from 'components/AnalystDashboard';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { Layout } from 'components';
-import { assessmentsTableQuery } from '__generated__/assessmentsTable.graphql';
+import { assessmentsTableQuery } from '__generated__/assessmentsTableQuery.graphql';
 
 const getAssessmentsTableQuery = graphql`
   query assessmentsTableQuery {
+    allApplications(
+      filter: {
+        status: {
+          in: ["received", "screening", "assessment", "recommendation"]
+        }
+      }
+    ) {
+      edges {
+        node {
+          allAssessments(filter: { archivedAt: { isNull: true } }) {
+            edges {
+              node {
+                jsonData
+                assessmentDataType
+                rowId
+              }
+            }
+          }
+          organizationName
+          status
+          rowId
+          projectName
+          intakeId
+        }
+      }
+    }
     session {
       sub
       ...DashboardTabs_query
