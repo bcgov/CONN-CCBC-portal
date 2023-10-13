@@ -3,7 +3,11 @@ import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import cookie from 'js-cookie';
-import { DashboardTabs, AnalystRow } from 'components/AnalystDashboard';
+import {
+  DashboardTabs,
+  AnalystRow,
+  TableTabs,
+} from 'components/AnalystDashboard';
 import {
   TextFilter,
   NumberFilter,
@@ -151,6 +155,7 @@ const AnalystDashboard = ({
     <Layout session={session} title="Connecting Communities BC">
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
+        <TableTabs />
         {hasSort && (
           <StyledSortText onClick={handleClearSorting}>
             Clear sorting
