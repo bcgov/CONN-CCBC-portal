@@ -465,3 +465,4 @@ computed_columns/application_history [computed_columns/application_history@1.109
 tables/intake_007_add_hidden_column 2023-10-10T20:07:15Z Anthony Bushara <anthony@button.is> # Add a hidden column for the intake table
 functions/open_intake [functions/open_intake@1.108.0] 2023-10-10T21:28:16Z Anthony Bushara <anthony@button.is> # Check if intake is hidden
 functions/next_intake [functions/next_intake@1.109.0] 2023-10-12T19:27:39Z Anthony Bushara <anthony@button.is> # Use hidden column when determining next intake
+tables/intake_008_hidden_code_column 2023-10-13T15:21:38Z Anthony Bushara <anthony@button.is> # Adds the hidden code that is used to compare when accessing a hidden intake
