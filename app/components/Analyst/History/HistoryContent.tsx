@@ -446,7 +446,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
       (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid);
 
     return (
-      <StyledContent data-testid="history-content-attachment">
+      <StyledContent data-testid="history-content-claims">
         <span>
           {displayName} {operation} a <b>Claim & Progress Report</b> on{' '}
           {createdAtFormatted}

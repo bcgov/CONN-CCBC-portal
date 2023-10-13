@@ -2110,110 +2110,240 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
-              createdAt: "2023-08-21T20:19:46.332698-07:00",
+              createdAt: '2023-08-21T20:19:46.332698-07:00',
               externalAnalyst: null,
-              familyName: "Foo",
-              givenName: "Bar",
+              familyName: 'Foo',
+              givenName: 'Bar',
               item: null,
-              op: "INSERT",
-              tableName: "application_community_progress_report_data",
+              op: 'INSERT',
+              tableName: 'application_community_progress_report_data',
               record: {
                 id: 1,
                 json_data: {
-                  dueDate: "2023-04-01",
-                  dateReceived: "2023-04-20"
+                  dueDate: '2023-04-01',
+                  dateReceived: '2023-04-20',
                 },
-                created_at: "2023-08-21T20:19:46.332698-07:00",
+                created_at: '2023-08-21T20:19:46.332698-07:00',
                 created_by: 95,
-                updated_at: "2023-08-21T20:19:46.332698-07:00",
+                updated_at: '2023-08-21T20:19:46.332698-07:00',
                 updated_by: 95,
                 archived_at: null,
                 archived_by: null,
                 excel_data_id: null,
-                application_id: 6
+                application_id: 6,
               },
-              recordId: "fad31cb3-8a42-530b-ae5b-0a950e570ae4",
-              oldRecord: null
+              recordId: 'fad31cb3-8a42-530b-ae5b-0a950e570ae4',
+              oldRecord: null,
             },
             {
               applicationId: 6,
-              createdAt: "2023-08-21T21:15:56.178828-07:00",
+              createdAt: '2023-08-21T21:15:56.178828-07:00',
               externalAnalyst: null,
-              familyName: "Foo",
-              givenName: "Bar",
+              familyName: 'Foo',
+              givenName: 'Bar',
               item: null,
-              op: "INSERT",
-              tableName: "application_community_progress_report_data",
+              op: 'INSERT',
+              tableName: 'application_community_progress_report_data',
               record: {
                 id: 2,
                 json_data: {
-                  dueDate: "2023-08-01",
-                  dateReceived: "2023-08-03",
+                  dueDate: '2023-08-01',
+                  dateReceived: '2023-08-03',
                   progressReportFile: [
                     {
                       id: 716,
-                      name: "Community Progress Report_010002.xlsx",
+                      name: 'Community Progress Report_010002.xlsx',
                       size: 122870,
-                      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                      uuid: "06152b7b-59d5-4ff2-bf3a-e155db5d29d0"
-                    }
-                  ]
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '06152b7b-59d5-4ff2-bf3a-e155db5d29d0',
+                    },
+                  ],
                 },
-                created_at: "2023-08-21T21:15:56.178828-07:00",
+                created_at: '2023-08-21T21:15:56.178828-07:00',
                 created_by: 95,
-                updated_at: "2023-08-21T21:15:56.178828-07:00",
+                updated_at: '2023-08-21T21:15:56.178828-07:00',
                 updated_by: 95,
                 archived_at: null,
                 archived_by: null,
                 excel_data_id: 1,
-                application_id: 6
+                application_id: 6,
               },
-              recordId: "1699b4e8-fa3b-52f5-9f64-2502da91b827",
-              oldRecord: null
+              recordId: '1699b4e8-fa3b-52f5-9f64-2502da91b827',
+              oldRecord: null,
             },
             {
               applicationId: 6,
-              createdAt: "2023-08-24T19:56:49.246157-07:00",
+              createdAt: '2023-08-24T19:56:49.246157-07:00',
               externalAnalyst: null,
-              familyName: "Foo",
+              familyName: 'Foo',
               item: null,
-              givenName: "Bar",
-              op: "UPDATE",
-              tableName: "application_community_progress_report_data",
+              givenName: 'Bar',
+              op: 'UPDATE',
+              tableName: 'application_community_progress_report_data',
               record: {
-                  id: 1,
-                  json_data: {
-                      dueDate: "2023-08-01",
-                      dateReceived: "2023-08-02"
-                  },
-                  created_at: "2023-08-24T19:56:49.246157-07:00",
-                  created_by: 95,
-                  updated_at: "2023-08-24T21:35:37.114692-07:00",
-                  updated_by: 95,
-                  archived_at: "2023-08-24T21:35:37.114692-07:00",
-                  archived_by: 95,
-                  excel_data_id: null,
-                  application_id: 6,
-                  history_operation: "deleted"
+                id: 1,
+                json_data: {
+                  dueDate: '2023-08-01',
+                  dateReceived: '2023-08-02',
+                },
+                created_at: '2023-08-24T19:56:49.246157-07:00',
+                created_by: 95,
+                updated_at: '2023-08-24T21:35:37.114692-07:00',
+                updated_by: 95,
+                archived_at: '2023-08-24T21:35:37.114692-07:00',
+                archived_by: 95,
+                excel_data_id: null,
+                application_id: 6,
+                history_operation: 'deleted',
               },
               oldRecord: {
-                  id: 1,
-                  json_data: {
-                    dueDate: "2023-08-01",
-                    dateReceived: "2023-08-02"
-                  },
-                  created_at: "2023-08-24T19:56:49.246157-07:00",
-                  created_by: 95,
-                  updated_at: "2023-08-24T21:35:37.114692-07:00",
-                  updated_by: 95,
-                  archived_at: "2023-08-24T21:35:37.114692-07:00",
-                  archived_by: 95,
-                  excel_data_id: null,
-                  application_id: 6,
-                  history_operation: "created"
+                id: 1,
+                json_data: {
+                  dueDate: '2023-08-01',
+                  dateReceived: '2023-08-02',
+                },
+                created_at: '2023-08-24T19:56:49.246157-07:00',
+                created_by: 95,
+                updated_at: '2023-08-24T21:35:37.114692-07:00',
+                updated_by: 95,
+                archived_at: '2023-08-24T21:35:37.114692-07:00',
+                archived_by: 95,
+                excel_data_id: null,
+                application_id: 6,
+                history_operation: 'created',
               },
-              recordId: "ee4a96e3-82ac-50a6-bdb9-7678fcaaf36a"
-            }
+              recordId: 'ee4a96e3-82ac-50a6-bdb9-7678fcaaf36a',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2023-10-13T10:24:02.578323-07:00',
+              externalAnalyst: null,
+              familyName: 'bar',
+              item: null,
+              givenName: 'foo1',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                json_data: {
+                  claimsFile: [
+                    {
+                      id: 1,
+                      name: 'claims.xlsx',
+                      size: 2232925,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '98f1f70a-129d-4bea-9b31-0aaa3b5d9bf0',
+                    },
+                  ],
+                },
+                created_at: '2023-10-13T10:24:02.578323-07:00',
+                created_by: null,
+                updated_at: '2023-10-13T10:24:02.578323-07:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: 1,
+                application_id: 1,
+                history_operation: 'created',
+              },
+              oldRecord: null,
+              recordId: 'ee5b8bba-75e9-5fc1-9d00-76d7a7a78b7e',
+              sessionSub: 'mockUser@ccbc_auth_user',
+              tableName: 'application_claims_data',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2023-10-13T10:24:15.055338-07:00',
+              externalAnalyst: null,
+              familyName: 'bar',
+              item: null,
+              givenName: 'foo1',
+              op: 'INSERT',
+              record: {
+                id: 2,
+                json_data: {
+                  claimsFile: [
+                    {
+                      id: 2,
+                      name: 'claims2.xlsx',
+                      size: 2232925,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '1f231b82-dc9f-436a-91e3-29eae73e3218',
+                    },
+                  ],
+                },
+                created_at: '2023-10-13T10:24:15.055338-07:00',
+                created_by: null,
+                updated_at: '2023-10-13T10:24:15.055338-07:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: 2,
+                application_id: 1,
+                history_operation: 'updated',
+              },
+              oldRecord: null,
+              recordId: 'e91a44bb-3a85-5b2d-9e71-273d3317b650',
+              sessionSub: 'mockUser@ccbc_auth_user',
+              tableName: 'application_claims_data',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2023-10-13T10:24:15.055338-07:00',
+              externalAnalyst: null,
+              familyName: 'bar',
+              item: null,
+              givenName: 'foo1',
+              op: 'UPDATE',
+              record: {
+                id: 2,
+                json_data: {
+                  claimsFile: [
+                    {
+                      id: 2,
+                      name: 'claims2.xlsx',
+                      size: 2232925,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '1f231b82-dc9f-436a-91e3-29eae73e3218',
+                    },
+                  ],
+                },
+                created_at: '2023-10-13T10:24:15.055338-07:00',
+                created_by: null,
+                updated_at: '2023-10-13T10:24:17.082474-07:00',
+                updated_by: null,
+                archived_at: '2023-10-13T10:24:17.082474-07:00',
+                archived_by: null,
+                excel_data_id: 2,
+                application_id: 1,
+                history_operation: 'deleted',
+              },
+              oldRecord: {
+                id: 2,
+                json_data: {
+                  claimsFile: [
+                    {
+                      id: 2,
+                      name: 'claims2.xlsx',
+                      size: 2232925,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '1f231b82-dc9f-436a-91e3-29eae73e3218',
+                    },
+                  ],
+                },
+                created_at: '2023-10-13T10:24:15.055338-07:00',
+                created_by: null,
+                updated_at: '2023-10-13T10:24:15.055338-07:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: 2,
+                application_id: 1,
+                history_operation: 'updated',
+              },
+              recordId: 'e91a44bb-3a85-5b2d-9e71-273d3317b650',
+              sessionSub: 'mockUser@ccbc_auth_user',
+              tableName: 'application_claims_data',
+            },
           ],
         },
       },
@@ -2320,13 +2450,15 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getAllByTestId('history-content-community-progress-report')[1]).toHaveTextContent(
+    expect(
+      screen.getAllByTestId('history-content-community-progress-report')[1]
+    ).toHaveTextContent(
       'The applicant created a Community Progress Report on Aug 21, 2023'
     );
 
-    expect(screen.getAllByTestId('history-content-community-progress-report')[0]).toHaveTextContent(
-      'The applicant deleted a Community Progress Report'
-    );
+    expect(
+      screen.getAllByTestId('history-content-community-progress-report')[0]
+    ).toHaveTextContent('The applicant deleted a Community Progress Report');
   });
 
   it('shows the correct history for editing an application', async () => {
@@ -2334,7 +2466,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getAllByTestId('history-content-form-data')[3]
+      screen.getAllByTestId('history-content-form-data')[7]
     ).toHaveTextContent(
       'Foo Bar edited the Application on Mar 3, 2023, 8:34 a.m.'
     );
@@ -2373,13 +2505,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 19 diff tables', async () => {
+  it('shows all 20 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(19);
+    expect(diffTables.length).toBe(20);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -2391,7 +2523,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getAllByTestId('history-content-form-data')[2]
+      screen.getAllByTestId('history-content-form-data')[6]
     ).toHaveTextContent(
       'Foo Bar uploaded the GIS Analysis on Mar 3, 2023, 8:35 a.m.'
     );
@@ -2460,5 +2592,53 @@ describe('The index page', () => {
     });
 
     expect(window.open).toHaveBeenCalledWith({}, '_blank');
+  });
+
+  it('shows the correct history for creating a claim', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[2];
+
+    expect(claimsHistory).toHaveTextContent(
+      'The applicant created a Claim & Progress Report on Oct 13, 2023, 10:24 a.m.'
+    );
+    expect(claimsHistory).toHaveTextContent(
+      'Uploaded Claims & Progress Report Excel'
+    );
+    expect(claimsHistory).toHaveTextContent('claims.xlsx');
+  });
+
+  it('shows the correct history for updating a claim', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[1];
+
+    expect(claimsHistory).toHaveTextContent(
+      'The applicant updated a Claim & Progress Report on Oct 13, 2023, 10:24 a.m.'
+    );
+    expect(claimsHistory).toHaveTextContent(
+      'Uploaded Claims & Progress Report Excel'
+    );
+    expect(claimsHistory).toHaveTextContent('claims.xlsx');
+    expect(claimsHistory).toHaveTextContent('claims2.xlsx');
+    expect(claimsHistory).toHaveTextContent(
+      '1f231b82-dc9f-436a-91e3-29eae73e3218'
+    );
+    expect(claimsHistory).toHaveTextContent(
+      '98f1f70a-129d-4bea-9b31-0aaa3b5d9bf0'
+    );
+  });
+
+  it('shows the correct history for deleting a claim', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[0];
+
+    expect(claimsHistory).toHaveTextContent(
+      'The applicant deleted a Claim & Progress Report on Oct 13, 2023, 10:24 a.m.'
+    );
   });
 });
