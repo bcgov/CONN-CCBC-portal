@@ -437,16 +437,13 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
 
   if (tableName === 'application_claims_data') {
     const operation = historyItem.record?.history_operation;
-    const isPreviousRecord =
-      prevHistoryItem?.record?.history_operation !== 'deleted';
-    const isUpdate = operation === 'updated' && isPreviousRecord;
+    const isUpdate = operation === 'updated';
     const newFile = record.json_data?.claimsFile;
     const oldFile = prevHistoryItem?.record?.json_data?.claimsFile;
     const changedFile =
-      isUpdate &&
-      ((oldFile && !newFile) ||
-        (newFile && !oldFile) ||
-        (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid));
+      (isUpdate && oldFile && !newFile) ||
+      (newFile && !oldFile) ||
+      (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid);
 
     return (
       <StyledContent data-testid="history-content-attachment">
