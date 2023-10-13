@@ -2466,7 +2466,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getAllByTestId('history-content-form-data')[7]
+      screen.getAllByTestId('history-content-form-data')[3]
     ).toHaveTextContent(
       'Foo Bar edited the Application on Mar 3, 2023, 8:34 a.m.'
     );
@@ -2523,7 +2523,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.getAllByTestId('history-content-form-data')[6]
+      screen.getAllByTestId('history-content-form-data')[2]
     ).toHaveTextContent(
       'Foo Bar uploaded the GIS Analysis on Mar 3, 2023, 8:35 a.m.'
     );

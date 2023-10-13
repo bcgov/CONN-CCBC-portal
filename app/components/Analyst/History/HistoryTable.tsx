@@ -57,11 +57,12 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
   const {
     applicationByRowId: { history },
   } = queryFragment;
-
   const applicationHistory = [...history.nodes]?.sort((a, b) => {
-    const aDate = a.record.updated_at;
-    const bDate = b.record.updated_at;
-
+    // sort by updated at if the record was delete
+    const aDeleted = a.op === 'UPDATE';
+    const bDeleted = b.op === 'UPDATE';
+    const aDate = aDeleted ? a.record.updated_at : a.createdAt;
+    const bDate = bDeleted ? b.record.updated_at : b.createdAt;
     return new Date(aDate).getTime() - new Date(bDate).getTime();
   });
 
