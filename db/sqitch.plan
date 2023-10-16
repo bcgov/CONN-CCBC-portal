@@ -463,4 +463,3 @@ computed_columns/application_history [computed_columns/application_history@1.109
 @1.111.0 2023-10-17T18:45:05Z CCBC Service Account <ccbc@button.is> # release v1.111.0
 @1.112.0 2023-10-17T23:11:50Z CCBC Service Account <ccbc@button.is> # release v1.112.0
 computed_columns/application_history [computed_columns/application_history@1.109.0] 2023-10-10T22:52:09Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add milestone history
-mutations/create_application_milestone_data [mutations/create_application_milestone_data@1.109.0] 2023-10-12T20:29:18Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # set operation to update if previous data exists

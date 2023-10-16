@@ -470,43 +470,55 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     );
   }
   if (tableName === 'application_milestone_data') {
+    console.log('prev', prevHistoryItem);
+    console.log('prev undefined', prevHistoryItem?.record === undefined);
     const updateRec = op === 'INSERT' && prevHistoryItem;
-    const newFile = record.json_data?.milestoneFile;
-    const oldFile = prevHistoryItem?.record?.json_data?.milestoneFile;
-    const changedFile =
+    const newMilestoneFile = record.json_data?.milestoneFile;
+    const oldMilestoneFile = prevHistoryItem?.record?.json_data?.milestoneFile;
+    const changedMilestoneFile =
       updateRec &&
-      ((oldFile && !newFile) ||
-        (newFile && !oldFile) ||
-        (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid));
+      ((oldMilestoneFile && !newMilestoneFile) ||
+        (newMilestoneFile && !oldMilestoneFile) ||
+        (newMilestoneFile &&
+          oldMilestoneFile &&
+          newMilestoneFile[0].uuid !== oldMilestoneFile[0].uuid));
+    const newEvidenceFile = record.json_data?.evidenceOfCompletionFile;
+    const oldEvidenceFile =
+      prevHistoryItem?.record?.json_data?.evidenceOfCompletionFile;
+    const changedEvidenceFile =
+      updateRec &&
+      ((oldEvidenceFile && !newEvidenceFile) ||
+        (newEvidenceFile && !oldEvidenceFile) ||
+        (newEvidenceFile &&
+          oldEvidenceFile &&
+          newEvidenceFile[0].uuid !== oldEvidenceFile[0].uuid));
 
     return (
       <StyledContent data-testid="history-content-milestone_data">
-        {/* Update currently not being returned by DB, not needed */}
         {op === 'UPDATE' &&
           prevHistoryItem?.record &&
-          record.history_operation === 'created' && (
+          record.history_operation === 'update' && (
             <span>{displayName} updated a </span>
           )}
-        {op === 'INSERT' &&
-          prevHistoryItem?.record !== undefined &&
-          record.history_operation === 'created' && (
-            <span>{displayName} updated a </span>
-          )}
-        {op === 'INSERT' &&
-          prevHistoryItem?.record === undefined &&
-          record.history_operation === 'created' && (
-            <span>{displayName} created a </span>
-          )}
+        {op === 'INSERT' && record.history_operation === 'created' && (
+          <span>{displayName} created a </span>
+        )}
         {op === 'UPDATE' && record.history_operation === 'deleted' && (
           <span>{displayName} deleted a </span>
         )}
         <b>Milestone Report</b>
         <span> on {createdAtFormatted}</span>
 
-        {op === 'INSERT' && changedFile && (
+        {op === 'INSERT' && changedMilestoneFile && (
           <HistoryFile
             filesArray={record.json_data.milestoneFile || []}
             title="Uploaded Milestone Report Excel"
+          />
+        )}
+        {op === 'INSERT' && changedEvidenceFile && (
+          <HistoryFile
+            filesArray={record.json_data.evidenceOfCompletionFile || []}
+            title="Uploaded Milestone Completion Evidence"
           />
         )}
         {showHistoryDetails && (

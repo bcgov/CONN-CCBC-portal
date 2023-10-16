@@ -17,10 +17,9 @@ begin
   values (_application_id, _json_data, _excel_data_id)
   returning id into new_id;
 
-  -- archive old milestone data if it exists, and set history operation to update
-  if exists (select * from ccbc_public.application_milestone_data where id = _old_milestone_id) then
-    update ccbc_public.application_milestone_data set archived_at = now() where id = _old_milestone_id returning excel_data_id into old_excel_data_id;
-    update ccbc_public.application_milestone_data set history_operation = 'update' where id = new_id;
+  -- archive old milestone data if it exists
+  if exists (select * from ccbc_public.application_milestone_data where id = _old_milestone_id)
+    then update ccbc_public.application_milestone_data set archived_at = now() where id = _old_milestone_id returning excel_data_id into old_excel_data_id;
   end if;
 
   -- archive excel data if the form data has no milestone file data
