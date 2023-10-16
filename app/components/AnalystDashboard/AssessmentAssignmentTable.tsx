@@ -32,8 +32,7 @@ const findAssessment = (assessments, assessmentType) => {
 
   return {
     rowId: data?.node.rowId,
-    assignedTo: data?.node?.jsonData?.assignedTo,
-    targetDate: data?.node?.jsonData?.targetDate,
+    jsonData: data?.node?.jsonData,
     type: data?.node?.assessmentDataType,
   };
 };
@@ -115,27 +114,27 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
         size: 10,
       },
       {
-        accessorKey: 'pmAssessment.assignedTo',
+        accessorKey: 'pmAssessment.jsonData.assignedTo',
         header: 'PM Assessment',
         size: 30,
       },
       {
-        accessorKey: 'techAssessment.assignedTo',
+        accessorKey: 'techAssessment.jsonData.assignedTo',
         header: 'Tech Assessment',
         size: 30,
       },
       {
-        accessorKey: 'permittingAssessment.assignedTo',
+        accessorKey: 'permittingAssessment.jsonData.assignedTo',
         header: 'Permitting Assessment',
         size: 30,
       },
       {
-        accessorKey: 'gisAssessment.assignedTo',
+        accessorKey: 'gisAssessment.jsonData.assignedTo',
         header: 'GIS Assessment',
         size: 30,
       },
       {
-        accessorKey: 'techAssessment.targetDate',
+        accessorKey: 'techAssessment.jsonData.targetDate',
         header: 'Target Date',
         size: 30,
       },
