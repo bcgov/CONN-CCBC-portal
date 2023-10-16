@@ -363,9 +363,9 @@ const ApplicationForm: React.FC<Props> = ({
           benefits: {
             ...newFormData.benefits,
             householdsImpactedIndigenous:
-              templateData.data.result.finalEligibleHouseholds,
-            numberOfHouseholds:
               templateData.data.result.totalNumberHouseholdsImpacted,
+            numberOfHouseholds:
+              templateData.data.result.finalEligibleHouseholds,
           },
         };
       } else if (templateData.templateNumber === 2) {
