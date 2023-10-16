@@ -33,6 +33,7 @@ const findAssessment = (assessments, assessmentType) => {
   return {
     rowId: data?.node.rowId,
     assignedTo: data?.node?.jsonData?.assignedTo,
+    targetDate: data?.node?.jsonData?.targetDate,
     type: data?.node?.assessmentDataType,
   };
 };
@@ -87,7 +88,11 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
             application.allAssessments.edges,
             'gis'
           ),
-          targetDate: '2021-01-01',
+          // displaying target date from technical assessment
+          targetDate: findAssessment(
+            application.allAssessments.edges,
+            'technical'
+          ),
           projectTitle: projectName,
           organizationName,
         };
@@ -130,7 +135,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
         size: 30,
       },
       {
-        accessorKey: 'targetDate',
+        accessorKey: 'techAssessment.targetDate',
         header: 'Target Date',
         size: 30,
       },
