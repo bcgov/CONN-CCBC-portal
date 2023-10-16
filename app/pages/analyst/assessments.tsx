@@ -59,7 +59,11 @@ const Assessments = ({
   const { allApplications, session } = query;
 
   return (
-    <Layout session={session} title="Connecting Communities BC">
+    <Layout
+      session={session}
+      title="Connecting Communities BC"
+      maxWidthOverride="1600px"
+    >
       <StyledContainer>
         <DashboardTabs session={session} />
         <TableTabs />

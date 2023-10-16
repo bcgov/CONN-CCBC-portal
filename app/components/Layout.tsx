@@ -11,6 +11,9 @@ const runtimeConfig = getConfig()?.publicRuntimeConfig ?? {};
 const StyledFooter = styled(Footer)`
   width: 100%;
 `;
+interface MainProps {
+  maxWidthOverride?: string;
+}
 
 const StyledLayout = styled('div')`
   display: flex;
@@ -20,10 +23,11 @@ const StyledLayout = styled('div')`
   min-height: 100vh;
 `;
 
-const StyledMain = styled('main')`
+const StyledMain = styled('main')<MainProps>`
   display: flex;
   width: 100%;
-  max-width: ${(props) => props.theme.width.pageMaxWidth};
+  max-width: ${({ maxWidthOverride, theme }) =>
+    maxWidthOverride || theme.width.pageMaxWidth};
   flex: 1;
   padding: 1em 2em;
 `;
@@ -37,10 +41,16 @@ const StyledDiv = styled('div')`
 type Props = {
   title: string;
   children: JSX.Element | JSX.Element[] | string | string[];
+  maxWidthOverride?: string;
   session: any;
 };
 
-const Layout: React.FC<Props> = ({ children, session, title }) => {
+const Layout: React.FC<Props> = ({
+  children,
+  maxWidthOverride,
+  session,
+  title,
+}) => {
   const enableTimeMachine = runtimeConfig.ENABLE_MOCK_TIME;
   const isLoggedIn = session?.sub;
   return (
@@ -74,7 +84,7 @@ const Layout: React.FC<Props> = ({ children, session, title }) => {
         <link rel="icon" href="/icons/bcid-favicon-32x32.png" />
       </Head>
       <Navigation isLoggedIn={isLoggedIn} />
-      <StyledMain>{children}</StyledMain>
+      <StyledMain maxWidthOverride={maxWidthOverride}>{children}</StyledMain>
       {enableTimeMachine && (
         <StyledDiv style={{ paddingLeft: '16px' }}>
           <TimeTravel />
