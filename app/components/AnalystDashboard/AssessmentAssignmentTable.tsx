@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import styled from 'styled-components';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -13,6 +14,7 @@ type Assessment = {
 
 type Application = {
   ccbcNumber: string;
+  applicationId: number;
   package: number;
   pmAssessment: Assessment;
   techAssessment: Assessment;
@@ -35,9 +37,24 @@ const findAssessment = (assessments, assessmentType) => {
   };
 };
 
+const StyledLink = styled.a`
+  color: ${(props) => props.theme.color.text};
+  text-decoration: none;
+`;
+
+const CcbcIdCell = ({ cell }) => {
+  const applicationId = cell.row.original?.applicationId;
+  return (
+    <StyledLink href={`/analyst/application/${applicationId}/assessments`}>
+      {cell.getValue()}
+    </StyledLink>
+  );
+};
+
 interface Props {
   allApplications;
 }
+
 const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
   const tableData = useMemo(
     () =>
@@ -47,9 +64,11 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
           organizationName,
           package: packageNumber,
           projectName,
+          rowId: applicationId,
         } = application;
 
         return {
+          applicationId,
           ccbcNumber,
           packageNumber,
           pmAssessment: findAssessment(
@@ -82,6 +101,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
         accessorKey: 'ccbcNumber',
         header: 'CCBC ID',
         size: 30,
+
+        Cell: CcbcIdCell,
       },
       {
         accessorKey: 'packageNumber',
@@ -91,37 +112,37 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
       {
         accessorKey: 'pmAssessment.assignedTo',
         header: 'PM Assessment',
-        size: 50,
+        size: 30,
       },
       {
         accessorKey: 'techAssessment.assignedTo',
         header: 'Tech Assessment',
-        size: 50,
+        size: 30,
       },
       {
         accessorKey: 'permittingAssessment.assignedTo',
         header: 'Permitting Assessment',
-        size: 50,
+        size: 30,
       },
       {
         accessorKey: 'gisAssessment.assignedTo',
         header: 'GIS Assessment',
-        size: 50,
+        size: 30,
       },
       {
         accessorKey: 'targetDate',
         header: 'Target Date',
-        size: 50,
+        size: 30,
       },
       {
         accessorKey: 'projectTitle',
         header: 'Project Title',
-        size: 50,
+        size: 30,
       },
       {
         accessorKey: 'organizationName',
         header: 'Organization Name',
-        size: 50,
+        size: 30,
       },
     ],
     []
@@ -132,6 +153,18 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
     data: tableData,
     // we may want to enable pagination in the future
     enablePagination: false,
+    enableBottomToolbar: false,
+    muiTableContainerProps: { sx: { padding: '8px' } },
+    muiTableBodyCellProps: {
+      sx: {
+        padding: '8px 0px',
+      },
+    },
+    muiTableHeadCellProps: {
+      sx: {
+        padding: '0px',
+      },
+    },
   });
   return <MaterialReactTable table={table} />;
 };
