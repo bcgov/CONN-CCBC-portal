@@ -456,3 +456,4 @@ tables/cbc_project_001_grant_service_account_permissions 2023-10-05T22:51:30Z Ra
 mutations/create_cbc_project [mutations/create_cbc_project@1.107.0] 2023-10-05T22:53:00Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant service account permissions
 tables/application_status_type_007_add_analyst_withdrawn 2023-10-04T15:19:28Z Marcel Mueller <marcel@m2> # add analyst_withdrawn status
 @1.110.0 2023-10-12T22:32:08Z CCBC Service Account <ccbc@button.is> # release v1.110.0
+@1.110.1 2023-10-16T15:21:33Z CCBC Service Account <ccbc@button.is> # release v1.110.1
