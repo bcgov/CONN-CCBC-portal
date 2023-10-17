@@ -92,10 +92,12 @@ const Dashboard = ({
   }, []);
 
   const handleCreateApplication = () => {
-    if (openIntake) {
+    if (openIntake || openHiddenIntake) {
       createApplication({
         variables: {
-          input: {},
+          input: {
+            code: (router.query.code as string) ?? '',
+          },
         },
         onCompleted: (response) => {
           const applicationId = response.createApplication.application.rowId;
@@ -106,9 +108,6 @@ const Dashboard = ({
           router.push('/');
         },
       });
-    }
-    if (openHiddenIntake) {
-      console.log(router.query);
     }
   };
 

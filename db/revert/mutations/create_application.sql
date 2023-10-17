@@ -2,6 +2,8 @@
 
 begin;
 
+drop function ccbc_public.create_application;
+
 create or replace function ccbc_public.create_application()
 returns ccbc_public.application
 as $function$
@@ -11,6 +13,7 @@ declare
   result ccbc_public.application;
   new_application_id int;
   new_form_data_id int;
+  _form_schema_id int;
 begin
 
   select open_timestamp from ccbc_public.open_intake() into _open_timestamp;
@@ -20,6 +23,9 @@ begin
 
   select sub into _sub from ccbc_public.session();
 
+-- Should intakes be linked to the form_schema_id? I'm guessing here that the latest schema is the one we want to use
+  select id into _form_schema_id from ccbc_public.form where form_type = 'intake' order by id desc limit 1;
+
   insert into ccbc_public.application (owner) values (_sub)
    returning id into new_application_id;
 
@@ -27,8 +33,8 @@ begin
   -- which requires the application_form_data record
   new_form_data_id := nextval(pg_get_serial_sequence('ccbc_public.form_data','id'));
 
-  insert into ccbc_public.form_data (id, json_data) overriding system value
-   values (new_form_data_id , '{}'::jsonb);
+  insert into ccbc_public.form_data (id, json_data, form_schema_id) overriding system value
+   values (new_form_data_id , '{}'::jsonb, _form_schema_id);
 
   insert into ccbc_public.application_form_data (application_id, form_data_id)
    values (new_application_id, new_form_data_id);

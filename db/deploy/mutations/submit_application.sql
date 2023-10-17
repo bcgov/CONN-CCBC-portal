@@ -59,6 +59,11 @@ begin
   into current_intake_id, current_intake_number, _counter_id;
 
   if current_intake_id is null then
+    select intake_id from ccbc_public.application where id = application_row_id into current_intake_id;
+    select ccbc_intake_number, counter_id from ccbc_public.intake where id = current_intake_id into current_intake_number, _counter_id;
+  end if;
+
+  if current_intake_id is null then
     raise 'There is no open intake, the application cannot be submitted';
   end if;
 

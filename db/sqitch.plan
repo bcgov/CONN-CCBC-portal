@@ -467,3 +467,6 @@ functions/open_intake [functions/open_intake@1.108.0] 2023-10-10T21:28:16Z Antho
 functions/next_intake [functions/next_intake@1.109.0] 2023-10-12T19:27:39Z Anthony Bushara <anthony@button.is> # Use hidden column when determining next intake
 tables/intake_008_hidden_code_column 2023-10-13T15:21:38Z Anthony Bushara <anthony@button.is> # Adds the hidden code that is used to compare when accessing a hidden intake
 functions/open_hidden_intake 2023-10-16T15:00:43Z Tony Bushara <tonybushara@pop-os> # Checks if there is an open hidden intake
+mutations/create_application [mutations/create_application@1.109.0] 2023-10-16T20:36:13Z Tony Bushara <tonybushara@pop-os> # Rework to accept a code for a hidden intake
+computed_columns/form_data_is_editable [computed_columns/form_data_is_editable@1.109.0] 2023-10-16T21:15:33Z Tony Bushara <tonybushara@pop-os> # Check if a draft form has an associated open intake. Used for hidden intakes
+mutations/submit_application [mutations/submit_application@1.109.0] 2023-10-17T15:02:51Z Tony Bushara <tonybushara@pop-os> # Include hidden intake for submitting an application
