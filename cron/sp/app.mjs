@@ -60,7 +60,6 @@ function fetchAccessToken() {
 
 // Make a GET request to the server with the access token
 function triggerImport(accessToken) {
-
   const options = {
     hostname: serverHost,
     port: parseInt(serverPort, 10),
@@ -96,7 +95,6 @@ function triggerImport(accessToken) {
 async function main() {
   try {
     const accessToken = await fetchAccessToken();
-    console.log('Access token:', accessToken);
     const response = await triggerImport(accessToken);
     console.log('Response', response);
   } catch (error) {
