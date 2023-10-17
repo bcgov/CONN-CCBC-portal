@@ -13,34 +13,7 @@ import { assessmentsTableQuery } from '__generated__/assessmentsTableQuery.graph
 
 const getAssessmentsTableQuery = graphql`
   query assessmentsTableQuery {
-    allApplications(
-      filter: {
-        status: {
-          in: ["received", "screening", "assessment", "recommendation"]
-        }
-      }
-    ) {
-      edges {
-        node {
-          allAssessments(filter: { archivedAt: { isNull: true } }) {
-            edges {
-              node {
-                jsonData
-                assessmentDataType
-                rowId
-              }
-            }
-          }
-          organizationName
-          package
-          status
-          ccbcNumber
-          rowId
-          projectName
-          intakeId
-        }
-      }
-    }
+    ...AssessmentAssignmentTable_query
     session {
       sub
       ...DashboardTabs_query
@@ -56,7 +29,7 @@ const Assessments = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, assessmentsTableQuery>) => {
   const query = usePreloadedQuery(getAssessmentsTableQuery, preloadedQuery);
-  const { allApplications, session } = query;
+  const { session } = query;
 
   return (
     <Layout
@@ -67,7 +40,7 @@ const Assessments = ({
       <StyledContainer>
         <DashboardTabs session={session} />
         <TableTabs />
-        <AssessmentAssignmentTable allApplications={allApplications} />
+        <AssessmentAssignmentTable query={query} />
       </StyledContainer>
     </Layout>
   );

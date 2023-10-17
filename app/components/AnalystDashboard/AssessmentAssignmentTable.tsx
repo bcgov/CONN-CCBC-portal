@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import {
   MaterialReactTable,
@@ -52,10 +53,60 @@ const CcbcIdCell = ({ cell }) => {
 };
 
 interface Props {
-  allApplications;
+  query: any;
 }
 
-const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
+const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment AssessmentAssignmentTable_query on Query {
+        allAnalysts(first: 1000, orderBy: GIVEN_NAME_ASC)
+          @connection(key: "ListOfAnalysts_allAnalysts") {
+          __id
+          edges {
+            node {
+              familyName
+              givenName
+              active
+              id
+            }
+          }
+        }
+        allApplications(
+          filter: {
+            status: {
+              in: ["received", "screening", "assessment", "recommendation"]
+            }
+          }
+        ) {
+          edges {
+            node {
+              allAssessments(filter: { archivedAt: { isNull: true } }) {
+                edges {
+                  node {
+                    jsonData
+                    assessmentDataType
+                    rowId
+                  }
+                }
+              }
+              organizationName
+              package
+              status
+              ccbcNumber
+              rowId
+              projectName
+              intakeId
+            }
+          }
+        }
+      }
+    `,
+    query
+  );
+
+  const { allApplications } = queryFragment;
+
   const tableData = useMemo(
     () =>
       allApplications.edges.map(({ node: application }) => {
