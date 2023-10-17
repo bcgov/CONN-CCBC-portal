@@ -6,6 +6,7 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
+import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
 
 type Assessment = {
   rowId: string;
@@ -34,7 +35,7 @@ const findAssessment = (assessments, assessmentType) => {
   return {
     rowId: data?.node.rowId,
     jsonData: data?.node?.jsonData,
-    type: data?.node?.assessmentDataType,
+    type: assessmentType,
   };
 };
 
@@ -42,6 +43,21 @@ const StyledLink = styled.a`
   color: ${(props) => props.theme.color.text};
   text-decoration: none;
 `;
+
+const AssessmentCell = ({ cell }) => {
+  const row = cell.row.original;
+  const { applicationId, allAnalysts } = row;
+  const assessment = cell.getValue();
+  console.log(assessment);
+  return (
+    <AssessmentLead
+      allAnalysts={allAnalysts.edges}
+      applicationId={applicationId}
+      assessmentType={assessment.type}
+      jsonData={assessment.jsonData}
+    />
+  );
+};
 
 const CcbcIdCell = ({ cell }) => {
   const applicationId = cell.row.original?.applicationId;
@@ -105,7 +121,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     query
   );
 
-  const { allApplications } = queryFragment;
+  const { allAnalysts, allApplications } = queryFragment;
 
   const tableData = useMemo(
     () =>
@@ -122,6 +138,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
           applicationId,
           ccbcNumber,
           packageNumber,
+          allAnalysts,
           pmAssessment: findAssessment(
             application.allAssessments.edges,
             'projectManagement'
@@ -156,7 +173,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         accessorKey: 'ccbcNumber',
         header: 'CCBC ID',
         size: 30,
-
         Cell: CcbcIdCell,
       },
       {
@@ -165,24 +181,28 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         size: 10,
       },
       {
-        accessorKey: 'pmAssessment.jsonData.assignedTo',
+        accessorKey: 'pmAssessment',
         header: 'PM Assessment',
         size: 30,
+        Cell: AssessmentCell,
       },
       {
-        accessorKey: 'techAssessment.jsonData.assignedTo',
+        accessorKey: 'techAssessment',
         header: 'Tech Assessment',
         size: 30,
+        Cell: AssessmentCell,
       },
       {
-        accessorKey: 'permittingAssessment.jsonData.assignedTo',
+        accessorKey: 'permittingAssessment',
         header: 'Permitting Assessment',
         size: 30,
+        Cell: AssessmentCell,
       },
       {
-        accessorKey: 'gisAssessment.jsonData.assignedTo',
+        accessorKey: 'gisAssessment',
         header: 'GIS Assessment',
         size: 30,
+        Cell: AssessmentCell,
       },
       {
         accessorKey: 'techAssessment.jsonData.targetDate',
