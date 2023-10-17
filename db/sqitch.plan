@@ -464,3 +464,4 @@ computed_columns/application_history [computed_columns/application_history@1.109
 @1.112.0 2023-10-17T23:11:50Z CCBC Service Account <ccbc@button.is> # release v1.112.0
 computed_columns/application_history [computed_columns/application_history@1.109.0] 2023-10-10T22:52:09Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add milestone history
 computed_columns/application_history [computed_columns/application_history@1.111.0] 2023-10-17T20:40:41Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add milestone data for history
+mutations/create_application_milestone_data [mutations/create_application_milestone_data@1.111.0] 2023-10-17T22:58:21Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add logic for updated

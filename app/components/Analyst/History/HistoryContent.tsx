@@ -493,16 +493,12 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
 
     return (
       <StyledContent data-testid="history-content-milestone_data">
-        {op === 'INSERT' &&
-          prevHistoryItem?.record === undefined &&
-          record.history_operation === 'created' && (
-            <span>{displayName} created a </span>
-          )}
-        {op === 'INSERT' &&
-          prevHistoryItem?.record &&
-          record.history_operation === 'created' && (
-            <span>{displayName} updated a </span>
-          )}
+        {op === 'INSERT' && record.history_operation === 'created' && (
+          <span>{displayName} created a </span>
+        )}
+        {op === 'INSERT' && record.history_operation === 'updated' && (
+          <span>{displayName} updated a </span>
+        )}
         {op === 'UPDATE' && record.history_operation === 'deleted' && (
           <span>{displayName} deleted a </span>
         )}
