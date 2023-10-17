@@ -49,7 +49,10 @@ const DashboardTabs = ({ session }) => {
         href="/analyst/dashboard"
         passHref
         isAdmin={isAdmin}
-        selected={router?.pathname.startsWith('/analyst/dashboard')}
+        selected={
+          router?.pathname.startsWith('/analyst/dashboard') ||
+          router?.pathname.startsWith('/analyst/assessments')
+        }
       >
         Dashboard
       </StyledLink>
