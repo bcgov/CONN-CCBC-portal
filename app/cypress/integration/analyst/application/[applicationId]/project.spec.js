@@ -22,6 +22,15 @@ describe('The analyst application view', () => {
 
     cy.intercept(
       'POST',
+      '/api/analyst/milestone/1/CCBC-010001/*/?validate=true',
+      {
+        statusCode: 200,
+        body: {},
+      }
+    ).as('milestone-validate');
+
+    cy.intercept(
+      'POST',
       '/api/analyst/claims/1/CCBC-010001/*/*/?validate=true',
       {
         statusCode: 200,
@@ -295,6 +304,54 @@ describe('The analyst application view', () => {
     cy.get('body').happoScreenshot({ component: 'Claims form' });
 
     // Save claim
-    cy.contains('Save & Import').click();
+    cy.get('button').contains('Save & Import').click();
+
+    // Milestones
+    // Check if accordion is open and open if not due to accordion opening based on dates
+    cy.get('button')
+      .contains('Add milestone report')
+      .then(($button) => {
+        if ($button.is(':hidden')) {
+          cy.wait(500);
+          cy.get('[data-testid=accordion-icon]').parent().eq(5).click();
+        }
+      });
+
+    cy.wait(500);
+    cy.get('button').contains('Add milestone report').click();
+
+    cy.get('[id="root_dueDate"]')
+      .eq(1)
+      .parent()
+      .find('.MuiButtonBase-root')
+      .click();
+    cy.wait(200);
+    cy.get('button').contains('1').click();
+
+    // Milestone excel upload
+    cy.get('[id="root_milestoneFile-btn"]').click();
+    cy.get('[data-testid=file-test]')
+      .eq(5)
+      .selectFile('cypress/fixtures/mock_excel.xlsx', {
+        force: true,
+      });
+    cy.wait('@milestone-validate', { timeout: 50000 });
+
+    cy.get('[id="root_evidenceOfCompletionFile-btn"]').click();
+    cy.get('[data-testid=file-test]')
+      .eq(5)
+      .selectFile('cypress/fixtures/mock_excel.xlsx', {
+        force: true,
+      });
+
+    cy.contains('button', 'mock_excel.xlsx');
+    cy.get('body').happoScreenshot({ component: 'Milestones form' });
+
+    // Save claim
+    cy.get('button').contains('Save & Import').click();
+
+    cy.get('body').happoScreenshot({
+      component: 'Project page all forms complete',
+    });
   });
 });
