@@ -6,6 +6,7 @@ create or replace function ccbc_public.submit_application(application_row_id int
 returns ccbc_public.application as $$
 declare
   current_intake_id int;
+  associated_intake_id int;
   current_intake_number int;
   reference_number bigint;
   _counter_id int;
@@ -57,10 +58,10 @@ begin
 
   select id, ccbc_intake_number, counter_id from ccbc_public.open_intake()
   into current_intake_id, current_intake_number, _counter_id;
-
-  if current_intake_id is null then
-    select intake_id from ccbc_public.application where id = application_row_id into current_intake_id;
-    select ccbc_intake_number, counter_id from ccbc_public.intake where id = current_intake_id into current_intake_number, _counter_id;
+  select intake_id from ccbc_public.application where id = application_row_id into associated_intake_id;
+  -- Don't have to worry about the application being re-submitted as it will exit earlier with the status check
+  if current_intake_id is null or current_intake_id != associated_intake_id then
+    select id, ccbc_intake_number, counter_id from ccbc_public.intake where id = associated_intake_id into current_intake_id, current_intake_number, _counter_id;
   end if;
 
   if current_intake_id is null then
