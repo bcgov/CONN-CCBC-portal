@@ -2421,7 +2421,7 @@ const mockQueryPayload = {
                 archived_by: null,
                 excel_data_id: 1,
                 application_id: 1,
-                history_operation: 'created',
+                history_operation: 'updated',
               },
               oldRecord: null,
               recordId: 'fdf3d9eb-4ed9-5a37-87f7-87a5417d5452',
