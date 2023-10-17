@@ -461,7 +461,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={['ccbc_number', 'progressReportFile']}
+            excludedKeys={['ccbc_number', 'claimsFile']}
             diffSchema={claimsDiffSchema}
             overrideParent="claims"
           />

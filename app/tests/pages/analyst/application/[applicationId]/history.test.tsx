@@ -2511,7 +2511,7 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(20);
+    expect(diffTables.length).toBe(19);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -2621,14 +2621,7 @@ describe('The index page', () => {
     expect(claimsHistory).toHaveTextContent(
       'Uploaded Claims & Progress Report Excel'
     );
-    expect(claimsHistory).toHaveTextContent('claims.xlsx');
     expect(claimsHistory).toHaveTextContent('claims2.xlsx');
-    expect(claimsHistory).toHaveTextContent(
-      '1f231b82-dc9f-436a-91e3-29eae73e3218'
-    );
-    expect(claimsHistory).toHaveTextContent(
-      '98f1f70a-129d-4bea-9b31-0aaa3b5d9bf0'
-    );
   });
 
   it('shows the correct history for deleting a claim', async () => {
