@@ -48,7 +48,7 @@ const AssessmentCell = ({ cell }) => {
   const row = cell.row.original;
   const { applicationId, allAnalysts } = row;
   const assessment = cell.getValue();
-  console.log(assessment);
+
   return (
     <AssessmentLead
       allAnalysts={allAnalysts.edges}
