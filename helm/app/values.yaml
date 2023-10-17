@@ -26,7 +26,7 @@ cronsp:
   clientSecret: '' # client-secret must be passed in via deploy script
   clientId: '' # client-id must be passed in via deploy script
   path: '/api/sharepoint/cron-cbc-project'
-  schedule: '0 12,16 * * 1-5' #trigger noon and 4pm on weekdays
+  schedule: '0 19,23 * * 1-5' #trigger noon and 4pm on weekdays
   port: '3000'
   keycloakHost: '' # keycloakHost must be passed in via deploy script
 
