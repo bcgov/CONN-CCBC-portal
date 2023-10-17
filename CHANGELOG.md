@@ -1,3 +1,24 @@
+# [1.111.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.110.0...v1.111.0) (2023-10-17)
+
+### Bug Fixes
+
+- claims history details incorrect excluded key ([12c70d9](https://github.com/bcgov/CONN-CCBC-portal/commit/12c70d9f9fd947ef96fdf31a0d7fc5952fc83b3f))
+- sort history items by updated at instead of created at ([0a2e32f](https://github.com/bcgov/CONN-CCBC-portal/commit/0a2e32f5fac691406b918793760b9feda6578921))
+- submit data on cbc_project error ([b62ccc1](https://github.com/bcgov/CONN-CCBC-portal/commit/b62ccc1062a0356abaa76def1310a2ef1f42a679))
+
+### Features
+
+- add column history_operation to claims data table ([0e77c03](https://github.com/bcgov/CONN-CCBC-portal/commit/0e77c03b274a126167e986f87bcf439af65e7a04))
+- display claims history ([ed96aa1](https://github.com/bcgov/CONN-CCBC-portal/commit/ed96aa1248e7dc44f410557c33f6ab1000521253))
+- pass new env var for sharepoint list to deployment ([4deb30d](https://github.com/bcgov/CONN-CCBC-portal/commit/4deb30dea7e51c7714602c09419aa751d5fb4e89))
+- return claims history ([1ded8a9](https://github.com/bcgov/CONN-CCBC-portal/commit/1ded8a96c3ccead983d37460f713d7f81cf989c0))
+- set history_operation to 'deleted' on archive claims data ([4796fe1](https://github.com/bcgov/CONN-CCBC-portal/commit/4796fe136b253534ae8534a582cf3f6adcd7cbe4))
+- set history_operation to 'updated' on update claims data ([99267a4](https://github.com/bcgov/CONN-CCBC-portal/commit/99267a4e2d15ffd0e1376dc0721ba40f12d3ee9c))
+- set up sharepoint list post request ([1bfd673](https://github.com/bcgov/CONN-CCBC-portal/commit/1bfd6739a295849db39bfe06c93ed49f0734462f))
+- sharepoint error list for abandoned excel import ([7301284](https://github.com/bcgov/CONN-CCBC-portal/commit/730128479d0ef89f7cd4b334062fe974f873ab3e))
+- use project number instead of row for cbc project error log ([b520c04](https://github.com/bcgov/CONN-CCBC-portal/commit/b520c0473431167b6f7e5530e87e900580ac0a11))
+- validate cbc_project columns on import ([9be2924](https://github.com/bcgov/CONN-CCBC-portal/commit/9be29248348a4b24efd0ae252198bdcbf4a61aad))
+
 # [1.110.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.109.0...v1.110.0) (2023-10-12)
 
 ### Bug Fixes
