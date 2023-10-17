@@ -1,6 +1,6 @@
 begin;
 
-select plan(4);
+select plan(5);
 
 truncate table
   ccbc_public.application,
@@ -64,6 +64,16 @@ select results_eq(
     values(1::bigint);
   $$,
   'Should see 1 entry in application_claims_data for application 1 where arechived_at is null'
+);
+
+select results_eq(
+  $$
+    select history_operation from ccbc_public.application_claims_data where application_id = 1 and archived_at is null;
+  $$,
+  $$
+    values('updated'::varchar);
+  $$,
+  'History operation should be updated when previous claims data exists'
 );
 
 select finish();

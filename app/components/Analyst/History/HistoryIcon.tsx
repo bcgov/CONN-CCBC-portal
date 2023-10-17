@@ -4,6 +4,7 @@ import {
   faBox,
   faBullhorn,
   faChartGantt,
+  faDollarSign,
   faDotCircle,
   faCheckDouble,
   faClipboardList,
@@ -33,6 +34,7 @@ const iconMap = {
   application_announcement: faBullhorn,
   application_status: faDotCircle,
   application: faClipboardList,
+  application_claims_data: faDollarSign,
   form_data: faClipboardList,
   rfi_data: faEnvelope,
   attachment: faPaperclip,
@@ -43,7 +45,7 @@ const iconMap = {
   application_gis_data: faMap,
   project_information_data: faChartGantt,
   change_request_data: faArrowRightArrowLeft,
-  application_community_progress_report_data: faTreeCity 
+  application_community_progress_report_data: faTreeCity,
 };
 
 interface Props {

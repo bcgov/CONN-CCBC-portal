@@ -1,6 +1,6 @@
 begin;
 
-select plan(3);
+select plan(4);
 
 truncate table
   ccbc_public.application,
@@ -63,6 +63,22 @@ select results_eq (
   )
   $$,
   'There should be 1 archived claims excel data'
+);
+
+select ccbc_public.create_application_claims_data(1,'{"claimsFile": "a"}'::jsonb);
+select ccbc_public.archive_application_claims_data(2);
+
+select results_eq (
+  $$
+    select history_operation from ccbc_public.application_claims_data
+    where id = 2
+  $$,
+  $$
+  values (
+    'deleted'::varchar
+  )
+  $$,
+  'history_operation should be deleted'
 );
 
 select finish();

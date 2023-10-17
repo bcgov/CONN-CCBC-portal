@@ -20,7 +20,7 @@ begin
 
   -- archive the claim
   update ccbc_public.application_claims_data
-  set archived_at = now()
+  set archived_at = now(), history_operation = 'deleted'
   where id = _claims_data_id
   and archived_at is null;
 

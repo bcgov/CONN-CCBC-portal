@@ -6,6 +6,7 @@ import applicationDiffSchema from 'formSchema/uiSchema/history/application';
 import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
 import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
 import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
+import claimsSchema from 'formSchema/analyst/claims';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -41,18 +42,25 @@ const ChangeReason = ({ reason }) => {
 
 const communityReportSchema = {
   communityReport: {
-    properties:{
-      dueDate:{
+    properties: {
+      dueDate: {
         title: 'Due date',
-        type: 'string'
+        type: 'string',
       },
-      dateReceived:{
+      dateReceived: {
         title: 'Date received',
-        type: 'string'
-      }
-    } 
-  }
+        type: 'string',
+      },
+    },
+  },
 };
+
+const claimsDiffSchema = {
+  claims: {
+    ...claimsSchema,
+  },
+};
+
 const filterArrays = (obj: Record<string, any>): Record<string, any> => {
   const filteredEntries = Object.entries(obj).filter(([, value]) =>
     Array.isArray(value)
@@ -383,47 +391,86 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
       </StyledContent>
     );
   }
-  
+
   if (tableName === 'application_community_progress_report_data') {
-    const updateRec = (op === 'INSERT' && prevHistoryItem );
+    const updateRec = op === 'INSERT' && prevHistoryItem;
     const newFile = record.json_data?.progressReportFile;
     const oldFile = prevHistoryItem?.record?.json_data?.progressReportFile;
-    const changedFile = (updateRec 
-      && (oldFile && !newFile || newFile && !oldFile || 
-      newFile && oldFile  && newFile[0].uuid !== oldFile[0].uuid));
+    const changedFile =
+      updateRec &&
+      ((oldFile && !newFile) ||
+        (newFile && !oldFile) ||
+        (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid));
 
     return (
       <StyledContent data-testid="history-content-community-progress-report">
-        { op === 'INSERT' && prevHistoryItem?.record &&
-        <span>{displayName} updated a{' '}</span>
-        }
-        { op === 'INSERT' && prevHistoryItem?.record === undefined &&
-        <span>{displayName} created a{' '}</span>
-        }
-        { op === 'UPDATE' && record.history_operation === 'deleted' &&
-        <span>{displayName} deleted a{' '}</span>
-        }
+        {op === 'INSERT' && prevHistoryItem?.record && (
+          <span>{displayName} updated a </span>
+        )}
+        {op === 'INSERT' && prevHistoryItem?.record === undefined && (
+          <span>{displayName} created a </span>
+        )}
+        {op === 'UPDATE' && record.history_operation === 'deleted' && (
+          <span>{displayName} deleted a </span>
+        )}
         <b>Community Progress Report</b>
         <span> on {createdAtFormatted}</span>
-        
+
         {op === 'INSERT' && changedFile && (
           <HistoryFile
-          filesArray={record.json_data.progressReportFile || []}
-          title="Uploaded Community Progress Report Excel"
-        />
-        )} 
+            filesArray={record.json_data.progressReportFile || []}
+            title="Uploaded Community Progress Report Excel"
+          />
+        )}
         {op === 'INSERT' && showHistoryDetails && (
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={['ccbc_number','progressReportFile']}
+            excludedKeys={['ccbc_number', 'progressReportFile']}
             diffSchema={communityReportSchema}
-            overrideParent='communityReport'
+            overrideParent="communityReport"
           />
-        )} 
+        )}
       </StyledContent>
     );
   }
+
+  if (tableName === 'application_claims_data') {
+    const operation = historyItem.record?.history_operation;
+    const isUpdate = operation === 'updated';
+    const newFile = record.json_data?.claimsFile;
+    const oldFile = prevHistoryItem?.record?.json_data?.claimsFile;
+    const changedFile =
+      (isUpdate && oldFile && !newFile) ||
+      (newFile && !oldFile) ||
+      (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid);
+
+    return (
+      <StyledContent data-testid="history-content-claims">
+        <span>
+          {displayName} {operation} a <b>Claim & Progress Report</b> on{' '}
+          {createdAtFormatted}
+        </span>
+        {changedFile && (
+          <HistoryFile
+            filesArray={record.json_data.claimsFile || []}
+            title="Uploaded Claims & Progress Report Excel"
+          />
+        )}
+        {showHistoryDetails && isUpdate && (
+          <HistoryDetails
+            json={record.json_data}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
+            excludedKeys={['ccbc_number', 'claimsFile']}
+            diffSchema={claimsDiffSchema}
+            overrideParent="claims"
+          />
+        )}
+      </StyledContent>
+    );
+  }
+
   return null;
 };
+
 export default HistoryContent;
