@@ -57,7 +57,7 @@ const Assessments = ({
 }: RelayProps<Record<string, unknown>, assessmentsTableQuery>) => {
   const query = usePreloadedQuery(getAssessmentsTableQuery, preloadedQuery);
   const { allApplications, session } = query;
-
+  console.log(allApplications);
   return (
     <Layout
       session={session}
