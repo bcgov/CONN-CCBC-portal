@@ -1,6 +1,10 @@
 import * as XLSX from 'xlsx';
 import { performQuery } from '../graphql';
-import { convertExcelDateToJSDate } from '../sow_import/util';
+import {
+  validateColumns,
+  validateDate,
+  validateNumber,
+} from './validate_cbc_project';
 
 const createCbcProjectMutation = `
   mutation cbcProjectMutation($input: CreateCbcProjectInput!) {
@@ -15,33 +19,7 @@ const createCbcProjectMutation = `
   }
 `;
 
-const validateNumber = (value, fieldName, errorList) => {
-  if (!value) {
-    return null;
-  }
-  if (typeof value === 'number') {
-    return value;
-  }
-
-  errorList.push(
-    `${fieldName} not imported due to formatting error - value should be a number`
-  );
-  return null;
-};
-
-const validateDate = (value, fieldName, errorList) => {
-  if (!value) {
-    return null;
-  }
-  if (typeof value === 'number') {
-    return convertExcelDateToJSDate(value);
-  }
-
-  errorList.push(
-    `${fieldName} not imported due to formatting error - value should be a date`
-  );
-  return null;
-};
+const cbcErrorList = [];
 
 const readSummary = async (wb, sheet) => {
   const cbcProjectsSheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet], {
@@ -57,11 +35,13 @@ const readSummary = async (wb, sheet) => {
       Object.entries(proj).filter(([_, v]) => v !== 'NULL')
     );
 
+    const projectNumber = project['A'];
+
     // filter out rows with no project number or project number is not a number
     if (
       Object.keys(project).length <= 2 ||
-      typeof project['A'] !== 'number' ||
-      !project['A']
+      typeof projectNumber !== 'number' ||
+      !projectNumber
     ) {
       return;
     }
@@ -88,33 +68,63 @@ const readSummary = async (wb, sheet) => {
       communitiesAndLocalesCount: validateNumber(
         project['S'],
         'communitiesAndLocalesCount',
-        errorLog
+        errorLog,
+        projectNumber
       ),
       indigenousCommunities: validateNumber(
         project['T'],
         'indigenousCommunities',
-        errorLog
+        errorLog,
+        projectNumber
       ),
-      householdCount: validateNumber(project['U'], 'householdCount', errorLog),
-      transportKm: validateNumber(project['V'], 'transportKm', errorLog),
-      highwayKm: validateNumber(project['W'], 'highwayKm', errorLog),
+      householdCount: validateNumber(
+        project['U'],
+        'householdCount',
+        errorLog,
+        projectNumber
+      ),
+      transportKm: validateNumber(
+        project['V'],
+        'transportKm',
+        errorLog,
+        projectNumber
+      ),
+      highwayKm: validateNumber(
+        project['W'],
+        'highwayKm',
+        errorLog,
+        projectNumber
+      ),
       restAreas: project['X'],
       bcFundingRequest: validateNumber(
         project['Y'],
         'bcFundingRequest',
-        errorLog
+        errorLog,
+        projectNumber
       ),
-      federalFunding: validateNumber(project['Z'], 'federalFunding', errorLog),
+      federalFunding: validateNumber(
+        project['Z'],
+        'federalFunding',
+        errorLog,
+        projectNumber
+      ),
       applicantAmount: validateNumber(
         project['AA'],
         'applicantAmount',
-        errorLog
+        errorLog,
+        projectNumber
       ),
-      otherFunding: validateNumber(project['AB'], 'otherFunding', errorLog),
+      otherFunding: validateNumber(
+        project['AB'],
+        'otherFunding',
+        errorLog,
+        projectNumber
+      ),
       totalProjectBudget: validateNumber(
         project['AC'],
         'totalProjectBudget',
-        errorLog
+        errorLog,
+        projectNumber
       ),
       nditConditionalApprovalLetterSent: project['AD'],
       bindingAgreementSignedNditRecipient: project['AE'],
@@ -122,54 +132,74 @@ const readSummary = async (wb, sheet) => {
       dateApplicationReceived: validateDate(
         project['AG'],
         'dateApplicationReceived',
-        errorLog
+        errorLog,
+        projectNumber
       ),
       dateConditionallyApproved: validateDate(
         project['AH'],
         'dateConditionallyApproved',
-        errorLog
+        errorLog,
+        projectNumber
       ),
       dateAgreementSigned: validateDate(
         project['AI'],
         'dateAgreementSigned',
-        errorLog
+        errorLog,
+        projectNumber
       ),
       proposedStartDate: validateDate(
         project['AJ'],
         'proposedStartDate',
-        errorLog
+        errorLog,
+        projectNumber
       ),
       proposedCompletionDate: validateDate(
         project['AK'],
         'proposedCompletionDate',
-        errorLog
+        errorLog,
+        projectNumber
       ),
       reportingCompletionDate: validateDate(
         project['AL'],
         'reportingCompletionDate',
-        errorLog
+        errorLog,
+        projectNumber
       ),
-      dateAnnounced: validateDate(project['AM'], 'dateAnnounced', errorLog),
+      dateAnnounced: validateDate(
+        project['AM'],
+        'dateAnnounced',
+        errorLog,
+        projectNumber
+      ),
       projectMilestoneCompleted: validateDate(
         project['AN'],
         'projectMilestoneCompleted',
-        errorLog
+        errorLog,
+        projectNumber
       ),
 
       constructionCompletedOn: validateDate(
         project['AO'],
         'constructionCompletedOn',
-        errorLog
+        errorLog,
+        projectNumber
       ),
       milestoneComments: project['AP'],
       primaryNewsRelease: project['AQ'],
       secondaryNewsRelease: project['AR'],
       notes: project['AS'],
       locked: project['AT'],
-      lastReviewed: validateDate(project['AU'], 'lastReviewed', errorLog),
+      lastReviewed: validateDate(
+        project['AU'],
+        'lastReviewed',
+        errorLog,
+        projectNumber
+      ),
       reviewNotes: project['AV'],
       errorLog,
     };
+
+    cbcErrorList.push(...errorLog);
 
     cbcProjectList.push(cbcProject);
   });
@@ -181,11 +211,14 @@ const readSummary = async (wb, sheet) => {
   return cbcProjectData;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ValidateData = async (data) => {
-  const errors = [];
+const ValidateData = async (wb, sheet) => {
+  const cbcProjectsSheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet], {
+    header: 'A',
+  });
 
-  // validation checks here
+  const columnList = cbcProjectsSheet[0];
+
+  const errors = validateColumns(columnList);
 
   return errors;
 };
@@ -193,7 +226,8 @@ const ValidateData = async (data) => {
 const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
   const data = await readSummary(wb, sheet);
 
-  const errorList = await ValidateData(data._jsonData);
+  const errorList = await ValidateData(wb, sheet);
+
   if (errorList.length > 0) {
     return { error: errorList };
   }
@@ -209,9 +243,13 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
     },
     req
   ).catch((e) => {
-    return { error: e };
+    return { error: [e] };
   });
-  return result;
+
+  return {
+    ...result,
+    errorLog: cbcErrorList,
+  };
 };
 
 export default LoadCbcProjectData;

@@ -232,6 +232,8 @@ spec:
                 secretKeyRef:
                   key: client-secret
                   name: ccbc-cron-sp-sso
+            - name: SP_LIST_NAME
+              value: {{ .Values.sharepoint.spListName }}
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}

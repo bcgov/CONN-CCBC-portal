@@ -272,6 +272,12 @@ const config = convict({
     default: '',
     env: 'KEYCLOAK_SA_CLIENT_SECRET',
   },
+  SP_LIST_NAME: {
+    doc: 'SharePoint list name',
+    format: String,
+    default: '',
+    env: 'SP_LIST_NAME',
+  },
 });
 
 // Load environment dependent configuration

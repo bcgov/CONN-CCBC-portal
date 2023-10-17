@@ -94,6 +94,7 @@ sharepoint:
   spSaPassword: ''
   spDocLibrary: ''
   spMsFileName: ''
+  spListName: ''
 
 db:
   name: ccbc

@@ -32,6 +32,7 @@ on:
       SA_CLIENT_SECRET: { required: true }
       SA_CLIENT_ID: { required: true }
       KEYCLOAK_HOST: { required: true }
+      SP_LIST_NAME: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -93,6 +94,7 @@ jobs:
           keycloak_host: ${{ secrets.KEYCLOAK_HOST }}
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
+          sp_list_name: ${{ secrets.SP_LIST_NAME }}
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:
@@ -151,6 +153,7 @@ jobs:
           keycloak_host: ${{ secrets.KEYCLOAK_HOST }}
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
+          sp_list_name: ${{ secrets.SP_LIST_NAME }}
           environment: test
 
   deploy-to-openshift-production:
@@ -200,6 +203,7 @@ jobs:
           keycloak_host: ${{ secrets.KEYCLOAK_HOST }}
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
+          sp_list_name: ${{ secrets.SP_LIST_NAME }}
           environment: prod
 
   create-release:

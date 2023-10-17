@@ -4,6 +4,7 @@
 import { mocked } from 'jest-mock';
 import * as XLSX from 'xlsx';
 import request from 'supertest';
+import columnList from 'tests/backend/lib/excel_import/validate_cbc_project.test';
 import { performQuery } from '../../../../backend/lib/graphql';
 import LoadCbcProjectData from '../../../../backend/lib/excel_import/cbc_project';
 
@@ -57,18 +58,18 @@ const mockErrorData = {
   lastReviewed: null,
   reviewNotes: undefined,
   errorLog: [
-    'federalFunding not imported due to formatting error - value should be a number',
-    'applicantAmount not imported due to formatting error - value should be a number',
-    'otherFunding not imported due to formatting error - value should be a number',
-    'totalProjectBudget not imported due to formatting error - value should be a number',
-    'dateApplicationReceived not imported due to formatting error - value should be a date',
-    'dateConditionallyApproved not imported due to formatting error - value should be a date',
-    'dateAgreementSigned not imported due to formatting error - value should be a date',
-    'proposedStartDate not imported due to formatting error - value should be a date',
-    'proposedCompletionDate not imported due to formatting error - value should be a date',
-    'reportingCompletionDate not imported due to formatting error - value should be a date',
-    'dateAnnounced not imported due to formatting error - value should be a date',
-    'lastReviewed not imported due to formatting error - value should be a date',
+    'Project #9999: federalFunding not imported due to formatting error - value should be a number',
+    'Project #9999: applicantAmount not imported due to formatting error - value should be a number',
+    'Project #9999: otherFunding not imported due to formatting error - value should be a number',
+    'Project #9999: totalProjectBudget not imported due to formatting error - value should be a number',
+    'Project #9999: dateApplicationReceived not imported due to formatting error - value should be a date',
+    'Project #9999: dateConditionallyApproved not imported due to formatting error - value should be a date',
+    'Project #9999: dateAgreementSigned not imported due to formatting error - value should be a date',
+    'Project #9999: proposedStartDate not imported due to formatting error - value should be a date',
+    'Project #9999: proposedCompletionDate not imported due to formatting error - value should be a date',
+    'Project #9999: reportingCompletionDate not imported due to formatting error - value should be a date',
+    'Project #9999: dateAnnounced not imported due to formatting error - value should be a date',
+    'Project #9999: lastReviewed not imported due to formatting error - value should be a date',
   ],
 };
 jest.mock('../../../../backend/lib/graphql');
@@ -84,7 +85,10 @@ describe('cbc_project', () => {
   it('should parse worksheet', async () => {
     jest
       .spyOn(XLSX.utils, 'sheet_to_json')
-      .mockReturnValue([{ A: 121231, B: 2, C: 3, D: 4, E: 5 }]);
+      .mockReturnValue([
+        { ...columnList },
+        { A: 121231, B: 2, C: 3, D: 4, E: 5 },
+      ]);
 
     mocked(performQuery).mockImplementation(async () => {
       return {
@@ -115,12 +119,13 @@ describe('cbc_project', () => {
           clientMutationId: '1',
         },
       },
+      errorLog: [],
     });
   });
 
   it('should parse worksheet with errors', async () => {
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue([
-      { A: 1 },
+      { ...columnList },
       {
         A: 9999,
         C: '4b',
@@ -199,6 +204,24 @@ describe('cbc_project', () => {
           clientMutationId: '1',
         },
       },
+      errorLog: [
+        'Project #9999: communitiesAndLocalesCount not imported due to formatting error - value should be a number',
+        'Project #9999: indigenousCommunities not imported due to formatting error - value should be a number',
+        'Project #9999: householdCount not imported due to formatting error - value should be a number',
+        'Project #9999: highwayKm not imported due to formatting error - value should be a number',
+        'Project #9999: bcFundingRequest not imported due to formatting error - value should be a number',
+        'Project #9999: federalFunding not imported due to formatting error - value should be a number',
+        'Project #9999: applicantAmount not imported due to formatting error - value should be a number',
+        'Project #9999: dateApplicationReceived not imported due to formatting error - value should be a date',
+        'Project #9999: dateConditionallyApproved not imported due to formatting error - value should be a date',
+        'Project #9999: dateAgreementSigned not imported due to formatting error - value should be a date',
+        'Project #9999: proposedStartDate not imported due to formatting error - value should be a date',
+        'Project #9999: proposedCompletionDate not imported due to formatting error - value should be a date',
+        'Project #9999: reportingCompletionDate not imported due to formatting error - value should be a date',
+        'Project #9999: projectMilestoneCompleted not imported due to formatting error - value should be a date',
+        'Project #9999: constructionCompletedOn not imported due to formatting error - value should be a date',
+        'Project #9999: lastReviewed not imported due to formatting error - value should be a date',
+      ],
     });
   });
 });
