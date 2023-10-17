@@ -1,3 +1,17 @@
+# [1.112.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.111.0...v1.112.0) (2023-10-17)
+
+### Features
+
+- add analyst/assessments page test ([58235e6](https://github.com/bcgov/CONN-CCBC-portal/commit/58235e6abd88ad9af8beadd97c83dc01c943ca53))
+- add assessment assignment table ([7d4dd61](https://github.com/bcgov/CONN-CCBC-portal/commit/7d4dd61da4646569aa321c3bea4adc16841cea7d))
+- add assessment page to route authorization ([758827c](https://github.com/bcgov/CONN-CCBC-portal/commit/758827c3e72c9101ef5c3d5a73c4f153be03db62))
+- add assessments page ([5dc41e3](https://github.com/bcgov/CONN-CCBC-portal/commit/5dc41e34b84d81ff6edad06706f8d3fc0646811f))
+- add max width override prop to layout ([0b88227](https://github.com/bcgov/CONN-CCBC-portal/commit/0b882278aa35da1571bf149de18e0829fb36816c))
+- add tabs to analyst dashboard for assessment table ([548d069](https://github.com/bcgov/CONN-CCBC-portal/commit/548d069a871c7ebb86b5c23e3eb001162e9f4e01))
+- assessment assignment table display target date from technical assessment ([33e2ad4](https://github.com/bcgov/CONN-CCBC-portal/commit/33e2ad490239786e9ae4fe0a9737e652cc0d8ed1))
+- assessments table click on ccbc id link ([6ed39b4](https://github.com/bcgov/CONN-CCBC-portal/commit/6ed39b4b8cfbabc6b9d8e2cb8b41f5b60bc7f4b7))
+- query data for assessment assignment table ([d7c5d64](https://github.com/bcgov/CONN-CCBC-portal/commit/d7c5d644a4ba36295456e2157264dd868b4c2da8))
+
 # [1.111.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.110.0...v1.111.0) (2023-10-17)
 
 ### Bug Fixes
