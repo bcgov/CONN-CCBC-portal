@@ -38,18 +38,18 @@ insert into ccbc_public.ccbc_user
   ('foo1', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111112'),
   ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111113'),
   ('foo3', 'bar', 'foo3@bar.com', '11111111-1111-1111-1111-111111111114');
-  
+
 -- Test setup - first user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 
 -- Test setup - second user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 
-select ccbc_public.create_application();
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
+select ccbc_public.create_application('');
 
 set role ccbc_auth_user;
 

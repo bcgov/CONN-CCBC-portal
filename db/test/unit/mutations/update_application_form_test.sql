@@ -29,7 +29,7 @@ values ('2022-03-01 09:00:00-07', '2022-05-01 09:00:00-07', 1);
 
 select mocks.set_mocked_time_in_transaction((select open_timestamp from ccbc_public.intake limit 1));
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 
 select ccbc_public.update_application_form(
   1,

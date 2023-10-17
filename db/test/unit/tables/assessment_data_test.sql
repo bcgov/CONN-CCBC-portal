@@ -30,10 +30,10 @@ insert into ccbc_public.ccbc_user
 insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
   ('foo2', 'bar', 'foo1@bar.com', '11111111-1111-1111-1111-111111111111');
-  
+
 set role ccbc_auth_user;
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 
 
 -- ccbc_guest

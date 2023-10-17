@@ -30,9 +30,9 @@ set role ccbc_job_executor;
 
 set role ccbc_auth_user;
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 
 -- set two applications to received
 insert into ccbc_public.application_status

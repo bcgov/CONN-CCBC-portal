@@ -28,9 +28,9 @@ insert into ccbc_public.ccbc_user
   ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
 set role ccbc_auth_user;
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 update ccbc_public.form_data set json_data = '{ "projectArea": {"geographicArea": [1] }}'::jsonb;
 
 insert into ccbc_public.application_status (application_id, status) VALUES (1,'received');

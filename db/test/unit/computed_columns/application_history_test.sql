@@ -30,33 +30,33 @@ insert into ccbc_public.ccbc_user
   ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
 set role ccbc_auth_user;
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 
 set role ccbc_admin;
 
 select results_eq (
   $$
-  select count(*) from  ccbc_public.record_version 
+  select count(*) from  ccbc_public.record_version
   $$,
   $$
     values(3::bigint)
   $$,
   'Should have three records in record_version (application, application_status, form_data)'
-); 
+);
 
 set role ccbc_analyst;
 
 select results_eq (
   $$
   select count(*) from (select ccbc_public.application_history(
-    (select row(application.*)::ccbc_public.application from ccbc_public.application where id=1)) 
+    (select row(application.*)::ccbc_public.application from ccbc_public.application where id=1))
   ) as test
   $$,
   $$
     values(0::bigint)
   $$,
   'Should not get any record until application status is not received'
-); 
+);
 
 set role ccbc_auth_user;
 
@@ -67,7 +67,7 @@ set role ccbc_analyst;
 select results_eq (
   $$
   select count(*) from (select ccbc_public.application_history(
-    (select row(application.*)::ccbc_public.application from ccbc_public.application where id=1)) 
+    (select row(application.*)::ccbc_public.application from ccbc_public.application where id=1))
   ) as test
   $$,
   $$
@@ -82,7 +82,7 @@ select ccbc_public.create_rfi(1, '{"rfiAdditionalFiles": {}}'::jsonb);
 select results_eq (
   $$
   select count(*) from (select ccbc_public.application_history(
-    (select row(application.*)::ccbc_public.application from ccbc_public.application where id=1)) 
+    (select row(application.*)::ccbc_public.application from ccbc_public.application where id=1))
   ) as test
   $$,
   $$
@@ -100,7 +100,7 @@ set role ccbc_analyst;
 select results_eq (
   $$
   select count(*) from (select ccbc_public.application_history(
-    (select row(application.*)::ccbc_public.application from ccbc_public.application where id=1)) 
+    (select row(application.*)::ccbc_public.application from ccbc_public.application where id=1))
   ) as test
   $$,
   $$

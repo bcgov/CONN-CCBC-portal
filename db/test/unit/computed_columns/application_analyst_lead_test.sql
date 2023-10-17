@@ -44,7 +44,7 @@ insert into ccbc_public.ccbc_user
 
 set role ccbc_auth_user;
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 
 insert into ccbc_public.application_status
 (id, application_id, status,created_by, created_at)

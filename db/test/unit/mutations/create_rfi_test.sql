@@ -32,12 +32,12 @@ set jwt.claims.sub to 'testCcbcAuthUser';
 insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
   ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
-  
+
 select mocks.set_mocked_time_in_transaction('2022-08-19 09:00:00 America/Vancouver');
 
 set role ccbc_auth_user;
 
-select id, owner, intake_id, ccbc_number from ccbc_public.create_application();
+select id, owner, intake_id, ccbc_number from ccbc_public.create_application('');
 
 update ccbc_public.application set ccbc_number='CCBC-010001' where id=1;
 

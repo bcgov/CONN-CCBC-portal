@@ -31,7 +31,7 @@ insert into ccbc_public.ccbc_user
 
 set role ccbc_auth_user;
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 
 update ccbc_public.application set ccbc_number='CCBC-01001' where id=1;
 insert into ccbc_public.application_status

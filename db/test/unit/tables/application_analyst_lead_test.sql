@@ -51,7 +51,7 @@ insert into ccbc_public.ccbc_user
   (id, given_name, family_name, email_address, session_sub) overriding system value values
   (1, 'foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
 
--- select ccbc_public.create_application();
+-- select ccbc_public.create_application('');
 
 insert into ccbc_public.application
   (id, ccbc_number, owner, intake_id) overriding system value
@@ -91,7 +91,7 @@ set jwt.claims.sub to '11111111-1111-1111-1111-111111111111';
 insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
   ('foo2', 'bar', 'foo2@bar.com', '11111111-1111-1111-1111-111111111111');
- 
+
 insert into ccbc_public.application_analyst_lead
   (application_id, analyst_id) overriding system value
   values

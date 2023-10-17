@@ -46,7 +46,7 @@ $$
 begin
 for i in 1..10 loop
 
-  perform ccbc_public.create_application();
+  perform ccbc_public.create_application('');
 
 end loop ;
 

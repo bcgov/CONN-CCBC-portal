@@ -25,7 +25,7 @@ insert into ccbc_public.ccbc_user
 
 set role ccbc_auth_user;
 
-select ccbc_public.create_application();
+select ccbc_public.create_application('');
 
 -- set role to analyst and save gis assessment hh
 set role ccbc_analyst;

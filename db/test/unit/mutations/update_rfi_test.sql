@@ -35,7 +35,7 @@ select mocks.set_mocked_time_in_transaction('2022-08-19 09:00:00 America/Vancouv
 
 set role ccbc_auth_user;
 
-select id, owner, intake_id, ccbc_number from ccbc_public.create_application();
+select id, owner, intake_id, ccbc_number from ccbc_public.create_application('');
 
 update ccbc_public.application set ccbc_number='CCBC-010001' where id=1;
 
