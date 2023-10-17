@@ -15,7 +15,7 @@ const getApplicationIntakesQuery = graphql`
     allIntakes(
       first: 999
       orderBy: CCBC_INTAKE_NUMBER_DESC
-      condition: { archivedAt: null }
+      condition: { archivedAt: null, hidden: false }
     ) @connection(key: "ApplicationIntakes_allIntakes") {
       __id
       edges {
