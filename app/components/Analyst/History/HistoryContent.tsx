@@ -470,8 +470,6 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     );
   }
   if (tableName === 'application_milestone_data') {
-    console.log('prev', prevHistoryItem);
-    console.log('prev undefined', prevHistoryItem?.record === undefined);
     const updateRec = op === 'INSERT' && prevHistoryItem;
     const newMilestoneFile = record.json_data?.milestoneFile;
     const oldMilestoneFile = prevHistoryItem?.record?.json_data?.milestoneFile;
@@ -495,14 +493,16 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
 
     return (
       <StyledContent data-testid="history-content-milestone_data">
-        {op === 'UPDATE' &&
+        {op === 'INSERT' &&
+          prevHistoryItem?.record === undefined &&
+          record.history_operation === 'created' && (
+            <span>{displayName} created a </span>
+          )}
+        {op === 'INSERT' &&
           prevHistoryItem?.record &&
-          record.history_operation === 'update' && (
+          record.history_operation === 'created' && (
             <span>{displayName} updated a </span>
           )}
-        {op === 'INSERT' && record.history_operation === 'created' && (
-          <span>{displayName} created a </span>
-        )}
         {op === 'UPDATE' && record.history_operation === 'deleted' && (
           <span>{displayName} deleted a </span>
         )}
@@ -521,7 +521,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             title="Uploaded Milestone Completion Evidence"
           />
         )}
-        {showHistoryDetails && (
+        {op === 'INSERT' && showHistoryDetails && (
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
