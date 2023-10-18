@@ -1,3 +1,6 @@
+cronsp:
+  schedule: '0 0 15 10 *' # dev run once a year on October 15
+
 db:
   preUpgradeCommand: |
     psql -v "ON_ERROR_STOP=1" <<EOF
