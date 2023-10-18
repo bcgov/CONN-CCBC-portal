@@ -2686,13 +2686,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 22 diff tables', async () => {
+  it('shows all 23 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(22);
+    expect(diffTables.length).toBe(23);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -2860,6 +2860,10 @@ describe('The index page', () => {
 
     expect(claimsHistory).toHaveTextContent(
       'The applicant deleted a Milestone Report on Oct 17, 2023, 8:16 a.m.'
+    );
+    expect(claimsHistory).toHaveTextContent('N/A');
+    expect(claimsHistory).toHaveTextContent(
+      'UBF-AA-00000-Milestone-Report.xlsx'
     );
   });
 });
