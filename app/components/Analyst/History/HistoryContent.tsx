@@ -6,7 +6,6 @@ import applicationDiffSchema from 'formSchema/uiSchema/history/application';
 import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
 import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
 import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
-import claimsSchema from 'formSchema/analyst/claims';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -56,8 +55,10 @@ const communityReportSchema = {
 };
 
 const claimsDiffSchema = {
-  claims: {
-    ...claimsSchema,
+  properties: {
+    'Claims File': {
+      type: 'string',
+    },
   },
 };
 
@@ -438,16 +439,17 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   if (tableName === 'application_claims_data') {
     const operation = historyItem.record?.history_operation;
     const isUpdate = operation === 'updated';
-    const newFile = record.json_data?.claimsFile;
-    const oldFile = prevHistoryItem?.record?.json_data?.claimsFile;
-
+    const newFileName = record.json_data?.claimsFile?.[0]?.name;
+    const oldFileName =
+      prevHistoryItem?.record?.json_data?.claimsFile?.[0]?.name;
+    console.log(record.json_data);
     return (
       <StyledContent data-testid="history-content-claims">
         <span>
           {displayName} {operation} a <b>Claim & Progress Report</b> on{' '}
           {createdAtFormatted}
         </span>
-        {!isUpdate && (
+        {!isUpdate && newFileName && (
           <HistoryFile
             isDelete={operation === 'deleted'}
             filesArray={record.json_data.claimsFile || []}
@@ -457,10 +459,10 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         {showHistoryDetails && isUpdate && (
           <HistoryDetails
             json={{
-              claimsFile: newFile?.[0]?.name,
+              'Claims file': newFileName,
             }}
             prevJson={{
-              claimsFile: oldFile?.[0]?.name,
+              'Claims file': oldFileName,
             }}
             excludedKeys={['ccbc_number']}
             diffSchema={claimsDiffSchema}

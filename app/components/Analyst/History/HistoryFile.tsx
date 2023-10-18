@@ -22,10 +22,10 @@ const StyledTable = styled.table`
 
 const HistoryFile = ({
   filesArray,
-  isDelete,
+  previousFileArray = null,
+  isDelete = false,
   title,
   tableTitle = true,
-  previousFileArray = null,
 }) => {
   return (
     <StyledTable>
@@ -42,34 +42,34 @@ const HistoryFile = ({
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>
             {filesArray?.length > 0
               ? filesArray.map((file) => {
-                  return (
-                    <>
-                      {isDelete ? (
-                        <del>
-                          <DownloadLink uuid={file.uuid} fileName={file.name} />
-                        </del>
-                      ) : (
+                return (
+                  <>
+                    {isDelete ? (
+                      <del>
                         <DownloadLink uuid={file.uuid} fileName={file.name} />
-                      )}
-                      <br />
-                    </>
-                  );
-                })
+                      </del>
+                    ) : (
+                      <DownloadLink uuid={file.uuid} fileName={file.name} />
+                    )}
+                    <br />
+                  </>
+                );
+              })
               : 'N/A'}
           </td>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>
             {previousFileArray?.length > 0
               ? previousFileArray.map((previousFile) => {
-                  return (
-                    <>
-                      <DownloadLink
-                        uuid={previousFile.uuid}
-                        fileName={previousFile.name}
-                      />
-                      <br />
-                    </>
-                  );
-                })
+                return (
+                  <>
+                    <DownloadLink
+                      uuid={previousFile.uuid}
+                      fileName={previousFile.name}
+                    />
+                    <br />
+                  </>
+                );
+              })
               : 'N/A'}
           </td>
         </tr>
