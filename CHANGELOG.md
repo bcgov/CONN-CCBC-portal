@@ -1,3 +1,16 @@
+# [1.113.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.112.0...v1.113.0) (2023-10-18)
+
+### Bug Fixes
+
+- cbc_project milestone complete validate number instead of date ([c955a34](https://github.com/bcgov/CONN-CCBC-portal/commit/c955a34fc5cb265fe92ddf77158c9f49620a2c73))
+- end of statement ([53f535b](https://github.com/bcgov/CONN-CCBC-portal/commit/53f535bb66c327b827c963ec29256542c4fef6a7))
+
+### Features
+
+- handle files diff, show what was deleted ([d73b5f8](https://github.com/bcgov/CONN-CCBC-portal/commit/d73b5f876ec4aaa1426cb94c015f04bb2162ca33))
+- show milestone report history ([40eb5bf](https://github.com/bcgov/CONN-CCBC-portal/commit/40eb5bf65658e103e7330ca0cd13bf7e8c3dd2ea))
+- update terraform settings for s3 backend ([c86dcd9](https://github.com/bcgov/CONN-CCBC-portal/commit/c86dcd923fcfdc6c768137c8f18581a63153bc61))
+
 # [1.112.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.111.0...v1.112.0) (2023-10-17)
 
 ### Features
