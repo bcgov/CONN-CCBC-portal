@@ -462,3 +462,4 @@ mutations/create_application_claims_data [mutations/create_application_claims_da
 computed_columns/application_history [computed_columns/application_history@1.109.0] 2023-10-12T20:25:06Z Marcel Mueller <marcel@m2> # update to return application_claims_data
 @1.111.0 2023-10-17T18:45:05Z CCBC Service Account <ccbc@button.is> # release v1.111.0
 @1.112.0 2023-10-17T23:11:50Z CCBC Service Account <ccbc@button.is> # release v1.112.0
+@1.113.0 2023-10-18T18:22:45Z CCBC Service Account <ccbc@button.is> # release v1.113.0
