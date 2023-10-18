@@ -15,6 +15,7 @@ import {
   faMap,
   faArrowRightArrowLeft,
   faTreeCity,
+  faSignsPost,
 } from '@fortawesome/free-solid-svg-icons';
 
 const StyledIcon = styled.div`
@@ -46,6 +47,7 @@ const iconMap = {
   project_information_data: faChartGantt,
   change_request_data: faArrowRightArrowLeft,
   application_community_progress_report_data: faTreeCity,
+  application_milestone_data: faSignsPost,
 };
 
 interface Props {

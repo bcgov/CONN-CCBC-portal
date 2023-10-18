@@ -19,7 +19,12 @@ const StyledTable = styled.table`
   }
 `;
 
-const HistoryFile = ({ filesArray, title, tableTitle = true }) => {
+const HistoryFile = ({
+  filesArray,
+  title,
+  tableTitle = true,
+  previousFileArray = null,
+}) => {
   return (
     <StyledTable>
       <thead style={{ borderBottom: '2px solid #CCC' }}>
@@ -38,6 +43,21 @@ const HistoryFile = ({ filesArray, title, tableTitle = true }) => {
                   return (
                     <>
                       <DownloadLink uuid={file.uuid} fileName={file.name} />
+                      <br />
+                    </>
+                  );
+                })
+              : 'N/A'}
+          </td>
+          <td style={tableTitle ? { paddingTop: '8px' } : {}}>
+            {previousFileArray?.length > 0
+              ? previousFileArray.map((previousFile) => {
+                  return (
+                    <>
+                      <DownloadLink
+                        uuid={previousFile.uuid}
+                        fileName={previousFile.name}
+                      />
                       <br />
                     </>
                   );

@@ -2344,6 +2344,187 @@ const mockQueryPayload = {
               sessionSub: 'mockUser@ccbc_auth_user',
               tableName: 'application_claims_data',
             },
+            {
+              applicationId: 1,
+              createdAt: '2023-10-17T15:09:09.334683+00:00',
+              externalAnalyst: null,
+              familyName: 'bar',
+              item: null,
+              givenName: 'foo1',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                json_data: {
+                  dueDate: '2023-10-16',
+                  milestoneFile: [
+                    {
+                      id: 1,
+                      name: 'UBF-AA-00000-Milestone-Report.xlsx',
+                      size: 964269,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '08665265-023c-4a4d-b89d-2168f7d8cfde',
+                    },
+                  ],
+                },
+                created_at: '2023-10-17T15:09:09.334683+00:00',
+                created_by: null,
+                updated_at: '2023-10-17T15:09:09.334683+00:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: 1,
+                application_id: 1,
+                history_operation: 'created',
+              },
+              oldRecord: null,
+              recordId: 'c4bf5e40-07f3-585a-96c8-a86e5db927b1',
+              sessionSub: 'mockUser@ccbc_auth_user',
+              tableName: 'application_milestone_data',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2023-10-17T15:10:01.685138+00:00',
+              externalAnalyst: null,
+              familyName: 'bar',
+              item: null,
+              givenName: 'foo1',
+              op: 'INSERT',
+              record: {
+                id: 2,
+                json_data: {
+                  dueDate: '2023-10-12',
+                  milestoneFile: [
+                    {
+                      id: 1,
+                      name: 'UBF-AA-00000-Milestone-Report.xlsx',
+                      size: 964269,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '08665265-023c-4a4d-b89d-2168f7d8cfde',
+                    },
+                  ],
+                  evidenceOfCompletionFile: [
+                    {
+                      id: 2,
+                      name: 'evidence.pdf',
+                      size: 231818,
+                      type: 'application/pdf',
+                      uuid: '826c7066-0205-4472-9521-d4bd0407baf7',
+                      uploadedAt: '2023-10-17T08:09:56.234-07:00',
+                    },
+                  ],
+                },
+                created_at: '2023-10-17T15:10:01.685138+00:00',
+                created_by: null,
+                updated_at: '2023-10-17T15:10:01.685138+00:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: 1,
+                application_id: 1,
+                history_operation: 'updated',
+              },
+              oldRecord: null,
+              recordId: 'fdf3d9eb-4ed9-5a37-87f7-87a5417d5452',
+              sessionSub: 'mockUser@ccbc_auth_user',
+              tableName: 'application_milestone_data',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2023-10-17T15:10:29.292655+00:00',
+              externalAnalyst: null,
+              familyName: 'bar',
+              item: null,
+              givenName: 'foo1',
+              op: 'INSERT',
+              record: {
+                id: 3,
+                json_data: {
+                  dueDate: '2023-02-01',
+                  milestoneFile: [
+                    {
+                      id: 3,
+                      name: 'UBF-AA-00000-Milestone-Report.xlsx',
+                      size: 964269,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: 'ff48ef85-991d-44de-a03d-b361f839e961',
+                    },
+                  ],
+                },
+                created_at: '2023-10-17T15:10:29.292655+00:00',
+                created_by: null,
+                updated_at: '2023-10-17T15:10:29.292655+00:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: 2,
+                application_id: 1,
+                history_operation: 'created',
+              },
+              oldRecord: null,
+              recordId: '350d8bd6-2d13-5c90-bbf7-c42a6f9e2300',
+              sessionSub: 'mockUser@ccbc_auth_user',
+              tableName: 'application_milestone_data',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2023-10-17T15:10:29.292655+00:00',
+              externalAnalyst: null,
+              familyName: 'bar',
+              item: null,
+              givenName: 'foo1',
+              op: 'UPDATE',
+              record: {
+                id: 3,
+                json_data: {
+                  dueDate: '2023-02-01',
+                  milestoneFile: [
+                    {
+                      id: 3,
+                      name: 'UBF-AA-00000-Milestone-Report.xlsx',
+                      size: 964269,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: 'ff48ef85-991d-44de-a03d-b361f839e961',
+                    },
+                  ],
+                },
+                created_at: '2023-10-17T15:10:29.292655+00:00',
+                created_by: null,
+                updated_at: '2023-10-17T15:16:56.17372+00:00',
+                updated_by: null,
+                archived_at: '2023-10-17T15:16:56.17372+00:00',
+                archived_by: null,
+                excel_data_id: 2,
+                application_id: 1,
+                history_operation: 'deleted',
+              },
+              oldRecord: {
+                id: 3,
+                json_data: {
+                  dueDate: '2023-02-01',
+                  milestoneFile: [
+                    {
+                      id: 3,
+                      name: 'UBF-AA-00000-Milestone-Report.xlsx',
+                      size: 964269,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: 'ff48ef85-991d-44de-a03d-b361f839e961',
+                    },
+                  ],
+                },
+                created_at: '2023-10-17T15:10:29.292655+00:00',
+                created_by: null,
+                updated_at: '2023-10-17T15:10:29.292655+00:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: 2,
+                application_id: 1,
+                history_operation: 'created',
+              },
+              recordId: '350d8bd6-2d13-5c90-bbf7-c42a6f9e2300',
+              sessionSub: 'mockUser@ccbc_auth_user',
+              tableName: 'application_milestone_data',
+            },
           ],
         },
       },
@@ -2505,13 +2686,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 20 diff tables', async () => {
+  it('shows all 23 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(19);
+    expect(diffTables.length).toBe(23);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -2632,6 +2813,57 @@ describe('The index page', () => {
 
     expect(claimsHistory).toHaveTextContent(
       'The applicant deleted a Claim & Progress Report on Oct 13, 2023, 10:24 a.m.'
+    );
+  });
+
+  it('shows the correct history for creating a milestone report', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const claimsHistory = screen.getAllByTestId(
+      'history-content-milestone_data'
+    )[3];
+
+    expect(claimsHistory).toHaveTextContent(
+      'The applicant created a Milestone Report on Oct 17, 2023, 8:09 a.m.'
+    );
+    expect(claimsHistory).toHaveTextContent('Uploaded Milestone Report Excel');
+    expect(claimsHistory).toHaveTextContent(
+      'UBF-AA-00000-Milestone-Report.xlsx'
+    );
+  });
+
+  it('shows the correct history for updating a milestone report', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const claimsHistory = screen.getAllByTestId(
+      'history-content-milestone_data'
+    )[2];
+
+    expect(claimsHistory).toHaveTextContent(
+      'The applicant updated a Milestone Report on Oct 17, 2023, 8:10 a.m.'
+    );
+    expect(claimsHistory).toHaveTextContent(
+      'Uploaded Milestone Completion Evidence'
+    );
+    expect(claimsHistory).toHaveTextContent('evidence.pdf');
+  });
+
+  it('shows the correct history for deleting a milestone report', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const claimsHistory = screen.getAllByTestId(
+      'history-content-milestone_data'
+    )[0];
+
+    expect(claimsHistory).toHaveTextContent(
+      'The applicant deleted a Milestone Report on Oct 17, 2023, 8:16 a.m.'
+    );
+    expect(claimsHistory).toHaveTextContent('N/A');
+    expect(claimsHistory).toHaveTextContent(
+      'UBF-AA-00000-Milestone-Report.xlsx'
     );
   });
 });

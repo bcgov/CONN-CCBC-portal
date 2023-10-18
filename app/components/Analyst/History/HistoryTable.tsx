@@ -116,6 +116,23 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
                   getFiscalYear(item.record.json_data.dueDate) === year;
                 return updated;
               }
+              // application milestone needs to match by quarter
+              if (
+                item.tableName === 'application_milestone_data' &&
+                item.tableName === historyItem.tableName
+              ) {
+                const quarter =
+                  historyItem.record.json_data.dueDate &&
+                  getFiscalQuarter(historyItem.record.json_data.dueDate);
+                const year =
+                  historyItem.record.json_data.dueDate &&
+                  getFiscalYear(historyItem.record.json_data.dueDate);
+                const updated =
+                  item.op === 'INSERT' &&
+                  getFiscalQuarter(item.record.json_data.dueDate) === quarter &&
+                  getFiscalYear(item.record.json_data.dueDate) === year;
+                return updated;
+              }
               return item.tableName === historyItem.tableName;
             });
           }

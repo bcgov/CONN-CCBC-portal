@@ -469,6 +469,104 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
       </StyledContent>
     );
   }
+  if (tableName === 'application_milestone_data') {
+    const updateRec = op === 'INSERT' && prevHistoryItem;
+    const newMilestoneFile = record.json_data?.milestoneFile;
+    const oldMilestoneFile = prevHistoryItem?.record?.json_data?.milestoneFile;
+    const changedMilestoneFile =
+      updateRec &&
+      ((oldMilestoneFile && !newMilestoneFile) ||
+        (newMilestoneFile && !oldMilestoneFile) ||
+        (newMilestoneFile &&
+          oldMilestoneFile &&
+          newMilestoneFile[0].uuid !== oldMilestoneFile[0].uuid));
+    const newEvidenceFile = record.json_data?.evidenceOfCompletionFile;
+    const oldEvidenceFile =
+      prevHistoryItem?.record?.json_data?.evidenceOfCompletionFile;
+    const changedEvidenceFile =
+      updateRec &&
+      ((oldEvidenceFile && !newEvidenceFile) ||
+        (newEvidenceFile && !oldEvidenceFile) ||
+        (newEvidenceFile &&
+          oldEvidenceFile &&
+          newEvidenceFile[0].uuid !== oldEvidenceFile[0].uuid));
+
+    return (
+      <StyledContent data-testid="history-content-milestone_data">
+        {op === 'INSERT' && record.history_operation === 'created' && (
+          <span>{displayName} created a </span>
+        )}
+        {op === 'INSERT' && record.history_operation === 'updated' && (
+          <span>{displayName} updated a </span>
+        )}
+        {op === 'UPDATE' && record.history_operation === 'deleted' && (
+          <span>{displayName} deleted a </span>
+        )}
+        <b>Milestone Report</b>
+        <span> on {createdAtFormatted}</span>
+
+        {op === 'INSERT' && showHistoryDetails && (
+          <HistoryDetails
+            json={record.json_data}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
+            excludedKeys={[
+              'ccbc_number',
+              'milestoneFile',
+              'evidenceOfCompletionFile',
+            ]}
+            diffSchema={communityReportSchema}
+            overrideParent="communityReport"
+          />
+        )}
+        {op === 'UPDATE' &&
+          record?.history_operation === 'deleted' &&
+          showHistoryDetails && (
+            <HistoryDetails
+              json={{}}
+              prevJson={record.json_data}
+              excludedKeys={[
+                'ccbc_number',
+                'milestoneFile',
+                'evidenceOfCompletionFile',
+              ]}
+              diffSchema={communityReportSchema}
+              overrideParent="communityReport"
+            />
+          )}
+        {op === 'INSERT' && changedMilestoneFile && (
+          <HistoryFile
+            filesArray={record.json_data.milestoneFile || []}
+            previousFileArray={oldMilestoneFile || []}
+            title="Uploaded Milestone Report Excel"
+          />
+        )}
+        {op === 'INSERT' && changedEvidenceFile && (
+          <HistoryFile
+            filesArray={record.json_data.evidenceOfCompletionFile || []}
+            previousFileArray={oldEvidenceFile || []}
+            title="Uploaded Milestone Completion Evidence"
+            tableTitle={!changedMilestoneFile}
+          />
+        )}
+        {op === 'UPDATE' && record?.history_operation === 'deleted' && (
+          <HistoryFile
+            filesArray={[]}
+            previousFileArray={record.json_data.milestoneFile || []}
+            title="Uploaded Milestone Report Excel"
+            tableTitle={false}
+          />
+        )}
+        {op === 'UPDATE' && record?.history_operation === 'deleted' && (
+          <HistoryFile
+            filesArray={[]}
+            previousFileArray={record.json_data.evidenceOfCompletionFile || []}
+            title="Uploaded Milestone Completion Evidence"
+            tableTitle={false}
+          />
+        )}
+      </StyledContent>
+    );
+  }
 
   return null;
 };
