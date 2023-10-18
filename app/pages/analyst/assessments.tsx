@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
+import { useFeature } from '@growthbook/growthbook-react';
 import {
   AssessmentAssignmentTable,
   DashboardTabs,
@@ -31,6 +32,7 @@ const Assessments = ({
   const query = usePreloadedQuery(getAssessmentsTableQuery, preloadedQuery);
   const { session } = query;
 
+  const showTable = useFeature('show_assessment_assignment_table').value;
   return (
     <Layout
       session={session}
@@ -39,8 +41,12 @@ const Assessments = ({
     >
       <StyledContainer>
         <DashboardTabs session={session} />
-        <TableTabs />
-        <AssessmentAssignmentTable query={query} />
+        {showTable && (
+          <>
+            <TableTabs />
+            <AssessmentAssignmentTable query={query} />
+          </>
+        )}
       </StyledContainer>
     </Layout>
   );
