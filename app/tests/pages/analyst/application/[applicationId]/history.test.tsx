@@ -2692,11 +2692,7 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-<<<<<<< HEAD
     expect(diffTables.length).toBe(23);
-=======
-    expect(diffTables.length).toBe(20);
->>>>>>> 63709342 (fix: claims file updated diff name)
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -2786,10 +2782,10 @@ describe('The index page', () => {
     const claimsHistory = screen.getAllByTestId('history-content-claims')[2];
 
     expect(claimsHistory).toHaveTextContent(
-      'The applicant created a Claim & Progress Report on Oct 13, 2023, 10:24 a.m.'
+      /The applicant created a Claim & Progress Report on Oct 13, 2023, 10:24 a.m./
     );
     expect(claimsHistory).toHaveTextContent(
-      'Uploaded Claims & Progress Report Excel'
+      /Uploaded Claims & Progress Report Excel/
     );
     expect(claimsHistory).toHaveTextContent('claims.xlsx');
   });
@@ -2801,10 +2797,10 @@ describe('The index page', () => {
     const claimsHistory = screen.getAllByTestId('history-content-claims')[1];
 
     expect(claimsHistory).toHaveTextContent(
-      'The applicant updated a Claim & Progress Report on Oct 13, 2023, 10:24 a.m.'
+      /The applicant updated a Claim & Progress Report on Oct 13, 2023, 10:24 a.m./
     );
     expect(claimsHistory).toHaveTextContent(
-      'Uploaded Claims & Progress Report Excel'
+      /Uploaded Claims & Progress Report Excel/
     );
     expect(claimsHistory).toHaveTextContent('claims2.xlsx');
   });

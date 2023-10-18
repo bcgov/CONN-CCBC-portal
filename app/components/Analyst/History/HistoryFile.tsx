@@ -3,11 +3,11 @@ import DownloadLink from 'components/DownloadLink';
 
 const StyledTable = styled.table`
   table-layout: auto;
-  text-transform: capitalize;
 
   th,
   td {
     padding: 8px;
+    width: 30%;
   }
 
   thead tr th:first-child,
@@ -27,12 +27,19 @@ const HistoryFile = ({
   title,
   tableTitle = true,
 }) => {
+  const isPreviousFileArray = previousFileArray?.length > 0;
   return (
     <StyledTable>
       <thead style={{ borderBottom: '2px solid #CCC' }}>
         {tableTitle && (
           <tr>
             <th>Files</th>
+            {isPreviousFileArray && (
+              <>
+                <th>New</th>
+                <th>Old</th>
+              </>
+            )}
           </tr>
         )}
       </thead>
@@ -40,8 +47,8 @@ const HistoryFile = ({
         <tr>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>{title}</td>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>
-            {filesArray?.length > 0
-              ? filesArray.map((file) => {
+            {filesArray?.length > 0 &&
+              filesArray.map((file) => {
                 return (
                   <>
                     {isDelete ? (
@@ -54,22 +61,21 @@ const HistoryFile = ({
                     <br />
                   </>
                 );
-              })
-              : 'N/A'}
+              })}
           </td>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>
             {previousFileArray?.length > 0
               ? previousFileArray.map((previousFile) => {
-                return (
-                  <>
-                    <DownloadLink
-                      uuid={previousFile.uuid}
-                      fileName={previousFile.name}
-                    />
-                    <br />
-                  </>
-                );
-              })
+                  return (
+                    <del key={previousFile.uuid}>
+                      <DownloadLink
+                        uuid={previousFile.uuid}
+                        fileName={previousFile.name}
+                      />
+                      <br />
+                    </del>
+                  );
+                })
               : 'N/A'}
           </td>
         </tr>

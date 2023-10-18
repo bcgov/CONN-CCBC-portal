@@ -54,14 +54,6 @@ const communityReportSchema = {
   },
 };
 
-const claimsDiffSchema = {
-  properties: {
-    'Claims File': {
-      type: 'string',
-    },
-  },
-};
-
 const filterArrays = (obj: Record<string, any>): Record<string, any> => {
   const filteredEntries = Object.entries(obj).filter(([, value]) =>
     Array.isArray(value)
@@ -439,33 +431,31 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   if (tableName === 'application_claims_data') {
     const operation = historyItem.record?.history_operation;
     const isUpdate = operation === 'updated';
-    const newFileName = record.json_data?.claimsFile?.[0]?.name;
-    const oldFileName =
-      prevHistoryItem?.record?.json_data?.claimsFile?.[0]?.name;
-    console.log(record.json_data);
+    const isDelete = operation === 'deleted';
+    const isFile = record.json_data?.claimsFile?.length > 0;
+
     return (
       <StyledContent data-testid="history-content-claims">
         <span>
           {displayName} {operation} a <b>Claim & Progress Report</b> on{' '}
           {createdAtFormatted}
         </span>
-        {!isUpdate && newFileName && (
+        {!isUpdate && isFile && (
           <HistoryFile
-            isDelete={operation === 'deleted'}
+            isDelete={isDelete}
             filesArray={record.json_data.claimsFile || []}
-            title={`${operation} Claims & Progress Report Excel`}
+            title={`${
+              isDelete ? 'Deleted' : 'Uploaded'
+            } Claims & Progress Report Excel`}
           />
         )}
         {showHistoryDetails && isUpdate && (
-          <HistoryDetails
-            json={{
-              'Claims file': newFileName,
-            }}
-            prevJson={{
-              'Claims file': oldFileName,
-            }}
-            excludedKeys={['ccbc_number']}
-            diffSchema={claimsDiffSchema}
+          <HistoryFile
+            filesArray={record.json_data.claimsFile || []}
+            previousFileArray={
+              prevHistoryItem?.record?.json_data?.claimsFile || []
+            }
+            title="Uploaded Claims & Progress Report Excel"
           />
         )}
       </StyledContent>
