@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import { graphql } from 'react-relay';
 import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
 import AssessmentAssignmentTable from 'components/AnalystDashboard/AssessmentAssignmentTable';
@@ -15,7 +15,39 @@ const testQuery = graphql`
 const mockQueryPayload = {
   Query() {
     return {
-      allAnalysts: {},
+      allAnalysts: {
+        edges: [
+          {
+            node: {
+              familyName: 'Analyst GIS',
+
+              givenName: 'Test',
+              active: true,
+            },
+          },
+          {
+            node: {
+              familyName: 'Analyst Project Management',
+              givenName: 'Test',
+              active: true,
+            },
+          },
+          {
+            node: {
+              familyName: 'Analyst Permitting',
+              givenName: 'Test',
+              active: true,
+            },
+          },
+          {
+            node: {
+              familyName: 'Analyst Technical',
+              givenName: 'Test',
+              active: true,
+            },
+          },
+        ],
+      },
       allApplications: {
         edges: [
           {
@@ -161,13 +193,42 @@ describe('The AssessmentAssignmentTable component', () => {
     expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(
-      screen.getByText('Test Analyst Project Management')
+      screen.getAllByText('Test Analyst Project Management')[0]
     ).toBeInTheDocument();
-    expect(screen.getByText('Test Analyst Technical')).toBeInTheDocument();
-    expect(screen.getByText('Test Analyst Permitting')).toBeInTheDocument();
-    expect(screen.getByText('Test Analyst GIS')).toBeInTheDocument();
-    expect(screen.getByText('2023-10-26')).toBeInTheDocument();
+    expect(
+      screen.getAllByText('Test Analyst Technical')[0]
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByText('Test Analyst Permitting')[0]
+    ).toBeInTheDocument();
+    expect(screen.getAllByText('Test Analyst GIS')[0]).toBeVisible();
+    expect(screen.getByText('2023-10-26')).toBeVisible();
     expect(screen.getByText('Received Application Title')).toBeInTheDocument();
     expect(screen.getByText('org name received')).toBeInTheDocument();
+  });
+
+  it('should call the mutation when the analyst is changed', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const analystSelect = screen.getAllByTestId('assign-lead')[0];
+
+    await act(async () => {
+      fireEvent.change(analystSelect, { target: { value: 'Test Analyst' } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAssessmentMutation',
+      {
+        input: {
+          _assessmentType: 'projectManagement',
+          _jsonData: {
+            nextStep: 'Not started',
+            assignedTo: '',
+          },
+          _applicationId: 1,
+        },
+      }
+    );
   });
 });
