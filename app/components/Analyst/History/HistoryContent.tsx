@@ -440,10 +440,6 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     const isUpdate = operation === 'updated';
     const newFile = record.json_data?.claimsFile;
     const oldFile = prevHistoryItem?.record?.json_data?.claimsFile;
-    const changedFile =
-      (isUpdate && oldFile && !newFile) ||
-      (newFile && !oldFile) ||
-      (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid);
 
     return (
       <StyledContent data-testid="history-content-claims">
@@ -451,19 +447,23 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           {displayName} {operation} a <b>Claim & Progress Report</b> on{' '}
           {createdAtFormatted}
         </span>
-        {changedFile && (
+        {!isUpdate && (
           <HistoryFile
+            isDelete={operation === 'deleted'}
             filesArray={record.json_data.claimsFile || []}
-            title="Uploaded Claims & Progress Report Excel"
+            title={`${operation} Claims & Progress Report Excel`}
           />
         )}
         {showHistoryDetails && isUpdate && (
           <HistoryDetails
-            json={record.json_data}
-            prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={['ccbc_number', 'claimsFile']}
+            json={{
+              claimsFile: newFile?.[0]?.name,
+            }}
+            prevJson={{
+              claimsFile: oldFile?.[0]?.name,
+            }}
+            excludedKeys={['ccbc_number']}
             diffSchema={claimsDiffSchema}
-            overrideParent="claims"
           />
         )}
       </StyledContent>

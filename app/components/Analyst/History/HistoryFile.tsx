@@ -3,6 +3,7 @@ import DownloadLink from 'components/DownloadLink';
 
 const StyledTable = styled.table`
   table-layout: auto;
+  text-transform: capitalize;
 
   th,
   td {
@@ -21,6 +22,7 @@ const StyledTable = styled.table`
 
 const HistoryFile = ({
   filesArray,
+  isDelete,
   title,
   tableTitle = true,
   previousFileArray = null,
@@ -42,7 +44,13 @@ const HistoryFile = ({
               ? filesArray.map((file) => {
                   return (
                     <>
-                      <DownloadLink uuid={file.uuid} fileName={file.name} />
+                      {isDelete ? (
+                        <del>
+                          <DownloadLink uuid={file.uuid} fileName={file.name} />
+                        </del>
+                      ) : (
+                        <DownloadLink uuid={file.uuid} fileName={file.name} />
+                      )}
                       <br />
                     </>
                   );
