@@ -218,7 +218,7 @@ describe('cbc_project', () => {
         'Project #9999: proposedStartDate not imported due to formatting error - value should be a date',
         'Project #9999: proposedCompletionDate not imported due to formatting error - value should be a date',
         'Project #9999: reportingCompletionDate not imported due to formatting error - value should be a date',
-        'Project #9999: projectMilestoneCompleted not imported due to formatting error - value should be a date',
+        'Project #9999: projectMilestoneCompleted not imported due to formatting error - value should be a number',
         'Project #9999: constructionCompletedOn not imported due to formatting error - value should be a date',
         'Project #9999: lastReviewed not imported due to formatting error - value should be a date',
       ],

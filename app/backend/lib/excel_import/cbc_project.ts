@@ -171,7 +171,7 @@ const readSummary = async (wb, sheet) => {
         errorLog,
         projectNumber
       ),
-      projectMilestoneCompleted: validateDate(
+      projectMilestoneCompleted: validateNumber(
         project['AN'],
         'projectMilestoneCompleted',
         errorLog,
