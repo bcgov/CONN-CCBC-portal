@@ -114,6 +114,9 @@ const mockQueryPayload = {
         openTimestamp: '2022-08-19T09:00:00-07:00',
         closeTimestamp: '2027-08-19T09:00:00-07:00',
       },
+      openHiddenIntake: {
+        id: '',
+      },
     };
   },
 };
@@ -129,6 +132,9 @@ const mockNoApplicationsPayload = {
         openTimestamp: '2022-08-19T09:00:00-07:00',
         closeTimestamp: '2027-08-19T09:00:00-07:00',
       },
+      openHiddenIntake: {
+        id: '',
+      },
     };
   },
 };
@@ -141,6 +147,7 @@ const mockClosedIntakePayload = {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
       openIntake: null,
+      openHiddenIntake: null,
     };
   },
 };
@@ -151,6 +158,7 @@ const pageTestingHelper = new PageTestingHelper<dashboardQuery>({
   defaultQueryResolver: mockQueryPayload,
   defaultQueryVariables: {
     formOwner: { owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6' },
+    code: '',
   },
 });
 
