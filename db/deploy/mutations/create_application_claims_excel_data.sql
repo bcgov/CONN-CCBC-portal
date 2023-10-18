@@ -7,15 +7,14 @@ returns ccbc_public.application_claims_excel_data as $$
 declare
 new_id int;
 begin
+  -- archive the old claims excel data
+  if exists (select * from ccbc_public.application_claims_excel_data where json_data->>'claimNumber' = _json_data->>'claimNumber' and application_id=_application_id and archived_at is null)
+    then update ccbc_public.application_claims_excel_data
+    set archived_at = now() where json_data->>'claimNumber' = _json_data->>'claimNumber' and application_id=_application_id and archived_at is null;
+  end if;
 
   insert into ccbc_public.application_claims_excel_data (application_id, json_data)
     values (_application_id, _json_data) returning id into new_id;
-
-  -- archive the old claims excel data
-  if exists (select * from ccbc_public.application_claims_excel_data where id = _old_id and archived_at is null)
-    then update ccbc_public.application_claims_excel_data
-    set archived_at = now() where id = _old_id;
-  end if;
 
   return (select row(ccbc_public.application_claims_excel_data.*)
   from ccbc_public.application_claims_excel_data
