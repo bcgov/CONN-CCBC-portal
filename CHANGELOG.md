@@ -1,3 +1,9 @@
+# [1.113.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.112.0...v1.113.0) (2023-10-18)
+
+### Features
+
+- update terraform settings for s3 backend ([c86dcd9](https://github.com/bcgov/CONN-CCBC-portal/commit/c86dcd923fcfdc6c768137c8f18581a63153bc61))
+
 # [1.112.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.111.0...v1.112.0) (2023-10-17)
 
 ### Features
