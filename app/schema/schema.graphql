@@ -58937,6 +58937,14 @@ type Mutation {
   ): CreateConditionalApprovalPayload
 
   """Function to create intakes for the ccbc admin"""
+  createHiddenIntake(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateHiddenIntakeInput!
+  ): CreateHiddenIntakePayload
+
+  """Function to create intakes for the ccbc admin"""
   createIntake(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -59067,6 +59075,14 @@ type Mutation {
     """
     input: ReceiveApplicationsInput!
   ): ReceiveApplicationsPayload
+
+  """Detects any applications in a hidden intake and marks them as received"""
+  receiveHiddenApplications(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: ReceiveHiddenApplicationsInput!
+  ): ReceiveHiddenApplicationsPayload
   saveGisAssessmentHh(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -68175,6 +68191,51 @@ input CreateConditionalApprovalInput {
   _jsonData: JSON!
 }
 
+"""The output of our `createHiddenIntake` mutation."""
+type CreateHiddenIntakePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  intake: Intake
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `Intake`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Intake`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Intake`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """Reads a single `GaplessCounter` that is related to this `Intake`."""
+  gaplessCounterByCounterId: GaplessCounter
+
+  """An edge for our `Intake`. May be used by Relay 1."""
+  intakeEdge(
+    """The method to use when ordering `Intake`."""
+    orderBy: [IntakesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): IntakesEdge
+}
+
+"""All input for the `createHiddenIntake` mutation."""
+input CreateHiddenIntakeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  startTime: Datetime!
+  endTime: Datetime!
+  intakeDescription: String
+}
+
 """The output of our `createIntake` mutation."""
 type CreateIntakePayload {
   """
@@ -68868,6 +68929,30 @@ type ReceiveApplicationsPayload {
 
 """All input for the `receiveApplications` mutation."""
 input ReceiveApplicationsInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+}
+
+"""The output of our `receiveHiddenApplications` mutation."""
+type ReceiveHiddenApplicationsPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  resultIds: [Int]
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+"""All input for the `receiveHiddenApplications` mutation."""
+input ReceiveHiddenApplicationsInput {
   """
   An arbitrary string value with no semantic meaning. Will be included in the
   payload verbatim. May be used to track mutations by the client.

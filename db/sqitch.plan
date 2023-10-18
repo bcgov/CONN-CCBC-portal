@@ -471,3 +471,5 @@ mutations/create_application [mutations/create_application@1.109.0] 2023-10-16T2
 computed_columns/form_data_is_editable [computed_columns/form_data_is_editable@1.109.0] 2023-10-16T21:15:33Z Tony Bushara <tonybushara@pop-os> # Check if a draft form has an associated open intake. Used for hidden intakes
 mutations/submit_application [mutations/submit_application@1.109.0] 2023-10-17T15:02:51Z Tony Bushara <tonybushara@pop-os> # Include hidden intake for submitting an application
 mutations/create_intake [mutations/create_intake@1.110.0] 2023-10-17T19:46:11Z Tony Bushara <tonybushara@pop-os> # Filter out hidden intakes
+functions/create_hidden_intake 2023-10-18T14:11:08Z Tony Bushara <tonybushara@pop-os> # Helper function used to create a hidden intake
+functions/receive_hidden_applications 2023-10-18T14:10:43Z Tony Bushara <tonybushara@pop-os> # Function used to receive hidden applications.
