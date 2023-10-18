@@ -505,18 +505,6 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         <b>Milestone Report</b>
         <span> on {createdAtFormatted}</span>
 
-        {op === 'INSERT' && changedMilestoneFile && (
-          <HistoryFile
-            filesArray={record.json_data.milestoneFile || []}
-            title="Uploaded Milestone Report Excel"
-          />
-        )}
-        {op === 'INSERT' && changedEvidenceFile && (
-          <HistoryFile
-            filesArray={record.json_data.evidenceOfCompletionFile || []}
-            title="Uploaded Milestone Completion Evidence"
-          />
-        )}
         {op === 'INSERT' && showHistoryDetails && (
           <HistoryDetails
             json={record.json_data}
@@ -528,6 +516,52 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             ]}
             diffSchema={communityReportSchema}
             overrideParent="communityReport"
+          />
+        )}
+        {op === 'UPDATE' &&
+          record?.history_operation === 'deleted' &&
+          showHistoryDetails && (
+            <HistoryDetails
+              json={{}}
+              prevJson={record.json_data}
+              excludedKeys={[
+                'ccbc_number',
+                'milestoneFile',
+                'evidenceOfCompletionFile',
+              ]}
+              diffSchema={communityReportSchema}
+              overrideParent="communityReport"
+            />
+          )}
+        {op === 'INSERT' && changedMilestoneFile && (
+          <HistoryFile
+            filesArray={record.json_data.milestoneFile || []}
+            previousFileArray={oldMilestoneFile || []}
+            title="Uploaded Milestone Report Excel"
+          />
+        )}
+        {op === 'INSERT' && changedEvidenceFile && (
+          <HistoryFile
+            filesArray={record.json_data.evidenceOfCompletionFile || []}
+            previousFileArray={oldEvidenceFile || []}
+            title="Uploaded Milestone Completion Evidence"
+            tableTitle={!changedMilestoneFile}
+          />
+        )}
+        {op === 'UPDATE' && record?.history_operation === 'deleted' && (
+          <HistoryFile
+            filesArray={[]}
+            previousFileArray={record.json_data.milestoneFile || []}
+            title="Uploaded Milestone Report Excel"
+            tableTitle={false}
+          />
+        )}
+        {op === 'UPDATE' && record?.history_operation === 'deleted' && (
+          <HistoryFile
+            filesArray={[]}
+            previousFileArray={record.json_data.evidenceOfCompletionFile || []}
+            title="Uploaded Milestone Completion Evidence"
+            tableTitle={false}
           />
         )}
       </StyledContent>
