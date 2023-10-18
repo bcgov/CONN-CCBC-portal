@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import * as moduleApi from '@growthbook/growthbook-react';
 import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
+import userEvent from '@testing-library/user-event';
 import Dashboard, {
   withRelayOptions,
 } from '../../../pages/applicantportal/dashboard';
@@ -152,13 +153,28 @@ const mockClosedIntakePayload = {
   },
 };
 
+const mockClosedIntakeOpenHiddenIntakePayload = {
+  Query() {
+    return {
+      allApplications: { nodes: [] },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+      openIntake: null,
+      openHiddenIntake: {
+        id: 'asdf',
+      },
+    };
+  },
+};
+
 const pageTestingHelper = new PageTestingHelper<dashboardQuery>({
   pageComponent: Dashboard,
   compiledQuery: compileddashboardQuery,
   defaultQueryResolver: mockQueryPayload,
   defaultQueryVariables: {
     formOwner: { owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6' },
-    code: '',
+    code: 'asdf',
   },
 });
 
@@ -236,6 +252,20 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText(`Create application`)).toBeDisabled();
+  });
+
+  it('has create application button enabled when open hidden intake returns a value', async () => {
+    pageTestingHelper.loadQuery(mockClosedIntakeOpenHiddenIntakePayload);
+    pageTestingHelper.renderPage();
+    pageTestingHelper.router.query = { code: 'asdf' };
+    const createApplicationButton = screen.getByText('Create application');
+    expect(createApplicationButton).toBeEnabled();
+    await userEvent.click(createApplicationButton);
+    pageTestingHelper.expectMutationToBeCalled('createApplicationMutation', {
+      input: {
+        code: 'asdf',
+      },
+    });
   });
 
   it('displays the message when user has no applications', async () => {
