@@ -39,7 +39,7 @@ $function$
     end;
 $function$ language plpgsql volatile;
 
-grant execute on function ccbc_public.receive_hidden_applications to ccbc_admin;
+grant execute on function ccbc_public.receive_hidden_applications to ccbc_job_executor;
 
 comment on function ccbc_public.receive_hidden_applications is 'Detects any applications in a hidden intake and marks them as received';
 
