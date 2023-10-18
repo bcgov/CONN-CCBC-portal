@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -122,7 +123,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
   );
 
   const { allAnalysts, allApplications } = queryFragment;
-
+  const isLargeUp = useMediaQuery('(min-width:1007px)');
   const tableData = useMemo(
     () =>
       allApplications.edges.map(({ node: application }) => {
@@ -167,47 +168,55 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     [allApplications]
   );
 
+  const assessmentWidth = 36;
   const columns = useMemo<MRT_ColumnDef<Application>[]>(
     () => [
       {
         accessorKey: 'ccbcNumber',
         header: 'CCBC ID',
-        size: 30,
+        size: 26,
+        maxSize: 26,
         Cell: CcbcIdCell,
       },
       {
         accessorKey: 'packageNumber',
         header: 'Package',
-        size: 10,
+        size: 24,
+        maxSize: 24,
       },
       {
         accessorKey: 'pmAssessment',
         header: 'PM Assessment',
-        size: 30,
+        size: assessmentWidth,
+        maxSize: assessmentWidth,
         Cell: AssessmentCell,
       },
       {
         accessorKey: 'techAssessment',
         header: 'Tech Assessment',
-        size: 30,
+        size: assessmentWidth,
+        maxSize: assessmentWidth,
         Cell: AssessmentCell,
       },
       {
         accessorKey: 'permittingAssessment',
         header: 'Permitting Assessment',
-        size: 30,
+        size: assessmentWidth,
+        maxSize: assessmentWidth,
         Cell: AssessmentCell,
       },
       {
         accessorKey: 'gisAssessment',
         header: 'GIS Assessment',
-        size: 30,
+        size: assessmentWidth,
+        maxSize: assessmentWidth,
         Cell: AssessmentCell,
       },
       {
         accessorKey: 'techAssessment.jsonData.targetDate',
         header: 'Target Date',
         size: 30,
+        maxSize: 30,
       },
       {
         accessorKey: 'projectTitle',
@@ -230,6 +239,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     enablePagination: false,
     enableBottomToolbar: false,
     muiTableContainerProps: { sx: { padding: '8px' } },
+    layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps: {
       sx: {
         padding: '8px 0px',
@@ -238,6 +248,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     muiTableHeadCellProps: {
       sx: {
         padding: '0px',
+        wordBreak: 'break-word',
+        texOverflow: 'wrap',
       },
     },
   });
