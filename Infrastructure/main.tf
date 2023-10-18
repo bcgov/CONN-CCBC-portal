@@ -1,12 +1,12 @@
 /* */
 terraform {
-    backend "remote" {
-        hostname     = "app.terraform.io"
-        organization = "bcgov"
-        workspaces {
-          name = "fapi7b-dev"
-        //"${{ env.TFC_WORKSPACE }}"
-        }
+    backend "s3" {
+      # Will need to replace bucket name based on environment, can't use a variable here
+        bucket = "terraform-remote-state-fapi7b-dev"
+        region = "ca-central-1"
+        dynamodb_table = "terraform-remote-state-lock-fapi7b"
+        encrypt = true
+        key = "terraform.tfstate"
     }
 }
 provider "aws" {
@@ -24,13 +24,13 @@ data "aws_caller_identity" "current" {}
 module "s3" {
   source  = "./modules/s3_bucket"
   vpc_id = data.aws_vpc.selected.id
-  bucket_name = var.bucket_name 
+  bucket_name = var.bucket_name
 }
 
 module "db_backup" {
   source  = "./modules/s3_bucket"
   vpc_id = data.aws_vpc.selected.id
-  bucket_name = var.backup_bucket_name 
+  bucket_name = var.backup_bucket_name
 }
 
 module "lambda_layer_s3" {
@@ -46,7 +46,7 @@ module "lambda_layer_s3" {
   create_package  = false
   local_existing_package = "clamav_lambda_layer.zip"
   # s3_existing_package = {
-  #   bucket = var.bucket_name 
+  #   bucket = var.bucket_name
   #   key    = "clamav_lambda_layer.zip"
   # }
 }
