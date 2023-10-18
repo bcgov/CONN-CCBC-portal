@@ -7,6 +7,7 @@ const StyledTable = styled.table`
   th,
   td {
     padding: 8px;
+    width: 30%;
   }
 
   thead tr th:first-child,
@@ -21,16 +22,24 @@ const StyledTable = styled.table`
 
 const HistoryFile = ({
   filesArray,
+  previousFileArray = null,
+  isDelete = false,
   title,
   tableTitle = true,
-  previousFileArray = null,
 }) => {
+  const isPreviousFileArray = previousFileArray?.length > 0;
   return (
     <StyledTable>
       <thead style={{ borderBottom: '2px solid #CCC' }}>
         {tableTitle && (
           <tr>
             <th>Files</th>
+            {isPreviousFileArray && (
+              <>
+                <th>New</th>
+                <th>Old</th>
+              </>
+            )}
           </tr>
         )}
       </thead>
@@ -38,28 +47,33 @@ const HistoryFile = ({
         <tr>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>{title}</td>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>
-            {filesArray?.length > 0
-              ? filesArray.map((file) => {
-                  return (
-                    <>
+            {filesArray?.length > 0 &&
+              filesArray.map((file) => {
+                return (
+                  <>
+                    {isDelete ? (
+                      <del>
+                        <DownloadLink uuid={file.uuid} fileName={file.name} />
+                      </del>
+                    ) : (
                       <DownloadLink uuid={file.uuid} fileName={file.name} />
-                      <br />
-                    </>
-                  );
-                })
-              : 'N/A'}
+                    )}
+                    <br />
+                  </>
+                );
+              })}
           </td>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>
             {previousFileArray?.length > 0
               ? previousFileArray.map((previousFile) => {
                   return (
-                    <>
+                    <del key={previousFile.uuid}>
                       <DownloadLink
                         uuid={previousFile.uuid}
                         fileName={previousFile.name}
                       />
                       <br />
-                    </>
+                    </del>
                   );
                 })
               : 'N/A'}

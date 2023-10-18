@@ -6,7 +6,6 @@ import applicationDiffSchema from 'formSchema/uiSchema/history/application';
 import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
 import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
 import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
-import claimsSchema from 'formSchema/analyst/claims';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -52,12 +51,6 @@ const communityReportSchema = {
         type: 'string',
       },
     },
-  },
-};
-
-const claimsDiffSchema = {
-  claims: {
-    ...claimsSchema,
   },
 };
 
@@ -438,12 +431,8 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   if (tableName === 'application_claims_data') {
     const operation = historyItem.record?.history_operation;
     const isUpdate = operation === 'updated';
-    const newFile = record.json_data?.claimsFile;
-    const oldFile = prevHistoryItem?.record?.json_data?.claimsFile;
-    const changedFile =
-      (isUpdate && oldFile && !newFile) ||
-      (newFile && !oldFile) ||
-      (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid);
+    const isDelete = operation === 'deleted';
+    const isFile = record.json_data?.claimsFile?.length > 0;
 
     return (
       <StyledContent data-testid="history-content-claims">
@@ -451,19 +440,22 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           {displayName} {operation} a <b>Claim & Progress Report</b> on{' '}
           {createdAtFormatted}
         </span>
-        {changedFile && (
+        {!isUpdate && isFile && (
           <HistoryFile
+            isDelete={isDelete}
             filesArray={record.json_data.claimsFile || []}
-            title="Uploaded Claims & Progress Report Excel"
+            title={`${
+              isDelete ? 'Deleted' : 'Uploaded'
+            } Claims & Progress Report Excel`}
           />
         )}
         {showHistoryDetails && isUpdate && (
-          <HistoryDetails
-            json={record.json_data}
-            prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={['ccbc_number', 'claimsFile']}
-            diffSchema={claimsDiffSchema}
-            overrideParent="claims"
+          <HistoryFile
+            filesArray={record.json_data.claimsFile || []}
+            previousFileArray={
+              prevHistoryItem?.record?.json_data?.claimsFile || []
+            }
+            title="Uploaded Claims & Progress Report Excel"
           />
         )}
       </StyledContent>

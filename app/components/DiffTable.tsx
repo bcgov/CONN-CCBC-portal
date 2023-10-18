@@ -8,6 +8,7 @@ const StyledTable = styled.table`
   th,
   td {
     padding: 8px;
+    width: 30%;
   }
 
   thead tr th:first-child,
