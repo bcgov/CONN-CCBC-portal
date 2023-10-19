@@ -160,7 +160,7 @@ crunchy-postgres:
         incremental: 0 0,4,12,16,20 * * *
       volume:
         accessModes: 'ReadWriteOnce'
-        storage: 128Gi
+        storage: 10Gi
         storageClassName: netapp-file-backup
     repoHost:
       requests:
