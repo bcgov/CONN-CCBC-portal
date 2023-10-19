@@ -466,3 +466,4 @@ computed_columns/application_history [computed_columns/application_history@1.111
 mutations/create_application_milestone_data [mutations/create_application_milestone_data@1.111.0] 2023-10-17T22:58:21Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add logic for updated
 mutations/create_application_claims_excel_data [mutations/create_application_claims_excel_data@1.111.0] 2023-10-18T19:07:12Z Tony Bushara <tonybushara@pop-os> # Change logic to archive all previous claim numbers
 @1.113.0 2023-10-18T23:13:32Z CCBC Service Account <ccbc@button.is> # release v1.113.0
+@1.113.1 2023-10-19T15:43:01Z CCBC Service Account <ccbc@button.is> # release v1.113.1
