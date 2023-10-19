@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
+import { useFeature } from '@growthbook/growthbook-react';
 import {
   AssessmentAssignmentTable,
   DashboardTabs,
@@ -13,34 +14,7 @@ import { assessmentsTableQuery } from '__generated__/assessmentsTableQuery.graph
 
 const getAssessmentsTableQuery = graphql`
   query assessmentsTableQuery {
-    allApplications(
-      filter: {
-        status: {
-          in: ["received", "screening", "assessment", "recommendation"]
-        }
-      }
-    ) {
-      edges {
-        node {
-          allAssessments(filter: { archivedAt: { isNull: true } }) {
-            edges {
-              node {
-                jsonData
-                assessmentDataType
-                rowId
-              }
-            }
-          }
-          organizationName
-          package
-          status
-          ccbcNumber
-          rowId
-          projectName
-          intakeId
-        }
-      }
-    }
+    ...AssessmentAssignmentTable_query
     session {
       sub
       ...DashboardTabs_query
@@ -56,8 +30,9 @@ const Assessments = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, assessmentsTableQuery>) => {
   const query = usePreloadedQuery(getAssessmentsTableQuery, preloadedQuery);
-  const { allApplications, session } = query;
+  const { session } = query;
 
+  const showTable = useFeature('show_assessment_assignment_table').value;
   return (
     <Layout
       session={session}
@@ -66,8 +41,12 @@ const Assessments = ({
     >
       <StyledContainer>
         <DashboardTabs session={session} />
-        <TableTabs />
-        <AssessmentAssignmentTable allApplications={allApplications} />
+        {showTable && (
+          <>
+            <TableTabs />
+            <AssessmentAssignmentTable query={query} />
+          </>
+        )}
       </StyledContainer>
     </Layout>
   );

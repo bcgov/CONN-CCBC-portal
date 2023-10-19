@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
+import { useFeature } from '@growthbook/growthbook-react';
 import { graphql } from 'react-relay';
 import cookie from 'js-cookie';
 import {
@@ -100,6 +101,7 @@ const AnalystDashboard = ({
   const query = usePreloadedQuery(getDashboardAnalystQuery, preloadedQuery);
   const router = useRouter();
   const { session, allApplications } = query;
+  const showTableTabs = useFeature('show_assessment_assignment_table').value;
 
   const hasSort = router.query?.orderBy;
 
@@ -155,7 +157,7 @@ const AnalystDashboard = ({
     <Layout session={session} title="Connecting Communities BC">
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
-        <TableTabs />
+        {showTableTabs && <TableTabs />}
         {hasSort && (
           <StyledSortText onClick={handleClearSorting}>
             Clear sorting

@@ -1,10 +1,13 @@
 import { useMemo } from 'react';
+import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   MaterialReactTable,
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
+import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
 
 type Assessment = {
   rowId: string;
@@ -33,7 +36,7 @@ const findAssessment = (assessments, assessmentType) => {
   return {
     rowId: data?.node.rowId,
     jsonData: data?.node?.jsonData,
-    type: data?.node?.assessmentDataType,
+    type: assessmentType,
   };
 };
 
@@ -41,6 +44,21 @@ const StyledLink = styled.a`
   color: ${(props) => props.theme.color.text};
   text-decoration: none;
 `;
+
+const AssessmentCell = ({ cell }) => {
+  const row = cell.row.original;
+  const { applicationId, allAnalysts } = row;
+  const assessment = cell.getValue();
+
+  return (
+    <AssessmentLead
+      allAnalysts={allAnalysts.edges}
+      applicationId={applicationId}
+      assessmentType={assessment.type}
+      jsonData={assessment.jsonData}
+    />
+  );
+};
 
 const CcbcIdCell = ({ cell }) => {
   const applicationId = cell.row.original?.applicationId;
@@ -52,10 +70,60 @@ const CcbcIdCell = ({ cell }) => {
 };
 
 interface Props {
-  allApplications;
+  query: any;
 }
 
-const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
+const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment AssessmentAssignmentTable_query on Query {
+        allAnalysts(first: 1000, orderBy: GIVEN_NAME_ASC)
+          @connection(key: "ListOfAnalysts_allAnalysts") {
+          __id
+          edges {
+            node {
+              familyName
+              givenName
+              active
+              id
+            }
+          }
+        }
+        allApplications(
+          filter: {
+            status: {
+              in: ["received", "screening", "assessment", "recommendation"]
+            }
+          }
+        ) {
+          edges {
+            node {
+              allAssessments(filter: { archivedAt: { isNull: true } }) {
+                edges {
+                  node {
+                    jsonData
+                    assessmentDataType
+                    rowId
+                  }
+                }
+              }
+              organizationName
+              package
+              status
+              ccbcNumber
+              rowId
+              projectName
+              intakeId
+            }
+          }
+        }
+      }
+    `,
+    query
+  );
+
+  const { allAnalysts, allApplications } = queryFragment;
+  const isLargeUp = useMediaQuery('(min-width:1007px)');
   const tableData = useMemo(
     () =>
       allApplications.edges.map(({ node: application }) => {
@@ -71,6 +139,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
           applicationId,
           ccbcNumber,
           packageNumber,
+          allAnalysts,
           pmAssessment: findAssessment(
             application.allAssessments.edges,
             'projectManagement'
@@ -99,44 +168,55 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
     [allApplications]
   );
 
+  const assessmentWidth = 36;
   const columns = useMemo<MRT_ColumnDef<Application>[]>(
     () => [
       {
         accessorKey: 'ccbcNumber',
         header: 'CCBC ID',
-        size: 30,
-
+        size: 26,
+        maxSize: 26,
         Cell: CcbcIdCell,
       },
       {
         accessorKey: 'packageNumber',
         header: 'Package',
-        size: 10,
+        size: 24,
+        maxSize: 24,
       },
       {
-        accessorKey: 'pmAssessment.jsonData.assignedTo',
+        accessorKey: 'pmAssessment',
         header: 'PM Assessment',
-        size: 30,
+        size: assessmentWidth,
+        maxSize: assessmentWidth,
+        Cell: AssessmentCell,
       },
       {
-        accessorKey: 'techAssessment.jsonData.assignedTo',
+        accessorKey: 'techAssessment',
         header: 'Tech Assessment',
-        size: 30,
+        size: assessmentWidth,
+        maxSize: assessmentWidth,
+        Cell: AssessmentCell,
       },
       {
-        accessorKey: 'permittingAssessment.jsonData.assignedTo',
+        accessorKey: 'permittingAssessment',
         header: 'Permitting Assessment',
-        size: 30,
+        size: assessmentWidth,
+        maxSize: assessmentWidth,
+        Cell: AssessmentCell,
       },
       {
-        accessorKey: 'gisAssessment.jsonData.assignedTo',
+        accessorKey: 'gisAssessment',
         header: 'GIS Assessment',
-        size: 30,
+        size: assessmentWidth,
+        maxSize: assessmentWidth,
+        Cell: AssessmentCell,
       },
       {
         accessorKey: 'techAssessment.jsonData.targetDate',
         header: 'Target Date',
         size: 30,
+        maxSize: 30,
       },
       {
         accessorKey: 'projectTitle',
@@ -159,6 +239,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
     enablePagination: false,
     enableBottomToolbar: false,
     muiTableContainerProps: { sx: { padding: '8px' } },
+    layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps: {
       sx: {
         padding: '8px 0px',
@@ -167,6 +248,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ allApplications }) => {
     muiTableHeadCellProps: {
       sx: {
         padding: '0px',
+        wordBreak: 'break-word',
+        texOverflow: 'wrap',
       },
     },
   });

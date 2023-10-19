@@ -1,5 +1,7 @@
 import { mocked } from 'jest-mock';
 import { screen } from '@testing-library/react';
+import * as moduleApi from '@growthbook/growthbook-react';
+import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import Assessments from '../../../pages/analyst/assessments';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
@@ -43,6 +45,14 @@ const mockQueryPayload = {
   },
 };
 
+const mockShowTable: FeatureResult<JSONValue> = {
+  value: true,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_assessment_assignment_table',
+};
+
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 window.scrollTo = jest.fn();
 
@@ -57,6 +67,9 @@ describe('The index page', () => {
     pageTestingHelper.reinit();
     pageTestingHelper.setMockRouterValues({
       pathname: '/analyst/assessments',
+    });
+    jest.spyOn(moduleApi, 'useFeature').mockImplementation(() => {
+      return mockShowTable;
     });
   });
 

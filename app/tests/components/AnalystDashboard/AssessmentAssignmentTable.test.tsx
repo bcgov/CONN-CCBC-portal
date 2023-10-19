@@ -1,123 +1,181 @@
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
+import { graphql } from 'react-relay';
+import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
 import AssessmentAssignmentTable from 'components/AnalystDashboard/AssessmentAssignmentTable';
-import GlobalTheme from 'styles/GlobalTheme';
+import compiledQuery, {
+  AssessmentAssignmentTableTestQuery,
+} from '__generated__/AssessmentAssignmentTableTestQuery.graphql';
 
-const mockAllApplications = {
-  edges: [
-    {
-      node: {
-        allAssessments: {
-          edges: [
-            {
-              node: {
-                jsonData: {
-                  nextStep: 'Not started',
-                  assignedTo: 'Test Analyst GIS',
-                },
-                assessmentDataType: 'gis',
-                rowId: 2,
-              },
-            },
-            {
-              node: {
-                jsonData: {
-                  nextStep: 'Not started',
-                  assignedTo: 'Test Analyst Project Management',
-                },
-                assessmentDataType: 'projectManagement',
-                rowId: 4,
-              },
-            },
+const testQuery = graphql`
+  query AssessmentAssignmentTableTestQuery @relay_test_operation {
+    ...AssessmentAssignmentTable_query
+  }
+`;
 
-            {
-              node: {
-                jsonData: {
-                  nextStep: 'Not started',
-                  assignedTo: 'Test Analyst Permitting',
-                },
-                assessmentDataType: 'permitting',
-                rowId: 6,
-              },
+const mockQueryPayload = {
+  Query() {
+    return {
+      allAnalysts: {
+        edges: [
+          {
+            node: {
+              familyName: 'Analyst GIS',
+
+              givenName: 'Test',
+              active: true,
             },
-            {
-              node: {
-                jsonData: {
-                  decision: 'No decision',
-                  nextStep: 'Not started',
-                  assignedTo: 'Test Analyst Technical',
-                  targetDate: '2023-10-26',
-                },
-                assessmentDataType: 'technical',
-                rowId: 7,
-              },
+          },
+          {
+            node: {
+              familyName: 'Analyst Project Management',
+              givenName: 'Test',
+              active: true,
             },
-          ],
-        },
-        organizationName: 'org name received',
-        package: 1,
-        status: 'received',
-        ccbcNumber: 'CCBC-010001',
-        rowId: 1,
-        projectName: 'Received Application Title',
-        intakeId: 1,
+          },
+          {
+            node: {
+              familyName: 'Analyst Permitting',
+              givenName: 'Test',
+              active: true,
+            },
+          },
+          {
+            node: {
+              familyName: 'Analyst Technical',
+              givenName: 'Test',
+              active: true,
+            },
+          },
+        ],
       },
-    },
-    {
-      node: {
-        allAssessments: {
-          edges: [],
-        },
-        organizationName: 'org name 2',
-        package: null,
-        status: 'received',
-        ccbcNumber: 'CCBC-010002',
-        rowId: 2,
-        projectName: 'Received Application Title 2',
-        intakeId: 1,
+      allApplications: {
+        edges: [
+          {
+            node: {
+              allAssessments: {
+                edges: [
+                  {
+                    node: {
+                      jsonData: {
+                        nextStep: 'Not started',
+                        assignedTo: 'Test Analyst GIS',
+                      },
+                      assessmentDataType: 'gis',
+                      rowId: 2,
+                    },
+                  },
+                  {
+                    node: {
+                      jsonData: {
+                        nextStep: 'Not started',
+                        assignedTo: 'Test Analyst Project Management',
+                      },
+                      assessmentDataType: 'projectManagement',
+                      rowId: 4,
+                    },
+                  },
+
+                  {
+                    node: {
+                      jsonData: {
+                        nextStep: 'Not started',
+                        assignedTo: 'Test Analyst Permitting',
+                      },
+                      assessmentDataType: 'permitting',
+                      rowId: 6,
+                    },
+                  },
+                  {
+                    node: {
+                      jsonData: {
+                        decision: 'No decision',
+                        nextStep: 'Not started',
+                        assignedTo: 'Test Analyst Technical',
+                        targetDate: '2023-10-26',
+                      },
+                      assessmentDataType: 'technical',
+                      rowId: 7,
+                    },
+                  },
+                ],
+              },
+              organizationName: 'org name received',
+              package: 1,
+              status: 'received',
+              ccbcNumber: 'CCBC-010001',
+              rowId: 1,
+              projectName: 'Received Application Title',
+              intakeId: 1,
+            },
+          },
+          {
+            node: {
+              allAssessments: {
+                edges: [],
+              },
+              organizationName: 'org name 2',
+              package: null,
+              status: 'received',
+              ccbcNumber: 'CCBC-010002',
+              rowId: 2,
+              projectName: 'Received Application Title 2',
+              intakeId: 1,
+            },
+          },
+          {
+            node: {
+              allAssessments: {
+                edges: [],
+              },
+              organizationName: 'more testing',
+              package: null,
+              status: 'received',
+              ccbcNumber: 'CCBC-010006',
+              rowId: 8,
+              projectName: null,
+              intakeId: 1,
+            },
+          },
+          {
+            node: {
+              allAssessments: {
+                edges: [],
+              },
+              organizationName: 'org name ',
+              package: null,
+              status: 'received',
+              ccbcNumber: 'CCBC-010007',
+              rowId: 9,
+              projectName: null,
+              intakeId: 1,
+            },
+          },
+        ],
       },
-    },
-    {
-      node: {
-        allAssessments: {
-          edges: [],
-        },
-        organizationName: 'more testing',
-        package: null,
-        status: 'received',
-        ccbcNumber: 'CCBC-010006',
-        rowId: 8,
-        projectName: null,
-        intakeId: 1,
-      },
-    },
-    {
-      node: {
-        allAssessments: {
-          edges: [],
-        },
-        organizationName: 'org name ',
-        package: null,
-        status: 'received',
-        ccbcNumber: 'CCBC-010007',
-        rowId: 9,
-        projectName: null,
-        intakeId: 1,
-      },
-    },
-  ],
+    };
+  },
 };
 
-const renderStaticLayout = () => {
-  return render(
-    <GlobalTheme>
-      <AssessmentAssignmentTable allApplications={mockAllApplications} />
-    </GlobalTheme>
-  );
-};
+const componentTestingHelper =
+  new ComponentTestingHelper<AssessmentAssignmentTableTestQuery>({
+    component: AssessmentAssignmentTable,
+    testQuery,
+    compiledQuery,
+    defaultQueryResolver: mockQueryPayload,
+    getPropsFromTestQuery: (data) => ({
+      query: data,
+    }),
+  });
 
 describe('The AssessmentAssignmentTable component', () => {
+  beforeEach(() => {
+    componentTestingHelper.reinit();
+  });
+
   it('should render the table headers', () => {
-    renderStaticLayout();
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
     expect(screen.getByText('CCBC ID')).toBeInTheDocument();
     expect(screen.getByText('Package')).toBeInTheDocument();
     expect(screen.getByText('PM Assessment')).toBeInTheDocument();
@@ -129,17 +187,48 @@ describe('The AssessmentAssignmentTable component', () => {
   });
 
   it('should render the correct row data', () => {
-    renderStaticLayout();
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
     expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(
-      screen.getByText('Test Analyst Project Management')
+      screen.getAllByText('Test Analyst Project Management')[0]
     ).toBeInTheDocument();
-    expect(screen.getByText('Test Analyst Technical')).toBeInTheDocument();
-    expect(screen.getByText('Test Analyst Permitting')).toBeInTheDocument();
-    expect(screen.getByText('Test Analyst GIS')).toBeInTheDocument();
-    expect(screen.getByText('2023-10-26')).toBeInTheDocument();
+    expect(
+      screen.getAllByText('Test Analyst Technical')[0]
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByText('Test Analyst Permitting')[0]
+    ).toBeInTheDocument();
+    expect(screen.getAllByText('Test Analyst GIS')[0]).toBeVisible();
+    expect(screen.getByText('2023-10-26')).toBeVisible();
     expect(screen.getByText('Received Application Title')).toBeInTheDocument();
     expect(screen.getByText('org name received')).toBeInTheDocument();
+  });
+
+  it('should call the mutation when the analyst is changed', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const analystSelect = screen.getAllByTestId('assign-lead')[0];
+
+    await act(async () => {
+      fireEvent.change(analystSelect, { target: { value: 'Test Analyst' } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAssessmentMutation',
+      {
+        input: {
+          _assessmentType: 'projectManagement',
+          _jsonData: {
+            nextStep: 'Not started',
+            assignedTo: '',
+          },
+          _applicationId: 1,
+        },
+      }
+    );
   });
 });

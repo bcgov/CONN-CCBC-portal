@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AssignLead_query$key } from '__generated__/AssignLead_query.graphql';
 import { useAssignAnalystMutation } from '../../schema/mutations/application/createApplicationAnalystLead';
 
-const StyledDropdown = styled.select`
+export const StyledDropdown = styled.select`
   text-overflow: ellipsis;
   color: ${(props) => props.theme.color.links};
   background-color: ${(props) => props.theme.color.white};
