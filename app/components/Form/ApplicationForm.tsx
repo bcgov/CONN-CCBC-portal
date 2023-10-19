@@ -287,6 +287,7 @@ const ApplicationForm: React.FC<Props> = ({
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';
   const isAcknowledgementPage = sectionName === 'acknowledgements';
+  const isOtherFundingSourcesPage = sectionName === 'otherFundingSources';
 
   const isSubmitEnabled = useMemo(() => {
     if (isWithdrawn) return false;
@@ -331,6 +332,8 @@ const ApplicationForm: React.FC<Props> = ({
     isRedirectingToNextPage = false,
     isSaveAsDraftBtn = false
   ) => {
+    const newSectionData = { ...newFormSectionData };
+
     if (!isEditable) {
       if (pageNumber < subschemaArray.length) {
         router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
@@ -341,11 +344,16 @@ const ApplicationForm: React.FC<Props> = ({
     }
 
     if (isAcknowledgementPage)
-      updateAreAllAcknowledgementFieldsSet(newFormSectionData);
-    if (isSubmitPage) updateAreAllSubmissionFieldsSet(newFormSectionData);
+      updateAreAllAcknowledgementFieldsSet(newSectionData);
+    if (isSubmitPage) updateAreAllSubmissionFieldsSet(newSectionData);
+
+    // remove field otherFundingSources array when otherFundingSources is false as it leaves misleading data
+    if (isOtherFundingSourcesPage && !newFormSectionData.otherFundingSources) {
+      delete newSectionData.otherFundingSourcesArray;
+    }
 
     const calculatedSectionData = calculate(
-      newFormSectionData,
+      newSectionData,
       sectionName.toString()
     );
 
