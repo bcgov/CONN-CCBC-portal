@@ -1,3 +1,14 @@
+# [1.114.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.113.0...v1.114.0) (2023-10-19)
+
+### Bug Fixes
+
+- assessment assignment table dropdown columns alignment ([453ff09](https://github.com/bcgov/CONN-CCBC-portal/commit/453ff09543f7b79b12b6c3ae520475b4b9e0ed0a))
+
+### Features
+
+- add growthbook flag for assessment assignment table ([6268676](https://github.com/bcgov/CONN-CCBC-portal/commit/626867646ec5bf082f0af78639eaeb280a94b38c))
+- edit analyst on assessment assignment table ([69edb26](https://github.com/bcgov/CONN-CCBC-portal/commit/69edb26026cbaedc752983b2bf71e1e402a09a75))
+
 # [1.113.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.112.0...v1.113.0) (2023-10-18)
 
 ### Bug Fixes
