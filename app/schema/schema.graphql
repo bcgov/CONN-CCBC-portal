@@ -68233,6 +68233,7 @@ input CreateHiddenIntakeInput {
   clientMutationId: String
   startTime: Datetime!
   endTime: Datetime!
+  _ccbcIntakeNumber: Int
   intakeDescription: String
 }
 
