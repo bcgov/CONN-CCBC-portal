@@ -30,14 +30,14 @@ insert into ccbc_public.ccbc_user
 
 set role ccbc_auth_user;
 
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 update ccbc_public.form_data set json_data = '{ "projectInformation": {"projectTitle": "my title" }}'::jsonb;
 
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 
 set jwt.claims.sub to 'testCcbcAuthUser2';
 
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 
 set jwt.claims.sub to 'testCcbcAuthUser';
 

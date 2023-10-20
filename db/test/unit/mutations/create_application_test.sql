@@ -34,7 +34,7 @@ set role ccbc_auth_user;
 
 select results_eq(
   $$
-    select id, owner, intake_id, ccbc_number from ccbc_public.create_application('');
+    select id, owner, intake_id, ccbc_number from ccbc_public.create_application();
   $$,
   $$
     values (1,'testCcbcAuthUser'::varchar, null::int, null::varchar)
@@ -78,7 +78,7 @@ set role ccbc_auth_user;
 
 select throws_ok(
   $$
-    select ccbc_public.create_application('')
+    select ccbc_public.create_application()
   $$,
   'There is no open intake',
   'Throws an error if there are no open public intakes when not given code'
@@ -108,7 +108,7 @@ set role ccbc_auth_user;
 
 select throws_ok(
   $$
-    select ccbc_public.create_application('')
+    select ccbc_public.create_application()
   $$,
   'There is no open intake',
   'Throws an error if there are no open intakes'
@@ -116,12 +116,12 @@ select throws_ok(
 
 select function_privs_are(
   'ccbc_public', 'create_application', ARRAY['text']::text[], 'ccbc_auth_user', ARRAY['EXECUTE'],
-  'ccbc_auth_user can execute ccbc_public.create_application('')'
+  'ccbc_auth_user can execute ccbc_public.create_application()'
 );
 
 select function_privs_are(
   'ccbc_public', 'create_application', ARRAY['text']::text[], 'ccbc_guest', ARRAY[]::text[],
-  'ccbc_guest cannot execute ccbc_public.create_application('')'
+  'ccbc_guest cannot execute ccbc_public.create_application()'
 );
 
 select finish();

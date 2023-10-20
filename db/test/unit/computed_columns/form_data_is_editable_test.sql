@@ -28,14 +28,14 @@ set jwt.claims.sub to 'testCcbcAuthUser';
 insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
   ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 
 update ccbc_public.form_data set form_data_status_type_id = 'committed';
 update ccbc_public.application set intake_id = 1;
 insert into ccbc_public.application_status (application_id, status) VALUES (1,'submitted');
 
 set role ccbc_auth_user;
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 
 select results_eq (
   $$

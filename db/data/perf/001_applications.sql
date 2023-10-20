@@ -25,7 +25,7 @@ begin
 for appNum in 1..100 loop
 
   select id into appId
-  from ccbc_public.create_application('');
+  from ccbc_public.create_application();
 
   update ccbc_public.form_data
   set json_data = format($$

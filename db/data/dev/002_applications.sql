@@ -22,7 +22,7 @@ if received_application_status_id is not null then
 end if;
 
 -- received application
-select id from ccbc_public.create_application('') into _application_id;
+select id from ccbc_public.create_application() into _application_id;
 
 select form_data_id into _form_data_id from ccbc_public.application_form_data
 where application_id = _application_id limit 1;
@@ -68,7 +68,7 @@ perform ccbc_public.submit_application(_application_id, 1);
 insert into ccbc_public.application_status (application_id, status) values (_application_id, 'received');
 
 -- submitted application
-select id from ccbc_public.create_application('') into _application_id;
+select id from ccbc_public.create_application() into _application_id;
 
 select form_data_id into _form_data_id from ccbc_public.application_form_data
 where application_id = _application_id limit 1;
@@ -112,7 +112,7 @@ update ccbc_public.form_data set
 perform ccbc_public.submit_application(_application_id, 1);
 
 -- application received and withdrawn
-select id from ccbc_public.create_application('') into _application_id;
+select id from ccbc_public.create_application() into _application_id;
 
 select form_data_id into _form_data_id from ccbc_public.application_form_data
 where application_id = _application_id limit 1;
@@ -160,10 +160,10 @@ insert into ccbc_public.application_status (application_id, status) values (_app
 perform ccbc_public.withdraw_application(_application_id);
 
 -- draft application
-perform ccbc_public.create_application('');
+perform ccbc_public.create_application();
 
 -- not submitted, withdrawn application
-select id from ccbc_public.create_application('') into _application_id;
+select id from ccbc_public.create_application() into _application_id;
 insert into ccbc_public.application_status (application_id, status) values (_application_id, 'submitted');
 perform ccbc_public.withdraw_application(_application_id);
 

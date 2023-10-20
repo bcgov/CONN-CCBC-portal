@@ -51,7 +51,7 @@ insert into ccbc_public.ccbc_user
   (id, given_name, family_name, email_address, session_sub) overriding system value values
   (1, 'foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
 
--- select ccbc_public.create_application('');
+-- select ccbc_public.create_application();
 
 insert into ccbc_public.application
   (id, ccbc_number, owner, intake_id) overriding system value

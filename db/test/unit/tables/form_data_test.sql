@@ -42,7 +42,7 @@ insert into ccbc_public.ccbc_user
 
 set role ccbc_auth_user;
 
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 
 
 select results_eq(
@@ -60,7 +60,7 @@ select results_eq(
 
 set jwt.claims.sub to 'user2';
 
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 
 select * from ccbc_public.form_data where
 id in (select form_data_id from ccbc_public.application_form_data where form_data_id=id);

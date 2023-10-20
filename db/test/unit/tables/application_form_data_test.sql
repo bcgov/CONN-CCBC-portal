@@ -43,13 +43,13 @@ insert into ccbc_public.ccbc_user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111112';
 
 
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 
 -- Test setup - second user
 set jwt.claims.sub to '11111111-1111-1111-1111-111111111113';
 
-select ccbc_public.create_application('');
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
+select ccbc_public.create_application();
 
 set role ccbc_auth_user;
 

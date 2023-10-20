@@ -24,9 +24,9 @@ insert into ccbc_public.ccbc_user
   (given_name, family_name, email_address, session_sub) values
   ('foo1', 'bar', 'foo1@bar.com', 'testCcbcAuthUser');
 
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 
 insert into ccbc_public.application_status
  (application_id, status) values (1,'received'), (2, 'received');

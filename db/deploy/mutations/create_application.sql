@@ -4,7 +4,7 @@ begin;
 
 drop function ccbc_public.create_application;
 
-create or replace function ccbc_public.create_application(code text = null)
+create or replace function ccbc_public.create_application(code text default '')
 returns ccbc_public.application
 as $function$
 declare
@@ -19,7 +19,7 @@ declare
 begin
 
   select open_timestamp from ccbc_public.open_intake() into _open_timestamp;
-  if code is not null then
+  if code != '' then
     select id, open_timestamp from ccbc_public.intake where hidden_code::text = code into _intake_id, _open_timestamp_hidden;
   end if;
   if _open_timestamp is null and _open_timestamp_hidden is null then

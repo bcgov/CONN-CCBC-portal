@@ -33,7 +33,7 @@ insert into ccbc_public.ccbc_user
 
 set role ccbc_auth_user;
 
-select ccbc_public.create_application('');
+select ccbc_public.create_application();
 
 
 -- ccbc_guest
