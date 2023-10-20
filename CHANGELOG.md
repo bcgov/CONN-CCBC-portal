@@ -1,3 +1,21 @@
+# [1.114.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.113.0...v1.114.0) (2023-10-20)
+
+### Bug Fixes
+
+- assessment assignment table dropdown columns alignment ([453ff09](https://github.com/bcgov/CONN-CCBC-portal/commit/453ff09543f7b79b12b6c3ae520475b4b9e0ed0a))
+
+### Features
+
+- accept intake number for internal intakes ([6b006cf](https://github.com/bcgov/CONN-CCBC-portal/commit/6b006cf2190d89b2feb76352f6e222e9e626d692))
+- add code for hidden intake ([c06e0bc](https://github.com/bcgov/CONN-CCBC-portal/commit/c06e0bcc71133701292f7c2358b7e6c8a85d832f))
+- add growthbook flag for assessment assignment table ([6268676](https://github.com/bcgov/CONN-CCBC-portal/commit/626867646ec5bf082f0af78639eaeb280a94b38c))
+- adding an intake ignores the hidden intake ([86252b1](https://github.com/bcgov/CONN-CCBC-portal/commit/86252b1383ae41c81b841b53dd0f7386d4402043))
+- edit analyst on assessment assignment table ([69edb26](https://github.com/bcgov/CONN-CCBC-portal/commit/69edb26026cbaedc752983b2bf71e1e402a09a75))
+- helper functions to create and receive hidden applications ([192f24e](https://github.com/bcgov/CONN-CCBC-portal/commit/192f24e804545a1b2ad9c08dc79d2859cfc720c1))
+- hidden column for intake and updated functions for intakes ([4e89159](https://github.com/bcgov/CONN-CCBC-portal/commit/4e89159bad99b76e012be349d5a126cb218c6e1c))
+- use hidden code to create application for hidden intake ([781d83e](https://github.com/bcgov/CONN-CCBC-portal/commit/781d83e7bcc81eb08878a205ec0a83d5f7ac593f))
+- with presence of code create application button no longer disabled ([12cf6a5](https://github.com/bcgov/CONN-CCBC-portal/commit/12cf6a5375b5d623c3fd4818067bb0f84d1add6c))
+
 # [1.113.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.112.0...v1.113.0) (2023-10-18)
 
 ### Bug Fixes
