@@ -2,7 +2,7 @@ const statusStylesBase = {
   approved: {
     primary: '#FFFFFF',
     backgroundColor: '#1F8234',
-    pillWidth: '116px',
+    pillWidth: '188px',
     description: 'Approved',
   },
   assessment: {
