@@ -332,8 +332,6 @@ const ApplicationForm: React.FC<Props> = ({
     isRedirectingToNextPage = false,
     isSaveAsDraftBtn = false
   ) => {
-    const newSectionData = { ...newFormSectionData };
-
     if (!isEditable) {
       if (pageNumber < subschemaArray.length) {
         router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
@@ -344,16 +342,11 @@ const ApplicationForm: React.FC<Props> = ({
     }
 
     if (isAcknowledgementPage)
-      updateAreAllAcknowledgementFieldsSet(newSectionData);
-    if (isSubmitPage) updateAreAllSubmissionFieldsSet(newSectionData);
-
-    // remove field otherFundingSources array when otherFundingSources is false as it leaves misleading data
-    if (isOtherFundingSourcesPage && !newSectionData.otherFundingSources) {
-      delete newSectionData.otherFundingSourcesArray;
-    }
+      updateAreAllAcknowledgementFieldsSet(newFormSectionData);
+    if (isSubmitPage) updateAreAllSubmissionFieldsSet(newFormSectionData);
 
     const calculatedSectionData = calculate(
-      newSectionData,
+      newFormSectionData,
       sectionName.toString()
     );
 
@@ -386,6 +379,14 @@ const ApplicationForm: React.FC<Props> = ({
           },
         };
       }
+    }
+
+    // remove field otherFundingSources array when otherFundingSources is false as it leaves misleading data
+    if (
+      isOtherFundingSourcesPage &&
+      !newFormData.otherFundingSources.otherFundingSources
+    ) {
+      delete newFormData.otherFundingSources.otherFundingSourcesArray;
     }
 
     // if we're redirecting after this, set lastEditedPage to the next page
