@@ -367,6 +367,40 @@
                                     </td>
                                     <td><p>A description of the intake</p></td>
                                 </tr>
+                                <tr>
+                                    <td><span id="hidden">hidden</span></td>
+                                    <td>bool</td>
+                                    <td>1</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>false</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>A column to denote whether the intake is visible to the public</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="hidden_code">hidden_code</span></td>
+                                    <td>uuid</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>A column that stores the code used to access the hidden intake. Only used on intakes that are hidden</p></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -456,51 +490,51 @@
                                 <div class="tab-content no-padding">
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="735,187,904,451">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="19,267,200,501">
-<area shape="rect" id="node3" href="intake.html" target="_top" title="intake" alt="" coords="257,59,691,509">
-<area shape="rect" id="node4" href="gapless_counter.html" target="_top" title="gapless_counter" alt="" coords="5,519,213,636">
+<area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="735,217,904,481">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="19,268,200,503">
+<area shape="rect" id="node3" href="intake.html" target="_top" title="intake" alt="" coords="257,60,691,569">
+<area shape="rect" id="node4" href="gapless_counter.html" target="_top" title="gapless_counter" alt="" coords="5,520,213,637">
 </map>
                                         <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/intake.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
 <area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="750,21,889,109">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="31,1556,187,1644">
-<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="373,715,575,803">
-<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="735,1401,904,1489">
-<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="257,111,691,561">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="31,1615,187,1703">
+<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="373,773,575,861">
+<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="735,1460,904,1548">
+<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="257,111,691,620">
 <area shape="rect" id="node30" href="gapless_counter.html" target="_top" title="gapless_counter" alt="" coords="5,436,213,553">
-<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="1032,321,1307,409">
-<area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="1021,427,1318,515">
-<area shape="rect" id="node8" href="application_claims_data.html" target="_top" title="application_claims_data" alt="" coords="1034,532,1305,620">
-<area shape="rect" id="node9" href="application_claims_excel_data.html" target="_top" title="application_claims_excel_data" alt="" coords="1011,637,1328,725">
-<area shape="rect" id="node10" href="application_community_progress__3b268028.html" target="_top" title="application_community_progress_report_data" alt="" coords="948,743,1391,831">
-<area shape="rect" id="node11" href="application_community_report_excel_data.html" target="_top" title="application_community_report_excel_data" alt="" coords="961,848,1377,936">
-<area shape="rect" id="node12" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="1041,1059,1298,1147">
-<area shape="rect" id="node13" href="form_data.html" target="_top" title="form_data" alt="" coords="393,1160,555,1248">
-<area shape="rect" id="node14" href="application_gis_assessment_hh.html" target="_top" title="application_gis_assessment_hh" alt="" coords="1007,1269,1332,1357">
-<area shape="rect" id="node15" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="1049,1164,1289,1252">
-<area shape="rect" id="node16" href="gis_data.html" target="_top" title="gis_data" alt="" coords="402,1265,546,1353">
-<area shape="rect" id="node17" href="application_internal_description.html" target="_top" title="application_internal_description" alt="" coords="1001,1411,1338,1499">
-<area shape="rect" id="node18" href="application_milestone_data.html" target="_top" title="application_milestone_data" alt="" coords="1020,1516,1319,1604">
-<area shape="rect" id="node19" href="application_milestone_excel_data.html" target="_top" title="application_milestone_excel_data" alt="" coords="996,1621,1343,1709">
-<area shape="rect" id="node20" href="application_package.html" target="_top" title="application_package" alt="" coords="1049,1727,1290,1815">
-<area shape="rect" id="node21" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="1051,1832,1288,1920">
-<area shape="rect" id="node22" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="404,1779,544,1867">
-<area shape="rect" id="node23" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="1044,2563,1295,2651">
-<area shape="rect" id="node24" href="application_status.html" target="_top" title="application_status" alt="" coords="1057,953,1282,1041">
-<area shape="rect" id="node25" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="1061,2005,1277,2093">
-<area shape="rect" id="node26" href="attachment.html" target="_top" title="attachment" alt="" coords="1435,1916,1608,2004">
-<area shape="rect" id="node27" href="cbc_project.html" target="_top" title="cbc_project" alt="" coords="389,2088,559,2176">
-<area shape="rect" id="node28" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="1045,2179,1293,2267">
-<area shape="rect" id="node29" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="1024,2284,1315,2372">
-<area shape="rect" id="node31" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="1028,2389,1311,2477">
-<area shape="rect" id="node32" href="record_version.html" target="_top" title="record_version" alt="" coords="375,2397,573,2485">
-<area shape="rect" id="node33" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1441,2089,1601,2177">
-<area shape="rect" id="node34" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1441,2473,1601,2561">
-<area shape="rect" id="node35" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1441,2609,1601,2697">
-<area shape="rect" id="node36" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1441,2715,1601,2803">
+<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="1032,380,1307,468">
+<area shape="rect" id="node7" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="1021,485,1318,573">
+<area shape="rect" id="node8" href="application_claims_data.html" target="_top" title="application_claims_data" alt="" coords="1034,591,1305,679">
+<area shape="rect" id="node9" href="application_claims_excel_data.html" target="_top" title="application_claims_excel_data" alt="" coords="1011,696,1328,784">
+<area shape="rect" id="node10" href="application_community_progress__3b268028.html" target="_top" title="application_community_progress_report_data" alt="" coords="948,801,1391,889">
+<area shape="rect" id="node11" href="application_community_report_excel_data.html" target="_top" title="application_community_report_excel_data" alt="" coords="961,907,1377,995">
+<area shape="rect" id="node12" href="application_form_data.html" target="_top" title="application_form_data" alt="" coords="1041,1117,1298,1205">
+<area shape="rect" id="node13" href="form_data.html" target="_top" title="form_data" alt="" coords="393,1219,555,1307">
+<area shape="rect" id="node14" href="application_gis_assessment_hh.html" target="_top" title="application_gis_assessment_hh" alt="" coords="1007,1328,1332,1416">
+<area shape="rect" id="node15" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="1049,1223,1289,1311">
+<area shape="rect" id="node16" href="gis_data.html" target="_top" title="gis_data" alt="" coords="402,1324,546,1412">
+<area shape="rect" id="node17" href="application_internal_description.html" target="_top" title="application_internal_description" alt="" coords="1001,1469,1338,1557">
+<area shape="rect" id="node18" href="application_milestone_data.html" target="_top" title="application_milestone_data" alt="" coords="1020,1575,1319,1663">
+<area shape="rect" id="node19" href="application_milestone_excel_data.html" target="_top" title="application_milestone_excel_data" alt="" coords="996,1680,1343,1768">
+<area shape="rect" id="node20" href="application_package.html" target="_top" title="application_package" alt="" coords="1049,1785,1290,1873">
+<area shape="rect" id="node21" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="1051,1891,1288,1979">
+<area shape="rect" id="node22" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="404,1837,544,1925">
+<area shape="rect" id="node23" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="1044,2621,1295,2709">
+<area shape="rect" id="node24" href="application_status.html" target="_top" title="application_status" alt="" coords="1057,1012,1282,1100">
+<area shape="rect" id="node25" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="1061,2064,1277,2152">
+<area shape="rect" id="node26" href="attachment.html" target="_top" title="attachment" alt="" coords="1435,1975,1608,2063">
+<area shape="rect" id="node27" href="cbc_project.html" target="_top" title="cbc_project" alt="" coords="389,2147,559,2235">
+<area shape="rect" id="node28" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="1045,2237,1293,2325">
+<area shape="rect" id="node29" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="1024,2343,1315,2431">
+<area shape="rect" id="node31" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="1028,2448,1311,2536">
+<area shape="rect" id="node32" href="record_version.html" target="_top" title="record_version" alt="" coords="375,2456,573,2544">
+<area shape="rect" id="node33" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1441,2148,1601,2236">
+<area shape="rect" id="node34" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1441,2532,1601,2620">
+<area shape="rect" id="node35" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1441,2668,1601,2756">
+<area shape="rect" id="node36" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1441,2773,1601,2861">
 </map>
                                         <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/intake.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>

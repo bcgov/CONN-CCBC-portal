@@ -1139,6 +1139,8 @@
             <parent column="id" foreignKey="intake_counter_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="gapless_counter"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="description" nullable="true" remarks="A description of the intake" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="13" name="hidden" nullable="true" remarks="A column to denote whether the intake is visible to the public" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="hidden_code" nullable="true" remarks="A column that stores the code used to access the hidden intake. Only used on intakes that are hidden" size="2147483647" type="uuid" typeCode="1111"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="intake_pkey" unique="true">
             <column ascending="true" name="id"/>
