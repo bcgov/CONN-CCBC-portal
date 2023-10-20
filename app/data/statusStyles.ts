@@ -3,7 +3,7 @@ const statusStylesBase = {
     primary: '#FFFFFF',
     backgroundColor: '#1F8234',
     pillWidth: '188px',
-    description: 'Approved',
+    description: 'Agreement signed',
   },
   assessment: {
     primary: '#003366',
