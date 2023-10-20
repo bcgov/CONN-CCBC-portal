@@ -466,3 +466,14 @@ computed_columns/application_history [computed_columns/application_history@1.111
 mutations/create_application_milestone_data [mutations/create_application_milestone_data@1.111.0] 2023-10-17T22:58:21Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add logic for updated
 mutations/create_application_claims_excel_data [mutations/create_application_claims_excel_data@1.111.0] 2023-10-18T19:07:12Z Tony Bushara <tonybushara@pop-os> # Change logic to archive all previous claim numbers
 @1.113.0 2023-10-18T23:13:32Z CCBC Service Account <ccbc@button.is> # release v1.113.0
+tables/intake_007_add_hidden_column 2023-10-10T20:07:15Z Anthony Bushara <anthony@button.is> # Add a hidden column for the intake table
+functions/open_intake [functions/open_intake@1.108.0] 2023-10-10T21:28:16Z Anthony Bushara <anthony@button.is> # Check if intake is hidden
+functions/next_intake [functions/next_intake@1.109.0] 2023-10-12T19:27:39Z Anthony Bushara <anthony@button.is> # Use hidden column when determining next intake
+tables/intake_008_hidden_code_column 2023-10-13T15:21:38Z Anthony Bushara <anthony@button.is> # Adds the hidden code that is used to compare when accessing a hidden intake
+functions/open_hidden_intake 2023-10-16T15:00:43Z Tony Bushara <tonybushara@pop-os> # Checks if there is an open hidden intake
+mutations/create_application [mutations/create_application@1.109.0] 2023-10-16T20:36:13Z Tony Bushara <tonybushara@pop-os> # Rework to accept a code for a hidden intake
+computed_columns/form_data_is_editable [computed_columns/form_data_is_editable@1.109.0] 2023-10-16T21:15:33Z Tony Bushara <tonybushara@pop-os> # Check if a draft form has an associated open intake. Used for hidden intakes
+mutations/submit_application [mutations/submit_application@1.109.0] 2023-10-17T15:02:51Z Tony Bushara <tonybushara@pop-os> # Include hidden intake for submitting an application
+mutations/create_intake [mutations/create_intake@1.110.0] 2023-10-17T19:46:11Z Tony Bushara <tonybushara@pop-os> # Filter out hidden intakes
+functions/create_hidden_intake 2023-10-18T14:11:08Z Tony Bushara <tonybushara@pop-os> # Helper function used to create a hidden intake
+functions/receive_hidden_applications 2023-10-18T14:10:43Z Tony Bushara <tonybushara@pop-os> # Function used to receive hidden applications.

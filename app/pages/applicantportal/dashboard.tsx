@@ -15,7 +15,7 @@ import { DashboardTable } from 'components/Dashboard';
 import { dashboardQuery } from '__generated__/dashboardQuery.graphql';
 
 const getDashboardQuery = graphql`
-  query dashboardQuery($formOwner: ApplicationCondition!) {
+  query dashboardQuery($formOwner: ApplicationCondition!, $code: String!) {
     allApplications(
       condition: $formOwner
       orderBy: CREATED_AT_DESC
@@ -57,6 +57,9 @@ const getDashboardQuery = graphql`
     nextIntake {
       openTimestamp
     }
+    openHiddenIntake(code: $code) {
+      id
+    }
   }
 `;
 
@@ -69,7 +72,8 @@ const Dashboard = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, dashboardQuery>) => {
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
-  const { allApplications, nextIntake, openIntake, session } = query;
+  const { allApplications, nextIntake, openIntake, session, openHiddenIntake } =
+    query;
 
   const closeTimestamp = openIntake?.closeTimestamp;
 
@@ -88,19 +92,23 @@ const Dashboard = ({
   }, []);
 
   const handleCreateApplication = () => {
-    createApplication({
-      variables: {
-        input: {},
-      },
-      onCompleted: (response) => {
-        const applicationId = response.createApplication.application.rowId;
-        router.push(`/applicantportal/form/${applicationId}/1`);
-      },
-      onError: () => {
-        // This needs to be removed once application dashboard implemented
-        router.push('/');
-      },
-    });
+    if (openIntake || openHiddenIntake) {
+      createApplication({
+        variables: {
+          input: {
+            code: (router.query.code as string) ?? '',
+          },
+        },
+        onCompleted: (response) => {
+          const applicationId = response.createApplication.application.rowId;
+          router.push(`/applicantportal/form/${applicationId}/1`);
+        },
+        onError: () => {
+          // This needs to be removed once application dashboard implemented
+          router.push('/');
+        },
+      });
+    }
   };
 
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
@@ -152,7 +160,7 @@ const Dashboard = ({
           )}
           <StyledGovButton
             onClick={handleCreateApplication}
-            disabled={!openIntake}
+            disabled={!openIntake && !openHiddenIntake}
           >
             Create application
           </StyledGovButton>
@@ -174,9 +182,11 @@ export const withRelayOptions = {
 
   variablesFromContext: (ctx) => {
     const sub: string = ctx?.req?.claims?.sub;
+    const code: string = ctx?.query?.code ?? '';
 
     return {
       formOwner: { owner: sub, archivedAt: null, archivedBy: null },
+      code,
     };
   },
 };

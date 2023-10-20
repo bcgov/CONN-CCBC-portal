@@ -253,7 +253,7 @@ describe('The Application intakes admin page', () => {
 
     pageTestingHelper.expectMutationToBeCalled('createIntakeMutation', {
       connections: [
-        'client:root:__ApplicationIntakes_allIntakes_connection(condition:{"archivedAt":null},orderBy:"CCBC_INTAKE_NUMBER_DESC")',
+        'client:root:__ApplicationIntakes_allIntakes_connection(condition:{"archivedAt":null,"hidden":false},orderBy:"CCBC_INTAKE_NUMBER_DESC")',
       ],
       input: {
         intakeDescription: 'Test description',

@@ -15,7 +15,7 @@ set jwt.claims.sub to 'mockUser@ccbc_auth_user';
 insert into ccbc_public.ccbc_user
   (id, given_name, family_name, email_address, session_sub) overriding system value values
   (1, 'foo1', 'bar', 'foo1@bar.com', 'mockUser@ccbc_auth_user');
-  
+
 do
 $do_block$
 declare

@@ -4,16 +4,28 @@ begin;
 
 create or replace function ccbc_public.form_data_is_editable(form_data ccbc_public.form_data) returns boolean as
 $$
-  with open_intake as (
-    select * from ccbc_public.open_intake()
+  with current_intake as (
+    select intake_id
+    from ccbc_public.application
+    where id = (select application_id from ccbc_public.application_form_data where form_data_id = form_data.id)
+  ),
+  is_associated_intake_open as (
+    select exists (
+      select 1 from ccbc_public.intake
+      where id = (select intake_id from current_intake)
+      and now() >= open_timestamp
+      and now() <= close_timestamp
+      and archived_at is null
+    ) as open_status
   )
-   select coalesce(
+  select coalesce(
     (
       select true
       from ccbc_public.application app
       where app.id in (select application_id from ccbc_public.application_form_data where form_data_id = form_data.id)
       and ccbc_public.application_status(app) = 'draft'
-      and (select id from open_intake) is not null
+      -- We only want the open status of the associated intake to matter for hidden intakes, all other drafts should operate as normal
+      and ((select open_status from is_associated_intake_open) or ((select id from ccbc_public.open_intake()) is not null and (select open_status from is_associated_intake_open) = 'false'))
       and form_data.form_data_status_type_id = 'pending'
     ),
     (
@@ -21,7 +33,7 @@ $$
       from ccbc_public.application app
       where app.id in (select application_id from ccbc_public.application_form_data where form_data_id = form_data.id)
       and ccbc_public.application_status(app) = 'submitted'
-      and app.intake_id = (select id from open_intake)
+      and (select open_status from is_associated_intake_open)
     ),
     false
    )

@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import * as moduleApi from '@growthbook/growthbook-react';
 import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
+import userEvent from '@testing-library/user-event';
 import Dashboard, {
   withRelayOptions,
 } from '../../../pages/applicantportal/dashboard';
@@ -114,6 +115,9 @@ const mockQueryPayload = {
         openTimestamp: '2022-08-19T09:00:00-07:00',
         closeTimestamp: '2027-08-19T09:00:00-07:00',
       },
+      openHiddenIntake: {
+        id: '',
+      },
     };
   },
 };
@@ -129,6 +133,9 @@ const mockNoApplicationsPayload = {
         openTimestamp: '2022-08-19T09:00:00-07:00',
         closeTimestamp: '2027-08-19T09:00:00-07:00',
       },
+      openHiddenIntake: {
+        id: '',
+      },
     };
   },
 };
@@ -141,6 +148,22 @@ const mockClosedIntakePayload = {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
       openIntake: null,
+      openHiddenIntake: null,
+    };
+  },
+};
+
+const mockClosedIntakeOpenHiddenIntakePayload = {
+  Query() {
+    return {
+      allApplications: { nodes: [] },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+      openIntake: null,
+      openHiddenIntake: {
+        id: 'asdf',
+      },
     };
   },
 };
@@ -151,6 +174,7 @@ const pageTestingHelper = new PageTestingHelper<dashboardQuery>({
   defaultQueryResolver: mockQueryPayload,
   defaultQueryVariables: {
     formOwner: { owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6' },
+    code: 'asdf',
   },
 });
 
@@ -228,6 +252,20 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText(`Create application`)).toBeDisabled();
+  });
+
+  it('has create application button enabled when open hidden intake returns a value', async () => {
+    pageTestingHelper.loadQuery(mockClosedIntakeOpenHiddenIntakePayload);
+    pageTestingHelper.renderPage();
+    pageTestingHelper.router.query = { code: 'asdf' };
+    const createApplicationButton = screen.getByText('Create application');
+    expect(createApplicationButton).toBeEnabled();
+    await userEvent.click(createApplicationButton);
+    pageTestingHelper.expectMutationToBeCalled('createApplicationMutation', {
+      input: {
+        code: 'asdf',
+      },
+    });
   });
 
   it('displays the message when user has no applications', async () => {
