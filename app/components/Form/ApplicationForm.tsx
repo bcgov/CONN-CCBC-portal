@@ -348,7 +348,7 @@ const ApplicationForm: React.FC<Props> = ({
     if (isSubmitPage) updateAreAllSubmissionFieldsSet(newSectionData);
 
     // remove field otherFundingSources array when otherFundingSources is false as it leaves misleading data
-    if (isOtherFundingSourcesPage && !newFormSectionData.otherFundingSources) {
+    if (isOtherFundingSourcesPage && !newSectionData.otherFundingSources) {
       delete newSectionData.otherFundingSourcesArray;
     }
 
