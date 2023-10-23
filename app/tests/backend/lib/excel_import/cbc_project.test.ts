@@ -88,7 +88,7 @@ describe('cbc_project', () => {
       .spyOn(XLSX.utils, 'sheet_to_json')
       .mockReturnValue([
         { ...columnList },
-        { A: 121231, B: 2, C: 3, D: 4, E: 5 },
+        { A: 121231, B: 2, C: 3, D: 4, E: 5, AH: '2023-01-01' },
       ]);
 
     mocked(performQuery).mockImplementation(async () => {
