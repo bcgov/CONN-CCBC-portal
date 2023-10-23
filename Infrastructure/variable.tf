@@ -1,7 +1,4 @@
 #--variable/root--
-variable "target_aws_account_id" {}
-
-variable "target_env" {}
 
 variable "license_plate" {
     default = "fapi7b"
