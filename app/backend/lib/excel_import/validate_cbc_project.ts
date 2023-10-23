@@ -88,7 +88,10 @@ const validateDate = (value, fieldName, errorList, projectNumber) => {
     return convertExcelDateToJSDate(value);
   }
   if (typeof value === 'string') {
-    return luxon.DateTime.fromSQL(value).toJSDate();
+    const d = luxon.DateTime.fromSQL(value).toJSDate();
+    if (d.toString() !== 'Invalid Date') {
+      return d;
+    }
   }
 
   errorList.push(
