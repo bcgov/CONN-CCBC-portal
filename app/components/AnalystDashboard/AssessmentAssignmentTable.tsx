@@ -77,8 +77,11 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
       fragment AssessmentAssignmentTable_query on Query {
-        allAnalysts(first: 1000, orderBy: GIVEN_NAME_ASC)
-          @connection(key: "ListOfAnalysts_allAnalysts") {
+        allAnalysts(
+          first: 1000
+          filter: { active: { equalTo: true } }
+          orderBy: GIVEN_NAME_ASC
+        ) @connection(key: "ListOfAnalysts_allAnalysts") {
           __id
           edges {
             node {
