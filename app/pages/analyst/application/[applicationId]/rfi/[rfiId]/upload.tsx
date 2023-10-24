@@ -8,20 +8,11 @@ import { AnalystLayout } from 'components/Analyst';
 
 const getUploadQuery = graphql`
   query uploadQuery($rowId: Int!, $rfiId: Int!) {
-    rfiDataByRowId(rowId: $rfiId) {
-      ...RfiForm_RfiData
-      jsonData
-      rowId
-      id
-    }
     session {
       sub
     }
-    applicationByRowId(rowId: $rowId) {
-      ...RfiFormStatus_application
-      id
-    }
     ...AnalystLayout_query
+    ...RFIAnalystUpload_query
   }
 `;
 
@@ -36,7 +27,7 @@ const AnalystRfiPage = ({
       <AnalystLayout query={query}>
         <h2>RFI</h2>
         <hr />
-        <RfiAnalystUpload rfiQuery={query} />
+        <RfiAnalystUpload query={query} />
       </AnalystLayout>
     </Layout>
   );

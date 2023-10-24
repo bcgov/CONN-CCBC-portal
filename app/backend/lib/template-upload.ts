@@ -15,7 +15,11 @@ const templateUpload = Router();
 
 const processTemplateUpload: ExpressMiddleware = async (req, res) => {
   const authRole = getAuthRole(req);
-  const isRoleAuthorized = authRole?.pgRole === 'ccbc_auth_user';
+  const pgRole = authRole?.pgRole;
+  const isRoleAuthorized =
+    pgRole === 'ccbc_auth_user' ||
+    pgRole === 'ccbc_admin' ||
+    pgRole === 'ccbc_analyst';
 
   const templateNumber = Number(req.query?.templateNumber);
 
