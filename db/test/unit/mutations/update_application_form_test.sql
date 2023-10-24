@@ -104,7 +104,7 @@ select throws_matching(
       'organizationName', 'my org'
     )
   ),
-  'projectInformation',
+  'organizationProfile',
   '2022-03-01 11:00:00.001-05'
 );
   $$,

@@ -482,3 +482,4 @@ functions/receive_hidden_applications 2023-10-18T14:10:43Z Tony Bushara <tonybus
 mutations/create_new_form_data [mutations/create_new_form_data@1.114.0] 2023-10-25T18:47:42Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant execute to auth_user
 tables/application_status_type_008_change_approved 2023-10-20T20:59:45Z Marcel Mueller <marcel@m2> # change approved status description
 @1.115.0 2023-10-26T17:26:41Z CCBC Service Account <ccbc@button.is> # release v1.115.0
+mutations/update_application_form [mutations/update_application_form@1.114.0] 2023-10-24T17:30:30Z Marcel Mueller <marcel@m2> # update handling of multiple tabs issue
