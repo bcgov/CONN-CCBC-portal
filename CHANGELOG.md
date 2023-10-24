@@ -1,3 +1,11 @@
+## [1.114.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.114.0...v1.114.1) (2023-10-24)
+
+### Bug Fixes
+
+- move other funding sources no conditional ([ed021f9](https://github.com/bcgov/CONN-CCBC-portal/commit/ed021f9a8a4c2a8a4daf7252b53f788dd0030afd))
+- remove other funding sources array data when 'no' is selected ([aef487c](https://github.com/bcgov/CONN-CCBC-portal/commit/aef487cb3d83a7bb308455e57426f33524201209))
+- remove other funding sources array on analyst edit ([626654b](https://github.com/bcgov/CONN-CCBC-portal/commit/626654b3c38952735e023e2544a82448b67153f7))
+
 # [1.114.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.113.0...v1.114.0) (2023-10-20)
 
 ### Bug Fixes
