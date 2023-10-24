@@ -10,6 +10,7 @@ import { rfiAnalystUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { useRouter } from 'next/router';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import styled from 'styled-components';
+import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 
 const Flex = styled('header')`
   display: flex;
@@ -25,6 +26,7 @@ const RfiAnalystUpload = ({ query }) => {
           id
           rowId
           formData {
+            formSchemaId
             jsonData
           }
           ...RfiFormStatus_application
@@ -42,8 +44,11 @@ const RfiAnalystUpload = ({ query }) => {
 
   const { rfiDataByRowId, applicationByRowId } = queryFragment;
   const {
-    formData: { jsonData },
+    formData: { formSchemaId, jsonData },
+    rowId: applicationId,
   } = applicationByRowId;
+
+  const [createNewFormData] = useCreateNewFormDataMutation();
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
   const [newFormData, setNewFormData] = useState(jsonData);
   const [templateData, setTemplateData] = useState(null);
@@ -88,9 +93,24 @@ const RfiAnalystUpload = ({ query }) => {
       },
       onCompleted: () => {
         if (isFormDataUpdated) {
-          // update form data here
+          createNewFormData({
+            variables: {
+              input: {
+                applicationRowId: Number(applicationId),
+                jsonData: newFormData,
+                reasonForChange: '',
+                formSchemaId,
+              },
+            },
+            onCompleted: () => {
+              router.push(
+                `/analyst/application/${router.query.applicationId}/rfi`
+              );
+            },
+          });
+        } else {
+          router.push(`/analyst/application/${router.query.applicationId}/rfi`);
         }
-        router.push(`/analyst/application/${router.query.applicationId}/rfi`);
       },
       onError: (err) => {
         // eslint-disable-next-line no-console
