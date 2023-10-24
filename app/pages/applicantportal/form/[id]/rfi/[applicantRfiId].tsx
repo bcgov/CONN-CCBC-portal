@@ -28,6 +28,7 @@ const getApplicantRfiIdQuery = graphql`
     rfiDataByRowId(rowId: $rfiId) {
       ...RfiForm_RfiData
       jsonData
+      rfiNumber
       rowId
       id
     }
@@ -57,6 +58,7 @@ const ApplicantRfiPage = ({
 }: RelayProps<Record<string, unknown>, ApplicantRfiIdQuery>) => {
   const query = usePreloadedQuery(getApplicantRfiIdQuery, preloadedQuery);
   const { session, rfiDataByRowId, applicationByRowId } = query;
+  const { rfiNumber } = rfiDataByRowId;
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
   const router = useRouter();
   const [templateData, setTemplateData] = useState(null);
@@ -116,7 +118,7 @@ const ApplicantRfiPage = ({
           input: {
             applicationRowId: Number(applicationId),
             jsonData: newFormData,
-            reasonForChange: 'Updated due to RFI #',
+            reasonForChange: `Auto updated from upload for RFI: ${rfiNumber}`,
             formSchemaId,
           },
         },
