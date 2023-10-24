@@ -259,7 +259,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const statusName = screen.getByText('Approved');
+    const statusName = screen.getByText('Agreement signed');
 
     expect(statusName).toHaveStyle('color: #FFFFFF');
     expect(statusName).toHaveStyle('background-color: #1F8234;');
