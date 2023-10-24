@@ -66,6 +66,7 @@ const EditApplication = ({
   const handleChange = (e: IChangeEvent) => {
     setIsFormSaved(false);
     const newFormSectionData = { ...e.formData };
+
     const calculatedSectionData = calculate(newFormSectionData, sectionName);
     setSectionFormData(calculatedSectionData);
   };
@@ -81,6 +82,15 @@ const EditApplication = ({
       calculatedSectionData,
       jsonSchema
     );
+
+    const isOtherFundingSourcesPage = sectionName === 'otherFundingSources';
+    // remove field otherFundingSources array when otherFundingSources is false as it leaves misleading data
+    if (
+      isOtherFundingSourcesPage &&
+      !newFormData.otherFundingSources.otherFundingSources
+    ) {
+      delete newFormData.otherFundingSources.otherFundingSourcesArray;
+    }
 
     createNewFormData({
       variables: {

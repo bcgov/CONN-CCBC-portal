@@ -287,6 +287,7 @@ const ApplicationForm: React.FC<Props> = ({
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';
   const isAcknowledgementPage = sectionName === 'acknowledgements';
+  const isOtherFundingSourcesPage = sectionName === 'otherFundingSources';
 
   const isSubmitEnabled = useMemo(() => {
     if (isWithdrawn) return false;
@@ -378,6 +379,14 @@ const ApplicationForm: React.FC<Props> = ({
           },
         };
       }
+    }
+
+    // remove field otherFundingSources array when otherFundingSources is false as it leaves misleading data
+    if (
+      isOtherFundingSourcesPage &&
+      !newFormData.otherFundingSources.otherFundingSources
+    ) {
+      delete newFormData.otherFundingSources.otherFundingSourcesArray;
     }
 
     // if we're redirecting after this, set lastEditedPage to the next page
