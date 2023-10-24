@@ -14,6 +14,8 @@ import { ISubmitEvent } from '@rjsf/core';
 import { useRouter } from 'next/router';
 import FormDiv from 'components/FormDiv';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 
 const Flex = styled('header')`
   display: flex;
@@ -35,6 +37,17 @@ const getApplicantRfiIdQuery = graphql`
     applicationByRowId(rowId: $applicationId) {
       ...RfiFormStatus_application
       id
+      formData {
+        id
+        formSchemaId
+        jsonData
+        lastEditedPage
+        rowId
+        updatedAt
+        formByFormSchemaId {
+          jsonSchema
+        }
+      }
     }
   }
 `;
@@ -46,6 +59,39 @@ const ApplicantRfiPage = ({
   const { session, rfiDataByRowId, applicationByRowId } = query;
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
   const router = useRouter();
+  const [templateData, setTemplateData] = useState(null);
+  const formData = applicationByRowId?.formData?.jsonData;
+  const applicationId = router.query.id as string;
+  const formSchemaId = applicationByRowId?.formData?.formSchemaId;
+  const [newFormData, setNewFormData] = useState(formData);
+  const [createNewFormData] = useCreateNewFormDataMutation();
+
+  useEffect(() => {
+    console.log('templateData', templateData);
+    if (templateData?.templateNumber === 1) {
+      const newFormDataWithTemplateOne = {
+        ...newFormData,
+        benefits: {
+          ...newFormData.benefits,
+          householdsImpactedIndigenous:
+            templateData.data.result.totalNumberHouseholdsImpacted,
+          numberOfHouseholds: templateData.data.result.finalEligibleHouseholds,
+        },
+      };
+      setNewFormData(newFormDataWithTemplateOne);
+    } else if (templateData?.templateNumber === 2) {
+      const newFormDataWithTemplateTwo = {
+        ...newFormData,
+        budgetDetails: {
+          ...newFormData.budgetDetails,
+          totalEligibleCosts: templateData.data.result.totalEligibleCosts,
+          totalProjectCost: templateData.data.result.totalProjectCosts,
+        },
+      };
+      setNewFormData(newFormDataWithTemplateTwo);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateData]);
 
   const handleSubmit = (e: ISubmitEvent<any>) => {
     updateRfi({
@@ -55,16 +101,36 @@ const ApplicantRfiPage = ({
           rfiRowId: rfiDataByRowId.rowId,
         },
       },
-      onCompleted: (response) => {
-        router.push(
-          `/applicantportal/form/${router.query.id}/rfi/${response.updateRfi.rfiData.rowId}`
-        );
+      onCompleted: () => {
+        if (!templateData) {
+          router.push(`/applicantportal/dashboard`);
+        }
       },
       onError: (err) => {
         // eslint-disable-next-line no-console
         console.log('Error updating RFI', err);
       },
     });
+    if (templateData) {
+      createNewFormData({
+        variables: {
+          input: {
+            applicationRowId: Number(applicationId),
+            jsonData: newFormData,
+            reasonForChange: 'Updated due to RFI #',
+            formSchemaId,
+          },
+        },
+        onError: (err) => {
+          console.log(err);
+        },
+        onCompleted: () => {
+          console.log('DONE!');
+          setTemplateData(null);
+          router.push(`/applicantportal/dashboard`);
+        },
+      });
+    }
   };
 
   return (
@@ -91,6 +157,7 @@ const ApplicantRfiPage = ({
             formData={rfiDataByRowId.jsonData}
             onSubmit={handleSubmit}
             noValidate
+            formContext={{ setTemplateData }}
           >
             <Button>Save</Button>
           </FormBase>
