@@ -10,7 +10,7 @@ import rfiSchema from 'formSchema/analyst/rfiSchema';
 import { rfiApplicantUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { Button } from '@button-inc/bcgov-theme';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
-import { ISubmitEvent } from '@rjsf/core';
+import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
 import { useRouter } from 'next/router';
 import FormDiv from 'components/FormDiv';
 import styled from 'styled-components';
@@ -61,12 +61,13 @@ const ApplicantRfiPage = ({
   const { rfiNumber } = rfiDataByRowId;
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
   const router = useRouter();
-  const [templateData, setTemplateData] = useState(null);
-  const formData = applicationByRowId?.formData?.jsonData;
+  const formJsonData = applicationByRowId?.formData?.jsonData;
   const applicationId = router.query.id as string;
   const formSchemaId = applicationByRowId?.formData?.formSchemaId;
-  const [newFormData, setNewFormData] = useState(formData);
+  const [newFormData, setNewFormData] = useState(formJsonData);
   const [createNewFormData] = useCreateNewFormDataMutation();
+  const [templateData, setTemplateData] = useState(null);
+  const [formData, setFormData] = useState(rfiDataByRowId.jsonData);
 
   useEffect(() => {
     if (templateData?.templateNumber === 1) {
@@ -134,6 +135,10 @@ const ApplicantRfiPage = ({
     }
   };
 
+  const handleChange = (e: IChangeEvent<any>) => {
+    setFormData(e.formData);
+  };
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
@@ -155,7 +160,8 @@ const ApplicantRfiPage = ({
             schema={rfiSchema}
             uiSchema={rfiApplicantUiSchema}
             omitExtraData={false}
-            formData={rfiDataByRowId.jsonData}
+            formData={formData}
+            onChange={handleChange}
             onSubmit={handleSubmit}
             noValidate
             formContext={{ setTemplateData }}
