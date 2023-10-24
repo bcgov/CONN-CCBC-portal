@@ -306,6 +306,8 @@ export const rfiApplicantUiSchema = {
       'ui:options': {
         hideOptional: true,
         allowMultipleFiles: true,
+        templateNumber: 1,
+        templateValidate: true,
       },
     },
     eligibilityAndImpactsCalculatorRfi: {
@@ -319,6 +321,8 @@ export const rfiApplicantUiSchema = {
       'ui:options': {
         hideOptional: true,
         allowMultipleFiles: true,
+        templateNumber: 2,
+        templateValidate: true,
       },
     },
     detailedBudgetRfi: {

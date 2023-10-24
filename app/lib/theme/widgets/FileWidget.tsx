@@ -62,7 +62,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   // 104857600 bytes = 100mb
   const maxFileSizeInBytes = 104857600;
   const fileId = isFiles && value[0].id;
-  const { setTemplateData } = formContext;
+  const { templateData, setTemplateData } = formContext;
 
   useEffect(() => {
     if (rawErrors?.length > 0) {
@@ -95,10 +95,13 @@ const FileWidget: React.FC<FileWidgetProps> = ({
           }).then((response) => {
             if (response.ok)
               response.json().then((data) => {
-                setTemplateData({
-                  templateNumber,
-                  data,
-                });
+                setTemplateData([
+                  ...templateData,
+                  {
+                    templateNumber,
+                    data,
+                  },
+                ]);
               });
           });
         }

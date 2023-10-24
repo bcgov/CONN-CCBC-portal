@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Button } from '@button-inc/bcgov-theme';
 import { ISubmitEvent } from '@rjsf/core';
 import { FormDiv } from 'components';
@@ -19,7 +20,12 @@ const RfiAnalystUpload = ({ rfiQuery }) => {
   // const query = usePreloadedQuery(rfiQuery, preloadedQuery);
   const { rfiDataByRowId, applicationByRowId } = rfiQuery;
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
+  const [templateData, setTemplateData] = useState([]);
   const router = useRouter();
+
+  useEffect(() => {
+    console.log(templateData);
+  }, [templateData]);
 
   const handleSubmit = (e: ISubmitEvent<any>) => {
     updateRfi({
@@ -55,6 +61,7 @@ const RfiAnalystUpload = ({ rfiQuery }) => {
       </Flex>
       <FormDiv>
         <FormBase
+          formContext={{ setTemplateData, templateData }}
           theme={RfiTheme}
           schema={rfiSchema}
           uiSchema={rfiAnalystUiSchema}

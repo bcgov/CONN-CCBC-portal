@@ -228,7 +228,7 @@ const ApplicationForm: React.FC<Props> = ({
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
     verifyAllSubmissionsFilled(jsonData.submission)
   );
-  const [templateData, setTemplateData] = useState(null);
+  const [templateData, setTemplateData] = useState([]);
 
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
@@ -244,6 +244,7 @@ const ApplicationForm: React.FC<Props> = ({
       areAllAcknowledgementsChecked,
       rowId,
       finalUiSchema,
+      templateData,
       setTemplateData,
     };
   }, [
@@ -357,25 +358,25 @@ const ApplicationForm: React.FC<Props> = ({
       jsonSchema
     );
 
-    if (templateData) {
-      if (templateData.templateNumber === 1) {
+    if (templateData.length > 0) {
+      if (templateData[0].templateNumber === 1) {
         newFormData = {
           ...newFormData,
           benefits: {
             ...newFormData.benefits,
             householdsImpactedIndigenous:
-              templateData.data.result.totalNumberHouseholdsImpacted,
+              templateData[0].data.result.totalNumberHouseholdsImpacted,
             numberOfHouseholds:
-              templateData.data.result.finalEligibleHouseholds,
+              templateData[0].data.result.finalEligibleHouseholds,
           },
         };
-      } else if (templateData.templateNumber === 2) {
+      } else if (templateData[0].templateNumber === 2) {
         newFormData = {
           ...newFormData,
           budgetDetails: {
             ...newFormData.budgetDetails,
-            totalEligibleCosts: templateData.data.result.totalEligibleCosts,
-            totalProjectCost: templateData.data.result.totalProjectCosts,
+            totalEligibleCosts: templateData[0].data.result.totalEligibleCosts,
+            totalProjectCost: templateData[0].data.result.totalProjectCosts,
           },
         };
       }
