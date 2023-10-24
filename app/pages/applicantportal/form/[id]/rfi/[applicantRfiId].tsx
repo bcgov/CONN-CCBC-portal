@@ -67,7 +67,6 @@ const ApplicantRfiPage = ({
   const [createNewFormData] = useCreateNewFormDataMutation();
 
   useEffect(() => {
-    console.log('templateData', templateData);
     if (templateData?.templateNumber === 1) {
       const newFormDataWithTemplateOne = {
         ...newFormData,
@@ -122,10 +121,10 @@ const ApplicantRfiPage = ({
           },
         },
         onError: (err) => {
-          console.log(err);
+          // eslint-disable-next-line no-console
+          console.log('Error creating new form data', err);
         },
         onCompleted: () => {
-          console.log('DONE!');
           setTemplateData(null);
           router.push(`/applicantportal/dashboard`);
         },
