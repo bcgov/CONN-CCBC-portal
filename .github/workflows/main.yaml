@@ -53,7 +53,7 @@ jobs:
       VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE }}
     with:
-      environment: 'dev'
+      environment: 'development'
 
   test-containers:
     needs: [build]
