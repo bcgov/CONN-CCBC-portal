@@ -30,5 +30,6 @@ $function$ language plpgsql strict volatile;
 
 grant execute on function ccbc_public.create_new_form_data to ccbc_analyst;
 grant execute on function ccbc_public.create_new_form_data to ccbc_admin;
+grant execute on function ccbc_public.create_new_form_data to ccbc_auth_user;
 
 commit;
