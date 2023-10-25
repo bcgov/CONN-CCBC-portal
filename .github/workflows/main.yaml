@@ -130,3 +130,6 @@ jobs:
       SA_CLIENT_ID: ${{ secrets.SA_CLIENT_ID }}
       KEYCLOAK_HOST: ${{ secrets.KEYCLOAK_HOST }}
       SP_LIST_NAME: ${{ secrets.SP_LIST_NAME }}
+      VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+      VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+      VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE}}
