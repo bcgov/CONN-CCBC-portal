@@ -288,3 +288,7 @@ spec:
             failureThreshold: 3
             successThreshold: 1
             timeoutSeconds: 5
+      volumes:
+        - name: cache-volume
+          persistentVolumeClaim:
+            claimName: cache-pvc
