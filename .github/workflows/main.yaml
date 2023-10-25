@@ -52,7 +52,6 @@ jobs:
       VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE }}
-
     with:
       environment: 'dev'
 
