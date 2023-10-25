@@ -16,6 +16,12 @@ jobs:
     uses: ./.github/workflows/test-code.yaml
     secrets: inherit
 
+  backup-secrets:
+    uses: ./.github/workflows/backup-secrets.yaml
+    secrets: inherit
+    with:
+      environment: 'dev'
+
   test-containers:
     needs: [build]
     uses: ./.github/workflows/test-containers.yaml
