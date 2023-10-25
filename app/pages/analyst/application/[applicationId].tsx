@@ -87,7 +87,6 @@ const Application = ({
   );
 
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
-
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>

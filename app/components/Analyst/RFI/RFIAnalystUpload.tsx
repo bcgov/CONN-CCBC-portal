@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { Button } from '@button-inc/bcgov-theme';
-import { ISubmitEvent } from '@rjsf/core';
 import { FormDiv } from 'components';
 import { RfiTheme } from 'components/Analyst/RFI';
 import { RfiFormStatus, FormBase } from 'components/Form';
@@ -50,6 +49,7 @@ const RfiAnalystUpload = ({ query }) => {
 
   const [createNewFormData] = useCreateNewFormDataMutation();
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
+  const [rfiFormData, setRfiFormData] = useState(rfiDataByRowId?.jsonData);
   const [newFormData, setNewFormData] = useState(jsonData);
   const [templateData, setTemplateData] = useState(null);
   const [isFormDataUpdated, setIsFormDataUpdated] = useState(false);
@@ -83,11 +83,11 @@ const RfiAnalystUpload = ({ query }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateData]);
 
-  const handleSubmit = (e: ISubmitEvent<any>) => {
+  const handleSubmit = () => {
     updateRfi({
       variables: {
         input: {
-          jsonData: e.formData,
+          jsonData: rfiFormData,
           rfiRowId: rfiDataByRowId.rowId,
         },
       },
@@ -140,7 +140,10 @@ const RfiAnalystUpload = ({ query }) => {
           schema={rfiSchema}
           uiSchema={rfiAnalystUiSchema}
           omitExtraData={false}
-          formData={rfiDataByRowId?.jsonData}
+          onChange={(e) => {
+            setRfiFormData({ ...e.formData });
+          }}
+          formData={rfiFormData}
           onSubmit={handleSubmit}
           noValidate
         >
