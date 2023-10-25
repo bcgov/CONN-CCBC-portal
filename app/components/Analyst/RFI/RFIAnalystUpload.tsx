@@ -31,9 +31,10 @@ const RfiAnalystUpload = ({ query }) => {
           ...RfiFormStatus_application
         }
         rfiDataByRowId(rowId: $rfiId) {
-          jsonData
-          rowId
           id
+          rowId
+          jsonData
+          rfiNumber
           ...RfiForm_RfiData
         }
       }
@@ -47,17 +48,19 @@ const RfiAnalystUpload = ({ query }) => {
     rowId: applicationId,
   } = applicationByRowId;
 
+  const { rfiNumber } = rfiDataByRowId;
+
   const [createNewFormData] = useCreateNewFormDataMutation();
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
   const [rfiFormData, setRfiFormData] = useState(rfiDataByRowId?.jsonData);
   const [newFormData, setNewFormData] = useState(jsonData);
   const [templateData, setTemplateData] = useState(null);
-  const [isFormDataUpdated, setIsFormDataUpdated] = useState(false);
+  const [excelImportFields, setExcelImportFields] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
     if (templateData?.templateNumber === 1) {
-      setIsFormDataUpdated(true);
+      setExcelImportFields([...excelImportFields, 'Template 1']);
       const newFormDataWithTemplateOne = {
         ...newFormData,
         benefits: {
@@ -69,7 +72,7 @@ const RfiAnalystUpload = ({ query }) => {
       };
       setNewFormData(newFormDataWithTemplateOne);
     } else if (templateData?.templateNumber === 2) {
-      setIsFormDataUpdated(true);
+      setExcelImportFields([...excelImportFields, 'Template 2']);
       const newFormDataWithTemplateTwo = {
         ...newFormData,
         budgetDetails: {
@@ -84,6 +87,8 @@ const RfiAnalystUpload = ({ query }) => {
   }, [templateData]);
 
   const handleSubmit = () => {
+    const updatedExcelFields = excelImportFields.join(', ');
+    const reasonForChange = `Auto updated from upload of ${updatedExcelFields} for RFI: ${rfiNumber}`;
     updateRfi({
       variables: {
         input: {
@@ -92,13 +97,13 @@ const RfiAnalystUpload = ({ query }) => {
         },
       },
       onCompleted: () => {
-        if (isFormDataUpdated) {
+        if (excelImportFields.length > 0) {
           createNewFormData({
             variables: {
               input: {
                 applicationRowId: Number(applicationId),
                 jsonData: newFormData,
-                reasonForChange: '',
+                reasonForChange,
                 formSchemaId,
               },
             },

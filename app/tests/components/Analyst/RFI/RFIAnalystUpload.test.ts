@@ -25,6 +25,7 @@ const mockQueryPayload = {
       },
       rfiDataByRowId: {
         rowId: 1,
+        rfiNumber: 'RFI-01',
         jsonData: {
           rfiAdditionalFiles: {
             detailedBudgetRfi: true,
@@ -214,7 +215,8 @@ describe('The RFIAnalystUpload component', () => {
               numberOfHouseholds: 2,
             },
           },
-          reasonForChange: '',
+          reasonForChange:
+            'Auto updated from upload of Template 1 for RFI: RFI-01',
           formSchemaId: 1,
         },
       }
