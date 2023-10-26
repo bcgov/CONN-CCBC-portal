@@ -179,6 +179,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         size: 26,
         maxSize: 26,
         Cell: CcbcIdCell,
+        filterFn: 'filterCcbcId',
       },
       {
         accessorKey: 'packageNumber',
@@ -295,6 +296,14 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
           return false;
         }
 
+        return value.toLowerCase().includes(filterValue.toLowerCase());
+      },
+      filterCcbcId: (row, id, filterValue) => {
+        const value = row.getValue(id) as string;
+
+        if (!value) {
+          return false;
+        }
         return value.toLowerCase().includes(filterValue.toLowerCase());
       },
     },
