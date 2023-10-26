@@ -10,10 +10,12 @@ import rfiSchema from 'formSchema/analyst/rfiSchema';
 import { rfiApplicantUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { Button } from '@button-inc/bcgov-theme';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
-import { ISubmitEvent } from '@rjsf/core';
+import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
 import { useRouter } from 'next/router';
 import FormDiv from 'components/FormDiv';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 
 const Flex = styled('header')`
   display: flex;
@@ -26,6 +28,7 @@ const getApplicantRfiIdQuery = graphql`
     rfiDataByRowId(rowId: $rfiId) {
       ...RfiForm_RfiData
       jsonData
+      rfiNumber
       rowId
       id
     }
@@ -35,6 +38,17 @@ const getApplicantRfiIdQuery = graphql`
     applicationByRowId(rowId: $applicationId) {
       ...RfiFormStatus_application
       id
+      formData {
+        id
+        formSchemaId
+        jsonData
+        lastEditedPage
+        rowId
+        updatedAt
+        formByFormSchemaId {
+          jsonSchema
+        }
+      }
     }
   }
 `;
@@ -44,8 +58,42 @@ const ApplicantRfiPage = ({
 }: RelayProps<Record<string, unknown>, ApplicantRfiIdQuery>) => {
   const query = usePreloadedQuery(getApplicantRfiIdQuery, preloadedQuery);
   const { session, rfiDataByRowId, applicationByRowId } = query;
+  const { rfiNumber } = rfiDataByRowId;
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
   const router = useRouter();
+  const formJsonData = applicationByRowId?.formData?.jsonData;
+  const applicationId = router.query.id as string;
+  const formSchemaId = applicationByRowId?.formData?.formSchemaId;
+  const [newFormData, setNewFormData] = useState(formJsonData);
+  const [createNewFormData] = useCreateNewFormDataMutation();
+  const [templateData, setTemplateData] = useState(null);
+  const [formData, setFormData] = useState(rfiDataByRowId.jsonData);
+
+  useEffect(() => {
+    if (templateData?.templateNumber === 1) {
+      const newFormDataWithTemplateOne = {
+        ...newFormData,
+        benefits: {
+          ...newFormData.benefits,
+          householdsImpactedIndigenous:
+            templateData.data.result.totalNumberHouseholdsImpacted,
+          numberOfHouseholds: templateData.data.result.finalEligibleHouseholds,
+        },
+      };
+      setNewFormData(newFormDataWithTemplateOne);
+    } else if (templateData?.templateNumber === 2) {
+      const newFormDataWithTemplateTwo = {
+        ...newFormData,
+        budgetDetails: {
+          ...newFormData.budgetDetails,
+          totalEligibleCosts: templateData.data.result.totalEligibleCosts,
+          totalProjectCost: templateData.data.result.totalProjectCosts,
+        },
+      };
+      setNewFormData(newFormDataWithTemplateTwo);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateData]);
 
   const handleSubmit = (e: ISubmitEvent<any>) => {
     updateRfi({
@@ -55,16 +103,40 @@ const ApplicantRfiPage = ({
           rfiRowId: rfiDataByRowId.rowId,
         },
       },
-      onCompleted: (response) => {
-        router.push(
-          `/applicantportal/form/${router.query.id}/rfi/${response.updateRfi.rfiData.rowId}`
-        );
+      onCompleted: () => {
+        if (!templateData) {
+          router.push(`/applicantportal/dashboard`);
+        }
       },
       onError: (err) => {
         // eslint-disable-next-line no-console
         console.log('Error updating RFI', err);
       },
     });
+    if (templateData) {
+      createNewFormData({
+        variables: {
+          input: {
+            applicationRowId: Number(applicationId),
+            jsonData: newFormData,
+            reasonForChange: `Auto updated from upload for RFI: ${rfiNumber}`,
+            formSchemaId,
+          },
+        },
+        onError: (err) => {
+          // eslint-disable-next-line no-console
+          console.log('Error creating new form data', err);
+        },
+        onCompleted: () => {
+          setTemplateData(null);
+          router.push(`/applicantportal/dashboard`);
+        },
+      });
+    }
+  };
+
+  const handleChange = (e: IChangeEvent<any>) => {
+    setFormData(e.formData);
   };
 
   return (
@@ -88,9 +160,11 @@ const ApplicantRfiPage = ({
             schema={rfiSchema}
             uiSchema={rfiApplicantUiSchema}
             omitExtraData={false}
-            formData={rfiDataByRowId.jsonData}
+            formData={formData}
+            onChange={handleChange}
             onSubmit={handleSubmit}
             noValidate
+            formContext={{ setTemplateData }}
           >
             <Button>Save</Button>
           </FormBase>

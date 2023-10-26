@@ -70,7 +70,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     }
   }, [rawErrors, setError]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
     const span = transaction.startChild({
       op: 'file-widget-handle-upload',
@@ -89,17 +89,21 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       if (file) {
         fileFormData.append('file', file);
         if (setTemplateData) {
-          fetch(`/api/applicant/template?templateNumber=${templateNumber}`, {
-            method: 'POST',
-            body: fileFormData,
-          }).then((response) => {
-            if (response.ok)
+          await fetch(
+            `/api/applicant/template?templateNumber=${templateNumber}`,
+            {
+              method: 'POST',
+              body: fileFormData,
+            }
+          ).then((response) => {
+            if (response.ok) {
               response.json().then((data) => {
                 setTemplateData({
                   templateNumber,
                   data,
                 });
               });
+            }
           });
         }
       }

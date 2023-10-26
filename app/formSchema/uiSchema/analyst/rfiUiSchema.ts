@@ -306,6 +306,9 @@ export const rfiApplicantUiSchema = {
       'ui:options': {
         hideOptional: true,
         allowMultipleFiles: true,
+        fileTypes: EXCEL_FILE_EXTENSIONS,
+        templateNumber: 1,
+        templateValidate: true,
       },
     },
     eligibilityAndImpactsCalculatorRfi: {
@@ -319,6 +322,9 @@ export const rfiApplicantUiSchema = {
       'ui:options': {
         hideOptional: true,
         allowMultipleFiles: true,
+        fileTypes: EXCEL_FILE_EXTENSIONS,
+        templateNumber: 2,
+        templateValidate: true,
       },
     },
     detailedBudgetRfi: {
