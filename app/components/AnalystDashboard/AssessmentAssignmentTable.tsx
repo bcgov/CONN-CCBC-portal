@@ -265,41 +265,39 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     },
     sortingFns: {
       sortAnalysts: (rowA, rowB, columnId) => {
-        const a = (
-          rowA.getValue(columnId) as { jsonData: { assignedTo: string } }
-        )?.jsonData?.assignedTo;
-        const b = (
-          rowB.getValue(columnId) as { jsonData: { assignedTo: string } }
-        )?.jsonData?.assignedTo;
+        const valueA = rowA.getValue(columnId) as any;
+        const valueB = rowB.getValue(columnId) as any;
+        const assignedToA = valueA?.jsonData?.assignedTo;
+        const assignedToB = valueB?.jsonData?.assignedTo;
 
-        if (!a && !b) {
+        if (!assignedToA && !assignedToB) {
           return 0;
         }
 
-        if (!a) {
+        if (!assignedToA) {
           return -1;
         }
 
-        if (!b) {
+        if (!assignedToB) {
           return 1;
         }
 
-        return a.localeCompare(b);
+        return assignedToA.localeCompare(assignedToB);
       },
     },
     filterFns: {
       filterAnalysts: (row, id, filterValue) => {
-        const value = (row.getValue(id) as { jsonData: { assignedTo: string } })
-          ?.jsonData?.assignedTo;
+        const value = row.getValue(id) as any;
+        const assignedTo = value?.jsonData?.assignedTo;
 
-        if (!value) {
+        if (!assignedTo) {
           return false;
         }
 
-        return value.toLowerCase().includes(filterValue.toLowerCase());
+        return assignedTo.toLowerCase().includes(filterValue.toLowerCase());
       },
       filterCcbcId: (row, id, filterValue) => {
-        const value = row.getValue(id) as string;
+        const value = row.getValue(id) as any;
 
         if (!value) {
           return false;
