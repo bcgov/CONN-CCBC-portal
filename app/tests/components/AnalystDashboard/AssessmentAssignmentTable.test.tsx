@@ -20,7 +20,6 @@ const mockQueryPayload = {
           {
             node: {
               familyName: 'Analyst GIS',
-
               givenName: 'Test',
               active: true,
             },
@@ -230,5 +229,78 @@ describe('The AssessmentAssignmentTable component', () => {
         },
       }
     );
+  });
+
+  it('should correctly filter the CCBC ID column', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('CCBC-010002')).toBeVisible();
+
+    const columnActions = document.querySelectorAll(
+      '[aria-label="Column Actions"]'
+    )[0];
+
+    await act(async () => {
+      fireEvent.click(columnActions);
+    });
+
+    const ccbcIdFilter = screen.getByText('Filter by CCBC ID');
+
+    await act(async () => {
+      fireEvent.click(ccbcIdFilter);
+    });
+
+    const filterInput = screen.getByPlaceholderText('Filter by CCBC ID');
+
+    await act(async () => {
+      fireEvent.change(filterInput, { target: { value: 'CCBC-010001' } });
+    });
+
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
+    expect(screen.queryByText('CCBC-010002')).not.toBeInTheDocument();
+  });
+
+  it('should correctly filter the PM Assessment column', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const analyst = screen.queryAllByText('Test Analyst Project Management')[0];
+
+    expect(analyst).toBeVisible();
+
+    const columnActions = document.querySelectorAll(
+      '[aria-label="Column Actions"]'
+    )[2];
+
+    await act(async () => {
+      fireEvent.click(columnActions);
+    });
+
+    const pmAssessmentFilter = screen.getByText('Filter by PM Assessment');
+
+    await act(async () => {
+      fireEvent.click(pmAssessmentFilter);
+    });
+
+    const filterInput = screen.getByPlaceholderText('Filter by PM Assessment');
+
+    await act(async () => {
+      fireEvent.change(filterInput, { target: { value: 'Test Analyst GIS' } });
+    });
+
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    const analystAfterFilter = screen.queryAllByText(
+      'Test Analyst Project Management'
+    )[0];
+
+    expect(analystAfterFilter).toBeFalsy();
   });
 });

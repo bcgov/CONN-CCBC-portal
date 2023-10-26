@@ -297,12 +297,12 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         return assignedTo.toLowerCase().includes(filterValue.toLowerCase());
       },
       filterCcbcId: (row, id, filterValue) => {
-        const value = row.getValue(id) as any;
+        const ccbcId = row.getValue(id) as any;
 
-        if (!value) {
+        if (!ccbcId) {
           return false;
         }
-        return value.toLowerCase().includes(filterValue.toLowerCase());
+        return ccbcId.toLowerCase().includes(filterValue.toLowerCase());
       },
     },
   });
