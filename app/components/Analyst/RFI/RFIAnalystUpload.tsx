@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
+import { graphql, useFragment } from 'react-relay';
 import { Button } from '@button-inc/bcgov-theme';
-import { ISubmitEvent } from '@rjsf/core';
 import { FormDiv } from 'components';
 import { RfiTheme } from 'components/Analyst/RFI';
 import { RfiFormStatus, FormBase } from 'components/Form';
@@ -8,6 +9,7 @@ import { rfiAnalystUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { useRouter } from 'next/router';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import styled from 'styled-components';
+import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 
 const Flex = styled('header')`
   display: flex;
@@ -15,22 +17,105 @@ const Flex = styled('header')`
   width: 100%;
 `;
 
-const RfiAnalystUpload = ({ rfiQuery }) => {
-  // const query = usePreloadedQuery(rfiQuery, preloadedQuery);
-  const { rfiDataByRowId, applicationByRowId } = rfiQuery;
+const RfiAnalystUpload = ({ query }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment RFIAnalystUpload_query on Query {
+        applicationByRowId(rowId: $rowId) {
+          id
+          rowId
+          formData {
+            formSchemaId
+            jsonData
+          }
+          ...RfiFormStatus_application
+        }
+        rfiDataByRowId(rowId: $rfiId) {
+          id
+          rowId
+          jsonData
+          rfiNumber
+          ...RfiForm_RfiData
+        }
+      }
+    `,
+    query
+  );
+
+  const { rfiDataByRowId, applicationByRowId } = queryFragment;
+  const {
+    formData: { formSchemaId, jsonData },
+    rowId: applicationId,
+  } = applicationByRowId;
+
+  const { rfiNumber } = rfiDataByRowId;
+
+  const [createNewFormData] = useCreateNewFormDataMutation();
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
+  const [rfiFormData, setRfiFormData] = useState(rfiDataByRowId?.jsonData);
+  const [newFormData, setNewFormData] = useState(jsonData);
+  const [templateData, setTemplateData] = useState(null);
+  const [excelImportFields, setExcelImportFields] = useState([]);
   const router = useRouter();
 
-  const handleSubmit = (e: ISubmitEvent<any>) => {
+  useEffect(() => {
+    if (templateData?.templateNumber === 1) {
+      setExcelImportFields([...excelImportFields, 'Template 1']);
+      const newFormDataWithTemplateOne = {
+        ...newFormData,
+        benefits: {
+          ...newFormData.benefits,
+          householdsImpactedIndigenous:
+            templateData.data.result.totalNumberHouseholdsImpacted,
+          numberOfHouseholds: templateData.data.result.finalEligibleHouseholds,
+        },
+      };
+      setNewFormData(newFormDataWithTemplateOne);
+    } else if (templateData?.templateNumber === 2) {
+      setExcelImportFields([...excelImportFields, 'Template 2']);
+      const newFormDataWithTemplateTwo = {
+        ...newFormData,
+        budgetDetails: {
+          ...newFormData.budgetDetails,
+          totalEligibleCosts: templateData.data.result.totalEligibleCosts,
+          totalProjectCost: templateData.data.result.totalProjectCosts,
+        },
+      };
+      setNewFormData(newFormDataWithTemplateTwo);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateData]);
+
+  const handleSubmit = () => {
+    const updatedExcelFields = excelImportFields.join(', ');
+    const reasonForChange = `Auto updated from upload of ${updatedExcelFields} for RFI: ${rfiNumber}`;
     updateRfi({
       variables: {
         input: {
-          jsonData: e.formData,
+          jsonData: rfiFormData,
           rfiRowId: rfiDataByRowId.rowId,
         },
       },
       onCompleted: () => {
-        router.push(`/analyst/application/${router.query.applicationId}/rfi`);
+        if (excelImportFields.length > 0) {
+          createNewFormData({
+            variables: {
+              input: {
+                applicationRowId: Number(applicationId),
+                jsonData: newFormData,
+                reasonForChange,
+                formSchemaId,
+              },
+            },
+            onCompleted: () => {
+              router.push(
+                `/analyst/application/${router.query.applicationId}/rfi`
+              );
+            },
+          });
+        } else {
+          router.push(`/analyst/application/${router.query.applicationId}/rfi`);
+        }
       },
       onError: (err) => {
         // eslint-disable-next-line no-console
@@ -55,11 +140,15 @@ const RfiAnalystUpload = ({ rfiQuery }) => {
       </Flex>
       <FormDiv>
         <FormBase
+          formContext={{ setTemplateData }}
           theme={RfiTheme}
           schema={rfiSchema}
           uiSchema={rfiAnalystUiSchema}
           omitExtraData={false}
-          formData={rfiDataByRowId?.jsonData}
+          onChange={(e) => {
+            setRfiFormData({ ...e.formData });
+          }}
+          formData={rfiFormData}
           onSubmit={handleSubmit}
           noValidate
         >
