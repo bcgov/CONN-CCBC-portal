@@ -9,15 +9,14 @@ returns ccbc_public.form_data as
 $func$
 declare
   current_updated_at timestamp with time zone;
-  current_last_edited_page varchar;
   updated_form_data ccbc_public.form_data;
 begin
 
-  select updated_at, fd.last_edited_page into current_updated_at, current_last_edited_page from ccbc_public.form_data as fd where id = form_data_row_id;
-
-  -- Adding a buffer, can be used to update if someone happens to have a version of the form on a separate page that was opened <3 seconds from the last save if the last.
-  if current_last_edited_page != last_edited_page and client_updated_at < current_updated_at  - interval '3 second' then
-    raise exception 'Data is Out of Sync, client_updated_at: % < current_updated_at: %, current_last_edited_page: %, client_last_edited_page: %', client_updated_at, current_updated_at - interval '3 second', current_last_edited_page, last_edited_page;
+  select updated_at into current_updated_at from ccbc_public.form_data where id = form_data_row_id;
+  -- Adding a buffer, can be used to update if someone happens to have a version of the form that was opened <3 seconds from the last save
+  -- Risk is that there can still be overwritten data.
+  if client_updated_at < current_updated_at  - interval '3 second' then
+    raise exception 'Data is Out of Sync';
   end if;
 
   update ccbc_public.form_data
