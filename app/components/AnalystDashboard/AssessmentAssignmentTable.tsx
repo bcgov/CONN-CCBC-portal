@@ -171,6 +171,16 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
   );
 
   const assessmentWidth = 36;
+
+  // Sonarcloud duplicate lines
+  const sharedAssessmentCell = {
+    size: assessmentWidth,
+    maxSize: assessmentWidth,
+    Cell: AssessmentCell,
+    sortingFn: 'sortAnalysts',
+    filterFn: 'filterAnalysts',
+  };
+
   const columns = useMemo<MRT_ColumnDef<Application>[]>(
     () => [
       {
@@ -188,40 +198,24 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         maxSize: 24,
       },
       {
+        ...sharedAssessmentCell,
         accessorKey: 'pmAssessment',
         header: 'PM Assessment',
-        size: assessmentWidth,
-        maxSize: assessmentWidth,
-        Cell: AssessmentCell,
-        sortingFn: 'sortAnalysts',
-        filterFn: 'filterAnalysts',
       },
       {
+        ...sharedAssessmentCell,
         accessorKey: 'techAssessment',
         header: 'Tech Assessment',
-        size: assessmentWidth,
-        maxSize: assessmentWidth,
-        Cell: AssessmentCell,
-        sortingFn: 'sortAnalysts',
-        filterFn: 'filterAnalysts',
       },
       {
+        ...sharedAssessmentCell,
         accessorKey: 'permittingAssessment',
         header: 'Permitting Assessment',
-        size: assessmentWidth,
-        maxSize: assessmentWidth,
-        Cell: AssessmentCell,
-        sortingFn: 'sortAnalysts',
-        filterFn: 'filterAnalysts',
       },
       {
+        ...sharedAssessmentCell,
         accessorKey: 'gisAssessment',
         header: 'GIS Assessment',
-        size: assessmentWidth,
-        maxSize: assessmentWidth,
-        Cell: AssessmentCell,
-        sortingFn: 'sortAnalysts',
-        filterFn: 'filterAnalysts',
       },
       {
         accessorKey: 'techAssessment.jsonData.targetDate',
