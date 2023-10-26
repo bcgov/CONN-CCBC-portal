@@ -25,6 +25,14 @@ const mockClosedIntakeData: JSONValue = {
   displayOpenDate: false,
 };
 
+const mockInternalIntakeClosed: FeatureResult<boolean> = {
+  value: false,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'internal_intake',
+};
+
 const mockOpenIntake: FeatureResult<JSONValue> = {
   value: mockOpenIntakeData,
   source: 'defaultValue',
@@ -206,6 +214,16 @@ describe('The index page', () => {
         destination: '/applicantportal',
       },
     });
+  });
+
+  it('should have disabled create application when hidden intake open but feature flag is off', async () => {
+    pageTestingHelper.loadQuery(mockClosedIntakeOpenHiddenIntakePayload);
+    pageTestingHelper.renderPage();
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValueOnce(mockInternalIntakeClosed);
+
+    expect(screen.getByText('Create application')).toBeDisabled();
   });
 
   it('displays the alert message when there is no open intake', async () => {

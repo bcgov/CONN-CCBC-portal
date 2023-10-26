@@ -76,7 +76,7 @@ const Dashboard = ({
     query;
 
   const closeTimestamp = openIntake?.closeTimestamp;
-  const internalIntake = useFeature('internal_intake').value ?? false;
+  const isInternalIntakeEnabled = useFeature('internal_intake').value ?? false;
 
   const sub: string = session?.sub;
 
@@ -93,7 +93,7 @@ const Dashboard = ({
   }, []);
 
   const handleCreateApplication = () => {
-    if (openIntake || (openHiddenIntake && internalIntake)) {
+    if (openIntake || (openHiddenIntake && isInternalIntakeEnabled)) {
       createApplication({
         variables: {
           input: {
@@ -161,7 +161,10 @@ const Dashboard = ({
           )}
           <StyledGovButton
             onClick={handleCreateApplication}
-            disabled={!openIntake && (!openHiddenIntake || !internalIntake)}
+            // We want it disabled if there's no open intake and if there isn't an internal intake open or if it's been disabled
+            disabled={
+              !openIntake && (!openHiddenIntake || !isInternalIntakeEnabled)
+            }
           >
             Create application
           </StyledGovButton>
