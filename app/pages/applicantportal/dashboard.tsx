@@ -76,6 +76,7 @@ const Dashboard = ({
     query;
 
   const closeTimestamp = openIntake?.closeTimestamp;
+  const internalIntake = useFeature('internal_intake').value ?? false;
 
   const sub: string = session?.sub;
 
@@ -92,7 +93,7 @@ const Dashboard = ({
   }, []);
 
   const handleCreateApplication = () => {
-    if (openIntake || openHiddenIntake) {
+    if (openIntake || (openHiddenIntake && internalIntake)) {
       createApplication({
         variables: {
           input: {
@@ -160,7 +161,7 @@ const Dashboard = ({
           )}
           <StyledGovButton
             onClick={handleCreateApplication}
-            disabled={!openIntake && !openHiddenIntake}
+            disabled={!openIntake && (!openHiddenIntake || !internalIntake)}
           >
             Create application
           </StyledGovButton>
