@@ -1,3 +1,14 @@
+# [1.115.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.114.1...v1.115.0) (2023-10-26)
+
+### Features
+
+- only backup passwords on deploy ([a8de90a](https://github.com/bcgov/CONN-CCBC-portal/commit/a8de90a0c96cab10f6b37f2ab6cfb40312236957))
+- show rfi number as auto update reason ([1cf3e12](https://github.com/bcgov/CONN-CCBC-portal/commit/1cf3e124838930b342049a47863060733a10a338))
+- update form with applicant rfi templates ([2e37a9b](https://github.com/bcgov/CONN-CCBC-portal/commit/2e37a9b0fece8ea255a6591db5f094278840dc62))
+- update prefix using environment ([4da1241](https://github.com/bcgov/CONN-CCBC-portal/commit/4da1241a089edec9ab583cc641e71a4464725498))
+- use environment name when setting keys ([311f2ad](https://github.com/bcgov/CONN-CCBC-portal/commit/311f2ad6a3ca71d5e49938e2202011e81c8df60e))
+- workflow for backing up secrets ([d2dac6f](https://github.com/bcgov/CONN-CCBC-portal/commit/d2dac6fef079c8fad1707394d61417b226432aa7))
+
 ## [1.114.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.114.0...v1.114.1) (2023-10-24)
 
 ### Bug Fixes
