@@ -1,7 +1,11 @@
 import { act, fireEvent, screen } from '@testing-library/react';
 import { graphql } from 'react-relay';
 import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
-import AssessmentAssignmentTable from 'components/AnalystDashboard/AssessmentAssignmentTable';
+import AssessmentAssignmentTable, {
+  filterAnalysts,
+  filterCcbcId,
+  sortAnalysts,
+} from 'components/AnalystDashboard/AssessmentAssignmentTable';
 import compiledQuery, {
   AssessmentAssignmentTableTestQuery,
 } from '__generated__/AssessmentAssignmentTableTestQuery.graphql';
@@ -302,5 +306,93 @@ describe('The AssessmentAssignmentTable component', () => {
     )[0];
 
     expect(analystAfterFilter).toBeFalsy();
+  });
+});
+
+describe('The filterAnalysts function', () => {
+  const mockData = {
+    getValue: () => {
+      return {
+        jsonData: {
+          assignedTo: 'Test Analyst GIS',
+        },
+      };
+    },
+  };
+
+  it('should return true if the analyst name contains the filter value', () => {
+    expect(filterAnalysts(mockData, 1, 'GIS')).toBeTruthy();
+  });
+
+  it('should return false if the analyst name does not contain the filter value', () => {
+    expect(filterAnalysts(mockData, 1, 'PM')).toBeFalsy();
+  });
+});
+
+describe('The filterCcbcId function', () => {
+  const mockData = {
+    getValue: () => {
+      return 'CCBC-010001';
+    },
+  };
+
+  it('should return true if the CCBC ID contains the filter value', () => {
+    expect(filterCcbcId(mockData, 1, 'CCBC-010001')).toBeTruthy();
+  });
+
+  it('should return false if the CCBC ID does not contain the filter value', () => {
+    expect(filterCcbcId(mockData, 1, 'CCBC-010002')).toBeFalsy();
+  });
+});
+
+describe('The sortAnalysts function', () => {
+  const mockDataA = {
+    getValue: () => {
+      return {
+        jsonData: {
+          assignedTo: 'Test Analyst GIS',
+        },
+      };
+    },
+  };
+
+  const mockDataB = {
+    getValue: () => {
+      return {
+        jsonData: {
+          assignedTo: 'Test Analyst Project Management',
+        },
+      };
+    },
+  };
+
+  const mockDataC = {
+    getValue: () => {
+      return {
+        jsonData: {
+          assignedTo: null,
+        },
+      };
+    },
+  };
+
+  it('should return -1 if the first analyst is null', () => {
+    expect(sortAnalysts(mockDataC, mockDataA, 1)).toEqual(-1);
+  });
+
+  it('should return 1 if the second analyst is null', () => {
+    expect(sortAnalysts(mockDataA, mockDataC, 1)).toEqual(1);
+  });
+
+  it('should return 0 if both analysts are null', () => {
+    expect(sortAnalysts(mockDataC, mockDataC, 1)).toEqual(0);
+  });
+
+  it('should return 1 if the first analyst is null', () => {
+    expect(sortAnalysts(mockDataA, mockDataC, 1)).toEqual(1);
+  });
+
+  it('should return -1 if both analysts are not null', () => {
+    expect(sortAnalysts(mockDataA, mockDataB, 1)).toEqual(-1);
   });
 });
