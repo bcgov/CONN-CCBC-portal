@@ -49,7 +49,6 @@ const AssessmentCell = ({ cell }) => {
   const row = cell.row.original;
   const { applicationId, allAnalysts } = row;
   const assessment = cell.getValue();
-
   return (
     <AssessmentLead
       allAnalysts={allAnalysts.edges}
@@ -193,6 +192,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         size: assessmentWidth,
         maxSize: assessmentWidth,
         Cell: AssessmentCell,
+        sortingFn: 'sortAnalysts',
       },
       {
         accessorKey: 'techAssessment',
@@ -200,6 +200,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         size: assessmentWidth,
         maxSize: assessmentWidth,
         Cell: AssessmentCell,
+        sortingFn: 'sortAnalysts',
       },
       {
         accessorKey: 'permittingAssessment',
@@ -207,6 +208,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         size: assessmentWidth,
         maxSize: assessmentWidth,
         Cell: AssessmentCell,
+        sortingFn: 'sortAnalysts',
       },
       {
         accessorKey: 'gisAssessment',
@@ -214,6 +216,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         size: assessmentWidth,
         maxSize: assessmentWidth,
         Cell: AssessmentCell,
+        sortingFn: 'sortAnalysts',
       },
       {
         accessorKey: 'techAssessment.jsonData.targetDate',
@@ -253,6 +256,30 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         padding: '0px',
         wordBreak: 'break-word',
         texOverflow: 'wrap',
+      },
+    },
+    sortingFns: {
+      sortAnalysts: (rowA, rowB, columnId) => {
+        const a = (
+          rowA.getValue(columnId) as { jsonData: { assignedTo: string } }
+        )?.jsonData?.assignedTo;
+        const b = (
+          rowB.getValue(columnId) as { jsonData: { assignedTo: string } }
+        )?.jsonData?.assignedTo;
+
+        if (!a && !b) {
+          return 0;
+        }
+
+        if (!a) {
+          return -1;
+        }
+
+        if (!b) {
+          return 1;
+        }
+
+        return a.localeCompare(b);
       },
     },
   });
