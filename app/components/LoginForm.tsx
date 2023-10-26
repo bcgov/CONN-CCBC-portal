@@ -1,4 +1,5 @@
 import Button from '@button-inc/bcgov-theme/Button';
+import { useFeature } from '@growthbook/growthbook-react';
 import { IDP_HINTS, IDP_HINT_PARAM } from 'data/ssoConstants';
 import styled from 'styled-components';
 
@@ -11,11 +12,14 @@ const StyledForm = styled('form')`
 `;
 
 const LoginForm: React.FC<Props> = ({ idp }) => {
+  const useCustomLogin = useFeature('use_custom_login').value;
+  console.log(useCustomLogin);
+
+  const action = useCustomLogin
+    ? `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS[idp]}`
+    : `/login?${IDP_HINT_PARAM}=${IDP_HINTS[idp]}`;
   return (
-    <StyledForm
-      action={`/api/login/${IDP_HINT_PARAM}=${IDP_HINTS[idp]}`}
-      method="POST"
-    >
+    <StyledForm action={`${action}`} method="POST">
       <Button type="submit">Login with {idp}</Button>
     </StyledForm>
   );
