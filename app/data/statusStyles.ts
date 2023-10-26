@@ -2,8 +2,8 @@ const statusStylesBase = {
   approved: {
     primary: '#FFFFFF',
     backgroundColor: '#1F8234',
-    pillWidth: '116px',
-    description: 'Approved',
+    pillWidth: '188px',
+    description: 'Agreement signed',
   },
   assessment: {
     primary: '#003366',
