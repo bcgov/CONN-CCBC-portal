@@ -13,7 +13,6 @@ const StyledForm = styled('form')`
 
 const LoginForm: React.FC<Props> = ({ idp }) => {
   const useCustomLogin = useFeature('use_custom_login').value;
-  console.log(useCustomLogin);
 
   const action = useCustomLogin
     ? `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS[idp]}`
