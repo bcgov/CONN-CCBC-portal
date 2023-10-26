@@ -9,6 +9,6 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 256Mi
+      storage: 1Gi
   storageClassName: netapp-file-standard
   volumeMode: Filesystem
