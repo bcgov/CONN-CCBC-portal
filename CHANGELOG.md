@@ -1,3 +1,21 @@
+# [1.115.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.114.1...v1.115.0) (2023-10-26)
+
+### Bug Fixes
+
+- rfi reply form data bug ([7025c7d](https://github.com/bcgov/CONN-CCBC-portal/commit/7025c7de59c61a7fa1355e8fc74341257dbc291a))
+
+### Features
+
+- add reason for change for rfi excel import form update ([b0c4fd1](https://github.com/bcgov/CONN-CCBC-portal/commit/b0c4fd1b8b7a39edf916ce95300e1b6769028073))
+- only backup passwords on deploy ([a8de90a](https://github.com/bcgov/CONN-CCBC-portal/commit/a8de90a0c96cab10f6b37f2ab6cfb40312236957))
+- save form data on rfi excel import ([e23d39d](https://github.com/bcgov/CONN-CCBC-portal/commit/e23d39d5db91006aeee335ad4853f941ccae4572))
+- set up analyst rfi template upload excel data ([15b320f](https://github.com/bcgov/CONN-CCBC-portal/commit/15b320f68ec8968296b2077f325047a030decf8d))
+- show rfi number as auto update reason ([1cf3e12](https://github.com/bcgov/CONN-CCBC-portal/commit/1cf3e124838930b342049a47863060733a10a338))
+- update form with applicant rfi templates ([2e37a9b](https://github.com/bcgov/CONN-CCBC-portal/commit/2e37a9b0fece8ea255a6591db5f094278840dc62))
+- update prefix using environment ([4da1241](https://github.com/bcgov/CONN-CCBC-portal/commit/4da1241a089edec9ab583cc641e71a4464725498))
+- use environment name when setting keys ([311f2ad](https://github.com/bcgov/CONN-CCBC-portal/commit/311f2ad6a3ca71d5e49938e2202011e81c8df60e))
+- workflow for backing up secrets ([d2dac6f](https://github.com/bcgov/CONN-CCBC-portal/commit/d2dac6fef079c8fad1707394d61417b226432aa7))
+
 ## [1.114.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.114.0...v1.114.1) (2023-10-24)
 
 ### Bug Fixes
