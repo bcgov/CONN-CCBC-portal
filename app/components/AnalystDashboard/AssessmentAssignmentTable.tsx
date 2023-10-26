@@ -193,6 +193,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         maxSize: assessmentWidth,
         Cell: AssessmentCell,
         sortingFn: 'sortAnalysts',
+        filterFn: 'filterAnalysts',
       },
       {
         accessorKey: 'techAssessment',
@@ -201,6 +202,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         maxSize: assessmentWidth,
         Cell: AssessmentCell,
         sortingFn: 'sortAnalysts',
+        filterFn: 'filterAnalysts',
       },
       {
         accessorKey: 'permittingAssessment',
@@ -209,6 +211,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         maxSize: assessmentWidth,
         Cell: AssessmentCell,
         sortingFn: 'sortAnalysts',
+        filterFn: 'filterAnalysts',
       },
       {
         accessorKey: 'gisAssessment',
@@ -217,6 +220,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         maxSize: assessmentWidth,
         Cell: AssessmentCell,
         sortingFn: 'sortAnalysts',
+        filterFn: 'filterAnalysts',
       },
       {
         accessorKey: 'techAssessment.jsonData.targetDate',
@@ -280,6 +284,18 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         }
 
         return a.localeCompare(b);
+      },
+    },
+    filterFns: {
+      filterAnalysts: (row, id, filterValue) => {
+        const value = (row.getValue(id) as { jsonData: { assignedTo: string } })
+          ?.jsonData?.assignedTo;
+
+        if (!value) {
+          return false;
+        }
+
+        return value.toLowerCase().includes(filterValue.toLowerCase());
       },
     },
   });
