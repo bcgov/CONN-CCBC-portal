@@ -1,3 +1,18 @@
+# [1.116.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.115.0...v1.116.0) (2023-10-27)
+
+### Bug Fixes
+
+- add custom sorting for assessment table analysts ([5eca617](https://github.com/bcgov/CONN-CCBC-portal/commit/5eca617c5e2e8e0ce5eac866fe716b68ec40f44e))
+- assessment table ccbc id filtering ([a1e017e](https://github.com/bcgov/CONN-CCBC-portal/commit/a1e017eedf70e8da0a1ac9ceacf05cc196b768b9))
+
+### Features
+
+- add custom filtering for assessment table analysts ([a4ad456](https://github.com/bcgov/CONN-CCBC-portal/commit/a4ad456264f6e8ee54a9ea073b1c30e79890bc8b))
+- change variable name and add comment for logic ([8a4ff86](https://github.com/bcgov/CONN-CCBC-portal/commit/8a4ff8627407876ce086cc43231a2c66d688777c))
+- only validate for ccbc id ([b982d34](https://github.com/bcgov/CONN-CCBC-portal/commit/b982d34905afe987ca7464d96fad3988c29b9d35))
+- update command to use oc ([934bc1f](https://github.com/bcgov/CONN-CCBC-portal/commit/934bc1f63d205f41c0484d7c1874053db67ba683))
+- use flag for turning internal intake on and off ([40cdb2a](https://github.com/bcgov/CONN-CCBC-portal/commit/40cdb2a830e7d19712714d414433c2ea17c85eb9))
+
 # [1.115.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.114.1...v1.115.0) (2023-10-26)
 
 ### Bug Fixes
