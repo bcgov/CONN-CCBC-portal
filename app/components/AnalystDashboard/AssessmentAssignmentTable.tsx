@@ -212,7 +212,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     }
 
     if (sortingSession) {
-      console.log('sortingSession', sortingSession);
       setSorting(JSON.parse(sortingSession));
     }
     setIsFirstRender(false);
