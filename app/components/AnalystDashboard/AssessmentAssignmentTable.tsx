@@ -1,12 +1,17 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import cookie from 'js-cookie';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   MaterialReactTable,
-  useMaterialReactTable,
   type MRT_ColumnDef,
+  type MRT_ColumnFiltersState,
+  type MRT_DensityState,
+  type MRT_SortingState,
+  type MRT_VisibilityState,
 } from 'material-react-table';
+
 import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
 
 type Assessment = {
@@ -171,6 +176,73 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
 
   const { allAnalysts, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
+
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
+    {}
+  );
+  const [density, setDensity] = useState<MRT_DensityState>('comfortable');
+  const [showColumnFilters, setShowColumnFilters] = useState(false);
+
+  const [sorting, setSorting] = useState<MRT_SortingState>([]);
+
+  useEffect(() => {
+    const columnFiltersSession = cookie.get('mrt_columnFilters');
+    const columnVisibilitySession = cookie.get('mrt_columnVisibility');
+    const densitySession = cookie.get('mrt_density');
+    const showColumnFiltersSession = cookie.get('mrt_showColumnFilters');
+    const sortingSession = cookie.get('mrt_sorting');
+
+    if (columnFiltersSession) {
+      setColumnFilters(JSON.parse(columnFiltersSession));
+    }
+    if (columnVisibilitySession) {
+      setColumnVisibility(JSON.parse(columnVisibilitySession));
+    }
+    if (densitySession) {
+      setDensity(JSON.parse(densitySession));
+    }
+
+    if (showColumnFiltersSession) {
+      setShowColumnFilters(JSON.parse(showColumnFiltersSession));
+    }
+
+    if (sortingSession) {
+      console.log('sortingSession', sortingSession);
+      setSorting(JSON.parse(sortingSession));
+    }
+    setIsFirstRender(false);
+  }, []);
+
+  useEffect(() => {
+    if (isFirstRender) return;
+    cookie.set('mrt_columnFilters', JSON.stringify(columnFilters));
+  }, [columnFilters, isFirstRender]);
+
+  useEffect(() => {
+    if (isFirstRender) return;
+    cookie.set('mrt_columnVisibility', JSON.stringify(columnVisibility));
+  }, [columnVisibility, isFirstRender]);
+
+  useEffect(() => {
+    if (isFirstRender) return;
+    cookie.set('mrt_density', JSON.stringify(density));
+  }, [density, isFirstRender]);
+
+  useEffect(() => {
+    if (isFirstRender) return;
+    cookie.set('mrt_showColumnFilters', JSON.stringify(showColumnFilters));
+  }, [showColumnFilters, isFirstRender]);
+
+  useEffect(() => {
+    if (isFirstRender) return;
+    cookie.set('mrt_sorting', JSON.stringify(sorting));
+  }, [sorting, isFirstRender]);
+
   const tableData = useMemo(
     () =>
       allApplications.edges.map(({ node: application }) => {
@@ -212,22 +284,22 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
           organizationName,
         };
       }),
-    [allApplications]
+    [allApplications, allAnalysts]
   );
 
-  const assessmentWidth = 36;
+  const assessmentWidth = 30;
 
-  // Sonarcloud duplicate lines
-  const sharedAssessmentCell = {
-    size: assessmentWidth,
-    maxSize: assessmentWidth,
-    Cell: AssessmentCell,
-    sortingFn: 'sortAnalysts',
-    filterFn: 'filterAnalysts',
-  };
+  const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
+    // Sonarcloud duplicate lines
+    const sharedAssessmentCell = {
+      size: assessmentWidth,
+      maxSize: assessmentWidth,
+      Cell: AssessmentCell,
+      sortingFn: 'sortAnalysts',
+      filterFn: 'filterAnalysts',
+    };
 
-  const columns = useMemo<MRT_ColumnDef<Application>[]>(
-    () => [
+    return [
       {
         accessorKey: 'ccbcNumber',
         header: 'CCBC ID',
@@ -278,43 +350,55 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         header: 'Organization Name',
         size: 30,
       },
-    ],
-    []
-  );
+    ];
+  }, []);
 
-  const table = useMaterialReactTable({
-    columns,
-    data: tableData,
-    // we may want to enable pagination in the future
-    enablePagination: false,
-    enableBottomToolbar: false,
-    muiTableContainerProps: { sx: { padding: '8px' } },
-    layoutMode: isLargeUp ? 'grid' : 'semantic',
-    muiTableBodyCellProps: {
-      sx: {
-        padding: '8px 0px',
-      },
-    },
-    muiTableHeadCellProps: {
-      sx: {
-        padding: '0px',
-        wordBreak: 'break-word',
-        texOverflow: 'wrap',
-        '.Mui-TableHeadCell-Content-Labels': {
-          width: '100%',
-          justifyContent: 'space-between',
+  return (
+    <MaterialReactTable
+      columns={columns}
+      data={tableData}
+      state={{
+        columnFilters,
+        columnVisibility,
+        density,
+        showColumnFilters,
+        sorting,
+      }}
+      onSortingChange={setSorting}
+      onColumnFiltersChange={setColumnFilters}
+      onColumnVisibilityChange={setColumnVisibility}
+      onDensityChange={setDensity}
+      onShowColumnFiltersChange={setShowColumnFilters}
+      enablePagination={false}
+      enableGlobalFilter={false}
+      enableBottomToolbar={false}
+      muiTableContainerProps={{ sx: { padding: '8px' } }}
+      layoutMode={isLargeUp ? 'grid' : 'semantic'}
+      muiTableBodyCellProps={{
+        sx: {
+          padding: '8px 0px',
         },
-      },
-    },
-    sortingFns: {
-      sortAnalysts,
-    },
-    filterFns: {
-      filterAnalysts,
-      filterCcbcId,
-    },
-  });
-  return <MaterialReactTable table={table} />;
+      }}
+      muiTableHeadCellProps={{
+        sx: {
+          padding: '0px',
+          wordBreak: 'break-word',
+          texOverflow: 'wrap',
+          '.Mui-TableHeadCell-Content-Labels': {
+            width: '100%',
+            justifyContent: 'space-between',
+          },
+        },
+      }}
+      sortingFns={{
+        sortAnalysts,
+      }}
+      filterFns={{
+        filterAnalysts,
+        filterCcbcId,
+      }}
+    />
+  );
 };
 
 export default AssessmentAssignmentTable;
