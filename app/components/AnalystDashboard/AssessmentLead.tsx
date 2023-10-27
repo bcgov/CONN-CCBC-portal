@@ -5,8 +5,8 @@ const StyledDropdown = styled.select`
   text-overflow: ellipsis;
   background-color: inherit;
   border: none;
-  padding: 0 8px;
   max-width: 100%;
+  margin-left: -4px; // Optical - to align with the table header cell
 
   &:focus {
     border: none;

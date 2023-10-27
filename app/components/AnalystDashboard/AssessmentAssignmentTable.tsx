@@ -241,22 +241,22 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       {
         ...sharedAssessmentCell,
         accessorKey: 'pmAssessment',
-        header: 'PM Assessment',
+        header: 'PM',
       },
       {
         ...sharedAssessmentCell,
         accessorKey: 'techAssessment',
-        header: 'Tech Assessment',
+        header: 'Tech',
       },
       {
         ...sharedAssessmentCell,
         accessorKey: 'permittingAssessment',
-        header: 'Permitting Assessment',
+        header: 'Permitting',
       },
       {
         ...sharedAssessmentCell,
         accessorKey: 'gisAssessment',
-        header: 'GIS Assessment',
+        header: 'GIS',
       },
       {
         accessorKey: 'techAssessment.jsonData.targetDate',
@@ -296,6 +296,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         padding: '0px',
         wordBreak: 'break-word',
         texOverflow: 'wrap',
+        '.Mui-TableHeadCell-Content-Labels': {
+          width: '100%',
+          justifyContent: 'space-between',
+        },
       },
     },
     sortingFns: {
