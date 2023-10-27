@@ -29,3 +29,18 @@ The task of receiving internal applications is assigned to a developer. They uti
 # Assigning an Application to an Applicant
 
 The process of assigning an internal application to an applicant is manual. Using the `owner` field of a known application, a developer can reassign the application to another user without accessing or viewing any sensitive identifiable information about the applicant.
+
+The following is an example of how one would transfer over ownership of one application to another with the following steps.
+
+1. Identify owner ID that will be the new owner of the internal application (in the example, a known owner is found by identifying its ccbc_number)
+2. Find the internal application that you will be changing ownership
+3. Update the `owner` column using the value obtained in step 1 for the application from step 2
+
+```sql
+-- Here you should get the owner ID, double check that the CCBC number you've provided is correct (step 1)
+select owner from ccbc_public.application where ccbc_number = 'CCBC-110001';
+-- Get the id of the internal application you'd like to assign (step 2)
+select id from ccbc_public.application where ccbc_number = 'CCBC-220001';
+-- Update the owner for the new application
+update ccbc_public.application set owner = '<owner_id_from_step_1>' where id = <step_2_id>;
+```
