@@ -1,7 +1,11 @@
 import { act, fireEvent, screen } from '@testing-library/react';
 import { graphql } from 'react-relay';
 import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
-import AssessmentAssignmentTable from 'components/AnalystDashboard/AssessmentAssignmentTable';
+import AssessmentAssignmentTable, {
+  filterAnalysts,
+  filterCcbcId,
+  sortAnalysts,
+} from 'components/AnalystDashboard/AssessmentAssignmentTable';
 import compiledQuery, {
   AssessmentAssignmentTableTestQuery,
 } from '__generated__/AssessmentAssignmentTableTestQuery.graphql';
@@ -20,7 +24,6 @@ const mockQueryPayload = {
           {
             node: {
               familyName: 'Analyst GIS',
-
               givenName: 'Test',
               active: true,
             },
@@ -230,5 +233,166 @@ describe('The AssessmentAssignmentTable component', () => {
         },
       }
     );
+  });
+
+  it('should correctly filter the CCBC ID column', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('CCBC-010002')).toBeVisible();
+
+    const columnActions = document.querySelectorAll(
+      '[aria-label="Column Actions"]'
+    )[0];
+
+    await act(async () => {
+      fireEvent.click(columnActions);
+    });
+
+    const ccbcIdFilter = screen.getByText('Filter by CCBC ID');
+
+    await act(async () => {
+      fireEvent.click(ccbcIdFilter);
+    });
+
+    const filterInput = screen.getByPlaceholderText('Filter by CCBC ID');
+
+    await act(async () => {
+      fireEvent.change(filterInput, { target: { value: 'CCBC-010001' } });
+    });
+
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
+    expect(screen.queryByText('CCBC-010002')).not.toBeInTheDocument();
+  });
+
+  it('should correctly filter the PM Assessment column', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const analyst = screen.queryAllByText('Test Analyst Project Management')[0];
+
+    expect(analyst).toBeVisible();
+
+    const columnActions = document.querySelectorAll(
+      '[aria-label="Column Actions"]'
+    )[2];
+
+    await act(async () => {
+      fireEvent.click(columnActions);
+    });
+
+    const pmAssessmentFilter = screen.getByText('Filter by PM Assessment');
+
+    await act(async () => {
+      fireEvent.click(pmAssessmentFilter);
+    });
+
+    const filterInput = screen.getByPlaceholderText('Filter by PM Assessment');
+
+    await act(async () => {
+      fireEvent.change(filterInput, { target: { value: 'Test Analyst GIS' } });
+    });
+
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    const analystAfterFilter = screen.queryAllByText(
+      'Test Analyst Project Management'
+    )[0];
+
+    expect(analystAfterFilter).toBeFalsy();
+  });
+});
+
+describe('The filterAnalysts function', () => {
+  const mockData = {
+    getValue: () => {
+      return {
+        jsonData: {
+          assignedTo: 'Test Analyst GIS',
+        },
+      };
+    },
+  };
+
+  it('should return true if the analyst name contains the filter value', () => {
+    expect(filterAnalysts(mockData, 1, 'GIS')).toBeTruthy();
+  });
+
+  it('should return false if the analyst name does not contain the filter value', () => {
+    expect(filterAnalysts(mockData, 1, 'PM')).toBeFalsy();
+  });
+});
+
+describe('The filterCcbcId function', () => {
+  const mockData = {
+    getValue: () => {
+      return 'CCBC-010001';
+    },
+  };
+
+  it('should return true if the CCBC ID contains the filter value', () => {
+    expect(filterCcbcId(mockData, 1, 'CCBC-010001')).toBeTruthy();
+  });
+
+  it('should return false if the CCBC ID does not contain the filter value', () => {
+    expect(filterCcbcId(mockData, 1, 'CCBC-010002')).toBeFalsy();
+  });
+});
+
+describe('The sortAnalysts function', () => {
+  const mockDataA = {
+    getValue: () => {
+      return {
+        jsonData: {
+          assignedTo: 'Test Analyst GIS',
+        },
+      };
+    },
+  };
+
+  const mockDataB = {
+    getValue: () => {
+      return {
+        jsonData: {
+          assignedTo: 'Test Analyst Project Management',
+        },
+      };
+    },
+  };
+
+  const mockDataC = {
+    getValue: () => {
+      return {
+        jsonData: {
+          assignedTo: null,
+        },
+      };
+    },
+  };
+
+  it('should return -1 if the first analyst is null', () => {
+    expect(sortAnalysts(mockDataC, mockDataA, 1)).toEqual(-1);
+  });
+
+  it('should return 1 if the second analyst is null', () => {
+    expect(sortAnalysts(mockDataA, mockDataC, 1)).toEqual(1);
+  });
+
+  it('should return 0 if both analysts are null', () => {
+    expect(sortAnalysts(mockDataC, mockDataC, 1)).toEqual(0);
+  });
+
+  it('should return 1 if the first analyst is null', () => {
+    expect(sortAnalysts(mockDataA, mockDataC, 1)).toEqual(1);
+  });
+
+  it('should return -1 if both analysts are not null', () => {
+    expect(sortAnalysts(mockDataA, mockDataB, 1)).toEqual(-1);
   });
 });

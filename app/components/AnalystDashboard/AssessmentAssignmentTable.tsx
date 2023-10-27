@@ -28,6 +28,47 @@ type Application = {
   organizationName: string;
 };
 
+export const filterAnalysts = (row, id, filterValue) => {
+  const value = row.getValue(id) as any;
+  const assignedTo = value?.jsonData?.assignedTo;
+
+  if (!assignedTo) {
+    return false;
+  }
+
+  return assignedTo.toLowerCase().includes(filterValue.toLowerCase());
+};
+
+export const filterCcbcId = (row, id, filterValue) => {
+  const ccbcId = row.getValue(id) as any;
+
+  if (!ccbcId) {
+    return false;
+  }
+  return ccbcId.toLowerCase().includes(filterValue.toLowerCase());
+};
+
+export const sortAnalysts = (rowA, rowB, columnId) => {
+  const valueA = rowA.getValue(columnId) as any;
+  const valueB = rowB.getValue(columnId) as any;
+  const assignedToA = valueA?.jsonData?.assignedTo;
+  const assignedToB = valueB?.jsonData?.assignedTo;
+
+  if (!assignedToA && !assignedToB) {
+    return 0;
+  }
+
+  if (!assignedToA) {
+    return -1;
+  }
+
+  if (!assignedToB) {
+    return 1;
+  }
+
+  return assignedToA.localeCompare(assignedToB);
+};
+
 const findAssessment = (assessments, assessmentType) => {
   const data = assessments.find(
     ({ node: assessment }) => assessment?.assessmentDataType === assessmentType
@@ -49,7 +90,6 @@ const AssessmentCell = ({ cell }) => {
   const row = cell.row.original;
   const { applicationId, allAnalysts } = row;
   const assessment = cell.getValue();
-
   return (
     <AssessmentLead
       allAnalysts={allAnalysts.edges}
@@ -172,6 +212,16 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
   );
 
   const assessmentWidth = 36;
+
+  // Sonarcloud duplicate lines
+  const sharedAssessmentCell = {
+    size: assessmentWidth,
+    maxSize: assessmentWidth,
+    Cell: AssessmentCell,
+    sortingFn: 'sortAnalysts',
+    filterFn: 'filterAnalysts',
+  };
+
   const columns = useMemo<MRT_ColumnDef<Application>[]>(
     () => [
       {
@@ -180,6 +230,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         size: 26,
         maxSize: 26,
         Cell: CcbcIdCell,
+        filterFn: 'filterCcbcId',
       },
       {
         accessorKey: 'packageNumber',
@@ -188,32 +239,24 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         maxSize: 24,
       },
       {
+        ...sharedAssessmentCell,
         accessorKey: 'pmAssessment',
         header: 'PM Assessment',
-        size: assessmentWidth,
-        maxSize: assessmentWidth,
-        Cell: AssessmentCell,
       },
       {
+        ...sharedAssessmentCell,
         accessorKey: 'techAssessment',
         header: 'Tech Assessment',
-        size: assessmentWidth,
-        maxSize: assessmentWidth,
-        Cell: AssessmentCell,
       },
       {
+        ...sharedAssessmentCell,
         accessorKey: 'permittingAssessment',
         header: 'Permitting Assessment',
-        size: assessmentWidth,
-        maxSize: assessmentWidth,
-        Cell: AssessmentCell,
       },
       {
+        ...sharedAssessmentCell,
         accessorKey: 'gisAssessment',
         header: 'GIS Assessment',
-        size: assessmentWidth,
-        maxSize: assessmentWidth,
-        Cell: AssessmentCell,
       },
       {
         accessorKey: 'techAssessment.jsonData.targetDate',
@@ -254,6 +297,13 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         wordBreak: 'break-word',
         texOverflow: 'wrap',
       },
+    },
+    sortingFns: {
+      sortAnalysts,
+    },
+    filterFns: {
+      filterAnalysts,
+      filterCcbcId,
     },
   });
   return <MaterialReactTable table={table} />;
