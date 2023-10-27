@@ -82,8 +82,12 @@ const findAssessment = (assessments, assessmentType) => {
 };
 
 const StyledLink = styled.a`
-  color: ${(props) => props.theme.color.text};
+  color: ${(props) => props.theme.color.links};
   text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const AssessmentCell = ({ cell }) => {
