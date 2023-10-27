@@ -1,5 +1,18 @@
-import { StyledDropdown } from '../Analyst/AssignLead';
+import styled from 'styled-components';
 import { useCreateAssessmentMutation } from '../../schema/mutations/assessment/createAssessment';
+
+const StyledDropdown = styled.select`
+  text-overflow: ellipsis;
+  background-color: inherit;
+  border: none;
+  padding: 0 8px;
+  max-width: 100%;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
+`;
 
 interface Props {
   allAnalysts: any;
