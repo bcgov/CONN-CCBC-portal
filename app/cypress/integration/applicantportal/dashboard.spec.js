@@ -236,10 +236,6 @@ describe('The applicant dashboard', () => {
 
     cy.get('[id="root_projectBenefits"]').type('test', { force: true });
 
-    cy.get('[id="root_numberOfHouseholds"]').type('12.3');
-
-    cy.get('[id="root_householdsImpactedIndigenous"]').type('1.23');
-
     cy.contains('header > div', 'Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Benefits Page' });
