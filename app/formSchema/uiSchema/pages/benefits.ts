@@ -19,12 +19,15 @@ const benefits = {
   numberOfHouseholds: {
     'ui:options': {
       decimals: 2,
+      // This is to hide the title without presenting any extra text
+      customTitle: true,
     },
+    'ui:widget': 'HiddenWidget',
   },
   householdsImpactedIndigenous: {
-    'ui:options': {
-      decimals: 2,
-    },
+    // This is to hide the title without presenting any extra text
+    'ui:options': { customTitle: true },
+    'ui:widget': 'HiddenWidget',
   },
 };
 
