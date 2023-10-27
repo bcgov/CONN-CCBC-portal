@@ -138,10 +138,10 @@ describe('The index page', () => {
 
     expect(screen.getByText('CCBC ID')).toBeInTheDocument();
     expect(screen.getByText('Package')).toBeInTheDocument();
-    expect(screen.getByText('PM Assessment')).toBeInTheDocument();
-    expect(screen.getByText('Tech Assessment')).toBeInTheDocument();
-    expect(screen.getByText('Permitting Assessment')).toBeInTheDocument();
-    expect(screen.getByText('GIS Assessment')).toBeInTheDocument();
+    expect(screen.getByText('PM')).toBeInTheDocument();
+    expect(screen.getByText('Tech')).toBeInTheDocument();
+    expect(screen.getByText('Permitting')).toBeInTheDocument();
+    expect(screen.getByText('GIS')).toBeInTheDocument();
     expect(screen.getByText('Target Date')).toBeInTheDocument();
     expect(screen.getByText('Project Title')).toBeInTheDocument();
     expect(screen.getByText('Organization Name')).toBeInTheDocument();
