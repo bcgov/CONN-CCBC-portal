@@ -165,7 +165,7 @@ const ValidateData = async (data, applicationRowId, req) => {
 
   data.communityData.forEach((comData) => {
     if (
-      comData.communityName === undefined ||
+      comData.communityName !== undefined &&
       typeof comData.communityName !== 'string'
     ) {
       errors.push({
@@ -174,7 +174,7 @@ const ValidateData = async (data, applicationRowId, req) => {
       });
     }
     if (
-      comData.communityId === undefined ||
+      comData.communityId !== undefined &&
       typeof comData.communityId !== 'number'
     ) {
       errors.push({
@@ -184,7 +184,7 @@ const ValidateData = async (data, applicationRowId, req) => {
     }
 
     if (
-      comData.provincesTerritories === undefined ||
+      comData.provincesTerritories !== undefined &&
       typeof comData.provincesTerritories !== 'string'
     ) {
       errors.push({
@@ -194,7 +194,7 @@ const ValidateData = async (data, applicationRowId, req) => {
     }
 
     if (
-      comData.latitude === undefined ||
+      comData.latitude !== undefined &&
       typeof comData.latitude !== 'number'
     ) {
       errors.push({
@@ -204,7 +204,7 @@ const ValidateData = async (data, applicationRowId, req) => {
     }
 
     if (
-      comData.longitude === undefined ||
+      comData.longitude !== undefined &&
       typeof comData.longitude !== 'number'
     ) {
       errors.push({
@@ -214,7 +214,7 @@ const ValidateData = async (data, applicationRowId, req) => {
     }
 
     if (
-      comData.typeOfService === undefined ||
+      comData.typeOfService !== undefined &&
       typeof comData.typeOfService !== 'string'
     ) {
       errors.push({
@@ -223,7 +223,7 @@ const ValidateData = async (data, applicationRowId, req) => {
       });
     }
 
-    if (comData.stage === undefined || typeof comData.stage !== 'string') {
+    if (comData.stage !== undefined && typeof comData.stage !== 'string') {
       errors.push({
         level: 'cell',
         error: `Invalid data: Stage ${comData.stage}`,
@@ -231,8 +231,9 @@ const ValidateData = async (data, applicationRowId, req) => {
     }
 
     if (
-      comData.actualConstructionStartDate === undefined ||
-      typeof comData.actualConstructionStartDate !== 'string'
+      (comData.actualConstructionStartDate === undefined ||
+        typeof comData.actualConstructionStartDate !== 'string') &&
+      comData.actualConstructionStartDate !== null
     ) {
       errors.push({
         level: 'cell',
@@ -241,8 +242,9 @@ const ValidateData = async (data, applicationRowId, req) => {
     }
 
     if (
-      comData.actualConstructionEndDate === undefined ||
-      typeof comData.actualConstructionEndDate !== 'string'
+      (comData.actualConstructionEndDate === undefined ||
+        typeof comData.actualConstructionEndDate !== 'string') &&
+      comData.actualConstructionEndDate !== null
     ) {
       errors.push({
         level: 'cell',

@@ -189,10 +189,50 @@ describe('The Community Progress Report import', () => {
     const responseDataJson = JSON.parse(response.text);
     expect(responseDataJson).toBeArray();
     expect(responseDataJson[0].error).toBe('Invalid data: Community Name 123');
-    expect(responseDataJson[1].error).toBe('Invalid data: Stage undefined');
-    expect(responseDataJson[2].error).toBe(
+    expect(responseDataJson[1].error).toBe(
       'CCBC Number mismatch: expected CCBC-020041, received: CCBC-020042'
     );
+  });
+
+  it('should not return error if file is missing data', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_analyst',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementationOnce(async () => {
+      return {
+        data: {
+          applicationByRowId: {
+            ccbcNumber: 'CCBC-020041',
+          },
+        },
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          createApplicationSowData: { applicationSowData: { rowId: 1 } },
+        },
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/community-report/10/1?validate=true')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'community_report-data' }))
+      .attach(
+        'community-report-data',
+        `${__dirname}/community_report_with_missing_data.xlsx`
+      )
+      .expect(200);
+
+    expect(response.status).toBe(200);
+    expect(response.ok).toBeTrue();
   });
 
   afterEach(async () => {
