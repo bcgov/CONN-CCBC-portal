@@ -1,4 +1,3 @@
-import * as luxon from 'luxon';
 import { convertExcelDateToJSDate } from '../sow_import/util';
 
 const columnMap = {
@@ -84,13 +83,11 @@ const validateDate = (value, fieldName, errorList, projectNumber) => {
   if (!value) {
     return null;
   }
-  if (typeof value === 'number') {
-    return convertExcelDateToJSDate(value);
-  }
-  if (typeof value === 'string') {
-    const d = luxon.DateTime.fromSQL(value).toJSDate();
-    if (d.toString() !== 'Invalid Date') {
-      return d;
+  if (typeof value === 'number' || typeof value === 'string') {
+    // work around for 'NULL' value
+    const result = convertExcelDateToJSDate(value);
+    if (result) {
+      return result;
     }
   }
 
