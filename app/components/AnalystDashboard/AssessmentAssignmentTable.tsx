@@ -191,11 +191,15 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
 
   useEffect(() => {
-    const columnFiltersSession = cookie.get('mrt_columnFilters');
-    const columnVisibilitySession = cookie.get('mrt_columnVisibility');
-    const densitySession = cookie.get('mrt_density');
-    const showColumnFiltersSession = cookie.get('mrt_showColumnFilters');
-    const sortingSession = cookie.get('mrt_sorting');
+    const columnFiltersSession = cookie.get('mrt_columnFilters_assessment');
+    const columnVisibilitySession = cookie.get(
+      'mrt_columnVisibility_assessment'
+    );
+    const densitySession = cookie.get('mrt_density_assessment');
+    const showColumnFiltersSession = cookie.get(
+      'mrt_showColumnFilters_assessment'
+    );
+    const sortingSession = cookie.get('mrt_sorting_assessment');
 
     if (columnFiltersSession) {
       setColumnFilters(JSON.parse(columnFiltersSession));
@@ -219,27 +223,33 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
 
   useEffect(() => {
     if (isFirstRender) return;
-    cookie.set('mrt_columnFilters', JSON.stringify(columnFilters));
+    cookie.set('mrt_columnFilters_assessment', JSON.stringify(columnFilters));
   }, [columnFilters, isFirstRender]);
 
   useEffect(() => {
     if (isFirstRender) return;
-    cookie.set('mrt_columnVisibility', JSON.stringify(columnVisibility));
+    cookie.set(
+      'mrt_columnVisibility_assessment',
+      JSON.stringify(columnVisibility)
+    );
   }, [columnVisibility, isFirstRender]);
 
   useEffect(() => {
     if (isFirstRender) return;
-    cookie.set('mrt_density', JSON.stringify(density));
+    cookie.set('mrt_density_assessment', JSON.stringify(density));
   }, [density, isFirstRender]);
 
   useEffect(() => {
     if (isFirstRender) return;
-    cookie.set('mrt_showColumnFilters', JSON.stringify(showColumnFilters));
+    cookie.set(
+      'mrt_showColumnFilters_assessment',
+      JSON.stringify(showColumnFilters)
+    );
   }, [showColumnFilters, isFirstRender]);
 
   useEffect(() => {
     if (isFirstRender) return;
-    cookie.set('mrt_sorting', JSON.stringify(sorting));
+    cookie.set('mrt_sorting_assessment', JSON.stringify(sorting));
   }, [sorting, isFirstRender]);
 
   const tableData = useMemo(
