@@ -3512,29 +3512,29 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.2.tgz#5981a8db18b56ba38ef0efb7d995b12aa7b51918"
   integrity sha512-sXXKG+uL9IrKqViTtao2Ws6dy0znu9sOaP1di/jKGW1M6VssO8vlpXCQcpZ+jisQ1tTFAC5Jo/EOzFbggBagFQ==
 
-"@snowplow/browser-tracker-core@3.15.0":
-  version "3.15.0"
-  resolved "https://registry.yarnpkg.com/@snowplow/browser-tracker-core/-/browser-tracker-core-3.15.0.tgz#0064506a52ddafb5aa258a5b1955cc2f90eaf8e7"
-  integrity sha512-WKKIkc3EPhnyPfHUw5nJ7hIYmTlSzhkblU7Ks3u06abfKtJgCxPmKAiKREPc1roPNequpbRhYmqDN8hlSh3a/Q==
+"@snowplow/browser-tracker-core@3.16.0":
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/@snowplow/browser-tracker-core/-/browser-tracker-core-3.16.0.tgz#71a23c0727df9bfca86560fcc8e2f2873923de6d"
+  integrity sha512-OlAVVlnhKmKw37ALMrTXvs4Ngedt9hmInvMzOLvAyYawkgrHaZ27x1L8Cf50j53aoHERXo5oPSjiuGbAm95NEw==
   dependencies:
-    "@snowplow/tracker-core" "3.15.0"
+    "@snowplow/tracker-core" "3.16.0"
     sha1 "^1.1.1"
     tslib "^2.3.1"
     uuid "^3.4.0"
 
-"@snowplow/browser-tracker@^3.15.0":
-  version "3.15.0"
-  resolved "https://registry.yarnpkg.com/@snowplow/browser-tracker/-/browser-tracker-3.15.0.tgz#b9966929d25f39e4c9ff4183f2f391253e96ea66"
-  integrity sha512-/sDYYpLBk/hQKUDv8tqWc9gmJousCacFoAn6DVgvABXZk4NF3kmJVmNiJsaSADbN3oDxbNhtMEy8UDhI/BxLrg==
+"@snowplow/browser-tracker@^3.16.0":
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/@snowplow/browser-tracker/-/browser-tracker-3.16.0.tgz#521fbe6f79e17a9b9fc69a65f4af56a405cf3c65"
+  integrity sha512-1U4Cn+OmR/44DxyUqTrAKmI81HwoQJ/fUnz2XoM5+kbXI6d1SutM1/0jOZkXIengJWOALjx0W8soYaH4q4Of2g==
   dependencies:
-    "@snowplow/browser-tracker-core" "3.15.0"
-    "@snowplow/tracker-core" "3.15.0"
+    "@snowplow/browser-tracker-core" "3.16.0"
+    "@snowplow/tracker-core" "3.16.0"
     tslib "^2.3.1"
 
-"@snowplow/tracker-core@3.15.0":
-  version "3.15.0"
-  resolved "https://registry.yarnpkg.com/@snowplow/tracker-core/-/tracker-core-3.15.0.tgz#0092440154fdcab32a787f8ed875a17c19470e12"
-  integrity sha512-IJEQLv7RT0sHsWYS7VyHvFNiXg3WrtDMGLsx6H33/XHmuQbm24iAWl0PDj3G2ksUHyubfDceTYzaXYcmM/+pUQ==
+"@snowplow/tracker-core@3.16.0":
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/@snowplow/tracker-core/-/tracker-core-3.16.0.tgz#0160b55235514343c21900abb1b65fc4f978185a"
+  integrity sha512-SpDk1UkpUKpB66H1aCwTlbthNupw3nVNbl971Bb/nmjKjnCo9yLj8Rh/abcUi+Ma/bJBds0eYcZmDmx3kuUqYA==
   dependencies:
     tslib "^2.3.1"
     uuid "^3.4.0"
