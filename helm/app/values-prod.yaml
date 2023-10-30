@@ -5,16 +5,16 @@ secureRoute:
 resources:
   app:
     requests:
-      cpu: 1m
-      memory: '1Gi'
+      cpu: 20m
+      memory: '512Mi'
     limits:
-      cpu: 500m
+      cpu: 300m
       memory: '1Gi'
 
 proxy:
   pgBouncer:
     requests:
-      cpu: 1m
+      cpu: 10m
       memory: 16Mi
     limits:
       cpu: 250m
@@ -28,4 +28,4 @@ autoscaling:
   enabled: true
   minReplicas: 3
   maxReplicas: 6
-  targetCPUUtilizationPercentage: 80
+  targetCPUUtilizationPercentage: 200
