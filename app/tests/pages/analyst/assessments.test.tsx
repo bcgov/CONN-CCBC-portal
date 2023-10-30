@@ -141,7 +141,7 @@ describe('The index page', () => {
     expect(screen.getByText('PM')).toBeInTheDocument();
     expect(screen.getByText('Tech')).toBeInTheDocument();
     expect(screen.getByText('Permitting')).toBeInTheDocument();
-    expect(screen.getByText('GIS')).toBeInTheDocument();
+    expect(screen.getAllByText('GIS')[1]).toBeInTheDocument();
     expect(screen.getByText('Target Date')).toBeInTheDocument();
     expect(screen.getByText('Project Title')).toBeInTheDocument();
     expect(screen.getByText('Organization Name')).toBeInTheDocument();
