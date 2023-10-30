@@ -6,6 +6,7 @@ import FormBase from 'components/Form/FormBase';
 import { analystUiSchema, validate } from 'formSchema';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
+import budgetDetails from 'formSchema/pages/budgetDetails';
 import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
@@ -86,6 +87,16 @@ const Application = ({
     (edge) => edge.node.rfiDataByRfiDataId
   );
 
+  // Budget details was removed from the applicant schema but we want to display in for Analysts
+  // no matter which schema is returned from the database
+  const formSchema = {
+    ...jsonSchema,
+    properties: {
+      ...jsonSchema.properties,
+      ...budgetDetails,
+    },
+  };
+
   const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -111,7 +122,7 @@ const Application = ({
         </RightAlignText>
         <FormBase
           theme={ReviewTheme}
-          schema={jsonSchema}
+          schema={formSchema}
           uiSchema={analystUiSchema as any}
           liveValidate
           formContext={{
