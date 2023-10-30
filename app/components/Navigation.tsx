@@ -4,6 +4,8 @@ import { BaseHeader } from '@button-inc/bcgov-theme/Header';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { IDP_HINTS, IDP_HINT_PARAM } from 'data/ssoConstants';
+import { useFeature } from '@growthbook/growthbook-react';
 import SubHeader from './SubHeader';
 import NavLoginForm from './NavLoginForm';
 
@@ -46,6 +48,21 @@ interface Props {
 const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const router = useRouter();
   const isApplicantPortal = router?.pathname.startsWith('/applicantportal');
+  const useCustomLogin = useFeature('use_custom_login').value;
+  const useDirectIdir = useFeature('use_direct_idir').value;
+
+  let action;
+  if (useCustomLogin) {
+    if (useDirectIdir) {
+      action = `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS['IDIR']}`;
+    } else {
+      action = '/api/login/multi-auth';
+    }
+  } else if (useDirectIdir) {
+    action = `/login?${IDP_HINT_PARAM}=${IDP_HINTS['IDIR']}`;
+  } else {
+    action = '/login';
+  }
 
   return (
     <BaseNavigation>
@@ -80,7 +97,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
               </>
             )}
             <NavLoginForm
-              action={isLoggedIn ? '/api/logout' : '/api/login/multi-auth'}
+              action={isLoggedIn ? '/api/logout' : action}
               linkText={isLoggedIn ? 'Logout' : 'Login'}
             />
           </StyledRightSideLinks>
