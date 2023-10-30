@@ -44,10 +44,10 @@ growthbook:
 resources:
   app:
     requests:
-      cpu: 1m
+      cpu: 10m
       memory: '512Mi'
     limits:
-      cpu: 500m
+      cpu: 200m
       memory: '1Gi'
   psql:
     requests:
@@ -61,7 +61,7 @@ autoscaling:
   enabled: true
   minReplicas: 3
   maxReplicas: 5
-  targetCPUUtilizationPercentage: 80
+  targetCPUUtilizationPercentage: 400
   # targetMemoryUtilizationPercentage: 80
 
 deployer:
