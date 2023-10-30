@@ -1,3 +1,9 @@
+# [1.117.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.116.0...v1.117.0) (2023-10-30)
+
+### Features
+
+- add change request pending column to cbc data import ([1ce5fd0](https://github.com/bcgov/CONN-CCBC-portal/commit/1ce5fd0219989ec440ad03294714798bb08a2062))
+
 # [1.116.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.115.0...v1.116.0) (2023-10-30)
 
 ### Bug Fixes
