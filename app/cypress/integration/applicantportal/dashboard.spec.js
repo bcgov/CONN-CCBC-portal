@@ -124,19 +124,6 @@ describe('The applicant dashboard', () => {
 
     cy.contains('button', 'Save and continue').click();
 
-    // // Budget details page
-    cy.findByRole('heading', { name: /^Budget details/i }).should('exist');
-
-    cy.get('[id="root_totalEligibleCosts"]');
-
-    cy.get('[id="root_totalProjectCost"]');
-
-    cy.contains('header > div', 'Last saved:');
-
-    cy.get('body').happoScreenshot({ component: 'Budget Details Page' });
-
-    cy.contains('button', 'Save and continue').click();
-
     // // Project funding page
     cy.findByRole('heading', { name: /^Project funding/i }).should('exist');
 
@@ -603,17 +590,6 @@ describe('The applicant dashboard', () => {
 
     cy.get('body').happoScreenshot({
       component: 'Out of Intake Existing Network Coverage Page',
-    });
-
-    cy.contains('button', 'Continue').click();
-
-    // // Budget details page
-    cy.contains('h1', 'Budget details');
-
-    cy.get('input').should('be.disabled');
-
-    cy.get('body').happoScreenshot({
-      component: 'Out of Intake Budget Details Page',
     });
 
     cy.contains('button', 'Continue').click();
