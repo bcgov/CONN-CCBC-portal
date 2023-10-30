@@ -52,150 +52,151 @@ const readSummary = async (wb, sheet) => {
       phase: project['C'],
       intake: project['D'],
       projectStatus: project['E'],
-      projectTitle: project['F'],
-      projectDescription: project['G'],
-      applicantContractualName: project['H'],
-      currentOperatingName: project['I'],
-      eightThirtyMillionFunding: project['J'],
-      federalFundingSource: project['K'],
-      federalProjectNumber: project['L'],
-      projectType: project['M'],
-      transportProjectType: project['N'],
-      highwayProjectType: project['O'],
-      lastMileProjectType: project['P'],
-      lastMileMinimumSpeed: project['Q'],
-      connectedCoastNetworkDependant: project['R'],
-      projectLocations: project['S'],
+      changeRequestPending: project['F'],
+      projectTitle: project['G'],
+      projectDescription: project['H'],
+      applicantContractualName: project['I'],
+      currentOperatingName: project['J'],
+      eightThirtyMillionFunding: project['K'],
+      federalFundingSource: project['L'],
+      federalProjectNumber: project['M'],
+      projectType: project['N'],
+      transportProjectType: project['O'],
+      highwayProjectType: project['P'],
+      lastMileProjectType: project['Q'],
+      lastMileMinimumSpeed: project['R'],
+      connectedCoastNetworkDependant: project['S'],
+      projectLocations: project['T'],
       communitiesAndLocalesCount: validateNumber(
-        project['T'],
+        project['U'],
         'communitiesAndLocalesCount',
         errorLog,
         projectNumber
       ),
       indigenousCommunities: validateNumber(
-        project['U'],
+        project['V'],
         'indigenousCommunities',
         errorLog,
         projectNumber
       ),
       householdCount: validateNumber(
-        project['V'],
+        project['W'],
         'householdCount',
         errorLog,
         projectNumber
       ),
       transportKm: validateNumber(
-        project['W'],
+        project['X'],
         'transportKm',
         errorLog,
         projectNumber
       ),
       highwayKm: validateNumber(
-        project['X'],
+        project['Y'],
         'highwayKm',
         errorLog,
         projectNumber
       ),
-      restAreas: project['Y'],
+      restAreas: project['Z'],
       bcFundingRequest: validateNumber(
-        project['Z'],
+        project['AA'],
         'bcFundingRequest',
         errorLog,
         projectNumber
       ),
       federalFunding: validateNumber(
-        project['AA'],
+        project['AB'],
         'federalFunding',
         errorLog,
         projectNumber
       ),
       applicantAmount: validateNumber(
-        project['AB'],
+        project['AC'],
         'applicantAmount',
         errorLog,
         projectNumber
       ),
       otherFunding: validateNumber(
-        project['AC'],
+        project['AD'],
         'otherFunding',
         errorLog,
         projectNumber
       ),
       totalProjectBudget: validateNumber(
-        project['AD'],
+        project['AE'],
         'totalProjectBudget',
         errorLog,
         projectNumber
       ),
-      nditConditionalApprovalLetterSent: project['AE'],
-      bindingAgreementSignedNditRecipient: project['AF'],
-      announcedByProvince: project['AG'],
+      nditConditionalApprovalLetterSent: project['AF'],
+      bindingAgreementSignedNditRecipient: project['AG'],
+      announcedByProvince: project['AH'],
       dateApplicationReceived: validateDate(
-        project['AH'],
+        project['AI'],
         'dateApplicationReceived',
         errorLog,
         projectNumber
       ),
       dateConditionallyApproved: validateDate(
-        project['AI'],
+        project['AJ'],
         'dateConditionallyApproved',
         errorLog,
         projectNumber
       ),
       dateAgreementSigned: validateDate(
-        project['AJ'],
+        project['AK'],
         'dateAgreementSigned',
         errorLog,
         projectNumber
       ),
       proposedStartDate: validateDate(
-        project['AK'],
+        project['AL'],
         'proposedStartDate',
         errorLog,
         projectNumber
       ),
       proposedCompletionDate: validateDate(
-        project['AL'],
+        project['AM'],
         'proposedCompletionDate',
         errorLog,
         projectNumber
       ),
       reportingCompletionDate: validateDate(
-        project['AM'],
+        project['AN'],
         'reportingCompletionDate',
         errorLog,
         projectNumber
       ),
       dateAnnounced: validateDate(
-        project['AN'],
+        project['AO'],
         'dateAnnounced',
         errorLog,
         projectNumber
       ),
       projectMilestoneCompleted: validateNumber(
-        project['AO'],
+        project['AP'],
         'projectMilestoneCompleted',
         errorLog,
         projectNumber
       ),
       constructionCompletedOn: validateDate(
-        project['AP'],
+        project['AQ'],
         'constructionCompletedOn',
         errorLog,
         projectNumber
       ),
-      milestoneComments: project['AQ'],
-      primaryNewsRelease: project['AR'],
-      secondaryNewsRelease: project['AS'],
-      notes: project['AT'],
-      locked: project['AU'],
+      milestoneComments: project['AR'],
+      primaryNewsRelease: project['AS'],
+      secondaryNewsRelease: project['AT'],
+      notes: project['AU'],
+      locked: project['AV'],
       lastReviewed: validateDate(
-        project['AV'],
+        project['AW'],
         'lastReviewed',
         errorLog,
         projectNumber
       ),
-      reviewNotes: project['AW'],
+      reviewNotes: project['AX'],
       errorLog,
     };
 
