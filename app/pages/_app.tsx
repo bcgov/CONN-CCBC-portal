@@ -1,6 +1,8 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
+import { ThemeProvider } from '@mui/material';
+import theme from 'styles/muiTheme';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
 import { newTracker, trackPageView } from '@snowplow/browser-tracker';
@@ -79,14 +81,16 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <GrowthBookProvider growthbook={growthbook}>
       <GlobalTheme>
-        <GlobalStyle />
-        <BCGovTypography />
-        <Sentry.ErrorBoundary fallback={<Error500 />}>
-          <RelayEnvironmentProvider environment={env}>
-            {typeof window !== 'undefined' && <SessionExpiryHandler />}
-            {component}
-          </RelayEnvironmentProvider>
-        </Sentry.ErrorBoundary>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <BCGovTypography />
+          <Sentry.ErrorBoundary fallback={<Error500 />}>
+            <RelayEnvironmentProvider environment={env}>
+              {typeof window !== 'undefined' && <SessionExpiryHandler />}
+              {component}
+            </RelayEnvironmentProvider>
+          </Sentry.ErrorBoundary>
+        </ThemeProvider>
       </GlobalTheme>
     </GrowthBookProvider>
   );

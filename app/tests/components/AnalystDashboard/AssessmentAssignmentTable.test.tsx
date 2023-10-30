@@ -181,10 +181,10 @@ describe('The AssessmentAssignmentTable component', () => {
 
     expect(screen.getByText('CCBC ID')).toBeInTheDocument();
     expect(screen.getByText('Package')).toBeInTheDocument();
-    expect(screen.getByText('PM Assessment')).toBeInTheDocument();
-    expect(screen.getByText('Tech Assessment')).toBeInTheDocument();
-    expect(screen.getByText('Permitting Assessment')).toBeInTheDocument();
-    expect(screen.getByText('GIS Assessment')).toBeInTheDocument();
+    expect(screen.getByText('PM')).toBeInTheDocument();
+    expect(screen.getByText('Tech')).toBeInTheDocument();
+    expect(screen.getByText('Permitting')).toBeInTheDocument();
+    expect(screen.getByText('GIS')).toBeInTheDocument();
     expect(screen.getByText('Project Title')).toBeInTheDocument();
     expect(screen.getByText('Organization Name')).toBeInTheDocument();
   });
@@ -285,13 +285,13 @@ describe('The AssessmentAssignmentTable component', () => {
       fireEvent.click(columnActions);
     });
 
-    const pmAssessmentFilter = screen.getByText('Filter by PM Assessment');
+    const pmAssessmentFilter = screen.getByText('Filter by PM');
 
     await act(async () => {
       fireEvent.click(pmAssessmentFilter);
     });
 
-    const filterInput = screen.getByPlaceholderText('Filter by PM Assessment');
+    const filterInput = screen.getByPlaceholderText('Filter by PM');
 
     await act(async () => {
       fireEvent.change(filterInput, { target: { value: 'Test Analyst GIS' } });

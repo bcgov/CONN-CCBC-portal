@@ -10016,10 +10016,10 @@ matcher@^3.0.0:
   dependencies:
     escape-string-regexp "^4.0.0"
 
-material-react-table@^2.0.0-beta.13:
-  version "2.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/material-react-table/-/material-react-table-2.0.0-beta.13.tgz#c7baa80bab4d84d0907a2ba98678eb54e338ef38"
-  integrity sha512-NiSLb5gjDJGEuQ65XVzA9aiaIdsRQZrWaV0FzwQ5EwKYN5He5xFVn/0XG/BVFHoTtL+DcltyoBs0/AzJw1a4ew==
+material-react-table@2.0.0-rc.1:
+  version "2.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/material-react-table/-/material-react-table-2.0.0-rc.1.tgz#1d949dcca01a0a66dc76964f065c84431c8b8243"
+  integrity sha512-3PY5buiL/VlF2k0m0ocE6pWzqIHVc83kNUh4sDbv/t6kHJBkzqduwPu+u9+8sphRkOvpy/h86DfJKRyTbWCjFA==
   dependencies:
     "@tanstack/match-sorter-utils" "8.8.4"
     "@tanstack/react-table" "8.10.7"
