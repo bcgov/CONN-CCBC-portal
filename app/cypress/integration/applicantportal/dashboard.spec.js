@@ -628,7 +628,7 @@ describe('The applicant dashboard', () => {
 
     cy.contains('h1', 'Benefits');
 
-    cy.get('input').should('be.disabled');
+    cy.get('textarea').should('be.disabled');
 
     cy.get('body').happoScreenshot({
       component: 'Out of Intake Benefits Page',
