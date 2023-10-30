@@ -290,7 +290,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
         saveBtnText={
           formData?.claimsFile && excelFile ? 'Save & Import' : 'Save'
         }
-        title="Claims"
+        title="Claims & progress reports"
         handleChange={(e) => {
           setFormData({ ...e.formData });
         }}
