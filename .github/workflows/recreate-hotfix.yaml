@@ -19,7 +19,7 @@ jobs:
         run: |
           echo "${GPG_PRIVATE_KEY}" | gpg --import
           git config user.name "CCBC Service Account"
-          git config user.email "ccbc@button.is"
+          git config user.email "116113628+ccbc-service-account@users.noreply.github.com"
           git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
           git config commit.gpgsign true
       - name: Recreate hotfix branch with signed commit

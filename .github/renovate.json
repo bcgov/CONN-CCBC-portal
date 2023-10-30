@@ -5,6 +5,6 @@
   "platform": "github",
   "onboarding": false,
   "repositories": ["bcgov/CONN-CCBC-portal"],
-  "gitAuthor": "CCBC Service Account <ccbc@button.is>",
+  "gitAuthor": "CCBC Service Account <116113628+ccbc-service-account@users.noreply.github.com>",
   "recreateClosed": true
 }
