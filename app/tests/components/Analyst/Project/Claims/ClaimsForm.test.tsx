@@ -92,7 +92,9 @@ describe('The Claims form', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
-    expect(screen.getByRole('heading', { name: 'Claims' })).toBeVisible();
+    expect(
+      screen.getByRole('heading', { name: 'Claims & Progress report' })
+    ).toBeVisible();
 
     expect(screen.getByText('Add claim')).toBeInTheDocument();
   });
