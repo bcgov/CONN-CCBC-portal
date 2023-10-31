@@ -23,5 +23,9 @@ export const getSessionRemainingTime = (req: Request) => {
     return 0;
   }
   const refreshToken = decodeJwt(req.session.tokenSet.refresh_token);
+  const accessToken = decodeJwt(req.session.tokenSet.access_token);
+  if (accessToken.payload.exp > refreshToken.payload.exp) {
+    return Math.round(accessToken.payload.exp - Date.now() / 1000);
+  }
   return Math.round(refreshToken.payload.exp - Date.now() / 1000);
 };
