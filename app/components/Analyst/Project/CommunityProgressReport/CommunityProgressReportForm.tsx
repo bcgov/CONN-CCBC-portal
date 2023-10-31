@@ -354,7 +354,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
               title="Add community progress report"
             />
 
-            {communityProgressList?.length > 0 && (
+            {!isFormEditMode && communityProgressList?.length > 0 && (
               <MetabaseLink
                 href={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/95-community-progress-report-prod?ccbc_number=${ccbcNumber}`}
                 text="View project data in Metabase"
