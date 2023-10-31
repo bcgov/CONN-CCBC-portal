@@ -1,3 +1,9 @@
+# [1.119.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.118.0...v1.119.0) (2023-10-31)
+
+### Features
+
+- change text in community progress reports section ([c410364](https://github.com/bcgov/CONN-CCBC-portal/commit/c41036485b1e3d97c993f6e1482714aa115aba94))
+
 # [1.118.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.117.0...v1.118.0) (2023-10-31)
 
 ### Bug Fixes
