@@ -236,10 +236,6 @@ describe('The applicant dashboard', () => {
 
     cy.get('[id="root_projectBenefits"]').type('test', { force: true });
 
-    cy.get('[id="root_numberOfHouseholds"]').type('12.3');
-
-    cy.get('[id="root_householdsImpactedIndigenous"]').type('1.23');
-
     cy.contains('header > div', 'Last saved:');
 
     cy.get('body').happoScreenshot({ component: 'Benefits Page' });
@@ -632,7 +628,7 @@ describe('The applicant dashboard', () => {
 
     cy.contains('h1', 'Benefits');
 
-    cy.get('input').should('be.disabled');
+    cy.get('textarea').should('be.disabled');
 
     cy.get('body').happoScreenshot({
       component: 'Out of Intake Benefits Page',
