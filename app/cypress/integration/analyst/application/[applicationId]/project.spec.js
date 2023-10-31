@@ -278,34 +278,6 @@ describe('The analyst application view', () => {
 
     cy.contains('Save & Import').click();
 
-    // Claims
-    // Check if accordion is open and open if not due to accordion opening based on dates
-    cy.get('button')
-      .contains('Add claim')
-      .then(($button) => {
-        if ($button.is(':hidden')) {
-          cy.wait(500);
-          cy.get('[data-testid=accordion-icon]').parent().eq(4).click();
-        }
-      });
-
-    cy.wait(500);
-    cy.get('button').contains('Add claim').click();
-
-    // Claim excel upload
-    cy.get('[id="root_claimsFile-btn"]').click();
-    cy.get('[data-testid=file-test]')
-      .eq(4)
-      .selectFile('cypress/fixtures/mock_excel.xlsx', {
-        force: true,
-      });
-    cy.wait('@claims-validate', { timeout: 50000 });
-    cy.contains('button', 'mock_excel.xlsx');
-    cy.get('body').happoScreenshot({ component: 'Claims form' });
-
-    // Save claim
-    cy.get('button').contains('Save & Import').click();
-
     // Milestones
     // Check if accordion is open and open if not due to accordion opening based on dates
     cy.get('button')
@@ -313,7 +285,7 @@ describe('The analyst application view', () => {
       .then(($button) => {
         if ($button.is(':hidden')) {
           cy.wait(500);
-          cy.get('[data-testid=accordion-icon]').parent().eq(5).click();
+          cy.get('[data-testid=accordion-icon]').parent().eq(4).click();
         }
       });
 
@@ -331,7 +303,7 @@ describe('The analyst application view', () => {
     // Milestone excel upload
     cy.get('[id="root_milestoneFile-btn"]').click();
     cy.get('[data-testid=file-test]')
-      .eq(5)
+      .eq(4)
       .selectFile('cypress/fixtures/mock_excel.xlsx', {
         force: true,
       });
@@ -346,6 +318,34 @@ describe('The analyst application view', () => {
 
     cy.contains('button', 'mock_excel.xlsx');
     cy.get('body').happoScreenshot({ component: 'Milestones form' });
+
+    // Save milestone
+    cy.get('button').contains('Save & Import').click();
+
+    // Claims
+    // Check if accordion is open and open if not due to accordion opening based on dates
+    cy.get('button')
+      .contains('Add claim')
+      .then(($button) => {
+        if ($button.is(':hidden')) {
+          cy.wait(500);
+          cy.get('[data-testid=accordion-icon]').parent().eq(5).click();
+        }
+      });
+
+    cy.wait(500);
+    cy.get('button').contains('Add claim').click();
+
+    // Claim excel upload
+    cy.get('[id="root_claimsFile-btn"]').click();
+    cy.get('[data-testid=file-test]')
+      .eq(6)
+      .selectFile('cypress/fixtures/mock_excel.xlsx', {
+        force: true,
+      });
+    cy.wait('@claims-validate', { timeout: 50000 });
+    cy.contains('button', 'mock_excel.xlsx');
+    cy.get('body').happoScreenshot({ component: 'Claims form' });
 
     // Save claim
     cy.get('button').contains('Save & Import').click();
