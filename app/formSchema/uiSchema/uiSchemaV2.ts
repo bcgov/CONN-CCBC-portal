@@ -2,7 +2,7 @@ import {
   acknowledgements,
   alternateContact,
   authorizedContact,
-  benefits,
+  applicantBenefits,
   budgetDetails,
   contactInformation,
   coverage,
@@ -22,7 +22,7 @@ import {
   templateUploads,
 } from './pages';
 
-const uiSchema = {
+const uiSchemaV2 = {
   'ui:order': [
     'projectInformation',
     'projectArea',
@@ -53,7 +53,7 @@ const uiSchema = {
   projectFunding,
   otherFundingSources,
   techSolution,
-  benefits,
+  benefits: applicantBenefits,
   projectPlan,
   estimatedProjectEmployment,
   templateUploads,
@@ -69,4 +69,4 @@ const uiSchema = {
   submission,
 };
 
-export default uiSchema;
+export default uiSchemaV2;
