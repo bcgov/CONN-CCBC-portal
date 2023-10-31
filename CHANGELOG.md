@@ -1,3 +1,12 @@
+# [1.119.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.118.0...v1.119.0) (2023-10-31)
+
+### Features
+
+- add metabase link to claims form ([2703bd4](https://github.com/bcgov/CONN-CCBC-portal/commit/2703bd48edfc1bf4df95f6f5164c8dde692cc5d6))
+- change text in community progress reports section ([c410364](https://github.com/bcgov/CONN-CCBC-portal/commit/c41036485b1e3d97c993f6e1482714aa115aba94))
+- hide claims metabase link in form edit mode ([0347cc1](https://github.com/bcgov/CONN-CCBC-portal/commit/0347cc1c2603e13557f06c3a9bfc25a2231e149b))
+- remove hh fields from applicant ([2265d70](https://github.com/bcgov/CONN-CCBC-portal/commit/2265d70ae98a929705730ba702dff95a12ff6c5c))
+
 # [1.118.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.117.0...v1.118.0) (2023-10-31)
 
 ### Bug Fixes
