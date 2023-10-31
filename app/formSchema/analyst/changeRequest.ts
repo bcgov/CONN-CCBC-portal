@@ -46,15 +46,16 @@ const changeRequest: JSONSchema7 = {
     },
     changeRequestFormUpload: {
       title:
-        'Upload the completed Project Change Request form (including the completed Impact Assessment Tool tab)',
+        'Upload the completed Project Change Request form (including the completed Impact Assessment Tool tab) (if available, can be added at another time)',
       type: 'string',
     },
     statementOfWorkUpload: {
-      title: 'Upload the completed statement of work Excel file',
+      title:
+        'Upload the completed statement of work Excel file (if available, can be added at another time)',
       type: 'string',
     },
     updatedMapUpload: {
-      title: 'Upload the updated map',
+      title: 'Upload the updated map (optional)',
       type: 'string',
     },
   },
