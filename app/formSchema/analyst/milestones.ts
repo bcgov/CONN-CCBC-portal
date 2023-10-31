@@ -14,7 +14,8 @@ const milestones: JSONSchema7 = {
       type: 'string',
     },
     evidenceOfCompletionFile: {
-      title: 'Upload evidence of milestone completion',
+      title:
+        'Upload evidence of milestone completion (if available, can be added at another time)',
       type: 'string',
     },
   },
