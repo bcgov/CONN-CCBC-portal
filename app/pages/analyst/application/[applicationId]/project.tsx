@@ -129,16 +129,16 @@ const Project = ({
             isExpanded={isCommunityProgressExpanded}
           />
         )}
-        {showClaims && (
-          <ClaimsForm
-            application={applicationByRowId}
-            isExpanded={isClaimsExpanded}
-          />
-        )}
         {showMilestones && (
           <MilestonesForm
             application={applicationByRowId}
             isExpanded={isMilestonesExpanded}
+          />
+        )}
+        {showClaims && (
+          <ClaimsForm
+            application={applicationByRowId}
+            isExpanded={isClaimsExpanded}
           />
         )}
       </AnalystLayout>
