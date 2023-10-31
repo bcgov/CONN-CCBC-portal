@@ -1,3 +1,18 @@
+# [1.117.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.116.0...v1.117.0) (2023-10-31)
+
+### Bug Fixes
+
+- assessment test multiple elements error ([4db9707](https://github.com/bcgov/CONN-CCBC-portal/commit/4db97070fcc9cdfadbdf13756a95985da8932c2a))
+- close modal on milestone delete ([777d260](https://github.com/bcgov/CONN-CCBC-portal/commit/777d2605ac8800fd8dc3e9f198b0b9b4228682ce))
+
+### Features
+
+- add change request pending column to cbc data import ([1ce5fd0](https://github.com/bcgov/CONN-CCBC-portal/commit/1ce5fd0219989ec440ad03294714798bb08a2062))
+- assessment table save sorting and filtering state ([139eb1e](https://github.com/bcgov/CONN-CCBC-portal/commit/139eb1e1f8d3ab0f781887545effa53e4ad77596))
+- create mui theme with bc sans font ([3de5318](https://github.com/bcgov/CONN-CCBC-portal/commit/3de531836009df3e82853b3e4ac3b7b46e286aa4))
+- update assessment table ccbc id link styles ([4d4f0b0](https://github.com/bcgov/CONN-CCBC-portal/commit/4d4f0b0c495707df9c675bdf0cae166c14b78461))
+- update assessment table dropdown styling ([d28a846](https://github.com/bcgov/CONN-CCBC-portal/commit/d28a84644fd12e42bcab5463160ecda0039824cd))
+
 # [1.116.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.115.0...v1.116.0) (2023-10-30)
 
 ### Bug Fixes
