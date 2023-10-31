@@ -323,7 +323,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
               }}
               title="Add claim"
             />
-            {claimsList?.length > 0 && (
+            {!isFormEditMode && claimsList?.length > 0 && (
               <MetabaseLink
                 href={` https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/98-claims-report-prod?ccbc_number=${ccbcNumber}`}
                 text="View project data in Metabase"
