@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import cookie from 'js-cookie';
 import {
   faChartGantt,
   faCheckDouble,
@@ -28,6 +29,7 @@ const NavigationSidebar = () => {
   const router = useRouter();
   const { asPath } = router;
   const { applicationId } = router.query;
+  const assessmentLastVisited = cookie.get('assessment_last_visited') || null;
 
   return (
     <StyledAside>
@@ -35,7 +37,11 @@ const NavigationSidebar = () => {
         <StyledUpperSection>
           <NavItem
             currentPath={asPath}
-            href="/analyst/dashboard/"
+            href={
+              assessmentLastVisited
+                ? '/analyst/assessments/'
+                : '/analyst/dashboard'
+            }
             icon={faChevronLeft}
             label="Dashboard"
           />
