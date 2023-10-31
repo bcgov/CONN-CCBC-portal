@@ -148,6 +148,9 @@ const AnalystDashboard = ({
 
     window.addEventListener('scroll', scrollHandler);
 
+    // remove assessment_last_visited cookie
+    cookie.remove('assessment_last_visited');
+
     return () => window.removeEventListener('scroll', scrollHandler);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

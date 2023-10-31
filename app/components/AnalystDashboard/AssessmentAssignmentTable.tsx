@@ -252,6 +252,11 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     cookie.set('mrt_sorting_assessment', JSON.stringify(sorting));
   }, [sorting, isFirstRender]);
 
+  useEffect(() => {
+    if (isFirstRender) return;
+    cookie.set('assessment_last_visited', JSON.stringify(true));
+  }, [isFirstRender]);
+
   const tableData = useMemo(
     () =>
       allApplications.edges.map(({ node: application }) => {
