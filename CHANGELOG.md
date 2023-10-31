@@ -1,3 +1,13 @@
+# [1.118.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.117.0...v1.118.0) (2023-10-31)
+
+### Bug Fixes
+
+- analyst edit benefits section error ([5029f13](https://github.com/bcgov/CONN-CCBC-portal/commit/5029f13cc43e6d3bad696e6a292f09e145c872ff))
+
+### Features
+
+- remove budget details page from applicant form ([666eca2](https://github.com/bcgov/CONN-CCBC-portal/commit/666eca2b3c0139ab250f467629ac07fcae6852c1))
+
 # [1.117.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.116.0...v1.117.0) (2023-10-31)
 
 ### Bug Fixes
