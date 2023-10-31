@@ -1,3 +1,9 @@
+# [1.120.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.119.0...v1.120.0) (2023-10-31)
+
+### Features
+
+- update optionals for change request and milestone ([432c93c](https://github.com/bcgov/CONN-CCBC-portal/commit/432c93cd6b03149ed427fb34f79ffd165236e099))
+
 # [1.119.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.118.0...v1.119.0) (2023-10-31)
 
 ### Features
