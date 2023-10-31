@@ -7,6 +7,7 @@ import type { JSONSchema7 } from 'json-schema';
 import { IChangeEvent } from '@rjsf/core';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Button from '@button-inc/bcgov-theme/Button';
+import budgetDetails from 'formSchema/pages/budgetDetails';
 import FormBase from 'components/Form/FormBase';
 import {
   calculate,
@@ -56,7 +57,18 @@ const EditApplication = ({
   const router = useRouter();
   const sectionName = router.query.section as string;
   const applicationId = router.query.applicationId as string;
-  const sectionSchema = jsonSchema.properties[sectionName] as JSONSchema7;
+
+  // Budget details was removed from the applicant schema but we want to display in for Analysts
+  // no matter which schema is returned from the database
+  const formSchema = {
+    ...jsonSchema,
+    properties: {
+      ...jsonSchema.properties,
+      ...budgetDetails,
+    },
+  };
+
+  const sectionSchema = formSchema.properties[sectionName] as JSONSchema7;
 
   // https://github.com/rjsf-team/react-jsonschema-form/issues/1023
   // Save and update form data in state due to RJSF setState bug
