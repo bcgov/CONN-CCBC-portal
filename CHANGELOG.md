@@ -1,3 +1,9 @@
+# [1.121.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.120.0...v1.121.0) (2023-10-31)
+
+### Features
+
+- add feature flag for hiding benefits ([f9ebb5d](https://github.com/bcgov/CONN-CCBC-portal/commit/f9ebb5d1938f22bd0d4cd37537e3059f6fba5d7d))
+
 # [1.120.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.119.0...v1.120.0) (2023-10-31)
 
 ### Features
