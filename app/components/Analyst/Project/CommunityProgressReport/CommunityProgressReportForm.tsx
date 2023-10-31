@@ -67,6 +67,17 @@ interface Props {
   isExpanded?: boolean;
 }
 
+const FormHeader = (
+  <>
+    <div>
+      This is the form indicating the stage of each of ISED&apos;s 1242
+      communities which is done each Jun 1, Sep 1, Dec 1, and Mar 1. After
+      pressing Save & Import, the data will be extracted.
+    </div>
+    <p>After uploading here, the data will be extracted</p>
+  </>
+);
+
 const CommunityProgressReportForm: React.FC<Props> = ({
   application,
   isExpanded,
@@ -103,7 +114,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
   const {
     applicationCommunityProgressReportDataByApplicationId:
       communityProgressData,
-      ccbcNumber,
+    ccbcNumber,
     rowId: applicationRowId,
   } = queryFragment;
 
@@ -290,7 +301,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
         </StyledContainer>
       </Modal>
       <StyledProjectForm
-        formAnimationHeightOffset={formOffset}    
+        formAnimationHeightOffset={formOffset}
         additionalContext={{
           applicationId: applicationRowId,
           validateExcel: validateCommunityReport,
@@ -303,6 +314,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
         uiSchema={communityProgressReportUiSchema}
         formData={formData}
         theme={ProjectTheme}
+        formHeader={FormHeader}
         onSubmit={handleSubmit}
         formAnimationHeight={600}
         isExpanded={isExpanded}
@@ -313,7 +325,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
         saveBtnText={
           formData?.progressReportFile && excelFile ? 'Save & Import' : 'Save'
         }
-        title="Community progress report"
+        title="Community progress reports"
         handleChange={(e) => {
           setFormData({ ...e.formData });
         }}
@@ -341,38 +353,38 @@ const CommunityProgressReportForm: React.FC<Props> = ({
               }}
               title="Add community progress report"
             />
-            
-            {communityProgressList?.length > 0 && 
+
+            {communityProgressList?.length > 0 && (
               <MetabaseLink
                 href={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/95-community-progress-report-prod?ccbc_number=${ccbcNumber}`}
                 text="View project data in Metabase"
                 testHref={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/94-community-progress-report?ccbc_number=${ccbcNumber}`}
                 width={326}
               />
-            }
+            )}
           </StyledFlexDiv>
         }
         saveDataTestId="save-community-progress-report"
       >
         <StyledBottom>
-        {communityProgressList?.map(({ node }) => {
-          return (
-            <CommunityProgressView
-              key={node.id}
-              communityProgressReport={node}
-              isFormEditMode={isFormEditMode}
-              onShowDeleteModal={() => {
-                setShowModal(true);
-                setCurrentCommunityProgressData(node);
-              }}
-              onFormEdit={() => {
-                setFormData(node.jsonData);
-                setCurrentCommunityProgressData(node);
-                setIsFormEditMode(true);
-              }}
-            />
-          );
-        })}
+          {communityProgressList?.map(({ node }) => {
+            return (
+              <CommunityProgressView
+                key={node.id}
+                communityProgressReport={node}
+                isFormEditMode={isFormEditMode}
+                onShowDeleteModal={() => {
+                  setShowModal(true);
+                  setCurrentCommunityProgressData(node);
+                }}
+                onFormEdit={() => {
+                  setFormData(node.jsonData);
+                  setCurrentCommunityProgressData(node);
+                  setIsFormEditMode(true);
+                }}
+              />
+            );
+          })}
         </StyledBottom>
       </StyledProjectForm>
     </>

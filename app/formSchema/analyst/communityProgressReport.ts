@@ -17,7 +17,7 @@ const communityProgressReport: JSONSchema7 = {
       type: 'string',
     },
     progressReportFile: {
-      title: 'Progress report file',
+      title: 'Upload the community progress report',
       type: 'string',
     },
   },
