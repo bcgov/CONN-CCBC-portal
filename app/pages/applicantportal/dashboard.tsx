@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { usePreloadedQuery } from 'react-relay/hooks';
@@ -77,7 +77,7 @@ const Dashboard = ({
 
   const closeTimestamp = openIntake?.closeTimestamp;
   const isInternalIntakeEnabled = useFeature('internal_intake').value ?? false;
-  const [isApplicationCreated, setIsApplicationCreated] = React.useState(false);
+  const [isApplicationCreated, setIsApplicationCreated] = useState(false);
 
   const sub: string = session?.sub;
 
