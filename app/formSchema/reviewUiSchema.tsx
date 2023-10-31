@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   alternateContact,
   authorizedContact,
-  benefits,
+  applicantBenefits,
   budgetDetails,
   projectInformation,
   contactInformation,
@@ -58,7 +58,7 @@ const reviewUiSchema = {
     'ui:field': 'SectionField',
   },
   benefits: {
-    ...benefits,
+    ...applicantBenefits,
     'ui:field': 'SectionField',
   },
   budgetDetails: {

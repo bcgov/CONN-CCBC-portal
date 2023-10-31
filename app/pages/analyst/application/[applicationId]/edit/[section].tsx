@@ -18,6 +18,7 @@ import { uiSchema } from 'formSchema';
 import { AnalystLayout, ChangeModal } from 'components/Analyst';
 import { SectionQuery } from '__generated__/SectionQuery.graphql';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
+import { benefits } from 'formSchema/uiSchema/pages';
 
 const getSectionQuery = graphql`
   query SectionQuery($rowId: Int!) {
@@ -69,7 +70,7 @@ const EditApplication = ({
   };
 
   const sectionSchema = formSchema.properties[sectionName] as JSONSchema7;
-
+  uiSchema.benefits = { ...uiSchema.benefits, ...benefits };
   // https://github.com/rjsf-team/react-jsonschema-form/issues/1023
   // Save and update form data in state due to RJSF setState bug
   const [sectionFormData, setSectionFormData] = useState(jsonData[sectionName]);

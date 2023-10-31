@@ -1,4 +1,9 @@
-import { acknowledgements, review, submission } from './uiSchema/pages';
+import {
+  acknowledgements,
+  review,
+  submission,
+  benefits,
+} from './uiSchema/pages';
 import reviewUiSchema from './reviewUiSchema';
 
 const analystUiSchema = {
@@ -50,6 +55,7 @@ const analystUiSchema = {
     'ui:options': {
       allowAnalystEdit: true,
     },
+    ...benefits,
   },
   projectPlan: {
     ...reviewUiSchema.projectPlan,

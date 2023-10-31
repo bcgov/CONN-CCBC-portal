@@ -1,7 +1,7 @@
 import { MAX_TEXTAREA_LENGTH } from '../constants';
 import { ProjectBenefits } from '../../../components/Form/CustomTitles';
 
-const benefits = {
+const applicantBenefits = {
   'ui:order': [
     'projectBenefits',
     'numberOfHouseholds',
@@ -19,13 +19,16 @@ const benefits = {
   numberOfHouseholds: {
     'ui:options': {
       decimals: 2,
+      // This is to hide the title without presenting any extra text
+      customTitle: true,
     },
+    'ui:widget': 'HiddenWidget',
   },
   householdsImpactedIndigenous: {
-    'ui:options': {
-      decimals: 2,
-    },
+    // This is to hide the title without presenting any extra text
+    'ui:options': { customTitle: true },
+    'ui:widget': 'HiddenWidget',
   },
 };
 
-export default benefits;
+export default applicantBenefits;
