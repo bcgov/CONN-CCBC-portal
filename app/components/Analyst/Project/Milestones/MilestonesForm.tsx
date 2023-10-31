@@ -193,6 +193,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
     setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
+    setShowModal(false);
   };
 
   const handleSubmit = async (e) => {
