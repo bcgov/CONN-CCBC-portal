@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { usePreloadedQuery } from 'react-relay/hooks';
@@ -77,6 +77,7 @@ const Dashboard = ({
 
   const closeTimestamp = openIntake?.closeTimestamp;
   const isInternalIntakeEnabled = useFeature('internal_intake').value ?? false;
+  const [isApplicationCreated, setIsApplicationCreated] = useState(false);
 
   const sub: string = session?.sub;
 
@@ -84,7 +85,15 @@ const Dashboard = ({
 
   const router = useRouter();
 
-  const [createApplication] = useCreateApplicationMutation();
+  const [createApplication, isCreating] = useCreateApplicationMutation();
+
+  // We want the button disabled if there's no open intake and if there isn't an internal intake open or if it's been disabled
+  // Additionally, if the applicant is creating an application or has succeeded in creating an application then the button is disabled to prevent clicking multiple times
+  const isCreateApplicationDisabled =
+    (!openIntake && (!openHiddenIntake || !isInternalIntakeEnabled)) ||
+    isCreating ||
+    // This is necessary since the router.push() is client side, so if there is a slow connection the applicant will still be able to create an application while the new page is loading
+    isApplicationCreated;
 
   useEffect(() => {
     // check if session is still valid
@@ -103,6 +112,7 @@ const Dashboard = ({
         onCompleted: (response) => {
           const applicationId = response.createApplication.application.rowId;
           router.push(`/applicantportal/form/${applicationId}/1`);
+          setIsApplicationCreated(true);
         },
         onError: () => {
           // This needs to be removed once application dashboard implemented
@@ -161,10 +171,7 @@ const Dashboard = ({
           )}
           <StyledGovButton
             onClick={handleCreateApplication}
-            // We want it disabled if there's no open intake and if there isn't an internal intake open or if it's been disabled
-            disabled={
-              !openIntake && (!openHiddenIntake || !isInternalIntakeEnabled)
-            }
+            disabled={isCreateApplicationDisabled}
           >
             Create application
           </StyledGovButton>
