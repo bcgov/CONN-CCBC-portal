@@ -76,7 +76,7 @@ describe('The Community Progress Report form', () => {
     componentTestingHelper.renderComponent();
 
     expect(
-      screen.getByRole('heading', { name: 'Community progress report' })
+      screen.getByRole('heading', { name: 'Community progress reports' })
     ).toBeVisible();
 
     expect(
@@ -229,7 +229,9 @@ describe('The Community Progress Report form', () => {
 
     expect(screen.getByText('Date received')).toBeInTheDocument();
 
-    expect(screen.getByText('Progress report file')).toBeInTheDocument();
+    expect(
+      screen.getByText('Upload the community progress report')
+    ).toBeInTheDocument();
   });
 
   it('can edit a saved Community Progress Report', async () => {
@@ -554,7 +556,9 @@ describe('The Community Progress Report form', () => {
 
     expect(screen.getByText('Date received')).toBeInTheDocument();
 
-    expect(screen.getByText('Progress report file')).toBeInTheDocument();
+    expect(
+      screen.getByText('Upload the community progress report')
+    ).toBeInTheDocument();
 
     await act(async () => {
       fireEvent.click(saveButton);
