@@ -13,6 +13,7 @@ import ClaimsView from './ClaimsView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
+import MetabaseLink from '../ProjectInformation/MetabaseLink';
 
 const StyledContainer = styled.div`
   text-align: center;
@@ -37,6 +38,14 @@ const StyledFlex = styled.div`
   button:first-child {
     margin-right: 16px;
   }
+`;
+
+const StyledFlexDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  padding-left: 4px;
 `;
 
 const FormHeader = (
@@ -282,6 +291,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
         theme={ProjectTheme}
         onSubmit={handleSubmit}
         formAnimationHeight={600}
+        formAnimationHeightOffset={claimsList.length > 0 ? 70 : 20}
         isExpanded={isExpanded}
         isFormAnimated
         hiddenSubmitRef={hiddenSubmitRef}
@@ -303,15 +313,24 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
         liveValidate={isSubmitAttempted}
         setFormData={setFormData}
         before={
-          <AddButton
-            isFormEditMode={isFormEditMode}
-            onClick={() => {
-              setCurrentClaimsData(null);
-              setIsSubmitAttempted(false);
-              setIsFormEditMode(true);
-            }}
-            title="Add claim"
-          />
+          <StyledFlexDiv>
+            <AddButton
+              isFormEditMode={isFormEditMode}
+              onClick={() => {
+                setCurrentClaimsData(null);
+                setIsSubmitAttempted(false);
+                setIsFormEditMode(true);
+              }}
+              title="Add claim"
+            />
+            {!isFormEditMode && claimsList?.length > 0 && (
+              <MetabaseLink
+                href={` https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/98-claims-report-prod?ccbc_number=${ccbcNumber}`}
+                text="View project data in Metabase"
+                testHref={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/97-claim-report-dashboard-test?ccbc_number =${ccbcNumber}`}
+              />
+            )}
+          </StyledFlexDiv>
         }
         saveDataTestId="save-claims data"
       >
