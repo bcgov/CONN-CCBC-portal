@@ -1,3 +1,9 @@
+# [1.122.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.121.0...v1.122.0) (2023-10-31)
+
+### Features
+
+- idle based on longer of refresh and access token ([fa17a5f](https://github.com/bcgov/CONN-CCBC-portal/commit/fa17a5f7a70dcc4ae38a529e78de05df00038e5e))
+
 # [1.121.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.120.0...v1.121.0) (2023-10-31)
 
 ### Features
