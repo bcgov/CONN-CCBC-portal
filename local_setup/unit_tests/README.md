@@ -1,8 +1,14 @@
+# Prerequisites
+
+Have `make` installed on your computer.
+
 # How to use?
 
 The intention of the files in this directory is to provide an easy to run with no setup required run of all the DB unit tests on the project.
 
 To use simply run `./run_unit_tests.sh`
+
+Note: if on Windows please run this using WSL.
 
 # What does it do?
 
