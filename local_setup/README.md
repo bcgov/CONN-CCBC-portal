@@ -27,6 +27,10 @@ curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch &&
 ./sqitch deploy -u postgres
 ```
 
+In addition, if you want to deploy dev data run:
+
+`make deploy_dev_data PSQL="docker exec -i <your-db-name> psql -h localhost -U postgres" SQITCH="sqitch -u postgres"`
+
 Make sure to either export the PGPASSWORD environment variable or create a .pgpass file on your home directory for sqitch to use.
 
 # Why run using Docker?
