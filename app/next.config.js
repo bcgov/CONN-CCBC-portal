@@ -54,6 +54,9 @@ const moduleExports = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  sentry: {
+    tunnelRoute: undefined,
+  },
   images: {
     domains: [
       'live.staticflickr.com',
