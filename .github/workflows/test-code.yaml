@@ -104,8 +104,8 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
+      # - name: dev env setup
+      #   uses: ./.github/actions/dev-env-setup
       - name: run jest tests with coverage
         shell: bash
         working-directory: ./app
@@ -121,8 +121,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
+      # - name: dev env setup
+      #   uses: ./.github/actions/dev-env-setup
       - run: yarn run eslint -f @microsoft/eslint-formatter-sarif -o results.sarif . || true
         working-directory: ./app
       - name: Remove entries with suppressions from SARIF
@@ -152,8 +152,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
+      # - name: dev env setup
+      #   uses: ./.github/actions/dev-env-setup
       - name: deploy db migrations
         run: make start_pg && make drop_db && make deploy_db_migrations
       - run: yarn build:schema
@@ -168,8 +168,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
+      # - name: dev env setup
+      #   uses: ./.github/actions/dev-env-setup
       - name: deploy db migrations
         run: make start_pg && make drop_db && make deploy_db_migrations
       - name: revert db migrations
@@ -184,8 +184,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
+      # - name: dev env setup
+      #   uses: ./.github/actions/dev-env-setup
       - name: Run Database Unit Tests
         run: make db_unit_tests
       - name: Run Database Style Tests
