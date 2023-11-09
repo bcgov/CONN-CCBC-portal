@@ -85,6 +85,12 @@ $ yarn build:relay
 $ yarn dev
 ```
 
+### Relay information
+
+This project uses react-relay and relay-nextjs. The `yarn build:relay` command above will create the query map schema, create the generated directory to be used by the relay compiler to generate the GraphQl files, and finally build the required persistent operations.
+
+While doing local development you might have to rerun this command when edition previous queries, creating new queries, adding new fragments, etc, otherwise you might notice that query results are not being updated. To do so, simply stop your current development server and run `yarn build:relay && yarn dev`.
+
 ### Running PGTap database tests locally
 
 ##### Install pg_prove:
