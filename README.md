@@ -12,6 +12,7 @@
 - [CI/CD Pipeline](docs/CI_CD/.md)
 - [SchemaSpy Database documentation](https://bcgov.github.io/CONN-CCBC-portal/schemaspy/)
 - [Growthbook](#growthbook)
+- [Metabase] (#metabase)
 
 #### Local development
 
@@ -323,3 +324,17 @@ For detailed instructions on how to add and manage features, please refer to the
 ### Getting Access
 
 To get access to GrowthBook for this project, contact one of the administrators. You will then be able to create and manage feature flags.
+
+## Metabase
+
+Metabase is an open source business intelligence tool that lets you create charts and dashboards using data from a variety of databases and data sources. In the context of our application we use it to generate a variety of visualizations based on the data on the portal as well as other data consumed into our database.
+
+### Deployment
+
+Our Metabase is deployed using Helm, it consists of a Docker image as well as a CrunchyDB (Postgres). The Metabase repo can be found [here.](https://github.com/bcgov/conn-metabase)
+
+### More information
+
+For more information on Metabase, [visit the official docs.](https://www.metabase.com/docs/latest/)
+
+For information on queries/questions, [refer to this documentation.](https://www.metabase.com/learn/questions/searching-tables)
