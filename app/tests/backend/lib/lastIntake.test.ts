@@ -15,13 +15,13 @@ jest.mock('../../../utils/getAuthRole');
 
 describe('Get Last Intake', () => {
   let app;
-  const fake = (req,res,next) => {
-    next(req,res);
-  }
-  beforeEach(async () => { 
+  const fake = (req, res, next) => {
+    next(req, res);
+  };
+  beforeEach(async () => {
     app = express();
     app.use(session({ secret: crypto.randomUUID(), cookie: { secure: true } }));
-    app.use('/',fake);
+    app.use('/', fake);
   });
 
   it('should produce correct intake id', async () => {
@@ -38,23 +38,23 @@ describe('Get Last Intake', () => {
           allIntakes: {
             nodes: [
               {
-                "closeTimestamp": "2022-11-06T09:00:00-08:00",
-                "rowId": 1
+                closeTimestamp: '2022-11-06T09:00:00-08:00',
+                rowId: 1,
               },
               {
-                "closeTimestamp": "2090-11-06T09:00:00-08:00",
-                "rowId": 3
+                closeTimestamp: '2090-11-06T09:00:00-08:00',
+                rowId: 3,
               },
               {
-                "closeTimestamp": "2023-01-06T09:00:00-08:00",
-                "rowId": 2
-              }
+                closeTimestamp: '2023-01-06T09:00:00-08:00',
+                rowId: 2,
+              },
             ],
           },
         },
       };
     });
- 
+
     const response = await getLastIntakeId(request);
     expect(response).toBe(2);
   });
@@ -73,15 +73,15 @@ describe('Get Last Intake', () => {
           allIntakes: {
             nodes: [
               {
-                "closeTimestamp": "2023-11-06T09:00:00-08:00",
-                "rowId": 1
-              }
+                closeTimestamp: '2023-11-06T09:00:00-08:00',
+                rowId: 1,
+              },
             ],
           },
         },
       };
     });
- 
+
     const response = await getLastIntakeId(request);
     // Temporarily changing this as it has randomly stopped failing
     // so that the pipeline will pass and deploy
