@@ -21,8 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # - name: dev env setup
-      #   uses: ./.github/actions/dev-env-setup
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
       - name: run app locally
         uses: ./.github/actions/local-app-run
       - run: yarn install --frozen-lockfile
@@ -39,8 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # - name: dev env setup
-      #   uses: ./.github/actions/dev-env-setup
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
       - name: run app locally
         uses: ./.github/actions/local-app-run
       - run: yarn install --frozen-lockfile
@@ -57,8 +57,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # - name: dev env setup
-      #   uses: ./.github/actions/dev-env-setup
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
       - name: run app locally
         uses: ./.github/actions/local-app-run
       - run: yarn install --frozen-lockfile
@@ -76,8 +76,8 @@ jobs:
     needs: [yarn-test-e2e-applicant, yarn-test-e2e-admin, yarn-test-e2e-analyst]
     steps:
       - uses: actions/checkout@v4
-      # - name: dev env setup
-      #   uses: ./.github/actions/dev-env-setup
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
       - run: yarn install --frozen-lockfile
         working-directory: ./app
       - name: finalize e2e tests
@@ -92,8 +92,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # - name: dev env setup
-      #   uses: ./.github/actions/dev-env-setup
+      - name: dev env setup
+        uses: ./.github/actions/dev-env-setup
       - name: run app locally
         uses: ./.github/actions/local-app-run
       - name: ZAP Full Scan
