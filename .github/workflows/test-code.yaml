@@ -178,7 +178,7 @@ jobs:
         run: make deploy_db_migrations
 
   pgtap:
-    needs: [install-test-env]
+    # needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
