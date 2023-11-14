@@ -162,7 +162,7 @@ jobs:
         run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/schema/schema.graphql`. Did you forget to \"yarn build:schema\"?' && false)
 
   reverts:
-    needs: [install-test-env]
+    # needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
