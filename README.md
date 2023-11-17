@@ -12,7 +12,7 @@
 - [CI/CD Pipeline](docs/CI_CD/.md)
 - [SchemaSpy Database documentation](https://bcgov.github.io/CONN-CCBC-portal/schemaspy/)
 - [Growthbook](#growthbook)
-- [Metabase] (#metabase)
+- [Metabase](#metabase)
 
 #### Local development
 
