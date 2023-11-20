@@ -163,7 +163,18 @@ Additionally, to facilitate identification of the changes that are released and 
 
 To make this process easy, we use [`release-it`](https://github.com/release-it/release-it).
 
-When you're ready to make a release, apply the following steps:
+#### Automatic release
+
+The process above has been automated and is automatically performed by the ccbc-service-account on each merge to main. To start a release using the process:
+
+1. Find the PR named "chore:release" created by the ccbc-service-account
+1. Approve the PR and merge it
+1. Monitor the Action run, it will automatically deploy to dev, followed by test.
+1. If a prod deployment is needed, approve the release once required.
+
+#### Manual process
+
+If a manual release is needed, perform the following steps:
 
 1. create a `chore/release` branch
 1. set the upstream with `git push -u origin chore/release`
