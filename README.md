@@ -9,6 +9,7 @@
 - [Release process](#release-process)
 - [AWS Infrastructure](docs/AWS_Infrastructure.md)
 - [Database Development](docs/Database_Development.md)
+- [CI/CD Pipeline](docs/CI_CD/.md)
 - [SchemaSpy Database documentation](https://bcgov.github.io/CONN-CCBC-portal/schemaspy/)
 - [Growthbook](#growthbook)
 
