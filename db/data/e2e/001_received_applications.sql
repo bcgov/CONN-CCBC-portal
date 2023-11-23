@@ -7,6 +7,11 @@ declare _form_data_id int;
 declare received_application_status_id int;
 begin
 
+set jwt.claims.sub to 'mockUser@ccbc_auth_user';
+insert into ccbc_public.ccbc_user
+  (id, given_name, family_name, email_address, session_sub) overriding system value values
+  (1, 'foo1', 'bar', 'foo1@bar.com', 'mockUser@ccbc_auth_user');
+
 set jwt.claims.sub to 'e2e-user';
 
 select application_id into received_application_status_id
