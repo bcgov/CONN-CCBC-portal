@@ -5,7 +5,6 @@ const happoTask = require('happo-cypress/task');
 
 export default defineConfig({
   video: false,
-  screenshot: false,
   pageLoadTimeout: 100000,
   fixturesFolder: '../db/data',
   e2e: {
