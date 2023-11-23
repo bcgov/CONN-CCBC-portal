@@ -1,4 +1,5 @@
-import assessmentsSetup from './setup.js';
+/* eslint-disable import/extensions */
+import assessmentsSetup from './setup.cy.js';
 
 describe('The analyst screening assessment page', () => {
   beforeEach(() => {

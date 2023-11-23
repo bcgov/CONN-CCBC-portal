@@ -1,4 +1,5 @@
-import testSetup from './setup.js';
+/* eslint-disable import/extensions */
+import testSetup from './setup.cy.js';
 
 describe('The admin Download attachments page', () => {
   beforeEach(() => {

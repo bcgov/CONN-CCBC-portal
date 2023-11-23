@@ -1,3 +1,5 @@
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable func-names */
 /* eslint-disable cypress/no-unnecessary-waiting */
 
 context('Homepage', () => {
