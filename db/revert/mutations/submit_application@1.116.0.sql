@@ -6,7 +6,6 @@ create or replace function ccbc_public.submit_application(application_row_id int
 returns ccbc_public.application as $$
 declare
   current_intake_id int;
-  associated_intake_id int;
   current_intake_number int;
   reference_number bigint;
   _counter_id int;
@@ -58,11 +57,6 @@ begin
 
   select id, ccbc_intake_number, counter_id from ccbc_public.open_intake()
   into current_intake_id, current_intake_number, _counter_id;
-  select intake_id from ccbc_public.application where id = application_row_id into associated_intake_id;
-  -- Don't have to worry about the application being re-submitted as it will exit earlier with the status check
-  if current_intake_id is null or current_intake_id != associated_intake_id then
-    select id, ccbc_intake_number, counter_id from ccbc_public.intake where id = associated_intake_id into current_intake_id, current_intake_number, _counter_id;
-  end if;
 
   if current_intake_id is null then
     raise 'There is no open intake, the application cannot be submitted';
@@ -71,21 +65,12 @@ begin
   insert into ccbc_public.application_status
     (application_id, status) values (application_row_id, 'submitted');
 
-  if current_intake_number = 99 then
-    update ccbc_public.application set
-    ccbc_number=format(
-        'CCBC-%s%s', lpad(2::text , 2, '0'),
-        lpad((ccbc_public.increment_counter(_counter_id::int))::text, 4, '0')
-      ),
-      intake_id = current_intake_id where id = application_row_id;
-  else
-    update ccbc_public.application set
-    ccbc_number=format(
-        'CCBC-%s%s', lpad(current_intake_number::text , 2, '0'),
-        lpad((ccbc_public.increment_counter(_counter_id::int))::text, 4, '0')
-      ),
-      intake_id = current_intake_id where id = application_row_id;
-  end if;
+  update ccbc_public.application set
+  ccbc_number=format(
+      'CCBC-%s%s', lpad(current_intake_number::text , 2, '0'),
+      lpad((ccbc_public.increment_counter(_counter_id::int))::text, 4, '0')
+    ),
+    intake_id = current_intake_id where id = application_row_id;
 
   update ccbc_public.form_data set
     form_data_status_type_id = 'committed',
