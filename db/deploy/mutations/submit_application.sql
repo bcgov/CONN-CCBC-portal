@@ -73,9 +73,9 @@ begin
 
   if current_intake_number = 99 then
     update ccbc_public.application set
-    ccbc_number=format(
-        'CCBC-%s%s', lpad(2::text , 2, '0'),
-        lpad((ccbc_public.increment_counter(_counter_id::int))::text, 4, '0')
+      ccbc_number = format(
+          'CCBC-025%s',
+          lpad((ccbc_public.increment_counter(_counter_id::int))::text, 3, '0')
       ),
       intake_id = current_intake_id where id = application_row_id;
   else
