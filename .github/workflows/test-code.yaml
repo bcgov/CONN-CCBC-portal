@@ -14,16 +14,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  install-test-env:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
-      - run: make install_dev_tools
-      - run: make stop_pg # cleanly stop the database, otherwise it will complain in the subsequent jobs
-      - run: yarn install --frozen-lockfile --check-files
-        working-directory: ./app
+  # install-test-env:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: dev env setup
+  #       uses: ./.github/actions/dev-env-setup
+  #     - run: make install_dev_tools
+  #     - run: make stop_pg # cleanly stop the database, otherwise it will complain in the subsequent jobs
+  #     - run: yarn install --frozen-lockfile --check-files
+  #       working-directory: ./app
 
   trivy-scan-code:
     runs-on: ubuntu-latest
@@ -97,7 +97,7 @@ jobs:
           sarif_file: 'gitleaks.sarif'
 
   jest:
-    needs: [install-test-env]
+    # needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -117,7 +117,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   eslint:
-    needs: [install-test-env]
+    # needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -148,7 +148,7 @@ jobs:
           sarif_file: app/results.sarif
 
   schema:
-    needs: [install-test-env]
+    # needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -162,7 +162,7 @@ jobs:
         run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/schema/schema.graphql`. Did you forget to \"yarn build:schema\"?' && false)
 
   reverts:
-    needs: [install-test-env]
+    # needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -178,7 +178,7 @@ jobs:
         run: make deploy_db_migrations
 
   pgtap:
-    needs: [install-test-env]
+    # needs: [install-test-env]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
