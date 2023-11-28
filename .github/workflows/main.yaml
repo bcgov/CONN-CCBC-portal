@@ -34,6 +34,10 @@ jobs:
       RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
+  test-zap:
+    needs: [build, install-env]
+    uses: ./.github/workflows/test-zap.yaml
+
   test-e2e:
     needs: [build, install-env]
     uses: ./.github/workflows/test-e2e.yaml

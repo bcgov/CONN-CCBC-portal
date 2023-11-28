@@ -1,4 +1,4 @@
-# This workflow contains all tests and security scanning that rely on the built production containers
+# This workflow contains all static image scanning
 name: test-containers
 
 on:
@@ -17,25 +17,6 @@ env:
   PGUSER: postgres
 
 jobs:
-  zap-owasp-full:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
-      - name: run app locally
-        uses: ./.github/actions/local-app-run
-      - name: ZAP Full Scan
-        uses: zaproxy/action-full-scan@v0.7.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          docker_name: 'ghcr.io/zaproxy/zaproxy:weekly'
-          target: 'http://localhost:3000/applicantportal'
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a -d -T 5 -m 2'
-          issue_title: OWASP Full Scan
-          fail_action: true
-
   trivy-scan-app:
     runs-on: ubuntu-latest
     outputs:
