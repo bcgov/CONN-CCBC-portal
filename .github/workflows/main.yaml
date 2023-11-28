@@ -12,13 +12,31 @@ jobs:
   build:
     uses: ./.github/workflows/build.yaml
 
+  install-env:
+    uses: ./.github/workflows/install-env.yaml
+    secrets: inherit
+
   test-code:
+    needs: [install-env]
     uses: ./.github/workflows/test-code.yaml
+    secrets: inherit
+
+  test-checks:
+    uses: ./.github/workflows/test-checks.yaml
     secrets: inherit
 
   test-containers:
     needs: [build]
     uses: ./.github/workflows/test-containers.yaml
+    secrets:
+      HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+      HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+      RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+      RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+
+  test-e2e:
+    needs: [build, install-env]
+    uses: ./.github/workflows/test-e2e.yaml
     secrets:
       HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
       HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
