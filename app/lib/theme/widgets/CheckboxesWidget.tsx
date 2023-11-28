@@ -45,7 +45,21 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
     return selected.filter((v: any) => v !== val);
   }
 
-  const { enumOptions }: any = options;
+  const { enumOptions, singleSelection }: any = options;
+  
+  const handleCheckboxChange = (option: any, checked: boolean) => {
+    if (singleSelection) {
+      onChange(checked ? [option.value] : []);
+    } else {
+      const all = enumOptions.map((enumOption: any) => enumOption.value);
+      if (checked) {
+        onChange(selectValue(option.value, value, all));
+      } else {
+        onChange(deselectValue(option.value, value));
+      }
+    }
+  };
+
   return (
     <StyledContainer>
       {enumOptions?.map(
@@ -58,14 +72,7 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
             >
               <Checkbox
                 id={`${id}-${i}`}
-                onChange={(event: any) => {
-                  const all = enumOptions.map(({ val }: any) => val);
-                  if (event.target.checked) {
-                    onChange(selectValue(option.value, value, all));
-                  } else {
-                    onChange(deselectValue(option.value, value));
-                  }
-                }}
+                onChange={(event: any) => handleCheckboxChange(option, event.target.checked)}
                 checked={checked}
                 value={value}
                 required={required}

@@ -12,6 +12,7 @@ const projectArea = {
     'ui:options': {
       maxLength: 150,
       customTitle: GeographicArea,
+      singleSelection: true,
     },
   },
   projectSpanMultipleLocations: {
