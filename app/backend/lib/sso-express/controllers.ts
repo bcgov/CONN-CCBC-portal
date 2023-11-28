@@ -49,7 +49,6 @@ export const tokenSetController =
     if (isAuthenticated(req)) {
       const extend = req.url !== idleRemainingRoute;
       let tokenSet = new TokenSet(req.session.tokenSet);
-      console.log(tokenSet);
       // Check if the access token is expired
       try {
         if (extend && tokenSet.expired()) {
