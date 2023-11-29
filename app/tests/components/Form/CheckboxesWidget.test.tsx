@@ -42,7 +42,7 @@ const renderStaticLayout = (schema: JSONSchema7, uiSchema) =>
   render(
     <FormTestRenderer
       formData={{}}
-      onSubmit={() => console.log('test')}
+      onSubmit={jest.fn}
       schema={schema as JSONSchema7}
       uiSchema={uiSchema}
     />
