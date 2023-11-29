@@ -14,7 +14,7 @@ import {
   mergeFormSectionData,
 } from 'components/Form/ApplicationForm';
 import Layout from 'components/Layout';
-import { uiSchema } from 'formSchema';
+import { analystEditUiSchema } from 'formSchema';
 import { AnalystLayout, ChangeModal } from 'components/Analyst';
 import { SectionQuery } from '__generated__/SectionQuery.graphql';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
@@ -70,7 +70,7 @@ const EditApplication = ({
   };
 
   const sectionSchema = jsonSchema.properties[sectionName] as JSONSchema7;
-  uiSchema.benefits = { ...uiSchema.benefits, ...benefits } as any;
+  analystEditUiSchema.benefits = { ...analystEditUiSchema.benefits, ...benefits } as any;
   // https://github.com/rjsf-team/react-jsonschema-form/issues/1023
   // Save and update form data in state due to RJSF setState bug
   const [sectionFormData, setSectionFormData] = useState(jsonData[sectionName]);
@@ -134,7 +134,7 @@ const EditApplication = ({
           formData={sectionFormData}
           onChange={handleChange}
           schema={sectionSchema}
-          uiSchema={uiSchema[sectionName]}
+          uiSchema={analystEditUiSchema[sectionName]}
           onSubmit={triggerModal}
           noValidate
         >
