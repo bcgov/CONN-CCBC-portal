@@ -1,3 +1,10 @@
+## [1.122.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.122.0...v1.122.1) (2023-11-29)
+
+### Bug Fixes
+
+- change withdrawal modal description ([558cde2](https://github.com/bcgov/CONN-CCBC-portal/commit/558cde25fb1794ca8bef9e5f7ba170aefe29ebf4))
+- update ci/cd ([e62447d](https://github.com/bcgov/CONN-CCBC-portal/commit/e62447d848183291b0bb10479174485368b72213))
+
 # [1.122.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.121.0...v1.122.0) (2023-10-31)
 
 ### Features
