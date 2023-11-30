@@ -200,7 +200,6 @@ const ApplicationForm: React.FC<Props> = ({
   } = application;
   const ccbcIntakeNumber =
     application.intakeByIntakeId?.ccbcIntakeNumber || null;
-  console.log('ccbcIntakeNumber', ccbcIntakeNumber);
   let jsonSchema: any;
   let formSchemaId: number;
   let finalUiSchema: any;
