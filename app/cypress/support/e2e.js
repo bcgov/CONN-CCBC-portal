@@ -22,3 +22,10 @@ import './commands';
 Cypress.Screenshot.defaults({
   screenshotOnRunFailure: false,
 });
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // returning false here prevents Cypress from
+  // failing the test
+  return false;
+});

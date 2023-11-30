@@ -1,9 +1,10 @@
 describe('The analyst dashboard', () => {
+  // eslint-disable-next-line prefer-arrow-callback, func-names
   beforeEach(function () {
     const mockedDateString = '2022-10-10';
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
-    cy.sqlFixture('e2e/reset_db');
+    cy.sqlFixture('e2e/reset_db_all');
     cy.sqlFixture('e2e/001_intake');
     cy.sqlFixture('e2e/001_received_applications');
     cy.sqlFixture('e2e/001_analyst');

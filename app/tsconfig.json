@@ -20,6 +20,12 @@
       "*": ["*", "../*", "__generated__/*"]
     }
   },
-  "exclude": [".next", "node_modules", "public", "cypress"],
+  "exclude": [
+    ".next",
+    "node_modules",
+    "public",
+    "cypress",
+    "./cypress.config.ts"
+  ],
   "include": ["./**/*", "./.eslintrc.js"]
 }

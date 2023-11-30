@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable func-names */
+/* eslint-disable prefer-arrow-callback */
 /* eslint-disable cypress/no-unnecessary-waiting */
 
 describe('The applicant dashboard', () => {

@@ -1,4 +1,5 @@
-import rfiSetup from './setup.js';
+/* eslint-disable import/extensions */
+import rfiSetup from './setup.cy.js';
 
 describe('The RFI index page', () => {
   beforeEach(() => {
