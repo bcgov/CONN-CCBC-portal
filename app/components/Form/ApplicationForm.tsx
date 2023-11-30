@@ -17,7 +17,7 @@ import { useUpdateApplicationForm } from 'schema/mutations/application/updateApp
 import verifyFormFields from 'utils/verifyFormFields';
 import ReviewField from 'components/Review/ReviewPageField';
 import { useFeature } from '@growthbook/growthbook-react';
-import uiSchemaV2 from 'formSchema/uiSchema/uiSchemaV2';
+import { applicantBenefits } from 'formSchema/uiSchema/pages';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
 import {
@@ -157,6 +157,7 @@ const ApplicationForm: React.FC<Props> = ({
         }
         status
         intakeByIntakeId {
+          ccbcIntakeNumber
           closeTimestamp
         }
         ...ApplicationFormStatus_application
@@ -183,7 +184,6 @@ const ApplicationForm: React.FC<Props> = ({
   );
 
   const forceLatestSchema = useFeature('draft_apps_use_latest_schema').value;
-  const hideBenefitHHCount = useFeature('hide_benefit_hh_count').value ?? false;
   const { openIntake } = applicationFormQuery;
   const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
   const latestFormSchemaId = applicationFormQuery.allForms.nodes[0].rowId;
@@ -198,8 +198,12 @@ const ApplicationForm: React.FC<Props> = ({
     },
     status,
   } = application;
+  const ccbcIntakeNumber =
+    application.intakeByIntakeId?.ccbcIntakeNumber || null;
+  console.log('ccbcIntakeNumber', ccbcIntakeNumber);
   let jsonSchema: any;
   let formSchemaId: number;
+  let finalUiSchema: any;
   // eslint-disable-next-line no-constant-condition, no-self-compare
   if (forceLatestSchema && status === 'draft') {
     jsonSchema = latestJsonSchema;
@@ -215,10 +219,21 @@ const ApplicationForm: React.FC<Props> = ({
       formName
     );
   });
-  const finalUiSchema = {
-    ...uiSchema,
-    'ui:order': filteredUiSchemaOrder,
-  };
+  if (ccbcIntakeNumber !== null && ccbcIntakeNumber <= 2) {
+    finalUiSchema = {
+      ...uiSchema,
+      'ui:order': filteredUiSchemaOrder,
+    };
+  } else {
+    finalUiSchema = {
+      ...uiSchema,
+      benefits: {
+        ...applicantBenefits,
+      },
+      'ui:order': filteredUiSchemaOrder,
+    };
+  }
+
   const sectionName = getSectionNameFromPageNumber(finalUiSchema, pageNumber);
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
@@ -504,9 +519,7 @@ const ApplicationForm: React.FC<Props> = ({
         fields={{ ReviewField }}
         formData={jsonData[sectionName]}
         schema={sectionSchema as JSONSchema7}
-        uiSchema={
-          hideBenefitHHCount ? uiSchemaV2[sectionName] : uiSchema[sectionName]
-        }
+        uiSchema={finalUiSchema[sectionName]}
         // Todo: validate entire form on completion
         noValidate
         disabled={isFormDisabled()}
