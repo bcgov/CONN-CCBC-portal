@@ -69,9 +69,12 @@ const EditApplication = ({
     },
   };
 
-  const sectionSchema = jsonSchema.properties[sectionName] as JSONSchema7;
+  const sectionSchema = formSchema.properties[sectionName] as JSONSchema7;
   uiSchema.benefits = { ...uiSchema.benefits, ...benefits } as any;
-  uiSchema.projectArea = { ...uiSchema.projectArea, ...analystProjectArea } as any;
+  uiSchema.projectArea = {
+    ...uiSchema.projectArea,
+    ...analystProjectArea,
+  } as any;
   // https://github.com/rjsf-team/react-jsonschema-form/issues/1023
   // Save and update form data in state due to RJSF setState bug
   const [sectionFormData, setSectionFormData] = useState(jsonData[sectionName]);
