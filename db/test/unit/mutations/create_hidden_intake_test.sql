@@ -29,9 +29,9 @@ select results_eq($$
   select counter from ccbc_public.gapless_counter;
 $$,
 $$
-  values (0)
+  values (47)
 $$,
-'Row should start with count of 0');
+'Row should start with count of 47');
 
 
 select throws_like(

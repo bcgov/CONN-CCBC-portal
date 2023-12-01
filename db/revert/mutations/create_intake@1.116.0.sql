@@ -13,7 +13,7 @@ declare
 begin
   select close_timestamp into previous_intake_end_date
   from ccbc_public.intake
-  where archived_at is null and hidden = 'false'
+  where archived_at is null
   order by ccbc_intake_number
   desc limit 1;
 
@@ -25,7 +25,7 @@ begin
     raise exception 'The start time for the new intake must be after the end time of the previous intake';
   end if;
 
-  select coalesce((max(ccbc_intake_number) + 1), 1) into new_intake_number from ccbc_public.intake where archived_at is null and hidden = 'false';
+  select coalesce((max(ccbc_intake_number) + 1), 1) into new_intake_number from ccbc_public.intake where archived_at is null;
 
   insert into ccbc_public.gapless_counter (counter) values (0) returning id into new_counter_id;
   insert into ccbc_public.intake (open_timestamp, close_timestamp, ccbc_intake_number, counter_id, description)

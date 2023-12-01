@@ -23,7 +23,12 @@ begin
   end if;
 
 
-  insert into ccbc_public.gapless_counter (counter) values (0) returning id into new_counter_id;
+  select id from ccbc_public.gapless_counter order by id desc limit 1 into new_counter_id;
+    -- if no record is found, insert a new record with a counter value of 47
+  if new_counter_id is null then
+    insert into ccbc_public.gapless_counter (counter) values (47)
+    returning id into new_counter_id;
+  end if;
   insert into ccbc_public.intake (open_timestamp, close_timestamp, ccbc_intake_number, counter_id, description, hidden, hidden_code)
     values (start_time, end_time, _ccbc_intake_number, new_counter_id, intake_description, 'true', uuid_generate_v4()) returning * into result;
 

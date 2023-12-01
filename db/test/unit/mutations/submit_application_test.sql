@@ -126,7 +126,7 @@ select results_eq(
     select id, ccbc_number, intake_id from ccbc_public.submit_application(1,1)
   $$,
   $$
-    values (1, 'CCBC-010001'::varchar, 1)
+    values (1, 'CCBC-010048'::varchar, 1)
   $$,
   'Returns the application with an intake number if in draft'
 );
@@ -147,7 +147,7 @@ select results_eq(
     select id, ccbc_number, intake_id from ccbc_public.submit_application(4,1)
   $$,
   $$
-    values (4, 'CCBC-010002'::varchar, 1)
+    values (4, 'CCBC-010049'::varchar, 1)
   $$,
   'Increases the ccbc number when submitting applications'
 );
