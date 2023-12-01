@@ -186,8 +186,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       loading={isCreatingAttachment || isDeletingAttachment}
       error={error}
       buttonVariant={buttonVariant}
-      handleDelete={() =>
-        handleDelete(fileId, deleteAttachment, setError, value, onChange)
+      handleDelete={(f) =>
+        handleDelete(f, deleteAttachment, setError, value, onChange)
       }
       handleDownload={handleDownload}
       onChange={handleChange}
