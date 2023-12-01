@@ -1,3 +1,9 @@
+# [1.123.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.122.1...v1.123.0) (2023-12-01)
+
+### Features
+
+- set ccbc id of intake 99 to use 02 ([7c9917c](https://github.com/bcgov/CONN-CCBC-portal/commit/7c9917c18ec9e633d4b670f4b97054076b6b1dcd))
+
 ## [1.122.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.122.0...v1.122.1) (2023-11-29)
 
 ### Bug Fixes
