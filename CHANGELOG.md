@@ -1,3 +1,15 @@
+# [1.123.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.122.1...v1.123.0) (2023-12-01)
+
+### Bug Fixes
+
+- multi file delete always delete first ([5f74c84](https://github.com/bcgov/CONN-CCBC-portal/commit/5f74c8489b41703d6b9d7683bc07d18614b22fa4))
+- re-add budget details page for analyst ([a4b290b](https://github.com/bcgov/CONN-CCBC-portal/commit/a4b290b40185088942543b35f9991990bba3a5ad))
+
+### Features
+
+- set ccbc id of intake 99 to use 02 ([7c9917c](https://github.com/bcgov/CONN-CCBC-portal/commit/7c9917c18ec9e633d4b670f4b97054076b6b1dcd))
+- show/hide hh count on status and intake ([e9f2913](https://github.com/bcgov/CONN-CCBC-portal/commit/e9f29131403b89ff95e1f6537ef2a9cb2abbf140))
+
 ## [1.122.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.122.0...v1.122.1) (2023-11-29)
 
 ### Bug Fixes
