@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ObjectFieldTemplateProps } from '@rjsf/core';
 import FormBorder from './components/FormBorder';
 import Description from './components/Description';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const StyledColumn = styled('div')`
   input,
@@ -11,9 +12,6 @@ const StyledColumn = styled('div')`
   padding: 0;
 
   div:first-child {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
     min-height: 100%;
   }
 
@@ -39,7 +37,12 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   title,
   properties,
 }) => {
-  const uiInline = uiSchema['ui:inline'];
+  const theme = useTheme();
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
+  const uiInline =
+    isMobileView && uiSchema['ui:inline:sm']
+      ? uiSchema['ui:inline:sm']
+      : uiSchema['ui:inline'];
 
   const getInlineKeys = () => {
     // Get array of inline keys so we can see if field exists in grid so we don't render it twice.

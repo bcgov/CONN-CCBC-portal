@@ -3,6 +3,7 @@ import { GeographicArea } from '../../../components/Form/CustomTitles';
 const projectArea = {
   'ui:order': [
     'geographicArea',
+    'projectAreaMap',
     'projectSpanMultipleLocations',
     'provincesTerritories',
   ],
@@ -11,8 +12,14 @@ const projectArea = {
     'ui:widget': 'CheckboxesWidget',
     'ui:options': {
       maxLength: 150,
-      customTitle: GeographicArea,
       singleSelection: true,
+      customTitle: true,
+    },
+  },
+  projectAreaMap: {
+    'ui:widget': 'ZoneMapWidget',
+    'ui:options': {
+      customTitle: true
     },
   },
   projectSpanMultipleLocations: {
@@ -21,6 +28,22 @@ const projectArea = {
   provincesTerritories: {
     'ui:widget': 'CheckboxesWidget',
   },
+  'ui:inline': [
+    {
+      columns: 7,
+      title: GeographicArea,
+      geographicArea: '1 / 2',
+      projectAreaMap: '2 / 8',
+    },
+  ],
+  'ui:inline:sm': [
+    {
+      columns: 1,
+      title: GeographicArea,
+      geographicArea: '1 / 2',
+      projectAreaMap: '1 / 2',
+    },
+  ],
 };
 
 export default projectArea;
