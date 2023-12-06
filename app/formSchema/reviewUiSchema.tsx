@@ -160,7 +160,7 @@ const reviewUiSchema = {
     geographicArea: {
       'ui:field': 'InlineArrayField',
     },
-    projectAreaMap: {
+    projectZoneMap: {
       'ui:hidden': true,
     },
     provincesTerritories: {

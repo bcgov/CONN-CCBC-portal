@@ -22,7 +22,7 @@ const projectArea: Record<string, JSONSchema7> = {
         type: 'boolean',
         enum: [true, false],
       },
-      projectAreaMap: {
+      projectZoneMap: {
         title: '',
         type: 'string',
       },

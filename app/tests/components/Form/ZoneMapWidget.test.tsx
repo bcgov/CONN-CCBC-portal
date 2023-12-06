@@ -1,9 +1,5 @@
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-} from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { ZONE_MAP_URL } from 'data/externalConstants';
 import type { JSONSchema7 } from 'json-schema';
 import { ZoneMapWidget } from 'lib/theme/widgets';
 import FormTestRenderer from 'tests/utils/formTestRenderer';
@@ -49,12 +45,9 @@ describe('The Area Map Widget', () => {
   });
 
   it('renders a map with the correct source', () => {
-    const imageElement = screen.getByAltText('Internet Blocking Map');
+    const imageElement: any = screen.getByAltText('Internet Blocking Map');
     expect(imageElement).toBeInTheDocument();
-    expect(imageElement).toHaveAttribute(
-      'src',
-      '/images/internet-blocking-map.png'
-    );
+    expect(imageElement.src).toContain('internet-blocking-map.png');
   });
 
   it('triggers the download process on download click', async () => {
@@ -72,14 +65,12 @@ describe('The Area Map Widget', () => {
       fireEvent.click(downloadLink);
     });
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      'https://catalogue.data.gov.bc.ca/dataset/8fbfc57f-4381-4a10-a4e8-0f335c6fe39a/resource/260b608d-e5a5-493c-a403-4e0763631e70/download/internet-blocking-map-11x17-overview.pdf'
-    );
+    expect(global.fetch).toHaveBeenCalledWith(ZONE_MAP_URL);
   });
 
   it('displays an error message if the download fails', async () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Failed to fetch')));
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const spySentry = jest.spyOn(require('@sentry/nextjs'), 'captureException');
     const downloadLink = screen.getByTestId(
       'internet-blocking-map-download-link'
     );
@@ -87,8 +78,6 @@ describe('The Area Map Widget', () => {
       fireEvent.click(downloadLink);
     });
 
-    expect(alertSpy).toHaveBeenCalledWith(
-      'An error occurred when downloading the file. Contact the CCBC Portal administrator'
-    );
+    expect(spySentry).toHaveBeenCalledWith(new Error('Failed to fetch'));
   });
 });

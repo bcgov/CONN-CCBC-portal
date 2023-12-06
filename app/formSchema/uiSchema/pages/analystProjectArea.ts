@@ -10,7 +10,7 @@ const analystProjectArea = {
       singleSelection: false,
     },
   },
-  projectAreaMap: {
+  projectZoneMap: {
     'ui:widget': 'HiddenWidget',
     'ui:options': {
       customTitle: true,

@@ -3,7 +3,7 @@ import { GeographicArea } from '../../../components/Form/CustomTitles';
 const projectArea = {
   'ui:order': [
     'geographicArea',
-    'projectAreaMap',
+    'projectZoneMap',
     'projectSpanMultipleLocations',
     'provincesTerritories',
   ],
@@ -16,7 +16,7 @@ const projectArea = {
       customTitle: true,
     },
   },
-  projectAreaMap: {
+  projectZoneMap: {
     'ui:widget': 'ZoneMapWidget',
     'ui:options': {
       customTitle: true
@@ -33,7 +33,7 @@ const projectArea = {
       columns: 7,
       title: GeographicArea,
       geographicArea: '1 / 2',
-      projectAreaMap: '2 / 8',
+      projectZoneMap: '2 / 8',
     },
   ],
   'ui:inline:sm': [
@@ -41,7 +41,7 @@ const projectArea = {
       columns: 1,
       title: GeographicArea,
       geographicArea: '1 / 2',
-      projectAreaMap: '1 / 2',
+      projectZoneMap: '1 / 2',
     },
   ],
 };
