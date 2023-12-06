@@ -1,7 +1,6 @@
 import { WidgetProps } from '@rjsf/core';
 import * as Sentry from '@sentry/nextjs';
 import styled from 'styled-components';
-import Image from 'next/image';
 import { ZONE_MAP_URL } from 'data/externalConstants';
 
 const ZoneMapWidget: React.FC<WidgetProps> = () => {
@@ -12,6 +11,16 @@ const ZoneMapWidget: React.FC<WidgetProps> = () => {
     :hover {
       cursor: pointer;
     }
+  `;
+
+  const StyledImage = styled.img`
+    margin-bottom: 0px;
+    width: 100%;
+    height: auto;
+  `;
+
+  const StyledDiv = styled.div`
+    margin-bottom: 3%;
   `;
 
   const handleDownload = (e: any) => {
@@ -33,14 +42,13 @@ const ZoneMapWidget: React.FC<WidgetProps> = () => {
   };
 
   return (
-    <div style={{ marginBottom: '10px' }}>
-      <Image
+    <StyledDiv>
+      <StyledImage
         src="/images/internet-blocking-map.png"
         alt="Internet Blocking Map"
         width={0}
         height={0}
         sizes="100vw"
-        style={{ marginBottom: '0px', width: '100%', height: 'auto' }}
       />
       <div>
         <StyledLink
@@ -51,7 +59,7 @@ const ZoneMapWidget: React.FC<WidgetProps> = () => {
           Download
         </StyledLink>
       </div>
-    </div>
+    </StyledDiv>
   );
 };
 

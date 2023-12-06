@@ -30,10 +30,10 @@ const projectArea = {
   },
   'ui:inline': [
     {
-      columns: 7,
+      columns: 15,
       title: GeographicArea,
-      geographicArea: '1 / 2',
-      projectZoneMap: '2 / 8',
+      geographicArea: '1 / 3',
+      projectZoneMap: '3 / 13',
     },
   ],
   'ui:inline:sm': [

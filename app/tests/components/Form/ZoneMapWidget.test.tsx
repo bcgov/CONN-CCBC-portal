@@ -3,6 +3,7 @@ import { ZONE_MAP_URL } from 'data/externalConstants';
 import type { JSONSchema7 } from 'json-schema';
 import { ZoneMapWidget } from 'lib/theme/widgets';
 import FormTestRenderer from 'tests/utils/formTestRenderer';
+import * as Sentry from '@sentry/nextjs';
 
 const mockSchema = {
   title: 'Project area',
@@ -26,7 +27,7 @@ const renderStaticLayout = (schema: JSONSchema7, uiSchema: JSONSchema7) => {
   return render(
     <FormTestRenderer
       formData={{}}
-      onSubmit={() => console.log('test')}
+      onSubmit={jest.fn}
       schema={schema as JSONSchema7}
       uiSchema={uiSchema}
     />
@@ -51,12 +52,17 @@ describe('The Area Map Widget', () => {
   });
 
   it('triggers the download process on download click', async () => {
+    const mockBlob = new Blob();
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        blob: () => Promise.resolve(new Blob()),
+        blob: () => Promise.resolve(mockBlob),
       })
     ) as jest.Mock;
+    const mockObjectURL = jest.fn().mockReturnValue('mockUrl');
 
+    Object.defineProperty(global.URL, 'createObjectURL', {
+      value: mockObjectURL,
+    });
     const downloadLink: any = screen.getByTestId(
       'internet-blocking-map-download-link'
     );
@@ -66,11 +72,12 @@ describe('The Area Map Widget', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledWith(ZONE_MAP_URL);
+    expect(mockObjectURL).toHaveBeenCalledWith(mockBlob);
   });
 
   it('displays an error message if the download fails', async () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Failed to fetch')));
-    const spySentry = jest.spyOn(require('@sentry/nextjs'), 'captureException');
+    const spySentry = jest.spyOn(Sentry, 'captureException');
     const downloadLink = screen.getByTestId(
       'internet-blocking-map-download-link'
     );

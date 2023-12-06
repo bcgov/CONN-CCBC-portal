@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { ObjectFieldTemplateProps } from '@rjsf/core';
+import { useMediaQuery, useTheme } from '@mui/material';
 import FormBorder from './components/FormBorder';
 import Description from './components/Description';
-import { useMediaQuery, useTheme } from '@mui/material';
 
 const StyledColumn = styled('div')`
   input,
