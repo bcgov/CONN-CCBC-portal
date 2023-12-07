@@ -105,7 +105,7 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
             </StyledGrid>
           );
           return (
-            <div key={i}>
+            <div key={rowKeys[i]}>
               {title && row.title && (
                 <>
                   {row.headline ? (
