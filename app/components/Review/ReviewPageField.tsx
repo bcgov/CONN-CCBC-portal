@@ -24,7 +24,26 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
     onFocus,
   } = props;
   const { fullFormData, formSchema, formErrorSchema } = formContext;
-
+  // This is to remove the accepted geographic area from the review page
+  // Otherwise it will show an empty row
+  const fs = {
+    ...formSchema,
+    properties: {
+      ...formSchema.properties,
+      projectArea: {
+        ...formSchema.properties.projectArea,
+        properties: {
+          geographicArea: {
+            ...formSchema.properties.projectArea.properties.geographicArea,
+          },
+          projectSpanMultipleLocations: {
+            ...formSchema.properties.projectArea.properties
+              .projectSpanMultipleLocations,
+          },
+        },
+      },
+    },
+  };
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
   const handleAckChange = (ackData: boolean) => {
@@ -51,7 +70,7 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
       </StyledAlert>
       <FormBase
         theme={ReviewTheme}
-        schema={formSchema}
+        schema={fs}
         uiSchema={reviewUiSchema as any}
         formData={fullFormData}
         liveValidate
