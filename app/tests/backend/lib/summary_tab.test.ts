@@ -205,12 +205,12 @@ describe('sow_summary parsing tests', () => {
     brokenSummary[8]['D'] = '';
     brokenSummary[8]['G'] = '';
     // overwrite last mile tecnology
-    brokenSummary[10]['G'] = '';
-    brokenSummary[11]['G'] = '';
-    brokenSummary[12]['G'] = '';
-    brokenSummary[13]['G'] = '';
-    brokenSummary[14]['G'] = '';
-    brokenSummary[15]['G'] = '';
+    brokenSummary[10]['G'] = 'INVALID';
+    brokenSummary[11]['G'] = 'INVALID';
+    brokenSummary[12]['G'] = 'INVALID';
+    brokenSummary[13]['G'] = 'INVALID';
+    brokenSummary[14]['G'] = 'INVALID';
+    brokenSummary[15]['G'] = 'INVALID';
 
     // overwrite dates
     brokenSummary[12]['D'] = '';
