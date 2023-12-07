@@ -71,6 +71,17 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
           </>
         )}
       </StyledError>
+      <StyledError>
+        {formContext.isProjectAreaOpen && (
+          <>
+            <br />
+            Unfortunately, we are currently not accepting applications for the
+            selected zone. However, you have the option of saving this
+            application as a draft for the next subsequent intake. Thank you for
+            your understanding.
+          </>
+        )}
+      </StyledError>
     </>
   );
 };

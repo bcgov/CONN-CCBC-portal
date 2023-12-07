@@ -5,8 +5,16 @@ const projectArea: Record<string, JSONSchema7> = {
     title: 'Project area',
     description: 'Please describe the geographic area of the proposed Project',
     type: 'object',
-    required: ['geographicArea', 'projectSpanMultipleLocations'],
+    required: [
+      'acceptedGeographicArea',
+      'geographicArea',
+      'projectSpanMultipleLocations',
+    ],
     properties: {
+      acceptedGeographicArea: {
+        title: '',
+        type: 'string',
+      },
       geographicArea: {
         title:
           'Referring to the project zones (application guide Annex 6), which zone(s) will this project be conducted in?',
