@@ -186,7 +186,6 @@ const ApplicationForm: React.FC<Props> = ({
 
   const forceLatestSchema = useFeature('draft_apps_use_latest_schema').value;
   const acceptedProjectAreas = useFeature('intake_zones');
-  console.log('acceptedProjectAreas', acceptedProjectAreas);
   const acceptedProjectAreasArray =
     typeof acceptedProjectAreas !== undefined &&
     acceptedProjectAreas?.value !== null &&
