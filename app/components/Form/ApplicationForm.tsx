@@ -186,7 +186,13 @@ const ApplicationForm: React.FC<Props> = ({
 
   const forceLatestSchema = useFeature('draft_apps_use_latest_schema').value;
   const acceptedProjectAreas = useFeature('intake_zones');
-  const acceptedProjectAreasArray = acceptedProjectAreas?.value.split(',');
+  console.log('acceptedProjectAreas', acceptedProjectAreas);
+  const acceptedProjectAreasArray =
+    typeof acceptedProjectAreas !== undefined &&
+    acceptedProjectAreas?.value !== null &&
+    typeof acceptedProjectAreas?.value === 'string'
+      ? acceptedProjectAreas?.value?.split(',') || []
+      : [];
   const { openIntake } = applicationFormQuery;
   const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
   const latestFormSchemaId = applicationFormQuery.allForms.nodes[0].rowId;
