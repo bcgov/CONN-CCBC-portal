@@ -88,7 +88,7 @@ const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
       lastMile = true;
     }
     const input = summary[row]['G'];
-    if (input === undefined) continue;
+    if (input === undefined || input === '') continue;
     if (backbone && value.indexOf('Fibre') > -1) {
       jsonData.backboneFibre = convertExcelDropdownToBoolean(input);
     }
