@@ -77,6 +77,7 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
           const columns = row?.columns;
           const mapRow = (
             <StyledGrid
+              data-testid="grid-row"
               style={{ gridTemplateColumns: `repeat(${columns || 1}, 1fr)` }}
             >
               {rowKeys.map((fieldName) => {
@@ -104,7 +105,7 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
             </StyledGrid>
           );
           return (
-            <div key={rowKeys[i]}>
+            <div key={i}>
               {title && row.title && (
                 <>
                   {row.headline ? (
