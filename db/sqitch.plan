@@ -495,3 +495,4 @@ mutations/submit_application [mutations/submit_application@1.116.0] 2023-11-20T2
 mutations/create_intake [mutations/create_intake@1.116.0] 2023-11-27T22:57:40Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # make all new intakes use same gapless counter
 functions/create_hidden_intake [functions/create_hidden_intake@1.116.0] 2023-11-28T18:21:23Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # update counter id creation to match create intake
 @1.123.0 2023-12-01T21:23:31Z CCBC Service Account <ccbc@button.is> # release v1.123.0
+@1.124.0 2023-12-07T20:57:07Z CCBC Service Account <ccbc@button.is> # release v1.124.0
