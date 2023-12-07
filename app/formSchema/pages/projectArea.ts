@@ -5,11 +5,7 @@ const projectArea: Record<string, JSONSchema7> = {
     title: 'Project area',
     description: 'Please describe the geographic area of the proposed Project',
     type: 'object',
-    required: [
-      'acceptedGeographicArea',
-      'geographicArea',
-      'projectSpanMultipleLocations',
-    ],
+    required: ['geographicArea', 'projectSpanMultipleLocations'],
     properties: {
       acceptedGeographicArea: {
         title: '',
