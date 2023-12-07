@@ -96,7 +96,6 @@ describe('ObjectFieldTemplate', () => {
   });
 
   it('renders grid correctly when no column configurations provided', () => {
-    jest.spyOn(MaterialUI, 'useMediaQuery').mockImplementationOnce(() => true);
     render(
       <ThemeProvider theme={theme}>
         <ObjectFieldTemplate {...singleColMockProps} />
