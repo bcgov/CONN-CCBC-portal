@@ -155,7 +155,10 @@ const Toast: React.FC<ToastProps> = ({
         {type === 'error' && <FontAwesomeIcon icon={faTimesCircle} />}
       </IconContainer>
       <Message>{children}</Message>
-      <CloseButton onClick={handleClose}>
+      <CloseButton
+        onClick={handleClose}
+        type={type !== 'success' ? 'button' : 'submit'}
+      >
         <FontAwesomeIcon icon={faTimes} />
       </CloseButton>
     </ToastContainer>

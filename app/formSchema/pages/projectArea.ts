@@ -22,6 +22,9 @@ const projectArea: Record<string, JSONSchema7> = {
         type: 'boolean',
         enum: [true, false],
       },
+      projectZoneMap: {
+        type: 'string',
+      },
     },
     dependencies: {
       projectSpanMultipleLocations: {
