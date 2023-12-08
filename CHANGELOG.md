@@ -1,3 +1,9 @@
+# [1.124.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.123.0...v1.124.0) (2023-12-07)
+
+### Features
+
+- skip/accept sow summary when blank ([e66a5e8](https://github.com/bcgov/CONN-CCBC-portal/commit/e66a5e88ad778d4c8eb1c7eff8d3b2127778469b))
+
 # [1.123.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.122.1...v1.123.0) (2023-12-01)
 
 ### Bug Fixes
