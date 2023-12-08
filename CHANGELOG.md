@@ -1,3 +1,9 @@
+# [1.125.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.124.0...v1.125.0) (2023-12-08)
+
+### Features
+
+- add zone map to application portal ([c8b03c6](https://github.com/bcgov/CONN-CCBC-portal/commit/c8b03c6c32b605eaf20eda56ba3a7cadc7abb3a9))
+
 # [1.124.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.123.0...v1.124.0) (2023-12-07)
 
 ### Features
