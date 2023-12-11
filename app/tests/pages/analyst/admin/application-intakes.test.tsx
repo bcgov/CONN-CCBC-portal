@@ -3,6 +3,7 @@ import ApplicationIntakes from 'pages/analyst/admin/application-intakes';
 import compiledApplicationIntakesQuery, {
   applicationIntakesQuery,
 } from '__generated__/applicationIntakesQuery.graphql';
+import cookie from 'js-cookie';
 import PageTestingHelper from '../../../utils/pageTestingHelper';
 import { checkTabStyles, checkRouteAuthorization } from './shared-admin-tests';
 
@@ -105,7 +106,38 @@ const mockEditQueryPayload = {
   },
 };
 
+const mockTimeMachineQueryPayload = {
+  Query() {
+    return {
+      allIntakes: {
+        edges: [
+          {
+            node: {
+              ccbcIntakeNumber: 1,
+              closeTimestamp: '2022-01-15T23:00:00-08:00',
+              description: 'Intake 3 description',
+              openTimestamp: '2021-01-15T00:00:00-08:00',
+              rowId: 1,
+            },
+          },
+        ],
+      },
+      openIntake: {
+        ccbcIntakeNumber: 2,
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'ccbc_admin',
+      },
+    };
+  },
+};
+
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
+
+jest.mock('js-cookie', () => ({
+  get: jest.fn(),
+}));
 
 const pageTestingHelper = new PageTestingHelper<applicationIntakesQuery>({
   pageComponent: ApplicationIntakes,
@@ -298,6 +330,32 @@ describe('The Application intakes admin page', () => {
     });
   });
 
+  it('should handle delete intake correctly when time machine is set', async () => {
+    pageTestingHelper.loadQuery(mockTimeMachineQueryPayload);
+    cookie.get.mockReturnValue('2021-01-01');
+    pageTestingHelper.renderPage();
+
+    const deleteButton = screen.getByRole('button', {
+      name: 'Delete',
+    });
+
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('archiveIntakeMutation', {
+      input: {
+        intakeNumber: 1,
+      },
+    });
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {},
+      });
+    });
+  });
+
   it('should edit an intake', async () => {
     pageTestingHelper.loadQuery(mockEditQueryPayload);
     pageTestingHelper.renderPage();
@@ -365,6 +423,30 @@ describe('The Application intakes admin page', () => {
         data: {},
       });
     });
+  });
+
+  it('should handle edit intake correctly when time machine is set', async () => {
+    pageTestingHelper.loadQuery(mockTimeMachineQueryPayload);
+    cookie.get.mockReturnValue('2021-03-01');
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getByTestId('edit-intake');
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const startDateInput = screen.getAllByPlaceholderText(
+      'YYYY-MM-DD hh:mm aa'
+    )[0];
+    const endDateInput = screen.getAllByPlaceholderText(
+      'YYYY-MM-DD hh:mm aa'
+    )[1];
+    const descriptionInput = screen.getByTestId('root_description');
+
+    expect(startDateInput).toBeVisible();
+    expect(endDateInput).toBeVisible();
+    expect(descriptionInput).toBeVisible();
   });
 
   it('should not overlap the next intake when editing an intake', async () => {

@@ -1,5 +1,6 @@
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import cookie from 'js-cookie';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faPen } from '@fortawesome/free-solid-svg-icons';
@@ -135,7 +136,11 @@ const Intake: React.FC<IntakeProps> = ({
     DateTime.DATETIME_FULL
   );
 
-  const currentDateTime = DateTime.now();
+  const mockedDateCookie = cookie.get('mocks.mocked_date');
+  const currentDateTime = mockedDateCookie
+    ? DateTime.fromJSDate(new Date(Date.parse(mockedDateCookie)))
+    : DateTime.now();
+
   const startDateTime = DateTime.fromISO(openTimestamp);
   const endDateTime = DateTime.fromISO(closeTimestamp);
   const isAllowedDelete = currentDateTime <= startDateTime;
