@@ -88,6 +88,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           organizationName
           ccbcNumber
           projectName
+          intakeNumber
           rowId
           externalStatus
           ...ChangeStatus_query
@@ -119,7 +120,22 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
     organizationName,
     projectName,
     rowId,
+    intakeNumber,
   } = applicationByRowId;
+
+  const isInternalIntake = intakeNumber === 99;
+
+  if (isInternalIntake) {
+    // you could use splice to remove the element in place, but if the component refreshses it'll remove more than intended
+    // easier to just assign it the new value
+    disabledStatusList.received = [
+      'assessment',
+      'conditionally_approved',
+      'approved',
+      'complete',
+      'cancelled',
+    ];
+  }
 
   return (
     <StyledCallout>

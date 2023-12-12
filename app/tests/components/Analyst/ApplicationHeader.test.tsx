@@ -3,6 +3,7 @@ import compiledQuery, {
   ApplicationHeaderTestQuery,
 } from '__generated__/ApplicationHeaderTestQuery.graphql';
 import { act, screen, fireEvent } from '@testing-library/react';
+import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import ApplicationHeader from 'components/Analyst/ApplicationHeader';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
@@ -19,6 +20,8 @@ const mockQueryPayload = {
         ccbcNumber: 'CCBC-10001',
         organizationName: 'test org',
         projectName: 'test project',
+        analystStatus: 'received',
+        intakeNumber: 1,
         formData: {
           jsonData: {},
           formByFormSchemaId: {
@@ -47,6 +50,54 @@ const mockQueryPayload = {
             familyName: '2',
           },
         ],
+      },
+      allApplicationStatusTypes: {
+        ...allApplicationStatusTypes,
+      },
+    };
+  },
+};
+
+const mockInternalIntakeQueryPayload = {
+  Query() {
+    return {
+      applicationByRowId: {
+        ccbcNumber: 'CCBC-10001',
+        organizationName: 'test org',
+        projectName: 'test project',
+        analystStatus: 'received',
+        intakeNumber: 99,
+        formData: {
+          jsonData: {},
+          formByFormSchemaId: {
+            jsonSchema: {},
+          },
+        },
+        rowId: 1,
+        applicationPackagesByApplicationId: {
+          nodes: [
+            {
+              package: 1,
+            },
+          ],
+        },
+      },
+      allAnalysts: {
+        nodes: [
+          {
+            rowId: 1,
+            givenName: 'Test',
+            familyName: '1',
+          },
+          {
+            rowId: 2,
+            givenName: 'Test',
+            familyName: '2',
+          },
+        ],
+      },
+      allApplicationStatusTypes: {
+        ...allApplicationStatusTypes,
       },
     };
   },
@@ -181,5 +232,24 @@ describe('The application header component', () => {
     expect(screen.getByLabelText('External Status')).toBeVisible();
     expect(screen.getByLabelText('Package')).toBeVisible();
     expect(screen.getByLabelText('Lead')).toBeVisible();
+  });
+
+  it('when received status application cannot go to recommendation', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const recommendationOptionInternalIntake =
+      screen.getByText('Recommendation');
+
+    expect(recommendationOptionInternalIntake).toBeDisabled();
+  });
+
+  it('when received status internal application can go to recommendation', () => {
+    componentTestingHelper.loadQuery(mockInternalIntakeQueryPayload);
+    componentTestingHelper.renderComponent();
+
+    const recommendationOptionInternalIntake =
+      screen.getByText('Recommendation');
+    expect(recommendationOptionInternalIntake).toBeEnabled();
   });
 });
