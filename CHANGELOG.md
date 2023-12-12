@@ -1,3 +1,10 @@
+## [1.125.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.125.0...v1.125.1) (2023-12-12)
+
+### Bug Fixes
+
+- fix intake edit and delete with time machine ([86a4d23](https://github.com/bcgov/CONN-CCBC-portal/commit/86a4d236b6877a2f51b8df54a4bf22f3a71738a0))
+- use unique key on StyledFile and for Fragment ([21e16e3](https://github.com/bcgov/CONN-CCBC-portal/commit/21e16e3b9aea3de5e990a908946a282dc59fffda))
+
 # [1.125.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.124.0...v1.125.0) (2023-12-08)
 
 ### Features
