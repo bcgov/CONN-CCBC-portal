@@ -66,7 +66,7 @@ const FileWidget: React.FC<WidgetProps> = ({
         const attachments = rfi?.attachments?.nodes;
 
         return (
-          <StyledFile key={rfi}>
+          <StyledFile key={rfi.id}>
             {rfiFiles[fieldName]?.map((el, index) => {
               // loop through the list of files for the current field
               const isSingleFile = !options?.allowMultipleFiles;
@@ -81,9 +81,8 @@ const FileWidget: React.FC<WidgetProps> = ({
                   DateTime.fromISO(attachmentData.createdAt).toLocaleString(
                     DateTime.DATETIME_MED
                   ));
-
               return (
-                <>
+                <React.Fragment key={el.uuid}>
                   {isDisplayIcon ? (
                     <StyledIconDiv>
                       <FontAwesomeIcon
@@ -115,7 +114,7 @@ const FileWidget: React.FC<WidgetProps> = ({
                       <span>{fileDate}</span>
                     </StyledDetails>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
           </StyledFile>
