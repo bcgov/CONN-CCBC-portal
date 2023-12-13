@@ -143,9 +143,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         }
         allApplications(
           filter: {
-            analystStatus: { 
-              in: ["received", "screening", "assessment"] 
-            }
+            analystStatus: { in: ["received", "screening", "assessment"] }
           }
         ) {
           edges {
