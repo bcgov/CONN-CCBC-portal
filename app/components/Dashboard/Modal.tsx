@@ -79,7 +79,7 @@ const WithdrawModal = ({ application, setApplication }) => {
         <StyledContent>
           <p>
             Applications submitted are deemed as property of BC. Withdrawing
-            this application will remove it from consideration for Connected
+            this application will remove it from consideration for Connecting
             Communities BC funding program. You will not be able to re-submit
             the application. If you would like to re-submit, you must start a
             new application.
