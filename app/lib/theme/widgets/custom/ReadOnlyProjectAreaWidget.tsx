@@ -12,7 +12,6 @@ export const StyledValue = styled('div')`
 `;
 
 const StyledError = styled('div')`
-  color: #e71f1f;
   font-weight: 700;
 `;
 
@@ -22,7 +21,7 @@ const ReadOnlyProjectAreaWidget: React.FC<WidgetProps> = ({ formContext }) => {
   return (
     <StyledContainer>
       <StyledError>
-        {`Please note that we are only accepting applications for Zones ${projectAreas?.toString()} in this intake.`}{' '}
+        {`Note: Intake 3 is currently open for project applications in selected areas of interest within Zones ${projectAreas?.toString()} and/or projects supported or led by First Nations in any of the 14 Zones.`}{' '}
         <br />
       </StyledError>
     </StyledContainer>

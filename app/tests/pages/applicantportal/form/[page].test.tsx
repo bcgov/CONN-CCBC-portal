@@ -210,7 +210,7 @@ describe('The form page', () => {
 
     expect(
       screen.getByText(
-        'Please note that we are only accepting applications for Zones 1,2,3,4,5 in this intake.'
+        'Note: Intake 3 is currently open for project applications in selected areas of interest within Zones 1,2,3,4,5 and/or projects supported or led by First Nations in any of the 14 Zones.'
       )
     ).toBeInTheDocument();
 
