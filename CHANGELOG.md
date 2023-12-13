@@ -1,3 +1,17 @@
+# [1.126.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.125.0...v1.126.0) (2023-12-13)
+
+### Bug Fixes
+
+- change withdrawal modal statement ([dce2437](https://github.com/bcgov/CONN-CCBC-portal/commit/dce24377f3c95d1156043d2a6d43d76d730fe0f1))
+- fix intake edit and delete with time machine ([86a4d23](https://github.com/bcgov/CONN-CCBC-portal/commit/86a4d236b6877a2f51b8df54a4bf22f3a71738a0))
+- handle error when awaiting fetch ([ee632aa](https://github.com/bcgov/CONN-CCBC-portal/commit/ee632aadfdefa1679b772af0ce6530d9dff154f6))
+- use autoSelectFamily as possible fix for error concerning bad ipv6 ([2c8473e](https://github.com/bcgov/CONN-CCBC-portal/commit/2c8473e86942c147bd0148efabcd56d0429ecccd))
+- use unique key on StyledFile and for Fragment ([21e16e3](https://github.com/bcgov/CONN-CCBC-portal/commit/21e16e3b9aea3de5e990a908946a282dc59fffda))
+
+### Features
+
+- internal intakes allow analyst to jump straight to recommendation ([b0d8c4e](https://github.com/bcgov/CONN-CCBC-portal/commit/b0d8c4e2b8f79a1e673ab2dab2850e2f3eb7350a))
+
 # [1.125.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.124.0...v1.125.0) (2023-12-08)
 
 ### Features
