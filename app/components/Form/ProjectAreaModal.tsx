@@ -39,7 +39,12 @@ const projectAreaModal = ({
           this application in subsequent intakes
         </p>
         <StyledFlex>
-          <Button onClick={() => setProjectAreaModalOpen(false)}>Ok</Button>
+          <Button
+            data-testid="project-modal-ok"
+            onClick={() => setProjectAreaModalOpen(false)}
+          >
+            Ok
+          </Button>
         </StyledFlex>
       </StyledContainer>
     </Modal>

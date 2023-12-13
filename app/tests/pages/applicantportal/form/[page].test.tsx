@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { NextPageContext } from 'next';
 import { schema, schemaV2 } from 'formSchema';
+import userEvent from '@testing-library/user-event';
 import * as moduleApi from '@growthbook/growthbook-react';
 import { withRelayOptions } from '../../../../pages/applicantportal/form/[id]/success';
 import FormPage from '../../../../pages/applicantportal/form/[id]/[page]';
@@ -48,6 +49,14 @@ const mockForceLatestSchema: moduleApi.FeatureResult<moduleApi.JSONValue> = {
   on: null,
   off: null,
   ruleId: 'draft_apps_use_latest_schema',
+};
+
+const mockAcceptedZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
+  value: '1,2,3,4,5',
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'intake_zones',
 };
 
 const pageTestingHelper = new PageTestingHelper<PageQuery>({
@@ -187,5 +196,39 @@ describe('The form page', () => {
     );
 
     expect(estimatedProjectEmployment).toBeNull();
+  });
+
+  it('shows accepted project areas and handles modal', async () => {
+    pageTestingHelper.setMockRouterValues({
+      query: { id: '1', page: '2' },
+    });
+
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(
+        'Please note that we are only accepting applications for Zones 1,2,3,4,5 in this intake.'
+      )
+    ).toBeInTheDocument();
+
+    const areas = screen.getAllByLabelText(
+      'Referring to the project zones (application guide Annex 6), which zone(s) will this project be conducted in?'
+    );
+    expect(areas).toHaveLength(14);
+
+    await userEvent.click(areas[5]);
+
+    expect(
+      screen.getByText(
+        'You may continue to edit this application, however please note that you will not be able to submit it during this intake. You may submit this application in subsequent intakes'
+      )
+    ).toBeInTheDocument();
+
+    const modalOkButton = screen.getByTestId('project-modal-ok');
+
+    await userEvent.click(modalOkButton);
   });
 });
