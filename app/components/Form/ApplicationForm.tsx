@@ -342,8 +342,6 @@ const ApplicationForm: React.FC<Props> = ({
         isProjectAreaOpen
       );
 
-    if (sectionName === 'projectArea') return isProjectAreaOpen;
-
     return true;
   }, [
     sectionName,
