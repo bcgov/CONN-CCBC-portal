@@ -143,8 +143,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         }
         allApplications(
           filter: {
-            status: {
-              in: ["received", "screening", "assessment", "recommendation"]
+            analystStatus: { 
+              in: ["received", "screening", "assessment"] 
             }
           }
         ) {
@@ -161,7 +161,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               }
               organizationName
               package
-              status
+              analystStatus
               ccbcNumber
               rowId
               projectName
