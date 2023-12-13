@@ -10,7 +10,7 @@
     "build:server": "tsc --project tsconfig.server.json",
     "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
     "build:persisted-operations": "mkdir -p .persisted_operations && node utils/addToPersistedOperations.js",
-    "start": "NODE_ENV=production node --unhandled-rejections=strict dist/server.js",
+    "start": "NODE_ENV=production node --unhandled-rejections=strict --enable-network-family-autoselection dist/server.js",
     "lint": "next lint",
     "relay": "mkdir -p __generated__ && relay-compiler",
     "pretest": "yarn run build:relay",
