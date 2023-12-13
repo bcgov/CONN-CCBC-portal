@@ -34,9 +34,9 @@ const projectAreaModal = ({
     >
       <StyledContainer>
         <p>
-          You may continue to edit this application, however please note that
-          you will not be able to submit it during this intake. You may submit
-          this application in subsequent intakes
+          You have selected a zone that is not within the areas of interest for
+          intake 3. You may continue editing this application, but please be
+          aware that you will not be able to submit it during this intake.
         </p>
         <StyledFlex>
           <Button
