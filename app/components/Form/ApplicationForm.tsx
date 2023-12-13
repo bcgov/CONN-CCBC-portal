@@ -339,7 +339,7 @@ const ApplicationForm: React.FC<Props> = ({
         jsonData?.review?.acknowledgeIncomplete &&
         !isSubmitted &&
         isEditable &&
-        isProjectAreaOpen
+        !isProjectAreaOpen
       );
 
     return true;
