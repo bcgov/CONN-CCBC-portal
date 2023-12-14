@@ -31,12 +31,15 @@ const growthbook = new GrowthBook();
 const { publicRuntimeConfig } = getConfig();
 // Using convict to declare it but using nextjs public env due to convict fs import
 const growthbookUrl = `https://cdn.growthbook.io/api/features/${publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY}`;
-
-await fetch(growthbookUrl)
-  .then((res) => res.json())
-  .then((res) => {
-    growthbook.setFeatures(res.features);
-  });
+try {
+  await fetch(growthbookUrl)
+    .then((res) => res.json())
+    .then((res) => {
+      growthbook.setFeatures(res.features);
+    });
+} catch (err) {
+  Sentry.captureException(err);
+}
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const relayProps = getRelayProps(pageProps, initialPreloadedQuery);
@@ -60,12 +63,17 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   useEffect(() => {
     const fetchGrowthbook = async () => {
-      const data = await fetch(growthbookUrl)
-        .then((res) => res.json())
-        .then((res) => {
-          growthbook.setFeatures(res.features);
-        });
-      return data;
+      try {
+        const data = await fetch(growthbookUrl)
+          .then((res) => res.json())
+          .then((res) => {
+            growthbook.setFeatures(res.features);
+          });
+        return data;
+      } catch (err) {
+        Sentry.captureException(err);
+      }
+      return null;
     };
     fetchGrowthbook();
   }, [router.asPath]);
