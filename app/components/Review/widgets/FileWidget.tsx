@@ -62,11 +62,15 @@ const FileWidget: React.FC<WidgetProps> = ({
         const isFileField =
           rfiFiles && Object.keys(rfiFiles).includes(fieldName);
         if (!isFileField) return null;
+        const fileFields = rfiFiles[fieldName] || [];
+        // Sorting the file fields by id, latest file will always have higher id
+        // not sorting by uploadedAt as it is not available for all files
+        const sortedFileFields = fileFields.slice().sort((a, b) => b.id - a.id);
         const attachments = rfi?.attachments?.nodes;
 
         return (
           <StyledFile key={rfi.id}>
-            {rfiFiles[fieldName]?.map((el, index) => {
+            {sortedFileFields?.map((el, index) => {
               // loop through the list of files for the current field
               const isSingleFile = !options?.allowMultipleFiles;
               const isDisplayIcon =
