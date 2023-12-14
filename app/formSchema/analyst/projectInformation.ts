@@ -45,7 +45,7 @@ const projectInformation: JSONSchema7 = {
               type: 'string',
             },
             finalizedMapUpload: {
-              title: 'Upload the finalized map, if available',
+              title: 'Upload finalized spatial data (kmz)',
               type: 'string',
             },
             sowValidationErrors: {

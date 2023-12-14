@@ -86,9 +86,16 @@ const mockDataQueryPayload = {
           finalizedMapUpload: [
             {
               id: 10,
-              name: 'test.pdf',
-              size: 0,
-              type: 'application/pdf',
+              name: 'mapTest.kmz',
+              size: 2819,
+              type: '',
+              uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
+            },
+            {
+              id: 15,
+              name: 'mapTest_2.kmz',
+              size: 2819,
+              type: '',
               uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
             },
           ],

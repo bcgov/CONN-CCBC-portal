@@ -29,6 +29,10 @@ const projectInformationUiSchema = {
   },
   finalizedMapUpload: {
     'ui:widget': 'FileWidget',
+    'ui:options': {
+      fileTypes: '.kmz',
+      allowMultipleFiles: true,
+    },
   },
   sowValidationErrors: {
     'ui:widget': 'HiddenWidget',
