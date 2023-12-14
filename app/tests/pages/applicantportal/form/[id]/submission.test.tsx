@@ -8,6 +8,15 @@ import userEvent from '@testing-library/user-event';
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 import { schema } from 'formSchema';
 import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
+import * as moduleApi from '@growthbook/growthbook-react';
+
+const mockAcceptedZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
+  value: '1,2,3,4,5',
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'intake_zones',
+};
 
 const testQuery = graphql`
   query submissionFormPageTestQuery @relay_test_operation {
@@ -70,6 +79,9 @@ const submissionPayload = {
             submissionDate: '2022-09-27',
             submissionCompletedBy: 'test',
             submissionTitle: 'test',
+          },
+          projectArea: {
+            geographicArea: [1],
           },
           review: {
             acknowledgeIncomplete: true,
@@ -194,6 +206,7 @@ describe('The submission form page', () => {
   });
 
   it('submission page submit button is enabled on when all inputs filled', () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
     componentTestingHelper.loadQuery(submissionPayload);
     componentTestingHelper.renderComponent((data) => ({
       application: data.application,
@@ -220,12 +233,16 @@ describe('The submission form page', () => {
   });
 
   it('waits for the mutations to be completed before redirecting to the success page', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
     const jsonData = {
       submission: {
         submissionCompletedFor: 'Bob Loblaw',
         submissionDate: '2022-08-10',
         submissionCompletedBy: 'Bob Loblaw',
         submissionTitle: 'some title',
+      },
+      projectArea: {
+        geographicArea: [1],
       },
       review: {
         acknowledgeIncomplete: true,
@@ -353,6 +370,9 @@ describe('The submission form page', () => {
               submissionDate: '2022-09-27',
               submissionCompletedBy: 'test',
               submissionTitle: 'test',
+            },
+            projectArea: {
+              geographicArea: [1],
             },
             review: {
               acknowledgeIncomplete: true,

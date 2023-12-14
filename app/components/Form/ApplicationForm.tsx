@@ -184,7 +184,12 @@ const ApplicationForm: React.FC<Props> = ({
     query
   );
 
-  const forceLatestSchema = useFeature('draft_apps_use_latest_schema').value;
+  const draftAppsUseLatestSchema = useFeature('draft_apps_use_latest_schema');
+  const forceLatestSchema =
+    draftAppsUseLatestSchema?.value &&
+    typeof draftAppsUseLatestSchema.value === 'boolean'
+      ? draftAppsUseLatestSchema?.value
+      : null;
   const acceptedProjectAreas = useFeature('intake_zones');
   const acceptedProjectAreasArray =
     typeof acceptedProjectAreas !== 'undefined' &&
