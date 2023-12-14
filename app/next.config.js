@@ -12,6 +12,11 @@ const moduleExports = {
         destination: '/applicantportal',
         permanent: true,
       },
+      {
+        source: `https://www.connectingcommunitiesbc.ca/:path*`,
+        destination: `https://connectingcommunitiesbc.ca/:path*`,
+        permanent: true,
+      },
     ];
   },
   async headers() {
