@@ -13,7 +13,8 @@ const moduleExports = {
         permanent: true,
       },
       {
-        source: `https://www.connectingcommunitiesbc.ca/:path*`,
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.connectingcommunitiesbc.ca' }],
         destination: `https://connectingcommunitiesbc.ca/:path*`,
         permanent: true,
       },
