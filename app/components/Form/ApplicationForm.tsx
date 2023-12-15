@@ -394,7 +394,9 @@ const ApplicationForm: React.FC<Props> = ({
       setProjectAreaOpen(!projectAreaAccepted);
       setProjectAreaModalOpen(
         !projectAreaAccepted &&
-          typeof newFormSectionData?.geographicArea[0] !== 'undefined'
+          typeof newFormSectionData?.geographicArea[0] !== 'undefined' &&
+          newFormSectionData?.geographicArea[0] !==
+            jsonData.projectArea?.geographicArea[0]
       );
     }
 
