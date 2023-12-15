@@ -17,7 +17,7 @@ jobs:
     secrets: inherit
 
   refresh-pods:
-    uses: ./github/workflows/refresh-pods.yaml
+    uses: ./.github/workflows/refresh-pods.yaml
     secrets: inherit
 
   test-code:
