@@ -19,6 +19,7 @@ jobs:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+          namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
           insecure_skip_tls_verify: true
       - name: Restart rollout
         run: |
