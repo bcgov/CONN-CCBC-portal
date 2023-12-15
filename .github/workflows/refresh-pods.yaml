@@ -1,5 +1,4 @@
 name: Refresh pods
-description: 'Restart the rollouts on OpenShift to refresh the pods'
 
 on:
   workflow_call:
