@@ -360,7 +360,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
               filesArray={
                 record.json_data?.main?.upload?.finalizedMapUpload || []
               }
-              title="Finalized map"
+              title="Finalized spatial data"
               tableTitle={false}
             />
           </>

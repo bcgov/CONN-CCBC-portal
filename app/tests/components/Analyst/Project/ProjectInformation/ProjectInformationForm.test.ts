@@ -86,7 +86,14 @@ const mockDataQueryPayload = {
           finalizedMapUpload: [
             {
               id: 10,
-              name: 'test.pdf',
+              name: 'test1.kmz',
+              size: 0,
+              type: 'application/pdf',
+              uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
+            },
+            {
+              id: 10,
+              name: 'test2.kmz',
               size: 0,
               type: 'application/pdf',
               uuid: '4120e972-d2b3-40f0-a540-e2a57721d962',
@@ -265,7 +272,8 @@ describe('The ProjectInformation form', () => {
 
     expect(screen.getAllByText('SoW')[0]).toBeInTheDocument();
 
-    expect(screen.getAllByText('Map')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('test1.kmz')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('test2.kmz')[0]).toBeInTheDocument();
 
     expect(screen.getByText('Wireless SoW')).toBeInTheDocument();
 

@@ -34,7 +34,7 @@ describe('The analyst history page', () => {
     cy.contains('Statement of Work Excel');
     cy.contains('SOW Wireless Table');
     cy.contains('Funding agreement');
-    cy.contains('Finalized map');
+    cy.contains('Finalized spatial data');
 
     // Announcement
     cy.contains('announcement');

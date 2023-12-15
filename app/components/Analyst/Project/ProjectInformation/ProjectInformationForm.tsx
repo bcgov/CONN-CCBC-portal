@@ -458,7 +458,7 @@ const ProjectInformationForm: React.FC<Props> = ({
             isChangeRequest
             isFormEditMode={isFormEditMode}
             isSowUploadError={jsonData?.isSowUploadError}
-            map={updatedMapUpload?.[0]}
+            maps={updatedMapUpload}
             sow={statementOfWorkUpload?.[0]}
           />
         );
@@ -475,7 +475,7 @@ const ProjectInformationForm: React.FC<Props> = ({
           }}
           isFormEditMode={isFormEditMode}
           isSowUploadError={projectInformationData?.isSowUploadError}
-          map={projectInformationData?.finalizedMapUpload?.[0]}
+          maps={projectInformationData?.finalizedMapUpload}
           sow={projectInformationData?.statementOfWorkUpload?.[0]}
           fundingAgreement={projectInformationData?.fundingAgreementUpload?.[0]}
           wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
