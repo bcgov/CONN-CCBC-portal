@@ -2,6 +2,8 @@
 
 This guide outlines the process for publishing a hotfix, starting with receiving explicit instruction from the Product Owner (PO) via email.
 
+If the fix for the hotfix branch includes a database change, please ensure that you have done so according to [this guide](./database_development_hotfix.md). Please be sure when integrating the change into main to include an idempotent sqitch change.
+
 ## Step 1: Rebase Feature or Bugfix Branch off of the "hotfix" Branch
 
 Once you receive explicit instruction from the PO to publish a hotfix, follow these steps:
