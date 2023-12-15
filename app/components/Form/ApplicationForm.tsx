@@ -356,6 +356,7 @@ const ApplicationForm: React.FC<Props> = ({
     jsonData,
     isSubmitted,
     isEditable,
+    isProjectAreaOpen,
   ]);
 
   if (subschemaArray.length < pageNumber) {
