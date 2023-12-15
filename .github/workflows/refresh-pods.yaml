@@ -1,0 +1,23 @@
+name: Refresh pods
+description: Restart the rollouts on OpenShift to refresh the pods
+
+on:
+  workflow_call:
+    secrets: [OPENSHIFT_SERVER, OPENSHIFT_TOKEN, OPENSHIFT_APP_NAMESPACE]
+
+jobs:
+  refresh-dev:
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - name: Authenticate, set context and run deploy script
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ inputs.openshift_server_url }}
+          openshift_token: ${{ inputs.openshift_token }}
+          openshift_app_namespace: ${{ inputs.openshift_app_namespace }}
+          insecure_skip_tls_verify: true
+      - name: Restart rollout
+        run: |
+          oc rollout restart deployment/ccbc
