@@ -290,6 +290,7 @@ const ApplicationForm: React.FC<Props> = ({
     rowId,
     jsonSchema,
     isProjectAreaOpen,
+    acceptedProjectAreasArray,
   ]);
 
   const updateAreAllAcknowledgementFieldsSet = (
