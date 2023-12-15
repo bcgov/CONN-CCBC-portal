@@ -138,7 +138,7 @@ interface Props {
   descriptionOfChanges?: string;
   fundingAgreement?: any;
   levelOfAmendment?: string;
-  maps?: any;
+  maps?: Array<any>;
   onFormEdit?: any;
   isChangeRequest?: boolean;
   isFormEditMode?: boolean;
@@ -217,16 +217,15 @@ const ReadOnlyView: React.FC<Props> = ({
           )}
         </StyledColumn>
         <StyledColumn>
-          {maps &&
-            maps.map((mapItem) => (
-              <DownloadLink
-                key={mapItem.uuid}
-                uuid={mapItem.uuid}
-                fileName={mapItem.name}
-              >
-                <FileHeader icon={faMap} title={mapItem.name} />
-              </DownloadLink>
-            ))}
+          {maps?.map((mapItem) => (
+            <DownloadLink
+              key={mapItem.uuid}
+              uuid={mapItem.uuid}
+              fileName={mapItem.name}
+            >
+              <FileHeader icon={faMap} title={mapItem.name} />
+            </DownloadLink>
+          ))}
           {wirelessSow && (
             <DownloadLink uuid={wirelessSow.uuid} fileName={wirelessSow.name}>
               <FileHeader icon={faFileExcel} title="Wireless SoW" />
