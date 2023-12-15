@@ -36,6 +36,8 @@ on:
       VAULT_TOKEN: { required: true }
       VAULT_ADDR: { required: true }
       VAULT_NAMESPACE: { required: true }
+      RENOVATE_GITHUB_TOKEN: { required: false }
+      RENOVATE_PRIVATE_KEY: { required: false }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -345,3 +347,10 @@ jobs:
         with:
           generate_release_notes: true
           tag_name: ${{ steps.fetch_tag.outputs.tagVersion }}
+
+  create_hotfix_branch:
+    needs: ['deploy-to-openshift-production']
+    uses: ./.github/workflows/recreate-hotfix.yaml
+    secrets:
+      RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+      RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}

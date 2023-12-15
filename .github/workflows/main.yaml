@@ -155,3 +155,5 @@ jobs:
       VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE}}
+      RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+      RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
