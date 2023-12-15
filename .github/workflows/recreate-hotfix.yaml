@@ -1,8 +1,10 @@
 name: Recreate Hotfix Branch on Release
 
 on:
-  release:
-    types: [published]
+  workflow_call:
+    secrets:
+      RENOVATE_GITHUB_TOKEN: { required: true }
+      RENOVATE_PRIVATE_KEY: { required: true }
 
 jobs:
   create_hotfix_branch:
@@ -11,7 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
           token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       - name: Set up Git and import GPG key
         env:
