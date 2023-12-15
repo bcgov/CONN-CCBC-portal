@@ -12,6 +12,12 @@ const moduleExports = {
         destination: '/applicantportal',
         permanent: true,
       },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.connectingcommunitiesbc.ca' }],
+        destination: `https://connectingcommunitiesbc.ca/:path*`,
+        permanent: true,
+      },
     ];
   },
   async headers() {
