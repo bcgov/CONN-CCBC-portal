@@ -32,6 +32,7 @@ const ReviewTheme: ThemeProps = {
     NumberWidget: DefaultWidget,
     NumericStringWidget: DefaultWidget,
     ReadOnlyWidget: DefaultWidget,
+    ReadOnlyProjectAreaWidget: DefaultWidget,
   },
   ObjectFieldTemplate: ReviewObjectFieldTemplate,
   FieldTemplate: ReviewFieldTemplate,

@@ -34,6 +34,7 @@ import {
   schemaToSubschemasArray,
 } from '../../utils/schemaUtils';
 import ConflictModal from './ConflictModal';
+import ProjectAreaModal from './ProjectAreaModal';
 
 const verifyAllSubmissionsFilled = (formData?: SubmissionFieldsJSON) => {
   const isSubmissionCompletedByFilled =
@@ -183,7 +184,17 @@ const ApplicationForm: React.FC<Props> = ({
     query
   );
 
-  const forceLatestSchema = useFeature('draft_apps_use_latest_schema').value;
+  const draftAppsUseLatestSchema = useFeature('draft_apps_use_latest_schema');
+  const forceLatestSchema =
+    draftAppsUseLatestSchema?.value &&
+    typeof draftAppsUseLatestSchema.value === 'boolean'
+      ? draftAppsUseLatestSchema?.value
+      : null;
+  const acceptedProjectAreas = useFeature('intake_zones');
+  const acceptedProjectAreasArray =
+    typeof acceptedProjectAreas?.value === 'string'
+      ? acceptedProjectAreas?.value?.split(',') || []
+      : [];
   const { openIntake } = applicationFormQuery;
   const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
   const latestFormSchemaId = applicationFormQuery.allForms.nodes[0].rowId;
@@ -238,7 +249,13 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [savingError, setSavingError] = useState(null);
   const [savedAsDraft, setSavedAsDraft] = useState(false);
+  const [projectAreaModalOpen, setProjectAreaModalOpen] = useState(false);
 
+  const [isProjectAreaOpen, setProjectAreaOpen] = useState(
+    !acceptedProjectAreasArray.includes(
+      jsonData?.projectArea?.geographicArea[0]?.toString()
+    )
+  );
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
     useState(verifyAllAcknowledgementsChecked(jsonData.acknowledgements));
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
@@ -261,6 +278,8 @@ const ApplicationForm: React.FC<Props> = ({
       rowId,
       finalUiSchema,
       setTemplateData,
+      isProjectAreaOpen,
+      acceptedProjectAreasArray,
     };
   }, [
     openIntake,
@@ -270,6 +289,8 @@ const ApplicationForm: React.FC<Props> = ({
     areAllAcknowledgementsChecked,
     rowId,
     jsonSchema,
+    isProjectAreaOpen,
+    acceptedProjectAreasArray,
   ]);
 
   const updateAreAllAcknowledgementFieldsSet = (
@@ -303,6 +324,7 @@ const ApplicationForm: React.FC<Props> = ({
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';
   const isAcknowledgementPage = sectionName === 'acknowledgements';
+  const isProjectAreaPage = sectionName === 'projectArea';
   const isOtherFundingSourcesPage = sectionName === 'otherFundingSources';
 
   const isSubmitEnabled = useMemo(() => {
@@ -320,7 +342,8 @@ const ApplicationForm: React.FC<Props> = ({
         areAllAcknowledgementsChecked &&
         jsonData?.review?.acknowledgeIncomplete &&
         !isSubmitted &&
-        isEditable
+        isEditable &&
+        !isProjectAreaOpen
       );
 
     return true;
@@ -333,6 +356,7 @@ const ApplicationForm: React.FC<Props> = ({
     jsonData,
     isSubmitted,
     isEditable,
+    isProjectAreaOpen,
   ]);
 
   if (subschemaArray.length < pageNumber) {
@@ -357,9 +381,24 @@ const ApplicationForm: React.FC<Props> = ({
       return;
     }
 
-    if (isAcknowledgementPage)
+    if (isAcknowledgementPage) {
       updateAreAllAcknowledgementFieldsSet(newFormSectionData);
-    if (isSubmitPage) updateAreAllSubmissionFieldsSet(newFormSectionData);
+    }
+    if (isSubmitPage) {
+      updateAreAllSubmissionFieldsSet(newFormSectionData);
+    }
+    if (isProjectAreaPage) {
+      const projectAreaAccepted = acceptedProjectAreasArray.includes(
+        newFormSectionData?.geographicArea[0]?.toString()
+      );
+      setProjectAreaOpen(!projectAreaAccepted);
+      setProjectAreaModalOpen(
+        !projectAreaAccepted &&
+          typeof newFormSectionData?.geographicArea[0] !== 'undefined' &&
+          newFormSectionData?.geographicArea[0] !==
+            jsonData.projectArea?.geographicArea[0]
+      );
+    }
 
     const calculatedSectionData = calculate(
       newFormSectionData,
@@ -537,6 +576,10 @@ const ApplicationForm: React.FC<Props> = ({
         />
       </FormBase>
       <ConflictModal id="data-out-of-sync" />
+      <ProjectAreaModal
+        projectAreaModalOpen={projectAreaModalOpen}
+        setProjectAreaModalOpen={setProjectAreaModalOpen}
+      />
     </>
   );
 };

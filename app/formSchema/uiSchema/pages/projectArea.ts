@@ -2,12 +2,19 @@ import { GeographicArea } from '../../../components/Form/CustomTitles';
 
 const projectArea = {
   'ui:order': [
+    'acceptedGeographicArea',
     'geographicArea',
     'projectZoneMap',
     'projectSpanMultipleLocations',
     'provincesTerritories',
   ],
   'ui:title': '',
+  acceptedGeographicArea: {
+    'ui:widget': 'ReadOnlyProjectAreaWidget',
+    'ui:options': {
+      label: false,
+    },
+  },
   geographicArea: {
     'ui:widget': 'CheckboxesWidget',
     'ui:options': {
