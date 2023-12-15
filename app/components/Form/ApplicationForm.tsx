@@ -192,8 +192,6 @@ const ApplicationForm: React.FC<Props> = ({
       : null;
   const acceptedProjectAreas = useFeature('intake_zones');
   const acceptedProjectAreasArray =
-    typeof acceptedProjectAreas !== 'undefined' &&
-    acceptedProjectAreas?.value !== null &&
     typeof acceptedProjectAreas?.value === 'string'
       ? acceptedProjectAreas?.value?.split(',') || []
       : [];
