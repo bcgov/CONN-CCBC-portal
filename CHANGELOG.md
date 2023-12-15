@@ -1,3 +1,11 @@
+# [1.127.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.126.0...v1.127.0) (2023-12-15)
+
+### Features
+
+- restrict intake to zones based on flag ([fded487](https://github.com/bcgov/CONN-CCBC-portal/commit/fded487c809b57808d60a65daa0cbe02ddcd425a))
+- show star for latest received rfi by field ([69fc9de](https://github.com/bcgov/CONN-CCBC-portal/commit/69fc9deb6a882032a556e7124e85377475be32d0))
+- sort rfi files on review page ([24b1f9a](https://github.com/bcgov/CONN-CCBC-portal/commit/24b1f9ac7e82ed9337c14d7699ef4412f54de35d))
+
 # [1.126.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.125.0...v1.126.0) (2023-12-14)
 
 ### Bug Fixes
