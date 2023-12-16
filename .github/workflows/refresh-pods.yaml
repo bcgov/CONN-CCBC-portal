@@ -40,3 +40,19 @@ jobs:
       - name: Restart rollout
         run: |
           oc rollout restart deployment/ccbc
+  refresh-prod:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - name: Authenticate, set context and run deploy script
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+          openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+          namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+          insecure_skip_tls_verify: true
+      - name: Restart rollout
+        run: |
+          oc rollout restart deployment/ccbc

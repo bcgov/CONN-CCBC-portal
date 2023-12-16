@@ -16,10 +16,6 @@ jobs:
     uses: ./.github/workflows/install-env.yaml
     secrets: inherit
 
-  refresh-pods:
-    uses: ./.github/workflows/refresh-pods.yaml
-    secrets: inherit
-
   test-code:
     needs: [install-env]
     uses: ./.github/workflows/test-code.yaml
