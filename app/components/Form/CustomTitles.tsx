@@ -1,4 +1,5 @@
 import Link from '@button-inc/bcgov-theme/Link';
+import { INTAKE_3_AREAS_OF_INTEREST } from 'data/externalConstants';
 
 const ProjectBenefits = (
   <div>
@@ -64,6 +65,30 @@ const GeographicArea = (
   </div>
 );
 
+const GeographicAreaNotice = (
+  <strong>
+    IMPORTANT: For this intake, CCBC is considering the following projects:
+    <ul>
+      <li>
+        Projects in certain areas of interest in the province (within zones 1,
+        2, 3, and 6) that remain underserved as outlined in maps in the{' '}
+        <Link
+          href={INTAKE_3_AREAS_OF_INTEREST}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          BC Data catalogue;
+        </Link>{' '}
+        and or
+      </li>
+      <li>
+        Projects that are First Nation-led or First Nation-supported in any area
+        of the province.
+      </li>
+    </ul>
+  </strong>
+);
+
 const SupportingDocuments = (
   <div>
     Please upload additional attachments. Please avoid using special characters
@@ -92,6 +117,7 @@ const GeographicCoverageMap = (
 export {
   GeographicArea,
   GeographicCoverageMap,
+  GeographicAreaNotice,
   IndigenousEntity,
   ProjectBenefits,
   SupportingDocuments,
