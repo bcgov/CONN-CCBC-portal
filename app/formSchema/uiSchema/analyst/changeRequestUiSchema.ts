@@ -67,6 +67,8 @@ const changeRequestUiSchema = {
     'ui:widget': 'FileWidget',
     'ui:options': {
       flexDirection: 'column',
+      fileTypes: '.kmz',
+      allowMultipleFiles: true,
     },
   },
 };

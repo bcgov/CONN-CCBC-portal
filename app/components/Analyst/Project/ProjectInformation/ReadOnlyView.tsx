@@ -138,7 +138,7 @@ interface Props {
   descriptionOfChanges?: string;
   fundingAgreement?: any;
   levelOfAmendment?: string;
-  map?: any;
+  maps?: Array<any>;
   onFormEdit?: any;
   isChangeRequest?: boolean;
   isFormEditMode?: boolean;
@@ -159,7 +159,7 @@ const ReadOnlyView: React.FC<Props> = ({
   isFormEditMode,
   isSowUploadError,
   levelOfAmendment,
-  map,
+  maps,
   onFormEdit,
   sow,
   title,
@@ -217,11 +217,15 @@ const ReadOnlyView: React.FC<Props> = ({
           )}
         </StyledColumn>
         <StyledColumn>
-          {map && (
-            <DownloadLink uuid={map.uuid} fileName={map.name}>
-              <FileHeader icon={faMap} title="Map" />
+          {maps?.map((mapItem) => (
+            <DownloadLink
+              key={mapItem.uuid}
+              uuid={mapItem.uuid}
+              fileName={mapItem.name}
+            >
+              <FileHeader icon={faMap} title={mapItem.name} />
             </DownloadLink>
-          )}
+          ))}
           {wirelessSow && (
             <DownloadLink uuid={wirelessSow.uuid} fileName={wirelessSow.name}>
               <FileHeader icon={faFileExcel} title="Wireless SoW" />

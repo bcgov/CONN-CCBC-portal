@@ -55,7 +55,7 @@ const changeRequest: JSONSchema7 = {
       type: 'string',
     },
     updatedMapUpload: {
-      title: 'Upload the updated map (optional)',
+      title: 'Upload updated spatial data (kmz)',
       type: 'string',
     },
   },
