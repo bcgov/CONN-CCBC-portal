@@ -21,12 +21,13 @@ const projectArea = {
       maxLength: 150,
       singleSelection: true,
       customTitle: true,
+      kmzLink: true,
     },
   },
   projectZoneMap: {
     'ui:widget': 'ZoneMapWidget',
     'ui:options': {
-      customTitle: true
+      customTitle: true,
     },
   },
   projectSpanMultipleLocations: {
