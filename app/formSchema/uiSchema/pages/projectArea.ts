@@ -1,4 +1,7 @@
-import { GeographicArea } from '../../../components/Form/CustomTitles';
+import {
+  GeographicArea,
+  GeographicAreaNotice,
+} from '../../../components/Form/CustomTitles';
 
 const projectArea = {
   'ui:order': [
@@ -10,6 +13,7 @@ const projectArea = {
     'provincesTerritories',
   ],
   'ui:title': '',
+  'ui:description': GeographicAreaNotice,
   acceptedGeographicArea: {
     'ui:widget': 'ReadOnlyProjectAreaWidget',
     'ui:options': {
