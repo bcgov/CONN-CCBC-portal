@@ -2,7 +2,6 @@ import { WidgetProps } from '@rjsf/core';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 import styled from 'styled-components';
 import kmzAndPdfLinks from 'data/zoneKmzLinksIntake3';
-import Link from 'next/link';
 
 const StyledLink = styled.a`
   color: ${(props) => props.theme.color.links};
