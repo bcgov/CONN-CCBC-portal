@@ -43,7 +43,7 @@ const ZoneMapWidget: React.FC<WidgetProps> = () => {
       .then((blob) => {
         const downloadLink = document.createElement('a');
         downloadLink.href = URL.createObjectURL(blob);
-        downloadLink.download = 'internet-blocking-map.pdf';
+        downloadLink.download = 'internet-zones.kmz';
 
         document.body.appendChild(downloadLink);
         downloadLink.click();
@@ -70,7 +70,14 @@ const ZoneMapWidget: React.FC<WidgetProps> = () => {
           data-testid="internet-blocking-map-download-link"
           onClick={handleDownload}
         >
-          Download
+          kmz
+        </StyledLink>
+        {' | '}
+        <StyledLink
+          href="/images/internet-blocking-map.png"
+          download="internet-blocking-map.png"
+        >
+          png
         </StyledLink>
         {showToast && (
           <Toast timeout={5000} type="error">
