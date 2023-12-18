@@ -6,9 +6,6 @@ on:
 jobs:
   clear-cache:
     uses: ./.github/workflows/cache.yaml
-  refresh-pods:
-    uses: ./github/workflows/refresh-pods.yaml
-    secrets: inherit
   main:
     needs: [clear-cache]
     uses: ./.github/workflows/main.yaml

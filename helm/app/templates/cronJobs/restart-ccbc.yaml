@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: restart-ccbc
+spec:
+  schedule: "0 2 * * *" # Run at 2 AM every day
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: restart-ccbc
+              image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
+              command:
+                - "/bin/sh"
+                - "-c"
+                - "oc rollout restart deployment/ccbc"
+          restartPolicy: OnFailure
+          serviceAccountName: ccbc-deployer
+          serviceAccount: ccbc-deployer
