@@ -1,11 +1,22 @@
 import Modal from 'components/Modal';
 import Button from '@button-inc/bcgov-theme/Button';
 import styled from 'styled-components';
+import { useFeature } from '@growthbook/growthbook-react';
 
-const projectAreaModal = ({
+const ProjectAreaModal = ({
   setProjectAreaModalOpen,
   projectAreaModalOpen,
 }) => {
+  // necessary to use? not sure
+  const acceptedIntakeZonesString = useFeature('intake_zones');
+  const acceptedIntakeZonesArray: string[] = acceptedIntakeZonesString.value
+    ?.split(',')
+    ?.map((e) => e.trim());
+  if (acceptedIntakeZonesArray?.length > 2) {
+    acceptedIntakeZonesArray[acceptedIntakeZonesArray.length - 1] = `or ${
+      acceptedIntakeZonesArray[acceptedIntakeZonesArray.length - 1]
+    } `;
+  }
   const StyledContainer = styled.div`
     text-align: center;
     max-width: 400px;
@@ -27,16 +38,17 @@ const projectAreaModal = ({
     <Modal
       id="project-area-warning"
       open={projectAreaModalOpen}
-      title="Submission Update"
+      title="Zone Alert"
       onClose={() => {
         setProjectAreaModalOpen(false);
       }}
     >
       <StyledContainer>
         <p>
-          You have selected a zone that is not within the areas of interest for
-          intake 3. You may continue editing this application, but please be
-          aware that you will not be able to submit it during this intake.
+          For this intake, CCBC is considering projects that are in Zones{' '}
+          {/* Make it dependent on the growthbook zones set */}
+          {acceptedIntakeZonesArray?.join(', ')}
+          if the project is not First Nations-led or First Nations-supported.
         </p>
         <StyledFlex>
           <Button
@@ -51,4 +63,4 @@ const projectAreaModal = ({
   );
 };
 
-export default projectAreaModal;
+export default ProjectAreaModal;
