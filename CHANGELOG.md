@@ -1,3 +1,10 @@
+# [1.128.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.127.0...v1.128.0) (2023-12-19)
+
+### Features
+
+- kmz and pdf links available for intakes associated ([e5ab7b3](https://github.com/bcgov/CONN-CCBC-portal/commit/e5ab7b3828b0e3ee574358a214021b83c70ddd50))
+- refresh pods nightly ([95d334f](https://github.com/bcgov/CONN-CCBC-portal/commit/95d334f1564f7d57c7d4f5a37b8ea98fac0e3c5d))
+
 # [1.127.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.126.0...v1.127.0) (2023-12-15)
 
 ### Features
