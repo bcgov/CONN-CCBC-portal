@@ -4,6 +4,7 @@ metadata:
   name: restart-ccbc
 spec:
   schedule: "0 2 * * *" # Run at 2 AM every day
+  timeZone: America/Vancouver
   jobTemplate:
     spec:
       template:
