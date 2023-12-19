@@ -32,8 +32,13 @@ const StyledExternalLink = styled.a`
   }
 `;
 
-const ZoneMapWidget: React.FC<WidgetProps> = () => {
+const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
   const [showToast, setShowToast] = useState(false);
+
+  const formData = formContext?.fullFormData || {};
+  const updatedMap = formData?.projectArea?.firstNationsLed
+    ? '/images/zone-map.png'
+    : '/images/zone-map-intake-3.png';
 
   const handleDownload = (e: any) => {
     e.preventDefault();
@@ -58,7 +63,7 @@ const ZoneMapWidget: React.FC<WidgetProps> = () => {
   return (
     <StyledDiv>
       <StyledImage
-        src="/images/internet-blocking-map.png"
+        src={updatedMap}
         alt="Internet Blocking Map"
         width={0}
         height={0}
@@ -73,10 +78,7 @@ const ZoneMapWidget: React.FC<WidgetProps> = () => {
           kmz
         </StyledLink>
         {' | '}
-        <StyledLink
-          href="/images/internet-blocking-map.png"
-          download="internet-blocking-map.png"
-        >
+        <StyledLink href={updatedMap} download="internet-blocking-map.png">
           png
         </StyledLink>
         {showToast && (

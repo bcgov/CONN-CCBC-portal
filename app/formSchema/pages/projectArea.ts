@@ -5,11 +5,20 @@ const projectArea: Record<string, JSONSchema7> = {
     title: 'Project area',
     description: 'Please describe the geographic area of the proposed Project',
     type: 'object',
-    required: ['geographicArea', 'projectSpanMultipleLocations'],
+    required: [
+      'firstNationsLed',
+      'geographicArea',
+      'projectSpanMultipleLocations',
+    ],
     properties: {
       acceptedGeographicArea: {
         title: '',
         type: 'string',
+      },
+      firstNationsLed: {
+        title: 'Is this project supported or led by one or more First Nations?',
+        type: 'boolean',
+        enum: [true, false],
       },
       geographicArea: {
         title:

@@ -6,6 +6,7 @@ import {
 const projectArea = {
   'ui:order': [
     'acceptedGeographicArea',
+    'firstNationsLed',
     'geographicArea',
     'projectZoneMap',
     'projectSpanMultipleLocations',
@@ -18,6 +19,9 @@ const projectArea = {
     'ui:options': {
       label: false,
     },
+  },
+  firstNationsLed: {
+    'ui:widget': 'RadioWidget',
   },
   geographicArea: {
     'ui:widget': 'CheckboxesWidget',
@@ -41,6 +45,10 @@ const projectArea = {
     'ui:widget': 'CheckboxesWidget',
   },
   'ui:inline': [
+    {
+      columns: 1,
+      firstNationsLed: '1 / 2',
+    },
     {
       columns: 15,
       title: GeographicArea,
