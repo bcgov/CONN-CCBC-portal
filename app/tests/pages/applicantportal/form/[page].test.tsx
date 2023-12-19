@@ -184,7 +184,13 @@ describe('The form page', () => {
   });
 
   it('uses the latest schema if the flag is on and estimated project employment is not present', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockForceLatestSchema);
+    // jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockForceLatestSchema);
+    jest.spyOn(moduleApi, 'useFeature').mockImplementation((id) => {
+      if (id === 'intake_zones') {
+        return mockAcceptedZones;
+      }
+      return mockForceLatestSchema;
+    });
 
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
@@ -223,7 +229,7 @@ describe('The form page', () => {
 
     expect(
       screen.getByText(
-        'For this intake, CCBC is considering projects that are in Zones 1,2,3, or 6 if the project is not First Nations-led or First Nations-supported.'
+        'For this intake, CCBC is considering projects that are in Zones 1, 2, 3, 4, or 5 if the project is not First Nations-led or First Nations-supported.'
       )
     ).toBeInTheDocument();
 
