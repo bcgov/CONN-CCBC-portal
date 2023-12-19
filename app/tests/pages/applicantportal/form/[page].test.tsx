@@ -223,7 +223,7 @@ describe('The form page', () => {
 
     expect(
       screen.getByText(
-        'You have selected a zone that is not within the areas of interest for intake 3. You may continue editing this application, but please be aware that you will not be able to submit it during this intake.'
+        'For this intake, CCBC is considering projects that are in Zones 1,2,3, or 6 if the project is not First Nations-led or First Nations-supported.'
       )
     ).toBeInTheDocument();
 
