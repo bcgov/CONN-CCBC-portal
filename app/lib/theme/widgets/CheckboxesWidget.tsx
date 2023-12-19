@@ -1,6 +1,12 @@
 import { WidgetProps } from '@rjsf/core';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 import styled from 'styled-components';
+import kmzAndPdfLinks from 'data/zoneKmzLinksIntake3';
+
+const StyledLink = styled.a`
+  color: ${(props) => props.theme.color.links};
+  text-decoration-line: underline;
+`;
 
 const StyledDiv = styled('div')`
   display: flex;
@@ -45,8 +51,8 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
     return selected.filter((v: any) => v !== val);
   }
 
-  const { enumOptions, singleSelection }: any = options;
-  
+  const { enumOptions, singleSelection, kmzLink }: any = options;
+
   const handleCheckboxChange = (option: any, checked: boolean) => {
     if (singleSelection) {
       onChange(checked ? [option.value] : []);
@@ -72,7 +78,9 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
             >
               <Checkbox
                 id={`${id}-${i}`}
-                onChange={(event: any) => handleCheckboxChange(option, event.target.checked)}
+                onChange={(event: any) =>
+                  handleCheckboxChange(option, event.target.checked)
+                }
                 checked={checked}
                 value={value}
                 required={required}
@@ -80,6 +88,23 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
                 disabled={disabled}
               />
               <div>{option.label}</div>
+              {kmzLink && kmzAndPdfLinks[parseInt(option.value, 10)] && (
+                <div>
+                  <StyledLink
+                    target="_blank"
+                    href={kmzAndPdfLinks[parseInt(option.value, 10)].kmz}
+                  >
+                    kmz
+                  </StyledLink>
+                  |
+                  <StyledLink
+                    target="_blank"
+                    href={kmzAndPdfLinks[parseInt(option.value, 10)].pdf}
+                  >
+                    pdf
+                  </StyledLink>
+                </div>
+              )}
             </StyledDiv>
           );
         }
