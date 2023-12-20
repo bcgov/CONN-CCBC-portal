@@ -35,6 +35,13 @@ const readSummary = async (wb, sheet) => {
       Object.entries(proj).filter(([_, v]) => v !== 'NULL')
     );
 
+    // trim all data
+    Object.keys(project).forEach((key) => {
+      if (typeof project[key] === 'string') {
+        project[key] = project[key].trim();
+      }
+    });
+
     const projectNumber = project['A'];
 
     // filter out rows with no project number or project number is not a number
