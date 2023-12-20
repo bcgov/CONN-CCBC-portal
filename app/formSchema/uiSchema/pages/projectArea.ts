@@ -3,6 +3,7 @@ import { GeographicArea } from '../../../components/Form/CustomTitles';
 const projectArea = {
   'ui:order': [
     'acceptedGeographicArea',
+    'firstNationsLed',
     'geographicArea',
     'projectZoneMap',
     'projectSpanMultipleLocations',
@@ -15,12 +16,15 @@ const projectArea = {
       label: false,
     },
   },
+  firstNationsLed: {
+    'ui:widget': 'RadioWidget',
+  },
   geographicArea: {
     'ui:widget': 'CheckboxesWidget',
     'ui:options': {
       maxLength: 150,
       singleSelection: true,
-      customTitle: true,
+      customTitle: GeographicArea,
       kmzLink: true,
     },
   },
@@ -38,16 +42,27 @@ const projectArea = {
   },
   'ui:inline': [
     {
-      columns: 15,
-      title: GeographicArea,
-      geographicArea: '1 / 3',
-      projectZoneMap: '3 / 13',
+      columns: 1,
+      acceptedGeographicArea: 1,
+    },
+    {
+      columns: 2,
+      firstNationsLed: '1 / 2',
+      geographicArea: '1 / 2',
+      projectZoneMap: '2 / 3',
+      // only if you need to manupulate row spans within a grid row
+      rowspans: {
+        firstNationsLed: '1 / 2',
+        geographicArea: '2 / 3',
+        projectZoneMap: '1 / 3',
+      },
     },
   ],
   'ui:inline:sm': [
     {
       columns: 1,
-      title: GeographicArea,
+      acceptedGeographicArea: '1 / 2',
+      firstNationsLed: '1 / 2',
       geographicArea: '1 / 2',
       projectZoneMap: '1 / 2',
     },

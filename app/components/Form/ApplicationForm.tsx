@@ -253,7 +253,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [isProjectAreaOpen, setProjectAreaOpen] = useState(
     !acceptedProjectAreasArray.includes(
-      jsonData?.projectArea?.geographicArea[0]?.toString()
+      jsonData?.projectArea?.geographicArea?.[0]?.toString()
     )
   );
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
@@ -389,14 +389,14 @@ const ApplicationForm: React.FC<Props> = ({
     }
     if (isProjectAreaPage) {
       const projectAreaAccepted = acceptedProjectAreasArray.includes(
-        newFormSectionData?.geographicArea[0]?.toString()
+        newFormSectionData?.geographicArea?.[0]?.toString()
       );
       setProjectAreaOpen(!projectAreaAccepted);
       setProjectAreaModalOpen(
         !projectAreaAccepted &&
-          typeof newFormSectionData?.geographicArea[0] !== 'undefined' &&
+          typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
           newFormSectionData?.geographicArea[0] !==
-            jsonData.projectArea?.geographicArea[0]
+            jsonData.projectArea?.geographicArea?.[0]
       );
     }
 

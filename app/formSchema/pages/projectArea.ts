@@ -3,13 +3,17 @@ import { JSONSchema7 } from 'json-schema';
 const projectArea: Record<string, JSONSchema7> = {
   projectArea: {
     title: 'Project area',
-    description: 'Please describe the geographic area of the proposed Project',
     type: 'object',
     required: ['geographicArea', 'projectSpanMultipleLocations'],
     properties: {
       acceptedGeographicArea: {
         title: '',
         type: 'string',
+      },
+      firstNationsLed: {
+        title: 'Is this project supported or led by one or more First Nations?',
+        type: 'boolean',
+        enum: [true, false],
       },
       geographicArea: {
         title:

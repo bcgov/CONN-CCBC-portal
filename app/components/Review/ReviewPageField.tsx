@@ -33,6 +33,9 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
       projectArea: {
         ...formSchema.properties.projectArea,
         properties: {
+          firstNationsLed: {
+            ...formSchema.properties.projectArea.properties.firstNationsLed,
+          },
           geographicArea: {
             ...formSchema.properties.projectArea.properties.geographicArea,
           },
