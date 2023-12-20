@@ -89,10 +89,12 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
                   if (columns === 1) {
                     return <div key={fieldName}>{content}</div>;
                   }
+                  const gridRow = row?.rowspans?.[fieldName] || 1;
                   return (
                     <StyledColumn
                       style={{
                         gridColumn: row[fieldName],
+                        gridRow,
                         marginRight: Object.keys(row).length > 2 ? '1em' : 0,
                       }}
                       key={fieldName}

@@ -396,7 +396,7 @@ const ApplicationForm: React.FC<Props> = ({
         !projectAreaAccepted &&
           typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
           newFormSectionData?.geographicArea[0] !==
-            jsonData.projectArea?.geographicArea[0]
+            jsonData.projectArea?.geographicArea?.[0]
       );
     }
 
