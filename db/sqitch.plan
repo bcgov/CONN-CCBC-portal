@@ -501,3 +501,4 @@ functions/create_hidden_intake [functions/create_hidden_intake@1.116.0] 2023-11-
 @1.127.0 2023-12-15T20:03:37Z CCBC Service Account <ccbc@button.is> # release v1.127.0
 @1.128.0 2023-12-20T16:21:25Z CCBC Service Account <ccbc@button.is> # release v1.128.0
 functions/receive_applications [functions/receive_applications@1.123.0] 2023-12-19T20:55:31Z Tony Bushara <tonybushara@pop-os> # ignore hidden intakes
+@1.129.0 2023-12-20T22:57:35Z CCBC Service Account <ccbc@button.is> # release v1.129.0
