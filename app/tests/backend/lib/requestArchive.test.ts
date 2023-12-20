@@ -21,7 +21,7 @@ const mockStream = new PassThrough();
 let mockObjectExists;
 
 jest.mock('../../../backend/lib/s3client', () => {
-  return { 
+  return {
     checkFileExists: () => mockObjectExists,
     getFileFromS3: (uuid, filename, res) => {
       mockStream.emit('data', 'hello world');
@@ -34,8 +34,15 @@ jest.mock('../../../backend/lib/s3client', () => {
       return new Promise((resolve) => {
         resolve({});
       });
-    }
-  }
+    },
+  };
+});
+
+jest.mock('../../../backend/lib/intakeId', () => {
+  return {
+    __esModule: true,
+    default: jest.fn().mockReturnValue('1'),
+  };
 });
 
 describe('The attachments archive', () => {
@@ -91,7 +98,9 @@ describe('The attachments archive', () => {
       /attachment; filename=Intake_1_attachments.zip/
     );
 
-    expect(response.headers['content-type']).toBe('application/zip; charset=utf-8');
+    expect(response.headers['content-type']).toBe(
+      'application/zip; charset=utf-8'
+    );
   });
 
   it('should receive the correct response when archive is not ready', async () => {
@@ -122,7 +131,9 @@ describe('The attachments archive', () => {
     const response = await request(app).get('/api/analyst/admin-archive/1');
 
     expect(response.status).toBe(200);
-    expect(response.headers['content-type']).toBe('application/json; charset=utf-8');
+    expect(response.headers['content-type']).toBe(
+      'application/json; charset=utf-8'
+    );
   });
 
   jest.resetAllMocks();

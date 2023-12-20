@@ -2,12 +2,12 @@ import { Router } from 'express';
 
 import config from '../../config';
 import getAuthRole from '../../utils/getAuthRole';
-import {checkFileExists,getFileFromS3, uploadFileToS3} from './s3client';
+import { checkFileExists, getFileFromS3, uploadFileToS3 } from './s3client';
 import getAttachmentList from './attachments';
 import getLastIntakeId from './lastIntake';
+import getIntakeId from './intakeId';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
-const AWS_S3_LIST_BUCKET = config.get('AWS_CLAM_S3_BUCKET');
 const AWS_S3_SECRET_KEY = config.get('AWS_S3_SECRET_KEY');
 
 const s3adminArchive = Router();
@@ -34,7 +34,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   }
   let { intake } = req.params;
   const s3Key = `Intake_${intake}_attachments`;
-  const s3params =  {
+  const s3params = {
     Bucket: AWS_S3_BUCKET,
     Key: `${s3Key}.zip`,
   };
@@ -47,6 +47,9 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
     await getFileFromS3(s3params.Key, s3params.Key, res);
     return res.status(200).end();
   }
+  // turn ccbc intake number into intake id
+  // as some intakes had id which did not match their intake number
+  intake = await getIntakeId(req);
 
   const attachments = await getAttachmentList(
     parseInt(intake as string, 10),
@@ -54,12 +57,14 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   );
 
   const fileName = `${s3Key}.json`;
+  // The Lambda function only triggers on json uploads to the
+  // s3 data bucket, not the clamav one
   const params = {
-    Bucket: AWS_S3_LIST_BUCKET,  
-    Key:  fileName,
-    Body: JSON.stringify(attachments)
+    Bucket: AWS_S3_BUCKET,
+    Key: fileName,
+    Body: JSON.stringify(attachments),
   };
-  const response = await uploadFileToS3(params)
+  const response = await uploadFileToS3(params);
   res.send(response);
   return res.status(200).end();
 });
