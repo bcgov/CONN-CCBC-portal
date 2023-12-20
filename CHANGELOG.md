@@ -1,3 +1,17 @@
+# [1.128.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.127.0...v1.128.0) (2023-12-20)
+
+### Bug Fixes
+
+- attachments not being generated or downloaded ([fe61712](https://github.com/bcgov/CONN-CCBC-portal/commit/fe6171208e61a231db12bdbbdde58a71f067e8bb))
+
+### Features
+
+- kmz and pdf links available for intakes associated ([e5ab7b3](https://github.com/bcgov/CONN-CCBC-portal/commit/e5ab7b3828b0e3ee574358a214021b83c70ddd50))
+- refresh pods nightly ([95d334f](https://github.com/bcgov/CONN-CCBC-portal/commit/95d334f1564f7d57c7d4f5a37b8ea98fac0e3c5d))
+- trim cbc data before importing ([5525ed1](https://github.com/bcgov/CONN-CCBC-portal/commit/5525ed1432b136a09273ce9b4acbb68b435b92e7))
+- update modal text and title ([492a7fb](https://github.com/bcgov/CONN-CCBC-portal/commit/492a7fbaad356e856e0dbe1936e7d55e31610603))
+- use feature flag for zones modal ([1405ba4](https://github.com/bcgov/CONN-CCBC-portal/commit/1405ba4f158cd2ae19f920cfa1fbfb3ac20c39bb))
+
 # [1.127.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.126.0...v1.127.0) (2023-12-15)
 
 ### Features
