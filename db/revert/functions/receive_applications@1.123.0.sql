@@ -13,12 +13,12 @@ $function$
     begin
     select count(*) into cnt from ccbc_public.application
 		    where intake_id in (
-                select id from ccbc_public.intake where now() >= close_timestamp and archived_at is null and hidden = 'f');
+                select id from ccbc_public.intake where now() >= close_timestamp);
 
     open applications for select id, intake_id
 		    from ccbc_public.application
 		    where intake_id in (
-                select id from ccbc_public.intake where now() >= close_timestamp and archived_at is null and hidden = 'f');
+                select id from ccbc_public.intake where now() >= close_timestamp);
 
     loop
         fetch applications into current_app;
