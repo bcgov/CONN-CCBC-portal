@@ -1,5 +1,4 @@
 import { JSONSchema7 } from 'json-schema';
-import { isValidElement } from 'react';
 import styled from 'styled-components';
 
 const StyledH3 = styled('h3')`
@@ -9,7 +8,7 @@ const StyledH3 = styled('h3')`
 `;
 
 interface Props {
-  rawDescription: string | React.ReactElement;
+  rawDescription: string;
   schema: JSONSchema7;
 }
 
@@ -19,12 +18,9 @@ interface Props {
  */
 const Description: React.FC<Props> = ({ rawDescription, schema }) => {
   if (!rawDescription) return null;
-  if (isValidElement(rawDescription)) {
-    return <div>{rawDescription}</div>;
-  }
-  if (schema.type === 'object' || schema.type === 'array') {
+
+  if (schema.type === 'object' || schema.type === 'array')
     return <StyledH3>{rawDescription}</StyledH3>;
-  }
 
   return <div>{rawDescription}</div>;
 };
