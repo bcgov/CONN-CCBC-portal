@@ -157,6 +157,9 @@ const reviewUiSchema = {
   projectArea: {
     ...projectArea,
     'ui:field': 'SectionField',
+    acceptedGeographicArea: {
+      'ui:hidden': true,
+    },
     geographicArea: {
       'ui:field': 'InlineArrayField',
     },

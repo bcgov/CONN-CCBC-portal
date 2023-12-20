@@ -1,3 +1,4 @@
+import { GeographicArea } from 'components/Form/CustomTitles';
 import projectArea from './projectArea';
 
 const analystProjectArea = {
@@ -6,7 +7,7 @@ const analystProjectArea = {
     'ui:widget': 'CheckboxesWidget',
     'ui:options': {
       maxLength: 150,
-      customTitle: true,
+      customTitle: GeographicArea,
       singleSelection: false,
     },
   },
