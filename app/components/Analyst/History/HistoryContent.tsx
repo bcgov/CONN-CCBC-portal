@@ -6,6 +6,7 @@ import applicationDiffSchema from 'formSchema/uiSchema/history/application';
 import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
 import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
 import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
+import { diff } from 'json-diff';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -317,11 +318,35 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   }
 
   if (tableName === 'project_information_data') {
+    // Generate a diff for all the file arrays
+    // will return undefined if no changes
+    const sowFileDiff = diff(
+      record.json_data?.statementOfWorkUpload || [],
+      prevHistoryItem?.record?.json_data?.statementOfWorkUpload || []
+    );
+    const sowWirelessFileDiff = diff(
+      record.json_data?.sowWirelessUpload || [],
+      prevHistoryItem?.record?.json_data?.sowWirelessUpload || []
+    );
+    const fundingAgreementFileDiff = diff(
+      record.json_data?.fundingAgreementUpload || [],
+      prevHistoryItem?.record?.json_data?.fundingAgreementUpload || []
+    );
+    const finalizedMapFileDiff = diff(
+      record.json_data?.finalizedMapUpload || [],
+      prevHistoryItem?.record?.json_data?.finalizedMapUpload || []
+    );
+    // turn into truthy/falsy values
+    const showSow = !!sowFileDiff;
+    const showSowWireless = !!sowWirelessFileDiff;
+    const showFundingAgreement = !!fundingAgreementFileDiff;
+    const showFinalizedMap = !!finalizedMapFileDiff;
     return (
       <StyledContent data-testid="history-content-conditional-approval">
         <span>{displayName} saved the </span>
         <b>Project information</b>
         <span> form on {createdAtFormatted}</span>
+
         {showHistoryDetails && (
           <>
             <HistoryDetails
@@ -329,6 +354,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
               prevJson={prevHistoryItem?.record?.json_data || {}}
               excludedKeys={[
                 'upload',
+                'sowWirelessUpload',
                 'statementOfWorkUpload',
                 'finalizedMapUpload',
                 'fundingAgreementUpload',
@@ -336,33 +362,47 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
               diffSchema={projectInformationSchema}
               overrideParent="projectInformation"
             />
-            <HistoryFile
-              filesArray={
-                record.json_data?.main?.upload?.statementOfWorkUpload || []
-              }
-              title="Statement of Work Excel"
-            />
-            <HistoryFile
-              filesArray={
-                record.json_data?.main?.upload?.sowWirelessUpload || []
-              }
-              title="SOW Wireless Table"
-              tableTitle={false}
-            />
-            <HistoryFile
-              filesArray={
-                record.json_data?.main?.upload?.fundingAgreementUpload || []
-              }
-              title="Funding agreement"
-              tableTitle={false}
-            />
-            <HistoryFile
-              filesArray={
-                record.json_data?.main?.upload?.finalizedMapUpload || []
-              }
-              title="Finalized spatial data"
-              tableTitle={false}
-            />
+            {/* Only show if changes, set show hide title depending on previous one showing */}
+            {!!sowFileDiff && (
+              <HistoryFile
+                filesArray={record.json_data?.statementOfWorkUpload || []}
+                previousFileArray={
+                  prevHistoryItem?.record?.json_data?.statementOfWorkUpload
+                }
+                title={`Statement of Work Excel ${showSow}`}
+              />
+            )}
+            {showSowWireless && (
+              <HistoryFile
+                filesArray={record.json_data?.sowWirelessUpload || []}
+                previousFileArray={
+                  prevHistoryItem?.record?.json_data?.sowWirelessUpload || []
+                }
+                title="SOW Wireless Table"
+                tableTitle={!showSow}
+              />
+            )}
+            {showFundingAgreement && (
+              <HistoryFile
+                filesArray={record.json_data?.fundingAgreementUpload || []}
+                previousFileArray={
+                  prevHistoryItem?.record?.json_data?.fundingAgreementUpload ||
+                  []
+                }
+                title="Funding agreement"
+                tableTitle={!showSowWireless}
+              />
+            )}
+            {showFinalizedMap && (
+              <HistoryFile
+                filesArray={record.json_data?.finalizedMapUpload || []}
+                previousFileArray={
+                  prevHistoryItem?.record?.json_data?.finalizedMapUpload || []
+                }
+                title="Finalized spatial data"
+                tableTitle={!showFundingAgreement}
+              />
+            )}
           </>
         )}
       </StyledContent>
