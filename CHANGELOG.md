@@ -1,3 +1,9 @@
+# [1.129.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.128.0...v1.129.0) (2023-12-20)
+
+### Features
+
+- cron job does not include internal applications ([80f0078](https://github.com/bcgov/CONN-CCBC-portal/commit/80f00780e64c804a749fd8113fa33a3a185d596c))
+
 # [1.128.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.127.0...v1.128.0) (2023-12-20)
 
 ### Bug Fixes
