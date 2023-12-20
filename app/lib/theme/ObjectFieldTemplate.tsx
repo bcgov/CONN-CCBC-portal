@@ -45,16 +45,7 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
       : uiSchema['ui:inline'];
 
   const getInlineKeys = () => {
-    // Get array of inline keys so we can see if field exists in grid so we don't render it twice.
-    const inlineKeys: string[] = [];
-
-    uiInline &&
-      uiInline.map((row: Record<string, string>) => {
-        const rowKeys = Object.keys(row);
-        inlineKeys.push(...rowKeys);
-      });
-
-    return inlineKeys;
+    return uiInline ? uiInline.flatMap((row) => Object.keys(row)) : [];
   };
 
   const inlineKeys = getInlineKeys();
@@ -69,7 +60,7 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
           const rowKeys = Object.keys(row);
 
           // check if row is in current page (props.properties) schema
-          const title =
+          const hasRowTitle =
             properties.filter((prop: any) =>
               Object.keys(row).includes(prop.name)
             ).length > 1;
@@ -103,12 +94,13 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
                     </StyledColumn>
                   );
                 }
+                return null;
               })}
             </StyledGrid>
           );
           return (
             <div key={rowKeys[i]}>
-              {title && row.title && (
+              {hasRowTitle && row.title && (
                 <>
                   {row.headline ? (
                     <h3>{row.title}</h3>
@@ -128,6 +120,7 @@ const ObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
         if (!isInlineItem) {
           return prop.content;
         }
+        return null;
       })}
     </FormBorder>
   );

@@ -1,7 +1,4 @@
-import {
-  GeographicArea,
-  GeographicAreaNotice,
-} from '../../../components/Form/CustomTitles';
+import { GeographicArea } from '../../../components/Form/CustomTitles';
 
 const projectArea = {
   'ui:order': [
@@ -13,7 +10,6 @@ const projectArea = {
     'provincesTerritories',
   ],
   'ui:title': '',
-  'ui:description': GeographicAreaNotice,
   acceptedGeographicArea: {
     'ui:widget': 'ReadOnlyProjectAreaWidget',
     'ui:options': {
@@ -45,6 +41,10 @@ const projectArea = {
     'ui:widget': 'CheckboxesWidget',
   },
   'ui:inline': [
+    {
+      columns: 1,
+      acceptedGeographicArea: 1,
+    },
     {
       columns: 2,
       firstNationsLed: '1 / 2',

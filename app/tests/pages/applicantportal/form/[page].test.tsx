@@ -214,11 +214,10 @@ describe('The form page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.getByText(
-        'Note: Intake 3 is currently open for project applications in selected areas of interest within Zones 1,2,3,4,5 and/or projects supported or led by First Nations in any of the 14 Zones.'
-      )
-    ).toBeInTheDocument();
+    const projectAreasText = screen.getByText(
+      new RegExp(`within zones ${mockAcceptedZones.value?.toString()}`)
+    );
+    expect(projectAreasText).toBeInTheDocument();
 
     const areas = screen.getAllByLabelText(
       'Referring to the project zones (application guide Annex 6), which zone(s) will this project be conducted in?'
