@@ -1968,10 +1968,7 @@ const mockQueryPayload = {
               record: {
                 id: 1,
                 json_data: {
-                  main: {
-                    upload: {},
-                    dateFundingAgreementSigned: '2023-06-20',
-                  },
+                  dateFundingAgreementSigned: '2023-06-20',
                   hasFundingAgreementBeenSigned: true,
                 },
                 created_at: '2023-04-03T08:22:06.589845-08:00',
@@ -1997,47 +1994,45 @@ const mockQueryPayload = {
               record: {
                 id: 2,
                 json_data: {
-                  main: {
-                    upload: {
-                      finalizedMapUpload: [
-                        {
-                          id: 24,
-                          name: 'mapTest.kmz',
-                          size: 2819,
-                          type: '',
-                          uuid: '36c5bb0d-0921-4226-9a97-cfde7dd5a514',
-                        },
-                      ],
-                      statementOfWorkUpload: [
-                        {
-                          id: 7,
-                          name: 'sowTest.xlsx',
-                          size: 4260251,
-                          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                          uuid: '43d7689d-9e27-45eb-aca2-e35c84b315f7',
-                        },
-                      ],
-                      fundingAgreementUpload: [
-                        {
-                          id: 14,
-                          name: 'fundingTest.txt',
-                          size: 0,
-                          type: 'text/plain',
-                          uuid: '8fb4226e-655e-4321-ba45-fe28aea508f1',
-                        },
-                      ],
-                      sowWirelessUpload: [
-                        {
-                          id: 25,
-                          name: 'sowWireless.xlsx',
-                          size: 1475,
-                          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                          uuid: '7fe78587-5509-4821-bd75-b5414f34c448',
-                        },
-                      ],
+                  finalizedMapUpload: [
+                    {
+                      id: 24,
+                      name: 'mapTest.kmz',
+                      size: 2819,
+                      type: '',
+                      uuid: '36c5bb0d-0921-4226-9a97-cfde7dd5a514',
                     },
-                    dateFundingAgreementSigned: '2023-06-28',
-                  },
+                  ],
+                  statementOfWorkUpload: [
+                    {
+                      id: 7,
+                      name: 'sowTest.xlsx',
+                      size: 4260251,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '43d7689d-9e27-45eb-aca2-e35c84b315f7',
+                    },
+                  ],
+                  fundingAgreementUpload: [
+                    {
+                      id: 14,
+                      name: 'fundingTest.txt',
+                      size: 0,
+                      type: 'text/plain',
+                      uuid: '8fb4226e-655e-4321-ba45-fe28aea508f1',
+                    },
+                  ],
+                  sowWirelessUpload: [
+                    {
+                      id: 25,
+                      name: 'sowWireless.xlsx',
+                      size: 1475,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: '7fe78587-5509-4821-bd75-b5414f34c448',
+                    },
+                  ],
+
+                  dateFundingAgreementSigned: '2023-06-28',
+
                   hasFundingAgreementBeenSigned: true,
                 },
                 created_at: '2023-04-03T08:22:06.589845-08:00',
