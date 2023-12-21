@@ -236,4 +236,31 @@ describe('The form page', () => {
 
     await userEvent.click(modalOkButton);
   });
+
+  it('handles modal correctly when first nation based', async () => {
+    pageTestingHelper.setMockRouterValues({
+      query: { id: '1', page: '2' },
+    });
+
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const areas = screen.getAllByLabelText(
+      'Referring to the project zones (application guide Annex 6), which zone(s) will this project be conducted in?'
+    );
+    expect(areas).toHaveLength(14);
+
+    const fnQuestion = screen.getAllByLabelText('Yes')[0];
+
+    await userEvent.click(fnQuestion);
+    await userEvent.click(areas[5]);
+
+    expect(
+      screen.queryByText(
+        'For this intake, CCBC is considering projects that are in Zones 1, 2, 3, 4, or 5 if the project is not First Nations-led or First Nations-supported.'
+      )
+    ).not.toBeInTheDocument();
+  });
 });
