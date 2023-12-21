@@ -1,3 +1,9 @@
+# [1.130.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.129.0...v1.130.0) (2023-12-21)
+
+### Features
+
+- disable/enable submit based on project area ([9d7e03c](https://github.com/bcgov/CONN-CCBC-portal/commit/9d7e03c13181beb81c500c2d6260f656583ff638))
+
 # [1.129.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.128.0...v1.129.0) (2023-12-21)
 
 ### Bug Fixes
