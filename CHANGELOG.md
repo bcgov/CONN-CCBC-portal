@@ -1,3 +1,15 @@
+# [1.129.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.128.0...v1.129.0) (2023-12-21)
+
+### Bug Fixes
+
+- deleted file ([1bf50aa](https://github.com/bcgov/CONN-CCBC-portal/commit/1bf50aa6ce7e0c4a3367dd8e4462b26af5cc81ce))
+- use of new record instead of created_by for rfi ([13500f7](https://github.com/bcgov/CONN-CCBC-portal/commit/13500f726ca0d0f229d43014af62397e718383b1))
+
+### Features
+
+- cron job does not include internal applications ([80f0078](https://github.com/bcgov/CONN-CCBC-portal/commit/80f00780e64c804a749fd8113fa33a3a185d596c))
+- show files diff for project information ([3107f08](https://github.com/bcgov/CONN-CCBC-portal/commit/3107f080ba619e2ec10aa044880fb5a648caa43e))
+
 # [1.128.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.127.0...v1.128.0) (2023-12-20)
 
 ### Bug Fixes
