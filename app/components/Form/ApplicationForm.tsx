@@ -256,9 +256,6 @@ const ApplicationForm: React.FC<Props> = ({
       jsonData?.projectArea?.geographicArea?.[0]?.toString()
     )
   );
-  const [isFnLed, setIsFnLed] = useState(
-    jsonData?.projectArea?.firstNationsLed || false
-  );
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
     useState(verifyAllAcknowledgementsChecked(jsonData.acknowledgements));
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
@@ -346,7 +343,7 @@ const ApplicationForm: React.FC<Props> = ({
         jsonData?.review?.acknowledgeIncomplete &&
         !isSubmitted &&
         isEditable &&
-        (!isProjectAreaOpen || isFnLed)
+        !isProjectAreaOpen
       );
 
     return true;
@@ -360,7 +357,6 @@ const ApplicationForm: React.FC<Props> = ({
     isSubmitted,
     isEditable,
     isProjectAreaOpen,
-    isFnLed,
   ]);
 
   if (subschemaArray.length < pageNumber) {
@@ -392,16 +388,25 @@ const ApplicationForm: React.FC<Props> = ({
       updateAreAllSubmissionFieldsSet(newFormSectionData);
     }
     if (isProjectAreaPage) {
-      const projectAreaAccepted = acceptedProjectAreasArray.includes(
-        newFormSectionData?.geographicArea?.[0]?.toString()
-      );
-      setIsFnLed(newFormSectionData?.firstNationsLed || false);
+      const firstNationsLed = newFormSectionData?.firstNationsLed || false;
+      const projectAreaAccepted =
+        firstNationsLed ||
+        acceptedProjectAreasArray.includes(
+          newFormSectionData?.geographicArea?.[0]?.toString()
+        );
+
       setProjectAreaOpen(!projectAreaAccepted);
+
+      const geographicAreaInputChanged =
+        typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
+        newFormSectionData?.geographicArea[0] !==
+          jsonData.projectArea?.geographicArea?.[0];
+      const firstNationsLedInputChanged =
+        firstNationsLed !== jsonData.projectArea?.firstNationsLed;
+
       setProjectAreaModalOpen(
         !projectAreaAccepted &&
-          typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
-          newFormSectionData?.geographicArea[0] !==
-            jsonData.projectArea?.geographicArea?.[0]
+          (geographicAreaInputChanged || firstNationsLedInputChanged)
       );
     }
 
