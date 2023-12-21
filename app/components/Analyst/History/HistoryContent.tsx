@@ -137,6 +137,9 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
 
             <HistoryFile
               filesArray={record.json_data?.rfiEmailCorrespondance || []}
+              previousFileArray={
+                prevHistoryItem?.record?.json_data?.rfiEmailCorrespondance || []
+              }
               title="Email files"
             />
           </>
