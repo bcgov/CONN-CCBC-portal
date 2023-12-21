@@ -504,3 +504,4 @@ functions/receive_applications [functions/receive_applications@1.123.0] 2023-12-
 computed_columns/application_history [computed_columns/application_history@1.123.0] 2023-12-19T18:50:00Z Tony Bushara <tonybushara@pop-os> # Separate update and insert for RFI
 @1.129.0 2023-12-21T16:29:36Z CCBC Service Account <ccbc@button.is> # release v1.129.0
 @1.130.0 2023-12-21T19:19:35Z CCBC Service Account <ccbc@button.is> # release v1.130.0
+@1.130.1 2023-12-21T21:04:39Z CCBC Service Account <ccbc@button.is> # release v1.130.1
