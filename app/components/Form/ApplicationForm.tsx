@@ -256,6 +256,9 @@ const ApplicationForm: React.FC<Props> = ({
       jsonData?.projectArea?.geographicArea?.[0]?.toString()
     )
   );
+  const [isFnLed, setIsFnLed] = useState(
+    jsonData?.projectArea?.firstNationsLed || false
+  );
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
     useState(verifyAllAcknowledgementsChecked(jsonData.acknowledgements));
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
@@ -343,7 +346,7 @@ const ApplicationForm: React.FC<Props> = ({
         jsonData?.review?.acknowledgeIncomplete &&
         !isSubmitted &&
         isEditable &&
-        !isProjectAreaOpen
+        (!isProjectAreaOpen || isFnLed)
       );
 
     return true;
@@ -357,6 +360,7 @@ const ApplicationForm: React.FC<Props> = ({
     isSubmitted,
     isEditable,
     isProjectAreaOpen,
+    isFnLed,
   ]);
 
   if (subschemaArray.length < pageNumber) {
@@ -391,6 +395,7 @@ const ApplicationForm: React.FC<Props> = ({
       const projectAreaAccepted = acceptedProjectAreasArray.includes(
         newFormSectionData?.geographicArea?.[0]?.toString()
       );
+      setIsFnLed(newFormSectionData?.firstNationsLed || false);
       setProjectAreaOpen(!projectAreaAccepted);
       setProjectAreaModalOpen(
         !projectAreaAccepted &&
