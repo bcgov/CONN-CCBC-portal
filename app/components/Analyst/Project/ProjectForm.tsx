@@ -183,7 +183,12 @@ const ProjectForm: React.FC<Props> = ({
           </LoadingItem>
         </LoadingContainer>
       )}
-      <Collapse timeout={isFormAnimated ? 'auto' : 0} in={isFormEditMode}>
+      <Collapse
+        unmountOnExit
+        mountOnEnter={false}
+        timeout={isFormAnimated ? 'auto' : 0}
+        in={isFormEditMode}
+      >
         {formHeader}
         <FormBase
           // setting a key here will reset the form
@@ -216,7 +221,12 @@ const ProjectForm: React.FC<Props> = ({
       </Collapse>
       {/* We only show the  readonly form if there are no children */}
       {!children && (
-        <Collapse in={!isFormEditMode} timeout={isFormAnimated ? 'auto' : 0}>
+        <Collapse
+          unmountOnExit
+          mountOnEnter={false}
+          in={!isFormEditMode}
+          timeout={isFormAnimated ? 'auto' : 0}
+        >
           <FormBase
             // setting a key here will reset the form
             key={isFormEditMode ? 'edit' : 'view'}
