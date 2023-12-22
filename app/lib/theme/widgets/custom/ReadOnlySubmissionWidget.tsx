@@ -19,8 +19,15 @@ const StyledError = styled('div')`
 `;
 
 const StyledLink = styled(Link)`
-  color: ${(props) => props.theme.color.links};
-  text-decoration: none;
+  color: #e71f1f;
+`;
+
+const StyledList = styled.ul`
+  margin-bottom: 0.5rem;
+`;
+
+const StyledListItem = styled.li`
+  margin-bottom: 0;
 `;
 
 const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
@@ -29,6 +36,8 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
   formContext,
 }) => {
   const uiSchema = formContext.finalUiSchema['ui:order'];
+  const acceptedProjectAreas = formContext?.acceptedProjectAreasArray || null;
+
   return (
     <>
       <StyledContainer>
@@ -75,10 +84,27 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
         {formContext.isProjectAreaOpen && (
           <>
             <br />
-            Unfortunately, we are currently not accepting applications for the
-            selected zone. However, you have the option of saving this
-            application as a draft for the next subsequent intake. Thank you for
-            your understanding.
+            For this intake CCBC is considering 2 types of projects;
+            <StyledList>
+              <StyledListItem>
+                ones that are Zones: {acceptedProjectAreas?.toString()}, or
+              </StyledListItem>
+              <StyledListItem>
+                projects that are First Nations-led or First Nations-supported
+                in any area of the province.
+              </StyledListItem>
+            </StyledList>
+            Please review your selections on the{' '}
+            <StyledLink
+              href={`/applicantportal/form/${formContext.rowId}/${getFormPage(
+                uiSchema,
+                'projectArea'
+              )}`}
+            >
+              {` Project Area `}
+            </StyledLink>{' '}
+            page to ensure your project meets these requirements to be able to
+            submit it during this intake.
           </>
         )}
       </StyledError>
