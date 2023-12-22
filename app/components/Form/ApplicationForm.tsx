@@ -222,7 +222,10 @@ const ApplicationForm: React.FC<Props> = ({
     jsonSchema = application.formData.formByFormSchemaId.jsonSchema;
     formSchemaId = application.formData.formByFormSchemaId.rowId;
   }
-  const formErrorSchema = useMemo(() => validate(jsonData), [jsonData]);
+  const formErrorSchema = useMemo(
+    () => validate(jsonData, jsonSchema),
+    [jsonData, jsonSchema]
+  );
   const filteredUiSchemaOrder = uiSchema['ui:order'].filter((formName) => {
     return Object.prototype.hasOwnProperty.call(
       jsonSchema.properties,
