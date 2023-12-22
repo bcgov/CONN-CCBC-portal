@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,6 +6,7 @@ import Accordion from 'components/Accordion';
 import { FormBase } from 'components/Form';
 import type { JSONSchema7 } from 'json-schema';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Collapse } from '@mui/material';
 import ProjectTheme from './ProjectTheme';
 
 const ToggleRight = styled.div`
@@ -58,41 +58,6 @@ const StyledBtn = styled(Button)`
   padding: 8px 16px;
 `;
 
-interface AnimateFormProps {
-  formAnimationHeight: number;
-  formAnimationHeightOffset: number;
-  isAnimated: boolean;
-  isFormExpanded: boolean;
-  overflow: string;
-  onClick?: () => void;
-}
-
-// form animation height is the height of the form when it is expanded.
-// The children of the form (eg the ViewAnnouncements or ChangeRequestCard)
-// may need a z-index of 1 to prevent visual glitches while expanding/retracting
-const StyledAnimateForm = styled.div<AnimateFormProps>`
-  padding-left: 4px;
-  ${({
-    formAnimationHeight,
-    formAnimationHeightOffset,
-    isAnimated,
-    isFormExpanded,
-    overflow,
-  }) =>
-    isAnimated &&
-    `
-    position: relative;
-    z-index: ${isFormExpanded ? 10 : 1};
-    overflow: ${overflow};
-    max-height: ${
-      isFormExpanded
-        ? `${formAnimationHeight}px`
-        : `${formAnimationHeightOffset}px`
-    };
-    transition: max-height 0.7s;
-  `}
-`;
-
 interface Props {
   additionalContext?: any;
   before?: React.ReactNode;
@@ -136,8 +101,6 @@ const ProjectForm: React.FC<Props> = ({
   handleChange,
   hiddenSubmitRef,
   showEditBtn = true,
-  formAnimationHeight = 300,
-  formAnimationHeightOffset = 30,
   isExpanded = false,
   isFormAnimated,
   isFormEditMode,
@@ -159,27 +122,6 @@ const ProjectForm: React.FC<Props> = ({
   saveDataTestId = 'save',
   ...rest
 }) => {
-  // Overflow hidden is needed for animated edit transition though
-  // visible is needed for the datepicker so we needed to set it on a
-  // timeout to prevent buggy visual transition
-  const [overflow, setOverflow] = useState(
-    isFormEditMode ? 'visible' : 'hidden'
-  );
-  const [isFirstRender, setIsFirstRender] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isFormEditMode && !isFirstRender) {
-        setOverflow('visible');
-      } else {
-        setOverflow('hidden');
-      }
-      setIsFirstRender(false);
-    }, 300);
-    return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFormEditMode]);
-
   const stopPropagation = (e) => e.stopPropagation();
 
   return (
@@ -230,32 +172,71 @@ const ProjectForm: React.FC<Props> = ({
       title={title}
       {...rest}
     >
-      <StyledAnimateForm
-        formAnimationHeight={formAnimationHeight}
-        formAnimationHeightOffset={formAnimationHeightOffset}
-        isAnimated={isFormAnimated}
-        isFormExpanded={isFormEditMode}
-        overflow={overflow}
+      {before}
+      {submitting && (
+        <LoadingContainer>
+          <LoadingItem>
+            <CircularProgress color="inherit" />
+          </LoadingItem>
+          <LoadingItem>
+            <p>{`${submittingText}`}</p>
+          </LoadingItem>
+        </LoadingContainer>
+      )}
+      <Collapse
+        unmountOnExit
+        mountOnEnter={false}
+        timeout={isFormAnimated ? 'auto' : 0}
+        in={isFormEditMode}
       >
-        {before}
         {formHeader}
-        {submitting ? (
-          <LoadingContainer>
-            <LoadingItem>
-              <CircularProgress color="inherit" />
-            </LoadingItem>
-            <LoadingItem>
-              <p>{`${submittingText}`}</p>
-            </LoadingItem>
-          </LoadingContainer>
-        ) : (
+        <FormBase
+          // setting a key here will reset the form
+          key={isFormEditMode ? 'edit' : 'view'}
+          schema={schema}
+          uiSchema={uiSchema}
+          formData={formData}
+          formContext={{
+            formData: { ...formData },
+            ...additionalContext,
+          }}
+          theme={theme || ProjectTheme}
+          liveValidate={liveValidate}
+          omitExtraData={false}
+          onChange={handleChange}
+          validate={validate}
+        >
+          {hiddenSubmitRef ? (
+            <button
+              type="submit"
+              ref={hiddenSubmitRef}
+              style={{ display: 'none' }}
+            >
+              Submit
+            </button>
+          ) : (
+            true
+          )}
+        </FormBase>
+      </Collapse>
+      {/* We only show the  readonly form if there are no children */}
+      {!children && (
+        <Collapse
+          unmountOnExit
+          mountOnEnter={false}
+          in={!isFormEditMode}
+          timeout={isFormAnimated ? 'auto' : 0}
+        >
           <FormBase
             // setting a key here will reset the form
             key={isFormEditMode ? 'edit' : 'view'}
             schema={schema}
             uiSchema={uiSchema}
             formData={formData}
-            formContext={{ formData: { ...formData }, ...additionalContext }}
+            formContext={{
+              formData: { ...formData },
+              ...additionalContext,
+            }}
             theme={theme || ProjectTheme}
             liveValidate={liveValidate}
             omitExtraData={false}
@@ -274,8 +255,8 @@ const ProjectForm: React.FC<Props> = ({
               true
             )}
           </FormBase>
-        )}
-      </StyledAnimateForm>
+        </Collapse>
+      )}
       {children}
     </Accordion>
   );

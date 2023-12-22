@@ -268,7 +268,7 @@ describe('The analyst application view', () => {
     // Community progress report excel upload
     cy.get('[id="root_progressReportFile-btn"]').click();
     cy.get('[data-testid=file-test]')
-      .eq(3)
+      .first()
       .selectFile('cypress/fixtures/mock_excel.xlsx', {
         force: true,
       });
@@ -293,7 +293,7 @@ describe('The analyst application view', () => {
     cy.get('button').contains('Add milestone report').click();
 
     cy.get('[id="root_dueDate"]')
-      .eq(1)
+      .first()
       .parent()
       .find('.MuiButtonBase-root')
       .click();
@@ -303,7 +303,7 @@ describe('The analyst application view', () => {
     // Milestone excel upload
     cy.get('[id="root_milestoneFile-btn"]').click();
     cy.get('[data-testid=file-test]')
-      .eq(4)
+      .first()
       .selectFile('cypress/fixtures/mock_excel.xlsx', {
         force: true,
       });
@@ -311,7 +311,7 @@ describe('The analyst application view', () => {
 
     cy.get('[id="root_evidenceOfCompletionFile-btn"]').click();
     cy.get('[data-testid=file-test]')
-      .eq(5)
+      .eq(1)
       .selectFile('cypress/fixtures/mock_excel.xlsx', {
         force: true,
       });
@@ -339,7 +339,7 @@ describe('The analyst application view', () => {
     // Claim excel upload
     cy.get('[id="root_claimsFile-btn"]').click();
     cy.get('[data-testid=file-test]')
-      .eq(6)
+      .first()
       .selectFile('cypress/fixtures/mock_excel.xlsx', {
         force: true,
       });
