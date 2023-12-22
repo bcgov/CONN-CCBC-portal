@@ -1,3 +1,9 @@
+## [1.130.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.130.0...v1.130.1) (2023-12-22)
+
+### Bug Fixes
+
+- use collapse instead of custom animation ([068cb16](https://github.com/bcgov/CONN-CCBC-portal/commit/068cb16b9d3f6ddce94c87a601abb3f9c1e2a02b))
+
 # [1.130.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.129.0...v1.130.0) (2023-12-21)
 
 ### Features
