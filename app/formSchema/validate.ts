@@ -1,7 +1,6 @@
 import validateFormData from '@rjsf/core/dist/cjs/validate';
-import schema from './schema';
 
-const validate = (formData) => {
+const validate = (formData: any, schema: any) => {
   const errorSchema = validateFormData(formData, schema)?.errorSchema;
 
   const fileUploadPages = [
