@@ -670,12 +670,13 @@ describe('The ProjectInformation form', () => {
     componentTestingHelper.loadQuery(mockDataQueryPayload);
     componentTestingHelper.renderComponent();
 
-    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
     // Click on the edit button to open the form
     const editButton = screen.getAllByTestId('project-form-edit-button');
     await act(async () => {
       fireEvent.click(editButton[3]);
     });
+
+    const hasFundingAggreementBeenSigned = screen.getByLabelText('Yes');
 
     await act(async () => {
       fireEvent.click(hasFundingAggreementBeenSigned);

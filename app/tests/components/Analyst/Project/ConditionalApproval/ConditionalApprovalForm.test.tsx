@@ -306,9 +306,9 @@ describe('The Conditional Approval form', () => {
     expect(
       screen.getAllByTestId('read-only-decision-widget')[1]
     ).toHaveTextContent('No decision received');
-    expect(screen.getByTestId('read-only-response-widget')).toHaveTextContent(
-      'Accepted'
-    );
+    expect(
+      screen.getAllByTestId('read-only-response-widget')[0]
+    ).toHaveTextContent('Accepted');
   });
 
   it('should open the editable form when the edit button is clicked', async () => {
