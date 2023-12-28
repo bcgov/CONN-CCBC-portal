@@ -1,3 +1,9 @@
+## [1.130.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.130.1...v1.130.2) (2023-12-28)
+
+### Bug Fixes
+
+- use filteredUiSchema to give correct lastEditedPage ([a19b2d0](https://github.com/bcgov/CONN-CCBC-portal/commit/a19b2d07c851967663bd6fb7a8d58db9affd55bf))
+
 ## [1.130.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.130.0...v1.130.1) (2023-12-27)
 
 ### Bug Fixes
