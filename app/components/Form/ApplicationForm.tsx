@@ -258,6 +258,7 @@ const ApplicationForm: React.FC<Props> = ({
       jsonData?.projectArea?.geographicArea?.[0]?.toString()
     )
   );
+  const [projectAreaModalType, setProjectAreaModalType] = useState('');
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
     useState(verifyAllAcknowledgementsChecked(jsonData.acknowledgements));
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
@@ -382,6 +383,17 @@ const ApplicationForm: React.FC<Props> = ({
       }
       return;
     }
+    const calculatedSectionData = calculate(
+      newFormSectionData,
+      sectionName.toString()
+    );
+
+    let newFormData = mergeFormSectionData(
+      jsonData,
+      sectionName,
+      calculatedSectionData,
+      jsonSchema
+    );
 
     if (isAcknowledgementPage) {
       updateAreAllAcknowledgementFieldsSet(newFormSectionData);
@@ -397,8 +409,6 @@ const ApplicationForm: React.FC<Props> = ({
           newFormSectionData?.geographicArea?.[0]?.toString()
         );
 
-      setProjectAreaOpen(!projectAreaAccepted);
-
       const geographicAreaInputChanged =
         typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
         newFormSectionData?.geographicArea[0] !==
@@ -406,23 +416,32 @@ const ApplicationForm: React.FC<Props> = ({
       const firstNationsLedInputChanged =
         firstNationsLed !== jsonData.projectArea?.firstNationsLed;
 
+      if (isSubmitted && !projectAreaAccepted) {
+        // revert form data
+        newFormData = {
+          ...jsonData,
+        };
+        if (geographicAreaInputChanged) {
+          // display new modal saying
+          // Invalid selection. You have indicated that this project is not led or supported by First Nations, therefore, you may only choose from zones 1,2,3 or 6.
+          setProjectAreaModalType('invalid-geographic-area');
+        }
+        if (firstNationsLedInputChanged) {
+          // display modal saying
+          // Invalid selection. Please first choose from zones 1,2,3 or 6 if this project is not supported or led by First Nations
+          setProjectAreaModalType('first-nations-led');
+        }
+      } else if (!isSubmitEnabled && !projectAreaAccepted) {
+        setProjectAreaModalType('pre-submitted');
+      }
+
+      setProjectAreaOpen(!projectAreaAccepted);
+
       setProjectAreaModalOpen(
         !projectAreaAccepted &&
           (geographicAreaInputChanged || firstNationsLedInputChanged)
       );
     }
-
-    const calculatedSectionData = calculate(
-      newFormSectionData,
-      sectionName.toString()
-    );
-
-    let newFormData = mergeFormSectionData(
-      jsonData,
-      sectionName,
-      calculatedSectionData,
-      jsonSchema
-    );
 
     if (templateData) {
       if (templateData.templateNumber === 1) {
@@ -591,6 +610,7 @@ const ApplicationForm: React.FC<Props> = ({
       <ProjectAreaModal
         projectAreaModalOpen={projectAreaModalOpen}
         setProjectAreaModalOpen={setProjectAreaModalOpen}
+        projectAreaModalType={projectAreaModalType}
       />
     </>
   );
