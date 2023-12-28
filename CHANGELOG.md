@@ -1,3 +1,13 @@
+# [1.131.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.130.1...v1.131.0) (2023-12-28)
+
+### Bug Fixes
+
+- use filteredUiSchema to give correct lastEditedPage ([a19b2d0](https://github.com/bcgov/CONN-CCBC-portal/commit/a19b2d07c851967663bd6fb7a8d58db9affd55bf))
+
+### Features
+
+- additional logic for project area page after submission ([51e300f](https://github.com/bcgov/CONN-CCBC-portal/commit/51e300f300cff0e77d099c047d7202a474b02d0b))
+
 ## [1.130.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.130.0...v1.130.1) (2023-12-27)
 
 ### Bug Fixes
