@@ -138,7 +138,7 @@ describe('The index page', () => {
 
     expect(
       screen.getByText(
-        /Applications are accepted until August 19, 2027, 8:30:00 a.m. PDT./
+        /Applications will be accepted until August 19, 2027, 8:30:00 a.m. PDT./
       )
     ).toBeInTheDocument();
   });

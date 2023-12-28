@@ -101,10 +101,10 @@ const Home = ({
 
     return (
       <BoldText>
-        {`Applications are accepted until ${formattedClosingDate}.`}
+        {`Applications will be accepted until ${formattedClosingDate}.`}
         <br />
-        Review of applications will not begin until this date. Draft and
-        submitted applications can be edited until then.
+        Review of applications will not begin until this date. <br />
+        Draft and submitted applications will be editable until then.
       </BoldText>
     );
   }, [openIntake]);
