@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
+import { getFilteredSchemaOrderFromUiSchema } from 'utils/schemaUtils';
+import { uiSchema } from 'formSchema';
 import StatusPill from '../StatusPill';
 
 const StyledRow = styled('tr')`
@@ -39,13 +41,7 @@ const StyledWithdraw = styled.button`
   color: #d8292f;
 `;
 
-const Row = ({
-  application,
-  formPages,
-  reviewPage,
-  setCurrentApplication,
-  setArchiveId,
-}) => {
+const Row = ({ application, setCurrentApplication, setArchiveId, schema }) => {
   const {
     ccbcNumber,
     intakeByIntakeId,
@@ -56,7 +52,9 @@ const Row = ({
     id,
   } = application;
 
-  const lastEditedIndex = formPages.indexOf(formData.lastEditedPage) + 1;
+  const uiOrder = getFilteredSchemaOrderFromUiSchema(schema, uiSchema);
+  const lastEditedIndex = uiOrder.indexOf(formData.lastEditedPage) + 1;
+  const reviewPage = uiOrder.indexOf('review') + 1;
 
   const intakeClosingDate = intakeByIntakeId?.closeTimestamp;
   const isIntakeClosed = intakeClosingDate

@@ -30,6 +30,7 @@ import {
 } from '../../lib/theme/customFieldCalculations';
 import ApplicationFormStatus from './ApplicationFormStatus';
 import {
+  getFilteredSchemaOrderFromUiSchema,
   getSectionNameFromPageNumber,
   schemaToSubschemasArray,
 } from '../../utils/schemaUtils';
@@ -226,12 +227,10 @@ const ApplicationForm: React.FC<Props> = ({
     () => validate(jsonData, jsonSchema),
     [jsonData, jsonSchema]
   );
-  const filteredUiSchemaOrder = uiSchema['ui:order'].filter((formName) => {
-    return Object.prototype.hasOwnProperty.call(
-      jsonSchema.properties,
-      formName
-    );
-  });
+  const filteredUiSchemaOrder = getFilteredSchemaOrderFromUiSchema(
+    jsonSchema,
+    uiSchema
+  );
   if (ccbcIntakeNumber !== null && ccbcIntakeNumber <= 2) {
     finalUiSchema = {
       ...uiSchema,
@@ -463,7 +462,7 @@ const ApplicationForm: React.FC<Props> = ({
       : pageNumber - 1;
     const lastEditedPage =
       pageNumber < subschemaArray.length
-        ? subschemaArray[lastEditedPageNumber][0]
+        ? finalUiSchema['ui:order'][lastEditedPageNumber]
         : '';
 
     setSavingError(null);
