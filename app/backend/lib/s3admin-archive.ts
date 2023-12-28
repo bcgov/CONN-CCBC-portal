@@ -38,7 +38,11 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
     Bucket: AWS_S3_BUCKET,
     Key: `${s3Key}.zip`,
   };
-  if (intake === '-1') intake = await getLastIntakeId(req);
+  if (intake === '-1') {
+    intake = await getLastIntakeId(req);
+  } else {
+    intake = await getIntakeId(req);
+  }
   if (intake === '-1') {
     throw new Error('Wrong intake id');
   }
@@ -49,7 +53,6 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   }
   // turn ccbc intake number into intake id
   // as some intakes had id which did not match their intake number
-  intake = await getIntakeId(req);
 
   const attachments = await getAttachmentList(
     parseInt(intake as string, 10),
