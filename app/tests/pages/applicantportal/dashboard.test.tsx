@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react';
 import * as moduleApi from '@growthbook/growthbook-react';
 import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import userEvent from '@testing-library/user-event';
+import { schema } from 'formSchema';
 import Dashboard, {
   withRelayOptions,
 } from '../../../pages/applicantportal/dashboard';
@@ -72,6 +73,9 @@ const mockQueryPayload = {
               formData: {
                 lastEditedPage: '',
                 isEditable: false,
+                formByFormSchemaId: {
+                  jsonSchema: schema,
+                },
               },
               intakeByIntakeId: {
                 ccbcIntakeNumber: 1,
@@ -91,6 +95,9 @@ const mockQueryPayload = {
               formData: {
                 lastEditedPage: '',
                 isEditable: false,
+                formByFormSchemaId: {
+                  jsonSchema: schema,
+                },
               },
               intakeByIntakeId: {
                 ccbcIntakeNumber: 2,
@@ -108,6 +115,9 @@ const mockQueryPayload = {
               formData: {
                 lastEditedPage: '',
                 isEditable: false,
+                formByFormSchemaId: {
+                  jsonSchema: schema,
+                },
               },
               intakeByIntakeId: {
                 ccbcIntakeNumber: 3,
@@ -151,7 +161,7 @@ const mockNoApplicationsPayload = {
 const mockClosedIntakePayload = {
   Query() {
     return {
-      allApplications: { nodes: [] },
+      allApplications: { edges: [] },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
@@ -164,7 +174,7 @@ const mockClosedIntakePayload = {
 const mockClosedIntakeOpenHiddenIntakePayload = {
   Query() {
     return {
-      allApplications: { nodes: [] },
+      allApplications: { edges: [] },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
