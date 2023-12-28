@@ -10,6 +10,20 @@ export const schemaToSubschemasArray = (
   return Object.entries(schema.properties as any);
 };
 
+/**
+ *
+ * @param schema Any json schema
+ * @param uiSchema The uiSchema that could apply to the schema, can contain more fields than the schema
+ */
+export const getFilteredSchemaOrderFromUiSchema = (
+  schema: any,
+  uiSchema: any
+) => {
+  return uiSchema['ui:order'].filter((formName) => {
+    return Object.hasOwn(schema.properties, formName);
+  });
+};
+
 export const getSectionNameFromPageNumber = (
   uiSchema,
   pageNumber: number

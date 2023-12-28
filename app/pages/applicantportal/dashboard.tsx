@@ -35,6 +35,9 @@ const getDashboardQuery = graphql`
           formData {
             lastEditedPage
             isEditable
+            formByFormSchemaId {
+              jsonSchema
+            }
           }
           intakeByIntakeId {
             ccbcIntakeNumber

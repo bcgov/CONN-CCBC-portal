@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import schema from 'formSchema/schema';
 import { dashboardQuery$data } from '__generated__/dashboardQuery.graphql';
 import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -47,9 +46,6 @@ const Table = ({ applications }: Props) => {
     .map((edge) => edge.node)
     .filter((node) => node !== null);
 
-  const formPages = Object.keys(schema.properties);
-
-  const reviewPage = formPages.indexOf('review') + 1;
   return (
     <>
       <StyledTable>
@@ -78,10 +74,9 @@ const Table = ({ applications }: Props) => {
               <Row
                 application={application}
                 key={application.owner}
-                formPages={formPages}
-                reviewPage={reviewPage}
                 setCurrentApplication={setCurrentApplication}
                 setArchiveId={setArchiveId}
+                schema={application.formData.formByFormSchemaId.jsonSchema}
               />
             ) : null;
           })}

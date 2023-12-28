@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { graphql } from 'react-relay';
+import { schema } from 'formSchema';
 import { DashboardTable } from '../../../components/Dashboard';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 import compiledDashboardTestQuery, {
@@ -22,6 +23,9 @@ const testQuery = graphql`
           formData {
             lastEditedPage
             isEditable
+            formByFormSchemaId {
+              jsonSchema
+            }
           }
           intakeByIntakeId {
             ccbcIntakeNumber
@@ -50,6 +54,9 @@ const mockQueryPayload = {
               formData: {
                 lastEditedPage: '',
                 isEditable: false,
+                formByFormSchemaId: {
+                  jsonSchema: schema,
+                },
               },
               intakeByIntakeId: {
                 ccbcIntakeNumber: 1,
@@ -69,6 +76,9 @@ const mockQueryPayload = {
               formData: {
                 lastEditedPage: '',
                 isEditable: true,
+                formByFormSchemaId: {
+                  jsonSchema: schema,
+                },
               },
               intakeByIntakeId: {
                 ccbcIntakeNumber: 1,
@@ -88,6 +98,9 @@ const mockQueryPayload = {
               formData: {
                 lastEditedPage: '',
                 isEditable: true,
+                formByFormSchemaId: {
+                  jsonSchema: schema,
+                },
               },
               intakeByIntakeId: {
                 ccbcIntakeNumber: 1,
@@ -147,6 +160,9 @@ describe('The Dashboard', () => {
                   formData: {
                     lastEditedPage: 'templateUploads',
                     isEditable: true,
+                    formByFormSchemaId: {
+                      jsonSchema: schema,
+                    },
                   },
                   intakeByIntakeId: null,
                 },
@@ -181,6 +197,9 @@ describe('The Dashboard', () => {
                   formData: {
                     lastEditedPage: '',
                     isEditable: true,
+                    formByFormSchemaId: {
+                      jsonSchema: schema,
+                    },
                   },
                   intakeByIntakeId: {
                     ccbcIntakeNumber: 1,
@@ -220,6 +239,9 @@ describe('The Dashboard', () => {
                   formData: {
                     lastEditedPage: '',
                     isEditable: true,
+                    formByFormSchemaId: {
+                      jsonSchema: schema,
+                    },
                   },
                   intakeByIntakeId: {
                     ccbcIntakeNumber: 1,
@@ -275,6 +297,9 @@ describe('The Dashboard', () => {
                   formData: {
                     lastEditedPage: '',
                     isEditable: false,
+                    formByFormSchemaId: {
+                      jsonSchema: schema,
+                    },
                   },
                   intakeByIntakeId: {
                     ccbcIntakeNumber: 1,
@@ -312,6 +337,9 @@ describe('The Dashboard', () => {
                   formData: {
                     lastEditedPage: '',
                     isEditable: false,
+                    formByFormSchemaId: {
+                      jsonSchema: schema,
+                    },
                   },
                   intakeByIntakeId: {
                     ccbcIntakeNumber: 1,
@@ -350,6 +378,9 @@ describe('The Dashboard', () => {
                   formData: {
                     lastEditedPage: '',
                     isEditable: true,
+                    formByFormSchemaId: {
+                      jsonSchema: schema,
+                    },
                   },
                   intakeByIntakeId: {
                     ccbcIntakeNumber: 1,
@@ -397,6 +428,13 @@ describe('The Dashboard', () => {
               {
                 node: {
                   status: 'submitted',
+                  formData: {
+                    lastEditedPage: '',
+                    isEditable: true,
+                    formByFormSchemaId: {
+                      jsonSchema: schema,
+                    },
+                  },
                 },
               },
             ],
@@ -421,6 +459,13 @@ describe('The Dashboard', () => {
               {
                 node: {
                   status: 'received',
+                  formData: {
+                    lastEditedPage: '',
+                    isEditable: true,
+                    formByFormSchemaId: {
+                      jsonSchema: schema,
+                    },
+                  },
                 },
               },
             ],
@@ -445,6 +490,13 @@ describe('The Dashboard', () => {
               {
                 node: {
                   status: 'applicant_conditionally_approved',
+                  formData: {
+                    lastEditedPage: '',
+                    isEditable: true,
+                    formByFormSchemaId: {
+                      jsonSchema: schema,
+                    },
+                  },
                 },
               },
             ],
@@ -469,6 +521,13 @@ describe('The Dashboard', () => {
               {
                 node: {
                   status: 'draft',
+                  formData: {
+                    lastEditedPage: '',
+                    isEditable: true,
+                    formByFormSchemaId: {
+                      jsonSchema: schema,
+                    },
+                  },
                 },
               },
             ],
