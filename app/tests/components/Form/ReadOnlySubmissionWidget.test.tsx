@@ -29,7 +29,7 @@ const renderStaticLayout = (s: JSONSchema7, u: any, formData) => {
       onSubmit={() => console.log('test')}
       schema={s as JSONSchema7}
       uiSchema={u}
-      formContext={{ finalUiSchema: uiSchema }}
+      formContext={{ finalUiSchema: uiSchema, formErrorSchema: {} }}
     />
   );
 };
