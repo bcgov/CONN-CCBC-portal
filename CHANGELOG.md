@@ -1,3 +1,11 @@
+## [1.131.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.131.0...v1.131.1) (2023-12-29)
+
+### Bug Fixes
+
+- prepare downloads crash with -1 intake number ([450d92b](https://github.com/bcgov/CONN-CCBC-portal/commit/450d92b92893031676b76f8a203003985695dddd))
+- s3 file name to get the actual intake id when passed -1 ([a5f4436](https://github.com/bcgov/CONN-CCBC-portal/commit/a5f44360994e863ced87427b09ba849a81e80fb3))
+- tests for s3 archive ([9953c35](https://github.com/bcgov/CONN-CCBC-portal/commit/9953c35c39244902952006ff42b3af608acded15))
+
 # [1.131.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.130.1...v1.131.0) (2023-12-28)
 
 ### Bug Fixes
