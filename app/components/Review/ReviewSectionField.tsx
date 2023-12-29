@@ -13,9 +13,11 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
     formContext,
   } = props;
   const uiOptions = uiSchema['ui:options'] || {};
+  const pageName = idSchema.$id?.split('_')?.[1];
+  const hasFormContextError = formContext?.formErrorSchema[pageName];
   const hasErrors = useMemo(
-    () => Object.keys(errorSchema || {}).length > 0,
-    [errorSchema]
+    () => Object.keys(errorSchema || {}).length > 0 || !!hasFormContextError,
+    [errorSchema, hasFormContextError]
   );
   const allowAnalystEdit =
     uiOptions?.allowAnalystEdit && (formContext.isEditable ?? true);

@@ -76,6 +76,7 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
         schema={fs}
         uiSchema={reviewUiSchema as any}
         formData={fullFormData}
+        formContext={formContext}
         liveValidate
         tagName="div"
       />

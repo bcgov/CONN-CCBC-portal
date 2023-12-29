@@ -16,8 +16,12 @@ const validate = (formData: any, schema: any) => {
       uploadPage.forEach((uploadField) => {
         // eslint-disable-next-line @typescript-eslint/dot-notation
         const errors = errorSchema[formPage][uploadField]['__errors'];
-
-        if (errors.includes('should be string')) {
+        // if errors includes 'should be string' and the field is not required or it is an array (filled), delete the error
+        if (
+          (errors.includes('should be string') &&
+            Array.isArray(formData[formPage][uploadField])) ||
+          !schema.properties[formPage]?.required?.includes(uploadField)
+        ) {
           delete errorSchema[formPage][uploadField];
         }
       });
