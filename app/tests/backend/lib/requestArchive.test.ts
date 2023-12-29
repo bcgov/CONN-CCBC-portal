@@ -38,13 +38,6 @@ jest.mock('../../../backend/lib/s3client', () => {
   };
 });
 
-jest.mock('../../../backend/lib/intakeId', () => {
-  return {
-    __esModule: true,
-    default: jest.fn().mockReturnValue('1'),
-  };
-});
-
 describe('The attachments archive', () => {
   let app;
 
@@ -73,6 +66,11 @@ describe('The attachments archive', () => {
         landingRoute: '/',
       };
     });
+
+    jest
+      // eslint-disable-next-line global-require
+      .spyOn(require('../../../backend/lib/intakeId'), 'default')
+      .mockImplementation(async () => '1');
 
     mocked(performQuery).mockImplementation(async () => {
       return {
