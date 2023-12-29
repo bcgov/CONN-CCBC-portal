@@ -19,7 +19,7 @@ const validate = (formData: any, schema: any) => {
         // if errors includes 'should be string' and the field is not required or it is an array (filled), delete the error
         if (
           (errors.includes('should be string') &&
-            Array.isArray(formData[formPage][uploadField])) ||
+            Array.isArray(formData?.[formPage]?.[uploadField])) ||
           !schema.properties[formPage]?.required?.includes(uploadField)
         ) {
           delete errorSchema[formPage][uploadField];

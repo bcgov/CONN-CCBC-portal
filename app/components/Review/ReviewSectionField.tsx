@@ -14,7 +14,7 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
   } = props;
   const uiOptions = uiSchema['ui:options'] || {};
   const pageName = idSchema.$id?.split('_')?.[1];
-  const hasFormContextError = formContext?.formErrorSchema[pageName];
+  const hasFormContextError = formContext?.formErrorSchema?.[pageName];
   const hasErrors = useMemo(
     () => Object.keys(errorSchema || {}).length > 0 || !!hasFormContextError,
     [errorSchema, hasFormContextError]

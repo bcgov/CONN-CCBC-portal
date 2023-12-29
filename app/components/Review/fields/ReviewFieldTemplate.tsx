@@ -33,7 +33,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   const fieldName = id?.split('_')?.[2];
   const pageName = id?.split('_')?.[1];
   const hasFormContextError =
-    formContext?.formErrorSchema[pageName]?.[fieldName];
+    formContext?.formErrorSchema?.[pageName]?.[fieldName];
   const isErrors = (rawErrors && rawErrors.length > 0) || !!hasFormContextError;
   // check if the field is in the rfi list so we can display rfi files for required fields that have an error
   const isFieldInRfi = formContext?.rfiList?.some((rfi) =>
