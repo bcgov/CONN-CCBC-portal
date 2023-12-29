@@ -256,7 +256,7 @@ const ApplicationForm: React.FC<Props> = ({
   const [isProjectAreaOpen, setProjectAreaOpen] = useState(
     !acceptedProjectAreasArray.includes(
       jsonData?.projectArea?.geographicArea?.[0]?.toString()
-    )
+    ) && !jsonData?.projectArea?.firstNationsLed
   );
   const [projectAreaModalType, setProjectAreaModalType] = useState('');
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
