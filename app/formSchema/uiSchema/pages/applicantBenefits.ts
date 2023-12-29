@@ -23,11 +23,13 @@ const applicantBenefits = {
       customTitle: true,
     },
     'ui:widget': 'HiddenWidget',
+    'ui:hidden': true,
   },
   householdsImpactedIndigenous: {
     // This is to hide the title without presenting any extra text
     'ui:options': { customTitle: true },
     'ui:widget': 'HiddenWidget',
+    'ui:hidden': true,
   },
 };
 
