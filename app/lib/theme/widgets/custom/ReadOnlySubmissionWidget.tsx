@@ -37,6 +37,7 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
 }) => {
   const uiSchema = formContext.finalUiSchema['ui:order'];
   const acceptedProjectAreas = formContext?.acceptedProjectAreasArray || null;
+  const noErrors = Object.keys(formContext?.formErrorSchema).length === 0;
 
   return (
     <>
@@ -61,24 +62,25 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
         )}
       </StyledError>
       <StyledError>
-        {!formContext?.fullFormData?.review?.acknowledgeIncomplete && (
-          <>
-            <br />
-            There is missing information in this application. Please see the
-            <StyledLink
-              href={`/applicantportal/form/${formContext.rowId}/${getFormPage(
-                uiSchema,
-                'review'
-              )}`}
-            >
-              {` Review `}
-            </StyledLink>
-            page
-            <br />
-            To submit the application with missing information, please complete
-            the acknowledgements at the bottom of the review page.
-          </>
-        )}
+        {!noErrors &&
+          !formContext?.fullFormData?.review?.acknowledgeIncomplete && (
+            <>
+              <br />
+              There is missing information in this application. Please see the
+              <StyledLink
+                href={`/applicantportal/form/${formContext.rowId}/${getFormPage(
+                  uiSchema,
+                  'review'
+                )}`}
+              >
+                {` Review `}
+              </StyledLink>
+              page
+              <br />
+              To submit the application with missing information, please
+              complete the acknowledgements at the bottom of the review page.
+            </>
+          )}
       </StyledError>
       <StyledError>
         {formContext.isProjectAreaOpen && (
