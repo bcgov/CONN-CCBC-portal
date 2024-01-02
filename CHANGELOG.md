@@ -1,3 +1,17 @@
+# [1.132.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.131.0...v1.132.0) (2023-12-30)
+
+### Bug Fixes
+
+- check if there are errors before flagging incomplete check ([b73e166](https://github.com/bcgov/CONN-CCBC-portal/commit/b73e1668ecf8bba5260e28750d60d52edf24f130))
+- prepare downloads crash with -1 intake number ([450d92b](https://github.com/bcgov/CONN-CCBC-portal/commit/450d92b92893031676b76f8a203003985695dddd))
+- s3 file name to get the actual intake id when passed -1 ([a5f4436](https://github.com/bcgov/CONN-CCBC-portal/commit/a5f44360994e863ced87427b09ba849a81e80fb3))
+- tests for s3 archive ([9953c35](https://github.com/bcgov/CONN-CCBC-portal/commit/9953c35c39244902952006ff42b3af608acded15))
+- update initial state to match when setting state dynamically ([b01aa83](https://github.com/bcgov/CONN-CCBC-portal/commit/b01aa836b1c16b4a0dd6c80bb616d79ef1953c2f))
+
+### Features
+
+- add logic to identify empty template uploads ([286fd74](https://github.com/bcgov/CONN-CCBC-portal/commit/286fd7420169af5c4b15605bedc9fb3e84748a94))
+
 # [1.131.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.130.1...v1.131.0) (2023-12-28)
 
 ### Bug Fixes
