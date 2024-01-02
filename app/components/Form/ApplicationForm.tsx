@@ -17,7 +17,6 @@ import { useUpdateApplicationForm } from 'schema/mutations/application/updateApp
 import verifyFormFields from 'utils/verifyFormFields';
 import ReviewField from 'components/Review/ReviewPageField';
 import { useFeature } from '@growthbook/growthbook-react';
-import { applicantBenefits as applicantBenefitSchema } from 'formSchema/pages';
 import { applicantBenefits } from 'formSchema/uiSchema/pages';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
@@ -224,13 +223,6 @@ const ApplicationForm: React.FC<Props> = ({
     jsonSchema = application.formData.formByFormSchemaId.jsonSchema;
     formSchemaId = application.formData.formByFormSchemaId.rowId;
   }
-  jsonSchema = {
-    ...jsonSchema,
-    properties: {
-      ...jsonSchema.properties,
-      ...applicantBenefitSchema,
-    },
-  };
 
   const formErrorSchema = useMemo(
     () => validate(jsonData, jsonSchema),
