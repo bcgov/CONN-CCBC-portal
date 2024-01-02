@@ -88,7 +88,6 @@ const Application = ({
   );
 
   // Budget details was removed from the applicant schema but we want to display in for Analysts
-  // Benefits
   // no matter which schema is returned from the database
   const formSchema = {
     ...jsonSchema,
