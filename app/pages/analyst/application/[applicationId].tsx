@@ -11,6 +11,7 @@ import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import styled from 'styled-components';
+import { benefits } from 'formSchema/pages';
 
 const StyledButton = styled('button')`
   color: ${(props) => props.theme.color.links};
@@ -88,12 +89,14 @@ const Application = ({
   );
 
   // Budget details was removed from the applicant schema but we want to display in for Analysts
+  // Benefits
   // no matter which schema is returned from the database
   const formSchema = {
     ...jsonSchema,
     properties: {
       ...jsonSchema.properties,
       ...budgetDetails,
+      ...benefits,
     },
   };
 

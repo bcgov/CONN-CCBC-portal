@@ -7,7 +7,7 @@ import type { JSONSchema7 } from 'json-schema';
 import { IChangeEvent } from '@rjsf/core';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Button from '@button-inc/bcgov-theme/Button';
-import budgetDetails from 'formSchema/pages/budgetDetails';
+import { budgetDetails, benefits as benefitsSchema } from 'formSchema/pages';
 import FormBase from 'components/Form/FormBase';
 import {
   calculate,
@@ -66,6 +66,7 @@ const EditApplication = ({
     properties: {
       ...jsonSchema.properties,
       ...budgetDetails,
+      ...benefitsSchema,
     },
   };
 

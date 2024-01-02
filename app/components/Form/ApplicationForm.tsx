@@ -223,7 +223,6 @@ const ApplicationForm: React.FC<Props> = ({
     jsonSchema = application.formData.formByFormSchemaId.jsonSchema;
     formSchemaId = application.formData.formByFormSchemaId.rowId;
   }
-
   const formErrorSchema = useMemo(
     () => validate(jsonData, jsonSchema),
     [jsonData, jsonSchema]
