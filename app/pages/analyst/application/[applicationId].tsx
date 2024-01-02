@@ -11,7 +11,6 @@ import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import styled from 'styled-components';
-import { benefits } from 'formSchema/pages';
 
 const StyledButton = styled('button')`
   color: ${(props) => props.theme.color.links};
@@ -96,7 +95,6 @@ const Application = ({
     properties: {
       ...jsonSchema.properties,
       ...budgetDetails,
-      ...benefits,
     },
   };
 
