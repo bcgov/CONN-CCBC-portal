@@ -1,3 +1,13 @@
+# [1.133.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.132.0...v1.133.0) (2024-01-03)
+
+### Bug Fixes
+
+- submit button not enabling if all fields are filled ([5036b60](https://github.com/bcgov/CONN-CCBC-portal/commit/5036b600f5b13c08b251a3113e6d0deb3919ffd1))
+
+### Features
+
+- use sow data for org name ([c1fb68a](https://github.com/bcgov/CONN-CCBC-portal/commit/c1fb68ac7e74ea535816b242003b1e1624499484))
+
 # [1.132.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.131.0...v1.132.0) (2023-12-30)
 
 ### Bug Fixes
