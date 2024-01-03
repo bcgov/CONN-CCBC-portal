@@ -23,7 +23,8 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
     onBlur,
     onFocus,
   } = props;
-  const { fullFormData, formSchema, formErrorSchema } = formContext;
+  const { fullFormData, finalUiSchema, formSchema, formErrorSchema } =
+    formContext;
   // This is to remove the accepted geographic area from the review page
   // Otherwise it will show an empty row
   const fs = {
@@ -56,6 +57,14 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
     });
   };
 
+  const finalApplicantUiSchema = {
+    ...reviewUiSchema,
+    benefits: {
+      ...reviewUiSchema.benefits,
+      ...finalUiSchema.benefits,
+    },
+  };
+
   return (
     <>
       <p>
@@ -74,7 +83,7 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
       <FormBase
         theme={ReviewTheme}
         schema={fs}
-        uiSchema={reviewUiSchema as any}
+        uiSchema={finalApplicantUiSchema as any}
         formData={fullFormData}
         formContext={formContext}
         liveValidate

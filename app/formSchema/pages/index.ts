@@ -1,5 +1,6 @@
 export { default as acknowledgements } from './acknowledgements';
 export { default as alternateContact } from './alternateContact';
+export { default as applicantBenefits } from './applicantBenefits';
 export { default as authorizedContact } from './authorizedContact';
 export { default as budgetDetails } from './budgetDetails';
 export { default as benefits } from './benefits';
