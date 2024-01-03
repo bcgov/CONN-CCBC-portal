@@ -1,3 +1,17 @@
+# [1.133.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.132.0...v1.133.0) (2024-01-03)
+
+### Bug Fixes
+
+- apply applicant benefits for applicant portal and review pages ([80fac1f](https://github.com/bcgov/CONN-CCBC-portal/commit/80fac1fde74eb5eadf4648f1a6e7e9af0b144564))
+- apply benefit schema changes to analyst portal ([c0cd040](https://github.com/bcgov/CONN-CCBC-portal/commit/c0cd040f423e32cb6e0ff4827a91450f485c5f4c))
+- correct validation for applicant on benefits ([6a14da8](https://github.com/bcgov/CONN-CCBC-portal/commit/6a14da88f17f1da77550bfd96a1598d1cffdc15f))
+- revert applicantBenefit change from schemaV2 ([bae5bd0](https://github.com/bcgov/CONN-CCBC-portal/commit/bae5bd0817ef40bf09b175448f0d80598f0594e6))
+- submit button not enabling if all fields are filled ([5036b60](https://github.com/bcgov/CONN-CCBC-portal/commit/5036b600f5b13c08b251a3113e6d0deb3919ffd1))
+
+### Features
+
+- use sow data for org name ([c1fb68a](https://github.com/bcgov/CONN-CCBC-portal/commit/c1fb68ac7e74ea535816b242003b1e1624499484))
+
 # [1.132.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.131.0...v1.132.0) (2023-12-30)
 
 ### Bug Fixes
