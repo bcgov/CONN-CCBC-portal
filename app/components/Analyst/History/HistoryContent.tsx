@@ -102,6 +102,16 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           []
         )
       : [];
+    // do the same for previous history item
+    const prevAdditionalFilesArray = filterArrays(
+      prevHistoryItem?.record?.json_data?.rfiAdditionalFiles || {}
+    );
+    const prevAdditionalFiles = prevAdditionalFilesArray
+      ? Object.values(prevAdditionalFilesArray).reduce(
+          (acc: string[], curr: string[]) => acc.concat(curr),
+          []
+        )
+      : [];
     return (
       <StyledContent data-testid="history-content-rfi">
         {op === 'INSERT' ? (
@@ -119,7 +129,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         {displayName !== 'The applicant' && (
           <>
             <HistoryDetails
-              json={record.json_data}
+              json={record?.json_data || {}}
               prevJson={prevHistoryItem?.record?.json_data || {}}
               excludedKeys={[
                 'id',
@@ -147,6 +157,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         {displayName === 'The applicant' && (
           <HistoryFile
             filesArray={additionalFiles || []}
+            previousFileArray={prevAdditionalFiles || []}
             title="Additional files"
           />
         )}
