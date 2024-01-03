@@ -3,7 +3,7 @@ import { graphql } from 'react-relay';
 import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
@@ -200,7 +200,23 @@ describe('The application form', () => {
       screen.getByRole('button', { name: 'Save and continue' })
     ).toBeDisabled();
 
-    await userEvent.click(lastCheckBox);
+    await act(async () => {
+      await userEvent.click(lastCheckBox);
+    });
+
+    const updateFormRequest =
+      componentTestingHelper.environment.mock.getMostRecentOperation();
+    await waitFor(() => {
+      expect(
+        componentTestingHelper.environment.isRequestActive(
+          updateFormRequest.request.identifier
+        )
+      ).toBeFalse();
+    });
+
+    act(() => {
+      componentTestingHelper.environment.mock.complete(updateFormRequest);
+    });
 
     expect(
       screen.getByRole('button', { name: 'Save and continue' })
@@ -510,12 +526,6 @@ describe('The application form', () => {
       expect(
         screen.getByRole('button', { name: /save and continue/i })
       ).toBeDisabled();
-
-      await userEvent.click(
-        screen.getByLabelText(
-          /you acknowledge that there are incomplete fields and incomplete applications may not be assessed/i
-        )
-      );
 
       expect(
         screen.getByRole('button', { name: /save and continue/i })
