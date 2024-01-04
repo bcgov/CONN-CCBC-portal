@@ -437,26 +437,24 @@ const ApplicationForm: React.FC<Props> = ({
         newFormSectionData?.geographicArea?.[0] === 'undefined' ||
         newFormSectionData?.geographicArea?.length === 0;
 
-      if (isSubmitted) {
-        if (isGeographicAreaEmpty || !projectAreaAccepted) {
-          // revert form data
-          newFormData = { ...jsonData };
+      if (isSubmitted && (isGeographicAreaEmpty || !projectAreaAccepted)) {
+        newFormData = {
+          ...jsonData,
+        };
+      }
+      if (isSubmitted && !projectAreaAccepted) {
+        if (geographicAreaInputChanged) {
+          // display new modal saying
+          // Invalid selection. You have indicated that this project is not led or supported by First Nations, therefore, you may only choose from zones 1,2,3 or 6.
+          setProjectAreaModalType('invalid-geographic-area');
         }
-
-        if (!projectAreaAccepted) {
-          if (geographicAreaInputChanged) {
-            // display new modal saying
-            // Invalid selection. You have indicated that this project is not led or supported by First Nations, therefore, you may only choose from zones 1,2,3 or 6.
-            setProjectAreaModalType('invalid-geographic-area');
-          }
-          if (firstNationsLedInputChanged) {
-            // display modal saying
-            // Invalid selection. Please first choose from zones 1,2,3 or 6 if this project is not supported or led by First Nations
-            setProjectAreaModalType('first-nations-led');
-          }
-        } else if (!isSubmitEnabled) {
-          setProjectAreaModalType('pre-submitted');
+        if (firstNationsLedInputChanged) {
+          // display modal saying
+          // Invalid selection. Please first choose from zones 1,2,3 or 6 if this project is not supported or led by First Nations
+          setProjectAreaModalType('first-nations-led');
         }
+      } else if (!isSubmitEnabled && !projectAreaAccepted) {
+        setProjectAreaModalType('pre-submitted');
       }
       setProjectAreaModalOpen(
         !projectAreaAccepted &&
