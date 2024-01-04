@@ -264,7 +264,7 @@ const ApplicationForm: React.FC<Props> = ({
   const [isProjectAreaSelected, setProjectAreaSelected] = useState(
     jsonData?.projectArea?.geographicArea?.length > 0
   );
-  const [isProjectAreaInvalid, setProjectAreaInvalid] = useState(
+  const [isProjectAreaInvalid, setIsProjectAreaInvalid] = useState(
     !acceptedProjectAreasArray.includes(
       jsonData?.projectArea?.geographicArea?.[0]?.toString()
     ) && !jsonData?.projectArea?.firstNationsLed
@@ -467,7 +467,7 @@ const ApplicationForm: React.FC<Props> = ({
         acceptedProjectAreasArray.includes(
           newFormData?.projectArea?.geographicArea?.[0]?.toString()
         );
-      setProjectAreaInvalid(!projectAreaAccepted);
+      setIsProjectAreaInvalid(!projectAreaAccepted);
       setProjectAreaSelected(
         newFormData?.projectArea?.geographicArea?.length > 0
       );
