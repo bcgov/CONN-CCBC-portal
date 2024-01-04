@@ -22,14 +22,23 @@ const ui = {
   },
 };
 
-const renderStaticLayout = (s: JSONSchema7, u: any, formData) => {
+const renderStaticLayout = (
+  s: JSONSchema7,
+  u: any,
+  formData,
+  formContext: any = {}
+) => {
   return render(
     <FormTestRenderer
       formData={formData}
       onSubmit={() => console.log('test')}
       schema={s as JSONSchema7}
       uiSchema={u}
-      formContext={{ finalUiSchema: uiSchema, formErrorSchema: {} }}
+      formContext={{
+        finalUiSchema: uiSchema,
+        formErrorSchema: {},
+        ...formContext,
+      }}
     />
   );
 };
@@ -47,5 +56,35 @@ describe('The ReadOnlySubmissionWidget', () => {
     });
 
     expect(screen.getByText('2022-09-22')).toBeInTheDocument();
+  });
+
+  it('should render error when project area not selected', () => {
+    renderStaticLayout(
+      schema as JSONSchema7,
+      ui,
+      {
+        submissionDate: '2022-09-22',
+      },
+      { isProjectAreaSelected: false }
+    );
+
+    expect(screen.getByText(/You must select a zone/)).toBeInTheDocument();
+  });
+
+  it('should render error when project area selected but an invalid selection', () => {
+    renderStaticLayout(
+      schema as JSONSchema7,
+      ui,
+      {
+        submissionDate: '2022-09-22',
+      },
+      { isProjectAreaSelected: true, isProjectAreaInvalid: true }
+    );
+
+    expect(
+      screen.getByText(
+        /For this intake CCBC is considering 2 types of projects/
+      )
+    ).toBeInTheDocument();
   });
 });
