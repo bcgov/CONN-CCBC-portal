@@ -520,6 +520,36 @@ describe('The application form', () => {
         screen.getByRole('button', { name: /save and continue/i })
       ).toBeDisabled();
 
+      await act(async () => {
+        await userEvent.click(
+          screen.getByLabelText(
+            /you acknowledge that there are incomplete fields and incomplete applications may not be assessed/i
+          )
+        );
+      });
+
+      act(() => {
+        componentTestingHelper.environment.mock.resolveMostRecentOperation({
+          data: {
+            updateApplicationForm: {
+              formData: {
+                id: 'TestFormId',
+                rowId: 123,
+                jsonData: {
+                  review: {
+                    acknowledgeIncomplete: true,
+                  },
+                },
+                formByFormSchemaId: {
+                  jsonSchema: schema,
+                },
+                isEditable: true,
+              },
+            },
+          },
+        });
+      });
+
       expect(
         screen.getByRole('button', { name: /save and continue/i })
       ).toBeEnabled();
