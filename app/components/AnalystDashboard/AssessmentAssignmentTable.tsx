@@ -166,6 +166,17 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               rowId
               projectName
               intakeId
+              applicationSowDataByApplicationId(
+                condition: { isAmendment: false }
+                last: 1
+              ) {
+                totalCount
+                nodes {
+                  id
+                  jsonData
+                  rowId
+                }
+              }
             }
           }
         }
@@ -294,7 +305,9 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
             application.allAssessments.edges,
             'technical'
           ),
-          projectTitle: projectName,
+          projectTitle:
+            application.applicationSowDataByApplicationId?.nodes[0]?.jsonData
+              ?.projectTitle || projectName,
           organizationName,
         };
       }),
