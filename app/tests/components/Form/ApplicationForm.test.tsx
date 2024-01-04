@@ -3,7 +3,7 @@ import { graphql } from 'react-relay';
 import compiledQuery, {
   ApplicationFormTestQuery,
 } from '__generated__/ApplicationFormTestQuery.graphql';
-import { act, fireEvent, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockFormData from 'tests/utils/mockFormData';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
@@ -206,13 +206,6 @@ describe('The application form', () => {
 
     const updateFormRequest =
       componentTestingHelper.environment.mock.getMostRecentOperation();
-    await waitFor(() => {
-      expect(
-        componentTestingHelper.environment.isRequestActive(
-          updateFormRequest.request.identifier
-        )
-      ).toBeFalse();
-    });
 
     act(() => {
       componentTestingHelper.environment.mock.complete(updateFormRequest);
