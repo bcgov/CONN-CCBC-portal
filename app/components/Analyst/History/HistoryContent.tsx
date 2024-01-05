@@ -140,17 +140,28 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
                 'size',
                 'type',
                 'rfiEmailCorrespondance',
+                'fileDate',
+                'uploadedAt',
               ]}
               diffSchema={rfiDiffSchema}
               overrideParent="rfi"
             />
-
             <HistoryFile
               filesArray={record.json_data?.rfiEmailCorrespondance || []}
               previousFileArray={
                 prevHistoryItem?.record?.json_data?.rfiEmailCorrespondance || []
               }
               title="Email files"
+            />
+            <HistoryFile
+              filesArray={additionalFiles || []}
+              previousFileArray={prevAdditionalFiles || []}
+              tableTitle={
+                record.json_data?.rfiEmailCorrespondance?.length > 0 ||
+                prevHistoryItem?.record?.json_data?.rfiEmailCorrespondance
+                  ?.length > 0
+              }
+              title="Additional files"
             />
           </>
         )}
