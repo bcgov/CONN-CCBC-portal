@@ -39,6 +39,20 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
   const acceptedProjectAreas = formContext?.acceptedProjectAreasArray || null;
   const noErrors = Object.keys(formContext?.formErrorSchema).length === 0;
 
+  const projectAreaLink = (
+    <>
+      {' '}
+      <StyledLink
+        href={`/applicantportal/form/${formContext.rowId}/${getFormPage(
+          uiSchema,
+          'projectArea'
+        )}`}
+      >
+        Project Area
+      </StyledLink>{' '}
+    </>
+  );
+
   return (
     <>
       <StyledContainer>
@@ -83,7 +97,16 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
           )}
       </StyledError>
       <StyledError>
-        {formContext.isProjectAreaOpen && (
+        {!formContext.isProjectAreaSelected && (
+          <>
+            <br />
+            You must select a zone on the {projectAreaLink} page to be able
+            submit an application.
+          </>
+        )}
+      </StyledError>
+      <StyledError>
+        {formContext.isProjectAreaSelected && formContext.isProjectAreaInvalid && (
           <>
             <br />
             For this intake CCBC is considering 2 types of projects;
@@ -96,17 +119,9 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
                 in any area of the province.
               </StyledListItem>
             </StyledList>
-            Please review your selections on the{' '}
-            <StyledLink
-              href={`/applicantportal/form/${formContext.rowId}/${getFormPage(
-                uiSchema,
-                'projectArea'
-              )}`}
-            >
-              {` Project Area `}
-            </StyledLink>{' '}
-            page to ensure your project meets these requirements to be able to
-            submit it during this intake.
+            Please review your selections on the {projectAreaLink} page to
+            ensure your project meets these requirements to be able to submit it
+            during this intake.
           </>
         )}
       </StyledError>

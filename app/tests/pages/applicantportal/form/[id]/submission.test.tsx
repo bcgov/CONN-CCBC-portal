@@ -102,6 +102,15 @@ const submissionPayload = {
   },
 };
 
+const submissionPayloadWithoutProjectArea = {
+  ...submissionPayload,
+  Application: () => {
+    const application = submissionPayload.Application();
+    application.formData.jsonData.projectArea.geographicArea = [];
+    return application;
+  },
+};
+
 const componentTestingHelper =
   new ComponentTestingHelper<ApplicationFormTestQuery>({
     component: ApplicationForm,
@@ -217,6 +226,20 @@ describe('The submission form page', () => {
     expect(
       screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
     ).toBeFalse();
+  });
+
+  it('submission page submit button is disabled when geographic area is not filled', () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
+    componentTestingHelper.loadQuery(submissionPayloadWithoutProjectArea);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    expect(
+      screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
+    ).toBeTrue();
   });
 
   it('submission page submit button is disabled on when all fields are not filled', async () => {

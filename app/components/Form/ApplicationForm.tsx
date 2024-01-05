@@ -261,7 +261,10 @@ const ApplicationForm: React.FC<Props> = ({
   const [savedAsDraft, setSavedAsDraft] = useState(false);
   const [projectAreaModalOpen, setProjectAreaModalOpen] = useState(false);
 
-  const [isProjectAreaOpen, setProjectAreaOpen] = useState(
+  const [isProjectAreaSelected, setProjectAreaSelected] = useState(
+    jsonData?.projectArea?.geographicArea?.length > 0
+  );
+  const [isProjectAreaInvalid, setIsProjectAreaInvalid] = useState(
     !acceptedProjectAreasArray.includes(
       jsonData?.projectArea?.geographicArea?.[0]?.toString()
     ) && !jsonData?.projectArea?.firstNationsLed
@@ -292,8 +295,9 @@ const ApplicationForm: React.FC<Props> = ({
       rowId,
       finalUiSchema,
       setTemplateData,
-      isProjectAreaOpen,
+      isProjectAreaInvalid,
       acceptedProjectAreasArray,
+      isProjectAreaSelected,
     };
   }, [
     openIntake,
@@ -303,8 +307,9 @@ const ApplicationForm: React.FC<Props> = ({
     areAllAcknowledgementsChecked,
     rowId,
     jsonSchema,
-    isProjectAreaOpen,
+    isProjectAreaInvalid,
     acceptedProjectAreasArray,
+    isProjectAreaSelected,
   ]);
 
   const updateAreAllAcknowledgementFieldsSet = (
@@ -361,7 +366,8 @@ const ApplicationForm: React.FC<Props> = ({
         isAcknowledgeIncomplete &&
         !isSubmitted &&
         isEditable &&
-        !isProjectAreaOpen
+        !isProjectAreaInvalid &&
+        isProjectAreaSelected
       );
 
     return true;
@@ -375,8 +381,9 @@ const ApplicationForm: React.FC<Props> = ({
     isSubmitted,
     isEditable,
     isAcknowledgeIncomplete,
-    isProjectAreaOpen,
     isUpdating,
+    isProjectAreaInvalid,
+    isProjectAreaSelected,
   ]);
 
   if (subschemaArray.length < pageNumber) {
@@ -425,11 +432,15 @@ const ApplicationForm: React.FC<Props> = ({
     }
     if (isProjectAreaPage) {
       const firstNationsLed = newFormSectionData?.firstNationsLed || false;
+      const isGeographicAreaEmpty =
+        newFormSectionData?.geographicArea?.[0] === 'undefined' ||
+        newFormSectionData?.geographicArea?.length === 0;
       const projectAreaAccepted =
-        firstNationsLed ||
-        acceptedProjectAreasArray.includes(
-          newFormSectionData?.geographicArea?.[0]?.toString()
-        );
+        !isGeographicAreaEmpty &&
+        (firstNationsLed ||
+          acceptedProjectAreasArray.includes(
+            newFormSectionData?.geographicArea?.[0]?.toString()
+          ));
 
       const geographicAreaInputChanged =
         typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
@@ -453,16 +464,27 @@ const ApplicationForm: React.FC<Props> = ({
           // Invalid selection. Please first choose from zones 1,2,3 or 6 if this project is not supported or led by First Nations
           setProjectAreaModalType('first-nations-led');
         }
-      } else if (!isSubmitEnabled && !projectAreaAccepted) {
+      } else if (!isSubmitted && !projectAreaAccepted) {
         setProjectAreaModalType('pre-submitted');
       }
-
-      setProjectAreaOpen(!projectAreaAccepted);
-
       setProjectAreaModalOpen(
         !projectAreaAccepted &&
           (geographicAreaInputChanged || firstNationsLedInputChanged)
       );
+
+      // Setting below properties to handle validation errors separately in submission page
+      // Setting if user has selected a project area
+      setProjectAreaSelected(
+        newFormData?.projectArea?.geographicArea?.length > 0
+      );
+      // calculating project area selection validity to clearout temporary values
+      // calculated for error handling/error modals
+      const projectAreaValid =
+        newFormData?.projectArea?.firstNationsLed ||
+        acceptedProjectAreasArray.includes(
+          newFormData?.projectArea?.geographicArea?.[0]?.toString()
+        );
+      setIsProjectAreaInvalid(!projectAreaValid);
     }
 
     if (templateData) {
