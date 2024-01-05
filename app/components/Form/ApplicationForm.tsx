@@ -339,6 +339,8 @@ const ApplicationForm: React.FC<Props> = ({
   const isOtherFundingSourcesPage = sectionName === 'otherFundingSources';
 
   const isSubmitEnabled = useMemo(() => {
+    if (isUpdating) return false;
+
     if (isWithdrawn) return false;
 
     if (sectionName === 'review')
@@ -368,6 +370,7 @@ const ApplicationForm: React.FC<Props> = ({
     isSubmitted,
     isEditable,
     isProjectAreaOpen,
+    isUpdating,
   ]);
 
   if (subschemaArray.length < pageNumber) {
