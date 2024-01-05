@@ -1,3 +1,9 @@
+## [1.133.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.1...v1.133.2) (2024-01-05)
+
+### Bug Fixes
+
+- submit disabled on some cases ([d758852](https://github.com/bcgov/CONN-CCBC-portal/commit/d75885293e2440e2327b30c7c42e9f2c300e4d8b))
+
 ## [1.133.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.0...v1.133.1) (2024-01-05)
 
 ### Bug Fixes
