@@ -369,7 +369,7 @@ const ProjectInformationForm: React.FC<Props> = ({
             />
           )}
           <MetabaseLink
-            href={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/86-one-pager-project-data-sow?ccbc_number=${ccbcNumber}`}
+            href={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/90-prod-sow-data-dashboard?ccbc_number=${ccbcNumber}`}
             text="View project data in Metabase"
             testHref={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`}
             width={326}

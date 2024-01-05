@@ -275,6 +275,9 @@ const ApplicationForm: React.FC<Props> = ({
   const [areAllSubmissionFieldsSet, setAreAllSubmissionFieldsSet] = useState(
     verifyAllSubmissionsFilled(jsonData.submission)
   );
+  const [isAcknowledgeIncomplete, setIsAcknowledgeIncomplete] = useState(
+    jsonData?.review?.acknowledgeIncomplete || false
+  );
   const [templateData, setTemplateData] = useState(null);
 
   const formContext = useMemo(() => {
@@ -342,6 +345,7 @@ const ApplicationForm: React.FC<Props> = ({
   const isAcknowledgementPage = sectionName === 'acknowledgements';
   const isProjectAreaPage = sectionName === 'projectArea';
   const isOtherFundingSourcesPage = sectionName === 'otherFundingSources';
+  const isReviewPage = sectionName === 'review';
 
   const isSubmitEnabled = useMemo(() => {
     if (isUpdating) return false;
@@ -359,6 +363,7 @@ const ApplicationForm: React.FC<Props> = ({
         areAllSubmissionFieldsSet &&
         areAllAcknowledgementsChecked &&
         (noErrors || jsonData?.review?.acknowledgeIncomplete) &&
+        isAcknowledgeIncomplete &&
         !isSubmitted &&
         isEditable &&
         !isProjectAreaInvalid &&
@@ -375,6 +380,7 @@ const ApplicationForm: React.FC<Props> = ({
     jsonData,
     isSubmitted,
     isEditable,
+    isAcknowledgeIncomplete,
     isUpdating,
     isProjectAreaInvalid,
     isProjectAreaSelected,
@@ -418,6 +424,11 @@ const ApplicationForm: React.FC<Props> = ({
     }
     if (isSubmitPage) {
       updateAreAllSubmissionFieldsSet(newFormSectionData);
+    }
+    if (isReviewPage) {
+      setIsAcknowledgeIncomplete(
+        newFormSectionData?.acknowledgeIncomplete || false
+      );
     }
     if (isProjectAreaPage) {
       const firstNationsLed = newFormSectionData?.firstNationsLed || false;
