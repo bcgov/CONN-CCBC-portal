@@ -261,7 +261,10 @@ const ApplicationForm: React.FC<Props> = ({
   const [savedAsDraft, setSavedAsDraft] = useState(false);
   const [projectAreaModalOpen, setProjectAreaModalOpen] = useState(false);
 
-  const [isProjectAreaOpen, setProjectAreaOpen] = useState(
+  const [isProjectAreaSelected, setProjectAreaSelected] = useState(
+    jsonData?.projectArea?.geographicArea?.length > 0
+  );
+  const [isInvalidProjectArea, setInvalidProjectArea] = useState(
     !acceptedProjectAreasArray.includes(
       jsonData?.projectArea?.geographicArea?.[0]?.toString()
     ) && !jsonData?.projectArea?.firstNationsLed
@@ -289,8 +292,9 @@ const ApplicationForm: React.FC<Props> = ({
       rowId,
       finalUiSchema,
       setTemplateData,
-      isProjectAreaOpen,
+      isInvalidProjectArea,
       acceptedProjectAreasArray,
+      isProjectAreaSelected,
     };
   }, [
     openIntake,
@@ -300,8 +304,9 @@ const ApplicationForm: React.FC<Props> = ({
     areAllAcknowledgementsChecked,
     rowId,
     jsonSchema,
-    isProjectAreaOpen,
+    isInvalidProjectArea,
     acceptedProjectAreasArray,
+    isProjectAreaSelected,
   ]);
 
   const updateAreAllAcknowledgementFieldsSet = (
@@ -356,7 +361,8 @@ const ApplicationForm: React.FC<Props> = ({
         (noErrors || jsonData?.review?.acknowledgeIncomplete) &&
         !isSubmitted &&
         isEditable &&
-        !isProjectAreaOpen
+        !isInvalidProjectArea &&
+        isProjectAreaSelected
       );
 
     return true;
@@ -369,8 +375,9 @@ const ApplicationForm: React.FC<Props> = ({
     jsonData,
     isSubmitted,
     isEditable,
-    isProjectAreaOpen,
     isUpdating,
+    isInvalidProjectArea,
+    isProjectAreaSelected,
   ]);
 
   if (subschemaArray.length < pageNumber) {
@@ -414,7 +421,7 @@ const ApplicationForm: React.FC<Props> = ({
     }
     if (isProjectAreaPage) {
       const firstNationsLed = newFormSectionData?.firstNationsLed || false;
-      const projectAreaAccepted =
+      let projectAreaAccepted =
         firstNationsLed ||
         acceptedProjectAreasArray.includes(
           newFormSectionData?.geographicArea?.[0]?.toString()
@@ -426,31 +433,43 @@ const ApplicationForm: React.FC<Props> = ({
           jsonData.projectArea?.geographicArea?.[0];
       const firstNationsLedInputChanged =
         firstNationsLed !== jsonData.projectArea?.firstNationsLed;
+      const isGeographicAreaEmpty =
+        newFormSectionData?.geographicArea?.[0] === 'undefined' ||
+        newFormSectionData?.geographicArea?.length === 0;
 
-      if (isSubmitted && !projectAreaAccepted) {
-        // revert form data
-        newFormData = {
-          ...jsonData,
-        };
-        if (geographicAreaInputChanged) {
-          // display new modal saying
-          // Invalid selection. You have indicated that this project is not led or supported by First Nations, therefore, you may only choose from zones 1,2,3 or 6.
-          setProjectAreaModalType('invalid-geographic-area');
+      if (isSubmitted) {
+        if (isGeographicAreaEmpty || !projectAreaAccepted) {
+          // revert form data
+          newFormData = { ...jsonData };
         }
-        if (firstNationsLedInputChanged) {
-          // display modal saying
-          // Invalid selection. Please first choose from zones 1,2,3 or 6 if this project is not supported or led by First Nations
-          setProjectAreaModalType('first-nations-led');
+
+        if (!projectAreaAccepted) {
+          if (geographicAreaInputChanged) {
+            // display new modal saying
+            // Invalid selection. You have indicated that this project is not led or supported by First Nations, therefore, you may only choose from zones 1,2,3 or 6.
+            setProjectAreaModalType('invalid-geographic-area');
+          }
+          if (firstNationsLedInputChanged) {
+            // display modal saying
+            // Invalid selection. Please first choose from zones 1,2,3 or 6 if this project is not supported or led by First Nations
+            setProjectAreaModalType('first-nations-led');
+          }
+        } else if (!isSubmitEnabled) {
+          setProjectAreaModalType('pre-submitted');
         }
-      } else if (!isSubmitEnabled && !projectAreaAccepted) {
-        setProjectAreaModalType('pre-submitted');
       }
-
-      setProjectAreaOpen(!projectAreaAccepted);
-
       setProjectAreaModalOpen(
         !projectAreaAccepted &&
           (geographicAreaInputChanged || firstNationsLedInputChanged)
+      );
+      projectAreaAccepted =
+        firstNationsLed ||
+        acceptedProjectAreasArray.includes(
+          newFormData?.projectArea?.geographicArea?.[0]?.toString()
+        );
+      setInvalidProjectArea(!projectAreaAccepted);
+      setProjectAreaSelected(
+        newFormData?.projectArea?.geographicArea?.length > 0
       );
     }
 
