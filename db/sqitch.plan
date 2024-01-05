@@ -510,3 +510,4 @@ computed_columns/application_history [computed_columns/application_history@1.123
 computed_columns/application_organization_name [computed_columns/application_organization_name@1.129.0] 2024-01-02T20:26:18Z Anthony Bushara <anthony@button.is> # Include option for sow data org name
 @1.133.0 2024-01-03T16:32:45Z CCBC Service Account <ccbc@button.is> # release v1.133.0
 @1.133.1 2024-01-05T15:04:11Z CCBC Service Account <ccbc@button.is> # release v1.133.1
+@1.133.2 2024-01-05T18:42:54Z CCBC Service Account <ccbc@button.is> # release v1.133.2
