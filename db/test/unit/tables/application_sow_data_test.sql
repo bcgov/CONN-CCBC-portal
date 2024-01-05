@@ -22,8 +22,8 @@ select table_privs_are(
 );
 
 select table_privs_are(
-  'ccbc_public', 'application_sow_data', 'ccbc_auth_user', ARRAY[]::text[],
-  'ccbc_auth_user has no privileges from application_sow_data table'
+  'ccbc_public', 'application_sow_data', 'ccbc_auth_user', ARRAY['SELECT']::text[],
+  'ccbc_auth_user can select from application_sow_data table'
 );
 
 select table_privs_are(
