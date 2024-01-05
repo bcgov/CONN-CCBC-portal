@@ -1,3 +1,9 @@
+## [1.133.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.3...v1.133.4) (2024-01-05)
+
+### Bug Fixes
+
+- inconsistent submit and review page ([868acb0](https://github.com/bcgov/CONN-CCBC-portal/commit/868acb03f71bd3c4f01a20d112ce7184524ccf24))
+
 ## [1.133.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.2...v1.133.3) (2024-01-05)
 
 ### Bug Fixes
