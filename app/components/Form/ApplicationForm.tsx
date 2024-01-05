@@ -430,20 +430,26 @@ const ApplicationForm: React.FC<Props> = ({
           acceptedProjectAreasArray.includes(
             newFormSectionData?.geographicArea?.[0]?.toString()
           ));
+
       const geographicAreaInputChanged =
         typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
         newFormSectionData?.geographicArea[0] !==
           jsonData.projectArea?.geographicArea?.[0];
       const firstNationsLedInputChanged =
         firstNationsLed !== jsonData.projectArea?.firstNationsLed;
+
       if (isSubmitted && !projectAreaAccepted) {
         newFormData = {
           ...jsonData,
         };
         if (geographicAreaInputChanged) {
+          // display new modal saying
+          // Invalid selection. You have indicated that this project is not led or supported by First Nations, therefore, you may only choose from zones 1,2,3 or 6.
           setProjectAreaModalType('invalid-geographic-area');
         }
         if (firstNationsLedInputChanged) {
+          // display modal saying
+          // Invalid selection. Please first choose from zones 1,2,3 or 6 if this project is not supported or led by First Nations
           setProjectAreaModalType('first-nations-led');
         }
       } else if (!isSubmitted && !projectAreaAccepted) {
@@ -453,15 +459,20 @@ const ApplicationForm: React.FC<Props> = ({
         !projectAreaAccepted &&
           (geographicAreaInputChanged || firstNationsLedInputChanged)
       );
+
+      // Setting below properties to handle validation errors separately in submission page
+      // Setting if user has selected a project area
+      setProjectAreaSelected(
+        newFormData?.projectArea?.geographicArea?.length > 0
+      );
+      // calculating project area selection validity to clearout temporary values
+      // calculated for error handling/error modals
       const projectAreaValid =
-        firstNationsLed ||
+        newFormData?.projectArea?.firstNationsLed ||
         acceptedProjectAreasArray.includes(
           newFormData?.projectArea?.geographicArea?.[0]?.toString()
         );
       setIsProjectAreaInvalid(!projectAreaValid);
-      setProjectAreaSelected(
-        newFormData?.projectArea?.geographicArea?.length > 0
-      );
     }
 
     if (templateData) {
