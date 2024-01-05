@@ -264,7 +264,7 @@ const ApplicationForm: React.FC<Props> = ({
   const [isProjectAreaSelected, setProjectAreaSelected] = useState(
     jsonData?.projectArea?.geographicArea?.length > 0
   );
-  const [isInvalidProjectArea, setInvalidProjectArea] = useState(
+  const [isProjectAreaInvalid, setProjectAreaInvalid] = useState(
     !acceptedProjectAreasArray.includes(
       jsonData?.projectArea?.geographicArea?.[0]?.toString()
     ) && !jsonData?.projectArea?.firstNationsLed
@@ -292,7 +292,7 @@ const ApplicationForm: React.FC<Props> = ({
       rowId,
       finalUiSchema,
       setTemplateData,
-      isInvalidProjectArea,
+      isProjectAreaInvalid,
       acceptedProjectAreasArray,
       isProjectAreaSelected,
     };
@@ -304,7 +304,7 @@ const ApplicationForm: React.FC<Props> = ({
     areAllAcknowledgementsChecked,
     rowId,
     jsonSchema,
-    isInvalidProjectArea,
+    isProjectAreaInvalid,
     acceptedProjectAreasArray,
     isProjectAreaSelected,
   ]);
@@ -361,7 +361,7 @@ const ApplicationForm: React.FC<Props> = ({
         (noErrors || jsonData?.review?.acknowledgeIncomplete) &&
         !isSubmitted &&
         isEditable &&
-        !isInvalidProjectArea &&
+        !isProjectAreaInvalid &&
         isProjectAreaSelected
       );
 
@@ -376,7 +376,7 @@ const ApplicationForm: React.FC<Props> = ({
     isSubmitted,
     isEditable,
     isUpdating,
-    isInvalidProjectArea,
+    isProjectAreaInvalid,
     isProjectAreaSelected,
   ]);
 
@@ -467,7 +467,7 @@ const ApplicationForm: React.FC<Props> = ({
         acceptedProjectAreasArray.includes(
           newFormData?.projectArea?.geographicArea?.[0]?.toString()
         );
-      setInvalidProjectArea(!projectAreaAccepted);
+      setProjectAreaInvalid(!projectAreaAccepted);
       setProjectAreaSelected(
         newFormData?.projectArea?.geographicArea?.length > 0
       );

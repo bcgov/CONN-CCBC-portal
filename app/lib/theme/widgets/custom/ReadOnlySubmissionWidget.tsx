@@ -106,7 +106,7 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
         )}
       </StyledError>
       <StyledError>
-        {formContext.isProjectAreaSelected && formContext.isInvalidProjectArea && (
+        {formContext.isProjectAreaSelected && formContext.isProjectAreaInvalid && (
           <>
             <br />
             For this intake CCBC is considering 2 types of projects;
