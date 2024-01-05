@@ -421,51 +421,44 @@ const ApplicationForm: React.FC<Props> = ({
     }
     if (isProjectAreaPage) {
       const firstNationsLed = newFormSectionData?.firstNationsLed || false;
-      let projectAreaAccepted =
-        firstNationsLed ||
-        acceptedProjectAreasArray.includes(
-          newFormSectionData?.geographicArea?.[0]?.toString()
-        );
-
+      const isGeographicAreaEmpty =
+        newFormSectionData?.geographicArea?.[0] === 'undefined' ||
+        newFormSectionData?.geographicArea?.length === 0;
+      const projectAreaAccepted =
+        !isGeographicAreaEmpty &&
+        (firstNationsLed ||
+          acceptedProjectAreasArray.includes(
+            newFormSectionData?.geographicArea?.[0]?.toString()
+          ));
       const geographicAreaInputChanged =
         typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
         newFormSectionData?.geographicArea[0] !==
           jsonData.projectArea?.geographicArea?.[0];
       const firstNationsLedInputChanged =
         firstNationsLed !== jsonData.projectArea?.firstNationsLed;
-      const isGeographicAreaEmpty =
-        newFormSectionData?.geographicArea?.[0] === 'undefined' ||
-        newFormSectionData?.geographicArea?.length === 0;
-
-      if (isSubmitted && (isGeographicAreaEmpty || !projectAreaAccepted)) {
+      if (isSubmitted && !projectAreaAccepted) {
         newFormData = {
           ...jsonData,
         };
-      }
-      if (isSubmitted && !projectAreaAccepted) {
         if (geographicAreaInputChanged) {
-          // display new modal saying
-          // Invalid selection. You have indicated that this project is not led or supported by First Nations, therefore, you may only choose from zones 1,2,3 or 6.
           setProjectAreaModalType('invalid-geographic-area');
         }
         if (firstNationsLedInputChanged) {
-          // display modal saying
-          // Invalid selection. Please first choose from zones 1,2,3 or 6 if this project is not supported or led by First Nations
           setProjectAreaModalType('first-nations-led');
         }
-      } else if (!isSubmitEnabled && !projectAreaAccepted) {
+      } else if (!isSubmitted && !projectAreaAccepted) {
         setProjectAreaModalType('pre-submitted');
       }
       setProjectAreaModalOpen(
         !projectAreaAccepted &&
           (geographicAreaInputChanged || firstNationsLedInputChanged)
       );
-      projectAreaAccepted =
+      const projectAreaValid =
         firstNationsLed ||
         acceptedProjectAreasArray.includes(
           newFormData?.projectArea?.geographicArea?.[0]?.toString()
         );
-      setIsProjectAreaInvalid(!projectAreaAccepted);
+      setIsProjectAreaInvalid(!projectAreaValid);
       setProjectAreaSelected(
         newFormData?.projectArea?.geographicArea?.length > 0
       );
