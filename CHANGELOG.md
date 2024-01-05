@@ -1,3 +1,9 @@
+## [1.133.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.2...v1.133.3) (2024-01-05)
+
+### Bug Fixes
+
+- changes to sow metabase url prod ([4379e8e](https://github.com/bcgov/CONN-CCBC-portal/commit/4379e8ef2d03d4f47af4cf2f3c74150bc71dfe24))
+
 ## [1.133.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.1...v1.133.2) (2024-01-05)
 
 ### Bug Fixes
