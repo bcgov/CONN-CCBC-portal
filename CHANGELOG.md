@@ -1,3 +1,9 @@
+## [1.133.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.0...v1.133.1) (2024-01-05)
+
+### Bug Fixes
+
+- save and continuie button is disabled while a save operation is in flight ([7c3847f](https://github.com/bcgov/CONN-CCBC-portal/commit/7c3847f35b03ebbe95fd000a740586d20dbf777a))
+
 # [1.133.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.132.0...v1.133.0) (2024-01-03)
 
 ### Bug Fixes
