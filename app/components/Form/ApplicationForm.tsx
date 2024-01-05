@@ -439,6 +439,7 @@ const ApplicationForm: React.FC<Props> = ({
         firstNationsLed !== jsonData.projectArea?.firstNationsLed;
 
       if (isSubmitted && !projectAreaAccepted) {
+        // revert form data
         newFormData = {
           ...jsonData,
         };
