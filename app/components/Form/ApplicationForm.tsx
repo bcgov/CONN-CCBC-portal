@@ -362,8 +362,7 @@ const ApplicationForm: React.FC<Props> = ({
       return (
         areAllSubmissionFieldsSet &&
         areAllAcknowledgementsChecked &&
-        (noErrors || jsonData?.review?.acknowledgeIncomplete) &&
-        isAcknowledgeIncomplete &&
+        (noErrors || isAcknowledgeIncomplete) &&
         !isSubmitted &&
         isEditable &&
         !isProjectAreaInvalid &&
