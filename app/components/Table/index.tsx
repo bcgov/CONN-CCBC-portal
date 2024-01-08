@@ -14,6 +14,7 @@ import FilterRow from './FilterRow';
 import { FilterArgs, PageArgs, TableFilter } from './Filters';
 import Pagination from './Pagination';
 import SortableHeader from './SortableHeader';
+import RowCount from './RowCount';
 
 const StyledTable = styled('table')`
   margin-bottom: 0px;
@@ -30,6 +31,7 @@ interface Props {
   disableFiltering?: boolean;
   paginated?: boolean;
   totalRowCount?: number;
+  availableRowCount?: number;
   emptyStateContents?: JSX.Element | string;
   /**
    * The top-level query used by the page rendenring the table.
@@ -46,6 +48,7 @@ const Table: React.FC<Props> = ({
   filters,
   paginated,
   totalRowCount,
+  availableRowCount,
   children,
   pageQuery,
   disableFiltering = false,
@@ -158,56 +161,63 @@ const Table: React.FC<Props> = ({
   };
 
   const rows = React.Children.toArray(children);
+  const renderRowCount = () => (
+    <RowCount rowCount={totalRowCount} totalCount={availableRowCount} />
+  );
 
   return (
-    <StyledTable>
-      {/* class name is used to increase specificity of CSS selectors and override defaults */}
-      <StyledTableHead>
-        <tr>
-          {filters.map((filter) => (
-            <SortableHeader
-              key={`${filter.title}-header`}
-              orderByPrefix={filter.orderByPrefix}
-              displayName={filter.title}
-              sortable={filter.isSortEnabled}
-              loading={isRefetching}
-              onRouteUpdate={handleRouteUpdate}
-            />
-          ))}
-        </tr>
-        {!disableFiltering && (
-          <FilterRow
-            filterArgs={filterArgs}
-            filters={filters}
-            disabled={isRefetching}
-            onSubmit={applyFilterArgs}
-          />
-        )}
-      </StyledTableHead>
-      <tbody>
-        {rows.length > 0 ? (
-          rows
-        ) : (
+    <>
+      {renderRowCount()}
+      <StyledTable>
+        {/* class name is used to increase specificity of CSS selectors and override defaults */}
+        <StyledTableHead>
           <tr>
-            <td colSpan={filters.length}>{emptyStateContents}</td>
+            {filters.map((filter) => (
+              <SortableHeader
+                key={`${filter.title}-header`}
+                orderByPrefix={filter.orderByPrefix}
+                displayName={filter.title}
+                sortable={filter.isSortEnabled}
+                loading={isRefetching}
+                onRouteUpdate={handleRouteUpdate}
+              />
+            ))}
           </tr>
-        )}
-      </tbody>
-      {paginated && (
-        <tfoot>
-          <tr>
-            <Pagination
-              totalCount={totalRowCount}
-              offset={offset}
-              pageSize={pageSize}
+          {!disableFiltering && (
+            <FilterRow
+              filterArgs={filterArgs}
+              filters={filters}
               disabled={isRefetching}
-              onOffsetChange={handleOffsetChange}
-              onPageSizeChange={handleMaxResultsChange}
+              onSubmit={applyFilterArgs}
             />
-          </tr>
-        </tfoot>
-      )}
-    </StyledTable>
+          )}
+        </StyledTableHead>
+        <tbody>
+          {rows.length > 0 ? (
+            rows
+          ) : (
+            <tr>
+              <td colSpan={filters.length}>{emptyStateContents}</td>
+            </tr>
+          )}
+        </tbody>
+        {paginated && (
+          <tfoot>
+            <tr>
+              <Pagination
+                totalCount={totalRowCount}
+                offset={offset}
+                pageSize={pageSize}
+                disabled={isRefetching}
+                onOffsetChange={handleOffsetChange}
+                onPageSizeChange={handleMaxResultsChange}
+              />
+            </tr>
+          </tfoot>
+        )}
+      </StyledTable>
+      {renderRowCount()}
+    </>
   );
 };
 
