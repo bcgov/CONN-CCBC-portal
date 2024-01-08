@@ -162,7 +162,10 @@ const Table: React.FC<Props> = ({
 
   const rows = React.Children.toArray(children);
   const renderRowCount = () => (
-    <RowCount rowCount={totalRowCount} totalCount={availableRowCount} />
+    <RowCount
+      visibleRowCount={totalRowCount}
+      totalRowCount={availableRowCount}
+    />
   );
 
   return (

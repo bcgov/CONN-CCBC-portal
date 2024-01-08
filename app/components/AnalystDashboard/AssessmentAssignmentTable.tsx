@@ -412,9 +412,12 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     },
   });
 
-  const filteredAndSortedRows = table.getRowModel().rows.length;
+  const visibleRowCount = table.getRowModel().rows?.length ?? 0;
   const renderRowCount = () => (
-    <RowCount rowCount={filteredAndSortedRows} totalCount={tableData.length} />
+    <RowCount
+      visibleRowCount={visibleRowCount}
+      totalRowCount={tableData.length}
+    />
   );
 
   return (

@@ -7,14 +7,16 @@ const StyledDiv = styled.div`
 `;
 
 interface Props {
-  rowCount: number;
-  totalCount: number;
+  // filtered row count for that specific criteria
+  visibleRowCount: number;
+  // total number of record count available in database
+  totalRowCount: number;
 }
 
-const RowCount: React.FC<Props> = ({ rowCount, totalCount }) => {
+const RowCount: React.FC<Props> = ({ visibleRowCount, totalRowCount }) => {
   return (
     <StyledDiv>
-      Showing {rowCount} of {totalCount} rows
+      Showing {visibleRowCount} of {totalRowCount} rows
     </StyledDiv>
   );
 };

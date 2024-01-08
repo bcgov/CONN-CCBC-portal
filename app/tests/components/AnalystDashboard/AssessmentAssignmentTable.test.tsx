@@ -224,6 +224,10 @@ describe('The AssessmentAssignmentTable component', () => {
 
     const countRows = screen.getAllByText(/Showing 1 of 4 rows/i);
     expect(countRows).toHaveLength(2);
+
+    await act(async () => {
+      fireEvent.change(filterInput, { target: { value: '' } });
+    });
   });
 
   it('should render the correct row data', () => {
