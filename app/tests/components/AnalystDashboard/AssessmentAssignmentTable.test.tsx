@@ -189,6 +189,43 @@ describe('The AssessmentAssignmentTable component', () => {
     expect(screen.getByText('Organization Name')).toBeInTheDocument();
   });
 
+  it('should render the row count data', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const countRows = screen.getAllByText(/Showing 4 of 4 rows/i);
+    expect(countRows).toHaveLength(2);
+  });
+
+  it('should render the row count data correctly with filters', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const columnActions = document.querySelectorAll(
+      '[aria-label="Column Actions"]'
+    )[0];
+    await act(async () => {
+      fireEvent.click(columnActions);
+    });
+
+    const ccbcIdFilter = screen.getByText('Filter by CCBC ID');
+    await act(async () => {
+      fireEvent.click(ccbcIdFilter);
+    });
+
+    const filterInput = screen.getByPlaceholderText('Filter by CCBC ID');
+    await act(async () => {
+      fireEvent.change(filterInput, { target: { value: 'CCBC-010001' } });
+    });
+
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    const countRows = screen.getAllByText(/Showing 1 of 4 rows/i);
+    expect(countRows).toHaveLength(2);
+  });
+
   it('should render the correct row data', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();

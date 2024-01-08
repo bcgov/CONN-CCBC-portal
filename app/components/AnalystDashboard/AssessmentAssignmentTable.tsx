@@ -148,7 +148,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
             analystStatus: { in: ["received", "screening", "assessment"] }
           }
         ) {
-          totalCount
           edges {
             node {
               allAssessments(filter: { archivedAt: { isNull: true } }) {
@@ -415,10 +414,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
 
   const filteredAndSortedRows = table.getRowModel().rows.length;
   const renderRowCount = () => (
-    <RowCount
-      rowCount={filteredAndSortedRows}
-      totalCount={allApplications.totalCount}
-    />
+    <RowCount rowCount={filteredAndSortedRows} totalCount={tableData.length} />
   );
 
   return (
