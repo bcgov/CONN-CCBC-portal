@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import * as Sentry from '@sentry/nextjs';
 import config from '../config';
 
 const defaultLandingRoutes = {
@@ -17,6 +18,7 @@ const getAuthRole = (req: Request) => {
     };
   }
 
+  Sentry.captureException(req?.claims || 'No claims found');
   if (!req?.claims)
     return {
       pgRole: 'ccbc_guest',
