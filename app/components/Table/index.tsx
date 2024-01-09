@@ -161,12 +161,14 @@ const Table: React.FC<Props> = ({
   };
 
   const rows = React.Children.toArray(children);
-  const renderRowCount = () => (
-    <RowCount
-      visibleRowCount={totalRowCount}
-      totalRowCount={availableRowCount}
-    />
-  );
+
+  const renderRowCount = () =>
+    availableRowCount !== undefined && (
+      <RowCount
+        visibleRowCount={totalRowCount}
+        totalRowCount={availableRowCount}
+      />
+    );
 
   return (
     <>
