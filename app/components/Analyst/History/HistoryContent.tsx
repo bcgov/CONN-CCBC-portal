@@ -175,6 +175,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
               diffSchema={rfiDiffSchema}
               overrideParent="rfi"
             />
+            {/* Email files can be an update or insert, but will never occur at the same time as additional files */}
             {showEmailFiles && !showAdditionalFiles && (
               <HistoryFile
                 filesArray={record.json_data?.rfiEmailCorrespondance || []}
