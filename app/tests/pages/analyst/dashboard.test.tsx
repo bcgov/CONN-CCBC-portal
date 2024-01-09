@@ -16,6 +16,7 @@ const mockQueryPayload = {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
         authRole: 'ccbc_analyst',
       },
+      totalAvailableApplications: { totalCount: 10 },
       allApplications: {
         totalCount: 4,
         edges: [
@@ -190,6 +191,14 @@ describe('The index page', () => {
     expect(screen.getByText('Organization')).toBeInTheDocument();
     expect(screen.getByText('Lead')).toBeInTheDocument();
     expect(screen.getByText('Package')).toBeInTheDocument();
+  });
+
+  it('renders analyst table row counts', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const countRows = screen.getAllByText(/Showing 4 of 10 rows/i);
+    expect(countRows).toHaveLength(2);
   });
 
   it('click on table row leads to review page', async () => {

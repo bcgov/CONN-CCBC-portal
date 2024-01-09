@@ -58,6 +58,9 @@ const getDashboardAnalystQuery = graphql`
       ...DashboardTabs_query
     }
     ...AnalystRow_query
+    totalAvailableApplications: allApplications {
+      totalCount
+    }
     allApplications(
       first: 500
       offset: $offset
@@ -100,7 +103,7 @@ const AnalystDashboard = ({
 }: RelayProps<Record<string, unknown>, dashboardAnalystQuery>) => {
   const query = usePreloadedQuery(getDashboardAnalystQuery, preloadedQuery);
   const router = useRouter();
-  const { session, allApplications } = query;
+  const { session, allApplications, totalAvailableApplications } = query;
   const showTableTabs = useFeature('show_assessment_assignment_table').value;
 
   const hasSort = router.query?.orderBy;
@@ -171,6 +174,7 @@ const AnalystDashboard = ({
           paginated={false}
           filters={tableFilters}
           totalRowCount={allApplications.totalCount}
+          availableRowCount={totalAvailableApplications.totalCount}
         >
           {allApplications.edges.map(({ node }) => (
             <AnalystRow key={node.id} query={query} application={node} />

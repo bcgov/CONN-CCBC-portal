@@ -5,6 +5,7 @@ import cookie from 'js-cookie';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   MaterialReactTable,
+  useMaterialReactTable,
   type MRT_ColumnDef,
   type MRT_ColumnFiltersState,
   type MRT_DensityState,
@@ -13,6 +14,7 @@ import {
 } from 'material-react-table';
 
 import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
+import RowCount from 'components/Table/RowCount';
 
 type Assessment = {
   rowId: string;
@@ -365,51 +367,65 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     ];
   }, []);
 
-  return (
-    <MaterialReactTable
-      columns={columns}
-      data={tableData}
-      state={{
-        columnFilters,
-        columnVisibility,
-        density,
-        showColumnFilters,
-        sorting,
-      }}
-      onSortingChange={setSorting}
-      onColumnFiltersChange={setColumnFilters}
-      onColumnVisibilityChange={setColumnVisibility}
-      onDensityChange={setDensity}
-      onShowColumnFiltersChange={setShowColumnFilters}
-      enablePagination={false}
-      enableGlobalFilter={false}
-      enableBottomToolbar={false}
-      muiTableContainerProps={{ sx: { padding: '8px' } }}
-      layoutMode={isLargeUp ? 'grid' : 'semantic'}
-      muiTableBodyCellProps={{
-        sx: {
-          padding: '8px 0px',
+  const table = useMaterialReactTable({
+    columns,
+    data: tableData,
+    state: {
+      columnFilters,
+      columnVisibility,
+      density,
+      showColumnFilters,
+      sorting,
+    },
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    onDensityChange: setDensity,
+    onShowColumnFiltersChange: setShowColumnFilters,
+    enablePagination: false,
+    enableGlobalFilter: false,
+    enableBottomToolbar: false,
+    muiTableContainerProps: { sx: { padding: '8px' } },
+    layoutMode: isLargeUp ? 'grid' : 'semantic',
+    muiTableBodyCellProps: {
+      sx: {
+        padding: '8px 0px',
+      },
+    },
+    muiTableHeadCellProps: {
+      sx: {
+        padding: '0px',
+        wordBreak: 'break-word',
+        texOverflow: 'wrap',
+        '.Mui-TableHeadCell-Content-Labels': {
+          width: '100%',
+          justifyContent: 'space-between',
         },
-      }}
-      muiTableHeadCellProps={{
-        sx: {
-          padding: '0px',
-          wordBreak: 'break-word',
-          texOverflow: 'wrap',
-          '.Mui-TableHeadCell-Content-Labels': {
-            width: '100%',
-            justifyContent: 'space-between',
-          },
-        },
-      }}
-      sortingFns={{
-        sortAnalysts,
-      }}
-      filterFns={{
-        filterAnalysts,
-        filterCcbcId,
-      }}
+      },
+    },
+    sortingFns: {
+      sortAnalysts,
+    },
+    filterFns: {
+      filterAnalysts,
+      filterCcbcId,
+    },
+  });
+
+  const visibleRowCount = table.getRowModel().rows?.length ?? 0;
+  const renderRowCount = () => (
+    <RowCount
+      visibleRowCount={visibleRowCount}
+      totalRowCount={tableData.length}
     />
+  );
+
+  return (
+    <>
+      {renderRowCount()}
+      <MaterialReactTable table={table} />
+      {renderRowCount()}
+    </>
   );
 };
 
