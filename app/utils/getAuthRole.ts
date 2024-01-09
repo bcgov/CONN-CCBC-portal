@@ -16,7 +16,14 @@ const getAuthRole = (req: Request) => {
       landingRoute: defaultLandingRoutes[mockUserRole],
     };
   }
-
+  // Temp logging claims to help resolve
+  // denied issue to session
+  // eslint-disable-next-line no-console
+  console.log(
+    req?.claims
+      ? `Claims: ${req?.claims?.identity_provider}, ${req?.claims?.client_roles}`
+      : 'No claims found'
+  );
   if (!req?.claims)
     return {
       pgRole: 'ccbc_guest',
