@@ -7,6 +7,7 @@ import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGis
 import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
 import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
 import { diff } from 'json-diff';
+import conditionalApprovalSchema from 'formSchema/uiSchema/history/conditionalApproval';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -344,6 +345,22 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         <span>{displayName} updated the </span>
         <b>Conditional approval</b>
         <span> on {createdAtFormatted}</span>
+        <HistoryDetails
+          json={record.json_data}
+          prevJson={prevHistoryItem?.record?.json_data || {}}
+          excludedKeys={[
+            'id',
+            'createdAt',
+            'updatedAt',
+            'uploadedAt',
+            'size',
+            'name',
+            'uuid',
+            'type',
+          ]}
+          diffSchema={conditionalApprovalSchema}
+          overrideParent="conditionalApproval"
+        />
       </StyledContent>
     );
   }
