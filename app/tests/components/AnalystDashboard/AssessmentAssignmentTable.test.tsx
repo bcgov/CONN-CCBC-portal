@@ -213,7 +213,9 @@ describe('The AssessmentAssignmentTable component', () => {
       fireEvent.click(ccbcIdFilter);
     });
 
-    const filterInput = screen.getByPlaceholderText('Filter by CCBC ID');
+    const filterInput = screen.getByPlaceholderText(
+      'Filter by CCBC ID'
+    ) as HTMLInputElement;
     await act(async () => {
       fireEvent.change(filterInput, { target: { value: 'CCBC-010001' } });
     });
@@ -227,6 +229,9 @@ describe('The AssessmentAssignmentTable component', () => {
 
     await act(async () => {
       fireEvent.change(filterInput, { target: { value: '' } });
+    });
+    await new Promise((r) => {
+      setTimeout(r, 500);
     });
   });
 
