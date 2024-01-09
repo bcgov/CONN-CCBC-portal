@@ -40,8 +40,13 @@ const Home = ({
             NetworkBC members with access to Connecting Communities BC (CCBC)
             applications may log in with their IDIR.
           </p>
+          <p>
+            ISED members with access to Connecting Communities BC (CCBC)
+            applications may log in with their Business BCeID.
+          </p>
           <StyledBtnContainer>
-            <LoginForm idp="IDIR" />
+            <LoginForm loginText="BC Gov Login" idp="IDIR" />
+            <LoginForm loginText="ISED Login" idp="Business BCeID" />
           </StyledBtnContainer>
           <p>If you do not have access, please contact your administrator</p>
         </section>
