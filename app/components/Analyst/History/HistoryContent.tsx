@@ -171,6 +171,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
                 'coverageAssessmentStatistics',
                 'currentNetworkInfastructure',
                 'upgradedNetworkInfrastructure',
+                'uuid',
               ]}
               diffSchema={rfiDiffSchema}
               overrideParent="rfi"
