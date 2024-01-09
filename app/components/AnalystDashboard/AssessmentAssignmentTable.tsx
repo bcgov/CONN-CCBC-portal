@@ -382,9 +382,9 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     onColumnVisibilityChange: setColumnVisibility,
     onDensityChange: setDensity,
     onShowColumnFiltersChange: setShowColumnFilters,
-    enablePagination: true,
+    enablePagination: false,
     enableGlobalFilter: false,
-    enableBottomToolbar: true,
+    enableBottomToolbar: false,
     muiTableContainerProps: { sx: { padding: '8px' } },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps: {
