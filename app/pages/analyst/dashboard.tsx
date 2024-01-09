@@ -13,6 +13,7 @@ import {
   TextFilter,
   NumberFilter,
   NumberEnumFilter,
+  EnumFilter,
 } from 'components/Table/Filters';
 import Table from 'components/Table';
 import styled from 'styled-components';
@@ -23,19 +24,6 @@ import { useRouter } from 'next/router';
 
 const DEFAULT_SORT = 'CCBC_NUMBER_ASC';
 const zoneOptions = Array.from({ length: 14 }, (_, i) => i + 1);
-
-const tableFilters = [
-  new NumberFilter('Intake', 'intakeNumber'),
-  new TextFilter('CCBC ID', 'ccbcNumber'),
-  new NumberEnumFilter('Zone', 'zones', zoneOptions, {
-    orderByPrefix: 'ZONE',
-  }),
-  new TextFilter('Status', 'statusSortFilter'),
-  new TextFilter('Project title', 'projectName'),
-  new TextFilter('Organization', 'organizationName'),
-  new TextFilter('Lead', 'analystLead'),
-  new NumberFilter('Package', 'package'),
-];
 
 // will probably have to change to cursor for pagination/infinte scroll
 const getDashboardAnalystQuery = graphql`
@@ -60,6 +48,17 @@ const getDashboardAnalystQuery = graphql`
     ...AnalystRow_query
     totalAvailableApplications: allApplications {
       totalCount
+    }
+    allApplicationStatusTypes(
+      orderBy: STATUS_ORDER_ASC
+      condition: { visibleByAnalyst: true }
+      filter: { name: { notEqualTo: "analyst_withdrawn" } }
+    ) {
+      nodes {
+        name
+        description
+        id
+      }
     }
     allApplications(
       first: 500
@@ -103,8 +102,38 @@ const AnalystDashboard = ({
 }: RelayProps<Record<string, unknown>, dashboardAnalystQuery>) => {
   const query = usePreloadedQuery(getDashboardAnalystQuery, preloadedQuery);
   const router = useRouter();
-  const { session, allApplications, totalAvailableApplications } = query;
+  const {
+    session,
+    allApplications,
+    totalAvailableApplications,
+    allApplicationStatusTypes,
+  } = query;
   const showTableTabs = useFeature('show_assessment_assignment_table').value;
+  const internalStatusList = Object.fromEntries(
+    allApplicationStatusTypes.nodes.map(({ name, description }) => [
+      name,
+      description,
+    ])
+  );
+  const tableFilters = [
+    new NumberFilter('Intake', 'intakeNumber'),
+    new TextFilter('CCBC ID', 'ccbcNumber'),
+    new NumberEnumFilter('Zone', 'zones', zoneOptions, {
+      orderByPrefix: 'ZONE',
+    }),
+    new EnumFilter(
+      'Status',
+      'statusSortFilter',
+      Object.keys(internalStatusList),
+      {
+        renderEnumValue: (key) => internalStatusList[key],
+      }
+    ),
+    new TextFilter('Project title', 'projectName'),
+    new TextFilter('Organization', 'organizationName'),
+    new TextFilter('Lead', 'analystLead'),
+    new NumberFilter('Package', 'package'),
+  ];
 
   const hasSort = router.query?.orderBy;
 
