@@ -21,7 +21,7 @@ const getAuthRole = (req: Request) => {
   // eslint-disable-next-line no-console
   console.log(
     req?.claims
-      ? `${req?.claims?.identity_provider}, ${req?.claims?.client_roles}`
+      ? `Claims: ${req?.claims?.identity_provider}, ${req?.claims?.client_roles}`
       : 'No claims found'
   );
   if (!req?.claims)
