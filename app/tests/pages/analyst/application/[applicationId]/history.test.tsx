@@ -640,6 +640,82 @@ const mockQueryPayload = {
             },
             {
               applicationId: 6,
+              createdAt: '2023-03-03T08:08:20.645457-08:00',
+              familyName: 'Bar',
+              item: '["Missing files or information"]',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 3,
+                json_data: {
+                  rfiType: ['Missing files or information'],
+                  rfiDueBy: '2023-06-30',
+                  rfiAdditionalFiles: {
+                    lastMileIspOffering: [
+                      {
+                        id: 10,
+                        name: 'hotfix-55d8c6678b-zgdh4-hotfix.log',
+                        size: 2959,
+                        type: '',
+                        uuid: '2204da5c-f855-438d-b1d5-6a44b2afbf09',
+                      },
+                    ],
+                    lastMileIspOfferingRfi: true,
+                  },
+                  rfiEmailCorrespondance: [
+                    {
+                      id: 9,
+                      name: 'fake.txt',
+                      size: 0,
+                      type: 'text/plain',
+                      uuid: 'e33df8e1-fdf0-4a15-83e7-cad163549ce1',
+                    },
+                  ],
+                },
+              },
+              oldRecord: {
+                id: 3,
+                json_data: {
+                  rfiType: ['Missing files or information'],
+                  rfiDueBy: '2023-06-30',
+                  rfiAdditionalFiles: {
+                    lastMileIspOffering: [
+                      {
+                        id: 100,
+                        name: 'test.log',
+                        size: 3120,
+                        type: '',
+                        uuid: '2304da5c-f855-438d-b1d5-6a44b2afbf09',
+                      },
+                    ],
+                    lastMileIspOfferingRfi: true,
+                  },
+                  rfiEmailCorrespondance: [
+                    {
+                      id: 9,
+                      name: 'fake.txt',
+                      size: 0,
+                      type: 'text/plain',
+                      uuid: 'e33df8e1-fdf0-4a15-83e7-cad163549ce1',
+                    },
+                  ],
+                },
+                created_at: '2023-03-03T08:08:20.645457-08:00',
+                created_by: 3,
+                rfi_number: 'CCBC-020001-1',
+                updated_at: '2023-03-03T08:08:20.645457-08:00',
+                updated_by: 3,
+                archived_at: null,
+                archived_by: null,
+                rfi_data_status_type_id: 'draft',
+              },
+              recordId: '9a5795e4-ee20-591c-90b4-b795bb2b9cff',
+              sessionSub: 'fakeSub@idir',
+              tableName: 'rfi_data',
+              externalAnalyst: null,
+            },
+            {
+              applicationId: 6,
               createdAt: '2023-03-03T08:22:59.589845-08:00',
               familyName: 'Bar',
               item: null,
@@ -2675,7 +2751,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getAllByTestId('history-content-rfi')[3]).toHaveTextContent(
+    expect(screen.getAllByTestId('history-content-rfi')[4]).toHaveTextContent(
       /Foo Bar saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:03 a.m. /
     );
   });
