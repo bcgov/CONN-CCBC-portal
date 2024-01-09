@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 const StyledDiv = styled.div`
   font-weight: 550;
-  margin-top: 1%;
-  font-size: 10pt;
+  margin-top: 20px;
+  font-size: 0.8rem;
 `;
 
 interface Props {
