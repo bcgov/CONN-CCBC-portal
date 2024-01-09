@@ -1,3 +1,13 @@
+# [1.134.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.5...v1.134.0) (2024-01-09)
+
+### Bug Fixes
+
+- optional rowCount rendering ([5b1d169](https://github.com/bcgov/CONN-CCBC-portal/commit/5b1d169016b374805702e544a6d1a388718a3a48))
+
+### Features
+
+- add Row count to assesment and dashboard ([5a43d29](https://github.com/bcgov/CONN-CCBC-portal/commit/5a43d29d07a58ce1db9b21c03ad7b72673c34261))
+
 ## [1.133.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.4...v1.133.5) (2024-01-09)
 
 ## [1.133.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.3...v1.133.4) (2024-01-05)
