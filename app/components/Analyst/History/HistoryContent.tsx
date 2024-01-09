@@ -112,6 +112,15 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           []
         )
       : [];
+    // compute diff
+    const emailFilesDiff = diff(
+      record?.json_data?.rfiEmailCorrespondance || [],
+      prevHistoryItem?.record?.json_data?.rfiEmailCorrespondance || []
+    );
+    const additionalFilesDiff = diff(additionalFiles, prevAdditionalFiles);
+    // turn into truthy/falsy values
+    const showEmailFiles = !!emailFilesDiff;
+    const showAdditionalFiles = !!additionalFilesDiff;
     return (
       <StyledContent data-testid="history-content-rfi">
         {op === 'INSERT' ? (
@@ -166,23 +175,23 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
               diffSchema={rfiDiffSchema}
               overrideParent="rfi"
             />
-            <HistoryFile
-              filesArray={record.json_data?.rfiEmailCorrespondance || []}
-              previousFileArray={
-                prevHistoryItem?.record?.json_data?.rfiEmailCorrespondance || []
-              }
-              title="Email files"
-            />
-            <HistoryFile
-              filesArray={additionalFiles || []}
-              previousFileArray={prevAdditionalFiles || []}
-              tableTitle={
-                record.json_data?.rfiEmailCorrespondance?.length > 0 ||
-                prevHistoryItem?.record?.json_data?.rfiEmailCorrespondance
-                  ?.length > 0
-              }
-              title="Additional files"
-            />
+            {showEmailFiles && !showAdditionalFiles && (
+              <HistoryFile
+                filesArray={record.json_data?.rfiEmailCorrespondance || []}
+                previousFileArray={
+                  prevHistoryItem?.record?.json_data?.rfiEmailCorrespondance ||
+                  []
+                }
+                title="Email files"
+              />
+            )}
+            {showAdditionalFiles && (
+              <HistoryFile
+                filesArray={additionalFiles || []}
+                previousFileArray={prevAdditionalFiles || []}
+                title="Additional files"
+              />
+            )}
           </>
         )}
         {displayName === 'The applicant' && (
