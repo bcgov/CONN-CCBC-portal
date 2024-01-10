@@ -67,7 +67,7 @@ const getDashboardAnalystQuery = graphql`
       filter: {
         intakeNumber: { equalTo: $intakeNumber }
         ccbcNumber: { includesInsensitive: $ccbcNumber }
-        status: { includesInsensitive: $statusSortFilter }
+        analystStatus: { equalToInsensitive: $statusSortFilter }
         projectName: { includesInsensitive: $projectName }
         organizationName: { includesInsensitive: $organizationName }
         analystLead: { includesInsensitive: $analystLead }
