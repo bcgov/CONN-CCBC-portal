@@ -355,4 +355,30 @@ describe('The index page', () => {
     const option = screen.getAllByText('14')[0];
     expect(option).toBeInTheDocument();
   });
+
+  it('triggers the onChange event when the status dropdown is changed', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    jest.useFakeTimers();
+    const zoneDropdown = screen.getByLabelText(
+      'Filter by Status'
+    ) as HTMLSelectElement;
+
+    await act(async () => {
+      fireEvent.change(zoneDropdown, { target: { value: 'Received' } });
+      jest.advanceTimersByTime(200);
+    });
+
+    await waitFor(() => {
+      fireEvent.keyDown(zoneDropdown, {
+        key: 'Enter',
+        bubbles: true,
+      });
+    });
+    jest.useRealTimers();
+
+    const option = screen.getAllByText('Received')[0];
+    expect(option).toBeInTheDocument();
+  });
 });
