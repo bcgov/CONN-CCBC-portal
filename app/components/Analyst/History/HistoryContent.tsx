@@ -361,6 +361,16 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           diffSchema={conditionalApprovalSchema}
           overrideParent="conditionalApproval"
         />
+        <HistoryFile
+          filesArray={
+            record.json_data?.letterOfApproval?.letterOfApprovalUpload || []
+          }
+          previousFileArray={
+            prevHistoryItem?.record?.json_data?.letterOfApproval
+              ?.letterOfApprovalUpload || []
+          }
+          title="Letter of approval"
+        />
       </StyledContent>
     );
   }
