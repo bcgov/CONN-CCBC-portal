@@ -84,6 +84,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
     organizationName,
     intakeNumber,
     zones,
+    applicationSowDataByApplicationId,
   } = useFragment(
     graphql`
       fragment AnalystRow_application on Application {
@@ -96,6 +97,17 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
         organizationName
         intakeNumber
         zones
+        applicationSowDataByApplicationId(
+          condition: { isAmendment: false }
+          last: 1
+        ) {
+          totalCount
+          nodes {
+            id
+            jsonData
+            rowId
+          }
+        }
       }
     `,
     application
@@ -107,6 +119,9 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
     router.push(`/analyst/application/${rowId}`);
   };
 
+  const projectTitle =
+    applicationSowDataByApplicationId?.nodes[0]?.jsonData?.projectTitle ||
+    projectName;
   return (
     <StyledRow onClick={handleOnClick}>
       <StyledIntakeNumberCell>{intakeNumber}</StyledIntakeNumberCell>
@@ -115,7 +130,7 @@ const AnalystRow: React.FC<Props> = ({ query, application }) => {
       <StyledStatusCell>
         <StatusPill status={analystStatus} styles={statusStyles} />
       </StyledStatusCell>
-      <StyledProjectNameCell>{projectName}</StyledProjectNameCell>
+      <StyledProjectNameCell>{projectTitle}</StyledProjectNameCell>
       <StyledOrganizationNameCell>
         {organizationName}
       </StyledOrganizationNameCell>
