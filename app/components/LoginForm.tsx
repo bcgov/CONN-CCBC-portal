@@ -5,13 +5,14 @@ import styled from 'styled-components';
 
 interface Props {
   idp: 'Basic BCeID' | 'Business BCeID' | 'IDIR';
+  loginText?: string | null;
 }
 
 const StyledForm = styled('form')`
   margin: 0;
 `;
 
-const LoginForm: React.FC<Props> = ({ idp }) => {
+const LoginForm: React.FC<Props> = ({ idp, loginText = null }) => {
   const useCustomLogin = useFeature('use_custom_login').value;
 
   const action = useCustomLogin
@@ -19,7 +20,9 @@ const LoginForm: React.FC<Props> = ({ idp }) => {
     : `/login?${IDP_HINT_PARAM}=${IDP_HINTS[idp]}`;
   return (
     <StyledForm action={`${action}`} method="POST">
-      <Button type="submit">Login with {idp}</Button>
+      <Button style={{ minWidth: '172px' }} type="submit">
+        {loginText || `Login with ${idp}`}
+      </Button>
     </StyledForm>
   );
 };
