@@ -74,12 +74,22 @@ app.prepare().then(async () => {
     await app.close();
     await pgPool.end();
   });
-
-  server.use(
-    morgan(
-      '[:date] :method :url :status :res[content-length] - :remote-addr - :response-time ms'
-    )
+  const logger = morgan(
+    '[:date] :method :url :status :res[content-length] - :remote-addr - :response-time ms'
   );
+  server.use((req, res, _next) => {
+    // need to wait for request/response to finish first before we get status code
+    res.on('finish', () => {
+      // if we get a 404 on a static resource, we want to log it
+      if (res.statusCode === 404 && req.url.includes('static')) {
+        if (config.get('SENTRY_ENVIRONMENT')) {
+          Sentry.captureException(new Error(`Static Resource 404: ${req.url}`));
+        }
+      }
+    });
+    // continue logging
+    logger(req, res, _next);
+  });
 
   server.use(json({ limit: bodyParserLimit }));
 
