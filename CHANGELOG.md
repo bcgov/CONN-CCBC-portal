@@ -1,3 +1,10 @@
+# [1.135.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.134.0...v1.135.0) (2024-01-11)
+
+### Features
+
+- show previous email files for rfi ([30ad54d](https://github.com/bcgov/CONN-CCBC-portal/commit/30ad54db5081c3ea925ac822c83f7f67d54359e3))
+- show rfi file diff for applicant changes ([b6184c3](https://github.com/bcgov/CONN-CCBC-portal/commit/b6184c3e5536086adff4f6e9417d16935e948f8e))
+
 # [1.134.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.5...v1.134.0) (2024-01-10)
 
 ### Bug Fixes
