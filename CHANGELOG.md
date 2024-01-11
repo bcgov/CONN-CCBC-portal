@@ -1,3 +1,14 @@
+# [1.135.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.134.0...v1.135.0) (2024-01-11)
+
+### Features
+
+- ised login on analyst page, make login text changeable ([75537b2](https://github.com/bcgov/CONN-CCBC-portal/commit/75537b2f4a811d3ccfb73dfa201cd24fc81a7c7f))
+- show previous email files for rfi ([30ad54d](https://github.com/bcgov/CONN-CCBC-portal/commit/30ad54db5081c3ea925ac822c83f7f67d54359e3))
+- show project title from sow on dash and assign table ([afbd84b](https://github.com/bcgov/CONN-CCBC-portal/commit/afbd84b8e90be91e554f4c37745b280b50fb6af7))
+- show project title on header from sow ([50fd031](https://github.com/bcgov/CONN-CCBC-portal/commit/50fd031fc8dc85e1ec0a84ee3cc532982fcef6bf))
+- show rfi file diff for applicant changes ([b6184c3](https://github.com/bcgov/CONN-CCBC-portal/commit/b6184c3e5536086adff4f6e9417d16935e948f8e))
+- sow project title on applicant dashboard ([64c1528](https://github.com/bcgov/CONN-CCBC-portal/commit/64c15284057941f167beff28b03d6db3bcd12560))
+
 # [1.134.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.133.5...v1.134.0) (2024-01-10)
 
 ### Bug Fixes
