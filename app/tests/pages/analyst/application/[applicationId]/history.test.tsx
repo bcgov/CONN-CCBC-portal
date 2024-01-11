@@ -2658,9 +2658,9 @@ const mockQueryPayload = {
               applicationId: 1,
               createdAt: '2024-01-09T23:39:11.914878+00:00',
               externalAnalyst: null,
-              familyName: 'bar',
+              familyName: 'Bar',
               item: null,
-              givenName: 'foo1',
+              givenName: 'Foo',
               op: 'INSERT',
               record: {
                 id: 1,
@@ -2687,16 +2687,16 @@ const mockQueryPayload = {
               },
               oldRecord: null,
               recordId: 'd6431f27-b78d-5212-916d-380e0cce9583',
-              sessionSub: 'mockUser@ccbc_auth_user',
+              sessionSub: 'test-session-sub@idir',
               tableName: 'conditional_approval_data',
             },
             {
               applicationId: 1,
               createdAt: '2024-01-09T23:52:12.82194+00:00',
               externalAnalyst: null,
-              familyName: 'bar',
+              familyName: 'Bar',
               item: null,
-              givenName: 'foo1',
+              givenName: 'Foo',
               op: 'INSERT',
               record: {
                 id: 2,
@@ -2741,7 +2741,7 @@ const mockQueryPayload = {
               },
               oldRecord: null,
               recordId: 'd6431f27-b78d-5212-916d-380e0cce9583',
-              sessionSub: 'mockUser@ccbc_auth_user',
+              sessionSub: 'test-session-sub@idir',
               tableName: 'conditional_approval_data',
             },
           ],
@@ -2843,6 +2843,23 @@ describe('The index page', () => {
 
     expect(screen.getAllByTestId('history-content-rfi')[4]).toHaveTextContent(
       /Foo Bar saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:03 a.m. /
+    );
+  });
+
+  it('shows the correct conditional approval history', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-content-conditional-approval')[0]
+    ).toHaveTextContent(
+      /Foo Bar saved the Conditional approval on Jan 9, 2024, 3:52 p.m./
+    );
+
+    expect(
+      screen.getAllByTestId('history-content-conditional-approval')[1]
+    ).toHaveTextContent(
+      /Foo Bar saved the Conditional approval on Jan 9, 2024, 3:39 p.m. /
     );
   });
 

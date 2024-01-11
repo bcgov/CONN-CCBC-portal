@@ -342,7 +342,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   if (tableName === 'conditional_approval_data') {
     return (
       <StyledContent data-testid="history-content-conditional-approval">
-        <span>{displayName} updated the </span>
+        <span>{displayName} saved the </span>
         <b>Conditional approval</b>
         <span> on {createdAtFormatted}</span>
         <HistoryDetails
