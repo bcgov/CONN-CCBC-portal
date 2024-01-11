@@ -102,6 +102,25 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           []
         )
       : [];
+    // do the same for previous history item
+    const prevAdditionalFilesArray = filterArrays(
+      prevHistoryItem?.record?.json_data?.rfiAdditionalFiles || {}
+    );
+    const prevAdditionalFiles = prevAdditionalFilesArray
+      ? Object.values(prevAdditionalFilesArray).reduce(
+          (acc: string[], curr: string[]) => acc.concat(curr),
+          []
+        )
+      : [];
+    // compute diff
+    const emailFilesDiff = diff(
+      record?.json_data?.rfiEmailCorrespondance || [],
+      prevHistoryItem?.record?.json_data?.rfiEmailCorrespondance || []
+    );
+    const additionalFilesDiff = diff(additionalFiles, prevAdditionalFiles);
+    // turn into truthy/falsy values
+    const showEmailFiles = !!emailFilesDiff;
+    const showAdditionalFiles = !!additionalFilesDiff;
     return (
       <StyledContent data-testid="history-content-rfi">
         {op === 'INSERT' ? (
@@ -119,7 +138,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         {displayName !== 'The applicant' && (
           <>
             <HistoryDetails
-              json={record.json_data}
+              json={record?.json_data || {}}
               prevJson={prevHistoryItem?.record?.json_data || {}}
               excludedKeys={[
                 'id',
@@ -130,20 +149,57 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
                 'size',
                 'type',
                 'rfiEmailCorrespondance',
+                'fileDate',
+                'uploadedAt',
+                'eligibilityAndImpactsCalculator',
+                'detailedBudget',
+                'financialForecast',
+                'lastMileIspOffering',
+                'popWholesalePricing',
+                'communityRuralDevelopmentBenefitsTemplate',
+                'wirelessAddendum',
+                'supportingConnectivityEvidence',
+                'geographicNames',
+                'equipmentDetails',
+                'copiesOfRegistration',
+                'preparedFinancialStatements',
+                'logicalNetworkDiagram',
+                'projectSchedule',
+                'communityRuralDevelopmentBenefits',
+                'otherSupportingMaterials',
+                'geographicCoverageMap',
+                'coverageAssessmentStatistics',
+                'currentNetworkInfastructure',
+                'upgradedNetworkInfrastructure',
+                'uuid',
               ]}
               diffSchema={rfiDiffSchema}
               overrideParent="rfi"
             />
-
-            <HistoryFile
-              filesArray={record.json_data?.rfiEmailCorrespondance || []}
-              title="Email files"
-            />
+            {/* Email files can be an update or insert, but will never occur at the same time as additional files */}
+            {showEmailFiles && !showAdditionalFiles && (
+              <HistoryFile
+                filesArray={record.json_data?.rfiEmailCorrespondance || []}
+                previousFileArray={
+                  prevHistoryItem?.record?.json_data?.rfiEmailCorrespondance ||
+                  []
+                }
+                title="Email files"
+              />
+            )}
+            {showAdditionalFiles && (
+              <HistoryFile
+                filesArray={additionalFiles || []}
+                previousFileArray={prevAdditionalFiles || []}
+                title="Additional files"
+              />
+            )}
           </>
         )}
         {displayName === 'The applicant' && (
           <HistoryFile
             filesArray={additionalFiles || []}
+            previousFileArray={prevAdditionalFiles || []}
             title="Additional files"
           />
         )}

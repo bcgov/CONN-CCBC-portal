@@ -47,7 +47,7 @@ const createRow = (
   type,
   excludedKeys
 ) => {
-  if (excludedKeys.some((e) => key.includes(e))) {
+  if (excludedKeys.some((e) => key === e)) {
     return null;
   }
   return (
@@ -71,7 +71,7 @@ const handleRow = (
   excludedKeys
 ) => {
   const rows = [];
-  if (excludedKeys.some((e) => key.includes(e))) {
+  if (excludedKeys.some((e) => key === e)) {
     return rows;
   }
   if (schema[parentObject]?.properties[key]?.requiresHeading) {
