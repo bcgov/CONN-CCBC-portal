@@ -1,3 +1,9 @@
+# [1.136.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.135.0...v1.136.0) (2024-01-12)
+
+### Features
+
+- add sentry exception capturing 404 errors with static content ([4dd4af9](https://github.com/bcgov/CONN-CCBC-portal/commit/4dd4af9d55fa9b8a0a6f929502c88d775481279a))
+
 # [1.135.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.134.0...v1.135.0) (2024-01-11)
 
 ### Features
