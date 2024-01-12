@@ -29,10 +29,8 @@ const AssignProjectType = ({ application }) => {
     application
   );
   const { applicationProjectTypesByApplicationId, rowId } = queryFragment;
-  console.log(applicationProjectTypesByApplicationId);
   const applicationProjectType =
     applicationProjectTypesByApplicationId.nodes?.[0]?.projectType;
-  console.log(applicationProjectType);
 
   const [createProjectType] = useCreateProjectTypeMutation();
 
