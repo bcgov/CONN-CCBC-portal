@@ -56,7 +56,7 @@ const AssignProjectType = ({ application }) => {
     <StyledDropdown
       id="assign-project_type"
       onChange={handleAssignProjectType}
-      data-testid="assign-package"
+      data-testid="assign-project_type"
     >
       {options.map((option) => {
         return (
