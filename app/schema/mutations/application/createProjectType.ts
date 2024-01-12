@@ -4,10 +4,8 @@ import type { createProjectTypeMutation } from '__generated__/createProjectTypeM
 import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`
-  mutation createProjectTypeMutation(
-    $input: CreateApplicationProjectTypeInput!
-  ) {
-    createApplicationProjectType(input: $input) {
+  mutation createProjectTypeMutation($input: CreateProjectTypeInput!) {
+    createProjectType(input: $input) {
       applicationProjectType {
         projectType
       }

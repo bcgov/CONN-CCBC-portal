@@ -60678,6 +60678,12 @@ type Mutation {
     """
     input: CreateProjectInformationInput!
   ): CreateProjectInformationPayload
+  createProjectType(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateProjectTypeInput!
+  ): CreateProjectTypePayload
   createRfi(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -70404,6 +70410,58 @@ input CreateProjectInformationInput {
   clientMutationId: String
   _applicationId: Int!
   _jsonData: JSON!
+}
+
+"""The output of our `createProjectType` mutation."""
+type CreateProjectTypePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  applicationProjectType: ApplicationProjectType
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationProjectType`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationProjectType`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationProjectType`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationProjectType`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationProjectType`. May be used by Relay 1."""
+  applicationProjectTypeEdge(
+    """The method to use when ordering `ApplicationProjectType`."""
+    orderBy: [ApplicationProjectTypesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationProjectTypesEdge
+}
+
+"""All input for the `createProjectType` mutation."""
+input CreateProjectTypeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  _applicationId: Int!
+  _projectType: String
 }
 
 """The output of our `createRfi` mutation."""

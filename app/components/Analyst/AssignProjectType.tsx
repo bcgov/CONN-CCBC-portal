@@ -42,10 +42,8 @@ const AssignProjectType = ({ application }) => {
     createProjectType({
       variables: {
         input: {
-          applicationProjectType: {
-            applicationId: rowId,
-            projectType,
-          },
+          _applicationId: rowId,
+          _projectType: projectType,
         },
       },
     });
