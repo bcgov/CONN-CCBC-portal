@@ -81,6 +81,13 @@ const mockInternalIntakeQueryPayload = {
             },
           ],
         },
+        applicationProjectTypesByApplicationId: {
+          nodes: [
+            {
+              projectType: 'lastMile',
+            },
+          ],
+        },
       },
       allAnalysts: {
         nodes: [
@@ -224,6 +231,27 @@ describe('The application header component', () => {
     });
   });
 
+  it('calls the mutation when the project type is changed', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const select = screen.getByTestId('assign-project_type');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'lastMileAndTransport' } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createProjectTypeMutation',
+      {
+        input: {
+          _applicationId: 1,
+          _projectType: 'lastMileAndTransport',
+        },
+      }
+    );
+  });
+
   it('displays the header labels', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
@@ -232,6 +260,7 @@ describe('The application header component', () => {
     expect(screen.getByLabelText('External Status')).toBeVisible();
     expect(screen.getByLabelText('Package')).toBeVisible();
     expect(screen.getByLabelText('Lead')).toBeVisible();
+    expect(screen.getByLabelText('Project Type')).toBeVisible();
   });
 
   it('when received status application cannot go to recommendation', () => {
