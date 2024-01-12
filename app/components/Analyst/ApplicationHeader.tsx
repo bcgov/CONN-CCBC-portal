@@ -52,6 +52,10 @@ const StyledPackage = styled(StyledItem)`
   margin: 8px 0;
 `;
 
+const StyledProjectType = styled(StyledItem)`
+  margin: 8px 0;
+`;
+
 interface Props {
   query: any;
 }
@@ -208,10 +212,10 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
             query={queryFragment}
           />
         </StyledItem>
-        <StyledItem>
+        <StyledProjectType>
           <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
           <AssignProjectType application={applicationByRowId} />
-        </StyledItem>
+        </StyledProjectType>
       </StyledDiv>
     </StyledCallout>
   );
