@@ -103,12 +103,11 @@ const mockQueryPayload = {
                 ],
               },
               organizationName: 'org name received',
-              package: 1,
               status: 'received',
               ccbcNumber: 'CCBC-010001',
               rowId: 1,
-              projectName: 'Received Application Title',
               intakeId: 1,
+              zones: [2],
             },
           },
           {
@@ -117,12 +116,11 @@ const mockQueryPayload = {
                 edges: [],
               },
               organizationName: 'org name 2',
-              package: null,
               status: 'received',
               ccbcNumber: 'CCBC-010002',
               rowId: 2,
-              projectName: 'Received Application Title 2',
               intakeId: 1,
+              zones: [2],
             },
           },
           {
@@ -131,12 +129,11 @@ const mockQueryPayload = {
                 edges: [],
               },
               organizationName: 'more testing',
-              package: null,
               status: 'received',
               ccbcNumber: 'CCBC-010006',
               rowId: 8,
-              projectName: null,
               intakeId: 1,
+              zones: [5],
             },
           },
           {
@@ -145,12 +142,11 @@ const mockQueryPayload = {
                 edges: [],
               },
               organizationName: 'org name ',
-              package: null,
               status: 'received',
               ccbcNumber: 'CCBC-010007',
               rowId: 9,
-              projectName: null,
-              intakeId: 1,
+              intakeId: 2,
+              zones: [2],
             },
           },
         ],
@@ -179,13 +175,13 @@ describe('The AssessmentAssignmentTable component', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
+    expect(screen.getByText('Intake')).toBeInTheDocument();
     expect(screen.getByText('CCBC ID')).toBeInTheDocument();
-    expect(screen.getByText('Package')).toBeInTheDocument();
+    expect(screen.getByText('Zone')).toBeInTheDocument();
     expect(screen.getByText('PM')).toBeInTheDocument();
     expect(screen.getByText('Tech')).toBeInTheDocument();
     expect(screen.getByText('Permitting')).toBeInTheDocument();
     expect(screen.getByText('GIS')).toBeInTheDocument();
-    expect(screen.getByText('Project Title')).toBeInTheDocument();
     expect(screen.getByText('Organization Name')).toBeInTheDocument();
   });
 
@@ -203,7 +199,7 @@ describe('The AssessmentAssignmentTable component', () => {
 
     const columnActions = document.querySelectorAll(
       '[aria-label="Column Actions"]'
-    )[0];
+    )[1];
     await act(async () => {
       fireEvent.click(columnActions);
     });
@@ -239,8 +235,9 @@ describe('The AssessmentAssignmentTable component', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
+    expect(screen.getAllByText('1')[0]).toBeInTheDocument();
     expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
-    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getAllByText('2')[0]).toBeInTheDocument();
     expect(
       screen.getAllByText('Test Analyst Project Management')[0]
     ).toBeInTheDocument();
@@ -251,8 +248,6 @@ describe('The AssessmentAssignmentTable component', () => {
       screen.getAllByText('Test Analyst Permitting')[0]
     ).toBeInTheDocument();
     expect(screen.getAllByText('Test Analyst GIS')[0]).toBeVisible();
-    expect(screen.getByText('2023-10-26')).toBeVisible();
-    expect(screen.getByText('Received Application Title')).toBeInTheDocument();
     expect(screen.getByText('org name received')).toBeInTheDocument();
   });
 
@@ -281,6 +276,74 @@ describe('The AssessmentAssignmentTable component', () => {
     );
   });
 
+  it('should correctly filter the Intake ID column', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('CCBC-010007')).toBeVisible();
+
+    const columnActions = document.querySelectorAll(
+      '[aria-label="Column Actions"]'
+    )[0];
+
+    await act(async () => {
+      fireEvent.click(columnActions);
+    });
+
+    const intakeIdFilter = screen.getByText('Filter by Intake');
+
+    await act(async () => {
+      fireEvent.click(intakeIdFilter);
+    });
+
+    const filterInput = screen.getByPlaceholderText('Filter by Intake');
+
+    await act(async () => {
+      fireEvent.change(filterInput, { target: { value: '1' } });
+    });
+
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
+    expect(screen.queryByText('CCBC-010007')).not.toBeInTheDocument();
+  });
+
+  it('should correctly filter the Zone column', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('CCBC-010006')).toBeVisible();
+
+    const columnActions = document.querySelectorAll(
+      '[aria-label="Column Actions"]'
+    )[2];
+
+    await act(async () => {
+      fireEvent.click(columnActions);
+    });
+
+    const zoneFilter = screen.getByText('Filter by Zone');
+
+    await act(async () => {
+      fireEvent.click(zoneFilter);
+    });
+
+    const filterInput = screen.getByPlaceholderText('Filter by Zone');
+
+    await act(async () => {
+      fireEvent.change(filterInput, { target: { value: '2' } });
+    });
+
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
+    expect(screen.queryByText('CCBC-010006')).not.toBeInTheDocument();
+  });
+
   it('should correctly filter the CCBC ID column', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
@@ -289,7 +352,7 @@ describe('The AssessmentAssignmentTable component', () => {
 
     const columnActions = document.querySelectorAll(
       '[aria-label="Column Actions"]'
-    )[0];
+    )[1];
 
     await act(async () => {
       fireEvent.click(columnActions);
@@ -325,7 +388,7 @@ describe('The AssessmentAssignmentTable component', () => {
 
     const columnActions = document.querySelectorAll(
       '[aria-label="Column Actions"]'
-    )[2];
+    )[3];
 
     await act(async () => {
       fireEvent.click(columnActions);
