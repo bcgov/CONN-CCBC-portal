@@ -35,7 +35,7 @@ const AssignProjectType = ({ application }) => {
   const [createProjectType] = useCreateProjectTypeMutation();
 
   const handleAssignProjectType = (e) => {
-    const projectType = e.target.value;
+    const projectType = e.target.value || null;
 
     createProjectType({
       variables: {
