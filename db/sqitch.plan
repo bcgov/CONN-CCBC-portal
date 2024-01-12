@@ -519,3 +519,4 @@ tables/application_sow_data_002_give_read_applicant 2024-01-04T23:42:25Z Rafael 
 @1.135.0 2024-01-11T19:16:05Z CCBC Service Account <ccbc@button.is> # release v1.135.0
 tables/application_project_type 2024-01-11T22:34:33Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add application project type table
 mutations/create_project_type 2024-01-12T17:32:58Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add project type mutation
+computed_columns/application_history [computed_columns/application_history@1.135.0] 2024-01-12T21:46:32Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add application project type history

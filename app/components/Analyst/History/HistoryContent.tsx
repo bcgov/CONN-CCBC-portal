@@ -245,6 +245,37 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     );
   }
 
+  if (tableName === 'application_project_type') {
+    const projectType = record?.project_type || null;
+    const previousProjectType = prevHistoryItem?.record?.project_type || null;
+    let projectTypeTitle = 'Unassigned';
+    if (projectType) {
+      if (projectType === 'lastMile') {
+        projectTypeTitle = 'Last Mile';
+      } else {
+        projectTypeTitle = 'Last Mile & Transport';
+      }
+    }
+    let previousProjectTypeTitle = 'Unassigned';
+    if (previousProjectType) {
+      if (previousProjectType === 'lastMile') {
+        previousProjectTypeTitle = 'Last Mile';
+      } else {
+        previousProjectTypeTitle = 'Last Mile & Transport';
+      }
+    }
+    const change = previousProjectType === null ? 'set' : 'changed';
+    return (
+      <StyledContent data-testid="history-application_project_type">
+        <span>
+          {displayName} {change} <b>Project Type</b> to {projectTypeTitle}{' '}
+          {previousProjectType && ` from ${previousProjectTypeTitle}`} on{' '}
+          {createdAtFormatted}
+        </span>
+      </StyledContent>
+    );
+  }
+
   if (tableName === 'application') {
     return (
       <StyledContent data-testid="history-content-application">
