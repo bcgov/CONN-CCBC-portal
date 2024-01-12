@@ -18,7 +18,7 @@ begin
   if(not (_json_data ? 'statementOfWorkUpload') or jsonb_typeof(_json_data -> 'statementOfWorkUpload') = 'null') then
   -- need to check that the application sow data isn't already archived
     update ccbc_public.application_sow_data set archived_at = now() where application_id = _application_id
-      and amendment_number is null or amendment_number = 0 --Check if it's an original sow_upload rather than the
+      and (amendment_number is null or amendment_number = 0) --Check if it's an original sow_upload rather than the
       and archived_at is null
       returning id into _sow_id;
 
