@@ -9,6 +9,7 @@ const StyledDropdown = styled.select`
   border: 1px solid ${(props) => props.theme.color.borderGrey};
   padding: 0 8px;
   max-width: 100%;
+  border-radius: 4px;
 `;
 
 const AssignPackage = ({ application }) => {
