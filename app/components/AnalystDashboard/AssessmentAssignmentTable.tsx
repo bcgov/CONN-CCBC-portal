@@ -423,6 +423,12 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       filterAnalysts,
       filterCcbcId,
     },
+    renderTopToolbarCustomActions: () => (
+      <p style={{ margin: '0', marginTop: '20px' }}>
+        Showing applications with status of “Received”, “Screening” and
+        “Assessment.”
+      </p>
+    ),
   });
 
   const visibleRowCount = table.getRowModel().rows?.length ?? 0;
