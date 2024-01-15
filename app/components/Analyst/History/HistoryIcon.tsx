@@ -16,6 +16,7 @@ import {
   faArrowRightArrowLeft,
   faTreeCity,
   faSignsPost,
+  faWifi,
 } from '@fortawesome/free-solid-svg-icons';
 
 const StyledIcon = styled.div`
@@ -48,6 +49,7 @@ const iconMap = {
   change_request_data: faArrowRightArrowLeft,
   application_community_progress_report_data: faTreeCity,
   application_milestone_data: faSignsPost,
+  application_project_type: faWifi,
 };
 
 interface Props {
