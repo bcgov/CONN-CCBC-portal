@@ -2935,6 +2935,29 @@ describe('The index page', () => {
     );
   });
 
+  it('shows the correct application project type history', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-application_project_type')[0]
+    ).toHaveTextContent(
+      /Foo Bar changed Project Type to Unassigned from Last Mile & Transport on Jan 12, 2024, 10:27 a.m./
+    );
+
+    expect(
+      screen.getAllByTestId('history-application_project_type')[1]
+    ).toHaveTextContent(
+      /Foo Bar changed Project Type to Last Mile & Transport from Last Mile on Jan 12, 2024, 10:27 a.m./
+    );
+
+    expect(
+      screen.getAllByTestId('history-application_project_type')[2]
+    ).toHaveTextContent(
+      /Foo Bar set Project Type to Last Mile on Jan 12, 2024, 10:06 a.m./
+    );
+  });
+
   it('shows the correct community report history', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
