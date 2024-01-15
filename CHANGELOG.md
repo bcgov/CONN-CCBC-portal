@@ -1,3 +1,11 @@
+# [1.136.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.135.0...v1.136.0) (2024-01-15)
+
+### Features
+
+- add sentry exception capturing 404 errors with static content ([4dd4af9](https://github.com/bcgov/CONN-CCBC-portal/commit/4dd4af9d55fa9b8a0a6f929502c88d775481279a))
+- show conditional approval file history ([1d5e61c](https://github.com/bcgov/CONN-CCBC-portal/commit/1d5e61c34f78923b469007825ad46bd8c65ea0ab))
+- show conditional approval form history ([b76f165](https://github.com/bcgov/CONN-CCBC-portal/commit/b76f165ab15f5d30dc8997321be7e843fddf83b8))
+
 # [1.135.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.134.0...v1.135.0) (2024-01-11)
 
 ### Features
