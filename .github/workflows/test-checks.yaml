@@ -41,7 +41,7 @@ jobs:
           ignore-unfixed: false
           severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@b374143c1149a9115d881581d29b8390bbcbb59c
+        uses: github/codeql-action/upload-sarif@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118
         with:
           sarif_file: 'trivy-results.sarif'
 
@@ -61,13 +61,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@b374143c1149a9115d881581d29b8390bbcbb59c
+        uses: github/codeql-action/init@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118
         with:
           languages: ${{ matrix.language }}
       - name: Autobuild
-        uses: github/codeql-action/autobuild@b374143c1149a9115d881581d29b8390bbcbb59c
+        uses: github/codeql-action/autobuild@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@b374143c1149a9115d881581d29b8390bbcbb59c
+        uses: github/codeql-action/analyze@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118
 
   cocogitto:
     runs-on: ubuntu-latest
@@ -82,7 +82,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: git checkout "$GITHUB_BASE_REF" && git tag latest && git checkout "$GITHUB_HEAD_REF"
       - name: Conventional commits check
-        uses: oknozor/cocogitto-action@v3
+        uses: cocogitto/cocogitto-action@v3.4
         with:
           check-latest-tag-only: true
 
@@ -92,7 +92,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: ./.bin/install-gitleaks-linux-x64.sh
       - run: ./gitleaks detect --exit-code 0 --report-format sarif --report-path "gitleaks.sarif"
-      - uses: github/codeql-action/upload-sarif@b374143c1149a9115d881581d29b8390bbcbb59c
+      - uses: github/codeql-action/upload-sarif@e5f05b81d5b6ff8cfa111c80c22c5fd02a384118
         with:
           sarif_file: 'gitleaks.sarif'
 

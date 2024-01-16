@@ -2654,6 +2654,96 @@ const mockQueryPayload = {
               sessionSub: 'mockUser@ccbc_auth_user',
               tableName: 'application_milestone_data',
             },
+            {
+              applicationId: 1,
+              createdAt: '2024-01-09T23:39:11.914878+00:00',
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                json_data: {
+                  decision: {
+                    ministerDate: '2024-01-09',
+                    ministerDecision: 'Approved',
+                    provincialRequested: 12345000.99,
+                    ministerAnnouncement: 'Hold announcement',
+                  },
+                  response: {},
+                  isedDecisionObj: {
+                    isedDecision: 'No decision',
+                  },
+                  letterOfApproval: {},
+                },
+                created_at: '2024-01-09T23:39:11.914878+00:00',
+                created_by: 3,
+                updated_at: '2024-01-09T23:39:11.914878+00:00',
+                updated_by: 3,
+                archived_at: null,
+                archived_by: null,
+                application_id: 7,
+              },
+              oldRecord: null,
+              recordId: 'd6431f27-b78d-5212-916d-380e0cce9583',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'conditional_approval_data',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2024-01-09T23:52:12.82194+00:00',
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 2,
+                json_data: {
+                  decision: {
+                    ministerDate: '2024-01-09',
+                    ministerDecision: 'Approved',
+                    provincialRequested: 12345000.99,
+                    ministerAnnouncement: 'Hold announcement',
+                  },
+                  response: {
+                    applicantResponse: 'Accepted',
+                    statusApplicantSees: 'Conditionally Approved',
+                  },
+                  isedDecisionObj: {
+                    isedDate: '2024-03-07',
+                    isedDecision: 'Approved',
+                    federalRequested: 111111,
+                    isedAnnouncement: 'Announce immediately',
+                  },
+                  letterOfApproval: {
+                    letterOfApprovalUpload: [
+                      {
+                        id: 75,
+                        name: '1',
+                        size: 0,
+                        type: '',
+                        uuid: '07f60e2b-fab8-4781-9405-b8a4bfb38574',
+                        uploadedAt: '2024-01-09T15:52:10.431-08:00',
+                      },
+                    ],
+                    letterOfApprovalDateSent: '2024-01-09',
+                  },
+                },
+                created_at: '2024-01-09T23:52:12.82194+00:00',
+                created_by: 3,
+                updated_at: '2024-01-09T23:52:12.82194+00:00',
+                updated_by: 3,
+                archived_at: null,
+                archived_by: null,
+                application_id: 7,
+              },
+              oldRecord: null,
+              recordId: 'd6431f27-b78d-5212-916d-380e0cce9583',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'conditional_approval_data',
+            },
           ],
         },
       },
@@ -2756,6 +2846,23 @@ describe('The index page', () => {
     );
   });
 
+  it('shows the correct conditional approval history', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-content-conditional-approval')[0]
+    ).toHaveTextContent(
+      /Foo Bar saved the Conditional approval on Jan 9, 2024, 3:52 p.m./
+    );
+
+    expect(
+      screen.getAllByTestId('history-content-conditional-approval')[1]
+    ).toHaveTextContent(
+      /Foo Bar saved the Conditional approval on Jan 9, 2024, 3:39 p.m. /
+    );
+  });
+
   it('shows the correct community report history', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
@@ -2815,13 +2922,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 23 diff tables', async () => {
+  it('shows all 25 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(23);
+    expect(diffTables.length).toBe(25);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
