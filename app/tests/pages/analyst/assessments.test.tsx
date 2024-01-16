@@ -28,6 +28,7 @@ const mockQueryPayload = {
               ccbcNumber: 'CCBC-010001',
               organizationName: 'Test Org Name',
               intakeNumber: 1,
+              zones: [1],
             },
           },
         ],
@@ -136,14 +137,13 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
+    expect(screen.getByText('Intake')).toBeInTheDocument();
     expect(screen.getByText('CCBC ID')).toBeInTheDocument();
-    expect(screen.getByText('Package')).toBeInTheDocument();
+    expect(screen.getByText('Zone')).toBeInTheDocument();
     expect(screen.getByText('PM')).toBeInTheDocument();
     expect(screen.getByText('Tech')).toBeInTheDocument();
     expect(screen.getByText('Permitting')).toBeInTheDocument();
     expect(screen.getAllByText('GIS')[1]).toBeInTheDocument();
-    expect(screen.getByText('Target Date')).toBeInTheDocument();
-    expect(screen.getByText('Project Title')).toBeInTheDocument();
     expect(screen.getByText('Organization Name')).toBeInTheDocument();
   });
 });

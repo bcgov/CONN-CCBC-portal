@@ -23,15 +23,14 @@ type Assessment = {
 };
 
 type Application = {
+  intakeId: number;
   ccbcNumber: string;
+  zones: number[];
   applicationId: number;
-  package: number;
   pmAssessment: Assessment;
   techAssessment: Assessment;
   permittingAssessment: Assessment;
   gisAssessment: Assessment;
-  targetDate: string;
-  projectTitle: string;
   organizationName: string;
 };
 
@@ -161,12 +160,11 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
                 }
               }
               organizationName
-              package
               analystStatus
               ccbcNumber
               rowId
-              projectName
               intakeId
+              zones
               applicationSowDataByApplicationId(
                 condition: { isAmendment: false }
                 last: 1
@@ -273,17 +271,18 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     () =>
       allApplications.edges.map(({ node: application }) => {
         const {
+          intakeId,
           ccbcNumber,
           organizationName,
-          package: packageNumber,
-          projectName,
+          zones,
           rowId: applicationId,
         } = application;
 
         return {
           applicationId,
+          intakeId,
           ccbcNumber,
-          packageNumber,
+          zones: zones?.join(', '),
           allAnalysts,
           pmAssessment: findAssessment(
             application.allAssessments.edges,
@@ -301,14 +300,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
             application.allAssessments.edges,
             'gis'
           ),
-          // displaying target date from technical assessment
-          targetDate: findAssessment(
-            application.allAssessments.edges,
-            'technical'
-          ),
-          projectTitle:
-            application.applicationSowDataByApplicationId?.nodes[0]?.jsonData
-              ?.projectTitle || projectName,
           organizationName,
         };
       }),
@@ -329,6 +320,12 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
 
     return [
       {
+        accessorKey: 'intakeId',
+        header: 'Intake',
+        size: 24,
+        maxSize: 24,
+      },
+      {
         accessorKey: 'ccbcNumber',
         header: 'CCBC ID',
         size: 26,
@@ -337,8 +334,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         filterFn: 'filterCcbcId',
       },
       {
-        accessorKey: 'packageNumber',
-        header: 'Package',
+        accessorKey: 'zones',
+        header: 'Zone',
         size: 24,
         maxSize: 24,
       },
@@ -361,17 +358,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         ...sharedAssessmentCell,
         accessorKey: 'gisAssessment',
         header: 'GIS',
-      },
-      {
-        accessorKey: 'techAssessment.jsonData.targetDate',
-        header: 'Target Date',
-        size: 30,
-        maxSize: 30,
-      },
-      {
-        accessorKey: 'projectTitle',
-        header: 'Project Title',
-        size: 30,
       },
       {
         accessorKey: 'organizationName',
