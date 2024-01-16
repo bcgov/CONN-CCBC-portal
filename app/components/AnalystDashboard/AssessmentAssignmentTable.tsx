@@ -144,6 +144,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
           }
         }
         allApplications(
+          orderBy: CCBC_NUMBER_ASC
           filter: {
             analystStatus: { in: ["received", "screening", "assessment"] }
           }
