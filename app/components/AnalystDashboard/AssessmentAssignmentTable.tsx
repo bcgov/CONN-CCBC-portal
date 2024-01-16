@@ -144,6 +144,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
           }
         }
         allApplications(
+          orderBy: CCBC_NUMBER_ASC
           filter: {
             analystStatus: { in: ["received", "screening", "assessment"] }
           }
@@ -423,6 +424,12 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       filterAnalysts,
       filterCcbcId,
     },
+    renderTopToolbarCustomActions: () => (
+      <p style={{ margin: '0', marginTop: '20px' }}>
+        Showing applications with status of “Received”, “Screening” and
+        “Assessment.”
+      </p>
+    ),
   });
 
   const visibleRowCount = table.getRowModel().rows?.length ?? 0;
