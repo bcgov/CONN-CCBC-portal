@@ -2744,6 +2744,78 @@ const mockQueryPayload = {
               sessionSub: 'test-session-sub@idir',
               tableName: 'conditional_approval_data',
             },
+            {
+              applicationId: 1,
+              createdAt: '2024-01-12T18:06:46.967236+00:00',
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                created_at: '2024-01-12T18:06:46.967236+00:00',
+                created_by: 3,
+                updated_at: '2024-01-12T18:06:46.967236+00:00',
+                updated_by: 3,
+                archived_at: null,
+                archived_by: null,
+                project_type: 'lastMile',
+                application_id: 7,
+              },
+              oldRecord: null,
+              recordId: 'd6431f27-b78d-5212-916d-380e0cce9583',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_project_type',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2024-01-12T18:27:07.444181+00:00',
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 3,
+                created_at: '2024-01-12T18:27:07.444181+00:00',
+                created_by: 3,
+                updated_at: '2024-01-12T18:27:07.444181+00:00',
+                updated_by: 3,
+                archived_at: null,
+                archived_by: null,
+                project_type: 'lastMileAndTransport',
+                application_id: 7,
+              },
+              oldRecord: null,
+              recordId: 'd6431f27-b78d-5212-916d-380e0cce9583',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_project_type',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2024-01-12T18:27:42.139106+00:00',
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 5,
+                created_at: '2024-01-12T18:27:42.139106+00:00',
+                created_by: 3,
+                updated_at: '2024-01-12T18:27:42.139106+00:00',
+                updated_by: 3,
+                archived_at: null,
+                archived_by: null,
+                project_type: null,
+                application_id: 7,
+              },
+              oldRecord: null,
+              recordId: 'd6431f27-b78d-5212-916d-380e0cce9583',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_project_type',
+            },
           ],
         },
       },
@@ -2860,6 +2932,29 @@ describe('The index page', () => {
       screen.getAllByTestId('history-content-conditional-approval')[1]
     ).toHaveTextContent(
       /Foo Bar saved the Conditional approval on Jan 9, 2024, 3:39 p.m. /
+    );
+  });
+
+  it('shows the correct application project type history', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-application_project_type')[0]
+    ).toHaveTextContent(
+      /Foo Bar changed Project Type to Unassigned from Last Mile & Transport on Jan 12, 2024, 10:27 a.m./
+    );
+
+    expect(
+      screen.getAllByTestId('history-application_project_type')[1]
+    ).toHaveTextContent(
+      /Foo Bar changed Project Type to Last Mile & Transport from Last Mile on Jan 12, 2024, 10:27 a.m./
+    );
+
+    expect(
+      screen.getAllByTestId('history-application_project_type')[2]
+    ).toHaveTextContent(
+      /Foo Bar set Project Type to Last Mile on Jan 12, 2024, 10:06 a.m./
     );
   });
 

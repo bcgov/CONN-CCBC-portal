@@ -5,6 +5,7 @@ import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
 import EditProjectDescription from './EditProjectDescription';
 import StatusInformationIcon from './StatusInformationIcon';
+import AssignProjectType from './AssignProjectType';
 
 const StyledCallout = styled.div`
   margin-bottom: 0.5em;
@@ -48,6 +49,10 @@ const StyledItem = styled.div`
 `;
 
 const StyledPackage = styled(StyledItem)`
+  margin: 8px 0;
+`;
+
+const StyledProjectType = styled(StyledItem)`
   margin: 8px 0;
 `;
 
@@ -105,6 +110,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           ...ChangeStatus_query
           ...AssignPackage_query
           ...EditProjectDescription_query
+          ...AssignProjectType_query
         }
         ...AssignLead_query
         allApplicationStatusTypes(
@@ -206,6 +212,10 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
             query={queryFragment}
           />
         </StyledItem>
+        <StyledProjectType>
+          <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
+          <AssignProjectType application={applicationByRowId} />
+        </StyledProjectType>
       </StyledDiv>
     </StyledCallout>
   );
