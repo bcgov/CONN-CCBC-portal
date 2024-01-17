@@ -39,11 +39,11 @@ digraph "twoDegreesRelationshipsDiagram" {
   "application_form_data":"elipses":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_form_data":"elipses":w -> "form_data":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_gis_assessment_hh":"elipses":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "application_gis_data":"application_id":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "application_gis_data":"archived_by":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "application_gis_data":"batch_id":w -> "gis_data":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "application_gis_data":"created_by":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "application_gis_data":"updated_by":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_gis_data":"elipses":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_gis_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_gis_data":"elipses":w -> "gis_data":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_gis_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_gis_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_internal_description":"elipses":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_internal_description":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_internal_description":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
@@ -60,10 +60,10 @@ digraph "twoDegreesRelationshipsDiagram" {
   "application_package":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_package":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_package":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "application_project_type":"elipses":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "application_project_type":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "application_project_type":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "application_project_type":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_project_type":"application_id":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_project_type":"archived_by":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_project_type":"created_by":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "application_project_type":"updated_by":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_rfi_data":"elipses":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_rfi_data":"elipses":w -> "rfi_data":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
   "application_sow_data":"elipses":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
@@ -97,9 +97,9 @@ digraph "twoDegreesRelationshipsDiagram" {
   "form_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "form_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "form_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "gis_data":"archived_by":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "gis_data":"created_by":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "gis_data":"updated_by":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "gis_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "gis_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "gis_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "intake":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "intake":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "intake":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
@@ -250,19 +250,10 @@ digraph "twoDegreesRelationshipsDiagram" {
   ];
   "application_gis_data" [
    label=<
-    <TABLE BORDER="2" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="4"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16"><B>application_gis_data</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
-      <TR><TD PORT="id" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/primaryKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16">id</TD></TR></TABLE></TD><TD PORT="id.type" ALIGN="LEFT">int4[10]</TD></TR>
-      <TR><TD PORT="batch_id" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/foreignKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16">batch_id</TD></TR></TABLE></TD><TD PORT="batch_id.type" ALIGN="LEFT">int4[10]</TD></TR>
-      <TR><TD PORT="application_id" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/foreignKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16">application_id</TD></TR></TABLE></TD><TD PORT="application_id.type" ALIGN="LEFT">int4[10]</TD></TR>
-      <TR><TD PORT="json_data" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16">json_data</TD></TR></TABLE></TD><TD PORT="json_data.type" ALIGN="LEFT">jsonb[2147483647]</TD></TR>
-      <TR><TD PORT="created_by" COLSPAN="2" BGCOLOR="#ffffff" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/foreignKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16">created_by</TD></TR></TABLE></TD><TD PORT="created_by.type" ALIGN="LEFT">int4[10]</TD></TR>
-      <TR><TD PORT="created_at" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16">created_at</TD></TR></TABLE></TD><TD PORT="created_at.type" ALIGN="LEFT">timestamptz[35,6]</TD></TR>
-      <TR><TD PORT="updated_by" COLSPAN="2" BGCOLOR="#ffffff" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/foreignKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16">updated_by</TD></TR></TABLE></TD><TD PORT="updated_by.type" ALIGN="LEFT">int4[10]</TD></TR>
-      <TR><TD PORT="updated_at" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16">updated_at</TD></TR></TABLE></TD><TD PORT="updated_at.type" ALIGN="LEFT">timestamptz[35,6]</TD></TR>
-      <TR><TD PORT="archived_by" COLSPAN="2" BGCOLOR="#ffffff" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/foreignKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16">archived_by</TD></TR></TABLE></TD><TD PORT="archived_by.type" ALIGN="LEFT">int4[10]</TD></TR>
-      <TR><TD PORT="archived_at" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16">archived_at</TD></TR></TABLE></TD><TD PORT="archived_at.type" ALIGN="LEFT">timestamptz[35,6]</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 5</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">0 &gt;</TD></TR>
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="120" HEIGHT="16"><B>application_gis_data</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 5</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD></TR>
     </TABLE>>
     URL="application_gis_data.html"
     target="_top"
@@ -314,10 +305,18 @@ digraph "twoDegreesRelationshipsDiagram" {
   ];
   "application_project_type" [
    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16"><B>application_project_type</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
-      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD></TR>
+    <TABLE BORDER="2" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="4"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16"><B>application_project_type</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
+      <TR><TD PORT="id" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/primaryKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16">id</TD></TR></TABLE></TD><TD PORT="id.type" ALIGN="LEFT">int4[10]</TD></TR>
+      <TR><TD PORT="application_id" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/foreignKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16">application_id</TD></TR></TABLE></TD><TD PORT="application_id.type" ALIGN="LEFT">int4[10]</TD></TR>
+      <TR><TD PORT="project_type" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16">project_type</TD></TR></TABLE></TD><TD PORT="project_type.type" ALIGN="LEFT">varchar[20]</TD></TR>
+      <TR><TD PORT="created_by" COLSPAN="2" BGCOLOR="#ffffff" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/foreignKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16">created_by</TD></TR></TABLE></TD><TD PORT="created_by.type" ALIGN="LEFT">int4[10]</TD></TR>
+      <TR><TD PORT="created_at" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16">created_at</TD></TR></TABLE></TD><TD PORT="created_at.type" ALIGN="LEFT">timestamptz[35,6]</TD></TR>
+      <TR><TD PORT="updated_by" COLSPAN="2" BGCOLOR="#ffffff" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/foreignKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16">updated_by</TD></TR></TABLE></TD><TD PORT="updated_by.type" ALIGN="LEFT">int4[10]</TD></TR>
+      <TR><TD PORT="updated_at" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16">updated_at</TD></TR></TABLE></TD><TD PORT="updated_at.type" ALIGN="LEFT">timestamptz[35,6]</TD></TR>
+      <TR><TD PORT="archived_by" COLSPAN="2" BGCOLOR="#ffffff" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"><IMG SRC="../../images/foreignKeys.png"/></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16">archived_by</TD></TR></TABLE></TD><TD PORT="archived_by.type" ALIGN="LEFT">int4[10]</TD></TR>
+      <TR><TD PORT="archived_at" COLSPAN="2" ALIGN="LEFT"><TABLE BORDER="0" CELLSPACING="0" ALIGN="LEFT"><TR ALIGN="LEFT"><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="15" HEIGHT="16"></TD><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="146" HEIGHT="16">archived_at</TD></TR></TABLE></TD><TD PORT="archived_at.type" ALIGN="LEFT">timestamptz[35,6]</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">0 &gt;</TD></TR>
     </TABLE>>
     URL="application_project_type.html"
     target="_top"
