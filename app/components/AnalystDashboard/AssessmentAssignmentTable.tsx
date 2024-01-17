@@ -341,7 +341,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       size: assessmentWidth,
       maxSize: assessmentWidth,
       Cell: AssessmentCell,
-      filterVariant: 'select',
       filterSelectOptions: Object.values(allAnalysts.edges).map(
         ({ node }) => `${node.givenName} ${node.familyName}`
       ),
@@ -356,7 +355,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         size: 24,
         maxSize: 24,
         filterVariant: 'select',
-        filterSelectOptions: uniqueIntakeIds,
+        filterSelectOptions: uniqueIntakeIds as string[],
       },
       {
         accessorKey: 'ccbcNumber',
@@ -385,16 +384,19 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         ...sharedAssessmentCell,
         accessorKey: 'techAssessment',
         header: 'Tech',
+        filterVariant: 'select',
       },
       {
         ...sharedAssessmentCell,
         accessorKey: 'permittingAssessment',
         header: 'Permitting',
+        filterVariant: 'select',
       },
       {
         ...sharedAssessmentCell,
         accessorKey: 'gisAssessment',
         header: 'GIS',
+        filterVariant: 'select',
       },
       {
         accessorKey: 'organizationName',
