@@ -23,9 +23,9 @@ type Assessment = {
 };
 
 type Application = {
-  intakeId: number;
+  intakeId: string;
   ccbcNumber: string;
-  zones: number[];
+  zones: string[];
   applicationId: number;
   pmAssessment: Assessment;
   techAssessment: Assessment;
@@ -52,6 +52,16 @@ export const filterCcbcId = (row, id, filterValue) => {
     return false;
   }
   return ccbcId.toLowerCase().includes(filterValue.toLowerCase());
+};
+
+const filterZones = (row, id, filterValue) => {
+  const zones = row.getValue(id) as any;
+
+  if (!zones) {
+    return false;
+  }
+
+  return zones.some((zone) => zone === filterValue);
 };
 
 export const sortAnalysts = (rowA, rowB, columnId) => {
@@ -275,6 +285,14 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     const newSort = sort();
     if (!isFirstRender) setSorting(newSort);
   };
+  const uniqueIntakeIds: string[] | unknown[] | null = [
+    ...new Set(allApplications.edges.map((edge) => edge.node.intakeId)),
+  ];
+
+  const allZones: string[] = allApplications.edges.flatMap(
+    (edge) => edge.node.zones
+  );
+  const uniqueZones: string[] = [...new Set(allZones)].sort();
 
   const tableData = useMemo(
     () =>
@@ -289,9 +307,9 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
 
         return {
           applicationId,
-          intakeId,
+          intakeId: intakeId.toString(),
           ccbcNumber,
-          zones: zones?.join(', '),
+          zones,
           allAnalysts,
           pmAssessment: findAssessment(
             application.allAssessments.edges,
@@ -315,6 +333,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     [allApplications, allAnalysts]
   );
 
+  console.log('tableData', tableData);
+
   const assessmentWidth = 30;
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
@@ -323,6 +343,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       size: assessmentWidth,
       maxSize: assessmentWidth,
       Cell: AssessmentCell,
+      filterVariant: 'select',
+      filterSelectOptions: Object.values(allAnalysts.edges).map(
+        ({ node }) => `${node.givenName} ${node.familyName}`
+      ),
       sortingFn: 'sortAnalysts',
       filterFn: 'filterAnalysts',
     };
@@ -333,6 +357,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         header: 'Intake',
         size: 24,
         maxSize: 24,
+        filterVariant: 'select',
+        filterSelectOptions: uniqueIntakeIds,
       },
       {
         accessorKey: 'ccbcNumber',
@@ -347,6 +373,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         header: 'Zone',
         size: 24,
         maxSize: 24,
+        Cell: ({ cell }) => (cell.getValue() as number[]).join(', '),
+        filterVariant: 'select',
+        filterSelectOptions: uniqueZones,
+        filterFn: filterZones,
       },
       {
         ...sharedAssessmentCell,
