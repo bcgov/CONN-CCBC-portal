@@ -333,8 +333,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     [allApplications, allAnalysts]
   );
 
-  console.log('tableData', tableData);
-
   const assessmentWidth = 30;
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
