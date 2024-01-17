@@ -1,3 +1,14 @@
+# [1.136.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.135.0...v1.136.0) (2024-01-17)
+
+### Features
+
+- add filtering text to assessment dashboard ([6f70b52](https://github.com/bcgov/CONN-CCBC-portal/commit/6f70b52745674bc775a524a7c8468e5f841bd76e))
+- add project type to applications ([716cb60](https://github.com/bcgov/CONN-CCBC-portal/commit/716cb60176ffffa0575b2144452389157215961a))
+- add sentry exception capturing 404 errors with static content ([4dd4af9](https://github.com/bcgov/CONN-CCBC-portal/commit/4dd4af9d55fa9b8a0a6f929502c88d775481279a))
+- show application project type history ([c4ac0f8](https://github.com/bcgov/CONN-CCBC-portal/commit/c4ac0f8626b777857393d3a74c2e457ab46027a1))
+- show conditional approval file history ([1d5e61c](https://github.com/bcgov/CONN-CCBC-portal/commit/1d5e61c34f78923b469007825ad46bd8c65ea0ab))
+- show conditional approval form history ([b76f165](https://github.com/bcgov/CONN-CCBC-portal/commit/b76f165ab15f5d30dc8997321be7e843fddf83b8))
+
 # [1.135.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.134.0...v1.135.0) (2024-01-11)
 
 ### Features
