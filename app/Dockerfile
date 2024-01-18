@@ -19,6 +19,7 @@ ENV HOME=/root
 WORKDIR ${APP_HOME}
 
 RUN echo ${GITHUB_SHA}
+RUN echo %{GIT_HASH}
 
 RUN INSTALL_PKGS="yarn-1.22.18-1" && \
   yum -y update && \
