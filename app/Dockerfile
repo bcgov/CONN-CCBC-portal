@@ -1,22 +1,24 @@
 FROM registry.access.redhat.com/ubi9/s2i-base@sha256:d3838e6e26baa335556eb04f0af128602ddf7b57161d168b21ed6cf997281ddb
 
 ENV SUMMARY="An image for the CONN-CCBC-portal app" \
-    DESCRIPTION="This image contains the compiled CONN-CCBC-portal node app"
+  DESCRIPTION="This image contains the compiled CONN-CCBC-portal node app"
 
 LABEL summary="$SUMMARY" \
-      description="$DESCRIPTION" \
-      io.k8s.description="$DESCRIPTION" \
-      io.k8s.display-name="ghcr.io/bcgov/conn-ccbc-portal/ccbc-app" \
-      io.openshift.tags="ccbc,node" \
-      name="ccbc-app" \
-      vendor="Province of British Columbia" \
-      maintainer="Romer, Meherzad CITZ:EX <Meherzad.Romer@gov.bc.ca>"
+  description="$DESCRIPTION" \
+  io.k8s.description="$DESCRIPTION" \
+  io.k8s.display-name="ghcr.io/bcgov/conn-ccbc-portal/ccbc-app" \
+  io.openshift.tags="ccbc,node" \
+  name="ccbc-app" \
+  vendor="Province of British Columbia" \
+  maintainer="Romer, Meherzad CITZ:EX <Meherzad.Romer@gov.bc.ca>"
 
 ENV USER_ID=1001
 ENV APP_HOME=/root
 ENV HOME=/root
 
 WORKDIR ${APP_HOME}
+
+RUN echo ${GITHUB_SHA}
 
 RUN INSTALL_PKGS="yarn-1.22.18-1" && \
   yum -y update && \
