@@ -522,3 +522,4 @@ mutations/create_project_type 2024-01-12T17:32:58Z Rafael Solorzano <61289255+ra
 computed_columns/application_history [computed_columns/application_history@1.135.0] 2024-01-12T21:46:32Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add application project type history
 @1.136.0 2024-01-17T00:26:57Z CCBC Service Account <ccbc@button.is> # release v1.136.0
 computed_columns/application_history [computed_columns/application_history@1.136.0] 2024-01-18T18:01:35Z ,,, <ryohani89@NH504670> # fix get correct updated user
+@1.136.1 2024-01-18T18:32:37Z CCBC Service Account <ccbc@button.is> # release v1.136.1
