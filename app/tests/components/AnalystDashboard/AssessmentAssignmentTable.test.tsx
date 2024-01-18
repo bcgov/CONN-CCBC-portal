@@ -290,16 +290,20 @@ describe('The AssessmentAssignmentTable component', () => {
       fireEvent.click(columnActions);
     });
 
-    const intakeIdFilter = screen.getByText('Filter by Intake');
+    const intakeIdFilter = screen.getAllByText('Filter by Intake')[0];
 
     await act(async () => {
-      fireEvent.click(intakeIdFilter);
+      fireEvent.keyDown(intakeIdFilter, { key: 'Enter', code: 'Enter' });
     });
 
-    const filterInput = screen.getByPlaceholderText('Filter by Intake');
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    const filterInput = screen.getAllByRole('option')[0];
 
     await act(async () => {
-      fireEvent.change(filterInput, { target: { value: '1' } });
+      fireEvent.click(filterInput);
     });
 
     await new Promise((r) => {
@@ -324,16 +328,20 @@ describe('The AssessmentAssignmentTable component', () => {
       fireEvent.click(columnActions);
     });
 
-    const zoneFilter = screen.getByText('Filter by Zone');
+    const zoneFilter = screen.getAllByText('Filter by Zone')[0];
 
     await act(async () => {
-      fireEvent.click(zoneFilter);
+      fireEvent.keyDown(zoneFilter, { key: 'Enter', code: 'Enter' });
     });
 
-    const filterInput = screen.getByPlaceholderText('Filter by Zone');
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    const filterInput = screen.getAllByRole('option')[0];
 
     await act(async () => {
-      fireEvent.change(filterInput, { target: { value: '2' } });
+      fireEvent.click(filterInput);
     });
 
     await new Promise((r) => {
