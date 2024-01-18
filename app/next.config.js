@@ -47,7 +47,7 @@ const moduleExports = {
     // ssr and displayName are configured by default
     styledComponents: true,
   },
-  generateBuildId: async () => {
+  generateBuildId: () => {
     return process.env.GIT_HASH || 'static-build-id';
   },
 
