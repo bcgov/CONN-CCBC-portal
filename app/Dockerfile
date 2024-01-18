@@ -64,7 +64,7 @@ RUN rm -rf /usr/local/bin/npm \
 ENV NODE_ENV=production
 ENV ENABLE_ANALYTICS=true
 
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 CYPRESS_INSTALL_BINARY=0 \
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 CYPRESS_INSTALL_BINARY=0 GIT_HASH=${GIT_HASH} \
   yarn install --frozen-lockfile --production=false && \
   yarn build:relay && \
   yarn build:server && \
