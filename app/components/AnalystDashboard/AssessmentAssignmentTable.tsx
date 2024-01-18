@@ -292,7 +292,9 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
   const allZones: string[] = allApplications.edges.flatMap(
     (edge) => edge.node.zones
   );
-  const uniqueZones: string[] = [...new Set(allZones)].sort();
+  const uniqueZones: string[] = [...new Set(allZones)].sort(
+    (a, b) => Number(a) - Number(b)
+  );
 
   const tableData = useMemo(
     () =>
