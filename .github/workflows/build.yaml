@@ -34,6 +34,10 @@ jobs:
       packages: write
     name: ${{ matrix.name }}
     steps:
+    - name: Debug Environment Variables
+      run: |
+        echo "GIT_HASH value: $GIT_HASH"
+        env
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
@@ -67,7 +71,7 @@ jobs:
 
       - name: Build and push Docker image
         env:
-          GIT_SHA: ${{ env.GIT_SHA }}
+          GIT_HASH: ${{ env.GIT_HASH }}
         uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.context }}
