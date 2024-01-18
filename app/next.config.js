@@ -48,7 +48,7 @@ const moduleExports = {
     styledComponents: true,
   },
   generateBuildId: async () => {
-    return process.env.GITHUB_HASH || 'static-build-id';
+    return process.env.GIT_HASH || 'static-build-id';
   },
 
   publicRuntimeConfig: {
