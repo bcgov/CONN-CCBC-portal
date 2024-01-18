@@ -9,6 +9,7 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
+  GIT_HASH: ${{ github.sha }}
 
 jobs:
   build-and-push-image:
