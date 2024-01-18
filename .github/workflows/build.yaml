@@ -66,6 +66,8 @@ jobs:
             ${{ runner.os }}-buildx-${{ matrix.name }}
 
       - name: Build and push Docker image
+        env:
+          GIT_SHA: ${{ env.GIT_SHA }}
         uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.context }}
