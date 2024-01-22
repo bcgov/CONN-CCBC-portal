@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "yarn run build:server && yarn run build:schema && yarn run build:relay && yarn run build:next",
-    "build:next": "GIT_HASH=$GIT_HASH next build",
+    "build:next": "next build",
     "build:relay": "touch schema/queryMap.json && mkdir -p __generated__ && relay-compiler && yarn run build:persisted-operations",
     "build:server": "tsc --project tsconfig.server.json",
     "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
