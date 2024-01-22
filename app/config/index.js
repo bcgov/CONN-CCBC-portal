@@ -281,7 +281,7 @@ const config = convict({
   GIT_HASH: {
     doc: 'Git hash',
     format: String,
-    default: '',
+    default: 'default',
     env: 'GIT_HASH',
   },
 });
