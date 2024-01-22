@@ -15,11 +15,13 @@ LABEL summary="$SUMMARY" \
 ENV USER_ID=1001
 ENV APP_HOME=/root
 ENV HOME=/root
+ARG GIT_HASH
+ENV GIT_HASH=${GIT_HASH}
 
 WORKDIR ${APP_HOME}
 
-RUN echo ${GITHUB_SHA}
-RUN echo ${GIT_HASH}
+RUN echo "GITHUB_SHA IS ${GITHUB_SHA}"
+RUN echo "GIT_HASH IS ${GIT_HASH}"
 
 RUN INSTALL_PKGS="yarn-1.22.18-1" && \
   yum -y update && \
