@@ -20,9 +20,6 @@ ENV GIT_HASH=${GIT_HASH}
 
 WORKDIR ${APP_HOME}
 
-RUN echo "GITHUB_SHA IS ${GITHUB_SHA}"
-RUN echo "GIT_HASH IS ${GIT_HASH}"
-
 RUN INSTALL_PKGS="yarn-1.22.18-1" && \
   yum -y update && \
   curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo > /etc/yum.repos.d/yarn.repo && \

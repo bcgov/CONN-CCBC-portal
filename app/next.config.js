@@ -48,7 +48,6 @@ const moduleExports = {
     styledComponents: true,
   },
   generateBuildId: async () => {
-    console.log(process.env);
     return process.env.GIT_HASH;
   },
 
