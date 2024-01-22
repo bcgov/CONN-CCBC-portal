@@ -48,6 +48,7 @@ const moduleExports = {
     styledComponents: true,
   },
   generateBuildId: async () => {
+    console.log(process.env);
     return 'static';
   },
 
