@@ -278,6 +278,12 @@ const config = convict({
     default: '',
     env: 'SP_LIST_NAME',
   },
+  GIT_HASH: {
+    doc: 'Git hash',
+    format: String,
+    default: '',
+    env: 'GIT_HASH',
+  },
 });
 
 // Load environment dependent configuration
