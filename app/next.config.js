@@ -48,7 +48,7 @@ const moduleExports = {
     styledComponents: true,
   },
   generateBuildId: async () => {
-    return convictConfig.get('GIT_HASH');
+    return 'static';
   },
 
   publicRuntimeConfig: {
