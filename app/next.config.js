@@ -49,7 +49,7 @@ const moduleExports = {
   },
   generateBuildId: async () => {
     console.log(process.env);
-    return process.env.NODE_ENV;
+    return process.env.GIT_HASH;
   },
 
   publicRuntimeConfig: {
