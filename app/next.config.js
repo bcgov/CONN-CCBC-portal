@@ -49,7 +49,7 @@ const moduleExports = {
   },
   generateBuildId: async () => {
     console.log(process.env);
-    return 'static';
+    return process.env.NODE_ENV;
   },
 
   publicRuntimeConfig: {
