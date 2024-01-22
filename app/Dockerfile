@@ -15,7 +15,6 @@ LABEL summary="$SUMMARY" \
 ENV USER_ID=1001
 ENV APP_HOME=/root
 ENV HOME=/root
-ENV GIT_HASH=some-static-test-debug-hash
 
 WORKDIR ${APP_HOME}
 
