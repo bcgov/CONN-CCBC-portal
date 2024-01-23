@@ -6,9 +6,9 @@ import { enUS } from '@mui/x-date-pickers/locales';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
-import { CancelIcon, LoadingSpinner } from '../../../components';
+import { LoadingSpinner } from '../../../components';
 import { StyledDatePicker, getStyles } from '../widgets/DatePickerWidget';
 
 const StyledContainer = styled.div<{
@@ -90,7 +90,7 @@ const StyledFileDiv = styled('div')`
   margin-left: 16px;
   margin-top: 10px;
   & svg {
-    margin: 0 8px;
+    margin: 0px 8px;
   }
 `;
 
@@ -268,7 +268,11 @@ const FileComponent: React.FC<FileComponentProps> = ({
                   }}
                   disabled={loading || disabled}
                 >
-                  <CancelIcon />
+                  <FontAwesomeIcon
+                    width={10}
+                    icon={faTrash}
+                    color="rgb(189, 36, 36)"
+                  />
                 </StyledDeleteBtn>
               </StyledFileDiv>
               {useFileDate && file?.fileDate && (
