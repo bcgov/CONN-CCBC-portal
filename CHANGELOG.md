@@ -1,3 +1,9 @@
+## [1.136.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.136.0...v1.136.1) (2024-01-23)
+
+### Bug Fixes
+
+- get correct updated or delete by user for history ([101dad8](https://github.com/bcgov/CONN-CCBC-portal/commit/101dad85918d105781dccd7082af7bc6c5b5b175))
+
 # [1.136.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.135.0...v1.136.0) (2024-01-17)
 
 ### Features
