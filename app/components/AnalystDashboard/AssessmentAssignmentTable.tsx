@@ -143,7 +143,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
           }
         }
         allApplications(
-          orderBy: CCBC_NUMBER_ASC
           filter: {
             analystStatus: { in: ["received", "screening", "assessment"] }
           }
@@ -198,7 +197,9 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
   const [density, setDensity] = useState<MRT_DensityState>('comfortable');
   const [showColumnFilters, setShowColumnFilters] = useState(false);
 
-  const [sorting, setSorting] = useState<MRT_SortingState>([]);
+  const [sorting, setSorting] = useState<MRT_SortingState>([
+    { id: 'intakeId', desc: false },
+  ]);
 
   useEffect(() => {
     const columnFiltersSession = cookie.get('mrt_columnFilters_assessment');
@@ -266,6 +267,14 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     if (isFirstRender) return;
     cookie.set('assessment_last_visited', JSON.stringify(true));
   }, [isFirstRender]);
+
+  // Separate sorting function so that MRT doesn't replace the previous
+  // sorting on first render, otherwise it will set to blank
+  // as sort must be called to return the array of sort
+  const setSortingFn = (sort) => {
+    const newSort = sort();
+    if (!isFirstRender) setSorting(newSort);
+  };
 
   const tableData = useMemo(
     () =>
@@ -377,7 +386,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       showColumnFilters,
       sorting,
     },
-    onSortingChange: setSorting,
+    onSortingChange: setSortingFn,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onDensityChange: setDensity,
@@ -385,6 +394,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     enablePagination: false,
     enableGlobalFilter: false,
     enableBottomToolbar: false,
+    autoResetAll: false,
     muiTableContainerProps: { sx: { padding: '8px' } },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps: {
