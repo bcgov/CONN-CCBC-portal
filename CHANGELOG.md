@@ -1,3 +1,9 @@
+## [1.136.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.136.1...v1.136.2) (2024-01-24)
+
+### Bug Fixes
+
+- keep consistent next build id ([6645b4b](https://github.com/bcgov/CONN-CCBC-portal/commit/6645b4b3bf9c576c357a42b546857783ef0df82a))
+
 ## [1.136.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.136.0...v1.136.1) (2024-01-23)
 
 ### Bug Fixes
