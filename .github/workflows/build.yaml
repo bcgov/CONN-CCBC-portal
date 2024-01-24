@@ -9,6 +9,7 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
+  GIT_HASH: ${{ github.sha }}
 
 jobs:
   build-and-push-image:
@@ -65,6 +66,8 @@ jobs:
             ${{ runner.os }}-buildx-${{ matrix.name }}
 
       - name: Build and push Docker image
+        env:
+          GIT_HASH: ${{ env.GIT_HASH }}
         uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.context }}
@@ -73,6 +76,8 @@ jobs:
           file: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            GIT_HASH=${{ env.GIT_HASH }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
         # Temp fix

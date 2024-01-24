@@ -47,6 +47,10 @@ const moduleExports = {
     // ssr and displayName are configured by default
     styledComponents: true,
   },
+  generateBuildId: async () => {
+    return process.env.GIT_HASH;
+  },
+
   publicRuntimeConfig: {
     NEXT_PUBLIC_GROWTHBOOK_API_KEY: process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY,
     ENABLE_MOCK_TIME: convictConfig.get('ENABLE_MOCK_TIME'),
