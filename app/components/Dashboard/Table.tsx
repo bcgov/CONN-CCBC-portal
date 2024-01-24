@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import Row from './Row';
 import ArchiveModal from './ArchiveModal';
-import WithdrawModal from './Modal';
+import WithdrawModal from './WithdrawModal';
 
 const StyledFontAwesome = styled(FontAwesomeIcon)`
   margin-left: 4px; ;

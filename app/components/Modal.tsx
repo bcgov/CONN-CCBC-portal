@@ -71,15 +71,13 @@ const Modal: React.FC<Props> = ({
     >
       <StyledDialogTitle>
         {title}
-        {onClose ? (
-          <StyledIconButton
-            aria-label="close"
-            data-testid="close-button"
-            onClick={onClose}
-          >
-            <CloseIcon />
-          </StyledIconButton>
-        ) : null}
+        <StyledIconButton
+          aria-label="close"
+          data-testid="close-button"
+          onClick={onClose}
+        >
+          <CloseIcon />
+        </StyledIconButton>
       </StyledDialogTitle>
       <StyledDialogContent>{children}</StyledDialogContent>
       <StyledDialogActions>

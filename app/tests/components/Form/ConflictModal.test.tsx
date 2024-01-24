@@ -37,4 +37,16 @@ describe('Conflict Modal tests', () => {
     expect(window.location.hash).toBe('');
     expect(mockReload).toHaveBeenCalled();
   });
+
+  it('closes the modal when close button is clicked', () => {
+    const setModalOpenMock = jest.fn();
+
+    const { getByTestId } = render(
+      <ConflictModal modalOpen setModalOpen={setModalOpenMock} />
+    );
+
+    fireEvent.click(getByTestId('close-button'));
+
+    expect(setModalOpenMock).toHaveBeenCalledWith(false);
+  });
 });
