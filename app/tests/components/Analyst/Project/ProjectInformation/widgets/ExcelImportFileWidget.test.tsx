@@ -215,7 +215,7 @@ describe('The ExcelImportFileWidget', () => {
       fireEvent.click(hasFundingAggreementBeenSigned);
     });
 
-    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
+    const file = new File([new ArrayBuffer(1)], 'file.doc', {
       type: 'application/word',
     });
 
@@ -225,9 +225,8 @@ describe('The ExcelImportFileWidget', () => {
       fireEvent.change(inputFile, { target: { files: [file] } });
     });
 
-    expect(screen.getByText('File error')).toBeInTheDocument();
     expect(
-      screen.getByText('This file cannot be downloaded')
+      screen.getByText(/Please use an accepted file type/)
     ).toBeInTheDocument();
   });
 

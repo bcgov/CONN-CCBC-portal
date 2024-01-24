@@ -70,6 +70,7 @@ const ConditionalApprovalForm: React.FC<Props> = ({
   const [isFormEditMode, setIsFormEditMode] = useState(
     !conditionalApproval?.jsonData
   );
+  const [modalOpen, setModalOpen] = useState(false);
 
   const oldFormStatus = oldFormData?.response?.statusApplicantSees;
   const newFormStatus = newFormData?.response?.statusApplicantSees;
@@ -82,7 +83,7 @@ const ConditionalApprovalForm: React.FC<Props> = ({
     if (showStatusModal) {
       // clear history before opening modal to prevent bug where modal doesn't open when the anchor hash is in the url already
       window.history.replaceState(null, null, ' ');
-      window.location.hash = 'conditional-approval-modal';
+      setModalOpen(true);
     } else {
       window.history.replaceState(null, null, ' ');
       createConditionalApproval({
@@ -128,6 +129,8 @@ const ConditionalApprovalForm: React.FC<Props> = ({
     <>
       <ConditionalApprovalModal
         applicationStoreId={id}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
         rowId={rowId}
         formData={newFormData}
         newFormStatus={newFormStatus}

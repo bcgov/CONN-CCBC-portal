@@ -46,6 +46,8 @@ const ViewAnnouncements: React.FC<Props> = ({
 
   const [fullAnnouncements, setFullAnnouncements] = useState([]);
 
+  const [modalOpen, setModalOpen] = useState(false);
+
   useEffect(() => {
     // need abort controller to cancel fetches when component unmounts
     let controller = new AbortController();
@@ -125,8 +127,7 @@ const ViewAnnouncements: React.FC<Props> = ({
       rowId: announcement.rowId,
       jsonData: announcement.jsonData,
     });
-    window.history.replaceState(null, null, ' ');
-    window.location.hash = 'delete-announcement';
+    setModalOpen(true);
   };
 
   return (
@@ -172,6 +173,8 @@ const ViewAnnouncements: React.FC<Props> = ({
         <StyledEmpty>None</StyledEmpty>
       )}
       <DeleteModal
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
         id="delete-announcement"
         currentApplicationCcbcNumber={ccbcNumber}
         announcement={toBeDeleted}

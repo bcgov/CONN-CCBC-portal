@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Button from '@button-inc/bcgov-theme/Button';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import claimsSchema from 'formSchema/analyst/claims';
 import claimsUiSchema from 'formSchema/uiSchema/analyst/claimsUiSchema';
@@ -8,35 +7,17 @@ import { useCreateClaimsMutation } from 'schema/mutations/project/createClaimsDa
 import { useArchiveApplicationClaimsDataMutation as useArchiveClaims } from 'schema/mutations/project/archiveApplicationClaimsData';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
-import Modal from 'components/Modal';
 import ClaimsView from './ClaimsView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
 import MetabaseLink from '../ProjectInformation/MetabaseLink';
-
-const StyledContainer = styled.div`
-  text-align: center;
-  max-width: 400px;
-
-  p {
-    margin-top: 16px;
-  }
-`;
+import ReportDeleteConfirmationModal from '../ReportDeleteConfirmationModal';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
     width: 180px;
     margin-bottom: 0px;
-  }
-`;
-
-const StyledFlex = styled.div`
-  display: flex;
-  justify-content: center;
-
-  button:first-child {
-    margin-right: 16px;
   }
 `;
 
@@ -257,27 +238,17 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
           Claims & progress report excel data successfully imported
         </Toast>
       )}
-      <Modal
-        open={showModal}
+      <ReportDeleteConfirmationModal
+        id="claims-progress-report-delete-confirm-dialog"
+        modalOpen={showModal}
         onClose={() => {
           setCurrentClaimsData(null);
           setShowModal(false);
         }}
-        title="Delete"
-      >
-        <StyledContainer>
-          <p>
-            Are you sure you want to delete this claim & progress report and all
-            accompanying data?
-          </p>
-          <StyledFlex>
-            <Button onClick={handleDelete}>Yes, delete</Button>
-            <Button onClick={() => setShowModal(false)} variant="secondary">
-              No, keep
-            </Button>
-          </StyledFlex>
-        </StyledContainer>
-      </Modal>
+        onConfirm={handleDelete}
+        reportType="claim & progress"
+      />
+
       <StyledProjectForm
         additionalContext={{
           applicationId: applicationRowId,

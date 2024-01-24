@@ -80,6 +80,7 @@ const EditApplication = ({
   const [sectionFormData, setSectionFormData] = useState(jsonData[sectionName]);
   const [changeReason, setChangeReason] = useState('');
   const [isFormSaved, setIsFormSaved] = useState(true);
+  const [changeModalOpen, setChangeModalOpen] = useState(false);
   const handleChange = (e: IChangeEvent) => {
     setIsFormSaved(false);
     const newFormSectionData = { ...e.formData };
@@ -125,7 +126,7 @@ const EditApplication = ({
   };
 
   const triggerModal = () => {
-    window.location.hash = '#change-modal';
+    setChangeModalOpen(true);
   };
 
   return (
@@ -153,7 +154,7 @@ const EditApplication = ({
             onClick={(e: React.MouseEvent<HTMLInputElement>) => {
               e.preventDefault();
               if (!isFormSaved) {
-                window.location.hash = '#change-modal';
+                triggerModal();
               }
             }}
           >
@@ -172,6 +173,9 @@ const EditApplication = ({
         </FormBase>
 
         <ChangeModal
+          id="change-modal"
+          modalOpen={changeModalOpen}
+          onCancel={() => setChangeModalOpen(false)}
           onSave={handleSubmit}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setChangeReason(e.target.value)

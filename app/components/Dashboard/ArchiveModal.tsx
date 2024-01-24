@@ -1,23 +1,10 @@
 import { useState } from 'react';
-import Button from '@button-inc/bcgov-theme/Button';
-import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
 
 import { useArchiveApplicationMutation } from 'schema/mutations/application/archiveApplication';
 import { ConnectionHandler } from 'relay-runtime';
+import Modal from 'components/Modal';
 import X from './XIcon';
-
-const StyledModal = styled(Modal)`
-  display: flex;
-  align-items: center;
-  z-index: 2;
-`;
-
-const ModalButtons = styled('div')`
-  & button {
-    margin-right: 1em;
-  }
-`;
 
 const StyledConfirmBox = styled('div')`
   position: absolute;
@@ -38,20 +25,23 @@ const StyledConfirmBox = styled('div')`
   }
 `;
 
-const ArchiveModal = ({ applications, id }) => {
+const ArchiveModal = ({ applications, id, modalOpen, setModalOpen }) => {
   const [successModal, setSuccessModal] = useState(false);
   const relayId = applications.allApplications.__id;
 
   const [archiveApplication] = useArchiveApplicationMutation();
 
-  const handleWithdraw = async () => {
+  const handleArchive = async () => {
     archiveApplication({
       variables: {
         input: {
           applicationRowId: id.rowId,
         },
       },
-      onCompleted: () => setSuccessModal(true),
+      onCompleted: () => {
+        setModalOpen(false);
+        setSuccessModal(true);
+      },
       updater: (store) => {
         const connection = store.get(relayId);
         store.delete(id.id);
@@ -62,28 +52,29 @@ const ArchiveModal = ({ applications, id }) => {
 
   return (
     <>
-      <StyledModal id="delete-application">
-        <Modal.Header>
-          Delete draft
-          <Modal.Close>
-            <X />
-          </Modal.Close>
-        </Modal.Header>
-        <Modal.Content>
-          <p>Are you sure you want to delete this draft application?</p>
-          <ModalButtons>
-            <Modal.Close>
-              <Button onClick={handleWithdraw} data-testid="archive-yes-btn">
-                Yes, delete
-              </Button>
-            </Modal.Close>
-
-            <Modal.Close>
-              <Button variant="secondary">No, keep</Button>
-            </Modal.Close>
-          </ModalButtons>
-        </Modal.Content>
-      </StyledModal>
+      <Modal
+        id="delete-application"
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+        title="Delete draft"
+        actions={[
+          {
+            id: 'archive-yes-btn',
+            label: 'Yes, delete',
+            onClick: handleArchive,
+          },
+          {
+            id: 'archive-cancel-btn',
+            label: 'No, keep',
+            onClick: () => setModalOpen(false),
+            variant: 'secondary',
+          },
+        ]}
+      >
+        <p>Are you sure you want to delete this draft application?</p>
+      </Modal>
       {successModal && (
         <StyledConfirmBox>
           <div>Application deleted</div>

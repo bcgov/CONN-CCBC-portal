@@ -36,13 +36,13 @@ const validateFile = (
   return { isValid: true, error: null };
 };
 
-const handleDownload = async (uuid, fileName) => {
+const handleDownload = async (uuid, fileName, onError) => {
   const url = `/api/s3/download/${uuid}/${fileName}`;
   await fetch(url)
     .then((response) => response.json())
     .then((response) => {
       if (response.avstatus) {
-        window.location.hash = 'file-error';
+        onError();
       } else {
         window.open(response, '_blank');
       }

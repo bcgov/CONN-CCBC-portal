@@ -147,9 +147,9 @@ describe('The analyst edit application page', () => {
 
     await userEvent.type(people, '{enter}');
 
-    expect(window.location.hash).toBe('#change-modal');
+    const modalElement = screen.getByTestId('change-modal');
 
-    window.location.hash = '';
+    expect(modalElement).toBeInTheDocument();
   });
 
   it('changes the save button text on form change', async () => {
@@ -181,11 +181,11 @@ describe('The analyst edit application page', () => {
       fireEvent.click(formSaveButton);
     });
 
-    const textarea = screen.getAllByTestId('reason-for-change')[2];
+    const textarea = screen.getAllByTestId('reason-for-change')[0];
 
     fireEvent.change(textarea, { target: { value: 'test text' } });
 
-    const saveButton = screen.getAllByTestId('withdraw-yes-btn')[2];
+    const saveButton = screen.getAllByTestId('status-change-save-btn')[0];
 
     await act(async () => {
       fireEvent.click(saveButton);

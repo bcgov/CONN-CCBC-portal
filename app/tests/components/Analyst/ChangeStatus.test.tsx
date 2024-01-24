@@ -291,7 +291,11 @@ describe('The application header component', () => {
       fireEvent.change(select, { target: { value: 'conditionally_approved' } });
     });
 
-    const closeButton = screen.getByText('Cancel change');
+    const modalElement = screen.getByTestId('external-change-status-modal');
+
+    expect(modalElement).toBeInTheDocument();
+
+    const closeButton = screen.getByText('Close');
     await act(async () => {
       fireEvent.click(closeButton);
     });

@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Button from '@button-inc/bcgov-theme/Button';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import milestonesSchema from 'formSchema/analyst/milestones';
 import milestonesUiSchema from 'formSchema/uiSchema/analyst/milestonesUiSchema';
@@ -8,20 +7,11 @@ import { useCreateMilestoneMutation } from 'schema/mutations/project/createMiles
 import { useArchiveApplicationMilestoneDataMutation as useArchiveMilestone } from 'schema/mutations/project/archiveApplicationMilestoneData';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
-import Modal from 'components/Modal';
 import MilestonesView from './MilestonesView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
-
-const StyledContainer = styled.div`
-  text-align: center;
-  max-width: 400px;
-
-  p {
-    margin-top: 16px;
-  }
-`;
+import ReportDeleteConfirmationModal from '../ReportDeleteConfirmationModal';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
@@ -36,15 +26,6 @@ const StyledFormHeader = styled.div`
   }
   ul {
     margin-bottom: 0px;
-  }
-`;
-
-const StyledFlex = styled.div`
-  display: flex;
-  justify-content: center;
-
-  button:first-child {
-    margin-right: 16px;
   }
 `;
 
@@ -288,27 +269,44 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
           Milestone report excel data successfully imported
         </Toast>
       )}
-      <Modal
+      <ReportDeleteConfirmationModal
+        id="milestone-report-delete-confirm-dialog"
+        modalOpen={showModal}
+        onClose={() => {
+          setCurrentMilestoneData(null);
+          setShowModal(false);
+        }}
+        onConfirm={handleDelete}
+        reportType="milestone"
+      />
+      {/* <Modal
         open={showModal}
         onClose={() => {
           setCurrentMilestoneData(null);
           setShowModal(false);
         }}
         title="Delete"
+        actions={[
+          {
+            id: 'btn-milestone-delete-modal-continue',
+            label: 'Yes, delete',
+            onClick: handleDelete,
+          },
+          {
+            id: 'btn-milestone-delete-modal-cancel',
+            label: 'No, keep',
+            variant: 'secondary',
+            onClick: () => setShowModal(false),
+          },
+        ]}
       >
         <StyledContainer>
           <p>
             Are you sure you want to delete this milestone report and all
             accompanying data?
           </p>
-          <StyledFlex>
-            <Button onClick={handleDelete}>Yes, delete</Button>
-            <Button onClick={() => setShowModal(false)} variant="secondary">
-              No, keep
-            </Button>
-          </StyledFlex>
         </StyledContainer>
-      </Modal>
+      </Modal> */}
       <StyledProjectForm
         additionalContext={{
           applicationId: applicationRowId,

@@ -279,6 +279,7 @@ const ApplicationForm: React.FC<Props> = ({
     jsonData?.review?.acknowledgeIncomplete || false
   );
   const [templateData, setTemplateData] = useState(null);
+  const [conflictModalOpen, setConflictModalOpen] = useState(false);
 
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
@@ -552,7 +553,7 @@ const ApplicationForm: React.FC<Props> = ({
       debounceKey: formDataId,
       onError: (error) => {
         if (error.message.includes('Data is Out of Sync')) {
-          window.location.hash = 'data-out-of-sync';
+          setConflictModalOpen(true);
         }
         setSavingError(
           <>
@@ -649,7 +650,10 @@ const ApplicationForm: React.FC<Props> = ({
           status={status}
         />
       </FormBase>
-      <ConflictModal id="data-out-of-sync" />
+      <ConflictModal
+        modalOpen={conflictModalOpen}
+        setModalOpen={setConflictModalOpen}
+      />
       <ProjectAreaModal
         projectAreaModalOpen={projectAreaModalOpen}
         setProjectAreaModalOpen={setProjectAreaModalOpen}

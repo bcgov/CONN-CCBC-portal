@@ -1,21 +1,8 @@
 import { useState } from 'react';
-import Button from '@button-inc/bcgov-theme/Button';
-import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
 import { useWithdrawApplicationMutation } from 'schema/mutations/application/withdrawApplication';
+import Modal from 'components/Modal';
 import X from './XIcon';
-
-const StyledModal = styled(Modal)`
-  display: flex;
-  align-items: center;
-  z-index: 2;
-`;
-
-const ModalButtons = styled('div')`
-  & button {
-    margin-right: 1em;
-  }
-`;
 
 const StyledConfirmBox = styled('div')`
   position: absolute;
@@ -36,16 +23,12 @@ const StyledConfirmBox = styled('div')`
   }
 `;
 
-const StyledContent = styled(Modal.Content)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  max-width: 600px;
-`;
-
-const WithdrawModal = ({ application, setApplication }) => {
+const WithdrawModal = ({
+  application,
+  setApplication,
+  modalOpen,
+  setModalOpen,
+}) => {
   const [successModal, setSuccessModal] = useState(false);
   const [withdrawApplication] = useWithdrawApplicationMutation();
 
@@ -59,6 +42,7 @@ const WithdrawModal = ({ application, setApplication }) => {
       onCompleted: () => {
         setApplication(null);
         setSuccessModal(true);
+        setModalOpen(false);
       },
 
       updater: (store) => {
@@ -69,38 +53,40 @@ const WithdrawModal = ({ application, setApplication }) => {
 
   return (
     <>
-      <StyledModal id="withdraw-modal">
-        <Modal.Header>
-          Withdraw application
-          <Modal.Close>
-            <X />
-          </Modal.Close>
-        </Modal.Header>
-        <StyledContent>
-          <p>
-            Applications submitted are deemed as property of BC. Withdrawing
-            this application will remove it from consideration for Connecting
-            Communities BC funding program. You will not be able to re-submit
-            the application. If you would like to re-submit, you must start a
-            new application.
-          </p>
-          <p>
-            You cannot undo this action. Are you sure you want to withdraw this
-            application?
-          </p>
-          <ModalButtons>
-            <Modal.Close>
-              <Button onClick={handleWithdraw} data-testid="withdraw-yes-btn">
-                Yes, withdraw
-              </Button>
-            </Modal.Close>
-
-            <Modal.Close>
-              <Button variant="secondary">No, keep</Button>
-            </Modal.Close>
-          </ModalButtons>
-        </StyledContent>
-      </StyledModal>
+      <Modal
+        id="withdraw-modal"
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+        size="sm"
+        title="Withdraw application"
+        actions={[
+          {
+            id: 'withdraw-yes-btn',
+            label: 'Yes, withdraw',
+            onClick: handleWithdraw,
+          },
+          {
+            id: 'withdraw-no-btn',
+            label: 'No, keep',
+            onClick: () => setModalOpen(false),
+            variant: 'secondary',
+          },
+        ]}
+      >
+        <p>
+          Applications submitted are deemed as property of BC. Withdrawing this
+          application will remove it from consideration for Connecting
+          Communities BC funding program. You will not be able to re-submit the
+          application. If you would like to re-submit, you must start a new
+          application.
+        </p>
+        <p>
+          You cannot undo this action. Are you sure you want to withdraw this
+          application?
+        </p>
+      </Modal>
       {successModal && (
         <StyledConfirmBox>
           <div>Application withdrawn</div>

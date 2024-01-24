@@ -1,35 +1,10 @@
-import Button from '@button-inc/bcgov-theme/Button';
-import Modal from '@button-inc/bcgov-theme/Modal';
-import styled from 'styled-components';
 import { useDeleteAnnouncementMutation } from 'schema/mutations/project/deleteAnnouncement';
-
-const StyledModal = styled(Modal)`
-  display: flex;
-  align-items: center;
-  z-index: 2;
-`;
-
-const ModalButtons = styled('div')`
-  & button {
-    margin-right: 1em;
-  }
-`;
-
-const XIcon = () => (
-  <svg
-    width="18"
-    height="18"
-    viewBox="0 0 18 18"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M1 1L17 17" stroke="white" />
-    <path d="M1 17L17 1" stroke="white" />
-  </svg>
-);
+import Modal from 'components/Modal';
 
 const DeleteModal = ({
   id,
+  modalOpen,
+  setModalOpen,
   announcement,
   applicationId,
   currentApplicationCcbcNumber,
@@ -54,6 +29,7 @@ const DeleteModal = ({
         resetFormData(store, data.deleteAnnouncement.announcement);
       },
     });
+    setModalOpen(false);
   };
 
   const handleDeleteOne = async () => {
@@ -82,17 +58,42 @@ const DeleteModal = ({
         resetFormData(store, data.deleteAnnouncement.announcement);
       },
     });
+    setModalOpen(false);
   };
 
   return (
-    <StyledModal id={id}>
-      <Modal.Header>
-        Delete Announcement
-        <Modal.Close>
-          <XIcon />
-        </Modal.Close>
-      </Modal.Header>
-      <Modal.Content>
+    <Modal
+      id={id}
+      open={modalOpen}
+      size="md"
+      onClose={() => {
+        setModalOpen(false);
+      }}
+      title="Delete Announcement"
+      actions={[
+        ...(isMultiProject
+          ? [
+              {
+                id: 'delete-from-all-btn',
+                label: 'Delete from all projects',
+                onClick: handleDeleteAll,
+              },
+            ]
+          : []),
+        {
+          id: 'delete-from-this-btn',
+          label: isMultiProject ? `Remove from this project` : `Yes, delete`,
+          onClick: handleDeleteOne,
+        },
+        {
+          id: 'cancel-from-this-btn',
+          label: isMultiProject ? 'Cancel' : 'No, Cancel',
+          variant: 'secondary',
+          onClick: () => setModalOpen(false),
+        },
+      ]}
+    >
+      <p>
         {isMultiProject ? (
           <p>
             Would you like to delete this announcement from all projects that
@@ -101,33 +102,8 @@ const DeleteModal = ({
         ) : (
           <p>Are you sure you want to delete this announcement?</p>
         )}
-        <ModalButtons>
-          {isMultiProject && (
-            <Modal.Close>
-              <Button
-                onClick={handleDeleteAll}
-                data-testid="delete-from-all-btn"
-              >
-                Delete from all projects
-              </Button>
-            </Modal.Close>
-          )}
-          <Modal.Close>
-            <Button
-              onClick={handleDeleteOne}
-              data-testid="delete-from-this-btn"
-            >
-              {isMultiProject ? `Remove from this project` : `Yes, delete`}
-            </Button>
-          </Modal.Close>
-          <Modal.Close>
-            <Button variant="secondary">
-              {!isMultiProject && `No, `}Cancel
-            </Button>
-          </Modal.Close>
-        </ModalButtons>
-      </Modal.Content>
-    </StyledModal>
+      </p>
+    </Modal>
   );
 };
 

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Button from '@button-inc/bcgov-theme/Button';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
@@ -9,35 +8,17 @@ import { useArchiveApplicationCommunityProgressReportMutation as useArchiveCpr }
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import Toast from 'components/Toast';
-import Modal from 'components/Modal';
 import CommunityProgressView from './CommunityProgressView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
 import MetabaseLink from '../ProjectInformation/MetabaseLink';
-
-const StyledContainer = styled.div`
-  text-align: center;
-  max-width: 400px;
-
-  p {
-    margin-top: 16px;
-  }
-`;
+import ReportDeleteConfirmationModal from '../ReportDeleteConfirmationModal';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
     width: 180px;
     margin-bottom: 0px;
-  }
-`;
-
-const StyledFlex = styled.div`
-  display: flex;
-  justify-content: center;
-
-  button:first-child {
-    margin-right: 16px;
   }
 `;
 
@@ -286,20 +267,16 @@ const CommunityProgressReportForm: React.FC<Props> = ({
           Community progress report successfully imported
         </Toast>
       )}
-      <Modal open={showModal} onClose={handleResetFormData} title="Delete">
-        <StyledContainer>
-          <p>
-            Are you sure you want to delete this community progress report and
-            all accompanying data?
-          </p>
-          <StyledFlex>
-            <Button onClick={handleDelete}>Yes, delete</Button>
-            <Button onClick={handleResetFormData} variant="secondary">
-              No, keep
-            </Button>
-          </StyledFlex>
-        </StyledContainer>
-      </Modal>
+      <ReportDeleteConfirmationModal
+        id="community-progress-report-delete-confirm-dialog"
+        modalOpen={showModal}
+        onClose={() => {
+          handleResetFormData();
+          setShowModal(false);
+        }}
+        onConfirm={handleDelete}
+        reportType="community progress"
+      />
       <StyledProjectForm
         formAnimationHeightOffset={formOffset}
         additionalContext={{

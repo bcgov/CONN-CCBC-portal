@@ -4,9 +4,9 @@ import { dashboardQuery$data } from '__generated__/dashboardQuery.graphql';
 import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import Modal from './Modal';
 import Row from './Row';
 import ArchiveModal from './ArchiveModal';
+import WithdrawModal from './Modal';
 
 const StyledFontAwesome = styled(FontAwesomeIcon)`
   margin-left: 4px; ;
@@ -45,6 +45,8 @@ const Table = ({ applications }: Props) => {
   const applicationNodes = applications.allApplications.edges
     .map((edge) => edge.node)
     .filter((node) => node !== null);
+  const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
+  const [archiveModalOpen, setArchiveModalOpen] = useState(false);
 
   return (
     <>
@@ -74,18 +76,34 @@ const Table = ({ applications }: Props) => {
               <Row
                 application={application}
                 key={application.owner}
-                setCurrentApplication={setCurrentApplication}
-                setArchiveId={setArchiveId}
                 schema={application.formData.formByFormSchemaId.jsonSchema}
+                onWithdraw={() => {
+                  setCurrentApplication(application);
+                  setWithdrawModalOpen(true);
+                }}
+                onDelete={() => {
+                  setArchiveId({
+                    rowId: application.rowId,
+                    id: application.id,
+                  });
+                  setArchiveModalOpen(true);
+                }}
               />
             ) : null;
           })}
         </tbody>
       </StyledTable>
-      <ArchiveModal applications={applications} id={archiveId} />
-      <Modal
+      <ArchiveModal
+        applications={applications}
+        id={archiveId}
+        modalOpen={archiveModalOpen}
+        setModalOpen={setArchiveModalOpen}
+      />
+      <WithdrawModal
         application={currentApplication}
         setApplication={setCurrentApplication}
+        modalOpen={withdrawModalOpen}
+        setModalOpen={setWithdrawModalOpen}
       />
     </>
   );
