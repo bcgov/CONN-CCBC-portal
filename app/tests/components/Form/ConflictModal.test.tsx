@@ -2,7 +2,6 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { useRouter } from 'next/router';
 import ConflictModal from 'components/Form/ConflictModal';
-import { fn } from 'jest-mock';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
@@ -10,9 +9,7 @@ jest.mock('next/router', () => ({
 
 describe('Conflict Modal tests', () => {
   it('renders the modal with error header and text content', () => {
-    const { getByText } = render(
-      <ConflictModal modalOpen setModalOpen={() => fn()} />
-    );
+    const { getByText } = render(<ConflictModal isOpen close={jest.fn} />);
     expect(getByText('Error')).toBeInTheDocument();
     expect(
       getByText(
@@ -30,23 +27,21 @@ describe('Conflict Modal tests', () => {
       reload: mockReload,
     }));
 
-    const { getByText } = render(
-      <ConflictModal modalOpen setModalOpen={() => fn()} />
-    );
+    const { getByText } = render(<ConflictModal isOpen close={jest.fn} />);
     fireEvent.click(getByText('Refresh & Continue'));
     expect(window.location.hash).toBe('');
     expect(mockReload).toHaveBeenCalled();
   });
 
   it('closes the modal when close button is clicked', () => {
-    const setModalOpenMock = jest.fn();
+    const closeModalMock = jest.fn();
 
     const { getByTestId } = render(
-      <ConflictModal modalOpen setModalOpen={setModalOpenMock} />
+      <ConflictModal isOpen close={closeModalMock} />
     );
 
     fireEvent.click(getByTestId('close-button'));
 
-    expect(setModalOpenMock).toHaveBeenCalledWith(false);
+    expect(closeModalMock).toHaveBeenCalled();
   });
 });

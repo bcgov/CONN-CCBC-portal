@@ -6,14 +6,14 @@ const StyledText = styled.p`
   text-align: center;
 `;
 
-const ConflictModal = ({ modalOpen, setModalOpen }) => {
+const ConflictModal = ({ isOpen, close }) => {
   const router = useRouter();
   return (
     <Modal
       id="conflict-modal"
-      open={modalOpen}
+      open={isOpen}
       onClose={() => {
-        setModalOpen(false);
+        close();
       }}
       title="Error"
       actions={[
@@ -21,7 +21,7 @@ const ConflictModal = ({ modalOpen, setModalOpen }) => {
           id: 'btn-refresh-and-continue',
           label: 'Refresh & Continue',
           onClick: () => {
-            setModalOpen(false);
+            close();
             router.reload();
           },
         },

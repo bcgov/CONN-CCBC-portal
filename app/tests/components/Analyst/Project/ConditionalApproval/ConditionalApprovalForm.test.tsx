@@ -248,7 +248,9 @@ describe('The Conditional Approval form', () => {
     expect(screen.getByTestId('new-form-status')).toHaveTextContent(
       'Conditionally Approved'
     );
-
+    expect(
+      screen.getByTestId('conditional-approval-modal')
+    ).toBeInTheDocument();
     const modalSaveButton = screen.getByText('Yes, change it');
 
     await act(async () => {
@@ -384,10 +386,20 @@ describe('The Conditional Approval form', () => {
       fireEvent.click(saveButton);
     });
 
-    const modalSaveButton = screen.getByText('No');
+    const modalCancelButton = screen.getByText('No');
 
     await act(async () => {
-      fireEvent.click(modalSaveButton);
+      fireEvent.click(modalCancelButton);
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    const modalCLoseButton = screen.getByTestId('close-button');
+
+    await act(async () => {
+      fireEvent.click(modalCLoseButton);
     });
 
     expect(

@@ -19,6 +19,7 @@ import ReviewField from 'components/Review/ReviewPageField';
 import { useFeature } from '@growthbook/growthbook-react';
 import { applicantBenefits as applicantBenefitsSchema } from 'formSchema/pages';
 import { applicantBenefits } from 'formSchema/uiSchema/pages';
+import useModal from 'lib/helpers/useModal';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
 import {
@@ -279,7 +280,7 @@ const ApplicationForm: React.FC<Props> = ({
     jsonData?.review?.acknowledgeIncomplete || false
   );
   const [templateData, setTemplateData] = useState(null);
-  const [conflictModalOpen, setConflictModalOpen] = useState(false);
+  const conflictModal = useModal();
 
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
@@ -553,7 +554,7 @@ const ApplicationForm: React.FC<Props> = ({
       debounceKey: formDataId,
       onError: (error) => {
         if (error.message.includes('Data is Out of Sync')) {
-          setConflictModalOpen(true);
+          conflictModal.open();
         }
         setSavingError(
           <>
@@ -650,10 +651,7 @@ const ApplicationForm: React.FC<Props> = ({
           status={status}
         />
       </FormBase>
-      <ConflictModal
-        modalOpen={conflictModalOpen}
-        setModalOpen={setConflictModalOpen}
-      />
+      <ConflictModal {...conflictModal} />
       <ProjectAreaModal
         projectAreaModalOpen={projectAreaModalOpen}
         setProjectAreaModalOpen={setProjectAreaModalOpen}
