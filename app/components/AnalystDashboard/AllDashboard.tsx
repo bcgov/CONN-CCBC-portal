@@ -179,7 +179,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [sorting, setSorting] = useState<MRT_SortingState>(() => {
     const sortingSession = cookie.get('mrt_sorting_application');
     if (sortingSession) {
-      console.log(sortingSession);
       return JSON.parse(sortingSession);
     }
     return [];
