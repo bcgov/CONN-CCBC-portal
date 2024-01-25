@@ -11,7 +11,7 @@ const StyledTextArea = styled.textarea`
 `;
 
 interface Props {
-  modalOpen: boolean;
+  isOpen: boolean;
   cancelLabel?: string;
   description?: string | React.ReactNode;
   id?: string;
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const ChangeModal: React.FC<Props> = ({
-  modalOpen,
+  isOpen,
   cancelLabel = 'Cancel',
   description = 'Please provide a reason for the change.',
   id = 'change-modal',
@@ -39,7 +39,7 @@ const ChangeModal: React.FC<Props> = ({
   return (
     <Modal
       id={id}
-      open={modalOpen}
+      open={isOpen}
       onClose={onCancel}
       title="Reason for change"
       actions={[

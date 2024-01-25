@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { JSONSchema7 } from 'json-schema';
 import * as Sentry from '@sentry/nextjs';
 import { useEffect, useState } from 'react';
+import useModal from 'lib/helpers/useModal';
 import Announcement from './Announcement';
 import AnnouncementsHeader from './AnnouncementsHeader';
 import AnnouncementDeleteModal from './AnnouncementDeleteModal';
@@ -46,7 +47,7 @@ const ViewAnnouncements: React.FC<Props> = ({
 
   const [fullAnnouncements, setFullAnnouncements] = useState([]);
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const announcementDeleteMpdal = useModal();
 
   useEffect(() => {
     // need abort controller to cancel fetches when component unmounts
@@ -127,7 +128,7 @@ const ViewAnnouncements: React.FC<Props> = ({
       rowId: announcement.rowId,
       jsonData: announcement.jsonData,
     });
-    setModalOpen(true);
+    announcementDeleteMpdal.open();
   };
 
   return (
@@ -173,8 +174,7 @@ const ViewAnnouncements: React.FC<Props> = ({
         <StyledEmpty>None</StyledEmpty>
       )}
       <AnnouncementDeleteModal
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
+        {...announcementDeleteMpdal}
         id="delete-announcement"
         currentApplicationCcbcNumber={ccbcNumber}
         announcement={toBeDeleted}

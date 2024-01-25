@@ -11,6 +11,7 @@ import {
 } from 'components/Analyst/Project/ConditionalApproval';
 import { useCreateConditionalApprovalMutation } from 'schema/mutations/project/createConditionalApproval';
 import styled from 'styled-components';
+import useModal from 'lib/helpers/useModal';
 
 const StyledProjectForm = styled(ProjectForm)`
   margin-top: 43px;
@@ -70,7 +71,7 @@ const ConditionalApprovalForm: React.FC<Props> = ({
   const [isFormEditMode, setIsFormEditMode] = useState(
     !conditionalApproval?.jsonData
   );
-  const [modalOpen, setModalOpen] = useState(false);
+  const conditionalApprovalModal = useModal();
 
   const oldFormStatus = oldFormData?.response?.statusApplicantSees;
   const newFormStatus = newFormData?.response?.statusApplicantSees;
@@ -83,7 +84,7 @@ const ConditionalApprovalForm: React.FC<Props> = ({
     if (showStatusModal) {
       // clear history before opening modal to prevent bug where modal doesn't open when the anchor hash is in the url already
       window.history.replaceState(null, null, ' ');
-      setModalOpen(true);
+      conditionalApprovalModal.open();
     } else {
       window.history.replaceState(null, null, ' ');
       createConditionalApproval({
@@ -129,8 +130,6 @@ const ConditionalApprovalForm: React.FC<Props> = ({
     <>
       <ConditionalApprovalModal
         applicationStoreId={id}
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
         rowId={rowId}
         formData={newFormData}
         newFormStatus={newFormStatus}
@@ -138,6 +137,7 @@ const ConditionalApprovalForm: React.FC<Props> = ({
         setOldFormData={() => setOldFormData(newFormData)}
         setIsFormEditMode={() => setIsFormEditMode(false)}
         resetFormData={handleResetFormData}
+        {...conditionalApprovalModal}
       />
       <StyledProjectForm
         formData={newFormData}

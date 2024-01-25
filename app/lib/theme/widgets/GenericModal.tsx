@@ -2,30 +2,20 @@ import Modal from 'components/Modal';
 
 /**
  * Generic Modal to show generic info messages
- * @param param0
- * @returns
  */
-const GenericModal = ({
-  id,
-  message = '',
-  title = '',
-  modalOpen,
-  setModalOpen,
-}) => {
+const GenericModal = ({ id, message = '', title = '', isOpen, close }) => {
   return (
     <Modal
       id={id}
       data-testid="generic-modal"
-      open={modalOpen}
-      onClose={() => {
-        setModalOpen(false);
-      }}
+      open={isOpen}
+      onClose={close}
       title={title}
       actions={[
         {
           id: 'generic-yes-btn',
           label: 'Ok',
-          onClick: () => setModalOpen(false),
+          onClick: close,
         },
       ]}
     >

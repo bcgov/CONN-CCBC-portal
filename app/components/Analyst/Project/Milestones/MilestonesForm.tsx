@@ -7,6 +7,7 @@ import { useCreateMilestoneMutation } from 'schema/mutations/project/createMiles
 import { useArchiveApplicationMilestoneDataMutation as useArchiveMilestone } from 'schema/mutations/project/archiveApplicationMilestoneData';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
+import useModal from 'lib/helpers/useModal';
 import MilestonesView from './MilestonesView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
@@ -125,7 +126,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
-  const [showModal, setShowModal] = useState(false);
+  const deleteConfirmationModal = useModal();
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentMilestoneData, setCurrentMilestoneData] = useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
@@ -174,7 +175,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
     setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
-    setShowModal(false);
+    deleteConfirmationModal.close();
   };
 
   const handleSubmit = async (e) => {
@@ -271,42 +272,14 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
       )}
       <ReportDeleteConfirmationModal
         id="milestone-report-delete-confirm-dialog"
-        modalOpen={showModal}
         onClose={() => {
           setCurrentMilestoneData(null);
-          setShowModal(false);
+          deleteConfirmationModal.close();
         }}
         onConfirm={handleDelete}
         reportType="milestone"
+        {...deleteConfirmationModal}
       />
-      {/* <Modal
-        open={showModal}
-        onClose={() => {
-          setCurrentMilestoneData(null);
-          setShowModal(false);
-        }}
-        title="Delete"
-        actions={[
-          {
-            id: 'btn-milestone-delete-modal-continue',
-            label: 'Yes, delete',
-            onClick: handleDelete,
-          },
-          {
-            id: 'btn-milestone-delete-modal-cancel',
-            label: 'No, keep',
-            variant: 'secondary',
-            onClick: () => setShowModal(false),
-          },
-        ]}
-      >
-        <StyledContainer>
-          <p>
-            Are you sure you want to delete this milestone report and all
-            accompanying data?
-          </p>
-        </StyledContainer>
-      </Modal> */}
       <StyledProjectForm
         additionalContext={{
           applicationId: applicationRowId,
@@ -378,7 +351,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
               )}
               isFormEditMode={isFormEditMode}
               onShowDeleteModal={() => {
-                setShowModal(true);
+                deleteConfirmationModal.open();
                 setCurrentMilestoneData(node);
               }}
               onFormEdit={() => {

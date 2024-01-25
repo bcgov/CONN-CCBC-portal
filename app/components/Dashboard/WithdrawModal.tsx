@@ -23,12 +23,7 @@ const StyledConfirmBox = styled('div')`
   }
 `;
 
-const WithdrawModal = ({
-  application,
-  setApplication,
-  modalOpen,
-  setModalOpen,
-}) => {
+const WithdrawModal = ({ application, setApplication, isOpen, close }) => {
   const [successModal, setSuccessModal] = useState(false);
   const [withdrawApplication] = useWithdrawApplicationMutation();
 
@@ -42,7 +37,7 @@ const WithdrawModal = ({
       onCompleted: () => {
         setApplication(null);
         setSuccessModal(true);
-        setModalOpen(false);
+        close();
       },
 
       updater: (store) => {
@@ -55,10 +50,8 @@ const WithdrawModal = ({
     <>
       <Modal
         id="withdraw-modal"
-        open={modalOpen}
-        onClose={() => {
-          setModalOpen(false);
-        }}
+        open={isOpen}
+        onClose={close}
         size="sm"
         title="Withdraw application"
         actions={[
@@ -70,7 +63,7 @@ const WithdrawModal = ({
           {
             id: 'withdraw-no-btn',
             label: 'No, keep',
-            onClick: () => setModalOpen(false),
+            onClick: close,
             variant: 'secondary',
           },
         ]}

@@ -2,7 +2,7 @@ import Modal from 'components/Modal';
 
 const ReportDeleteConfirmationModal = ({
   id,
-  modalOpen,
+  isOpen,
   reportType,
   onClose,
   onConfirm,
@@ -10,7 +10,7 @@ const ReportDeleteConfirmationModal = ({
   return (
     <Modal
       id={id}
-      open={modalOpen}
+      open={isOpen}
       onClose={onClose}
       title="Delete"
       actions={[

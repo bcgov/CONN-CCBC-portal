@@ -24,8 +24,8 @@ const StyledFlex = styled.div`
 `;
 
 interface Props {
-  modalOpen: boolean;
-  setModalOpen: Function;
+  isOpen: boolean;
+  close: Function;
   applicationStoreId: string;
   rowId: number;
   formData: any;
@@ -38,8 +38,8 @@ interface Props {
 
 const ConditionalApprovalModal: React.FC<Props> = ({
   applicationStoreId,
-  modalOpen,
-  setModalOpen,
+  isOpen,
+  close,
   rowId,
   formData,
   newFormStatus,
@@ -62,7 +62,7 @@ const ConditionalApprovalModal: React.FC<Props> = ({
       onCompleted: () => {
         setOldFormData();
         setIsFormEditMode();
-        setModalOpen(false);
+        close();
       },
       updater: (store, data) => {
         store
@@ -81,10 +81,8 @@ const ConditionalApprovalModal: React.FC<Props> = ({
   return (
     <Modal
       id="conditional-approval-modal"
-      open={modalOpen}
-      onClose={() => {
-        setModalOpen(false);
-      }}
+      open={isOpen}
+      onClose={close}
       title="Applicant Status"
       actions={[
         {
@@ -99,7 +97,7 @@ const ConditionalApprovalModal: React.FC<Props> = ({
           onClick: () => {
             resetFormData();
             setIsFormEditMode();
-            setModalOpen(false);
+            close();
           },
         },
       ]}

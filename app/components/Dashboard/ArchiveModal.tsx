@@ -25,7 +25,7 @@ const StyledConfirmBox = styled('div')`
   }
 `;
 
-const ArchiveModal = ({ applications, id, modalOpen, setModalOpen }) => {
+const ArchiveModal = ({ applications, id, isOpen, close }) => {
   const [successModal, setSuccessModal] = useState(false);
   const relayId = applications.allApplications.__id;
 
@@ -39,7 +39,7 @@ const ArchiveModal = ({ applications, id, modalOpen, setModalOpen }) => {
         },
       },
       onCompleted: () => {
-        setModalOpen(false);
+        close();
         setSuccessModal(true);
       },
       updater: (store) => {
@@ -54,10 +54,8 @@ const ArchiveModal = ({ applications, id, modalOpen, setModalOpen }) => {
     <>
       <Modal
         id="delete-application"
-        open={modalOpen}
-        onClose={() => {
-          setModalOpen(false);
-        }}
+        open={isOpen}
+        onClose={close}
         title="Delete draft"
         actions={[
           {
@@ -68,7 +66,7 @@ const ArchiveModal = ({ applications, id, modalOpen, setModalOpen }) => {
           {
             id: 'archive-cancel-btn',
             label: 'No, keep',
-            onClick: () => setModalOpen(false),
+            onClick: close,
             variant: 'secondary',
           },
         ]}

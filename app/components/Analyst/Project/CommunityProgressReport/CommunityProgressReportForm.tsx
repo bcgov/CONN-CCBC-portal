@@ -8,6 +8,7 @@ import { useArchiveApplicationCommunityProgressReportMutation as useArchiveCpr }
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import Toast from 'components/Toast';
+import useModal from 'lib/helpers/useModal';
 import CommunityProgressView from './CommunityProgressView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
@@ -100,7 +101,6 @@ const CommunityProgressReportForm: React.FC<Props> = ({
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
-  const [showModal, setShowModal] = useState(false);
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentCommunityProgressData, setCurrentCommunityProgressData] =
     useState(null);
@@ -119,6 +119,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
     setCommunityProgressValidationErrors,
   ] = useState([]);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const deleteConfirmationModal = useModal();
 
   const communityProgressConnectionId = communityProgressData?.__id;
   const communityProgressList = communityProgressData?.edges
@@ -166,7 +167,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
     setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
-    setShowModal(false);
+    deleteConfirmationModal.close();
   };
 
   const handleSubmit = async (e) => {
@@ -269,13 +270,13 @@ const CommunityProgressReportForm: React.FC<Props> = ({
       )}
       <ReportDeleteConfirmationModal
         id="community-progress-report-delete-confirm-dialog"
-        modalOpen={showModal}
         onClose={() => {
           handleResetFormData();
-          setShowModal(false);
+          deleteConfirmationModal.close();
         }}
         onConfirm={handleDelete}
         reportType="community progress"
+        {...deleteConfirmationModal}
       />
       <StyledProjectForm
         formAnimationHeightOffset={formOffset}
@@ -351,7 +352,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
                 communityProgressReport={node}
                 isFormEditMode={isFormEditMode}
                 onShowDeleteModal={() => {
-                  setShowModal(true);
+                  deleteConfirmationModal.open();
                   setCurrentCommunityProgressData(node);
                 }}
                 onFormEdit={() => {

@@ -3,8 +3,8 @@ import Modal from 'components/Modal';
 
 const AnnouncementDeleteModal = ({
   id,
-  modalOpen,
-  setModalOpen,
+  isOpen,
+  close,
   announcement,
   applicationId,
   currentApplicationCcbcNumber,
@@ -29,7 +29,7 @@ const AnnouncementDeleteModal = ({
         resetFormData(store, data.deleteAnnouncement.announcement);
       },
     });
-    setModalOpen(false);
+    close();
   };
 
   const handleDeleteOne = async () => {
@@ -58,17 +58,15 @@ const AnnouncementDeleteModal = ({
         resetFormData(store, data.deleteAnnouncement.announcement);
       },
     });
-    setModalOpen(false);
+    close();
   };
 
   return (
     <Modal
       id={id}
-      open={modalOpen}
+      open={isOpen}
       size="md"
-      onClose={() => {
-        setModalOpen(false);
-      }}
+      onClose={close}
       title="Delete Announcement"
       actions={[
         ...(isMultiProject
@@ -89,7 +87,7 @@ const AnnouncementDeleteModal = ({
           id: 'cancel-from-this-btn',
           label: isMultiProject ? 'Cancel' : 'No, Cancel',
           variant: 'secondary',
-          onClick: () => setModalOpen(false),
+          onClick: close,
         },
       ]}
     >

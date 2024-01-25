@@ -7,6 +7,7 @@ import { useCreateClaimsMutation } from 'schema/mutations/project/createClaimsDa
 import { useArchiveApplicationClaimsDataMutation as useArchiveClaims } from 'schema/mutations/project/archiveApplicationClaimsData';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
+import useModal from 'lib/helpers/useModal';
 import ClaimsView from './ClaimsView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
@@ -99,7 +100,6 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
-  const [showModal, setShowModal] = useState(false);
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentClaimsData, setCurrentClaimsData] = useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
@@ -112,6 +112,8 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
   const [showToast, setShowToast] = useState(false);
   const [claimsValidationErrors, setClaimsValidationErrors] = useState([]);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+
+  const deleteConfirmationModal = useModal();
 
   const claimsConnectionId = claimsData?.__id;
 
@@ -225,7 +227,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
         ConnectionHandler.deleteNode(connection, claimConnectionId);
       },
       onCompleted: () => {
-        setShowModal(false);
+        deleteConfirmationModal.close();
         setCurrentClaimsData(null);
       },
     });
@@ -239,11 +241,11 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
         </Toast>
       )}
       <ReportDeleteConfirmationModal
+        {...deleteConfirmationModal}
         id="claims-progress-report-delete-confirm-dialog"
-        modalOpen={showModal}
         onClose={() => {
           setCurrentClaimsData(null);
-          setShowModal(false);
+          deleteConfirmationModal.close();
         }}
         onConfirm={handleDelete}
         reportType="claim & progress"
@@ -312,7 +314,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
               claim={node}
               isFormEditMode={isFormEditMode}
               onShowDeleteModal={() => {
-                setShowModal(true);
+                deleteConfirmationModal.open();
                 setCurrentClaimsData(node);
               }}
               onFormEdit={() => {

@@ -4,6 +4,7 @@ import { dashboardQuery$data } from '__generated__/dashboardQuery.graphql';
 import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import useModal from 'lib/helpers/useModal';
 import Row from './Row';
 import ArchiveModal from './ArchiveModal';
 import WithdrawModal from './WithdrawModal';
@@ -45,8 +46,8 @@ const Table = ({ applications }: Props) => {
   const applicationNodes = applications.allApplications.edges
     .map((edge) => edge.node)
     .filter((node) => node !== null);
-  const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
-  const [archiveModalOpen, setArchiveModalOpen] = useState(false);
+  const withdrawModal = useModal();
+  const archiveModal = useModal();
 
   return (
     <>
@@ -79,14 +80,14 @@ const Table = ({ applications }: Props) => {
                 schema={application.formData.formByFormSchemaId.jsonSchema}
                 onWithdraw={() => {
                   setCurrentApplication(application);
-                  setWithdrawModalOpen(true);
+                  withdrawModal.open();
                 }}
                 onDelete={() => {
                   setArchiveId({
                     rowId: application.rowId,
                     id: application.id,
                   });
-                  setArchiveModalOpen(true);
+                  archiveModal.open();
                 }}
               />
             ) : null;
@@ -96,14 +97,12 @@ const Table = ({ applications }: Props) => {
       <ArchiveModal
         applications={applications}
         id={archiveId}
-        modalOpen={archiveModalOpen}
-        setModalOpen={setArchiveModalOpen}
+        {...archiveModal}
       />
       <WithdrawModal
         application={currentApplication}
         setApplication={setCurrentApplication}
-        modalOpen={withdrawModalOpen}
-        setModalOpen={setWithdrawModalOpen}
+        {...withdrawModal}
       />
     </>
   );

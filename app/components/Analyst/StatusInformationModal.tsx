@@ -21,18 +21,18 @@ const StyledTable = styled.table`
 interface Props {
   id?: string;
   title?: string;
-  onClose: any;
-  open: boolean;
+  close: () => void;
+  isOpen: boolean;
 }
 
 const StatusInformationModal: React.FC<Props> = ({
   id = 'status-information-modal',
   title = 'Description of Statuses and Triggers',
-  onClose,
-  open,
+  isOpen,
+  close,
 }) => {
   return (
-    <Modal id={id} onClose={onClose} open={open} title={title}>
+    <Modal id={id} onClose={close} open={isOpen} title={title}>
       <div style={{ height: '150px' }}>
         <Image
           src="/images/stateMachine.svg"

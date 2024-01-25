@@ -260,7 +260,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [savingError, setSavingError] = useState(null);
   const [savedAsDraft, setSavedAsDraft] = useState(false);
-  const [projectAreaModalOpen, setProjectAreaModalOpen] = useState(false);
+  const projectAreaModal = useModal();
 
   const [isProjectAreaSelected, setProjectAreaSelected] = useState(
     jsonData?.projectArea?.geographicArea?.length > 0
@@ -468,10 +468,12 @@ const ApplicationForm: React.FC<Props> = ({
       } else if (!isSubmitted && !projectAreaAccepted) {
         setProjectAreaModalType('pre-submitted');
       }
-      setProjectAreaModalOpen(
+      if (
         !projectAreaAccepted &&
-          (geographicAreaInputChanged || firstNationsLedInputChanged)
-      );
+        (geographicAreaInputChanged || firstNationsLedInputChanged)
+      ) {
+        projectAreaModal.open();
+      }
 
       // Setting below properties to handle validation errors separately in submission page
       // Setting if user has selected a project area
@@ -653,8 +655,7 @@ const ApplicationForm: React.FC<Props> = ({
       </FormBase>
       <ConflictModal {...conflictModal} />
       <ProjectAreaModal
-        projectAreaModalOpen={projectAreaModalOpen}
-        setProjectAreaModalOpen={setProjectAreaModalOpen}
+        {...projectAreaModal}
         projectAreaModalType={projectAreaModalType}
       />
     </>

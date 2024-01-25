@@ -26,14 +26,14 @@ const ConditionalApprovalContent = () => {
 
 const ChangeInternalStatusContent = () => {
   return (
-    <div>
+    <p>
       You must change the internal status before changing the external status.
-    </div>
+    </p>
   );
 };
 
 interface Props {
-  modalOpen: boolean;
+  isOpen: boolean;
   applicationId?: number;
   id?: string;
   isNotAllowedConditionalApproval;
@@ -42,7 +42,7 @@ interface Props {
 
 const ExternalChangeModal: React.FC<Props> = ({
   id = 'change-modal',
-  modalOpen,
+  isOpen,
   applicationId,
   isNotAllowedConditionalApproval,
   onCancel = () => {},
@@ -92,7 +92,7 @@ const ExternalChangeModal: React.FC<Props> = ({
   return (
     <Modal
       id={id}
-      open={modalOpen}
+      open={isOpen}
       onClose={onCancel}
       title={title}
       actions={

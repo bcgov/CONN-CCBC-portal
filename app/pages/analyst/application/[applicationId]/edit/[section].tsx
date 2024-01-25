@@ -19,6 +19,7 @@ import { AnalystLayout, ChangeModal } from 'components/Analyst';
 import { SectionQuery } from '__generated__/SectionQuery.graphql';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 import { analystProjectArea, benefits } from 'formSchema/uiSchema/pages';
+import useModal from 'lib/helpers/useModal';
 
 const getSectionQuery = graphql`
   query SectionQuery($rowId: Int!) {
@@ -80,7 +81,7 @@ const EditApplication = ({
   const [sectionFormData, setSectionFormData] = useState(jsonData[sectionName]);
   const [changeReason, setChangeReason] = useState('');
   const [isFormSaved, setIsFormSaved] = useState(true);
-  const [changeModalOpen, setChangeModalOpen] = useState(false);
+  const changeModal = useModal();
   const handleChange = (e: IChangeEvent) => {
     setIsFormSaved(false);
     const newFormSectionData = { ...e.formData };
@@ -126,7 +127,7 @@ const EditApplication = ({
   };
 
   const triggerModal = () => {
-    setChangeModalOpen(true);
+    changeModal.open();
   };
 
   return (
@@ -174,13 +175,13 @@ const EditApplication = ({
 
         <ChangeModal
           id="change-modal"
-          modalOpen={changeModalOpen}
-          onCancel={() => setChangeModalOpen(false)}
+          onCancel={changeModal.close}
           onSave={handleSubmit}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setChangeReason(e.target.value)
           }
           value={changeReason}
+          {...changeModal}
         />
       </AnalystLayout>
     </Layout>
