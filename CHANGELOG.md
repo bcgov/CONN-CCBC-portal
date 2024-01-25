@@ -1,3 +1,9 @@
+## [1.136.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.136.2...v1.136.3) (2024-01-25)
+
+### Bug Fixes
+
+- error saving project information ([c3bed44](https://github.com/bcgov/CONN-CCBC-portal/commit/c3bed447d7196004df50fe6d7d1aa1b117bb66af))
+
 ## [1.136.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.136.1...v1.136.2) (2024-01-24)
 
 ### Bug Fixes
