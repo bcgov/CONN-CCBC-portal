@@ -160,7 +160,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
     const columnFiltersSession = cookie.get('mrt_columnFilters_application');
     if (columnFiltersSession) {
-      setSorting(JSON.parse(columnFiltersSession));
+      setColumnFilters(JSON.parse(columnFiltersSession));
     }
 
     const columnVisibilitySession = cookie.get(
@@ -324,6 +324,12 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     ];
   }, [AssignAnalystLead]);
 
+  const handleOnSortChange = (sort) => {
+    if (!isFirstRender) {
+      setSorting(sort());
+    }
+  };
+
   const table = useMaterialReactTable({
     columns,
     data: tableData,
@@ -332,8 +338,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps,
     muiTableHeadCellProps,
-    onSortingChange: setSorting,
+    onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
+    autoResetAll: false,
     onColumnVisibilityChange: setColumnVisibility,
     onDensityChange: setDensity,
     onShowColumnFiltersChange: setShowColumnFilters,
