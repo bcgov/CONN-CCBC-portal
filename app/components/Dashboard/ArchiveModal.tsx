@@ -61,7 +61,7 @@ const ArchiveModal = ({ applications, id, isOpen, close }) => {
           {
             id: 'archive-yes-btn',
             label: 'Yes, delete',
-            onClick: () => handleArchive(),
+            onClick: handleArchive,
           },
           {
             id: 'archive-cancel-btn',

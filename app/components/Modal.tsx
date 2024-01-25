@@ -44,7 +44,7 @@ interface Props {
 interface ActionProps {
   id: string;
   label: string;
-  onClick: () => void;
+  onClick: Function;
   variant?: 'primary' | 'secondary';
 }
 
