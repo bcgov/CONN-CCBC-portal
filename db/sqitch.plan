@@ -525,3 +525,4 @@ computed_columns/application_history [computed_columns/application_history@1.136
 @1.136.1 2024-01-23T17:14:39Z CCBC Service Account <ccbc@button.is> # release v1.136.1
 @1.136.2 2024-01-24T19:00:46Z CCBC Service Account <ccbc@button.is> # release v1.136.2
 mutations/create_project_information [mutations/create_project_information@1.136.1] 2024-01-25T19:41:20Z ,,, <ryohani89@NH504670> # fix createProjectInformation function
+@1.137.0 2024-01-25T20:38:14Z CCBC Service Account <ccbc@button.is> # release v1.137.0
