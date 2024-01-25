@@ -381,6 +381,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         ...sharedAssessmentCell,
         accessorKey: 'pmAssessment',
         header: 'PM',
+        filterVariant: 'select',
       },
       {
         ...sharedAssessmentCell,
