@@ -108,6 +108,7 @@ const ProjectInformationForm: React.FC<Props> = ({
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const [currentChangeRequestData, setCurrentChangeRequestData] =
     useState(null);
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
 
   const apiPath = `/api/analyst/sow/${rowId}/${ccbcNumber}/${
     isChangeRequest ? formData?.amendmentNumber : 0
@@ -193,10 +194,12 @@ const ProjectInformationForm: React.FC<Props> = ({
     setIsFormSubmitting(false);
     setSowFile(null);
     setShowToast(false);
+    setIsSubmitAttempted(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsSubmitAttempted(true);
 
     hiddenSubmitRef.current.click();
 
@@ -360,6 +363,7 @@ const ProjectInformationForm: React.FC<Props> = ({
             <AddButton
               isFormEditMode={isFormEditMode}
               onClick={() => {
+                setIsSubmitAttempted(false);
                 setIsChangeRequest(true);
                 setFormData({});
                 setShowToast(false);
@@ -387,6 +391,7 @@ const ProjectInformationForm: React.FC<Props> = ({
           setFormData({ ...e.formData });
         }
       }}
+      liveValidate={isSubmitAttempted && isFormEditMode}
       isExpanded={isExpanded}
       isFormEditMode={isFormEditMode}
       title="Funding agreement, statement of work, & map"
