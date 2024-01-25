@@ -28,15 +28,6 @@ type Application = {
   analystStatus: string;
 };
 
-export const filterStringValue = (row, id, filterValue) => {
-  const ccbcId = row.getValue(id) as any;
-
-  if (!ccbcId) {
-    return false;
-  }
-  return ccbcId.toLowerCase().includes(filterValue.toLowerCase());
-};
-
 export const filterNumber = (row, id, filterValue) => {
   const numericProperty = row.getValue(id) as number;
 
@@ -44,15 +35,6 @@ export const filterNumber = (row, id, filterValue) => {
     return false;
   }
   return numericProperty === filterValue;
-};
-
-export const filterNumberAsString = (row, id, filterValue) => {
-  const numericProperty = row.getValue(id) as number;
-  if (!numericProperty) {
-    return false;
-  }
-  const numericPropertyAsString = numericProperty?.toString();
-  return numericPropertyAsString.includes(filterValue);
 };
 
 const StyledLink = styled(Link)`
@@ -243,7 +225,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         header: 'Intake',
         size: 26,
         maxSize: 26,
-        filterFn: 'filterNumberAsString',
+        filterFn: 'contains',
       },
       {
         accessorKey: 'ccbcNumber',
@@ -257,7 +239,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         header: 'Zones',
         size: 26,
         maxSize: 26,
-        filterFn: 'filterStringValue',
+        filterFn: 'contains',
       },
       {
         accessorKey: 'analystStatus',
@@ -265,7 +247,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         Cell: StatusCell,
         size: 24,
         maxSize: 24,
-        filterFn: 'filterNumber',
+        filterFn: 'contains',
       },
       {
         accessorKey: 'projectTitle',
@@ -283,7 +265,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         maxSize: 30,
         accessorKey: 'analystLead',
         Cell: AssignAnalystLead,
-        filterFn: 'filterStringValue',
+        filterFn: 'contains',
       },
       {
         accessorKey: 'packageNumber',
@@ -332,9 +314,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       },
     },
     filterFns: {
-      filterStringValue,
       filterNumber,
-      filterNumberAsString,
     },
   });
 
