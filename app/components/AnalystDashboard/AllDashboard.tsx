@@ -185,28 +185,43 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   }, []);
 
   useEffect(() => {
-    if (isFirstRender) return;
+    if (!isFirstRender) {
+      cookie.set(
+        'mrt_columnVisibility_application',
+        JSON.stringify(columnVisibility)
+      );
+    }
+  }, [columnVisibility, isFirstRender]);
 
-    cookie.set(
-      'mrt_columnVisibility_application',
-      JSON.stringify(columnVisibility)
-    );
+  useEffect(() => {
+    if (!isFirstRender) {
+      cookie.set(
+        'mrt_showColumnFilters_application',
+        JSON.stringify(showColumnFilters)
+      );
+    }
+  }, [showColumnFilters, isFirstRender]);
 
-    cookie.set(
-      'mrt_showColumnFilters_application',
-      JSON.stringify(showColumnFilters)
-    );
-    cookie.set('mrt_columnFilters_application', JSON.stringify(columnFilters));
-    cookie.set('mrt_density_application', JSON.stringify(density));
-    cookie.set('mrt_sorting_application', JSON.stringify(sorting));
-  }, [
-    columnVisibility,
-    density,
-    showColumnFilters,
-    sorting,
-    columnFilters,
-    isFirstRender,
-  ]);
+  useEffect(() => {
+    if (!isFirstRender) {
+      cookie.set(
+        'mrt_columnFilters_application',
+        JSON.stringify(columnFilters)
+      );
+    }
+  }, [columnFilters, isFirstRender]);
+
+  useEffect(() => {
+    if (!isFirstRender) {
+      cookie.set('mrt_density_application', JSON.stringify(density));
+    }
+  }, [density, isFirstRender]);
+
+  useEffect(() => {
+    if (!isFirstRender) {
+      cookie.set('mrt_sorting_application', JSON.stringify(sorting));
+    }
+  }, [sorting, isFirstRender]);
 
   const state = {
     columnFilters,
