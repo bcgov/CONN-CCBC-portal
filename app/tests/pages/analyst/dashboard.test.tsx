@@ -1,6 +1,5 @@
 import { mocked } from 'jest-mock';
-import userEvent from '@testing-library/user-event';
-import { act, fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import Dashboard from '../../../pages/analyst/dashboard';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
@@ -18,7 +17,6 @@ const mockQueryPayload = {
       },
       totalAvailableApplications: { totalCount: 10 },
       allApplications: {
-        totalCount: 4,
         edges: [
           {
             node: {
@@ -99,18 +97,6 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
   pageComponent: Dashboard,
   compiledQuery: compileddashboardQuery,
   defaultQueryResolver: mockQueryPayload,
-  defaultQueryVariables: {
-    offset: null,
-    orderBy: null,
-    ccbcNumber: null,
-    intakeNumber: null,
-    projectName: null,
-    organizationName: null,
-    analystLead: null,
-    package: null,
-    statusSortFilter: null,
-    zones: null,
-  },
 });
 
 describe('The index page', () => {
@@ -197,7 +183,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const countRows = screen.getAllByText(/Showing 4 of 10 rows/i);
+    const countRows = screen.getAllByText(/Showing 4 of 4 rows/i);
     expect(countRows).toHaveLength(2);
   });
 
@@ -205,11 +191,9 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const row = screen.getByText('CCBC-010001').parentElement;
+    const row = screen.getByText('CCBC-010001');
 
-    await userEvent.click(row);
-
-    expect(pageTestingHelper.router.push).toHaveBeenCalled();
+    expect(row).toHaveAttribute('href', '/analyst/application/1');
   });
 
   it('shows the assign lead dropdown', async () => {
@@ -329,56 +313,56 @@ describe('The index page', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+  // commented out while we wait for dropdown functionality on all dashbaord
+  // it('triggers the onChange event when the zone dropdown is changed', async () => {
+  //   pageTestingHelper.loadQuery();
+  //   pageTestingHelper.renderPage();
 
-  it('triggers the onChange event when the zone dropdown is changed', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
+  //   jest.useFakeTimers();
+  //   const zoneDropdown = screen.getByLabelText(
+  //     'Filter by Zone'
+  //   ) as HTMLSelectElement;
 
-    jest.useFakeTimers();
-    const zoneDropdown = screen.getByLabelText(
-      'Filter by Zone'
-    ) as HTMLSelectElement;
+  //   await act(async () => {
+  //     fireEvent.change(zoneDropdown, { target: { value: '14' } });
+  //     jest.advanceTimersByTime(200);
+  //   });
 
-    await act(async () => {
-      fireEvent.change(zoneDropdown, { target: { value: '14' } });
-      jest.advanceTimersByTime(200);
-    });
+  //   await waitFor(() => {
+  //     fireEvent.keyDown(zoneDropdown, {
+  //       key: 'Enter',
+  //       bubbles: true,
+  //     });
+  //   });
+  //   jest.useRealTimers();
 
-    await waitFor(() => {
-      fireEvent.keyDown(zoneDropdown, {
-        key: 'Enter',
-        bubbles: true,
-      });
-    });
-    jest.useRealTimers();
+  //   const option = screen.getAllByText('14')[0];
+  //   expect(option).toBeInTheDocument();
+  // });
 
-    const option = screen.getAllByText('14')[0];
-    expect(option).toBeInTheDocument();
-  });
+  // it('triggers the onChange event when the status dropdown is changed', async () => {
+  //   pageTestingHelper.loadQuery();
+  //   pageTestingHelper.renderPage();
 
-  it('triggers the onChange event when the status dropdown is changed', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
+  //   jest.useFakeTimers();
+  //   const zoneDropdown = screen.getByLabelText(
+  //     'Filter by Status'
+  //   ) as HTMLSelectElement;
 
-    jest.useFakeTimers();
-    const zoneDropdown = screen.getByLabelText(
-      'Filter by Status'
-    ) as HTMLSelectElement;
+  //   await act(async () => {
+  //     fireEvent.change(zoneDropdown, { target: { value: 'Received' } });
+  //     jest.advanceTimersByTime(200);
+  //   });
 
-    await act(async () => {
-      fireEvent.change(zoneDropdown, { target: { value: 'Received' } });
-      jest.advanceTimersByTime(200);
-    });
+  //   await waitFor(() => {
+  //     fireEvent.keyDown(zoneDropdown, {
+  //       key: 'Enter',
+  //       bubbles: true,
+  //     });
+  //   });
+  //   jest.useRealTimers();
 
-    await waitFor(() => {
-      fireEvent.keyDown(zoneDropdown, {
-        key: 'Enter',
-        bubbles: true,
-      });
-    });
-    jest.useRealTimers();
-
-    const option = screen.getAllByText('Received')[0];
-    expect(option).toBeInTheDocument();
-  });
+  //   const option = screen.getAllByText('Received')[0];
+  //   expect(option).toBeInTheDocument();
+  // });
 });

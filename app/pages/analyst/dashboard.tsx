@@ -12,8 +12,6 @@ import { dashboardAnalystQuery } from '__generated__/dashboardAnalystQuery.graph
 import { useRouter } from 'next/router';
 import AllDashboardTable from 'components/AnalystDashboard/AllDashboard';
 
-const DEFAULT_SORT = 'CCBC_NUMBER_ASC';
-
 // will probably have to change to cursor for pagination/infinte scroll
 const getDashboardAnalystQuery = graphql`
   query dashboardAnalystQuery {
@@ -23,17 +21,6 @@ const getDashboardAnalystQuery = graphql`
     }
     totalAvailableApplications: allApplications {
       totalCount
-    }
-    allApplicationStatusTypes(
-      orderBy: STATUS_ORDER_ASC
-      condition: { visibleByAnalyst: true }
-      filter: { name: { notEqualTo: "analyst_withdrawn" } }
-    ) {
-      nodes {
-        name
-        description
-        id
-      }
     }
     ...AllDashboardTable_query
   }
@@ -105,10 +92,8 @@ export default withRelay(AnalystDashboard, getDashboardAnalystQuery, {
   ...defaultRelayOptions,
   variablesFromContext: (ctx) => {
     const variables = defaultRelayOptions.variablesFromContext(ctx);
-    const orderBy = variables?.orderBy || DEFAULT_SORT;
     return {
       ...variables,
-      orderBy,
     };
   },
 });
