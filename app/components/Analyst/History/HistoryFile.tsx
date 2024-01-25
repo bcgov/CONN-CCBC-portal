@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import DownloadLink from 'components/DownloadLink';
+import { diff } from 'json-diff';
 
 const StyledTable = styled.table`
   table-layout: auto;
@@ -7,7 +8,7 @@ const StyledTable = styled.table`
   th,
   td {
     padding: 8px;
-    width: 30%;
+    width: 60%;
   }
 
   thead tr th:first-child,
@@ -23,23 +24,18 @@ const StyledTable = styled.table`
 const HistoryFile = ({
   filesArray,
   previousFileArray = null,
-  isDelete = false,
   title,
   tableTitle = true,
 }) => {
-  const isPreviousFileArray = previousFileArray?.length > 0;
-  return (
+  const filesDiff = diff(previousFileArray || [], filesArray || [], {
+    keepUnchangedValues: true,
+  });
+  return filesDiff ? (
     <StyledTable>
       <thead style={{ borderBottom: '2px solid #CCC' }}>
         {tableTitle && (
           <tr>
             <th>Files</th>
-            {isPreviousFileArray && (
-              <>
-                <th>New</th>
-                <th>Old</th>
-              </>
-            )}
           </tr>
         )}
       </thead>
@@ -47,41 +43,62 @@ const HistoryFile = ({
         <tr>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>{title}</td>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>
-            {filesArray?.length > 0 &&
-              filesArray.map((file) => {
-                return (
-                  <>
-                    {isDelete ? (
-                      <del>
-                        <DownloadLink uuid={file.uuid} fileName={file.name} />
-                      </del>
-                    ) : (
-                      <DownloadLink uuid={file.uuid} fileName={file.name} />
-                    )}
-                    <br />
-                  </>
-                );
-              })}
-          </td>
-          <td style={tableTitle ? { paddingTop: '8px' } : {}}>
-            {previousFileArray?.length > 0
-              ? previousFileArray.map((previousFile) => {
-                  return (
-                    <del key={previousFile.uuid}>
-                      <DownloadLink
-                        uuid={previousFile.uuid}
-                        fileName={previousFile.name}
-                      />
-                      <br />
-                    </del>
-                  );
-                })
-              : 'N/A'}
+            <div>
+              {filesDiff &&
+                filesDiff.map((file) => {
+                  // A file was added
+                  if (file[0] === '+') {
+                    return (
+                      <div key={file[1].uuid}>
+                        Added file{' '}
+                        <DownloadLink
+                          uuid={file[1].uuid}
+                          fileName={file[1].name}
+                        />
+                      </div>
+                    );
+                  }
+                  // A file was removed
+                  if (file[0] === '-') {
+                    return (
+                      <div key={file[1].uuid}>
+                        Deleted file{' '}
+                        <del>
+                          <DownloadLink
+                            uuid={file[1].uuid}
+                            fileName={file[1].name}
+                          />
+                        </del>
+                      </div>
+                    );
+                  }
+                  // The object was modified (file replacement)
+                  if (file[0] === '~') {
+                    return (
+                      <div key={file[1].uuid}>
+                        Replaced file{' '}
+                        <del>
+                          <DownloadLink
+                            uuid={file[1].uuid.__old}
+                            fileName={file[1].name.__old}
+                          />
+                        </del>{' '}
+                        with file{' '}
+                        <DownloadLink
+                          uuid={file[1].uuid.__new}
+                          fileName={file[1].name.__new}
+                        />
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+            </div>
           </td>
         </tr>
       </tbody>
     </StyledTable>
-  );
+  ) : null;
 };
 
 export default HistoryFile;
