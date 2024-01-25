@@ -15,6 +15,9 @@ import {
 
 import RowCount from 'components/Table/RowCount';
 import AssignLead from 'components/Analyst/AssignLead';
+import StatusPill from 'components/StatusPill';
+import statusStyles from 'data/statusStyles';
+import Link from 'next/link';
 
 type Application = {
   ccbcNumber: string;
@@ -52,28 +55,7 @@ export const filterNumberAsString = (row, id, filterValue) => {
   return numericPropertyAsString.includes(filterValue);
 };
 
-export const sortAnalysts = (rowA, rowB, columnId) => {
-  const valueA = rowA.getValue(columnId) as any;
-  const valueB = rowB.getValue(columnId) as any;
-  const assignedToA = valueA?.jsonData?.assignedTo;
-  const assignedToB = valueB?.jsonData?.assignedTo;
-
-  if (!assignedToA && !assignedToB) {
-    return 0;
-  }
-
-  if (!assignedToA) {
-    return -1;
-  }
-
-  if (!assignedToB) {
-    return 1;
-  }
-
-  return assignedToA.localeCompare(assignedToB);
-};
-
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   color: ${(props) => props.theme.color.links};
   text-decoration: none;
 
@@ -89,6 +71,11 @@ const CcbcIdCell = ({ cell }) => {
       {cell.getValue()}
     </StyledLink>
   );
+};
+
+const StatusCell = ({ cell }) => {
+  const analystStatus = cell.row.original?.analystStatus;
+  return <StatusPill status={analystStatus} styles={statusStyles} />;
 };
 
 interface Props {
@@ -276,18 +263,19 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       {
         accessorKey: 'analystStatus',
         header: 'Status',
+        Cell: StatusCell,
         size: 24,
         maxSize: 24,
         filterFn: 'filterNumber',
       },
       {
         accessorKey: 'projectTitle',
-        header: 'Project Title',
+        header: 'Project title ',
         size: 30,
       },
       {
         accessorKey: 'organizationName',
-        header: 'Organization Name',
+        header: 'Organization',
         size: 30,
       },
       {
@@ -296,7 +284,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         maxSize: 30,
         accessorKey: 'analystLead',
         Cell: AssignAnalystLead,
-        sortingFn: 'sortAnalysts',
         filterFn: 'filterStringValue',
       },
       {
@@ -344,9 +331,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           justifyContent: 'space-between',
         },
       },
-    },
-    sortingFns: {
-      sortAnalysts,
     },
     filterFns: {
       filterStringValue,
