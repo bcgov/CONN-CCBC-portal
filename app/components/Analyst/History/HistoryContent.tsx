@@ -607,7 +607,6 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
 
         {!isUpdate && isFile && (
           <HistoryFile
-            isDelete={isDelete}
             filesArray={record.json_data.claimsFile || []}
             title={`${
               isDelete ? 'Deleted' : 'Uploaded'
