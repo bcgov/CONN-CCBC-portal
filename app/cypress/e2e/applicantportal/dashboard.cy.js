@@ -813,7 +813,7 @@ describe('The applicant dashboard', () => {
       .select('Fake Status');
     // When modal shows up, confirm status change
     cy.get('[data-testid="change-status-modal"]').should('exist');
-    cy.get('button[data-testid="withdraw-yes-btn"]')
+    cy.get('button[data-testid="status-change-save-btn"]')
       .first()
       .should('be.visible')
       .click();

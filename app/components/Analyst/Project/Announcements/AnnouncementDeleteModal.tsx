@@ -1,7 +1,7 @@
 import { useDeleteAnnouncementMutation } from 'schema/mutations/project/deleteAnnouncement';
 import Modal from 'components/Modal';
 
-const DeleteModal = ({
+const AnnouncementDeleteModal = ({
   id,
   modalOpen,
   setModalOpen,
@@ -107,4 +107,4 @@ const DeleteModal = ({
   );
 };
 
-export default DeleteModal;
+export default AnnouncementDeleteModal;

@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/nextjs';
 import { useEffect, useState } from 'react';
 import Announcement from './Announcement';
 import AnnouncementsHeader from './AnnouncementsHeader';
-import DeleteModal from './DeleteModal';
+import AnnouncementDeleteModal from './AnnouncementDeleteModal';
 
 const StyledEmpty = styled.div`
   margin: 8px 0;
@@ -172,7 +172,7 @@ const ViewAnnouncements: React.FC<Props> = ({
       ) : (
         <StyledEmpty>None</StyledEmpty>
       )}
-      <DeleteModal
+      <AnnouncementDeleteModal
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         id="delete-announcement"
