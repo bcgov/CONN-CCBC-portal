@@ -88,7 +88,7 @@ const ConditionalApprovalModal: React.FC<Props> = ({
         {
           id: 'conditional-approval-modal-save-btn',
           label: 'Yes, change it',
-          onClick: handleSave,
+          onClick: () => handleSave(),
         },
         {
           id: 'conditional-approval-modal-cancel-btn',

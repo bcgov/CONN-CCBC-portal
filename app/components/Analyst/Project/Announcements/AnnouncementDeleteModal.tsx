@@ -74,14 +74,18 @@ const AnnouncementDeleteModal = ({
               {
                 id: 'delete-from-all-btn',
                 label: 'Delete from all projects',
-                onClick: handleDeleteAll,
+                onClick: () => {
+                  handleDeleteAll();
+                },
               },
             ]
           : []),
         {
           id: 'delete-from-this-btn',
           label: isMultiProject ? `Remove from this project` : `Yes, delete`,
-          onClick: handleDeleteOne,
+          onClick: () => {
+            handleDeleteOne();
+          },
         },
         {
           id: 'cancel-from-this-btn',

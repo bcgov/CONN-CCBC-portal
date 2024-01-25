@@ -81,17 +81,16 @@ const Modal: React.FC<Props> = ({
       </StyledDialogTitle>
       <StyledDialogContent>{children}</StyledDialogContent>
       <StyledDialogActions>
-        {actions &&
-          actions.map((action) => (
-            <Button
-              data-testid={action.id}
-              key={action.label}
-              onClick={action.onClick}
-              variant={action.variant || 'primary'}
-            >
-              {action.label}
-            </Button>
-          ))}
+        {actions?.map((action) => (
+          <Button
+            data-testid={action.id}
+            key={action.label}
+            onClick={action.onClick}
+            variant={action.variant || 'primary'}
+          >
+            {action.label}
+          </Button>
+        ))}
       </StyledDialogActions>
     </Dialog>
   );
