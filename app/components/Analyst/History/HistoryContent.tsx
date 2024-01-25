@@ -608,6 +608,9 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         {!isUpdate && isFile && (
           <HistoryFile
             filesArray={record.json_data.claimsFile || []}
+            previousFileArray={
+              prevHistoryItem?.record?.json_data?.claimsFile || []
+            }
             title={`${
               isDelete ? 'Deleted' : 'Uploaded'
             } Claims & Progress Report Excel`}
