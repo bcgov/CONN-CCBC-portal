@@ -46,6 +46,24 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const muiTableBodyCellProps = {
+  sx: {
+    padding: '8px 0px',
+  },
+};
+
+const muiTableHeadCellProps = {
+  sx: {
+    padding: '0px',
+    wordBreak: 'break-word',
+    texOverflow: 'wrap',
+    '.Mui-TableHeadCell-Content-Labels': {
+      width: '100%',
+      justifyContent: 'space-between',
+    },
+  },
+};
+
 const CcbcIdCell = ({ cell }) => {
   const applicationId = cell.row.original?.applicationId;
   return (
@@ -184,6 +202,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     cookie.set('mrt_sorting_application', JSON.stringify(sorting));
   }, [columnVisibility, density, showColumnFilters, sorting, columnFilters]);
 
+  const state = {
+    columnFilters,
+    columnVisibility,
+    density,
+    showColumnFilters,
+    sorting,
+  };
+
   const tableData = useMemo(
     () =>
       allApplications.edges.map(({ node: application }) => {
@@ -280,13 +306,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const table = useMaterialReactTable({
     columns,
     data: tableData,
-    state: {
-      columnFilters,
-      columnVisibility,
-      density,
-      showColumnFilters,
-      sorting,
-    },
+    state,
+    muiTableContainerProps: { sx: { padding: '8px' } },
+    layoutMode: isLargeUp ? 'grid' : 'semantic',
+    muiTableBodyCellProps,
+    muiTableHeadCellProps,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
@@ -295,24 +319,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     enablePagination: false,
     enableGlobalFilter: false,
     enableBottomToolbar: false,
-    muiTableContainerProps: { sx: { padding: '8px' } },
-    layoutMode: isLargeUp ? 'grid' : 'semantic',
-    muiTableBodyCellProps: {
-      sx: {
-        padding: '8px 0px',
-      },
-    },
-    muiTableHeadCellProps: {
-      sx: {
-        padding: '0px',
-        wordBreak: 'break-word',
-        texOverflow: 'wrap',
-        '.Mui-TableHeadCell-Content-Labels': {
-          width: '100%',
-          justifyContent: 'space-between',
-        },
-      },
-    },
     filterFns: {
       filterNumber,
     },
