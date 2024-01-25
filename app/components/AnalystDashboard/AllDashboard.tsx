@@ -139,55 +139,54 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const { allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
   const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
-    () => {
-      const columnFiltersSession = cookie.get('mrt_columnFilters_application');
-      if (columnFiltersSession) {
-        return JSON.parse(columnFiltersSession);
-      }
-      return [];
-    }
+    []
   );
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
-    () => {
-      const columnVisibilitySession = cookie.get(
-        'mrt_columnVisibility_application'
-      );
-      if (columnVisibilitySession) {
-        return JSON.parse(columnVisibilitySession);
-      }
-      return {};
-    }
+    {}
   );
-  const [density, setDensity] = useState<MRT_DensityState>(() => {
+  const [density, setDensity] = useState<MRT_DensityState>('comfortable');
+  const [showColumnFilters, setShowColumnFilters] = useState(false);
+
+  const [sorting, setSorting] = useState<MRT_SortingState>([]);
+
+  useEffect(() => {
+    const sortingSession = cookie.get('mrt_sorting_application');
+    if (sortingSession) {
+      setSorting(JSON.parse(sortingSession));
+    }
+
+    const columnFiltersSession = cookie.get('mrt_columnFilters_application');
+    if (columnFiltersSession) {
+      setSorting(JSON.parse(columnFiltersSession));
+    }
+
+    const columnVisibilitySession = cookie.get(
+      'mrt_columnVisibility_application'
+    );
+    if (columnVisibilitySession) {
+      setColumnVisibility(JSON.parse(columnVisibilitySession));
+    }
+
     const densitySession = cookie.get('mrt_density_application');
     if (densitySession) {
-      return JSON.parse(densitySession);
+      setDensity(JSON.parse(densitySession));
     }
-    return 'comfortable';
-  });
-  const [showColumnFilters, setShowColumnFilters] = useState(() => {
+
     const showColumnFiltersSession = cookie.get(
       'mrt_showColumnFilters_application'
     );
     if (showColumnFiltersSession) {
-      return JSON.parse(showColumnFiltersSession);
+      setShowColumnFilters(JSON.parse(showColumnFiltersSession));
     }
-    return false;
-  });
-
-  const [sorting, setSorting] = useState<MRT_SortingState>(() => {
-    const sortingSession = cookie.get('mrt_sorting_application');
-    if (sortingSession) {
-      return JSON.parse(sortingSession);
-    }
-    return [];
-  });
-  useEffect(() => {
-    cookie.set('mrt_columnFilters_application', JSON.stringify(columnFilters));
-  }, [columnFilters]);
+    setIsFirstRender(false);
+  }, []);
 
   useEffect(() => {
+    if (isFirstRender) return;
+
     cookie.set(
       'mrt_columnVisibility_application',
       JSON.stringify(columnVisibility)
@@ -200,7 +199,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     cookie.set('mrt_columnFilters_application', JSON.stringify(columnFilters));
     cookie.set('mrt_density_application', JSON.stringify(density));
     cookie.set('mrt_sorting_application', JSON.stringify(sorting));
-  }, [columnVisibility, density, showColumnFilters, sorting, columnFilters]);
+  }, [
+    columnVisibility,
+    density,
+    showColumnFilters,
+    sorting,
+    columnFilters,
+    isFirstRender,
+  ]);
 
   const state = {
     columnFilters,
