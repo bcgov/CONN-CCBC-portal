@@ -26,10 +26,12 @@ const HistoryFile = ({
   previousFileArray = null,
   title,
   tableTitle = true,
+  testId = '',
 }) => {
   const filesDiff = diff(previousFileArray || [], filesArray || [], {
     keepUnchangedValues: true,
   });
+  console.log(`${title} filesDiff`, filesDiff);
   return filesDiff ? (
     <StyledTable>
       <thead style={{ borderBottom: '2px solid #CCC' }}>
@@ -40,7 +42,7 @@ const HistoryFile = ({
         )}
       </thead>
       <tbody>
-        <tr>
+        <tr data-testid={testId}>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>{title}</td>
           <td style={tableTitle ? { paddingTop: '8px' } : {}}>
             <div>
@@ -74,6 +76,7 @@ const HistoryFile = ({
                   }
                   // The object was modified (file replacement)
                   if (file[0] === '~') {
+                    console.log(`${title} ~`, file[1]);
                     return (
                       <div key={file[1].uuid}>
                         Replaced file{' '}

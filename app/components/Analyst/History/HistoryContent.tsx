@@ -614,6 +614,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             title={`${
               isDelete ? 'Deleted' : 'Uploaded'
             } Claims & Progress Report Excel`}
+            testId="history-content-claims-file"
           />
         )}
         {showHistoryDetails && isUpdate && (
@@ -623,6 +624,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
               prevHistoryItem?.record?.json_data?.claimsFile || []
             }
             title="Uploaded Claims & Progress Report Excel"
+            testId="history-content-claims-file"
           />
         )}
       </>
@@ -698,6 +700,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             filesArray={record.json_data.milestoneFile || []}
             previousFileArray={oldMilestoneFile || []}
             title="Uploaded Milestone Report Excel"
+            testId="history-content-milestone-file"
           />
         )}
         {op === 'INSERT' && changedEvidenceFile && (
@@ -706,6 +709,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             previousFileArray={oldEvidenceFile || []}
             title="Uploaded Milestone Completion Evidence"
             tableTitle={!changedMilestoneFile}
+            testId="history-content-milestone-evidence-file"
           />
         )}
         {op === 'UPDATE' && record?.history_operation === 'deleted' && (
@@ -714,6 +718,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             previousFileArray={record.json_data.milestoneFile || []}
             title="Uploaded Milestone Report Excel"
             tableTitle={false}
+            testId="history-content-milestone-file"
           />
         )}
         {op === 'UPDATE' && record?.history_operation === 'deleted' && (
@@ -722,6 +727,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             previousFileArray={record.json_data.evidenceOfCompletionFile || []}
             title="Uploaded Milestone Completion Evidence"
             tableTitle={false}
+            testId="history-content-milestone-evidence-file"
           />
         )}
       </>
