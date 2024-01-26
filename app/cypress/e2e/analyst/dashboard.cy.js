@@ -21,7 +21,7 @@ describe('The analyst dashboard', () => {
     cy.visit('/analyst/dashboard');
     // need to add to prevent "is detached from the dom" issue
     cy.wait(2000);
-    cy.get('tbody > tr').first().click();
+    cy.contains('a', 'CCBC-010001').click();
     cy.url().should('include', '/analyst/application/');
   });
 
@@ -29,12 +29,14 @@ describe('The analyst dashboard', () => {
     cy.visit('/analyst/dashboard');
     cy.wait(2000);
     cy.get('tr > th').first().click();
-    cy.url().should('include', 'orderBy');
+    cy.getCookie('mrt_sorting_application').should(
+      'have.property',
+      'value',
+      '[{%22id%22:%22intakeNumber%22%2C%22desc%22:true}]'
+    );
 
     // add wait to prevent happo diff from taking a screenshot before the sort is complete
     cy.wait(2000);
-
-    cy.contains('button', 'Clear sorting');
 
     cy.get('body').happoScreenshot({ component: 'Sorted Analyst Dashboard' });
   });
