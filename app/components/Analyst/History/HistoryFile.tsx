@@ -31,6 +31,7 @@ const HistoryFile = ({
   const filesDiff = diff(previousFileArray || [], filesArray || [], {
     keepUnchangedValues: true,
   });
+  console.log(`${title} filesDiff`, filesDiff);
   return filesDiff ? (
     <StyledTable>
       <thead style={{ borderBottom: '2px solid #CCC' }}>
@@ -75,21 +76,45 @@ const HistoryFile = ({
                   }
                   // The object was modified (file replacement)
                   if (file[0] === '~') {
-                    return (
-                      <div key={file[1].uuid}>
-                        Replaced file{' '}
-                        <del>
+                    if (filesDiff.length === 1) {
+                      return (
+                        <div key={file[1].uuid}>
+                          Replaced file{' '}
+                          <del>
+                            <DownloadLink
+                              uuid={file[1].uuid.__old}
+                              fileName={file[1].name.__old}
+                            />
+                          </del>{' '}
+                          with file{' '}
                           <DownloadLink
-                            uuid={file[1].uuid.__old}
-                            fileName={file[1].name.__old}
+                            uuid={file[1].uuid.__new}
+                            fileName={file[1].name.__new}
                           />
-                        </del>{' '}
-                        with file{' '}
-                        <DownloadLink
-                          uuid={file[1].uuid.__new}
-                          fileName={file[1].name.__new}
-                        />
-                      </div>
+                        </div>
+                      );
+                    }
+                    return (
+                      <>
+                        <div key={file[1].uuid}>
+                          Deleted file{' '}
+                          <del>
+                            <DownloadLink
+                              uuid={file[1].uuid.__old}
+                              fileName={file[1].name.__old}
+                            />
+                          </del>{' '}
+                        </div>
+                        <div key={file[1].uuid}>
+                          Added file{' '}
+                          <del>
+                            <DownloadLink
+                              uuid={file[1].uuid.__new}
+                              fileName={file[1].name.__new}
+                            />
+                          </del>{' '}
+                        </div>
+                      </>
                     );
                   }
                   return null;
