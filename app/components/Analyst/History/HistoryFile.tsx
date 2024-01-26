@@ -31,7 +31,6 @@ const HistoryFile = ({
   const filesDiff = diff(previousFileArray || [], filesArray || [], {
     keepUnchangedValues: true,
   });
-  console.log(`${title} filesDiff`, filesDiff);
   return filesDiff ? (
     <StyledTable>
       <thead style={{ borderBottom: '2px solid #CCC' }}>
