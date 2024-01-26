@@ -402,16 +402,20 @@ describe('The AssessmentAssignmentTable component', () => {
       fireEvent.click(columnActions);
     });
 
-    const pmAssessmentFilter = screen.getByText('Filter by PM');
+    const pmAssessmentFilter = screen.getAllByText('Filter by PM')[0];
 
     await act(async () => {
-      fireEvent.click(pmAssessmentFilter);
+      fireEvent.keyDown(pmAssessmentFilter, { key: 'Enter', code: 'Enter' });
     });
 
-    const filterInput = screen.getByPlaceholderText('Filter by PM');
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    const filterInput = screen.getAllByRole('option')[0];
 
     await act(async () => {
-      fireEvent.change(filterInput, { target: { value: 'Test Analyst GIS' } });
+      fireEvent.click(filterInput);
     });
 
     await new Promise((r) => {
