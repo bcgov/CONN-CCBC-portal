@@ -1,3 +1,13 @@
+# [1.137.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.136.2...v1.137.0) (2024-01-26)
+
+### Bug Fixes
+
+- error saving project information ([c3bed44](https://github.com/bcgov/CONN-CCBC-portal/commit/c3bed447d7196004df50fe6d7d1aa1b117bb66af))
+
+### Features
+
+- remember assessment table sorting on session ([b00a9d6](https://github.com/bcgov/CONN-CCBC-portal/commit/b00a9d634f4c1fc258bf65ee289fba9a11995389))
+
 ## [1.136.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.136.1...v1.136.2) (2024-01-24)
 
 ### Bug Fixes
