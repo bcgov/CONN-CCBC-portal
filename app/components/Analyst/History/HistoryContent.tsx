@@ -123,19 +123,21 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     const showEmailFiles = !!emailFilesDiff;
     const showAdditionalFiles = !!additionalFilesDiff;
     return (
-      <StyledContent data-testid="history-content-rfi">
-        {op === 'INSERT' ? (
-          <>
-            <span>{displayName} saved</span> <b>RFI-{rfiNumber}</b>
-            <span> on {createdAtFormatted}</span>
-          </>
-        ) : (
-          <>
-            <span>{displayName} updated the files on </span>{' '}
-            <b>RFI-{rfiNumber}</b>
-            <span> on {createdAtFormatted}</span>
-          </>
-        )}
+      <>
+        <StyledContent data-testid="history-content-rfi">
+          {op === 'INSERT' ? (
+            <>
+              <span>{displayName} saved</span> <b>RFI-{rfiNumber}</b>
+              <span> on {createdAtFormatted}</span>
+            </>
+          ) : (
+            <>
+              <span>{displayName} updated the files on </span>{' '}
+              <b>RFI-{rfiNumber}</b>
+              <span> on {createdAtFormatted}</span>
+            </>
+          )}
+        </StyledContent>
         {displayName !== 'The applicant' && (
           <>
             <HistoryDetails
@@ -204,7 +206,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             title="Additional files"
           />
         )}
-      </StyledContent>
+      </>
     );
   }
 
@@ -372,10 +374,12 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
 
   if (tableName === 'conditional_approval_data') {
     return (
-      <StyledContent data-testid="history-content-conditional-approval">
-        <span>{displayName} saved the </span>
-        <b>Conditional approval</b>
-        <span> on {createdAtFormatted}</span>
+      <>
+        <StyledContent data-testid="history-content-conditional-approval">
+          <span>{displayName} saved the </span>
+          <b>Conditional approval</b>
+          <span> on {createdAtFormatted}</span>
+        </StyledContent>
         <HistoryDetails
           json={record.json_data}
           prevJson={prevHistoryItem?.record?.json_data || {}}
@@ -402,7 +406,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           }
           title="Letter of approval"
         />
-      </StyledContent>
+      </>
     );
   }
 
@@ -456,11 +460,12 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     const showFundingAgreement = !!fundingAgreementFileDiff;
     const showFinalizedMap = !!finalizedMapFileDiff;
     return (
-      <StyledContent data-testid="history-content-conditional-approval">
-        <span>{displayName} saved the </span>
-        <b>Project information</b>
-        <span> form on {createdAtFormatted}</span>
-
+      <>
+        <StyledContent data-testid="history-content-conditional-approval">
+          <span>{displayName} saved the </span>
+          <b>Project information</b>
+          <span> form on {createdAtFormatted}</span>
+        </StyledContent>
         {showHistoryDetails && (
           <>
             <HistoryDetails
@@ -519,23 +524,25 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             )}
           </>
         )}
-      </StyledContent>
+      </>
     );
   }
 
   if (tableName === 'change_request_data') {
     return (
-      <StyledContent data-testid="history-content-change-request">
-        <span>
-          {displayName} {op === 'INSERT' ? 'created' : 'updated'} a{' '}
-        </span>
-        <b>Change Request</b>
-        <span> on {createdAtFormatted}</span>
+      <>
+        <StyledContent data-testid="history-content-change-request">
+          <span>
+            {displayName} {op === 'INSERT' ? 'created' : 'updated'} a{' '}
+          </span>
+          <b>Change Request</b>
+          <span> on {createdAtFormatted}</span>
+        </StyledContent>
         <HistoryFile
           filesArray={record.json_data?.statementOfWorkUpload || []}
           title="Updated Statement of Work Excel"
         />
-      </StyledContent>
+      </>
     );
   }
 
@@ -550,19 +557,20 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
         (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid));
 
     return (
-      <StyledContent data-testid="history-content-community-progress-report">
-        {op === 'INSERT' && prevHistoryItem?.record && (
-          <span>{displayName} updated a </span>
-        )}
-        {op === 'INSERT' && prevHistoryItem?.record === undefined && (
-          <span>{displayName} created a </span>
-        )}
-        {op === 'UPDATE' && record.history_operation === 'deleted' && (
-          <span>{displayName} deleted a </span>
-        )}
-        <b>Community Progress Report</b>
-        <span> on {createdAtFormatted}</span>
-
+      <>
+        <StyledContent data-testid="history-content-community-progress-report">
+          {op === 'INSERT' && prevHistoryItem?.record && (
+            <span>{displayName} updated a </span>
+          )}
+          {op === 'INSERT' && prevHistoryItem?.record === undefined && (
+            <span>{displayName} created a </span>
+          )}
+          {op === 'UPDATE' && record.history_operation === 'deleted' && (
+            <span>{displayName} deleted a </span>
+          )}
+          <b>Community Progress Report</b>
+          <span> on {createdAtFormatted}</span>
+        </StyledContent>
         {op === 'INSERT' && changedFile && (
           <HistoryFile
             filesArray={record.json_data.progressReportFile || []}
@@ -578,7 +586,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             overrideParent="communityReport"
           />
         )}
-      </StyledContent>
+      </>
     );
   }
 
@@ -589,18 +597,24 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     const isFile = record.json_data?.claimsFile?.length > 0;
 
     return (
-      <StyledContent data-testid="history-content-claims">
-        <span>
-          {displayName} {operation} a <b>Claim & Progress Report</b> on{' '}
-          {createdAtFormatted}
-        </span>
+      <>
+        <StyledContent data-testid="history-content-claims">
+          <span>
+            {displayName} {operation} a <b>Claim & Progress Report</b> on{' '}
+            {createdAtFormatted}
+          </span>
+        </StyledContent>
+
         {!isUpdate && isFile && (
           <HistoryFile
-            isDelete={isDelete}
             filesArray={record.json_data.claimsFile || []}
+            previousFileArray={
+              prevHistoryItem?.record?.json_data?.claimsFile || []
+            }
             title={`${
               isDelete ? 'Deleted' : 'Uploaded'
             } Claims & Progress Report Excel`}
+            testId="history-content-claims-file"
           />
         )}
         {showHistoryDetails && isUpdate && (
@@ -610,9 +624,10 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
               prevHistoryItem?.record?.json_data?.claimsFile || []
             }
             title="Uploaded Claims & Progress Report Excel"
+            testId="history-content-claims-file"
           />
         )}
-      </StyledContent>
+      </>
     );
   }
   if (tableName === 'application_milestone_data') {
@@ -638,19 +653,20 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           newEvidenceFile[0].uuid !== oldEvidenceFile[0].uuid));
 
     return (
-      <StyledContent data-testid="history-content-milestone_data">
-        {op === 'INSERT' && record.history_operation === 'created' && (
-          <span>{displayName} created a </span>
-        )}
-        {op === 'INSERT' && record.history_operation === 'updated' && (
-          <span>{displayName} updated a </span>
-        )}
-        {op === 'UPDATE' && record.history_operation === 'deleted' && (
-          <span>{displayName} deleted a </span>
-        )}
-        <b>Milestone Report</b>
-        <span> on {createdAtFormatted}</span>
-
+      <>
+        <StyledContent data-testid="history-content-milestone_data">
+          {op === 'INSERT' && record.history_operation === 'created' && (
+            <span>{displayName} created a </span>
+          )}
+          {op === 'INSERT' && record.history_operation === 'updated' && (
+            <span>{displayName} updated a </span>
+          )}
+          {op === 'UPDATE' && record.history_operation === 'deleted' && (
+            <span>{displayName} deleted a </span>
+          )}
+          <b>Milestone Report</b>
+          <span> on {createdAtFormatted}</span>
+        </StyledContent>
         {op === 'INSERT' && showHistoryDetails && (
           <HistoryDetails
             json={record.json_data}
@@ -684,6 +700,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             filesArray={record.json_data.milestoneFile || []}
             previousFileArray={oldMilestoneFile || []}
             title="Uploaded Milestone Report Excel"
+            testId="history-content-milestone-file"
           />
         )}
         {op === 'INSERT' && changedEvidenceFile && (
@@ -692,6 +709,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             previousFileArray={oldEvidenceFile || []}
             title="Uploaded Milestone Completion Evidence"
             tableTitle={!changedMilestoneFile}
+            testId="history-content-milestone-evidence-file"
           />
         )}
         {op === 'UPDATE' && record?.history_operation === 'deleted' && (
@@ -700,6 +718,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             previousFileArray={record.json_data.milestoneFile || []}
             title="Uploaded Milestone Report Excel"
             tableTitle={false}
+            testId="history-content-milestone-file"
           />
         )}
         {op === 'UPDATE' && record?.history_operation === 'deleted' && (
@@ -708,9 +727,10 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             previousFileArray={record.json_data.evidenceOfCompletionFile || []}
             title="Uploaded Milestone Completion Evidence"
             tableTitle={false}
+            testId="history-content-milestone-evidence-file"
           />
         )}
-      </StyledContent>
+      </>
     );
   }
 

@@ -473,9 +473,9 @@ const mockQueryPayload = {
                       {
                         id: 10,
                         name: 'hotfix-55d8c6678b-zgdh4-hotfix.log',
-                        size: 2959,
+                        size: 2957,
                         type: '',
-                        uuid: '2204da5c-f855-438d-b1d5-6a44b2afbf09',
+                        uuid: '2304da5c-f855-438d-b1d5-6a44b2afbf09',
                       },
                     ],
                     lastMileIspOfferingRfi: true,
@@ -521,9 +521,9 @@ const mockQueryPayload = {
                       {
                         id: 10,
                         name: 'hotfix-55d8c6678b-zgdh4-hotfix.log',
-                        size: 2959,
+                        size: 2919,
                         type: '',
-                        uuid: '2204da5c-f855-438d-b1d5-6a44b2afbf09',
+                        uuid: '2704da5c-f855-438d-b1d5-6a44b2afbf09',
                       },
                     ],
                     lastMileIspOfferingRfi: true,
@@ -549,9 +549,9 @@ const mockQueryPayload = {
                       {
                         id: 10,
                         name: 'hotfix-55d8c6678b-zgdh4-hotfix.log',
-                        size: 2959,
+                        size: 2955,
                         type: '',
-                        uuid: '2204da5c-f855-438d-b1d5-6a44b2afbf09',
+                        uuid: '2504da5c-f855-438d-b1d5-6a44b2afbf09',
                       },
                     ],
                     lastMileIspOfferingRfi: true,
@@ -655,9 +655,9 @@ const mockQueryPayload = {
                       {
                         id: 10,
                         name: 'hotfix-55d8c6678b-zgdh4-hotfix.log',
-                        size: 2959,
+                        size: 2950,
                         type: '',
-                        uuid: '2204da5c-f855-438d-b1d5-6a44b2afbf09',
+                        uuid: '2004da5c-f855-438d-b1d5-6a44b2afbf09',
                       },
                     ],
                     lastMileIspOfferingRfi: true,
@@ -2914,7 +2914,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getAllByTestId('history-content-rfi')[4]).toHaveTextContent(
-      /Foo Bar saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:03 a.m. /
+      /Foo Bar saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:03 a.m./
     );
   });
 
@@ -2931,7 +2931,7 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-conditional-approval')[1]
     ).toHaveTextContent(
-      /Foo Bar saved the Conditional approval on Jan 9, 2024, 3:39 p.m. /
+      /Foo Bar saved the Conditional approval on Jan 9, 2024, 3:39 p.m./
     );
   });
 
@@ -3115,10 +3115,15 @@ describe('The index page', () => {
     expect(claimsHistory).toHaveTextContent(
       /The applicant created a Claim & Progress Report on Oct 13, 2023, 10:24 a.m./
     );
-    expect(claimsHistory).toHaveTextContent(
+
+    const claimHistoryFile = screen.getAllByTestId(
+      'history-content-claims-file'
+    )[1];
+
+    expect(claimHistoryFile).toHaveTextContent(
       /Uploaded Claims & Progress Report Excel/
     );
-    expect(claimsHistory).toHaveTextContent('claims.xlsx');
+    expect(claimHistoryFile).toHaveTextContent('claims.xlsx');
   });
 
   it('shows the correct history for updating a claim', async () => {
@@ -3130,10 +3135,15 @@ describe('The index page', () => {
     expect(claimsHistory).toHaveTextContent(
       /The applicant updated a Claim & Progress Report on Oct 13, 2023, 10:24 a.m./
     );
-    expect(claimsHistory).toHaveTextContent(
+
+    const claimHistoryFile = screen.getAllByTestId(
+      'history-content-claims-file'
+    )[0];
+
+    expect(claimHistoryFile).toHaveTextContent(
       /Uploaded Claims & Progress Report Excel/
     );
-    expect(claimsHistory).toHaveTextContent('claims2.xlsx');
+    expect(claimHistoryFile).toHaveTextContent('claims2.xlsx');
   });
 
   it('shows the correct history for deleting a claim', async () => {
@@ -3158,8 +3168,15 @@ describe('The index page', () => {
     expect(claimsHistory).toHaveTextContent(
       'The applicant created a Milestone Report on Oct 17, 2023, 8:09 a.m.'
     );
-    expect(claimsHistory).toHaveTextContent('Uploaded Milestone Report Excel');
-    expect(claimsHistory).toHaveTextContent(
+
+    const claimHistoryFile = screen.getAllByTestId(
+      'history-content-milestone-file'
+    )[0];
+
+    expect(claimHistoryFile).toHaveTextContent(
+      'Uploaded Milestone Report Excel'
+    );
+    expect(claimHistoryFile).toHaveTextContent(
       'UBF-AA-00000-Milestone-Report.xlsx'
     );
   });
@@ -3175,10 +3192,15 @@ describe('The index page', () => {
     expect(claimsHistory).toHaveTextContent(
       'The applicant updated a Milestone Report on Oct 17, 2023, 8:10 a.m.'
     );
-    expect(claimsHistory).toHaveTextContent(
+
+    const claimHistoryFile = screen.getAllByTestId(
+      'history-content-milestone-evidence-file'
+    )[0];
+
+    expect(claimHistoryFile).toHaveTextContent(
       'Uploaded Milestone Completion Evidence'
     );
-    expect(claimsHistory).toHaveTextContent('evidence.pdf');
+    expect(claimHistoryFile).toHaveTextContent('evidence.pdf');
   });
 
   it('shows the correct history for deleting a milestone report', async () => {
@@ -3192,8 +3214,10 @@ describe('The index page', () => {
     expect(claimsHistory).toHaveTextContent(
       'The applicant deleted a Milestone Report on Oct 17, 2023, 8:16 a.m.'
     );
-    expect(claimsHistory).toHaveTextContent('N/A');
-    expect(claimsHistory).toHaveTextContent(
+    const claimHistoryFile = screen.getAllByTestId(
+      'history-content-milestone-file'
+    )[0];
+    expect(claimHistoryFile).toHaveTextContent(
       'UBF-AA-00000-Milestone-Report.xlsx'
     );
   });
