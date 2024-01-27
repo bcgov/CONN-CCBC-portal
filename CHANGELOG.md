@@ -1,3 +1,10 @@
+# [1.138.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.137.0...v1.138.0) (2024-01-27)
+
+### Features
+
+- refine file history for comprehension ([fbe43cb](https://github.com/bcgov/CONN-CCBC-portal/commit/fbe43cb245b4f0a3166ad7cc73081f03ceaf24ca))
+- use mrt for main analyst dashboard ([b8f1d2f](https://github.com/bcgov/CONN-CCBC-portal/commit/b8f1d2f5717bc7f3cbad65b88427db21dafb9d06))
+
 # [1.137.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.136.2...v1.137.0) (2024-01-26)
 
 ### Bug Fixes
