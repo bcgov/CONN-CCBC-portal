@@ -57,7 +57,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const isApplicantPortal = router?.pathname.startsWith('/applicantportal');
   const useCustomLogin = useFeature('use_custom_login').value;
   const useDirectIdir = useFeature('use_direct_idir').value;
-  const useBanner = useFeature('header-banner').value;
+  const { value: banner } = useFeature('header-banner');
 
   let action;
   if (useCustomLogin) {
@@ -74,11 +74,11 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
 
   return (
     <StyledBaseNavigation>
-      {useBanner && (
+      {banner && (
         <HeaderBanner
-          type={useBanner.type}
-          message={useBanner.message}
-          environmentIndicator={useBanner['environment-indicator']}
+          type={banner.type}
+          message={banner.message}
+          environmentIndicator={banner['environment-indicator']}
         />
       )}
       <StyledBaseHeader>
