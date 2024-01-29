@@ -49,7 +49,6 @@ const HeaderBanner: React.FC<Props> = ({
 }) => {
   const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
   const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
-
   const isTest = namespace?.endsWith('-test');
   return (
     <>
@@ -65,6 +64,7 @@ const HeaderBanner: React.FC<Props> = ({
         <StyledBaseHeaderBanner header="sub" type={type}>
           <StyledDiv>
             <FontAwesomeIcon
+              data-testid="header-banner-icon"
               size="1x"
               icon={type === 'success' ? faSquareCheck : faExclamationTriangle}
             />
