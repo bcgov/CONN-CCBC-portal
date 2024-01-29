@@ -29,7 +29,7 @@ describe('The Header Banner component', () => {
   it('should render the correct banner when environment indicator on', () => {
     renderStaticLayout(true);
     const alert = screen.getByText(
-      /Connected Communities Development environment/
+      /Connected Communities BC portal Development environment/
     );
 
     expect(alert).toBeInTheDocument();
@@ -38,7 +38,9 @@ describe('The Header Banner component', () => {
   it('should not render the correct banner when environment indicator off', () => {
     renderStaticLayout(false);
     expect(
-      screen.queryByText(/Connected Communities Development environment/)
+      screen.queryByText(
+        /Connected Communities BC portal Development environment/
+      )
     ).not.toBeInTheDocument();
   });
 
@@ -59,7 +61,7 @@ describe('The Header Banner component', () => {
   test('displays correct environment indicator content for test environment', () => {
     mockOpenshiftNamespace.mockImplementationOnce(() => 'environment-test');
     renderStaticLayout(true);
-    expect(screen.getByText(/Test/)).toBeInTheDocument();
+    expect(screen.getByText(/Test environment/)).toBeInTheDocument();
   });
 
   test('displays correct icon when type success', () => {

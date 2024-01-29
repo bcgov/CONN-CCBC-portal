@@ -55,8 +55,8 @@ const HeaderBanner: React.FC<Props> = ({
       {environmentIndicator && (
         <StyledBaseHeaderBanner header="sub">
           <StyledDiv>
-            Connected Communities {isTest ? ' Test ' : ' Development '}{' '}
-            environment. Changes will not affect actual intake applications.
+            Connected Communities BC portal{' '}
+            {isTest ? ' Test ' : ' Development '} environment.
           </StyledDiv>
         </StyledBaseHeaderBanner>
       )}
