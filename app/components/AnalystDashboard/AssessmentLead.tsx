@@ -53,8 +53,8 @@ const AssignLead: React.FC<Props> = ({
 
   return (
     <StyledDropdown data-testid="assign-lead" onChange={handleChange}>
-      <option key="Unnassigned" selected={!lead} value={null}>
-        Unnassigned
+      <option key="Unassigned" selected={!lead} value={null}>
+        Unassigned
       </option>
       {analystList.map((analystKey) => {
         const analyst = allAnalysts[analystKey]?.node;
