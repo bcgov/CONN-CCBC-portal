@@ -1,3 +1,15 @@
+# [1.138.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.137.0...v1.138.0) (2024-01-29)
+
+### Bug Fixes
+
+- typo in assessment table ([86cc5fd](https://github.com/bcgov/CONN-CCBC-portal/commit/86cc5fd81ab33a49aeddf8cbe62eec45a7cba1ba))
+
+### Features
+
+- add filter dropdown to assessment table ([f41b568](https://github.com/bcgov/CONN-CCBC-portal/commit/f41b56891b1d9407d656a522f54db80c0e3c5491))
+- refine file history for comprehension ([fbe43cb](https://github.com/bcgov/CONN-CCBC-portal/commit/fbe43cb245b4f0a3166ad7cc73081f03ceaf24ca))
+- use mrt for main analyst dashboard ([b8f1d2f](https://github.com/bcgov/CONN-CCBC-portal/commit/b8f1d2f5717bc7f3cbad65b88427db21dafb9d06))
+
 # [1.137.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.136.2...v1.137.0) (2024-01-26)
 
 ### Bug Fixes
