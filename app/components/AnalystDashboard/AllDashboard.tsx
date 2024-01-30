@@ -18,6 +18,8 @@ import AssignLead from 'components/Analyst/AssignLead';
 import StatusPill from 'components/StatusPill';
 import statusStyles from 'data/statusStyles';
 import Link from 'next/link';
+import ClearFilters from 'components/Table/ClearFilters';
+import { Box } from '@mui/material';
 
 type Application = {
   ccbcNumber: string;
@@ -350,6 +352,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     filterFns: {
       filterNumber,
     },
+    renderTopToolbarCustomActions: () => (
+      <Box>
+        <ClearFilters table={table} filters={table.getState().columnFilters} />
+      </Box>
+    ),
   });
 
   const visibleRowCount = table.getRowModel().rows?.length ?? 0;
