@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
-import { useState } from 'react';
+import useModal from 'lib/helpers/useModal';
 import StatusInformationModal from './StatusInformationModal';
 
 const StyledFontAwesome = styled(FontAwesomeIcon)`
@@ -9,10 +9,10 @@ const StyledFontAwesome = styled(FontAwesomeIcon)`
 `;
 
 const StatusInformationIcon = () => {
-  const [showModal, setShowModal] = useState(false);
+  const statusInformationModal = useModal();
 
   const handleClick = () => {
-    setShowModal(true);
+    statusInformationModal.open();
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -21,13 +21,9 @@ const StatusInformationIcon = () => {
     }
   };
 
-  const hideModal = () => {
-    setShowModal(false);
-  };
-
   return (
     <>
-      <StatusInformationModal open={showModal} onClose={hideModal} />
+      <StatusInformationModal {...statusInformationModal} />
       <div
         role="button"
         tabIndex={0}

@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Button from '@button-inc/bcgov-theme/Button';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import milestonesSchema from 'formSchema/analyst/milestones';
 import milestonesUiSchema from 'formSchema/uiSchema/analyst/milestonesUiSchema';
@@ -8,20 +7,12 @@ import { useCreateMilestoneMutation } from 'schema/mutations/project/createMiles
 import { useArchiveApplicationMilestoneDataMutation as useArchiveMilestone } from 'schema/mutations/project/archiveApplicationMilestoneData';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
-import Modal from 'components/Modal';
+import useModal from 'lib/helpers/useModal';
 import MilestonesView from './MilestonesView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
-
-const StyledContainer = styled.div`
-  text-align: center;
-  max-width: 400px;
-
-  p {
-    margin-top: 16px;
-  }
-`;
+import ReportDeleteConfirmationModal from '../ReportDeleteConfirmationModal';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
@@ -36,15 +27,6 @@ const StyledFormHeader = styled.div`
   }
   ul {
     margin-bottom: 0px;
-  }
-`;
-
-const StyledFlex = styled.div`
-  display: flex;
-  justify-content: center;
-
-  button:first-child {
-    margin-right: 16px;
   }
 `;
 
@@ -144,7 +126,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
-  const [showModal, setShowModal] = useState(false);
+  const deleteConfirmationModal = useModal();
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentMilestoneData, setCurrentMilestoneData] = useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
@@ -193,7 +175,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
     setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
-    setShowModal(false);
+    deleteConfirmationModal.close();
   };
 
   const handleSubmit = async (e) => {
@@ -288,27 +270,16 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
           Milestone report excel data successfully imported
         </Toast>
       )}
-      <Modal
-        open={showModal}
+      <ReportDeleteConfirmationModal
+        id="milestone-report-delete-confirm-dialog"
         onClose={() => {
           setCurrentMilestoneData(null);
-          setShowModal(false);
+          deleteConfirmationModal.close();
         }}
-        title="Delete"
-      >
-        <StyledContainer>
-          <p>
-            Are you sure you want to delete this milestone report and all
-            accompanying data?
-          </p>
-          <StyledFlex>
-            <Button onClick={handleDelete}>Yes, delete</Button>
-            <Button onClick={() => setShowModal(false)} variant="secondary">
-              No, keep
-            </Button>
-          </StyledFlex>
-        </StyledContainer>
-      </Modal>
+        onConfirm={handleDelete}
+        reportType="milestone"
+        {...deleteConfirmationModal}
+      />
       <StyledProjectForm
         additionalContext={{
           applicationId: applicationRowId,
@@ -380,7 +351,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
               )}
               isFormEditMode={isFormEditMode}
               onShowDeleteModal={() => {
-                setShowModal(true);
+                deleteConfirmationModal.open();
                 setCurrentMilestoneData(node);
               }}
               onFormEdit={() => {

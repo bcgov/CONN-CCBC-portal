@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Button from '@button-inc/bcgov-theme/Button';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import claimsSchema from 'formSchema/analyst/claims';
 import claimsUiSchema from 'formSchema/uiSchema/analyst/claimsUiSchema';
@@ -8,35 +7,18 @@ import { useCreateClaimsMutation } from 'schema/mutations/project/createClaimsDa
 import { useArchiveApplicationClaimsDataMutation as useArchiveClaims } from 'schema/mutations/project/archiveApplicationClaimsData';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
-import Modal from 'components/Modal';
+import useModal from 'lib/helpers/useModal';
 import ClaimsView from './ClaimsView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
 import MetabaseLink from '../ProjectInformation/MetabaseLink';
-
-const StyledContainer = styled.div`
-  text-align: center;
-  max-width: 400px;
-
-  p {
-    margin-top: 16px;
-  }
-`;
+import ReportDeleteConfirmationModal from '../ReportDeleteConfirmationModal';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
     width: 180px;
     margin-bottom: 0px;
-  }
-`;
-
-const StyledFlex = styled.div`
-  display: flex;
-  justify-content: center;
-
-  button:first-child {
-    margin-right: 16px;
   }
 `;
 
@@ -118,7 +100,6 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
-  const [showModal, setShowModal] = useState(false);
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentClaimsData, setCurrentClaimsData] = useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
@@ -131,6 +112,8 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
   const [showToast, setShowToast] = useState(false);
   const [claimsValidationErrors, setClaimsValidationErrors] = useState([]);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+
+  const deleteConfirmationModal = useModal();
 
   const claimsConnectionId = claimsData?.__id;
 
@@ -244,7 +227,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
         ConnectionHandler.deleteNode(connection, claimConnectionId);
       },
       onCompleted: () => {
-        setShowModal(false);
+        deleteConfirmationModal.close();
         setCurrentClaimsData(null);
       },
     });
@@ -257,27 +240,17 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
           Claims & progress report excel data successfully imported
         </Toast>
       )}
-      <Modal
-        open={showModal}
+      <ReportDeleteConfirmationModal
+        {...deleteConfirmationModal}
+        id="claims-progress-report-delete-confirm-dialog"
         onClose={() => {
           setCurrentClaimsData(null);
-          setShowModal(false);
+          deleteConfirmationModal.close();
         }}
-        title="Delete"
-      >
-        <StyledContainer>
-          <p>
-            Are you sure you want to delete this claim & progress report and all
-            accompanying data?
-          </p>
-          <StyledFlex>
-            <Button onClick={handleDelete}>Yes, delete</Button>
-            <Button onClick={() => setShowModal(false)} variant="secondary">
-              No, keep
-            </Button>
-          </StyledFlex>
-        </StyledContainer>
-      </Modal>
+        onConfirm={handleDelete}
+        reportType="claim & progress"
+      />
+
       <StyledProjectForm
         additionalContext={{
           applicationId: applicationRowId,
@@ -341,7 +314,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
               claim={node}
               isFormEditMode={isFormEditMode}
               onShowDeleteModal={() => {
-                setShowModal(true);
+                deleteConfirmationModal.open();
                 setCurrentClaimsData(node);
               }}
               onFormEdit={() => {

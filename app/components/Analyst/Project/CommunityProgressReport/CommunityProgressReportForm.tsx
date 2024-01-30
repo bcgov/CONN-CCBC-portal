@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Button from '@button-inc/bcgov-theme/Button';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
@@ -9,35 +8,18 @@ import { useArchiveApplicationCommunityProgressReportMutation as useArchiveCpr }
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import Toast from 'components/Toast';
-import Modal from 'components/Modal';
+import useModal from 'lib/helpers/useModal';
 import CommunityProgressView from './CommunityProgressView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
 import AddButton from '../AddButton';
 import MetabaseLink from '../ProjectInformation/MetabaseLink';
-
-const StyledContainer = styled.div`
-  text-align: center;
-  max-width: 400px;
-
-  p {
-    margin-top: 16px;
-  }
-`;
+import ReportDeleteConfirmationModal from '../ReportDeleteConfirmationModal';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
     width: 180px;
     margin-bottom: 0px;
-  }
-`;
-
-const StyledFlex = styled.div`
-  display: flex;
-  justify-content: center;
-
-  button:first-child {
-    margin-right: 16px;
   }
 `;
 
@@ -119,7 +101,6 @@ const CommunityProgressReportForm: React.FC<Props> = ({
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
-  const [showModal, setShowModal] = useState(false);
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentCommunityProgressData, setCurrentCommunityProgressData] =
     useState(null);
@@ -138,6 +119,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
     setCommunityProgressValidationErrors,
   ] = useState([]);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const deleteConfirmationModal = useModal();
 
   const communityProgressConnectionId = communityProgressData?.__id;
   const communityProgressList = communityProgressData?.edges
@@ -185,7 +167,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
     setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
-    setShowModal(false);
+    deleteConfirmationModal.close();
   };
 
   const handleSubmit = async (e) => {
@@ -286,20 +268,16 @@ const CommunityProgressReportForm: React.FC<Props> = ({
           Community progress report successfully imported
         </Toast>
       )}
-      <Modal open={showModal} onClose={handleResetFormData} title="Delete">
-        <StyledContainer>
-          <p>
-            Are you sure you want to delete this community progress report and
-            all accompanying data?
-          </p>
-          <StyledFlex>
-            <Button onClick={handleDelete}>Yes, delete</Button>
-            <Button onClick={handleResetFormData} variant="secondary">
-              No, keep
-            </Button>
-          </StyledFlex>
-        </StyledContainer>
-      </Modal>
+      <ReportDeleteConfirmationModal
+        id="community-progress-report-delete-confirm-dialog"
+        onClose={() => {
+          handleResetFormData();
+          deleteConfirmationModal.close();
+        }}
+        onConfirm={handleDelete}
+        reportType="community progress"
+        {...deleteConfirmationModal}
+      />
       <StyledProjectForm
         formAnimationHeightOffset={formOffset}
         additionalContext={{
@@ -374,7 +352,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
                 communityProgressReport={node}
                 isFormEditMode={isFormEditMode}
                 onShowDeleteModal={() => {
-                  setShowModal(true);
+                  deleteConfirmationModal.open();
                   setCurrentCommunityProgressData(node);
                 }}
                 onFormEdit={() => {

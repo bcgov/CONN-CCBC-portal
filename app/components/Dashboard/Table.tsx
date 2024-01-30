@@ -4,9 +4,10 @@ import { dashboardQuery$data } from '__generated__/dashboardQuery.graphql';
 import Tooltip from '@mui/material/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import Modal from './Modal';
+import useModal from 'lib/helpers/useModal';
 import Row from './Row';
 import ArchiveModal from './ArchiveModal';
+import WithdrawModal from './WithdrawModal';
 
 const StyledFontAwesome = styled(FontAwesomeIcon)`
   margin-left: 4px; ;
@@ -45,6 +46,8 @@ const Table = ({ applications }: Props) => {
   const applicationNodes = applications.allApplications.edges
     .map((edge) => edge.node)
     .filter((node) => node !== null);
+  const withdrawModal = useModal();
+  const archiveModal = useModal();
 
   return (
     <>
@@ -74,18 +77,32 @@ const Table = ({ applications }: Props) => {
               <Row
                 application={application}
                 key={application.owner}
-                setCurrentApplication={setCurrentApplication}
-                setArchiveId={setArchiveId}
                 schema={application.formData.formByFormSchemaId.jsonSchema}
+                onWithdraw={() => {
+                  setCurrentApplication(application);
+                  withdrawModal.open();
+                }}
+                onDelete={() => {
+                  setArchiveId({
+                    rowId: application.rowId,
+                    id: application.id,
+                  });
+                  archiveModal.open();
+                }}
               />
             ) : null;
           })}
         </tbody>
       </StyledTable>
-      <ArchiveModal applications={applications} id={archiveId} />
-      <Modal
+      <ArchiveModal
+        applications={applications}
+        id={archiveId}
+        {...archiveModal}
+      />
+      <WithdrawModal
         application={currentApplication}
         setApplication={setCurrentApplication}
+        {...withdrawModal}
       />
     </>
   );

@@ -812,8 +812,8 @@ describe('The applicant dashboard', () => {
       .should('be.visible')
       .select('Fake Status');
     // When modal shows up, confirm status change
-    cy.url().should('include', '#change-status-modal');
-    cy.get('button[data-testid="withdraw-yes-btn"]')
+    cy.get('[data-testid="change-status-modal"]').should('exist');
+    cy.get('button[data-testid="status-change-save-btn"]')
       .first()
       .should('be.visible')
       .click();

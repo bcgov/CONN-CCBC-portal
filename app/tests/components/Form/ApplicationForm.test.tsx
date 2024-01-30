@@ -139,7 +139,9 @@ describe('The application form', () => {
       );
     });
 
-    expect(window.location.hash).toBe('#data-out-of-sync');
+    const modalElement = screen.getByTestId('conflict-modal');
+
+    expect(modalElement).toBeInTheDocument();
   });
 
   it('sets lastEditedPage to the next page when the user clicks on "continue"', async () => {

@@ -9,7 +9,7 @@ jest.mock('next/router', () => ({
 
 describe('Conflict Modal tests', () => {
   it('renders the modal with error header and text content', () => {
-    const { getByText } = render(<ConflictModal id="test-id" />);
+    const { getByText } = render(<ConflictModal isOpen close={jest.fn} />);
     expect(getByText('Error')).toBeInTheDocument();
     expect(
       getByText(
@@ -17,7 +17,7 @@ describe('Conflict Modal tests', () => {
       )
     ).toBeInTheDocument();
     expect(
-      getByText('Unfortunately any recent work on this page has been lost')
+      getByText(/Unfortunately any recent work on this page has been lost/)
     ).toBeInTheDocument();
   });
 
@@ -27,9 +27,21 @@ describe('Conflict Modal tests', () => {
       reload: mockReload,
     }));
 
-    const { getByText } = render(<ConflictModal id="test-id" />);
+    const { getByText } = render(<ConflictModal isOpen close={jest.fn} />);
     fireEvent.click(getByText('Refresh & Continue'));
     expect(window.location.hash).toBe('');
     expect(mockReload).toHaveBeenCalled();
+  });
+
+  it('closes the modal when close button is clicked', () => {
+    const closeModalMock = jest.fn();
+
+    const { getByTestId } = render(
+      <ConflictModal isOpen close={closeModalMock} />
+    );
+
+    fireEvent.click(getByTestId('close-button'));
+
+    expect(closeModalMock).toHaveBeenCalled();
   });
 });

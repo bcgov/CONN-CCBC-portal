@@ -3,6 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
 import { useCreateApplicationStatusMutation } from 'schema/mutations/assessment/createApplicationStatus';
+import useModal from 'lib/helpers/useModal';
 import ChangeModal from './ChangeModal';
 import ExternalChangeModal from './ExternalChangeModal';
 
@@ -118,6 +119,8 @@ const ChangeStatus: React.FC<Props> = ({
   const [draftStatus, setDraftStatus] = useState(
     getStatus(status, statusTypes)
   );
+  const internalChangeModal = useModal();
+  const externalChangeModal = useModal();
 
   const conditionalApprovalData = conditionalApproval?.jsonData;
 
@@ -159,6 +162,7 @@ const ChangeStatus: React.FC<Props> = ({
       onCompleted: () => {
         setChangeReason('');
         setCurrentStatus(draftStatus);
+        internalChangeModal.close();
       },
       updater: (store) => {
         store
@@ -193,15 +197,15 @@ const ChangeStatus: React.FC<Props> = ({
 
     if (!isExternalStatus) {
       // open modal for internal status change
-      window.location.hash = `#change-status-modal`;
+      internalChangeModal.open();
     } else if (
       // open modal for external status change
       !isAllowedExternalChange ||
       isInvalidConditionalApproval
     ) {
-      window.location.hash = `#external-change-status-modal`;
+      externalChangeModal.open();
     } else {
-      window.location.hash = `#change-status-external-modal-reason`;
+      internalChangeModal.open();
     }
   };
 
@@ -209,16 +213,21 @@ const ChangeStatus: React.FC<Props> = ({
     <>
       {isExternalStatus && (
         <ExternalChangeModal
+          {...externalChangeModal}
           applicationId={rowId}
           id="external-change-status-modal"
           isNotAllowedConditionalApproval={
             draftStatus?.name === 'conditionally_approved' &&
             !isAllowedConditionalApproval
           }
-          onCancel={() => setDraftStatus(currentStatus)}
+          onCancel={() => {
+            setDraftStatus(currentStatus);
+            externalChangeModal.close();
+          }}
         />
       )}
       <ChangeModal
+        {...internalChangeModal}
         description={
           <ModalDescription
             currentStatus={currentStatus}
@@ -234,7 +243,10 @@ const ChangeStatus: React.FC<Props> = ({
         cancelLabel="Cancel change"
         onSave={handleSave}
         value={changeReason}
-        onCancel={() => setDraftStatus(currentStatus)}
+        onCancel={() => {
+          setDraftStatus(currentStatus);
+          internalChangeModal.close();
+        }}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
           setChangeReason(e.target.value)
         }

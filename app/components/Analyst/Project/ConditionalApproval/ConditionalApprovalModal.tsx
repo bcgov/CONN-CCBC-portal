@@ -1,25 +1,12 @@
-import Button from '@button-inc/bcgov-theme/Button';
-import Modal from '@button-inc/bcgov-theme/Modal';
 import styled from 'styled-components';
 import formatStatus from 'utils/formatStatus';
 import { useSubmitConditionalApprovalMutation } from 'schema/mutations/project/submitConditionalApproval';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'components/Modal';
 import StyledStatus from './StyledStatus';
 
-const StyledModal = styled(Modal)`
-  display: flex;
-  align-items: center;
-  z-index: 999999;
-`;
-
-const ModalButtons = styled('div')`
-  & button {
-    margin-right: 1em;
-  }
-`;
-
-const StyledContent = styled(Modal.Content)`
+const StyledContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,15 +23,9 @@ const StyledFlex = styled.div`
   }
 `;
 
-const StyledHeader = styled(Modal.Header)`
-  padding: 16px;
-
-  & h2 {
-    margin: 0;
-  }
-`;
-
 interface Props {
+  isOpen: boolean;
+  close: Function;
   applicationStoreId: string;
   rowId: number;
   formData: any;
@@ -57,6 +38,8 @@ interface Props {
 
 const ConditionalApprovalModal: React.FC<Props> = ({
   applicationStoreId,
+  isOpen,
+  close,
   rowId,
   formData,
   newFormStatus,
@@ -79,6 +62,7 @@ const ConditionalApprovalModal: React.FC<Props> = ({
       onCompleted: () => {
         setOldFormData();
         setIsFormEditMode();
+        close();
       },
       updater: (store, data) => {
         store
@@ -95,10 +79,29 @@ const ConditionalApprovalModal: React.FC<Props> = ({
   };
 
   return (
-    <StyledModal id="conditional-approval-modal">
-      <StyledHeader>
-        <h2>Applicant Status</h2>
-      </StyledHeader>
+    <Modal
+      id="conditional-approval-modal"
+      open={isOpen}
+      onClose={close}
+      title="Applicant Status"
+      actions={[
+        {
+          id: 'conditional-approval-modal-save-btn',
+          label: 'Yes, change it',
+          onClick: handleSave,
+        },
+        {
+          id: 'conditional-approval-modal-cancel-btn',
+          label: 'No',
+          variant: 'secondary',
+          onClick: () => {
+            resetFormData();
+            setIsFormEditMode();
+            close();
+          },
+        },
+      ]}
+    >
       <StyledContent>
         <p>
           This will change what the <b>Applicant</b> sees from
@@ -122,25 +125,8 @@ const ConditionalApprovalModal: React.FC<Props> = ({
           Would you like to change the applicant&apos;s status and save your
           responses?
         </p>
-        <ModalButtons>
-          <Modal.Close>
-            <Button onClick={handleSave}>Yes, change it</Button>
-          </Modal.Close>
-          <Modal.Close>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                resetFormData();
-                setIsFormEditMode();
-                window.history.replaceState(null, null, ' ');
-              }}
-            >
-              No
-            </Button>
-          </Modal.Close>
-        </ModalButtons>
       </StyledContent>
-    </StyledModal>
+    </Modal>
   );
 };
 

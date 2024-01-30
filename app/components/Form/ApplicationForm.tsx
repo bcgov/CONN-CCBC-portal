@@ -19,6 +19,7 @@ import ReviewField from 'components/Review/ReviewPageField';
 import { useFeature } from '@growthbook/growthbook-react';
 import { applicantBenefits as applicantBenefitsSchema } from 'formSchema/pages';
 import { applicantBenefits } from 'formSchema/uiSchema/pages';
+import useModal from 'lib/helpers/useModal';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
 import {
@@ -259,7 +260,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const [savingError, setSavingError] = useState(null);
   const [savedAsDraft, setSavedAsDraft] = useState(false);
-  const [projectAreaModalOpen, setProjectAreaModalOpen] = useState(false);
+  const projectAreaModal = useModal();
 
   const [isProjectAreaSelected, setProjectAreaSelected] = useState(
     jsonData?.projectArea?.geographicArea?.length > 0
@@ -279,6 +280,7 @@ const ApplicationForm: React.FC<Props> = ({
     jsonData?.review?.acknowledgeIncomplete || false
   );
   const [templateData, setTemplateData] = useState(null);
+  const conflictModal = useModal();
 
   const formContext = useMemo(() => {
     const intakeCloseTimestamp =
@@ -466,10 +468,12 @@ const ApplicationForm: React.FC<Props> = ({
       } else if (!isSubmitted && !projectAreaAccepted) {
         setProjectAreaModalType('pre-submitted');
       }
-      setProjectAreaModalOpen(
+      if (
         !projectAreaAccepted &&
-          (geographicAreaInputChanged || firstNationsLedInputChanged)
-      );
+        (geographicAreaInputChanged || firstNationsLedInputChanged)
+      ) {
+        projectAreaModal.open();
+      }
 
       // Setting below properties to handle validation errors separately in submission page
       // Setting if user has selected a project area
@@ -552,7 +556,7 @@ const ApplicationForm: React.FC<Props> = ({
       debounceKey: formDataId,
       onError: (error) => {
         if (error.message.includes('Data is Out of Sync')) {
-          window.location.hash = 'data-out-of-sync';
+          conflictModal.open();
         }
         setSavingError(
           <>
@@ -649,10 +653,9 @@ const ApplicationForm: React.FC<Props> = ({
           status={status}
         />
       </FormBase>
-      <ConflictModal id="data-out-of-sync" />
+      <ConflictModal {...conflictModal} />
       <ProjectAreaModal
-        projectAreaModalOpen={projectAreaModalOpen}
-        setProjectAreaModalOpen={setProjectAreaModalOpen}
+        {...projectAreaModal}
         projectAreaModalType={projectAreaModalType}
       />
     </>

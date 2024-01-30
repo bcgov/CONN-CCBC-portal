@@ -41,16 +41,9 @@ const StyledWithdraw = styled.button`
   color: #d8292f;
 `;
 
-const Row = ({ application, setCurrentApplication, setArchiveId, schema }) => {
-  const {
-    ccbcNumber,
-    intakeByIntakeId,
-    formData,
-    projectName,
-    rowId,
-    status,
-    id,
-  } = application;
+const Row = ({ application, onWithdraw, onDelete, schema }) => {
+  const { ccbcNumber, intakeByIntakeId, formData, projectName, rowId, status } =
+    application;
 
   const uiOrder = getFilteredSchemaOrderFromUiSchema(schema, uiSchema);
   const lastEditedIndex = uiOrder.indexOf(formData.lastEditedPage) + 1;
@@ -105,11 +98,7 @@ const Row = ({ application, setCurrentApplication, setArchiveId, schema }) => {
           <Link href={getApplicationUrl()}>{isEditable ? 'Edit' : 'View'}</Link>
           {isWithdrawable && (
             <StyledWithdraw
-              onClick={() => {
-                setCurrentApplication(application);
-                window.history.replaceState(null, null, ' ');
-                window.location.hash = 'withdraw-modal';
-              }}
+              onClick={onWithdraw}
               data-testid="withdraw-btn-test"
               type="button"
             >
@@ -118,10 +107,7 @@ const Row = ({ application, setCurrentApplication, setArchiveId, schema }) => {
           )}
           {!ccbcNumber && isDraft && (
             <StyledButtonLink
-              onClick={() => {
-                setArchiveId({ rowId, id });
-                window.location.hash = 'delete-application';
-              }}
+              onClick={onDelete}
               data-testid="archive-btn-test"
               type="button"
             >

@@ -1,5 +1,4 @@
 import Modal from 'components/Modal';
-import Button from '@button-inc/bcgov-theme/Button';
 import styled from 'styled-components';
 import { useFeature } from '@growthbook/growthbook-react';
 
@@ -13,11 +12,7 @@ function getModalText(intakeZones, modalType) {
   return `For this intake, CCBC is considering projects that are in Zones ${intakeZones} if the project is not First Nations-led or First Nations-supported.`;
 }
 
-const ProjectAreaModal = ({
-  setProjectAreaModalOpen,
-  projectAreaModalOpen,
-  projectAreaModalType,
-}) => {
+const ProjectAreaModal = ({ isOpen, close, projectAreaModalType }) => {
   // necessary to use? not sure
   const acceptedIntakeZonesString = useFeature('intake_zones');
   const acceptedIntakeZonesArray: string[] = acceptedIntakeZonesString.value
@@ -30,29 +25,21 @@ const ProjectAreaModal = ({
   }
   const StyledContainer = styled.div`
     text-align: center;
-    max-width: 400px;
-
-    p {
-      margin-top: 16px;
-    }
-  `;
-
-  const StyledFlex = styled.div`
-    display: flex;
-    justify-content: center;
-
-    button:first-child {
-      margin-right: 16px;
-    }
   `;
   return (
     <Modal
       id="project-area-warning"
-      open={projectAreaModalOpen}
+      open={isOpen}
       title="Zone Alert"
-      onClose={() => {
-        setProjectAreaModalOpen(false);
-      }}
+      size="sm"
+      onClose={close}
+      actions={[
+        {
+          id: 'project-modal-ok',
+          label: 'Ok',
+          onClick: close,
+        },
+      ]}
     >
       <StyledContainer>
         <p>
@@ -61,14 +48,6 @@ const ProjectAreaModal = ({
             projectAreaModalType
           )}
         </p>
-        <StyledFlex>
-          <Button
-            data-testid="project-modal-ok"
-            onClick={() => setProjectAreaModalOpen(false)}
-          >
-            Ok
-          </Button>
-        </StyledFlex>
       </StyledContainer>
     </Modal>
   );

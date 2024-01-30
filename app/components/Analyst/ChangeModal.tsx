@@ -1,18 +1,5 @@
-import Button from '@button-inc/bcgov-theme/Button';
-import Modal from '@button-inc/bcgov-theme/Modal';
+import Modal from 'components/Modal';
 import styled from 'styled-components';
-
-const StyledModal = styled(Modal)`
-  display: flex;
-  align-items: center;
-  z-index: 2;
-`;
-
-const ModalButtons = styled('div')`
-  & button {
-    margin-right: 1em;
-  }
-`;
 
 const StyledTextArea = styled.textarea`
   width: 100%;
@@ -24,6 +11,7 @@ const StyledTextArea = styled.textarea`
 `;
 
 interface Props {
+  isOpen: boolean;
   cancelLabel?: string;
   description?: string | React.ReactNode;
   id?: string;
@@ -37,6 +25,7 @@ interface Props {
 }
 
 const ChangeModal: React.FC<Props> = ({
+  isOpen,
   cancelLabel = 'Cancel',
   description = 'Please provide a reason for the change.',
   id = 'change-modal',
@@ -45,35 +34,36 @@ const ChangeModal: React.FC<Props> = ({
   onChange,
   onSave,
   saveLabel = 'Save',
-  title = 'Reason for change',
   value,
 }) => {
   return (
-    <StyledModal id={id}>
-      <Modal.Header>{title}</Modal.Header>
-      <Modal.Content>
-        <div>{description} </div>
-        <StyledTextArea
-          maxLength={maxLength}
-          onChange={(e) => onChange(e)}
-          value={value}
-          data-testid="reason-for-change"
-        />
-        <ModalButtons>
-          <Modal.Close>
-            <Button onClick={() => onSave()} data-testid="withdraw-yes-btn">
-              {saveLabel}
-            </Button>
-          </Modal.Close>
-
-          <Modal.Close>
-            <Button variant="secondary" onClick={() => onCancel()}>
-              {cancelLabel}
-            </Button>
-          </Modal.Close>
-        </ModalButtons>
-      </Modal.Content>
-    </StyledModal>
+    <Modal
+      id={id}
+      open={isOpen}
+      onClose={onCancel}
+      title="Reason for change"
+      actions={[
+        {
+          id: 'status-change-save-btn',
+          label: saveLabel,
+          onClick: () => onSave(),
+        },
+        {
+          id: 'status-change-cancel-btn',
+          label: cancelLabel,
+          onClick: () => onCancel(),
+          variant: 'secondary',
+        },
+      ]}
+    >
+      <div>{description} </div>
+      <StyledTextArea
+        maxLength={maxLength}
+        onChange={(e) => onChange(e)}
+        value={value}
+        data-testid="reason-for-change"
+      />
+    </Modal>
   );
 };
 
