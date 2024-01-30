@@ -91,16 +91,14 @@ const AnnouncementDeleteModal = ({
         },
       ]}
     >
-      <p>
-        {isMultiProject ? (
-          <p>
-            Would you like to delete this announcement from all projects that
-            are linked or remove it from just this project?
-          </p>
-        ) : (
-          <p>Are you sure you want to delete this announcement?</p>
-        )}
-      </p>
+      {isMultiProject ? (
+        <p>
+          Would you like to delete this announcement from all projects that are
+          linked or remove it from just this project?
+        </p>
+      ) : (
+        <p>Are you sure you want to delete this announcement?</p>
+      )}
     </Modal>
   );
 };
