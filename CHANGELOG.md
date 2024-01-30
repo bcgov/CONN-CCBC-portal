@@ -1,3 +1,5 @@
+## [1.138.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.138.0...v1.138.1) (2024-01-30)
+
 # [1.138.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.137.0...v1.138.0) (2024-01-30)
 
 ### Bug Fixes
