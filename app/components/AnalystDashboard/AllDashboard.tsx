@@ -29,12 +29,12 @@ type Application = {
 };
 
 export const filterNumber = (row, id, filterValue) => {
-  const numericProperty = row.getValue(id) as number;
+  const numericProperty = Number(row.getValue(id));
 
   if (!numericProperty) {
     return false;
   }
-  return numericProperty === filterValue;
+  return numericProperty === Number(filterValue);
 };
 
 const StyledLink = styled(Link)`
