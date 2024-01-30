@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 const StyledButton = styled(Button)`
   padding: 8px 0 0 0;
-  margin-top: 1;
   &:hover {
     background-color: transparent;
   }
