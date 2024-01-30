@@ -1,3 +1,9 @@
+## [1.138.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.138.0...v1.138.1) (2024-01-30)
+
+### Bug Fixes
+
+- cast input and cell data as numbers ([3f8148b](https://github.com/bcgov/CONN-CCBC-portal/commit/3f8148bbd0ddfa9da4bc55cf6da062e8ab324951))
+
 # [1.138.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.137.0...v1.138.0) (2024-01-30)
 
 ### Bug Fixes
