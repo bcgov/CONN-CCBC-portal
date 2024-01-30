@@ -31,7 +31,7 @@ type Application = {
   analystStatus: string;
   externalStatus: string;
   analystLead?: string;
-  zones: number[];
+  zones: readonly number[];
 };
 
 export const filterNumber = (row, id, filterValue) => {
@@ -292,7 +292,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
     const uniqueZones = [
       ...new Set(allApplications.edges.flatMap((edge) => edge.node.zones)),
-    ].sort((a, b) => a - b);
+    ]
+      .map((zone) => zone.toString())
+      .sort((a, b) => Number(a) - Number(b));
 
     const analystStatuses = [
       ...new Set(
