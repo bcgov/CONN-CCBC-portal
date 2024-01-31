@@ -58,6 +58,14 @@ describe('The Header Banner component', () => {
     );
   });
 
+  test('does not display environment indicator content for prod environment', () => {
+    mockOpenshiftNamespace.mockImplementationOnce(() => 'environment-prod');
+    renderStaticLayout(true);
+    expect(
+      screen.queryByText(/Connected Communities BC portal/)
+    ).not.toBeInTheDocument();
+  });
+
   test('displays correct environment indicator content for test environment', () => {
     mockOpenshiftNamespace.mockImplementationOnce(() => 'environment-test');
     renderStaticLayout(true);

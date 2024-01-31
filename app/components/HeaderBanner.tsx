@@ -50,9 +50,11 @@ const HeaderBanner: React.FC<Props> = ({
   const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
   const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const isTest = namespace?.endsWith('-test');
+  const isProd = namespace?.endsWith('-prod');
   return (
     <>
-      {environmentIndicator && (
+      {/* Shows the environment banner only in test and dev */}
+      {environmentIndicator && !isProd && (
         <StyledBaseHeaderBanner header="sub">
           <StyledDiv>
             Connected Communities BC portal{' '}
