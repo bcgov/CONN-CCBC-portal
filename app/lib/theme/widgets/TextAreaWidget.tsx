@@ -2,6 +2,7 @@ import { WidgetProps } from '@rjsf/core';
 import Textarea from '@button-inc/bcgov-theme/Textarea';
 import styled from 'styled-components';
 import Label from 'components/Form/Label';
+import { useState } from 'react';
 
 const INPUT_MAX_LENGTH = 32000;
 
@@ -35,8 +36,19 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
   required,
   uiSchema,
 }) => {
-  const maxLength = uiSchema['ui:options']?.maxLength;
+  const maxLength = uiSchema['ui:options']?.maxLength || INPUT_MAX_LENGTH;
   const help = uiSchema['ui:help'];
+  const showCharacterCount = uiSchema['ui:options']?.showCharacterCount || true;
+
+  const [characterCount, setCharacterCount] = useState(
+    value ? value.length : 0
+  );
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const inputValue = e.target.value;
+    onChange(inputValue || undefined);
+    setCharacterCount(inputValue.length);
+  };
 
   return (
     <StyledDiv className="textarea-widget">
@@ -44,17 +56,23 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         id={id}
         data-testid={id}
         disabled={disabled}
-        onChange={(e: { target: { value: string } }) =>
-          onChange(e.target.value || undefined)
-        }
+        onChange={handleInputChange}
         placeholder={placeholder}
         value={value || ''}
         size="medium"
         resize="vertical"
         required={required}
         aria-label={label}
-        maxLength={maxLength || INPUT_MAX_LENGTH}
+        maxLength={maxLength}
       />
+
+      {showCharacterCount && (
+        <Label>
+          {parseInt(String(maxLength), 10) - characterCount} characters
+          remaining
+        </Label>
+      )}
+      <br />
       {help && <Label>{help}</Label>}
     </StyledDiv>
   );

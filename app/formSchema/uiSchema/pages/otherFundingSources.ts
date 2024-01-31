@@ -56,7 +56,6 @@ const otherFundingSources = {
   otherFundingSourcesArray: {
     items: {
       fundingSourceContactInfo: {
-        'ui:help': 'maximum 250 characters',
         'ui:options': {
           maxLength: 250,
         },
