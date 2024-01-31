@@ -23,6 +23,8 @@ const StyledTextArea = styled(Textarea)`
 `;
 
 const StyledDiv = styled('div')`
+  display: flex;
+  flex-direction: column;
   margin-bottom: 16px !important;
 `;
 
@@ -36,9 +38,10 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
   required,
   uiSchema,
 }) => {
-  const maxLength = uiSchema['ui:options']?.maxLength || INPUT_MAX_LENGTH;
+  const maxLength =
+    parseInt(String(uiSchema['ui:options']?.maxLength), 10) || INPUT_MAX_LENGTH;
   const help = uiSchema['ui:help'];
-  const showCharacterCount = uiSchema['ui:options']?.showCharacterCount || true;
+  const showCharacterCount = uiSchema['ui:options']?.showCharacterCount ?? true;
 
   const [characterCount, setCharacterCount] = useState(
     value ? value.length : 0
@@ -67,12 +70,8 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
       />
 
       {showCharacterCount && (
-        <Label>
-          {parseInt(String(maxLength), 10) - characterCount} characters
-          remaining
-        </Label>
+        <Label>{maxLength - characterCount} characters remaining</Label>
       )}
-      <br />
       {help && <Label>{help}</Label>}
     </StyledDiv>
   );
