@@ -3,15 +3,6 @@ import {
   MRT_ColumnFiltersState,
   MRT_TableInstance,
 } from 'material-react-table';
-import styled from 'styled-components';
-
-const StyledButton = styled(Button)`
-  padding: 8px 0 0 0;
-  &:hover {
-    background-color: transparent;
-  }
-  text-transform: none;
-`;
 
 interface Props {
   table: MRT_TableInstance<any>;
@@ -22,14 +13,22 @@ const ClearFilters: React.FC<Props> = ({ table, filters }) => {
   const clearFilters = () => table.resetColumnFilters();
 
   return (
-    <StyledButton
+    <Button
       disabled={filters.length < 1}
       variant="text"
       onClick={clearFilters}
       data-testid="clear-filter-button"
+      sx={{
+        padding: 0,
+        marginTop: '8px',
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+        textTransform: 'none',
+      }}
     >
       Clear Filtering
-    </StyledButton>
+    </Button>
   );
 };
 
