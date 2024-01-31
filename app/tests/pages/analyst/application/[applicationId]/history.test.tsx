@@ -3138,7 +3138,7 @@ describe('The index page', () => {
 
     const claimHistoryFile = screen.getAllByTestId(
       'history-content-claims-file'
-    )[0];
+    )[1];
 
     expect(claimHistoryFile).toHaveTextContent(
       /Uploaded Claims & Progress Report Excel/
@@ -3195,7 +3195,7 @@ describe('The index page', () => {
 
     const claimHistoryFile = screen.getAllByTestId(
       'history-content-milestone-evidence-file'
-    )[0];
+    )[1];
 
     expect(claimHistoryFile).toHaveTextContent(
       'Uploaded Milestone Completion Evidence'
