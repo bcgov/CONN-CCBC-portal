@@ -8,10 +8,17 @@ import { IDP_HINTS, IDP_HINT_PARAM } from 'data/ssoConstants';
 import { useFeature } from '@growthbook/growthbook-react';
 import SubHeader from './SubHeader';
 import NavLoginForm from './NavLoginForm';
+import HeaderBanner from './HeaderBanner';
 
 const StyledMainTitle = styled(BaseHeader.Item)`
   font-weight: normal;
   margin-top: 10px;
+`;
+
+const StyledBaseNavigation = styled(BaseNavigation)`
+  position: sticky;
+  z-index: 1;
+  top: 0px;
 `;
 
 const StyledRightSideLinks = styled(BaseHeader.Group)`
@@ -50,6 +57,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const isApplicantPortal = router?.pathname.startsWith('/applicantportal');
   const useCustomLogin = useFeature('use_custom_login').value;
   const useDirectIdir = useFeature('use_direct_idir').value;
+  const { value: banner } = useFeature('header-banner');
 
   let action;
   if (useCustomLogin) {
@@ -65,7 +73,14 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   }
 
   return (
-    <BaseNavigation>
+    <StyledBaseNavigation>
+      {banner && (
+        <HeaderBanner
+          type={banner.type}
+          message={banner.message}
+          environmentIndicator={banner['environment-indicator']}
+        />
+      )}
       <StyledBaseHeader>
         <StyledDiv>
           <BaseHeader.Group className="banner">
@@ -104,7 +119,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
         </StyledDiv>
       </StyledBaseHeader>
       {isApplicantPortal && <SubHeader />}
-    </BaseNavigation>
+    </StyledBaseNavigation>
   );
 };
 
