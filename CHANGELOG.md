@@ -1,3 +1,14 @@
+# [1.139.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.138.2...v1.139.0) (2024-02-01)
+
+### Bug Fixes
+
+- add a failsafe to prod environment for header banner ([321e504](https://github.com/bcgov/CONN-CCBC-portal/commit/321e5046294c6f48ea5b6d28ea57155194e2c8b1))
+
+### Features
+
+- add a banner to indicate environment to test and dev ([904f61a](https://github.com/bcgov/CONN-CCBC-portal/commit/904f61aa7b35bbb15a574e32c22048cf8bf41669))
+- add clear filter button ([1fbddbc](https://github.com/bcgov/CONN-CCBC-portal/commit/1fbddbcfe142c6dba8267a087e60090f67c39dcb))
+
 ## [1.138.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.138.1...v1.138.2) (2024-02-01)
 
 ### Bug Fixes
