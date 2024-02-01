@@ -30,6 +30,7 @@ const HistoryFile = ({
 }) => {
   const filesDiff = diff(previousFileArray || [], filesArray || [], {
     keepUnchangedValues: true,
+    full: true,
   });
   return filesDiff ? (
     <StyledTable>

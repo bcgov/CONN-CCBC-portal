@@ -1,3 +1,9 @@
+## [1.138.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.138.1...v1.138.2) (2024-02-01)
+
+### Bug Fixes
+
+- use 'full' option to include unchanged value ([957e389](https://github.com/bcgov/CONN-CCBC-portal/commit/957e389177a1380f623ddb2699515467f31eb382))
+
 ## [1.138.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.138.0...v1.138.1) (2024-01-30)
 
 ### Bug Fixes
