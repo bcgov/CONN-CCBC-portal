@@ -19,6 +19,7 @@ export const theme = {
     components: '#606060',
     error: '#D8292F',
     errorBackground: 'rgba(248, 214, 203, 0.4)',
+    warnBackground: 'rgb(227 168 43)',
     links: '#1A5A96',
     primaryBlue: '#113362',
     primaryYellow: '#FCBA19',
@@ -31,6 +32,7 @@ export const theme = {
     stepperBlue: 'rgb(229, 239, 249)',
     disabledGrey: '#939393',
     placeholder: '#cccccc',
+    backgroundMagenta: '#b200ff',
   },
   spacing: {
     small: '8px',
