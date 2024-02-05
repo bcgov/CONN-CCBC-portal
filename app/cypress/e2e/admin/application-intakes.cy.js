@@ -18,6 +18,7 @@ describe('The admin Application intakes page', () => {
   it('Create intake start date and end date must be provided', () => {
     cy.visit('/analyst/admin/application-intakes');
     cy.contains('h2', 'Application Intakes');
+    cy.wait('@graphql');
     cy.contains('button', /Add intake/).click();
     cy.contains('button', /Save/).scrollIntoView().click();
     cy.contains('Start date & time must be entered');
@@ -27,6 +28,7 @@ describe('The admin Application intakes page', () => {
   it('Create intake start date and end date must be after current date and time', () => {
     cy.visit('/analyst/admin/application-intakes');
     cy.contains('h2', 'Application Intakes');
+    cy.wait('@graphql');
     cy.contains('button', /Add intake/).click();
     cy.get('input[id="root_startDate"]').type('2024-02-01 00:00 AM');
     cy.get('input[id="root_endDate"]').type('2024-01-30 00:00 AM');
@@ -56,6 +58,7 @@ describe('The admin Application intakes page', () => {
     const currentDateFormatted = dayjs().format('YYYY-MM-DD HH:mm A');
     cy.visit('/analyst/admin/application-intakes');
     cy.contains('h2', 'Application Intakes');
+    cy.wait('@graphql');
     cy.get('[data-testid="edit-intake"]').first().click();
     cy.get('input[id="root_startDate"]').type(currentDateFormatted);
     cy.contains('Start date & time must not overlap with the previous intake');
@@ -67,6 +70,7 @@ describe('The admin Application intakes page', () => {
       .format('YYYY-MM-DD HH:mm A');
     cy.visit('/analyst/admin/application-intakes');
     cy.contains('h2', 'Application Intakes');
+    cy.wait('@graphql');
     cy.get('[data-testid="edit-intake"]').eq(1).scrollIntoView().click();
     cy.get('input[id="root_endDate"]').type(nextMonthDateFormatted);
     cy.contains('End date & time must not overlap with the next intake');
@@ -75,6 +79,7 @@ describe('The admin Application intakes page', () => {
   it('Update Intake', () => {
     cy.visit('/analyst/admin/application-intakes');
     cy.contains('h2', 'Application Intakes');
+    cy.wait('@graphql');
     cy.get('[data-testid="edit-intake"]').first().scrollIntoView().click();
     cy.get('input[id="root_description"]').type(' Edited');
     cy.contains('button', /^Save$/).click();
