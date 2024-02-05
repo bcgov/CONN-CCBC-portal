@@ -21,11 +21,9 @@ describe('The index page', () => {
 
   it('displays the title', async () => {
     expect(
-      screen.getByText(/404 - the requested resource cannot be found/)
+      screen.getByText(/Sorry, requested resource cannot be found/)
     ).toBeVisible();
-    expect(
-      screen.getByText(/Please check the request and try again/)
-    ).toBeVisible();
+    expect(screen.getByText(/404 - Not Found/)).toBeVisible();
   });
 
   it('displays the return Home link', async () => {
