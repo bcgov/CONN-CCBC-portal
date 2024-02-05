@@ -18,6 +18,7 @@ import AssignLead from 'components/Analyst/AssignLead';
 import StatusPill from 'components/StatusPill';
 import statusStyles from 'data/statusStyles';
 import Link from 'next/link';
+import ClearFilters from 'components/Table/ClearFilters';
 
 type Application = {
   ccbcNumber: string;
@@ -350,6 +351,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     filterFns: {
       filterNumber,
     },
+    renderTopToolbarCustomActions: () => (
+      <ClearFilters table={table} filters={table.getState().columnFilters} />
+    ),
   });
 
   const visibleRowCount = table.getRowModel().rows?.length ?? 0;

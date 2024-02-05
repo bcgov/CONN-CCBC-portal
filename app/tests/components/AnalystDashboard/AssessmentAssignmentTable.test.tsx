@@ -428,6 +428,20 @@ describe('The AssessmentAssignmentTable component', () => {
 
     expect(analystAfterFilter).toBeFalsy();
   });
+
+  it('should clear filters when clear filter clicked', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.queryByText('CCBC-010001')).not.toBeInTheDocument();
+
+    const clearFilterButton = screen.getByTestId('clear-filter-button');
+    await act(async () => {
+      fireEvent.click(clearFilterButton);
+    });
+
+    expect(screen.queryByText('CCBC-010001')).toBeInTheDocument();
+  });
 });
 
 describe('The filterAnalysts function', () => {
