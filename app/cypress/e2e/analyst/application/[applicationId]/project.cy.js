@@ -29,14 +29,10 @@ describe('The analyst application view', () => {
       }
     ).as('milestone-validate');
 
-    cy.intercept(
-      'POST',
-      '/api/analyst/claims/1/CCBC-010001/*/*/?validate=true',
-      {
-        statusCode: 200,
-        body: {},
-      }
-    ).as('claims-validate');
+    cy.intercept('POST', '/api/analyst/claims/1/CCBC-010001/*/*/?validate=*', {
+      statusCode: 200,
+      body: {},
+    }).as('claims-validate');
   });
 
   // We should be able to clean up a lot of these cy.wait() calls (especially the datepicker ones) once we upgrade to cypress 12.
@@ -112,6 +108,7 @@ describe('The analyst application view', () => {
 
     // Open accordion
     cy.get('[data-testid=accordion-icon]').parent().eq(1).click();
+    cy.get('body').click();
 
     cy.get('button').contains('Add announcement').click();
 
