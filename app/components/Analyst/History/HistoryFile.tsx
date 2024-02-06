@@ -32,7 +32,7 @@ const HistoryFile = ({
     keepUnchangedValues: true,
     full: true,
   });
-  return filesDiff ? (
+  return filesDiff && filesDiff?.length > 0 ? (
     <StyledTable>
       <thead style={{ borderBottom: '2px solid #CCC' }}>
         {tableTitle && (
@@ -83,13 +83,13 @@ const HistoryFile = ({
                           <del>
                             <DownloadLink
                               uuid={file[1].uuid.__old}
-                              fileName={file[1].name.__old}
+                              fileName={file[1].name.__old || file[1].name}
                             />
                           </del>{' '}
                           with file{' '}
                           <DownloadLink
                             uuid={file[1].uuid.__new}
-                            fileName={file[1].name.__new}
+                            fileName={file[1].name.__new || file[1].name}
                           />
                         </div>
                       );
