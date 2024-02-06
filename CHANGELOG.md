@@ -1,3 +1,15 @@
+# [1.140.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.139.0...v1.140.0) (2024-02-06)
+
+### Bug Fixes
+
+- change z-index navigation ([552699b](https://github.com/bcgov/CONN-CCBC-portal/commit/552699b92692ce056004e75fb8357dcbf0e26633))
+- ignore rules zap ([8aa7144](https://github.com/bcgov/CONN-CCBC-portal/commit/8aa7144a485a3561658287e45f78b7dfdfa98432))
+- indent on rules zap ([1c30eb0](https://github.com/bcgov/CONN-CCBC-portal/commit/1c30eb01f5b691569b087df903d693e361f37cbf))
+
+### Features
+
+- add a custom 404 page ([3173c31](https://github.com/bcgov/CONN-CCBC-portal/commit/3173c315cadca8a732ba2840f547585006486f2b))
+
 # [1.139.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.138.2...v1.139.0) (2024-02-05)
 
 ### Bug Fixes
