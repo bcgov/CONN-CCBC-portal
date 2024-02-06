@@ -17,7 +17,7 @@ const StyledMainTitle = styled(BaseHeader.Item)`
 
 const StyledBaseNavigation = styled(BaseNavigation)`
   position: sticky;
-  z-index: 1;
+  z-index: 999;
   top: 0px;
 `;
 
