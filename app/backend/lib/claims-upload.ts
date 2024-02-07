@@ -77,10 +77,7 @@ const processClaims: ExpressMiddleware = async (req, res) => {
 claimsUpload.post(
   '/api/analyst/claims/:applicationId/:ccbcNumber/:claimsId/:excelDataId',
   limiter,
-  (req, res) => {
-    // eslint-disable-next-line no-void
-    void (() => processClaims(req, res, null))();
-  }
+  processClaims
 );
 
 export const config = {
