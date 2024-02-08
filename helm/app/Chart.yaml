@@ -25,5 +25,5 @@ appVersion: '1.16.0'
 
 dependencies:
   - name: crunchy-postgres
-    version: add-s3-backup
+    version: '>=34bc533d715d16e977b813b14d5f27ab1c4e27db'
     repository: https://bcgov.github.io/crunchy-postgres/
