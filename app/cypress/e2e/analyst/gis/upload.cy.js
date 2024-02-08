@@ -54,7 +54,7 @@ describe('GIS Upload', () => {
     cy.contains(/GIS_PERCENT_OVERBUILD must be number/);
   });
 
-  it('upload invalid json - not an array', () => {
+  it('upload invalid json wrong format', () => {
     cy.visit('/analyst/dashboard');
     cy.wait('@get-features');
     cy.contains('a', 'GIS').click();
@@ -70,7 +70,7 @@ describe('GIS Upload', () => {
     cy.contains(/must be array at line 1/);
   });
 
-  it('upload invalid json - empty values', () => {
+  it('upload invalid json with empty values', () => {
     cy.visit('/analyst/dashboard');
     cy.wait('@get-features');
     cy.contains('a', 'GIS').click();

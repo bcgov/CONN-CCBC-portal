@@ -8,7 +8,7 @@ const gisSetup = () => {
   cy.sqlFixture('e2e/001_application');
   cy.sqlFixture('e2e/001_application_received');
   cy.intercept('POST', '/graphql').as('graphql');
-  cy.intercept('GET', 'https://cdn.growthbook.io/api/features/*', {
+  cy.intercept('GET', '*/features/*', {
     status: 200,
     features: {
       show_gis_upload: {
