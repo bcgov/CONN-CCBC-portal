@@ -1,0 +1,14 @@
+[
+  {
+    "ccbc_number": "CCBC-010001",
+    "GIS_TOTAL_HH": 20,
+    "GIS_TOTAL_INDIG_HH": 20,
+    "GIS_PERCENT_OVERLAP": 0,
+    "number_of_households": 61,
+    "GIS_PERCENT_OVERBUILD": 0,
+    "GIS_TOTAL_ELIGIBLE_HH": 30,
+    "GIS_TOTAL_INELIGIBLE_HH": 1,
+    "GIS_TOTAL_ELIGIBLE_INDIG_HH": 40,
+    "households_impacted_indigenous": 52
+  }
+]
