@@ -46,8 +46,8 @@ describe('GIS Upload', () => {
     cy.wait('@graphql');
     cy.get('[data-testid=file-test]')
       .first()
-      .selectFile('cypress/fixtures/gis_invalid.json', { force: true });
-    cy.contains('gis_invalid.json');
+      .selectFile('./tests/backend/lib/gis-data-errors.json', { force: true });
+    cy.contains('gis-data-errors.json');
     cy.contains('button', 'Continue').click();
     cy.contains(/Error uploading JSON file/);
     cy.contains(/GIS_TOTAL_HH must be number/);
@@ -63,10 +63,28 @@ describe('GIS Upload', () => {
     cy.wait('@graphql');
     cy.get('[data-testid=file-test]')
       .first()
-      .selectFile('cypress/fixtures/gis_invalid_2.json', { force: true });
-    cy.contains('gis_invalid_2.json');
+      .selectFile('./tests/backend/lib/gis-data-400a.json', { force: true });
+    cy.contains('gis-data-400a.json');
     cy.contains('button', 'Continue').click();
     cy.contains(/Error uploading JSON file/);
     cy.contains(/must be array at line 1/);
+  });
+
+  it('upload invalid json - empty values', () => {
+    cy.visit('/analyst/dashboard');
+    cy.wait('@get-features');
+    cy.contains('a', 'GIS').click();
+    cy.url().should('include', '/analyst/gis');
+    cy.contains('h2', 'GIS Input');
+    cy.wait('@graphql');
+    cy.get('[data-testid=file-test]')
+      .first()
+      .selectFile('./tests/backend/lib/gis-data-400b.json', { force: true });
+    cy.contains('gis-data-400b.json');
+    cy.contains('button', 'Continue').click();
+    cy.contains(/Error uploading JSON file/);
+    cy.contains(/Value expected at line 2/);
+    cy.contains(/Expected comma at line 5/);
+    cy.contains(/Value expected at line 10/);
   });
 });
