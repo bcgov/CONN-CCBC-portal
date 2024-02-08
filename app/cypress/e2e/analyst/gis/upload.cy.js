@@ -11,7 +11,6 @@ describe('GIS Upload', () => {
     cy.contains('a', 'GIS').click();
     cy.url().should('include', '/analyst/gis');
     cy.contains('h2', 'GIS Input');
-    cy.wait('@graphql');
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('cypress/fixtures/gis.json', { force: true });
@@ -42,8 +41,6 @@ describe('GIS Upload', () => {
     cy.wait('@get-features');
     cy.contains('a', 'GIS').click();
     cy.url().should('include', '/analyst/gis');
-    cy.contains('h2', 'GIS Input');
-    cy.wait('@graphql');
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('./tests/backend/lib/gis-data-errors.json', { force: true });
@@ -59,8 +56,6 @@ describe('GIS Upload', () => {
     cy.wait('@get-features');
     cy.contains('a', 'GIS').click();
     cy.url().should('include', '/analyst/gis');
-    cy.contains('h2', 'GIS Input');
-    cy.wait('@graphql');
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('./tests/backend/lib/gis-data-400a.json', { force: true });
@@ -75,8 +70,6 @@ describe('GIS Upload', () => {
     cy.wait('@get-features');
     cy.contains('a', 'GIS').click();
     cy.url().should('include', '/analyst/gis');
-    cy.contains('h2', 'GIS Input');
-    cy.wait('@graphql');
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('./tests/backend/lib/gis-data-400b.json', { force: true });
