@@ -175,9 +175,9 @@ runs:
           --set cronsp.clientId="${{ inputs.sa_client_id }}" \
           --set cronsp.keycloakHost="${{ inputs.keycloak_host }}" \
           --set sharepoint.spListName="${{ inputs.sp_list_name }}" \
-          --set pgBackRest.s3.bucket="${{ inputs.pgbackrest_s3_bucket }}" \
-          --set pgBackRest.s3.key="${{ inputs.pgbackrest_s3_key }}" \
-          --set pgBackRest.s3.keySecret="${{ inputs.pgbackrest_s3_key_secret }}" \
+          --set crunchy-postgres.pgBackRest.s3.bucket="${{ inputs.pgbackrest_s3_bucket }}" \
+          --set crunchy-postgres.pgBackRest.s3.key="${{ inputs.pgbackrest_s3_key }}" \
+          --set crunchy-postgres.pgBackRest.s3.keySecret="${{ inputs.pgbackrest_s3_key_secret }}" \
           --set cert.cert="${{ inputs.cert }}" \
           --set cert.key="${{ inputs.cert_key }}" \
           --set cert.ca="${{ inputs.cert_ca }}" \
