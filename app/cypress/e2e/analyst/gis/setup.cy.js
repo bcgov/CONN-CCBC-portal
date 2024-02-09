@@ -7,15 +7,6 @@ const gisSetup = () => {
   cy.sqlFixture('e2e/001_intake');
   cy.sqlFixture('e2e/001_application');
   cy.sqlFixture('e2e/001_application_received');
-  cy.intercept('GET', '*/features/*', {
-    status: 200,
-    features: {
-      show_gis_upload: {
-        defaultValue: true,
-      },
-    },
-    dateUpdated: '2024-01-31T15:07:31.014Z',
-  }).as('get-features');
 };
 
 export default gisSetup;

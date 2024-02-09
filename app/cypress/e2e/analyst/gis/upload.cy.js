@@ -7,7 +7,6 @@ describe('GIS Upload', () => {
 
   it('upload new gis', () => {
     cy.visit('/analyst/dashboard');
-    cy.wait('@get-features');
     cy.contains('a', 'GIS').click();
     cy.url().should('include', '/analyst/gis');
     cy.contains('h2', 'GIS Input');
@@ -40,7 +39,6 @@ describe('GIS Upload', () => {
 
   it('upload invalid json with invalid schema', () => {
     cy.visit('/analyst/dashboard');
-    cy.wait('@get-features');
     cy.contains('a', 'GIS').click();
     cy.url().should('include', '/analyst/gis');
     cy.get('[data-testid=file-test]')
@@ -55,7 +53,6 @@ describe('GIS Upload', () => {
 
   it('upload invalid json wrong format', () => {
     cy.visit('/analyst/dashboard');
-    cy.wait('@get-features');
     cy.contains('a', 'GIS').click();
     cy.url().should('include', '/analyst/gis');
     cy.get('[data-testid=file-test]')
@@ -69,7 +66,6 @@ describe('GIS Upload', () => {
 
   it('upload invalid json with empty values', () => {
     cy.visit('/analyst/dashboard');
-    cy.wait('@get-features');
     cy.contains('a', 'GIS').click();
     cy.url().should('include', '/analyst/gis');
     cy.get('[data-testid=file-test]')
