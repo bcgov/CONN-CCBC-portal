@@ -11,6 +11,7 @@ describe('GIS Upload', () => {
     cy.contains('a', 'GIS').click();
     cy.url().should('include', '/analyst/gis');
     cy.contains('h2', 'GIS Input');
+    cy.get('body').happoScreenshot({ component: 'GIS upload page' });
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('cypress/fixtures/gis.json', { force: true });
@@ -34,6 +35,7 @@ describe('GIS Upload', () => {
     cy.contains(/GIS analysis added to 1 projects for the first time/);
     cy.contains(/GIS analysis updated for 0 projects/);
     cy.contains(/Total processed 1/);
+    cy.get('body').happoScreenshot({ component: 'GIS upload success page' });
   });
 
   it('upload invalid json with invalid schema', () => {
