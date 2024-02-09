@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import Textarea from '@button-inc/bcgov-theme/Textarea';
 import styled from 'styled-components';
 import Label from 'components/Form/Label';

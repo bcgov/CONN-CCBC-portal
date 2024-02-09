@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import { useFragment, graphql } from 'react-relay';
 import { AnalystSelectWidget_query$key } from '__generated__/AnalystSelectWidget_query.graphql';
 import SelectWidget from '../SelectWidget';

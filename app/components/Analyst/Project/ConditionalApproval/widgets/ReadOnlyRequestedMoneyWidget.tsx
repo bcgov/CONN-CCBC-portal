@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import formatMoney from 'utils/formatMoney';
 import { StyledValue } from './ReadOnlyWidget';
 

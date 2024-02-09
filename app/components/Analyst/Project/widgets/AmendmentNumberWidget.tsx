@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import styled from 'styled-components';
 import { Input } from '@button-inc/bcgov-theme';
 
