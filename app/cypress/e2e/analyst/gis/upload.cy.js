@@ -6,7 +6,9 @@ describe('GIS Upload', () => {
   });
 
   it('upload new gis', () => {
-    cy.visit('/analyst/gis');
+    cy.visit('/analyst/dashboard');
+    cy.contains('a', 'GIS').click();
+    cy.url().should('include', '/analyst/gis');
     cy.contains('h2', 'GIS Input');
     cy.get('body').happoScreenshot({ component: 'GIS upload page' });
     cy.get('[data-testid=file-test]')
@@ -36,7 +38,9 @@ describe('GIS Upload', () => {
   });
 
   it('upload invalid json with invalid schema', () => {
-    cy.visit('/analyst/gis');
+    cy.visit('/analyst/dashboard');
+    cy.contains('a', 'GIS').click();
+    cy.url().should('include', '/analyst/gis');
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('./tests/backend/lib/gis-data-errors.json', { force: true });
@@ -48,7 +52,9 @@ describe('GIS Upload', () => {
   });
 
   it('upload invalid json wrong format', () => {
-    cy.visit('/analyst/gis');
+    cy.visit('/analyst/dashboard');
+    cy.contains('a', 'GIS').click();
+    cy.url().should('include', '/analyst/gis');
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('./tests/backend/lib/gis-data-400a.json', { force: true });
@@ -59,7 +65,9 @@ describe('GIS Upload', () => {
   });
 
   it('upload invalid json with empty values', () => {
-    cy.visit('/analyst/gis');
+    cy.visit('/analyst/dashboard');
+    cy.contains('a', 'GIS').click();
+    cy.url().should('include', '/analyst/gis');
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('./tests/backend/lib/gis-data-400b.json', { force: true });
