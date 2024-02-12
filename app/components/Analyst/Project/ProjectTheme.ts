@@ -1,4 +1,4 @@
-import { ThemeProps, utils } from '@rjsf/core';
+import { ThemeProps, getDefaultRegistry } from '@rjsf/core';
 import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
 import * as widgets from 'lib/theme/widgets';
 import ReadOnlyWidget from 'components/Analyst/Project/ConditionalApproval/widgets/ReadOnlyWidget';
@@ -14,7 +14,7 @@ import {
   HiddenWidget,
 } from './widgets';
 
-const { fields } = utils.getDefaultRegistry();
+const { fields } = getDefaultRegistry();
 
 const ProjectTheme: ThemeProps = {
   fields: {
@@ -31,9 +31,11 @@ const ProjectTheme: ThemeProps = {
     HiddenWidget,
     ContextErrorWidget,
   },
-  ObjectFieldTemplate: ProjectObjectFieldTemplate,
-  FieldTemplate: ProjectFieldTemplate,
-  ArrayFieldTemplate,
+  templates: {
+    ObjectFieldTemplate: ProjectObjectFieldTemplate,
+    FieldTemplate: ProjectFieldTemplate,
+    ArrayFieldTemplate,
+  },
 };
 
 export default ProjectTheme;

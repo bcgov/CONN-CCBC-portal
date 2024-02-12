@@ -1,4 +1,4 @@
-import { FieldProps } from '@rjsf/core';
+import { FieldProps } from '@rjsf/utils';
 import { useFeature } from '@growthbook/growthbook-react';
 import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import Description from '../components/Description';

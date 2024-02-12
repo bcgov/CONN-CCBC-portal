@@ -10,7 +10,7 @@ import rfiSchema from 'formSchema/analyst/rfiSchema';
 import { rfiApplicantUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { Button } from '@button-inc/bcgov-theme';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
-import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
+import { IChangeEvent } from '@rjsf/core';
 import { useRouter } from 'next/router';
 import FormDiv from 'components/FormDiv';
 import styled from 'styled-components';
@@ -95,7 +95,7 @@ const ApplicantRfiPage = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateData]);
 
-  const handleSubmit = (e: ISubmitEvent<any>) => {
+  const handleSubmit = (e: IChangeEvent<any>) => {
     updateRfi({
       variables: {
         input: {

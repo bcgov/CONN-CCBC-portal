@@ -1,4 +1,4 @@
-import { FieldProps } from '@rjsf/core';
+import { FieldProps } from '@rjsf/utils';
 import Accordion from 'components/Review/Accordion';
 import { useMemo } from 'react';
 

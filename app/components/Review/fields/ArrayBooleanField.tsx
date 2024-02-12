@@ -1,4 +1,4 @@
-import { FieldProps } from '@rjsf/core';
+import { FieldProps } from '@rjsf/utils';
 import { JSONSchema7 } from 'json-schema';
 import React from 'react';
 import { StyledColLeft, StyledColRight, StyledColError } from '../Components';

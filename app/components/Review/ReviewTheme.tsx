@@ -34,9 +34,11 @@ const ReviewTheme: ThemeProps = {
     ReadOnlyWidget: DefaultWidget,
     ReadOnlyProjectAreaWidget: DefaultWidget,
   },
-  ObjectFieldTemplate: ReviewObjectFieldTemplate,
-  FieldTemplate: ReviewFieldTemplate,
-  ArrayFieldTemplate: ReviewArrayFieldTemplate,
+  templates: {
+    ObjectFieldTemplate: ReviewObjectFieldTemplate,
+    FieldTemplate: ReviewFieldTemplate,
+    ArrayFieldTemplate: ReviewArrayFieldTemplate,
+  },
 };
 
 export default ReviewTheme;

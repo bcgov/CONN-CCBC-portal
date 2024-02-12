@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FormBase } from 'components/Form';
 import Button from '@button-inc/bcgov-theme/Button';
 import { graphql, useFragment } from 'react-relay';
-import { ISubmitEvent } from '@rjsf/core';
+import { IChangeEvent } from '@rjsf/core';
 import LoadingSpinner from 'components/LoadingSpinner';
 import type { JSONSchema7 } from 'json-schema';
 import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createAssessment';
@@ -55,7 +55,7 @@ const AssessmentsForm: React.FC<Props> = ({
   const [newFormData, setNewFormData] = useState(formData);
   const [isFormSaved, setIsFormSaved] = useState(true);
 
-  const handleSubmit = async (e: ISubmitEvent<any>) => {
+  const handleSubmit = async (e: IChangeEvent<any>) => {
     if (!isFormSaved) {
       createAssessment({
         variables: {

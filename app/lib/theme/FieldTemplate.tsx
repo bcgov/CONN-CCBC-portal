@@ -1,4 +1,4 @@
-import { FieldTemplateProps } from '@rjsf/core';
+import { FieldTemplateProps } from '@rjsf/utils';
 import styled from 'styled-components';
 import Description from './components/Description';
 import FieldLabel from './components/FieldLabel';

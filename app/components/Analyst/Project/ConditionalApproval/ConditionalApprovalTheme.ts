@@ -4,7 +4,7 @@ import ConditionalApprovalObjectFieldTemplate from './ConditionalApprovalObjectF
 
 const ConditionalApprovalReadOnlyTheme: ThemeProps = {
   ...ProjectTheme,
-  ObjectFieldTemplate: ConditionalApprovalObjectFieldTemplate,
+  templates: { ObjectFieldTemplate: ConditionalApprovalObjectFieldTemplate },
 };
 
 export default ConditionalApprovalReadOnlyTheme;
