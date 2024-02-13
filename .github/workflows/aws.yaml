@@ -32,9 +32,9 @@ jobs:
       - name: Extract access key ID and secret access key
         id: extract-keys
         run: |
-          json_str=${{ steps.get-aws-parameter.outputs.parameter }}
-          access_key_id=$(echo $json_str | jq -r '.current.AccessKeyID')
-          secret_access_key=$(echo $json_str | jq -r '.current.SecretAccessKey')
+          json_str="${{ steps.get-aws-parameter.outputs.parameter }}"
+          access_key_id=$(echo "$json_str" | jq -r '.current.AccessKeyID')
+          secret_access_key=$(echo "$json_str" | jq -r '.current.SecretAccessKey')
           echo "::add-mask::$access_key_id"
           echo "::add-mask::$secret_access_key"
           echo "::set-output name=access_key_id::$access_key_id"
