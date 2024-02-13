@@ -47,6 +47,11 @@ jobs:
       RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
+  aws:
+    uses: ./.github/workflows/aws.yaml
+    secrets:
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+
   create-release-pr:
     if: github.event.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
