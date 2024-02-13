@@ -51,6 +51,7 @@ jobs:
     uses: ./.github/workflows/aws.yaml
     secrets:
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      AWS_READ_ONLY_ROLE_ARN: ${{ secrets.AWS_READ_ONLY_ROLE_ARN }}
 
   create-release-pr:
     if: github.event.ref == 'refs/heads/main'
