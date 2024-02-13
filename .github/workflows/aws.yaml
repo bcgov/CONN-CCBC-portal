@@ -33,9 +33,9 @@ jobs:
       - name: Extract access key ID and secret access key
         id: extract-keys
         run: |
-          json_str="${{ env.PARAMETER }}"
-          access_key_id=$(echo "$json_str" | jq -r '.current.AccessKeyID')
-          secret_access_key=$(echo "$json_str" | jq -r '.current.SecretAccessKey')
+          json_str=${{ env.PARAMETER }}
+          access_key_id=$(echo $json_str | jq -r '.current.AccessKeyID')
+          secret_access_key=$(echo $json_str | jq -r '.current.SecretAccessKey')
           echo "::add-mask::$access_key_id"
           echo "::add-mask::$secret_access_key"
           echo "ACCESS_KEY_ID=$access_key_id" >> $GITHUB_ENV
