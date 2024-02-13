@@ -18,28 +18,24 @@ const projectPlan = {
   },
   relationshipManagerApplicant: {
     'ui:widget': 'TextAreaWidget',
-    'ui:help': 'maximum 2,500 characters',
     'ui:options': {
       maxLength: 2500,
     },
   },
   overviewProjectManagementTeam: {
     'ui:widget': 'TextAreaWidget',
-    'ui:help': 'maximum 3,500 characters',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
     },
   },
   overviewOfProjectParticipants: {
     'ui:widget': 'TextAreaWidget',
-    'ui:help': 'maximum 3,500 characters',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
     },
   },
   operationalPlan: {
     'ui:widget': 'TextAreaWidget',
-    'ui:help': 'maximum 3,500 characters',
     'ui:options': {
       maxLength: MAX_TEXTAREA_LENGTH,
     },

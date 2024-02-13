@@ -25,7 +25,6 @@ const projectInformation = {
   },
   projectDescription: {
     'ui:widget': 'TextAreaWidget',
-    'ui:help': 'maximum 3,500 characters',
     'ui:title':
       'Using non-technical language, provide a description of the Project, including its key elements, purpose, objectives and benefits. Identify the ‘who’, ‘what’, ‘where’, ‘when’ and ‘why’. Please avoid including Confidential or Proprietary information.',
     'ui:options': {
