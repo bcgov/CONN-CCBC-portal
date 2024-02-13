@@ -23,6 +23,7 @@ const mockQueryPayload = {
               id: '1',
               rowId: 1,
               analystStatus: 'received',
+              externalStatus: 'closed',
               projectName: 'Test Proj Name',
               ccbcNumber: 'CCBC-010001',
               organizationName: 'Test Org Name',
@@ -36,6 +37,7 @@ const mockQueryPayload = {
               id: '2',
               rowId: 2,
               analystStatus: 'approved',
+              externalStatus: 'closed',
               projectName: 'Test Proj Name 2',
               ccbcNumber: 'CCBC-010002',
               organizationName: 'Test Org Name 2',
@@ -49,6 +51,7 @@ const mockQueryPayload = {
               id: '3',
               rowId: 3,
               analystStatus: 'cancelled',
+              externalStatus: 'closed',
               projectName: 'Test Proj Name 3',
               ccbcNumber: 'CCBC-010003',
               organizationName: 'Test Org Name 3',
@@ -62,6 +65,7 @@ const mockQueryPayload = {
               id: '4',
               rowId: 4,
               analystStatus: 'assessment',
+              externalStatus: 'closed',
               projectName: 'Test Proj Name 4',
               ccbcNumber: 'CCBC-010004',
               organizationName: 'Test Org Name 4',
@@ -172,7 +176,8 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText('CCBC ID')).toBeInTheDocument();
-    expect(screen.getByText('Status')).toBeInTheDocument();
+    expect(screen.getByText('Internal Status')).toBeInTheDocument();
+    expect(screen.getByText('External Status')).toBeInTheDocument();
     expect(screen.getByText('Project title')).toBeInTheDocument();
     expect(screen.getByText('Organization')).toBeInTheDocument();
     expect(screen.getByText('Lead')).toBeInTheDocument();
@@ -256,6 +261,17 @@ describe('The index page', () => {
 
     expect(statusName).toHaveStyle('color: #FFFFFF');
     expect(statusName).toHaveStyle('background-color: #1F8234;');
+  });
+
+  it('shows the internal and external status', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const internalStatus = screen.getByText('Received');
+    const externalStatus = screen.getAllByText('Closed')[0];
+
+    expect(internalStatus).toBeInTheDocument();
+    expect(externalStatus).toBeInTheDocument();
   });
 
   it('has the correct cancelled status styles', () => {

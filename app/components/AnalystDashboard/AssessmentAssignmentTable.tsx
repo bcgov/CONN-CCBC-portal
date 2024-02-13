@@ -15,6 +15,8 @@ import {
 
 import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
 import RowCount from 'components/Table/RowCount';
+import { Box } from '@mui/material';
+import ClearFilters from 'components/Table/ClearFilters';
 
 type Assessment = {
   rowId: string;
@@ -104,6 +106,11 @@ const StyledLink = styled.a`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+const StyledText = styled.p`
+  margin: 0;
+  padding-top: 5px;
 `;
 
 const AssessmentCell = ({ cell }) => {
@@ -454,10 +461,13 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       filterCcbcId,
     },
     renderTopToolbarCustomActions: () => (
-      <p style={{ margin: '0', marginTop: '20px' }}>
-        Showing applications with status of “Received”, “Screening” and
-        “Assessment.”
-      </p>
+      <Box>
+        <StyledText>
+          Showing applications with status of “Received”, “Screening” and
+          “Assessment.”
+        </StyledText>
+        <ClearFilters table={table} filters={table.getState().columnFilters} />
+      </Box>
     ),
   });
 

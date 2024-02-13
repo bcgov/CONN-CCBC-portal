@@ -23,3 +23,4 @@ export { default as TimeTravel } from './TimeTravel';
 export { default as Tooltip } from './Tooltip';
 export { default as Toast } from './Toast';
 export { default as StatusPill } from './StatusPill';
+export { default as HeaderBanner } from './HeaderBanner';
