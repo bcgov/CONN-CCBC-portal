@@ -20,5 +20,4 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          role-session-name: ccbctestsessionname
           aws-region: ${{ env.AWS_REGION }}
