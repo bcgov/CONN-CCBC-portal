@@ -28,14 +28,15 @@ jobs:
           AWS_REGION: ${{ env.AWS_REGION }}
         run: |
           json_output=$(aws ssm get-parameter --name "/iam_users/fake_key" --with-decryption --query "Parameter.Value")
-          echo "::set-output name=parameter::$json_output"
+          echo "::add-mask::$json_output"
+          echo "PARAMETER=$json_output" >> $GITHUB_ENV
       - name: Extract access key ID and secret access key
         id: extract-keys
         run: |
-          json_str="${{ steps.get-aws-parameter.outputs.parameter }}"
+          json_str="${{ env.PARAMETER }}"
           access_key_id=$(echo "$json_str" | jq -r '.current.AccessKeyID')
           secret_access_key=$(echo "$json_str" | jq -r '.current.SecretAccessKey')
           echo "::add-mask::$access_key_id"
           echo "::add-mask::$secret_access_key"
-          echo "::set-output name=access_key_id::$access_key_id"
-          echo "::set-output name=secret_access_key::$secret_access_key"
+          echo "ACCESS_KEY_ID=$access_key_id" >> $GITHUB_ENV
+          echo "SECRET_ACCESS_KEY=$secret_access_key" >> $GITHUB_ENV
