@@ -1,3 +1,18 @@
+# [1.140.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.139.0...v1.140.0) (2024-02-13)
+
+### Bug Fixes
+
+- change z-index navigation ([552699b](https://github.com/bcgov/CONN-CCBC-portal/commit/552699b92692ce056004e75fb8357dcbf0e26633))
+- ignore rules zap ([8aa7144](https://github.com/bcgov/CONN-CCBC-portal/commit/8aa7144a485a3561658287e45f78b7dfdfa98432))
+- indent on rules zap ([1c30eb0](https://github.com/bcgov/CONN-CCBC-portal/commit/1c30eb01f5b691569b087df903d693e361f37cbf))
+
+### Features
+
+- add a custom 404 page ([3173c31](https://github.com/bcgov/CONN-CCBC-portal/commit/3173c315cadca8a732ba2840f547585006486f2b))
+- add character count remaining to text-area-widgets ([dafde0d](https://github.com/bcgov/CONN-CCBC-portal/commit/dafde0d5b0f48dacfaf9ad6164b3f98774aaa895))
+- add external status ([2767b9e](https://github.com/bcgov/CONN-CCBC-portal/commit/2767b9eaf9544f63bd9208ec9a46f32b7e83ef16))
+- add growthbook flag for wider screen ([5303017](https://github.com/bcgov/CONN-CCBC-portal/commit/53030171c8536e9f37a90f5fd3ee165dac6cbd90))
+
 # [1.139.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.138.2...v1.139.0) (2024-02-05)
 
 ### Bug Fixes
