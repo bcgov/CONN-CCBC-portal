@@ -17,8 +17,23 @@ jobs:
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v4
-      - name: configure aws credentials
+      - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: ${{ secrets.AWS_READ_ONLY_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
+      - name: Get AWS parameter
+        id: get-aws-parameter
+        env:
+          AWS_REGION: ${{ env.AWS_REGION }}
+        run: |
+          json_output=$(aws ssm get-parameter --name "/iam_users/fake_key" --with-decryption --query "Parameter.Value")
+          echo "::set-output name=parameter::$json_output"
+      - name: Extract access key ID and secret access key
+        id: extract-keys
+        run: |
+          json_str=${{ steps.get-aws-parameter.outputs.parameter }}
+          access_key_id=$(echo $json_str | jq -r '.current.AccessKeyID')
+          secret_access_key=$(echo $json_str | jq -r '.current.SecretAccessKey')
+          echo "::set-output name=access_key_id::$access_key_id"
+          echo "::set-output name=secret_access_key::$secret_access_key"
