@@ -2,25 +2,27 @@ name: AWS
 on:
   workflow_call:
     secrets:
-      AWS_ROLE_ARN: { required: true }
-      AWS_READ_ONLY_ROLE_ARN: { required: true }
+      AWS_ARN_DEV: { required: true }
+      OPENSHIFT_TOKEN_DEV: { required: true }
+      OPENSHIFT_APP_NAMESPACE_DEV: { required: true }
+      OPENSHIFT_SERVER: { required: true }
 env:
   AWS_REGION: 'ca-central-1'
 permissions:
   id-token: write # This is required for requesting the JWT
   contents: read # This is required for actions/checkout
 jobs:
-  authenticate:
+  setup-s3-backup-dev:
     runs-on: ubuntu-latest
     environment:
-      name: development
+      name: automation
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v4
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ secrets.AWS_READ_ONLY_ROLE_ARN }}
+          role-to-assume: ${{ secrets.AWS_ARN_DEV }}
           aws-region: ${{ env.AWS_REGION }}
       - name: Get AWS parameter
         id: get-aws-parameter
@@ -40,3 +42,15 @@ jobs:
           echo "::add-mask::$secret_access_key"
           echo "ACCESS_KEY_ID=$access_key_id" >> $GITHUB_ENV
           echo "SECRET_ACCESS_KEY=$secret_access_key" >> $GITHUB_ENV
+      - name: deploy-secret
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN_DEV }}
+      - run: |
+          chmod +x ./lib/s3_secret_deploy.sh
+          ./lib/s3_secret_deploy.sh -n ${{ secrets.OPENSHIFT_APP_NAMESPACE_DEV }} \
+          --set app.namespace=${{ secrets.OPENSHIFT_APP_NAMESPACE_DEV }} \
+          --set s3.key=${{ env.ACCESS_KEY_ID }} \
+          --set s3.keySecret=${{ env.SECRET_ACCESS_KEY }} \
+          --values values.yaml

@@ -47,11 +47,13 @@ jobs:
       RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
-  aws:
+  setup-s3-backup:
     uses: ./.github/workflows/aws.yaml
     secrets:
-      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
-      AWS_READ_ONLY_ROLE_ARN: ${{ secrets.AWS_READ_ONLY_ROLE_ARN }}
+      AWS_ARN_DEV: ${{ secrets.AWS_ARN_DEV }}
+      OPENSHIFT_TOKEN_DEV: ${{ secrets.OPENSHIFT_TOKEN_DEV }}
+      OPENSHIFT_APP_NAMESPACE_DEV: ${{ secrets.OPENSHIFT_APP_NAMESPACE_DEV }}
+      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
 
   create-release-pr:
     if: github.event.ref == 'refs/heads/main'

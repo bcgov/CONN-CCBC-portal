@@ -185,7 +185,8 @@ crunchy-postgres:
         memory: 128Mi
     s3:
       enabled: true
-      createS3Secret: true
+      createS3Secret: false
+      # secret name below must match secret created through s3-backup chart
       s3Secret: s3-pgbackrest
       s3Path: /
       s3UriStyle: path
