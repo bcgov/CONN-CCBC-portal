@@ -53,6 +53,7 @@ jobs:
       AWS_ARN_DEV: ${{ secrets.AWS_ARN_DEV }}
       OPENSHIFT_TOKEN_DEV: ${{ secrets.OPENSHIFT_TOKEN_DEV }}
       OPENSHIFT_APP_NAMESPACE_DEV: ${{ secrets.OPENSHIFT_APP_NAMESPACE_DEV }}
+      AWS_PARAM_DEV: ${{ secrets.AWS_PARAM_DEV }}
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
 
   create-release-pr:
