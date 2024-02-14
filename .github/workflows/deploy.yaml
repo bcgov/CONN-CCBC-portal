@@ -44,8 +44,6 @@ on:
       CHES_TO_EMAIL: { required: true }
       CHES_KEYCLOAK_HOST: { required: true }
       AWS_S3_BACKUPS_BUCKET: { required: true }
-      AWS_CCBC_IAM_USER_KEY: { required: true }
-      AWS_CCBC_IAM_USER_KEY_SECRET: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
