@@ -109,12 +109,6 @@ inputs:
   pgbackrest_s3_bucket:
     description: 'PGBackRest S3 Bucket'
     required: true
-  pgbackrest_s3_key:
-    description: 'PGBackRest S3 Key'
-    required: true
-  pgbackrest_s3_key_secret:
-    description: 'PGBackRest S3 Key Secret'
-    required: true
 
 runs:
   using: composite
@@ -140,8 +134,6 @@ runs:
         cert_key: ${{ inputs.cert_key }}
         cert_ca: ${{ inputs.cert_ca }}
         pgbackrest_s3_bucket: ${{ inputs.pgbackrest_s3_bucket }}
-        pgbackrest_s3_key: ${{ inputs.pgbackrest_s3_key }}
-        pgbackrest_s3_key_secret: ${{ inputs.pgbackrest_s3_key_secret }}
         insecure_skip_tls_verify: true
     - run: |
         chmod +x ./lib/app_deploy.sh
@@ -176,8 +168,6 @@ runs:
           --set cronsp.keycloakHost="${{ inputs.keycloak_host }}" \
           --set sharepoint.spListName="${{ inputs.sp_list_name }}" \
           --set crunchy-postgres.pgBackRest.s3.bucket="${{ inputs.pgbackrest_s3_bucket }}" \
-          --set crunchy-postgres.pgBackRest.s3.key="${{ inputs.pgbackrest_s3_key }}" \
-          --set crunchy-postgres.pgBackRest.s3.keySecret="${{ inputs.pgbackrest_s3_key_secret }}" \
           --set cert.cert="${{ inputs.cert }}" \
           --set cert.key="${{ inputs.cert_key }}" \
           --set cert.ca="${{ inputs.cert_ca }}" \
