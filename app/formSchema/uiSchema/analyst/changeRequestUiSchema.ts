@@ -25,6 +25,7 @@ const changeRequestUiSchema = {
     'ui:options': {
       boldTitle: true,
       maxLength: 10000,
+      showCharacterCount: false,
     },
     'ui:title': 'Description of change(s)',
     'ui:subtitle':
@@ -42,6 +43,7 @@ const changeRequestUiSchema = {
     'ui:options': {
       boldTitle: true,
       maxLength: 10000,
+      showCharacterCount: false,
     },
     'ui:title': 'Additional Comments if necessary to justify amendment impact',
   },

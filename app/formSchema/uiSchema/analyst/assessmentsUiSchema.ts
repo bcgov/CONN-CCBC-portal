@@ -74,6 +74,7 @@ const assessmentsUiSchema = {
     'ui:options': {
       boldTitle: true,
       maxLength: 1000,
+      showCharacterCount: false,
     },
   },
   commentsOnCoverageData: {
@@ -82,6 +83,7 @@ const assessmentsUiSchema = {
     'ui:options': {
       boldTitle: true,
       maxLength: 1000,
+      showCharacterCount: false,
     },
   },
   commentsOnHouseholdCounts: {
@@ -90,6 +92,7 @@ const assessmentsUiSchema = {
     'ui:options': {
       boldTitle: true,
       maxLength: 1000,
+      showCharacterCount: false,
     },
   },
   commentsOnOverbuild: {
@@ -98,6 +101,7 @@ const assessmentsUiSchema = {
     'ui:options': {
       boldTitle: true,
       maxLength: 1000,
+      showCharacterCount: false,
     },
   },
   commentsOnOverlap: {
@@ -106,6 +110,7 @@ const assessmentsUiSchema = {
     'ui:options': {
       boldTitle: true,
       maxLength: 1000,
+      showCharacterCount: false,
     },
   },
 };

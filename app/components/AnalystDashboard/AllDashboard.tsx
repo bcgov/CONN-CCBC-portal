@@ -27,6 +27,7 @@ type Application = {
   projectTitle: string;
   organizationName: string;
   analystStatus: string;
+  externalStatus: string;
 };
 
 export const filterNumber = (row, id, filterValue) => {
@@ -74,8 +75,13 @@ const CcbcIdCell = ({ cell }) => {
   );
 };
 
-const StatusCell = ({ cell }) => {
+const AnalystStatusCell = ({ cell }) => {
   const analystStatus = cell.row.original?.analystStatus;
+  return <StatusPill status={analystStatus} styles={statusStyles} />;
+};
+
+const ApplicantStatusCell = ({ cell }) => {
+  const analystStatus = cell.row.original?.externalStatus;
   return <StatusPill status={analystStatus} styles={statusStyles} />;
 };
 
@@ -98,6 +104,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
               organizationName
               package
               analystStatus
+              externalStatus
               analystLead
               ccbcNumber
               rowId
@@ -242,6 +249,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           projectName,
           rowId: applicationId,
           zones,
+          externalStatus,
           analystStatus,
           analystLead,
           intakeNumber,
@@ -255,6 +263,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           packageNumber,
           zones: zoneString,
           analystStatus,
+          externalStatus,
           analystLead,
           intakeNumber,
           projectTitle:
@@ -291,10 +300,18 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       },
       {
         accessorKey: 'analystStatus',
-        header: 'Status',
-        Cell: StatusCell,
-        size: 24,
-        maxSize: 24,
+        header: 'Internal Status',
+        Cell: AnalystStatusCell,
+        size: 30,
+        maxSize: 30,
+        filterFn: 'contains',
+      },
+      {
+        accessorKey: 'externalStatus',
+        header: 'External Status',
+        size: 30,
+        maxSize: 30,
+        Cell: ApplicantStatusCell,
         filterFn: 'contains',
       },
       {
