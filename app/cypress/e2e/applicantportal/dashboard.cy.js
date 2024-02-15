@@ -254,6 +254,10 @@ describe('The applicant dashboard', () => {
 
     cy.get('#root_projectCompletionDate');
 
+    cy.get('[id="root_projectStartDate"]').type('2023-08-30');
+
+    cy.get('[id="root_projectCompletionDate"]').type('2023-12-31');
+
     cy.get('[id="root_relationshipManagerApplicant"]').type('test');
 
     cy.get('[id="root_overviewOfProjectParticipants"]').type('test');

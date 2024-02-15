@@ -37,6 +37,7 @@ const AnalystDashboard = ({
   const router = useRouter();
   const { session } = query;
   const showTableTabs = useFeature('show_assessment_assignment_table').value;
+  const isMaxWidthOverride = useFeature('max_width_override').value;
 
   const scrollHandler = () => {
     sessionStorage.setItem('dashboard_scroll_position', String(window.scrollY));
@@ -78,7 +79,11 @@ const AnalystDashboard = ({
   }, []);
 
   return (
-    <Layout session={session} title="Connecting Communities BC">
+    <Layout
+      session={session}
+      title="Connecting Communities BC"
+      maxWidthOverride={isMaxWidthOverride && '1600px'}
+    >
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
         {showTableTabs && <TableTabs />}
