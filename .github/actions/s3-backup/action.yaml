@@ -36,6 +36,7 @@ runs:
         json_output=$(aws ssm get-parameter --name "${{ inputs.aws_param_name }}" --with-decryption --query "Parameter.Value")
         echo "::add-mask::$json_output"
         echo "PARAMETER=$json_output" >> $GITHUB_ENV
+      shell: bash
     - name: Extract access key ID and secret access key
       id: extract-keys
       run: |
@@ -46,6 +47,7 @@ runs:
         echo "::add-mask::$secret_access_key"
         echo "ACCESS_KEY_ID=$access_key_id" >> $GITHUB_ENV
         echo "SECRET_ACCESS_KEY=$secret_access_key" >> $GITHUB_ENV
+      shell: bash
     - name: deploy-secret
       uses: redhat-actions/oc-login@v1
       with:
@@ -58,4 +60,4 @@ runs:
         --set s3.key=${{ env.ACCESS_KEY_ID }} \
         --set s3.keySecret=${{ env.SECRET_ACCESS_KEY }} \
         --values values.yaml
-  shell: bash
+      shell: bash
