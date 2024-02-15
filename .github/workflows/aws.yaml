@@ -7,51 +7,18 @@ on:
       OPENSHIFT_APP_NAMESPACE_DEV: { required: true }
       AWS_PARAM_DEV: { required: true }
       OPENSHIFT_SERVER: { required: true }
-env:
-  AWS_REGION: 'ca-central-1'
-permissions:
-  id-token: write # This is required for requesting the JWT
-  contents: read # This is required for actions/checkout
+
 jobs:
-  setup-s3-backup-dev:
+  deploy-s3-secret-to-dev:
     runs-on: ubuntu-latest
-    environment:
-      name: automation
     steps:
-      - name: Git clone the repository
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v3
+      - name: Deploy
+        uses: ./.github/actions/s3-backup
         with:
-          role-to-assume: ${{ secrets.AWS_ARN_DEV }}
-          aws-region: ${{ env.AWS_REGION }}
-      - name: Get AWS parameter
-        id: get-aws-parameter
-        env:
-          AWS_REGION: ${{ env.AWS_REGION }}
-        run: |
-          json_output=$(aws ssm get-parameter --name "${{ secrets.AWS_PARAM_DEV }}" --with-decryption --query "Parameter.Value")
-          echo "::add-mask::$json_output"
-          echo "PARAMETER=$json_output" >> $GITHUB_ENV
-      - name: Extract access key ID and secret access key
-        id: extract-keys
-        run: |
-          json_str=${{ env.PARAMETER }}
-          access_key_id=$(echo $json_str | jq -r '.current.AccessKeyID')
-          secret_access_key=$(echo $json_str | jq -r '.current.SecretAccessKey')
-          echo "::add-mask::$access_key_id"
-          echo "::add-mask::$secret_access_key"
-          echo "ACCESS_KEY_ID=$access_key_id" >> $GITHUB_ENV
-          echo "SECRET_ACCESS_KEY=$secret_access_key" >> $GITHUB_ENV
-      - name: deploy-secret
-        uses: redhat-actions/oc-login@v1
-        with:
-          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          aws_role_arn: ${{ secrets.AWS_ARN_DEV }}
+          app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE_DEV }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN_DEV }}
-      - run: |
-          chmod +x ./lib/s3_secret_deploy.sh
-          ./lib/s3_secret_deploy.sh -n ${{ secrets.OPENSHIFT_APP_NAMESPACE_DEV }} \
-          --set app.namespace=${{ secrets.OPENSHIFT_APP_NAMESPACE_DEV }} \
-          --set s3.key=${{ env.ACCESS_KEY_ID }} \
-          --set s3.keySecret=${{ env.SECRET_ACCESS_KEY }} \
-          --values values.yaml
+          aws_param_name: ${{ secrets.AWS_PARAM_DEV }}
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
