@@ -6,6 +6,10 @@ on:
       OPENSHIFT_TOKEN_DEV: { required: true }
       OPENSHIFT_APP_NAMESPACE_DEV: { required: true }
       AWS_PARAM_DEV: { required: true }
+      AWS_ARN_TEST: { required: true }
+      OPENSHIFT_TOKEN_TEST: { required: true }
+      OPENSHIFT_APP_NAMESPACE_TEST: { required: true }
+      AWS_PARAM_TEST: { required: true }
       OPENSHIFT_SERVER: { required: true }
 
 jobs:
@@ -26,4 +30,22 @@ jobs:
           app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE_DEV }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN_DEV }}
           aws_param_name: ${{ secrets.AWS_PARAM_DEV }}
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+  deploy-s3-secret-to-test:
+    runs-on: ubuntu-latest
+    environment:
+      name: automation
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy S3 Secret
+        uses: ./.github/actions/s3-backup
+        with:
+          aws_role_arn: ${{ secrets.AWS_ARN_TEST }}
+          app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE_TEST }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN_TEST }}
+          aws_param_name: ${{ secrets.AWS_PARAM_TEST }}
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
