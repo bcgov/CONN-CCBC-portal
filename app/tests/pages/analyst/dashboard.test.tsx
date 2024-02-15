@@ -343,7 +343,7 @@ describe('The index page', () => {
     });
 
     const statusDropdown = screen.getByLabelText(
-      'Filter by Status'
+      'Filter by Internal Status'
     ) as HTMLSelectElement;
 
     await act(async () => {

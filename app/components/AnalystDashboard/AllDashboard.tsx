@@ -360,7 +360,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         Cell: AnalystStatusCell,
         size: 30,
         maxSize: 30,
-        filterFnvariant: 'select',
+        filterVariant: 'select',
         filterSelectOptions: analystStatuses,
       },
       {
