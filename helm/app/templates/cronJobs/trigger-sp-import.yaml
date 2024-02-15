@@ -6,6 +6,7 @@ metadata:
 spec:
   suspend: false
   schedule: {{ .Values.cronsp.schedule }}
+  timeZone: "America/Vancouver"
   jobTemplate:
     spec:
       backoffLimit: 0
