@@ -21,6 +21,7 @@ This document outlines the steps to be followed when offboarding an employee fro
 
 1. Go to the `sysdigteam.yaml` file
 2. Remove both the name and email of the user that is no longer available
+3. Go to the sysdig app, and remove the team member's email from the Notification channel
 
 ## Revoking OpenShift Roles
 
