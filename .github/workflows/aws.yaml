@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Deploy
+      - name: Deploy S3 Secret
         uses: ./.github/actions/s3-backup
         with:
           aws_role_arn: ${{ secrets.AWS_ARN_DEV }}

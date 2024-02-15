@@ -58,3 +58,4 @@ runs:
         --set s3.key=${{ env.ACCESS_KEY_ID }} \
         --set s3.keySecret=${{ env.SECRET_ACCESS_KEY }} \
         --values values.yaml
+  shell: bash
