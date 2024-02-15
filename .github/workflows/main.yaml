@@ -48,7 +48,7 @@ jobs:
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
   setup-s3-backup:
-    uses: ./.github/workflows/aws.yaml
+    uses: ./.github/workflows/s3-backup.yaml
     secrets:
       AWS_ARN_DEV: ${{ secrets.AWS_ARN_DEV }}
       OPENSHIFT_TOKEN_DEV: ${{ secrets.OPENSHIFT_TOKEN_DEV }}
