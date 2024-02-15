@@ -10,6 +10,10 @@ on:
       OPENSHIFT_TOKEN_TEST: { required: true }
       OPENSHIFT_APP_NAMESPACE_TEST: { required: true }
       AWS_PARAM_TEST: { required: true }
+      AWS_ARN_PROD: { required: true }
+      OPENSHIFT_TOKEN_PROD: { required: true }
+      OPENSHIFT_APP_NAMESPACE_PROD: { required: true }
+      AWS_PARAM_PROD: { required: true }
       OPENSHIFT_SERVER: { required: true }
 
 jobs:
