@@ -49,3 +49,21 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN_TEST }}
           aws_param_name: ${{ secrets.AWS_PARAM_TEST }}
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+  deploy-s3-secret-to-prod:
+    runs-on: ubuntu-latest
+    environment:
+      name: automation
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy S3 Secret
+        uses: ./.github/actions/s3-backup
+        with:
+          aws_role_arn: ${{ secrets.AWS_ARN_PROD }}
+          app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE_PROD }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN_PROD }}
+          aws_param_name: ${{ secrets.AWS_PARAM_PROD }}
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
