@@ -95,6 +95,16 @@ const accessorFunctionGeneratorInjectsEmptyString = (accessorKey) => {
   return (row) => row[accessorKey] ?? '';
 };
 
+const normalizeStatusName = (status) => {
+  return status
+    .replace(status.charAt(0), status.charAt(0).toUpperCase())
+    .replaceAll('_', ' ');
+};
+
+const statusFilter = (row, id, filterValue) => {
+  return normalizeStatusName(row.getValue(id)) === filterValue;
+};
+
 interface Props {
   query: any;
 }
@@ -298,22 +308,16 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
     const analystStatuses = [
       ...new Set(
-        allApplications.edges.map((edge) =>
-          edge.node.analystStatus.replace(
-            edge.node.analystStatus.charAt(0),
-            edge.node.analystStatus.charAt(0).toUpperCase()
-          )
-        )
+        allApplications.edges.map((edge) => {
+          return normalizeStatusName(edge.node.analystStatus);
+        })
       ),
     ];
 
     const externalStatuses = [
       ...new Set(
         allApplications.edges.map((edge) =>
-          edge.node.externalStatus.replace(
-            edge.node.externalStatus.charAt(0),
-            edge.node.externalStatus.charAt(0).toUpperCase()
-          )
+          normalizeStatusName(edge.node.externalStatus)
         )
       ),
     ];
@@ -359,17 +363,19 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         header: 'Internal Status',
         Cell: AnalystStatusCell,
         size: 30,
-        maxSize: 30,
+        maxSize: 40,
         filterVariant: 'select',
+        filterFn: statusFilter,
         filterSelectOptions: analystStatuses,
       },
       {
         accessorKey: 'externalStatus',
         header: 'External Status',
         size: 30,
-        maxSize: 30,
+        maxSize: 40,
         Cell: ApplicantStatusCell,
         filterVariant: 'select',
+        filterFn: statusFilter,
         filterSelectOptions: externalStatuses,
       },
       {
@@ -428,6 +434,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     enableBottomToolbar: false,
     filterFns: {
       filterNumber,
+      statusFilter,
     },
     renderTopToolbarCustomActions: () => (
       <ClearFilters table={table} filters={table.getState().columnFilters} />
