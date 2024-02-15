@@ -18,51 +18,43 @@ inputs:
     description: 'URL of the OpenShift server'
     required: true
 
-env:
-  AWS_REGION: 'ca-central-1'
-permissions:
-  id-token: write # This is required for requesting the JWT
-  contents: read # This is required for actions/checkout
-jobs:
-  push-s3-secret:
-    runs-on: ubuntu-latest
-    environment:
-      name: automation
-    steps:
-      - name: Git clone the repository
-        uses: actions/checkout@v4
-      - name: Configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          role-to-assume: ${{ inputs.aws_role_arn }}
-          aws-region: ${{ env.AWS_REGION }}
-      - name: Get AWS parameter
-        id: get-aws-parameter
-        env:
-          AWS_REGION: ${{ env.AWS_REGION }}
-        run: |
-          json_output=$(aws ssm get-parameter --name "${{ inputs.aws_param_name }}" --with-decryption --query "Parameter.Value")
-          echo "::add-mask::$json_output"
-          echo "PARAMETER=$json_output" >> $GITHUB_ENV
-      - name: Extract access key ID and secret access key
-        id: extract-keys
-        run: |
-          json_str=${{ env.PARAMETER }}
-          access_key_id=$(echo $json_str | jq -r '.current.AccessKeyID')
-          secret_access_key=$(echo $json_str | jq -r '.current.SecretAccessKey')
-          echo "::add-mask::$access_key_id"
-          echo "::add-mask::$secret_access_key"
-          echo "ACCESS_KEY_ID=$access_key_id" >> $GITHUB_ENV
-          echo "SECRET_ACCESS_KEY=$secret_access_key" >> $GITHUB_ENV
-      - name: deploy-secret
-        uses: redhat-actions/oc-login@v1
-        with:
-          openshift_server_url: ${{ inputs.openshift_server_url }}
-          openshift_token: ${{ inputs.openshift_token }}
-      - run: |
-          chmod +x ./lib/s3_secret_deploy.sh
-          ./lib/s3_secret_deploy.sh -n ${{ inputs.app_namespace }} \
-          --set app.namespace=${{ inputs.app_namespace }} \
-          --set s3.key=${{ env.ACCESS_KEY_ID }} \
-          --set s3.keySecret=${{ env.SECRET_ACCESS_KEY }} \
-          --values values.yaml
+runs:
+  using: 'composite'
+  steps:
+    - name: Git clone the repository
+      uses: actions/checkout@v4
+    - name: Configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        role-to-assume: ${{ inputs.aws_role_arn }}
+        aws-region: 'ca-central-1'
+    - name: Get AWS parameter
+      id: get-aws-parameter
+      env:
+        AWS_REGION: 'ca-central-1'
+      run: |
+        json_output=$(aws ssm get-parameter --name "${{ inputs.aws_param_name }}" --with-decryption --query "Parameter.Value")
+        echo "::add-mask::$json_output"
+        echo "PARAMETER=$json_output" >> $GITHUB_ENV
+    - name: Extract access key ID and secret access key
+      id: extract-keys
+      run: |
+        json_str=${{ env.PARAMETER }}
+        access_key_id=$(echo $json_str | jq -r '.current.AccessKeyID')
+        secret_access_key=$(echo $json_str | jq -r '.current.SecretAccessKey')
+        echo "::add-mask::$access_key_id"
+        echo "::add-mask::$secret_access_key"
+        echo "ACCESS_KEY_ID=$access_key_id" >> $GITHUB_ENV
+        echo "SECRET_ACCESS_KEY=$secret_access_key" >> $GITHUB_ENV
+    - name: deploy-secret
+      uses: redhat-actions/oc-login@v1
+      with:
+        openshift_server_url: ${{ inputs.openshift_server_url }}
+        openshift_token: ${{ inputs.openshift_token }}
+    - run: |
+        chmod +x ./lib/s3_secret_deploy.sh
+        ./lib/s3_secret_deploy.sh -n ${{ inputs.app_namespace }} \
+        --set app.namespace=${{ inputs.app_namespace }} \
+        --set s3.key=${{ env.ACCESS_KEY_ID }} \
+        --set s3.keySecret=${{ env.SECRET_ACCESS_KEY }} \
+        --values values.yaml

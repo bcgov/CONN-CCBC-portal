@@ -11,6 +11,8 @@ on:
 jobs:
   deploy-s3-secret-to-dev:
     runs-on: ubuntu-latest
+    environment:
+      name: automation
     steps:
       - name: Checkout
         uses: actions/checkout@v4
