@@ -96,9 +96,7 @@ const accessorFunctionGeneratorInjectsEmptyString = (accessorKey) => {
 };
 
 const normalizeStatusName = (status) => {
-  return status
-    .replace(status.charAt(0), status.charAt(0).toUpperCase())
-    .replaceAll('_', ' ');
+  return statusStyles[status]?.description;
 };
 
 const statusFilter = (row, id, filterValue) => {
