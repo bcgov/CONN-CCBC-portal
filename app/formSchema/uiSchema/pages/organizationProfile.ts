@@ -52,8 +52,8 @@ const organizationProfile = {
   indigenousEntityDesc: {
     'ui:options': {
       maxLength: MAX_MED_INPUT_LENGTH,
+      showCharacterCount: true,
     },
-    'ui:help': 'maximum 75 characters',
   },
   organizationOverview: {
     'ui:widget': 'TextAreaWidget',

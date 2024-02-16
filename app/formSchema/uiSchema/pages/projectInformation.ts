@@ -8,19 +8,19 @@ const projectInformation = {
   ],
   'ui:title': '',
   projectTitle: {
-    'ui:help': 'maximum 200 characters',
     'ui:title':
       'Provide a Project title. Be descriptive about the geographic region. Please refrain from using years in the title.',
     'ui:options': {
       maxLength: MAX_LONG_INPUT_LENGTH,
+      showCharacterCount: true,
     },
   },
   geographicAreaDescription: {
-    'ui:help': 'maximum 150 characters',
     'ui:title':
       'Describe the geographic location of the Project area (i.e., include the closest communities and the general area which the Project will target).',
     'ui:options': {
       maxLength: 150,
+      showCharacterCount: true,
     },
   },
   projectDescription: {

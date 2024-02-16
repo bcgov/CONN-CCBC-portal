@@ -12,10 +12,10 @@ const intakeUiSchema = {
     'ui:widget': 'DateTimePickerWidget',
   },
   description: {
-    'ui:help': 'Maximum 150 characters',
     'ui:options': {
       maxLength: 150,
       hideErrors: true,
+      showCharacterCount: true,
     },
   },
 };
