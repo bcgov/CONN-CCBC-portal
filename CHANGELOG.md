@@ -1,3 +1,9 @@
+# [1.141.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.140.0...v1.141.0) (2024-02-20)
+
+### Features
+
+- **cd:** add timezones for cronjobs ([3127f6c](https://github.com/bcgov/CONN-CCBC-portal/commit/3127f6caa78591e37b8148e00f33a9e51c025c79))
+
 # [1.140.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.139.0...v1.140.0) (2024-02-14)
 
 ### Bug Fixes
