@@ -62,9 +62,9 @@ const otherFundingSources = {
         'ui:widget': 'TextAreaWidget',
       },
       fundingPartnersName: {
-        'ui:help': 'maximum 150 characters',
         'ui:options': {
           maxLength: 150,
+          showCharacterCount: true,
         },
       },
       statusOfFunding: {
@@ -74,10 +74,10 @@ const otherFundingSources = {
         'ui:widget': 'SelectWidget',
       },
       nameOfFundingProgram: {
-        'ui:help': 'maximum 150 characters',
         'ui:options': {
           maxLength: 150,
           altOptionalText: 'if applicable',
+          showCharacterCount: true,
         },
       },
       requestedFundingPartner2223: {
