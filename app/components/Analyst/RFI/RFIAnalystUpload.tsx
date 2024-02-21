@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import styled from 'styled-components';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
+import validator from '@rjsf/validator-ajv8';
 
 const Flex = styled('header')`
   display: flex;
@@ -150,6 +151,7 @@ const RfiAnalystUpload = ({ query }) => {
           }}
           formData={rfiFormData}
           onSubmit={handleSubmit}
+          validator={validator}
           noValidate
         >
           <Button>Save</Button>

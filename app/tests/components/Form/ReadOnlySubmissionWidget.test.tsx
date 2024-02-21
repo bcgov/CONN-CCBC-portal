@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import type { JSONSchema7 } from 'json-schema';
 import { uiSchema } from 'formSchema';
+import { RJSFSchema } from '@rjsf/utils';
 import FormTestRenderer from '../../utils/formTestRenderer';
 
 const schema = {
@@ -23,7 +23,7 @@ const ui = {
 };
 
 const renderStaticLayout = (
-  s: JSONSchema7,
+  s: RJSFSchema,
   u: any,
   formData,
   formContext: any = {}
@@ -31,8 +31,8 @@ const renderStaticLayout = (
   return render(
     <FormTestRenderer
       formData={formData}
-      onSubmit={() => console.log('test')}
-      schema={s as JSONSchema7}
+      onSubmit={jest.fn}
+      schema={s as RJSFSchema}
       uiSchema={u}
       formContext={{
         finalUiSchema: uiSchema,
@@ -45,13 +45,13 @@ const renderStaticLayout = (
 
 describe('The ReadOnlySubmissionWidget', () => {
   it('should render the title', () => {
-    renderStaticLayout(schema as JSONSchema7, ui, {});
+    renderStaticLayout(schema as RJSFSchema, ui, {});
 
     expect(screen.getByText('On this date (YYYY-MM-DD)')).toBeInTheDocument();
   });
 
   it('should render the value', () => {
-    renderStaticLayout(schema as JSONSchema7, ui, {
+    renderStaticLayout(schema as RJSFSchema, ui, {
       submissionDate: '2022-09-22',
     });
 
@@ -60,7 +60,7 @@ describe('The ReadOnlySubmissionWidget', () => {
 
   it('should render error when project area not selected', () => {
     renderStaticLayout(
-      schema as JSONSchema7,
+      schema as RJSFSchema,
       ui,
       {
         submissionDate: '2022-09-22',
@@ -73,7 +73,7 @@ describe('The ReadOnlySubmissionWidget', () => {
 
   it('should render error when project area selected but an invalid selection', () => {
     renderStaticLayout(
-      schema as JSONSchema7,
+      schema as RJSFSchema,
       ui,
       {
         submissionDate: '2022-09-22',

@@ -4,7 +4,10 @@ import ProjectTheme from './ProjectTheme';
 
 const ChangeRequestTheme: ThemeProps = {
   ...ProjectTheme,
-  FieldTemplate: ChangeRequestFieldTemplate,
+  templates: {
+    ...ProjectTheme.templates,
+    FieldTemplate: ChangeRequestFieldTemplate,
+  },
 };
 
 export default ChangeRequestTheme;

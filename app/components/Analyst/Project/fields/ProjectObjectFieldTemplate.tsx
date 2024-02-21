@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ObjectFieldTemplateProps } from '@rjsf/core';
+import { ObjectFieldTemplateProps } from '@rjsf/utils';
 
 interface FlexProps {
   direction: string;

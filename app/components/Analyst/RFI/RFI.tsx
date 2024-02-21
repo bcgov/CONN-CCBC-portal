@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useUpdateRfiJsonDataMutation } from 'schema/mutations/application/updateRfiJsonData';
+import validator from '@rjsf/validator-ajv8';
 
 interface Props {
   id: string;
@@ -111,6 +112,7 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
         // Pass children to hide submit button
         // eslint-disable-next-line react/no-children-prop
         children
+        validator={validator}
       />
     </StyledContainer>
   );

@@ -2,7 +2,6 @@ import React, { useMemo, useRef, useState, ReactNode } from 'react';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
-import validateFormData from '@rjsf/core/dist/cjs/validate';
 import validator from 'validator';
 import ViewAnnouncements from 'components/Analyst/Project/Announcements/ViewAnnouncements';
 import announcementsSchema from 'formSchema/analyst/announcements';
@@ -12,6 +11,7 @@ import { useUpdateAnnouncementMutation } from 'schema/mutations/project/updateAn
 import Link from 'next/link';
 import Toast from 'components/Toast';
 import { Tooltip } from 'components';
+import Ajv8Validator from '@rjsf/validator-ajv8';
 import ProjectTheme from '../ProjectTheme';
 
 interface EditProps {
@@ -163,9 +163,12 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
   const isErrors = useMemo(() => {
-    const formErrors = validateFormData(formData, announcementsSchema)?.errors;
+    const formErrors = Ajv8Validator.validateFormData(
+      formData,
+      announcementsSchema
+    )?.errors;
     const filteredErrors = formErrors?.filter((error) => {
-      return error.message !== 'should be string';
+      return error.message !== 'must be string';
     });
     const isFormValid = filteredErrors.length <= 0;
     const url = formData?.announcementUrl;
@@ -264,6 +267,7 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
       isExpanded={isExpanded}
       isFormAnimated
       isFormEditMode={isFormEditMode}
+      liveValidate={false}
       showEditBtn={false}
       title="Announcements"
       schema={announcementsSchema}

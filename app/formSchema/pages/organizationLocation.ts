@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const organizationLocation: Record<string, JSONSchema7> = {
+const organizationLocation: Record<string, RJSFSchema> = {
   organizationLocation: {
     title: 'Organization location',
     description: 'Provide an address for your organization',

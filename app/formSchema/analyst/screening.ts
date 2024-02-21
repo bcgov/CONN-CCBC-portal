@@ -1,4 +1,4 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 import sharedAssessmentFields from './sharedAssessmentFields';
 
 // when a different label and title is needed
@@ -9,7 +9,7 @@ const eligible = 'Eligible';
 const ineligible = 'Ineligible';
 const incomplete = 'Incomplete';
 
-const screening: JSONSchema7 = {
+const screening: RJSFSchema = {
   title: ' ',
   description: '',
   type: 'object',

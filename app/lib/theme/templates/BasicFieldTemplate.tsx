@@ -1,4 +1,4 @@
-import { FieldTemplateProps } from '@rjsf/core';
+import { FieldTemplateProps } from '@rjsf/utils';
 import styled from 'styled-components';
 
 const StyledH4 = styled.h4`
@@ -27,9 +27,9 @@ const BasicFieldTemplate: React.FC<FieldTemplateProps> = ({
   uiSchema,
 }) => {
   const { title } = schema;
-  const uiTitle = uiSchema['ui:title'];
+  const uiTitle = uiSchema?.['ui:title'];
   const fieldTitle = uiTitle || title;
-  const hideErrors = uiSchema['ui:options']?.hideErrors;
+  const hideErrors = uiSchema?.['ui:options']?.hideErrors;
 
   return (
     <StyledContainer>

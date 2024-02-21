@@ -13,7 +13,7 @@ const ReviewCheckboxField: React.FC<FieldProps> = ({
   schema,
 }) => {
   const isChecked = formData;
-  const isErrors = Object.keys(formContext.errors).length > 0;
+  const isErrors = Object.keys(formContext.formErrorSchema).length > 0;
   return (
     <tr>
       {isErrors ? (

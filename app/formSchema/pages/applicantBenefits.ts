@@ -1,7 +1,7 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 import benefits from './benefits';
 
-const applicantBenefits: Record<string, JSONSchema7> = {
+const applicantBenefits: Record<string, RJSFSchema> = {
   benefits: {
     ...benefits.benefits,
     required: ['projectBenefits'],

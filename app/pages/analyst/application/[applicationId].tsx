@@ -11,6 +11,7 @@ import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import styled from 'styled-components';
+import validator from '@rjsf/validator-ajv8';
 
 const StyledButton = styled('button')`
   color: ${(props) => props.theme.color.links};
@@ -131,12 +132,14 @@ const Application = ({
           formContext={{
             // validate errors and pass through formContext for review checkbox section
             errors: formErrorSchema,
+            formErrorSchema,
             rfiList,
             toggleOverride,
             isEditable,
           }}
           formData={jsonData}
           tagName="div"
+          validator={validator}
         />
       </AnalystLayout>
     </Layout>

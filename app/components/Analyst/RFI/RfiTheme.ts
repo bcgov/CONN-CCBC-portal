@@ -25,9 +25,11 @@ const RfiTheme: ThemeProps = {
     DatePickerWidget,
     FileWidget,
   },
-  ObjectFieldTemplate,
-  FieldTemplate,
-  ArrayFieldTemplate,
+  templates: {
+    ObjectFieldTemplate,
+    FieldTemplate,
+    ArrayFieldTemplate,
+  },
 };
 
 // Modified RFI theme for the list RFI component
@@ -40,7 +42,10 @@ export const RfiViewTheme: ThemeProps = {
     CheckboxWidget: HiddenWidget,
     ListFilesWidget,
   },
-  FieldTemplate: RFiFieldTemplate,
+  templates: {
+    ...RfiTheme.templates,
+    FieldTemplate: RFiFieldTemplate,
+  },
 };
 
 export default RfiTheme;

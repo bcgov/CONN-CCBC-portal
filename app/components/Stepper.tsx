@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
-import { JSONSchema7 } from 'json-schema';
 import Link from 'next/link';
 import styled from 'styled-components';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
 import getFormPage from 'utils/getFormPage';
+import { RJSFSchema } from '@rjsf/utils';
 
 const StyledNav = styled('nav')`
   display: none;
@@ -48,7 +48,7 @@ const formPageListNoSubmission = uiSchema['ui:order'].filter((formName) => {
 });
 
 interface StepperProps {
-  schema: JSONSchema7;
+  schema: RJSFSchema;
 }
 
 const Stepper: React.FC<StepperProps> = ({ schema }) => {
@@ -67,7 +67,7 @@ const Stepper: React.FC<StepperProps> = ({ schema }) => {
           formPageList[Number(router.query.page) - 1] === formName;
 
         const pageNumber = getFormPage(formPageList, formName);
-        const formPageSchema = formSchema[formName] as JSONSchema7;
+        const formPageSchema = formSchema[formName] as RJSFSchema;
         if (!formPageSchema) return null;
         return (
           <>

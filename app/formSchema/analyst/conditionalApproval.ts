@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const conditionalApproval: JSONSchema7 = {
+const conditionalApproval: RJSFSchema = {
   title: 'Conditional approval',
   description: '',
   type: 'object',

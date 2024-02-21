@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const projectFunding: Record<string, JSONSchema7> = {
+const projectFunding: Record<string, RJSFSchema> = {
   projectFunding: {
     title: 'Project funding',
     type: 'object',

@@ -1,8 +1,8 @@
-import FormTestRenderer from '../../utils/formTestRenderer';
+import { RJSFSchema } from '@rjsf/utils';
 import { render, screen, fireEvent } from '@testing-library/react';
-import type { JSONSchema7 } from 'json-schema';
+import FormTestRenderer from '../../utils/formTestRenderer';
 
-const schema: JSONSchema7 = {
+const schema: RJSFSchema = {
   type: 'object',
   properties: {
     numericString: {
@@ -31,13 +31,13 @@ const uiSchema = {
   maxLength: { 'ui:widget': 'NumericStringWidget' },
 };
 
-const renderStaticLayout = (schema: JSONSchema7, uiSchema: any) => {
+const renderStaticLayout = (rjsfSchema: RJSFSchema, rjsfUiSchema: any) => {
   return render(
     <FormTestRenderer
       formData={{}}
-      onSubmit={() => console.log('test')}
-      schema={schema as JSONSchema7}
-      uiSchema={uiSchema}
+      onSubmit={jest.fn}
+      schema={rjsfSchema}
+      uiSchema={rjsfUiSchema}
     />
   );
 };

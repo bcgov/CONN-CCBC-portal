@@ -1,7 +1,15 @@
-import validateFormData from '@rjsf/core/dist/cjs/validate';
+import { getDefaultFormState } from '@rjsf/utils';
+import Ajv8Validator from '@rjsf/validator-ajv8';
 
 const validate = (formData: any, schema: any) => {
-  const errorSchema = validateFormData(formData, schema)?.errorSchema;
+  const fullFormData = getDefaultFormState(
+    Ajv8Validator,
+    schema,
+    formData,
+    {},
+    true
+  );
+  const { errorSchema } = Ajv8Validator.validateFormData(fullFormData, schema);
 
   const fileUploadPages = [
     'templateUploads',
@@ -18,8 +26,8 @@ const validate = (formData: any, schema: any) => {
         const errors = errorSchema[formPage][uploadField]['__errors'];
         // if errors includes 'should be string' and the field is not required or it is an array (filled), delete the error
         if (
-          (errors.includes('should be string') &&
-            Array.isArray(formData?.[formPage]?.[uploadField])) ||
+          (errors.includes('must be string') &&
+            Array.isArray(fullFormData?.[formPage]?.[uploadField])) ||
           !schema.properties[formPage]?.required?.includes(uploadField)
         ) {
           delete errorSchema[formPage][uploadField];

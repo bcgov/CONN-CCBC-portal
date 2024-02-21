@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import * as Sentry from '@sentry/nextjs';
 import { IChangeEvent } from '@rjsf/core';
 import { graphql, useFragment } from 'react-relay';
-import type { JSONSchema7 } from 'json-schema';
 import styled from 'styled-components';
 import validate from 'formSchema/validate';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
@@ -20,6 +19,8 @@ import { useFeature } from '@growthbook/growthbook-react';
 import { applicantBenefits as applicantBenefitsSchema } from 'formSchema/pages';
 import { applicantBenefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
+import validator from '@rjsf/validator-ajv8';
+import { RJSFSchema } from '@rjsf/utils';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
 import {
@@ -336,11 +337,11 @@ const ApplicationForm: React.FC<Props> = ({
   const [submitApplication, isSubmitting] = useSubmitApplicationMutation();
   const [updateApplicationForm, isUpdating] = useUpdateApplicationForm();
 
-  const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
+  const subschemaArray: [string, RJSFSchema][] = schemaToSubschemasArray(
     jsonSchema as object
   );
 
-  const sectionSchema = jsonSchema.properties[sectionName] as JSONSchema7;
+  const sectionSchema = jsonSchema.properties[sectionName] as RJSFSchema;
   const isWithdrawn = status === 'withdrawn';
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';
@@ -634,12 +635,13 @@ const ApplicationForm: React.FC<Props> = ({
         // Moved here to prevent cycle of FormBase calling the ReviewField through DefaultTheme
         fields={{ ReviewField }}
         formData={jsonData[sectionName]}
-        schema={sectionSchema as JSONSchema7}
+        schema={sectionSchema}
         uiSchema={finalUiSchema[sectionName]}
         // Todo: validate entire form on completion
         noValidate
         disabled={isFormDisabled()}
         formContext={formContext}
+        validator={validator}
       >
         <SubmitButtons
           disabled={!isSubmitEnabled || isSubmitting}

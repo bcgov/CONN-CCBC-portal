@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
-import type { JSONSchema7 } from 'json-schema';
 import { IChangeEvent } from '@rjsf/core';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Button from '@button-inc/bcgov-theme/Button';
@@ -20,6 +19,8 @@ import { SectionQuery } from '__generated__/SectionQuery.graphql';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 import { analystProjectArea, benefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
+import validator from '@rjsf/validator-ajv8';
+import { RJSFSchema } from '@rjsf/utils';
 
 const getSectionQuery = graphql`
   query SectionQuery($rowId: Int!) {
@@ -70,7 +71,7 @@ const EditApplication = ({
     },
   };
 
-  const sectionSchema = formSchema.properties[sectionName] as JSONSchema7;
+  const sectionSchema = formSchema.properties[sectionName] as RJSFSchema;
   uiSchema.benefits = { ...uiSchema.benefits, ...benefits } as any;
   uiSchema.projectArea = {
     ...uiSchema.projectArea,
@@ -142,6 +143,7 @@ const EditApplication = ({
           schema={sectionSchema}
           uiSchema={uiSchema[sectionName]}
           onSubmit={triggerModal}
+          validator={validator}
           noValidate
         >
           <button

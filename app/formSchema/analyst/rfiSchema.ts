@@ -1,4 +1,4 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
 const rfi = {
   title: '',
@@ -278,6 +278,6 @@ const rfi = {
       uniqueItems: true,
     },
   },
-} as Record<string, JSONSchema7>;
+} as RJSFSchema;
 
 export default rfi;

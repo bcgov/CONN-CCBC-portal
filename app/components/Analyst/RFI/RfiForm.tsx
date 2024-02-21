@@ -11,6 +11,7 @@ import { graphql, useFragment } from 'react-relay';
 import { RfiForm_RfiData$key } from '__generated__/RfiForm_RfiData.graphql';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import removeFalseyValuesFromObject from 'utils/removeFalseValuesFromObject';
+import validator from '@rjsf/validator-ajv8';
 import RfiTheme from './RfiTheme';
 
 const StyledCancel = styled(Button)`
@@ -100,6 +101,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
         omitExtraData={false}
         formData={rfiFormData?.jsonData ?? {}}
         onSubmit={handleSubmit}
+        validator={validator}
         noValidate
       >
         <Button>Save</Button>

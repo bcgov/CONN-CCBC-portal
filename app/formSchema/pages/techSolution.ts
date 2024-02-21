@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const techSolution: Record<string, JSONSchema7> = {
+const techSolution: Record<string, RJSFSchema> = {
   techSolution: {
     title: 'Technological solution',
     type: 'object',

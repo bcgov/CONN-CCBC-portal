@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const sharedAssessmentFields: JSONSchema7 = {
+const sharedAssessmentFields: RJSFSchema = {
   properties: {
     assignedTo: {
       title: 'Assigned to',

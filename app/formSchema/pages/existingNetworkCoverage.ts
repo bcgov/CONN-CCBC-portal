@@ -1,4 +1,4 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
 const existingNetworkCoverage = {
   existingNetworkCoverage: {
@@ -26,23 +26,29 @@ const existingNetworkCoverage = {
         title:
           'Does the Applicant own Passive Infrastructure (including, for example, towers, poles, rights of way or other similar assets and infrastructure)?',
         type: 'boolean',
-        enum: [true, false],
-        enumNames: ['Yes', 'No'],
+        oneOf: [
+          { const: true, title: 'Yes' },
+          { const: false, title: 'No' },
+        ],
       },
       isInfrastructureAvailable: {
         title: `Does the Applicant intend to make reasonable efforts to make its Passive Infrastructure available for use by other broadband operators to expand and improve Coverage in Canada?`,
         type: 'boolean',
-        enum: [true, false],
-        enumNames: ['Yes', 'No'],
+        oneOf: [
+          { const: true, title: 'Yes' },
+          { const: false, title: 'No' },
+        ],
       },
       requiresThirdPartyInfrastructureAccess: {
         title: `Does the Applicant’s Project require access to Third Party Passive Infrastructure (i.e., towers, poles, rights of way or other similar assets and infrastructure)?`,
         type: 'boolean',
-        enum: [true, false],
-        enumNames: ['Yes', 'No'],
+        oneOf: [
+          { const: true, title: 'Yes' },
+          { const: false, title: 'No' },
+        ],
       },
     },
   },
-} as Record<string, JSONSchema7>;
+} as Record<string, RJSFSchema>;
 
 export default existingNetworkCoverage;

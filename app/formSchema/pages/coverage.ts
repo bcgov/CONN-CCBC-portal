@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const coverage: Record<string, JSONSchema7> = {
+const coverage: Record<string, RJSFSchema> = {
   coverage: {
     title: 'Coverage',
     type: 'object',
