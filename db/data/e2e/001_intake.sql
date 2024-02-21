@@ -10,7 +10,7 @@ overriding system value
 values
   (1, '2022-08-19 09:00:00 America/Vancouver','2022-11-06 09:00:00 America/Vancouver', 1, 1),
   (2, '2023-01-15 00:00:00 America/Vancouver','2023-03-15 00:00:00 America/Vancouver', 2, 2),
-  (3, '2023-10-01 00:00:00 America/Vancouver','2023-10-30 00:00:00 America/Vancouver', 3, 3),
+  (3, '2023-10-01 00:00:00 America/Vancouver','2023-10-30 00:00:00 America/Vancouver', 3, 3)
 
 on conflict (id) do update set
 open_timestamp = excluded.open_timestamp,
