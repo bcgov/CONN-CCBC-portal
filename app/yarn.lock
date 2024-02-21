@@ -5792,10 +5792,10 @@ babel-plugin-module-resolver@^4.1.0:
     reselect "^4.0.0"
     resolve "^1.13.1"
 
-babel-plugin-relay@^13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-13.2.0.tgz#2145f05373ef8e452c6aff14c9055994a14d47a7"
-  integrity sha512-1jGcpu0aTHkbBNtMDq7F3ZQWtVPSJfIx83lW1Qce/AMElD27JEjXd9eRPwU0/9K6JQgjLESQMjurCwJAEF8Xxw==
+babel-plugin-relay@^16.2.0:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-16.2.0.tgz#2fd0e7bdb8318b1ee5a06403d70d0f851ea51731"
+  integrity sha512-+3n7kSFH5MelySnO5MLXl2S+Bq4nAGcdWylXeqNXZODbzgYtqak194Z4u5KElLAHGhsyKIMTW7qazBPvMbxhFQ==
   dependencies:
     babel-plugin-macros "^2.0.0"
     cosmiconfig "^5.0.5"
