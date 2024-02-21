@@ -35,6 +35,7 @@ const StyledError = styled('div')`
 
 const StyledMessage = styled('div')`
   display: flex;
+  flex-direction: column;
   &::after {
     content: '.';
     visibility: hidden;
@@ -56,6 +57,10 @@ const TextWidget: React.FC<WidgetProps> = (props) => {
   } = props;
   const [error, setError] = useState('');
 
+  const [characterCount, setCharacterCount] = useState(
+    value ? value.length : 0
+  );
+
   // There is no NumberWidget by default in rjsf, so NumberField renders a TextWidget
   // This allows us to default to a NumberWidget without specifying it in the uiSchema for every number
   if (schema.type === 'number') return <NumberWidget {...props} />;
@@ -64,9 +69,9 @@ const TextWidget: React.FC<WidgetProps> = (props) => {
 
   // Check types to make react-currency-input-field happy
   const maxLength =
-    typeof uiSchema['ui:options']?.maxLength === 'number'
-      ? uiSchema['ui:options']?.maxLength
-      : undefined;
+    parseInt(String(uiSchema['ui:options']?.maxLength), 10) || INPUT_MAX_LENGTH;
+  const showCharacterCount =
+    uiSchema['ui:options']?.showCharacterCount ?? false;
   const minLength =
     typeof uiSchema['ui:options']?.minLength === 'number'
       ? uiSchema['ui:options']?.minLength
@@ -91,6 +96,12 @@ const TextWidget: React.FC<WidgetProps> = (props) => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const inputValue = e.target.value;
+    checkValidations(onChange, inputValue);
+    setCharacterCount(inputValue.length);
+  };
+
   return (
     <StyledDiv>
       <StyledInput
@@ -99,22 +110,21 @@ const TextWidget: React.FC<WidgetProps> = (props) => {
         id={id}
         disabled={disabled}
         data-testid={id}
-        onChange={(e: { target: { value: string } }) => {
-          const val = e.target.value;
-          checkValidations(onChange, val);
-        }}
+        onChange={handleInputChange}
         placeholder={placeholder}
         value={value ?? ''}
         min={0}
         size="medium"
         required={required}
         aria-label={label}
-        maxLength={maxLength || INPUT_MAX_LENGTH}
+        maxLength={maxLength}
         minLength={minLength}
       />
       <StyledMessage>
         {error && <StyledError>{error}</StyledError>}
-
+        {showCharacterCount && (
+          <Label>{maxLength - characterCount} characters remaining</Label>
+        )}
         {help && <Label>{help}</Label>}
       </StyledMessage>
     </StyledDiv>

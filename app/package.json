@@ -111,7 +111,7 @@
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.226.0",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
-    "@testing-library/cypress": "^8.0.3",
+    "@testing-library/cypress": "^10.0.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^14.1.2",
     "@testing-library/react-hooks": "^8.0.1",
@@ -153,7 +153,7 @@
     "happo.io": "^8.3.3",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
-    "jest-extended": "^3.0.2",
+    "jest-extended": "^4.0.2",
     "jest-mock": "^29.7.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.6.2",
