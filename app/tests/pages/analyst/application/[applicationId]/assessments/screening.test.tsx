@@ -150,6 +150,7 @@ describe('The index page', () => {
         _jsonData: {
           nextStep: 'Not started',
           decision: 'Eligible',
+          contestingMap: [],
         },
         _assessmentType: 'screening',
       },

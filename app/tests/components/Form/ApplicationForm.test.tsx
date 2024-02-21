@@ -210,7 +210,21 @@ describe('The application form', () => {
       componentTestingHelper.environment.mock.getMostRecentOperation();
 
     act(() => {
-      componentTestingHelper.environment.mock.complete(updateFormRequest);
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          updateApplicationForm: {
+            formData: {
+              id: 'TestFormId',
+              rowId: 123,
+              jsonData: updateFormRequest.request.variables.input.jsonData,
+            },
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
+            isEditable: true,
+          },
+        },
+      });
     });
 
     expect(

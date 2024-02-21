@@ -25,10 +25,6 @@ const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
 
   return (
     <ThemedForm
-      // https://github.com/rjsf-team/react-jsonschema-form/pull/4085
-      experimental_defaultFormStateBehavior={{
-        emptyObjectFields: 'skipEmptyDefaults',
-      }}
       {...props}
       // Always pass a form data, at least an empty object to prevent
       // onChange to be triggered on render when the page changes, which has associated bugs

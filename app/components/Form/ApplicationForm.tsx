@@ -438,17 +438,19 @@ const ApplicationForm: React.FC<Props> = ({
         newFormSectionData?.geographicArea?.[0] === 'undefined' ||
         newFormSectionData?.geographicArea?.length === 0;
       const projectAreaAccepted =
-        !isGeographicAreaEmpty &&
-        (firstNationsLed ||
-          acceptedProjectAreasArray.includes(
-            newFormSectionData?.geographicArea?.[0]?.toString()
-          ));
+        firstNationsLed ||
+        (!isGeographicAreaEmpty &&
+          (firstNationsLed ||
+            acceptedProjectAreasArray.includes(
+              newFormSectionData?.geographicArea?.[0]?.toString()
+            )));
 
       const geographicAreaInputChanged =
         typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
         newFormSectionData?.geographicArea[0] !==
           jsonData.projectArea?.geographicArea?.[0];
       const firstNationsLedInputChanged =
+        typeof newFormSectionData?.firstNationsLed !== 'undefined' &&
         firstNationsLed !== jsonData.projectArea?.firstNationsLed;
 
       if (isSubmitted && !projectAreaAccepted) {

@@ -174,6 +174,7 @@ describe('The RFIAnalystUpload component', () => {
       {
         input: {
           jsonData: {
+            rfiType: [],
             rfiAdditionalFiles: {
               detailedBudgetRfi: true,
               eligibilityAndImpactsCalculatorRfi: true,
