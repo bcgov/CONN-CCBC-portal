@@ -55,7 +55,7 @@ describe('The admin Application intakes page', () => {
     cy.contains('h2', 'Application Intakes');
     cy.wait('@graphql');
     cy.get('[data-testid="edit-intake"]').first().click();
-    cy.get('input[id="root_startDate"]').type('2024-01-15 00:00 AM');
+    cy.get('input[id="root_startDate"]').type('2024-01-16 00:00 AM');
     cy.contains('Start date & time must not overlap with the previous intake');
   });
 
