@@ -165,12 +165,13 @@ export const authCallbackController =
       );
       const endTime = Date.now();
       const elapsedTime = endTime - startTime;
+      // eslint-disable-next-line no-console
       console.log(`Elapsed time from callback: ${elapsedTime} milliseconds`);
       req.session.tokenSet = tokenSet;
       req.claims = tokenSet.claims();
 
+      // Temporarily disable the onAuthCallback for debugging purposes
       // if (typeof options.onAuthCallback === 'function') {
-      //   console.log('calling onAuthCallback')
       //   await options.onAuthCallback(req);
       // }
 
