@@ -28,8 +28,8 @@ type Application = {
   packageNumber?: number;
   projectTitle: string;
   organizationName: string;
-  analystStatus: string;
-  externalStatus: string;
+  analystStatus: string[];
+  externalStatus: string[];
   analystLead?: string;
   zones: readonly number[];
 };
@@ -100,7 +100,10 @@ const normalizeStatusName = (status) => {
 };
 
 const statusFilter = (row, id, filterValue) => {
-  return normalizeStatusName(row.getValue(id)) === filterValue;
+  if (filterValue.length === 0) {
+    return true;
+  }
+  return filterValue.includes(normalizeStatusName(row.getValue(id)));
 };
 
 interface Props {
@@ -362,7 +365,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         Cell: AnalystStatusCell,
         size: 30,
         maxSize: 40,
-        filterVariant: 'select',
+        filterVariant: 'multi-select',
         filterFn: statusFilter,
         filterSelectOptions: analystStatuses,
       },
@@ -372,7 +375,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         size: 30,
         maxSize: 40,
         Cell: ApplicantStatusCell,
-        filterVariant: 'select',
+        filterVariant: 'multi-select',
         filterFn: statusFilter,
         filterSelectOptions: externalStatuses,
       },
