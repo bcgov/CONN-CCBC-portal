@@ -28,8 +28,8 @@ type Application = {
   packageNumber?: number;
   projectTitle: string;
   organizationName: string;
-  analystStatus: string[];
-  externalStatus: string[];
+  analystStatus: string;
+  externalStatus: string;
   analystLead?: string;
   zones: readonly number[];
 };
