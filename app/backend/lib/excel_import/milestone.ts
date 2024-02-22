@@ -43,6 +43,8 @@ const readSummary = async (wb, sheets, applicationId, milestoneId) => {
   };
 
   const isEndOfMilestoneTable = (row) => {
+    if (row === undefined) return false;
+
     return (
       row['A'] !== 'Land Access Agreement/Permit Update' &&
       (row['A'] !== undefined || row['A'] !== null)
@@ -68,7 +70,6 @@ const readSummary = async (wb, sheets, applicationId, milestoneId) => {
     isEndOfMilestoneTable(milestone1Sheet[i]);
     i++
   ) {
-    console.log(milestone1Sheet[i], milestone1Sheet[i + 1]);
     const data = {
       projectSite: milestone1Sheet[i]['A'],
       siteId: milestone1Sheet[i]['C'],
