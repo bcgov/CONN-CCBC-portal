@@ -28,7 +28,6 @@ const AssignLead: React.FC<Props> = ({
   jsonData,
 }) => {
   const [createAssessment] = useCreateAssessmentMutation();
-
   const handleChange = (e) => {
     const analyst = e.target.value;
     const newJsonData = {
@@ -59,16 +58,20 @@ const AssignLead: React.FC<Props> = ({
       {analystList.map((analystKey) => {
         const analyst = allAnalysts[analystKey]?.node;
         const analystName = `${analyst.givenName} ${analyst.familyName}`;
-
-        return (
-          <option
-            key={analystName}
-            value={analyst.rowId}
-            selected={lead === analystName}
-          >
-            {analystName}
-          </option>
-        );
+        if (analyst.active || lead === analystName) {
+          return (
+            <option
+              key={analystName}
+              value={analyst.rowId}
+              selected={lead === analystName}
+              disabled={!analyst.active}
+              hidden={!analyst.active}
+            >
+              {analystName}
+            </option>
+          );
+        }
+        return null;
       })}
     </StyledDropdown>
   );
