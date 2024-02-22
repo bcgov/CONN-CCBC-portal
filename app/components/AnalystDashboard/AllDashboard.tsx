@@ -19,15 +19,19 @@ import StatusPill from 'components/StatusPill';
 import statusStyles from 'data/statusStyles';
 import Link from 'next/link';
 import ClearFilters from 'components/Table/ClearFilters';
+import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
+import { filterZones } from './AssessmentAssignmentTable';
 
 type Application = {
   ccbcNumber: string;
   applicationId: number;
-  package: number;
+  packageNumber?: number;
   projectTitle: string;
   organizationName: string;
   analystStatus: string;
   externalStatus: string;
+  analystLead?: string;
+  zones: readonly number[];
 };
 
 export const filterNumber = (row, id, filterValue) => {
@@ -85,12 +89,26 @@ const ApplicantStatusCell = ({ cell }) => {
   return <StatusPill status={analystStatus} styles={statusStyles} />;
 };
 
+const filterOutNullishs = (val) => val !== undefined && val !== null;
+
+const accessorFunctionGeneratorInjectsEmptyString = (accessorKey) => {
+  return (row) => row[accessorKey] ?? '';
+};
+
+const normalizeStatusName = (status) => {
+  return statusStyles[status]?.description;
+};
+
+const statusFilter = (row, id, filterValue) => {
+  return normalizeStatusName(row.getValue(id)) === filterValue;
+};
+
 interface Props {
   query: any;
 }
 
 const AllDashboardTable: React.FC<Props> = ({ query }) => {
-  const queryFragment = useFragment(
+  const queryFragment = useFragment<AllDashboardTable_query$key>(
     graphql`
       fragment AllDashboardTable_query on Query {
         ...AssignLead_query
@@ -255,13 +273,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           intakeNumber,
         } = application;
 
-        const zoneString = zones?.join(', ') ?? '';
-
         return {
           applicationId,
           ccbcNumber,
           packageNumber,
-          zones: zoneString,
+          zones,
           analystStatus,
           externalStatus,
           analystLead,
@@ -276,13 +292,52 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   );
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
+    const uniqueIntakeNumbers = [
+      ...new Set(
+        allApplications.edges.map((edge) => edge.node?.intakeNumber?.toString())
+      ),
+    ];
+
+    const uniqueZones = [
+      ...new Set(allApplications.edges.flatMap((edge) => edge.node.zones)),
+    ]
+      .map((zone) => zone.toString())
+      .sort((a, b) => Number(a) - Number(b));
+
+    const analystStatuses = [
+      ...new Set(
+        allApplications.edges.map((edge) => {
+          return normalizeStatusName(edge.node.analystStatus);
+        })
+      ),
+    ];
+
+    const externalStatuses = [
+      ...new Set(
+        allApplications.edges.map((edge) =>
+          normalizeStatusName(edge.node.externalStatus)
+        )
+      ),
+    ];
+
+    const uniqueLeads = [
+      ...new Set(allApplications.edges.map((edge) => edge.node.analystLead)),
+    ].filter(filterOutNullishs);
+
+    const uniquePackages = [
+      ...new Set(
+        allApplications.edges.map((edge) => edge.node.package?.toString())
+      ),
+    ].filter(filterOutNullishs);
+
     return [
       {
         accessorKey: 'intakeNumber',
         header: 'Intake',
         size: 26,
         maxSize: 26,
-        filterFn: 'contains',
+        filterVariant: 'select',
+        filterSelectOptions: uniqueIntakeNumbers,
       },
       {
         accessorKey: 'ccbcNumber',
@@ -296,23 +351,30 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         header: 'Zones',
         size: 26,
         maxSize: 26,
-        filterFn: 'contains',
+        Cell: ({ cell }) => (cell.getValue() as number[]).join(', ') ?? [],
+        filterVariant: 'select',
+        filterSelectOptions: uniqueZones,
+        filterFn: filterZones,
       },
       {
         accessorKey: 'analystStatus',
         header: 'Internal Status',
         Cell: AnalystStatusCell,
         size: 30,
-        maxSize: 30,
-        filterFn: 'contains',
+        maxSize: 40,
+        filterVariant: 'select',
+        filterFn: statusFilter,
+        filterSelectOptions: analystStatuses,
       },
       {
         accessorKey: 'externalStatus',
         header: 'External Status',
         size: 30,
-        maxSize: 30,
+        maxSize: 40,
         Cell: ApplicantStatusCell,
-        filterFn: 'contains',
+        filterVariant: 'select',
+        filterFn: statusFilter,
+        filterSelectOptions: externalStatuses,
       },
       {
         accessorKey: 'projectTitle',
@@ -328,19 +390,22 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         size: 30,
         header: 'Lead',
         maxSize: 30,
-        accessorKey: 'analystLead',
+        accessorFn: accessorFunctionGeneratorInjectsEmptyString('analystLead'),
         Cell: AssignAnalystLead,
-        filterFn: 'contains',
+        filterVariant: 'select',
+        filterSelectOptions: uniqueLeads,
       },
       {
-        accessorKey: 'packageNumber',
+        accessorFn:
+          accessorFunctionGeneratorInjectsEmptyString('packageNumber'),
         header: 'Package',
         size: 26,
         maxSize: 26,
-        filterFn: 'filterNumber',
+        filterVariant: 'select',
+        filterSelectOptions: uniquePackages,
       },
     ];
-  }, [AssignAnalystLead]);
+  }, [AssignAnalystLead, allApplications]);
 
   const handleOnSortChange = (sort) => {
     if (!isFirstRender) {
@@ -367,6 +432,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     enableBottomToolbar: false,
     filterFns: {
       filterNumber,
+      statusFilter,
     },
     renderTopToolbarCustomActions: () => (
       <ClearFilters table={table} filters={table.getState().columnFilters} />

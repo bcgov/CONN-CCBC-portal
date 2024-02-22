@@ -56,7 +56,7 @@ export const filterCcbcId = (row, id, filterValue) => {
   return ccbcId.toLowerCase().includes(filterValue.toLowerCase());
 };
 
-const filterZones = (row, id, filterValue) => {
+export const filterZones = (row, id, filterValue) => {
   const zones = row.getValue(id) as any;
 
   if (!zones) {
@@ -179,7 +179,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               analystStatus
               ccbcNumber
               rowId
-              intakeId
+              intakeNumber
               zones
               applicationSowDataByApplicationId(
                 condition: { isAmendment: false }
@@ -292,8 +292,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     const newSort = sort();
     if (!isFirstRender) setSorting(newSort);
   };
-  const uniqueIntakeIds: string[] | unknown[] | null = [
-    ...new Set(allApplications.edges.map((edge) => edge.node.intakeId)),
+  const uniqueIntakeNumbers: string[] | unknown[] | null = [
+    ...new Set(allApplications.edges.map((edge) => edge.node.intakeNumber)),
   ];
 
   const allZones: string[] = allApplications.edges.flatMap(
@@ -307,7 +307,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     () =>
       allApplications.edges.map(({ node: application }) => {
         const {
-          intakeId,
+          intakeNumber,
           ccbcNumber,
           organizationName,
           zones,
@@ -316,7 +316,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
 
         return {
           applicationId,
-          intakeId: intakeId.toString(),
+          intakeId: intakeNumber.toString(),
           ccbcNumber,
           zones,
           allAnalysts,
@@ -364,7 +364,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         size: 24,
         maxSize: 24,
         filterVariant: 'select',
-        filterSelectOptions: uniqueIntakeIds as string[],
+        filterSelectOptions: uniqueIntakeNumbers as string[],
       },
       {
         accessorKey: 'ccbcNumber',

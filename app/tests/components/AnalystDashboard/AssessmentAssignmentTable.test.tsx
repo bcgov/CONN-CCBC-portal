@@ -106,7 +106,7 @@ const mockQueryPayload = {
               status: 'received',
               ccbcNumber: 'CCBC-010001',
               rowId: 1,
-              intakeId: 1,
+              intakeNumber: 1,
               zones: [2],
             },
           },
@@ -119,7 +119,7 @@ const mockQueryPayload = {
               status: 'received',
               ccbcNumber: 'CCBC-010002',
               rowId: 2,
-              intakeId: 1,
+              intakeNumber: 1,
               zones: [2],
             },
           },
@@ -132,7 +132,7 @@ const mockQueryPayload = {
               status: 'received',
               ccbcNumber: 'CCBC-010006',
               rowId: 8,
-              intakeId: 1,
+              intakeNumber: 1,
               zones: [5],
             },
           },
@@ -145,7 +145,7 @@ const mockQueryPayload = {
               status: 'received',
               ccbcNumber: 'CCBC-010007',
               rowId: 9,
-              intakeId: 2,
+              intakeNumber: 2,
               zones: [2],
             },
           },
@@ -290,10 +290,10 @@ describe('The AssessmentAssignmentTable component', () => {
       fireEvent.click(columnActions);
     });
 
-    const intakeIdFilter = screen.getAllByText('Filter by Intake')[0];
+    const intakeNumberFilter = screen.getAllByText('Filter by Intake')[0];
 
     await act(async () => {
-      fireEvent.keyDown(intakeIdFilter, { key: 'Enter', code: 'Enter' });
+      fireEvent.keyDown(intakeNumberFilter, { key: 'Enter', code: 'Enter' });
     });
 
     await new Promise((r) => {
