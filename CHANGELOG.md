@@ -1,3 +1,13 @@
+# [1.142.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.141.0...v1.142.0) (2024-02-22)
+
+### Bug Fixes
+
+- normalize status names when comparing ([297853f](https://github.com/bcgov/CONN-CCBC-portal/commit/297853f98c2c488712aa3268962694b9a31f8d71))
+
+### Features
+
+- dashboard uses dropdown for filtering ([e0c3716](https://github.com/bcgov/CONN-CCBC-portal/commit/e0c3716e0405de1483945d519962c96f1c0bfa9e))
+
 # [1.141.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.140.0...v1.141.0) (2024-02-21)
 
 ### Features
