@@ -328,48 +328,60 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
 
   const tableData = useMemo(
     () =>
-      allApplications.edges.map(({ node: application }) => {
-        const {
-          intakeNumber,
-          ccbcNumber,
-          organizationName,
-          zones,
-          rowId: applicationId,
-        } = application;
+      allApplications.edges
+        .map(({ node: application }) => {
+          // if assessments length is not 6 or any assessment is not complete
+          const incompleteAssessments =
+            application.allAssessments.edges.length !== 6 ||
+            application.allAssessments.edges.some(
+              (assessment) =>
+                assessment?.node?.jsonData?.nextStep !== 'Assessment complete'
+            );
+          if (incompleteAssessments) {
+            const {
+              intakeNumber,
+              ccbcNumber,
+              organizationName,
+              zones,
+              rowId: applicationId,
+            } = application;
 
-        return {
-          applicationId,
-          intakeId: intakeNumber.toString(),
-          ccbcNumber,
-          zones,
-          allAnalysts,
-          pmAssessment: findAssessment(
-            application.allAssessments.edges,
-            'projectManagement'
-          ),
-          techAssessment: findAssessment(
-            application.allAssessments.edges,
-            'technical'
-          ),
-          permittingAssessment: findAssessment(
-            application.allAssessments.edges,
-            'permitting'
-          ),
-          gisAssessment: findAssessment(
-            application.allAssessments.edges,
-            'gis'
-          ),
-          screeningAssessment: findAssessment(
-            application.allAssessments.edges,
-            'screening'
-          ),
-          financialRiskAssessment: findAssessment(
-            application.allAssessments.edges,
-            'financialRisk'
-          ),
-          organizationName,
-        };
-      }),
+            return {
+              applicationId,
+              intakeId: intakeNumber.toString(),
+              ccbcNumber,
+              zones,
+              allAnalysts,
+              pmAssessment: findAssessment(
+                application.allAssessments.edges,
+                'projectManagement'
+              ),
+              techAssessment: findAssessment(
+                application.allAssessments.edges,
+                'technical'
+              ),
+              permittingAssessment: findAssessment(
+                application.allAssessments.edges,
+                'permitting'
+              ),
+              gisAssessment: findAssessment(
+                application.allAssessments.edges,
+                'gis'
+              ),
+              screeningAssessment: findAssessment(
+                application.allAssessments.edges,
+                'screening'
+              ),
+              financialRiskAssessment: findAssessment(
+                application.allAssessments.edges,
+                'financialRisk'
+              ),
+              organizationName,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean),
     [allApplications, allAnalysts]
   );
 
