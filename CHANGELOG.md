@@ -1,3 +1,9 @@
+## [1.142.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.142.0...v1.142.1) (2024-02-23)
+
+### Bug Fixes
+
+- show analyst assigned if no longer active ([754d7e7](https://github.com/bcgov/CONN-CCBC-portal/commit/754d7e7f4ec97b39d4cd7df4b190af54fa26463e))
+
 # [1.142.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.141.0...v1.142.0) (2024-02-22)
 
 ### Bug Fixes
