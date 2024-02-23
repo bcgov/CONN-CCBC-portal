@@ -3,10 +3,7 @@ import { useCreateAssessmentMutation } from '../../schema/mutations/assessment/c
 
 const StyledDropdown = styled.select`
   text-overflow: ellipsis;
-  background-color: inherit;
-  border: none;
   max-width: 100%;
-  margin-left: -4px; // Optical - to align with the table header cell
 
   &:focus {
     border: none;
@@ -50,8 +47,37 @@ const AssignLead: React.FC<Props> = ({
 
   const analystList = Object.keys(allAnalysts);
 
+  let backgroundColor: string;
+  let color = '#FFFFFF';
+  let border = '3px';
+  let borderRadius = '5px';
+  if (jsonData?.nextStep === 'Assessment complete') {
+    backgroundColor = '#2E8540';
+    if (jsonData?.decision?.length > 0) {
+      backgroundColor = '#345FA9';
+    }
+  } else if (jsonData?.nextStep === 'Needs RFI') {
+    color = '#313132';
+    backgroundColor = '#F8E78F';
+  } else if ((jsonData?.nextStep === 'Not started' && lead) || lead) {
+    backgroundColor = '#DBE6F0';
+    color = '#313132';
+  } else if (jsonData?.nextStep === 'Needs 2nd review') {
+    backgroundColor = '#F8E78F';
+    color = '#313132';
+  } else {
+    backgroundColor = 'inherit';
+    color = 'inherit';
+    border = 'none';
+    borderRadius = 'unset';
+  }
+
   return (
-    <StyledDropdown data-testid="assign-lead" onChange={handleChange}>
+    <StyledDropdown
+      data-testid="assign-lead"
+      onChange={handleChange}
+      style={{ backgroundColor, color, border, borderRadius }}
+    >
       <option key="Unassigned" selected={!lead} value={null}>
         Unassigned
       </option>
