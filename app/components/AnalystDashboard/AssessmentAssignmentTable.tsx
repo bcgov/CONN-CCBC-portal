@@ -517,7 +517,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       <Box>
         <StyledText>
           Showing applications with status of “Received”, “Screening” and
-          “Assessment.”
+          “Assessment”, and that have at least one incomplete assessment.
         </StyledText>
         <ClearFilters table={table} filters={table.getState().columnFilters} />
       </Box>
