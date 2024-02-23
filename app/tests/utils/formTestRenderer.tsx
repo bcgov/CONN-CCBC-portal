@@ -4,7 +4,6 @@ import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
 import { getClientEnvironment } from 'lib/relay/client';
 import defaultTheme from 'lib/theme/DefaultTheme';
 import GlobalTheme from 'styles/GlobalTheme';
-import validator from '@rjsf/validator-ajv8';
 import { RJSFSchema } from '@rjsf/utils';
 
 type Props = {
@@ -40,7 +39,6 @@ const FormTestRenderer: React.FC<Props> = ({
           schema={schema as RJSFSchema}
           uiSchema={uiSchema}
           formContext={formContext}
-          validator={validator}
         />
       </GlobalTheme>
     </RelayEnvironmentProvider>

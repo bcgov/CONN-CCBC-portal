@@ -12,7 +12,7 @@ import RFiFieldTemplate from './FieldTemplate';
 import ObjectFieldTemplate from './ObjectFieldTemplate';
 import ListFilesWidget from './ListFilesWidget';
 
-const { fields, widgets: defaultWidgets } = getDefaultRegistry();
+const { fields, widgets: defaultWidgets, templates } = getDefaultRegistry();
 
 const RfiTheme: ThemeProps = {
   fields: {
@@ -26,6 +26,7 @@ const RfiTheme: ThemeProps = {
     FileWidget,
   },
   templates: {
+    ...templates,
     ObjectFieldTemplate,
     FieldTemplate,
     ArrayFieldTemplate,

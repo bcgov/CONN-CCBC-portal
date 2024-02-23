@@ -19,7 +19,6 @@ import { useFeature } from '@growthbook/growthbook-react';
 import { applicantBenefits as applicantBenefitsSchema } from 'formSchema/pages';
 import { applicantBenefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
-import validator from '@rjsf/validator-ajv8';
 import { RJSFSchema } from '@rjsf/utils';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
@@ -643,7 +642,6 @@ const ApplicationForm: React.FC<Props> = ({
         noValidate
         disabled={isFormDisabled()}
         formContext={formContext}
-        validator={validator}
       >
         <SubmitButtons
           disabled={!isSubmitEnabled || isSubmitting}

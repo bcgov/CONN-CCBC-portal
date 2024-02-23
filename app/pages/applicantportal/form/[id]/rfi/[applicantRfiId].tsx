@@ -16,7 +16,6 @@ import FormDiv from 'components/FormDiv';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
-import validator from '@rjsf/validator-ajv8';
 
 const Flex = styled('header')`
   display: flex;
@@ -166,7 +165,6 @@ const ApplicantRfiPage = ({
             onSubmit={handleSubmit}
             noValidate
             formContext={{ setTemplateData }}
-            validator={validator}
           >
             <Button>Save</Button>
           </FormBase>

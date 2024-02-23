@@ -7,7 +7,6 @@ import { IChangeEvent } from '@rjsf/core';
 import LoadingSpinner from 'components/LoadingSpinner';
 import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createAssessment';
 import assessmentsUiSchema from 'formSchema/uiSchema/analyst/assessmentsUiSchema';
-import validator from '@rjsf/validator-ajv8';
 import { RJSFSchema } from '@rjsf/utils';
 
 interface Props {
@@ -100,7 +99,6 @@ const AssessmentsForm: React.FC<Props> = ({
         query,
       }}
       onSubmit={handleSubmit}
-      validator={validator}
     >
       <Button variant="primary" disabled={isCreating}>
         {!isFormSaved ? 'Save' : 'Saved'}

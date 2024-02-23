@@ -19,7 +19,6 @@ import { SectionQuery } from '__generated__/SectionQuery.graphql';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 import { analystProjectArea, benefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
-import validator from '@rjsf/validator-ajv8';
 import { RJSFSchema } from '@rjsf/utils';
 
 const getSectionQuery = graphql`
@@ -143,7 +142,6 @@ const EditApplication = ({
           schema={sectionSchema}
           uiSchema={uiSchema[sectionName]}
           onSubmit={triggerModal}
-          validator={validator}
           noValidate
         >
           <button

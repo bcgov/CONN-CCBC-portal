@@ -3,7 +3,6 @@ import reviewUiSchema from 'formSchema/reviewUiSchema';
 import FormBase from 'components/Form/FormBase';
 import styled from 'styled-components';
 import Alert from '@button-inc/bcgov-theme/Alert';
-import validator from '@rjsf/validator-ajv8';
 import ReviewTheme from './ReviewTheme';
 
 const StyledAlert = styled(Alert)`
@@ -88,7 +87,6 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
         formContext={formContext}
         liveValidate
         tagName="div"
-        validator={validator}
       />
       {!noErrors && (
         <registry.fields.BooleanField

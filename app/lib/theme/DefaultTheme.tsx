@@ -6,7 +6,7 @@ import { ArrayFieldTemplate, SubmissionDescriptionField } from './fields';
 import * as widgets from './widgets';
 import * as customWidgets from './widgets/custom';
 
-const { fields, widgets: defaultWidgets } = getDefaultRegistry();
+const { fields, widgets: defaultWidgets, templates } = getDefaultRegistry();
 
 const formTheme: ThemeProps = {
   fields: {
@@ -19,6 +19,7 @@ const formTheme: ThemeProps = {
     ...customWidgets,
   },
   templates: {
+    ...templates,
     ObjectFieldTemplate,
     ArrayFieldTemplate,
     FieldTemplate,

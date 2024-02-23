@@ -6,7 +6,6 @@ import Accordion from 'components/Accordion';
 import { FormBase } from 'components/Form';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Collapse } from '@mui/material';
-import validator from '@rjsf/validator-ajv8';
 import { RJSFSchema } from '@rjsf/utils';
 import ProjectTheme from './ProjectTheme';
 
@@ -206,7 +205,6 @@ const ProjectForm: React.FC<Props> = ({
           omitExtraData={false}
           onChange={handleChange}
           customValidate={validate}
-          validator={validator}
         >
           {hiddenSubmitRef ? (
             <button
@@ -244,7 +242,6 @@ const ProjectForm: React.FC<Props> = ({
             omitExtraData={false}
             onChange={handleChange}
             customValidate={validate}
-            validator={validator}
           >
             {hiddenSubmitRef ? (
               <button

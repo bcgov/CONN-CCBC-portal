@@ -12,8 +12,7 @@ import { useCreateIntakeMutation } from 'schema/mutations/admin/createIntakeMuta
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
 import { IChangeEvent, ThemeProps } from '@rjsf/core';
-import validator from '@rjsf/validator-ajv8';
-import { RJSFValidationError } from '@rjsf/utils';
+import { CustomValidator, RJSFValidationError } from '@rjsf/utils';
 
 interface EditProps {
   isFormEditMode: boolean;
@@ -200,7 +199,7 @@ const AddIntake: React.FC<Props> = ({
   const currentDateTime = DateTime.now();
   const intakeStartDate =
     formData?.startDate && DateTime.fromISO(formData.startDate);
-  const validate = (jsonData, errors) => {
+  const validate: CustomValidator = (jsonData, errors) => {
     const { startDate, endDate } = jsonData;
     const startDateTime = DateTime.fromISO(startDate);
     const endDateTime = DateTime.fromISO(endDate);
@@ -307,7 +306,6 @@ const AddIntake: React.FC<Props> = ({
             transformErrors={customTransformErrors}
             theme={IntakeTheme}
             customValidate={validate}
-            validator={validator}
           >
             <StyledSaveBtn
               type="submit"

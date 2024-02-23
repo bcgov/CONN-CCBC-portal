@@ -15,11 +15,12 @@ const ReviewInlineArrayField: React.FC<FieldProps> = ({
   const id = idSchema.$id;
   const fieldName = id?.split('_')?.[2];
   const pageName = id?.split('_')?.[1];
-  const errors = formContext.formErrorSchema?.[pageName]?.[fieldName]?.__errors;
+  const formErrorSchema = formContext?.errors ?? formContext.formErrorSchema;
+  const errors = formErrorSchema?.[pageName]?.[fieldName]?.__errors;
   return (
     <tr>
       <StyledColLeft id={id}>{schema.title}</StyledColLeft>
-      {errors && errors.length > 0 ? (
+      {errors ? (
         <StyledColError id={`${id}-error`} />
       ) : (
         <StyledColRight id={`${id}-value`}>

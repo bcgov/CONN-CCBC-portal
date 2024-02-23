@@ -7,21 +7,23 @@ import {
   customFormats,
   customFormatsErrorMessages,
 } from 'data/jsonSchemaForm/customFormats';
-import { RJSFValidationError } from '@rjsf/utils';
+import { RJSFValidationError, ValidatorType } from '@rjsf/utils';
 
-interface FormPropsWithTheme<T> extends FormProps<T> {
+interface FormPropsWithTheme<T> extends Omit<FormProps<T>, 'validator'> {
   theme?: ThemeProps;
+  // making the validator prop optional
+  validator?: ValidatorType;
 }
 
 const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
-  const { theme, formData, omitExtraData, transformErrors } = props;
+  const { theme, formData, omitExtraData, transformErrors, validator } = props;
   const ThemedForm = useMemo(() => withTheme(theme ?? defaultTheme), [theme]);
 
   const customTransform = (errors: RJSFValidationError[]) => {
     return customTransformErrors(errors, customFormatsErrorMessages);
   };
 
-  const validator = customizeValidator({ customFormats });
+  const customValidator = customizeValidator({ customFormats });
 
   return (
     <ThemedForm
@@ -34,7 +36,7 @@ const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
       noHtml5Validate
       omitExtraData={omitExtraData ?? true}
       showErrorList={false}
-      validator={validator}
+      validator={validator ?? customValidator}
     />
   );
 };

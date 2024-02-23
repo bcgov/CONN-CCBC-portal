@@ -14,7 +14,7 @@ import {
   HiddenWidget,
 } from './widgets';
 
-const { fields } = getDefaultRegistry();
+const { fields, templates } = getDefaultRegistry();
 
 const ProjectTheme: ThemeProps = {
   fields: {
@@ -32,6 +32,7 @@ const ProjectTheme: ThemeProps = {
     ContextErrorWidget,
   },
   templates: {
+    ...templates,
     ObjectFieldTemplate: ProjectObjectFieldTemplate,
     FieldTemplate: ProjectFieldTemplate,
     ArrayFieldTemplate,

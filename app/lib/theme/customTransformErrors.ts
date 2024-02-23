@@ -9,6 +9,9 @@ const customTransformErrors = (
     .filter((error) => error.name !== 'oneOf')
     // Ignore should be a string error for file uploads which are saved as array
     .filter((error) => error.message !== 'must be string')
+    .filter(
+      (error) => error.message !== 'must be equal to one of the allowed values'
+    )
     .map((error) => {
       if (!['format', 'required'].includes(error.name)) return error;
       if (error.name === 'required')
