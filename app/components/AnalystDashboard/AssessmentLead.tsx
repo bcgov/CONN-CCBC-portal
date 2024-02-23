@@ -53,7 +53,7 @@ const AssignLead: React.FC<Props> = ({
   let borderRadius = '5px';
   if (jsonData?.nextStep === 'Assessment complete') {
     backgroundColor = '#2E8540';
-    if (jsonData?.decision?.length > 0) {
+    if (jsonData?.decision) {
       backgroundColor = '#345FA9';
     }
   } else if (jsonData?.nextStep === 'Needs RFI') {
