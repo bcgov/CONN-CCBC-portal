@@ -21,6 +21,7 @@ const techSolution: Record<string, RJSFSchema> = {
         title:
           'Please specify the backbone technology type (check all that apply).',
         type: 'array',
+        minItems: 1,
         items: {
           type: 'string',
           enum: ['Fibre', 'Microwave', 'Satellite'],
@@ -31,6 +32,7 @@ const techSolution: Record<string, RJSFSchema> = {
         title:
           'Please specify the last mile technology type (check all that apply). If you select fixed wireless, you must complete Template 7.',
         type: 'array',
+        minItems: 1,
         items: {
           type: 'string',
           enum: ['Fibre', 'Cable', 'DSL', 'Fixed wireless'],
