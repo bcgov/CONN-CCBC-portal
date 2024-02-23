@@ -157,6 +157,7 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
   const [updatedCcbcItems, setUpdatedCcbcItems] = useState<null | ReactNode>(
     null
   );
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
 
   const [createAnnouncement] = useCreateAnnouncementMutation();
   const [updateAnnouncement] = useUpdateAnnouncementMutation();
@@ -179,6 +180,7 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
   const handleResetFormData = () => {
     setIsFormEditMode(false);
     setFormData({});
+    setIsSubmitAttempted(false);
     setAnnouncementData(null);
   };
 
@@ -187,6 +189,7 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
   };
 
   const handleSubmit = () => {
+    setIsSubmitAttempted(true);
     setUpdatedCcbcItems(null);
     hiddenSubmitRef.current.click();
     const ccbcList = formData?.otherProjectsInAnnouncement;
@@ -253,7 +256,10 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
       before={
         <AddButton
           isFormEditMode={isFormEditMode}
-          onClick={() => setIsFormEditMode(true)}
+          onClick={() => {
+            setIsFormEditMode(true);
+            setIsSubmitAttempted(false);
+          }}
           title="Add announcement"
         />
       }
@@ -267,7 +273,7 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
       isExpanded={isExpanded}
       isFormAnimated
       isFormEditMode={isFormEditMode}
-      liveValidate={false}
+      liveValidate={isSubmitAttempted && isFormEditMode}
       showEditBtn={false}
       title="Announcements"
       schema={announcementsSchema}
