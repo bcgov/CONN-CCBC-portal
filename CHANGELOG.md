@@ -1,3 +1,14 @@
+# [1.143.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.142.0...v1.143.0) (2024-02-23)
+
+### Bug Fixes
+
+- show analyst assigned if no longer active ([754d7e7](https://github.com/bcgov/CONN-CCBC-portal/commit/754d7e7f4ec97b39d4cd7df4b190af54fa26463e))
+
+### Features
+
+- import milestone table data ([1b7aa16](https://github.com/bcgov/CONN-CCBC-portal/commit/1b7aa16960533e553f09596b471983c3408ff5a3))
+- make status filters multi select ([3b6976b](https://github.com/bcgov/CONN-CCBC-portal/commit/3b6976bc3522713e425fc0f4022e1dc224751556))
+
 # [1.142.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.141.0...v1.142.0) (2024-02-22)
 
 ### Bug Fixes
