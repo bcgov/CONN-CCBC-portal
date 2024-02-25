@@ -400,14 +400,6 @@ const ApplicationForm: React.FC<Props> = ({
     isRedirectingToNextPage = false,
     isSaveAsDraftBtn = false
   ) => {
-    if (!isEditable) {
-      if (pageNumber < subschemaArray.length) {
-        router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
-      } else {
-        router.push(`/applicantportal/form/${rowId}/success`);
-      }
-      return;
-    }
     const calculatedSectionData = calculate(
       newFormSectionData,
       sectionName.toString()
@@ -578,6 +570,30 @@ const ApplicationForm: React.FC<Props> = ({
     });
   };
 
+  const handleSaveForm = (
+    newFormSectionData: any,
+    mutationConfig?: Partial<
+      UseDebouncedMutationConfig<updateApplicationFormMutation>
+    >,
+    isRedirectingToNextPage = false,
+    isSaveAsDraftBtn = false
+  ) => {
+    if (!isEditable) {
+      if (pageNumber < subschemaArray.length) {
+        router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
+      } else {
+        router.push(`/applicantportal/form/${rowId}/success`);
+      }
+      return;
+    }
+    saveForm(
+      newFormSectionData,
+      mutationConfig,
+      isRedirectingToNextPage,
+      isSaveAsDraftBtn
+    );
+  };
+
   const handleSubmit = (e: IChangeEvent<any>) => {
     if (pageNumber < subschemaArray.length) {
       saveForm(
@@ -650,7 +666,7 @@ const ApplicationForm: React.FC<Props> = ({
           isSubmitPage={isSubmitPage}
           formData={jsonData[sectionName]}
           savedAsDraft={savedAsDraft}
-          saveForm={saveForm}
+          saveForm={handleSaveForm}
           isAcknowledgementPage={isAcknowledgementPage}
           status={status}
         />
