@@ -69,7 +69,7 @@ const expectedQueryInput = {
           projectSite: 'SiteName1',
           radioAndSpectrumLicensesIsRequired: false,
           radioAndSpectrumLicensesIsSubmitted: true,
-          radioandspetrumLicensesStatus: 'Approved',
+          radioandSpectrumLicensesStatus: 'Approved',
           recipientComments: 'This is a recipient comment',
           siteId: 'SiteId1',
         },

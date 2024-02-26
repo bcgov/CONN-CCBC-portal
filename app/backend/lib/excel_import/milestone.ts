@@ -156,7 +156,7 @@ const readSummary = async (wb, sheets, applicationId, milestoneId) => {
       radioAndSpectrumLicensesIsSubmitted: convertExcelDropdownToBoolean(
         milestone2Sheet[i]['J']
       ),
-      radioandspetrumLicensesStatus: milestone2Sheet[i]['K'],
+      radioandSpectrumLicensesStatus: milestone2Sheet[i]['K'],
       photographsOfProjectSitesIsRequired: convertExcelDropdownToBoolean(
         milestone2Sheet[i]['L']
       ),
