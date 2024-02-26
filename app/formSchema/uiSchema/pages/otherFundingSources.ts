@@ -103,6 +103,7 @@ const otherFundingSources = {
         addBtnLabel: 'Add another funding source',
         removeBtnLabel: 'Remove',
       },
+      'ui:title': ' ',
       'ui:inline': [
         // This is nested so it works in this array object
         {
