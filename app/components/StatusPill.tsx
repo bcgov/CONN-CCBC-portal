@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   status: string;
@@ -17,10 +15,6 @@ interface StatusPillProps {
   };
 }
 
-const StyledFontAwesome = styled(FontAwesomeIcon)`
-  margin-right: 4px;
-`;
-
 const StyledStatusPill = styled.div<StatusPillProps>`
   color: ${(props) => props.styles?.primary};
   background-color: ${(props) => props.styles?.backgroundColor};
@@ -35,7 +29,6 @@ const StyledStatusPill = styled.div<StatusPillProps>`
 
 const StatusPill: React.FC<Props> = ({ status, styles }) => {
   const pillStyles = styles[status];
-  const isComplete = status === 'Complete';
 
   return (
     <StyledStatusPill
@@ -43,7 +36,6 @@ const StatusPill: React.FC<Props> = ({ status, styles }) => {
       data-testid="status-pill"
       aria-labelledby="status-pill"
     >
-      {isComplete && <StyledFontAwesome icon={faCheck} fixedWidth size="sm" />}
       {pillStyles?.description || status}
     </StyledStatusPill>
   );
