@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ObjectFieldTemplateProps } from '@rjsf/core';
+import { ObjectFieldTemplateProps } from '@rjsf/utils';
 
 interface FlexProps {
   direction: string;
@@ -41,19 +41,19 @@ const ProjectObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   const flexDirection = uiOptions?.flexDirection || 'column';
   const before = uiSchema?.['ui:before'];
 
-  const uiInline = uiSchema['ui:inline'];
+  const uiInline = Array.isArray(uiSchema['ui:inline'])
+    ? uiSchema['ui:inline']
+    : [];
 
   const getInlineKeys = () => {
     // Get array of inline keys so we can see if field exists in grid so we don't render it twice.
     const inlineKeys: string[] = [];
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    uiInline &&
-      // eslint-disable-next-line array-callback-return
-      uiInline.map((row: Record<string, string>) => {
-        const rowKeys = Object.keys(row);
-        inlineKeys.push(...rowKeys);
-      });
+    // eslint-disable-next-line array-callback-return
+    uiInline.map((row: Record<string, string>) => {
+      const rowKeys = Object.keys(row);
+      inlineKeys.push(...rowKeys);
+    });
 
     return inlineKeys;
   };
@@ -63,38 +63,37 @@ const ProjectObjectFieldTemplate: React.FC<ObjectFieldTemplateProps> = ({
   return (
     <StyledFlex direction={String(flexDirection)}>
       {before}
-      {uiInline &&
-        uiInline.map((row: any, i: number) => {
-          const rowKeys = Object.keys(row);
+      {uiInline.map((row: any, i: number) => {
+        const rowKeys = Object.keys(row);
 
-          const columns = row?.columns;
-          const mapRow = (
-            <StyledGrid
-              style={{ gridTemplateColumns: `repeat(${columns || 1}, 1fr)` }}
-            >
-              {
-                // eslint-disable-next-line array-callback-return, consistent-return
-                rowKeys.map((fieldName) => {
-                  const content = properties.find(
-                    (prop: any) => prop.name === fieldName
-                  )?.content;
+        const columns = row?.columns;
+        const mapRow = (
+          <StyledGrid
+            style={{ gridTemplateColumns: `repeat(${columns || 1}, 1fr)` }}
+          >
+            {
+              // eslint-disable-next-line array-callback-return, consistent-return
+              rowKeys.map((fieldName) => {
+                const content = properties.find(
+                  (prop: any) => prop.name === fieldName
+                )?.content;
 
-                  if (content) {
-                    if (columns === 1) {
-                      return <div key={fieldName}>{content}</div>;
-                    }
-                    return (
-                      <div key={fieldName} style={{ paddingRight: '4px' }}>
-                        {content}
-                      </div>
-                    );
+                if (content) {
+                  if (columns === 1) {
+                    return <div key={fieldName}>{content}</div>;
                   }
-                })
-              }
-            </StyledGrid>
-          );
-          return <div key={rowKeys[i]}>{mapRow}</div>;
-        })}
+                  return (
+                    <div key={fieldName} style={{ paddingRight: '4px' }}>
+                      {content}
+                    </div>
+                  );
+                }
+              })
+            }
+          </StyledGrid>
+        );
+        return <div key={rowKeys[i]}>{mapRow}</div>;
+      })}
 
       {
         // eslint-disable-next-line array-callback-return, consistent-return

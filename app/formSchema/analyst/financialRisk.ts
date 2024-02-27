@@ -1,4 +1,4 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 import sharedAssessmentFields from './sharedAssessmentFields';
 
 // when a different label and title is needed
@@ -11,7 +11,7 @@ const mediumRisk = 'Medium risk';
 const mediumHighRisk = 'Medium-high risk';
 const highRisk = 'High risk';
 
-const financialRisk: JSONSchema7 = {
+const financialRisk: RJSFSchema = {
   title: ' ',
   description: '',
   type: 'object',

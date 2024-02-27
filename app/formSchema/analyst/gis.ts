@@ -1,4 +1,4 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
 // when a different label and title is needed
 // decouple the title from the enum, this is SonarCloud workaround
@@ -8,7 +8,7 @@ const needsRFI = 'Needs RFI';
 const needs2ndReview = 'Needs 2nd review';
 const assessmentComplete = 'Assessment complete';
 
-const gis: JSONSchema7 = {
+const gis: RJSFSchema = {
   title: ' ',
   description: '',
   type: 'object',

@@ -1,9 +1,8 @@
-import { FieldProps } from '@rjsf/core';
+import { FieldProps, RJSFSchema } from '@rjsf/utils';
 import reviewUiSchema from 'formSchema/reviewUiSchema';
 import FormBase from 'components/Form/FormBase';
 import styled from 'styled-components';
 import Alert from '@button-inc/bcgov-theme/Alert';
-import { JSONSchema7 } from 'json-schema';
 import ReviewTheme from './ReviewTheme';
 
 const StyledAlert = styled(Alert)`
@@ -92,7 +91,7 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
       {!noErrors && (
         <registry.fields.BooleanField
           required
-          schema={schema.properties.acknowledgeIncomplete as JSONSchema7}
+          schema={schema.properties.acknowledgeIncomplete as RJSFSchema}
           uiSchema={uiSchema}
           idSchema={idSchema.acknowledgeIncomplete}
           formData={formData?.acknowledgeIncomplete}

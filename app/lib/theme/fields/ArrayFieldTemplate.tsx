@@ -1,6 +1,6 @@
 import Button from '@button-inc/bcgov-theme/Button';
 import styled from 'styled-components';
-import { ArrayFieldTemplateProps } from '@rjsf/core';
+import { ArrayFieldTemplateProps } from '@rjsf/utils';
 
 const StyledDiv = styled('div')`
   display: flex;

@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { enUS } from '@mui/x-date-pickers/locales';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import styled from 'styled-components';
 import { dateTimeFormat } from '../functions/formatDates';
 

@@ -1,4 +1,4 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 import styled from 'styled-components';
 
 const StyledH3 = styled('h3')`
@@ -9,7 +9,7 @@ const StyledH3 = styled('h3')`
 
 interface Props {
   rawDescription: string;
-  schema: JSONSchema7;
+  schema: RJSFSchema;
 }
 
 /**

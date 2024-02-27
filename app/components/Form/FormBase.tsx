@@ -1,38 +1,42 @@
 import defaultTheme from 'lib/theme/DefaultTheme';
 import { useMemo } from 'react';
-import { FormProps, AjvError, withTheme, ThemeProps } from '@rjsf/core';
+import { FormProps, ThemeProps, withTheme } from '@rjsf/core';
+import { customizeValidator } from '@rjsf/validator-ajv8';
 import customTransformErrors from 'lib/theme/customTransformErrors';
 import {
   customFormats,
   customFormatsErrorMessages,
 } from 'data/jsonSchemaForm/customFormats';
+import { RJSFValidationError, ValidatorType } from '@rjsf/utils';
 
-interface FormPropsWithTheme<T> extends FormProps<T> {
+interface FormPropsWithTheme<T> extends Omit<FormProps<T>, 'validator'> {
   theme?: ThemeProps;
+  // making the validator prop optional
+  validator?: ValidatorType;
 }
 
 const FormBase: React.FC<FormPropsWithTheme<any>> = (props) => {
-  const { theme, formData, omitExtraData } = props;
-  const Form = useMemo(() => withTheme(theme ?? defaultTheme), [theme]);
+  const { theme, formData, omitExtraData, transformErrors, validator } = props;
+  const ThemedForm = useMemo(() => withTheme(theme ?? defaultTheme), [theme]);
 
-  const transformErrors = (errors: AjvError[]) => {
+  const customTransform = (errors: RJSFValidationError[]) => {
     return customTransformErrors(errors, customFormatsErrorMessages);
   };
 
-  const customTransform = props?.transformErrors;
+  const customValidator = customizeValidator({ customFormats });
 
   return (
-    <Form
+    <ThemedForm
       {...props}
       // Always pass a form data, at least an empty object to prevent
       // onChange to be triggered on render when the page changes, which has associated bugs
       // e.g. (fixed in v5) https://github.com/rjsf-team/react-jsonschema-form/issues/1708
       formData={formData ?? {}}
-      customFormats={customFormats}
-      transformErrors={customTransform || transformErrors}
+      transformErrors={transformErrors || customTransform}
       noHtml5Validate
       omitExtraData={omitExtraData ?? true}
       showErrorList={false}
+      validator={validator ?? customValidator}
     />
   );
 };

@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const techSolution: Record<string, JSONSchema7> = {
+const techSolution: Record<string, RJSFSchema> = {
   techSolution: {
     title: 'Technological solution',
     type: 'object',
@@ -31,6 +31,7 @@ const techSolution: Record<string, JSONSchema7> = {
         title:
           'Please specify the last mile technology type (check all that apply). If you select fixed wireless, you must complete Template 7.',
         type: 'array',
+        minItems: 1,
         items: {
           type: 'string',
           enum: ['Fibre', 'Cable', 'DSL', 'Fixed wireless'],

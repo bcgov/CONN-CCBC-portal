@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import type { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 import FormTestRenderer from '../../utils/formTestRenderer';
 
 const mockSchema = {
@@ -22,12 +22,12 @@ const mockUiSchema = {
   },
 };
 
-const renderStaticLayout = (schema: JSONSchema7, uiSchema) =>
+const renderStaticLayout = (schema: RJSFSchema, uiSchema) =>
   render(
     <FormTestRenderer
       formData={{}}
-      onSubmit={() => console.log('test')}
-      schema={schema as JSONSchema7}
+      onSubmit={jest.fn}
+      schema={schema as RJSFSchema}
       uiSchema={uiSchema}
     />
   );
@@ -36,13 +36,13 @@ describe('The Radio widget', () => {
   beforeEach(() => {});
 
   it('should render the radio widget title', () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema);
 
     expect(screen.getByText('Radio widget test field')).toBeVisible();
   });
 
   it('should render radio widget options', () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema);
 
     expect(screen.getByText('Yes')).toBeVisible();
     expect(screen.getByText('No')).toBeVisible();
@@ -50,7 +50,7 @@ describe('The Radio widget', () => {
 
   it('should contain the correct input value', () => {
     const { container } = renderStaticLayout(
-      mockSchema as JSONSchema7,
+      mockSchema as RJSFSchema,
       mockUiSchema
     );
 

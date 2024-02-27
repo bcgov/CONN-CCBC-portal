@@ -1,5 +1,4 @@
-import { FieldProps } from '@rjsf/core';
-import { JSONSchema7 } from 'json-schema';
+import { FieldProps, RJSFSchema } from '@rjsf/utils';
 import React from 'react';
 import { StyledColLeft, StyledColRight, StyledColError } from '../Components';
 
@@ -12,7 +11,7 @@ const ArrayBooleanField: React.FC<FieldProps> = ({
   rawErrors,
   schema,
 }) => {
-  const enumValues = (schema.items as JSONSchema7).enum as string[];
+  const enumValues = (schema.items as RJSFSchema).enum as string[];
   return (
     <>
       {enumValues.map((item, i) => {

@@ -25,7 +25,10 @@ const ConditionalApprovalReadOnlyTheme: ThemeProps = {
     ReadOnlyStatusWidget,
     ReadOnlyRequestedMoneyWidget,
   },
-  ObjectFieldTemplate: ConditionalApprovalObjectFieldTemplate,
+  templates: {
+    ...ProjectTheme.templates,
+    ObjectFieldTemplate: ConditionalApprovalObjectFieldTemplate,
+  },
 };
 
 export default ConditionalApprovalReadOnlyTheme;

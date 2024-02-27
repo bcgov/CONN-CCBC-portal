@@ -267,6 +267,7 @@ describe('The index page', () => {
       input: {
         applicationRowId: 1,
         jsonData: {
+          rfiType: [],
           rfiAdditionalFiles: {},
         },
       },
@@ -293,6 +294,7 @@ describe('The index page', () => {
         input: {
           rfiRowId: 1,
           jsonData: {
+            rfiType: [],
             rfiAdditionalFiles: {},
             detailedBudgetRfi: true,
             eligibilityAndImpactsCalculatorRfi: true,

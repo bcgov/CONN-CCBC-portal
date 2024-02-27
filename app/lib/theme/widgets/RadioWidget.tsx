@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import RadioButton from '@button-inc/bcgov-theme/RadioButton';
 import styled from 'styled-components';
 import React from 'react';

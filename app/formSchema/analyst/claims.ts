@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const claims: JSONSchema7 = {
+const claims: RJSFSchema = {
   description: '',
   type: 'object',
   required: ['dueDate'],

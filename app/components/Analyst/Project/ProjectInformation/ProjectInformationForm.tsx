@@ -12,7 +12,7 @@ import { useArchiveApplicationSowMutation } from 'schema/mutations/project/archi
 import ProjectTheme from 'components/Analyst/Project/ProjectTheme';
 import MetabaseLink from 'components/Analyst/Project/ProjectInformation/MetabaseLink';
 import Toast from 'components/Toast';
-import validateFormData from '@rjsf/core/dist/cjs/validate';
+import Ajv8Validator from '@rjsf/validator-ajv8';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import ReadOnlyView from 'components/Analyst/Project/ProjectInformation/ReadOnlyView';
 import ChangeRequestTheme from '../ChangeRequestTheme';
@@ -163,11 +163,14 @@ const ProjectInformationForm: React.FC<Props> = ({
     if (formData === null) {
       return false;
     }
-    const formErrors = validateFormData(formData, formSchema)?.errors;
+    const formErrors = Ajv8Validator.validateFormData(
+      formData,
+      formSchema
+    )?.errors;
     // not sure about these enum or oneOf errors, filtering them out as a very hacky solution
     const filteredErrors = formErrors?.filter((error) => {
       return (
-        error.message !== 'should be string' &&
+        error.message !== 'must be string' &&
         error.name !== 'enum' &&
         error.name !== 'oneOf'
       );

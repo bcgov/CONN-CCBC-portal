@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import styled from 'styled-components';
 import getFormPage from 'utils/getFormPage';
 import { StyledContainer, StyledValue } from './ReadOnlySubmissionWidget';

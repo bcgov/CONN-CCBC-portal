@@ -1,4 +1,4 @@
-import { FieldTemplateProps } from '@rjsf/core';
+import { FieldTemplateProps } from '@rjsf/utils';
 import styled from 'styled-components';
 import Description from './components/Description';
 import FieldLabel from './components/FieldLabel';
@@ -21,13 +21,13 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   schema,
   id,
 }) => {
-  const hideOptional: any = uiSchema['ui:options']?.hideOptional;
-  const boldTitle = uiSchema['ui:options']?.boldTitle as boolean;
-  const showCreatedAt = Boolean(uiSchema['ui:options']?.showCreatedAt);
-  const altOptionalText = uiSchema['ui:options']?.altOptionalText;
-  const customTitle = uiSchema['ui:options']?.customTitle as JSX.Element;
-  const isAddHorizontalLine = uiSchema['ui:options']
-    ?.addHorizontalLine as boolean;
+  const uiOptions = uiSchema?.['ui:options'];
+  const hideOptional: any = uiOptions?.hideOptional;
+  const boldTitle = uiOptions?.boldTitle as boolean;
+  const showCreatedAt = Boolean(uiOptions?.showCreatedAt);
+  const altOptionalText = uiOptions?.altOptionalText;
+  const customTitle = uiOptions?.customTitle as JSX.Element;
+  const isAddHorizontalLine = uiOptions?.addHorizontalLine as boolean;
   const showLabel = displayLabel && !customTitle;
   const createdAt = formContext?.createdAt;
 

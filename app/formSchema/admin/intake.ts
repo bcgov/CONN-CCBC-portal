@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const intake: JSONSchema7 = {
+const intake: RJSFSchema = {
   description: '',
   type: 'object',
   required: ['startDate', 'endDate'],

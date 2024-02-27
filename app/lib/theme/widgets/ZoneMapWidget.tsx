@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import * as Sentry from '@sentry/nextjs';
 import styled from 'styled-components';
 import { ZONE_MAP_URL } from 'data/externalConstants';

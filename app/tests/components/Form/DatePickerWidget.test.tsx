@@ -1,5 +1,5 @@
 import { act, render, screen, fireEvent } from '@testing-library/react';
-import type { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 import FormTestRenderer from '../../utils/formTestRenderer';
 
 const mockSchema = {
@@ -20,19 +20,19 @@ const mockUiSchema = {
   },
 };
 
-const renderStaticLayout = (schema: JSONSchema7, uiSchema) =>
+const renderStaticLayout = (schema: RJSFSchema, uiSchema) =>
   render(
     <FormTestRenderer
       formData={{}}
-      onSubmit={() => console.log('test')}
-      schema={schema as JSONSchema7}
+      onSubmit={jest.fn}
+      schema={schema as RJSFSchema}
       uiSchema={uiSchema}
     />
   );
 
 describe('The Datepicker widget', () => {
   it('should render the radio widget title', () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema);
 
     expect(screen.getByText('Datepicker test field')).toBeVisible();
 
@@ -40,7 +40,7 @@ describe('The Datepicker widget', () => {
   });
 
   it('should render radio widget options', async () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema);
 
     const datepicker = screen.getByTestId('datepicker-widget-input');
 
@@ -52,7 +52,7 @@ describe('The Datepicker widget', () => {
   });
 
   it('Should have empty value when cleared', async () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema);
 
     const datepicker = screen.getByTestId('datepicker-widget-input');
 
@@ -67,7 +67,7 @@ describe('The Datepicker widget', () => {
   });
 
   it('Should display correct date in any timezone', async () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema);
 
     const datepicker = screen.getByTestId('datepicker-widget-input');
 
@@ -78,7 +78,7 @@ describe('The Datepicker widget', () => {
   });
 
   it('Should have the correct style when there is an error', async () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema);
 
     const datepickerFieldset = screen.getByTestId('datepicker-widget-container')
       .children[0].children[0].children[2];

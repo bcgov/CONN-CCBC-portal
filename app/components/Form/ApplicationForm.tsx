@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import * as Sentry from '@sentry/nextjs';
-import { IChangeEvent, ISubmitEvent } from '@rjsf/core';
+import { IChangeEvent } from '@rjsf/core';
 import { graphql, useFragment } from 'react-relay';
-import type { JSONSchema7 } from 'json-schema';
 import styled from 'styled-components';
 import validate from 'formSchema/validate';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
@@ -20,6 +19,7 @@ import { useFeature } from '@growthbook/growthbook-react';
 import { applicantBenefits as applicantBenefitsSchema } from 'formSchema/pages';
 import { applicantBenefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
+import { RJSFSchema } from '@rjsf/utils';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
 import {
@@ -336,11 +336,11 @@ const ApplicationForm: React.FC<Props> = ({
   const [submitApplication, isSubmitting] = useSubmitApplicationMutation();
   const [updateApplicationForm, isUpdating] = useUpdateApplicationForm();
 
-  const subschemaArray: [string, JSONSchema7][] = schemaToSubschemasArray(
+  const subschemaArray: [string, RJSFSchema][] = schemaToSubschemasArray(
     jsonSchema as object
   );
 
-  const sectionSchema = jsonSchema.properties[sectionName] as JSONSchema7;
+  const sectionSchema = jsonSchema.properties[sectionName] as RJSFSchema;
   const isWithdrawn = status === 'withdrawn';
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';
@@ -400,14 +400,6 @@ const ApplicationForm: React.FC<Props> = ({
     isRedirectingToNextPage = false,
     isSaveAsDraftBtn = false
   ) => {
-    if (!isEditable) {
-      if (pageNumber < subschemaArray.length) {
-        router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
-      } else {
-        router.push(`/applicantportal/form/${rowId}/success`);
-      }
-      return;
-    }
     const calculatedSectionData = calculate(
       newFormSectionData,
       sectionName.toString()
@@ -437,17 +429,19 @@ const ApplicationForm: React.FC<Props> = ({
         newFormSectionData?.geographicArea?.[0] === 'undefined' ||
         newFormSectionData?.geographicArea?.length === 0;
       const projectAreaAccepted =
-        !isGeographicAreaEmpty &&
-        (firstNationsLed ||
-          acceptedProjectAreasArray.includes(
-            newFormSectionData?.geographicArea?.[0]?.toString()
-          ));
+        firstNationsLed ||
+        (!isGeographicAreaEmpty &&
+          (firstNationsLed ||
+            acceptedProjectAreasArray.includes(
+              newFormSectionData?.geographicArea?.[0]?.toString()
+            )));
 
       const geographicAreaInputChanged =
         typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
         newFormSectionData?.geographicArea[0] !==
           jsonData.projectArea?.geographicArea?.[0];
       const firstNationsLedInputChanged =
+        typeof newFormSectionData?.firstNationsLed !== 'undefined' &&
         firstNationsLed !== jsonData.projectArea?.firstNationsLed;
 
       if (isSubmitted && !projectAreaAccepted) {
@@ -576,7 +570,31 @@ const ApplicationForm: React.FC<Props> = ({
     });
   };
 
-  const handleSubmit = (e: ISubmitEvent<any>) => {
+  const handleSaveForm = (
+    newFormSectionData: any,
+    mutationConfig?: Partial<
+      UseDebouncedMutationConfig<updateApplicationFormMutation>
+    >,
+    isRedirectingToNextPage = false,
+    isSaveAsDraftBtn = false
+  ) => {
+    if (!isEditable) {
+      if (pageNumber < subschemaArray.length) {
+        router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
+      } else {
+        router.push(`/applicantportal/form/${rowId}/success`);
+      }
+      return;
+    }
+    saveForm(
+      newFormSectionData,
+      mutationConfig,
+      isRedirectingToNextPage,
+      isSaveAsDraftBtn
+    );
+  };
+
+  const handleSubmit = (e: IChangeEvent<any>) => {
     if (pageNumber < subschemaArray.length) {
       saveForm(
         e.formData,
@@ -634,7 +652,7 @@ const ApplicationForm: React.FC<Props> = ({
         // Moved here to prevent cycle of FormBase calling the ReviewField through DefaultTheme
         fields={{ ReviewField }}
         formData={jsonData[sectionName]}
-        schema={sectionSchema as JSONSchema7}
+        schema={sectionSchema}
         uiSchema={finalUiSchema[sectionName]}
         // Todo: validate entire form on completion
         noValidate
@@ -648,7 +666,7 @@ const ApplicationForm: React.FC<Props> = ({
           isSubmitPage={isSubmitPage}
           formData={jsonData[sectionName]}
           savedAsDraft={savedAsDraft}
-          saveForm={saveForm}
+          saveForm={handleSaveForm}
           isAcknowledgementPage={isAcknowledgementPage}
           status={status}
         />

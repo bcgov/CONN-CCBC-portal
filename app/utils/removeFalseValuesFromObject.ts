@@ -1,7 +1,8 @@
 // Removes keys with falsey values from a shallow object
 const removeFalseyValuesFromObject = (object) => {
-  const hasKeys = Object.keys(object).length > 0;
-  if (!hasKeys) return {};
+  if (!object || Object.keys(object).length === 0) {
+    return {};
+  }
 
   return Object.keys(object).reduce((acc, key) => {
     if (object[key]) {

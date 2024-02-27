@@ -1,4 +1,4 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
 export const acknowledgementsEnum = [
   `The Applicant acknowledges that it is under no obligation or prohibition, nor is it subject to, or threatened by any actions, suits or proceedings, which could or would affect its ability to implement this proposed Project.`,
@@ -20,7 +20,7 @@ export const acknowledgementsEnum = [
   `The Applicant confirms that, to the best of its knowledge, the information submitted in this application is true and correct as of the date of submission.`,
 ];
 
-const acknowledgements: Record<string, JSONSchema7> = {
+const acknowledgements: Record<string, RJSFSchema> = {
   acknowledgements: {
     title: 'Acknowledgements',
     description:

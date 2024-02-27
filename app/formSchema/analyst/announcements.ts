@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const announcements: JSONSchema7 = {
+const announcements: RJSFSchema = {
   description: '',
   type: 'object',
   required: ['announcementType', 'announcementUrl', 'announcementDate'],

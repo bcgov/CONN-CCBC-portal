@@ -1,7 +1,7 @@
 import FormTestRenderer from 'tests/utils/formTestRenderer';
 import { render, screen, fireEvent } from '@testing-library/react';
-import type { JSONSchema7 } from 'json-schema';
 import { MoneyWidget } from 'lib/theme/widgets';
+import { RJSFSchema } from '@rjsf/utils';
 
 const mockSchema = {
   title: 'Money widget test',
@@ -18,12 +18,12 @@ const mockUiSchema = {
   },
 };
 
-const renderStaticLayout = (schema: JSONSchema7, uiSchema: JSONSchema7) => {
+const renderStaticLayout = (schema: RJSFSchema, uiSchema: RJSFSchema) => {
   return render(
     <FormTestRenderer
       formData={{}}
-      onSubmit={() => console.log('test')}
-      schema={schema as JSONSchema7}
+      onSubmit={jest.fn}
+      schema={schema as RJSFSchema}
       uiSchema={uiSchema}
     />
   );
@@ -31,7 +31,7 @@ const renderStaticLayout = (schema: JSONSchema7, uiSchema: JSONSchema7) => {
 
 describe('The Money Widget number type input', () => {
   beforeEach(() => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema as JSONSchema7);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema as RJSFSchema);
   });
 
   it('should render the money widget input field', () => {
