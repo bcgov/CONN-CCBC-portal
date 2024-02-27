@@ -268,6 +268,8 @@ jobs:
       VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE }}
+      CHES_CLIENT: ${{ secrets.CHES_CLIENT }}
+      CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
     with:
       environment: 'development'
 
@@ -308,6 +310,8 @@ jobs:
       VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE }}
+      CHES_CLIENT: ${{ secrets.CHES_CLIENT }}
+      CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
     with:
       environment: 'test'
 
@@ -348,6 +352,8 @@ jobs:
       VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE }}
+      CHES_CLIENT: ${{ secrets.CHES_CLIENT }}
+      CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
     with:
       environment: 'production'
 
