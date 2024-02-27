@@ -108,7 +108,7 @@ jobs:
           ches_url: ${{ secrets.CHES_API_URL }}
           ches_client: ${{ secrets.CHES_CLIENT }}
           ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
-          ches_to: ${{ secrets.CHES_TO }}
+          ches_to: ${{ secrets.CHES_TO_EMAIL }}
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           environment: dev
 
@@ -172,7 +172,7 @@ jobs:
           ches_url: ${{ secrets.CHES_API_URL }}
           ches_client: ${{ secrets.CHES_CLIENT }}
           ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
-          ches_to: ${{ secrets.CHES_TO }}
+          ches_to: ${{ secrets.CHES_TO_EMAIL }}
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           environment: test
 
@@ -227,7 +227,7 @@ jobs:
           ches_url: ${{ secrets.CHES_API_URL }}
           ches_client: ${{ secrets.CHES_CLIENT }}
           ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
-          ches_to: ${{ secrets.CHES_TO }}
+          ches_to: ${{ secrets.CHES_TO_EMAIL }}
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           environment: prod
 
