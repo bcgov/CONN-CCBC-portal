@@ -92,6 +92,21 @@ inputs:
   sp_list_name:
     description: 'SharePoint CBC Project error list name'
     required: true
+  ches_url:
+    description: 'CHES URL'
+    required: true
+  ches_client:
+    description: 'CHES client'
+    required: true
+  ches_client_secret:
+    description: 'CHES client secret'
+    required: true
+  ches_to:
+    description: 'CHES temporary to field'
+    required: true
+  ches_keycloak_host:
+    description: 'CHES keycloak host'
+    required: true
 
 runs:
   using: composite
@@ -152,6 +167,11 @@ runs:
           --set cert.cert="${{ inputs.cert }}" \
           --set cert.key="${{ inputs.cert_key }}" \
           --set cert.ca="${{ inputs.cert_ca }}" \
+          --set ches.url="${{ inputs.ches_url }}" \
+          --set ches.client="${{ inputs.ches_client }}" \
+          --set ches.clientSecret="${{ inputs.ches_client_secret }}" \
+          --set ches.to="${{ inputs.ches_to }}" \
+          --set ches.keycloakHost="${{ inputs.ches_keycloak_host }}" \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash

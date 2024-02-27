@@ -157,3 +157,8 @@ jobs:
       VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE}}
       RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+      CHES_API_URL: ${{ secrets.CHES_API_URL }}
+      CHES_CLIENT: ${{ secrets.CHES_CLIENT }}
+      CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
+      CHES_TO_EMAIL: ${{ secrets.CHES_TO_EMAIL }}
+      CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}

@@ -100,6 +100,11 @@ jobs:
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
           sp_list_name: ${{ secrets.SP_LIST_NAME }}
+          ches_url: ${{ secrets.CHES_API_URL }}
+          ches_client: ${{ secrets.CHES_CLIENT }}
+          ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
+          ches_to: ${{ secrets.CHES_TO }}
+          ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:
@@ -159,6 +164,11 @@ jobs:
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
           sp_list_name: ${{ secrets.SP_LIST_NAME }}
+          ches_url: ${{ secrets.CHES_API_URL }}
+          ches_client: ${{ secrets.CHES_CLIENT }}
+          ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
+          ches_to: ${{ secrets.CHES_TO }}
+          ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           environment: test
 
   deploy-to-openshift-production:
@@ -209,6 +219,11 @@ jobs:
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
           sp_list_name: ${{ secrets.SP_LIST_NAME }}
+          ches_url: ${{ secrets.CHES_API_URL }}
+          ches_client: ${{ secrets.CHES_CLIENT }}
+          ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
+          ches_to: ${{ secrets.CHES_TO }}
+          ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           environment: prod
 
   backup-secrets-dev:
