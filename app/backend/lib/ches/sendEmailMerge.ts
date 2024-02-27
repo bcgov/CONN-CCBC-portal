@@ -3,12 +3,14 @@ import config from '../../../config';
 
 const CHES_API_URL = config.get('CHES_API_URL');
 
-interface Contexts {
+interface Context {
   to: string[];
   context: { [key: string]: any };
   delayTS: number;
   tag: string;
 }
+
+type Contexts = Context[];
 
 const sendEmailMerge = async (
   token: string,
