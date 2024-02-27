@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
 import { useCreateApplicationStatusMutation } from 'schema/mutations/assessment/createApplicationStatus';
 import useModal from 'lib/helpers/useModal';
+import * as Sentry from '@sentry/nextjs';
 import ChangeModal from './ChangeModal';
 import ExternalChangeModal from './ExternalChangeModal';
 
@@ -163,6 +164,27 @@ const ChangeStatus: React.FC<Props> = ({
         setChangeReason('');
         setCurrentStatus(draftStatus);
         internalChangeModal.close();
+        // Send email notification
+        if (newStatus === 'approved' && !isExternalStatus) {
+          fetch('/api/email/notifyAgreementSigned', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              applicationId: rowId,
+              host: window.location.origin,
+            }),
+          }).then((response) => {
+            if (!response.ok) {
+              Sentry.captureException({
+                name: 'Email sending failed',
+                message: response,
+              });
+            }
+            return response.json();
+          });
+        }
       },
       updater: (store) => {
         store
