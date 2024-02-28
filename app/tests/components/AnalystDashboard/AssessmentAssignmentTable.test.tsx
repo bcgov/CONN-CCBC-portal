@@ -282,7 +282,7 @@ describe('The AssessmentAssignmentTable component', () => {
     expect(screen.getByText('CCBC-010007')).toBeVisible();
 
     const columnActions = document.querySelectorAll(
-      '[aria-label="Column Actions"]'
+      '[aria-label="Show/Hide filters"]'
     )[0];
 
     await act(async () => {
@@ -295,18 +295,10 @@ describe('The AssessmentAssignmentTable component', () => {
       fireEvent.keyDown(intakeNumberFilter, { key: 'Enter', code: 'Enter' });
     });
 
-    await new Promise((r) => {
-      setTimeout(r, 500);
-    });
-
     const filterInput = screen.getAllByRole('option')[0];
 
     await act(async () => {
       fireEvent.click(filterInput);
-    });
-
-    await new Promise((r) => {
-      setTimeout(r, 500);
     });
 
     expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
@@ -320,8 +312,8 @@ describe('The AssessmentAssignmentTable component', () => {
     expect(screen.getByText('CCBC-010006')).toBeVisible();
 
     const columnActions = document.querySelectorAll(
-      '[aria-label="Column Actions"]'
-    )[2];
+      '[aria-label="Show/Hide filters"]'
+    )[0];
 
     await act(async () => {
       fireEvent.click(columnActions);
