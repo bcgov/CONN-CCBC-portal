@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import assessmentPillStyles from 'data/assessmentPillStyles';
 import { useCreateAssessmentMutation } from '../../schema/mutations/assessment/createAssessment';
 
 const StyledDropdown = styled.select`
@@ -52,19 +53,22 @@ const AssignLead: React.FC<Props> = ({
   let border = '3px';
   let borderRadius = '5px';
   if (jsonData?.nextStep === 'Assessment complete') {
-    backgroundColor = '#2E8540';
+    backgroundColor =
+      assessmentPillStyles['Assessment complete'].backgroundColor;
+    // Complete
     if (jsonData?.decision) {
-      backgroundColor = '#345FA9';
+      backgroundColor = assessmentPillStyles.Complete.backgroundColor;
     }
   } else if (jsonData?.nextStep === 'Needs RFI') {
-    color = '#313132';
-    backgroundColor = '#F8E78F';
+    color = assessmentPillStyles['Needs RFI'].primary;
+    backgroundColor = assessmentPillStyles['Needs RFI'].backgroundColor;
+    // Assigned
   } else if ((jsonData?.nextStep === 'Not started' && lead) || lead) {
-    backgroundColor = '#DBE6F0';
-    color = '#313132';
+    backgroundColor = assessmentPillStyles.Assigned.backgroundColor;
+    color = assessmentPillStyles.Assigned.primary;
   } else if (jsonData?.nextStep === 'Needs 2nd review') {
-    backgroundColor = '#F8E78F';
-    color = '#313132';
+    backgroundColor = assessmentPillStyles['Needs 2nd review'].backgroundColor;
+    color = assessmentPillStyles['Needs 2nd review'].primary;
   } else {
     backgroundColor = 'inherit';
     color = 'inherit';
