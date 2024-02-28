@@ -265,9 +265,8 @@ describe('The AssessmentAssignmentTable component', () => {
       'createAssessmentMutation',
       {
         input: {
-          _assessmentType: 'projectManagement',
+          _assessmentType: 'screening',
           _jsonData: {
-            nextStep: 'Needs 2nd review',
             assignedTo: '',
           },
           _applicationId: 1,
