@@ -333,6 +333,14 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
             application.allAssessments.edges,
             'gis'
           ),
+          screeningAssessment: findAssessment(
+            application.allAssessments.edges,
+            'screening'
+          ),
+          financialRiskAssessment: findAssessment(
+            application.allAssessments.edges,
+            'financialRisk'
+          ),
           organizationName,
         };
       }),
@@ -383,6 +391,24 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       },
       {
         ...sharedAssessmentCell,
+        accessorKey: 'screeningAssessment',
+        header: 'Screening',
+        filterVariant: 'select',
+      },
+      {
+        ...sharedAssessmentCell,
+        accessorKey: 'financialRiskAssessment',
+        header: 'Financial',
+        filterVariant: 'select',
+      },
+      {
+        ...sharedAssessmentCell,
+        accessorKey: 'gisAssessment',
+        header: 'GIS',
+        filterVariant: 'select',
+      },
+      {
+        ...sharedAssessmentCell,
         accessorKey: 'pmAssessment',
         header: 'PM',
         filterVariant: 'select',
@@ -397,12 +423,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         ...sharedAssessmentCell,
         accessorKey: 'permittingAssessment',
         header: 'Permitting',
-        filterVariant: 'select',
-      },
-      {
-        ...sharedAssessmentCell,
-        accessorKey: 'gisAssessment',
-        header: 'GIS',
         filterVariant: 'select',
       },
       {
