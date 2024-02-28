@@ -11,6 +11,7 @@ import {
   type MRT_DensityState,
   type MRT_SortingState,
   type MRT_VisibilityState,
+  type MRT_ColumnSizingState,
 } from 'material-react-table';
 
 import RowCount from 'components/Table/RowCount';
@@ -52,20 +53,29 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const muiTableBodyCellProps = {
-  sx: {
-    padding: '8px 0px',
-  },
+const muiTableBodyCellProps = (props) => {
+  return {
+    sx: {
+      padding: '8px 0px',
+      direction: props.column.id === 'Package' ? 'rtl' : 'ltr',
+    },
+  };
 };
 
 const muiTableHeadCellProps = {
   sx: {
-    padding: '0px',
     wordBreak: 'break-word',
     texOverflow: 'wrap',
     '.Mui-TableHeadCell-Content-Labels': {
       width: '100%',
       justifyContent: 'space-between',
+    },
+    '.Mui-TableHeadCell-Content-Wrapper ': {
+      overflow: 'hidden',
+      textOverflow: 'clip',
+    },
+    '&:last-child': {
+      paddingRight: '16px',
     },
   },
 };
@@ -181,6 +191,18 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
 
+  const [columnSizing, setColumnSizing] = useState<MRT_ColumnSizingState>({
+    Lead: 114,
+    Package: 104,
+    analystStatus: 152,
+    ccbcNumber: 108,
+    externalStatus: 150,
+    intakeNumber: 85,
+    organizationName: 141,
+    projectTitle: 150,
+    zones: 91,
+  });
+
   useEffect(() => {
     const sortingSession = cookie.get('mrt_sorting_application');
     if (sortingSession) {
@@ -210,6 +232,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     if (showColumnFiltersSession) {
       setShowColumnFilters(JSON.parse(showColumnFiltersSession));
     }
+
+    const columnSizingSession = cookie.get('mrt_columnSizing_application');
+
+    if (columnSizingSession) {
+      setColumnSizing(JSON.parse(columnSizingSession));
+    }
+
     setIsFirstRender(false);
   }, []);
 
@@ -252,12 +281,19 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     }
   }, [sorting, isFirstRender]);
 
+  useEffect(() => {
+    if (!isFirstRender) {
+      cookie.set('mrt_columnSizing_application', JSON.stringify(columnSizing));
+    }
+  }, [columnSizing, isFirstRender]);
+
   const state = {
     columnFilters,
     columnVisibility,
     density,
     showColumnFilters,
     sorting,
+    columnSizing,
   };
 
   const tableData = useMemo(
@@ -337,23 +373,17 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       {
         accessorKey: 'intakeNumber',
         header: 'Intake',
-        size: 26,
-        maxSize: 26,
         filterVariant: 'select',
         filterSelectOptions: uniqueIntakeNumbers,
       },
       {
         accessorKey: 'ccbcNumber',
         header: 'CCBC ID',
-        size: 26,
-        maxSize: 26,
         Cell: CcbcIdCell,
       },
       {
         accessorKey: 'zones',
         header: 'Zones',
-        size: 26,
-        maxSize: 26,
         Cell: ({ cell }) => (cell.getValue() as number[]).join(', ') ?? [],
         filterVariant: 'select',
         filterSelectOptions: uniqueZones,
@@ -363,8 +393,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         accessorKey: 'analystStatus',
         header: 'Internal Status',
         Cell: AnalystStatusCell,
-        size: 30,
-        maxSize: 40,
         filterVariant: 'multi-select',
         filterFn: statusFilter,
         filterSelectOptions: analystStatuses,
@@ -372,8 +400,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       {
         accessorKey: 'externalStatus',
         header: 'External Status',
-        size: 30,
-        maxSize: 40,
         Cell: ApplicantStatusCell,
         filterVariant: 'multi-select',
         filterFn: statusFilter,
@@ -382,17 +408,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       {
         accessorKey: 'projectTitle',
         header: 'Project title ',
-        size: 30,
       },
       {
         accessorKey: 'organizationName',
         header: 'Organization',
-        size: 30,
       },
       {
-        size: 30,
         header: 'Lead',
-        maxSize: 30,
         accessorFn: accessorFunctionGeneratorInjectsEmptyString('analystLead'),
         Cell: AssignAnalystLead,
         filterVariant: 'select',
@@ -402,8 +424,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         accessorFn:
           accessorFunctionGeneratorInjectsEmptyString('packageNumber'),
         header: 'Package',
-        size: 26,
-        maxSize: 26,
         filterVariant: 'select',
         filterSelectOptions: uniquePackages,
       },
@@ -419,6 +439,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const table = useMaterialReactTable({
     columns,
     data: tableData,
+    enableColumnResizing: true,
+    columnResizeMode: 'onChange',
     state,
     muiTableContainerProps: { sx: { padding: '8px' } },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
@@ -430,6 +452,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     onColumnVisibilityChange: setColumnVisibility,
     onDensityChange: setDensity,
     onShowColumnFiltersChange: setShowColumnFilters,
+    onColumnSizingChange: setColumnSizing,
     enablePagination: false,
     enableGlobalFilter: false,
     enableBottomToolbar: false,
