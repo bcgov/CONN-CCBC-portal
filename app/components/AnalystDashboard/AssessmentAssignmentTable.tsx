@@ -11,6 +11,7 @@ import {
   type MRT_DensityState,
   type MRT_SortingState,
   type MRT_VisibilityState,
+  type MRT_ColumnSizingState,
 } from 'material-react-table';
 
 import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
@@ -215,6 +216,19 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     { id: 'intakeId', desc: false },
   ]);
 
+  const [columnSizing, setColumnSizing] = useState<MRT_ColumnSizingState>({
+    ccbcNumber: 129,
+    organizationName: 198,
+    zones: 109,
+    intakeId: 106,
+    screeningAssessment: 145,
+    financialRiskAssessment: 143,
+    gisAssessment: 139,
+    pmAssessment: 139,
+    techAssessment: 133,
+    permittingAssessment: 144,
+  });
+
   useEffect(() => {
     const columnFiltersSession = cookie.get('mrt_columnFilters_assessment');
     const columnVisibilitySession = cookie.get(
@@ -225,6 +239,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       'mrt_showColumnFilters_assessment'
     );
     const sortingSession = cookie.get('mrt_sorting_assessment');
+    const columnSizingSession = cookie.get('mrt_columnSizing_assessment');
 
     if (columnFiltersSession) {
       setColumnFilters(JSON.parse(columnFiltersSession));
@@ -243,6 +258,11 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     if (sortingSession) {
       setSorting(JSON.parse(sortingSession));
     }
+
+    if (columnSizingSession) {
+      setColumnSizing(JSON.parse(columnSizingSession));
+    }
+
     setIsFirstRender(false);
   }, []);
 
@@ -281,6 +301,12 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     if (isFirstRender) return;
     cookie.set('assessment_last_visited', JSON.stringify(true));
   }, [isFirstRender]);
+
+  useEffect(() => {
+    if (!isFirstRender) {
+      cookie.set('mrt_columnSizing_assessment', JSON.stringify(columnSizing));
+    }
+  }, [columnSizing, isFirstRender]);
 
   // Separate sorting function so that MRT doesn't replace the previous
   // sorting on first render, otherwise it will set to blank
@@ -333,19 +359,23 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
             application.allAssessments.edges,
             'gis'
           ),
+          screeningAssessment: findAssessment(
+            application.allAssessments.edges,
+            'screening'
+          ),
+          financialRiskAssessment: findAssessment(
+            application.allAssessments.edges,
+            'financialRisk'
+          ),
           organizationName,
         };
       }),
     [allApplications, allAnalysts]
   );
 
-  const assessmentWidth = 30;
-
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
     // Sonarcloud duplicate lines
     const sharedAssessmentCell = {
-      size: assessmentWidth,
-      maxSize: assessmentWidth,
       Cell: AssessmentCell,
       filterSelectOptions: Object.values(allAnalysts.edges).map(
         ({ node }) => `${node.givenName} ${node.familyName}`
@@ -358,28 +388,40 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       {
         accessorKey: 'intakeId',
         header: 'Intake',
-        size: 24,
-        maxSize: 24,
         filterVariant: 'select',
         filterSelectOptions: uniqueIntakeNumbers as string[],
       },
       {
         accessorKey: 'ccbcNumber',
         header: 'CCBC ID',
-        size: 26,
-        maxSize: 26,
         Cell: CcbcIdCell,
         filterFn: 'filterCcbcId',
       },
       {
         accessorKey: 'zones',
         header: 'Zone',
-        size: 24,
-        maxSize: 24,
         Cell: ({ cell }) => (cell.getValue() as number[]).join(', '),
         filterVariant: 'select',
         filterSelectOptions: uniqueZones,
         filterFn: filterZones,
+      },
+      {
+        ...sharedAssessmentCell,
+        accessorKey: 'screeningAssessment',
+        header: 'Screening',
+        filterVariant: 'select',
+      },
+      {
+        ...sharedAssessmentCell,
+        accessorKey: 'financialRiskAssessment',
+        header: 'Financial',
+        filterVariant: 'select',
+      },
+      {
+        ...sharedAssessmentCell,
+        accessorKey: 'gisAssessment',
+        header: 'GIS',
+        filterVariant: 'select',
       },
       {
         ...sharedAssessmentCell,
@@ -400,15 +442,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         filterVariant: 'select',
       },
       {
-        ...sharedAssessmentCell,
-        accessorKey: 'gisAssessment',
-        header: 'GIS',
-        filterVariant: 'select',
-      },
-      {
         accessorKey: 'organizationName',
         header: 'Organization Name',
-        size: 30,
       },
     ];
   }, []);
@@ -422,12 +457,15 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       density,
       showColumnFilters,
       sorting,
+      columnSizing,
     },
     onSortingChange: setSortingFn,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onDensityChange: setDensity,
     onShowColumnFiltersChange: setShowColumnFilters,
+    onColumnSizingChange: setColumnSizing,
+    enableColumnResizing: true,
     enablePagination: false,
     enableGlobalFilter: false,
     enableBottomToolbar: false,
@@ -441,12 +479,18 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     },
     muiTableHeadCellProps: {
       sx: {
-        padding: '0px',
         wordBreak: 'break-word',
         texOverflow: 'wrap',
         '.Mui-TableHeadCell-Content-Labels': {
           width: '100%',
           justifyContent: 'space-between',
+        },
+        '.Mui-TableHeadCell-Content-Wrapper ': {
+          overflow: 'hidden',
+          textOverflow: 'clip',
+        },
+        '&:last-child': {
+          paddingRight: '16px',
         },
       },
     },
