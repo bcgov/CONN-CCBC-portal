@@ -1,3 +1,9 @@
+autoscaling:
+  enabled: false
+
+deploy:
+  enabled: false
+
 cronsp:
   schedule: '0 0 15 10 *' # dev run once a year on October 15
 
