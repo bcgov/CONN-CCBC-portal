@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
-import { AjvError, IChangeEvent } from '@rjsf/core';
 import Button from '@button-inc/bcgov-theme/Button';
 import { useUpdateIntakeMutation } from 'schema/mutations/admin/updateIntakeMutation';
 import FormBase from 'components/Form/FormBase';
@@ -12,6 +10,9 @@ import BasicFieldTemplate from 'lib/theme/templates/BasicFieldTemplate';
 import ReadOnlyWidget from 'components/Analyst/Project/ConditionalApproval/widgets/ReadOnlyWidget';
 import { useCreateIntakeMutation } from 'schema/mutations/admin/createIntakeMutation';
 import { DateTime } from 'luxon';
+import styled from 'styled-components';
+import { IChangeEvent, ThemeProps } from '@rjsf/core';
+import { CustomValidator, RJSFValidationError } from '@rjsf/utils';
 
 interface EditProps {
   isFormEditMode: boolean;
@@ -64,16 +65,19 @@ const StyledSaveBtn = styled(Button)`
   margin-right: 16px;
 `;
 
-const IntakeTheme = {
+const IntakeTheme: ThemeProps = {
   ...DefaultTheme,
   widgets: {
     ...DefaultTheme.widgets,
     ReadOnlyWidget,
   },
-  FieldTemplate: BasicFieldTemplate,
+  templates: {
+    ...DefaultTheme.templates,
+    FieldTemplate: BasicFieldTemplate,
+  },
 };
 
-const customTransformErrors = (errors: AjvError[]) =>
+const customTransformErrors = (errors: RJSFValidationError[]) =>
   errors.map((error) => {
     // remove 'Please enter a value' error from null fields so we can add specific error messages
     if (error.name === 'required')
@@ -195,7 +199,7 @@ const AddIntake: React.FC<Props> = ({
   const currentDateTime = DateTime.now();
   const intakeStartDate =
     formData?.startDate && DateTime.fromISO(formData.startDate);
-  const validate = (jsonData, errors) => {
+  const validate: CustomValidator = (jsonData, errors) => {
     const { startDate, endDate } = jsonData;
     const startDateTime = DateTime.fromISO(startDate);
     const endDateTime = DateTime.fromISO(endDate);
@@ -301,7 +305,7 @@ const AddIntake: React.FC<Props> = ({
             onSubmit={handleSubmit}
             transformErrors={customTransformErrors}
             theme={IntakeTheme}
-            validate={validate}
+            customValidate={validate}
           >
             <StyledSaveBtn
               type="submit"

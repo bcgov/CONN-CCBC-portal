@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { uiSchema } from 'formSchema';
-import type { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 import FormTestRenderer from '../../utils/formTestRenderer';
 
 const schema = {
@@ -41,12 +41,12 @@ jest.mock('next/router', () => ({
   },
 }));
 
-const renderStaticLayout = (s: JSONSchema7, u: any, formData) => {
+const renderStaticLayout = (s: RJSFSchema, u: any, formData) => {
   return render(
     <FormTestRenderer
       formData={formData}
-      onSubmit={() => console.log('test')}
-      schema={s as JSONSchema7}
+      onSubmit={jest.fn}
+      schema={s as RJSFSchema}
       uiSchema={u}
       formContext={{ finalUiSchema: uiSchema }}
     />
@@ -63,7 +63,7 @@ describe('The ReadOnlySubmissionWidget', () => {
   });
 
   it('should render the title', () => {
-    renderStaticLayout(schema as JSONSchema7, ui, {});
+    renderStaticLayout(schema as RJSFSchema, ui, {});
 
     expect(
       screen.getByText('Completed for (Legal organization name)')
@@ -71,7 +71,7 @@ describe('The ReadOnlySubmissionWidget', () => {
   });
 
   it('should render the error message when submissionCompletedFor is empty', () => {
-    renderStaticLayout(schema as JSONSchema7, ui, {});
+    renderStaticLayout(schema as RJSFSchema, ui, {});
 
     expect(
       screen.getByRole('link', { name: 'Organization Profile' })
@@ -79,7 +79,7 @@ describe('The ReadOnlySubmissionWidget', () => {
   });
 
   it('should not render the error message when submissionCompletedFor is filled', () => {
-    renderStaticLayout(schema as JSONSchema7, ui, {
+    renderStaticLayout(schema as RJSFSchema, ui, {
       submissionCompletedFor: 'submissionCompletedFor test',
     });
 
@@ -89,7 +89,7 @@ describe('The ReadOnlySubmissionWidget', () => {
   });
 
   it('should render the value', () => {
-    renderStaticLayout(schema as JSONSchema7, ui, {
+    renderStaticLayout(schema as RJSFSchema, ui, {
       submissionCompletedFor: 'submissionCompletedFor test',
     });
 

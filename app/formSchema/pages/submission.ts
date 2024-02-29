@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const submission: Record<string, JSONSchema7> = {
+const submission: Record<string, RJSFSchema> = {
   submission: {
     title: 'Submission',
     // description is rendered and stored in the SubmissionField.tsx

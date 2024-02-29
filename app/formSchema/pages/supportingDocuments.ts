@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const supportingDocuments: Record<string, JSONSchema7> = {
+const supportingDocuments: Record<string, RJSFSchema> = {
   supportingDocuments: {
     title: 'Supporting documents',
     type: 'object',

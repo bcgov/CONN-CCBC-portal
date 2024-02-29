@@ -279,10 +279,9 @@ export const rfiApplicantUiSchema = {
   ],
   rfiType: {
     'ui:widget': 'hidden',
-    'ui:title': ' ',
     'ui:options': {
       label: false,
-      title: false,
+      customTitle: true,
     },
   },
   rfiDueBy: {

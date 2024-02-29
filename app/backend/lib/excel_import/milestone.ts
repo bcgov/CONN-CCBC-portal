@@ -63,7 +63,7 @@ const readSummary = async (wb, sheets, applicationId, milestoneId) => {
 
   const MILESTONE_2_PROGRESS_START_OFFSET = 1;
   const MILESTONE_2_APPLICABLE_START_OFFSET = 2;
-  const MILESTONE_2_PROJECT_SITES_START_OFFEST = 3;
+  const MILESTONE_2_PROJECT_SITES_START_OFFEST = 4;
 
   for (
     let i = milestoneOneHeaderStartPosition + 1;
@@ -74,7 +74,7 @@ const readSummary = async (wb, sheets, applicationId, milestoneId) => {
       projectSite: milestone1Sheet[i]['A'],
       siteId: milestone1Sheet[i]['C'],
       isPOP: milestone1Sheet[i]['D'],
-      milestoneOneDueDuate: milestone1Sheet[i]['E'],
+      milestoneOneDueDate: milestone1Sheet[i]['E'],
       isRequired: convertExcelDropdownToBoolean(milestone1Sheet[i]['F']),
       isSubmitted: convertExcelDropdownToBoolean(milestone1Sheet[i]['G']),
       recipientComments: milestone1Sheet[i]['H'],
@@ -142,7 +142,7 @@ const readSummary = async (wb, sheets, applicationId, milestoneId) => {
       projectSite: milestone2Sheet[i]['A'],
       siteId: milestone2Sheet[i]['C'],
       isPOP: milestone2Sheet[i]['D'],
-      milestoneTwoDueDuate: milestone2Sheet[i]['E'],
+      milestoneTwoDueDate: milestone2Sheet[i]['E'],
       landAccessPermitEvidenceIsRequired: convertExcelDropdownToBoolean(
         milestone2Sheet[i]['F']
       ),
@@ -156,7 +156,7 @@ const readSummary = async (wb, sheets, applicationId, milestoneId) => {
       radioAndSpectrumLicensesIsSubmitted: convertExcelDropdownToBoolean(
         milestone2Sheet[i]['J']
       ),
-      radioandspetrumLicensesStatus: milestone2Sheet[i]['K'],
+      radioandSpectrumLicensesStatus: milestone2Sheet[i]['K'],
       photographsOfProjectSitesIsRequired: convertExcelDropdownToBoolean(
         milestone2Sheet[i]['L']
       ),

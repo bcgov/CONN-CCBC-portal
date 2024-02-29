@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const templateUploads: Record<string, JSONSchema7> = {
+const templateUploads: Record<string, RJSFSchema> = {
   templateUploads: {
     title: 'Template uploads',
     type: 'object',

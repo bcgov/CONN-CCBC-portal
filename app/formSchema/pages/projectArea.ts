@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const projectArea: Record<string, JSONSchema7> = {
+const projectArea: Record<string, RJSFSchema> = {
   projectArea: {
     title: 'Project area',
     type: 'object',
@@ -19,6 +19,7 @@ const projectArea: Record<string, JSONSchema7> = {
         title:
           'Referring to the project zones (application guide Annex 6), which zone(s) will this project be conducted in?',
         type: 'array',
+        minItems: 1,
         items: {
           type: 'number',
           enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],

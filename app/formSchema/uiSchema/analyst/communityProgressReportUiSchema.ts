@@ -14,7 +14,6 @@ const communityProgressReportUiSchema = {
     'ui:widget': 'ContextErrorWidget',
   },
   progressReportFile: {
-    'ui:title': '',
     'ui:widget': 'ExcelImportFileWidget',
     'ui:options': {
       excelImport: {

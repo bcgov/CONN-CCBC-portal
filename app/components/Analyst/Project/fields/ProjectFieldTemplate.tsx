@@ -1,4 +1,4 @@
-import { FieldTemplateProps } from '@rjsf/core';
+import { FieldTemplateProps } from '@rjsf/utils';
 import styled from 'styled-components';
 
 const StyledH4 = styled.h4`
@@ -35,7 +35,7 @@ const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   uiSchema,
 }) => {
-  const uiTitle = uiSchema['ui:title'];
+  const uiTitle = uiSchema['ui:label'] || uiSchema['ui:title'];
 
   return (
     <StyledContainer>

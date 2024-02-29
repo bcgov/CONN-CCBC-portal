@@ -179,12 +179,7 @@ describe('The Conditional Approval form', () => {
         connections: [expect.anything()],
         input: {
           _applicationId: 1,
-          _jsonData: {
-            decision: {},
-            isedDecisionObj: {},
-            letterOfApproval: {},
-            response: {},
-          },
+          _jsonData: null,
         },
       }
     );
@@ -266,8 +261,6 @@ describe('The Conditional Approval form', () => {
             decision: {
               ministerDecision: 'Approved',
             },
-            isedDecisionObj: {},
-            letterOfApproval: {},
             response: {
               applicantResponse: 'Accepted',
               statusApplicantSees: 'Conditionally Approved',

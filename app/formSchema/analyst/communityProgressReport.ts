@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const communityProgressReport: JSONSchema7 = {
+const communityProgressReport: RJSFSchema = {
   description: '',
   type: 'object',
   required: ['dueDate'],

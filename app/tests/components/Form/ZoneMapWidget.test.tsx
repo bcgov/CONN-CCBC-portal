@@ -1,9 +1,9 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { ZONE_MAP_URL } from 'data/externalConstants';
-import type { JSONSchema7 } from 'json-schema';
 import { ZoneMapWidget } from 'lib/theme/widgets';
 import FormTestRenderer from 'tests/utils/formTestRenderer';
 import * as Sentry from '@sentry/nextjs';
+import { RJSFSchema } from '@rjsf/utils';
 
 const mockSchema = {
   title: 'Project area',
@@ -32,15 +32,15 @@ const formContextMock = {
 };
 
 const renderStaticLayout = (
-  schema: JSONSchema7,
-  uiSchema: JSONSchema7,
+  schema: RJSFSchema,
+  uiSchema: RJSFSchema,
   formContext: any = {}
 ) => {
   return render(
     <FormTestRenderer
       formData={{}}
       onSubmit={jest.fn}
-      schema={schema as JSONSchema7}
+      schema={schema as RJSFSchema}
       uiSchema={uiSchema}
       formContext={formContext}
     />
@@ -49,14 +49,14 @@ const renderStaticLayout = (
 
 describe('The Area Map Widget', () => {
   it('renders download link', () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema as JSONSchema7);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema as RJSFSchema);
     expect(
       screen.getByTestId('internet-blocking-map-download-link')
     ).toBeInTheDocument();
   });
 
   it('renders a map with the correct source', () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema as JSONSchema7);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema as RJSFSchema);
     const imageElement: any = screen.getByAltText('Internet Blocking Map');
     expect(imageElement).toBeInTheDocument();
     expect(imageElement.src).toContain('zone-map-intake-3.png');
@@ -64,8 +64,8 @@ describe('The Area Map Widget', () => {
 
   it('should render the default map if firstNationsLed selected', async () => {
     renderStaticLayout(
-      mockSchema as JSONSchema7,
-      mockUiSchema as JSONSchema7,
+      mockSchema as RJSFSchema,
+      mockUiSchema as RJSFSchema,
       formContextMock
     );
 
@@ -77,7 +77,7 @@ describe('The Area Map Widget', () => {
   });
 
   it('triggers the download process on download click', async () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema as JSONSchema7);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema as RJSFSchema);
     const mockBlob = new Blob();
     global.fetch = jest.fn(() =>
       Promise.resolve({
@@ -102,7 +102,7 @@ describe('The Area Map Widget', () => {
   });
 
   it('displays an error message if the download fails', async () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema as JSONSchema7);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema as RJSFSchema);
     global.fetch = jest.fn(() => Promise.reject(new Error('Failed to fetch')));
     const spySentry = jest.spyOn(Sentry, 'captureException');
     const downloadLink = screen.getByTestId(

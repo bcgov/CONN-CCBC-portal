@@ -78,6 +78,7 @@ describe('The applicantRfiId Page', () => {
       {
         input: {
           jsonData: {
+            rfiType: [],
             rfiAdditionalFiles: {
               eligibilityAndImpactsCalculatorRfi: true,
               detailedBudgetRfi: true,
@@ -179,6 +180,7 @@ describe('The applicantRfiId Page', () => {
       {
         input: {
           jsonData: {
+            rfiType: [],
             rfiAdditionalFiles: {
               eligibilityAndImpactsCalculatorRfi: true,
               detailedBudgetRfi: true,

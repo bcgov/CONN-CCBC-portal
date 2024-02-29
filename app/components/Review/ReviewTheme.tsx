@@ -1,4 +1,4 @@
-import { ThemeProps } from '@rjsf/core';
+import { ThemeProps, getDefaultRegistry } from '@rjsf/core';
 import ArrayBooleanField from './fields/ArrayBooleanField';
 import ReviewCheckboxField from './fields/ReviewCheckboxField';
 import ReviewInlineArrayField from './fields/ReviewInlineArrayField';
@@ -10,6 +10,8 @@ import DefaultWidget from './widgets/DefaultWidget';
 import MoneyWidget from './widgets/MoneyWidget';
 import BooleanWidget from './widgets/BooleanWidget';
 import FileWidget from './widgets/FileWidget';
+
+const { templates } = getDefaultRegistry();
 
 const ReviewTheme: ThemeProps = {
   fields: {
@@ -34,9 +36,12 @@ const ReviewTheme: ThemeProps = {
     ReadOnlyWidget: DefaultWidget,
     ReadOnlyProjectAreaWidget: DefaultWidget,
   },
-  ObjectFieldTemplate: ReviewObjectFieldTemplate,
-  FieldTemplate: ReviewFieldTemplate,
-  ArrayFieldTemplate: ReviewArrayFieldTemplate,
+  templates: {
+    ...templates,
+    ObjectFieldTemplate: ReviewObjectFieldTemplate,
+    FieldTemplate: ReviewFieldTemplate,
+    ArrayFieldTemplate: ReviewArrayFieldTemplate,
+  },
 };
 
 export default ReviewTheme;

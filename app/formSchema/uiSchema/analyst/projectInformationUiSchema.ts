@@ -11,7 +11,7 @@ const projectInformationUiSchema = {
     'ui:widget': 'FileWidget',
   },
   statementOfWorkUpload: {
-    'ui:title':
+    'ui:label':
       'After pressing Import, key information will be extracted from the Statement of Work Tables to the database such as Dates, Communities & households, and Project costing & funding',
     'ui:widget': 'ExcelImportFileWidget',
     'ui:options': {

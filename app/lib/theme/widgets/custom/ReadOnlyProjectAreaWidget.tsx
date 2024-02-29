@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import { INTAKE_3_AREAS_OF_INTEREST } from 'data/externalConstants';
 import Link from 'next/link';
 import styled from 'styled-components';

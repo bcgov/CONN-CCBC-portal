@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import type { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 import FormTestRenderer from '../../utils/formTestRenderer';
 
 const options = {
@@ -38,12 +38,12 @@ const mockUiSchemaSingleSelection = {
   },
 };
 
-const renderStaticLayout = (schema: JSONSchema7, uiSchema) =>
+const renderStaticLayout = (schema: RJSFSchema, uiSchema) =>
   render(
     <FormTestRenderer
       formData={{}}
       onSubmit={jest.fn}
-      schema={schema as JSONSchema7}
+      schema={schema as RJSFSchema}
       uiSchema={uiSchema}
     />
   );
@@ -52,13 +52,13 @@ describe('The Checkboxes widget', () => {
   beforeEach(() => {});
 
   it('should render the checkboxes widget title', () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema);
 
     expect(screen.getByText('Checkboxes widget test field')).toBeVisible();
   });
 
   it('renders checkboxes correctly', () => {
-    renderStaticLayout(mockSchema as JSONSchema7, mockUiSchema);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema);
     options.enumOptions.forEach((option) => {
       const checkbox = screen.getByText(option);
       expect(checkbox).toBeInTheDocument();
@@ -67,7 +67,7 @@ describe('The Checkboxes widget', () => {
 
   it('allows multiple checkboxes to be checked', () => {
     const { container } = renderStaticLayout(
-      mockSchema as JSONSchema7,
+      mockSchema as RJSFSchema,
       mockUiSchema
     );
 
@@ -86,7 +86,7 @@ describe('The Checkboxes widget', () => {
 
   it('allows checkboxes to be deselected', () => {
     const { container } = renderStaticLayout(
-      mockSchema as JSONSchema7,
+      mockSchema as RJSFSchema,
       mockUiSchema
     );
 
@@ -110,7 +110,7 @@ describe('The Checkboxes widget', () => {
 
   it('allows only one checkbox to be checked in singleSelection mode', () => {
     const { container } = renderStaticLayout(
-      mockSchema as JSONSchema7,
+      mockSchema as RJSFSchema,
       mockUiSchemaSingleSelection
     );
 
@@ -129,7 +129,7 @@ describe('The Checkboxes widget', () => {
 
   it('unchecks checkbox when checked one is clicked in singleSelection', () => {
     const { container } = renderStaticLayout(
-      mockSchema as JSONSchema7,
+      mockSchema as RJSFSchema,
       mockUiSchemaSingleSelection
     );
 
@@ -138,7 +138,7 @@ describe('The Checkboxes widget', () => {
     );
     fireEvent.click(checkbox1);
     expect(checkbox1).toBeChecked();
-    
+
     fireEvent.click(checkbox1);
     expect(checkbox1).not.toBeChecked();
   });

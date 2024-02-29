@@ -154,6 +154,7 @@ export const authCallbackController =
     const callbackParams = client.callbackParams(req);
 
     try {
+      const startTime = Date.now();
       const tokenSet = await client.callback(
         req.session.redirectUri,
         callbackParams,
@@ -162,12 +163,17 @@ export const authCallbackController =
           code_verifier: sessionCodeVerifier,
         }
       );
+      const endTime = Date.now();
+      const elapsedTime = endTime - startTime;
+      // eslint-disable-next-line no-console
+      console.log(`Elapsed time from callback: ${elapsedTime} milliseconds`);
       req.session.tokenSet = tokenSet;
       req.claims = tokenSet.claims();
 
-      if (typeof options.onAuthCallback === 'function') {
-        await options.onAuthCallback(req);
-      }
+      // Temporarily disable the onAuthCallback for debugging purposes
+      // if (typeof options.onAuthCallback === 'function') {
+      //   await options.onAuthCallback(req);
+      // }
 
       delete req.session.codeVerifier;
 

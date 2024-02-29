@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
 import { useMemo } from 'react';
 import styled from 'styled-components';
+import { RJSFSchema } from '@rjsf/utils';
 import gisSchema from '../../../backend/lib/gis-schema.json';
 
 const Table = styled.table`
@@ -34,8 +34,8 @@ const TableHeader = styled.th`
   }
 `;
 
-export function getKeysFromSchema(jsonSchema: JSONSchema7) {
-  const items = jsonSchema.items as JSONSchema7;
+export function getKeysFromSchema(jsonSchema: RJSFSchema) {
+  const items = jsonSchema.items as RJSFSchema;
   return Object.keys(items.properties);
 }
 // would be nice if we could get an interface out of a jsonschema7 object
@@ -49,7 +49,7 @@ const GisTable: React.FunctionComponent<GisTableProps> = ({
   numPreview,
 }) => {
   const columns = useMemo(() => {
-    return getKeysFromSchema(gisSchema as JSONSchema7);
+    return getKeysFromSchema(gisSchema as RJSFSchema);
   }, []);
   return (
     <Table>

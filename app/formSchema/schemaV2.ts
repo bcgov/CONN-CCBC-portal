@@ -1,4 +1,4 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 import {
   acknowledgements,
   alternateContact,
@@ -21,7 +21,7 @@ import {
   templateUploads,
 } from './pages';
 
-const schema: JSONSchema7 = {
+const schema: RJSFSchema = {
   type: 'object',
   properties: {
     ...projectInformation,

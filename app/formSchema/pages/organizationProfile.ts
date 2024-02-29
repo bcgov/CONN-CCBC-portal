@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const organizationProfile: Record<string, JSONSchema7> = {
+const organizationProfile: Record<string, RJSFSchema> = {
   organizationProfile: {
     title: 'Organization profile',
     description: 'Provide an overview of your organization.',

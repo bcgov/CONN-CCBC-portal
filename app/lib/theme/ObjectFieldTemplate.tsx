@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ObjectFieldTemplateProps } from '@rjsf/core';
+import { ObjectFieldTemplateProps } from '@rjsf/utils';
 import { useMediaQuery, useTheme } from '@mui/material';
 import FormBorder from './components/FormBorder';
 import Description from './components/Description';

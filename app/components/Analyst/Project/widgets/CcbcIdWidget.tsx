@@ -1,4 +1,4 @@
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import styled from 'styled-components';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';

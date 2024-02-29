@@ -1,4 +1,4 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
 const alternateContact = {
   alternateContact: {
@@ -42,11 +42,13 @@ const alternateContact = {
       isAltContactSigningOfficer: {
         title: 'Is this person an authorized signing officer of the Applicant?',
         type: 'boolean',
-        enum: [true, false],
-        enumNames: ['Yes', 'No'],
+        oneOf: [
+          { const: true, title: 'Yes' },
+          { const: false, title: 'No' },
+        ],
       },
     },
   },
-} as Record<string, JSONSchema7>;
+} as Record<string, RJSFSchema>;
 
 export default alternateContact;

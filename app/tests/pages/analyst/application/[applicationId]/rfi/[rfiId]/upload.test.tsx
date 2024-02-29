@@ -77,6 +77,7 @@ describe('The applicantRfiId Page', () => {
       {
         input: {
           jsonData: {
+            rfiType: [],
             rfiAdditionalFiles: {
               communityRuralDevelopmentBenefitsRfi: true,
             },

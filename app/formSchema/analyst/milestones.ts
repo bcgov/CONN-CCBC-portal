@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const milestones: JSONSchema7 = {
+const milestones: RJSFSchema = {
   description: '',
   type: 'object',
   required: ['dueDate'],

@@ -1,6 +1,6 @@
-import FormTestRenderer from '../../utils/formTestRenderer';
 import { render, screen, fireEvent } from '@testing-library/react';
-import type { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
+import FormTestRenderer from '../../utils/formTestRenderer';
 import { ReadOnlyMoneyWidget } from '../../../lib/theme/widgets';
 
 const schema = {
@@ -20,20 +20,23 @@ const uiSchema = {
   },
 };
 
-const renderStaticLayout = (schema: JSONSchema7, uiSchema: JSONSchema7) => {
+const renderStaticLayout = (
+  rjsfSchema: RJSFSchema,
+  rjsfUiSchema: RJSFSchema
+) => {
   return render(
     <FormTestRenderer
       formData={{}}
-      onSubmit={() => console.log('test')}
-      schema={schema as JSONSchema7}
-      uiSchema={uiSchema}
+      onSubmit={jest.fn}
+      schema={rjsfSchema}
+      uiSchema={rjsfUiSchema}
     />
   );
 };
 
 describe('The ReadOnlyMoneyWidget', () => {
   beforeEach(() => {
-    renderStaticLayout(schema as JSONSchema7, uiSchema as JSONSchema7);
+    renderStaticLayout(schema as RJSFSchema, uiSchema as RJSFSchema);
   });
 
   it('should render the read only money widget input field', () => {
@@ -49,7 +52,7 @@ describe('The ReadOnlyMoneyWidget', () => {
   it('should contain the correct input value', () => {
     const input = screen.getByTestId('root_moneyTestField');
     fireEvent.change(input, { target: { value: 123 } });
-    expect(screen.getByDisplayValue('$123'));
+    expect(screen.getByDisplayValue('$123')).toBeInTheDocument();
   });
 
   it('should have disabled attribute', () => {

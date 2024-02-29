@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { JSONSchema7 } from 'json-schema';
 import * as Sentry from '@sentry/nextjs';
 import { useEffect, useState } from 'react';
 import useModal from 'lib/helpers/useModal';
+import { RJSFSchema } from '@rjsf/utils';
 import Announcement from './Announcement';
 import AnnouncementsHeader from './AnnouncementsHeader';
 import AnnouncementDeleteModal from './AnnouncementDeleteModal';
@@ -24,7 +24,7 @@ interface Props {
   resetFormData?: (store: any, announcementData: any) => void;
   isFormEditMode: boolean;
   setAnnouncementData: (announcementId: string) => void;
-  setFormData: (formData: JSONSchema7) => void;
+  setFormData: (formData: RJSFSchema) => void;
   setIsFormEditMode: (isFormEditMode: boolean) => void;
 }
 

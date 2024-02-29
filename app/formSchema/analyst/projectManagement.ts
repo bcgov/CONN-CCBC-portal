@@ -1,7 +1,7 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 import sharedAssessmentFields from './sharedAssessmentFields';
 
-const projectManagement: JSONSchema7 = {
+const projectManagement: RJSFSchema = {
   title: ' ',
   description: '',
   type: 'object',

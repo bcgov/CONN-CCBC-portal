@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import Accordion from 'components/Accordion';
 import { FormBase } from 'components/Form';
-import type { JSONSchema7 } from 'json-schema';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Collapse } from '@mui/material';
+import { RJSFSchema } from '@rjsf/utils';
 import ProjectTheme from './ProjectTheme';
 
 const ToggleRight = styled.div`
@@ -80,7 +80,7 @@ interface Props {
   saveBtnText?: string;
   saveBtnDisabled?: boolean;
   cancelBtnDisabled?: boolean;
-  schema: JSONSchema7;
+  schema: RJSFSchema;
   setFormData?: any;
   setIsFormEditMode: any;
   submitting?: boolean;
@@ -204,7 +204,7 @@ const ProjectForm: React.FC<Props> = ({
           liveValidate={liveValidate}
           omitExtraData={false}
           onChange={handleChange}
-          validate={validate}
+          customValidate={validate}
         >
           {hiddenSubmitRef ? (
             <button
@@ -241,7 +241,7 @@ const ProjectForm: React.FC<Props> = ({
             liveValidate={liveValidate}
             omitExtraData={false}
             onChange={handleChange}
-            validate={validate}
+            customValidate={validate}
           >
             {hiddenSubmitRef ? (
               <button

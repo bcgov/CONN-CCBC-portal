@@ -1,6 +1,6 @@
-import { JSONSchema7 } from 'json-schema';
+import { RJSFSchema } from '@rjsf/utils';
 
-const changeRequest: JSONSchema7 = {
+const changeRequest: RJSFSchema = {
   description: '',
   type: 'object',
   required: ['amendmentNumber'],

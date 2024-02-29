@@ -1,4 +1,4 @@
-import { FieldTemplateProps } from '@rjsf/core';
+import { FieldTemplateProps } from '@rjsf/utils';
 import styled from 'styled-components';
 
 const StyledTextContainer = styled.span`
@@ -78,7 +78,7 @@ const ChangeRequestFieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   uiSchema,
 }) => {
-  const uiTitle = uiSchema['ui:title'];
+  const uiTitle = uiSchema['ui:label'] || uiSchema['ui:title'];
   const flexDirection = uiSchema['ui:options']?.flexDirection as string;
   const flexAlignment = uiSchema['ui:options']?.flexAlign as string;
 
