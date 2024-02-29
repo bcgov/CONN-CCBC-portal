@@ -1,3 +1,4 @@
+{{- if .Values.deploy.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -35,3 +36,4 @@ spec:
                 - |
                   set -euo pipefail;
                   psql -d ccbc -c 'set role ccbc_job_executor; select ccbc_public.receive_applications();'
+{{- end }}
