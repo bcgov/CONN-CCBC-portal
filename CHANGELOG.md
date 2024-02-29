@@ -1,3 +1,9 @@
+# [1.145.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.144.0...v1.145.0) (2024-02-29)
+
+### Features
+
+- hide assessed apps from assessment dashboard ([09b90a4](https://github.com/bcgov/CONN-CCBC-portal/commit/09b90a43b58d90d5d6337f8c4891140ef4d45c94))
+
 # [1.144.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.143.0...v1.144.0) (2024-02-29)
 
 ### Bug Fixes
