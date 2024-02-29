@@ -55,10 +55,6 @@ const AssignLead: React.FC<Props> = ({
   if (jsonData?.nextStep === 'Assessment complete') {
     backgroundColor =
       assessmentPillStyles['Assessment complete'].backgroundColor;
-    // Complete
-    if (jsonData?.decision) {
-      backgroundColor = assessmentPillStyles.Complete.backgroundColor;
-    }
   } else if (jsonData?.nextStep === 'Needs RFI') {
     color = assessmentPillStyles['Needs RFI'].primary;
     backgroundColor = assessmentPillStyles['Needs RFI'].backgroundColor;
