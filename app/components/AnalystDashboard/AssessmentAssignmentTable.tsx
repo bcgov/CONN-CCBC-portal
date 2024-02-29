@@ -11,7 +11,7 @@ import {
   type MRT_DensityState,
   type MRT_SortingState,
   type MRT_VisibilityState,
-  MRT_ColumnSizingState,
+  type MRT_ColumnSizingState,
 } from 'material-react-table';
 
 import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
