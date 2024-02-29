@@ -70,7 +70,7 @@ const mockQueryPayload = {
                   {
                     node: {
                       jsonData: {
-                        nextStep: 'Not started',
+                        nextStep: 'Needs 2nd review',
                         assignedTo: 'Test Analyst Project Management',
                       },
                       assessmentDataType: 'projectManagement',
@@ -81,7 +81,7 @@ const mockQueryPayload = {
                   {
                     node: {
                       jsonData: {
-                        nextStep: 'Not started',
+                        nextStep: 'Needs RFI',
                         assignedTo: 'Test Analyst Permitting',
                       },
                       assessmentDataType: 'permitting',
@@ -92,7 +92,7 @@ const mockQueryPayload = {
                     node: {
                       jsonData: {
                         decision: 'No decision',
-                        nextStep: 'Not started',
+                        nextStep: 'Assessment complete',
                         assignedTo: 'Test Analyst Technical',
                         targetDate: '2023-10-26',
                       },
@@ -267,7 +267,7 @@ describe('The AssessmentAssignmentTable component', () => {
         input: {
           _assessmentType: 'projectManagement',
           _jsonData: {
-            nextStep: 'Not started',
+            nextStep: 'Needs 2nd review',
             assignedTo: '',
           },
           _applicationId: 1,
