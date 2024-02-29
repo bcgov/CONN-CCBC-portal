@@ -1,3 +1,4 @@
+{{- if .Values.deploy.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -34,3 +35,4 @@ spec:
                 - -c
                 - |
                   curl --location --request GET '{{ .Values.secureRoute.host }}/api/analyst/admin-archive/-1' --header 'x-api-key: {{ .Values.objectStorage.awsS3SecretKey }}'
+{{- end }}

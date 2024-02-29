@@ -1,3 +1,4 @@
+{{- if .Values.deploy.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -311,3 +312,4 @@ spec:
         - name: cache-volume
           persistentVolumeClaim:
             claimName: cache-pvc
+{{- end }}
