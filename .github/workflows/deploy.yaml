@@ -45,7 +45,7 @@ on:
       CHES_KEYCLOAK_HOST: { required: true }
 
 env:
-  TAG: sha-${{ github.sha }}
+  TAG: sha-612f9e46f5e8f7a832f008b215c421e5d55e0cbc
 
 jobs:
   is-tagged-release:
