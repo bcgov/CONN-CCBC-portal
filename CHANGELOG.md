@@ -1,3 +1,22 @@
+# [1.144.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.143.0...v1.144.0) (2024-02-29)
+
+### Bug Fixes
+
+- array sanitizer ([cfbfba2](https://github.com/bcgov/CONN-CCBC-portal/commit/cfbfba2eb2d1abb8f4fb4ed76cb4178ed71a7cfb))
+- breaking changes in rjsfV5 ([85e11da](https://github.com/bcgov/CONN-CCBC-portal/commit/85e11dabf6db9cd215bf9efaacf1e1a7ddb32e49))
+- breaking types ([0e49d30](https://github.com/bcgov/CONN-CCBC-portal/commit/0e49d30fffafc276677328c40f3a85843ef219cd))
+- enable liveValidate to announcement form ([10f977f](https://github.com/bcgov/CONN-CCBC-portal/commit/10f977fba93cb005e7fc86fc09badd84dbba8994))
+- remove experimental feature ([2cae6fe](https://github.com/bcgov/CONN-CCBC-portal/commit/2cae6feb15376cee960fcd5ddbbbe50fb934033c))
+- review page issues with rjsf ([5c1ec90](https://github.com/bcgov/CONN-CCBC-portal/commit/5c1ec900eb1f5fa1393dc6e51b72e2a01c906f7e))
+- unwanted header for aarrays ([5562d25](https://github.com/bcgov/CONN-CCBC-portal/commit/5562d254559dabff7b8b908ea2c400922f443e7e))
+
+### Features
+
+- add assessment status colours to dashboard ([0b2e8c6](https://github.com/bcgov/CONN-CCBC-portal/commit/0b2e8c668cdc37d21fb0abb7c927bb59a781ce9c))
+- add column resizing to assessments dash ([cfdc699](https://github.com/bcgov/CONN-CCBC-portal/commit/cfdc6995d5f2ce9d1d8b1c7c24774d87094c3b82))
+- add screening and financial to assessment dashboard ([a390e10](https://github.com/bcgov/CONN-CCBC-portal/commit/a390e10c0728208d50f91150e8041fb4e190a859))
+- refine all dashboard display, add resize ([a11597f](https://github.com/bcgov/CONN-CCBC-portal/commit/a11597f89dae5a8fc5f039cecfb9817e246a401c))
+
 # [1.143.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.142.0...v1.143.0) (2024-02-26)
 
 ### Bug Fixes
