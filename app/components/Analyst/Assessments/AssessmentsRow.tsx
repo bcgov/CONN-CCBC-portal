@@ -62,7 +62,6 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
       ? null
       : jsonData?.decision;
   const isPermitting = name === 'Permitting';
-  const isComplete = progress === 'Assessment complete' && decision;
   const assignedTo = jsonData?.assignedTo;
 
   const dateString =
@@ -82,12 +81,7 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
     );
   };
 
-  const getStatus = (
-    completed: string,
-    assigned: string,
-    assesmentProgress: string
-  ) => {
-    if (completed) return 'Complete';
+  const getStatus = (assigned: string, assesmentProgress: string) => {
     if (assigned && (assesmentProgress === 'Not started' || !assesmentProgress))
       return 'Assigned';
     if (!assesmentProgress) return 'Not started';
@@ -99,7 +93,7 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
       <StyledCell>{name}</StyledCell>
       <StyledCell>
         <StatusPill
-          status={getStatus(isComplete, assignedTo, progress)}
+          status={getStatus(assignedTo, progress)}
           styles={assessmentPillStyles}
         />
       </StyledCell>
