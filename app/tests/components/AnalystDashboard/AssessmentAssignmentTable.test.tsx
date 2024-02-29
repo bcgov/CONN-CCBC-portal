@@ -279,6 +279,8 @@ describe('The AssessmentAssignmentTable component', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
+    jest.setTimeout(5000);
+
     expect(screen.getByText('CCBC-010007')).toBeVisible();
 
     const columnActions = document.querySelectorAll(
@@ -325,18 +327,10 @@ describe('The AssessmentAssignmentTable component', () => {
       fireEvent.keyDown(zoneFilter, { key: 'Enter', code: 'Enter' });
     });
 
-    await new Promise((r) => {
-      setTimeout(r, 500);
-    });
-
     const filterInput = screen.getAllByRole('option')[0];
 
     await act(async () => {
       fireEvent.click(filterInput);
-    });
-
-    await new Promise((r) => {
-      setTimeout(r, 500);
     });
 
     expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
