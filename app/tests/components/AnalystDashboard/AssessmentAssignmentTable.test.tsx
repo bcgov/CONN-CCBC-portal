@@ -279,6 +279,8 @@ describe('The AssessmentAssignmentTable component', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
+    jest.setTimeout(5000);
+
     expect(screen.getByText('CCBC-010007')).toBeVisible();
 
     const columnActions = document.querySelectorAll(
