@@ -40,7 +40,7 @@ jobs:
     steps:
       - name: Set feature name to lowercase
         run: |
-          export FEATURE_NAME=$(echo ${{ github.head_ref }} | tr '[:upper:]' '[:lower:]')
+          echo "FEATURE_NAME=$(echo ${{ github.head_ref }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
   setup-feature-database:
     runs-on: ubuntu-latest
     needs: [set-feature-lowercase]
