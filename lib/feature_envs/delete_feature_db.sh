@@ -11,7 +11,9 @@ if [ $# -ne 3 ]; then
 fi
 
 # Set the database to remove
-DATABASE_TO_REMOVE=$2
+# it must match to what was created on create_feature_db.sh
+DB_NAME_LOWER=$(echo $2 | tr '[:upper:]' '[:lower:]')
+DATABASE_TO_REMOVE=$(echo $DB_NAME_LOWER | cut -c -30)
 
 # First delete the database from the cluster
 
@@ -19,7 +21,7 @@ DATABASE_TO_REMOVE=$2
 POD_NAME=$(oc -n $3 get pods -l postgres-operator.crunchydata.com/role=master -o=jsonpath='{.items[0].metadata.name}')
 
 # Execute the drop database command against the PostgreSQL pod
-oc exec $POD_NAME -- sh -c "psql -U postgres -c 'DROP DATABASE IF EXISTS $DATABASE_TO_REMOVE;'"
+oc exec $POD_NAME -- sh -c "psql -U postgres -c 'DROP DATABASE IF EXISTS \"$DATABASE_TO_REMOVE\";'"
 
 # Then remove the database from the PostgresCluster resource
 # as per the docs: https://access.crunchydata.com/documentation/postgres-operator/5.0.1/tutorial/user-management/

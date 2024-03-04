@@ -17,7 +17,9 @@ PG_CLUSTER_NAME=$1
 USERS=$(oc -n $3 get PostgresCluster "$PG_CLUSTER_NAME" -o=jsonpath='{.spec.users[*]}')
 
 # Set the new database name to add
-NEW_DATABASE_NAME=$2
+# it must match what is set at the Helm level
+DB_NAME_LOWER=$(echo $2 | tr '[:upper:]' '[:lower:]')
+NEW_DATABASE_NAME=$(echo $DB_NAME_LOWER | cut -c -30)
 
 # Initialize an empty array for storing the patched users
 PATCHED_USERS=()

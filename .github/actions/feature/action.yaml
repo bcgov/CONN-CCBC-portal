@@ -113,13 +113,15 @@ runs:
     # one in lowercase and one in lowercase with a max length of 62
     # the max length of 30 is due to the max container name in OpenShift (63)
     # which will have extra characters appended to it
+    # full name override should match db name as it is used in some secret creations
+    # as well as deployments
     - run: |
         FEATURE_NAME_LOWER=$(echo "${{ inputs.feature_name }}" | tr '[:upper:]' '[:lower:]')
         FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
         chmod +x ./lib/app_deploy_feature.sh
         ./lib/app_deploy_feature.sh -n ${{ inputs.openshift_app_namespace }} \
           --set fullnameOverride="$FEATURE_NAME_LOWER_SHORT" \
-          --set db.name=${{ inputs.feature_name }} \
+          --set db.name="$FEATURE_NAME_LOWER_SHORT" \
           --set app.namespace=${{ inputs.openshift_app_namespace }} \
           --set metabase.namespace=${{ inputs.openshift_metabase_namespace }} \
           --set metabase.prodNamespace=${{ inputs.openshift_metabase_prod_namespace }} \
