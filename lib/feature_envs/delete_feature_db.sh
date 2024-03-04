@@ -16,7 +16,7 @@ DATABASE_TO_REMOVE=$2
 # First delete the database from the cluster
 
 # Get the lead pod
-POD_NAME=$(oc get pods -l postgres-operator.crunchydata.com/role=master -o=jsonpath='{.items[0].metadata.name}')
+POD_NAME=$(oc -n $3 get pods -l postgres-operator.crunchydata.com/role=master -o=jsonpath='{.items[0].metadata.name}')
 
 # Execute the drop database command against the PostgreSQL pod
 oc exec $POD_NAME -- sh -c "psql -U postgres -c 'DROP DATABASE IF EXISTS $DATABASE_TO_REMOVE;'"
@@ -28,7 +28,7 @@ oc exec $POD_NAME -- sh -c "psql -U postgres -c 'DROP DATABASE IF EXISTS $DATABA
 PG_CLUSTER_NAME=$1
 
 # Retrieve the current list of users and their databases from the Custom Resource
-USERS=$(oc get PostgresCluster "$PG_CLUSTER_NAME" -o=jsonpath='{.spec.users[*]}')
+USERS=$(oc -n $3 get PostgresCluster "$PG_CLUSTER_NAME" -o=jsonpath='{.spec.users[*]}')
 
 # Initialize an empty array for storing the patched users
 PATCHED_USERS=()
