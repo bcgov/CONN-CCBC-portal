@@ -51,7 +51,7 @@ jobs:
       - name: Setup database
         run: |
           chmod +x ./lib/feature_envs/create_feature_db.sh
-          ./lib/feature_envs/create_feature_db.sh ccbc ${{ env.FEATURE_NAME }}
+          ./lib/feature_envs/create_feature_db.sh ccbc ${{ env.FEATURE_NAME }} ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
   deploy-feature-to-openshift-development:
     needs: [setup-feature-database]
     runs-on: ubuntu-latest
