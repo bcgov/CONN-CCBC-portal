@@ -181,8 +181,6 @@ jobs:
       AWS_S3_KEY: ${{ secrets.AWS_S3_KEY }}
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
       AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
-      CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
-      CERTBOT_SERVER: ${{ secrets.CERTBOT_SERVER }}
       AWS_CLAM_S3_BUCKET: ${{ secrets.AWS_CLAM_S3_BUCKET }}
       METABASE_EMBED_SECRET: ${{ secrets.METABASE_EMBED_SECRET }}
       METABASE_SITE_URL: ${{ secrets.METABASE_SITE_URL }}
