@@ -54,10 +54,11 @@ const StyledLink = styled(Link)`
 `;
 
 const muiTableBodyCellProps = (props) => {
+  const centeredCols = ['Package', 'zones'];
   return {
+    align: centeredCols.includes(props.column.id) ? 'center' : 'left',
     sx: {
       padding: '8px 0px',
-      direction: props.column.id === 'Package' ? 'rtl' : 'ltr',
     },
   };
 };
