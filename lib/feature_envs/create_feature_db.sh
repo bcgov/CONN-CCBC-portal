@@ -14,7 +14,7 @@ fi
 PG_CLUSTER_NAME=$1
 
 # Retrieve the current list of users and their databases from the Custom Resource
-USERS=$(oc get PostgresCluster "$PG_CLUSTER_NAME" -o=jsonpath='{.spec.users[*]}')
+USERS=$(oc -n $3 get PostgresCluster "$PG_CLUSTER_NAME" -o=jsonpath='{.spec.users[*]}')
 
 # Set the new database name to add
 NEW_DATABASE_NAME=$2
