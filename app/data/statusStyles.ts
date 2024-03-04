@@ -26,8 +26,8 @@ const statusStylesBase = {
   complete: {
     primary: '#003366',
     backgroundColor: '#DBE6F0',
-    pillWidth: '118px',
-    description: 'Complete',
+    pillWidth: '200px',
+    description: 'Reporting complete',
   },
   conditionally_approved: {
     primary: '#FFFFFF',

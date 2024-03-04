@@ -22,7 +22,7 @@ const allApplicationStatusTypes = {
     },
     {
       name: 'complete',
-      description: 'Complete',
+      description: 'Reporting complete',
       id: 'WyJhcHBsaWNhdGlvbl9zdGF0dXNfdHlwZXMiLCJjb21wbGV0ZSJd',
     },
     {
