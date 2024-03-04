@@ -57,7 +57,7 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
       - name: Setup database
         run: |
-          echo ${{ env.FEATURE_NAME }}
+          echo env
           chmod +x ./lib/feature_envs/create_feature_db.sh
           ./lib/feature_envs/create_feature_db.sh ccbc ${{ env.FEATURE_NAME }} ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
   deploy-feature-to-openshift-development:
