@@ -40,7 +40,8 @@ jobs:
     steps:
       - name: Set feature name to lowercase
         run: |
-          echo "FEATURE_NAME=$(echo ${{ github.head_ref }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          feature_name_lowercase=$(echo ${{ github.head_ref }} | tr '[:upper:]' '[:lower:]')"
+          echo "FEATURE_NAME=$feature_name_lowercase" >> $GITHUB_ENV
   setup-feature-database:
     runs-on: ubuntu-latest
     needs: [set-feature-lowercase]
@@ -56,6 +57,7 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
       - name: Setup database
         run: |
+          echo ${{ env.FEATURE_NAME }}
           chmod +x ./lib/feature_envs/create_feature_db.sh
           ./lib/feature_envs/create_feature_db.sh ccbc ${{ env.FEATURE_NAME }} ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
   deploy-feature-to-openshift-development:
