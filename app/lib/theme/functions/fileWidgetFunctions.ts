@@ -52,11 +52,11 @@ const handleDownload = async (uuid, fileName, onError) => {
 const handleDelete = (
   attachmentId,
   deleteAttachment,
-  setError,
+  setErrors,
   value,
   onChange
 ) => {
-  setError('');
+  setErrors([]);
   const variables = {
     input: {
       attachmentPatch: {
@@ -73,7 +73,7 @@ const handleDelete = (
       if (res.message.includes('Deleted records cannot be modified')) {
         deleteFileFromFormData(res, value, onChange);
       } else {
-        setError('deleteFailed');
+        setErrors([{ error: 'deleteFailed' }]);
       }
     },
     onCompleted: (res) => {

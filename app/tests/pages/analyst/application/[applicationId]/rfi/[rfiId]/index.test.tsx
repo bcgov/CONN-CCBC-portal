@@ -151,7 +151,7 @@ describe('The index page', () => {
 
     expect(
       screen.getByRole('button', {
-        name: 'Upload(s)',
+        name: 'Upload(s) Drop files (or click to upload)',
       })
     ).toBeVisible();
   });

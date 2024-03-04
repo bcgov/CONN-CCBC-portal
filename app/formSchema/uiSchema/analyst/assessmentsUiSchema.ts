@@ -53,6 +53,7 @@ const assessmentsUiSchema = {
       label: false,
       fileTypes: ANALYST_EXCEL_FILE_EXTENSIONS,
       allowMultipleFiles: true,
+      allowDragAndDrop: true,
     },
   },
   completedAssessment: {
@@ -60,6 +61,7 @@ const assessmentsUiSchema = {
     'ui:options': {
       label: false,
       allowMultipleFiles: true,
+      allowDragAndDrop: true,
     },
   },
   otherFiles: {
@@ -67,6 +69,7 @@ const assessmentsUiSchema = {
     'ui:options': {
       label: false,
       allowMultipleFiles: true,
+      allowDragAndDrop: true,
     },
   },
   notesAndConsiderations: {

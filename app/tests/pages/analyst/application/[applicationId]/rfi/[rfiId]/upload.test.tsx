@@ -92,7 +92,9 @@ describe('The applicantRfiId Page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const addFileButton = screen.getByText('Upload(s)');
+    const addFileButton = screen.getByRole('button', {
+      name: 'Upload(s) Drop files (or click to upload)',
+    });
 
     expect(addFileButton).toBeDisabled();
 

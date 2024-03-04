@@ -9,6 +9,9 @@ const projectInformationUiSchema = {
   },
   fundingAgreementUpload: {
     'ui:widget': 'FileWidget',
+    'ui:options': {
+      allowDragAndDrop: true,
+    },
   },
   statementOfWorkUpload: {
     'ui:label':
@@ -19,12 +22,14 @@ const projectInformationUiSchema = {
         successHeading: 'Statement of Work Data table match database',
         errorType: 'sowImportFailed',
       },
+      allowDragAndDrop: true,
     },
   },
   sowWirelessUpload: {
     'ui:widget': 'FileWidget',
     'ui:options': {
       fileTypes: '.xlsx, .xls',
+      allowDragAndDrop: true,
     },
   },
   finalizedMapUpload: {
@@ -32,6 +37,7 @@ const projectInformationUiSchema = {
     'ui:options': {
       fileTypes: '.kmz',
       allowMultipleFiles: true,
+      allowDragAndDrop: true,
     },
   },
   sowValidationErrors: {

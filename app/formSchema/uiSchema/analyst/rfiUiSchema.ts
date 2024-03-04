@@ -47,6 +47,7 @@ const rfiUiSchema = {
     'ui:options': {
       allowMultipleFiles: true,
       label: false,
+      allowDragAndDrop: true,
     },
   },
   rfiAdditionalFiles: {
@@ -589,6 +590,7 @@ while (stack.length) {
           currentObj[key]['ui:options'] = {};
         }
         currentObj[key]['ui:options'].allowMultipleFiles = true;
+        currentObj[key]['ui:options'].allowDragAndDrop = true;
         currentObj[key]['ui:options'].useFileDate = true;
         currentObj[key]['ui:options'].fileDateTitle = 'Date received';
         currentObj[key]['ui:options'].maxDate = new Date();

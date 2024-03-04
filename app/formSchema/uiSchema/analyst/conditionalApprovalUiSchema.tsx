@@ -75,6 +75,7 @@ const conditionalApprovalUiSchema = {
       'ui:options': {
         buttonVariant: 'secondary',
         allowMultipleFiles: true,
+        allowDragAndDrop: true,
         wrap: true,
       },
     },

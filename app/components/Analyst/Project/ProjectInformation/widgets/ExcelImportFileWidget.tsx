@@ -192,6 +192,7 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
   const [isImporting, setIsImporting] = useState(false);
   const [isValidExcel, setIsValidExcel] = useState(false);
   const excelImportOptions = options?.excelImport;
+  const allowDragAndDrop = (options?.allowDragAndDrop as boolean) ?? false;
   const successHeading = excelImportOptions['successHeading'] as any;
   const errorType = excelImportOptions?.['errorType'];
   const isFiles = value?.length > 0;
@@ -280,15 +281,12 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
     <>
       <FileComponent
         loading={loading}
-        error={error}
+        errors={error ? [{ error }] : []}
         handleDelete={() =>
           handleDelete(fileId, deleteAttachment, setError, value, onChange)
         }
         handleDownload={handleDownload}
-        onChange={(e) => {
-          // eslint-disable-next-line no-void
-          void (() => handleChange(e))();
-        }}
+        onChange={(e) => handleChange(e)}
         fileTypes={acceptedFileTypes}
         id={id}
         label={label}
@@ -300,6 +298,7 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
         )}
         required={required}
         value={value}
+        allowDragAndDrop={allowDragAndDrop}
       />
       {excelValidationErrors?.length > 0 &&
         excelValidationErrors.flatMap(displayExcelUploadErrors)}
