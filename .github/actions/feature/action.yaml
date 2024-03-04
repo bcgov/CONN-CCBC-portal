@@ -140,7 +140,7 @@ runs:
           --set sharepoint.spDocLibrary="${{ inputs.sp_doc_library }}" \
           --set sharepoint.spMsFileName="${{ inputs.sp_ms_file_name }}" \
           --set sharepoint.spListName="${{ inputs.sp_list_name }}" \
-          --set secureRoute.host="${{ inputs.secure_route }}" \
+          --set secureRoute.host="$FEATURE_NAME_LOWER"-ccbc.apps.silver.devops.gov.bc.ca \
           "$FEATURE_NAME_LOWER"
 
       shell: bash
