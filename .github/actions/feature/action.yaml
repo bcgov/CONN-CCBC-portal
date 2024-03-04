@@ -121,7 +121,6 @@ runs:
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.cronsp.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
-          --set secureRoute.host=${{ inputs.secure_route }} \
           --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
           --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }} \
           --set objectStorage.awsClamS3Bucket=${{ inputs.aws_clam_s3_bucket }} \
@@ -138,6 +137,7 @@ runs:
           --set sharepoint.spDocLibrary="${{ inputs.sp_doc_library }}" \
           --set sharepoint.spMsFileName="${{ inputs.sp_ms_file_name }}" \
           --set sharepoint.spListName="${{ inputs.sp_list_name }}" \
+          --set secureRoute.host="${{ inputs.secure_route }}" \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash
