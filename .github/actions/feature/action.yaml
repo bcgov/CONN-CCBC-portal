@@ -141,7 +141,6 @@ runs:
           --set sharepoint.spMsFileName="${{ inputs.sp_ms_file_name }}" \
           --set sharepoint.spListName="${{ inputs.sp_list_name }}" \
           --set secureRoute.host="${{ inputs.secure_route }}" \
-          --values values-${{ inputs.environment }}.yaml \
           "$FEATURE_NAME_LOWER"
 
       shell: bash
