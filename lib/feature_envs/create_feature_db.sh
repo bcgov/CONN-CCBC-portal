@@ -1,0 +1,40 @@
+#!/bin/bash
+
+usage() {
+    echo "Usage: $0 <pg_cluster_name> <new_database_name>"
+    echo "Example: $0 my-pg-cluser new-feature-name"
+    exit 1
+}
+
+if [ $# -ne 2 ]; then
+    usage
+fi
+
+# Set the name of the PostgreSQL cluster
+PG_CLUSTER_NAME=$1
+
+# Retrieve the current list of users and their databases from the Custom Resource
+USERS=$(oc get PostgresCluster "$PG_CLUSTER_NAME" -o=jsonpath='{.spec.users[*]}')
+
+# Set the new database name to add
+NEW_DATABASE_NAME=$2
+
+# Initialize an empty array for storing the patched users
+PATCHED_USERS=()
+
+# Loop through each user and construct the patch content
+for user in $USERS; do
+    name=$(echo "$user" | jq -r '.name')
+    databases=$(echo "$user" | jq -r '.databases')
+    patched_databases=$(echo "$databases" | jq '. += ["'$NEW_DATABASE_NAME'"]')
+    PATCHED_USERS+=("{\"name\":\"$name\",\"databases\":$patched_databases}")
+done
+
+# Join patched users with commas
+PATCHED_USERS_JOINED=$(IFS=,; echo "${PATCHED_USERS[*]}")
+
+# Construct the patch content
+PATCH_CONTENT="{\"spec\":{\"users\":[$PATCHED_USERS_JOINED]}}"
+
+# Patch the Custom Resource
+oc patch PostgresCluster "$PG_CLUSTER_NAME" --type=merge --patch="$PATCH_CONTENT"
