@@ -36,8 +36,15 @@ env:
   FEATURE_NAME: ${{ github.head_ref }}
 
 jobs:
+  set-feature-lowercase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set feature name to lowercase
+        run: |
+          echo "FEATURE_NAME=$(echo ${{ env.FEATURE_NAME }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
   setup-feature-database:
     runs-on: ubuntu-latest
+    needs: [set-feature-lowercase]
     environment:
       name: development
     steps:
