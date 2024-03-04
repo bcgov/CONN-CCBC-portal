@@ -1,12 +1,12 @@
 #!/bin/bash
 
 usage() {
-    echo "Usage: $0 <pg_cluster_name> <new_database_name>"
-    echo "Example: $0 my-pg-cluser new-feature-name"
+    echo "Usage: $0 <pg_cluster_name> <new_database_name> <openshift_namespace>"
+    echo "Example: $0 my-pg-cluser new-feature-name abc123-dev"
     exit 1
 }
 
-if [ $# -ne 2 ]; then
+if [ $# -ne 3 ]; then
     usage
 fi
 
@@ -45,5 +45,8 @@ done
 # Construct the patch content
 PATCH_CONTENT='{"spec":{"users":['$(IFS=,; echo "${PATCHED_USERS[*]}")']}}'
 
+# Set the OpenShift Namespace
+OPENSHIFT_NAMESPACE=$3
+
 # Patch the Custom Resource
-oc patch PostgresCluster "$PG_CLUSTER_NAME" --type=merge --patch="$PATCH_CONTENT"
+oc -n $3 patch PostgresCluster "$PG_CLUSTER_NAME" --type=merge --patch="$PATCH_CONTENT"
