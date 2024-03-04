@@ -383,7 +383,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       },
       {
         accessorKey: 'zones',
-        header: 'Zones',
+        header: 'Zone',
         Cell: ({ cell }) => (cell.getValue() as number[]).join(', ') ?? [],
         filterVariant: 'select',
         filterSelectOptions: uniqueZones,
