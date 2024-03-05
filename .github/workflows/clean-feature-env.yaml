@@ -3,7 +3,7 @@ name: clean-feature-env
 on:
   pull_request:
     # branches: [main]
-    types: [closed]
+    types: [closed, converted_to_draft]
   workflow_call:
     secrets:
       OPENSHIFT_TOKEN: { required: true }
