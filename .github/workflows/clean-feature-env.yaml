@@ -33,5 +33,4 @@ jobs:
       - name: Uninstall feature Helm release
         run: |
           FEATURE_NAME_LOWER=$(echo "${{ env.FEATURE_NAME }}" | tr '[:upper:]' '[:lower:]')
-          FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
-          helm uninstall $FEATURE_NAME_LOWER_SHORT -n ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+          helm uninstall $FEATURE_NAME_LOWER -n ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
