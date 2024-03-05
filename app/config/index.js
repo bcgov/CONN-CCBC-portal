@@ -278,6 +278,36 @@ const config = convict({
     default: '',
     env: 'SP_LIST_NAME',
   },
+  CHES_API_URL: {
+    doc: 'CHES API URL',
+    format: String,
+    default: '',
+    env: 'CHES_API_URL',
+  },
+  CHES_CLIENT: {
+    doc: 'CHES API client',
+    format: String,
+    default: '',
+    env: 'CHES_CLIENT',
+  },
+  CHES_CLIENT_SECRET: {
+    doc: 'CHES API client secret',
+    format: String,
+    default: '',
+    env: 'CHES_CLIENT_SECRET',
+  },
+  CHES_TO_EMAIL: {
+    doc: 'CHES temporary to email',
+    format: String,
+    default: '',
+    env: 'CHES_TO_EMAIL',
+  },
+  CHES_KEYCLOAK_HOST: {
+    doc: 'Keycloak host for CHES',
+    format: String,
+    default: '',
+    env: 'CHES_KEYCLOAK_HOST',
+  },
 });
 
 // Load environment dependent configuration

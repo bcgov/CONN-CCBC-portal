@@ -96,6 +96,13 @@ sharepoint:
   spMsFileName: ''
   spListName: ''
 
+ches:
+  url: ''
+  client: ''
+  clientSecret: ''
+  to: ''
+  keycloakHost: ''
+
 db:
   name: ccbc
   appUser: ccbc_app
