@@ -164,8 +164,8 @@ jobs:
       CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}
 
   deploy-feature:
-    if: github.event_name == 'pull_request'
-    # needs: [test-code, test-containers]
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
+    needs: [test-code, test-containers]
     uses: ./.github/workflows/deploy_feature.yaml
     secrets:
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
@@ -195,3 +195,11 @@ jobs:
       SP_LIST_NAME: ${{ secrets.SP_LIST_NAME }}
       RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+
+  cleanup_feature:
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == true
+    uses: ./.github/workflows/clean-feature-env.yaml
+    secrets:
+      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+      OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
+      OPENSHIFT_APP_NAMESPACE: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
