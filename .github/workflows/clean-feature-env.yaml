@@ -28,7 +28,7 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
       - name: Clean feature environment db
         run: |
-          chmod +x .github/scripts/delete_feature_db.sh
+          chmod +x ./lib/feature_envs/delete_feature_db.sh
           ./lib/feature_envs/delete_feature_db.sh ccbc ${{ env.FEATURE_NAME }} ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
       - name: Uninstall feature Helm release
         run: |
