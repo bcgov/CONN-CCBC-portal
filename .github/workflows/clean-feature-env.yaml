@@ -1,0 +1,35 @@
+name: clean-feature-env
+
+on:
+  pull_request:
+    # branches: [main]
+    types: [closed]
+  workflow_call:
+    secrets:
+      OPENSHIFT_TOKEN: { required: true }
+      OPENSHIFT_APP_NAMESPACE: { required: true }
+      OPENSHIFT_SERVER: { required: true }
+
+env:
+  FEATURE_NAME: ${{ github.head_ref }}
+
+jobs:
+  clean-feature-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Authenticate with OpenShift
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+      - name: Clean feature environment db
+        run: |
+          chmod +x .github/scripts/delete_feature_db.sh
+          ./lib/feature_envs/delete_feature_db.sh ccbc ${{ env.FEATURE_NAME }} ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+      - name: Uninstall feature Helm release
+        run: |
+          FEATURE_NAME_LOWER=$(echo "${{ env.FEATURE_NAME }}" | tr '[:upper:]' '[:lower:]')
+          FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
+          helm uninstall $FEATURE_NAME_LOWER_SHORT -n ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
