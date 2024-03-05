@@ -21,6 +21,7 @@ import statusStyles from 'data/statusStyles';
 import Link from 'next/link';
 import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
+import { TableCellProps } from '@mui/material';
 import { filterZones } from './AssessmentAssignmentTable';
 
 type Application = {
@@ -53,11 +54,12 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const muiTableBodyCellProps = (props) => {
+const muiTableBodyCellProps = (props): TableCellProps => {
+  const centeredCols = ['Package', 'zones'];
   return {
+    align: centeredCols.includes(props.column.id) ? 'center' : 'left',
     sx: {
       padding: '8px 0px',
-      direction: props.column.id === 'Package' ? 'rtl' : 'ltr',
     },
   };
 };
