@@ -1,3 +1,14 @@
+# [1.145.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.144.0...v1.145.0) (2024-03-05)
+
+### Bug Fixes
+
+- failing props ([0c592d7](https://github.com/bcgov/CONN-CCBC-portal/commit/0c592d7823133070b829a6c5c4c338857fb0934b))
+- zone typo in all dashboards ([3a18caf](https://github.com/bcgov/CONN-CCBC-portal/commit/3a18caffd7581408d839d0da719c0c3516601ee2))
+
+### Features
+
+- hide assessed apps from assessment dashboard ([09b90a4](https://github.com/bcgov/CONN-CCBC-portal/commit/09b90a43b58d90d5d6337f8c4891140ef4d45c94))
+
 # [1.144.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.143.0...v1.144.0) (2024-02-29)
 
 ### Bug Fixes
