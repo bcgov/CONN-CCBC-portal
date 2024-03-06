@@ -106,6 +106,8 @@ inputs:
     required: true
   ches_keycloak_host:
     description: 'CHES keycloak host'
+  pgbackrest_s3_bucket:
+    description: 'PGBackRest S3 Bucket'
     required: true
 
 runs:
@@ -131,6 +133,7 @@ runs:
         cert: ${{ inputs.cert }}
         cert_key: ${{ inputs.cert_key }}
         cert_ca: ${{ inputs.cert_ca }}
+        pgbackrest_s3_bucket: ${{ inputs.pgbackrest_s3_bucket }}
         insecure_skip_tls_verify: true
     - run: |
         chmod +x ./lib/app_deploy.sh
@@ -164,6 +167,7 @@ runs:
           --set cronsp.clientId="${{ inputs.sa_client_id }}" \
           --set cronsp.keycloakHost="${{ inputs.keycloak_host }}" \
           --set sharepoint.spListName="${{ inputs.sp_list_name }}" \
+          --set crunchy-postgres.pgBackRest.s3.bucket="${{ inputs.pgbackrest_s3_bucket }}" \
           --set cert.cert="${{ inputs.cert }}" \
           --set cert.key="${{ inputs.cert_key }}" \
           --set cert.ca="${{ inputs.cert_ca }}" \

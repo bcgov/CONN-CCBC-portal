@@ -183,6 +183,18 @@ crunchy-postgres:
       limits:
         cpu: 50m
         memory: 128Mi
+    s3:
+      enabled: true
+      createS3Secret: false
+      # secret name below must match secret created through s3-backup chart
+      s3Secret: s3-pgbackrest
+      s3Path: /
+      s3UriStyle: path
+      bucket: ''
+      endpoint: s3.ca-central-1.amazonaws.com
+      region: ca-central-1
+      key: ''
+      keySecret: ''
   patroni:
     postgresql:
       pg_hba: 'host all all 0.0.0.0/0 md5'
