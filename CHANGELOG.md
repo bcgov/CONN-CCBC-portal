@@ -1,3 +1,9 @@
+## [1.145.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.145.0...v1.145.1) (2024-03-06)
+
+### Bug Fixes
+
+- ches export secrets ([abc04b7](https://github.com/bcgov/CONN-CCBC-portal/commit/abc04b7fb9337194d89c26f1aa37ac182495daa3))
+
 # [1.145.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.144.0...v1.145.0) (2024-03-05)
 
 ### Bug Fixes
