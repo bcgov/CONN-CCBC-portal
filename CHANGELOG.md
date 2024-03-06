@@ -1,3 +1,15 @@
+# [1.146.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.145.0...v1.146.0) (2024-03-06)
+
+### Bug Fixes
+
+- ches export secrets ([abc04b7](https://github.com/bcgov/CONN-CCBC-portal/commit/abc04b7fb9337194d89c26f1aa37ac182495daa3))
+
+### Features
+
+- add aws action ([efcff2e](https://github.com/bcgov/CONN-CCBC-portal/commit/efcff2e910da15ee5d17a31868fc7ccb30522fb3))
+- add db s3 backup through pgbackrest ([b4f681b](https://github.com/bcgov/CONN-CCBC-portal/commit/b4f681b5700ec30ac52fe724dcec918a5efb2094))
+- deploy s3 backup secret ([32439a1](https://github.com/bcgov/CONN-CCBC-portal/commit/32439a12027017a97ae3ac04a5ff70e772ef9bcb))
+
 # [1.145.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.144.0...v1.145.0) (2024-03-05)
 
 ### Bug Fixes
