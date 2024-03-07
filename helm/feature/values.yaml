@@ -77,7 +77,7 @@ db:
   # The script will be run by the postgres user,
   # allowing to clean up any objects created in a previous postMigrationCommand
   preUpgradeCommand: |
-    psql -v "ON_ERROR_STOP=1" -f db/deploy/create_roles.sql;
+    psql -v "ON_ERROR_STOP=1" -f deploy/create_roles.sql;
     PGPASSWORD=$TEST_PG_PASSWORD
     pg_dump -h ccbc-pgbouncer.ff61fb-test.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
     PGPASSWORD=$PGPASSWORD_DEV
