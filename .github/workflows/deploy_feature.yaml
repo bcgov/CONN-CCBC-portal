@@ -35,6 +35,7 @@ on:
       CHES_CLIENT_SECRET: { required: true }
       CHES_TO_EMAIL: { required: true }
       CHES_KEYCLOAK_HOST: { required: true }
+      TEST_PG_PASSWORD: { required: true }
   pull_request:
     types: [ready_for_review]
 
@@ -104,4 +105,5 @@ jobs:
           ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
           ches_to: ${{ secrets.CHES_TO_EMAIL }}
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
+          test_pg_password: ${{ secrets.TEST_PG_PASSWORD }}
           environment: dev

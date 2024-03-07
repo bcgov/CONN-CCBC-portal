@@ -32,6 +32,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
       secretKeyRef:
         key: password
         name: ccbc-pguser-postgres
+  - name: PGPASSWORD_DEV
+    valueFrom:
+      secretKeyRef:
+        key: password
+        name: ccbc-pguser-postgres
   - name: PGDATABASE
     value: {{ template "ccbc.fullname" . }}
   - name: PGPORT
