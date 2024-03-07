@@ -18,7 +18,7 @@ spec:
       containers:
         - env: {{ include "ccbc.postgresPgEnv" . | nindent 16 }}
           name: {{ template "ccbc.fullname" . }}-db-pre-upgrade
-          image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:ubi8-14.7-0
+          image: docker.io/rafasbcgov/ccbc:latest
           imagePullPolicy:  {{ .Values.image.db.pullPolicy }}
           resources:
             limits:
