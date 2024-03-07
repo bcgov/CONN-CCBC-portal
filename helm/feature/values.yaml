@@ -79,7 +79,7 @@ db:
   preUpgradeCommand: |
     psql -v "ON_ERROR_STOP=1" -f deploy/create_roles.sql;
     PGPASSWORD=$TEST_PG_PASSWORD
-    pg_dump -h ccbc-pgbouncer.ff61fb-test.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
+    pg_dump -h ccbc-pods.ff61fb-test.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
     PGPASSWORD=$PGPASSWORD_DEV
     psql -v "ON_ERROR_STOP=1" -f /tmp/ccbc.sql;
 
