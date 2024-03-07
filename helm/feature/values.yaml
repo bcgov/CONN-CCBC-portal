@@ -77,6 +77,13 @@ db:
   # The script will be run by the postgres user,
   # allowing to clean up any objects created in a previous postMigrationCommand
   preUpgradeCommand: |
+    psql -v "ON_ERROR_STOP=1" <<EOF
+    drop schema if exists sqitch cascade;
+    drop schema if exists mocks cascade;
+    drop schema if exists ccbc_public cascade;
+    drop schema if exists ccbc_private cascade;
+    drop schema if exists audit cascade;
+    EOF
     psql -f deploy/create_roles.sql;
     PGPASSWORD=$TEST_PG_PASSWORD
     pg_dump -h ccbc-pods.ff61fb-test.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
@@ -85,11 +92,11 @@ db:
 
   # A bash script to run after the migrations are deployed, in a psql container
   # The script will be run by the postgres user, allowing to deploy test data, bypassing RLS
-  postMigrationCommand: |
-    sqitch --chdir mocks_schema deploy;
-    for file in data/dev/*.sql; do
-      psql -v "ON_ERROR_STOP=1" -f "${file}";
-    done;
+  # sqitch --chdir mocks_schema deploy;
+  # for file in data/dev/*.sql; do
+  #   psql -v "ON_ERROR_STOP=1" -f "${file}";
+  # done;
+  postMigrationCommand: ~
 
 loadTest:
   # if true, this will start the app with ENABLE_MOCK_AUTH=true, and deploy the data located in `db/data/perf`
