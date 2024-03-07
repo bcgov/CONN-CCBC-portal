@@ -30,6 +30,11 @@ on:
       SP_LIST_NAME: { required: true }
       RENOVATE_GITHUB_TOKEN: { required: false }
       RENOVATE_PRIVATE_KEY: { required: false }
+      CHES_API_URL: { required: true }
+      CHES_CLIENT: { required: true }
+      CHES_CLIENT_SECRET: { required: true }
+      CHES_TO_EMAIL: { required: true }
+      CHES_KEYCLOAK_HOST: { required: true }
   pull_request:
     types: [ready_for_review]
 
@@ -94,4 +99,9 @@ jobs:
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
           sp_list_name: ${{ secrets.SP_LIST_NAME }}
           feature_name: ${{ env.FEATURE_NAME }}
+          ches_url: ${{ secrets.CHES_API_URL }}
+          ches_client: ${{ secrets.CHES_CLIENT }}
+          ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
+          ches_to: ${{ secrets.CHES_TO_EMAIL }}
+          ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           environment: dev
