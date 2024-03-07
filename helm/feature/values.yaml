@@ -77,11 +77,11 @@ db:
   # The script will be run by the postgres user,
   # allowing to clean up any objects created in a previous postMigrationCommand
   preUpgradeCommand: |
-    psql -v "ON_ERROR_STOP=1" -f deploy/create_roles.sql;
+    psql -f deploy/create_roles.sql;
     PGPASSWORD=$TEST_PG_PASSWORD
     pg_dump -h ccbc-pods.ff61fb-test.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
     PGPASSWORD=$PGPASSWORD_DEV
-    psql -v "ON_ERROR_STOP=1" -f /tmp/ccbc.sql;
+    psql -f /tmp/ccbc.sql;
 
   # A bash script to run after the migrations are deployed, in a psql container
   # The script will be run by the postgres user, allowing to deploy test data, bypassing RLS
