@@ -21,6 +21,12 @@ USERS=$(oc -n $3 get PostgresCluster "$PG_CLUSTER_NAME" -o=jsonpath='{.spec.user
 DB_NAME_LOWER=$(echo $2 | tr '[:upper:]' '[:lower:]')
 NEW_DATABASE_NAME=$(echo $DB_NAME_LOWER | cut -c -30)
 
+# Check if the NEW_DATABASE_NAME is already present in the USERS
+if echo "$USERS" | jq -r '.[] | .databases[]' | grep -q "^$NEW_DATABASE_NAME$"; then
+    echo "Nothing to do: $NEW_DATABASE_NAME is already present in the USERS."
+    exit 0
+fi
+
 # Initialize an empty array for storing the patched users
 PATCHED_USERS=()
 
