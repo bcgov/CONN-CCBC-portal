@@ -21,9 +21,21 @@ USERS=$(oc -n $3 get PostgresCluster "$PG_CLUSTER_NAME" -o=jsonpath='{.spec.user
 DB_NAME_LOWER=$(echo $2 | tr '[:upper:]' '[:lower:]')
 NEW_DATABASE_NAME=$(echo $DB_NAME_LOWER | cut -c -30)
 
-# Check if the NEW_DATABASE_NAME is already present in the USERS
-if echo "$USERS" | jq -r '.[] | .databases[]' | grep -q "^$NEW_DATABASE_NAME$"; then
-    echo "Nothing to do: $NEW_DATABASE_NAME is already present in the USERS."
+# Flag to track if the new database name is found in any user
+DATABASE_FOUND=0
+
+# Iterate over each user to check if the new database name is present
+while IFS= read -r user; do
+    databases=$(echo "$user" | jq -r '.databases[]')
+    if echo "$databases" | grep -qw "$NEW_DATABASE_NAME"; then
+        DATABASE_FOUND=1
+        break
+    fi
+done <<< "$USERS"
+
+# If the database is found, exit with a success status
+if [ "$DATABASE_FOUND" -eq 1 ]; then
+    echo "Nothing to do: $NEW_DATABASE_NAME is already present."
     exit 0
 fi
 
