@@ -18,7 +18,10 @@ spec:
       containers:
         - env: {{ include "ccbc.postgresPgEnv" . | nindent 16 }}
           - name: TEST_PG_PASSWORD
-            value: "{{ .Values.db.test.password | quote }}"
+            valueFrom:
+              secretKeyRef:
+                key: database-test-password
+                name: {{ template "ccbc.fullname" . }}
           name: {{ template "ccbc.fullname" . }}-db-pre-upgrade
           image: {{ .Values.image.psql.repository }}:{{ default .Values.defaultImageTag .Values.image.psql.tag }}
           imagePullPolicy:  {{ .Values.image.db.pullPolicy }}
