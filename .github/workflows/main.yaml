@@ -213,6 +213,11 @@ jobs:
       SP_LIST_NAME: ${{ secrets.SP_LIST_NAME }}
       RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+      CHES_API_URL: ${{ secrets.CHES_API_URL }}
+      CHES_CLIENT: ${{ secrets.CHES_CLIENT }}
+      CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
+      CHES_TO_EMAIL: ${{ secrets.CHES_TO_EMAIL }}
+      CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}
 
   cleanup_feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == true
