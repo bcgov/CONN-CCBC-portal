@@ -218,6 +218,7 @@ jobs:
       CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
       CHES_TO_EMAIL: ${{ secrets.CHES_TO_EMAIL }}
       CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}
+      TEST_PG_PASSWORD: ${{ secrets.TEST_PG_PASSWORD }}
 
   cleanup_feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == true
