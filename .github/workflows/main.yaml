@@ -183,7 +183,7 @@ jobs:
 
   deploy-feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
-    # needs: [build]
+    needs: [build]
     uses: ./.github/workflows/deploy_feature.yaml
     secrets:
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
