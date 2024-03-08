@@ -5,7 +5,7 @@ metadata:
   name: {{ template "ccbc.fullname" . }}-db-pre-upgrade
   labels: {{ include "ccbc.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook": pre-install,pre-upgrade
 spec:
   backoffLimit: 0
   template:
