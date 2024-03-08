@@ -15,7 +15,11 @@ runs:
         ./sqitch deploy
     - name: deploy mock schema
       shell: bash
-      run: docker run --network=host -e "PGUSER=postgres" ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }} sqitch config --user user.name "CCBC Automation" && sqitch config --user user.email ccbc@automation.dev && sqitch deploy -f /opt/app-root/src/sqitch.plan
+      run: |
+        cd mocks_schema
+        docker pull sqitch/sqitch
+        curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+        ./sqitch deploy
     - name: start app
       shell: bash
       run: docker run -d --network=host -e "PGUSER=postgres" -e "ENABLE_MOCK_AUTH=true" -e "ENABLE_MOCK_COOKIES=true" -e "NEXT_PUBLIC_GROWTHBOOK_API_KEY=dev_MIjxKii1kycPLz7CSjBYui0uERkFRSn7AXbu6oROCRQ" -p 3000:3000 ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
