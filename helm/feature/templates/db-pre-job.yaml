@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "ccbc.fullname" . }}-db-pre-upgrade
+  name: {{ template "ccbc.fullname" . }}-db-pre
   labels: {{ include "ccbc.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
@@ -11,13 +11,13 @@ spec:
   template:
     metadata:
       labels: {{ include "ccbc.labels" . | nindent 8 }}
-      name: {{ template "ccbc.fullname" . }}-db-pre-upgrade
+      name: {{ template "ccbc.fullname" . }}-db-pre
     spec:
       activeDeadlineSeconds: 600
       restartPolicy: Never
       containers:
         - env: {{ include "ccbc.postgresPgEnv" . | nindent 16 }}
-          name: {{ template "ccbc.fullname" . }}-db-pre-upgrade
+          name: {{ template "ccbc.fullname" . }}-db-pre
           image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
           imagePullPolicy:  {{ .Values.image.db.pullPolicy }}
           resources:
