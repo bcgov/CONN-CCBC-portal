@@ -33,4 +33,11 @@ jobs:
       - name: Uninstall feature Helm release
         run: |
           FEATURE_NAME_LOWER=$(echo "${{ env.FEATURE_NAME }}" | tr '[:upper:]' '[:lower:]')
-          helm uninstall $FEATURE_NAME_LOWER -n ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+          NAMESPACE="${{ secrets.OPENSHIFT_APP_NAMESPACE }}"
+          # Check if the release exists
+          if helm list -n "$NAMESPACE" | grep -q "^$FEATURE_NAME_LOWER\s"; then
+              # Release exists, uninstall it
+              helm uninstall "$FEATURE_NAME_LOWER" -n "$NAMESPACE"
+          else
+              echo "Helm release $FEATURE_NAME_LOWER not found, nothing to do"
+          fi
