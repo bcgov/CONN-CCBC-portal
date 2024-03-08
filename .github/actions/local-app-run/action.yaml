@@ -9,9 +9,9 @@ runs:
     - name: deploy migrations
       shell: bash
       run: |
+        cd db
         docker pull sqitch/sqitch
         curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
-        cd db
         ./sqitch deploy
     - name: deploy mock schema
       shell: bash
