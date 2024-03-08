@@ -8,7 +8,11 @@ runs:
       run: make start_pg && make drop_db && make create_db
     - name: deploy migrations
       shell: bash
-      run: docker run --network=host -e "PGUSER=postgres" ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }} sqitch config --user user.name "CCBC Automation" && sqitch config --user user.email ccbc@automation.dev && sqitch deploy -f /opt/app-root/src/sqitch.plan
+      run: |
+        docker pull sqitch/sqitch
+        curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+        cd db
+        ./sqitch deploy
     - name: deploy mock schema
       shell: bash
       run: docker run --network=host -e "PGUSER=postgres" ghcr.io/bcgov/conn-ccbc-portal/ccbc-db:sha-${{ github.sha }} sqitch config --user user.name "CCBC Automation" && sqitch config --user user.email ccbc@automation.dev && sqitch deploy -f /opt/app-root/src/sqitch.plan
