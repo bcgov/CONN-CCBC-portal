@@ -72,7 +72,7 @@ resource "aws_lambda_function" "export-files" {
     environment {
         variables = {
           AWS_S3_TARGET = "${var.bucket_name}"
-          AWS_S3_BUCKET = "${var.clamav-definitions-bucket}" 
+          AWS_S3_BUCKET = "${var.bucket_name}"
         }
     }
 }
