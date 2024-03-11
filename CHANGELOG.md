@@ -1,3 +1,9 @@
+## [1.146.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.146.0...v1.146.1) (2024-03-11)
+
+### Bug Fixes
+
+- s3 archive download ([7990abf](https://github.com/bcgov/CONN-CCBC-portal/commit/7990abf21a43d98b639491ff50badb012abac334))
+
 # [1.146.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.145.0...v1.146.0) (2024-03-06)
 
 ### Bug Fixes
