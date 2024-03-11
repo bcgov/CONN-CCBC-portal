@@ -7,7 +7,7 @@ import getAttachmentList from './attachments';
 import getLastIntakeId from './lastIntake';
 import getIntakeId from './intakeId';
 
-const AWS_S3_BUCKET = config.get('AWS_CLAM_S3_BUCKET');
+const AWS_S3_CLAM_BUCKET = config.get('AWS_CLAM_S3_BUCKET');
 const AWS_S3_DATA_BUCKET = config.get('AWS_S3_BUCKET');
 const AWS_S3_SECRET_KEY = config.get('AWS_S3_SECRET_KEY');
 
@@ -64,7 +64,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   // The Lambda function only triggers on json uploads to the
   // s3 clamav bucket
   const params = {
-    Bucket: AWS_S3_BUCKET,
+    Bucket: AWS_S3_CLAM_BUCKET,
     Key: fileName,
     Body: JSON.stringify(attachments),
   };
