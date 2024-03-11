@@ -7,7 +7,8 @@ import getAttachmentList from './attachments';
 import getLastIntakeId from './lastIntake';
 import getIntakeId from './intakeId';
 
-const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
+const AWS_S3_BUCKET = config.get('AWS_CLAM_S3_BUCKET');
+const AWS_S3_DATA_BUCKET = config.get('AWS_S3_BUCKET');
 const AWS_S3_SECRET_KEY = config.get('AWS_S3_SECRET_KEY');
 
 const s3adminArchive = Router();
@@ -43,7 +44,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   }
   const s3Key = `Intake_${intake}_attachments`;
   const s3params = {
-    Bucket: AWS_S3_BUCKET,
+    Bucket: AWS_S3_DATA_BUCKET,
     Key: `${s3Key}.zip`,
   };
   const alreadyExists = await checkFileExists(s3params);
@@ -61,7 +62,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
 
   const fileName = `${s3Key}.json`;
   // The Lambda function only triggers on json uploads to the
-  // s3 data bucket, not the clamav one
+  // s3 clamav bucket
   const params = {
     Bucket: AWS_S3_BUCKET,
     Key: fileName,
