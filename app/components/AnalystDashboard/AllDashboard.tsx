@@ -22,6 +22,7 @@ import Link from 'next/link';
 import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
 import { TableCellProps } from '@mui/material';
+import { useFeature } from '@growthbook/growthbook-react';
 import { filterZones } from './AssessmentAssignmentTable';
 
 type Application = {
@@ -185,8 +186,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
     []
   );
+  const showLeadFetureFlag = useFeature('show_lead').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
-    {}
+    { Lead: showLeadFetureFlag }
   );
   const [density, setDensity] = useState<MRT_DensityState>('comfortable');
   const [showColumnFilters, setShowColumnFilters] = useState(false);
@@ -223,6 +225,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       setColumnVisibility(JSON.parse(columnVisibilitySession));
     }
 
+    const showLeadSession = cookie.get('mrt_show_lead_application');
+    if (columnVisibilitySession) {
+      setColumnVisibility({
+        ...JSON.parse(columnVisibilitySession),
+        Lead: JSON.parse(showLeadSession),
+      });
+    }
+
     const densitySession = cookie.get('mrt_density_application');
     if (densitySession) {
       setDensity(JSON.parse(densitySession));
@@ -249,6 +259,10 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       cookie.set(
         'mrt_columnVisibility_application',
         JSON.stringify(columnVisibility)
+      );
+      cookie.set(
+        'mrt_show_lead_application',
+        JSON.stringify(columnVisibility.Lead ?? false)
       );
     }
   }, [columnVisibility, isFirstRender]);
