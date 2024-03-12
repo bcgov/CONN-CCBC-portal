@@ -3,11 +3,20 @@ import mockFormData from 'tests/utils/mockFormData';
 import { acknowledgementsEnum } from 'formSchema/pages/acknowledgements';
 import sharedReviewThemeTests from 'tests/components/Review/ReviewTheme';
 import { schema } from 'formSchema';
+import * as moduleApi from '@growthbook/growthbook-react';
 import PageTestingHelper from '../../../utils/pageTestingHelper';
 import Application from '../../../../pages/analyst/application/[applicationId]';
 import compiledApplicationIdQuery, {
   ApplicationIdQuery,
 } from '../../../../__generated__/ApplicationIdQuery.graphql';
+
+const mockShowLeadColumn: moduleApi.FeatureResult<boolean> = {
+  value: true,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_lead',
+};
 
 const mockQueryPayload = {
   Query() {
@@ -285,6 +294,7 @@ describe('The analyst view application page', () => {
   });
 
   it('should show the assign lead dropdown', () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowLeadColumn);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
