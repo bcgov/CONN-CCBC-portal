@@ -225,7 +225,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     if (columnVisibilitySession) {
       setColumnVisibility({
         ...JSON.parse(columnVisibilitySession),
-        Lead: JSON.parse(showLeadSession),
+        ...(showLeadSession && { Lead: JSON.parse(showLeadSession) }),
       });
     }
 
