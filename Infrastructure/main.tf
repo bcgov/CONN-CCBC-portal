@@ -2,7 +2,7 @@
 terraform {
     backend "s3" {
       # Will need to replace bucket name based on environment, can't use a variable here
-        bucket = "terraform-remote-state-fapi7b-dev"
+        bucket = "terraform-remote-state-fapi7b-test"
         region = "ca-central-1"
         dynamodb_table = "terraform-remote-state-lock-fapi7b"
         encrypt = true

@@ -5,22 +5,22 @@ variable "license_plate" {
 }
 
 variable "bucket_name" {
-    default = "fapi7b-dev-ccbc-data"
+    default = "fapi7b-test-ccbc-data"
 }
 
 variable "backup_bucket_name" {
-    default = "fapi7b-dev-ccbc-dbbackup"
+    default = "fapi7b-test-ccbc-dbbackup"
 }
 
 variable "buckets-to-scan" {
     type = list
     description = "The buckets which need scanning"
-    default = ["fapi7b-dev-ccbc-data"]
+    default = ["fapi7b-test-ccbc-data"]
 }
 
 variable "clamav-definitions-bucket" {
     description = "The name of the bucket which will contain clamav definitions"
-    default = "fapi7b-dev-ccbc-clamav"
+    default = "fapi7b-test-ccbc-clamav"
 }
 
 variable "sns-name" {
