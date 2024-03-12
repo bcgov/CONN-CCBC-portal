@@ -218,14 +218,10 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       setColumnFilters(JSON.parse(columnFiltersSession));
     }
 
+    const showLeadSession = cookie.get('mrt_show_lead_application');
     const columnVisibilitySession = cookie.get(
       'mrt_columnVisibility_application'
     );
-    if (columnVisibilitySession) {
-      setColumnVisibility(JSON.parse(columnVisibilitySession));
-    }
-
-    const showLeadSession = cookie.get('mrt_show_lead_application');
     if (columnVisibilitySession) {
       setColumnVisibility({
         ...JSON.parse(columnVisibilitySession),
