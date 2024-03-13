@@ -186,9 +186,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
     []
   );
-  const showLeadFetureFlag = useFeature('show_lead').value ?? false;
+  const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
-    { Lead: showLeadFetureFlag }
+    { Lead: false }
   );
   const [density, setDensity] = useState<MRT_DensityState>('comfortable');
   const [showColumnFilters, setShowColumnFilters] = useState(false);
@@ -218,15 +218,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       setColumnFilters(JSON.parse(columnFiltersSession));
     }
 
-    const showLeadSession = cookie.get('mrt_show_lead_application');
     const columnVisibilitySession = cookie.get(
       'mrt_columnVisibility_application'
     );
     if (columnVisibilitySession) {
-      setColumnVisibility({
-        ...JSON.parse(columnVisibilitySession),
-        ...(showLeadSession && { Lead: JSON.parse(showLeadSession) }),
-      });
+      setColumnVisibility(JSON.parse(columnVisibilitySession));
     }
 
     const densitySession = cookie.get('mrt_density_application');
@@ -252,13 +248,21 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   useEffect(() => {
     if (!isFirstRender) {
+      const showLeadSession = cookie.get('mrt_show_lead_application');
+      setColumnVisibility({
+        ...columnVisibility,
+        Lead: showLeadSession
+          ? JSON.parse(showLeadSession)
+          : showLeadFeatureFlag,
+      });
+    }
+  }, [isFirstRender, showLeadFeatureFlag]);
+
+  useEffect(() => {
+    if (!isFirstRender) {
       cookie.set(
         'mrt_columnVisibility_application',
         JSON.stringify(columnVisibility)
-      );
-      cookie.set(
-        'mrt_show_lead_application',
-        JSON.stringify(columnVisibility.Lead ?? false)
       );
     }
   }, [columnVisibility, isFirstRender]);
@@ -448,6 +452,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     }
   };
 
+  const onColumnVisibilityChange = (event: MRT_VisibilityState) => {
+    if (event.Lead !== undefined) {
+      cookie.set('mrt_show_lead_application', JSON.stringify(event.Lead));
+    }
+    setColumnVisibility(event);
+  };
+
   const table = useMaterialReactTable({
     columns,
     data: tableData,
@@ -461,7 +472,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
     autoResetAll: false,
-    onColumnVisibilityChange: setColumnVisibility,
+    onColumnVisibilityChange,
     onDensityChange: setDensity,
     onShowColumnFiltersChange: setShowColumnFilters,
     onColumnSizingChange: setColumnSizing,
