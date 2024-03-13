@@ -67,12 +67,15 @@ const AmendmentNumberWidget: React.FC<WidgetProps> = ({
   const handleChange = (e) => {
     const { amendmentNumbers } = formContext;
 
-    if (!amendmentNumbers.split(' ').includes(e.target.value)) {
-      setIsError(false);
-      setIsInvalid(false);
-    } else {
+    if (
+      amendmentNumbers.split(' ').includes(e.target.value) &&
+      parseInt(e.target.value, 10) !== formContext.currentAmendmentNumber
+    ) {
       setIsError(true);
       setIsInvalid(true);
+    } else {
+      setIsError(false);
+      setIsInvalid(false);
     }
     onChange(e.target.value.replace(/\D/g, ''));
   };
