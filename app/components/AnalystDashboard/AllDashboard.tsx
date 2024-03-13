@@ -249,14 +249,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   useEffect(() => {
     if (!isFirstRender) {
       const showLeadSession = cookie.get('mrt_show_lead_application');
-      setColumnVisibility({
-        ...columnVisibility,
+      setColumnVisibility((prevColumnVisibilty) => ({
+        ...prevColumnVisibilty,
         Lead: showLeadSession
           ? JSON.parse(showLeadSession)
           : showLeadFeatureFlag,
-      });
+      }));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFirstRender, showLeadFeatureFlag]);
 
   useEffect(() => {
