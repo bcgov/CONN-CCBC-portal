@@ -37,6 +37,7 @@ on:
       CHES_KEYCLOAK_HOST: { required: true }
       TEST_PG_PASSWORD: { required: true }
   pull_request:
+    branches: [main]
     types: [ready_for_review]
 
 env:
