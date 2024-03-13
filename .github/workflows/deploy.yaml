@@ -46,7 +46,7 @@ on:
       AWS_S3_BACKUPS_BUCKET: { required: true }
 
 env:
-  TAG: sha-612f9e46f5e8f7a832f008b215c421e5d55e0cbc
+  TAG: sha-${{ github.sha }}
 
 jobs:
   is-tagged-release:
