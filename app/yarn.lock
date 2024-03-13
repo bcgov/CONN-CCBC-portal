@@ -10477,6 +10477,11 @@ lodash.isboolean@^3.0.3:
   resolved "https://registry.yarnpkg.com/lodash.isboolean/-/lodash.isboolean-3.0.3.tgz#6c2e171db2a257cd96802fd43b01b20d5f5870f6"
   integrity sha512-Bz5mupy2SVbPHURB98VAcw+aHh4vRV5IPNhILUCsOzRmsTmSQ17jIuqopAentWoehktxGd9e/hbIXq980/1QJg==
 
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  integrity sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==
+
 lodash.isinteger@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/lodash.isinteger/-/lodash.isinteger-4.0.4.tgz#619c0af3d03f8b04c31f5882840b77b11cd68343"
@@ -12194,11 +12199,12 @@ relay-compiler@^13.2.0:
   resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-13.2.0.tgz#06dd416e19e1cd22008b89499726ea5eb342c36e"
   integrity sha512-GGLWTJYqQ5jQLMXlq++Fl17f4gMuvmIi3+xU/TrD4UqWZLI3qhxE0NFAmOvg6xgBQ8xtCMhP066kv+3bhL+7Aw==
 
-relay-nextjs@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/relay-nextjs/-/relay-nextjs-0.8.0.tgz#cb2832e984339fb30448c30f4c9c44191074ba88"
-  integrity sha512-rOR1o8uTmIe6lcILT9AsINBgogAD3wm5gnM3SBFy8IEj68a8ViA2o1Qy1zfCXr3hXOOThFThD1nbXtd9AUi9tQ==
+relay-nextjs@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/relay-nextjs/-/relay-nextjs-3.0.1.tgz#3499e47dc8962a028745efa3d266d52b8674a93f"
+  integrity sha512-FQaQ59kQaDGchjXY5MYMsS0RXFPemXeqbT2CDZ07Jd7rM4lsTrItKTr1GZlJLomrlpvIN9ijNfokXR2ykBPWLA==
   dependencies:
+    lodash.isequal "^4.5.0"
     serialize-javascript "^5.0.1"
 
 relay-runtime@13.2.0, relay-runtime@^13.2.0:
