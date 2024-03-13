@@ -360,7 +360,7 @@ const ProjectInformationForm: React.FC<Props> = ({
         applicationId: rowId,
         excelValidationErrors: sowValidationErrors,
         validateExcel: validateSow,
-        currentChangeRequestData,
+        currentAmendmentNumber: currentChangeRequestData?.amendmentNumber,
       }}
       before={
         <StyledFlex isFormEditMode={isFormEditMode}>

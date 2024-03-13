@@ -69,8 +69,7 @@ const AmendmentNumberWidget: React.FC<WidgetProps> = ({
 
     if (
       amendmentNumbers.split(' ').includes(e.target.value) &&
-      parseInt(e.target.value, 10) !==
-        formContext.currentChangeRequestData?.amendmentNumber
+      parseInt(e.target.value, 10) !== formContext.currentAmendmentNumber
     ) {
       setIsError(true);
       setIsInvalid(true);
