@@ -184,7 +184,8 @@ const ProjectInformationForm: React.FC<Props> = ({
     if (
       amendmentNumbers
         ?.split(' ')
-        .includes(jsonData?.amendmentNumber?.toString())
+        .includes(jsonData?.amendmentNumber?.toString()) &&
+      currentChangeRequestData?.amendmentNumber !== jsonData?.amendmentNumber
     ) {
       errors.amendmentNumber.addError("Can't be a duplicate amendment number");
     }
@@ -359,6 +360,7 @@ const ProjectInformationForm: React.FC<Props> = ({
         applicationId: rowId,
         excelValidationErrors: sowValidationErrors,
         validateExcel: validateSow,
+        currentChangeRequestData,
       }}
       before={
         <StyledFlex isFormEditMode={isFormEditMode}>
