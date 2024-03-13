@@ -2,6 +2,7 @@ import { mocked } from 'jest-mock';
 import { fireEvent, screen, waitFor, act } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import * as moduleApi from '@growthbook/growthbook-react';
+import cookie from 'js-cookie';
 import Dashboard from '../../../pages/analyst/dashboard';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import PageTestingHelper from '../../utils/pageTestingHelper';
@@ -122,6 +123,7 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
 
 describe('The index page', () => {
   beforeEach(() => {
+    cookie.get.mockImplementation(() => null);
     jest
       .spyOn(moduleApi, 'useFeature')
       .mockReturnValue(mockShowLeadColumn(false));
@@ -212,6 +214,35 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText('Lead')).toBeInTheDocument();
+  });
+
+  it('analysts table will be visible if user set to visible', async () => {
+    cookie.get.mockImplementation((key: string) => {
+      if (key === 'mrt_show_lead_application') {
+        return 'true';
+      }
+      return null;
+    });
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('Lead')).toBeInTheDocument();
+  });
+
+  it('analysts table will be hidden if user set to hidden', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowLeadColumn(true));
+    cookie.get.mockImplementation((key) => {
+      if (key === 'mrt_show_lead_application') {
+        return 'false';
+      }
+      return null;
+    });
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.queryByText('Lead')).not.toBeInTheDocument();
   });
 
   it('renders analyst table row counts', async () => {
