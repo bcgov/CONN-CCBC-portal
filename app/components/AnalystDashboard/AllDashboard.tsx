@@ -256,6 +256,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           : showLeadFeatureFlag,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFirstRender, showLeadFeatureFlag]);
 
   useEffect(() => {
