@@ -2,7 +2,7 @@ name: clean-feature-env
 
 on:
   pull_request:
-    # branches: [main]
+    branches: [main]
     types: [closed, converted_to_draft]
   workflow_call:
     secrets:
