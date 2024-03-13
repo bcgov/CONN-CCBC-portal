@@ -386,6 +386,26 @@ describe('The index page', () => {
     expect(sesstionStorage).toBe('300');
   });
 
+  it('save the user preference on column visibility on toggle', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const columnBtn = screen.getByTestId('ViewColumnIcon');
+    await act(async () => {
+      fireEvent.click(columnBtn);
+    });
+
+    const label = screen.getByLabelText('Lead');
+    await act(async () => {
+      fireEvent.click(label);
+    });
+
+    expect(cookie.set).toHaveBeenCalledWith(
+      'mrt_show_lead_application',
+      'true'
+    );
+  });
+
   it('scroll to previous location if session storage item exists', () => {
     window.sessionStorage.setItem('dashboard_scroll_position', '300');
 

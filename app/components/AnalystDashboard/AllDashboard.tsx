@@ -190,6 +190,10 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
     { Lead: false }
   );
+
+  const [visibilityPreference, setVisibilityPreference] =
+    useState<MRT_VisibilityState>();
+
   const [density, setDensity] = useState<MRT_DensityState>('comfortable');
   const [showColumnFilters, setShowColumnFilters] = useState(false);
 
@@ -302,6 +306,28 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       cookie.set('mrt_columnSizing_application', JSON.stringify(columnSizing));
     }
   }, [columnSizing, isFirstRender]);
+
+  /**
+   * Wrapping the setColumnVisibility in a separate state to also set the cookies for controlled columns (like Lead)
+   * and to check if user has really changed the visibility preference on controlled columns
+   * and to keep the controlled column visibility cookies clear|empty to prevent overriding feature-flag changes in the future
+   * */
+  useEffect(() => {
+    if (visibilityPreference) {
+      setColumnVisibility((prev) => {
+        if (visibilityPreference.Lead !== undefined) {
+          cookie.set(
+            'mrt_show_lead_application',
+            JSON.stringify(visibilityPreference.Lead)
+          );
+        }
+        return {
+          ...prev,
+          ...visibilityPreference,
+        };
+      });
+    }
+  }, [visibilityPreference]);
 
   const state = {
     columnFilters,
@@ -452,13 +478,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     }
   };
 
-  const onColumnVisibilityChange = (event: MRT_VisibilityState) => {
-    if (event.Lead !== undefined) {
-      cookie.set('mrt_show_lead_application', JSON.stringify(event.Lead));
-    }
-    setColumnVisibility(event);
-  };
-
   const table = useMaterialReactTable({
     columns,
     data: tableData,
@@ -472,7 +491,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
     autoResetAll: false,
-    onColumnVisibilityChange,
+    onColumnVisibilityChange: setVisibilityPreference,
     onDensityChange: setDensity,
     onShowColumnFiltersChange: setShowColumnFilters,
     onColumnSizingChange: setColumnSizing,
