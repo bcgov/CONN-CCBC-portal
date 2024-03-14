@@ -1,0 +1,5 @@
+apiVersion: v2
+name: ccbc-s3-backup
+description: A Helm chart to keep S3 secret up to date with key rotations
+type: application
+version: 0.1.0

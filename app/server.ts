@@ -10,6 +10,7 @@ import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import morgan from 'morgan';
+import email from './backend/lib/email';
 import linkPreview from './backend/lib/linkPreview';
 import readinessTest from './backend/lib/readinessTests';
 import { pgPool } from './backend/lib/setup-pg';
@@ -139,12 +140,14 @@ app.prepare().then(async () => {
   server.use('/', metabaseEmbedUrl);
   server.use('/', sharepoint);
   server.use('/', templateUpload);
+  server.use('/', email);
 
   server.all('*', async (req, res) => handle(req, res));
 
   http
     .createServer(server)
     .listen(port, async () => {
+      // eslint-disable-next-line no-console
       console.log(`> Ready on http://localhost:${port}`);
       if (!isDeployedToOpenShift) {
         lightship.signalReady();
@@ -153,6 +156,7 @@ app.prepare().then(async () => {
       }
     })
     .on('error', (err) => {
+      // eslint-disable-next-line no-console
       console.error(err);
       if (config.get('SENTRY_ENVIRONMENT')) {
         Sentry.captureException(err);

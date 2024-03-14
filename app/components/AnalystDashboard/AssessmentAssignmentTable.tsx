@@ -484,10 +484,13 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     autoResetAll: false,
     muiTableContainerProps: { sx: { padding: '8px' } },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
-    muiTableBodyCellProps: {
-      sx: {
-        padding: '8px 0px',
-      },
+    muiTableBodyCellProps: (props) => {
+      return {
+        align: props.column.id === 'zones' ? 'center' : 'left',
+        sx: {
+          padding: '8px 0px',
+        },
+      };
     },
     muiTableHeadCellProps: {
       sx: {

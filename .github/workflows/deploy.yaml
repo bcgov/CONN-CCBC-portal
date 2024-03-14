@@ -38,6 +38,12 @@ on:
       VAULT_NAMESPACE: { required: true }
       RENOVATE_GITHUB_TOKEN: { required: false }
       RENOVATE_PRIVATE_KEY: { required: false }
+      CHES_API_URL: { required: true }
+      CHES_CLIENT: { required: true }
+      CHES_CLIENT_SECRET: { required: true }
+      CHES_TO_EMAIL: { required: true }
+      CHES_KEYCLOAK_HOST: { required: true }
+      AWS_S3_BACKUPS_BUCKET: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -100,6 +106,14 @@ jobs:
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
           sp_list_name: ${{ secrets.SP_LIST_NAME }}
+          ches_url: ${{ secrets.CHES_API_URL }}
+          ches_client: ${{ secrets.CHES_CLIENT }}
+          ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
+          ches_to: ${{ secrets.CHES_TO_EMAIL }}
+          ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
+          pgbackrest_s3_key: ${{ secrets.AWS_CCBC_IAM_USER_KEY }}
+          pgbackrest_s3_key_secret: ${{ secrets.AWS_CCBC_IAM_USER_KEY_SECRET }}
+          pgbackrest_s3_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:
@@ -159,6 +173,12 @@ jobs:
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
           sp_list_name: ${{ secrets.SP_LIST_NAME }}
+          ches_url: ${{ secrets.CHES_API_URL }}
+          ches_client: ${{ secrets.CHES_CLIENT }}
+          ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
+          ches_to: ${{ secrets.CHES_TO_EMAIL }}
+          ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
+          pgbackrest_s3_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
           environment: test
 
   deploy-to-openshift-production:
@@ -209,6 +229,12 @@ jobs:
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
           sp_list_name: ${{ secrets.SP_LIST_NAME }}
+          ches_url: ${{ secrets.CHES_API_URL }}
+          ches_client: ${{ secrets.CHES_CLIENT }}
+          ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
+          ches_to: ${{ secrets.CHES_TO_EMAIL }}
+          ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
+          pgbackrest_s3_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
           environment: prod
 
   backup-secrets-dev:
@@ -248,6 +274,8 @@ jobs:
       VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE }}
+      CHES_CLIENT: ${{ secrets.CHES_CLIENT }}
+      CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
     with:
       environment: 'development'
 
@@ -288,6 +316,8 @@ jobs:
       VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE }}
+      CHES_CLIENT: ${{ secrets.CHES_CLIENT }}
+      CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
     with:
       environment: 'test'
 
@@ -328,6 +358,8 @@ jobs:
       VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       VAULT_NAMESPACE: ${{ secrets.VAULT_NAMESPACE }}
+      CHES_CLIENT: ${{ secrets.CHES_CLIENT }}
+      CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
     with:
       environment: 'production'
 

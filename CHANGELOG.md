@@ -1,3 +1,33 @@
+## [1.146.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.146.0...v1.146.1) (2024-03-11)
+
+### Bug Fixes
+
+- s3 archive download ([7990abf](https://github.com/bcgov/CONN-CCBC-portal/commit/7990abf21a43d98b639491ff50badb012abac334))
+
+# [1.146.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.145.0...v1.146.0) (2024-03-06)
+
+### Bug Fixes
+
+- ches export secrets ([abc04b7](https://github.com/bcgov/CONN-CCBC-portal/commit/abc04b7fb9337194d89c26f1aa37ac182495daa3))
+
+### Features
+
+- add aws action ([efcff2e](https://github.com/bcgov/CONN-CCBC-portal/commit/efcff2e910da15ee5d17a31868fc7ccb30522fb3))
+- add db s3 backup through pgbackrest ([b4f681b](https://github.com/bcgov/CONN-CCBC-portal/commit/b4f681b5700ec30ac52fe724dcec918a5efb2094))
+- deploy s3 backup secret ([32439a1](https://github.com/bcgov/CONN-CCBC-portal/commit/32439a12027017a97ae3ac04a5ff70e772ef9bcb))
+
+# [1.145.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.144.0...v1.145.0) (2024-03-05)
+
+### Bug Fixes
+
+- failing props ([0c592d7](https://github.com/bcgov/CONN-CCBC-portal/commit/0c592d7823133070b829a6c5c4c338857fb0934b))
+- zone typo in all dashboards ([3a18caf](https://github.com/bcgov/CONN-CCBC-portal/commit/3a18caffd7581408d839d0da719c0c3516601ee2))
+
+### Features
+
+- email notification on agreement signed ([30340e1](https://github.com/bcgov/CONN-CCBC-portal/commit/30340e1a53c66d51e50d41d274496eeaeb5d89ec))
+- hide assessed apps from assessment dashboard ([09b90a4](https://github.com/bcgov/CONN-CCBC-portal/commit/09b90a43b58d90d5d6337f8c4891140ef4d45c94))
+
 # [1.144.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.143.0...v1.144.0) (2024-02-29)
 
 ### Bug Fixes
