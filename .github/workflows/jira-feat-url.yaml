@@ -25,10 +25,8 @@ jobs:
         run: |
           FEATURE_NAME_LOWER=$(echo "${{ env.FEATURE_NAME }}" | tr '[:upper:]' '[:lower:]')
           FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
-          TOKEN=$(echo -n "${{ secrets.JIRA_AUTH }}" | base64)
-          echo "::add-mask::$TOKEN"
           curl -X POST \
-            -H "Authorization: Basic $TOKEN" \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
             -H "Content-Type: application/json" \
             -d '{
                   "body": {
