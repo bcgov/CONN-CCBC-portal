@@ -76,7 +76,7 @@ describe('The RFIAnalystUpload component', () => {
 
     expect(
       screen.getAllByRole('button', {
-        name: 'Upload(s)',
+        name: 'Upload(s) Drop files (or click to upload)',
       })[0]
     ).toBeInTheDocument();
   });
@@ -146,7 +146,7 @@ describe('The RFIAnalystUpload component', () => {
       }
     );
 
-    act(() => {
+    await act(async () => {
       componentTestingHelper.environment.mock.resolveMostRecentOperation({
         data: {
           createAttachment: {

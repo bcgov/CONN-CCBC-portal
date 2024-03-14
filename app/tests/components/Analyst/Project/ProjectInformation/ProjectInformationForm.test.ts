@@ -215,7 +215,7 @@ describe('The ProjectInformation form', () => {
       }
     );
 
-    act(() => {
+    await act(async () => {
       componentTestingHelper.environment.mock.resolveMostRecentOperation({
         data: {
           createAttachment: {

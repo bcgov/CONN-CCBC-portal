@@ -6,6 +6,7 @@ const claimsUiSchema = {
         successHeading: 'Claims & progress report Data table match database',
         errorType: 'claimsImportFailed',
       },
+      allowDragAndDrop: true,
     },
   },
 };

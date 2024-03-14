@@ -10,12 +10,14 @@ const milestoneUiSchema = {
         successHeading: 'Milestone Excel Data table match database',
         errorType: 'milestonesImportFailed',
       },
+      allowDragAndDrop: true,
     },
   },
   evidenceOfCompletionFile: {
     'ui:widget': 'FileWidget',
     'ui:options': {
       allowMultipleFiles: true,
+      allowDragAndDrop: true,
     },
   },
 };

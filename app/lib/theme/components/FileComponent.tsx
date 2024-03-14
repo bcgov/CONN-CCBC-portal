@@ -6,7 +6,11 @@ import { enUS } from '@mui/x-date-pickers/locales';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTimesCircle,
+  faTrash,
+  faUpload,
+} from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import useModal from 'lib/helpers/useModal';
 import { LoadingSpinner } from '../../../components';
@@ -102,6 +106,18 @@ const StyledDeleteBtn = styled('button')`
   }
 `;
 
+const StyledButtonDiv = styled('div')`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledIconSpan = styled('span')`
+  font-size: 13px;
+  & svg {
+    margin-right: 3px;
+  }
+`;
+
 type File = {
   id: string | number;
   uuid: string;
@@ -119,7 +135,7 @@ interface FileComponentProps {
   allowMultipleFiles?: boolean;
   fileTypes?: string;
   buttonVariant?: string;
-  error?: string;
+  errors?: Array<any>;
   id: string;
   disabled?: boolean;
   loading?: boolean;
@@ -135,11 +151,18 @@ interface FileComponentProps {
   setFileDate?: Function;
   maxDate?: Date;
   minDate?: Date;
+  allowDragAndDrop?: boolean;
 }
 
-const ErrorMessage = ({ error, fileTypes }) => {
+const ErrorMessage = ({ error, fileName, fileTypes }) => {
+  const fileNameTemplate = <strong>{fileName ? `${fileName} : ` : ''}</strong>;
+
   if (error === 'uploadFailed') {
-    return <StyledError>File failed to upload, please try again</StyledError>;
+    return (
+      <StyledError>
+        {fileNameTemplate} File failed to upload, please try again
+      </StyledError>
+    );
   }
 
   if (error === 'deleteFailed') {
@@ -166,14 +189,19 @@ const ErrorMessage = ({ error, fileTypes }) => {
   if (error === 'fileType') {
     return (
       <StyledError>
-        Please use an accepted file type. Accepted types for this field are:
+        {fileNameTemplate} Please use an accepted file type. Accepted types for
+        this field are:
         <div>{fileTypes}</div>
       </StyledError>
     );
   }
 
   if (error === 'fileSize') {
-    return <StyledError>Files must be less than 100MB.</StyledError>;
+    return (
+      <StyledError>
+        {fileNameTemplate} Files must be less than 100MB.
+      </StyledError>
+    );
   }
   return null;
 };
@@ -191,7 +219,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
   buttonVariant,
   handleDelete,
   loading,
-  error,
+  errors,
   handleDownload,
   wrap,
   hideFailedUpload,
@@ -201,12 +229,15 @@ const FileComponent: React.FC<FileComponentProps> = ({
   setFileDate,
   maxDate,
   minDate,
+  allowDragAndDrop,
 }) => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
-  const hideIfFailed = !!error && hideFailedUpload;
+  const hideIfFailed = errors?.length > 0 && hideFailedUpload;
   const isSecondary = buttonVariant === 'secondary';
   const fileErrorModal = useModal();
+  const [dragActive, setDragActive] = React.useState(false);
+  const [dropzoneError, setDropzoneError] = React.useState(null);
 
   // eslint-disable-next-line react/no-unstable-nested-components
   const ClearableIconButton = () => {
@@ -239,6 +270,45 @@ const FileComponent: React.FC<FileComponentProps> = ({
 
   const onError = () => fileErrorModal.open();
 
+  const handleDrag = (e: any, isDragActive: boolean) => {
+    e.preventDefault();
+    setDropzoneError(null);
+    setDragActive(isDragActive);
+  };
+
+  const handleDrop = (
+    e: any,
+    isDragActive: boolean = true,
+    isDrop: boolean = false
+  ) => {
+    e.preventDefault();
+    setDropzoneError(null);
+    if (!allowMultipleFiles && e.dataTransfer?.items?.length > 1) {
+      setDropzoneError('Multiple file upload not allowed.');
+      return;
+    }
+    setDragActive(isDragActive);
+    if (isDrop) onChange({ target: { files: e.dataTransfer.files } } as any);
+  };
+
+  const dropzoneProps = {
+    onDrop: (e) => handleDrop(e, false, true),
+    onDragOver: handleDrop,
+    onDragEnter: (e) => handleDrag(e, true),
+    onDragLeave: (e) => handleDrag(e, false),
+  };
+
+  const borderStyleError = (borderComp: string = 'solid') =>
+    `1px ${borderComp} #E71F1F`;
+
+  const borderStyles =
+    errors?.length > 0
+      ? borderStyleError('dashed')
+      : '1px dashed rgba(0, 0, 0, 0.16)';
+  const dropzoneStyles = {
+    border: dragActive ? '2px dashed #3b99fc' : borderStyles,
+  };
+
   return (
     <>
       <GenericModal
@@ -250,7 +320,12 @@ const FileComponent: React.FC<FileComponentProps> = ({
       <StyledContainer
         wrap={wrap}
         className="file-widget"
-        style={{ border: error && '1px solid #E71F1F' }}
+        style={
+          allowDragAndDrop
+            ? dropzoneStyles
+            : { border: errors?.length > 0 && borderStyleError() }
+        }
+        {...(allowDragAndDrop && dropzoneProps)}
       >
         <StyledDetails>
           <StyledH4>{label}</StyledH4>
@@ -272,9 +347,10 @@ const FileComponent: React.FC<FileComponentProps> = ({
                   </StyledLink>
                   <StyledDeleteBtn
                     data-testid="file-delete-btn"
-                    onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                       e.preventDefault();
                       if (handleDelete) {
+                        setDropzoneError(null);
                         handleDelete(file.id);
                       }
                     }}
@@ -294,7 +370,15 @@ const FileComponent: React.FC<FileComponentProps> = ({
                 )}
               </>
             ))}
-          {error && <ErrorMessage error={error} fileTypes={fileTypes} />}
+          <StyledError>{dropzoneError}</StyledError>
+          {errors?.map((fileError: any) => (
+            <ErrorMessage
+              key={`error-${fileError.id}`}
+              fileName={fileError.fileName}
+              error={fileError.error}
+              fileTypes={fileTypes}
+            />
+          ))}
         </StyledDetails>
         <StyledDetails>{statusLabel}</StyledDetails>
         <StyledInputContainer useFileDate={useFileDate}>
@@ -364,7 +448,15 @@ const FileComponent: React.FC<FileComponentProps> = ({
               {loading ? (
                 <LoadingSpinner color={isSecondary ? '#000000' : '#fff'} />
               ) : (
-                buttonLabel()
+                <StyledButtonDiv>
+                  <span>{buttonLabel()}</span>
+                  {allowDragAndDrop && (
+                    <StyledIconSpan>
+                      <FontAwesomeIcon size="xs" icon={faUpload} />
+                      Drop files (or click to upload)
+                    </StyledIconSpan>
+                  )}
+                </StyledButtonDiv>
               )}
             </StyledButton>
           </StyledButtonContainer>

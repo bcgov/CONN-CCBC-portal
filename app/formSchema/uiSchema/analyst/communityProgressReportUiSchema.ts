@@ -20,6 +20,7 @@ const communityProgressReportUiSchema = {
         successHeading: 'Community Progress Report Data table match database',
         errorType: 'communityProgressImportFailed',
       },
+      allowDragAndDrop: true,
     },
   },
   'ui:inline': [

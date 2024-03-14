@@ -154,7 +154,7 @@ describe('The applicantRfiId Page', () => {
       fireEvent.change(inputFile2, { target: { files: [file] } });
     });
 
-    act(() => {
+    await act(async () => {
       pageTestingHelper.environment.mock.resolveMostRecentOperation({
         data: {
           createAttachment: {
@@ -173,7 +173,9 @@ describe('The applicantRfiId Page', () => {
       { body: formData, method: 'POST' }
     );
 
-    fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+    });
 
     pageTestingHelper.expectMutationToBeCalled(
       'updateWithTrackingRfiMutation',

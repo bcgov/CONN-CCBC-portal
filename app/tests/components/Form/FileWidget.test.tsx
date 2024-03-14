@@ -103,7 +103,9 @@ describe('The FileWidget', () => {
 
     const inputFile = screen.getAllByTestId('file-test')[0];
 
-    fireEvent.change(inputFile, { target: { files: [file] } });
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
 
     componentTestingHelper.expectMutationToBeCalled(
       'createAttachmentMutation',
@@ -122,7 +124,7 @@ describe('The FileWidget', () => {
 
     expect(screen.getByLabelText('loading')).toBeVisible();
 
-    act(() => {
+    await act(async () => {
       componentTestingHelper.environment.mock.resolveMostRecentOperation({
         data: {
           createAttachment: {
@@ -264,7 +266,9 @@ describe('The FileWidget', () => {
 
     const inputFile = screen.getAllByTestId('file-test')[0];
 
-    fireEvent.change(inputFile, { target: { files: [file] } });
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
 
     expect(
       screen.getByText(
@@ -273,7 +277,7 @@ describe('The FileWidget', () => {
     ).toBeVisible();
   });
 
-  it("doesn't allow uploading a second file if the mutation is in flight", () => {
+  it("doesn't allow uploading a second file if the mutation is in flight", async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -283,7 +287,9 @@ describe('The FileWidget', () => {
 
     const inputFile = screen.getAllByTestId('file-test')[0];
 
-    fireEvent.change(inputFile, { target: { files: [file] } });
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
 
     const getOperationNames = () =>
       componentTestingHelper.environment.mock
@@ -295,8 +301,9 @@ describe('The FileWidget', () => {
       'createAttachmentMutation',
     ]);
 
-    fireEvent.change(inputFile, { target: { files: [file] } });
-
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
     // we have not resolved the mutation, so there should not be another mutation
     expect(getOperationNames()).toEqual([
       'FileWidgetTestQuery',
@@ -304,7 +311,7 @@ describe('The FileWidget', () => {
     ]);
   });
 
-  it('displays an error message when attempting to upload a file that is too large', () => {
+  it('displays an error message when attempting to upload a file that is too large', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -316,12 +323,14 @@ describe('The FileWidget', () => {
 
     const inputFile = screen.getAllByTestId('file-test')[0];
 
-    fireEvent.change(inputFile, { target: { files: [file] } });
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
 
     expect(screen.getByText(/Files must be less than 100MB/)).toBeVisible();
   });
 
-  it('displays an error message when the createAttachment mutation fails', () => {
+  it('displays an error message when the createAttachment mutation fails', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -331,9 +340,11 @@ describe('The FileWidget', () => {
 
     const inputFile = screen.getAllByTestId('file-test')[0];
 
-    fireEvent.change(inputFile, { target: { files: [file] } });
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
 
-    act(() =>
+    await act(async () =>
       componentTestingHelper.environment.mock.rejectMostRecentOperation(
         new Error()
       )
@@ -404,7 +415,9 @@ describe('The FileWidget', () => {
 
     const inputFile = screen.getAllByTestId('file-test')[0];
 
-    fireEvent.change(inputFile, { target: { files: [file] } });
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
 
     componentTestingHelper.expectMutationToBeCalled(
       'createAttachmentMutation',
