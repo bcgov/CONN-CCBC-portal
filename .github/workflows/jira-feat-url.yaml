@@ -18,15 +18,16 @@ jobs:
         uses: actions/checkout@v2
       - name: Get JIRA Issue Key
         id: extract_jira_key
-        run: echo "::set-output name=key::$(git log --format=%B -n 1 ${{ github.sha }} | grep -oE 'NDT-[0-9]+' | head -1)"
+        run: |
+          echo "JIRA_KEY=$(git log --format=%B -n 1 ${{ github.sha }} | grep -oE 'PROJECT-[0-9]+' | head -1)" >> $GITHUB_ENV
       - name: Update JIRA Issue
         run: |
           FEATURE_NAME_LOWER=$(echo "${{ env.FEATURE_NAME }}" | tr '[:upper:]' '[:lower:]')
           FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
-          token=$(echo -n "${{ secrets.JIRA_AUTH }}" | base64)
-          echo "::add-mask::$token"
+          TOKEN=$(echo -n "${{ secrets.JIRA_AUTH }}" | base64)
+          echo "::add-mask::$TOKEN"
           curl -X POST \
-            -H "Authorization: Basic $token" \
+            -H "Authorization: Basic $TOKEN" \
             -H "Content-Type: application/json" \
             -d '{
                   "body": {
