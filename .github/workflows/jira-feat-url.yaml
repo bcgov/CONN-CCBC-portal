@@ -18,9 +18,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Get JIRA Issue Key
         id: extract_jira_key
-        # echo "JIRA_KEY=$(git log --format=%B -n 1 ${{ github.sha }} | grep -oE 'PROJECT-[0-9]+' | head -1)" >> $GITHUB_ENV
+        # echo "JIRA_KEY=NDT-209" >> $GITHUB_ENV
         run: |
-          echo "JIRA_KEY=NDT-209" >> $GITHUB_ENV
+          echo "JIRA_KEY=$(git log --format=%B -n 1 ${{ github.sha }} | grep -oE 'PROJECT-[0-9]+' | head -1)" >> $GITHUB_ENV
       - name: Update JIRA Issue
         # JIRA_AUTH must be passed pre encoded
         run: |
