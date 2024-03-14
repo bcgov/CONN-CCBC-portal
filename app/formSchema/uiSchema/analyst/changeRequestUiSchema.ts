@@ -51,6 +51,7 @@ const changeRequestUiSchema = {
     'ui:widget': 'FileWidget',
     'ui:options': {
       flexDirection: 'column',
+      allowDragAndDrop: true,
     },
   },
   statementOfWorkUpload: {
@@ -63,6 +64,7 @@ const changeRequestUiSchema = {
         successHeading: 'Statement of Work Data table match database',
         errorType: 'sowImportFailed',
       },
+      allowDragAndDrop: true,
     },
   },
   updatedMapUpload: {
@@ -71,6 +73,7 @@ const changeRequestUiSchema = {
       flexDirection: 'column',
       fileTypes: '.kmz',
       allowMultipleFiles: true,
+      allowDragAndDrop: true,
     },
   },
 };

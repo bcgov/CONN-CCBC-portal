@@ -275,20 +275,22 @@ describe('The index page', () => {
       color: '#1A5A96',
     });
 
-    expect(screen.getAllByText('Add file')[0]).toHaveStyle({
+    expect(
+      document.getElementById('root_rfiEmailCorrespondance-btn')
+    ).toHaveStyle({
       backgroundColor: '#003366',
     });
   });
 
   // Wrap file test in function to reuse
-  const fileTest = () => {
+  const fileTest = async () => {
     const file = new File([new ArrayBuffer(1)], 'test-file.kmz', {
       type: 'application/vnd.google-earth.kmz',
     });
 
     const inputFile = screen.getAllByTestId('file-test')[0];
 
-    act(() => {
+    await act(async () => {
       fireEvent.change(inputFile, { target: { files: [file] } });
     });
 
@@ -306,7 +308,7 @@ describe('The index page', () => {
 
     expect(screen.getByLabelText('loading')).toBeVisible();
 
-    act(() => {
+    await act(async () => {
       pageTestingHelper.environment.mock.resolveMostRecentOperation({
         data: {
           createAttachment: {
@@ -324,7 +326,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    fileTest();
+    await fileTest();
 
     pageTestingHelper.expectMutationToBeCalled(
       'updateRfiJsonDataMutation',
@@ -337,7 +339,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
     const logSpy = jest.spyOn(console, 'log');
 
-    fileTest();
+    await fileTest();
 
     pageTestingHelper.expectMutationToBeCalled(
       'updateRfiJsonDataMutation',

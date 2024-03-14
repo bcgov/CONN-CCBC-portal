@@ -37,7 +37,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   rawErrors,
   formContext,
 }) => {
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState([]);
   const router = useRouter();
   const [createAttachment, isCreatingAttachment] = useCreateAttachment();
   const [deleteAttachment, isDeletingAttachment] = useDeleteAttachment();
@@ -46,6 +46,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const wrap = uiSchema['ui:options']?.wrap ?? false;
   const allowMultipleFiles =
     (uiSchema['ui:options']?.allowMultipleFiles as boolean) ?? false;
+  const allowDragAndDrop =
+    (uiSchema['ui:options']?.allowDragAndDrop as boolean) ?? false;
   const maxDate = uiSchema['ui:options']?.maxDate as Date;
   const minDate = uiSchema['ui:options']?.minDate as Date;
   const acceptedFileTypes = (uiSchema['ui:options']?.fileTypes as string) ?? '';
@@ -66,24 +68,11 @@ const FileWidget: React.FC<FileWidgetProps> = ({
 
   useEffect(() => {
     if (rawErrors?.length > 0) {
-      setError('rjsf_validation');
+      setErrors([{ error: 'rjsf_validation' }]);
     }
-  }, [rawErrors, setError]);
+  }, [rawErrors, setErrors]);
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
-    const span = transaction.startChild({
-      op: 'file-widget-handle-upload',
-      description: 'FileWidget handleUpload function',
-    });
-
-    if (loading) return;
-    setError('');
-    const formId =
-      parseInt(router?.query?.id as string, 10) ||
-      parseInt(router?.query?.applicationId as string, 10);
-    const file = e.target.files?.[0];
-
+  const getValidatedFile = async (file: any, formId: number) => {
     if (templateValidate) {
       const fileFormData = new FormData();
       if (file) {
@@ -109,24 +98,17 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       }
     }
 
+    const { name, size, type } = file;
     const { isValid, error: newError } = validateFile(
       file,
       maxFileSizeInBytes,
       acceptedFileTypes
     );
     if (!isValid) {
-      setError(newError);
-      return;
+      return { error: newError, fileName: name };
     }
 
-    const { name, size, type } = file;
-
-    if (isFiles && !allowMultipleFiles) {
-      // Soft delete file if 'Replace' button is used for single file uploads
-      handleDelete(fileId, deleteAttachment, setError, value, onChange);
-    }
-
-    const variables = {
+    return {
       input: {
         attachment: {
           file,
@@ -137,44 +119,86 @@ const FileWidget: React.FC<FileWidgetProps> = ({
         },
       },
     };
+  };
 
-    const disposableEvent = createAttachment({
-      variables,
-      onError: () => {
-        setError('uploadFailed');
+  const handleUpload = (variables: any): Promise<any> => {
+    return new Promise((resolve) => {
+      const { input } = variables;
+      const { file } = input.attachment;
+      const disposableEvent = createAttachment({
+        variables,
+        onError: () => {
+          resolve({
+            error: 'uploadFailed',
+            fileName: file.name,
+          });
+        },
+        onCompleted: (res) => {
+          const uuid = res?.createAttachment?.attachment?.file;
+          const attachmentRowId = res?.createAttachment?.attachment?.rowId;
 
-        span.setStatus('unknown_error');
-        span.finish();
-        transaction.finish();
-      },
-      onCompleted: (res) => {
-        const uuid = res?.createAttachment?.attachment?.file;
-        const attachmentRowId = res?.createAttachment?.attachment?.rowId;
+          const fileDetails = {
+            id: attachmentRowId,
+            uuid,
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            uploadedAt: DateTime.now().toISO(),
+            ...(useFileDate ? { fileDate } : {}),
+          };
+          resolve(fileDetails);
+        },
+      });
+      setDisposable(disposableEvent);
+    });
+  };
 
-        const fileDetails = {
-          id: attachmentRowId,
-          uuid,
-          name,
-          size,
-          type,
-          uploadedAt: DateTime.now().toISO(),
-          ...(useFileDate ? { fileDate } : {}),
-        };
-
-        if (allowMultipleFiles) {
-          onChange(value ? [...value, fileDetails] : [fileDetails]);
-        } else {
-          onChange([fileDetails]);
-        }
-
-        span.setStatus('ok');
-        span.finish();
-        transaction.finish();
-        setFileDate(null);
-      },
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
+    const span = transaction.startChild({
+      op: 'file-widget-handle-upload',
+      description: 'FileWidget handleUpload function',
     });
 
-    setDisposable(disposableEvent);
+    if (loading) return;
+    const formId =
+      parseInt(router?.query?.id as string, 10) ||
+      parseInt(router?.query?.applicationId as string, 10);
+
+    if (isFiles && !allowMultipleFiles) {
+      // Soft delete file if 'Replace' button is used for single file uploads
+      handleDelete(fileId, deleteAttachment, setErrors, value, onChange);
+    }
+
+    const files = allowMultipleFiles ? e.target.files : [e.target.files?.[0]];
+    const resp = await Promise.all(
+      Array.from(files).map(async (file) => getValidatedFile(file, formId))
+    );
+    const validatedFiles = resp.filter((file) => file.input);
+    setErrors(resp.filter((file) => file.error));
+
+    const uploadResponse = await Promise.all(
+      validatedFiles.map(async (payload) => handleUpload(payload))
+    );
+
+    const fileDetails = uploadResponse.filter((file) => !file.error);
+
+    const uploadErrors = uploadResponse.filter((file) => file.error);
+    if (uploadErrors.length > 0) {
+      setErrors([...errors, ...uploadErrors]);
+      span.setStatus('error');
+    } else {
+      span.setStatus('ok');
+    }
+    span.finish();
+    transaction.finish();
+
+    if (allowMultipleFiles) {
+      onChange(value ? [...value, ...fileDetails] : fileDetails);
+    } else {
+      onChange(fileDetails);
+    }
+    setFileDate(null);
 
     e.target.value = '';
   };
@@ -184,10 +208,10 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       wrap={wrap as boolean}
       allowMultipleFiles={allowMultipleFiles}
       loading={isCreatingAttachment || isDeletingAttachment}
-      error={error}
+      errors={errors}
       buttonVariant={buttonVariant}
       handleDelete={(f) =>
-        handleDelete(f, deleteAttachment, setError, value, onChange)
+        handleDelete(f, deleteAttachment, setErrors, value, onChange)
       }
       handleDownload={handleDownload}
       onChange={handleChange}
@@ -204,6 +228,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       fileDateTitle={fileDateTitle}
       maxDate={maxDate}
       minDate={minDate}
+      allowDragAndDrop={allowDragAndDrop}
     />
   );
 };
