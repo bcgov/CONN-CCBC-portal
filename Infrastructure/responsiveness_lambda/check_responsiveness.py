@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 def lambda_handler(event, context):
-    url = "https://test.connectingcommunitiesbc.ca"
+    url = "https://connectingcommunitiesbc.ca"
     result = fetch_and_check(url)
     if result == 0:
         return {
@@ -12,10 +12,7 @@ def lambda_handler(event, context):
             'body': json.dumps('All resources accessible')
         }
     else:
-        return {
-            'statusCode': 404,
-            'body': json.dumps('Some resources are not accessible')
-        }
+        raise Exception('Some resources are not accessible')
 
 
 def fetch_and_check(url):
@@ -41,6 +38,3 @@ def fetch_and_check(url):
         return 1
     print('All resources are accessible')
     return 0
-
-# Example usage
-fetch_and_check("https://connectingcommunitiesbc.ca")
