@@ -1,0 +1,48 @@
+name: Provide JIRA URL for feature deployment
+
+on:
+  workflow_call:
+    secrets:
+      JIRA_AUTH: { required: true }
+
+env:
+  FEATURE_NAME: ${{ github.head_ref }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Get JIRA Issue Key
+        id: extract_jira_key
+        run: echo "::set-output name=key::$(git log --format=%B -n 1 ${{ github.sha }} | grep -oE 'NDT-[0-9]+' | head -1)"
+      - name: Update JIRA Issue
+        run: |
+          FEATURE_NAME_LOWER=$(echo "${{ env.FEATURE_NAME }}" | tr '[:upper:]' '[:lower:]')
+          FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
+          token=$(echo -n "${{ secrets.JIRA_AUTH }}" | base64)
+          echo "::add-mask::$token"
+          curl -X POST \
+            -H "Authorization: Basic $token" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "body": {
+                      "type": "doc",
+                      "version": 1,
+                      "content": [
+                          {
+                              "type": "paragraph",
+                              "content": [
+                                  {
+                                      "text": "Feature deployed! URL: https://$FEATURE_NAME_LOWER_SHORT.apps.silver.devops.gov.bc.ca",
+                                      "type": "text"
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              }' \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/${{ steps.extract_jira_key.outputs.key }}/comment"
