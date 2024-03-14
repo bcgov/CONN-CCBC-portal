@@ -150,7 +150,7 @@ describe('The application header component', () => {
     expect(screen.getByText('Assessment')).toBeInTheDocument();
     expect(screen.getByText('Cancelled')).toBeInTheDocument();
     expect(screen.getByText('Closed')).toBeInTheDocument();
-    expect(screen.getByText('Complete')).toBeInTheDocument();
+    expect(screen.getByText('Reporting complete')).toBeInTheDocument();
     expect(screen.getByText('Conditionally approved')).toBeInTheDocument();
     expect(screen.getByText('On hold')).toBeInTheDocument();
     expect(screen.getByText('Received')).toBeInTheDocument();
@@ -251,7 +251,7 @@ describe('The application header component', () => {
     expect(screen.getByText('Approved')).toBeInTheDocument();
     expect(screen.getByText('Cancelled')).toBeInTheDocument();
     expect(screen.getByText('Closed')).toBeInTheDocument();
-    expect(screen.getByText('Complete')).toBeInTheDocument();
+    expect(screen.getByText('Reporting complete')).toBeInTheDocument();
     expect(screen.getByText('Conditionally approved')).toBeInTheDocument();
     expect(screen.getByText('On hold')).toBeInTheDocument();
     expect(screen.getByText('Received')).toBeInTheDocument();
