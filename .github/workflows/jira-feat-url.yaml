@@ -22,6 +22,7 @@ jobs:
         run: |
           echo "JIRA_KEY=NDT-209" >> $GITHUB_ENV
       - name: Update JIRA Issue
+        # JIRA_AUTH must be passed pre encoded
         run: |
           FEATURE_NAME_LOWER=$(echo "${{ env.FEATURE_NAME }}" | tr '[:upper:]' '[:lower:]')
           FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
@@ -37,7 +38,7 @@ jobs:
                               "type": "paragraph",
                               "content": [
                                   {
-                                      "text": "Feature deployed! URL: https://$FEATURE_NAME_LOWER_SHORT.apps.silver.devops.gov.bc.ca",
+                                      "text": "Feature deployed! URL: https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca",
                                       "type": "text"
                                   }
                               ]
