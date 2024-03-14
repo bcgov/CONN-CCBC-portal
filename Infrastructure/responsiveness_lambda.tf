@@ -39,7 +39,8 @@ resource "aws_lambda_function" "responsiveness_lambda" {
   source_code_hash = filebase64sha256("responsiveness_lambda.zip")
   handler          = "check_responsiveness.lambda_handler"
   role             = aws_iam_role.lambda_exec.arn
-  runtime          = "python3.8"
+  runtime          = "python3.10"
+  timeout          = 30
 }
 
 resource "aws_sns_topic" "lambda_error_notifications" {
@@ -47,9 +48,11 @@ resource "aws_sns_topic" "lambda_error_notifications" {
 }
 
 resource "aws_sns_topic_subscription" "lambda_error_email" {
+  for_each = toset(["anthony@button.is", "rafael.solorzano@gov.bc.ca", "meherzad.romer@gov.bc.ca", "rumesha.ranathunga@gov.bc.ca", "nwbc.devinbox@gov.bc.ca"])
   topic_arn = aws_sns_topic.lambda_error_notifications.arn
   protocol  = "email"
-  endpoint  = "anthony@button.is"
+  endpoint  = each.value
+  # endpoint = "anthony@button.is"
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
