@@ -1,3 +1,16 @@
+# [1.147.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.146.1...v1.147.0) (2024-03-15)
+
+### Bug Fixes
+
+- error in amendment number for submitting update ([50002bb](https://github.com/bcgov/CONN-CCBC-portal/commit/50002bbf1647cc12105aa369d45adce683cabdd5))
+- failing test ([95451ab](https://github.com/bcgov/CONN-CCBC-portal/commit/95451abcd55b3eb81be807e3a802b44056ba3012))
+- passing current amendment number to widget for validation ([36749dc](https://github.com/bcgov/CONN-CCBC-portal/commit/36749dcbe11fadee1ab503dcd302c1b250ecb87a))
+- update arc-lambda for export ([61fc57f](https://github.com/bcgov/CONN-CCBC-portal/commit/61fc57f954d9cea50919b61d6b38955d4a8e402c))
+
+### Features
+
+- add drag and drop to file uploads in analyst ([05d7ce3](https://github.com/bcgov/CONN-CCBC-portal/commit/05d7ce3910e56af94b4774079086653be3cc4b8f))
+
 ## [1.146.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.146.0...v1.146.1) (2024-03-11)
 
 ### Bug Fixes

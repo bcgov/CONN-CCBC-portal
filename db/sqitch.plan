@@ -539,3 +539,4 @@ mutations/create_project_information [mutations/create_project_information@1.136
 @1.146.0 2024-03-06T16:45:55Z CCBC Service Account <ccbc@button.is> # release v1.146.0
 @1.146.1 2024-03-11T19:10:23Z CCBC Service Account <ccbc@button.is> # release v1.146.1
 tables/application_status_type_009_change_complete.sql 2024-03-13T22:45:56Z ,,, <ryohani89@NH504670> # update complete status to reporting complete
+@1.147.0 2024-03-15T15:31:26Z CCBC Service Account <ccbc@button.is> # release v1.147.0
