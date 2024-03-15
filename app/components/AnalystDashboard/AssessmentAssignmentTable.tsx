@@ -19,7 +19,7 @@ import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
 import RowCount from 'components/Table/RowCount';
 import { Box, Paper } from '@mui/material';
 import ClearFilters from 'components/Table/ClearFilters';
-import assessmentPillStyles from 'data/assessmentPillStyles';
+import AssessmentLegend from './AssessmentLegend';
 
 type Assessment = {
   rowId: string;
@@ -116,42 +116,12 @@ const StyledText = styled.p`
   padding-top: 5px;
 `;
 
-const StyledLegendPill = styled.div<{
-  statusStyle: any;
-}>`
-  display: flex;
-  font-size: 14px;
-  height: fit-content;
-  padding: 1px 2px;
-  border: ${({ statusStyle }) =>
-    `solid 1px ${
-      statusStyle.backgroundColor !== '#FFFFFF'
-        ? statusStyle.backgroundColor
-        : '#DDDDDD'
-    }`};
-  border-radius: 5px;
-  align-items: center;
-  color: ${({ statusStyle }) => statusStyle.primary};
-  background-color: ${({ statusStyle }) => statusStyle.backgroundColor};
-`;
-
-const StyledCaption = styled.strong`
-  font-size: 12px;
-  margin-right: 3px;
-  align-self: center;
-`;
-
 const StyledMRTToolBar = styled(Box)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 0 8px;
-`;
-
-const StyledLegendBar = styled(Box)`
-  display: flex;
-  gap: 2px;
 `;
 
 const AssessmentCell = ({ cell }) => {
@@ -584,26 +554,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
    * Separating from `TopToolbarCustomActions` to manupulate styles easily
    */
   const topToolbarExtraActions = () => {
-    const legendStatuses = [
-      'Not started',
-      'Assigned',
-      'Needs RFI',
-      'Assessment complete',
-    ];
     return (
       <StyledMRTToolBar>
         <ClearFilters table={table} filters={table.getState().columnFilters} />
-        <StyledLegendBar>
-          <StyledCaption>Legend:</StyledCaption>
-          {legendStatuses.map((status) => (
-            <StyledLegendPill
-              key={`legend-${status}`}
-              statusStyle={assessmentPillStyles[status]}
-            >
-              {status === 'Needs RFI' ? 'Need 2nd Review/Needs RFI' : status}
-            </StyledLegendPill>
-          ))}
-        </StyledLegendBar>
+        <AssessmentLegend />
       </StyledMRTToolBar>
     );
   };
