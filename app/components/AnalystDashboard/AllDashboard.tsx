@@ -22,6 +22,7 @@ import Link from 'next/link';
 import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
 import { TableCellProps } from '@mui/material';
+import { useFeature } from '@growthbook/growthbook-react';
 import { filterZones } from './AssessmentAssignmentTable';
 
 type Application = {
@@ -185,9 +186,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
     []
   );
+  const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
-    {}
+    { Lead: false }
   );
+
+  const [visibilityPreference, setVisibilityPreference] =
+    useState<MRT_VisibilityState>();
+
   const [density, setDensity] = useState<MRT_DensityState>('comfortable');
   const [showColumnFilters, setShowColumnFilters] = useState(false);
 
@@ -246,6 +252,18 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   useEffect(() => {
     if (!isFirstRender) {
+      const showLeadSession = cookie.get('mrt_show_lead_application');
+      setColumnVisibility((prevColumnVisibilty) => ({
+        ...prevColumnVisibilty,
+        Lead: showLeadSession
+          ? JSON.parse(showLeadSession)
+          : showLeadFeatureFlag,
+      }));
+    }
+  }, [isFirstRender, showLeadFeatureFlag]);
+
+  useEffect(() => {
+    if (!isFirstRender) {
       cookie.set(
         'mrt_columnVisibility_application',
         JSON.stringify(columnVisibility)
@@ -288,6 +306,28 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       cookie.set('mrt_columnSizing_application', JSON.stringify(columnSizing));
     }
   }, [columnSizing, isFirstRender]);
+
+  /**
+   * Wrapping the setColumnVisibility in a separate state to also set the cookies for controlled columns (like Lead)
+   * and to check if user has really changed the visibility preference on controlled columns
+   * and to keep the controlled column visibility cookies clear|empty to prevent overriding feature-flag changes in the future
+   * */
+  useEffect(() => {
+    if (visibilityPreference) {
+      setColumnVisibility((prev) => {
+        if (visibilityPreference.Lead !== undefined) {
+          cookie.set(
+            'mrt_show_lead_application',
+            JSON.stringify(visibilityPreference.Lead)
+          );
+        }
+        return {
+          ...prev,
+          ...visibilityPreference,
+        };
+      });
+    }
+  }, [visibilityPreference]);
 
   const state = {
     columnFilters,
@@ -451,7 +491,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
     autoResetAll: false,
-    onColumnVisibilityChange: setColumnVisibility,
+    onColumnVisibilityChange: setVisibilityPreference,
     onDensityChange: setDensity,
     onShowColumnFiltersChange: setShowColumnFilters,
     onColumnSizingChange: setColumnSizing,

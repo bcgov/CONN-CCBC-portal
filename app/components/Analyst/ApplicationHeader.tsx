@@ -3,6 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
 import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
+import { useFeature } from '@growthbook/growthbook-react';
 import EditProjectDescription from './EditProjectDescription';
 import StatusInformationIcon from './StatusInformationIcon';
 import AssignProjectType from './AssignProjectType';
@@ -46,10 +47,11 @@ const StyledLabel = styled.label`
 const StyledItem = styled.div`
   display: flex;
   align-items: center;
+  margin: 8px 0 0 0;
 `;
 
 const StyledPackage = styled(StyledItem)`
-  margin: 8px 0;
+  margin: 8px 0 0 0;
 `;
 
 const StyledProjectType = styled(StyledItem)`
@@ -141,6 +143,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
     applicationSowDataByApplicationId,
   } = applicationByRowId;
 
+  const showLead = useFeature('show_lead').value;
   const isInternalIntake = intakeNumber === 99;
   const projectTitle =
     applicationSowDataByApplicationId?.nodes[0]?.jsonData?.projectTitle ||
@@ -167,7 +170,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
         <EditProjectDescription application={applicationByRowId} />
       </StyledProjectInfo>
       <StyledDiv>
-        <StyledItem style={{ marginBottom: '0.3rem' }}>
+        <StyledItem>
           <StyledLabel htmlFor="change-status">Internal Status</StyledLabel>
           <ChangeStatus
             application={applicationByRowId}
@@ -203,15 +206,17 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           <StyledLabel htmlFor="assign-package">Package</StyledLabel>
           <AssignPackage application={applicationByRowId} />
         </StyledPackage>
-        <StyledItem>
-          <StyledLabel htmlFor="assign-lead">Lead</StyledLabel>
-          <AssignLead
-            label="Lead"
-            applicationId={rowId}
-            lead={analystLead}
-            query={queryFragment}
-          />
-        </StyledItem>
+        {showLead && (
+          <StyledItem>
+            <StyledLabel htmlFor="assign-lead">Lead</StyledLabel>
+            <AssignLead
+              label="Lead"
+              applicationId={rowId}
+              lead={analystLead}
+              query={queryFragment}
+            />
+          </StyledItem>
+        )}
         <StyledProjectType>
           <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
           <AssignProjectType application={applicationByRowId} />

@@ -5,6 +5,7 @@ import compiledQuery, {
 import { act, screen, fireEvent } from '@testing-library/react';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import ApplicationHeader from 'components/Analyst/ApplicationHeader';
+import * as moduleApi from '@growthbook/growthbook-react';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
 const testQuery = graphql`
@@ -108,6 +109,14 @@ const mockInternalIntakeQueryPayload = {
       },
     };
   },
+};
+
+const mockShowLeadColumn: moduleApi.FeatureResult<boolean> = {
+  value: true,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_lead',
 };
 
 const componentTestingHelper =
@@ -259,8 +268,16 @@ describe('The application header component', () => {
     expect(screen.getByLabelText('Internal Status')).toBeVisible();
     expect(screen.getByLabelText('External Status')).toBeVisible();
     expect(screen.getByLabelText('Package')).toBeVisible();
-    expect(screen.getByLabelText('Lead')).toBeVisible();
     expect(screen.getByLabelText('Project Type')).toBeVisible();
+    expect(screen.queryByLabelText('Lead')).not.toBeInTheDocument();
+  });
+
+  it('displays the Lead column when feature enabled', () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowLeadColumn);
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByLabelText('Lead')).toBeVisible();
   });
 
   it('when received status application cannot go to recommendation', () => {

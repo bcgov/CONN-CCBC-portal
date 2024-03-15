@@ -1,6 +1,8 @@
 import { mocked } from 'jest-mock';
 import { fireEvent, screen, waitFor, act } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
+import * as moduleApi from '@growthbook/growthbook-react';
+import cookie from 'js-cookie';
 import Dashboard from '../../../pages/analyst/dashboard';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import PageTestingHelper from '../../utils/pageTestingHelper';
@@ -97,6 +99,22 @@ const mockQueryPayload = {
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 window.scrollTo = jest.fn();
 
+const mockShowLeadColumn = (
+  value: boolean
+): moduleApi.FeatureResult<boolean> => ({
+  value,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_lead',
+});
+
+jest.mock('js-cookie', () => ({
+  get: jest.fn(),
+  remove: jest.fn(),
+  set: jest.fn(),
+}));
+
 const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
   pageComponent: Dashboard,
   compiledQuery: compileddashboardQuery,
@@ -105,6 +123,10 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
 
 describe('The index page', () => {
   beforeEach(() => {
+    cookie.get.mockImplementation(() => null);
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowLeadColumn(false));
     pageTestingHelper.reinit();
   });
 
@@ -180,8 +202,47 @@ describe('The index page', () => {
     expect(screen.getByText('External Status')).toBeInTheDocument();
     expect(screen.getByText('Project title')).toBeInTheDocument();
     expect(screen.getByText('Organization')).toBeInTheDocument();
-    expect(screen.getByText('Lead')).toBeInTheDocument();
+    expect(screen.queryByText('Lead')).not.toBeInTheDocument();
     expect(screen.getByText('Package')).toBeInTheDocument();
+  });
+
+  it('analyst table lead only visible when feature enabled', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowLeadColumn(true));
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('Lead')).toBeInTheDocument();
+  });
+
+  it('analysts table will be visible if user set to visible', async () => {
+    cookie.get.mockImplementation((key: string) => {
+      if (key === 'mrt_show_lead_application') {
+        return 'true';
+      }
+      return null;
+    });
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('Lead')).toBeInTheDocument();
+  });
+
+  it('analysts table will be hidden if user set to hidden', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowLeadColumn(true));
+    cookie.get.mockImplementation((key) => {
+      if (key === 'mrt_show_lead_application') {
+        return 'false';
+      }
+      return null;
+    });
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.queryByText('Lead')).not.toBeInTheDocument();
   });
 
   it('renders analyst table row counts', async () => {
@@ -201,7 +262,10 @@ describe('The index page', () => {
     expect(row).toHaveAttribute('href', '/analyst/application/1');
   });
 
-  it('shows the assign lead dropdown', async () => {
+  it('shows the assign lead dropdown when column enabled', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowLeadColumn(true));
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -211,6 +275,9 @@ describe('The index page', () => {
   });
 
   it('shows the correct options in the assign lead dropdown', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowLeadColumn(true));
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -223,6 +290,9 @@ describe('The index page', () => {
   });
 
   it('calls the mutation when a lead has been selected', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowLeadColumn(true));
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -314,6 +384,26 @@ describe('The index page', () => {
     );
 
     expect(sesstionStorage).toBe('300');
+  });
+
+  it('save the user preference on column visibility on toggle', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const columnBtn = screen.getByTestId('ViewColumnIcon');
+    await act(async () => {
+      fireEvent.click(columnBtn);
+    });
+
+    const label = screen.getByLabelText('Lead');
+    await act(async () => {
+      fireEvent.click(label);
+    });
+
+    expect(cookie.set).toHaveBeenCalledWith(
+      'mrt_show_lead_application',
+      'true'
+    );
   });
 
   it('scroll to previous location if session storage item exists', () => {
