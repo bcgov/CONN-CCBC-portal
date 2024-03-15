@@ -20,7 +20,6 @@ const ClearFilters: React.FC<Props> = ({ table, filters }) => {
       data-testid="clear-filter-button"
       sx={{
         padding: 0,
-        marginTop: '8px',
         '&:hover': {
           backgroundColor: 'transparent',
         },
