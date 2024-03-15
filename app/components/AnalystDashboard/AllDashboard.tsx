@@ -472,9 +472,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     ];
   }, [AssignAnalystLead, allApplications]);
 
-  const handleOnSortChange = (sort) => {
+  const handleOnSortChange = (sort: MRT_SortingState) => {
     if (!isFirstRender) {
-      setSorting(sort());
+      setSorting(sort);
     }
   };
 
