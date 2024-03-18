@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import cookie from 'js-cookie';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
-  MaterialReactTable,
   useMaterialReactTable,
   type MRT_ColumnDef,
   type MRT_ColumnFiltersState,
@@ -12,12 +11,15 @@ import {
   type MRT_SortingState,
   type MRT_VisibilityState,
   type MRT_ColumnSizingState,
+  MRT_TopToolbar as MRTTopToolBar,
+  MRT_TableContainer as MRTTableContainer,
 } from 'material-react-table';
 
 import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
 import RowCount from 'components/Table/RowCount';
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import ClearFilters from 'components/Table/ClearFilters';
+import AssessmentLegend from './AssessmentLegend';
 
 type Assessment = {
   rowId: string;
@@ -112,6 +114,14 @@ const StyledLink = styled.a`
 const StyledText = styled.p`
   margin: 0;
   padding-top: 5px;
+`;
+
+const StyledMRTToolBar = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
 `;
 
 const AssessmentCell = ({ cell }) => {
@@ -516,14 +526,18 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
       filterAnalysts,
       filterCcbcId,
     },
+    muiTopToolbarProps: {
+      sx: {
+        '& .MuiBox-root': {
+          paddingBottom: '0',
+        },
+      },
+    },
     renderTopToolbarCustomActions: () => (
-      <Box>
-        <StyledText>
-          Showing applications with status of “Received”, “Screening”,
-          “Assessment”, and that have at least one incomplete assessment.
-        </StyledText>
-        <ClearFilters table={table} filters={table.getState().columnFilters} />
-      </Box>
+      <StyledText>
+        Showing applications with status of “Received”, “Screening”,
+        “Assessment”, and that have at least one incomplete assessment.
+      </StyledText>
     ),
   });
 
@@ -535,10 +549,27 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     />
   );
 
+  /**
+   * Additional row to MRT_table to display the extra actions and the color legend
+   * Separating from `TopToolbarCustomActions` to manupulate styles easily
+   */
+  const topToolbarExtraActions = () => {
+    return (
+      <StyledMRTToolBar>
+        <ClearFilters table={table} filters={table.getState().columnFilters} />
+        <AssessmentLegend />
+      </StyledMRTToolBar>
+    );
+  };
+
   return (
     <>
       {renderRowCount()}
-      <MaterialReactTable table={table} />
+      <Paper>
+        <MRTTopToolBar table={table} />
+        {topToolbarExtraActions()}
+        <MRTTableContainer table={table} />
+      </Paper>
       {renderRowCount()}
     </>
   );
