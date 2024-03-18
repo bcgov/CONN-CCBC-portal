@@ -99,7 +99,9 @@ describe('The Gis upload admin page', () => {
     });
 
     const inputFile = screen.getAllByTestId('file-test')[0];
-    const uploadBtn = screen.getByRole('button', { name: 'Upload' });
+    const uploadBtn = screen.getByRole('button', {
+      name: 'Upload Drop files (or click to upload)',
+    });
 
     fireEvent.change(inputFile, { target: { files: [badfile] } });
     await act(async () => {
