@@ -4,10 +4,9 @@ import styled from 'styled-components';
 
 const StyledLegendBar = styled(Box)`
   display: flex;
-  gap: 2px;
+  gap: ${(props) => props.theme.spacing.small};
   & > strong {
     font-size: 12px;
-    margin-right: 3px;
     align-self: center;
   }
 `;
