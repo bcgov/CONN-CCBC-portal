@@ -321,8 +321,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
   // Separate sorting function so that MRT doesn't replace the previous
   // sorting on first render, otherwise it will set to blank
   // as sort must be called to return the array of sort
-  const setSortingFn = (sort) => {
-    const newSort = sort();
+  const setSortingFn = (sort: MRT_SortingState) => {
+    const newSort = sort;
     if (!isFirstRender) setSorting(newSort);
   };
   const uniqueIntakeNumbers: string[] | unknown[] | null = [
