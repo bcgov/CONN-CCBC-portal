@@ -1,4 +1,3 @@
-{{- if .Values.deploy.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -81,8 +80,6 @@ spec:
             - -c
             - |
               set -euox pipefail;
-              create-user-db -d $(DATABASE_NAME) -u $(PGUSER_APP) -p $(PGPASSWORD_APP);
-              create-user-db -d $(DATABASE_NAME) -u $(PGUSER_READONLY) -p $(PGPASSWORD_READONLY);
               psql -d $(DATABASE_NAME) <<EOF
                 grant pg_read_all_data to $(PGUSER_READONLY);
                 alter role $(PGUSER_READONLY) BYPASSRLS;
@@ -91,7 +88,10 @@ spec:
           - name: SQITCH_TARGET
             value: "db:pg:"
           - name: PGUSER
-            value: {{ template "ccbc.fullname" . }}
+            valueFrom:
+              secretKeyRef:
+                key: user
+                name: ccbc-pguser-ccbc
           - name: PGPASSWORD
             valueFrom:
               secretKeyRef:
@@ -107,7 +107,7 @@ spec:
           - name: PGHOST
             valueFrom:
               secretKeyRef:
-                key: pgbouncer-host
+                key: host
                 name: ccbc-pguser-ccbc
           - name: NAMESPACE
             valueFrom:
@@ -131,28 +131,7 @@ spec:
             - |
               set -euox pipefail;
               sqitch deploy;
-        - name: init-cache-sync
-          image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}
-          resources:
-            requests:
-              cpu: 10m
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              BUILD_ID_NEXT=$(cat /root/.next/BUILD_ID)
-              if [ -d "/root/shared/${BUILD_ID_NEXT}" ]; then
-                  echo "Already exist cache ${BUILD_ID_NEXT}"
-                  exit 0
-              else
-                echo "Create cache for ${BUILD_ID_NEXT}"
-                rm -rf /root/shared/*
-                mkdir -p /root/shared/${BUILD_ID_NEXT}
-                cp -r /root/.next/* /root/shared/
-                exit 0
-              fi
-          volumeMounts:
-            - name: cache-volume
-              mountPath: /root/shared
+
 {{- if .Values.db.postMigrationCommand }}
         - env: {{ include "ccbc.postgresPgEnv" . | nindent 8 }}
           - name: SQITCH_TARGET
@@ -209,7 +188,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: client-secret
-                  name: {{ template "ccbc.fullname" . }}-sso-express
+                  name: ccbc-sso-express
             - name: AWS_S3_BUCKET
               value: {{ .Values.objectStorage.awsS3Bucket }}
             - name: AWS_CLAM_S3_BUCKET
@@ -256,22 +235,6 @@ spec:
                   name: ccbc-cron-sp-sso
             - name: SP_LIST_NAME
               value: {{ .Values.sharepoint.spListName }}
-            - name: CHES_API_URL
-              value: {{ .Values.ches.url }}
-            - name: CHES_CLIENT
-              valueFrom:
-                secretKeyRef:
-                  key: client
-                  name: ccbc-ches
-            - name: CHES_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  key: client-secret
-                  name: ccbc-ches
-            - name: CHES_TO_EMAIL
-              value: {{ .Values.ches.to }}
-            - name: CHES_KEYCLOAK_HOST
-              value: {{ .Values.ches.keycloakHost }}
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}
@@ -282,9 +245,6 @@ spec:
           ports:
             - containerPort: {{ .Values.app.port }}
               protocol: TCP
-          volumeMounts:
-            - name: cache-volume
-              mountPath: /root/.next
           readinessProbe:
             httpGet:
               path: /ready
@@ -308,8 +268,3 @@ spec:
             failureThreshold: 3
             successThreshold: 1
             timeoutSeconds: 5
-      volumes:
-        - name: cache-volume
-          persistentVolumeClaim:
-            claimName: cache-pvc
-{{- end }}

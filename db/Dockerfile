@@ -1,5 +1,5 @@
 # Docker build should be run from parent directory
-FROM registry.access.redhat.com/ubi9/s2i-base@sha256:4c62cca958f22690483b25da50ac46a6b5bb998e0019671f3460287a0003e51d
+FROM postgres:14-bookworm
 
 ENV SUMMARY="DB Schema for bcgov/CONN-CCBC-portal" \
   DESCRIPTION="Sqitch migrations for the accompanying app container image"
@@ -17,24 +17,14 @@ ENV USER_ID=1001
 ENV HOME=/opt/app-root/src
 WORKDIR ${HOME}
 
-RUN INSTALL_PKGS="postgresql.x86_64 perl-App-cpanminus.noarch" && \
-  yum -y update && \
-  yum -y install --setopt=tsflags=nodocs $INSTALL_PKGS && \
-  rpm -V $INSTALL_PKGS && \
-  yum -y clean all --enablerepo='*' && \
-  rm -rf /var/cache
+# Install required dependencies and sqitch
+RUN apt-get update \
+  && apt-get install -y sqitch libdbd-pg-perl \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY db/ ${HOME}
 COPY mocks_schema/ ${HOME}/mocks_schema
-
-# CPAN needs to install dependencies for all schemas, one directory up
-RUN cpanm --notest --local-lib ./extlib --installdeps .
-
-# CPAN can install scripts. They should be available from mod_perl too.
-ENV PATH="$PATH:$HOME/extlib/bin"
-# And we have to set Perl include path too because mod_perl's PerlSwitches
-# does not apply to them.
-ENV PERL5LIB=${HOME}/extlib/lib/perl5
 
 RUN chown -R ${USER_ID}:0 ${HOME} && chmod -R g+rwX ${HOME}
 

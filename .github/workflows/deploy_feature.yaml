@@ -1,0 +1,110 @@
+name: deploy
+
+on:
+  workflow_call:
+    secrets:
+      OPENSHIFT_SERVER: { required: true }
+      OPENSHIFT_TOKEN: { required: true }
+      OPENSHIFT_APP_NAMESPACE: { required: true }
+      OPENSHIFT_METABASE_NAMESPACE: { required: true }
+      OPENSHIFT_METABASE_PROD_NAMESPACE: { required: true }
+      NEXT_PUBLIC_GROWTHBOOK_API_KEY: { required: true }
+      CLIENT_SECRET: { required: true }
+      OPENSHIFT_SECURE_ROUTE: { required: true }
+      AWS_S3_BUCKET: { required: true }
+      AWS_S3_REGION: { required: true }
+      AWS_S3_KEY: { required: true }
+      AWS_S3_SECRET_KEY: { required: true }
+      AWS_CLAM_S3_BUCKET: { required: true }
+      AWS_ROLE_ARN: { required: true }
+      METABASE_SITE_URL: { required: true }
+      METABASE_EMBED_SECRET: { required: true }
+      SP_SA_USER: { required: true }
+      SP_SA_PASSWORD: { required: true }
+      SP_DOC_LIBRARY: { required: true }
+      SP_SITE: { required: true }
+      SP_MS_FILE_NAME: { required: true }
+      SA_CLIENT_SECRET: { required: true }
+      SA_CLIENT_ID: { required: true }
+      KEYCLOAK_HOST: { required: true }
+      SP_LIST_NAME: { required: true }
+      RENOVATE_GITHUB_TOKEN: { required: false }
+      RENOVATE_PRIVATE_KEY: { required: false }
+      CHES_API_URL: { required: true }
+      CHES_CLIENT: { required: true }
+      CHES_CLIENT_SECRET: { required: true }
+      CHES_TO_EMAIL: { required: true }
+      CHES_KEYCLOAK_HOST: { required: true }
+      TEST_PG_PASSWORD: { required: true }
+  pull_request:
+    branches: [main]
+    types: [ready_for_review]
+
+env:
+  TAG: sha-${{ github.sha }}
+  FEATURE_NAME: ${{ github.head_ref }}
+
+jobs:
+  setup-feature-database:
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Authenticate with OpenShift
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+      - name: Setup database
+        run: |
+          chmod +x ./lib/feature_envs/create_feature_db.sh
+          ./lib/feature_envs/create_feature_db.sh ccbc ${{ env.FEATURE_NAME }} ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+  deploy-feature-to-openshift-development:
+    needs: [setup-feature-database]
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy
+        uses: ./.github/actions/feature
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+          openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+          openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
+          openshift_metabase_prod_namespace: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
+          next_public_growthbook_api_key: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
+          tag: ${{ env.TAG }}
+          client_secret: ${{ secrets.CLIENT_SECRET }}
+          secure_route: ${{ env.FEATURE_NAME }}-ccbc.apps.silver.devops.gov.bc.ca
+          aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
+          aws_s3_region: ${{ secrets.AWS_S3_REGION }}
+          aws_s3_key: ${{ secrets.AWS_S3_KEY }}
+          aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
+          aws_clam_s3_bucket: ${{ secrets.AWS_CLAM_S3_BUCKET }}
+          aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
+          certbot_email: ${{ secrets.CERTBOT_EMAIL }}
+          certbot_server: ${{ secrets.CERTBOT_SERVER }}
+          metabase_site_url: ${{ secrets.METABASE_SITE_URL }}
+          metabase_embed_secret: ${{ secrets.METABASE_EMBED_SECRET }}
+          sp_sa_user: ${{ secrets.SP_SA_USER }}
+          sp_sa_password: ${{ secrets.SP_SA_PASSWORD }}
+          sp_doc_library: ${{ secrets.SP_DOC_LIBRARY }}
+          sp_site: ${{ secrets.SP_SITE }}
+          sp_ms_file_name: ${{ secrets.SP_MS_FILE_NAME }}
+          keycloak_host: ${{ secrets.KEYCLOAK_HOST }}
+          sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
+          sa_client_id: ${{ secrets.SA_CLIENT_ID }}
+          sp_list_name: ${{ secrets.SP_LIST_NAME }}
+          feature_name: ${{ env.FEATURE_NAME }}
+          ches_url: ${{ secrets.CHES_API_URL }}
+          ches_client: ${{ secrets.CHES_CLIENT }}
+          ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
+          ches_to: ${{ secrets.CHES_TO_EMAIL }}
+          ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
+          test_pg_password: ${{ secrets.TEST_PG_PASSWORD }}
+          environment: dev
