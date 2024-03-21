@@ -1,3 +1,15 @@
+# [1.148.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.147.0...v1.148.0) (2024-03-21)
+
+### Bug Fixes
+
+- trim analyst names ([cffe761](https://github.com/bcgov/CONN-CCBC-portal/commit/cffe761a0ebe90b78f82154e627da98c2c6f3034))
+- unassigned to empty label ([decba15](https://github.com/bcgov/CONN-CCBC-portal/commit/decba155413ea6191b9f394875acc5f43e7828d5))
+
+### Features
+
+- add legend to assesmsnt assignment table ([082726b](https://github.com/bcgov/CONN-CCBC-portal/commit/082726b0412a779cd272951b99e807e1f0de28db))
+- recator AssessmentLegend ([8740847](https://github.com/bcgov/CONN-CCBC-portal/commit/87408471710105f5009c6c584846ca5853098970))
+
 # [1.147.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.146.1...v1.147.0) (2024-03-18)
 
 ### Bug Fixes
