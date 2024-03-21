@@ -42,7 +42,7 @@ const StyledBtnContainer = styled.div`
   justify-content: left;
 `;
 
-const StyledList = styled.div` 
+const StyledList = styled.div`
   margin-left: 1.3em;
   line-height: 1.5em;
 `;
@@ -149,26 +149,30 @@ const GisTab = () => {
           handleDelete={() => setSelectedFile(null)}
           hideFailedUpload={false}
           value={selectedFile ? fileComponentValue : []}
+          allowDragAndDrop
         />
-        
+
         {error && <UploadError error={error} />}
         {hasUploadErrors && (
           <>
-            <br/>
+            <br />
             <div>
               {' '}
               <FontAwesomeIcon icon={faCircleXmark} color="#D8292F" /> Error
-              uploading JSON file 
+              uploading JSON file
             </div>
             <StyledList>
               {error.map((err, index) => {
-                const col = err?.posiition ? `and column ${err?.posiition}`:'';
+                const col = err?.posiition
+                  ? `and column ${err?.posiition}`
+                  : '';
                 return (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <div key={index}>{`Parsing error: ${err?.message} at line ${err?.line} ${col}`}</div>
+                  <div
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={index}
+                  >{`Parsing error: ${err?.message} at line ${err?.line} ${col}`}</div>
                 );
-              })}
-              {' '}
+              })}{' '}
               Please check your file and try again.
             </StyledList>
           </>
