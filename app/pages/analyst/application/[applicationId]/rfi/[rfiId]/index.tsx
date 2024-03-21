@@ -6,6 +6,7 @@ import Layout from 'components/Layout';
 import { AnalystLayout } from 'components/Analyst';
 import RfiForm from 'components/Analyst/RFI/RfiForm';
 import { RfiIdQuery } from '__generated__/RfiIdQuery.graphql';
+import GuideLink from 'components/Analyst/GuideLink';
 
 const getRfiIdQuery = graphql`
   query RfiIdQuery($rowId: Int!, $rfiId: Int!) {
@@ -29,6 +30,7 @@ const RfiId = ({
       <AnalystLayout query={query}>
         <h2>RFI</h2>
         <hr />
+        <GuideLink />
         <RfiForm rfiDataKey={rfiDataByRowId} />
       </AnalystLayout>
     </Layout>

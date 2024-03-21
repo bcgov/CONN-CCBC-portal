@@ -10,6 +10,7 @@ import {
   AssessmentsForm,
 } from 'components/Analyst/Assessments';
 import screening from 'formSchema/analyst/screening';
+import GuideLink from 'components/Analyst/GuideLink';
 
 // replace with slug later with tabs
 const getScreeningAssessmentQuery = graphql`
@@ -39,6 +40,7 @@ const ScreeningAssessment = ({
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <AssessmentsTabs />
+        <GuideLink />
         <AssessmentsForm
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={screening}

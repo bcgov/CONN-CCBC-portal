@@ -12,7 +12,6 @@ const StyledTableHead = styled('thead')`
 
 const StyledTh = styled('th')`
   padding: 12px;
-  border-top: 1px solid hsla(0, 0%, 0%, 0.12);
   font-weight: bold;
 `;
 

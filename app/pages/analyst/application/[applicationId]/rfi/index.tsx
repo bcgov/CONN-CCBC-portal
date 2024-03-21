@@ -7,6 +7,12 @@ import { ButtonLink, Layout } from 'components';
 import { AnalystLayout } from 'components/Analyst';
 import RFI from 'components/Analyst/RFI/RFI';
 import { rfiQuery } from '__generated__/rfiQuery.graphql';
+import GuideLink from 'components/Analyst/GuideLink';
+import styled from 'styled-components';
+
+const GuideContainer = styled.div`
+  padding-bottom: ${(props) => props.theme.spacing.small};
+`;
 
 const getRfiQuery = graphql`
   query rfiQuery($rowId: Int!) {
@@ -47,6 +53,9 @@ const RFIPage = ({
       <AnalystLayout query={query}>
         <h2>RFI</h2>
         <hr />
+        <GuideContainer>
+          <GuideLink />
+        </GuideContainer>
         <ButtonLink href={`/analyst/application/${applicationId}/rfi/0`}>
           New RFI
         </ButtonLink>

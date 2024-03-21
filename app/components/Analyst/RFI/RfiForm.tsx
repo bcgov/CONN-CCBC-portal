@@ -92,7 +92,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
 
   return (
     <div>
-      <StyledH4>{rfiFormData?.rfiNumber}</StyledH4>
+      {rfiFormData?.rfiNumber && <StyledH4>{rfiFormData?.rfiNumber}</StyledH4>}
       <FormBase
         theme={RfiTheme}
         schema={rfiSchema}
