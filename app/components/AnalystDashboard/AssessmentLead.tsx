@@ -88,8 +88,8 @@ const AssignLead: React.FC<Props> = ({
           return (
             <option
               key={analystName}
-              value={analyst.rowId}
-              selected={lead === analystName}
+              value={analystName}
+              selected={lead?.trim() === analystName.trim()}
               disabled={!analyst.active}
               hidden={!analyst.active}
             >
