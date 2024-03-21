@@ -79,7 +79,7 @@ const AssignLead: React.FC<Props> = ({
       style={{ backgroundColor, color, border, borderRadius }}
     >
       <option key="Unassigned" selected={!lead} value={null}>
-        Unassigned
+        {/* Empty Label */}
       </option>
       {analystList.map((analystKey) => {
         const analyst = allAnalysts[analystKey]?.node;
@@ -88,8 +88,8 @@ const AssignLead: React.FC<Props> = ({
           return (
             <option
               key={analystName}
-              value={analyst.rowId}
-              selected={lead === analystName}
+              value={analystName}
+              selected={lead?.trim() === analystName.trim()}
               disabled={!analyst.active}
               hidden={!analyst.active}
             >
