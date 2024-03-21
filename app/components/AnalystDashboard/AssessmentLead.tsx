@@ -44,7 +44,7 @@ const AssignLead: React.FC<Props> = ({
     });
   };
 
-  const lead = jsonData?.assignedTo;
+  const lead = jsonData?.assignedTo.trim();
 
   const analystList = Object.keys(allAnalysts);
 
@@ -83,7 +83,7 @@ const AssignLead: React.FC<Props> = ({
       </option>
       {analystList.map((analystKey) => {
         const analyst = allAnalysts[analystKey]?.node;
-        const analystName = `${analyst.givenName} ${analyst.familyName}`;
+        const analystName = `${analyst.givenName} ${analyst.familyName}`.trim();
         if (analyst.active || lead === analystName) {
           return (
             <option
