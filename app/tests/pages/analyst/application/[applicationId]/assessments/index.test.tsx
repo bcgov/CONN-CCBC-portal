@@ -5,6 +5,7 @@ import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledAssessmentsQuery, {
   assessmentsQuery,
 } from '__generated__/assessmentsQuery.graphql';
+import { CCBC_ASSESSMENT_RFI_INSTRUCTIONS } from 'data/externalConstants';
 
 const mockQueryPayload = {
   Query() {
@@ -84,6 +85,19 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByRole('heading', { name: 'Assessments' })).toBeVisible();
+  });
+
+  it('displays the guide', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const linkElement = screen.getByRole('link', { name: /Guide/ });
+
+    expect(linkElement).toBeVisible();
+    expect(linkElement).toHaveAttribute(
+      'href',
+      CCBC_ASSESSMENT_RFI_INSTRUCTIONS
+    );
   });
 
   it('displays the table headers', async () => {
