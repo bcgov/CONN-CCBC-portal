@@ -231,6 +231,26 @@ describe('The AssessmentAssignmentTable component', () => {
     });
   });
 
+  it('should render legend correctly', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getByText('Legend:')).toBeInTheDocument();
+
+    const legendStatuses = [
+      { status: 'Not started', backgroundColor: '#FFFFFF' },
+      { status: 'Assigned', backgroundColor: '#DBE6F0' },
+      { status: 'Need 2nd Review/Needs RFI', backgroundColor: '#F8E78F' },
+      { status: 'Assessment complete', backgroundColor: '#2E8540' },
+    ];
+    legendStatuses.forEach((type) => {
+      expect(screen.getByText(type.status)).toBeInTheDocument();
+      expect(screen.getByText(type.status)).toHaveStyle({
+        backgroundColor: type.backgroundColor,
+      });
+    });
+  });
+
   it('should render the correct row data', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
