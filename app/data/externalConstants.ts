@@ -6,3 +6,6 @@ export const INTAKE_3_AREAS_OF_INTEREST =
 
 export const CCBC_ASSESSMENT_RFI_INSTRUCTIONS =
   'https://bcgov.sharepoint.com/:w:/r/teams/00978-ConnectingCommunitiesProgram/Shared%20Documents/CCBC%20Program/0%20-%20Business%20Process%20Documentation/CCBC%20Assessment%20and%20RFI%20Instructions.docx?d=w2ef0e37b4bf6484abf9d78cdc6e4b4ec&csf=1&web=1&e=AngUhG';
+
+  export const CCBC_ELIGIBILITY_SCREENING_TEMPLATE =
+  'https://bcgov.sharepoint.com/:x:/r/teams/00978-ConnectingCommunitiesProgram/Shared%20Documents/CCBC%20Program/0%20FINAL%20PROGRAM%20DOCUMENTATION/3-Eligibility%20Screen/CCBC_Eligibility%20Screening%20Template.xlsm?d=w0565efb3e5614db49c6afc41fdf1bc9e&csf=1&web=1&e=W8iRrs';
