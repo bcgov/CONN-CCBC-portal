@@ -10,6 +10,7 @@ import {
 } from 'components/Analyst/Assessments';
 import technical from 'formSchema/analyst/technical';
 import { technicalAssessmentQuery } from '__generated__/technicalAssessmentQuery.graphql';
+import GuideLink from 'components/Analyst/GuideLink';
 
 const getTechnicalAssessmentQuery = graphql`
   query technicalAssessmentQuery($rowId: Int!) {
@@ -38,6 +39,7 @@ const TechnicalAssessment = ({
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <AssessmentsTabs />
+        <GuideLink />
         <AssessmentsForm
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={technical}

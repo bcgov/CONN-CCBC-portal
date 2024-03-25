@@ -6,6 +6,7 @@ import Layout from 'components/Layout';
 import { AnalystLayout } from 'components/Analyst';
 import AssessmentsTable from 'components/Analyst/Assessments/AssessmentsTable';
 import { assessmentsQuery } from '__generated__/assessmentsQuery.graphql';
+import GuideLink from 'components/Analyst/GuideLink';
 
 // replace with slug later with tabs
 const getAssessmentsQuery = graphql`
@@ -32,6 +33,8 @@ const Assessments = ({
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <h2>Assessments</h2>
+        <hr />
+        <GuideLink />
         <AssessmentsTable query={applicationByRowId} />
       </AnalystLayout>
     </Layout>
