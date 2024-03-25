@@ -19,7 +19,6 @@ import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
 import RowCount from 'components/Table/RowCount';
 import { Box, Paper } from '@mui/material';
 import ClearFilters from 'components/Table/ClearFilters';
-import type { AssessmentAssignmentTable_query$key } from '__generated__/AssessmentAssignmentTable_query.graphql';
 import AssessmentLegend from './AssessmentLegend';
 
 type Assessment = {
@@ -154,7 +153,7 @@ interface Props {
 }
 
 const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
-  const queryFragment = useFragment<AssessmentAssignmentTable_query$key>(
+  const queryFragment = useFragment(
     graphql`
       fragment AssessmentAssignmentTable_query on Query {
         allAnalysts(first: 1000, orderBy: GIVEN_NAME_ASC)
