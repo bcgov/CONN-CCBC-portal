@@ -61,8 +61,8 @@ const ScreeningAssessment = ({
         <StyledInfoBarDiv>
           <GuideLink />
           <StyledLink href={CCBC_ELIGIBILITY_SCREENING_TEMPLATE}>
-            <FontAwesomeIcon icon={faFileLines} /> GuideCCBC_Eligibility
-            Screening Template.xlsm
+            <FontAwesomeIcon icon={faFileLines} /> CCBC_Eligibility Screening
+            Template.xlsm
           </StyledLink>
         </StyledInfoBarDiv>
         <AssessmentsForm
