@@ -19,6 +19,7 @@ import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
 import RowCount from 'components/Table/RowCount';
 import { Box, Paper } from '@mui/material';
 import ClearFilters from 'components/Table/ClearFilters';
+import type { AssessmentAssignmentTable_query$key } from '__generated__/AssessmentAssignmentTable_query.graphql';
 import AssessmentLegend from './AssessmentLegend';
 
 type Assessment = {
@@ -99,6 +100,7 @@ const findAssessment = (assessments, assessmentType) => {
     rowId: data?.node.rowId,
     jsonData: data?.node?.jsonData,
     type: assessmentType,
+    id: data?.node?.id,
   };
 };
 
@@ -126,14 +128,17 @@ const StyledMRTToolBar = styled(Box)`
 
 const AssessmentCell = ({ cell }) => {
   const row = cell.row.original;
-  const { applicationId, allAnalysts } = row;
+  const { applicationId, allAnalysts, relayId } = row;
   const assessment = cell.getValue();
   return (
     <AssessmentLead
       allAnalysts={allAnalysts.edges}
       applicationId={applicationId}
+      applicationRelayId={relayId}
+      assessmentId={assessment.id}
       assessmentType={assessment.type}
       jsonData={assessment.jsonData}
+      connectionId={row.assessmentConnection}
     />
   );
 };
@@ -152,7 +157,7 @@ interface Props {
 }
 
 const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
-  const queryFragment = useFragment(
+  const queryFragment = useFragment<AssessmentAssignmentTable_query$key>(
     graphql`
       fragment AssessmentAssignmentTable_query on Query {
         allAnalysts(first: 1000, orderBy: GIVEN_NAME_ASC)
@@ -175,10 +180,12 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
           edges {
             node {
               allAssessments(filter: { archivedAt: { isNull: true } }) {
+                __id
                 edges {
                   node {
                     jsonData
                     assessmentDataType
+                    id
                     rowId
                   }
                 }
@@ -187,6 +194,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               analystStatus
               ccbcNumber
               rowId
+              id
               intakeNumber
               zones
               applicationSowDataByApplicationId(
@@ -335,7 +343,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
   const uniqueZones: string[] = [...new Set(allZones)].sort(
     (a, b) => Number(a) - Number(b)
   );
-
   const tableData = useMemo(
     () =>
       allApplications.edges
@@ -354,10 +361,12 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               organizationName,
               zones,
               rowId: applicationId,
+              id: relayId,
             } = application;
 
             return {
               applicationId,
+              relayId,
               intakeId: intakeNumber.toString(),
               ccbcNumber,
               zones,
@@ -387,6 +396,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
                 'financialRisk'
               ),
               organizationName,
+              assessmentConnection: application.allAssessments.__id,
             };
           }
           return null;

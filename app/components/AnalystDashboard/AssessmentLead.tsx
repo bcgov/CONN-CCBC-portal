@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import assessmentPillStyles from 'data/assessmentPillStyles';
-import { useCreateAssessmentMutation } from '../../schema/mutations/assessment/createAssessment';
+import { useCreateAssessmentUnderConnectionMutation } from 'schema/mutations/assessment/createAssessmentUnderConnection';
+import { ConnectionHandler } from 'relay-runtime';
+import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createAssessment';
 
 const StyledDropdown = styled.select`
   text-overflow: ellipsis;
@@ -16,13 +18,19 @@ interface Props {
   allAnalysts: any;
   applicationId: number;
   assessmentType: string;
+  assessmentId: string;
+  assessmentConnection: string;
   jsonData: any;
+  applicationRelayId: string;
 }
 
 const AssignLead: React.FC<Props> = ({
   allAnalysts,
   applicationId,
   assessmentType,
+  assessmentId,
+  applicationRelayId,
+  assessmentConnection,
   jsonData,
 }) => {
   const [createAssessment] = useCreateAssessmentMutation();
@@ -40,6 +48,28 @@ const AssignLead: React.FC<Props> = ({
           _jsonData: newJsonData,
           _applicationId: applicationId,
         },
+      },
+      updater: (store, data) => {
+        const connection = store.get(assessmentConnection);
+        if (connection) {
+          ConnectionHandler.deleteNode(connection, assessmentId);
+          ConnectionHandler.insertEdgeAfter(
+            connection,
+            store.get(data.createAssessmentForm.assessmentData.id)
+          );
+        }
+        // const newAssessment = store.get(
+        //   data.createAssessmentForm.assessmentData.id
+        // );
+        // const oldAssessment = store.get(assessmentId);
+
+        // oldAssessment.setValue(newAssessment.getValue('jsonData'), 'jsonData');
+        // oldAssessment.setValue(newAssessment.getValue('id'), 'id');
+        // oldAssessment.setValue(newAssessment.getValue('rowId'), 'rowId');
+        // oldAssessment.setValue(
+        //   newAssessment.getValue('createdAt'),
+        //   'createdAt'
+        // );
       },
     });
   };
