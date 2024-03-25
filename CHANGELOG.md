@@ -1,3 +1,9 @@
+# [1.149.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.148.0...v1.149.0) (2024-03-25)
+
+### Features
+
+- add assessment guides in portal ([1f9d281](https://github.com/bcgov/CONN-CCBC-portal/commit/1f9d281920aca9768d7371e08bb4d6073227171e))
+
 # [1.148.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.147.0...v1.148.0) (2024-03-21)
 
 ### Bug Fixes
