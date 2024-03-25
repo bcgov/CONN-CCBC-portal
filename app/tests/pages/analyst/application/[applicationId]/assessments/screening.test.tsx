@@ -131,7 +131,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     const linkElement = screen.getByRole('link', {
-      name: /GuideCCBC_Eligibility Screening Template/,
+      name: /CCBC_Eligibility Screening Template/,
     });
 
     expect(linkElement).toBeVisible();
