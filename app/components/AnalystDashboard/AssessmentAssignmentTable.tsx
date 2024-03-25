@@ -128,17 +128,14 @@ const StyledMRTToolBar = styled(Box)`
 
 const AssessmentCell = ({ cell }) => {
   const row = cell.row.original;
-  const { applicationId, allAnalysts, relayId } = row;
+  const { applicationId, allAnalysts } = row;
   const assessment = cell.getValue();
   return (
     <AssessmentLead
       allAnalysts={allAnalysts.edges}
       applicationId={applicationId}
-      applicationRelayId={relayId}
-      assessmentId={assessment.id}
       assessmentType={assessment.type}
       jsonData={assessment.jsonData}
-      connectionId={row.assessmentConnection}
     />
   );
 };
@@ -180,12 +177,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
           edges {
             node {
               allAssessments(filter: { archivedAt: { isNull: true } }) {
-                __id
                 edges {
                   node {
                     jsonData
                     assessmentDataType
-                    id
                     rowId
                   }
                 }
@@ -194,7 +189,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               analystStatus
               ccbcNumber
               rowId
-              id
               intakeNumber
               zones
               applicationSowDataByApplicationId(
@@ -361,12 +355,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               organizationName,
               zones,
               rowId: applicationId,
-              id: relayId,
             } = application;
 
             return {
               applicationId,
-              relayId,
               intakeId: intakeNumber.toString(),
               ccbcNumber,
               zones,
@@ -396,7 +388,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
                 'financialRisk'
               ),
               organizationName,
-              assessmentConnection: application.allAssessments.__id,
             };
           }
           return null;

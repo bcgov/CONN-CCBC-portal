@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import assessmentPillStyles from 'data/assessmentPillStyles';
-import { useCreateAssessmentUnderConnectionMutation } from 'schema/mutations/assessment/createAssessmentUnderConnection';
-import { ConnectionHandler } from 'relay-runtime';
 import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createAssessment';
+import { useEffect, useState } from 'react';
 
 const StyledDropdown = styled.select`
   text-overflow: ellipsis;
@@ -18,28 +17,29 @@ interface Props {
   allAnalysts: any;
   applicationId: number;
   assessmentType: string;
-  assessmentId: string;
-  assessmentConnection: string;
   jsonData: any;
-  applicationRelayId: string;
 }
 
 const AssignLead: React.FC<Props> = ({
   allAnalysts,
   applicationId,
   assessmentType,
-  assessmentId,
-  applicationRelayId,
-  assessmentConnection,
   jsonData,
 }) => {
   const [createAssessment] = useCreateAssessmentMutation();
+  const [leadState, setLeadState] = useState(null);
+
+  useEffect(() => {
+    setLeadState(jsonData?.assignedTo ?? null);
+  }, [jsonData]);
+
   const handleChange = (e) => {
     const analyst = e.target.value;
     const newJsonData = {
       ...jsonData,
       assignedTo: analyst,
     };
+    setLeadState(analyst);
 
     createAssessment({
       variables: {
@@ -49,32 +49,8 @@ const AssignLead: React.FC<Props> = ({
           _applicationId: applicationId,
         },
       },
-      updater: (store, data) => {
-        const connection = store.get(assessmentConnection);
-        if (connection) {
-          ConnectionHandler.deleteNode(connection, assessmentId);
-          ConnectionHandler.insertEdgeAfter(
-            connection,
-            store.get(data.createAssessmentForm.assessmentData.id)
-          );
-        }
-        // const newAssessment = store.get(
-        //   data.createAssessmentForm.assessmentData.id
-        // );
-        // const oldAssessment = store.get(assessmentId);
-
-        // oldAssessment.setValue(newAssessment.getValue('jsonData'), 'jsonData');
-        // oldAssessment.setValue(newAssessment.getValue('id'), 'id');
-        // oldAssessment.setValue(newAssessment.getValue('rowId'), 'rowId');
-        // oldAssessment.setValue(
-        //   newAssessment.getValue('createdAt'),
-        //   'createdAt'
-        // );
-      },
     });
   };
-
-  const lead = jsonData?.assignedTo;
 
   const analystList = Object.keys(allAnalysts);
 
@@ -89,7 +65,7 @@ const AssignLead: React.FC<Props> = ({
     color = assessmentPillStyles['Needs RFI'].primary;
     backgroundColor = assessmentPillStyles['Needs RFI'].backgroundColor;
     // Assigned
-  } else if ((jsonData?.nextStep === 'Not started' && lead) || lead) {
+  } else if ((jsonData?.nextStep === 'Not started' && leadState) || leadState) {
     backgroundColor = assessmentPillStyles.Assigned.backgroundColor;
     color = assessmentPillStyles.Assigned.primary;
   } else if (jsonData?.nextStep === 'Needs 2nd review') {
@@ -108,18 +84,18 @@ const AssignLead: React.FC<Props> = ({
       onChange={handleChange}
       style={{ backgroundColor, color, border, borderRadius }}
     >
-      <option key="Unassigned" selected={!lead} value={null}>
+      <option key="Unassigned" selected={!leadState} value={null}>
         {/* Empty Label */}
       </option>
       {analystList.map((analystKey) => {
         const analyst = allAnalysts[analystKey]?.node;
         const analystName = `${analyst.givenName} ${analyst.familyName}`;
-        if (analyst.active || lead === analystName) {
+        if (analyst.active || leadState === analystName) {
           return (
             <option
               key={analystName}
               value={analystName}
-              selected={lead?.trim() === analystName.trim()}
+              selected={leadState?.trim() === analystName.trim()}
               disabled={!analyst.active}
               hidden={!analyst.active}
             >
