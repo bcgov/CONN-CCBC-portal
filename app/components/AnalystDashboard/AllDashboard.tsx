@@ -23,7 +23,7 @@ import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
 import { TableCellProps } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
-import { filterZones } from './AssessmentAssignmentTable';
+import { filterZones, sortZones } from './AssessmentAssignmentTable';
 
 type Application = {
   ccbcNumber: string;
@@ -430,6 +430,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         filterVariant: 'select',
         filterSelectOptions: uniqueZones,
         filterFn: filterZones,
+        sortingFn: sortZones,
       },
       {
         accessorKey: 'analystStatus',
