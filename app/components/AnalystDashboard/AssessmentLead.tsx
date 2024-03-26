@@ -34,7 +34,7 @@ const AssignLead: React.FC<Props> = ({
   }, [jsonData]);
 
   const handleChange = (e) => {
-    const analyst = e.target.value;
+    const analyst = e.target.value === '' ? null : e.target.value;
     const newJsonData = {
       ...jsonData,
       assignedTo: analyst,
