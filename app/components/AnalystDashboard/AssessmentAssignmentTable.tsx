@@ -72,7 +72,6 @@ export const filterZones = (row, id, filterValue) => {
 export const sortZones = (rowA, rowB, columnId) => {
   const valueA = rowA.getValue(columnId) as Array<string>;
   const valueB = rowB.getValue(columnId) as Array<string>;
-  console.log(valueA, valueB);
   return (
     parseInt(valueA[valueA.length - 1], 10) -
     parseInt(valueB[valueB.length - 1], 10)
