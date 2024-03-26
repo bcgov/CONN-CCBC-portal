@@ -66,7 +66,16 @@ export const filterZones = (row, id, filterValue) => {
     return false;
   }
 
-  return zones.some((zone) => zone === filterValue);
+  return zones.some((zone) => parseInt(zone, 10) === parseInt(filterValue, 10));
+};
+
+export const sortZones = (rowA, rowB, columnId) => {
+  const valueA = rowA.getValue(columnId) as Array<string>;
+  const valueB = rowB.getValue(columnId) as Array<string>;
+  return (
+    parseInt(valueA[valueA.length - 1], 10) -
+    parseInt(valueB[valueB.length - 1], 10)
+  );
 };
 
 export const sortAnalysts = (rowA, rowB, columnId) => {
@@ -426,6 +435,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         filterVariant: 'select',
         filterSelectOptions: uniqueZones,
         filterFn: filterZones,
+        sortingFn: sortZones,
       },
       {
         ...sharedAssessmentCell,
