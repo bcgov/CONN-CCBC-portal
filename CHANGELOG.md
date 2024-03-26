@@ -1,3 +1,14 @@
+# [1.149.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.148.0...v1.149.0) (2024-03-26)
+
+### Bug Fixes
+
+- remove extra words ([ebe983a](https://github.com/bcgov/CONN-CCBC-portal/commit/ebe983a5921c83c73c7967e2743d48db12fa893e))
+
+### Features
+
+- add assessment guides in portal ([1f9d281](https://github.com/bcgov/CONN-CCBC-portal/commit/1f9d281920aca9768d7371e08bb4d6073227171e))
+- add screening template link ([10b8fcf](https://github.com/bcgov/CONN-CCBC-portal/commit/10b8fcff15e798ae7248c7bb12fc3904f1e328f5))
+
 # [1.148.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.147.0...v1.148.0) (2024-03-21)
 
 ### Bug Fixes
