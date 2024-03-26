@@ -30,7 +30,7 @@ const AssignLead: React.FC<Props> = ({
   const [leadState, setLeadState] = useState(null);
 
   useEffect(() => {
-    setLeadState(jsonData?.assignedTo ?? null);
+    setLeadState(jsonData?.assignedTo === '' ? null : jsonData?.assignedTo);
   }, [jsonData]);
 
   const handleChange = (e) => {
