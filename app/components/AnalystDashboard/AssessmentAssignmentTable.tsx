@@ -408,9 +408,9 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     // Sonarcloud duplicate lines
     const sharedAssessmentCell = {
       Cell: AssessmentCell,
-      filterSelectOptions: Object.values(allAnalysts.edges).map(
-        ({ node }) => `${node.givenName} ${node.familyName}`
-      ),
+      filterSelectOptions: Object.values(allAnalysts.edges)
+        .filter(({ node }) => node.active)
+        .map(({ node }) => `${node.givenName} ${node.familyName}`),
       sortingFn: 'sortAnalysts',
       filterFn: 'filterAnalysts',
     };
