@@ -11,6 +11,24 @@ import {
 } from 'components/Analyst/Assessments';
 import screening from 'formSchema/analyst/screening';
 import GuideLink from 'components/Analyst/GuideLink';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileLines } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
+import Link from 'next/link';
+import { CCBC_ELIGIBILITY_SCREENING_TEMPLATE } from 'data/externalConstants';
+
+const StyledInfoBarDiv = styled.div`
+  display: flex;
+  gap: ${(props) => props.theme.spacing.medium};
+`;
+
+const StyledLink = styled(Link)`
+  color: ${(props) => props.theme.color.links};
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 // replace with slug later with tabs
 const getScreeningAssessmentQuery = graphql`
@@ -40,7 +58,13 @@ const ScreeningAssessment = ({
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <AssessmentsTabs />
-        <GuideLink />
+        <StyledInfoBarDiv>
+          <GuideLink />
+          <StyledLink href={CCBC_ELIGIBILITY_SCREENING_TEMPLATE}>
+            <FontAwesomeIcon icon={faFileLines} /> CCBC_Eligibility Screening
+            Template.xlsm
+          </StyledLink>
+        </StyledInfoBarDiv>
         <AssessmentsForm
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={screening}

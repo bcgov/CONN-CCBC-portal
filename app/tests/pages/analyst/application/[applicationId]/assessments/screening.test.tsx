@@ -6,6 +6,7 @@ import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledScreeningAssessmentsQuery, {
   screeningAssessmentQuery,
 } from '__generated__/screeningAssessmentQuery.graphql';
+import { CCBC_ELIGIBILITY_SCREENING_TEMPLATE } from 'data/externalConstants';
 import sharedAssessmentTests from './shared-assessments';
 
 const mockQueryPayload = {
@@ -123,6 +124,21 @@ describe('The index page', () => {
     expect(technical).toHaveStyle('font-weight: 400;');
     expect(financialRisk).toHaveStyle('font-weight: 400;');
     expect(projectManagement).toHaveStyle('font-weight: 400;');
+  });
+
+  it('displays the template link', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const linkElement = screen.getByRole('link', {
+      name: /CCBC_Eligibility Screening Template/,
+    });
+
+    expect(linkElement).toBeVisible();
+    expect(linkElement).toHaveAttribute(
+      'href',
+      CCBC_ELIGIBILITY_SCREENING_TEMPLATE
+    );
   });
 
   it('Displays the form', async () => {
