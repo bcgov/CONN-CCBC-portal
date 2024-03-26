@@ -11,3 +11,4 @@ k6Results/
 k6files/
 app/script/
 app/cypress/support/commands.js.bak
+Infrastructure/responsiveness_lambda/venv
