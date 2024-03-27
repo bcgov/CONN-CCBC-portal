@@ -99,6 +99,7 @@ const findAssessment = (assessments, assessmentType) => {
     rowId: data?.node.rowId,
     jsonData: data?.node?.jsonData,
     type: assessmentType,
+    id: data?.node?.id,
   };
 };
 
@@ -335,7 +336,6 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
   const uniqueZones: string[] = [...new Set(allZones)].sort(
     (a, b) => Number(a) - Number(b)
   );
-
   const tableData = useMemo(
     () =>
       allApplications.edges

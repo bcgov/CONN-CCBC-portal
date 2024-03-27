@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import assessmentPillStyles from 'data/assessmentPillStyles';
-import { useCreateAssessmentMutation } from '../../schema/mutations/assessment/createAssessment';
+import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createAssessment';
+import { useEffect, useState } from 'react';
 
 const StyledDropdown = styled.select`
   text-overflow: ellipsis;
@@ -26,12 +27,23 @@ const AssignLead: React.FC<Props> = ({
   jsonData,
 }) => {
   const [createAssessment] = useCreateAssessmentMutation();
+  const [leadState, setLeadState] = useState(null);
+
+  useEffect(() => {
+    setLeadState(
+      jsonData?.assignedTo === '' || jsonData?.assignedTo === 'Unassigned'
+        ? null
+        : jsonData?.assignedTo
+    );
+  }, [jsonData]);
+
   const handleChange = (e) => {
-    const analyst = e.target.value;
+    const analyst = e.target.value === '' ? null : e.target.value;
     const newJsonData = {
       ...jsonData,
       assignedTo: analyst,
     };
+    setLeadState(analyst);
 
     createAssessment({
       variables: {
@@ -43,8 +55,6 @@ const AssignLead: React.FC<Props> = ({
       },
     });
   };
-
-  const lead = jsonData?.assignedTo;
 
   const analystList = Object.keys(allAnalysts);
 
@@ -59,7 +69,7 @@ const AssignLead: React.FC<Props> = ({
     color = assessmentPillStyles['Needs RFI'].primary;
     backgroundColor = assessmentPillStyles['Needs RFI'].backgroundColor;
     // Assigned
-  } else if ((jsonData?.nextStep === 'Not started' && lead) || lead) {
+  } else if ((jsonData?.nextStep === 'Not started' && leadState) || leadState) {
     backgroundColor = assessmentPillStyles.Assigned.backgroundColor;
     color = assessmentPillStyles.Assigned.primary;
   } else if (jsonData?.nextStep === 'Needs 2nd review') {
@@ -78,18 +88,18 @@ const AssignLead: React.FC<Props> = ({
       onChange={handleChange}
       style={{ backgroundColor, color, border, borderRadius }}
     >
-      <option key="Unassigned" selected={!lead} value={null}>
+      <option key="Unassigned" selected={!leadState} value={null}>
         {/* Empty Label */}
       </option>
       {analystList.map((analystKey) => {
         const analyst = allAnalysts[analystKey]?.node;
         const analystName = `${analyst.givenName} ${analyst.familyName}`;
-        if (analyst.active || lead === analystName) {
+        if (analyst.active || leadState === analystName) {
           return (
             <option
               key={analystName}
               value={analystName}
-              selected={lead?.trim() === analystName.trim()}
+              selected={leadState?.trim() === analystName.trim()}
               disabled={!analyst.active}
               hidden={!analyst.active}
             >
