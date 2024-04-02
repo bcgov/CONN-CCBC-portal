@@ -18005,9 +18005,6 @@ input AnalystFilter {
   """Filter by the object’s `familyName` field."""
   familyName: StringFilter
 
-  """Filter by the object’s `email` field."""
-  email: String
-
   """Filter by the object’s `createdBy` field."""
   createdBy: IntFilter
 
@@ -35163,9 +35160,6 @@ input AnalystCondition {
 
   """Checks for equality with the object’s `familyName` field."""
   familyName: String
-
-  """Checks for equality with the object’s `email` field."""
-  email: String
 
   """Checks for equality with the object’s `createdBy` field."""
   createdBy: Int
@@ -58699,9 +58693,6 @@ input HistoryItemCondition {
 
   """Checks for equality with the object’s `givenName` field."""
   givenName: String
-
-  """Checks for equality with the object’s `email` field."""
-  email: String
 
   """Checks for equality with the object’s `sessionSub` field."""
   sessionSub: String
