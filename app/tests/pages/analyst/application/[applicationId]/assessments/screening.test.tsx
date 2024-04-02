@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ScreeningAssessment from 'pages/analyst/application/[applicationId]/assessments/screening';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
@@ -171,6 +171,48 @@ describe('The index page', () => {
         _assessmentType: 'screening',
       },
     });
+  });
+
+  it('Trigger email only when Next Step is Needs 2nd Review once save successful', async () => {
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn() });
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    await userEvent.click(screen.getByLabelText('Needs 2nd review'));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+    pageTestingHelper.expectMutationToBeCalled('createAssessmentMutation', {
+      input: {
+        _applicationId: 1,
+        _jsonData: {
+          nextStep: 'Needs 2nd review',
+          decision: 'No decision',
+          contestingMap: [],
+        },
+        _assessmentType: 'screening',
+      },
+    });
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAssessmentForm: {
+            assessmentData: {
+              id: 'WyJhc3Nlc3NtZW50X2RhdGEiLDIxXQ==',
+              rowId: 1,
+              jsonData: {
+                nextStep: 'Needs 2nd review',
+                decision: 'No decision',
+                contestingMap: [],
+              },
+            },
+          },
+        },
+      });
+    });
+
+    expect(global.fetch).toHaveBeenCalled();
   });
 
   it('Displays unavailable Assigned To value for lead', () => {
