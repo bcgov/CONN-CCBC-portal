@@ -1,16 +1,28 @@
 import { mocked } from 'jest-mock';
 import getAuthRole from 'utils/getAuthRole';
-import handleEmailNotification from 'backend/lib/emails/handleEmailNotification';
+import {
+  handleEmailNotification,
+  getEmailRecipients,
+} from 'backend/lib/emails/handleEmailNotification';
 import getAuthUser from 'utils/getAuthUser';
 import sendEmail from 'backend/lib/ches/sendEmail';
 import agreementSignedStatusChange from 'backend/lib/emails/templates/agreementSignedStatusChange';
 import getAccessToken from 'backend/lib/ches/getAccessToken';
+import getConfig from 'next/config';
+import config from '../../../../config';
+import { performQuery } from '../../../../backend/lib/graphql';
 
 jest.mock('utils/getAuthRole');
 jest.mock('utils/getAuthUser');
 jest.mock('backend/lib/ches/sendEmail');
 jest.mock('backend/lib/ches/getAccessToken');
 jest.mock('backend/lib/emails/templates/agreementSignedStatusChange');
+jest.mock('../../../../config');
+jest.mock('next/config');
+
+jest.mock('../../../../backend/lib/graphql', () => ({
+  performQuery: jest.fn(),
+}));
 
 const req = {
   body: { applicationId: '1', host: 'http://mock_host.ca' },
@@ -34,11 +46,24 @@ describe('The Email', () => {
     });
 
     mocked(agreementSignedStatusChange).mockReturnValue({
-      emailTo: ['test_to@gov.mail.ca'],
-      emailCC: ['test_cc@gov.mail.ca'],
+      emailTo: [],
+      emailCC: [],
       tag: 'test-tag',
       subject: 'Mock Subject',
       body: 'Mock email body',
+    });
+
+    mocked(config.get).mockImplementation((name: any) => {
+      const mockConfig = {
+        CHES_TO_EMAIL: 'test@mail.com',
+      };
+      return mockConfig[name] as any;
+    });
+
+    mocked(getConfig).mockReturnValue({
+      publicRuntimeConfig: {
+        OPENSHIFT_APP_NAMESPACE: 'environment-dev',
+      },
     });
   });
 
@@ -75,9 +100,9 @@ describe('The Email', () => {
       'test_token',
       'Mock email body',
       'Mock Subject',
-      ['test_to@gov.mail.ca'],
+      ['test@mail.com'],
       'test-tag',
-      ['test_cc@gov.mail.ca']
+      ['test@mail.com']
     );
   });
 
@@ -113,5 +138,27 @@ describe('The Email', () => {
     await handleEmailNotification(req, res, agreementSignedStatusChange, {});
 
     expect(res.status).toHaveBeenCalledWith(400);
+  });
+
+  it('should return default email if in a non-prod environment', async () => {
+    const emailRecipient = await getEmailRecipients([1], req);
+
+    expect(emailRecipient).toEqual(['test@mail.com']);
+  });
+
+  it('should return analyst email if in a prod environment', async () => {
+    mocked(getConfig).mockReturnValue({
+      publicRuntimeConfig: {
+        OPENSHIFT_APP_NAMESPACE: 'environment-prod',
+      },
+    });
+    mocked(performQuery).mockResolvedValueOnce({
+      data: {
+        allAnalysts: { edges: [{ node: { email: 'test_analyst@mail.com' } }] },
+      },
+    });
+    const emailRecipient = await getEmailRecipients([1], req);
+
+    expect(emailRecipient).toEqual(['test_analyst@mail.com']);
   });
 });

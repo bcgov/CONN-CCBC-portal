@@ -1,18 +1,7 @@
 import agreementSignedStatusChange from 'backend/lib/emails/templates/agreementSignedStatusChange';
-import { mocked } from 'jest-mock';
-import config from '../../../../../config';
-
-jest.mock('../../../../../config');
 
 describe('agreementSignedStatusChange template', () => {
   it('should return an email template with correct properties', () => {
-    mocked(config.get).mockImplementation((name: any) => {
-      const mockConfig = {
-        CHES_TO_EMAIL: 'test@mail.com',
-      };
-      return mockConfig[name] as any;
-    });
-
     const applicationId = '1';
     const url = 'http://mock_host.ca';
 
@@ -20,7 +9,7 @@ describe('agreementSignedStatusChange template', () => {
 
     expect(emailTemplate).toEqual(
       expect.objectContaining({
-        emailTo: ['test@mail.com'],
+        emailTo: [],
         emailCC: [],
         tag: 'agreement-signed-status-change',
         subject: 'Task assigned to you: Upload Funding Agreement',
