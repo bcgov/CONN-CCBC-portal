@@ -70,7 +70,8 @@ const AssessmentsForm: React.FC<Props> = ({
           setIsFormSaved(true);
           if (
             slug === 'screening' &&
-            e.formData?.nextStep === 'Needs 2nd review'
+            e.formData?.nextStep === 'Needs 2nd review' &&
+            e.formData?.nextStep !== formData?.nextStep
           ) {
             fetch('/api/email/notifySecondReviewRequest', {
               method: 'POST',
