@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import handleEmailNotification from './handleEmailNotification';
 import agreementSignedStatusChange from './templates/agreementSignedStatusChange';
 import assesmentSecondReviewChange from './templates/assesmentSecondReviewChange';
+import { handleEmailNotification } from './handleEmailNotification';
 
 const email = Router();
 

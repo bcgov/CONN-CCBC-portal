@@ -1,4 +1,3 @@
-import config from '../../../../config';
 import { EmailTemplate } from '../handleEmailNotification';
 
 const assesmentSecondReviewChange = (
@@ -9,7 +8,7 @@ const assesmentSecondReviewChange = (
 ): EmailTemplate => {
   const { ccbcNumber } = params;
   return {
-    emailTo: config.get('CHES_TO_EMAIL_SECOND_REVIEW')?.split(','),
+    emailTo: [],
     emailCC: [],
     tag: 'assesment-second-review-change',
     subject: `${initiator} requested a 2nd Review for Eligibility Screening - ${ccbcNumber}`,

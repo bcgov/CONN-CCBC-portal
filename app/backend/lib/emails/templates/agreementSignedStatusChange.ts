@@ -1,12 +1,11 @@
 import { EmailTemplate } from '../handleEmailNotification';
-import config from '../../../../config';
 
 const agreementSignedStatusChange = (
   applicationId: string,
   url: string
 ): EmailTemplate => {
   return {
-    emailTo: [config.get('CHES_TO_EMAIL')],
+    emailTo: [],
     emailCC: [],
     tag: 'agreement-signed-status-change',
     subject: 'Task assigned to you: Upload Funding Agreement',
