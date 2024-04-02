@@ -269,6 +269,8 @@ spec:
                   name: ccbc-ches
             - name: CHES_TO_EMAIL
               value: {{ .Values.ches.to }}
+            - name: CHES_TO_EMAIL_SECOND_REVIEW
+              value: {{ .Values.ches.toSecondReview }}
             - name: CHES_KEYCLOAK_HOST
               value: {{ .Values.ches.keycloakHost }}
           resources:

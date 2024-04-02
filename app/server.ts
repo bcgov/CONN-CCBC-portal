@@ -10,7 +10,7 @@ import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import morgan from 'morgan';
-import email from './backend/lib/email';
+import email from './backend/lib/emails/email';
 import linkPreview from './backend/lib/linkPreview';
 import readinessTest from './backend/lib/readinessTests';
 import { pgPool } from './backend/lib/setup-pg';

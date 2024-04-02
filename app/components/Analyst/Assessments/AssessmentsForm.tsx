@@ -8,6 +8,7 @@ import LoadingSpinner from 'components/LoadingSpinner';
 import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createAssessment';
 import assessmentsUiSchema from 'formSchema/uiSchema/analyst/assessmentsUiSchema';
 import { RJSFSchema } from '@rjsf/utils';
+import * as Sentry from '@sentry/nextjs';
 
 interface Props {
   addedContext?: any;
@@ -67,6 +68,30 @@ const AssessmentsForm: React.FC<Props> = ({
         },
         onCompleted: () => {
           setIsFormSaved(true);
+          if (
+            slug === 'screening' &&
+            e.formData?.nextStep === 'Needs 2nd review'
+          ) {
+            fetch('/api/email/notifySecondReviewRequest', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                applicationId: queryFragment.rowId,
+                host: window.location.origin,
+                ccbcNumber: addedContext?.ccbcNumber,
+              }),
+            }).then((response) => {
+              if (!response.ok) {
+                Sentry.captureException({
+                  name: 'Email sending failed',
+                  message: response,
+                });
+              }
+              return response.json();
+            });
+          }
         },
         optimisticResponse: {
           jsonData: e.formData,
