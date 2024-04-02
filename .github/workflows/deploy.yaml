@@ -42,6 +42,7 @@ on:
       CHES_CLIENT: { required: true }
       CHES_CLIENT_SECRET: { required: true }
       CHES_TO_EMAIL: { required: true }
+      CHES_TO_EMAIL_SECOND_REVIEW: { required: true }
       CHES_KEYCLOAK_HOST: { required: true }
       AWS_S3_BACKUPS_BUCKET: { required: true }
 
@@ -110,6 +111,7 @@ jobs:
           ches_client: ${{ secrets.CHES_CLIENT }}
           ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
           ches_to: ${{ secrets.CHES_TO_EMAIL }}
+          ches_to_second_review: ${{ secrets.CHES_TO_EMAIL_SECOND_REVIEW }}
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           pgbackrest_s3_key: ${{ secrets.AWS_CCBC_IAM_USER_KEY }}
           pgbackrest_s3_key_secret: ${{ secrets.AWS_CCBC_IAM_USER_KEY_SECRET }}
@@ -177,6 +179,7 @@ jobs:
           ches_client: ${{ secrets.CHES_CLIENT }}
           ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
           ches_to: ${{ secrets.CHES_TO_EMAIL }}
+          ches_to_second_review: ${{ secrets.CHES_TO_EMAIL_SECOND_REVIEW }}
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           pgbackrest_s3_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
           environment: test
@@ -233,6 +236,7 @@ jobs:
           ches_client: ${{ secrets.CHES_CLIENT }}
           ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
           ches_to: ${{ secrets.CHES_TO_EMAIL }}
+          ches_to_second_review: ${{ secrets.CHES_TO_EMAIL_SECOND_REVIEW }}
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           pgbackrest_s3_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
           environment: prod

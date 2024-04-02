@@ -2,26 +2,27 @@ import * as Sentry from '@sentry/nextjs';
 import config from '../../../config';
 
 const CHES_API_URL = config.get('CHES_API_URL');
+const CHES_TO_EMAIL = config.get('CHES_TO_EMAIL');
 
 const sendEmail = async (
   token: string,
   body: string,
   subject: string,
-  emailTo: string,
+  emailTo: string[],
   tag: string,
-  emailCC: string | null = null
+  emailCC: string[] = []
 ) => {
   try {
     const request = {
       bodyType: 'html',
       body,
-      cc: emailCC ? [emailCC] : [],
+      cc: [...emailCC, CHES_TO_EMAIL],
       delayTs: 0,
       encoding: 'utf-8',
       from: 'CCBC Portal <noreply-ccbc-portal@gov.bc.ca>',
       priority: 'normal',
       subject,
-      to: [emailTo],
+      to: emailTo,
       tag: `ccbc-portal-email-${tag}`,
       attachments: [],
     };

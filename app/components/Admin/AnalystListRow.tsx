@@ -16,7 +16,7 @@ interface Props {
 }
 
 const AnalystListRow: React.FC<Props> = ({ analyst, updateAnalyst }) => {
-  const { active, familyName, givenName, id } = analyst;
+  const { active, familyName, givenName, id, email } = analyst;
   const analystName = `${givenName} ${familyName}`;
 
   const [checked, setChecked] = useState(active);
@@ -40,6 +40,7 @@ const AnalystListRow: React.FC<Props> = ({ analyst, updateAnalyst }) => {
   return (
     <tr key={analystName}>
       <StyledTd>{analystName}</StyledTd>
+      <StyledTd>{email}</StyledTd>
       <StyledTd>
         <StyledContainer>
           <Checkbox

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import Input from '@button-inc/bcgov-theme/Input';
 import { useCreateAnalystMutation } from 'schema/mutations/analyst/createAnalyst';
+import { InputLabel } from '@mui/material';
 
 interface Props {
   relayConnectionId: string;
@@ -28,7 +29,8 @@ const StyledInputs = styled.div`
   display: flex;
   margin-bottom: 16px;
 
-  & div:first-child {
+  & div:first-child,
+  & div:nth-child(2) {
     margin-right: 16px;
   }
 `;
@@ -51,6 +53,7 @@ const AddAnalyst: React.FC<Props> = ({ relayConnectionId }) => {
   const [showInputs, setShowInputs] = useState(false);
   const [familyName, setFamilyName] = useState('');
   const [givenName, setGivenName] = useState('');
+  const [email, setEmail] = useState('');
   const [createAnalyst] = useCreateAnalystMutation();
 
   const handleSubmit = (e) => {
@@ -59,7 +62,7 @@ const AddAnalyst: React.FC<Props> = ({ relayConnectionId }) => {
       createAnalyst({
         variables: {
           connections: [relayConnectionId],
-          input: { analyst: { familyName, givenName } },
+          input: { analyst: { familyName, givenName, email } },
         },
         onCompleted: () => {
           setShowInputs(false);
@@ -75,18 +78,33 @@ const AddAnalyst: React.FC<Props> = ({ relayConnectionId }) => {
       <StyledTransition show={showInputs}>
         <h4>New analyst</h4>
         <StyledInputs>
-          <Input
-            name="givenName"
-            type="text"
-            value={givenName}
-            onChange={(e) => setGivenName(e.target.value)}
-          />
-          <Input
-            name="familyName"
-            type="text"
-            value={familyName}
-            onChange={(e) => setFamilyName(e.target.value)}
-          />
+          <div>
+            <InputLabel htmlFor="givenName">Given Name</InputLabel>
+            <Input
+              name="givenName"
+              type="text"
+              value={givenName}
+              onChange={(e) => setGivenName(e.target.value)}
+            />
+          </div>
+          <div>
+            <InputLabel htmlFor="familyName">Family Name</InputLabel>
+            <Input
+              name="familyName"
+              type="text"
+              value={familyName}
+              onChange={(e) => setFamilyName(e.target.value)}
+            />
+          </div>
+          <div>
+            <InputLabel htmlFor="email">Email</InputLabel>
+            <Input
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
         </StyledInputs>
       </StyledTransition>
       <StyledButtons>
