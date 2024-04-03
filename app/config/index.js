@@ -302,12 +302,6 @@ const config = convict({
     default: '',
     env: 'CHES_TO_EMAIL',
   },
-  CHES_TO_EMAIL_SECOND_REVIEW: {
-    doc: 'CHES temporary to email for second review',
-    format: String,
-    default: '',
-    env: 'CHES_TO_EMAIL_SECOND_REVIEW',
-  },
   CHES_KEYCLOAK_HOST: {
     doc: 'Keycloak host for CHES',
     format: String,
