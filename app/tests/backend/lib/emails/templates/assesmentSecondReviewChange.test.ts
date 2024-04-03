@@ -16,7 +16,7 @@ describe('assesmentSecondReviewChange template', () => {
 
     expect(emailTemplate).toEqual(
       expect.objectContaining({
-        emailTo: [],
+        emailTo: [34, 71],
         emailCC: [],
         tag: 'assesment-second-review-change',
         subject: `${initiator} requested a 2nd Review for Eligibility Screening - ABC`,
