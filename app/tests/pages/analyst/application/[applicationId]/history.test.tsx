@@ -402,7 +402,12 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 13,
-                json_data: { assignedTo: 'TestNameHopefullyUnique' },
+                json_data: {
+                  assignedTo: 'TestNameHopefullyUnique',
+                  otherFiles: [
+                    { name: 'FileNameThatIsAlsoUniqueToScreening.xlsx' },
+                  ],
+                },
                 created_at: '2023-03-03T09:50:51.15027-08:00',
                 created_by: 2,
                 updated_at: '2023-03-03T09:50:51.15027-08:00',
@@ -2908,6 +2913,9 @@ describe('The index page', () => {
 
     expect(screen.getByText('TestNameHopefullyUnique')).toBeInTheDocument();
     expect(screen.getByText('Assigned To')).toBeInTheDocument();
+    expect(
+      screen.getByText('FileNameThatIsAlsoUniqueToScreening.xlsx')
+    ).toBeInTheDocument();
 
     expect(
       screen.getAllByTestId('history-content-assessment')[5]
