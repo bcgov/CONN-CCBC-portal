@@ -1,3 +1,14 @@
+# [1.150.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.149.0...v1.150.0) (2024-04-03)
+
+### Bug Fixes
+
+- add check for null values with empty option ([397c442](https://github.com/bcgov/CONN-CCBC-portal/commit/397c442e2d5fc7e6969b48dbd14a81ad94a521e2))
+- empty string check on load ([d7fa847](https://github.com/bcgov/CONN-CCBC-portal/commit/d7fa847ed9049e90f75d6f38bacd0400f4942ee1))
+
+### Features
+
+- real time color change when assigning analyst ([08f7c1a](https://github.com/bcgov/CONN-CCBC-portal/commit/08f7c1a0341dd7e6dea88fcaf084179179f50472))
+
 # [1.149.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.148.0...v1.149.0) (2024-03-26)
 
 ### Bug Fixes
