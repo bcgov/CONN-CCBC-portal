@@ -287,7 +287,7 @@ describe('The AssessmentAssignmentTable component', () => {
         input: {
           _assessmentType: 'screening',
           _jsonData: {
-            assignedTo: '',
+            assignedTo: null,
           },
           _applicationId: 1,
         },
