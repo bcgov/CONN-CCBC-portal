@@ -8,7 +8,7 @@ const assesmentSecondReviewChange = (
 ): EmailTemplate => {
   const { ccbcNumber } = params;
   return {
-    emailTo: [],
+    emailTo: [34, 71], // Temporary IDs to handle email recipients
     emailCC: [],
     tag: 'assesment-second-review-change',
     subject: `${initiator} requested a 2nd Review for Eligibility Screening - ${ccbcNumber}`,
