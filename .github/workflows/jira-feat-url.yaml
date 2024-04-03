@@ -37,9 +37,22 @@ jobs:
                               "type": "paragraph",
                               "content": [
                                   {
-                                      "text": "Feature deployed! URL: [https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca](https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca)",
+                                      "text": "Feature deployed! URL: ",
                                       "type": "text"
-                                  }
+                                  },
+                                  {
+                                    "text": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca",
+                                    "type": "text",
+                                    "marks": [
+                                        {
+                                            "type": "link",
+                                            "attrs": {
+                                                "href": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca",
+                                                "title": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca"
+                                            }
+                                        }
+                                    ]
+                                }
                               ]
                           }
                       ]
