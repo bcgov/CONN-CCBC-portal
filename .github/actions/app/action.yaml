@@ -104,9 +104,6 @@ inputs:
   ches_to:
     description: 'CHES temporary to field'
     required: true
-  ches_to_second_review:
-    description: 'CHES temporary to field for second review'
-    required: true
   ches_keycloak_host:
     description: 'CHES keycloak host'
   pgbackrest_s3_bucket:
@@ -178,7 +175,6 @@ runs:
           --set ches.client="${{ inputs.ches_client }}" \
           --set ches.clientSecret="${{ inputs.ches_client_secret }}" \
           --set ches.to="${{ inputs.ches_to }}" \
-          --set ches.toSecondReview="${{ inputs.ches_to_second_review }}" \
           --set ches.keycloakHost="${{ inputs.ches_keycloak_host }}" \
           --values values-${{ inputs.environment }}.yaml
 

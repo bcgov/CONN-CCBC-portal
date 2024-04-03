@@ -178,6 +178,5 @@ jobs:
       CHES_CLIENT: ${{ secrets.CHES_CLIENT }}
       CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
       CHES_TO_EMAIL: ${{ secrets.CHES_TO_EMAIL }}
-      CHES_TO_EMAIL_SECOND_REVIEW: ${{ secrets.CHES_TO_EMAIL_SECOND_REVIEW }}
       CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}
       AWS_S3_BACKUPS_BUCKET: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
