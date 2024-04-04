@@ -8,7 +8,7 @@ on:
     types: [submitted]
 
 env:
-  FEATURE_NAME: ${{ github.head_ref }}
+  FEATURE_NAME: ${{ github.event.pull_request.head.ref }}
 
 jobs:
   update-jira-issue:
