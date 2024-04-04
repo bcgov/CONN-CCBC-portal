@@ -202,12 +202,12 @@ jobs:
               base: 'main',
             });
 
-  comment-jira-feature-branch:
-    if: github.event_name == 'pull_request'
-    # && github.event.pull_request.draft == false
-    uses: ./.github/workflows/jira-feat-url.yaml
-    secrets:
-      JIRA_AUTH: ${{ secrets.JIRA_AUTH }}
+  # comment-jira-feature-branch:
+  #   if: github.event_name == 'pull_request'
+  #   # && github.event.pull_request.draft == false
+  #   uses: ./.github/workflows/jira-feat-url.yaml
+  #   secrets:
+  #     JIRA_AUTH: ${{ secrets.JIRA_AUTH }}
 
   deploy:
     if: github.event.ref == 'refs/heads/main'
