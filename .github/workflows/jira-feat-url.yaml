@@ -38,7 +38,7 @@ jobs:
                               "content": [
                                   {
                                       "text": "AUTOMATIC COMMENT: ",
-                                      "type": "text"
+                                      "type": "text",
                                       "marks": [
                                           {
                                             "type": "strong"
