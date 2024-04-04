@@ -37,6 +37,15 @@ jobs:
                               "type": "paragraph",
                               "content": [
                                   {
+                                      "text": "AUTOMATIC COMMENT: ",
+                                      "type": "text"
+                                      "marks": [
+                                          {
+                                            "type": "strong"
+                                          }
+                                      ]
+                                  },
+                                  {
                                       "text": "Feature deployed! URL: ",
                                       "type": "text"
                                   },
