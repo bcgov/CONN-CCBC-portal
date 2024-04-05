@@ -83,7 +83,10 @@ describe('The applicant dashboard', () => {
 
     cy.get('input[id="root_geographicArea-0"]').parent().click({ force: true });
 
-    cy.get('input[id="root_projectSpanMultipleLocations-0"]').parent().click();
+    cy.get('input[id="root_projectSpanMultipleLocations-0"]')
+      .scrollIntoView()
+      .parent()
+      .click();
 
     cy.get('input[id="root_provincesTerritories-0"]').parent().click();
 
