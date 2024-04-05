@@ -48,6 +48,10 @@ const projectInformation: RJSFSchema = {
               title: 'Upload the finalized spatial data (kmz)',
               type: 'string',
             },
+            otherFiles: {
+              title: 'Other files',
+              type: 'string',
+            },
             sowValidationErrors: {
               type: 'boolean',
             },
