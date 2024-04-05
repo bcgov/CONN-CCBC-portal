@@ -76,6 +76,14 @@ const changeRequestUiSchema = {
       allowDragAndDrop: true,
     },
   },
+  otherFiles: {
+    'ui:widget': 'FileWidget',
+    'ui:options': {
+      flexDirection: 'column',
+      allowMultipleFiles: true,
+      allowDragAndDrop: true,
+    },
+  },
 };
 
 export default changeRequestUiSchema;
