@@ -11,7 +11,7 @@ import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
 import * as moduleApi from '@growthbook/growthbook-react';
 
 const mockAcceptedZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
-  value: { '1': '1,2,3,4,5' },
+  value: { '1': [1, 2, 3, 4, 5] },
   source: 'defaultValue',
   on: null,
   off: null,

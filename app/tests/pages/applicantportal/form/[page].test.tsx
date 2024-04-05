@@ -52,7 +52,7 @@ const mockForceLatestSchema: moduleApi.FeatureResult<moduleApi.JSONValue> = {
 };
 
 const mockAcceptedZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
-  value: { '1': '1,2,3,4,5' },
+  value: { '1': [1, 2, 3, 4, 5], '2': [6, 7, 8], '3': [9, 10] },
   source: 'defaultValue',
   on: null,
   off: null,
@@ -202,6 +202,107 @@ describe('The form page', () => {
     );
 
     expect(estimatedProjectEmployment).toBeNull();
+  });
+
+  it('shows accepted project areas based on the open intake if application status is draft', async () => {
+    const payload = {
+      Query() {
+        return {
+          applicationByRowId: {
+            status: 'draft',
+            ccbcNumber: 'CCBC-010001',
+            projectName: 'Project testing title',
+            updatedAt: '2022-08-15T16:43:28.973734-04:00',
+            formData: {
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
+            },
+            intakeByIntakeId: null,
+          },
+          allForms: {
+            nodes: [
+              {
+                rowId: 10,
+                jsonSchema: schemaV2,
+              },
+            ],
+          },
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+            ccbcIntakeNumber: 2,
+          },
+          session: {
+            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+          },
+        };
+      },
+    };
+    pageTestingHelper.setMockRouterValues({
+      query: { id: '1', page: '2' },
+    });
+
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
+
+    pageTestingHelper.loadQuery(payload);
+    pageTestingHelper.renderPage();
+
+    const projectAreasText = screen.getByText(/within zones 6,7,8/);
+    expect(projectAreasText).toBeInTheDocument();
+  });
+
+  it('shows accepted project areas based on the latest intake if application status is draft', async () => {
+    const payload = {
+      Query() {
+        return {
+          applicationByRowId: {
+            status: 'draft',
+            ccbcNumber: 'CCBC-010001',
+            projectName: 'Project testing title',
+            updatedAt: '2022-08-15T16:43:28.973734-04:00',
+            formData: {
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
+            },
+            intakeByIntakeId: null,
+          },
+          allForms: {
+            nodes: [
+              {
+                rowId: 10,
+                jsonSchema: schemaV2,
+              },
+            ],
+          },
+          openIntake: null,
+          allIntakes: {
+            edges: [
+              {
+                node: {
+                  ccbcIntakeNumber: 3,
+                  closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+                },
+              },
+            ],
+          },
+          session: {
+            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+          },
+        };
+      },
+    };
+    pageTestingHelper.setMockRouterValues({
+      query: { id: '1', page: '2' },
+    });
+
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
+
+    pageTestingHelper.loadQuery(payload);
+    pageTestingHelper.renderPage();
+
+    const projectAreasText = screen.getByText(/within zones 9,10/);
+    expect(projectAreasText).toBeInTheDocument();
   });
 
   it('shows accepted project areas and handles modal', async () => {

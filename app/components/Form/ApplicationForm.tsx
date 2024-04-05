@@ -227,9 +227,7 @@ const ApplicationForm: React.FC<Props> = ({
 
   const acceptedProjectAreas = useFeature('intake_zones_json');
   const acceptedProjectAreasArray =
-    acceptedProjectAreas?.value?.[ccbcIntakeNumber ?? latestIntake]?.split(
-      ','
-    ) || [];
+    acceptedProjectAreas?.value?.[ccbcIntakeNumber ?? latestIntake] || [];
 
   let jsonSchema: any;
   let formSchemaId: number;
@@ -284,7 +282,7 @@ const ApplicationForm: React.FC<Props> = ({
   );
   const [isProjectAreaInvalid, setIsProjectAreaInvalid] = useState(
     !acceptedProjectAreasArray.includes(
-      jsonData?.projectArea?.geographicArea?.[0]?.toString()
+      jsonData?.projectArea?.geographicArea?.[0]
     ) && !jsonData?.projectArea?.firstNationsLed
   );
   const [projectAreaModalType, setProjectAreaModalType] = useState('');
@@ -450,7 +448,7 @@ const ApplicationForm: React.FC<Props> = ({
         (!isGeographicAreaEmpty &&
           (firstNationsLed ||
             acceptedProjectAreasArray.includes(
-              newFormSectionData?.geographicArea?.[0]?.toString()
+              newFormSectionData?.geographicArea?.[0]
             )));
 
       const geographicAreaInputChanged =
@@ -496,7 +494,7 @@ const ApplicationForm: React.FC<Props> = ({
       const projectAreaValid =
         newFormData?.projectArea?.firstNationsLed ||
         acceptedProjectAreasArray.includes(
-          newFormData?.projectArea?.geographicArea?.[0]?.toString()
+          newFormData?.projectArea?.geographicArea?.[0]
         );
       setIsProjectAreaInvalid(!projectAreaValid);
     }
