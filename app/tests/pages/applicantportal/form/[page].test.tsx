@@ -52,11 +52,11 @@ const mockForceLatestSchema: moduleApi.FeatureResult<moduleApi.JSONValue> = {
 };
 
 const mockAcceptedZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
-  value: '1,2,3,4,5',
+  value: { '1': '1,2,3,4,5' },
   source: 'defaultValue',
   on: null,
   off: null,
-  ruleId: 'intake_zones',
+  ruleId: 'intake_zones_json',
 };
 
 const pageTestingHelper = new PageTestingHelper<PageQuery>({
@@ -186,7 +186,7 @@ describe('The form page', () => {
   it('uses the latest schema if the flag is on and estimated project employment is not present', async () => {
     // jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockForceLatestSchema);
     jest.spyOn(moduleApi, 'useFeature').mockImplementation((id) => {
-      if (id === 'intake_zones') {
+      if (id === 'intake_zones_json') {
         return mockAcceptedZones;
       }
       return mockForceLatestSchema;
@@ -215,7 +215,7 @@ describe('The form page', () => {
     pageTestingHelper.renderPage();
 
     const projectAreasText = screen.getByText(
-      new RegExp(`within zones ${mockAcceptedZones.value?.toString()}`)
+      new RegExp(`within zones ${mockAcceptedZones.value?.[1].toString()}`)
     );
     expect(projectAreasText).toBeInTheDocument();
 

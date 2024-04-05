@@ -11,11 +11,11 @@ import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
 import * as moduleApi from '@growthbook/growthbook-react';
 
 const mockAcceptedZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
-  value: '1,2,3,4,5',
+  value: { '1': '1,2,3,4,5' },
   source: 'defaultValue',
   on: null,
   off: null,
-  ruleId: 'intake_zones',
+  ruleId: 'intake_zones_json',
 };
 
 const testQuery = graphql`
@@ -45,6 +45,7 @@ const mockQueryPayload = {
         updatedAt: '2022-09-12T14:04:10.790848-07:00',
       },
       intakeByIntakeId: {
+        ccbcIntakeNumber: 1,
         closeTimestamp: null,
       },
       status: 'draft',
@@ -90,6 +91,9 @@ const submissionPayload = {
             acknowledgementsList: acknowledgementsEnum,
           },
         },
+      },
+      intakeByIntakeId: {
+        ccbcIntakeNumber: 1,
       },
     };
   },
@@ -286,6 +290,9 @@ describe('The submission form page', () => {
             id: 'TestFormId',
             jsonData,
             isEditable: true,
+          },
+          intakeByIntakeId: {
+            ccbcIntakeNumber: 1,
           },
         };
       },

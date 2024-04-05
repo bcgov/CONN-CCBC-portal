@@ -175,6 +175,18 @@ const ApplicationForm: React.FC<Props> = ({
       fragment ApplicationForm_query on Query {
         openIntake {
           closeTimestamp
+          ccbcIntakeNumber
+        }
+        allIntakes(
+          first: 1
+          orderBy: CCBC_INTAKE_NUMBER_DESC
+          condition: { archivedAt: null, hidden: false }
+        ) @connection(key: "ApplicationIntakes_allIntakes") {
+          edges {
+            node {
+              ccbcIntakeNumber
+            }
+          }
         }
         allForms(condition: { formType: "intake" }, last: 1) {
           nodes {
@@ -193,12 +205,7 @@ const ApplicationForm: React.FC<Props> = ({
     typeof draftAppsUseLatestSchema.value === 'boolean'
       ? draftAppsUseLatestSchema?.value
       : null;
-  const acceptedProjectAreas = useFeature('intake_zones');
-  const acceptedProjectAreasArray =
-    typeof acceptedProjectAreas?.value === 'string'
-      ? acceptedProjectAreas?.value?.split(',') || []
-      : [];
-  const { openIntake } = applicationFormQuery;
+  const { openIntake, allIntakes } = applicationFormQuery;
   const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
   const latestFormSchemaId = applicationFormQuery.allForms.nodes[0].rowId;
   const {
@@ -214,6 +221,16 @@ const ApplicationForm: React.FC<Props> = ({
   } = application;
   const ccbcIntakeNumber =
     application.intakeByIntakeId?.ccbcIntakeNumber || null;
+  const latestIntake =
+    openIntake?.ccbcIntakeNumber ??
+    allIntakes?.edges[0]?.node?.ccbcIntakeNumber;
+
+  const acceptedProjectAreas = useFeature('intake_zones_json');
+  const acceptedProjectAreasArray =
+    acceptedProjectAreas?.value?.[ccbcIntakeNumber ?? latestIntake]?.split(
+      ','
+    ) || [];
+
   let jsonSchema: any;
   let formSchemaId: number;
   let finalUiSchema: any;
@@ -675,6 +692,7 @@ const ApplicationForm: React.FC<Props> = ({
       <ProjectAreaModal
         {...projectAreaModal}
         projectAreaModalType={projectAreaModalType}
+        acceptedProjectAreasArray={acceptedProjectAreasArray}
       />
     </>
   );
