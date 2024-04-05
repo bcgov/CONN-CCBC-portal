@@ -21,11 +21,11 @@ jobs:
       - name: Get JIRA Issue Key
         id: extract_jira_key
         run: |
-          echo "JIRA_KEY=$(echo "${{ env.FEATURE_NAME }}" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
+          echo "JIRA_KEY=$(echo "$FEATURE_NAME" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
       - name: Update JIRA Issue
         # JIRA_AUTH must be passed pre encoded
         run: |
-          FEATURE_NAME_LOWER=$(echo "${{ env.FEATURE_NAME }}" | tr '[:upper:]' '[:lower:]')
+          FEATURE_NAME_LOWER=$(echo $FEATURE_NAME | tr '[:upper:]' '[:lower:]')
           FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
           curl -X POST \
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
