@@ -68,13 +68,13 @@ const AssignLead: React.FC<Props> = ({
   } else if (jsonData?.nextStep === 'Needs RFI') {
     color = assessmentPillStyles['Needs RFI'].primary;
     backgroundColor = assessmentPillStyles['Needs RFI'].backgroundColor;
+  } else if (jsonData?.nextStep === 'Needs 2nd review') {
+    backgroundColor = assessmentPillStyles['Needs 2nd review'].backgroundColor;
+    color = assessmentPillStyles['Needs 2nd review'].primary;
     // Assigned
   } else if ((jsonData?.nextStep === 'Not started' && leadState) || leadState) {
     backgroundColor = assessmentPillStyles.Assigned.backgroundColor;
     color = assessmentPillStyles.Assigned.primary;
-  } else if (jsonData?.nextStep === 'Needs 2nd review') {
-    backgroundColor = assessmentPillStyles['Needs 2nd review'].backgroundColor;
-    color = assessmentPillStyles['Needs 2nd review'].primary;
   } else {
     backgroundColor = 'inherit';
     color = 'inherit';
