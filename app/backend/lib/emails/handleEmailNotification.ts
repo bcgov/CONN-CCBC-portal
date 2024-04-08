@@ -26,6 +26,15 @@ export interface EmailTemplate {
   body: any;
 }
 
+export interface EmailTemplateProvider {
+  (
+    applicationId: string,
+    host: string,
+    eventInitiator?: string,
+    params?: any
+  ): EmailTemplate;
+}
+
 const isAuthorized = (authRole: any) => {
   const authorizedRoles = ['ccbc_admin', 'ccbc_analyst'];
   return authRole && authorizedRoles.includes(authRole.pgRole);
@@ -54,12 +63,7 @@ const getEmailRecipients = async (ids: number[], req: any) => {
 const handleEmailNotification = async (
   req,
   res,
-  template: (
-    applicationId: string,
-    host: string,
-    eventInitiator: string,
-    params: any
-  ) => EmailTemplate,
+  template: EmailTemplateProvider,
   params: any = {}
 ) => {
   if (!isAuthorized(getAuthRole(req))) {

@@ -1,6 +1,9 @@
-import { EmailTemplate } from '../handleEmailNotification';
+import {
+  EmailTemplate,
+  EmailTemplateProvider,
+} from '../handleEmailNotification';
 
-const assesmentSecondReviewChange = (
+const assesmentSecondReviewChange: EmailTemplateProvider = (
   applicationId: string,
   url: string,
   initiator: string,
