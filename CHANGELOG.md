@@ -1,3 +1,15 @@
+# [1.151.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.150.0...v1.151.0) (2024-04-08)
+
+### Bug Fixes
+
+- 2nd review colour not showing on assessment dash ([d924da8](https://github.com/bcgov/CONN-CCBC-portal/commit/d924da888b495c1a65c214466f0be848ffc37b1f))
+- failing e2e test ([6066410](https://github.com/bcgov/CONN-CCBC-portal/commit/60664108b5e6b9a1ca6d779ef40bd587596ed93f))
+- project information edit button issue ([cb28444](https://github.com/bcgov/CONN-CCBC-portal/commit/cb284449855fa77d7ee8fe4e4317b9b85deb6df9))
+
+### Features
+
+- add other files upload to funding agreement and change request ([8e6c2d0](https://github.com/bcgov/CONN-CCBC-portal/commit/8e6c2d0c62b830ebe0380ef1e782ebef59ab2c58))
+
 # [1.150.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.149.0...v1.150.0) (2024-04-03)
 
 ### Bug Fixes
