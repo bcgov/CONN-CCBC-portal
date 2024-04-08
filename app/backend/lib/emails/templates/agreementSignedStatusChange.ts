@@ -1,6 +1,9 @@
-import { EmailTemplate } from '../handleEmailNotification';
+import {
+  EmailTemplate,
+  EmailTemplateProvider,
+} from '../handleEmailNotification';
 
-const agreementSignedStatusChange = (
+const agreementSignedStatusChange: EmailTemplateProvider = (
   applicationId: string,
   url: string
 ): EmailTemplate => {
