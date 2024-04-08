@@ -17,7 +17,7 @@ import ImportErrorMessage from './ImportErrorMessage';
 const StyledGrid = styled.div`
   ${(props) => props.theme.breakpoint.mediumUp} {
     display: grid;
-    grid-template-columns: 18% 42% 15% 15% 8% 4%;
+    grid-template-columns: 15% 39% 12% 12% 12% 8% 4%;
   }
 
   margin-bottom: 16px;
