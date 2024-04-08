@@ -446,6 +446,7 @@ const ProjectInformationForm: React.FC<Props> = ({
           levelOfAmendment,
           statementOfWorkUpload,
           updatedMapUpload,
+          otherFiles,
         } = jsonData || {};
 
         // Need to pass in correct values once the change request metadata ticket is complete
@@ -471,6 +472,7 @@ const ProjectInformationForm: React.FC<Props> = ({
             isSowUploadError={jsonData?.isSowUploadError}
             maps={updatedMapUpload}
             sow={statementOfWorkUpload?.[0]}
+            otherFiles={otherFiles}
           />
         );
       })}
@@ -490,6 +492,7 @@ const ProjectInformationForm: React.FC<Props> = ({
           sow={projectInformationData?.statementOfWorkUpload?.[0]}
           fundingAgreement={projectInformationData?.fundingAgreementUpload?.[0]}
           wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
+          otherFiles={projectInformationData?.otherFiles}
         />
       )}
       {showToast && (

@@ -10,6 +10,7 @@ import {
   faFileExcel,
   faMap,
   faPen,
+  faFileAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import ImportErrorMessage from './ImportErrorMessage';
 
@@ -146,6 +147,7 @@ interface Props {
   sow?: any;
   title: string;
   wirelessSow?: any;
+  otherFiles?: Array<any>;
 }
 
 const ReadOnlyView: React.FC<Props> = ({
@@ -164,6 +166,7 @@ const ReadOnlyView: React.FC<Props> = ({
   sow,
   title,
   wirelessSow,
+  otherFiles,
 }) => {
   const [showMore, setShowMore] = useState(false);
 
@@ -231,6 +234,17 @@ const ReadOnlyView: React.FC<Props> = ({
               <FileHeader icon={faFileExcel} title="Wireless SoW" />
             </DownloadLink>
           )}
+        </StyledColumn>
+        <StyledColumn>
+          {otherFiles?.map((otherFile) => (
+            <DownloadLink
+              key={otherFile.uuid}
+              uuid={otherFile.uuid}
+              fileName={otherFile.name}
+            >
+              <FileHeader icon={faFileAlt} title={otherFile.name} />
+            </DownloadLink>
+          ))}
         </StyledColumn>
         <div>{formattedDate}</div>
         <StyledHideButton>
