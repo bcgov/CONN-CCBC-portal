@@ -2,7 +2,7 @@ name: Run release process
 
 on:
   pull_request:
-    types: [opened, edited, synchronize]
+    types: [edited, synchronize]
 
 jobs:
   checkbox_action:
