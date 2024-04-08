@@ -419,13 +419,14 @@ const ProjectInformationForm: React.FC<Props> = ({
         isFormSubmitting
       }
       saveBtnDisabled={isFormSubmitting}
-      setIsFormEditMode={(boolean) => {
+      setIsFormEditMode={(isEditMode: boolean) => {
         setShowToast(false);
-        setIsFormEditMode(boolean);
+        setIsFormEditMode(isEditMode);
+        setIsChangeRequest((_isChangeRequest) =>
+          isEditMode ? false : _isChangeRequest
+        );
       }}
-      showEditBtn={
-        !hasFundingAgreementBeenSigned && !isFormEditMode && !isChangeRequest
-      }
+      showEditBtn={!hasFundingAgreementBeenSigned && !isFormEditMode}
       hiddenSubmitRef={hiddenSubmitRef}
       validate={validate}
     >
