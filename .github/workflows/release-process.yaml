@@ -1,0 +1,30 @@
+name: Run release process
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  checkbox_action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if checkbox is checked
+        id: checkbox
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+            const checkboxes = pr.data.body.match(/\[[ x]\] (.*)/g);
+            const checkboxChecked = checkboxes.some(cb => cb.includes("[x]"));
+            console.log(checkboxChecked);
+            return checkboxChecked;
+
+      - name: Run action if checkbox is checked
+        if: steps.checkbox.outputs.checkbox == 'true'
+        run: |
+          echo "Checkbox was checked on the PR"
