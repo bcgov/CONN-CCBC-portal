@@ -1,3 +1,9 @@
+## [1.150.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.150.0...v1.150.1) (2024-04-08)
+
+### Bug Fixes
+
+- 2nd review colour not showing on assessment dash ([d924da8](https://github.com/bcgov/CONN-CCBC-portal/commit/d924da888b495c1a65c214466f0be848ffc37b1f))
+
 # [1.150.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.149.0...v1.150.0) (2024-04-03)
 
 ### Bug Fixes
