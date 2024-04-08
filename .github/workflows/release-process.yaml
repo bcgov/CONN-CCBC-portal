@@ -25,6 +25,6 @@ jobs:
             return checkboxChecked;
 
       - name: Run action if checkbox is checked
-        if: steps.checkbox.outputs.checkbox == 'true'
+        if: steps.checkbox.outputs.result == 'true'
         run: |
           echo "Checkbox was checked on the PR"
