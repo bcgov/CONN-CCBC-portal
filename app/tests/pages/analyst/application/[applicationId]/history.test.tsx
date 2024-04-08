@@ -2164,6 +2164,16 @@ const mockQueryPayload = {
                       uuid: '7fe78587-5509-4821-bd75-b5414f34c448',
                     },
                   ],
+                  otherFiles: [
+                    {
+                      id: 10,
+                      name: 'otherImage.png',
+                      size: 527870,
+                      type: 'image/png',
+                      uuid: '192eeda2-e6fa-41e6-9980-25d048eb5717',
+                      uploadedAt: '2024-04-08T10:45:03.324-07:00',
+                    },
+                  ],
 
                   dateFundingAgreementSigned: '2023-06-28',
 

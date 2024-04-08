@@ -454,11 +454,16 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
       record.json_data?.finalizedMapUpload || [],
       prevHistoryItem?.record?.json_data?.finalizedMapUpload || []
     );
+    const otherFilesDiff = diff(
+      record.json_data?.otherFiles || [],
+      prevHistoryItem?.record?.json_data?.otherFiles || []
+    );
     // turn into truthy/falsy values
     const showSow = !!sowFileDiff;
     const showSowWireless = !!sowWirelessFileDiff;
     const showFundingAgreement = !!fundingAgreementFileDiff;
     const showFinalizedMap = !!finalizedMapFileDiff;
+    const showOtherFiles = !!otherFilesDiff;
     return (
       <>
         <StyledContent data-testid="history-content-conditional-approval">
@@ -477,6 +482,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
                 'statementOfWorkUpload',
                 'finalizedMapUpload',
                 'fundingAgreementUpload',
+                'otherFiles',
               ]}
               diffSchema={projectInformationSchema}
               overrideParent="projectInformation"
@@ -520,6 +526,16 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
                 }
                 title="Finalized spatial data"
                 tableTitle={!showFundingAgreement}
+              />
+            )}
+            {showOtherFiles && (
+              <HistoryFile
+                filesArray={record.json_data?.otherFiles || []}
+                previousFileArray={
+                  prevHistoryItem?.record?.json_data?.otherFiles || []
+                }
+                title="Other files"
+                tableTitle={!showFinalizedMap}
               />
             )}
           </>
