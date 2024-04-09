@@ -54,4 +54,5 @@ jobs:
         if: steps.checkbox.outputs.result == 'true'
         run: |
           yarn
-          yarn run release-it --ci --branch=${{ github.base_ref }} --git.commitArgs=-n
+          git checkout "${GITHUB_HEAD_REF}"
+          yarn run release-it --ci --branch="${GITHUB_HEAD_REF}" --git.commitArgs=-n
