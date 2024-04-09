@@ -1,3 +1,9 @@
+# [1.152.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.151.0...v1.152.0) (2024-04-09)
+
+### Features
+
+- make release once checkbox is marked ([295648a](https://github.com/bcgov/CONN-CCBC-portal/commit/295648a24e0bc7672891083b73ac869cb01bc217))
+
 # [1.151.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.150.0...v1.151.0) (2024-04-09)
 
 ### Bug Fixes
