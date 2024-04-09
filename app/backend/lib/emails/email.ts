@@ -2,7 +2,7 @@ import { Router } from 'express';
 import RateLimit from 'express-rate-limit';
 import agreementSignedStatusChange from './templates/agreementSignedStatusChange';
 import assesmentSecondReviewChange from './templates/assesmentSecondReviewChange';
-import { handleEmailNotification } from './handleEmailNotification';
+import handleEmailNotification from './handleEmailNotification';
 
 const email = Router();
 

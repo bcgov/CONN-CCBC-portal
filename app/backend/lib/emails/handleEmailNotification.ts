@@ -44,7 +44,7 @@ const isAuthorized = (authRole: any) => {
  * Temporary function to get email recipients from the database based on hardcoded IDs
  * To be replaced with proper email notification system pulls from DB
  */
-const getEmailRecipients = async (ids: number[], req: any) => {
+export const getEmailRecipients = async (ids: number[], req: any) => {
   const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
   const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const isProd = namespace?.endsWith('-prod');
@@ -100,4 +100,4 @@ const handleEmailNotification = async (
   }
 };
 
-export { handleEmailNotification, getEmailRecipients };
+export default handleEmailNotification;

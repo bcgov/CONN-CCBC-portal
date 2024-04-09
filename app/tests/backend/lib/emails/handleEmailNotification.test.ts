@@ -1,14 +1,13 @@
 import { mocked } from 'jest-mock';
 import getAuthRole from 'utils/getAuthRole';
-import {
-  handleEmailNotification,
-  getEmailRecipients,
-} from 'backend/lib/emails/handleEmailNotification';
 import getAuthUser from 'utils/getAuthUser';
 import sendEmail from 'backend/lib/ches/sendEmail';
 import agreementSignedStatusChange from 'backend/lib/emails/templates/agreementSignedStatusChange';
 import getAccessToken from 'backend/lib/ches/getAccessToken';
 import getConfig from 'next/config';
+import handleEmailNotification, {
+  getEmailRecipients,
+} from 'backend/lib/emails/handleEmailNotification';
 import config from '../../../../config';
 import { performQuery } from '../../../../backend/lib/graphql';
 
