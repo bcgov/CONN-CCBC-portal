@@ -28,7 +28,8 @@ const StyledTable = styled.table`
   }
 
   tr {
-    td:nth-child(2) {
+    td:nth-child(2),
+    td:nth-child(3) {
       border-left: 0;
     }
   }
@@ -37,9 +38,13 @@ const StyledTable = styled.table`
     border-top-left-radius: 4px;
   }
 
-  th:nth-child(2) {
+  th:nth-child(2),
+  th:nth-child(3) {
     border-left: 0;
     text-align: center;
+  }
+
+  th:nth-child(3) {
     border-top-right-radius: 4px;
   }
 
@@ -47,7 +52,7 @@ const StyledTable = styled.table`
     td:nth-child(1) {
       border-bottom-left-radius: 4px;
     }
-    td:nth-child(2) {
+    td:nth-child(3) {
       border-bottom-right-radius: 4px;
     }
   }
@@ -65,7 +70,8 @@ const AnalystList: React.FC<Props> = ({ analysts }) => {
     <StyledTable>
       <tr>
         <StyledTh>Analyst</StyledTh>
-        <StyledTh>Active</StyledTh>
+        <StyledTh>Email</StyledTh>
+        <StyledTh>Assignable</StyledTh>
       </tr>
       {analysts?.map((analyst) => {
         const { familyName, givenName } = analyst;

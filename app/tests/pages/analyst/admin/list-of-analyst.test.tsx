@@ -19,6 +19,7 @@ const mockQueryPayload = {
             node: {
               givenName: 'test',
               familyName: '1',
+              email: 'test1@mail.com',
               active: true,
               id: 'WyJhbmFseXN0cyIsMjRd',
             },
@@ -27,6 +28,7 @@ const mockQueryPayload = {
             node: {
               givenName: 'test',
               familyName: '2',
+              email: 'test2@mail.com',
               active: true,
               id: 'WyJhbmFseXN0cyIsOV0=',
             },
@@ -94,6 +96,7 @@ describe('The Download attachments admin page', () => {
 
     const givenName = screen.getByRole('textbox', { name: 'givenName' });
     const familyName = screen.getByRole('textbox', { name: 'familyName' });
+    const email = screen.getByRole('textbox', { name: 'email' });
 
     expect(givenName).toBeInTheDocument();
     expect(familyName).toBeInTheDocument();
@@ -106,6 +109,10 @@ describe('The Download attachments admin page', () => {
       fireEvent.change(familyName, { target: { value: 'test' } });
     });
 
+    await act(async () => {
+      fireEvent.change(email, { target: { value: 'test@mail.com' } });
+    });
+
     const addBtn = screen.getByRole('button', { name: 'Add' });
 
     await act(async () => {
@@ -116,7 +123,13 @@ describe('The Download attachments admin page', () => {
       connections: [
         'client:root:__ListOfAnalysts_allAnalysts_connection(orderBy:"GIVEN_NAME_ASC")',
       ],
-      input: { analyst: { givenName: 'test', familyName: 'test' } },
+      input: {
+        analyst: {
+          givenName: 'test',
+          familyName: 'test',
+          email: 'test@mail.com',
+        },
+      },
     });
   });
 

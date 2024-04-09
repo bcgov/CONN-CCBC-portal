@@ -2030,6 +2030,9 @@ type Analyst implements Node {
   """Boolean column indicating whether the analyst is active or not."""
   active: Boolean
 
+  """Analyst's email address"""
+  email: String
+
   """Reads a single `CcbcUser` that is related to this `Analyst`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -18022,6 +18025,9 @@ input AnalystFilter {
 
   """Filter by the object’s `active` field."""
   active: BooleanFilter
+
+  """Filter by the object’s `email` field."""
+  email: StringFilter
 
   """Filter by the object’s `applicationAnalystLeadsByAnalystId` relation."""
   applicationAnalystLeadsByAnalystId: AnalystToManyApplicationAnalystLeadFilter
@@ -35141,6 +35147,8 @@ enum AnalystsOrderBy {
   ARCHIVED_AT_DESC
   ACTIVE_ASC
   ACTIVE_DESC
+  EMAIL_ASC
+  EMAIL_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -35178,6 +35186,9 @@ input AnalystCondition {
 
   """Checks for equality with the object’s `active` field."""
   active: Boolean
+
+  """Checks for equality with the object’s `email` field."""
+  email: String
 }
 
 """
@@ -60944,6 +60955,9 @@ input AnalystInput {
 
   """Boolean column indicating whether the analyst is active or not."""
   active: Boolean
+
+  """Analyst's email address"""
+  email: String
 }
 
 """The output of our create `ApplicationAnalystLead` mutation."""
@@ -63235,6 +63249,9 @@ input AnalystPatch {
 
   """Boolean column indicating whether the analyst is active or not."""
   active: Boolean
+
+  """Analyst's email address"""
+  email: String
 }
 
 """All input for the `updateAnalystByRowId` mutation."""

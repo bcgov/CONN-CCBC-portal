@@ -7,21 +7,21 @@ const sendEmail = async (
   token: string,
   body: string,
   subject: string,
-  emailTo: string,
+  emailTo: string[],
   tag: string,
-  emailCC: string | null = null
+  emailCC: string[] = []
 ) => {
   try {
     const request = {
       bodyType: 'html',
       body,
-      cc: emailCC ? [emailCC] : [],
+      cc: emailCC,
       delayTs: 0,
       encoding: 'utf-8',
       from: 'CCBC Portal <noreply-ccbc-portal@gov.bc.ca>',
       priority: 'normal',
       subject,
-      to: [emailTo],
+      to: emailTo,
       tag: `ccbc-portal-email-${tag}`,
       attachments: [],
     };

@@ -38,6 +38,7 @@ const getScreeningAssessmentQuery = graphql`
       assessmentForm(_assessmentDataType: "screening") {
         jsonData
       }
+      ccbcNumber
     }
     session {
       sub
@@ -66,6 +67,7 @@ const ScreeningAssessment = ({
           </StyledLink>
         </StyledInfoBarDiv>
         <AssessmentsForm
+          addedContext={{ ccbcNumber: applicationByRowId.ccbcNumber }}
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={screening}
           slug="screening"

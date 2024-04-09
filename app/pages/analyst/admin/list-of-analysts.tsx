@@ -23,6 +23,7 @@ const getListOfAnalystsQuery = graphql`
           givenName
           active
           id
+          email
         }
       }
     }
