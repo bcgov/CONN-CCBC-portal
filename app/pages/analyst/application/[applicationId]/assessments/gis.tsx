@@ -23,6 +23,7 @@ const getGisAssessmentQuery = graphql`
         jsonData
         createdAt
       }
+      ccbcNumber
     }
     session {
       sub
@@ -59,7 +60,10 @@ const GisAssessment = ({
         <AssessmentsTabs />
         {showApplicationGisData && <ApplicationGisData query={query} />}
         <AssessmentsForm
-          addedContext={{ createdAt }}
+          addedContext={{
+            createdAt,
+            ccbcNumber: applicationByRowId.ccbcNumber,
+          }}
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={gis}
           slug="gis"

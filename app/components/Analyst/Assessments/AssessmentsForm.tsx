@@ -69,7 +69,6 @@ const AssessmentsForm: React.FC<Props> = ({
         onCompleted: () => {
           setIsFormSaved(true);
           if (
-            slug === 'screening' &&
             e.formData?.nextStep === 'Needs 2nd review' &&
             e.formData?.nextStep !== formData?.nextStep
           ) {
@@ -82,6 +81,7 @@ const AssessmentsForm: React.FC<Props> = ({
                 applicationId: queryFragment.rowId,
                 host: window.location.origin,
                 ccbcNumber: addedContext?.ccbcNumber,
+                assessmentType: slug,
               }),
             }).then((response) => {
               if (!response.ok) {
