@@ -22,6 +22,7 @@
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
          <column autoUpdated="false" defaultValue="true" digits="0" id="9" name="active" nullable="true" remarks="Boolean column indicating whether the analyst is active or not." size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="email" nullable="true" remarks="Analyst's email address" size="100" type="varchar" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="analyst_pkey" unique="true">
             <column ascending="true" name="id"/>
