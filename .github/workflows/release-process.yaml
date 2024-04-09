@@ -53,5 +53,4 @@ jobs:
       - name: Make Release
         if: steps.checkbox.outputs.result == 'true'
         run: |
-          git push origin HEAD:refs/heads/${{ github.head_ref }}
-          yarn release-it --ci --branch=${refs/heads/${{ github.head_ref }}} --git.commitArgs=-n
+          yarn run release-it --ci --branch=${refs/heads/${{ github.head_ref }}} --git.commitArgs=-n
