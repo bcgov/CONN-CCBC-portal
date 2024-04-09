@@ -54,5 +54,4 @@ jobs:
         if: steps.checkbox.outputs.result == 'true'
         run: |
           git push origin HEAD:refs/heads/${{ github.head_ref }}
-          git pull
           echo '--ci' | make release
