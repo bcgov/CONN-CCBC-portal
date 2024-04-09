@@ -545,3 +545,4 @@ tables/application_status_type_009_change_complete.sql 2024-03-13T22:45:56Z ,,, 
 @1.150.0 2024-04-03T17:16:52Z CCBC Service Account <ccbc@button.is> # release v1.150.0
 tables/analyst_add_email 2024-04-08T17:55:49Z ,,, <ryohani89@NH504670> # add analyst email column
 @1.151.0 2024-04-09T15:54:16Z CCBC Service Account <ccbc@button.is> # release v1.151.0
+@1.151.1 2024-04-09T16:08:02Z CCBC Service Account <ccbc@button.is> # release v1.151.1
