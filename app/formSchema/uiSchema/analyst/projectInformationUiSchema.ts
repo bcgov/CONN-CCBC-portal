@@ -40,6 +40,14 @@ const projectInformationUiSchema = {
       allowDragAndDrop: true,
     },
   },
+  otherFiles: {
+    'ui:widget': 'FileWidget',
+    'ui:options': {
+      flexDirection: 'column',
+      allowMultipleFiles: true,
+      allowDragAndDrop: true,
+    },
+  },
   sowValidationErrors: {
     'ui:widget': 'HiddenWidget',
   },
