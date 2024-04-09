@@ -53,6 +53,6 @@ jobs:
       - name: Make Release
         if: steps.checkbox.outputs.result == 'true'
         run: |
-          git push
+          git push origin HEAD:${GITHUB_REF#refs/heads/}
           git pull
           echo '--ci' | make release
