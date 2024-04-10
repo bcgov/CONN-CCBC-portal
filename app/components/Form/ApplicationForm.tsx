@@ -250,8 +250,8 @@ const ApplicationForm: React.FC<Props> = ({
       ...uiSchema,
       'ui:order': filteredUiSchemaOrder,
     };
-    // if draft or is intake 4, use v3 of UIschema
-  } else if (ccbcIntakeNumber === null || latestIntakeNumber === 4) {
+    // if it is intake 4, use v3 of UIschema
+  } else if (latestIntakeNumber === 4 || ccbcIntakeNumber === 4) {
     finalUiSchema = {
       ...uiSchemaV3,
       'ui:order': filteredUiSchemaOrder,
