@@ -62,14 +62,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const checkboxText = "- [ ] Check to trigger automatic release process";
+            const checkboxText = "[x] Check to trigger automatic release process";
             const prNumber = context.payload.pull_request.number;
             const currentPR = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: prNumber
             });
-            const updatedBody = currentPR.data.body.replace(checkboxText, "[ ]");
+            const updatedBody = currentPR.data.body.replace(checkboxText, "[ ] Check to trigger automatic release process");
             await github.rest.pulls.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
