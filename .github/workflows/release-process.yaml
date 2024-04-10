@@ -12,7 +12,7 @@ jobs:
   checkbox_action:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if checkbox is checked
+      - name: Check release process checkbox
         id: checkbox
         uses: actions/github-script@v7
         with:
@@ -23,8 +23,8 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number
             });
-            const checkboxes = pr.data.body.match(/\[[ x]\] (.*)/g);
-            const checkboxChecked = checkboxes.some(cb => cb.includes("[x]"));
+            const checkboxText = "[x] Check to trigger automatic release process";
+            const checkboxChecked = pr.data.body.includes(checkboxText);
             console.log(checkboxChecked);
             return checkboxChecked;
       - name: Checkout
@@ -56,3 +56,23 @@ jobs:
           yarn
           git checkout "${GITHUB_HEAD_REF}"
           yarn run release-it --ci --branch="${GITHUB_HEAD_REF}" --git.commitArgs=-n
+      - name: Uncheck the checkbox
+        if: steps.checkbox.outputs.result == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const checkboxText = "[ ] Check to trigger automatic release process";
+            const prNumber = context.payload.pull_request.number;
+            const currentPR = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            const updatedBody = currentPR.data.body.replace(checkboxText, "[ ]");
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+              body: updatedBody
+            });
