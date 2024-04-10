@@ -23,7 +23,7 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number
             });
-            const checkboxText = "- [ ] Check to trigger automatic release process";
+            const checkboxText = "[x] Check to trigger automatic release process";
             const checkboxChecked = pr.data.body.includes(checkboxText);
             console.log(checkboxChecked);
             return checkboxChecked;
