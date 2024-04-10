@@ -4,9 +4,7 @@
 import email from 'backend/lib/emails/email';
 import bodyParser from 'body-parser';
 import express from 'express';
-import session from 'express-session';
 import request from 'supertest';
-import crypto from 'crypto';
 import { mocked } from 'jest-mock';
 import assesmentSecondReviewChange from 'backend/lib/emails/templates/assesmentSecondReviewChange';
 import handleEmailNotification from 'backend/lib/emails/handleEmailNotification';
@@ -20,8 +18,6 @@ describe('Email API Endpoints', () => {
   beforeEach(() => {
     app = express();
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(session({ secret: crypto.randomUUID(), cookie: { secure: true } }));
     app.use('/', email);
     mocked(handleEmailNotification).mockImplementationOnce(async (req, res) => {
       return res.status(200).json({ success: true }).end();
