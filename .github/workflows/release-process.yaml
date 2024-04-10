@@ -23,7 +23,7 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number
             });
-            const checkboxText = "[x] Check to trigger automatic release process";
+            const checkboxText = "- [ ] Check to trigger automatic release process";
             const checkboxChecked = pr.data.body.includes(checkboxText);
             console.log(checkboxChecked);
             return checkboxChecked;
@@ -62,7 +62,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const checkboxText = "[ ] Check to trigger automatic release process";
+            const checkboxText = "- [ ] Check to trigger automatic release process";
             const prNumber = context.payload.pull_request.number;
             const currentPR = await github.rest.pulls.get({
               owner: context.repo.owner,
