@@ -32,37 +32,37 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
-      - name: Set up Git and import GPG key
-        if: steps.checkbox.outputs.result == 'true'
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
-        run: |
-          echo "${GPG_PRIVATE_KEY}" | gpg --import
-          git config user.name "CCBC Service Account"
-          git config user.email "116113628+ccbc-service-account@users.noreply.github.com"
-          git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
-          git config commit.gpgsign true
-      - name: dev env setup
-        if: steps.checkbox.outputs.result == 'true'
-        uses: ./.github/actions/dev-env-setup
-      - name: Setup Sqitch User
-        if: steps.checkbox.outputs.result == 'true'
-        run: |
-          sqitch config --user user.name 'CCBC Service Account'
-          sqitch config --user user.email 'ccbc@button.is'
-      - name: Make Release
-        if: steps.checkbox.outputs.result == 'true'
-        run: |
-          yarn
-          git checkout "${GITHUB_HEAD_REF}"
-          yarn run release-it --ci --branch="${GITHUB_HEAD_REF}" --git.commitArgs=-n
+      # - name: Set up Git and import GPG key
+      #   if: steps.checkbox.outputs.result == 'true'
+      #   env:
+      #     GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+      #   run: |
+      #     echo "${GPG_PRIVATE_KEY}" | gpg --import
+      #     git config user.name "CCBC Service Account"
+      #     git config user.email "116113628+ccbc-service-account@users.noreply.github.com"
+      #     git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
+      #     git config commit.gpgsign true
+      # - name: dev env setup
+      #   if: steps.checkbox.outputs.result == 'true'
+      #   uses: ./.github/actions/dev-env-setup
+      # - name: Setup Sqitch User
+      #   if: steps.checkbox.outputs.result == 'true'
+      #   run: |
+      #     sqitch config --user user.name 'CCBC Service Account'
+      #     sqitch config --user user.email 'ccbc@button.is'
+      # - name: Make Release
+      #   if: steps.checkbox.outputs.result == 'true'
+      #   run: |
+      #     yarn
+      #     git checkout "${GITHUB_HEAD_REF}"
+      #     yarn run release-it --ci --branch="${GITHUB_HEAD_REF}" --git.commitArgs=-n
       - name: Uncheck the checkbox
         if: steps.checkbox.outputs.result == 'true'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const checkboxText = "- [ ] Check to trigger automatic release process";
+            const checkboxText = "[x] Check to trigger automatic release process";
             const prNumber = context.payload.pull_request.number;
             const currentPR = await github.rest.pulls.get({
               owner: context.repo.owner,
