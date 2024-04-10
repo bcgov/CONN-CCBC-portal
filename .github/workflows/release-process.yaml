@@ -69,7 +69,7 @@ jobs:
               repo: context.repo.repo,
               pull_number: prNumber
             });
-            const updatedBody = currentPR.data.body.replace(checkboxText, "[ ]");
+            const updatedBody = currentPR.data.body.replace(checkboxText, "[ ] Check to trigger automatic release process");
             await github.rest.pulls.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
