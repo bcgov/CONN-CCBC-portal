@@ -72,10 +72,25 @@ export const filterZones = (row, id, filterValue) => {
 export const sortZones = (rowA, rowB, columnId) => {
   const valueA = rowA.getValue(columnId) as Array<string>;
   const valueB = rowB.getValue(columnId) as Array<string>;
-  return (
-    parseInt(valueA[valueA.length - 1], 10) -
-    parseInt(valueB[valueB.length - 1], 10)
-  );
+
+  // Early return if both arrays are empty, treating them as equal
+  if (valueA.length === 0 && valueB.length === 0) return 0;
+  // Sort rows with empty arrays towards the start
+  if (valueA.length === 0) return -1;
+  if (valueB.length === 0) return 1;
+
+  const numA = parseInt(valueA[valueA.length - 1], 10);
+  const numB = parseInt(valueB[valueB.length - 1], 10);
+
+  // Handling NaN: sort these at the bottom
+  const isNaNA = Number.isNaN(numA);
+  const isNaNB = Number.isNaN(numB);
+  if (isNaNA && isNaNB) return 0; // Both are NaN, treat as equal
+  if (isNaNA) return 1; // Only A is NaN, sort A after B
+  if (isNaNB) return -1; // Only B is NaN, sort B after A
+
+  // Standard numeric comparison
+  return numA - numB;
 };
 
 export const sortAnalysts = (rowA, rowB, columnId) => {
