@@ -42,6 +42,7 @@ jobs:
             const baseBranch = pr.data.base.ref;
             const mainBranch = 'main';
             const baseCommit = pr.data.base.sha;
+            console.log(baseCommit)
 
             const mainBranchCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
@@ -50,7 +51,7 @@ jobs:
             });
 
             const mainTipCommit = mainBranchCommits.data[0].sha; // Tip commit of the main branch
-
+            console.log(mainTipCommit)
             const upToDate = baseCommit === mainTipCommit;
             console.log(upToDate);
             return upToDate;
