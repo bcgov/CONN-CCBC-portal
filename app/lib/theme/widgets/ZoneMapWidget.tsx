@@ -44,6 +44,8 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
 
   const intakeNumber = formContext?.intakeNumber;
 
+  const isIntakeFour = intakeNumber === 4;
+
   const updatedMapDict = {
     3: updatedMap,
     4: updatedMapIntakeFour,
@@ -87,7 +89,7 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
         height={0}
         sizes="100vw"
       />
-      <div>
+      <div style={{ marginLeft: isIntakeFour ? '6%' : '' }}>
         <StyledLink
           title="internet-blocking-map"
           data-testid="internet-blocking-map-download-link"
