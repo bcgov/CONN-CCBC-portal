@@ -62,6 +62,9 @@ jobs:
             const mainTipCommit = mainBranchCommits.data[0].sha;
 
             const upToDate = baseTipCommit === mainTipCommit;
+            console.log("Base Commit:", baseTipCommit);
+            console.log("Main Commit:", mainTipCommit);
+            console.log("Is Up to Date:", upToDate);
             console.log(upToDate);
             return upToDate;
       - name: Set up Git and import GPG key
