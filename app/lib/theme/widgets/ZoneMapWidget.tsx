@@ -1,7 +1,7 @@
 import { WidgetProps } from '@rjsf/utils';
 import * as Sentry from '@sentry/nextjs';
 import styled from 'styled-components';
-import { ZONE_MAP_URL } from 'data/externalConstants';
+import { ZONE_MAP_URL, ZONE_MAP_URL_INTAKE_4 } from 'data/externalConstants';
 import { Toast } from 'components';
 import { useState } from 'react';
 
@@ -40,10 +40,32 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
     ? '/images/zone-map.png'
     : '/images/zone-map-intake-3.png';
 
+  const updatedMapIntakeFour = '/images/zone-map-intake-4.png';
+
+  const intakeNumber = formContext?.intakeNumber;
+
+  const isIntakeFour = intakeNumber === 4;
+
+  const updatedMapDict = {
+    3: updatedMap,
+    4: updatedMapIntakeFour,
+  };
+
+  const zoneMapUrlDict = {
+    3: ZONE_MAP_URL,
+    4: ZONE_MAP_URL_INTAKE_4,
+  };
+
+  // default map for intake 3
+  const zoneMapUrl = zoneMapUrlDict[intakeNumber] ?? ZONE_MAP_URL_INTAKE_4;
+
+  // default links for intake 3
+  const updatedMapUrl = updatedMapDict[intakeNumber] ?? updatedMapIntakeFour;
+
   const handleDownload = (e: any) => {
     e.preventDefault();
     setShowToast(false);
-    fetch(ZONE_MAP_URL)
+    fetch(zoneMapUrl)
       .then((response) => response.blob())
       .then((blob) => {
         const downloadLink = document.createElement('a');
@@ -63,13 +85,13 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
   return (
     <StyledDiv>
       <StyledImage
-        src={updatedMap}
+        src={updatedMapUrl}
         alt="Internet Blocking Map"
         width={0}
         height={0}
         sizes="100vw"
       />
-      <div>
+      <div style={{ marginLeft: isIntakeFour ? '6%' : '' }}>
         <StyledLink
           title="internet-blocking-map"
           data-testid="internet-blocking-map-download-link"
@@ -78,7 +100,7 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
           kmz
         </StyledLink>
         {' | '}
-        <StyledLink href={updatedMap} download="internet-blocking-map.png">
+        <StyledLink href={updatedMapUrl} download="internet-blocking-map.png">
           png
         </StyledLink>
         {showToast && (
