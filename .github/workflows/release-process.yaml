@@ -41,17 +41,22 @@ jobs:
 
             const baseBranch = pr.data.base.ref;
             const mainBranch = 'main';
-            const baseCommit = pr.data.base.sha;
+
+            const baseBranchCommits = await github.rest.repos.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: `refs/heads/${baseBranch}`
+            });
+            const baseTipCommit = baseBranchCommits.data[0].sha;
 
             const mainBranchCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: `refs/heads/${mainBranch}`
             });
+            const mainTipCommit = mainBranchCommits.data[0].sha;
 
-            const mainTipCommit = mainBranchCommits.data[0].sha; // Tip commit of the main branch
-
-            const upToDate = baseCommit === mainTipCommit;
+            const upToDate = baseTipCommit === mainTipCommit;
             console.log(upToDate);
             return upToDate;
       - name: Checkout
