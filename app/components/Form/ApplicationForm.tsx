@@ -6,6 +6,7 @@ import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import validate from 'formSchema/validate';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
+import uiSchemaV3 from 'formSchema/uiSchema/uiSchemaV3';
 import { ApplicationForm_application$key } from '__generated__/ApplicationForm_application.graphql';
 import { UseDebouncedMutationConfig } from 'schema/mutations/useDebouncedMutation';
 import { ApplicationForm_query$key } from '__generated__/ApplicationForm_query.graphql';
@@ -221,13 +222,13 @@ const ApplicationForm: React.FC<Props> = ({
   } = application;
   const ccbcIntakeNumber =
     application.intakeByIntakeId?.ccbcIntakeNumber || null;
-  const latestIntake =
+  const latestIntakeNumber =
     openIntake?.ccbcIntakeNumber ??
     allIntakes?.edges[0]?.node?.ccbcIntakeNumber;
 
   const acceptedProjectAreas = useFeature('intake_zones_json');
   const acceptedProjectAreasArray =
-    acceptedProjectAreas?.value?.[ccbcIntakeNumber ?? latestIntake] || [];
+    acceptedProjectAreas?.value?.[ccbcIntakeNumber ?? latestIntakeNumber] || [];
 
   let jsonSchema: any;
   let formSchemaId: number;
@@ -247,6 +248,15 @@ const ApplicationForm: React.FC<Props> = ({
   if (ccbcIntakeNumber !== null && ccbcIntakeNumber <= 2) {
     finalUiSchema = {
       ...uiSchema,
+      'ui:order': filteredUiSchemaOrder,
+    };
+    // if it is intake 4, use v3 of UIschema
+  } else if (
+    latestIntakeNumber === 4 &&
+    (ccbcIntakeNumber === null || ccbcIntakeNumber === 4)
+  ) {
+    finalUiSchema = {
+      ...uiSchemaV3,
       'ui:order': filteredUiSchemaOrder,
     };
   } else {
@@ -450,7 +460,7 @@ const ApplicationForm: React.FC<Props> = ({
             acceptedProjectAreasArray.includes(
               newFormSectionData?.geographicArea?.[0]
             )));
-
+      const isZoneSpecificIntake = latestIntakeNumber !== 4;
       const geographicAreaInputChanged =
         typeof newFormSectionData?.geographicArea?.[0] !== 'undefined' &&
         newFormSectionData?.geographicArea[0] !==
@@ -464,22 +474,23 @@ const ApplicationForm: React.FC<Props> = ({
         newFormData = {
           ...jsonData,
         };
-        if (geographicAreaInputChanged) {
+        if (geographicAreaInputChanged && isZoneSpecificIntake) {
           // display new modal saying
           // Invalid selection. You have indicated that this project is not led or supported by First Nations, therefore, you may only choose from zones 1,2,3 or 6.
           setProjectAreaModalType('invalid-geographic-area');
         }
-        if (firstNationsLedInputChanged) {
+        if (firstNationsLedInputChanged && isZoneSpecificIntake) {
           // display modal saying
           // Invalid selection. Please first choose from zones 1,2,3 or 6 if this project is not supported or led by First Nations
           setProjectAreaModalType('first-nations-led');
         }
-      } else if (!isSubmitted && !projectAreaAccepted) {
+      } else if (!isSubmitted && !projectAreaAccepted && isZoneSpecificIntake) {
         setProjectAreaModalType('pre-submitted');
       }
       if (
         !projectAreaAccepted &&
-        (geographicAreaInputChanged || firstNationsLedInputChanged)
+        (geographicAreaInputChanged ||
+          (firstNationsLedInputChanged && isZoneSpecificIntake))
       ) {
         projectAreaModal.open();
       }
