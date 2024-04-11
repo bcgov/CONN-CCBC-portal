@@ -99,18 +99,18 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
                 disabled={disabled}
               />
               <div>{option.label}</div>
-              {kmzLink && downloadLinks[parseInt(option.value, 10)] && (
+              {kmzLink && downloadLinks?.[parseInt(option.value, 10)] && (
                 <div>
                   <StyledLink
                     target="_blank"
-                    href={downloadLinks[parseInt(option.value, 10)].kmz}
+                    href={downloadLinks?.[parseInt(option.value, 10)]?.kmz}
                   >
                     kmz
                   </StyledLink>
                   |
                   <StyledLink
                     target="_blank"
-                    href={downloadLinks[parseInt(option.value, 10)].pdf}
+                    href={downloadLinks?.[parseInt(option.value, 10)]?.pdf}
                   >
                     pdf
                   </StyledLink>
