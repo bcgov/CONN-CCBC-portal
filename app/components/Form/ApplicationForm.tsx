@@ -312,6 +312,8 @@ const ApplicationForm: React.FC<Props> = ({
       application?.intakeByIntakeId?.closeTimestamp ||
       openIntake?.closeTimestamp;
 
+    const intakeNumber = ccbcIntakeNumber ?? latestIntakeNumber;
+
     return {
       intakeCloseTimestamp,
       fullFormData: jsonData,
@@ -325,6 +327,7 @@ const ApplicationForm: React.FC<Props> = ({
       isProjectAreaInvalid,
       acceptedProjectAreasArray,
       isProjectAreaSelected,
+      intakeNumber,
     };
   }, [
     openIntake,
@@ -337,6 +340,8 @@ const ApplicationForm: React.FC<Props> = ({
     isProjectAreaInvalid,
     acceptedProjectAreasArray,
     isProjectAreaSelected,
+    latestIntakeNumber,
+    ccbcIntakeNumber,
   ]);
 
   const updateAreAllAcknowledgementFieldsSet = (

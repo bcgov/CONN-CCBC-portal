@@ -2,6 +2,7 @@ import { WidgetProps } from '@rjsf/utils';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 import styled from 'styled-components';
 import kmzAndPdfLinks from 'data/zoneKmzLinksIntake3';
+import kmzAndPdfLinksIntake4 from 'data/zoneKmzLinksIntake4';
 
 const StyledLink = styled.a`
   color: ${(props) => props.theme.color.links};
@@ -40,6 +41,7 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
   options,
   value,
   required,
+  formContext,
 }) => {
   function selectValue(val: any, selected: any, all: any) {
     const at = all.indexOf(val);
@@ -50,6 +52,15 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
   function deselectValue(val: any, selected: any) {
     return selected.filter((v: any) => v !== val);
   }
+
+  const intakeNumber = formContext?.intakeNumber;
+
+  const downloadLinksDict = {
+    3: kmzAndPdfLinks,
+    4: kmzAndPdfLinksIntake4,
+  };
+
+  const downloadLinks = downloadLinksDict[intakeNumber];
 
   const { enumOptions, singleSelection, kmzLink }: any = options;
 
@@ -88,18 +99,18 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
                 disabled={disabled}
               />
               <div>{option.label}</div>
-              {kmzLink && kmzAndPdfLinks[parseInt(option.value, 10)] && (
+              {kmzLink && downloadLinks[parseInt(option.value, 10)] && (
                 <div>
                   <StyledLink
                     target="_blank"
-                    href={kmzAndPdfLinks[parseInt(option.value, 10)].kmz}
+                    href={downloadLinks[parseInt(option.value, 10)].kmz}
                   >
                     kmz
                   </StyledLink>
                   |
                   <StyledLink
                     target="_blank"
-                    href={kmzAndPdfLinks[parseInt(option.value, 10)].pdf}
+                    href={downloadLinks[parseInt(option.value, 10)].pdf}
                   >
                     pdf
                   </StyledLink>
