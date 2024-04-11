@@ -41,16 +41,17 @@ jobs:
 
             const baseBranch = pr.data.base.ref;
             const mainBranch = 'main';
-            const baseSha = pr.data.base.sha;
+            const baseCommit = pr.data.base.sha;
 
-            const mainBranchRef = await github.rest.git.getRef({
+            const mainBranchCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: `heads/${mainBranch}`
+              sha: `refs/heads/${mainBranch}`
             });
-            const mainSha = mainBranchRef.data.object.sha;
 
-            const upToDate = baseSha === mainSha;
+            const mainTipCommit = mainBranchCommits.data[0].sha; // Tip commit of the main branch
+
+            const upToDate = baseCommit === mainTipCommit;
             console.log(upToDate);
             return upToDate;
       - name: Check if PR is approved
