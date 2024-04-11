@@ -37,35 +37,34 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const pr = await github.rest.pulls.get({
+            const { context, github } = require('@actions/github');
+
+            const baseRef = context.payload.pull_request.base.ref;
+            const headRef = context.payload.pull_request.head.ref;
+
+            const mainCommits = await github.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number
-            });
+              per_page: 100,
+              sha: baseRef
+            }).then(response => response.data.map(commit => commit.sha));
 
-            const mainBranch = 'main';
-
-            // Get the tip commit SHA of the main branch
-            const mainBranchCommits = await github.rest.repos.listCommits({
+            const prCommits = await github.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: `refs/heads/${mainBranch}`
-            });
-            const mainCommits = mainBranchCommits.data.map(commit => commit.sha);
+              per_page: 100,
+              sha: headRef
+            }).then(response => response.data.map(commit => commit.sha));
 
-            // Get the tip commit SHA of the PR branch
-            const prBranchCommits = await github.rest.repos.listCommits({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: `refs/heads/${pr.data.head.ref}`
-            });
-            const prCommits = prBranchCommits.data.map(commit => commit.sha);
+            const containsAllCommits = mainCommits.every(commitSHA =>
+              prCommits.includes(commitSHA)
+            );
 
-            // Check if all commits from the main branch are present in the PR branch
-            const notOutOfDate = mainCommits.every(commit => prCommits.includes(commit));
-
-            console.log("Is Not Out of Date:", notOutOfDate);
-            return notOutOfDate;
+            console.log(`PR contains all commits from main branch: ${containsAllCommits}`);
+            console.log(`Main Commits: ${mainCommits}`);
+            console.log(`PR Commits: ${prCommits}`);
+            console.log(`Result: ${containsAllCommits}`);
+            return containsAllCommits;
       - name: Set up Git and import GPG key
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && !github.event.pull_request.draft
         env:
