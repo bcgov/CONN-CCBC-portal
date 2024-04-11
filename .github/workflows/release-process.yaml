@@ -54,27 +54,13 @@ jobs:
             const upToDate = baseCommit === mainTipCommit;
             console.log(upToDate);
             return upToDate;
-      - name: Check if PR is approved
-        id: approved
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const reviews = await github.rest.pulls.listReviews({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number
-            });
-            const approved = reviews.data.some(review => review.state === 'APPROVED');
-            console.log(approved);
-            return approved;
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       - name: Set up Git and import GPG key
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.approved.outputs.result == 'true'
+        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && !github.event.pull_request.draft
         env:
           GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
         run: |
@@ -84,21 +70,21 @@ jobs:
           git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
           git config commit.gpgsign true
       - name: dev env setup
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.approved.outputs.result == 'true'
+        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && !github.event.pull_request.draft
         uses: ./.github/actions/dev-env-setup
       - name: Setup Sqitch User
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.approved.outputs.result == 'true'
+        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && !github.event.pull_request.draft
         run: |
           sqitch config --user user.name 'CCBC Service Account'
           sqitch config --user user.email 'ccbc@button.is'
       - name: Make Release
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.approved.outputs.result == 'true'
+        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && !github.event.pull_request.draft
         run: |
           yarn
           git checkout "${GITHUB_HEAD_REF}"
           yarn run release-it --ci --branch="${GITHUB_HEAD_REF}" --git.commitArgs=-n
       - name: Uncheck the checkbox
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.approved.outputs.result == 'true'
+        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && !github.event.pull_request.draft
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
