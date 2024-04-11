@@ -36,7 +36,6 @@ jobs:
         id: up_to_date
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const pr = await github.rest.pulls.get({
               owner: context.repo.owner,
@@ -44,38 +43,30 @@ jobs:
               pull_number: context.payload.pull_request.number
             });
 
-
             const baseBranch = pr.data.base.ref;
             const mainBranch = 'main';
 
-            const baseBranchCommits = await github.rest.repos.listCommits({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: `refs/heads/${baseBranch}`
-            });
-            const baseTipCommit = baseBranchCommits.data[0].sha;
-
+            // Get the tip commit SHA of the main branch
             const mainBranchCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: `refs/heads/${mainBranch}`
             });
-            const mainTipCommit = mainBranchCommits.data[0].sha;
+            const mainCommits = mainBranchCommits.data.map(commit => commit.sha);
 
+            // Get the tip commit SHA of the PR branch
             const prBranchCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: `refs/heads/${pr.data.head.ref}`
             });
-            const prTipCommit = prBranchCommits.data[0].sha;
+            const prCommits = prBranchCommits.data.map(commit => commit.sha);
 
-            console.log("Base Commit:", baseTipCommit);
-            console.log("Main Commit:", mainTipCommit);
-            console.log("PR Commit:", prTipCommit);
+            // Check if any commit from the main branch is not present in the PR branch
+            const notOutOfDate = !mainCommits.some(commit => !prCommits.includes(commit));
 
-            const upToDate = prTipCommit === mainTipCommit;
-            console.log("Is Up to Date:", upToDate);
-            return upToDate;
+            console.log("Is Not Out of Date:", notOutOfDate);
+            return notOutOfDate;
       - name: Set up Git and import GPG key
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && !github.event.pull_request.draft
         env:
