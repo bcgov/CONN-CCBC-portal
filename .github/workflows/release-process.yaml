@@ -61,11 +61,19 @@ jobs:
             });
             const mainTipCommit = mainBranchCommits.data[0].sha;
 
-            const upToDate = baseTipCommit === mainTipCommit;
+            const prBranchCommits = await github.rest.repos.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: `refs/heads/${pr.data.head.ref}`
+            });
+            const prTipCommit = prBranchCommits.data[0].sha;
+
             console.log("Base Commit:", baseTipCommit);
             console.log("Main Commit:", mainTipCommit);
+            console.log("PR Commit:", prTipCommit);
+
+            const upToDate = prTipCommit === mainTipCommit;
             console.log("Is Up to Date:", upToDate);
-            console.log(upToDate);
             return upToDate;
       - name: Set up Git and import GPG key
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && !github.event.pull_request.draft
