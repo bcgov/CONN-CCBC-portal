@@ -27,6 +27,11 @@ jobs:
             const checkboxChecked = pr.data.body.includes(checkboxText);
             console.log(checkboxChecked);
             return checkboxChecked;
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       - name: Check if PR is up-to-date with main
         id: up_to_date
         uses: actions/github-script@v7
@@ -59,11 +64,6 @@ jobs:
             const upToDate = baseTipCommit === mainTipCommit;
             console.log(upToDate);
             return upToDate;
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
       - name: Set up Git and import GPG key
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && !github.event.pull_request.draft
         env:
