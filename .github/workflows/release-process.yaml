@@ -43,7 +43,6 @@ jobs:
               pull_number: context.payload.pull_request.number
             });
 
-            const baseBranch = pr.data.base.ref;
             const mainBranch = 'main';
 
             // Get the tip commit SHA of the main branch
@@ -62,8 +61,8 @@ jobs:
             });
             const prCommits = prBranchCommits.data.map(commit => commit.sha);
 
-            // Check if any commit from the main branch is not present in the PR branch
-            const notOutOfDate = !mainCommits.some(commit => !prCommits.includes(commit));
+            // Check if all commits from the main branch are present in the PR branch
+            const notOutOfDate = mainCommits.every(commit => prCommits.includes(commit));
 
             console.log("Is Not Out of Date:", notOutOfDate);
             return notOutOfDate;
