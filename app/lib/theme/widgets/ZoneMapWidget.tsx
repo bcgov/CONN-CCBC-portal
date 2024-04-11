@@ -56,9 +56,11 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
     4: ZONE_MAP_URL_INTAKE_4,
   };
 
-  const zoneMapUrl = zoneMapUrlDict[intakeNumber];
+  // default map for intake 3
+  const zoneMapUrl = zoneMapUrlDict[intakeNumber] ?? ZONE_MAP_URL_INTAKE_4;
 
-  const updatedMapUrl = updatedMapDict[intakeNumber];
+  // default links for intake 3
+  const updatedMapUrl = updatedMapDict[intakeNumber] ?? updatedMapIntakeFour;
 
   const handleDownload = (e: any) => {
     e.preventDefault();
