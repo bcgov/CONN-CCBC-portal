@@ -37,19 +37,18 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const { context, github } = require('@actions/github');
 
             const baseRef = context.payload.pull_request.base.ref;
             const headRef = context.payload.pull_request.head.ref;
 
-            const mainCommits = await github.repos.listCommits({
+            const mainCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
               per_page: 100,
               sha: baseRef
             }).then(response => response.data.map(commit => commit.sha));
 
-            const prCommits = await github.repos.listCommits({
+            const prCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
               per_page: 100,
