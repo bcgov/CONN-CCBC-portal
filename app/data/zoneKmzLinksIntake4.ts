@@ -51,10 +51,6 @@ const kmzAndPdfLinks = {
     pdf: '',
     kmz: '',
   },
-  14: {
-    pdf: '',
-    kmz: '',
-  },
 };
 
 export default kmzAndPdfLinks;
