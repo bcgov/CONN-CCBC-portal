@@ -8,6 +8,9 @@ export const ZONE_MAP_URL_INTAKE_4 =
 export const INTAKE_3_AREAS_OF_INTEREST =
   'https://catalogue.data.gov.bc.ca/dataset/connecting-communities-bc-intake-3-areas-of-interest';
 
+export const INTAKE_4_AREAS_OF_INTEREST =
+  'https://catalogue.data.gov.bc.ca/dataset/332a5676-9171-4c50-add3-5c590fd7b985';
+
 export const CCBC_ASSESSMENT_RFI_INSTRUCTIONS =
   'https://bcgov.sharepoint.com/:w:/r/teams/00978-ConnectingCommunitiesProgram/Shared%20Documents/CCBC%20Program/0%20-%20Business%20Process%20Documentation/CCBC%20Assessment%20and%20RFI%20Instructions.docx?d=w2ef0e37b4bf6484abf9d78cdc6e4b4ec&csf=1&web=1&e=AngUhG';
 
