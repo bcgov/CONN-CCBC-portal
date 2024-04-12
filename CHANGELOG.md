@@ -1,3 +1,10 @@
+## [1.153.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.153.0...v1.153.1) (2024-04-12)
+
+### Bug Fixes
+
+- datacatalog url ([4a5d846](https://github.com/bcgov/CONN-CCBC-portal/commit/4a5d8465b03e696712948c976690eecb4171a72f))
+- email template user format ([b940e77](https://github.com/bcgov/CONN-CCBC-portal/commit/b940e77dde2ffe6ce5d3f5e3b24c2b1b7ee9a6ca))
+
 # [1.153.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.152.0...v1.153.0) (2024-04-11)
 
 ### Features
