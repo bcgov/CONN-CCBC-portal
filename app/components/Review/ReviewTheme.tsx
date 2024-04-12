@@ -35,6 +35,7 @@ const ReviewTheme: ThemeProps = {
     NumericStringWidget: DefaultWidget,
     ReadOnlyWidget: DefaultWidget,
     ReadOnlyProjectAreaWidget: DefaultWidget,
+    ReadOnlyProjectAreaWidgetIntakeFour: DefaultWidget,
   },
   templates: {
     ...templates,

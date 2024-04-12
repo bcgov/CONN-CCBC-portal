@@ -1,3 +1,23 @@
+# [1.152.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.150.0...v1.152.0) (2024-04-11)
+
+### Bug Fixes
+
+- 2nd review colour not showing on assessment dash ([d924da8](https://github.com/bcgov/CONN-CCBC-portal/commit/d924da888b495c1a65c214466f0be848ffc37b1f))
+- add guard for previously submitted applications from previous intakes ([3ea3099](https://github.com/bcgov/CONN-CCBC-portal/commit/3ea30994a5a63950156a4734250a3ec3f6b57f46))
+- add schema ([4b67ec5](https://github.com/bcgov/CONN-CCBC-portal/commit/4b67ec5547c0adca1564a2dcc02d7db7e4ea396f))
+- better sort function for zones ([50446dc](https://github.com/bcgov/CONN-CCBC-portal/commit/50446dc1a618c7fc784407bac1827516dafcf267))
+- changes to schema ([ac2dd7c](https://github.com/bcgov/CONN-CCBC-portal/commit/ac2dd7c88ce8806ca2233be2635f4a663b34cf9d))
+- failing e2e test ([6066410](https://github.com/bcgov/CONN-CCBC-portal/commit/60664108b5e6b9a1ca6d779ef40bd587596ed93f))
+- project information edit button issue ([cb28444](https://github.com/bcgov/CONN-CCBC-portal/commit/cb284449855fa77d7ee8fe4e4317b9b85deb6df9))
+
+### Features
+
+- add email notification to second review eligibility screening ([ef3389f](https://github.com/bcgov/CONN-CCBC-portal/commit/ef3389f5910192488ce8b5fe9e7f9d88309149f6))
+- add logic so draft and intake 4 intakes are using latest ui schema ([feb6e01](https://github.com/bcgov/CONN-CCBC-portal/commit/feb6e01f7afbbb38d5bf3858bab54ef4aed49e73))
+- add other files upload to funding agreement and change request ([8e6c2d0](https://github.com/bcgov/CONN-CCBC-portal/commit/8e6c2d0c62b830ebe0380ef1e782ebef59ab2c58))
+- modal does not appear for intake 4 ([4d8ca38](https://github.com/bcgov/CONN-CCBC-portal/commit/4d8ca38de45a22b2821754c54b4b51c9a7ae5c3f))
+- new schema for intake ([46bb86d](https://github.com/bcgov/CONN-CCBC-portal/commit/46bb86de0670de82572e12d87a427dd767c2e266))
+
 # [1.151.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.150.0...v1.151.0) (2024-04-09)
 
 ### Bug Fixes
