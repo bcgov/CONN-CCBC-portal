@@ -51,6 +51,10 @@ const kmzAndPdfLinks = {
     pdf: 'https://catalogue.data.gov.bc.ca/dataset/332a5676-9171-4c50-add3-5c590fd7b985/resource/367c6aec-204e-4a49-8ff7-94de1c740a2d/download/areas-of-interest_intake_4_zone13_17x22.pdf',
     kmz: 'https://catalogue.data.gov.bc.ca/dataset/332a5676-9171-4c50-add3-5c590fd7b985/resource/6fc0b687-4c43-44c6-923b-1a953af87c99/download/zone-13-areas-of-interest.kml',
   },
+  14: {
+    pdf: 'https://catalogue.data.gov.bc.ca/dataset/332a5676-9171-4c50-add3-5c590fd7b985/resource/897ad72e-3dc2-4993-935b-94ea9a1e1b3e/download/areas-of-interest_intake_4_zone14_17x22.pdf',
+    kmz: 'https://catalogue.data.gov.bc.ca/dataset/332a5676-9171-4c50-add3-5c590fd7b985/resource/261be538-f19d-49b6-bf3a-eddde48831e8/download/zone-14.kml',
+  },
 };
 
 export default kmzAndPdfLinks;
