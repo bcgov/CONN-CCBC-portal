@@ -36,19 +36,52 @@ const StyledMessage = styled('div')`
     visibility: hidden;
   }
 `;
+const hasInvalidFundingError = (val) => {
+  return val === 'must be <= 0' || val === 'must be >= 0';
+};
 
 const MoneyWidget: React.FC<WidgetProps> = ({
   disabled,
-  error,
   id,
+  error,
   placeholder,
   onChange,
   label,
   value,
   required,
   uiSchema,
+  formContext,
+  name,
 }) => {
   const help = uiSchema['ui:help'];
+  let errorMessage = error;
+
+  const { formErrorSchema } = formContext;
+  const nestedFieldName = id?.split('_')?.[3];
+  const index = id?.split('_')?.[2];
+
+  const projectFundingErrors = formErrorSchema?.['projectFunding']?.[name]
+    ?.__errors as Array<string>;
+
+  const otherFundingSourcesError = formErrorSchema?.['otherFundingSources']?.[
+    name
+  ]?.__errors as Array<string>;
+
+  const otherFundingSourcesArrayErrors = formErrorSchema?.[
+    'otherFundingSources'
+  ]?.['otherFundingSourcesArray']?.[index]?.[nestedFieldName]
+    ?.__errors as Array<any>;
+
+  if (
+    projectFundingErrors?.find(hasInvalidFundingError) ||
+    otherFundingSourcesError?.find(hasInvalidFundingError)
+  ) {
+    errorMessage = 'Invalid entry, must be 0 or empty';
+  }
+
+  if (otherFundingSourcesArrayErrors?.find(hasInvalidFundingError)) {
+    errorMessage = 'Invalid entry, must be 0 or empty';
+  }
 
   return (
     <StyledDiv>
@@ -69,7 +102,7 @@ const MoneyWidget: React.FC<WidgetProps> = ({
         value={value || ''}
       />
       <StyledMessage>
-        {error && <StyledError>{error}</StyledError>}
+        {errorMessage && <StyledError>{errorMessage}</StyledError>}
 
         {help && <Label>{help}</Label>}
       </StyledMessage>
