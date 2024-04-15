@@ -1,3 +1,11 @@
+# [1.153.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.152.0...v1.153.0) (2024-04-11)
+
+### Features
+
+- add padding for intake 4 image ([c1830f9](https://github.com/bcgov/CONN-CCBC-portal/commit/c1830f940e54b65f18fe951a128a7bb69e29f9de))
+- default for intake 4 ([4ac361d](https://github.com/bcgov/CONN-CCBC-portal/commit/4ac361d6ca21e622edb96051755ad3aee58c612e))
+- intake 4 uses new map ([730fb9e](https://github.com/bcgov/CONN-CCBC-portal/commit/730fb9ebd8578d66e51eb2bfe796914fe5b49b1d))
+
 # [1.152.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.150.0...v1.152.0) (2024-04-11)
 
 ### Bug Fixes

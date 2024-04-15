@@ -1,7 +1,13 @@
 const getAuthUser = (req: any) => {
   return req?.claims
-    ? `${req?.claims?.family_name}, ${req?.claims?.given_name}`
-    : 'CCBC User';
+    ? {
+        familyName: req?.claims?.family_name,
+        givenName: req?.claims?.given_name,
+      }
+    : {
+        familyName: 'CCBC Portal',
+        givenName: 'Guest User',
+      };
 };
 
 export default getAuthUser;
