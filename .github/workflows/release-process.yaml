@@ -61,6 +61,7 @@ jobs:
             console.log(`Main Commits: ${mainCommits}`);
             console.log(`PR Commits: ${prCommits}`);
             console.log(`Result: ${containsAllCommits}`);
+            console.log(${github.event.pull_request.draft})
             return containsAllCommits;
       - name: Checkout
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.pull_request.draft != 'true'
