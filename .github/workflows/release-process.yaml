@@ -38,43 +38,34 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const pr = await github.rest.pulls.get({
+
+            const baseRef = context.payload.pull_request.base.ref;
+            const headRef = context.payload.pull_request.head.ref;
+
+            const mainCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number
-            });
+              per_page: 25,
+              sha: baseRef
+            }).then(response => response.data.map(commit => commit.sha));
 
-            const baseBranch = pr.data.base.ref;
-            const mainBranch = 'main';
-
-            const baseBranchCommits = await github.rest.repos.listCommits({
+            const prCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: `refs/heads/${baseBranch}`
-            });
-            const baseTipCommit = baseBranchCommits.data[0].sha;
+              per_page: 300,
+              sha: headRef
+            }).then(response => response.data.map(commit => commit.sha));
 
-            const mainBranchCommits = await github.rest.repos.listCommits({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: `refs/heads/${mainBranch}`
-            });
-            const mainTipCommit = mainBranchCommits.data[0].sha;
+            const containsAllCommits = mainCommits.every(commitSHA =>
+              prCommits.includes(commitSHA)
+            );
 
-            const prBranchCommits = await github.rest.repos.listCommits({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: `refs/heads/${pr.data.head.ref}`
-            });
-            const prTipCommit = prBranchCommits.data[0].sha;
+            console.log(`PR contains all commits from main branch: ${containsAllCommits}`);
+            console.log(`Main Commits: ${mainCommits}`);
+            console.log(`PR Commits: ${prCommits}`);
+            console.log(`Result: ${containsAllCommits}`);
+            return containsAllCommits;
 
-            console.log("Base Commit:", baseTipCommit);
-            console.log("Main Commit:", mainTipCommit);
-            console.log("PR Commit:", prTipCommit);
-
-            const upToDate = prTipCommit === mainTipCommit;
-            console.log("Is Up to Date:", upToDate);
-            return upToDate;
       - name: Set up Git and import GPG key
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && !github.event.pull_request.draft
         env:
