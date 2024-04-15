@@ -3,6 +3,8 @@ name: Run release process
 on:
   pull_request:
     types: [edited, synchronize]
+  pull_request_review:
+    types: [submitted]
   workflow_call:
     secrets:
       RENOVATE_GITHUB_TOKEN: { required: true }
