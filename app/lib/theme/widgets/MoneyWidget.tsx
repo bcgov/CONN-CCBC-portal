@@ -57,18 +57,20 @@ const MoneyWidget: React.FC<WidgetProps> = ({
   let errorMessage = error;
 
   const { formErrorSchema } = formContext;
+  const nestedFieldName = id?.split('_')?.[3];
+  const index = id?.split('_')?.[2];
 
-  const projectFundingErrors = formErrorSchema?.['projectFunding']?.[name]?.[
-    '__errors'
-  ] as Array<string>;
+  const projectFundingErrors = formErrorSchema?.['projectFunding']?.[name]
+    ?.__errors as Array<string>;
 
   const otherFundingSourcesError = formErrorSchema?.['otherFundingSources']?.[
     name
-  ]?.['__errors'] as Array<string>;
+  ]?.__errors as Array<string>;
 
   const otherFundingSourcesArrayErrors = formErrorSchema?.[
     'otherFundingSources'
-  ]?.['otherFundingSourcesArray'] as Array<any>;
+  ]?.['otherFundingSourcesArray']?.[index]?.[nestedFieldName]
+    ?.__errors as Array<any>;
 
   if (
     projectFundingErrors?.find(hasInvalidFundingError) ||
@@ -77,12 +79,8 @@ const MoneyWidget: React.FC<WidgetProps> = ({
     errorMessage = 'Invalid entry, must be 0 or empty';
   }
 
-  if (otherFundingSourcesArrayErrors) {
-    otherFundingSourcesArrayErrors?.forEach((errorObject) => {
-      if (errorObject[name]?.['__errors']?.find(hasInvalidFundingError)) {
-        errorMessage = 'Invalid entry, must be 0 or empty';
-      }
-    });
+  if (otherFundingSourcesArrayErrors?.find(hasInvalidFundingError)) {
+    errorMessage = 'Invalid entry, must be 0 or empty';
   }
 
   return (
