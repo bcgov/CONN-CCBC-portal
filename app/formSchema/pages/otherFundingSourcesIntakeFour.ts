@@ -1,6 +1,6 @@
 import { RJSFSchema } from '@rjsf/utils';
 import otherFundingSources from './otherFundingSources';
-// NOSONAR
+
 const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
   otherFundingSources: {
     ...otherFundingSources.otherFundingSources,
@@ -23,22 +23,20 @@ const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
       otherFundingSources: {
         oneOf: [
           {
-            properties: {
-              otherFundingSources: {
-                enum: [false],
-              },
-            },
+            ...otherFundingSources.otherFundingSources.dependencies
+              .otherFundingSources.oneOf[0],
           },
           {
             properties: {
-              otherFundingSources: {
-                enum: [true],
-              },
+              ...otherFundingSources.otherFundingSources.dependencies
+                .otherFundingSources.oneOf[1].properties,
               otherFundingSourcesArray: {
                 type: 'array',
                 default: [{}],
                 items: {
-                  type: 'object',
+                  ...otherFundingSources.otherFundingSources.dependencies
+                    .otherFundingSources.oneOf[1].properties
+                    .otherFundingSourcesArray.items,
                   required: [
                     'fundingPartnersName',
                     'fundingSourceContactInfo',
@@ -50,39 +48,9 @@ const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
                     'requestedFundingPartner2627',
                   ],
                   properties: {
-                    fundingPartnersName: {
-                      title: `Funding partner's name`,
-                      type: 'string',
-                    },
-                    fundingSourceContactInfo: {
-                      title: `Funding source contact information
-                      (Name, Address, Telephone, Email)`,
-                      type: 'string',
-                    },
-                    statusOfFunding: {
-                      title: 'Status of funding',
-                      type: 'string',
-                      enum: [
-                        'Submitted',
-                        'Received confirmation of eligibility',
-                        'Pending',
-                        'Approved',
-                      ],
-                    },
-                    funderType: {
-                      title: 'Funder type',
-                      type: 'string',
-                      enum: [
-                        'Federal',
-                        'Provincial/territorial',
-                        'Municipal',
-                        'Private',
-                      ],
-                    },
-                    nameOfFundingProgram: {
-                      title: 'Name of program',
-                      type: 'string',
-                    },
+                    ...otherFundingSources.otherFundingSources.dependencies
+                      .otherFundingSources.oneOf[1].properties
+                      .otherFundingSourcesArray.items.properties,
                     requestedFundingPartner2223: {
                       title: '2022-23',
                       type: 'number',
@@ -94,23 +62,6 @@ const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
                       type: 'number',
                       minimum: 0,
                       maximum: 0,
-                    },
-                    requestedFundingPartner2425: {
-                      title: '2024-25',
-                      type: 'number',
-                    },
-                    requestedFundingPartner2526: {
-                      title: '2025-26',
-                      type: 'number',
-                    },
-                    requestedFundingPartner2627: {
-                      title: '2026-27',
-                      type: 'number',
-                    },
-                    totalRequestedFundingPartner: {
-                      title: 'Total amount requested from funding partner',
-                      type: 'number',
-                      readOnly: true,
                     },
                   },
                 },
