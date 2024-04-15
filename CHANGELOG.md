@@ -1,3 +1,18 @@
+# [1.154.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.153.0...v1.154.0) (2024-04-15)
+
+### Bug Fixes
+
+- datacatalog url ([4a5d846](https://github.com/bcgov/CONN-CCBC-portal/commit/4a5d8465b03e696712948c976690eecb4171a72f))
+- email template user format ([b940e77](https://github.com/bcgov/CONN-CCBC-portal/commit/b940e77dde2ffe6ce5d3f5e3b24c2b1b7ee9a6ca))
+- remove intake 4 zone 14 kmz links ([8d113e8](https://github.com/bcgov/CONN-CCBC-portal/commit/8d113e8ffba541f1348afe9bbce85bd3bb963422))
+- update logic to only display error in related fields ([9ccf251](https://github.com/bcgov/CONN-CCBC-portal/commit/9ccf251e16cc1ae1f9aedf95c2ee1b74f31a8ccd))
+
+### Features
+
+- review shows incorrect value not only blank ([818f908](https://github.com/bcgov/CONN-CCBC-portal/commit/818f90876b18d01b7030b0c0b737981745f7c423))
+- schema changes for funding sources ([19a3ba8](https://github.com/bcgov/CONN-CCBC-portal/commit/19a3ba8254b2c7f19da7720499b09077d2f2cd6d))
+- show error message on funding sources ([a1ae0a0](https://github.com/bcgov/CONN-CCBC-portal/commit/a1ae0a05eb9dcb583cafa5357f0e8e480c8c548a))
+
 # [1.153.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.152.0...v1.153.0) (2024-04-11)
 
 ### Features
