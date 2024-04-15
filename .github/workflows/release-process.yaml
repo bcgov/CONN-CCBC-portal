@@ -44,14 +44,14 @@ jobs:
             const mainCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              per_page: 100,
+              per_page: 25,
               sha: baseRef
             }).then(response => response.data.map(commit => commit.sha));
 
             const prCommits = await github.rest.repos.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              per_page: 100,
+              per_page: 300,
               sha: headRef
             }).then(response => response.data.map(commit => commit.sha));
 
