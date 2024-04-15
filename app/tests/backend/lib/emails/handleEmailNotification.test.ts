@@ -42,7 +42,7 @@ describe('The Email', () => {
       landingRoute: '/',
     });
     mocked(getAuthUser).mockImplementation(() => {
-      return 'CCBC User';
+      return { givenName: 'CCBC User', familyName: 'CCBC Portal' };
     });
 
     mocked(agreementSignedStatusChange).mockReturnValue({
@@ -92,7 +92,7 @@ describe('The Email', () => {
     expect(agreementSignedStatusChange).toHaveBeenCalledWith(
       '1',
       'http://mock_host.ca',
-      'CCBC User',
+      { familyName: 'CCBC Portal', givenName: 'CCBC User' },
       { ccbcNumber: 'ABC' }
     );
 
