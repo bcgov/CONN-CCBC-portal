@@ -29,6 +29,7 @@ const formContextMock = {
       firstNationsLed: true,
     },
   },
+  intakeNumber: 3,
 };
 
 const renderStaticLayout = (
@@ -49,14 +50,20 @@ const renderStaticLayout = (
 
 describe('The Area Map Widget', () => {
   it('renders download link', () => {
-    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema as RJSFSchema);
+    renderStaticLayout(
+      mockSchema as RJSFSchema,
+      mockUiSchema as RJSFSchema,
+      formContextMock
+    );
     expect(
       screen.getByTestId('internet-blocking-map-download-link')
     ).toBeInTheDocument();
   });
 
   it('renders a map with the correct source', () => {
-    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema as RJSFSchema);
+    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema as RJSFSchema, {
+      intakeNumber: 3,
+    });
     const imageElement: any = screen.getByAltText('Internet Blocking Map');
     expect(imageElement).toBeInTheDocument();
     expect(imageElement.src).toContain('zone-map-intake-3.png');
@@ -77,7 +84,11 @@ describe('The Area Map Widget', () => {
   });
 
   it('triggers the download process on download click', async () => {
-    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema as RJSFSchema);
+    renderStaticLayout(
+      mockSchema as RJSFSchema,
+      mockUiSchema as RJSFSchema,
+      formContextMock
+    );
     const mockBlob = new Blob();
     global.fetch = jest.fn(() =>
       Promise.resolve({
@@ -102,7 +113,11 @@ describe('The Area Map Widget', () => {
   });
 
   it('displays an error message if the download fails', async () => {
-    renderStaticLayout(mockSchema as RJSFSchema, mockUiSchema as RJSFSchema);
+    renderStaticLayout(
+      mockSchema as RJSFSchema,
+      mockUiSchema as RJSFSchema,
+      formContextMock
+    );
     global.fetch = jest.fn(() => Promise.reject(new Error('Failed to fetch')));
     const spySentry = jest.spyOn(Sentry, 'captureException');
     const downloadLink = screen.getByTestId(

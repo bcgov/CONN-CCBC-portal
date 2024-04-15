@@ -48,7 +48,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
       <tr>
         <StyledColLeft id={id}>{title}</StyledColLeft>
         {isErrors && !isFieldInRfi ? (
-          <StyledColError />
+          <StyledColError id={`${id}-value`}>{children}</StyledColError>
         ) : (
           <StyledColRight id={`${id}-value`}>{children}</StyledColRight>
         )}

@@ -30,7 +30,7 @@ export interface EmailTemplateProvider {
   (
     applicationId: string,
     host: string,
-    eventInitiator?: string,
+    eventInitiator?: any,
     params?: any
   ): EmailTemplate;
 }

@@ -1,8 +1,15 @@
 export const ZONE_MAP_URL =
   'https://catalogue.data.gov.bc.ca/dataset/8fbfc57f-4381-4a10-a4e8-0f335c6fe39a/resource/e12440ae-0b5d-40dc-af4f-2098f0b9374f/download/internet-zones.kmz';
 
+// the zones are the same, keeping this as an added variable in case there are changes in the future
+export const ZONE_MAP_URL_INTAKE_4 =
+  'https://catalogue.data.gov.bc.ca/dataset/8fbfc57f-4381-4a10-a4e8-0f335c6fe39a/resource/e12440ae-0b5d-40dc-af4f-2098f0b9374f/download/internet-zones.kmz';
+
 export const INTAKE_3_AREAS_OF_INTEREST =
   'https://catalogue.data.gov.bc.ca/dataset/connecting-communities-bc-intake-3-areas-of-interest';
+
+export const INTAKE_4_AREAS_OF_INTEREST =
+  'https://catalogue.data.gov.bc.ca/dataset/332a5676-9171-4c50-add3-5c590fd7b985';
 
 export const CCBC_ASSESSMENT_RFI_INSTRUCTIONS =
   'https://bcgov.sharepoint.com/:w:/r/teams/00978-ConnectingCommunitiesProgram/Shared%20Documents/CCBC%20Program/0%20-%20Business%20Process%20Documentation/CCBC%20Assessment%20and%20RFI%20Instructions.docx?d=w2ef0e37b4bf6484abf9d78cdc6e4b4ec&csf=1&web=1&e=AngUhG';
