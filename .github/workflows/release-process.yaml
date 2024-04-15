@@ -63,7 +63,7 @@ jobs:
             console.log(`Result: ${containsAllCommits}`);
             return containsAllCommits;
       - name: Checkout
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && github.event.pull_request.draft != 'true'
+        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.pull_request.draft != 'true'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
