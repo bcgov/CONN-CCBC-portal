@@ -23,18 +23,21 @@ const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
       otherFundingSources: {
         oneOf: [
           {
-            ...otherFundingSources.otherFundingSources.dependencies
+            ...// @ts-ignore
+            otherFundingSources.otherFundingSources.dependencies
               .otherFundingSources.oneOf[0],
           },
           {
             properties: {
-              ...otherFundingSources.otherFundingSources.dependencies
+              ...// @ts-ignore
+              otherFundingSources.otherFundingSources.dependencies
                 .otherFundingSources.oneOf[1].properties,
               otherFundingSourcesArray: {
                 type: 'array',
                 default: [{}],
                 items: {
-                  ...otherFundingSources.otherFundingSources.dependencies
+                  ...// @ts-ignore
+                  otherFundingSources.otherFundingSources.dependencies
                     .otherFundingSources.oneOf[1].properties
                     .otherFundingSourcesArray.items,
                   required: [
@@ -48,7 +51,8 @@ const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
                     'requestedFundingPartner2627',
                   ],
                   properties: {
-                    ...otherFundingSources.otherFundingSources.dependencies
+                    ...// @ts-ignore
+                    otherFundingSources.otherFundingSources.dependencies
                       .otherFundingSources.oneOf[1].properties
                       .otherFundingSourcesArray.items.properties,
                     requestedFundingPartner2223: {
