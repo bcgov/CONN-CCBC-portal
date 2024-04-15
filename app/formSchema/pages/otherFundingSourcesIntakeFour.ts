@@ -1,6 +1,8 @@
 import { RJSFSchema } from '@rjsf/utils';
 import otherFundingSources from './otherFundingSources';
 
+const forcedAnyOtherFundingSources = otherFundingSources as any;
+
 const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
   otherFundingSources: {
     ...otherFundingSources.otherFundingSources,
@@ -23,22 +25,19 @@ const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
       otherFundingSources: {
         oneOf: [
           {
-            ...// @ts-ignore
-            otherFundingSources.otherFundingSources.dependencies
+            ...forcedAnyOtherFundingSources.otherFundingSources.dependencies
               .otherFundingSources.oneOf[0],
           },
           {
             properties: {
-              ...// @ts-ignore
-              otherFundingSources.otherFundingSources.dependencies
+              ...forcedAnyOtherFundingSources.otherFundingSources.dependencies
                 .otherFundingSources.oneOf[1].properties,
               otherFundingSourcesArray: {
                 type: 'array',
                 default: [{}],
                 items: {
-                  ...// @ts-ignore
-                  otherFundingSources.otherFundingSources.dependencies
-                    .otherFundingSources.oneOf[1].properties
+                  ...forcedAnyOtherFundingSources.otherFundingSources
+                    .dependencies.otherFundingSources.oneOf[1].properties
                     .otherFundingSourcesArray.items,
                   required: [
                     'fundingPartnersName',
@@ -51,9 +50,8 @@ const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
                     'requestedFundingPartner2627',
                   ],
                   properties: {
-                    ...// @ts-ignore
-                    otherFundingSources.otherFundingSources.dependencies
-                      .otherFundingSources.oneOf[1].properties
+                    ...forcedAnyOtherFundingSources.otherFundingSources
+                      .dependencies.otherFundingSources.oneOf[1].properties
                       .otherFundingSourcesArray.items.properties,
                     requestedFundingPartner2223: {
                       title: '2022-23',
