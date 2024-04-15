@@ -1,6 +1,6 @@
 import { RJSFSchema } from '@rjsf/utils';
 import otherFundingSources from './otherFundingSources';
-
+// NOSONAR
 const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
   otherFundingSources: {
     ...otherFundingSources.otherFundingSources,
