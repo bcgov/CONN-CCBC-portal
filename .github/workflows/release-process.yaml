@@ -63,6 +63,7 @@ jobs:
             console.log(`PR Commits: ${prCommits}`);
             console.log(`Result: ${containsAllCommits}`);
             console.log('git draft', ${{github.event.pull_request.draft}})
+            console.log('review state', ${{github.event.review.state}})
             return containsAllCommits;
       - name: Checkout
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && github.event.review.state == 'approved' && github.event.pull_request.draft != 'true'
