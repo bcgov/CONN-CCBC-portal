@@ -1,3 +1,9 @@
+# [1.155.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.154.0...v1.155.0) (2024-04-15)
+
+### Features
+
+- add kmz and pdf link for zone 14 ([cd8371a](https://github.com/bcgov/CONN-CCBC-portal/commit/cd8371ae32e226ab7619ac1944d85fc22ac48227))
+
 # [1.154.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.153.0...v1.154.0) (2024-04-15)
 
 ### Bug Fixes
