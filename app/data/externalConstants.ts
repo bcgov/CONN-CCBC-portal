@@ -12,7 +12,7 @@ export const INTAKE_4_AREAS_OF_INTEREST =
   'https://catalogue.data.gov.bc.ca/dataset/332a5676-9171-4c50-add3-5c590fd7b985';
 
 export const CCBC_ASSESSMENT_RFI_INSTRUCTIONS =
-  'https://bcgov.sharepoint.com/:w:/r/teams/00978-ConnectingCommunitiesProgram/Shared%20Documents/CCBC%20Program/0%20-%20Business%20Process%20Documentation/CCBC%20Assessment%20and%20RFI%20Instructions.docx?d=w2ef0e37b4bf6484abf9d78cdc6e4b4ec&csf=1&web=1&e=AngUhG';
+  'https://bcgov.sharepoint.com/:b:/r/teams/053702/Shared%20Documents/General/CCBC%20Program%20Documents/0%20FINAL%20PROGRAM%20DOCUMENTATION/2-Program%20Materials/CCBC%20Assessment%20and%20RFI%20Instructions.pdf?csf=1&web=1&e=aRD60O';
 
 export const CCBC_ELIGIBILITY_SCREENING_TEMPLATE =
   'https://bcgov.sharepoint.com/:x:/r/teams/00978-ConnectingCommunitiesProgram/Shared%20Documents/CCBC%20Program/0%20FINAL%20PROGRAM%20DOCUMENTATION/3-Eligibility%20Screen/CCBC_Eligibility%20Screening%20Template.xlsm';
