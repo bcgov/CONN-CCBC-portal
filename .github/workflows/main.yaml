@@ -1,4 +1,4 @@
-# Main workflow, orchestrating and triggering other workflows
+# Main workflow, orchestrating and triggering other workflowss
 name: main
 
 on:
