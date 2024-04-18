@@ -113,13 +113,14 @@ jobs:
         run: |
           git checkout main
           git pull
-          branches=$(echo "${{ steps.branch-list.listOfBranches }}" | jq -r '.[]')
+          branches=$(echo "${{ steps.branch-list.branches }}" | jq -r '.[]')
           echo $branches
           for branch in $branches; do
             git checkout main
             git pull
             git checkout $branch
             git pull
+            echo $branch
             git rebase main
             git push --force
           done
