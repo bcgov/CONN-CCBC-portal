@@ -89,6 +89,16 @@ jobs:
                 head: headBranch
               });
 
+              const getPr = await github.rest.repos.pulls.get({
+                owner,
+                repo,
+                pull_number: pr.number
+              });
+
+              const hasConflict = !getPr.data.mergeable;
+
+              console.log(hasConflict, headBranch);
+
               if(comparison.data.behind_by > 0){
                 listOfBranches.push(pr.head.ref);
               }
@@ -123,7 +133,6 @@ jobs:
             git pull
             echo $branch
             git rebase main
-            git push --force
           done
   create-release-pr:
     if: github.event.ref == 'refs/heads/main'
