@@ -89,7 +89,7 @@ jobs:
                 head: headBranch
               });
 
-              const getPr = await github.rest.repos.pulls.get({
+              const getPr = await github.rest.pulls.get({
                 owner,
                 repo,
                 pull_number: pr.number
@@ -99,7 +99,7 @@ jobs:
 
               console.log(hasConflict, headBranch);
 
-              if(comparison.data.behind_by > 0){
+              if(comparison.data.behind_by > 0 && !getPr.data.draft){
                 listOfBranches.push(pr.head.ref);
               }
             }
