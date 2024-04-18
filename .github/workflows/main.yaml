@@ -79,9 +79,9 @@ jobs:
             const prs = await github.rest.pulls.list({ owner, repo, state: 'open' });
             console.log(prs);
             for (const pr of prs.data) {
-              console.log(pr.rebaseable, pr.draft, pr.mergable_state)
+              console.log(pr.rebaseable, pr.draft, pr.mergeable_state)
               // check if PR is rebaseable, not draft, and mergable before adding to list
-              if(pr.rebaseable && !pr.draft && pr.mergable_state !== 'clean'){
+              if(pr.rebaseable && !pr.draft && pr.mergeable_state !== 'clean'){
                 listOfBranches.push(pr.head.ref);
               }
             }
