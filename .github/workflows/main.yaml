@@ -89,17 +89,7 @@ jobs:
                 head: headBranch
               });
 
-              const getPr = await github.rest.pulls.get({
-                owner,
-                repo,
-                pull_number: pr.number
-              });
-
-              const hasConflict = !getPr.data.mergeable;
-
-              console.log(hasConflict, headBranch);
-
-              if(comparison.data.behind_by > 0 && !getPr.data.draft){
+              if(comparison.data.behind_by > 0 && !pr.draft){
                 listOfBranches.push(pr.head.ref);
               }
             }
@@ -125,14 +115,19 @@ jobs:
           git checkout main
           git pull
           branches=$(echo "${{ steps.branch-list.outputs.result }}" | jq -r '.[]')
-          echo $branches
           for branch in $branches; do
             git checkout main
             git pull
             git checkout $branch
             git pull
-            echo $branch
+            set +e
             git rebase main
+            # if rebase succeeds, force push
+            REABSE_STATUS=$?
+            set -e
+            if [ $REABSE_STATUS -eq 0 ]; then
+              git push --force
+            fi
           done
   create-release-pr:
     if: github.event.ref == 'refs/heads/main'
