@@ -122,13 +122,14 @@ jobs:
             git pull
             set +e
             git rebase main
-            # if rebase succeeds, force push
+            # if rebase succeeds, force push else abort rebase
             REBASE_STATUS=$?
             set -e
             echo $REBASE_STATUS
-            echo $($REBASE_STATUS -eq 0)
             if [ $REBASE_STATUS -eq 0 ]; then
               git push --force
+            else
+              git rebase --abort
             fi
           done
   create-release-pr:
