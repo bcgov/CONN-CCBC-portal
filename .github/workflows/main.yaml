@@ -89,11 +89,10 @@ jobs:
                 head: headBranch
               });
 
-              if(comparison.data.behind_by > 0 && !pr.draft){
+              if(comparison.data.behind_by > 0 && !pr.draft && pr.requested_reviewers.length > 0){
                 listOfBranches.push(pr.head.ref);
               }
             }
-            console.log(listOfBranches);
             core.setOutput('branches', JSON.stringify(listOfBranches));
             return JSON.stringify(listOfBranches)
       - name: Checkout
