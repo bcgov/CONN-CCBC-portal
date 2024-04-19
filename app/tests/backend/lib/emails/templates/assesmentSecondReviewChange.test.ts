@@ -40,7 +40,7 @@ describe('assesmentSecondReviewChange template', () => {
       { ccbcNumber: 'ABC', assessmentType: 'projectManagement' }
     );
     expect(emailTemplatePM.subject).toEqual(
-      `CCBC User has requested a 2nd Review for Eligibility Project Management - ABC`
+      `CCBC User has requested a 2nd Review for Project Management assessment - ABC`
     );
     expect(emailTemplatePM.body).toContain(
       `<a href='http://mock_host.ca/analyst/application/1/assessments/project-management'>Click here</a>`
@@ -53,7 +53,7 @@ describe('assesmentSecondReviewChange template', () => {
       { ccbcNumber: 'ABC', assessmentType: 'permitting' }
     );
     expect(emailTemplatePT.subject).toEqual(
-      `CCBC User has requested a 2nd Review for Eligibility Permitting - ABC`
+      `CCBC User has requested a 2nd Review for Permitting assessment - ABC`
     );
     expect(emailTemplatePT.body).toContain(
       `<a href='http://mock_host.ca/analyst/application/1/assessments/permitting'>Click here</a>`
@@ -66,7 +66,7 @@ describe('assesmentSecondReviewChange template', () => {
       { ccbcNumber: 'ABC', assessmentType: 'technical' }
     );
     expect(emailTemplateTech.subject).toEqual(
-      `CCBC User has requested a 2nd Review for Eligibility Technical - ABC`
+      `CCBC User has requested a 2nd Review for Technical assessment - ABC`
     );
     expect(emailTemplateTech.body).toContain(
       `<a href='http://mock_host.ca/analyst/application/1/assessments/technical'>Click here</a>`
@@ -79,7 +79,7 @@ describe('assesmentSecondReviewChange template', () => {
       { ccbcNumber: 'ABC', assessmentType: 'gis' }
     );
     expect(emailTemplateGis.subject).toEqual(
-      `CCBC User has requested a 2nd Review for Eligibility GIS - ABC`
+      `CCBC User has requested a 2nd Review for GIS assessment - ABC`
     );
     expect(emailTemplateGis.body).toContain(
       `<a href='http://mock_host.ca/analyst/application/1/assessments/gis'>Click here</a>`
@@ -92,7 +92,7 @@ describe('assesmentSecondReviewChange template', () => {
       { ccbcNumber: 'ABC', assessmentType: 'financialRisk' }
     );
     expect(emailTemplateFR.subject).toEqual(
-      `CCBC User has requested a 2nd Review for Eligibility Financial Risk - ABC`
+      `CCBC User has requested a 2nd Review for Financial Risk assessment - ABC`
     );
     expect(emailTemplateFR.body).toContain(
       `<a href='http://mock_host.ca/analyst/application/1/assessments/financial-risk'>Click here</a>`
