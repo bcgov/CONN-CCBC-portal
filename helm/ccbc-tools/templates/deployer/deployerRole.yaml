@@ -234,5 +234,33 @@ rules:
       - create
       - update
       - delete
+  - apiGroups:
+      - tekton.dev
+    resources:
+      - tasks
+      - taskruns
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+  - apiGroups:
+      - triggers.tekton.dev
+    resources:
+      - eventlisteners
+      - interceptors
+      - triggers
+      - triggerbindings
+      - triggertemplates
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
 
 {{ end }}
