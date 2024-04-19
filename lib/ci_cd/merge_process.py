@@ -119,6 +119,8 @@ if __name__ == "__main__":
     branch_name = sys.argv[3]
     token = sys.argv[4]
 
+    print(repo_owner, repo_name, branch_name, token)
+
     pr_url = find_pr_by_partial_branch(repo_owner, repo_name, branch_name)
 
     update_pr_description(pr_url, token)
