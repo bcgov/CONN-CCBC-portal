@@ -240,11 +240,14 @@ rules:
       - tasks
       - taskruns
     verbs:
+      - create
+      - delete
+      - deletecollection
       - get
       - list
-      - create
+      - patch
       - update
-      - delete
+      - watch
   - apiGroups:
       - triggers.tekton.dev
     resources:
