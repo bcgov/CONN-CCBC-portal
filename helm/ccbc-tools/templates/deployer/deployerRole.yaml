@@ -214,5 +214,25 @@ rules:
     - update
     - patch
     - delete
+  - apiGroups:
+      - build.openshift.io
+    resources:
+      - buildconfigs
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+  - apiGroups:
+      - image.openshift.io
+    resources:
+      - imagestreams
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
 
 {{ end }}
