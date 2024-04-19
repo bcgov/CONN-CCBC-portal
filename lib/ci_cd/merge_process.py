@@ -1,5 +1,6 @@
 import sys
 import json
+import os
 import requests
 
 def find_pr_by_partial_branch(repo_owner, repo_name, branch_name):
