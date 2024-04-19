@@ -1,3 +1,9 @@
+# [1.156.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.155.0...v1.156.0) (2024-04-19)
+
+### Features
+
+- lambda for responsiveness ([b3e5dad](https://github.com/bcgov/CONN-CCBC-portal/commit/b3e5dad5a90863393bdd67bed4ffab775048a2ec))
+
 # [1.155.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.154.0...v1.155.0) (2024-04-15)
 
 ### Features
