@@ -109,17 +109,32 @@ def enable_auto_merge(pull_request_id, token):
 
     print("Auto merge enabled successfully!")
 
+def check_header_secret(passed_value):
+    # Get the value of the environment variable named HEADER_SECRET
+    header_secret = os.environ.get('HEADER_SECRET')
+
+    # Check if passed_value is equal to expected header_secret
+    if passed_value == header_secret:
+        return True
+    else:
+        return False
+
 if __name__ == "__main__":
     if len(sys.argv) != 5:
-        print("Usage: python script.py <repo_owner> <repo_name> <branch_name> <token>")
+        print("Usage: python script.py <repo_owner> <repo_name> <branch_name> <passed_header>")
         sys.exit(1)
 
     repo_owner = sys.argv[1]
     repo_name = sys.argv[2]
     branch_name = sys.argv[3]
-    token = sys.argv[4]
+    passed_header = sys.argv[4]
+    token = os.environ.get('GITHUB_TOKEN')
 
-    print(repo_owner, repo_name, branch_name, token)
+    if not check_header_secret(passed_header):
+        print("Invalid header secret.")
+        sys.exit(1)
+
+    print(repo_owner, repo_name, branch_name, passed_header, token)
 
     pr_url = find_pr_by_partial_branch(repo_owner, repo_name, branch_name)
 
