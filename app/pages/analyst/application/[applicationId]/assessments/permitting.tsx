@@ -19,6 +19,7 @@ const getPermittingAssessmentQuery = graphql`
       assessmentForm(_assessmentDataType: "permitting") {
         jsonData
       }
+      ccbcNumber
     }
     session {
       sub
@@ -50,6 +51,7 @@ const PermittingAssessment = ({
       <AnalystLayout query={query}>
         <AssessmentsTabs />
         <AssessmentsForm
+          addedContext={{ ccbcNumber: applicationByRowId.ccbcNumber }}
           formData={applicationByRowId.assessmentForm?.jsonData}
           uiSchema={permittingUiSchema}
           schema={permitting}

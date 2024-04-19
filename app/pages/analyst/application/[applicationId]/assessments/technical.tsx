@@ -19,6 +19,7 @@ const getTechnicalAssessmentQuery = graphql`
       assessmentForm(_assessmentDataType: "technical") {
         jsonData
       }
+      ccbcNumber
     }
     session {
       sub
@@ -41,6 +42,7 @@ const TechnicalAssessment = ({
         <AssessmentsTabs />
         <GuideLink />
         <AssessmentsForm
+          addedContext={{ ccbcNumber: applicationByRowId.ccbcNumber }}
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={technical}
           slug="technical"

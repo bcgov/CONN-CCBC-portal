@@ -2,7 +2,7 @@ import { Router } from 'express';
 import RateLimit from 'express-rate-limit';
 import agreementSignedStatusChange from './templates/agreementSignedStatusChange';
 import assesmentSecondReviewChange from './templates/assesmentSecondReviewChange';
-import { handleEmailNotification } from './handleEmailNotification';
+import handleEmailNotification from './handleEmailNotification';
 
 const email = Router();
 
@@ -16,9 +16,10 @@ email.post('/api/email/notifyAgreementSigned', limiter, (req, res) => {
 });
 
 email.post('/api/email/notifySecondReviewRequest', limiter, (req, res) => {
-  const { ccbcNumber } = req.body;
+  const { ccbcNumber, assessmentType } = req.body;
   return handleEmailNotification(req, res, assesmentSecondReviewChange, {
     ccbcNumber,
+    assessmentType,
   });
 });
 
