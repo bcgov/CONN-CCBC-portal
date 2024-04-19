@@ -1,0 +1,23 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: trigger-github-merge-and-release
+spec:
+  params:
+    - description: The issue key
+      name: key
+    - description: The header key
+      name: signature
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: TaskRun
+      metadata:
+        generateName: run-trigger-github-merge-and-release-
+      spec:
+        params:
+          - name: arg3
+            value: $(tt.params.key)
+          - name: arg4
+            value: $(tt.params.signature)
+        taskRef:
+          name: trigger-github-merge-and-release
