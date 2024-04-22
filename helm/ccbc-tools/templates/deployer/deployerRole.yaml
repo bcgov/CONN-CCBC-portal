@@ -235,6 +235,7 @@ rules:
       - create
       - update
       - delete
+      - patch
   - apiGroups:
       - tekton.dev
     resources:
