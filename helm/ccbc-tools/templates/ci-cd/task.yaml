@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-name: trigger-github-merge-and-release
+  name: trigger-github-merge-and-release
 spec:
   params:
     - default: bcgov
