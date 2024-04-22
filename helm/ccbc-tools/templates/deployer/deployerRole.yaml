@@ -224,6 +224,7 @@ rules:
       - create
       - update
       - delete
+      - patch
   - apiGroups:
       - image.openshift.io
     resources:
