@@ -2,9 +2,9 @@ name: deploy tools chart
 
 on:
   push:
-    branches: [main, NDT-211-CI-CD-Automating-merging-of-changes-from-Jira]
-    #paths:
-    #  - 'helm/ccbc-tools/**'
+    branches: [main]
+    paths:
+      - 'helm/ccbc-tools/**'
 
 jobs:
   helm_deploy:
