@@ -3,8 +3,9 @@ import config from '../../../config';
 
 const CHES_API_URL = config.get('CHES_API_URL');
 
-interface Context {
+export interface Context {
   to: string[];
+  cc: string[];
   context: { [key: string]: any };
   delayTS: number;
   tag: string;
@@ -41,7 +42,7 @@ const sendEmailMerge = async (
       throw new Error(`Error sending merge with status: ${response.status}`);
     }
     const sendEmailResult = await response.json();
-    return sendEmailResult.messages[0].msgId;
+    return sendEmailResult;
   } catch (error: any) {
     Sentry.captureException(new Error(error.message));
     throw new Error(error.message);

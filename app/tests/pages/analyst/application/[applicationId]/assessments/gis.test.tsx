@@ -158,6 +158,7 @@ describe('The index page', () => {
         },
         _assessmentType: 'gis',
       },
+      connections: [],
     });
   });
 

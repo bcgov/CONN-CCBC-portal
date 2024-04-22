@@ -104,6 +104,7 @@ describe('The index page', () => {
         },
         _assessmentType: 'financialRisk',
       },
+      connections: [],
     });
   });
 

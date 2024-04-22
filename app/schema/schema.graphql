@@ -993,6 +993,40 @@ type Query implements Node {
     filter: ConditionalApprovalDataFilter
   ): ConditionalApprovalDataConnection
 
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  allEmailRecords(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): EmailRecordsConnection
+
   """Reads and enables pagination through a set of `Form`."""
   allForms(
     """Only read the first `n` values of the set."""
@@ -1264,6 +1298,40 @@ type Query implements Node {
     """
     filter: IntakeFilter
   ): IntakesConnection
+
+  """Reads and enables pagination through a set of `Notification`."""
+  allNotifications(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection
 
   """
   Reads and enables pagination through a set of `ProjectInformationData`.
@@ -1567,6 +1635,7 @@ type Query implements Node {
   ccbcUserByRowId(rowId: Int!): CcbcUser
   changeRequestDataByRowId(rowId: Int!): ChangeRequestData
   conditionalApprovalDataByRowId(rowId: Int!): ConditionalApprovalData
+  emailRecordByRowId(rowId: Int!): EmailRecord
   formByRowId(rowId: Int!): Form
   formBySlug(slug: String!): Form
   formDataByRowId(rowId: Int!): FormData
@@ -1576,6 +1645,7 @@ type Query implements Node {
   gisDataByRowId(rowId: Int!): GisData
   intakeByRowId(rowId: Int!): Intake
   intakeByApplicationNumberSeqName(applicationNumberSeqName: String!): Intake
+  notificationByRowId(rowId: Int!): Notification
   projectInformationDataByRowId(rowId: Int!): ProjectInformationData
   recordVersionByRowId(rowId: BigInt!): RecordVersion
   rfiDataByRowId(rowId: Int!): RfiData
@@ -1865,6 +1935,14 @@ type Query implements Node {
     id: ID!
   ): ConditionalApprovalData
 
+  """Reads a single `EmailRecord` using its globally unique `ID`."""
+  emailRecord(
+    """
+    The globally unique `ID` to be used in selecting a single `EmailRecord`.
+    """
+    id: ID!
+  ): EmailRecord
+
   """Reads a single `Form` using its globally unique `ID`."""
   form(
     """The globally unique `ID` to be used in selecting a single `Form`."""
@@ -1910,6 +1988,14 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `Intake`."""
     id: ID!
   ): Intake
+
+  """Reads a single `Notification` using its globally unique `ID`."""
+  notification(
+    """
+    The globally unique `ID` to be used in selecting a single `Notification`.
+    """
+    id: ID!
+  ): Notification
 
   """
   Reads a single `ProjectInformationData` using its globally unique `ID`.
@@ -5646,6 +5732,210 @@ type CcbcUser implements Node {
     """
     filter: ApplicationProjectTypeFilter
   ): ApplicationProjectTypesConnection!
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): EmailRecordsConnection!
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): EmailRecordsConnection!
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): EmailRecordsConnection!
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
@@ -15642,6 +15932,618 @@ type CcbcUser implements Node {
     """
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByApplicationProjectTypeArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByEmailRecordCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByEmailRecordCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByEmailRecordCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByEmailRecordCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByEmailRecordUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByEmailRecordUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByEmailRecordUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByEmailRecordUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByEmailRecordArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByEmailRecordArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByEmailRecordArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByEmailRecordArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByNotificationCreatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByNotificationCreatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByNotificationCreatedByAndEmailRecordId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): CcbcUserEmailRecordsByNotificationCreatedByAndEmailRecordIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByNotificationCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByNotificationCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByNotificationUpdatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByNotificationUpdatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByNotificationUpdatedByAndEmailRecordId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): CcbcUserEmailRecordsByNotificationUpdatedByAndEmailRecordIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByNotificationUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByNotificationUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByNotificationArchivedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByNotificationArchivedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByNotificationArchivedByAndEmailRecordId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): CcbcUserEmailRecordsByNotificationArchivedByAndEmailRecordIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByNotificationArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByNotificationArchivedByAndUpdatedByManyToManyConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -16423,6 +17325,42 @@ input CcbcUserFilter {
   """Some related `applicationProjectTypesByArchivedBy` exist."""
   applicationProjectTypesByArchivedByExist: Boolean
 
+  """Filter by the object’s `emailRecordsByCreatedBy` relation."""
+  emailRecordsByCreatedBy: CcbcUserToManyEmailRecordFilter
+
+  """Some related `emailRecordsByCreatedBy` exist."""
+  emailRecordsByCreatedByExist: Boolean
+
+  """Filter by the object’s `emailRecordsByUpdatedBy` relation."""
+  emailRecordsByUpdatedBy: CcbcUserToManyEmailRecordFilter
+
+  """Some related `emailRecordsByUpdatedBy` exist."""
+  emailRecordsByUpdatedByExist: Boolean
+
+  """Filter by the object’s `emailRecordsByArchivedBy` relation."""
+  emailRecordsByArchivedBy: CcbcUserToManyEmailRecordFilter
+
+  """Some related `emailRecordsByArchivedBy` exist."""
+  emailRecordsByArchivedByExist: Boolean
+
+  """Filter by the object’s `notificationsByCreatedBy` relation."""
+  notificationsByCreatedBy: CcbcUserToManyNotificationFilter
+
+  """Some related `notificationsByCreatedBy` exist."""
+  notificationsByCreatedByExist: Boolean
+
+  """Filter by the object’s `notificationsByUpdatedBy` relation."""
+  notificationsByUpdatedBy: CcbcUserToManyNotificationFilter
+
+  """Some related `notificationsByUpdatedBy` exist."""
+  notificationsByUpdatedByExist: Boolean
+
+  """Filter by the object’s `notificationsByArchivedBy` relation."""
+  notificationsByArchivedBy: CcbcUserToManyNotificationFilter
+
+  """Some related `notificationsByArchivedBy` exist."""
+  notificationsByArchivedByExist: Boolean
+
   """Filter by the object’s `keycloakJwtsBySub` relation."""
   keycloakJwtsBySub: CcbcUserToManyKeycloakJwtFilter
 
@@ -17151,6 +18089,12 @@ input ApplicationFilter {
 
   """Some related `applicationProjectTypesByApplicationId` exist."""
   applicationProjectTypesByApplicationIdExist: Boolean
+
+  """Filter by the object’s `notificationsByApplicationId` relation."""
+  notificationsByApplicationId: ApplicationToManyNotificationFilter
+
+  """Some related `notificationsByApplicationId` exist."""
+  notificationsByApplicationIdExist: Boolean
 
   """Filter by the object’s `intakeByIntakeId` relation."""
   intakeByIntakeId: IntakeFilter
@@ -20347,6 +21291,200 @@ input ApplicationProjectTypeFilter {
 }
 
 """
+A filter to be used against many `Notification` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationToManyNotificationFilter {
+  """
+  Every related `Notification` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: NotificationFilter
+
+  """
+  Some related `Notification` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: NotificationFilter
+
+  """
+  No related `Notification` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: NotificationFilter
+}
+
+"""
+A filter to be used against `Notification` object types. All fields are combined with a logical ‘and.’
+"""
+input NotificationFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `notificationType` field."""
+  notificationType: StringFilter
+
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `jsonData` field."""
+  jsonData: JSONFilter
+
+  """Filter by the object’s `emailRecordId` field."""
+  emailRecordId: IntFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """Filter by the object’s `applicationByApplicationId` relation."""
+  applicationByApplicationId: ApplicationFilter
+
+  """A related `applicationByApplicationId` exists."""
+  applicationByApplicationIdExists: Boolean
+
+  """Filter by the object’s `emailRecordByEmailRecordId` relation."""
+  emailRecordByEmailRecordId: EmailRecordFilter
+
+  """A related `emailRecordByEmailRecordId` exists."""
+  emailRecordByEmailRecordIdExists: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [NotificationFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [NotificationFilter!]
+
+  """Negates the expression."""
+  not: NotificationFilter
+}
+
+"""
+A filter to be used against `EmailRecord` object types. All fields are combined with a logical ‘and.’
+"""
+input EmailRecordFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `toEmail` field."""
+  toEmail: StringFilter
+
+  """Filter by the object’s `ccEmail` field."""
+  ccEmail: StringFilter
+
+  """Filter by the object’s `subject` field."""
+  subject: StringFilter
+
+  """Filter by the object’s `body` field."""
+  body: StringFilter
+
+  """Filter by the object’s `messageId` field."""
+  messageId: StringFilter
+
+  """Filter by the object’s `jsonData` field."""
+  jsonData: JSONFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """Filter by the object’s `notificationsByEmailRecordId` relation."""
+  notificationsByEmailRecordId: EmailRecordToManyNotificationFilter
+
+  """Some related `notificationsByEmailRecordId` exist."""
+  notificationsByEmailRecordIdExist: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [EmailRecordFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [EmailRecordFilter!]
+
+  """Negates the expression."""
+  not: EmailRecordFilter
+}
+
+"""
+A filter to be used against many `Notification` object types. All fields are combined with a logical ‘and.’
+"""
+input EmailRecordToManyNotificationFilter {
+  """
+  Every related `Notification` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: NotificationFilter
+
+  """
+  Some related `Notification` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: NotificationFilter
+
+  """
+  No related `Notification` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: NotificationFilter
+}
+
+"""
 A filter to be used against `GaplessCounter` object types. All fields are combined with a logical ‘and.’
 """
 input GaplessCounterFilter {
@@ -21270,6 +22408,46 @@ input CcbcUserToManyApplicationProjectTypeFilter {
   No related `ApplicationProjectType` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
   none: ApplicationProjectTypeFilter
+}
+
+"""
+A filter to be used against many `EmailRecord` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcUserToManyEmailRecordFilter {
+  """
+  Every related `EmailRecord` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: EmailRecordFilter
+
+  """
+  Some related `EmailRecord` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: EmailRecordFilter
+
+  """
+  No related `EmailRecord` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: EmailRecordFilter
+}
+
+"""
+A filter to be used against many `Notification` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcUserToManyNotificationFilter {
+  """
+  Every related `Notification` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: NotificationFilter
+
+  """
+  Some related `Notification` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: NotificationFilter
+
+  """
+  No related `Notification` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: NotificationFilter
 }
 
 """
@@ -22930,6 +24108,40 @@ type Application implements Node {
     """
     filter: ApplicationProjectTypeFilter
   ): ApplicationProjectTypesConnection!
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
 
   """Reads and enables pagination through a set of `AssessmentData`."""
   allAssessments(
@@ -25284,6 +26496,142 @@ type Application implements Node {
     """
     filter: CcbcUserFilter
   ): ApplicationCcbcUsersByApplicationProjectTypeApplicationIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByNotificationApplicationIdAndEmailRecordId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): ApplicationEmailRecordsByNotificationApplicationIdAndEmailRecordIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationApplicationIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByNotificationApplicationIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationApplicationIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByNotificationApplicationIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationApplicationIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByNotificationApplicationIdAndArchivedByManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -34333,6 +35681,606 @@ input ApplicationProjectTypeCondition {
   archivedAt: Datetime
 }
 
+"""A connection to a list of `Notification` values."""
+type NotificationsConnection {
+  """A list of `Notification` objects."""
+  nodes: [Notification]!
+
+  """
+  A list of edges which contains the `Notification` and cursor to aid in pagination.
+  """
+  edges: [NotificationsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Notification` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""Table containing list of application notifications"""
+type Notification implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  rowId: Int!
+  notificationType: String
+  applicationId: Int
+  jsonData: JSON!
+  emailRecordId: Int
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `Application` that is related to this `Notification`."""
+  applicationByApplicationId: Application
+
+  """Reads a single `EmailRecord` that is related to this `Notification`."""
+  emailRecordByEmailRecordId: EmailRecord
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByArchivedBy: CcbcUser
+}
+
+"""Table containing list of application email_records"""
+type EmailRecord implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  rowId: Int!
+  toEmail: String
+  ccEmail: String
+  subject: String
+  body: String
+  messageId: String
+  jsonData: JSON!
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByEmailRecordId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByNotificationEmailRecordIdAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): EmailRecordApplicationsByNotificationEmailRecordIdAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationEmailRecordIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): EmailRecordCcbcUsersByNotificationEmailRecordIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationEmailRecordIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): EmailRecordCcbcUsersByNotificationEmailRecordIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByNotificationEmailRecordIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): EmailRecordCcbcUsersByNotificationEmailRecordIdAndArchivedByManyToManyConnection!
+}
+
+"""Methods to use when ordering `Notification`."""
+enum NotificationsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NOTIFICATION_TYPE_ASC
+  NOTIFICATION_TYPE_DESC
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
+  EMAIL_RECORD_ID_ASC
+  EMAIL_RECORD_ID_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Notification` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input NotificationCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `notificationType` field."""
+  notificationType: String
+
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
+
+  """Checks for equality with the object’s `emailRecordId` field."""
+  emailRecordId: Int
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
+"""
+A connection to a list of `Application` values, with data from `Notification`.
+"""
+type EmailRecordApplicationsByNotificationEmailRecordIdAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [EmailRecordApplicationsByNotificationEmailRecordIdAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Application` edge in the connection, with data from `Notification`."""
+type EmailRecordApplicationsByNotificationEmailRecordIdAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type EmailRecordCcbcUsersByNotificationEmailRecordIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [EmailRecordCcbcUsersByNotificationEmailRecordIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type EmailRecordCcbcUsersByNotificationEmailRecordIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type EmailRecordCcbcUsersByNotificationEmailRecordIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [EmailRecordCcbcUsersByNotificationEmailRecordIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type EmailRecordCcbcUsersByNotificationEmailRecordIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type EmailRecordCcbcUsersByNotificationEmailRecordIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [EmailRecordCcbcUsersByNotificationEmailRecordIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type EmailRecordCcbcUsersByNotificationEmailRecordIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""A `Notification` edge in the connection."""
+type NotificationsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Notification` at the end of the edge."""
+  node: Notification
+}
+
 """A connection to a list of `Announcement` values."""
 type AnnouncementsConnection {
   """A list of `Announcement` objects."""
@@ -38868,6 +40816,332 @@ type ApplicationCcbcUsersByApplicationProjectTypeApplicationIdAndArchivedByManyT
   ): ApplicationProjectTypesConnection!
 }
 
+"""
+A connection to a list of `EmailRecord` values, with data from `Notification`.
+"""
+type ApplicationEmailRecordsByNotificationApplicationIdAndEmailRecordIdManyToManyConnection {
+  """A list of `EmailRecord` objects."""
+  nodes: [EmailRecord]!
+
+  """
+  A list of edges which contains the `EmailRecord`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationEmailRecordsByNotificationApplicationIdAndEmailRecordIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `EmailRecord` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `EmailRecord` edge in the connection, with data from `Notification`."""
+type ApplicationEmailRecordsByNotificationApplicationIdAndEmailRecordIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `EmailRecord` at the end of the edge."""
+  node: EmailRecord
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByEmailRecordId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""Methods to use when ordering `EmailRecord`."""
+enum EmailRecordsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  TO_EMAIL_ASC
+  TO_EMAIL_DESC
+  CC_EMAIL_ASC
+  CC_EMAIL_DESC
+  SUBJECT_ASC
+  SUBJECT_DESC
+  BODY_ASC
+  BODY_DESC
+  MESSAGE_ID_ASC
+  MESSAGE_ID_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `EmailRecord` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input EmailRecordCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `toEmail` field."""
+  toEmail: String
+
+  """Checks for equality with the object’s `ccEmail` field."""
+  ccEmail: String
+
+  """Checks for equality with the object’s `subject` field."""
+  subject: String
+
+  """Checks for equality with the object’s `body` field."""
+  body: String
+
+  """Checks for equality with the object’s `messageId` field."""
+  messageId: String
+
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type ApplicationCcbcUsersByNotificationApplicationIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByNotificationApplicationIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type ApplicationCcbcUsersByNotificationApplicationIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type ApplicationCcbcUsersByNotificationApplicationIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByNotificationApplicationIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type ApplicationCcbcUsersByNotificationApplicationIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type ApplicationCcbcUsersByNotificationApplicationIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByNotificationApplicationIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type ApplicationCcbcUsersByNotificationApplicationIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
 """A `Application` edge in the connection."""
 type ApplicationsEdge {
   """A cursor for use in pagination."""
@@ -39374,6 +41648,32 @@ input CbcProjectCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+}
+
+"""A connection to a list of `EmailRecord` values."""
+type EmailRecordsConnection {
+  """A list of `EmailRecord` objects."""
+  nodes: [EmailRecord]!
+
+  """
+  A list of edges which contains the `EmailRecord` and cursor to aid in pagination.
+  """
+  edges: [EmailRecordsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `EmailRecord` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `EmailRecord` edge in the connection."""
+type EmailRecordsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `EmailRecord` at the end of the edge."""
+  node: EmailRecord
 }
 
 """
@@ -58209,6 +60509,1122 @@ type CcbcUserCcbcUsersByApplicationProjectTypeArchivedByAndUpdatedByManyToManyEd
 }
 
 """
+A connection to a list of `CcbcUser` values, with data from `EmailRecord`.
+"""
+type CcbcUserCcbcUsersByEmailRecordCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `EmailRecord`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByEmailRecordCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `EmailRecord`."""
+type CcbcUserCcbcUsersByEmailRecordCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): EmailRecordsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `EmailRecord`.
+"""
+type CcbcUserCcbcUsersByEmailRecordCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `EmailRecord`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByEmailRecordCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `EmailRecord`."""
+type CcbcUserCcbcUsersByEmailRecordCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): EmailRecordsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `EmailRecord`.
+"""
+type CcbcUserCcbcUsersByEmailRecordUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `EmailRecord`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByEmailRecordUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `EmailRecord`."""
+type CcbcUserCcbcUsersByEmailRecordUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): EmailRecordsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `EmailRecord`.
+"""
+type CcbcUserCcbcUsersByEmailRecordUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `EmailRecord`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByEmailRecordUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `EmailRecord`."""
+type CcbcUserCcbcUsersByEmailRecordUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): EmailRecordsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `EmailRecord`.
+"""
+type CcbcUserCcbcUsersByEmailRecordArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `EmailRecord`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByEmailRecordArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `EmailRecord`."""
+type CcbcUserCcbcUsersByEmailRecordArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): EmailRecordsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `EmailRecord`.
+"""
+type CcbcUserCcbcUsersByEmailRecordArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `EmailRecord`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByEmailRecordArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `EmailRecord`."""
+type CcbcUserCcbcUsersByEmailRecordArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `EmailRecord`."""
+  emailRecordsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EmailRecordCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EmailRecordFilter
+  ): EmailRecordsConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `Notification`.
+"""
+type CcbcUserApplicationsByNotificationCreatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByNotificationCreatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Application` edge in the connection, with data from `Notification`."""
+type CcbcUserApplicationsByNotificationCreatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `EmailRecord` values, with data from `Notification`.
+"""
+type CcbcUserEmailRecordsByNotificationCreatedByAndEmailRecordIdManyToManyConnection {
+  """A list of `EmailRecord` objects."""
+  nodes: [EmailRecord]!
+
+  """
+  A list of edges which contains the `EmailRecord`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserEmailRecordsByNotificationCreatedByAndEmailRecordIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `EmailRecord` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `EmailRecord` edge in the connection, with data from `Notification`."""
+type CcbcUserEmailRecordsByNotificationCreatedByAndEmailRecordIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `EmailRecord` at the end of the edge."""
+  node: EmailRecord
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByEmailRecordId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type CcbcUserCcbcUsersByNotificationCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByNotificationCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type CcbcUserCcbcUsersByNotificationCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type CcbcUserCcbcUsersByNotificationCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByNotificationCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type CcbcUserCcbcUsersByNotificationCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `Notification`.
+"""
+type CcbcUserApplicationsByNotificationUpdatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByNotificationUpdatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Application` edge in the connection, with data from `Notification`."""
+type CcbcUserApplicationsByNotificationUpdatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `EmailRecord` values, with data from `Notification`.
+"""
+type CcbcUserEmailRecordsByNotificationUpdatedByAndEmailRecordIdManyToManyConnection {
+  """A list of `EmailRecord` objects."""
+  nodes: [EmailRecord]!
+
+  """
+  A list of edges which contains the `EmailRecord`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserEmailRecordsByNotificationUpdatedByAndEmailRecordIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `EmailRecord` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `EmailRecord` edge in the connection, with data from `Notification`."""
+type CcbcUserEmailRecordsByNotificationUpdatedByAndEmailRecordIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `EmailRecord` at the end of the edge."""
+  node: EmailRecord
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByEmailRecordId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type CcbcUserCcbcUsersByNotificationUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByNotificationUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type CcbcUserCcbcUsersByNotificationUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type CcbcUserCcbcUsersByNotificationUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByNotificationUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type CcbcUserCcbcUsersByNotificationUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `Notification`.
+"""
+type CcbcUserApplicationsByNotificationArchivedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByNotificationArchivedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Application` edge in the connection, with data from `Notification`."""
+type CcbcUserApplicationsByNotificationArchivedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `EmailRecord` values, with data from `Notification`.
+"""
+type CcbcUserEmailRecordsByNotificationArchivedByAndEmailRecordIdManyToManyConnection {
+  """A list of `EmailRecord` objects."""
+  nodes: [EmailRecord]!
+
+  """
+  A list of edges which contains the `EmailRecord`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserEmailRecordsByNotificationArchivedByAndEmailRecordIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `EmailRecord` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `EmailRecord` edge in the connection, with data from `Notification`."""
+type CcbcUserEmailRecordsByNotificationArchivedByAndEmailRecordIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `EmailRecord` at the end of the edge."""
+  node: EmailRecord
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByEmailRecordId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type CcbcUserCcbcUsersByNotificationArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByNotificationArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type CcbcUserCcbcUsersByNotificationArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `Notification`.
+"""
+type CcbcUserCcbcUsersByNotificationArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `Notification`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByNotificationArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `Notification`."""
+type CcbcUserCcbcUsersByNotificationArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `Notification`."""
+  notificationsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: NotificationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: NotificationFilter
+  ): NotificationsConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationAnalystLead`.
 """
 type AnalystApplicationsByApplicationAnalystLeadAnalystIdAndApplicationIdManyToManyConnection {
@@ -59116,6 +62532,14 @@ type Mutation {
     input: CreateConditionalApprovalDataInput!
   ): CreateConditionalApprovalDataPayload
 
+  """Creates a single `EmailRecord`."""
+  createEmailRecord(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateEmailRecordInput!
+  ): CreateEmailRecordPayload
+
   """Creates a single `Form`."""
   createForm(
     """
@@ -59171,6 +62595,14 @@ type Mutation {
     """
     input: CreateHistoryItemInput!
   ): CreateHistoryItemPayload
+
+  """Creates a single `Notification`."""
+  createNotification(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateNotificationInput!
+  ): CreateNotificationPayload
 
   """Creates a single `ProjectInformationData`."""
   createProjectInformationData(
@@ -59754,6 +63186,24 @@ type Mutation {
     input: UpdateConditionalApprovalDataByRowIdInput!
   ): UpdateConditionalApprovalDataPayload
 
+  """
+  Updates a single `EmailRecord` using its globally unique id and a patch.
+  """
+  updateEmailRecord(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateEmailRecordInput!
+  ): UpdateEmailRecordPayload
+
+  """Updates a single `EmailRecord` using a unique key and a patch."""
+  updateEmailRecordByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateEmailRecordByRowIdInput!
+  ): UpdateEmailRecordPayload
+
   """Updates a single `Form` using its globally unique id and a patch."""
   updateForm(
     """
@@ -59861,6 +63311,24 @@ type Mutation {
     """
     input: UpdateGisDataByRowIdInput!
   ): UpdateGisDataPayload
+
+  """
+  Updates a single `Notification` using its globally unique id and a patch.
+  """
+  updateNotification(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateNotificationInput!
+  ): UpdateNotificationPayload
+
+  """Updates a single `Notification` using a unique key and a patch."""
+  updateNotificationByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateNotificationByRowIdInput!
+  ): UpdateNotificationPayload
 
   """
   Updates a single `ProjectInformationData` using its globally unique id and a patch.
@@ -60288,6 +63756,22 @@ type Mutation {
     input: DeleteConditionalApprovalDataByRowIdInput!
   ): DeleteConditionalApprovalDataPayload
 
+  """Deletes a single `EmailRecord` using its globally unique id."""
+  deleteEmailRecord(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteEmailRecordInput!
+  ): DeleteEmailRecordPayload
+
+  """Deletes a single `EmailRecord` using a unique key."""
+  deleteEmailRecordByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteEmailRecordByRowIdInput!
+  ): DeleteEmailRecordPayload
+
   """Deletes a single `Form` using its globally unique id."""
   deleteForm(
     """
@@ -60391,6 +63875,22 @@ type Mutation {
     """
     input: DeleteGisDataByRowIdInput!
   ): DeleteGisDataPayload
+
+  """Deletes a single `Notification` using its globally unique id."""
+  deleteNotification(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteNotificationInput!
+  ): DeleteNotificationPayload
+
+  """Deletes a single `Notification` using a unique key."""
+  deleteNotificationByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteNotificationByRowIdInput!
+  ): DeleteNotificationPayload
 
   """
   Deletes a single `ProjectInformationData` using its globally unique id.
@@ -60655,6 +64155,12 @@ type Mutation {
     """
     input: CreateConditionalApprovalInput!
   ): CreateConditionalApprovalPayload
+  createEmailNotifications(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateEmailNotificationsInput!
+  ): CreateEmailNotificationsPayload
 
   """Function to create intakes for the ccbc admin"""
   createHiddenIntake(
@@ -62160,6 +65666,78 @@ input ConditionalApprovalDataInput {
   archivedAt: Datetime
 }
 
+"""The output of our create `EmailRecord` mutation."""
+type CreateEmailRecordPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `EmailRecord` that was created by this mutation."""
+  emailRecord: EmailRecord
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `EmailRecord`. May be used by Relay 1."""
+  emailRecordEdge(
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): EmailRecordsEdge
+}
+
+"""All input for the create `EmailRecord` mutation."""
+input CreateEmailRecordInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `EmailRecord` to be created by this mutation."""
+  emailRecord: EmailRecordInput!
+}
+
+"""An input for mutations affecting `EmailRecord`"""
+input EmailRecordInput {
+  toEmail: String
+  ccEmail: String
+  subject: String
+  body: String
+  messageId: String
+  jsonData: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
 """The output of our create `Form` mutation."""
 type CreateFormPayload {
   """
@@ -62578,6 +66156,82 @@ input HistoryItemInput {
 
   """User is an external analyst"""
   externalAnalyst: Boolean
+}
+
+"""The output of our create `Notification` mutation."""
+type CreateNotificationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Notification` that was created by this mutation."""
+  notification: Notification
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Application` that is related to this `Notification`."""
+  applicationByApplicationId: Application
+
+  """Reads a single `EmailRecord` that is related to this `Notification`."""
+  emailRecordByEmailRecordId: EmailRecord
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `Notification`. May be used by Relay 1."""
+  notificationEdge(
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): NotificationsEdge
+}
+
+"""All input for the create `Notification` mutation."""
+input CreateNotificationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Notification` to be created by this mutation."""
+  notification: NotificationInput!
+}
+
+"""An input for mutations affecting `Notification`"""
+input NotificationInput {
+  notificationType: String
+  applicationId: Int
+  jsonData: JSON
+  emailRecordId: Int
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """The output of our create `ProjectInformationData` mutation."""
@@ -66039,6 +69693,102 @@ input UpdateConditionalApprovalDataByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our update `EmailRecord` mutation."""
+type UpdateEmailRecordPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `EmailRecord` that was updated by this mutation."""
+  emailRecord: EmailRecord
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `EmailRecord`. May be used by Relay 1."""
+  emailRecordEdge(
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): EmailRecordsEdge
+}
+
+"""All input for the `updateEmailRecord` mutation."""
+input UpdateEmailRecordInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `EmailRecord` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `EmailRecord` being updated.
+  """
+  emailRecordPatch: EmailRecordPatch!
+}
+
+"""
+Represents an update to a `EmailRecord`. Fields that are set will be updated.
+"""
+input EmailRecordPatch {
+  toEmail: String
+  ccEmail: String
+  subject: String
+  body: String
+  messageId: String
+  jsonData: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""All input for the `updateEmailRecordByRowId` mutation."""
+input UpdateEmailRecordByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `EmailRecord` being updated.
+  """
+  emailRecordPatch: EmailRecordPatch!
+  rowId: Int!
+}
+
 """The output of our update `Form` mutation."""
 type UpdateFormPayload {
   """
@@ -66549,6 +70299,106 @@ input UpdateGisDataByRowIdInput {
   gisDataPatch: GisDataPatch!
 
   """Primary key and unique identifier"""
+  rowId: Int!
+}
+
+"""The output of our update `Notification` mutation."""
+type UpdateNotificationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Notification` that was updated by this mutation."""
+  notification: Notification
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Application` that is related to this `Notification`."""
+  applicationByApplicationId: Application
+
+  """Reads a single `EmailRecord` that is related to this `Notification`."""
+  emailRecordByEmailRecordId: EmailRecord
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `Notification`. May be used by Relay 1."""
+  notificationEdge(
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): NotificationsEdge
+}
+
+"""All input for the `updateNotification` mutation."""
+input UpdateNotificationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Notification` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `Notification` being updated.
+  """
+  notificationPatch: NotificationPatch!
+}
+
+"""
+Represents an update to a `Notification`. Fields that are set will be updated.
+"""
+input NotificationPatch {
+  notificationType: String
+  applicationId: Int
+  jsonData: JSON
+  emailRecordId: Int
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""All input for the `updateNotificationByRowId` mutation."""
+input UpdateNotificationByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Notification` being updated.
+  """
+  notificationPatch: NotificationPatch!
   rowId: Int!
 }
 
@@ -68458,6 +72308,63 @@ input DeleteConditionalApprovalDataByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our delete `EmailRecord` mutation."""
+type DeleteEmailRecordPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `EmailRecord` that was deleted by this mutation."""
+  emailRecord: EmailRecord
+  deletedEmailRecordId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `EmailRecord`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `EmailRecord`. May be used by Relay 1."""
+  emailRecordEdge(
+    """The method to use when ordering `EmailRecord`."""
+    orderBy: [EmailRecordsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): EmailRecordsEdge
+}
+
+"""All input for the `deleteEmailRecord` mutation."""
+input DeleteEmailRecordInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `EmailRecord` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteEmailRecordByRowId` mutation."""
+input DeleteEmailRecordByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  rowId: Int!
+}
+
 """The output of our delete `Form` mutation."""
 type DeleteFormPayload {
   """
@@ -68796,6 +72703,69 @@ input DeleteGisDataByRowIdInput {
   clientMutationId: String
 
   """Primary key and unique identifier"""
+  rowId: Int!
+}
+
+"""The output of our delete `Notification` mutation."""
+type DeleteNotificationPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Notification` that was deleted by this mutation."""
+  notification: Notification
+  deletedNotificationId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Application` that is related to this `Notification`."""
+  applicationByApplicationId: Application
+
+  """Reads a single `EmailRecord` that is related to this `Notification`."""
+  emailRecordByEmailRecordId: EmailRecord
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Notification`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `Notification`. May be used by Relay 1."""
+  notificationEdge(
+    """The method to use when ordering `Notification`."""
+    orderBy: [NotificationsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): NotificationsEdge
+}
+
+"""All input for the `deleteNotification` mutation."""
+input DeleteNotificationInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Notification` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteNotificationByRowId` mutation."""
+input DeleteNotificationByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
   rowId: Int!
 }
 
@@ -70181,6 +74151,31 @@ input CreateConditionalApprovalInput {
   clientMutationId: String
   _applicationId: Int!
   _jsonData: JSON!
+}
+
+"""The output of our `createEmailNotifications` mutation."""
+type CreateEmailNotificationsPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  notifications: [Notification]
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+"""All input for the `createEmailNotifications` mutation."""
+input CreateEmailNotificationsInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  emailRecords: [JSON]!
 }
 
 """The output of our `createHiddenIntake` mutation."""

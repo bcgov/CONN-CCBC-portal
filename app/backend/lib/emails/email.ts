@@ -4,6 +4,7 @@ import agreementSignedStatusChange from './templates/agreementSignedStatusChange
 import assesmentSecondReviewChange from './templates/assesmentSecondReviewChange';
 import handleEmailNotification from './handleEmailNotification';
 import agreementSignedStatusChangeDataTeam from './templates/agreementSignedStatusChangeDataTeam';
+import assessmentAssigneeChange from './templates/assessmentAssigneeChange';
 
 const email = Router();
 
@@ -32,6 +33,17 @@ email.post('/api/email/notifySecondReviewRequest', limiter, (req, res) => {
     ccbcNumber,
     assessmentType,
   });
+});
+
+email.post('/api/email/assessmentAssigneeChange', limiter, (req, res) => {
+  const { params } = req.body;
+  return handleEmailNotification(
+    req,
+    res,
+    assessmentAssigneeChange,
+    params,
+    true
+  );
 });
 
 export default email;
