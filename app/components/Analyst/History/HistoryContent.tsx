@@ -8,6 +8,7 @@ import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
 import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
 import { diff } from 'json-diff';
 import conditionalApprovalSchema from 'formSchema/uiSchema/history/conditionalApproval';
+import screeningSchema from 'formSchema/uiSchema/history/screening';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -360,15 +361,84 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
       if (assessmentType === 'projectManagement') return 'Project Management';
       if (assessmentType === 'gis') return 'GIS';
       if (assessmentType === 'financialRisk') return 'Financial Risk';
+      if (assessmentType === 'screening') return 'Screening';
       return assessmentName;
     };
 
+    const otherFilesDiff = diff(
+      record?.json_data?.otherFiles || [],
+      prevHistoryItem?.record?.json_data?.otherFiles || []
+    );
+
+    const getAsessmentSpecificFilesArray = (assessmentName) => {
+      if (assessmentName === 'screening') {
+        return [
+          record.json_data?.assessmentTemplate || [],
+          prevHistoryItem?.record?.json_data?.assessmentTemplate || [],
+          'Assessment Template',
+        ];
+      }
+      return [[], []];
+    };
+
+    const [assessmentFilesArray, prevAssessmentFilesArray, arrayTitle] =
+      getAsessmentSpecificFilesArray(assessmentType);
+
+    const assessmentSchema = (assessmentName) => {
+      if (assessmentName === 'screening') return screeningSchema;
+      return {};
+    };
+
+    const showOtherFilesDiff = !!otherFilesDiff;
+    const showAssessmentFilesDiff = !!diff(
+      assessmentFilesArray,
+      prevAssessmentFilesArray
+    );
+
+    const isScreeningAssessment = assessmentType === 'screening';
+
     return (
-      <StyledContent data-testid="history-content-assessment">
-        <span>{displayName} saved the </span>
-        <b>{formatAssessment(assessmentType)} Assessment</b>
-        <span> on {createdAtFormatted}</span>
-      </StyledContent>
+      <div>
+        <StyledContent data-testid="history-content-assessment">
+          <span>{displayName} saved the </span>
+          <b>{formatAssessment(assessmentType)} Assessment</b>
+          <span> on {createdAtFormatted}</span>
+        </StyledContent>
+        {showHistoryDetails && isScreeningAssessment && (
+          <HistoryDetails
+            json={record.json_data}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
+            diffSchema={assessmentSchema(assessmentType)}
+            excludedKeys={[
+              'id',
+              'name',
+              'size',
+              'type',
+              'uuid',
+              'uploadedAt',
+              'otherFiles',
+              'assessmentTemplate',
+            ]}
+            overrideParent="screening"
+          />
+        )}
+        {showOtherFilesDiff && isScreeningAssessment && (
+          <HistoryFile
+            filesArray={record.json_data?.otherFiles || []}
+            previousFileArray={
+              prevHistoryItem?.record?.json_data?.otherFiles || []
+            }
+            title={`${formatAssessment(assessmentType)} Other Files`}
+          />
+        )}
+        {showAssessmentFilesDiff && isScreeningAssessment && (
+          <HistoryFile
+            filesArray={assessmentFilesArray}
+            previousFileArray={prevAssessmentFilesArray}
+            title={arrayTitle}
+          />
+        )}
+      </div>
     );
   }
 
