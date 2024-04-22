@@ -1,3 +1,13 @@
+# [1.157.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.156.0...v1.157.0) (2024-04-22)
+
+### Bug Fixes
+
+- changes to assessment second review template ([0b3eebe](https://github.com/bcgov/CONN-CCBC-portal/commit/0b3eebec76cefca27ea8906b129d69be1eb11082))
+
+### Features
+
+- screening history shows details ([d5a871b](https://github.com/bcgov/CONN-CCBC-portal/commit/d5a871beaf974f821a2b468e5b747e023ef42102))
+
 # [1.156.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.155.0...v1.156.0) (2024-04-19)
 
 ### Features
