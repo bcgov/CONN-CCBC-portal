@@ -19,7 +19,7 @@ email.post('/api/email/notifyAgreementSigned', limiter, (req, res) => {
   });
 });
 
-email.post('api/email/notifyAgreementSignedDataTeam', limiter, (req, res) => {
+email.post('/api/email/notifyAgreementSignedDataTeam', limiter, (req, res) => {
   const { ccbcNumber } = req.body;
   handleEmailNotification(req, res, agreementSignedStatusChangeDataTeam, {
     ccbcNumber,
