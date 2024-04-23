@@ -9,6 +9,7 @@ import { mocked } from 'jest-mock';
 import assesmentSecondReviewChange from 'backend/lib/emails/templates/assesmentSecondReviewChange';
 import handleEmailNotification from 'backend/lib/emails/handleEmailNotification';
 import agreementSignedStatusChange from 'backend/lib/emails/templates/agreementSignedStatusChange';
+import agreementSignedStatusChangeDataTeam from 'backend/lib/emails/templates/agreementSignedStatusChangeDataTeam';
 
 jest.mock('backend/lib/emails/handleEmailNotification');
 
@@ -37,7 +38,24 @@ describe('Email API Endpoints', () => {
     expect(handleEmailNotification).toHaveBeenCalledWith(
       expect.anything(),
       expect.anything(),
-      agreementSignedStatusChange
+      agreementSignedStatusChange,
+      { ccbcNumber: reqBody.ccbcNumber }
+    );
+  });
+
+  it('calls handleEmailNotification with correct parameters once notifyAgreementSignedDataTeam called', async () => {
+    const reqBody = {
+      ccbcNumber: 'CCBC-00001',
+      assessmentType: 'screening',
+    };
+    await request(app)
+      .post('/api/email/notifyAgreementSignedDataTeam')
+      .send(reqBody);
+    expect(handleEmailNotification).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      agreementSignedStatusChangeDataTeam,
+      { ccbcNumber: reqBody.ccbcNumber }
     );
   });
 

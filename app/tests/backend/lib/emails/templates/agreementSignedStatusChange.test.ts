@@ -5,14 +5,20 @@ describe('agreementSignedStatusChange template', () => {
     const applicationId = '1';
     const url = 'http://mock_host.ca';
 
-    const emailTemplate = agreementSignedStatusChange(applicationId, url);
+    const emailTemplate = agreementSignedStatusChange(
+      applicationId,
+      url,
+      {},
+      { ccbcNumber: 'CCBC-101' }
+    );
 
     expect(emailTemplate).toEqual(
       expect.objectContaining({
-        emailTo: [],
+        emailTo: [72],
         emailCC: [],
         tag: 'agreement-signed-status-change',
-        subject: 'Task assigned to you: Upload Funding Agreement',
+        subject: 'Action Required - Upload SOW for CCBC-101',
+        body: expect.anything(),
       })
     );
   });
@@ -21,10 +27,17 @@ describe('agreementSignedStatusChange template', () => {
     const applicationId = '1';
     const url = 'http://mock_host.ca';
 
-    const emailTemplate = agreementSignedStatusChange(applicationId, url);
+    const emailTemplate = agreementSignedStatusChange(
+      applicationId,
+      url,
+      { givenName: 'uniqueStringName' },
+      { ccbcNumber: 'CCBC-101' }
+    );
 
     expect(emailTemplate.body).toContain(
-      `<a href='http://mock_host.ca/analyst/application/1/project'>click here</a>`
+      `<a href='http://mock_host.ca/analyst/application/1/project'>here</a>`
     );
+
+    expect(emailTemplate.body).toContain('uniqueStringName');
   });
 });
