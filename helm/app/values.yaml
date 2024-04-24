@@ -3,6 +3,9 @@ fullnameOverride: ccbc
 
 replicaCount: 3
 
+deploy:
+  enabled: true
+
 image:
   app:
     repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app
