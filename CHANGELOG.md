@@ -1,3 +1,18 @@
+# [1.157.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.156.0...v1.157.0) (2024-04-24)
+
+### Bug Fixes
+
+- changes to assessment second review template ([0b3eebe](https://github.com/bcgov/CONN-CCBC-portal/commit/0b3eebec76cefca27ea8906b129d69be1eb11082))
+
+### Features
+
+- add cleanup workflow ([17dffb7](https://github.com/bcgov/CONN-CCBC-portal/commit/17dffb762e6792b513382de90d1d900666c266fc))
+- deploy feature environment ([049e754](https://github.com/bcgov/CONN-CCBC-portal/commit/049e754cd460f9f486fd7c4f2366f1c391f1807d))
+- disable dev deployment ([8d934c7](https://github.com/bcgov/CONN-CCBC-portal/commit/8d934c76363d1925a9e6e50654d75582d5f4e4b5))
+- import test data into feature env ([bf4d98e](https://github.com/bcgov/CONN-CCBC-portal/commit/bf4d98e6c0dfe01d0f5135a3cff2285edb4edd9e))
+- new ccbc-db image ([94f8341](https://github.com/bcgov/CONN-CCBC-portal/commit/94f8341da13cfba406f6ba39a5563ddb45aacea9))
+- screening history shows details ([d5a871b](https://github.com/bcgov/CONN-CCBC-portal/commit/d5a871beaf974f821a2b468e5b747e023ef42102))
+
 # [1.156.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.155.0...v1.156.0) (2024-04-19)
 
 ### Features
