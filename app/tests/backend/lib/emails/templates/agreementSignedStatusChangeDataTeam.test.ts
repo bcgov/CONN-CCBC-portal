@@ -1,11 +1,11 @@
-import agreementSignedStatusChange from 'backend/lib/emails/templates/agreementSignedStatusChange';
+import agreementSignedStatusChangeDataTeam from 'backend/lib/emails/templates/agreementSignedStatusChangeDataTeam';
 
 describe('agreementSignedStatusChange template', () => {
   it('should return an email template with correct properties', () => {
     const applicationId = '1';
     const url = 'http://mock_host.ca';
 
-    const emailTemplate = agreementSignedStatusChange(
+    const emailTemplate = agreementSignedStatusChangeDataTeam(
       applicationId,
       url,
       {},
@@ -14,10 +14,10 @@ describe('agreementSignedStatusChange template', () => {
 
     expect(emailTemplate).toEqual(
       expect.objectContaining({
-        emailTo: [72],
+        emailTo: [77],
         emailCC: [],
-        tag: 'agreement-signed-status-change',
-        subject: 'Action Required - Upload SOW for CCBC-101',
+        tag: 'agreement-signed-status-change-data-team',
+        subject: 'Action Required - Upload KMZ for CCBC-101',
         body: expect.anything(),
       })
     );
@@ -27,7 +27,7 @@ describe('agreementSignedStatusChange template', () => {
     const applicationId = '1';
     const url = 'http://mock_host.ca';
 
-    const emailTemplate = agreementSignedStatusChange(
+    const emailTemplate = agreementSignedStatusChangeDataTeam(
       applicationId,
       url,
       { givenName: 'uniqueStringName' },

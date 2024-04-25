@@ -355,4 +355,58 @@ describe('The application header component', () => {
       'conditionally_approved'
     );
   });
+
+  it('sends notification once internal status is changed to agreement signed', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const select = screen.getByTestId('change-status');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'approved' } });
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue('approved');
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
+    const okButton = screen.getByText('Save change');
+    await act(async () => {
+      fireEvent.click(okButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createApplicationStatusMutation',
+      expect.anything()
+    );
+    componentTestingHelper.environment.mock.resolveMostRecentOperation({
+      errors: [],
+      data: {},
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(2);
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/email/notifyAgreementSigned',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: expect.anything(),
+      }
+    );
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/email/notifyAgreementSignedDataTeam',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: expect.anything(),
+      }
+    );
+  });
 });
