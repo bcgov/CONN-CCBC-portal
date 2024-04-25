@@ -158,7 +158,7 @@
     "jest-extended": "^4.0.2",
     "jest-mock": "^29.7.0",
     "nodemon": "^2.0.20",
-    "prettier": "^2.6.2",
+    "prettier": "^3.2.5",
     "react-dom": "^18.2.0",
     "relay-compiler": "^13.2.0",
     "relay-test-utils": "^13.2.0",
