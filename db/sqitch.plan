@@ -554,3 +554,4 @@ tables/analyst_add_email 2024-04-08T17:55:49Z ,,, <ryohani89@NH504670> # add ana
 tables/email_record 2024-04-19T17:24:25Z ,,, <ryohani89@NH504670> # add email record table
 tables/notification 2024-04-18T19:54:33Z ,,, <ryohani89@NH504670> # add email notification table
 mutations/create_email_notifications 2024-04-21T02:42:44Z ,,, <ryohani89@NH504670> # add create email notifications mutation
+clean_application_status 2024-04-24T23:07:28Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # cleans application status table by setting archived_at to ones that are missing it
