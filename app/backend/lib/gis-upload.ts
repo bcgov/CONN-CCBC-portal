@@ -76,7 +76,7 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
     return res.status(404).end();
   }
 
-  const form = formidable({ maxFileSize: 8000000 });
+  const form = formidable({ maxFileSize: 8000000, keepExtensions: false });
 
   const files = await parseForm(form, req).catch((err) => {
     return res.status(400).json({ error: err }).end();

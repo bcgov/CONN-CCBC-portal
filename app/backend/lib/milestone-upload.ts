@@ -24,7 +24,7 @@ const processMilestone: ExpressMiddleware = async (req, res) => {
   }
 
   const errorList = [];
-  const form = formidable({ maxFileSize: 8000000 });
+  const form = formidable({ maxFileSize: 8000000, keepExtensions: false });
 
   const files = await parseForm(form, req).catch((err) => {
     errorList.push({ level: 'file', error: err });
