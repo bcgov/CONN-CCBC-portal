@@ -48,4 +48,12 @@ perform ccbc_private.upsert_policy(
 end $grant$;
 
 comment on table ccbc_public.email_record is 'Table containing list of application email_records';
+comment on column ccbc_public.email_record.id is 'Unique ID for each email sent';
+comment on column ccbc_public.email_record.to_email is 'Email Address(es) of the recipients';
+comment on column ccbc_public.email_record.cc_email is 'Email Address(es) of the CC recipients';
+comment on column ccbc_public.email_record.subject is 'Subject of the email';
+comment on column ccbc_public.email_record.body is 'Body of the email';
+comment on column ccbc_public.email_record.message_id is 'Message ID of the email returned by the email server';
+comment on column ccbc_public.email_record.json_data is 'Additional data for the email';
+
 COMMIT;

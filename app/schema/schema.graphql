@@ -35704,10 +35704,20 @@ type Notification implements Node {
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
+
+  """Unique ID for each notification"""
   rowId: Int!
+
+  """Type of the notification"""
   notificationType: String
+
+  """ID of the application this notification belongs to"""
   applicationId: Int
+
+  """Additional data for the notification"""
   jsonData: JSON!
+
+  """Column referencing the email record"""
   emailRecordId: Int
 
   """created by user id"""
@@ -35750,12 +35760,26 @@ type EmailRecord implements Node {
   A globally unique identifier. Can be used in various places throughout the system to identify this single value.
   """
   id: ID!
+
+  """Unique ID for each email sent"""
   rowId: Int!
+
+  """Email Address(es) of the recipients"""
   toEmail: String
+
+  """Email Address(es) of the CC recipients"""
   ccEmail: String
+
+  """Subject of the email"""
   subject: String
+
+  """Body of the email"""
   body: String
+
+  """Message ID of the email returned by the email server"""
   messageId: String
+
+  """Additional data for the email"""
   jsonData: JSON!
 
   """created by user id"""
@@ -65712,11 +65736,22 @@ input CreateEmailRecordInput {
 
 """An input for mutations affecting `EmailRecord`"""
 input EmailRecordInput {
+  """Email Address(es) of the recipients"""
   toEmail: String
+
+  """Email Address(es) of the CC recipients"""
   ccEmail: String
+
+  """Subject of the email"""
   subject: String
+
+  """Body of the email"""
   body: String
+
+  """Message ID of the email returned by the email server"""
   messageId: String
+
+  """Additional data for the email"""
   jsonData: JSON
 
   """created by user id"""
@@ -66210,9 +66245,16 @@ input CreateNotificationInput {
 
 """An input for mutations affecting `Notification`"""
 input NotificationInput {
+  """Type of the notification"""
   notificationType: String
+
+  """ID of the application this notification belongs to"""
   applicationId: Int
+
+  """Additional data for the notification"""
   jsonData: JSON
+
+  """Column referencing the email record"""
   emailRecordId: Int
 
   """created by user id"""
@@ -69748,11 +69790,22 @@ input UpdateEmailRecordInput {
 Represents an update to a `EmailRecord`. Fields that are set will be updated.
 """
 input EmailRecordPatch {
+  """Email Address(es) of the recipients"""
   toEmail: String
+
+  """Email Address(es) of the CC recipients"""
   ccEmail: String
+
+  """Subject of the email"""
   subject: String
+
+  """Body of the email"""
   body: String
+
+  """Message ID of the email returned by the email server"""
   messageId: String
+
+  """Additional data for the email"""
   jsonData: JSON
 
   """created by user id"""
@@ -69786,6 +69839,8 @@ input UpdateEmailRecordByRowIdInput {
   An object where the defined keys will be set on the `EmailRecord` being updated.
   """
   emailRecordPatch: EmailRecordPatch!
+
+  """Unique ID for each email sent"""
   rowId: Int!
 }
 
@@ -70363,9 +70418,16 @@ input UpdateNotificationInput {
 Represents an update to a `Notification`. Fields that are set will be updated.
 """
 input NotificationPatch {
+  """Type of the notification"""
   notificationType: String
+
+  """ID of the application this notification belongs to"""
   applicationId: Int
+
+  """Additional data for the notification"""
   jsonData: JSON
+
+  """Column referencing the email record"""
   emailRecordId: Int
 
   """created by user id"""
@@ -70399,6 +70461,8 @@ input UpdateNotificationByRowIdInput {
   An object where the defined keys will be set on the `Notification` being updated.
   """
   notificationPatch: NotificationPatch!
+
+  """Unique ID for each notification"""
   rowId: Int!
 }
 
@@ -72362,6 +72426,8 @@ input DeleteEmailRecordByRowIdInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+
+  """Unique ID for each email sent"""
   rowId: Int!
 }
 
@@ -72766,6 +72832,8 @@ input DeleteNotificationByRowIdInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
+
+  """Unique ID for each notification"""
   rowId: Int!
 }
 

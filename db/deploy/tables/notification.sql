@@ -47,4 +47,10 @@ perform ccbc_private.upsert_policy(
 end $grant$;
 
 comment on table ccbc_public.notification is 'Table containing list of application notifications';
+comment on column ccbc_public.notification.id is 'Unique ID for each notification';
+comment on column ccbc_public.notification.notification_type is 'Type of the notification';
+comment on column ccbc_public.notification.application_id is 'ID of the application this notification belongs to';
+comment on column ccbc_public.notification.json_data is 'Additional data for the notification';
+comment on column ccbc_public.notification.email_record_id is 'Column referencing the email record';
+
 COMMIT;
