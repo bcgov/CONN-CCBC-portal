@@ -1,3 +1,9 @@
+# [1.158.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.157.0...v1.158.0) (2024-04-26)
+
+### Features
+
+- assignment email notifications ([a05683d](https://github.com/bcgov/CONN-CCBC-portal/commit/a05683d69c45abd32cb269ff9734a89e64aee32b))
+
 # [1.157.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.156.0...v1.157.0) (2024-04-25)
 
 ### Bug Fixes
