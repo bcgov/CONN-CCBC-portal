@@ -1,4 +1,5 @@
 history_item
+notification
 attachment
 assessment_data
 application_gis_data
@@ -29,6 +30,7 @@ form_data
 application_status
 rfi_data
 gis_data
+email_record
 announcement
 analyst
 application_sow_data

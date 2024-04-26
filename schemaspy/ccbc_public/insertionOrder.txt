@@ -11,6 +11,7 @@ application
 application_sow_data
 analyst
 announcement
+email_record
 gis_data
 rfi_data
 application_status
@@ -41,4 +42,5 @@ application_announcement
 application_gis_data
 assessment_data
 attachment
+notification
 history_item

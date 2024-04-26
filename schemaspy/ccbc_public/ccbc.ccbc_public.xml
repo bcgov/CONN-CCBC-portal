@@ -92,6 +92,7 @@
             <child column="application_id" foreignKey="attachment_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="attachment"/>
             <child column="application_id" foreignKey="change_request_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="change_request_data"/>
             <child column="application_id" foreignKey="conditional_approval_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="conditional_approval_data"/>
+            <child column="application_id" foreignKey="notification_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="notification"/>
             <child column="application_id" foreignKey="project_information_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="project_information_data"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="ccbc_number" nullable="true" remarks="Reference number assigned to the application" size="1000" type="varchar" typeCode="12"/>
@@ -890,6 +891,9 @@
             <child column="archived_by" foreignKey="conditional_approval_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="conditional_approval_data"/>
             <child column="created_by" foreignKey="conditional_approval_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="conditional_approval_data"/>
             <child column="updated_by" foreignKey="conditional_approval_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="conditional_approval_data"/>
+            <child column="archived_by" foreignKey="email_record_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="email_record"/>
+            <child column="created_by" foreignKey="email_record_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="email_record"/>
+            <child column="updated_by" foreignKey="email_record_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="email_record"/>
             <child column="archived_by" foreignKey="form_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
             <child column="created_by" foreignKey="form_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
             <child column="updated_by" foreignKey="form_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
@@ -899,6 +903,9 @@
             <child column="archived_by" foreignKey="intake_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
             <child column="created_by" foreignKey="intake_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
             <child column="updated_by" foreignKey="intake_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
+            <child column="archived_by" foreignKey="notification_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="notification"/>
+            <child column="created_by" foreignKey="notification_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="notification"/>
+            <child column="updated_by" foreignKey="notification_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="notification"/>
             <child column="archived_by" foreignKey="project_information_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="project_information_data"/>
             <child column="created_by" foreignKey="project_information_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="project_information_data"/>
             <child column="updated_by" foreignKey="project_information_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="project_information_data"/>
@@ -1015,6 +1022,42 @@
             <column ascending="true" name="created_by"/>
          </index>
          <index name="ccbc_public_conditional_approval_data_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="email_record" remarks="Table containing list of application email_records" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for each email sent" size="10" type="int4" typeCode="4">
+            <child column="email_record_id" foreignKey="notification_email_record_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="notification"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="to_email" nullable="true" remarks="Email Address(es) of the recipients" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="cc_email" nullable="true" remarks="Email Address(es) of the CC recipients" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="subject" nullable="true" remarks="Subject of the email" size="10000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="body" nullable="true" remarks="Body of the email" size="10000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="message_id" nullable="true" remarks="Message ID of the email returned by the email server" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="6" name="json_data" nullable="false" remarks="Additional data for the email" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="email_record_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="8" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="email_record_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="10" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="email_record_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="12" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="email_record_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_email_record_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_email_record_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_email_record_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
          </index>
       </table>
@@ -1197,6 +1240,42 @@
          </index>
          <index name="intake_ccbc_intake_number_key" unique="true">
             <column ascending="true" name="ccbc_intake_number"/>
+         </index>
+      </table>
+      <table name="notification" remarks="Table containing list of application notifications" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for each notification" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="notification_type" nullable="true" remarks="Type of the notification" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="application_id" nullable="true" remarks="ID of the application this notification belongs to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="notification_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="3" name="json_data" nullable="false" remarks="Additional data for the notification" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="email_record_id" nullable="true" remarks="Column referencing the email record" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="notification_email_record_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="email_record"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="notification_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="notification_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="8" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="notification_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="10" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="notification_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_notification_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_notification_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_notification_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
          </index>
       </table>
       <table name="project_information_data" remarks="Table to store project information data" schema="ccbc_public" type="TABLE">
