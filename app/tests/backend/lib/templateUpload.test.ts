@@ -485,9 +485,7 @@ describe('sow_summary parsing tests', () => {
       .mockImplementationOnce(() => ({ success: true }));
     mocked(getAuthRole).mockReturnValue({ pgRole: 'ccbc_auth_user' });
     mocked(parseForm).mockResolvedValue({
-      someFileName: {
-        filepath: 'mock-path',
-      },
+      someFileName: [{ filepath: 'mock-path' }],
     });
     jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
 
@@ -502,9 +500,7 @@ describe('sow_summary parsing tests', () => {
   it('should handle successful template 2 upload', async () => {
     mocked(getAuthRole).mockReturnValue({ pgRole: 'ccbc_auth_user' });
     mocked(parseForm).mockResolvedValue({
-      someFileName: {
-        filepath: 'mock-path',
-      },
+      someFileName: [{ filepath: 'mock-path' }],
     });
     jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
     jest
@@ -569,9 +565,7 @@ describe('sow_summary parsing tests', () => {
 
   it('should handle invalid template numbers', async () => {
     mocked(parseForm).mockResolvedValue({
-      someFileName: {
-        filepath: 'mock-path',
-      },
+      file: [{ filepath: 'mock-path' }],
     });
     jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
 
@@ -587,9 +581,7 @@ describe('sow_summary parsing tests', () => {
 
   it('should handle general failure', async () => {
     mocked(parseForm).mockResolvedValue({
-      someFileName: {
-        filepath: 'mock-path',
-      },
+      someFileName: [{ filepath: 'mock-path' }],
     });
     jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
     // Let's assume templateNumber 1 returns null to simulate a failure
