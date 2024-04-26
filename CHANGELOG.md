@@ -1,3 +1,11 @@
+# [1.158.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.157.0...v1.158.0) (2024-04-26)
+
+### Features
+
+- add condition that PR must have requested reviewers ([dc58cf1](https://github.com/bcgov/CONN-CCBC-portal/commit/dc58cf1baf0493bad6e6744a056a03f27c866231))
+- assignment email notifications ([a05683d](https://github.com/bcgov/CONN-CCBC-portal/commit/a05683d69c45abd32cb269ff9734a89e64aee32b))
+- refresh-rebase feature branches ([8e13caf](https://github.com/bcgov/CONN-CCBC-portal/commit/8e13caf65de946e6e253c72221524c4a3b483f72))
+
 # [1.157.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.156.0...v1.157.0) (2024-04-25)
 
 ### Bug Fixes
