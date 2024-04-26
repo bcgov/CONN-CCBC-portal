@@ -34,7 +34,7 @@ describe('getAccessToken', () => {
         },
       ]
     );
-    expect(email).toBe('mock_message_id');
+    expect(email.messages[0].msgId).toBe('mock_message_id');
   });
 
   it('should throw an error when the request fails', async () => {

@@ -65,6 +65,7 @@ const AssessmentsForm: React.FC<Props> = ({
             _jsonData: e.formData,
             _assessmentType: slug,
           },
+          connections: [],
         },
         onCompleted: () => {
           setIsFormSaved(true);

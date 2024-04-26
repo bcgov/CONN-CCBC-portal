@@ -10,6 +10,7 @@ import assesmentSecondReviewChange from 'backend/lib/emails/templates/assesmentS
 import handleEmailNotification from 'backend/lib/emails/handleEmailNotification';
 import agreementSignedStatusChange from 'backend/lib/emails/templates/agreementSignedStatusChange';
 import agreementSignedStatusChangeDataTeam from 'backend/lib/emails/templates/agreementSignedStatusChangeDataTeam';
+import assessmentAssigneeChange from 'backend/lib/emails/templates/assessmentAssigneeChange';
 
 jest.mock('backend/lib/emails/handleEmailNotification');
 
@@ -72,6 +73,23 @@ describe('Email API Endpoints', () => {
       expect.anything(),
       assesmentSecondReviewChange,
       reqBody
+    );
+  });
+
+  it('calls handleEmailNotification with correct parameters once assessmentAssigneeChange called', async () => {
+    const reqBody = {
+      applicationId: '',
+      params: { assignments: [] },
+    };
+    await request(app)
+      .post('/api/email/assessmentAssigneeChange')
+      .send(reqBody);
+    expect(handleEmailNotification).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      assessmentAssigneeChange,
+      { assignments: [] },
+      true
     );
   });
 });

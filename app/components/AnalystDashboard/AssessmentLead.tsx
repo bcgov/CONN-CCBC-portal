@@ -18,6 +18,7 @@ interface Props {
   applicationId: number;
   assessmentType: string;
   jsonData: any;
+  assessmentConnection: any;
 }
 
 const AssignLead: React.FC<Props> = ({
@@ -25,6 +26,7 @@ const AssignLead: React.FC<Props> = ({
   applicationId,
   assessmentType,
   jsonData,
+  assessmentConnection,
 }) => {
   const [createAssessment] = useCreateAssessmentMutation();
   const [leadState, setLeadState] = useState(null);
@@ -43,7 +45,6 @@ const AssignLead: React.FC<Props> = ({
       ...jsonData,
       assignedTo: analyst,
     };
-    setLeadState(analyst);
 
     createAssessment({
       variables: {
@@ -52,6 +53,7 @@ const AssignLead: React.FC<Props> = ({
           _jsonData: newJsonData,
           _applicationId: applicationId,
         },
+        connections: [assessmentConnection],
       },
     });
   };

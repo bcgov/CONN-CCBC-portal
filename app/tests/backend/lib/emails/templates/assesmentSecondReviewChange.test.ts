@@ -4,7 +4,7 @@ describe('assesmentSecondReviewChange template', () => {
   it('should return an email template with correct properties', () => {
     const applicationId = '1';
     const url = 'http://mock_host.ca';
-    const initiator = 'CCBC User';
+    const initiator = { givenName: 'CCBC User' };
     const params = { ccbcNumber: 'ABC', assessmentType: 'screening' };
 
     const emailTemplate = assesmentSecondReviewChange(
@@ -19,7 +19,7 @@ describe('assesmentSecondReviewChange template', () => {
         emailTo: [34, 71],
         emailCC: [],
         tag: 'assesment-second-review-change',
-        subject: `${initiator} has requested a 2nd Review for Eligibility Screening - ABC`,
+        subject: `CCBC User has requested a 2nd Review for Eligibility Screening - ABC`,
       })
     );
 
@@ -31,7 +31,7 @@ describe('assesmentSecondReviewChange template', () => {
   it('should generates the correct body and subject based on the assessment type provided', () => {
     const applicationId = '1';
     const url = 'http://mock_host.ca';
-    const initiator = 'CCBC User';
+    const initiator = { givenName: 'CCBC User' };
 
     const emailTemplatePM = assesmentSecondReviewChange(
       applicationId,

@@ -13,13 +13,20 @@ import {
   type MRT_ColumnSizingState,
   MRT_TopToolbar as MRTTopToolBar,
   MRT_TableContainer as MRTTableContainer,
+  MRT_ToggleDensePaddingButton as MRTToggleDensePaddingButton,
+  MRT_ToggleFullScreenButton as MRTToggleFullScreenButton,
+  MRT_ShowHideColumnsButton as MRTShowHideColumnsButton,
+  MRT_ToggleFiltersButton as MRTColumnFilters,
 } from 'material-react-table';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 import AssessmentLead from 'components/AnalystDashboard/AssessmentLead';
 import RowCount from 'components/Table/RowCount';
-import { Box, Paper } from '@mui/material';
+import { Box, IconButton, Paper, Tooltip } from '@mui/material';
 import ClearFilters from 'components/Table/ClearFilters';
+import useModal from 'lib/helpers/useModal';
 import AssessmentLegend from './AssessmentLegend';
+import AssignmentEmailModal from './AssignmentEmailModal';
 
 type Assessment = {
   rowId: string;
@@ -124,6 +131,9 @@ const findAssessment = (assessments, assessmentType) => {
     jsonData: data?.node?.jsonData,
     type: assessmentType,
     id: data?.node?.id,
+    updatedBy: data?.node?.updatedBy,
+    updatedAt: data?.node?.updatedAt,
+    lastEmailNotification: data?.node?.emailRecordByEmailRecordId,
   };
 };
 
@@ -159,6 +169,7 @@ const AssessmentCell = ({ cell }) => {
       applicationId={applicationId}
       assessmentType={assessment.type}
       jsonData={assessment.jsonData}
+      assessmentConnection={row.assessmentConnection}
     />
   );
 };
@@ -189,6 +200,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               givenName
               active
               id
+              email
             }
           }
         }
@@ -200,11 +212,29 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
           edges {
             node {
               allAssessments(filter: { archivedAt: { isNull: true } }) {
+                __id
                 edges {
                   node {
+                    id
                     jsonData
                     assessmentDataType
                     rowId
+                    updatedAt
+                    updatedBy
+                  }
+                }
+              }
+              notificationsByApplicationId(
+                orderBy: CREATED_AT_DESC
+                first: 1
+                condition: { notificationType: "assignment_technical" }
+              ) {
+                __id
+                edges {
+                  node {
+                    jsonData
+                    notificationType
+                    createdAt
                   }
                 }
               }
@@ -233,6 +263,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     query
   );
 
+  const assignmentEmailModal = useModal();
   const { allAnalysts, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
@@ -386,6 +417,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               ccbcNumber,
               zones,
               allAnalysts,
+              assessmentConnection: application.allAssessments.__id,
+              notifications: application.notificationsByApplicationId.edges,
+              notificationConnectionId:
+                application.notificationsByApplicationId.__id,
               pmAssessment: findAssessment(
                 application.allAssessments.edges,
                 'projectManagement'
@@ -417,6 +452,45 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         })
         .filter(Boolean),
     [allApplications, allAnalysts]
+  );
+
+  const getUserEmailByAssignedTo = (assignedTo: string) => {
+    const analyst = allAnalysts.edges.find(
+      ({ node }) => `${node.givenName} ${node.familyName}` === assignedTo
+    );
+    return analyst ? analyst.node.email : null;
+  };
+
+  const assignments = useMemo(
+    () =>
+      tableData
+        .filter((data: any) => {
+          const lastSentAt = data.notifications[0]?.node?.createdAt
+            ? new Date(data.notifications[0]?.node?.createdAt)
+            : null;
+          return new Date(data.techAssessment.updatedAt) >= lastSentAt;
+        })
+        .filter(
+          (data: any) =>
+            data.techAssessment.jsonData.assignedTo !==
+            data.notifications[0]?.node?.jsonData?.to
+        )
+        .map((data: any) => {
+          return {
+            ccbcNumber: data.ccbcNumber,
+            applicationId: data.applicationId,
+            notificationConnectionId: data.notificationConnectionId,
+            updatedBy: data.techAssessment.updatedBy,
+            updatedAt: data.techAssessment.updatedAt,
+            assignedTo: data.techAssessment.jsonData?.assignedTo,
+            assigneeEmail: getUserEmailByAssignedTo(
+              data.techAssessment.jsonData?.assignedTo
+            ),
+            assessmentType: 'technical',
+          };
+        }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [tableData]
   );
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
@@ -564,6 +638,25 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         “Assessment”, and that have at least one incomplete assessment.
       </StyledText>
     ),
+    renderToolbarInternalActions: () => (
+      <Box>
+        <MRTColumnFilters table={table} />
+        <MRTShowHideColumnsButton table={table} />
+        <MRTToggleDensePaddingButton table={table} />
+        <MRTToggleFullScreenButton table={table} />
+        <IconButton
+          aria-label="Notify by email"
+          disabled={assignments.length === 0}
+          onClick={() => {
+            assignmentEmailModal.open();
+          }}
+        >
+          <Tooltip id="button-email" title="Notify by email">
+            <MailOutlineIcon />
+          </Tooltip>
+        </IconButton>
+      </Box>
+    ),
   });
 
   const visibleRowCount = table.getRowModel().rows?.length ?? 0;
@@ -596,6 +689,19 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         <MRTTableContainer table={table} />
       </Paper>
       {renderRowCount()}
+      <AssignmentEmailModal
+        {...assignmentEmailModal}
+        id="assignment-email-modal"
+        saveLabel="Yes"
+        cancelLabel="No"
+        onSave={() => {
+          assignmentEmailModal.close();
+        }}
+        onCancel={() => {
+          assignmentEmailModal.close();
+        }}
+        assignments={assignments}
+      />
     </>
   );
 };

@@ -103,6 +103,7 @@ describe('The index page', () => {
         },
         _assessmentType: 'projectManagement',
       },
+      connections: [],
     });
   });
 

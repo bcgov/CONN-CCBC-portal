@@ -98,6 +98,18 @@ const mockQueryPayload = {
                       },
                       assessmentDataType: 'technical',
                       rowId: 7,
+                      updatedAt: '2024-04-23T00:57:02.743866+00:00',
+                    },
+                  },
+                ],
+              },
+              notificationsByApplicationId: {
+                edges: [
+                  {
+                    node: {
+                      jsonData: { to: 'Tester 1' },
+                      notificationType: 'assignment_technical',
+                      createdAt: '2020-04-23T00:57:02.743866+00:00',
                     },
                   },
                 ],
@@ -291,6 +303,7 @@ describe('The AssessmentAssignmentTable component', () => {
           },
           _applicationId: 1,
         },
+        connections: [expect.anything()],
       }
     );
   });
@@ -446,6 +459,67 @@ describe('The AssessmentAssignmentTable component', () => {
     });
 
     expect(screen.queryByText('CCBC-010001')).toBeInTheDocument();
+  });
+
+  it('should show active email send icon button when there are pending notifications', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const notifyButton = screen.getByRole('button', {
+      name: 'Notify by email',
+    });
+
+    expect(notifyButton).toBeInTheDocument();
+
+    expect(notifyButton).toBeEnabled();
+
+    await act(async () => {
+      fireEvent.click(notifyButton);
+    });
+
+    await new Promise((r) => {
+      setTimeout(r, 500);
+    });
+
+    expect(screen.getByText(/Send email notifications?/)).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/will be sent to Test Analyst Technical/)
+    ).toBeInTheDocument();
+  });
+
+  it('should call correct endpoint when send email notifications confirmed', async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({}),
+      })
+    ) as jest.Mock;
+
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const notifyButton = screen.getByRole('button', {
+      name: 'Notify by email',
+    });
+
+    await act(async () => {
+      fireEvent.click(notifyButton);
+    });
+
+    const confirmBtn = screen.getByRole('button', {
+      name: 'Yes',
+    });
+
+    expect(confirmBtn).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(confirmBtn);
+    });
+
+    expect(fetch).toHaveBeenCalledWith(
+      '/api/email/assessmentAssigneeChange',
+      expect.objectContaining({ method: 'POST' })
+    );
   });
 });
 

@@ -114,6 +114,7 @@ describe('The index page', () => {
         },
         _assessmentType: 'permitting',
       },
+      connections: [],
     });
   });
 
