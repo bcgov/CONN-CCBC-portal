@@ -6,7 +6,7 @@ import RateLimit from 'express-rate-limit';
 import schema from './gis-schema.json';
 import { performQuery } from './graphql';
 import getAuthRole from '../../utils/getAuthRole';
-import { parseForm } from './express-helper';
+import { commonFormidableConfig, parseForm } from './express-helper';
 import { jsonProcessor } from './json-lint';
 
 const limiter = RateLimit({
@@ -76,7 +76,7 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
     return res.status(404).end();
   }
 
-  const form = formidable({ maxFileSize: 8000000, keepExtensions: false });
+  const form = formidable(commonFormidableConfig);
 
   const files = await parseForm(form, req).catch((err) => {
     return res.status(400).json({ error: err }).end();

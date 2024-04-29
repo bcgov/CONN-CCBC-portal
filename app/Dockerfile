@@ -17,6 +17,7 @@ ENV APP_HOME=/root
 ENV HOME=/root
 ARG GIT_HASH
 ENV GIT_HASH=${GIT_HASH}
+ENV UPLOAD_DIR=${APP_HOME}/uploads
 
 WORKDIR ${APP_HOME}
 
@@ -74,6 +75,11 @@ RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 CYPRESS_INSTALL_BINARY=0 \
   # same layer as yarn install to keep re-chowned files from using up several hundred MBs more space
   chown -R ${USER_ID}:0 ${APP_HOME} && \
   chmod -R g+rwX ${APP_HOME}
+
+# Create a directory for uploads
+RUN mkdir -p ${UPLOAD_DIR} && \
+    chown -R ${USER_ID}:0 ${UPLOAD_DIR} && \
+    chmod -R g+rw ${UPLOAD_DIR}
 
 EXPOSE 3000 9000
 USER ${USER_ID}
