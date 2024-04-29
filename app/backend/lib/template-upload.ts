@@ -4,7 +4,11 @@ import fs from 'fs';
 import * as XLSX from 'xlsx';
 import limiter from './excel_import/excel-limiter';
 import getAuthRole from '../../utils/getAuthRole';
-import { ExpressMiddleware, parseForm } from './express-helper';
+import {
+  ExpressMiddleware,
+  commonFormidableConfig,
+  parseForm,
+} from './express-helper';
 import readTemplateOneData from './excel_import/template_one';
 import readTemplateTwoData from './excel_import/template_two';
 
@@ -28,7 +32,7 @@ const processTemplateUpload: ExpressMiddleware = async (req, res) => {
   }
 
   const errorList = [];
-  const form = formidable({ maxFileSize: 8000000, keepExtensions: false });
+  const form = formidable(commonFormidableConfig);
 
   const files = await parseForm(form, req).catch((err) => {
     errorList.push({ level: 'file', error: err });
