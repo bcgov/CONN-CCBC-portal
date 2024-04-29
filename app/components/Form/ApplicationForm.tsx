@@ -382,8 +382,7 @@ const ApplicationForm: React.FC<Props> = ({
   const allZoneIntake =
     isProjectAreaPage &&
     acceptedProjectAreasArray.length ===
-      (sectionSchema.properties?.geographicArea as { items: { enum: [] } })
-        ?.items?.enum?.length;
+      (sectionSchema.properties?.geographicArea as any)?.items?.enum?.length;
 
   const isZoneSelectionValid = (
     geographicAreaInput: number[],
