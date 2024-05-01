@@ -191,13 +191,18 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const AssignAnalystLead = useCallback(
     ({ cell }) => {
       const row = cell.row.original;
-      const { applicationId, analystLead } = row;
+      const applicationId = row?.rowId || null;
+      const { analystLead, isCbcProject } = row;
       return (
-        <AssignLead
-          query={queryFragment}
-          applicationId={applicationId}
-          lead={analystLead}
-        />
+        <>
+          {!isCbcProject ? (
+            <AssignLead
+              query={queryFragment}
+              applicationId={applicationId}
+              lead={analystLead}
+            />
+          ) : null}
+        </>
       );
     },
     [queryFragment]
@@ -367,8 +372,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       ...allApplications.edges.map((application) => ({
         ...application.node,
         projectId: application.node.ccbcNumber,
+        projectTitle:
+          application.node.applicationSowDataByApplicationId?.nodes[0]?.jsonData
+            ?.projectTitle || application.node.projectName,
       })),
-      ...allCbcProjects.nodes[0].jsonData.map((project) => ({
+      ...(allCbcProjects?.nodes[0]?.jsonData?.map((project) => ({
         ...project,
         zones: [],
         intakeNumber: project.intake,
@@ -380,7 +388,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         packageNumber: null,
         organizationName: project.currentOperatingName || null,
         lead: null,
-      })),
+        isCbcProject: true,
+      })) ?? []),
     ];
   }, [allApplications, allCbcProjects]);
 
