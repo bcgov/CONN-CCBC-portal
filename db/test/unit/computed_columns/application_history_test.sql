@@ -22,7 +22,7 @@ select has_function(
 insert into ccbc_public.intake(open_timestamp, close_timestamp, ccbc_intake_number)
 values('2022-03-01 09:00:00-07', '2024-05-01 09:00:00-07', 1);
 
---select mocks.set_mocked_time_in_transaction('2022-04-01 09:00:00-07'::timestamptz);
+select mocks.set_mocked_time_in_transaction('2022-04-01 09:00:00-07'::timestamptz);
 
 set jwt.claims.sub to 'testCcbcAuthUser';
 insert into ccbc_public.ccbc_user
