@@ -3,7 +3,7 @@ begin;
 select mocks.set_mocked_time_in_transaction('2022-10-09 09:00:00-07'::timestamptz);
 
 insert into ccbc_public.cbc_project(
-	id, json_data, sharepoint_timestamp, created_by, created_at, updated_by, updated_at)
+	id, json_data, sharepoint_timestamp, created_at, updated_at)
 	overriding system value values (7,
      $$[
             {
@@ -142,6 +142,6 @@ insert into ccbc_public.cbc_project(
                 "bindingAgreementSignedNditRecipient": "YES"
             }
         ]$$,
-        '2024-01-01 16:28:11.006719-07', 1, '2024-01-02 16:28:11.006719-07', 1, '2024-01-02 16:28:11.006719-07');
+        '2024-01-01 16:28:11.006719-07', '2024-01-02 16:28:11.006719-07', '2024-01-02 16:28:11.006719-07');
 
 commit;
