@@ -392,7 +392,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const countRows = screen.getAllByText(/Showing 5 of 5 rows/i);
+    const countRows = screen.getAllByText(/Showing 7 of 7 rows/i);
     expect(countRows).toHaveLength(2);
   });
 
@@ -470,7 +470,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const statusName = screen.getByText('Agreement signed');
+    const statusName = screen.getAllByText('Agreement signed')[0];
 
     expect(statusName).toHaveStyle('color: #FFFFFF');
     expect(statusName).toHaveStyle('background-color: #1F8234;');
