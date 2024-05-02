@@ -1,3 +1,9 @@
+## [1.158.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.158.0...v1.158.1) (2024-05-02)
+
+### Bug Fixes
+
+- only use first name on e-mail ([86e3bfc](https://github.com/bcgov/CONN-CCBC-portal/commit/86e3bfc1c88b5872ffe1be23d33356f2e11ccfde))
+
 # [1.158.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.157.0...v1.158.0) (2024-05-02)
 
 ### Bug Fixes
