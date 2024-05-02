@@ -557,3 +557,4 @@ mutations/create_email_notifications 2024-04-21T02:42:44Z ,,, <ryohani89@NH50467
 clean_application_status 2024-04-24T23:07:28Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # cleans application status table by setting archived_at to ones that are missing it
 @1.158.0 2024-05-02T15:58:28Z CCBC Service Account <ccbc@button.is> # release v1.158.0
 tables/application_status_type_010_closed_to_not_selected 2024-05-01T15:54:58Z Anthony Bushara <anthony@button.is> # Change the description of closed to not selected
+@1.158.1 2024-05-02T20:25:34Z CCBC Service Account <ccbc@button.is> # release v1.158.1
