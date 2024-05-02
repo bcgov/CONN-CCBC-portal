@@ -154,7 +154,7 @@ const mockQueryPayload = {
                 projectTitle: 'Project 1',
                 dateAnnounced: '2019-07-02T00:00:00.000Z',
                 projectNumber: 4444,
-                projectStatus: 'Agreement signed',
+                projectStatus: 'Agreement Signed',
                 federalFunding: 444444,
                 householdCount: null,
                 applicantAmount: 444444,
