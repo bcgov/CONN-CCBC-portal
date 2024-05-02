@@ -338,7 +338,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     const internalStatus = screen.getByText('Received');
-    const externalStatus = screen.getAllByText('Closed')[0];
+    const externalStatus = screen.getAllByText('Not selected')[0];
 
     expect(internalStatus).toBeInTheDocument();
     expect(externalStatus).toBeInTheDocument();
