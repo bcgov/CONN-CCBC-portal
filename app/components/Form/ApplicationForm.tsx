@@ -379,21 +379,21 @@ const ApplicationForm: React.FC<Props> = ({
   const isOtherFundingSourcesPage = sectionName === 'otherFundingSources';
   const isReviewPage = sectionName === 'review';
 
-  const allZoneIntake =
+  const isAllZoneIntake =
     isProjectAreaPage &&
     acceptedProjectAreasArray.length ===
       (sectionSchema.properties?.geographicArea as any)?.items?.enum?.length;
 
   const isZoneSelectionValid = (
     geographicAreaInput: number[],
-    firstNationsLed: boolean,
-    nullAllowed: boolean = true
+    isFirstNationsLed: boolean,
+    isNullAllowed: boolean = true
   ) => {
     // null selection not allowed in submitted project area page
-    if (!nullAllowed && geographicAreaInput?.length === 0) return false;
+    if (!isNullAllowed && geographicAreaInput?.length === 0) return false;
     return (
-      allZoneIntake ||
-      firstNationsLed ||
+      isAllZoneIntake ||
+      isFirstNationsLed ||
       acceptedProjectAreasArray.includes(geographicAreaInput?.[0])
     );
   };
@@ -499,13 +499,13 @@ const ApplicationForm: React.FC<Props> = ({
         typeof newFormSectionData?.firstNationsLed !== 'undefined' &&
         firstNationsLed !== jsonData.projectArea?.firstNationsLed;
 
-      const projectAreaAccepted = isZoneSelectionValid(
+      const isProjectAreaAccepted = isZoneSelectionValid(
         newFormSectionData?.geographicArea,
         firstNationsLed,
         !isSubmitted
       );
 
-      if (!projectAreaAccepted) {
+      if (!isProjectAreaAccepted) {
         if (isSubmitted) {
           // revert form data
           newFormData = {
