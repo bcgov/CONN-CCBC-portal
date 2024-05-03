@@ -1,12 +1,11 @@
 import { Environment, RecordSource, Store } from 'relay-runtime';
-import { getRelaySerializedState } from 'relay-nextjs';
 import {
   RelayNetworkLayer,
   urlMiddleware,
   batchMiddleware,
   cacheMiddleware,
   uploadMiddleware,
-} from 'react-relay-network-modern/node8';
+} from 'react-relay-network-modern';
 import debounceMutationMiddleware from './debounceMutationMiddleware';
 
 const oneMinute = 60 * 1000;
@@ -41,7 +40,7 @@ export function getClientEnvironment() {
   if (clientEnv == null) {
     clientEnv = new Environment({
       network: createClientNetwork(),
-      store: new Store(new RecordSource(getRelaySerializedState()?.records)),
+      store: new Store(new RecordSource()),
       isServer: false,
     });
   }

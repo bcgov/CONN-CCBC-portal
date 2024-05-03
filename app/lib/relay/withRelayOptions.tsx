@@ -1,5 +1,4 @@
 import type { NextPageContext } from 'next';
-import { WiredOptions } from 'relay-nextjs/wired/component';
 import { NextRouter } from 'next/router';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import safeJsonParse from 'lib/helpers/safeJsonParse';
@@ -7,7 +6,7 @@ import { DEFAULT_PAGE_SIZE } from 'components/Table/Pagination';
 import { getClientEnvironment } from './client';
 import isRouteAuthorized from '../../utils/isRouteAuthorized';
 
-const withRelayOptions: WiredOptions<any> = {
+const withRelayOptions = {
   fallback: <div>Loading...</div>,
   ErrorComponent: (props) => {
     throw props.error;
