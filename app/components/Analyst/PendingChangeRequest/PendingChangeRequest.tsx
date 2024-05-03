@@ -3,11 +3,18 @@ import { useCreatePendingChangeRequestMutation } from 'schema/mutations/applicat
 import styled from 'styled-components';
 import { useState } from 'react';
 import useModal from 'lib/helpers/useModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import PendingChangeRequestModal from './PendingChangeRequestModal';
+import ClosePendingRequestModal from './ClosePendingRequestModal';
 
 const StyledCheckbox = styled.input`
   transform: scale(1.5);
   transform-origin: left;
+`;
+
+const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
+  margin-left: 8px; ;
 `;
 
 const PendingChangeRequest = ({ application }) => {
@@ -30,6 +37,7 @@ const PendingChangeRequest = ({ application }) => {
   );
 
   const pendingChangeRequestModal = useModal();
+  const closePendingRequestModal = useModal();
   const { applicationPendingChangeRequestsByApplicationId, rowId } =
     queryFragment;
 
@@ -41,6 +49,12 @@ const PendingChangeRequest = ({ application }) => {
     applicationPendingChangeRequestsByApplicationId?.nodes?.[0]?.isPending ||
       false
   );
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      pendingChangeRequestModal.open();
+    }
+  };
 
   const [createPendingChangeRequest] = useCreatePendingChangeRequestMutation();
 
@@ -67,14 +81,47 @@ const PendingChangeRequest = ({ application }) => {
       <StyledCheckbox
         type="checkbox"
         checked={isPending}
-        onChange={() => pendingChangeRequestModal.open()}
+        onChange={(e) => {
+          if (e.target.checked) {
+            pendingChangeRequestModal.open();
+          } else {
+            closePendingRequestModal.open();
+          }
+        }}
       />
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={pendingChangeRequestModal.open}
+        onKeyDown={handleKeyDown}
+        aria-labelledby="Description of Statuses and Triggers"
+        style={{ cursor: 'pointer' }}
+        data-testid="status-information-icon"
+      >
+        <StyledFontAwesomeIcon
+          icon={faCommentDots}
+          fixedWidth
+          size="lg"
+          color="#345FA9"
+        />
+      </div>
       <PendingChangeRequestModal
         {...pendingChangeRequestModal}
         onSave={handleChangePendingRequest}
         value={comment}
         onCancel={() => {
           pendingChangeRequestModal.close();
+        }}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+          setComment(e.target.value)
+        }
+      />
+      <ClosePendingRequestModal
+        {...closePendingRequestModal}
+        onSave={handleChangePendingRequest}
+        value={comment}
+        onCancel={() => {
+          closePendingRequestModal.close();
         }}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
           setComment(e.target.value)

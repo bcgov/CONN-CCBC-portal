@@ -7,7 +7,7 @@ import { useFeature } from '@growthbook/growthbook-react';
 import EditProjectDescription from './EditProjectDescription';
 import StatusInformationIcon from './StatusInformationIcon';
 import AssignProjectType from './AssignProjectType';
-import PendingChangeRequest from './PendingChangeRequest';
+import PendingChangeRequest from './PendingChangeRequest/PendingChangeRequest';
 
 const StyledCallout = styled.div`
   margin-bottom: 0.5em;
