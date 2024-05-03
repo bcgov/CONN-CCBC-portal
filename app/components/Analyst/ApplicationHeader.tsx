@@ -7,6 +7,7 @@ import { useFeature } from '@growthbook/growthbook-react';
 import EditProjectDescription from './EditProjectDescription';
 import StatusInformationIcon from './StatusInformationIcon';
 import AssignProjectType from './AssignProjectType';
+import PendingChangeRequest from './PendingChangeRequest';
 
 const StyledCallout = styled.div`
   margin-bottom: 0.5em;
@@ -38,7 +39,7 @@ const StyledDiv = styled.div`
 `;
 
 const StyledLabel = styled.label`
-  min-width: 130px;
+  min-width: 210px;
   color: ${(props) => props.theme.color.components};
   padding-right: 1rem;
   direction: rtl;
@@ -55,6 +56,10 @@ const StyledPackage = styled(StyledItem)`
 `;
 
 const StyledProjectType = styled(StyledItem)`
+  margin: 8px 0 0 0;
+`;
+
+const StyledPendingChangeRequests = styled(StyledItem)`
   margin: 8px 0;
 `;
 
@@ -113,6 +118,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           ...AssignPackage_query
           ...EditProjectDescription_query
           ...AssignProjectType_query
+          ...PendingChangeRequest_query
         }
         ...AssignLead_query
         allApplicationStatusTypes(
@@ -221,6 +227,13 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
           <AssignProjectType application={applicationByRowId} />
         </StyledProjectType>
+
+        <StyledPendingChangeRequests>
+          <StyledLabel htmlFor="assign-project-type">
+            Pending Change Request
+          </StyledLabel>
+          <PendingChangeRequest application={applicationByRowId} />
+        </StyledPendingChangeRequests>
       </StyledDiv>
     </StyledCallout>
   );
