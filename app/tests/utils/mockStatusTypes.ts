@@ -17,7 +17,7 @@ const allApplicationStatusTypes = {
     },
     {
       name: 'closed',
-      description: 'Closed',
+      description: 'Not selected',
       id: 'WyJhcHBsaWNhdGlvbl9zdGF0dXNfdHlwZXMiLCJjbG9zZWQiXQ==',
     },
     {

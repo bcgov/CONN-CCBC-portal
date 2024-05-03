@@ -75,7 +75,7 @@ const StatusInformationModal: React.FC<Props> = ({
             <tr>
               <td>
                 <Chip
-                  label="Closed"
+                  label="Not selected"
                   sx={{
                     bgcolor: '#E8E8E8',
                     color: '#414141',
