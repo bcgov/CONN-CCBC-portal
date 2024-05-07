@@ -37,6 +37,13 @@ This document outlines the Continuous Integration and Continuous Deployment (CI/
 3. **Merge and Deployment:**
    - If all checks pass, the PR can be safely merged, and it will automatically be deployed to the test and then production environments.
 
+### Exceptions
+
+Note: Release-it process does not allow creation of new tags (it won't delete and recreate automatically) if they already exist. The two scenarios below might occur:
+
+- If a release is being run on a stale PR, it will fail as it will attempt to release an already existing version (as it has been merged into main)
+- If a release is being run at the same time as another one, they might conflict until one is merged in and the other updated (unlikely to happen, but will need communication between developers if this is occurring)
+
 ## Diagram
 
 For a detailed diagram of the process please refer to the live miro diagram [here](https://miro.com/app/board/uXjVNkUAjsA=/).
