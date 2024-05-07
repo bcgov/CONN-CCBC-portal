@@ -42,7 +42,7 @@ const withRelayOptions: WiredOptions<any> = {
     return {
       redirect: {
         destination: request.url.startsWith('/analyst')
-          ? '/analyst'
+          ? `/analyst?redirect=${request.url}`
           : '/applicantportal',
       },
     };

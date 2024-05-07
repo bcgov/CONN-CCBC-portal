@@ -112,10 +112,16 @@ export const loginController =
       delete req.session.tokenSet;
     }
 
-    const redirectUri = options.getRedirectUri(
+    const baseRedirectUri = options.getRedirectUri(
       new URL(client.metadata.redirect_uris[0]),
       req
     ).href;
+
+    const redirectTo = (req.query?.redirect as string) || null;
+
+    const redirectUri = redirectTo
+      ? `${baseRedirectUri}?redirect=${redirectTo}`
+      : baseRedirectUri;
 
     req.session.redirectUri = redirectUri;
 
@@ -177,7 +183,9 @@ export const authCallbackController =
 
       delete req.session.codeVerifier;
 
-      res.redirect(options.getLandingRoute(req));
+      const redirectTo = (req.query?.redirect as string) || null;
+
+      res.redirect(redirectTo || options.getLandingRoute(req));
     } catch (err) {
       console.error('sso-express could not get the access token.');
       Sentry.captureException({
