@@ -22,7 +22,7 @@ const StyledDropdown = styled.select<DropdownProps>`
   border-radius: 16px;
   appearance: none;
   padding: 6px 12px;
-  height: 30px;
+  height: 32px;
   width: ${(props) => props.statusStyles?.pillWidth};
   background: ${(props) => props.statusStyles?.backgroundColor}
     url("data:image/svg+xml;utf8,<svg viewBox='0 0 140 140' width='24' height='24' xmlns='http://www.w3.org/2000/svg'>
