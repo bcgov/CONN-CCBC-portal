@@ -69,7 +69,7 @@ describe('The index page', () => {
 
     expect(await withRelayOptions.serverSideProps(ctxAnalyst)).toEqual({
       redirect: {
-        destination: '/analyst',
+        destination: '/analyst?redirect=/analyst/dashboard',
       },
     });
 
