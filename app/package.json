@@ -162,7 +162,7 @@
     "react-dom": "^18.2.0",
     "relay-compiler": "^13.2.0",
     "relay-test-utils": "^16.2.0",
-    "supertest": "^6.3.4",
+    "supertest": "^7.0.0",
     "ts-jest": "^28.0.2",
     "ts-node": "^10.9.1",
     "typescript": "5.4.5",
