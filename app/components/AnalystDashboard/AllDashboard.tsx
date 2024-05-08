@@ -46,6 +46,19 @@ export const filterNumber = (row, id, filterValue) => {
   return numericProperty === Number(filterValue);
 };
 
+const cbcProjectStatusConverter = (status) => {
+  if (status === 'Conditionally Approved') {
+    return 'conditionally_approved';
+  }
+  if (status === 'Reporting Complete') {
+    return 'complete';
+  }
+  if (status === 'Agreement Signed') {
+    return 'approved';
+  }
+  return status;
+};
+
 const StyledLink = styled(Link)`
   color: ${(props) => props.theme.color.links};
   text-decoration: none;
@@ -84,11 +97,17 @@ const muiTableHeadCellProps = {
 };
 
 const CcbcIdCell = ({ cell }) => {
-  const applicationId = cell.row.original?.applicationId;
+  const applicationId = cell.row.original?.rowId;
   return (
-    <StyledLink href={`/analyst/application/${applicationId}`}>
-      {cell.getValue()}
-    </StyledLink>
+    <>
+      {applicationId ? (
+        <StyledLink href={`/analyst/application/${applicationId}`}>
+          {cell.getValue()}
+        </StyledLink>
+      ) : (
+        cell.getValue()
+      )}
+    </>
   );
 };
 
@@ -159,6 +178,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             }
           }
         }
+        allCbcProjects(filter: { archivedAt: { isNull: true } }) {
+          nodes {
+            jsonData
+          }
+        }
       }
     `,
     query
@@ -167,18 +191,23 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const AssignAnalystLead = useCallback(
     ({ cell }) => {
       const row = cell.row.original;
-      const { applicationId, analystLead } = row;
+      const applicationId = row?.rowId || null;
+      const { analystLead, isCbcProject } = row;
       return (
-        <AssignLead
-          query={queryFragment}
-          applicationId={applicationId}
-          lead={analystLead}
-        />
+        <>
+          {!isCbcProject ? (
+            <AssignLead
+              query={queryFragment}
+              applicationId={applicationId}
+              lead={analystLead}
+            />
+          ) : null}
+        </>
       );
     },
     [queryFragment]
   );
-  const { allApplications } = queryFragment;
+  const { allApplications, allCbcProjects } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
   const [isFirstRender, setIsFirstRender] = useState(true);
@@ -187,6 +216,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     []
   );
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
+  const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
     { Lead: false }
   );
@@ -338,39 +368,33 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     columnSizing,
   };
 
-  const tableData = useMemo(
-    () =>
-      allApplications.edges.map(({ node: application }) => {
-        const {
-          ccbcNumber,
-          organizationName,
-          package: packageNumber,
-          projectName,
-          rowId: applicationId,
-          zones,
-          externalStatus,
-          analystStatus,
-          analystLead,
-          intakeNumber,
-        } = application;
-
-        return {
-          applicationId,
-          ccbcNumber,
-          packageNumber,
-          zones,
-          analystStatus,
-          externalStatus,
-          analystLead,
-          intakeNumber,
-          projectTitle:
-            application.applicationSowDataByApplicationId?.nodes[0]?.jsonData
-              ?.projectTitle || projectName,
-          organizationName,
-        };
-      }),
-    [allApplications]
-  );
+  const tableData = useMemo(() => {
+    return [
+      ...allApplications.edges.map((application) => ({
+        ...application.node,
+        projectId: application.node.ccbcNumber,
+        projectTitle:
+          application.node.applicationSowDataByApplicationId?.nodes[0]?.jsonData
+            ?.projectTitle || application.node.projectName,
+      })),
+      ...(showCbcProjects
+        ? allCbcProjects?.nodes[0]?.jsonData?.map((project) => ({
+            ...project,
+            zones: [],
+            intakeNumber: project.intake,
+            projectId: project.projectNumber,
+            internalStatus: null,
+            externalStatus: project.projectStatus
+              ? cbcProjectStatusConverter(project.projectStatus)
+              : null,
+            packageNumber: null,
+            organizationName: project.currentOperatingName || null,
+            lead: null,
+            isCbcProject: true,
+          })) ?? []
+        : []),
+    ];
+  }, [allApplications, allCbcProjects, showCbcProjects]);
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
     const uniqueIntakeNumbers = [
@@ -419,8 +443,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         filterSelectOptions: uniqueIntakeNumbers,
       },
       {
-        accessorKey: 'ccbcNumber',
-        header: 'CCBC ID',
+        accessorKey: 'projectId',
+        header: 'Project ID',
         Cell: CcbcIdCell,
       },
       {
