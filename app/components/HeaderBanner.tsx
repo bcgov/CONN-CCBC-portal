@@ -57,7 +57,7 @@ const HeaderBanner: React.FC<Props> = ({
       {environmentIndicator && !isProd && (
         <StyledBaseHeaderBanner header="sub">
           <StyledDiv>
-            Connected Communities BC portal{' '}
+            Connecting Communities BC portal{' '}
             {isTest ? ' Test ' : ' Development '} environment.
           </StyledDiv>
         </StyledBaseHeaderBanner>

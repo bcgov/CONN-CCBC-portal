@@ -21,7 +21,7 @@ const statusStylesBase = {
     primary: '#414141',
     backgroundColor: '#E8E8E8',
     pillWidth: '100px',
-    description: 'Closed',
+    description: 'Not selected',
   },
   complete: {
     primary: '#003366',
