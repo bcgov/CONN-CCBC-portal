@@ -16,3 +16,9 @@ export const CCBC_ASSESSMENT_RFI_INSTRUCTIONS =
 
 export const CCBC_ELIGIBILITY_SCREENING_TEMPLATE =
   'https://bcgov.sharepoint.com/:x:/r/teams/00978-ConnectingCommunitiesProgram/Shared%20Documents/CCBC%20Program/0%20FINAL%20PROGRAM%20DOCUMENTATION/3-Eligibility%20Screen/CCBC_Eligibility%20Screening%20Template.xlsm';
+
+export const CCBC_TECH_ESSENTIALS_TEMPLATE =
+  'https://bcgov.sharepoint.com/:x:/r/teams/053702/Shared%20Documents/General/CCBC%20Program%20Documents/0%20FINAL%20PROGRAM%20DOCUMENTATION/4-Assessments/CCBC%20Assessment%20-%20Tech%20Essentials%20Template.xlsm';
+
+export const CCBC_PM_ESSENTIALS_TEMPLATE =
+  'https://bcgov.sharepoint.com/:x:/r/teams/053702/Shared%20Documents/General/CCBC%20Program%20Documents/0%20FINAL%20PROGRAM%20DOCUMENTATION/4-Assessments/CCBC%20Assessment%20-%20Project%20Management%20Essentials%20Template.xlsm';
