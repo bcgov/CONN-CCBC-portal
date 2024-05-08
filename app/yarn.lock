@@ -12235,15 +12235,24 @@ relay-runtime@13.2.0, relay-runtime@^13.2.0:
     fbjs "^3.0.2"
     invariant "^2.2.4"
 
-relay-test-utils@^13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/relay-test-utils/-/relay-test-utils-13.2.0.tgz#8438c2097155d6c989c70dd3c86b7bff68f9db88"
-  integrity sha512-BBEdg4VGpJkLpZV4dv3lDHTn33QcL5l+Bb/nfT6e3Xccd1hlImAeKapdiX3ILNJioKEwhoMAc4t+2aTwWJQD7g==
+relay-runtime@16.2.0:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-16.2.0.tgz#1126b67749b89f6d4855ebd7e5749033fab5b97f"
+  integrity sha512-SrIyYItH1EZUj37NI8nZALasuq7mNyFrrSNgMefhgxNZxTVnr1KCp43LaxUfZqhsWbw4Y00JSGDRQXlcv4STHQ==
   dependencies:
     "@babel/runtime" "^7.0.0"
     fbjs "^3.0.2"
     invariant "^2.2.4"
-    relay-runtime "13.2.0"
+
+relay-test-utils@^16.2.0:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/relay-test-utils/-/relay-test-utils-16.2.0.tgz#0f94b65a169bca2fc98d3f06b93e0cc006bb7a97"
+  integrity sha512-nslgYqW7bIwEvlUbZoISgLz2TGh3/wHZWEQSwQ7oFZ8gpw6mRatG1ortIywGLhfqsRw5q9t6BJXdiqbl4BPu4w==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    fbjs "^3.0.2"
+    invariant "^2.2.4"
+    relay-runtime "16.2.0"
 
 remove-accents@0.4.2:
   version "0.4.2"
