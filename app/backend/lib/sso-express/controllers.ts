@@ -185,7 +185,10 @@ export const authCallbackController =
 
       const redirectTo = (req.query?.redirect as string) || null;
 
-      res.redirect(redirectTo || options.getLandingRoute(req));
+      res.redirect(
+        `${options.oidcConfig.baseUrl}${redirectTo}` ||
+          options.getLandingRoute(req)
+      );
     } catch (err) {
       console.error('sso-express could not get the access token.');
       Sentry.captureException({
