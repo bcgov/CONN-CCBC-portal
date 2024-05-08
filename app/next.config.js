@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const { withSentryConfig } = require('@sentry/nextjs');
 const convictConfig = require('./config');
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 const moduleExports = {
   poweredByHeader: false,
@@ -40,6 +41,25 @@ const moduleExports = {
       newConfig.resolve.fallback.fs = false;
     }
     newConfig.experiments = { topLevelAwait: true, layers: true };
+    // Ask Webpack to replace @sentry/node imports with @sentry/browser when
+    // building the browser's bundle
+    if (!isServer) {
+      // eslint-disable-next-line no-param-reassign
+      config.resolve.alias['@sentry/node'] = '@sentry/browser';
+    }
+    // The Sentry webpack plugin gets pushed to the webpack plugins to build
+    // and upload the source maps to sentry.
+    config.plugins.push(
+      new SentryWebpackPlugin({
+        include: '.next',
+        configFile: 'sentry.properties',
+        release: process.env.GIT_HASH,
+        ignore: ['node_modules'],
+        urlPrefix: '~/_next',
+        dryRun: true,
+        silent: true,
+      })
+    );
 
     return newConfig;
   },
