@@ -1,3 +1,19 @@
+# [1.159.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.158.0...v1.159.0) (2024-05-08)
+
+### Bug Fixes
+
+- feature env hardcoded app tag ([1b0abb6](https://github.com/bcgov/CONN-CCBC-portal/commit/1b0abb682b50bafd8f0d882b87d6f23125cb9818))
+- only use first name on e-mail ([86e3bfc](https://github.com/bcgov/CONN-CCBC-portal/commit/86e3bfc1c88b5872ffe1be23d33356f2e11ccfde))
+- **typo:** connected to connecting ([726843a](https://github.com/bcgov/CONN-CCBC-portal/commit/726843a768375706496f492fcfccef455489c6ea))
+- **typo:** connected to connecting ([fc70947](https://github.com/bcgov/CONN-CCBC-portal/commit/fc70947288dbd205e93805ecb5b6149b299e0780))
+
+### Features
+
+- add feature flag for cbc projects ([6d508d2](https://github.com/bcgov/CONN-CCBC-portal/commit/6d508d2703f41ba3008dc11ab01be5acd26abbf3))
+- add pm and tech essentials templates ([2623656](https://github.com/bcgov/CONN-CCBC-portal/commit/26236561ba0f25271d7a3b9d69284e7a0e9bdc9d))
+- display cbc projects in all dashboard ([7df4b50](https://github.com/bcgov/CONN-CCBC-portal/commit/7df4b508abc4b5521db6d03b48cc15881208cd19))
+- make release once checkbox is marked ([6c33670](https://github.com/bcgov/CONN-CCBC-portal/commit/6c336701fe5daac82afad64c485c9bcb28eed05b))
+
 # [1.158.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.157.0...v1.158.0) (2024-05-02)
 
 ### Bug Fixes
