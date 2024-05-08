@@ -1,0 +1,157 @@
+name: Deploy to OpenShift
+description: 'Login and deploy to OpenShift'
+
+inputs:
+  openshift_server_url:
+    description: 'URL of the OpenShift server'
+    required: true
+  openshift_token:
+    description: 'Unique login token for OpenShift'
+    required: true
+  openshift_app_namespace:
+    description: 'The namespace being deployed to'
+    required: true
+  openshift_metabase_namespace:
+    description: 'The metabase namespace being deployed to'
+    required: true
+  openshift_metabase_prod_namespace:
+    description: 'The metabase prod namespace allowing us to connect dev and test databases'
+    required: true
+  tag:
+    description: 'the sha value from the latest build'
+    required: true
+  client_secret:
+    description: 'Client secret for sso keycloak login'
+    required: true
+  secure_route:
+    description: 'Domain where the application can be accessed securely'
+    required: true
+  next_public_growthbook_api_key:
+    description: 'Growthbook API key'
+    required: true
+  aws_s3_bucket:
+    description: 'AWS S3 bucket name'
+    required: true
+  aws_clam_s3_bucket:
+    description: 'AWS Clam AV Bucket Name'
+    required: true
+  aws_s3_region:
+    description: 'AWS S3 region'
+    required: true
+  aws_s3_key:
+    description: 'AWS S3 key'
+    required: true
+  aws_s3_secret_key:
+    description: 'AWS S3 secret key'
+    required: true
+  aws_role_arn:
+    description: 'AWS role ARN'
+    required: true
+  certbot_email:
+    description: 'Certbot Email for Cert Registration'
+    required: true
+  certbot_server:
+    description: 'Certbot ACME Server URL'
+    required: true
+  environment:
+    description: 'Environment to set specific helm values file'
+    required: true
+  enable_load_test:
+    description: 'Deploy the application in load test mode'
+    required: false
+    default: false
+  metabase_site_url:
+    description: 'Metabase site url'
+  metabase_embed_secret:
+    description: 'Metabase embed secret key'
+    required: true
+  sp_sa_user:
+    description: 'SharePoint service account user'
+    required: true
+  sp_sa_password:
+    description: 'SharePoint service account password'
+    required: true
+  sp_site:
+    description: 'SharePoint site URL'
+    required: true
+  sp_doc_library:
+    description: 'SharePoint document library'
+    required: true
+  sp_ms_file_name:
+    description: 'SharePoint CBC Projects excel File Name'
+    required: true
+  sp_list_name:
+    description: 'SharePoint CBC Project error list name'
+    required: true
+  feature_name:
+    description: 'Feature name'
+    required: true
+  test_pg_password:
+    description: 'Test password for postgres'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Authenticate, set context and run deploy script
+      uses: redhat-actions/oc-login@v1
+      with:
+        openshift_server_url: ${{ inputs.openshift_server_url }}
+        openshift_token: ${{ inputs.openshift_token }}
+        openshift_app_namespace: ${{ inputs.openshift_app_namespace }}
+        openshift_metabase_namespace: ${{ inputs.openshift_metabase_namespace }}
+        openshift_metabase_prod_namespace: ${{ inputs.openshift_metabase_prod_namespace }}
+        next_public_growthbook_api_key: ${{ inputs.next_public_growthbook_api_key }}
+        aws_s3_bucket: ${{ inputs.aws_s3_bucket }}
+        aws_s3_region: ${{ inputs.aws_s3_region }}
+        aws_s3_key: ${{ inputs.aws_s3_key }}
+        aws_s3_secret_key: ${{ inputs.aws_s3_secret_key }}
+        aws_role_arn: ${{ inputs.aws_role_arn }}
+        aws_clam_s3_bucket: ${{ inputs.aws_clam_s3_bucket }}
+        metabase_site_url: ${{ inputs.metabase_site_url }}
+        metabase_embed_secret: ${{ inputs.metabase_embed_secret }}
+        feature_name: ${{ inputs.feature_name }}
+        insecure_skip_tls_verify: true
+    # Generate two versions of the branch name,
+    # one in lowercase and one in lowercase with a max length of 62
+    # the max length of 30 is due to the max container name in OpenShift (63)
+    # which will have extra characters appended to it
+    # full name override should match db name as it is used in some secret creations
+    # as well as deployments
+    - run: |
+        FEATURE_NAME_LOWER=$(echo "${{ inputs.feature_name }}" | tr '[:upper:]' '[:lower:]')
+        FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
+        chmod +x ./lib/app_deploy_feature.sh
+        ./lib/app_deploy_feature.sh -n ${{ inputs.openshift_app_namespace }} \
+          --set fullnameOverride="$FEATURE_NAME_LOWER_SHORT" \
+          --set db.name="$FEATURE_NAME_LOWER_SHORT" \
+          --set app.namespace=${{ inputs.openshift_app_namespace }} \
+          --set metabase.namespace=${{ inputs.openshift_metabase_namespace }} \
+          --set metabase.prodNamespace=${{ inputs.openshift_metabase_prod_namespace }} \
+          --set metabase.siteUrl=${{ inputs.metabase_site_url }} \
+          --set metabase.embedSecret=${{ inputs.metabase_embed_secret }} \
+          --set image.app.tag=${{ inputs.tag  }} \
+          --set image.db.tag=${{ inputs.tag  }} \
+          --set image.cronsp.tag=${{ inputs.tag  }} \
+          --set image.app.clientSecret=${{ inputs.client_secret }} \
+          --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
+          --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }} \
+          --set objectStorage.awsClamS3Bucket=${{ inputs.aws_clam_s3_bucket }} \
+          --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }} \
+          --set objectStorage.awsS3Key=${{ inputs.aws_s3_key }} \
+          --set objectStorage.awsS3SecretKey=${{ inputs.aws_s3_secret_key }} \
+          --set objectStorage.awsRoleArn=${{ inputs.aws_role_arn }} \
+          --set certbot.certbot.email=${{ inputs.certbot_email }} \
+          --set certbot.certbot.server=${{ inputs.certbot_server }} \
+          --set loadTest.enable=${{ inputs.enable_load_test }} \
+          --set db.test.password="${{ inputs.test_pg_password }}" \
+          --set sharepoint.spSite="${{ inputs.sp_site }}" \
+          --set sharepoint.spSaUser="${{ inputs.sp_sa_user }}" \
+          --set sharepoint.spSaPassword="${{ inputs.sp_sa_password }}" \
+          --set sharepoint.spDocLibrary="${{ inputs.sp_doc_library }}" \
+          --set sharepoint.spMsFileName="${{ inputs.sp_ms_file_name }}" \
+          --set sharepoint.spListName="${{ inputs.sp_list_name }}" \
+          --set secureRoute.host="$FEATURE_NAME_LOWER"-ccbc.apps.silver.devops.gov.bc.ca \
+          "$FEATURE_NAME_LOWER"
+
+      shell: bash

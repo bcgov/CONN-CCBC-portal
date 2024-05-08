@@ -170,6 +170,7 @@ describe('The index page', () => {
         },
         _assessmentType: 'screening',
       },
+      connections: [],
     });
   });
 
@@ -192,6 +193,7 @@ describe('The index page', () => {
         },
         _assessmentType: 'screening',
       },
+      connections: [],
     });
 
     await act(async () => {

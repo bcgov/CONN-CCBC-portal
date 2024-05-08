@@ -18,6 +18,7 @@ const getFinancialRiskAssessmentQuery = graphql`
       assessmentForm(_assessmentDataType: "financialRisk") {
         jsonData
       }
+      ccbcNumber
     }
     session {
       sub
@@ -42,6 +43,7 @@ const FinancialRiskAssessment = ({
       <AnalystLayout query={query}>
         <AssessmentsTabs />
         <AssessmentsForm
+          addedContext={{ ccbcNumber: applicationByRowId.ccbcNumber }}
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={financialRisk}
           slug="financialRisk"

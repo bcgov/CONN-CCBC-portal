@@ -81,6 +81,7 @@ const ChangeStatus: React.FC<Props> = ({
         id
         analystStatus
         rowId
+        ccbcNumber
         conditionalApprovalDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
           orderBy: CREATED_AT_DESC
@@ -102,8 +103,13 @@ const ChangeStatus: React.FC<Props> = ({
     application
   );
 
-  const { analystStatus, conditionalApprovalDataByApplicationId, id, rowId } =
-    queryFragment;
+  const {
+    analystStatus,
+    conditionalApprovalDataByApplicationId,
+    id,
+    rowId,
+    ccbcNumber,
+  } = queryFragment;
   const [createStatus] = useCreateApplicationStatusMutation();
   // Filter unwanted status types
   const statusTypes = statusList.filter(
@@ -166,7 +172,7 @@ const ChangeStatus: React.FC<Props> = ({
         internalChangeModal.close();
         // Send email notification
         if (newStatus === 'approved' && !isExternalStatus) {
-          fetch('/api/email/notifyAgreementSigned', {
+          const commonEmailObject = {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -174,15 +180,31 @@ const ChangeStatus: React.FC<Props> = ({
             body: JSON.stringify({
               applicationId: rowId,
               host: window.location.origin,
+              ccbcNumber,
             }),
-          }).then((response) => {
-            if (!response.ok) {
+          };
+          fetch('/api/email/notifyAgreementSigned', commonEmailObject).then(
+            (response) => {
+              if (!response.ok) {
+                Sentry.captureException({
+                  name: 'Email sending Agreement Signed Analyst failed',
+                  message: response,
+                });
+              }
+              return response.json();
+            }
+          );
+
+          fetch(
+            '/api/email/notifyAgreementSignedDataTeam',
+            commonEmailObject
+          ).then((responseDataTeam) => {
+            if (!responseDataTeam.ok) {
               Sentry.captureException({
-                name: 'Email sending failed',
-                message: response,
+                name: 'Email sending Agreement Signed Data Team failed',
+                message: responseDataTeam,
               });
             }
-            return response.json();
           });
         }
       },

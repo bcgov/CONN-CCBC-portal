@@ -402,7 +402,12 @@ const mockQueryPayload = {
               op: 'INSERT',
               record: {
                 id: 13,
-                json_data: {},
+                json_data: {
+                  assignedTo: 'TestNameHopefullyUnique',
+                  otherFiles: [
+                    { name: 'FileNameThatIsAlsoUniqueToScreening.xlsx' },
+                  ],
+                },
                 created_at: '2023-03-03T09:50:51.15027-08:00',
                 created_by: 2,
                 updated_at: '2023-03-03T09:50:51.15027-08:00',
@@ -2903,8 +2908,14 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-assessment')[0]
     ).toHaveTextContent(
-      'Foo Bar saved the screening Assessment on Mar 3, 2023, 9:50 a.m.'
+      'Foo Bar saved the Screening Assessment on Mar 3, 2023, 9:50 a.m.'
     );
+
+    expect(screen.getByText('TestNameHopefullyUnique')).toBeInTheDocument();
+    expect(screen.getByText('Assigned To')).toBeInTheDocument();
+    expect(
+      screen.getByText('FileNameThatIsAlsoUniqueToScreening.xlsx')
+    ).toBeInTheDocument();
 
     expect(
       screen.getAllByTestId('history-content-assessment')[5]
@@ -3033,7 +3044,7 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(25);
+    expect(diffTables.length).toBe(26);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -3088,7 +3099,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByTestId('no-diff-message')).toBeVisible();
+    expect(screen.getAllByTestId('no-diff-message')[0]).toBeVisible();
   });
 
   afterEach(() => {

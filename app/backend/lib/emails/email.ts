@@ -2,7 +2,9 @@ import { Router } from 'express';
 import RateLimit from 'express-rate-limit';
 import agreementSignedStatusChange from './templates/agreementSignedStatusChange';
 import assesmentSecondReviewChange from './templates/assesmentSecondReviewChange';
-import { handleEmailNotification } from './handleEmailNotification';
+import handleEmailNotification from './handleEmailNotification';
+import agreementSignedStatusChangeDataTeam from './templates/agreementSignedStatusChangeDataTeam';
+import assessmentAssigneeChange from './templates/assessmentAssigneeChange';
 
 const email = Router();
 
@@ -12,14 +14,36 @@ const limiter = RateLimit({
 });
 
 email.post('/api/email/notifyAgreementSigned', limiter, (req, res) => {
-  return handleEmailNotification(req, res, agreementSignedStatusChange);
+  const { ccbcNumber } = req.body;
+  return handleEmailNotification(req, res, agreementSignedStatusChange, {
+    ccbcNumber,
+  });
+});
+
+email.post('/api/email/notifyAgreementSignedDataTeam', limiter, (req, res) => {
+  const { ccbcNumber } = req.body;
+  handleEmailNotification(req, res, agreementSignedStatusChangeDataTeam, {
+    ccbcNumber,
+  });
 });
 
 email.post('/api/email/notifySecondReviewRequest', limiter, (req, res) => {
-  const { ccbcNumber } = req.body;
+  const { ccbcNumber, assessmentType } = req.body;
   return handleEmailNotification(req, res, assesmentSecondReviewChange, {
     ccbcNumber,
+    assessmentType,
   });
+});
+
+email.post('/api/email/assessmentAssigneeChange', limiter, (req, res) => {
+  const { params } = req.body;
+  return handleEmailNotification(
+    req,
+    res,
+    assessmentAssigneeChange,
+    params,
+    true
+  );
 });
 
 export default email;

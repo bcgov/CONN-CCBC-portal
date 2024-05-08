@@ -106,6 +106,7 @@ describe('The index page', () => {
         },
         _assessmentType: 'technical',
       },
+      connections: [],
     });
   });
 

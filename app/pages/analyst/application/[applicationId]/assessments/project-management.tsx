@@ -18,6 +18,7 @@ const getPmAssessmentQuery = graphql`
       assessmentForm(_assessmentDataType: "projectManagement") {
         jsonData
       }
+      ccbcNumber
     }
     session {
       sub
@@ -39,6 +40,7 @@ const PmAssessment = ({
       <AnalystLayout query={query}>
         <AssessmentsTabs />
         <AssessmentsForm
+          addedContext={{ ccbcNumber: applicationByRowId.ccbcNumber }}
           formData={applicationByRowId.assessmentForm?.jsonData}
           schema={projectManagement}
           slug="projectManagement"

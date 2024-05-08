@@ -64,6 +64,73 @@ jobs:
       AWS_PARAM_PROD: ${{ secrets.AWS_PARAM_PROD }}
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
 
+  rebase-feature-pr:
+    if: github.event.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get list of PRs
+        id: branch-list
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo
+            const listOfBranches = [];
+            const prs = await github.rest.pulls.list({ owner, repo, state: 'open' });
+            for (const pr of prs.data) {
+              // check if PR is rebaseable, not draft, and mergable before adding to list
+              const baseBranch = pr.base.ref;
+              const headBranch = pr.head.ref;
+
+              const comparison = await github.rest.repos.compareCommits({
+                owner,
+                repo,
+                base: baseBranch,
+                head: headBranch
+              });
+
+              if(comparison.data.behind_by > 0 && !pr.draft && pr.requested_reviewers.length > 0){
+                listOfBranches.push(pr.head.ref);
+              }
+            }
+            core.setOutput('branches', JSON.stringify(listOfBranches));
+            return JSON.stringify(listOfBranches)
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+      - name: Set up Git and import GPG key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+        run: |
+          echo "${GPG_PRIVATE_KEY}" | gpg --import
+          git config user.name "CCBC Service Account"
+          git config user.email "116113628+ccbc-service-account@users.noreply.github.com"
+          git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
+          git config commit.gpgsign true
+      - name: Rebase PRs
+        run: |
+          git checkout main
+          git pull
+          branches=$(echo "${{ steps.branch-list.outputs.result }}" | jq -r '.[]')
+          for branch in $branches; do
+            git checkout main
+            git pull
+            git checkout $branch
+            git pull
+            set +e
+            git rebase main
+            # if rebase succeeds, force push else abort rebase
+            REBASE_STATUS=$?
+            set -e
+            echo $REBASE_STATUS
+            if [ $REBASE_STATUS -eq 0 ]; then
+              git push --force
+            else
+              git rebase --abort
+            fi
+          done
   create-release-pr:
     if: github.event.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -204,3 +271,50 @@ jobs:
       CHES_TO_EMAIL: ${{ secrets.CHES_TO_EMAIL }}
       CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}
       AWS_S3_BACKUPS_BUCKET: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
+
+  deploy-feature:
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
+    needs: [test-code, test-containers]
+    uses: ./.github/workflows/deploy_feature.yaml
+    secrets:
+      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+      OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
+      OPENSHIFT_APP_NAMESPACE: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+      OPENSHIFT_METABASE_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
+      OPENSHIFT_METABASE_PROD_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
+      NEXT_PUBLIC_GROWTHBOOK_API_KEY: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      OPENSHIFT_SECURE_ROUTE: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
+      AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+      AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
+      AWS_S3_KEY: ${{ secrets.AWS_S3_KEY }}
+      AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+      AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
+      AWS_CLAM_S3_BUCKET: ${{ secrets.AWS_CLAM_S3_BUCKET }}
+      METABASE_EMBED_SECRET: ${{ secrets.METABASE_EMBED_SECRET }}
+      METABASE_SITE_URL: ${{ secrets.METABASE_SITE_URL }}
+      SP_SA_USER: ${{ secrets.SP_SA_USER }}
+      SP_SA_PASSWORD: ${{ secrets.SP_SA_PASSWORD }}
+      SP_DOC_LIBRARY: ${{ secrets.SP_DOC_LIBRARY }}
+      SP_SITE: ${{ secrets.SP_SITE }}
+      SP_MS_FILE_NAME: ${{ secrets.SP_MS_FILE_NAME }}
+      SA_CLIENT_SECRET: ${{ secrets.SA_CLIENT_SECRET }}
+      SA_CLIENT_ID: ${{ secrets.SA_CLIENT_ID }}
+      KEYCLOAK_HOST: ${{ secrets.KEYCLOAK_HOST }}
+      SP_LIST_NAME: ${{ secrets.SP_LIST_NAME }}
+      RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+      RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+      CHES_API_URL: ${{ secrets.CHES_API_URL }}
+      CHES_CLIENT: ${{ secrets.CHES_CLIENT }}
+      CHES_CLIENT_SECRET: ${{ secrets.CHES_CLIENT_SECRET }}
+      CHES_TO_EMAIL: ${{ secrets.CHES_TO_EMAIL }}
+      CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}
+      TEST_PG_PASSWORD: ${{ secrets.TEST_PG_PASSWORD }}
+
+  cleanup_feature:
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == true
+    uses: ./.github/workflows/clean-feature-env.yaml
+    secrets:
+      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+      OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
+      OPENSHIFT_APP_NAMESPACE: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
