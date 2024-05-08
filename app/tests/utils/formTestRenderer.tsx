@@ -1,10 +1,10 @@
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { FormBase } from 'components/Form/';
-import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
 import { getClientEnvironment } from 'lib/relay/client';
 import defaultTheme from 'lib/theme/DefaultTheme';
 import GlobalTheme from 'styles/GlobalTheme';
 import { RJSFSchema } from '@rjsf/utils';
+import { useRelayNextjs } from 'relay-nextjs/app';
 
 type Props = {
   formData: any;
@@ -14,11 +14,6 @@ type Props = {
   formContext: any;
 };
 
-const clientEnv = getClientEnvironment();
-const initialPreloadedQuery = getInitialPreloadedQuery({
-  createClientEnvironment: () => getClientEnvironment()!,
-});
-
 const FormTestRenderer: React.FC<Props> = ({
   formData,
   onSubmit,
@@ -26,8 +21,9 @@ const FormTestRenderer: React.FC<Props> = ({
   uiSchema,
   formContext = null,
 }) => {
-  const relayProps = getRelayProps({}, initialPreloadedQuery);
-  const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
+  const { env } = useRelayNextjs(null, {
+    createClientEnvironment: () => getClientEnvironment()!,
+  });
 
   return (
     <RelayEnvironmentProvider environment={env}>

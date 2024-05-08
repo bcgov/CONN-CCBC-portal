@@ -3,7 +3,7 @@ import {
   RelayNetworkLayerRequest,
   RelayNetworkLayerResponse,
   CacheConfig,
-} from 'react-relay-network-modern/node8';
+} from 'react-relay-network-modern';
 
 export interface CacheConfigWithDebounce extends CacheConfig {
   debounceKey?: string;
