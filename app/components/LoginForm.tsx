@@ -16,7 +16,6 @@ const StyledForm = styled('form')`
 const LoginForm: React.FC<Props> = ({ idp, loginText = null }) => {
   const router = useRouter();
   const { query } = router;
-  console.log('query', query);
   const useCustomLogin = useFeature('use_custom_login').value;
 
   const customLoginUrl = query.redirect
