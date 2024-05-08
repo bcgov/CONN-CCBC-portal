@@ -1,3 +1,14 @@
+# [1.159.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.158.0...v1.159.0) (2024-05-08)
+
+### Bug Fixes
+
+- feature env hardcoded app tag ([1b0abb6](https://github.com/bcgov/CONN-CCBC-portal/commit/1b0abb682b50bafd8f0d882b87d6f23125cb9818))
+- only use first name on e-mail ([86e3bfc](https://github.com/bcgov/CONN-CCBC-portal/commit/86e3bfc1c88b5872ffe1be23d33356f2e11ccfde))
+
+### Features
+
+- make release once checkbox is marked ([6c33670](https://github.com/bcgov/CONN-CCBC-portal/commit/6c336701fe5daac82afad64c485c9bcb28eed05b))
+
 # [1.158.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.157.0...v1.158.0) (2024-05-02)
 
 ### Bug Fixes
