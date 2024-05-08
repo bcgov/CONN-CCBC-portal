@@ -252,6 +252,16 @@ const mockShowLeadColumn = (
   ruleId: 'show_lead',
 });
 
+const mockShowCbcProjects = (
+  value: boolean
+): moduleApi.FeatureResult<boolean> => ({
+  value,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_cbc_projects',
+});
+
 jest.mock('js-cookie', () => ({
   get: jest.fn(),
   remove: jest.fn(),
@@ -324,6 +334,10 @@ describe('The index page', () => {
   });
 
   it('displays the Analyst Table', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -389,6 +403,9 @@ describe('The index page', () => {
   });
 
   it('renders analyst table row counts', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
