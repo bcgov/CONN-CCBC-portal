@@ -186,8 +186,9 @@ export const authCallbackController =
       const redirectTo = (req.query?.redirect as string) || null;
 
       res.redirect(
-        `${options.oidcConfig.baseUrl}${redirectTo}` ||
-          options.getLandingRoute(req)
+        redirectTo
+          ? `${options.oidcConfig.baseUrl}${redirectTo}`
+          : options.getLandingRoute(req)
       );
     } catch (err) {
       console.error('sso-express could not get the access token.');
