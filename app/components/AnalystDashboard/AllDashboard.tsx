@@ -216,6 +216,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     []
   );
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
+  const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
     { Lead: false }
   );
@@ -376,22 +377,24 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           application.node.applicationSowDataByApplicationId?.nodes[0]?.jsonData
             ?.projectTitle || application.node.projectName,
       })),
-      ...(allCbcProjects?.nodes[0]?.jsonData?.map((project) => ({
-        ...project,
-        zones: [],
-        intakeNumber: project.intake,
-        projectId: project.projectNumber,
-        internalStatus: null,
-        externalStatus: project.projectStatus
-          ? cbcProjectStatusConverter(project.projectStatus)
-          : null,
-        packageNumber: null,
-        organizationName: project.currentOperatingName || null,
-        lead: null,
-        isCbcProject: true,
-      })) ?? []),
+      ...(showCbcProjects
+        ? allCbcProjects?.nodes[0]?.jsonData?.map((project) => ({
+            ...project,
+            zones: [],
+            intakeNumber: project.intake,
+            projectId: project.projectNumber,
+            internalStatus: null,
+            externalStatus: project.projectStatus
+              ? cbcProjectStatusConverter(project.projectStatus)
+              : null,
+            packageNumber: null,
+            organizationName: project.currentOperatingName || null,
+            lead: null,
+            isCbcProject: true,
+          })) ?? []
+        : []),
     ];
-  }, [allApplications, allCbcProjects]);
+  }, [allApplications, allCbcProjects, showCbcProjects]);
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
     const uniqueIntakeNumbers = [
