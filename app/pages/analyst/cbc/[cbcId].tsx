@@ -22,6 +22,7 @@ import miscellaneous from 'formSchema/analyst/cbc/miscellaneous';
 import miscellaneousUiSchema from 'formSchema/uiSchema/cbc/miscellaneousUiSchema';
 import projectDataReviews from 'formSchema/analyst/cbc/projectDataReviews';
 import projectDataReviewsUiSchema from 'formSchema/uiSchema/cbc/projectDataReviewsUiSchema';
+import { useState } from 'react';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -53,6 +54,11 @@ const Cbc = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, CbcIdQuery>) => {
   const query = usePreloadedQuery(getCbcQuery, preloadedQuery);
+
+  const [toggleOverride, setToggleExpandOrCollapseAll] = useState<
+    boolean | undefined
+  >(undefined);
+
   const { cbcByRowId, session } = query;
   const { cbcDataByCbcId } = cbcByRowId;
   const { edges } = cbcDataByCbcId;
@@ -79,7 +85,7 @@ const Cbc = ({
         <RightAlignText>
           <StyledButton
             onClick={() => {
-              console.log('Expand all');
+              setToggleExpandOrCollapseAll(true);
             }}
             type="button"
           >
@@ -88,7 +94,7 @@ const Cbc = ({
           {' | '}
           <StyledButton
             onClick={() => {
-              console.log('Collapse all');
+              setToggleExpandOrCollapseAll(false);
             }}
             type="button"
           >
@@ -125,7 +131,7 @@ const Cbc = ({
             setIsFormEditMode={() => {
               console.log('setIsFormEditMode');
             }}
-            additionalContext={{}}
+            additionalContext={{ toggleOverride }}
             isFormAnimated={false}
           />
           <StyledCbcForm
@@ -148,7 +154,7 @@ const Cbc = ({
             setIsFormEditMode={() => {
               console.log('setIsFormEditMode');
             }}
-            additionalContext={{}}
+            additionalContext={{ toggleOverride }}
             isFormAnimated={false}
           />
           <StyledCbcForm
@@ -171,7 +177,7 @@ const Cbc = ({
             setIsFormEditMode={() => {
               console.log('setIsFormEditMode');
             }}
-            additionalContext={{}}
+            additionalContext={{ toggleOverride }}
             isFormAnimated={false}
           />
           <StyledCbcForm
@@ -194,7 +200,7 @@ const Cbc = ({
             setIsFormEditMode={() => {
               console.log('setIsFormEditMode');
             }}
-            additionalContext={{}}
+            additionalContext={{ toggleOverride }}
             isFormAnimated={false}
           />
           <StyledCbcForm
@@ -217,7 +223,7 @@ const Cbc = ({
             setIsFormEditMode={() => {
               console.log('setIsFormEditMode');
             }}
-            additionalContext={{}}
+            additionalContext={{ toggleOverride }}
             isFormAnimated={false}
           />
           <StyledCbcForm
@@ -240,7 +246,7 @@ const Cbc = ({
             setIsFormEditMode={() => {
               console.log('setIsFormEditMode');
             }}
-            additionalContext={{}}
+            additionalContext={{ toggleOverride }}
             isFormAnimated={false}
           />
           <StyledCbcForm
@@ -263,7 +269,7 @@ const Cbc = ({
             setIsFormEditMode={() => {
               console.log('setIsFormEditMode');
             }}
-            additionalContext={{}}
+            additionalContext={{ toggleOverride }}
             isFormAnimated={false}
           />
         </>
