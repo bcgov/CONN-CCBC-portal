@@ -52,7 +52,7 @@ const checkRouteAuthorization = () => {
 
     expect(await defaultRelayOptions.serverSideProps(ctx)).toEqual({
       redirect: {
-        destination: '/analyst',
+        destination: '/analyst?redirect=/analyst/admin/application-intakes',
       },
     });
   });
