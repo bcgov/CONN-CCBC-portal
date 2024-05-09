@@ -1,3 +1,9 @@
+# [1.160.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.159.0...v1.160.0) (2024-05-09)
+
+### Features
+
+- redirect to requested link after login ([fea00c2](https://github.com/bcgov/CONN-CCBC-portal/commit/fea00c25781a1e77c8d3c82910aa658eb76cdb24))
+
 # [1.159.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.158.0...v1.159.0) (2024-05-08)
 
 ### Bug Fixes
