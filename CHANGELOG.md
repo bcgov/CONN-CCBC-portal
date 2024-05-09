@@ -1,3 +1,11 @@
+# [1.160.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.159.0...v1.160.0) (2024-05-09)
+
+### Features
+
+- provide feat env url on Jira ([e0fefae](https://github.com/bcgov/CONN-CCBC-portal/commit/e0fefae7401bbbb1eeecf188708ff490c6636f8d))
+- redirect to requested link after login ([fea00c2](https://github.com/bcgov/CONN-CCBC-portal/commit/fea00c25781a1e77c8d3c82910aa658eb76cdb24))
+- transition issue once approved ([d38a4be](https://github.com/bcgov/CONN-CCBC-portal/commit/d38a4be859c0f93cb70c9d1801fc316577f51b3b))
+
 # [1.159.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.158.0...v1.159.0) (2024-05-08)
 
 ### Bug Fixes
