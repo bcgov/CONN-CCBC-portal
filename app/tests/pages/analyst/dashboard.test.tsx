@@ -92,6 +92,149 @@ const mockQueryPayload = {
           },
         ],
       },
+      allCbcProjects: {
+        nodes: [
+          {
+            jsonData: [
+              {
+                phase: 2,
+                intake: 1,
+                errorLog: [],
+                highwayKm: null,
+                projectType: 'Transport',
+                reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+                transportKm: 124,
+                lastReviewed: '2023-07-11T00:00:00.000Z',
+                otherFunding: 265000,
+                projectTitle: 'Project 1',
+                dateAnnounced: '2019-07-02T00:00:00.000Z',
+                projectNumber: 5555,
+                projectStatus: 'Reporting Complete',
+                federalFunding: 555555,
+                householdCount: null,
+                applicantAmount: 555555,
+                bcFundingRequest: 5555555,
+                projectLocations: 'Location 1',
+                milestoneComments: 'Requested extension to March 31, 2024',
+                proposedStartDate: '2020-07-01T00:00:00.000Z',
+                primaryNewsRelease:
+                  'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
+                projectDescription: 'Description 1',
+                totalProjectBudget: 5555555,
+                announcedByProvince: 'YES',
+                dateAgreementSigned: '2021-02-24T00:00:00.000Z',
+                changeRequestPending: 'No',
+                currentOperatingName: 'Internet company 1',
+                federalFundingSource: 'ISED-CTI',
+                transportProjectType: 'Fibre',
+                indigenousCommunities: 5,
+                proposedCompletionDate: '2023-03-31T00:00:00.000Z',
+                constructionCompletedOn: null,
+                dateApplicationReceived: null,
+                reportingCompletionDate: null,
+                applicantContractualName: 'Internet company 1',
+                dateConditionallyApproved: '2019-06-26T00:00:00.000Z',
+                eightThirtyMillionFunding: 'No',
+                projectMilestoneCompleted: 0.5,
+                communitiesAndLocalesCount: 5,
+                connectedCoastNetworkDependant: 'NO',
+                nditConditionalApprovalLetterSent: 'YES',
+                bindingAgreementSignedNditRecipient: 'YES',
+              },
+              {
+                phase: 2,
+                intake: 1,
+                errorLog: [],
+                highwayKm: null,
+                projectType: 'Transport',
+                reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+                transportKm: 100,
+                lastReviewed: '2023-07-11T00:00:00.000Z',
+                otherFunding: 444444,
+                projectTitle: 'Project 1',
+                dateAnnounced: '2019-07-02T00:00:00.000Z',
+                projectNumber: 4444,
+                projectStatus: 'Agreement Signed',
+                federalFunding: 444444,
+                householdCount: null,
+                applicantAmount: 444444,
+                bcFundingRequest: 444444,
+                projectLocations: 'Location 2',
+                milestoneComments: 'Requested extension to March 31, 2024',
+                proposedStartDate: '2020-07-01T00:00:00.000Z',
+                primaryNewsRelease:
+                  'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
+                projectDescription: 'Description 2',
+                totalProjectBudget: 444444,
+                announcedByProvince: 'YES',
+                dateAgreementSigned: '2021-02-24T00:00:00.000Z',
+                changeRequestPending: 'No',
+                currentOperatingName: 'Internet company 2',
+                federalFundingSource: 'ISED-CTI',
+                transportProjectType: 'Fibre',
+                indigenousCommunities: 5,
+                proposedCompletionDate: '2023-03-31T00:00:00.000Z',
+                constructionCompletedOn: null,
+                dateApplicationReceived: null,
+                reportingCompletionDate: null,
+                applicantContractualName: 'Internet company 2',
+                dateConditionallyApproved: '2019-06-26T00:00:00.000Z',
+                eightThirtyMillionFunding: 'No',
+                projectMilestoneCompleted: 0.5,
+                communitiesAndLocalesCount: 5,
+                connectedCoastNetworkDependant: 'NO',
+                nditConditionalApprovalLetterSent: 'YES',
+                bindingAgreementSignedNditRecipient: 'YES',
+              },
+              {
+                phase: 2,
+                intake: 1,
+                errorLog: [],
+                highwayKm: null,
+                projectType: 'Transport',
+                reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+                transportKm: 99,
+                lastReviewed: '2023-07-11T00:00:00.000Z',
+                otherFunding: 33333,
+                projectTitle: 'Project 3',
+                dateAnnounced: '2019-07-02T00:00:00.000Z',
+                projectNumber: 3333,
+                projectStatus: 'Reporting Complete',
+                federalFunding: 333333,
+                householdCount: null,
+                applicantAmount: 33333,
+                bcFundingRequest: 333333,
+                projectLocations: 'Location 3',
+                milestoneComments: 'Requested extension to March 31, 2024',
+                proposedStartDate: '2020-07-01T00:00:00.000Z',
+                primaryNewsRelease:
+                  'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
+                projectDescription: 'Description 2',
+                totalProjectBudget: 333333,
+                announcedByProvince: 'YES',
+                dateAgreementSigned: '2021-02-24T00:00:00.000Z',
+                changeRequestPending: 'No',
+                currentOperatingName: 'Internet company 3',
+                federalFundingSource: 'ISED-CTI',
+                transportProjectType: 'Fibre',
+                indigenousCommunities: 3,
+                proposedCompletionDate: '2023-03-31T00:00:00.000Z',
+                constructionCompletedOn: null,
+                dateApplicationReceived: null,
+                reportingCompletionDate: null,
+                applicantContractualName: 'Internet company 3',
+                dateConditionallyApproved: '2019-06-26T00:00:00.000Z',
+                eightThirtyMillionFunding: 'No',
+                projectMilestoneCompleted: 0.5,
+                communitiesAndLocalesCount: 5,
+                connectedCoastNetworkDependant: 'NO',
+                nditConditionalApprovalLetterSent: 'YES',
+                bindingAgreementSignedNditRecipient: 'YES',
+              },
+            ],
+          },
+        ],
+      },
     };
   },
 };
@@ -107,6 +250,16 @@ const mockShowLeadColumn = (
   on: null,
   off: null,
   ruleId: 'show_lead',
+});
+
+const mockShowCbcProjects = (
+  value: boolean
+): moduleApi.FeatureResult<boolean> => ({
+  value,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_cbc_projects',
 });
 
 jest.mock('js-cookie', () => ({
@@ -181,6 +334,10 @@ describe('The index page', () => {
   });
 
   it('displays the Analyst Table', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -197,7 +354,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText('CCBC ID')).toBeInTheDocument();
+    expect(screen.getByText('Project ID')).toBeInTheDocument();
     expect(screen.getByText('Internal Status')).toBeInTheDocument();
     expect(screen.getByText('External Status')).toBeInTheDocument();
     expect(screen.getByText('Project title')).toBeInTheDocument();
@@ -246,10 +403,13 @@ describe('The index page', () => {
   });
 
   it('renders analyst table row counts', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const countRows = screen.getAllByText(/Showing 4 of 4 rows/i);
+    const countRows = screen.getAllByText(/Showing 7 of 7 rows/i);
     expect(countRows).toHaveLength(2);
   });
 
@@ -327,7 +487,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const statusName = screen.getByText('Agreement signed');
+    const statusName = screen.getAllByText('Agreement signed')[0];
 
     expect(statusName).toHaveStyle('color: #FFFFFF');
     expect(statusName).toHaveStyle('background-color: #1F8234;');

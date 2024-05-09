@@ -118,6 +118,7 @@ const StyledFlex = styled.div<FlexProps>`
     margin: 0;
     font-size: 14px;
     margin-bottom: 8px;
+    min-height: 15.4px;
   }
 `;
 

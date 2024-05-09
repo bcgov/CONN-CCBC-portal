@@ -29,7 +29,7 @@ describe('The Header Banner component', () => {
   it('should render the correct banner when environment indicator on', () => {
     renderStaticLayout(true);
     const alert = screen.getByText(
-      /Connected Communities BC portal Development environment/
+      /Connecting Communities BC portal Development environment/
     );
 
     expect(alert).toBeInTheDocument();
@@ -39,7 +39,7 @@ describe('The Header Banner component', () => {
     renderStaticLayout(false);
     expect(
       screen.queryByText(
-        /Connected Communities BC portal Development environment/
+        /Connecting Communities BC portal Development environment/
       )
     ).not.toBeInTheDocument();
   });
@@ -62,7 +62,7 @@ describe('The Header Banner component', () => {
     mockOpenshiftNamespace.mockImplementationOnce(() => 'environment-prod');
     renderStaticLayout(true);
     expect(
-      screen.queryByText(/Connected Communities BC portal/)
+      screen.queryByText(/Connecting Communities BC portal/)
     ).not.toBeInTheDocument();
   });
 
