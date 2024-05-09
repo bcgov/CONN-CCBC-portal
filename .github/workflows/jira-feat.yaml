@@ -1,0 +1,84 @@
+name: Communicate feature back to JIRA
+
+on:
+  workflow_call:
+    secrets:
+      JIRA_AUTH: { required: true }
+  pull_request_review:
+    types: [submitted]
+
+env:
+  FEATURE_NAME: ${{ github.event.pull_request.head.ref }}
+
+jobs:
+  update-jira-issue:
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Get JIRA Issue Key
+        id: extract_jira_key
+        run: |
+          echo "JIRA_KEY=$(echo "$FEATURE_NAME" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
+      - name: Update JIRA Issue
+        # JIRA_AUTH must be passed pre encoded
+        run: |
+          FEATURE_NAME_LOWER=$(echo $FEATURE_NAME | tr '[:upper:]' '[:lower:]')
+          FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
+          curl -X POST \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "body": {
+                      "type": "doc",
+                      "version": 1,
+                      "content": [
+                          {
+                              "type": "paragraph",
+                              "content": [
+                                  {
+                                      "text": "AUTOMATIC COMMENT: ",
+                                      "type": "text",
+                                      "marks": [
+                                          {
+                                            "type": "strong"
+                                          }
+                                      ]
+                                  },
+                                  {
+                                      "text": "Feature deployed! URL: ",
+                                      "type": "text"
+                                  },
+                                  {
+                                    "text": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca",
+                                    "type": "text",
+                                    "marks": [
+                                        {
+                                            "type": "link",
+                                            "attrs": {
+                                                "href": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca",
+                                                "title": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca"
+                                            }
+                                        }
+                                    ]
+                                }
+                              ]
+                          }
+                      ]
+                  }
+              }' \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/comment"
+      - name: Transition Issue
+        if: github.event.review.state == 'approved'
+        run: |
+          curl -X POST \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "transition": {
+                      "id": "10"
+                  }
+              }' \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/transitions"
