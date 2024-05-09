@@ -178,9 +178,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allCbcProjects(filter: { archivedAt: { isNull: true } }) {
-          nodes {
-            jsonData
+        allCbcData(filter: { archivedAt: { isNull: true } }) {
+          edges {
+            node {
+              jsonData
+              projectNumber
+              cbcId
+            }
           }
         }
       }
@@ -207,7 +211,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     },
     [queryFragment]
   );
-  const { allApplications, allCbcProjects } = queryFragment;
+  const { allApplications, allCbcData } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
   const [isFirstRender, setIsFirstRender] = useState(true);
@@ -379,23 +383,24 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             ?.projectTitle || application.node.projectName,
       })),
       ...(showCbcProjects
-        ? allCbcProjects?.nodes[0]?.jsonData?.map((project) => ({
-            ...project,
+        ? allCbcData.edges.map((project) => ({
+            ...project.node.jsonData,
             zones: [],
-            intakeNumber: project.intake,
-            projectId: project.projectNumber,
+            intakeNumber: project.node.jsonData.intake,
+            projectId: project.node.jsonData.projectNumber,
             internalStatus: null,
-            externalStatus: project.projectStatus
-              ? cbcProjectStatusConverter(project.projectStatus)
+            externalStatus: project.node.jsonData.projectStatus
+              ? cbcProjectStatusConverter(project.node.jsonData.projectStatus)
               : null,
             packageNumber: null,
-            organizationName: project.currentOperatingName || null,
+            organizationName:
+              project.node.jsonData.currentOperatingName || null,
             lead: null,
             isCbcProject: true,
           })) ?? []
         : []),
     ];
-  }, [allApplications, allCbcProjects, showCbcProjects]);
+  }, [allApplications, allCbcData, showCbcProjects]);
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
     const uniqueIntakeNumbers = [
