@@ -574,3 +574,4 @@ tables/cbc_application_pending_change_request 2024-05-30T13:31:09Z ,,, <ryohani8
 mutations/create_cbc_pending_change_request 2024-05-30T13:49:25Z ,,, <ryohani89@NH504670> # add create_cbc_pending_change_request mutation
 computed_columns/application_organization_name [computed_columns/application_organization_name@1.162.0] 2024-05-30T18:09:08Z ,,, <ryohani89@NH504670> # fix: allow applicant to access organization name
 create_roles [create_roles@1.159.0] 2024-05-08T20:04:36Z Anthony Bushara <anthony@button.is> # Add cbc_admin role
+tables/cbc_projects_001_permissions 2024-05-10T15:14:19Z Anthony Bushara <anthony@button.is> # Add permissions to new table for users
