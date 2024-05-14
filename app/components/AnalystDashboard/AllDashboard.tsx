@@ -98,16 +98,13 @@ const muiTableHeadCellProps = {
 
 const CcbcIdCell = ({ cell }) => {
   const applicationId = cell.row.original?.rowId;
+  const isCbcProject = cell.row.original?.isCbcProject;
   return (
-    <>
-      {applicationId ? (
-        <StyledLink href={`/analyst/application/${applicationId}`}>
-          {cell.getValue()}
-        </StyledLink>
-      ) : (
-        cell.getValue()
-      )}
-    </>
+    <StyledLink
+      href={`/analyst/${isCbcProject ? 'cbc' : 'application'}/${applicationId}`}
+    >
+      {cell.getValue()}
+    </StyledLink>
   );
 };
 
@@ -381,9 +378,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         projectTitle:
           application.node.applicationSowDataByApplicationId?.nodes[0]?.jsonData
             ?.projectTitle || application.node.projectName,
+        isCbcProject: false,
       })),
       ...(showCbcProjects
         ? allCbcData.edges.map((project) => ({
+            rowId: project.node.cbcId,
             ...project.node.jsonData,
             zones: [],
             intakeNumber: project.node.jsonData.intake,
