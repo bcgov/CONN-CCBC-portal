@@ -114,7 +114,15 @@ describe('The SharePoint API', () => {
     );
 
     mocked(performQuery).mockImplementation(async () => {
-      return {};
+      return {
+        data: {
+          createCbc: {
+            cbc: {
+              rowId: 1,
+            },
+          },
+        },
+      };
     });
 
     mocked(getAuthRole).mockImplementation(() => {
