@@ -41,8 +41,6 @@ const AssignField = ({ fieldName, fieldOptions, fieldType, cbc }) => {
       ? jsonData[fieldName].toString() || null
       : jsonData[fieldName] || null
   );
-  console.log('fieldValue', fieldValue);
-  console.log(`${fieldName} queryFragment:`, queryFragment);
 
   const handleChange = (e) => {
     const { rowId } = queryFragment.cbcDataByCbcId.edges[0].node;

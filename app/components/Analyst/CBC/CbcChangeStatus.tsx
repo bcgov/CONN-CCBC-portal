@@ -90,9 +90,6 @@ const CbcChangeStatus: React.FC<Props> = ({ cbc, status, statusList }) => {
     `,
     cbc
   );
-  console.log(queryFragment);
-  console.log('status', status);
-  console.log('converted status', getStatus(status));
   const [updateStatus] = useUpdateCbcDataByRowIdMutation();
   const [currentStatus, setCurrentStatus] = useState(getStatus(status));
 
