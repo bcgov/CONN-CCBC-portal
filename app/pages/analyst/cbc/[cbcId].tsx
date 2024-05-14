@@ -14,6 +14,7 @@ import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcD
 import review from 'formSchema/analyst/cbc/review';
 import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
+import { useFeature } from '@growthbook/growthbook-react';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -60,6 +61,7 @@ const Cbc = ({
 }: RelayProps<Record<string, unknown>, CbcIdQuery>) => {
   const query = usePreloadedQuery(getCbcQuery, preloadedQuery);
 
+  const allowEdit = useFeature('show_cbc_edit').value ?? false;
   const [toggleOverride, setToggleExpandOrCollapseAll] = useState<
     boolean | undefined
   >(undefined);
@@ -213,14 +215,16 @@ const Cbc = ({
               {' | '}
             </>
           )}
-          <StyledButton
-            onClick={() => {
-              setEditMode(!editMode);
-            }}
-            type="button"
-          >
-            {editMode ? 'Cancel quick edit' : 'Quick edit'}
-          </StyledButton>
+          {allowEdit && (
+            <StyledButton
+              onClick={() => {
+                setEditMode(!editMode);
+              }}
+              type="button"
+            >
+              {editMode ? 'Cancel quick edit' : 'Quick edit'}
+            </StyledButton>
+          )}
         </RightAlignText>
         <StyledCbcForm
           additionalContext={{ toggleOverride }}
