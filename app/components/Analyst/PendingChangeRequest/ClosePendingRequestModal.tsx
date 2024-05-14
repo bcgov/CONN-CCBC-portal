@@ -1,4 +1,9 @@
+import React, { useState } from 'react';
 import Modal from 'components/Modal';
+import { FormBase } from 'components/Form';
+import pendingChangeRequestCancel from 'formSchema/analyst/pendingChangeRequestCancel';
+import pendingChangeRequestCancelUiSchema from 'formSchema/uiSchema/analyst/pendingChangeRequestCancelUiSchema';
+import styled from 'styled-components';
 
 interface Props {
   isOpen: boolean;
@@ -6,11 +11,20 @@ interface Props {
   onSave: Function;
 }
 
+const StyledFormBase = styled(FormBase)`
+  min-width: 350px;
+  & .radio-widget {
+    margin-left: ${(props) => props.theme.spacing.xlarge};
+  }
+`;
+
 const ClosePendingRequestModal: React.FC<Props> = ({
   isOpen,
   onCancel = () => {},
   onSave,
 }) => {
+  const [formData, setFormData] = useState(null);
+
   return (
     <Modal
       id="pending-change-request-modal"
@@ -22,7 +36,8 @@ const ClosePendingRequestModal: React.FC<Props> = ({
         {
           id: 'pending-request-change-save-btn',
           label: 'Save',
-          onClick: () => onSave(),
+          onClick: () => onSave(formData.comment),
+          disabled: !formData?.comment,
         },
         {
           id: 'pending-request-change-cancel-btn',
@@ -32,7 +47,15 @@ const ClosePendingRequestModal: React.FC<Props> = ({
         },
       ]}
     >
-      <p>Please select the appropriate option below</p>
+      <StyledFormBase
+        schema={pendingChangeRequestCancel}
+        uiSchema={pendingChangeRequestCancelUiSchema}
+        formData={formData}
+        onChange={(e) => setFormData(e.formData)}
+        // Pass children to hide submit button
+        // eslint-disable-next-line react/no-children-prop
+        children
+      />
     </Modal>
   );
 };

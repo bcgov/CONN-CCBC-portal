@@ -1,32 +1,33 @@
+import React, { useState, useEffect } from 'react';
 import Modal from 'components/Modal';
+import pendingChangeRequestComment from 'formSchema/analyst/pendingChangeRequestComment';
+import { FormBase } from 'components/Form';
+import pendingChangeRequestCommentUiSchema from 'formSchema/uiSchema/analyst/pendingChangeRequestCommentUiSchema';
 import styled from 'styled-components';
-
-const StyledTextArea = styled.textarea`
-  width: 100%;
-  min-width: 500px;
-  height: 126px;
-  resize: none;
-  margin-top: 16px;
-  margin-bottom: 16px;
-`;
 
 interface Props {
   isOpen: boolean;
-  maxLength?: number;
   onCancel?: Function;
   onSave: Function;
-  onChange: Function;
   value: string;
 }
 
+const StyledFormBase = styled(FormBase)`
+  min-width: 600px;
+`;
+
 const PendingChangeRequestModal: React.FC<Props> = ({
   isOpen,
-  maxLength = 100,
   onCancel = () => {},
   onSave,
-  onChange,
   value,
 }) => {
+  const [formData, setFormData] = useState({ comment: value });
+
+  useEffect(() => {
+    setFormData({ comment: value });
+  }, [value]);
+
   return (
     <Modal
       id="pending-change-request-modal"
@@ -38,7 +39,8 @@ const PendingChangeRequestModal: React.FC<Props> = ({
         {
           id: 'pending-request-change-save-btn',
           label: 'Save comment',
-          onClick: () => onSave(),
+          onClick: () => onSave(formData.comment),
+          disabled: value === formData.comment,
         },
         {
           id: 'pending-request-change-cancel-btn',
@@ -48,11 +50,14 @@ const PendingChangeRequestModal: React.FC<Props> = ({
         },
       ]}
     >
-      <StyledTextArea
-        maxLength={maxLength}
-        value={value}
-        data-testid="comments-for-change"
-        onChange={(e) => onChange(e)}
+      <StyledFormBase
+        schema={pendingChangeRequestComment}
+        uiSchema={pendingChangeRequestCommentUiSchema}
+        formData={formData}
+        onChange={(e) => setFormData(e.formData)}
+        // Pass children to hide submit button
+        // eslint-disable-next-line react/no-children-prop
+        children
       />
     </Modal>
   );

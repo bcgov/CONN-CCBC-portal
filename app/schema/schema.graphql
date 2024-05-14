@@ -35155,9 +35155,7 @@ type ChangeRequestData implements Node {
   """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
   ccbcUserByCreatedBy: CcbcUser
 
-  """
-  Reads a single `CcbcUser` that is related to this `ChangeRequestData`.
-  """
+  """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
   ccbcUserByUpdatedBy: CcbcUser
 
   """Reads a single `CcbcUser` that is related to this `ChangeRequestData`."""
@@ -57493,9 +57491,7 @@ type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataUpdatedByAndArchivedB
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """
-    The method to use when ordering `ApplicationCommunityReportExcelData`.
-    """
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
     orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -57561,9 +57557,7 @@ type CcbcUserApplicationsByApplicationCommunityReportExcelDataArchivedByAndAppli
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """
-    The method to use when ordering `ApplicationCommunityReportExcelData`.
-    """
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
     orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
@@ -57629,9 +57623,7 @@ type CcbcUserCcbcUsersByApplicationCommunityReportExcelDataArchivedByAndCreatedB
     """Read all values in the set after (below) this cursor."""
     after: Cursor
 
-    """
-    The method to use when ordering `ApplicationCommunityReportExcelData`.
-    """
+    """The method to use when ordering `ApplicationCommunityReportExcelData`."""
     orderBy: [ApplicationCommunityReportExcelDataOrderBy!] = [PRIMARY_KEY_ASC]
 
     """

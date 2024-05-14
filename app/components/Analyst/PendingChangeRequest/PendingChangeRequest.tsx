@@ -5,12 +5,14 @@ import { useState } from 'react';
 import useModal from 'lib/helpers/useModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import * as Sentry from '@sentry/nextjs';
 import PendingChangeRequestModal from './PendingChangeRequestModal';
 import ClosePendingRequestModal from './ClosePendingRequestModal';
 
 const StyledCheckbox = styled.input`
   transform: scale(1.5);
   transform-origin: left;
+  cursor: pointer;
 `;
 
 const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
@@ -41,14 +43,18 @@ const PendingChangeRequest = ({ application }) => {
   const { applicationPendingChangeRequestsByApplicationId, rowId } =
     queryFragment;
 
-  const [comment, setComment] = useState(
-    applicationPendingChangeRequestsByApplicationId?.nodes?.[0]?.comment || ''
-  );
-
   const [isPending, setIsPending] = useState(
     applicationPendingChangeRequestsByApplicationId?.nodes?.[0]?.isPending ||
       false
   );
+
+  const [comment, setComment] = useState(
+    isPending
+      ? applicationPendingChangeRequestsByApplicationId?.nodes?.[0]?.comment
+      : null
+  );
+
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -58,20 +64,29 @@ const PendingChangeRequest = ({ application }) => {
 
   const [createPendingChangeRequest] = useCreatePendingChangeRequestMutation();
 
-  const handleChangePendingRequest = () => {
+  const handleChangePendingRequest = (
+    isPendingRequest: boolean,
+    reasonForChange: string
+  ) => {
     createPendingChangeRequest({
       variables: {
         input: {
           applicationPendingChangeRequest: {
             applicationId: rowId,
-            comment,
-            isPending: !isPending,
+            comment: reasonForChange,
+            isPending: isPendingRequest,
           },
         },
       },
       onCompleted: () => {
-        setIsPending(!isPending);
-        pendingChangeRequestModal.close();
+        setIsPending(isPendingRequest);
+        setComment(isPendingRequest ? reasonForChange : null);
+      },
+      onError: (err: any) => {
+        Sentry.captureException({
+          name: 'Create Pending Change Request Error',
+          message: err.message,
+        });
       },
     });
   };
@@ -81,6 +96,7 @@ const PendingChangeRequest = ({ application }) => {
       <StyledCheckbox
         type="checkbox"
         checked={isPending}
+        data-testid="pending-change-request-checkbox"
         onChange={(e) => {
           if (e.target.checked) {
             pendingChangeRequestModal.open();
@@ -89,43 +105,52 @@ const PendingChangeRequest = ({ application }) => {
           }
         }}
       />
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={pendingChangeRequestModal.open}
-        onKeyDown={handleKeyDown}
-        aria-labelledby="Description of Statuses and Triggers"
-        style={{ cursor: 'pointer' }}
-        data-testid="status-information-icon"
-      >
-        <StyledFontAwesomeIcon
-          icon={faCommentDots}
-          fixedWidth
-          size="lg"
-          color="#345FA9"
-        />
-      </div>
+      {isPending && (
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => {
+            setIsUpdateMode(true);
+            pendingChangeRequestModal.open();
+          }}
+          onKeyDown={handleKeyDown}
+          aria-labelledby="Comments on pending change request"
+          style={{ cursor: 'pointer' }}
+          data-testid="pending-change-request-comments"
+        >
+          <StyledFontAwesomeIcon
+            icon={faCommentDots}
+            fixedWidth
+            size="lg"
+            color="#345FA9"
+          />
+        </div>
+      )}
       <PendingChangeRequestModal
         {...pendingChangeRequestModal}
-        onSave={handleChangePendingRequest}
-        value={comment}
-        onCancel={() => {
+        onSave={(reasonForChange: string) => {
+          handleChangePendingRequest(
+            !isUpdateMode ? true : isPending,
+            reasonForChange
+          );
           pendingChangeRequestModal.close();
         }}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-          setComment(e.target.value)
-        }
+        value={isPending ? comment : null}
+        onCancel={() => {
+          if (!isUpdateMode) handleChangePendingRequest(!isPending, comment);
+          setIsUpdateMode(false);
+          pendingChangeRequestModal.close();
+        }}
       />
       <ClosePendingRequestModal
         {...closePendingRequestModal}
-        onSave={handleChangePendingRequest}
-        value={comment}
+        onSave={(reasonForChange) => {
+          handleChangePendingRequest(false, reasonForChange);
+          closePendingRequestModal.close();
+        }}
         onCancel={() => {
           closePendingRequestModal.close();
         }}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-          setComment(e.target.value)
-        }
       />
     </>
   );
