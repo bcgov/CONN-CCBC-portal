@@ -27,6 +27,7 @@ import { ProjectTheme } from 'components/Analyst/Project';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import review from 'formSchema/analyst/cbc/review';
 import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
+import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -94,6 +95,11 @@ const Cbc = ({
     changeRequestPending: jsonData.changeRequestPending,
     projectTitle: jsonData.projectTitle,
     projectDescription: jsonData.projectDescription,
+    applicantContractualName: jsonData.applicantContractualName,
+    currentOperatingName: jsonData.currentOperatingName,
+    eightThirtyMillionFunding: jsonData.eightThirtyMillionFunding,
+    federalFundingSource: jsonData.federalFundingSource,
+    federalProjectNumber: jsonData.federalProjectNumber,
   };
 
   const projectType = {
@@ -192,7 +198,7 @@ const Cbc = ({
 
   const handleResetFormData = () => {
     setEditMode(false);
-    setFormData({});
+    setFormData({} as any);
   };
 
   return (
@@ -243,7 +249,7 @@ const Cbc = ({
           title="Tombstone"
           schema={review}
           theme={editMode ? ProjectTheme : ReviewTheme}
-          uiSchema={reviewUiSchema}
+          uiSchema={editMode ? editUiSchema : reviewUiSchema}
           resetFormData={handleResetFormData}
           onSubmit={handleSubmit}
           setIsFormEditMode={setEditMode}

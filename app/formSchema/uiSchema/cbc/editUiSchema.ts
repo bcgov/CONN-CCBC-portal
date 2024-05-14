@@ -7,43 +7,36 @@ import eventsAndDatesUiSchema from './eventsAndDatesUiSchema';
 import miscellaneousUiSchema from './miscellaneousUiSchema';
 import projectDataReviewsUiSchema from './projectDataReviewsUiSchema';
 
-const reviewUiSchema = {
+const editUiSchema = {
+  'ui:title': 'CBC Edit',
   tombstone: {
+    'ui:title': 'Tombstone',
     ...tombstoneUiSchema,
-    projectNumber: {
-      'ui:widget': 'TextWidget',
-    },
-    phase: {
-      'ui:widget': 'TextWidget',
-    },
-    intake: {
-      'ui:widget': 'TextWidget',
-    },
-    projectStatus: {
-      'ui:widget': 'TextWidget',
-    },
-    projectTitle: {
-      'ui:widget': 'TextWidget',
-    },
   },
   projectType: {
+    'ui:title': 'Project Type',
     ...projectTypeUiSchema,
   },
   locationsAndCounts: {
+    'ui:title': 'Locations and Counts',
     ...locationsAndCountsUiSchema,
   },
   funding: {
+    'ui:title': 'Funding',
     ...fundingUiSchema,
   },
   eventsAndDates: {
+    'ui:title': 'Events and Dates',
     ...eventsAndDatesUiSchema,
   },
   miscellaneous: {
+    'ui:title': 'Miscellaneous',
     ...miscellaneousUiSchema,
   },
   projectDataReviews: {
+    'ui:title': 'Project Data Reviews',
     ...projectDataReviewsUiSchema,
   },
 };
 
-export default reviewUiSchema;
+export default editUiSchema;

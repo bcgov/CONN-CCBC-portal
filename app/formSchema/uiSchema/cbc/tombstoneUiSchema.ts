@@ -6,7 +6,7 @@ const tombstoneUiSchema = {
   },
   'ui:title': 'Tombstone',
   projectTitle: {
-    'ui:widget': 'TextWidget',
+    'ui:widget': 'HiddenWidget',
     'ui:label': 'Project Title',
   },
   originalProjectNumber: {
@@ -14,7 +14,7 @@ const tombstoneUiSchema = {
     'ui:label': 'Original Project Number',
   },
   projectNumber: {
-    'ui:widget': 'NumberWidget',
+    'ui:widget': 'HiddenWidget',
     'ui:label': 'Project Number',
   },
   phase: {
