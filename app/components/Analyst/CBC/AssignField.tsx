@@ -1,3 +1,4 @@
+import { useFeature } from '@growthbook/growthbook-react';
 import { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
@@ -42,6 +43,8 @@ const AssignField = ({ fieldName, fieldOptions, fieldType, cbc }) => {
       : jsonData[fieldName] || null
   );
 
+  const allowEdit = useFeature('show_cbc_edit').value ?? false;
+
   const handleChange = (e) => {
     const { rowId } = queryFragment.cbcDataByCbcId.edges[0].node;
     updateField({
@@ -74,7 +77,12 @@ const AssignField = ({ fieldName, fieldOptions, fieldType, cbc }) => {
     >
       {fieldOptions.map((option) => {
         return (
-          <option key={option} value={option} selected={fieldValue === option}>
+          <option
+            key={option}
+            value={option}
+            selected={fieldValue === option}
+            disabled={!allowEdit}
+          >
             {option}
           </option>
         );

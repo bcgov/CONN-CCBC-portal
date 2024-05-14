@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import { useState } from 'react';
+import { useFeature } from '@growthbook/growthbook-react';
 
 interface DropdownProps {
   statusStyles: {
@@ -92,6 +93,7 @@ const CbcChangeStatus: React.FC<Props> = ({ cbc, status, statusList }) => {
   );
   const [updateStatus] = useUpdateCbcDataByRowIdMutation();
   const [currentStatus, setCurrentStatus] = useState(getStatus(status));
+  const allowEdit = useFeature('show_cbc_edit').value ?? false;
 
   const handleChange = (e) => {
     const newStatus = e.target.value;
@@ -130,7 +132,7 @@ const CbcChangeStatus: React.FC<Props> = ({ cbc, status, statusList }) => {
         const { description, name, id } = statusType;
 
         return (
-          <StyledOption value={name} key={id}>
+          <StyledOption value={name} key={id} disabled={!allowEdit}>
             {description}
           </StyledOption>
         );
