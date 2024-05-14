@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import cookie from 'js-cookie';
 import {
   faChevronLeft,
   faClipboardList,
@@ -26,7 +25,6 @@ const NavigationSidebar = () => {
   const router = useRouter();
   const { asPath } = router;
   const { cbcId } = router.query;
-  const assessmentLastVisited = cookie.get('assessment_last_visited') || null;
 
   return (
     <StyledAside>
@@ -34,11 +32,7 @@ const NavigationSidebar = () => {
         <StyledUpperSection>
           <NavItem
             currentPath={asPath}
-            href={
-              assessmentLastVisited
-                ? '/analyst/assessments/'
-                : '/analyst/dashboard'
-            }
+            href="/analyst/dashboard"
             icon={faChevronLeft}
             label="Dashboard"
           />
@@ -52,7 +46,7 @@ const NavigationSidebar = () => {
           />
           <NavItem
             currentPath={asPath}
-            href={`/analyst/cbc/${cbcId}/history`}
+            href={`/analyst/cbc/${cbcId}/cbcHistory`}
             icon={faClockRotateLeft}
             label="History"
           />
