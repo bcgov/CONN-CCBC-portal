@@ -10,7 +10,7 @@ import LoadCbcProjectData from '../../../../backend/lib/excel_import/cbc_project
 
 const mockErrorData = {
   projectNumber: 9999,
-  orignalProjectNumber: undefined,
+  originalProjectNumber: undefined,
   phase: '4b',
   intake: undefined,
   projectStatus: 'Not Applicable',

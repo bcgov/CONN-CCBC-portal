@@ -99,7 +99,7 @@ const readSummary = async (wb, sheet) => {
 
     const cbcProject = {
       projectNumber: project['A'],
-      orignalProjectNumber: project['B'],
+      originalProjectNumber: project['B'],
       phase: project['C'],
       intake: project['D'],
       projectStatus: project['E'],
