@@ -246,7 +246,7 @@ const Cbc = ({
           isExpanded
           isFormAnimated={false}
           isFormEditMode={editMode}
-          title="Tombstone"
+          title="CBC Form"
           schema={review}
           theme={editMode ? ProjectTheme : ReviewTheme}
           uiSchema={editMode ? editUiSchema : reviewUiSchema}
