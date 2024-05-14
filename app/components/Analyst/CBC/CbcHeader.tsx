@@ -74,6 +74,7 @@ const CbcHeader: React.FC<Props> = ({ query }) => {
             }
           }
           ...CbcChangeStatus_query
+          ...AssignField_query
         }
       }
     `,
@@ -115,17 +116,21 @@ const CbcHeader: React.FC<Props> = ({ query }) => {
         <StyledAssign>
           <StyledLabel htmlFor="assign-phase">Phase</StyledLabel>
           <AssignField
-            fieldValue={jsonData?.phase.toString() || null}
+            // fieldValue={jsonData?.phase.toString() || null}
             fieldName="phase"
             fieldOptions={['1', '2', '3', '4', '4b']}
+            fieldType="string"
+            cbc={cbcByRowId}
           />
         </StyledAssign>
         <StyledAssign>
           <StyledLabel htmlFor="assign-package">Intake</StyledLabel>
           <AssignField
-            fieldValue={jsonData?.intake || null}
+            // fieldValue={jsonData?.intake || null}
             fieldName="intake"
             fieldOptions={[null, 1, 2, 3, 4]}
+            fieldType="number"
+            cbc={cbcByRowId}
           />
         </StyledAssign>
       </StyledDiv>

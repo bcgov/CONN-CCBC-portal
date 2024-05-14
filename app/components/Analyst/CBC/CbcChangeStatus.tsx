@@ -1,6 +1,8 @@
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
+import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
+import { useState } from 'react';
 
 interface DropdownProps {
   statusStyles: {
@@ -49,6 +51,19 @@ const getStatus = (status) => {
   return status;
 };
 
+const convertToCbcStatus = (status) => {
+  if (status === 'conditionally_approved') {
+    return 'Conditionally Approved';
+  }
+  if (status === 'complete') {
+    return 'Reporting Complete';
+  }
+  if (status === 'approved') {
+    return 'Agreement Signed';
+  }
+  return status;
+};
+
 interface Props {
   cbc: any;
   status: string;
@@ -78,16 +93,40 @@ const CbcChangeStatus: React.FC<Props> = ({ cbc, status, statusList }) => {
   console.log(queryFragment);
   console.log('status', status);
   console.log('converted status', getStatus(status));
+  const [updateStatus] = useUpdateCbcDataByRowIdMutation();
+  const [currentStatus, setCurrentStatus] = useState(getStatus(status));
+
+  const handleChange = (e) => {
+    const newStatus = e.target.value;
+    const cbcDataId = queryFragment.cbcDataByCbcId.edges[0].node.rowId;
+    updateStatus({
+      variables: {
+        input: {
+          rowId: cbcDataId,
+          cbcDataPatch: {
+            jsonData: {
+              ...queryFragment.cbcDataByCbcId.edges[0].node.jsonData,
+              projectStatus: convertToCbcStatus(newStatus),
+            },
+          },
+        },
+      },
+      onCompleted: () => {
+        setCurrentStatus(newStatus);
+      },
+      debounceKey: 'cbc_change_status',
+    });
+  };
 
   return (
     <StyledDropdown
       data-testid="change-status"
       onChange={(e) => {
         // eslint-disable-next-line no-void
-        void (() => console.log(e))();
+        void (() => handleChange(e))();
       }} // Use draft status for colour so it changes as user selects it
       statusStyles={statusStyles[getStatus(status)]}
-      value={getStatus(status)}
+      value={currentStatus}
       id="change-status"
     >
       {statusList?.map((statusType) => {

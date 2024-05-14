@@ -1,4 +1,6 @@
-// import { graphql, useFragment } from 'react-relay';
+import { useState } from 'react';
+import { graphql, useFragment } from 'react-relay';
+import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import styled from 'styled-components';
 
 const StyledDropdown = styled.select`
@@ -11,11 +13,65 @@ const StyledDropdown = styled.select`
   border-radius: 4px;
 `;
 
-const AssignField = ({ fieldValue, fieldName, fieldOptions }) => {
+const AssignField = ({ fieldName, fieldOptions, fieldType, cbc }) => {
+  const queryFragment = useFragment(
+    graphql`
+      fragment AssignField_query on Cbc {
+        cbcDataByCbcId {
+          edges {
+            node {
+              jsonData
+              sharepointTimestamp
+              rowId
+              projectNumber
+              updatedAt
+              updatedBy
+            }
+          }
+        }
+      }
+    `,
+    cbc
+  );
+  const { jsonData } = queryFragment.cbcDataByCbcId.edges[0].node;
+
+  const [updateField] = useUpdateCbcDataByRowIdMutation();
+  const [fieldValue, setFieldValue] = useState(
+    fieldType === 'string'
+      ? jsonData[fieldName].toString() || null
+      : jsonData[fieldName] || null
+  );
+  console.log('fieldValue', fieldValue);
+  console.log(`${fieldName} queryFragment:`, queryFragment);
+
+  const handleChange = (e) => {
+    const { rowId } = queryFragment.cbcDataByCbcId.edges[0].node;
+    updateField({
+      variables: {
+        input: {
+          rowId,
+          cbcDataPatch: {
+            jsonData: {
+              ...jsonData,
+              [fieldName]:
+                fieldType === 'number'
+                  ? parseInt(e.target.value, 10)
+                  : e.target.value,
+            },
+          },
+        },
+      },
+      onCompleted: () => {
+        setFieldValue(e.target.value);
+      },
+      debounceKey: 'cbc_assign_field',
+    });
+  };
+
   return (
     <StyledDropdown
       id={`assign-${fieldName}`}
-      onChange={(e) => console.log(e.target.value)}
+      onChange={(e) => handleChange(e)}
       data-testid={`assign-${fieldName}`}
     >
       {fieldOptions.map((option) => {
