@@ -8,21 +8,25 @@ import CbcAnalystLayout from 'components/Analyst/CBC/CbcAnalystLayout';
 import CbcForm from 'components/Analyst/CBC/CbcForm';
 import styled from 'styled-components';
 import ReviewTheme from 'components/Review/ReviewTheme';
-import cbcTombstone from 'formSchema/analyst/cbc/tombstone';
-import tombstoneUiSchema from 'formSchema/uiSchema/cbc/tombstoneUiSchema';
-import projectType from 'formSchema/analyst/cbc/projectType';
-import projectTypeUiSchema from 'formSchema/uiSchema/cbc/projectTypeUiSchema';
-import locationsAndCounts from 'formSchema/analyst/cbc/locationsAndCounts';
-import locationsAndCountsUiSchema from 'formSchema/uiSchema/cbc/locationsAndCountsUiSchema';
-import funding from 'formSchema/analyst/cbc/funding';
-import fundingUiSchema from 'formSchema/uiSchema/cbc/fundingUiSchema';
-import eventsAndDates from 'formSchema/analyst/cbc/eventsAndDates';
-import eventsAndDatesUiSchema from 'formSchema/uiSchema/cbc/eventsAndDatesUiSchema';
-import miscellaneous from 'formSchema/analyst/cbc/miscellaneous';
-import miscellaneousUiSchema from 'formSchema/uiSchema/cbc/miscellaneousUiSchema';
-import projectDataReviews from 'formSchema/analyst/cbc/projectDataReviews';
-import projectDataReviewsUiSchema from 'formSchema/uiSchema/cbc/projectDataReviewsUiSchema';
-import { useState } from 'react';
+// import cbcTombstone from 'formSchema/analyst/cbc/tombstone';
+// import tombstoneUiSchema from 'formSchema/uiSchema/cbc/tombstoneUiSchema';
+// import projectType from 'formSchema/analyst/cbc/projectType';
+// import projectTypeUiSchema from 'formSchema/uiSchema/cbc/projectTypeUiSchema';
+// import locationsAndCounts from 'formSchema/analyst/cbc/locationsAndCounts';
+// import locationsAndCountsUiSchema from 'formSchema/uiSchema/cbc/locationsAndCountsUiSchema';
+// import funding from 'formSchema/analyst/cbc/funding';
+// import fundingUiSchema from 'formSchema/uiSchema/cbc/fundingUiSchema';
+// import eventsAndDates from 'formSchema/analyst/cbc/eventsAndDates';
+// import eventsAndDatesUiSchema from 'formSchema/uiSchema/cbc/eventsAndDatesUiSchema';
+// import miscellaneous from 'formSchema/analyst/cbc/miscellaneous';
+// import miscellaneousUiSchema from 'formSchema/uiSchema/cbc/miscellaneousUiSchema';
+// import projectDataReviews from 'formSchema/analyst/cbc/projectDataReviews';
+// import projectDataReviewsUiSchema from 'formSchema/uiSchema/cbc/projectDataReviewsUiSchema';
+import { useRef, useState } from 'react';
+import { ProjectTheme } from 'components/Analyst/Project';
+import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
+import review from 'formSchema/analyst/cbc/review';
+import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -50,6 +54,20 @@ const getCbcQuery = graphql`
   }
 `;
 
+const StyledCbcForm = styled(CbcForm)`
+  margin-bottom: 0px;
+`;
+
+const StyledButton = styled('button')`
+  color: ${(props) => props.theme.color.links};
+`;
+
+const RightAlignText = styled('div')`
+  padding-top: 20px;
+  text-align: right;
+  padding-bottom: 4px;
+`;
+
 const Cbc = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, CbcIdQuery>) => {
@@ -59,220 +77,178 @@ const Cbc = ({
     boolean | undefined
   >(undefined);
 
+  const [editMode, setEditMode] = useState(false);
+  const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const { cbcByRowId, session } = query;
   const { cbcDataByCbcId } = cbcByRowId;
   const { edges } = cbcDataByCbcId;
   const cbcData = edges[0].node;
   const { jsonData } = cbcData;
 
-  const StyledCbcForm = styled(CbcForm)`
-    margin-bottom: 0px;
-  `;
+  const tombstone = {
+    projectNumber: jsonData.projectNumber,
+    originalProjectNumber: jsonData.originalProjectNumber,
+    phase: jsonData.phase,
+    intake: jsonData.intake,
+    projectStatus: jsonData.projectStatus,
+    changeRequestPending: jsonData.changeRequestPending,
+    projectTitle: jsonData.projectTitle,
+    projectDescription: jsonData.projectDescription,
+  };
 
-  const StyledButton = styled('button')`
-    color: ${(props) => props.theme.color.links};
-  `;
+  const projectType = {
+    projectType: jsonData.projectType,
+    transportProjectType: jsonData.transportProjectType,
+    highwayProjectType: jsonData.highwayProjectType,
+    lastMileProjectType: jsonData.lastMileProjectType,
+    lastMileMinimumSpeed: jsonData.lastMileMinimumSpeed,
+    connectedCoastNetworkDependant: jsonData.connectedCoastNetworkDependant,
+  };
+  const locationsAndCounts = {
+    projectLocations: jsonData.projectLocations,
+    communitiesAndLocalesCount: jsonData.communitiesAndLocalesCount,
+    indigenousCommunities: jsonData.indigenousCommunities,
+    householdCount: jsonData.householdCount,
+    transportKm: jsonData.transportKm,
+    highwayKm: jsonData.highwayKm,
+    restAreas: jsonData.restAreas,
+  };
 
-  const RightAlignText = styled('div')`
-    padding-top: 20px;
-    text-align: right;
-    padding-bottom: 4px;
-  `;
+  const funding = {
+    bcFundingRequest: jsonData.bcFundingRequest,
+    federalFunding: jsonData.federalFunding,
+    applicantAmount: jsonData.applicantAmount,
+    otherFunding: jsonData.otherFunding,
+    totalProjectBudget: jsonData.totalProjectBudget,
+  };
+
+  const eventsAndDates = {
+    nditConditionalApprovalLetterSent:
+      jsonData.nditConditionalApprovalLetterSent,
+    bindingAgreementSignedNditRecipient:
+      jsonData.bindingAgreementSignedNditRecipient,
+    announcedByProvince: jsonData.announcedByProvince,
+    dateApplicationReceived: jsonData.dateApplicationReceived,
+    dateConditionallyApproved: jsonData.dateConditionallyApproved,
+    dateAgreementSigned: jsonData.dateAgreementSigned,
+    proposedStartDate: jsonData.proposedStartDate,
+    proposedCompletionDate: jsonData.proposedCompletionDate,
+    reportingCompletionDate: jsonData.reportingCompletionDate,
+    dateAnnounced: jsonData.dateAnnounced,
+  };
+
+  const miscellaneous = {
+    projectMilestoneCompleted: jsonData.projectMilestoneCompleted,
+    constructionCompletedOn: jsonData.constructionCompletedOn,
+    milestoneComments: jsonData.milestoneComments,
+    primaryNewsRelease: jsonData.primaryNewsRelease,
+    secondaryNewsRelease: jsonData.secondaryNewsRelease,
+    notes: jsonData.notes,
+  };
+
+  const projectDataReviews = {
+    locked: jsonData.locked,
+    lastReviewed: jsonData.lastReviewed,
+    reviewNotes: jsonData.reviewNotes,
+  };
+
+  const [formData, setFormData] = useState({
+    tombstone,
+    projectType,
+    locationsAndCounts,
+    funding,
+    eventsAndDates,
+    miscellaneous,
+    projectDataReviews,
+  });
+  const [updateFormData] = useUpdateCbcDataByRowIdMutation();
+
+  const handleSubmit = (e) => {
+    hiddenSubmitRef.current.click();
+    e.preventDefault();
+    updateFormData({
+      variables: {
+        input: {
+          rowId: cbcData.rowId,
+          cbcDataPatch: {
+            jsonData: {
+              ...formData.tombstone,
+              ...formData.projectType,
+              ...formData.locationsAndCounts,
+              ...formData.funding,
+              ...formData.eventsAndDates,
+              ...formData.miscellaneous,
+              ...formData.projectDataReviews,
+            },
+          },
+        },
+      },
+      debounceKey: 'cbc_update_form_data',
+      onCompleted: () => {
+        setEditMode(false);
+      },
+    });
+  };
+
+  const handleResetFormData = () => {
+    setEditMode(false);
+    setFormData({});
+  };
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <CbcAnalystLayout query={query}>
         <RightAlignText>
+          {!editMode && (
+            <>
+              <StyledButton
+                onClick={() => {
+                  setToggleExpandOrCollapseAll(true);
+                }}
+                type="button"
+              >
+                Expand all
+              </StyledButton>
+              {' | '}
+              <StyledButton
+                onClick={() => {
+                  setToggleExpandOrCollapseAll(false);
+                }}
+                type="button"
+              >
+                Collapse all
+              </StyledButton>
+              {' | '}
+            </>
+          )}
           <StyledButton
             onClick={() => {
-              setToggleExpandOrCollapseAll(true);
+              setEditMode(!editMode);
             }}
             type="button"
           >
-            Expand all
-          </StyledButton>
-          {' | '}
-          <StyledButton
-            onClick={() => {
-              setToggleExpandOrCollapseAll(false);
-            }}
-            type="button"
-          >
-            Collapse all
-          </StyledButton>
-          {' | '}
-          <StyledButton
-            onClick={() => {
-              console.log('Quick edit');
-            }}
-            type="button"
-          >
-            Quick edit
+            {editMode ? 'Cancel quick edit' : 'Quick edit'}
           </StyledButton>
         </RightAlignText>
-        <>
-          <StyledCbcForm
-            formData={jsonData}
-            handleChange={(e) => {
-              console.log(e);
-            }}
-            isExpanded
-            isFormEditMode={false}
-            title="Tombstone"
-            schema={cbcTombstone}
-            theme={ReviewTheme}
-            uiSchema={tombstoneUiSchema}
-            resetFormData={() => {
-              console.log('handleReset');
-            }}
-            onSubmit={() => {
-              console.log('handleSubmit');
-            }}
-            setIsFormEditMode={() => {
-              console.log('setIsFormEditMode');
-            }}
-            additionalContext={{ toggleOverride }}
-            isFormAnimated={false}
-          />
-          <StyledCbcForm
-            formData={jsonData}
-            handleChange={(e) => {
-              console.log(e);
-            }}
-            isExpanded
-            isFormEditMode={false}
-            title="Project type"
-            schema={projectType}
-            theme={ReviewTheme}
-            uiSchema={projectTypeUiSchema}
-            resetFormData={() => {
-              console.log('handleReset');
-            }}
-            onSubmit={() => {
-              console.log('handleSubmit');
-            }}
-            setIsFormEditMode={() => {
-              console.log('setIsFormEditMode');
-            }}
-            additionalContext={{ toggleOverride }}
-            isFormAnimated={false}
-          />
-          <StyledCbcForm
-            formData={jsonData}
-            handleChange={(e) => {
-              console.log(e);
-            }}
-            isExpanded
-            isFormEditMode={false}
-            title="Locations and counts"
-            schema={locationsAndCounts}
-            theme={ReviewTheme}
-            uiSchema={locationsAndCountsUiSchema}
-            resetFormData={() => {
-              console.log('handleReset');
-            }}
-            onSubmit={() => {
-              console.log('handleSubmit');
-            }}
-            setIsFormEditMode={() => {
-              console.log('setIsFormEditMode');
-            }}
-            additionalContext={{ toggleOverride }}
-            isFormAnimated={false}
-          />
-          <StyledCbcForm
-            formData={jsonData}
-            handleChange={(e) => {
-              console.log(e);
-            }}
-            isExpanded
-            isFormEditMode={false}
-            title="Locations and counts"
-            schema={funding}
-            theme={ReviewTheme}
-            uiSchema={fundingUiSchema}
-            resetFormData={() => {
-              console.log('handleReset');
-            }}
-            onSubmit={() => {
-              console.log('handleSubmit');
-            }}
-            setIsFormEditMode={() => {
-              console.log('setIsFormEditMode');
-            }}
-            additionalContext={{ toggleOverride }}
-            isFormAnimated={false}
-          />
-          <StyledCbcForm
-            formData={jsonData}
-            handleChange={(e) => {
-              console.log(e);
-            }}
-            isExpanded
-            isFormEditMode={false}
-            title="Locations and counts"
-            schema={eventsAndDates}
-            theme={ReviewTheme}
-            uiSchema={eventsAndDatesUiSchema}
-            resetFormData={() => {
-              console.log('handleReset');
-            }}
-            onSubmit={() => {
-              console.log('handleSubmit');
-            }}
-            setIsFormEditMode={() => {
-              console.log('setIsFormEditMode');
-            }}
-            additionalContext={{ toggleOverride }}
-            isFormAnimated={false}
-          />
-          <StyledCbcForm
-            formData={jsonData}
-            handleChange={(e) => {
-              console.log(e);
-            }}
-            isExpanded
-            isFormEditMode={false}
-            title="Locations and counts"
-            schema={miscellaneous}
-            theme={ReviewTheme}
-            uiSchema={miscellaneousUiSchema}
-            resetFormData={() => {
-              console.log('handleReset');
-            }}
-            onSubmit={() => {
-              console.log('handleSubmit');
-            }}
-            setIsFormEditMode={() => {
-              console.log('setIsFormEditMode');
-            }}
-            additionalContext={{ toggleOverride }}
-            isFormAnimated={false}
-          />
-          <StyledCbcForm
-            formData={jsonData}
-            handleChange={(e) => {
-              console.log(e);
-            }}
-            isExpanded
-            isFormEditMode={false}
-            title="Locations and counts"
-            schema={projectDataReviews}
-            theme={ReviewTheme}
-            uiSchema={projectDataReviewsUiSchema}
-            resetFormData={() => {
-              console.log('handleReset');
-            }}
-            onSubmit={() => {
-              console.log('handleSubmit');
-            }}
-            setIsFormEditMode={() => {
-              console.log('setIsFormEditMode');
-            }}
-            additionalContext={{ toggleOverride }}
-            isFormAnimated={false}
-          />
-        </>
+        <StyledCbcForm
+          additionalContext={{ toggleOverride }}
+          formData={formData}
+          handleChange={(e) => {
+            setFormData({ ...e.formData });
+          }}
+          hiddenSubmitRef={hiddenSubmitRef}
+          isExpanded
+          isFormAnimated={false}
+          isFormEditMode={editMode}
+          title="Tombstone"
+          schema={review}
+          theme={editMode ? ProjectTheme : ReviewTheme}
+          uiSchema={reviewUiSchema}
+          resetFormData={handleResetFormData}
+          onSubmit={handleSubmit}
+          setIsFormEditMode={setEditMode}
+          saveBtnText="Save & Close"
+        />
       </CbcAnalystLayout>
     </Layout>
   );

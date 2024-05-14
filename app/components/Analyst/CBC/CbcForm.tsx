@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FormBase } from 'components/Form';
 import CircularProgress from '@mui/material/CircularProgress';
 import { RJSFSchema } from '@rjsf/utils';
+import Button from '@button-inc/bcgov-theme/Button';
 import ProjectTheme from '../Project/ProjectTheme';
 
 const LoadingContainer = styled.div`
@@ -18,6 +19,11 @@ const LoadingItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const StyledBtn = styled(Button)`
+  margin: 0 8px;
+  padding: 8px 16px;
 `;
 
 interface Props {
@@ -129,6 +135,30 @@ const CbcForm: React.FC<Props> = ({
               true
             )}
           </FormBase>
+          {isFormEditMode && (
+            <>
+              <StyledBtn
+                data-testid={saveDataTestId}
+                id={`${title.toLowerCase().split(' ').join('-')}-save-button`}
+                size="small"
+                disabled={saveBtnDisabled}
+                onClick={onSubmit}
+              >
+                {saveBtnText || 'Save'}
+              </StyledBtn>
+              <StyledBtn
+                size="small"
+                variant="secondary"
+                disabled={cancelBtnDisabled}
+                onClick={() => {
+                  setFormData();
+                  setIsFormEditMode(false);
+                }}
+              >
+                Cancel
+              </StyledBtn>
+            </>
+          )}
         </div>
       )}
       {children}

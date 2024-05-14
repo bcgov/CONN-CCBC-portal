@@ -35,13 +35,17 @@ const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   uiSchema,
 }) => {
-  const uiTitle = uiSchema['ui:label'] || uiSchema['ui:title'];
-
+  const uiTitle = `${uiSchema?.['ui:label'] ?? uiSchema?.['ui:title']}`;
+  const hidden = uiSchema?.['ui:widget'] === 'HiddenWidget' || false;
   return (
-    <StyledContainer>
-      {uiTitle && <StyledH4>{uiTitle}</StyledH4>}
-      {children}
-    </StyledContainer>
+    <>
+      {!hidden && (
+        <StyledContainer>
+          {uiTitle && <StyledH4>{uiTitle}</StyledH4>}
+          {children}
+        </StyledContainer>
+      )}
+    </>
   );
 };
 

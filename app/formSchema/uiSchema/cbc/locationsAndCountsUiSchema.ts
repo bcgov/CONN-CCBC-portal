@@ -3,26 +3,34 @@ const locationsAndCountsUiSchema = {
   'ui:options': {
     dividers: true,
   },
+  'ui:title': 'Locations and Counts',
   projectLocations: {
     'ui:widget': 'TextAreaWidget',
+    'ui:label': 'Project Locations',
   },
   communitiesAndLocalesCount: {
     'ui:widget': 'NumberWidget',
+    'ui:label': 'Communities and Locales Count',
   },
   indigenousCommunities: {
     'ui:widget': 'NumberWidget',
+    'ui:label': 'Indigenous Communities',
   },
   householdCount: {
     'ui:widget': 'NumberWidget',
+    'ui:label': 'Household Count',
   },
   transportKm: {
     'ui:widget': 'NumberWidget',
+    'ui:label': 'Transport Km',
   },
   highwayKm: {
     'ui:widget': 'NumberWidget',
+    'ui:label': 'Highway Km',
   },
   restAreas: {
     'ui:widget': 'NumberWidget',
+    'ui:label': 'Rest Areas',
   },
 };
 
