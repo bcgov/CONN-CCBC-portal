@@ -102,6 +102,16 @@ describe('cbc_project', () => {
             },
             clientMutationId: '1',
           },
+          cbcByProjectNumber: {
+            cbcDataByProjectNumber: {
+              nodes: [],
+            },
+          },
+          createCbc: {
+            cbc: {
+              rowId: 1,
+            },
+          },
         },
       };
     });
@@ -118,6 +128,16 @@ describe('cbc_project', () => {
             jsonData: {},
           },
           clientMutationId: '1',
+        },
+        cbcByProjectNumber: {
+          cbcDataByProjectNumber: {
+            nodes: [],
+          },
+        },
+        createCbc: {
+          cbc: {
+            rowId: 1,
+          },
         },
       },
       errorLog: [],
@@ -189,6 +209,16 @@ describe('cbc_project', () => {
             },
             clientMutationId: '1',
           },
+          cbcByProjectNumber: {
+            cbcDataByProjectNumber: {
+              nodes: [],
+            },
+          },
+          createCbc: {
+            cbc: {
+              rowId: 1,
+            },
+          },
         },
       };
     });
@@ -204,6 +234,16 @@ describe('cbc_project', () => {
             jsonData: [mockErrorData],
           },
           clientMutationId: '1',
+        },
+        cbcByProjectNumber: {
+          cbcDataByProjectNumber: {
+            nodes: [],
+          },
+        },
+        createCbc: {
+          cbc: {
+            rowId: 1,
+          },
         },
       },
       errorLog: [
@@ -280,10 +320,8 @@ describe('cbc_project', () => {
     ]);
 
     const wb = XLSX.read(null);
-    let mockVariables;
 
-    mocked(performQuery).mockImplementation(async (id, variables) => {
-      mockVariables = variables;
+    mocked(performQuery).mockImplementation(async () => {
       return {
         data: {
           createCbcProject: {
@@ -294,24 +332,41 @@ describe('cbc_project', () => {
             },
             clientMutationId: '1',
           },
+          cbcByProjectNumber: {
+            cbcDataByProjectNumber: {
+              nodes: [],
+            },
+          },
+          createCbc: {
+            cbc: {
+              rowId: 1,
+            },
+          },
         },
       };
     });
 
-    await LoadCbcProjectData(wb, 'CBC Project', null, request);
-
-    expect(mockVariables.input._jsonData[0].phase).toEqual('4b');
-    expect(mockVariables.input._jsonData[0].projectStatus).toEqual(
-      'Not Applicable'
+    const result = (await LoadCbcProjectData(
+      wb,
+      'CBC Project',
+      null,
+      request
+    )) as any;
+    expect(result.data.createCbcProject.cbcProject.jsonData[0].phase).toEqual(
+      '4b'
     );
-    expect(mockVariables.input._jsonData[0].projectTitle).toEqual(
-      'Program Fee (1%) - Community'
-    );
-    expect(mockVariables.input._jsonData[0].applicantContractualName).toEqual(
-      'Northern Development'
-    );
-    expect(mockVariables.input._jsonData[0].currentOperatingName).toEqual(
-      'Northern Development'
-    );
+    expect(
+      result.data.createCbcProject.cbcProject.jsonData[0].projectStatus
+    ).toEqual('Not Applicable');
+    expect(
+      result.data.createCbcProject.cbcProject.jsonData[0].projectTitle
+    ).toEqual('Program Fee (1%) - Community');
+    expect(
+      result.data.createCbcProject.cbcProject.jsonData[0]
+        .applicantContractualName
+    ).toEqual('Northern Development');
+    expect(
+      result.data.createCbcProject.cbcProject.jsonData[0].currentOperatingName
+    ).toEqual('Northern Development');
   });
 });

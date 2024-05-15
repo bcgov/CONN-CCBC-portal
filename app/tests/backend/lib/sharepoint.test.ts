@@ -121,6 +121,18 @@ describe('The SharePoint API', () => {
               rowId: 1,
             },
           },
+          cbcByProjectNumber: {
+            cbcDataByProjectNumber: {
+              nodes: [],
+            },
+          },
+          createCbcProject: {
+            cbcProject: {
+              rowId: 1,
+              id: '1',
+              jsonData: [fakeSummary],
+            },
+          },
         },
       };
     });
