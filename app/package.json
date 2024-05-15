@@ -8,7 +8,7 @@
     "build:next": "next build",
     "build:relay": "touch schema/queryMap.json && mkdir -p __generated__ && relay-compiler && yarn run build:persisted-operations",
     "build:server": "tsc --project tsconfig.server.json",
-    "build:schema": "postgraphile -X -c postgres://postgres:mysecretpassword@localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
+    "build:schema": "postgraphile -X -c postgres://localhost/ccbc -s ccbc_public --export-schema-graphql schema/schema.graphql --classic-ids",
     "build:persisted-operations": "mkdir -p .persisted_operations && node utils/addToPersistedOperations.js",
     "start": "NODE_ENV=production node --unhandled-rejections=strict --enable-network-family-autoselection dist/server.js",
     "lint": "next lint",
