@@ -20,7 +20,7 @@ const statusStylesBase = {
   closed: {
     primary: '#414141',
     backgroundColor: '#E8E8E8',
-    pillWidth: '100px',
+    pillWidth: '140px',
     description: 'Not selected',
   },
   complete: {
