@@ -9,6 +9,7 @@ import projectInformationSchema from 'formSchema/uiSchema/history/projectInforma
 import { diff } from 'json-diff';
 import conditionalApprovalSchema from 'formSchema/uiSchema/history/conditionalApproval';
 import screeningSchema from 'formSchema/uiSchema/history/screening';
+import gis from 'formSchema/uiSchema/history/gis';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -386,6 +387,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
 
     const assessmentSchema = (assessmentName) => {
       if (assessmentName === 'screening') return screeningSchema;
+      if (assessmentName === 'gis') return gis;
       return {};
     };
 
@@ -395,7 +397,12 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
       prevAssessmentFilesArray
     );
 
-    const isScreeningAssessment = assessmentType === 'screening';
+    const isDetailedAssessment =
+      assessmentType === 'gis' || assessmentType === 'screening';
+
+    if (assessmentType === 'gis') {
+      console.log(record.json_data);
+    }
 
     return (
       <div>
@@ -404,7 +411,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           <b>{formatAssessment(assessmentType)} Assessment</b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
-        {showHistoryDetails && isScreeningAssessment && (
+        {showHistoryDetails && isDetailedAssessment && (
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
@@ -419,10 +426,10 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
               'otherFiles',
               'assessmentTemplate',
             ]}
-            overrideParent="screening"
+            overrideParent={assessmentType}
           />
         )}
-        {showOtherFilesDiff && isScreeningAssessment && (
+        {showOtherFilesDiff && isDetailedAssessment && (
           <HistoryFile
             filesArray={record.json_data?.otherFiles || []}
             previousFileArray={
@@ -431,7 +438,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             title={`${formatAssessment(assessmentType)} Other Files`}
           />
         )}
-        {showAssessmentFilesDiff && isScreeningAssessment && (
+        {showAssessmentFilesDiff && isDetailedAssessment && (
           <HistoryFile
             filesArray={assessmentFilesArray}
             previousFileArray={prevAssessmentFilesArray}
