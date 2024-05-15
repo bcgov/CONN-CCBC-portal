@@ -1,11 +1,15 @@
 import { Router } from 'express';
-import formidable from 'formidable';
+import formidable, { File } from 'formidable';
 import fs from 'fs';
 import * as XLSX from 'xlsx';
 import limiter from './excel_import/excel-limiter';
 import getAuthRole from '../../utils/getAuthRole';
 import LoadMilestoneData from './excel_import/milestone';
-import { ExpressMiddleware, parseForm } from './express-helper';
+import {
+  ExpressMiddleware,
+  commonFormidableConfig,
+  parseForm,
+} from './express-helper';
 
 // see https://docs.sheetjs.com/docs/getting-started/installation/nodejs/#installation
 XLSX.set_fs(fs);
@@ -24,7 +28,7 @@ const processMilestone: ExpressMiddleware = async (req, res) => {
   }
 
   const errorList = [];
-  const form = new formidable.IncomingForm({ maxFileSize: 8000000 });
+  const form = formidable(commonFormidableConfig);
 
   const files = await parseForm(form, req).catch((err) => {
     errorList.push({ level: 'file', error: err });
@@ -32,7 +36,10 @@ const processMilestone: ExpressMiddleware = async (req, res) => {
   });
 
   const filename = Object.keys(files)[0];
-  const uploaded = files[filename];
+  const uploadedFilesArray = files[filename] as Array<File>;
+
+  const uploaded = uploadedFilesArray?.[0];
+
   if (!uploaded) {
     return res.status(200).end();
   }
