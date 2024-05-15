@@ -13,6 +13,7 @@ project_information_data
 conditional_approval_data
 change_request_data
 application_project_type
+application_pending_change_request
 application_package
 application_milestone_excel_data
 application_milestone_data

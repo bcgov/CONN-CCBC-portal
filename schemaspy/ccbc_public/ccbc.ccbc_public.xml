@@ -84,6 +84,7 @@
             <child column="application_id" foreignKey="application_milestone_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_milestone_data"/>
             <child column="application_id" foreignKey="application_milestone_excel_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_milestone_excel_data"/>
             <child column="application_id" foreignKey="application_package_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
+            <child column="application_id" foreignKey="application_pending_change_request_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_pending_change_request"/>
             <child column="application_id" foreignKey="application_project_type_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_project_type"/>
             <child column="application_id" foreignKey="application_rfi_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_rfi_data"/>
             <child column="application_id" foreignKey="application_sow_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_sow_data"/>
@@ -551,6 +552,39 @@
          </index>
          <checkConstraint constraint="((package &gt; 0))" name="application_package_package_check"/>
       </table>
+      <table name="application_pending_change_request" remarks="Table containing the pending change request details of the application" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the application_pending_change_request" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="ID of the application this application_pending_change_request belongs to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_pending_change_request_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="2" name="is_pending" nullable="true" remarks="Column defining if the change request pending or not" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="comment" nullable="true" remarks="Column containing the comment for the change request or completion of the change request" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_pending_change_request_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_pending_change_request_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="7" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_pending_change_request_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="9" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_pending_change_request_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_application_pending_change_request_archived_by_fore" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_application_pending_change_request_created_by_forei" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_application_pending_change_request_updated_by_forei" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
       <table name="application_project_type" remarks="Table containing the project type of the application" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the application_project_type" size="10" type="int4" typeCode="4"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="ID of the application this application_project_type belongs to" size="10" type="int4" typeCode="4">
@@ -864,6 +898,9 @@
             <child column="archived_by" foreignKey="application_package_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
             <child column="created_by" foreignKey="application_package_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
             <child column="updated_by" foreignKey="application_package_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
+            <child column="archived_by" foreignKey="application_pending_change_request_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_pending_change_request"/>
+            <child column="created_by" foreignKey="application_pending_change_request_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_pending_change_request"/>
+            <child column="updated_by" foreignKey="application_pending_change_request_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_pending_change_request"/>
             <child column="archived_by" foreignKey="application_project_type_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_project_type"/>
             <child column="created_by" foreignKey="application_project_type_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_project_type"/>
             <child column="updated_by" foreignKey="application_project_type_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_project_type"/>
