@@ -98,14 +98,14 @@ const CbcChangeStatus: React.FC<Props> = ({ cbc, status, statusList }) => {
 
   const handleChange = (e) => {
     const newStatus = e.target.value;
-    const cbcDataId = queryFragment.cbcDataByCbcId.edges[0].node.rowId;
+    const cbcDataId = queryFragment?.cbcDataByCbcId?.edges[0].node.rowId;
     updateStatus({
       variables: {
         input: {
           rowId: cbcDataId,
           cbcDataPatch: {
             jsonData: {
-              ...queryFragment.cbcDataByCbcId.edges[0].node.jsonData,
+              ...queryFragment?.cbcDataByCbcId?.edges[0].node.jsonData,
               projectStatus: convertToCbcStatus(newStatus),
             },
           },
