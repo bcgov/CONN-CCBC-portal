@@ -124,7 +124,7 @@ const CbcHeader: React.FC<Props> = ({ query }) => {
           />
         </StyledAssign>
         <StyledAssign>
-          <StyledLabel htmlFor="assign-package">Intake</StyledLabel>
+          <StyledLabel htmlFor="assign-intake">Intake</StyledLabel>
           <AssignField
             // fieldValue={jsonData?.intake || null}
             fieldName="intake"
