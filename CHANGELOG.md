@@ -1,3 +1,9 @@
+## [1.160.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.160.0...v1.160.1) (2024-05-15)
+
+### Bug Fixes
+
+- update width of status style ([1c55246](https://github.com/bcgov/CONN-CCBC-portal/commit/1c55246044254308dd9a717188f2885521e3a574))
+
 # [1.160.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.159.0...v1.160.0) (2024-05-09)
 
 ### Features
