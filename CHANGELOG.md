@@ -1,3 +1,10 @@
+## [1.160.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.160.0...v1.160.1) (2024-05-15)
+
+### Bug Fixes
+
+- package number for ccbc projects on dashboard ([f83e9f5](https://github.com/bcgov/CONN-CCBC-portal/commit/f83e9f5b127f5fbc204ccb2422d2b9254b941c9f))
+- update width of status style ([1c55246](https://github.com/bcgov/CONN-CCBC-portal/commit/1c55246044254308dd9a717188f2885521e3a574))
+
 # [1.160.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.159.0...v1.160.0) (2024-05-09)
 
 ### Features
