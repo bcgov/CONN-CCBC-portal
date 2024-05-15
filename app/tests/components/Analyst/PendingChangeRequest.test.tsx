@@ -4,7 +4,12 @@ import compiledQuery, {
 } from '__generated__/PendingChangeRequestTestQuery.graphql';
 import { act, screen, fireEvent } from '@testing-library/react';
 import { PendingChangeRequest } from 'components/Analyst';
+import { performQuery } from '../../../backend/lib/graphql';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
+
+jest.mock('../../../backend/lib/graphql', () => ({
+  performQuery: jest.fn(),
+}));
 
 const testQuery = graphql`
   query PendingChangeRequestTestQuery($rowId: Int!) {
@@ -304,5 +309,61 @@ describe('The Pending Change Request component', () => {
         },
       }
     );
+  });
+
+  it('pending change request comment edit close button handle modal close only', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const commentIcon = screen.getByTestId('pending-change-request-comments');
+
+    expect(commentIcon).toBeVisible();
+
+    await act(async () => {
+      fireEvent.click(commentIcon);
+    });
+
+    expect(
+      screen.getByText('Comments on pending changes (optional)')
+    ).toBeVisible();
+
+    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+
+    await act(async () => {
+      fireEvent.click(cancelButton);
+    });
+
+    expect(
+      screen.getByText('Comments on pending changes (optional)')
+    ).not.toBeVisible();
+
+    expect(performQuery).not.toHaveBeenCalled();
+  });
+
+  it('Closing change request modal keep pending button closes modal and keep change request', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const checkbox = screen.getByTestId('pending-change-request-checkbox');
+
+    expect(checkbox).toBeVisible();
+
+    await act(async () => {
+      fireEvent.click(checkbox);
+    });
+
+    const cancelButton = screen.getByRole('button', {
+      name: 'No, Keep Pending',
+    });
+
+    await act(async () => {
+      fireEvent.click(cancelButton);
+    });
+
+    expect(
+      screen.getByText('Done with this change request?')
+    ).not.toBeVisible();
+
+    expect(performQuery).not.toHaveBeenCalled();
   });
 });
