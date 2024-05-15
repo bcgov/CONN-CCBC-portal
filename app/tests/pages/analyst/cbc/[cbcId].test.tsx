@@ -1,5 +1,5 @@
 import Cbc from 'pages/analyst/cbc/[cbcId]';
-import { screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import * as moduleApi from '@growthbook/growthbook-react';
 import compiledCbcIdQuery, {
   CbcIdQuery,
@@ -143,5 +143,37 @@ describe('Cbc', () => {
     expect(screen.getByText('Expand all')).toBeInTheDocument();
     expect(screen.getByText('Collapse all')).toBeInTheDocument();
     expect(screen.getByText('Quick edit')).toBeInTheDocument();
+  });
+
+  it('expand and collapse all work as expected', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const expandButton = screen.getByRole('button', {
+      name: 'Expand all',
+    });
+    act(() => {
+      fireEvent.click(expandButton);
+    });
+
+    const collapseButton = screen.getByRole('button', {
+      name: 'Collapse all',
+    });
+    act(() => {
+      fireEvent.click(collapseButton);
+    });
+    // All accordions contain a table, so to find every collapsed portion we select them all
+    const allHiddenDivs = screen
+      .getAllByRole('table', {
+        hidden: true,
+      })
+      .map((tableElement) => tableElement.parentElement);
+
+    // attempt to find a div that would not be hidden
+    const isAllHidden = allHiddenDivs.find((section) => {
+      return section.style.display !== 'none';
+    });
+    // expect not to find one
+    expect(isAllHidden).toBeUndefined();
   });
 });
