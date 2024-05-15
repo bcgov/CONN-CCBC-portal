@@ -373,6 +373,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       ...allApplications.edges.map((application) => ({
         ...application.node,
         projectId: application.node.ccbcNumber,
+        packageNumber: application.node.package,
         projectTitle:
           application.node.applicationSowDataByApplicationId?.nodes[0]?.jsonData
             ?.projectTitle || application.node.projectName,
