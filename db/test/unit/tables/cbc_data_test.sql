@@ -1,6 +1,6 @@
 begin;
 
-select plan(8);
+select plan(10);
 
 -- Table exists
 select has_table(
@@ -32,7 +32,7 @@ select table_privs_are(
 );
 
 select table_privs_are(
-  'ccbc_public', 'cbc_data', 'ccbc_analyst', ARRAY['SELECT', 'INSERT', 'UPDATE'],
+  'ccbc_public', 'cbc_data', 'ccbc_analyst', ARRAY['SELECT'],
   'ccbc_analyst can select from cbc_data table'
 );
 

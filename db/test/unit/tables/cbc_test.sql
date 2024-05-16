@@ -30,7 +30,7 @@ select table_privs_are(
 );
 
 select table_privs_are(
-  'ccbc_public', 'cbc', 'ccbc_analyst', ARRAY['SELECT', 'INSERT', 'UPDATE'],
+  'ccbc_public', 'cbc', 'ccbc_analyst', ARRAY['SELECT'],
   'ccbc_analyst can select from cbc table'
 );
 
