@@ -147,7 +147,7 @@ insert into ccbc_public.cbc_project(
 insert into ccbc_public.cbc(id, project_number, sharepoint_timestamp, created_at, updated_at)
   overriding system value values (1, 5555, '2024-01-01 16:28:11.006719-07', '2024-01-02 16:28:11.006719-07', '2024-01-02 16:28:11.006719-07');
 
-insert into cbc_data(id, cbc_id, project_number, json_data, sharepoint_timestamp, created_at, updated_at)
+insert into ccbc_public.cbc_data(id, cbc_id, project_number, json_data, sharepoint_timestamp, created_at, updated_at)
   overriding system value values (1, 1, 5555,
     $${
         "phase": 2,
