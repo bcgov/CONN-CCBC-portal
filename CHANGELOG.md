@@ -1,3 +1,9 @@
+# [1.162.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.161.0...v1.162.0) (2024-05-16)
+
+### Features
+
+- add read/write only uploads dir ([3b9b3bc](https://github.com/bcgov/CONN-CCBC-portal/commit/3b9b3bcf13b77f50a03311101517477475bfb9e6))
+
 # [1.161.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.160.1...v1.161.0) (2024-05-15)
 
 ### Features

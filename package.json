@@ -1,6 +1,6 @@
 {
   "name": "CONN-CCBC-portal",
-  "version": "1.161.0",
+  "version": "1.162.0",
   "main": "index.js",
   "repository": "https://github.com/bcgov/CONN-CCBC-portal.git",
   "author": "Romer, Meherzad CITZ:EX <Meherzad.Romer@gov.bc.ca>",
