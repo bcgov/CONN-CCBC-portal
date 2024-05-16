@@ -1,3 +1,11 @@
+# [1.161.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.160.1...v1.161.0) (2024-05-15)
+
+### Features
+
+- add change requet close modal and comment icon ([8cd57f4](https://github.com/bcgov/CONN-CCBC-portal/commit/8cd57f4eaa2d74848976abddf84bf471b4e7155a))
+- add close pending request ([fa40d6d](https://github.com/bcgov/CONN-CCBC-portal/commit/fa40d6d46f0bf60f490bf0aecfef5fb9bbe4c93b))
+- add pending change request checkbox ([b84cf7f](https://github.com/bcgov/CONN-CCBC-portal/commit/b84cf7f5410f6d513dec91fc129a82cb135c8e63))
+
 ## [1.160.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.160.0...v1.160.1) (2024-05-15)
 
 ### Bug Fixes

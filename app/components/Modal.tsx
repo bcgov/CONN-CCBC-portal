@@ -20,6 +20,7 @@ interface ActionProps {
   label: string;
   onClick: Function;
   variant?: 'primary' | 'secondary';
+  disabled?: boolean;
 }
 
 const Modal: React.FC<Props> = ({
@@ -66,6 +67,7 @@ const Modal: React.FC<Props> = ({
             key={action.label}
             onClick={action.onClick}
             variant={action.variant || 'primary'}
+            disabled={action.disabled}
           >
             {action.label}
           </Button>

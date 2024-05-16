@@ -270,6 +270,7 @@ describe('The application header component', () => {
     expect(screen.getByLabelText('Package')).toBeVisible();
     expect(screen.getByLabelText('Project Type')).toBeVisible();
     expect(screen.queryByLabelText('Lead')).not.toBeInTheDocument();
+    expect(screen.getByLabelText('Pending Change Request')).toBeVisible();
   });
 
   it('displays the Lead column when feature enabled', () => {

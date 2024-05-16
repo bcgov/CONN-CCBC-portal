@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import formidable from 'formidable';
+import formidable, { File } from 'formidable';
 import Ajv, { ErrorObject } from 'ajv';
 import fs from 'fs';
 import RateLimit from 'express-rate-limit';
 import schema from './gis-schema.json';
 import { performQuery } from './graphql';
 import getAuthRole from '../../utils/getAuthRole';
-import { parseForm } from './express-helper';
+import { commonFormidableConfig, parseForm } from './express-helper';
 import { jsonProcessor } from './json-lint';
 
 const limiter = RateLimit({
@@ -55,7 +55,7 @@ const formatAjv = (data: Record<string, any>, errors: ErrorObject[]) => {
   });
   return { errors: reply };
 };
-const formatJsonLint = ( errors: any[]) => {
+const formatJsonLint = (errors: any[]) => {
   const reply = [];
   errors.forEach((e) => {
     const item = {
@@ -64,7 +64,6 @@ const formatJsonLint = ( errors: any[]) => {
       message: e.message,
     };
     reply.push(item);
-   
   });
   return { errors: reply };
 };
@@ -76,22 +75,25 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   if (!isRoleAuthorized) {
     return res.status(404).end();
   }
-  const form = new formidable.IncomingForm({ maxFileSize: 8000000 });
+
+  const form = formidable(commonFormidableConfig);
 
   const files = await parseForm(form, req).catch((err) => {
     return res.status(400).json({ error: err }).end();
   });
 
   const filename = Object.keys(files)[0];
-  const uploaded = files[filename];
+  const uploadedFilesArray = files[filename] as Array<File>;
+
+  const uploaded = uploadedFilesArray?.[0];
   if (!uploaded) {
     return res.status(200).end();
   }
   const file = fs.readFileSync(uploaded.filepath, 'utf8');
   let data = null;
   try {
-    const lintErrors = jsonProcessor.process(file,filename);
-    if (Array.isArray(lintErrors) && lintErrors.length>0) {      
+    const lintErrors = jsonProcessor.process(file, filename);
+    if (Array.isArray(lintErrors) && lintErrors.length > 0) {
       return res.status(400).json(formatJsonLint(lintErrors)).end();
     }
     data = JSON.parse(file);
