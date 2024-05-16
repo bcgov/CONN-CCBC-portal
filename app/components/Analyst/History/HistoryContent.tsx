@@ -10,6 +10,7 @@ import { diff } from 'json-diff';
 import conditionalApprovalSchema from 'formSchema/uiSchema/history/conditionalApproval';
 import screeningSchema from 'formSchema/uiSchema/history/screening';
 import gis from 'formSchema/uiSchema/history/gis';
+import gisAssessmentHhSchema from 'formSchema/uiSchema/history/gisAssessmentHh';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -504,6 +505,39 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             prevJson={prevHistoryItem?.record?.json_data || {}}
             excludedKeys={['ccbc_number']}
             diffSchema={applicationGisDataSchema}
+            overrideParent="gis"
+          />
+        )}
+        {reasonForChange && <ChangeReason reason={reasonForChange} />}
+      </div>
+    );
+  }
+
+  if (tableName === 'application_gis_assessment_hh') {
+    return (
+      <div>
+        <StyledContent data-testid="history-content-form-data">
+          <span>
+            {displayName}
+            {' updated the '}
+            <b>GIS Analysis </b>
+          </span>
+          on {createdAtFormatted}
+        </StyledContent>
+        {showHistoryDetails && (
+          <HistoryDetails
+            json={record}
+            prevJson={prevHistoryItem?.record || {}}
+            excludedKeys={[
+              'id',
+              'updated_at',
+              'created_at',
+              'created_by',
+              'updated_by',
+              'archived_at',
+              'archived_by',
+            ]}
+            diffSchema={gisAssessmentHhSchema}
             overrideParent="gis"
           />
         )}
