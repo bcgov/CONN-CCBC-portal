@@ -26,8 +26,8 @@ perform ccbc_private.grant_permissions('update', 'cbc', 'ccbc_admin');
 
 -- Grant ccbc_analyst permissions
 perform ccbc_private.grant_permissions('select', 'cbc', 'ccbc_analyst');
-perform ccbc_private.grant_permissions('insert', 'cbc', 'ccbc_analyst');
-perform ccbc_private.grant_permissions('update', 'cbc', 'ccbc_analyst');
+-- perform ccbc_private.grant_permissions('insert', 'cbc', 'ccbc_analyst');
+-- perform ccbc_private.grant_permissions('update', 'cbc', 'ccbc_analyst');
 
 -- Grant ccbc_service_account permissions
 perform ccbc_private.grant_permissions('select', 'cbc', 'ccbc_service_account');
