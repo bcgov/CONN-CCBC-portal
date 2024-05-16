@@ -401,10 +401,6 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
     const isDetailedAssessment =
       assessmentType === 'gis' || assessmentType === 'screening';
 
-    if (assessmentType === 'gis') {
-      console.log(record.json_data);
-    }
-
     return (
       <div>
         <StyledContent data-testid="history-content-assessment">
