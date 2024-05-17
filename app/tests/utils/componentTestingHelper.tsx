@@ -7,11 +7,10 @@ import {
   OperationType,
 } from 'relay-runtime';
 import { MockResolvers } from 'relay-test-utils/lib/RelayMockPayloadGenerator';
-import { RouterContext } from 'next/dist/shared/lib/router-context';
-import { Settings } from 'luxon';
-import TestingHelper from './TestingHelper';
 import GlobalTheme from 'styles/GlobalTheme';
 import GlobalStyle from 'styles/GobalStyles';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import TestingHelper from './TestingHelper';
 
 interface ComponentTestingHelperOptions<TQuery extends OperationType> {
   component: (props: any) => JSX.Element;
@@ -24,7 +23,7 @@ interface ComponentTestingHelperOptions<TQuery extends OperationType> {
 }
 
 class ComponentTestingHelper<
-  TQuery extends OperationType
+  TQuery extends OperationType,
 > extends TestingHelper {
   private options: ComponentTestingHelperOptions<TQuery>;
 
