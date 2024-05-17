@@ -512,11 +512,11 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
   if (tableName === 'application_gis_assessment_hh') {
     return (
       <div>
-        <StyledContent data-testid="history-content-form-data">
+        <StyledContent data-testid="history-content-gis-assessment-hh">
           <span>
             {displayName}
             {' updated the '}
-            <b>GIS Analysis </b>
+            <b>GIS Assessment Household Count </b>
           </span>
           on {createdAtFormatted}
         </StyledContent>
