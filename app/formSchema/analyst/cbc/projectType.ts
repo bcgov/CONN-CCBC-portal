@@ -8,7 +8,15 @@ const projectType: RJSFSchema = {
     projectType: {
       type: 'string',
       title: 'Project Type',
-      enum: [null, 'Transport', 'Highway', 'Last Mile'],
+      enum: [
+        null,
+        'Highway',
+        'Last-Mile',
+        'Last-Mile & Cellular',
+        'Last-Mile & Transport',
+        'Plan',
+        'Transport',
+      ],
     },
     transportProjectType: {
       type: 'string',

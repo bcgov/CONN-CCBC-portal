@@ -21,6 +21,12 @@ const LoadingItem = styled.div`
   justify-content: center;
 `;
 
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: 20px auto;
+`;
+
 const StyledBtn = styled(Button)`
   margin: 0 8px;
   padding: 8px 16px;
@@ -136,7 +142,7 @@ const CbcForm: React.FC<Props> = ({
             )}
           </FormBase>
           {isFormEditMode && (
-            <>
+            <StyledContainer>
               <StyledBtn
                 data-testid={saveDataTestId}
                 id={`${title.toLowerCase().split(' ').join('-')}-save-button`}
@@ -151,13 +157,13 @@ const CbcForm: React.FC<Props> = ({
                 variant="secondary"
                 disabled={cancelBtnDisabled}
                 onClick={() => {
-                  setFormData();
+                  resetFormData();
                   setIsFormEditMode(false);
                 }}
               >
                 Cancel
               </StyledBtn>
-            </>
+            </StyledContainer>
           )}
         </div>
       )}

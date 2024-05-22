@@ -8,13 +8,14 @@ import CbcAnalystLayout from 'components/Analyst/CBC/CbcAnalystLayout';
 import CbcForm from 'components/Analyst/CBC/CbcForm';
 import styled from 'styled-components';
 import ReviewTheme from 'components/Review/ReviewTheme';
-import { useRef, useState } from 'react';
-import { ProjectTheme } from 'components/Analyst/Project';
+import { useEffect, useRef, useState } from 'react';
+// import { ProjectTheme } from 'components/Analyst/Project';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import review from 'formSchema/analyst/cbc/review';
 import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
 import { useFeature } from '@growthbook/growthbook-react';
+import CbcTheme from 'components/Analyst/CBC/CbcTheme';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -22,7 +23,7 @@ const getCbcQuery = graphql`
       projectNumber
       rowId
       sharepointTimestamp
-      cbcDataByCbcId {
+      cbcDataByCbcId(first: 500) @connection(key: "CbcData__cbcDataByCbcId") {
         edges {
           node {
             jsonData
@@ -55,105 +56,110 @@ const RightAlignText = styled('div')`
   text-align: right;
   padding-bottom: 4px;
 `;
-
 const Cbc = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, CbcIdQuery>) => {
   const query = usePreloadedQuery(getCbcQuery, preloadedQuery);
-
   const allowEdit = useFeature('show_cbc_edit').value ?? false;
-  const [toggleOverride, setToggleExpandOrCollapseAll] = useState<
+  const [toggleOverrideReadOnly, setToggleExpandOrCollapseAllReadOnly] =
+    useState<boolean | undefined>(true);
+  const [toggleOverrideEdit, setToggleExpandOrCollapseAllEdit] = useState<
     boolean | undefined
-  >(undefined);
-
+  >(true);
   const [editMode, setEditMode] = useState(false);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
-  const { cbcByRowId, session } = query;
-  const { cbcDataByCbcId } = cbcByRowId;
-  const { edges } = cbcDataByCbcId;
-  const cbcData = edges[0].node;
-  const { jsonData } = cbcData;
+  const { session } = query;
 
-  const tombstone = {
-    projectNumber: jsonData.projectNumber,
-    originalProjectNumber: jsonData.originalProjectNumber,
-    phase: jsonData.phase,
-    intake: jsonData.intake,
-    projectStatus: jsonData.projectStatus,
-    projectTitle: jsonData.projectTitle,
-    projectDescription: jsonData.projectDescription,
-    applicantContractualName: jsonData.applicantContractualName,
-    currentOperatingName: jsonData.currentOperatingName,
-    eightThirtyMillionFunding: jsonData.eightThirtyMillionFunding,
-    federalFundingSource: jsonData.federalFundingSource,
-    federalProjectNumber: jsonData.federalProjectNumber,
-  };
+  const [formData, setFormData] = useState({} as any);
+  useEffect(() => {
+    const { cbcByRowId } = query;
+    const { cbcDataByCbcId } = cbcByRowId;
+    const { edges } = cbcDataByCbcId;
+    const cbcData = edges[0].node;
+    const { jsonData } = cbcData;
+    const tombstone = {
+      projectNumber: jsonData.projectNumber,
+      originalProjectNumber: jsonData.originalProjectNumber,
+      phase: jsonData.phase,
+      intake: jsonData.intake,
+      projectStatus: jsonData.projectStatus,
+      changeRequestPending: jsonData.changeRequestPending,
+      projectTitle: jsonData.projectTitle,
+      projectDescription: jsonData.projectDescription,
+      applicantContractualName: jsonData.applicantContractualName,
+      currentOperatingName: jsonData.currentOperatingName,
+      eightThirtyMillionFunding: jsonData.eightThirtyMillionFunding,
+      federalFundingSource: jsonData.federalFundingSource,
+      federalProjectNumber: jsonData.federalProjectNumber,
+    };
 
-  const projectType = {
-    projectType: jsonData.projectType,
-    transportProjectType: jsonData.transportProjectType,
-    highwayProjectType: jsonData.highwayProjectType,
-    lastMileProjectType: jsonData.lastMileProjectType,
-    lastMileMinimumSpeed: jsonData.lastMileMinimumSpeed,
-    connectedCoastNetworkDependant: jsonData.connectedCoastNetworkDependant,
-  };
-  const locationsAndCounts = {
-    projectLocations: jsonData.projectLocations,
-    communitiesAndLocalesCount: jsonData.communitiesAndLocalesCount,
-    indigenousCommunities: jsonData.indigenousCommunities,
-    householdCount: jsonData.householdCount,
-    transportKm: jsonData.transportKm,
-    highwayKm: jsonData.highwayKm,
-    restAreas: jsonData.restAreas,
-  };
+    const projectType = {
+      projectType: jsonData.projectType,
+      transportProjectType: jsonData.transportProjectType,
+      highwayProjectType: jsonData.highwayProjectType,
+      lastMileProjectType: jsonData.lastMileProjectType,
+      lastMileMinimumSpeed: jsonData.lastMileMinimumSpeed,
+      connectedCoastNetworkDependant: jsonData.connectedCoastNetworkDependant,
+    };
+    const locationsAndCounts = {
+      projectLocations: jsonData.projectLocations,
+      communitiesAndLocalesCount: jsonData.communitiesAndLocalesCount,
+      indigenousCommunities: jsonData.indigenousCommunities,
+      householdCount: jsonData.householdCount,
+      transportKm: jsonData.transportKm,
+      highwayKm: jsonData.highwayKm,
+      restAreas: jsonData.restAreas,
+    };
 
-  const funding = {
-    bcFundingRequest: jsonData.bcFundingRequest,
-    federalFunding: jsonData.federalFunding,
-    applicantAmount: jsonData.applicantAmount,
-    otherFunding: jsonData.otherFunding,
-    totalProjectBudget: jsonData.totalProjectBudget,
-  };
+    const funding = {
+      bcFundingRequest: jsonData.bcFundingRequest,
+      federalFunding: jsonData.federalFunding,
+      applicantAmount: jsonData.applicantAmount,
+      otherFunding: jsonData.otherFunding,
+      totalProjectBudget: jsonData.totalProjectBudget,
+    };
 
-  const eventsAndDates = {
-    nditConditionalApprovalLetterSent:
-      jsonData.nditConditionalApprovalLetterSent,
-    bindingAgreementSignedNditRecipient:
-      jsonData.bindingAgreementSignedNditRecipient,
-    announcedByProvince: jsonData.announcedByProvince,
-    dateApplicationReceived: jsonData.dateApplicationReceived,
-    dateConditionallyApproved: jsonData.dateConditionallyApproved,
-    dateAgreementSigned: jsonData.dateAgreementSigned,
-    proposedStartDate: jsonData.proposedStartDate,
-    proposedCompletionDate: jsonData.proposedCompletionDate,
-    reportingCompletionDate: jsonData.reportingCompletionDate,
-    dateAnnounced: jsonData.dateAnnounced,
-  };
+    const eventsAndDates = {
+      nditConditionalApprovalLetterSent:
+        jsonData.nditConditionalApprovalLetterSent,
+      bindingAgreementSignedNditRecipient:
+        jsonData.bindingAgreementSignedNditRecipient,
+      announcedByProvince: jsonData.announcedByProvince,
+      dateApplicationReceived: jsonData.dateApplicationReceived,
+      dateConditionallyApproved: jsonData.dateConditionallyApproved,
+      dateAgreementSigned: jsonData.dateAgreementSigned,
+      proposedStartDate: jsonData.proposedStartDate,
+      proposedCompletionDate: jsonData.proposedCompletionDate,
+      reportingCompletionDate: jsonData.reportingCompletionDate,
+      dateAnnounced: jsonData.dateAnnounced,
+    };
 
-  const miscellaneous = {
-    projectMilestoneCompleted: jsonData.projectMilestoneCompleted,
-    constructionCompletedOn: jsonData.constructionCompletedOn,
-    milestoneComments: jsonData.milestoneComments,
-    primaryNewsRelease: jsonData.primaryNewsRelease,
-    secondaryNewsRelease: jsonData.secondaryNewsRelease,
-    notes: jsonData.notes,
-  };
+    const miscellaneous = {
+      projectMilestoneCompleted: jsonData.projectMilestoneCompleted,
+      constructionCompletedOn: jsonData.constructionCompletedOn,
+      milestoneComments: jsonData.milestoneComments,
+      primaryNewsRelease: jsonData.primaryNewsRelease,
+      secondaryNewsRelease: jsonData.secondaryNewsRelease,
+      notes: jsonData.notes,
+    };
 
-  const projectDataReviews = {
-    locked: jsonData.locked,
-    lastReviewed: jsonData.lastReviewed,
-    reviewNotes: jsonData.reviewNotes,
-  };
+    const projectDataReviews = {
+      locked: jsonData.locked,
+      lastReviewed: jsonData.lastReviewed,
+      reviewNotes: jsonData.reviewNotes,
+    };
 
-  const [formData, setFormData] = useState({
-    tombstone,
-    projectType,
-    locationsAndCounts,
-    funding,
-    eventsAndDates,
-    miscellaneous,
-    projectDataReviews,
-  });
+    setFormData({
+      tombstone,
+      projectType,
+      locationsAndCounts,
+      funding,
+      eventsAndDates,
+      miscellaneous,
+      projectDataReviews,
+    });
+  }, [query]);
+
   const [updateFormData] = useUpdateCbcDataByRowIdMutation();
 
   const handleSubmit = (e) => {
@@ -162,7 +168,7 @@ const Cbc = ({
     updateFormData({
       variables: {
         input: {
-          rowId: cbcData.rowId,
+          rowId: query.cbcByRowId.rowId,
           cbcDataPatch: {
             jsonData: {
               ...formData.tombstone,
@@ -190,30 +196,36 @@ const Cbc = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <CbcAnalystLayout query={query}>
+      <CbcAnalystLayout query={query} isFormEditMode={editMode}>
         <RightAlignText>
-          {!editMode && (
-            <>
-              <StyledButton
-                onClick={() => {
-                  setToggleExpandOrCollapseAll(true);
-                }}
-                type="button"
-              >
-                Expand all
-              </StyledButton>
-              {' | '}
-              <StyledButton
-                onClick={() => {
-                  setToggleExpandOrCollapseAll(false);
-                }}
-                type="button"
-              >
-                Collapse all
-              </StyledButton>
-              {' | '}
-            </>
-          )}
+          <>
+            <StyledButton
+              onClick={() => {
+                if (editMode) {
+                  setToggleExpandOrCollapseAllEdit(true);
+                  return;
+                }
+                setToggleExpandOrCollapseAllReadOnly(true);
+              }}
+              type="button"
+            >
+              Expand all
+            </StyledButton>
+            {' | '}
+            <StyledButton
+              onClick={() => {
+                if (editMode) {
+                  setToggleExpandOrCollapseAllEdit(false);
+                  return;
+                }
+                setToggleExpandOrCollapseAllReadOnly(false);
+              }}
+              type="button"
+            >
+              Collapse all
+            </StyledButton>
+            {' | '}
+          </>
           {allowEdit && (
             <StyledButton
               onClick={() => {
@@ -226,7 +238,11 @@ const Cbc = ({
           )}
         </RightAlignText>
         <StyledCbcForm
-          additionalContext={{ toggleOverride }}
+          additionalContext={
+            editMode
+              ? { toggleOverride: toggleOverrideEdit }
+              : { toggleOverride: toggleOverrideReadOnly }
+          }
           formData={formData}
           handleChange={(e) => {
             setFormData({ ...e.formData });
@@ -237,7 +253,7 @@ const Cbc = ({
           isFormEditMode={editMode}
           title="CBC Form"
           schema={review}
-          theme={editMode ? ProjectTheme : ReviewTheme}
+          theme={editMode ? CbcTheme : ReviewTheme}
           uiSchema={editMode ? editUiSchema : reviewUiSchema}
           resetFormData={handleResetFormData}
           onSubmit={handleSubmit}

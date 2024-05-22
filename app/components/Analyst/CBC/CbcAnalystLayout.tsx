@@ -22,9 +22,14 @@ const StyledFormDiv = styled(FormDiv)`
 interface Props {
   children: JSX.Element[] | JSX.Element;
   query: any;
+  isFormEditMode: boolean;
 }
 
-const CbcAnalystLayout: React.FC<Props> = ({ children, query }) => {
+const CbcAnalystLayout: React.FC<Props> = ({
+  children,
+  query,
+  isFormEditMode,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment CbcAnalystLayout_query on Query {
@@ -35,7 +40,7 @@ const CbcAnalystLayout: React.FC<Props> = ({ children, query }) => {
   );
   return (
     <StyledContainer>
-      <CbcHeader query={queryFragment} />
+      <CbcHeader query={queryFragment} isFormEditMode={isFormEditMode} />
       <StyledFlex>
         <NavigationSidebar />
         <StyledFormDiv>{children}</StyledFormDiv>

@@ -23,10 +23,18 @@ const locationsAndCountsUiSchema = {
   transportKm: {
     'ui:widget': 'NumberWidget',
     'ui:label': 'Transport Km',
+    'ui:options': {
+      maxLength: 7,
+      decimals: 2,
+    },
   },
   highwayKm: {
     'ui:widget': 'NumberWidget',
     'ui:label': 'Highway Km',
+    'ui:options': {
+      maxLength: 7,
+      decimals: 2,
+    },
   },
   restAreas: {
     'ui:widget': 'NumberWidget',

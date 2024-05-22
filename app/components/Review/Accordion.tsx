@@ -12,8 +12,10 @@ export function getToggledState(
   defaultToggle: boolean
 ) {
   if (toggled === null || toggled === undefined) {
+    console.log('toggled is null or undefined', toggled);
     return defaultToggle;
   }
+  console.log('toggled is not null or undefined', toggled);
   return toggled;
 }
 

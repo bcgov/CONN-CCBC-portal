@@ -5,22 +5,22 @@ const eventsAndDatesUiSchema = {
   },
   'ui:title': 'Events and Dates',
   nditConditionalApprovalLetterSent: {
-    'ui:widget': 'TextAreaWidget',
+    'ui:widget': 'CheckboxWidget',
     'ui:label': 'NDIT Conditional Approval Letter Sent',
   },
   bindingAgreementSignedNditRecipient: {
-    'ui:widget': 'TextAreaWidget',
+    'ui:widget': 'CheckboxWidget',
     'ui:label': 'Binding Agreement Signed NDIT Recipient',
   },
   announcedByProvince: {
-    'ui:widget': 'TextAreaWidget',
+    'ui:widget': 'CheckboxWidget',
     'ui:label': 'Announced By Province',
   },
   dateApplicationReceived: {
     'ui:widget': 'DatePickerWidget',
     'ui:label': 'Date Application Received',
   },
-  dateConditionallyApprovedApproved: {
+  dateConditionallyApproved: {
     'ui:widget': 'DatePickerWidget',
     'ui:label': 'Date Conditionally Approved Approved',
   },

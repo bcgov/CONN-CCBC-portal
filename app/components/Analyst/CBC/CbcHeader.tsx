@@ -56,9 +56,10 @@ const StyledPendingChangeRequests = styled(StyledItem)`
 
 interface Props {
   query: any;
+  isFormEditMode: boolean;
 }
 
-const CbcHeader: React.FC<Props> = ({ query }) => {
+const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
   const queryFragment = useFragment(
     graphql`
       fragment CbcHeader_query on Query {
@@ -66,7 +67,8 @@ const CbcHeader: React.FC<Props> = ({ query }) => {
           projectNumber
           rowId
           sharepointTimestamp
-          cbcDataByCbcId {
+          cbcDataByCbcId(first: 500)
+            @connection(key: "CbcData__cbcDataByCbcId") {
             edges {
               node {
                 jsonData
@@ -117,6 +119,7 @@ const CbcHeader: React.FC<Props> = ({ query }) => {
               { description: 'Reporting Complete', name: 'complete', id: 2 },
               { description: 'Agreement Signed', name: 'approved', id: 3 },
             ]}
+            isFormEditMode={isFormEditMode}
           />
         </StyledItem>
         <StyledAssign>
@@ -127,6 +130,7 @@ const CbcHeader: React.FC<Props> = ({ query }) => {
             fieldOptions={['1', '2', '3', '4', '4b']}
             fieldType="string"
             cbc={cbcByRowId}
+            isFormEditMode={isFormEditMode}
           />
         </StyledAssign>
         <StyledAssign>
@@ -137,6 +141,7 @@ const CbcHeader: React.FC<Props> = ({ query }) => {
             fieldOptions={[null, 1, 2, 3, 4]}
             fieldType="number"
             cbc={cbcByRowId}
+            isFormEditMode={isFormEditMode}
           />
         </StyledAssign>
         <StyledPendingChangeRequests>

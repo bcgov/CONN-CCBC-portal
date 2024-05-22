@@ -17,11 +17,11 @@ const miscellaneousUiSchema = {
     'ui:label': 'Milestone Comments',
   },
   primaryNewsRelease: {
-    'ui:widget': 'TextAreaWidget',
+    'ui:widget': 'TextWidget',
     'ui:label': 'Primary News Release',
   },
   secondaryNewsRelease: {
-    'ui:widget': 'TextAreaWidget',
+    'ui:widget': 'TextWidget',
     'ui:label': 'Secondary News Release',
   },
   notes: {

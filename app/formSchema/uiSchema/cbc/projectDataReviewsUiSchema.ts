@@ -5,7 +5,7 @@ const projectDataReviewsUiSchema = {
   },
   'ui:title': 'Project Data Reviews',
   locked: {
-    'ui:widget': 'TextAreaWidget',
+    'ui:widget': 'CheckboxWidget',
     'ui:label': 'Locked',
   },
   lastReviewed: {

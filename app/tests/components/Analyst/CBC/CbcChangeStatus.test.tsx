@@ -12,7 +12,7 @@ const testQuery = graphql`
       projectNumber
       rowId
       sharepointTimestamp
-      cbcDataByCbcId {
+      cbcDataByCbcId(first: 500) @connection(key: "CbcData__cbcDataByCbcId") {
         edges {
           node {
             jsonData
