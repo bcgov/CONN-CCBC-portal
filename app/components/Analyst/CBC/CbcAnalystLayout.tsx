@@ -22,13 +22,13 @@ const StyledFormDiv = styled(FormDiv)`
 interface Props {
   children: JSX.Element[] | JSX.Element;
   query: any;
-  isFormEditMode: boolean;
+  isFormEditMode?: boolean;
 }
 
 const CbcAnalystLayout: React.FC<Props> = ({
   children,
   query,
-  isFormEditMode,
+  isFormEditMode = false,
 }) => {
   const queryFragment = useFragment(
     graphql`
