@@ -9,6 +9,7 @@ ccbc_user
 intake
 application
 application_sow_data
+cbc
 analyst
 announcement
 email_record
@@ -43,5 +44,6 @@ application_announcement
 application_gis_data
 assessment_data
 attachment
+cbc_data
 notification
 history_item

@@ -1,5 +1,6 @@
 history_item
 notification
+cbc_data
 attachment
 assessment_data
 application_gis_data
@@ -34,6 +35,7 @@ gis_data
 email_record
 announcement
 analyst
+cbc
 application_sow_data
 application
 intake
