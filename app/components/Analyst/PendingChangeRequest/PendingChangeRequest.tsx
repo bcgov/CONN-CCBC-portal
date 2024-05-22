@@ -16,7 +16,7 @@ const StyledCheckbox = styled.input`
 `;
 
 const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
-  margin-left: 8px; ;
+  margin-left: 8px;
 `;
 
 const PendingChangeRequest = ({ application }) => {
@@ -71,11 +71,9 @@ const PendingChangeRequest = ({ application }) => {
     createPendingChangeRequest({
       variables: {
         input: {
-          applicationPendingChangeRequest: {
-            applicationId: rowId,
-            comment: reasonForChange,
-            isPending: isPendingRequest,
-          },
+          _applicationId: rowId,
+          _ispending: isPendingRequest,
+          _comment: reasonForChange,
         },
       },
       onCompleted: () => {

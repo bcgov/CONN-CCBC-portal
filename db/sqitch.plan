@@ -564,3 +564,4 @@ tables/application_pending_change_request 2024-05-03T20:55:21Z ,,, <ryohani89@NH
 @1.161.0 2024-05-15T17:59:55Z CCBC Service Account <ccbc@button.is> # release v1.161.0
 tables/cbc 2024-05-08T17:56:10Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add cbc projects table for individual cbc projects
 tables/cbc_data 2024-05-08T18:08:06Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # table to hold the json data for individual cbc projects
+mutations/create_pending_change_request 2024-05-22T16:44:01Z ,,, <ryohani89@NH504670> # add create application pending change request mutation
