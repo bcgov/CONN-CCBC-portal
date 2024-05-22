@@ -55,6 +55,7 @@ interface Props {
 const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const router = useRouter();
   const isApplicantPortal = router?.pathname.startsWith('/applicantportal');
+  const isCbcPage = router?.pathname.includes('/cbc/');
   const useCustomLogin = useFeature('use_custom_login').value;
   const useDirectIdir = useFeature('use_direct_idir').value;
   const { value: banner } = useFeature('header-banner');
@@ -118,6 +119,15 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
           </StyledRightSideLinks>
         </StyledDiv>
       </StyledBaseHeader>
+      {isCbcPage && (
+        <HeaderBanner
+          type="custom"
+          message="Beta version - changes made here will not be saved nor reflected elsewhere."
+          environmentIndicator={false}
+          customBannerColor="#F9F1C7"
+          customFontColor="#635231"
+        />
+      )}
       {isApplicantPortal && <SubHeader />}
     </StyledBaseNavigation>
   );
