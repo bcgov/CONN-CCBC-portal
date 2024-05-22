@@ -98,10 +98,14 @@ const muiTableHeadCellProps = {
 
 const CcbcIdCell = ({ cell }) => {
   const applicationId = cell.row.original?.rowId;
+  const isCbcProject = cell.row.original?.isCbcProject;
+  const linkCbc = cell.row.original?.showLink;
   return (
     <>
-      {applicationId ? (
-        <StyledLink href={`/analyst/application/${applicationId}`}>
+      {linkCbc ? (
+        <StyledLink
+          href={`/analyst/${isCbcProject ? 'cbc' : 'application'}/${applicationId}`}
+        >
           {cell.getValue()}
         </StyledLink>
       ) : (
@@ -178,9 +182,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allCbcProjects(filter: { archivedAt: { isNull: true } }) {
-          nodes {
-            jsonData
+        allCbcData(filter: { archivedAt: { isNull: true } }) {
+          edges {
+            node {
+              jsonData
+              projectNumber
+              cbcId
+            }
           }
         }
       }
@@ -207,7 +215,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     },
     [queryFragment]
   );
-  const { allApplications, allCbcProjects } = queryFragment;
+  const { allApplications, allCbcData } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
   const [isFirstRender, setIsFirstRender] = useState(true);
@@ -217,6 +225,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   );
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
   const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
+  const showCbcProjectsLink = useFeature('show_cbc_view_link').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
     { Lead: false }
   );
@@ -377,25 +386,30 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         projectTitle:
           application.node.applicationSowDataByApplicationId?.nodes[0]?.jsonData
             ?.projectTitle || application.node.projectName,
+        isCbcProject: false,
+        showLink: true,
       })),
       ...(showCbcProjects
-        ? allCbcProjects?.nodes[0]?.jsonData?.map((project) => ({
-            ...project,
+        ? allCbcData.edges.map((project) => ({
+            rowId: project.node.cbcId,
+            ...project.node.jsonData,
             zones: [],
-            intakeNumber: project.intake,
-            projectId: project.projectNumber,
+            intakeNumber: project.node.jsonData.intake,
+            projectId: project.node.jsonData.projectNumber,
             internalStatus: null,
-            externalStatus: project.projectStatus
-              ? cbcProjectStatusConverter(project.projectStatus)
+            externalStatus: project.node.jsonData.projectStatus
+              ? cbcProjectStatusConverter(project.node.jsonData.projectStatus)
               : null,
             packageNumber: null,
-            organizationName: project.currentOperatingName || null,
+            organizationName:
+              project.node.jsonData.currentOperatingName || null,
             lead: null,
             isCbcProject: true,
+            showLink: showCbcProjectsLink,
           })) ?? []
         : []),
     ];
-  }, [allApplications, allCbcProjects, showCbcProjects]);
+  }, [allApplications, allCbcData, showCbcProjects, showCbcProjectsLink]);
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
     const uniqueIntakeNumbers = [
