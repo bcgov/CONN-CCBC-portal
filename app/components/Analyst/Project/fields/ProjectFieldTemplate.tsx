@@ -35,7 +35,10 @@ const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   uiSchema,
 }) => {
-  const uiTitle = `${uiSchema?.['ui:label'] ?? uiSchema?.['ui:title']}`;
+  const uiTitle =
+    uiSchema?.['ui:label'] || uiSchema?.['ui:title']
+      ? `${uiSchema?.['ui:label'] ?? uiSchema?.['ui:title']}`
+      : null;
   const hidden = uiSchema?.['ui:widget'] === 'HiddenWidget' || false;
   return (
     <>
