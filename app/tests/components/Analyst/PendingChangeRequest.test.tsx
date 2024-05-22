@@ -133,7 +133,7 @@ describe('The Pending Change Request component', () => {
         input: {
           _applicationId: 1,
           _comment: 'Edited comment.',
-          _ispending: true,
+          _isPending: true,
         },
       }
     );
@@ -195,7 +195,7 @@ describe('The Pending Change Request component', () => {
         input: {
           _applicationId: 1,
           _comment: 'Yes, change request cancelled',
-          _ispending: false,
+          _isPending: false,
         },
       }
     );
@@ -263,7 +263,7 @@ describe('The Pending Change Request component', () => {
         input: {
           _applicationId: 1,
           _comment: 'This is a test comment.',
-          _ispending: true,
+          _isPending: true,
         },
       }
     );
@@ -297,7 +297,7 @@ describe('The Pending Change Request component', () => {
         input: {
           _applicationId: 1,
           _comment: null,
-          _ispending: true,
+          _isPending: true,
         },
       }
     );

@@ -80433,7 +80433,7 @@ input CreatePendingChangeRequestInput {
   """
   clientMutationId: String
   _applicationId: Int!
-  _ispending: Boolean!
+  _isPending: Boolean!
   _comment: String
 }
 

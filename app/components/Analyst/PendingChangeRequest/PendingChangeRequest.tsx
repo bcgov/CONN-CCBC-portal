@@ -72,7 +72,7 @@ const PendingChangeRequest = ({ application }) => {
       variables: {
         input: {
           _applicationId: rowId,
-          _ispending: isPendingRequest,
+          _isPending: isPendingRequest,
           _comment: reasonForChange,
         },
       },

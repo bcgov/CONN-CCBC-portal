@@ -2,13 +2,13 @@
 
 begin;
 
-create or replace function ccbc_public.create_pending_change_request(_application_id int,  _isPending boolean, _comment varchar default null) returns ccbc_public.application_pending_change_request as $$
+create or replace function ccbc_public.create_pending_change_request(_application_id int,  _is_pending boolean, _comment varchar default null) returns ccbc_public.application_pending_change_request as $$
 declare
 new_request_id int;
 begin
 
   insert into ccbc_public.application_pending_change_request (application_id, comment, is_pending)
-    values (_application_id, _comment, _isPending) returning id into new_request_id;
+    values (_application_id, _comment, _is_pending) returning id into new_request_id;
 
   update ccbc_public.application_pending_change_request
   set archived_at = now()
