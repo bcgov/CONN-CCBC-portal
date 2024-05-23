@@ -19,6 +19,50 @@ const createCbcProjectMutation = `
   }
 `;
 
+const findCbcQuery = `
+  query findCbc($projectNumber: Int!) {
+    cbcByProjectNumber (projectNumber: $projectNumber) {
+      rowId
+      cbcDataByProjectNumber {
+        nodes {
+          jsonData
+          id
+          projectNumber
+          rowId
+          sharepointTimestamp
+        }
+      }
+    }
+  }
+`;
+
+const createCbcMutation = `
+  mutation createCbcMutation($input: CreateCbcInput!) {
+    createCbc(input: $input) {
+      clientMutationId
+      cbc {
+        rowId
+      }
+    }
+  }
+`;
+
+const createCbcDataMutation = `
+  mutation createCbcDataMutation($input: CreateCbcDataInput!) {
+    createCbcData(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
+const updateCbcDataMutation = `
+mutation updateCbcDataMutation($input: UpdateCbcDataByRowIdInput!) {
+  updateCbcDataByRowId(input: $input) {
+    clientMutationId
+  }
+}
+`;
+
 const cbcErrorList = [];
 
 const readSummary = async (wb, sheet) => {
@@ -55,7 +99,7 @@ const readSummary = async (wb, sheet) => {
 
     const cbcProject = {
       projectNumber: project['A'],
-      orignalProjectNumber: project['B'],
+      originalProjectNumber: project['B'],
       phase: project['C'],
       intake: project['D'],
       projectStatus: project['E'],
@@ -252,6 +296,67 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
     req
   ).catch((e) => {
     return { error: [e] };
+  });
+
+  // persist into DB individually
+  data._jsonData.forEach(async (project) => {
+    // console.log(project);
+    const findCbcProject = await performQuery(
+      findCbcQuery,
+      {
+        projectNumber: project.projectNumber,
+      },
+      req
+    );
+    if (
+      findCbcProject.data?.cbcByProjectNumber?.cbcDataByProjectNumber?.nodes
+        .length > 0
+    ) {
+      // update cbc data
+      await performQuery(
+        updateCbcDataMutation,
+        {
+          input: {
+            cbcDataPatch: {
+              jsonData: project,
+            },
+            rowId:
+              findCbcProject.data.cbcByProjectNumber.cbcDataByProjectNumber
+                .nodes[0].rowId,
+          },
+        },
+        req
+      );
+    } else {
+      // create cbc
+      const createCbcResult = await performQuery(
+        createCbcMutation,
+        {
+          input: {
+            cbc: {
+              projectNumber: project.projectNumber,
+              sharepointTimestamp,
+            },
+          },
+        },
+        req
+      );
+      // create cbc data
+      await performQuery(
+        createCbcDataMutation,
+        {
+          input: {
+            cbcData: {
+              jsonData: project,
+              projectNumber: project.projectNumber,
+              cbcId: createCbcResult.data.createCbc.cbc.rowId,
+              sharepointTimestamp,
+            },
+          },
+        },
+        req
+      );
+    }
   });
 
   return {

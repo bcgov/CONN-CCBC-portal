@@ -8,11 +8,12 @@ import getConfig from 'next/config';
 import styled from 'styled-components';
 
 interface StyledHeaderBannerProps {
-  type: 'success' | 'warn' | 'error';
+  type: 'success' | 'warn' | 'error' | 'custom';
 }
 
 const StyledBaseHeaderBanner = styled(BaseHeader)<StyledHeaderBannerProps>`
-  color: ${(props) => props.theme.color.white};
+  color: ${(props) =>
+    props.type === 'custom' ? props.customFontColor : props.theme.color.white};
   font-size: 11px;
   font-weight: bold;
   padding-left: 30px;
@@ -26,6 +27,9 @@ const StyledBaseHeaderBanner = styled(BaseHeader)<StyledHeaderBannerProps>`
     if (props.type === 'success') {
       return props.theme.color.success;
     }
+    if (props.type === 'custom') {
+      return props.customBannerColor;
+    }
     return props.theme.color.backgroundMagenta;
   }};
 `;
@@ -38,14 +42,18 @@ const StyledDiv = styled('div')`
 
 interface Props {
   message: string;
-  type: 'success' | 'warn' | 'error';
+  type: 'success' | 'warn' | 'error' | 'custom';
   environmentIndicator: boolean;
+  customBannerColor?: string;
+  customFontColor?: string;
 }
 
 const HeaderBanner: React.FC<Props> = ({
   message,
   type,
   environmentIndicator,
+  customBannerColor,
+  customFontColor,
 }) => {
   const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
   const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
@@ -63,7 +71,12 @@ const HeaderBanner: React.FC<Props> = ({
         </StyledBaseHeaderBanner>
       )}
       {message && (
-        <StyledBaseHeaderBanner header="sub" type={type}>
+        <StyledBaseHeaderBanner
+          header="sub"
+          type={type}
+          customBannerColor={customBannerColor}
+          customFontColor={customFontColor}
+        >
           <StyledDiv>
             <FontAwesomeIcon
               data-testid="header-banner-icon"

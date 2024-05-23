@@ -1,13 +1,13 @@
-import { CacheConfigWithDebounce } from '../../lib/relay/debounceMutationMiddleware';
 import { UseMutationConfig } from 'react-relay';
-import { commitMutation as baseCommitMutation } from 'relay-runtime';
 import {
+  commitMutation as baseCommitMutation,
   Disposable,
   GraphQLTaggedNode,
   IEnvironment,
   MutationConfig,
   MutationParameters,
 } from 'relay-runtime';
+import { CacheConfigWithDebounce } from '../../lib/relay/debounceMutationMiddleware';
 import useMutationWithErrorMessage from './useMutationWithErrorMessage';
 
 const debouncedMutationMap = new Map<string, Disposable>();
@@ -19,13 +19,13 @@ export interface DebouncedMutationConfig<TMutation extends MutationParameters>
 }
 
 export interface UseDebouncedMutationConfig<
-  TMutation extends MutationParameters
+  TMutation extends MutationParameters,
 > extends UseMutationConfig<TMutation> {
   debounceKey: string;
 }
 
 export default function useDebouncedMutation<
-  TMutation extends MutationParameters
+  TMutation extends MutationParameters,
 >(mutation: GraphQLTaggedNode, getErrorMessage: (relayError: Error) => string) {
   const commitMutationFn = (
     environment: IEnvironment,

@@ -92,11 +92,11 @@ const mockQueryPayload = {
           },
         ],
       },
-      allCbcProjects: {
-        nodes: [
+      allCbcData: {
+        edges: [
           {
-            jsonData: [
-              {
+            node: {
+              jsonData: {
                 phase: 2,
                 intake: 1,
                 errorLog: [],
@@ -141,7 +141,11 @@ const mockQueryPayload = {
                 nditConditionalApprovalLetterSent: 'YES',
                 bindingAgreementSignedNditRecipient: 'YES',
               },
-              {
+            },
+          },
+          {
+            node: {
+              jsonData: {
                 phase: 2,
                 intake: 1,
                 errorLog: [],
@@ -186,7 +190,11 @@ const mockQueryPayload = {
                 nditConditionalApprovalLetterSent: 'YES',
                 bindingAgreementSignedNditRecipient: 'YES',
               },
-              {
+            },
+          },
+          {
+            node: {
+              jsonData: {
                 phase: 2,
                 intake: 1,
                 errorLog: [],
@@ -231,7 +239,7 @@ const mockQueryPayload = {
                 nditConditionalApprovalLetterSent: 'YES',
                 bindingAgreementSignedNditRecipient: 'YES',
               },
-            ],
+            },
           },
         ],
       },
