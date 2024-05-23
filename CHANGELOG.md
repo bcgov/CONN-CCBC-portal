@@ -1,3 +1,24 @@
+# [1.162.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.161.0...v1.162.0) (2024-05-23)
+
+### Bug Fixes
+
+- history files not showing properly ([78e2f55](https://github.com/bcgov/CONN-CCBC-portal/commit/78e2f55d0f615bf8aec1d41d570ace5e3c8364a4))
+- imports ([82cb59d](https://github.com/bcgov/CONN-CCBC-portal/commit/82cb59d90bb5536f3186110897fc579fdf51d458))
+- retaining residual values in pending change request modls ([75122ef](https://github.com/bcgov/CONN-CCBC-portal/commit/75122ef6d615d6bea86289fff8ce42b38a639877))
+
+### Features
+
+- add cbc projects and data tables ([47945f7](https://github.com/bcgov/CONN-CCBC-portal/commit/47945f788ca01ac8b21a338a330dcd136cdbdf01))
+- add link to cbc view page on all dashboard ([6cc4266](https://github.com/bcgov/CONN-CCBC-portal/commit/6cc4266edb49bb828bfe9c8ff41ac1399a8d1811))
+- add read/write only uploads dir ([3b9b3bc](https://github.com/bcgov/CONN-CCBC-portal/commit/3b9b3bcf13b77f50a03311101517477475bfb9e6))
+- cbc header edit, update mutation ([0f52c62](https://github.com/bcgov/CONN-CCBC-portal/commit/0f52c62fbc9bdae235493be65b96ff2b1afc64fd))
+- cbc rework view, initial quick edit ([ef6ec40](https://github.com/bcgov/CONN-CCBC-portal/commit/ef6ec40643f56380ca93c7aed5f22e6ef8b045d3))
+- display cbc data page ([72a54a1](https://github.com/bcgov/CONN-CCBC-portal/commit/72a54a10ea5654925ce5ddb8047ef355211eb149))
+- extend header banner, add cbc beta banner ([c0fe36a](https://github.com/bcgov/CONN-CCBC-portal/commit/c0fe36a9556fd2ff90559916e2e153659d11b3a2))
+- feature flag cbc view and edit ([467c475](https://github.com/bcgov/CONN-CCBC-portal/commit/467c4751815c27a226383fcabbd7d0065ed58245))
+- import cbc data separately into two tables ([80210c5](https://github.com/bcgov/CONN-CCBC-portal/commit/80210c5fa883a83d6254bc256f58a89cd9e61b4a))
+- placeholder history page ([c62018b](https://github.com/bcgov/CONN-CCBC-portal/commit/c62018bf26176a1bc83244ed5361ce0fdfd26043))
+
 # [1.161.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.160.1...v1.161.0) (2024-05-15)
 
 ### Features
