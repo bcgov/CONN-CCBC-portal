@@ -71,6 +71,7 @@ const Cbc = ({
   const { session } = query;
 
   const [formData, setFormData] = useState({} as any);
+  const [baseFormData, setBaseFormData] = useState({} as any);
   useEffect(() => {
     const { cbcByRowId } = query;
     const { cbcDataByCbcId } = cbcByRowId;
@@ -158,6 +159,15 @@ const Cbc = ({
       miscellaneous,
       projectDataReviews,
     });
+    setBaseFormData({
+      tombstone,
+      projectType,
+      locationsAndCounts,
+      funding,
+      eventsAndDates,
+      miscellaneous,
+      projectDataReviews,
+    });
   }, [query]);
 
   const [updateFormData] = useUpdateCbcDataByRowIdMutation();
@@ -190,8 +200,8 @@ const Cbc = ({
   };
 
   const handleResetFormData = () => {
+    setFormData(baseFormData);
     setEditMode(false);
-    setFormData({} as any);
   };
 
   return (
@@ -230,6 +240,7 @@ const Cbc = ({
             <StyledButton
               onClick={() => {
                 setEditMode(!editMode);
+                setFormData(baseFormData);
               }}
               type="button"
             >
