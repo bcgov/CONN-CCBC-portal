@@ -175,7 +175,6 @@ const Cbc = ({
   const handleSubmit = (e) => {
     hiddenSubmitRef.current.click();
     e.preventDefault();
-    console.log('e', e);
     updateFormData({
       variables: {
         input: {

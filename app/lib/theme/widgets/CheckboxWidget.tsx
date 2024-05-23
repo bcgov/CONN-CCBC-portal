@@ -43,7 +43,6 @@ const CheckboxWidget: React.FC<WidgetProps> = ({
       aria-label={label}
       disabled={disabled}
       onChange={(event: { target: { checked: any } }) => {
-        console.log('event.target.checked', event.target.checked);
         onChange(event.target.checked);
       }}
     />
