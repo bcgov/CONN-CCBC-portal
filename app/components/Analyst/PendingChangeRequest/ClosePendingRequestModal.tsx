@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'components/Modal';
 import { FormBase } from 'components/Form';
 import pendingChangeRequestCancel from 'formSchema/analyst/pendingChangeRequestCancel';
@@ -24,6 +24,11 @@ const ClosePendingRequestModal: React.FC<Props> = ({
   onSave,
 }) => {
   const [formData, setFormData] = useState(null);
+  useEffect(() => {
+    if (isOpen) {
+      setFormData(null);
+    }
+  }, [isOpen]);
 
   return (
     <Modal
