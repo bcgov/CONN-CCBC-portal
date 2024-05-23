@@ -131,11 +131,9 @@ describe('The Pending Change Request component', () => {
       'createPendingChangeRequestMutation',
       {
         input: {
-          applicationPendingChangeRequest: {
-            applicationId: 1,
-            comment: 'Edited comment.',
-            isPending: true,
-          },
+          _applicationId: 1,
+          _comment: 'Edited comment.',
+          _isPending: true,
         },
       }
     );
@@ -195,11 +193,9 @@ describe('The Pending Change Request component', () => {
       'createPendingChangeRequestMutation',
       {
         input: {
-          applicationPendingChangeRequest: {
-            applicationId: 1,
-            comment: 'Yes, change request cancelled',
-            isPending: false,
-          },
+          _applicationId: 1,
+          _comment: 'Yes, change request cancelled',
+          _isPending: false,
         },
       }
     );
@@ -265,11 +261,9 @@ describe('The Pending Change Request component', () => {
       'createPendingChangeRequestMutation',
       {
         input: {
-          applicationPendingChangeRequest: {
-            applicationId: 1,
-            comment: 'This is a test comment.',
-            isPending: true,
-          },
+          _applicationId: 1,
+          _comment: 'This is a test comment.',
+          _isPending: true,
         },
       }
     );
@@ -301,11 +295,9 @@ describe('The Pending Change Request component', () => {
       'createPendingChangeRequestMutation',
       {
         input: {
-          applicationPendingChangeRequest: {
-            applicationId: 1,
-            comment: null,
-            isPending: true,
-          },
+          _applicationId: 1,
+          _comment: null,
+          _isPending: true,
         },
       }
     );

@@ -4,9 +4,9 @@ import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`
   mutation createPendingChangeRequestMutation(
-    $input: CreateApplicationPendingChangeRequestInput!
+    $input: CreatePendingChangeRequestInput!
   ) {
-    createApplicationPendingChangeRequest(input: $input) {
+    createPendingChangeRequest(input: $input) {
       applicationPendingChangeRequest {
         isPending
         comment
