@@ -36,8 +36,6 @@ const getAuthRole = (req: Request) => {
   const isAnalyst = roles?.includes('analyst');
   const isCbcAdmin = roles?.includes('cbc_admin');
 
-  console.log(roles);
-
   if (idp === 'idir') {
     if (isCbcAdmin) {
       return {

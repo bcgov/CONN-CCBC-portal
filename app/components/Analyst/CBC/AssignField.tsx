@@ -39,7 +39,7 @@ const AssignField = ({ fieldName, fieldOptions, fieldType, cbc }) => {
   const [updateField] = useUpdateCbcDataByRowIdMutation();
   const [fieldValue, setFieldValue] = useState(
     fieldType === 'string'
-      ? jsonData[fieldName]?.toString() || null
+      ? jsonData[fieldName].toString() || null
       : jsonData[fieldName] || null
   );
 
