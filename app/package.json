@@ -82,7 +82,7 @@
     "json-schema": "^0.4.0",
     "jsonlint": "^1.6.3",
     "jsonwebtoken": "^9.0.2",
-    "lightship": "6.7.2",
+    "lightship": "9.0.3",
     "luxon": "^3.4.3",
     "material-react-table": "2.8",
     "morgan": "^1.10.0",
