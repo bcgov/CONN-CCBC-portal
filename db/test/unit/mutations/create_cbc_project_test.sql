@@ -28,7 +28,7 @@ set role ccbc_auth_user;
 select ccbc_public.create_application();
 
 -- set role to analyst
-set role ccbc_analyst;
+set role cbc_admin;
 
 select ccbc_public.create_cbc_project('{}'::jsonb);
 

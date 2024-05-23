@@ -19,5 +19,7 @@ begin;
   revoke update on ccbc_public.cbc_data from cbc_admin;
   revoke insert on ccbc_public.cbc_data from cbc_admin;
 
+  revoke ccbc_analyst from cbc_admin;
+
 
 commit;
