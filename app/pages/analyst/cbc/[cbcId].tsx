@@ -175,10 +175,11 @@ const Cbc = ({
   const handleSubmit = (e) => {
     hiddenSubmitRef.current.click();
     e.preventDefault();
+    console.log('e', e);
     updateFormData({
       variables: {
         input: {
-          rowId: query.cbcByRowId.rowId,
+          rowId: query?.cbcByRowId?.cbcDataByCbcId?.edges[0].node.rowId || null,
           cbcDataPatch: {
             jsonData: {
               ...formData.tombstone,
@@ -269,7 +270,7 @@ const Cbc = ({
           resetFormData={handleResetFormData}
           onSubmit={handleSubmit}
           setIsFormEditMode={setEditMode}
-          saveBtnText="Save & Close"
+          saveBtnText="Save"
         />
       </CbcAnalystLayout>
     </Layout>
