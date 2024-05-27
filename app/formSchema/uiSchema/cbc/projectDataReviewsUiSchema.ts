@@ -15,6 +15,9 @@ const projectDataReviewsUiSchema = {
   reviewNotes: {
     'ui:widget': 'TextAreaWidget',
     'ui:label': 'Review Notes',
+    'ui:options': {
+      maxLength: 1000,
+    },
   },
 };
 export default projectDataReviewsUiSchema;

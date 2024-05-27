@@ -7,6 +7,9 @@ const locationsAndCountsUiSchema = {
   projectLocations: {
     'ui:widget': 'TextAreaWidget',
     'ui:label': 'Project Locations',
+    'ui:options': {
+      maxLength: 1000,
+    },
   },
   communitiesAndLocalesCount: {
     'ui:widget': 'NumberWidget',

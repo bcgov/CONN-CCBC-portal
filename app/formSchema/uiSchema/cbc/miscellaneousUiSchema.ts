@@ -15,6 +15,9 @@ const miscellaneousUiSchema = {
   milestoneComments: {
     'ui:widget': 'TextAreaWidget',
     'ui:label': 'Milestone Comments',
+    'ui:options': {
+      maxLength: 1000,
+    },
   },
   primaryNewsRelease: {
     'ui:widget': 'TextWidget',
@@ -27,6 +30,9 @@ const miscellaneousUiSchema = {
   notes: {
     'ui:widget': 'TextAreaWidget',
     'ui:label': 'Notes',
+    'ui:options': {
+      maxLength: 1000,
+    },
   },
 };
 

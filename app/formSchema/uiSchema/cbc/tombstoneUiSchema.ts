@@ -39,6 +39,9 @@ const tombstoneUiSchema = {
   projectDescription: {
     'ui:widget': 'TextAreaWidget',
     'ui:label': 'Project Description',
+    'ui:options': {
+      maxLength: 1000,
+    },
   },
   applicantContractualName: {
     'ui:widget': 'TextWidget',
