@@ -5,15 +5,15 @@ const eventsAndDatesUiSchema = {
   },
   'ui:title': 'Events and Dates',
   nditConditionalApprovalLetterSent: {
-    'ui:widget': 'CheckboxWidget',
+    'ui:widget': 'RadioWidget',
     'ui:label': 'NDIT Conditional Approval Letter Sent',
   },
   bindingAgreementSignedNditRecipient: {
-    'ui:widget': 'CheckboxWidget',
+    'ui:widget': 'RadioWidget',
     'ui:label': 'Binding Agreement Signed NDIT Recipient',
   },
   announcedByProvince: {
-    'ui:widget': 'CheckboxWidget',
+    'ui:widget': 'RadioWidget',
     'ui:label': 'Announced By Province',
   },
   dateApplicationReceived: {
