@@ -28,8 +28,19 @@ const StyledContainer = styled.div`
 `;
 
 const StyledBtn = styled(Button)`
-  margin: 0 8px;
-  padding: 8px 16px;
+  @media (min-width: 1024px) {
+    position: fixed;
+    bottom: 5vh;
+    left: 80vw;
+
+    &:nth-child(2) {
+      left: 85vw;
+    }
+  }
+  @media (max-width: 1900px) {
+    margin: 0 8px;
+    padding: 8px 16px;
+  }
 `;
 
 interface Props {
