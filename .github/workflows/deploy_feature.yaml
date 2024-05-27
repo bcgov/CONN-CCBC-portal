@@ -45,7 +45,7 @@ on:
 
 env:
   TAG: sha-${{ github.sha }}
-  FEATURE_NAME: ${{ github.head_ref }}
+  FEATURE_NAME: ${{ github.event.pull_request.head.ref }}
 
 jobs:
   setup-feature-database:
