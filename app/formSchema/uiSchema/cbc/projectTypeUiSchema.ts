@@ -29,8 +29,7 @@ const projectTypeUiSchema = {
     'ui:label': 'Last Mile Minimum Speed',
   },
   connectedCoastNetworkDependant: {
-    'ui:widget': 'CheckboxWidget',
-    'ui:placeholder': 'Select a connected coast network dependant',
+    'ui:widget': 'RadioWidget',
     'ui:label': 'Connected Coast Network Dependant',
   },
 };

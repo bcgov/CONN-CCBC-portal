@@ -8,6 +8,10 @@ const projectDataReviews: RJSFSchema = {
     locked: {
       type: 'boolean',
       title: 'Locked',
+      oneOf: [
+        { const: true, title: 'Yes' },
+        { const: false, title: 'No' },
+      ],
     },
     lastReviewed: {
       type: 'string',

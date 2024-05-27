@@ -49,7 +49,7 @@ const tombstoneUiSchema = {
     'ui:label': 'Current Operating Name',
   },
   eightThirtyMillionFunding: {
-    'ui:widget': 'CheckboxWidget',
+    'ui:widget': 'RadioWidget',
     'ui:label': '8.30M Funding',
   },
   federalFundingSource: {

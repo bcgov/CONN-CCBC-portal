@@ -40,7 +40,10 @@ const projectType: RJSFSchema = {
     connectedCoastNetworkDependant: {
       type: 'string',
       title: 'Connected Coast Network Dependant',
-      enum: [null, 'Yes', 'No'],
+      oneOf: [
+        { const: true, title: 'Yes' },
+        { const: false, title: 'No' },
+      ],
     },
   },
 };
