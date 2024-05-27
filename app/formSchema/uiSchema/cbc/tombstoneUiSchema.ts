@@ -33,7 +33,7 @@ const tombstoneUiSchema = {
     'ui:label': 'Status',
   },
   changeRequestPending: {
-    'ui:widget': 'CheckboxWidget',
+    'ui:widget': 'ReadOnlyWidget',
     'ui:label': 'Change Request Pending',
   },
   projectDescription: {
